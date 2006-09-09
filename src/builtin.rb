@@ -1,5 +1,7 @@
-#Some built-in functions can be implemented in pure ruby.
-
+#Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+#
+#Some built-in functions can be implemented in pure ruby, so they are implemented here.
+#
 
 
 =begin
