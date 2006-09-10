@@ -11,6 +11,13 @@ public class MethodCallArguments implements Visitable {
 	protected final ArrayList<Expression> arguments_ = new ArrayList<Expression>();
 	private Expression asterisk_arguments_ = null;
 	
+	public MethodCallArguments() {
+	}
+	
+	public MethodCallArguments(Expression argument) {
+		arguments_.add(argument);
+	}
+	
 	public int size() {
 		expandAsteriskArgument();
 		return arguments_.size();
@@ -38,7 +45,7 @@ public class MethodCallArguments implements Visitable {
 	}
 
 	protected void expandAsteriskArgument() {
-		//TODO duplication with ParallelAssignmentStatement
+		//TODO duplication with MultipleAssignmentStatement
 		if (null != asterisk_arguments_) {
 			if ((asterisk_arguments_ instanceof NilExpression) ||
 					(asterisk_arguments_ instanceof IntegerExpression)) {

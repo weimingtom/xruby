@@ -13,6 +13,11 @@ public class ArrayExpression extends Expression {
 		elements_ = new ArrayList<Expression>();
 	}
 	
+	public ArrayExpression(Expression e) {
+		elements_ = new ArrayList<Expression>();
+		elements_.add(e);
+	}
+	
 	public ArrayExpression(ArrayList<Expression> elements) {
 		elements_ = elements;
 	}

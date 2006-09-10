@@ -338,6 +338,31 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		
 		assertEquals(expected_result, CodePrinter.toString());
 	}
+
+	public void test_asterisk_on_both_side_2() {
+		Program p = getProgram("*a = *nil");
+		CodePrinter CodePrinter = new CodePrinter();
+		p.accept(CodePrinter);
+		String expected_result = 
+			"nil\n" +
+			"nil\n" +
+			"==\n" +
+			"if\n" +
+			"[:1\n" +
+			"[\n" +
+			"nil\n" +
+			"]\n" +
+			"]!\n" +
+			"end if\n" +
+			"nil\n" +
+			"parameters:0\n" +
+			"to_a:true:false\n" +
+			"end if!\n" +
+			"a //=\n" +
+			"EOF";
+		
+		assertEquals(expected_result, CodePrinter.toString());
+	}
 	
 	public void test_asterisk_expand() {
 		Program p = getProgram("a = 1; b = *a");

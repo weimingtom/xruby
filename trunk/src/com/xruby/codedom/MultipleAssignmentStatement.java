@@ -122,21 +122,21 @@ these rules.
 			if (mlhs_.size() == 1) {
 				MethodCallExpression length = new MethodCallExpression(to_a, "length", null, null);
 				BinaryOperatorExpression condition = new BinaryOperatorExpression(">", length, new IntegerExpression(1));
-				MethodCallArguments args = new MethodCallArguments();
-				args.addArgument(new IntegerExpression(0));
+				MethodCallArguments args = new MethodCallArguments(new IntegerExpression(0));
 				MethodCallExpression arg_0 = new MethodCallExpression(to_a, "[]", args, null);
 				mrhs_.add(new IfExpression(condition, to_a, arg_0));
 			} else if (mlhs_.size() == 0 && null != asterisk_lhs_) {
 				mlhs_.add(asterisk_lhs_);
 				asterisk_lhs_ = null;
-				mrhs_.add(to_a);
+				
+				BinaryOperatorExpression condition = new BinaryOperatorExpression("==", asterisk_rhs_, new NilExpression());
+				mrhs_.add(new IfExpression(condition, new ArrayExpression(new NilExpression()), to_a));
 			} else {
 				VariableExpression tmp_var = new VariableExpression(NameFactory.generateTempVariableName(), false);
 				
 				try {
 					AssignmentOperatorExpression assign = new AssignmentOperatorExpression(tmp_var, to_a);
-					MethodCallArguments args = new MethodCallArguments();
-					args.addArgument(new IntegerExpression(0));
+					MethodCallArguments args = new MethodCallArguments(new IntegerExpression(0));
 					mrhs_.add(new MethodCallExpression(assign, "[]", args, null));
 				} catch (RecognitionException e) {
 					throw new Error(e);
@@ -144,8 +144,7 @@ these rules.
 				
 				int excess = mlhs_.size() - mrhs_.size();
 				for (int i = 0; i < excess; ++i) {
-					MethodCallArguments args = new MethodCallArguments();
-					args.addArgument(new IntegerExpression(i + 1));
+					MethodCallArguments args = new MethodCallArguments(new IntegerExpression(i + 1));
 					mrhs_.add(new MethodCallExpression(tmp_var, "[]", args, null));
 				}
 			}
