@@ -36,6 +36,10 @@ class Fixnum_operator_equal extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+		if (!(args[0].getValue() instanceof Integer)) {
+			return ObjectFactory.falseValue;
+		}
+		
 		Integer value1 = (Integer)receiver.getValue();
 		Integer value2 = (Integer)args[0].getValue();
 		if (value1.intValue() == value2.intValue()) {

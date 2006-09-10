@@ -677,6 +677,7 @@ public class RubyCompilerTest extends TestCase {
 				"print []==[]",
 				"print [1, 2, 3]==[1, 2, 3]",
 				"print [1, 2, 3]==[1, 2, 3, 4]",
+				"a = nil; print a==nil",
 				//"print :s == :s",
 		};
 
@@ -690,6 +691,7 @@ public class RubyCompilerTest extends TestCase {
 				"true",
 				"true",
 				"false",
+				"true",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
