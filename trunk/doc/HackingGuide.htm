@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>XRuby Hacking Guide</title>
+</head>
+<body>
+
+<h2>XRuby Hacking Guide</h2>
+<i>Xue Yong Zhi (zhixueyong @ hotmail . com)</i>
+
+<p>NOTE: this article is still under development. Last significant update: Sep 14, 2006.</p>
+
+
+
+<h3>Table of Contents</h3>
+<p><a href="#intro">Introduction</a></p>
+<p><a href="#howto">How to Compile Ruby?</a></p>
+<p><a href="#example">Example</a></p>
+<p><a href="#parser">About XRuby's Parser</a></p>
+
+
+<h3><a name="intro">Introduction</h3>
+<p>
+The goal of the article is to help users/developers understand XRuby's internal.
+</p>
+
+
+<h3><a name="howto">How to Compile Ruby?</h3>
+<p>
+So how to compile Ruby to Java bytecode? First, you do not have to be a bytecode expert to think of this problem.
+Java's bytecode is a very high level abstraction on top of native machine instructions, and is very close to the Java source code.
+So you can just think of the problem as: how to represent a Ruby program in Java?
+</p>
+
+<p>
+The two languages have lots of things in common: Ruby is a OO language, it has classes, methods, variables etc, Java has them as well.
+Does it mean we can map Ruby's class as a Java class, Ruby's method as a Java method? Well, besides all the similarities, there are enough
+differences to make the naive idea infeasible: first, Ruby is a Dynamic Typing language, so a method can take parameters of different types, while
+in Java, parameters' type are part of the signature. Second, in Ruby, method can be added and removed dynamically from a class, and current JVM
+does not support this behavior very well. It worth pointing out the above problems may be addressed in future version JVM, please check out
+Gilad Bracha's work at <a href="http://www.jcp.org/en/jsr/detail?id=292">JSR 292</a>.
+</p>
+
+<p>
+So one solution is to maintain a type system ourselves, and this is the approach that XRuby is using (Ruby.NET seems to use this as well). So from
+the JVM's point of view, a Ruby class is just an object, which contains other objects that represent methods etc. We will talk more about this later. 
+</p>
+
+<p>
+Another approach is to compile the source code dynamically. Given type information is known at run time, it is possible to compile the code into very
+efficient code (same methods may be compiled to several different versions due to the duck typing nature).
+</p>
+
+<p>
+TODO compare the two approaches.
+</p>
+
+<h3><a name="#example">Example</a></h3>
+Let's understand more about XRuby through an example:
+
+<pre>
+def say_hello_three_times
+	3.times {puts 'hello'}
+end
+
+say_hello_three_times
+</pre>
+
+we save the above code as test.rb, and then compile it using XRuby:
+
+<pre>
+java -jar xruby-0.1.0.jar -c test.rb
+</pre>
+
+Then we get test.jar file, we can run the program with the following command:
+
+<pre>
+java -jar test.jar
+</pre>
+
+<p>
+Of course you will see the following output:
+</p>
+
+<pre>
+hello
+hello
+hello
+</pre>
+
+If you look at the test.jar file, you will find three class files:
+<li>test/BLOCK$1.class</li>
+<li>test/say_hello_three_times$0.class</li>
+<li>test/main.class</li>
+
+Which are equivalent to the following Java program:
+
+<pre>
+//test/main.class
+public class main
+    implements RubyProgram
+{
+
+    public main()
+    {
+    }
+
+    public static void main(String args[])
+        throws RubyException
+    {
+        (new main()).run();
+    }
+
+    public RubyValue run()
+        throws RubyException
+    {
+        RubyRuntime.ObjectClass.setAccessPrivate();
+        RubyRuntime.ObjectClass.defineMethod("say_hello_three_times", new say_hello_three_times._cls0());
+        return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue, null, null, "say_hello_three_times");
+    }
+}
+
+//say_hello_three_times$0.class
+class say_hello_three_times$0 extends RubyMethod
+{
+
+    protected RubyValue run(RubyValue rubyvalue, RubyValue arubyvalue[], RubyBlock rubyblock)
+        throws RubyException
+    {
+        return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(3), null, new BLOCK._cls1(), "times");
+    }
+
+    public say_hello_three_times$0()
+    {
+        super(0, false);
+    }
+}
+
+//test/BLOCK$1.class
+class BLOCK$1 extends RubyBlock
+{
+
+    protected RubyValue run(RubyValue rubyvalue, RubyValue arubyvalue[])
+        throws RubyException
+    {
+        return RubyRuntime.callMethod(rubyvalue, new RubyValue[] {
+            ObjectFactory.createString("hello")
+        }, null, "puts");
+    }
+
+    public BLOCK$1()
+    {
+        super(0, false);
+    }
+}
+
+</pre>
+
+<h3><a name="parser">XRuby's Parser</h3>
+<p>
+XRuby's parser used an <a href="http://www.antlr.org">Antlr</a> based grammar. Which is so far the only alternative ruby grammar other than the
+one in the c ruby.
+</p>
+
+</body>
+</html>
