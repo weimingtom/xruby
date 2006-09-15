@@ -9,5 +9,6 @@ Compile Ruby to Java Bytecode
 
 Usage
 =====================
+Compile then run:
 java -jar xruby-0.1.0.jar -c test.rb
-java -cp xruby-0.1.0.jar -jar test.jar
+java -jar test.jar
