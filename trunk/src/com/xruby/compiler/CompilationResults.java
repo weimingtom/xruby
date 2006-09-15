@@ -77,7 +77,10 @@ public class CompilationResults {
 		attrs.putValue("Manifest-Version", "1.0");
 		attrs.putValue("Created-By", RubyCompiler.VERSION + " (XRuby)");
 		attrs.putValue("Main-Class", NameFactory.createMainClass(script_name));
-		//attrs.putValue("Class-Path", "xruby-"+ RubyCompiler.VERSION + ".jar");
+		//If use -jar on the java.exe command line, java.exe will quietly ignore 
+		//the set environment classpath and any -classpath or -cp command line options.
+		//So have to mention them in the Class-Path manifest entry
+		attrs.putValue("Class-Path", "xruby-"+ RubyCompiler.VERSION + ".jar");
 		return manifest;
 	}
 	
