@@ -7,7 +7,7 @@
 <h2>XRuby Hacking Guide</h2>
 <i>Xue Yong Zhi (zhixueyong @ hotmail . com)</i>
 
-<p>NOTE: this article is still under development. Last significant update: Sep 14, 2006.</p>
+<p>NOTE: this article is still under development. Last significant update: Sep 15, 2006.</p>
 
 
 
@@ -154,6 +154,21 @@ class BLOCK$1 extends RubyBlock
 }
 
 </pre>
+
+<p>
+Class "main" represents the program: first a private method "say_hello_three_times" is defined on "Object" class, then
+the method is called with no parameter, no block and top level "self" as the receiver.
+</p>
+
+<p>
+Class "say_hello_three_times$0" represent the implementation of the "say_hello_three_times" method(think of the command pattern).
+In its body, we can see "time" method is called on Fixnum "3"(receiver). Still no parameter(null), but a block is passed in.
+</p>
+
+<p>
+Class BLOCK$1 represents the blocks passed to "3.times", and its body is the implementation of "puts 'hello'".
+</p>
+
 
 <h3><a name="parser">XRuby's Parser</h3>
 <p>
