@@ -90,4 +90,12 @@ public class ArrayValue {
 		
 		return ObjectFactory.createString(r);
 	}
+	
+	ArrayList<RubyValue> getInternal() {
+		return values_;
+	}
+	
+	public void concat(ArrayValue v) {
+		values_.addAll(v.getInternal());
+	}
 }

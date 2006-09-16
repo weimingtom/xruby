@@ -83,6 +83,24 @@ class Array_array_equal extends RubyMethod {
 	}
 }
 
+class Array_concat extends RubyMethod {
+	public Array_concat() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+		ArrayValue left = (ArrayValue)receiver.getValue();
+		Object right = args[0].getValue();
+		if (right instanceof ArrayValue) {
+			left.concat((ArrayValue)right);
+		} else {
+			left.add((RubyValue)right);
+		}
+
+		return receiver;
+	}
+}
+
 public class ArrayClassBuilder {
 	
 	public static RubyClass create() {
@@ -93,6 +111,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("[]", new Array_array_access());
 		c.defineMethod("[]=", new Array_array_set());
 		c.defineMethod("==", new Array_array_equal());
+		c.defineMethod("concat", new Array_concat());
 		return c;
 	}
 }

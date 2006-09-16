@@ -1218,6 +1218,18 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Array_concat() {
+		String[] program_texts = {
+				"x = [ 'a', 'b' ].concat( ['c', 'd'] ); print x, x.length",
+		};
+
+		String[] outputs = {
+				"abcd4",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_instance_variable() {
 		String[] program_texts = {
 				"print @a",
@@ -1285,33 +1297,104 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_catch_exception(bad_program_texts, exceptions);
 	}
 	
-	public void test_multiple_assignment() {
+	public void test_multiple_assignment_no_asterisk() {
 		String[] program_texts = {
 				"a = 1; b = 2;   a, b = b, a; print a, b",
 				"a = 1; b = 2; c = 3;   a, b, c = b, a; print a, b, c",
 				"a = 1; b = 2;   a, b = b, a, print(3); print a, b",
-				"a = *nil; print a",
-				"a = *123; print a",
+				"a = 1, 2, 3; print a.class, a",
 				"a = 1, 2.5; print a",
-				"*a = nil; print a.length, a[0]",
-				"a,b,*c = nil; print a, b, c",
-				"a,b,*c = *[[]]; print a, b, c",
-				"a = 1; b = *a; print b",
-				"a = []; b = *a; print b",
 		};
-
+		
 		String[] outputs = {
 				"21",
 				"21nil",
 				"321",
+				"Array123",
+				"12.5",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_multiple_assignment_asterisk_only_on_the_left() {
+		String[] program_texts = {
+			"*a = nil; print a.class, a.length, a[0]",
+			"a, b, *c = 1, 2, 3, 4, 5; print a, b, c.class, c",
+			"a,b,*c = nil; print a, b, c, c.class, c.length",
+			"*a = 1, 2, 3, 4, 5; print a",
+			"a, *b = 88, 99; print a, b, b.class",
+		};
+		
+		String[] outputs = {
+			"Array1nil",
+			"12Array345",
+			"nilnilArray0",
+			"12345",
+			"8899Array",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_multiple_assignment_asterisk_only_on_the_right() {
+		String[] program_texts = {
+				"a = *nil; print a",
+				"a = *123; print a",
+				"a = 1; b = *a; print b",
+				"a = []; b = *a; print b",
+				
+				"x = [1, 2, 3]; a, b, c = *x; print a, ',', b, ',', c",
+				"x = [1, 2, 3]; a, b = *x; print a, ',', b",
+				"x = [1, 2, 3]; a = *x; print a, a.class",
+				
+				"x = [1, 2, 3]; a, b = 99, *x; print a, ',', b",
+				"x = [1, 2, 3]; a, b = 88, 99, *x; print a, ',', b",
+		};
+		
+		String[] outputs = {
 				"nil",
 				"123",
-				"12.5",
-				"1nil",
-				"nilnil",
-				"nil",
 				"1",
 				"nil",
+				
+				"1,2,3",
+				"1,2",
+				"123Array",
+				
+				"99,1",
+				"88,99",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_multiple_assignment_asterisk_on_both_sides() {
+		String[] program_texts = {
+				"a, *b = 1, *[2, 3]; print a, ',', b",
+				"a, *b = 1, *2; print a, ',', b, b.class",
+				"*a = *1; print a, a.class",
+				"*a = *nil; print a, a.class",
+				
+				"*a = 1, 2, *[3, 4]; print a, '|', a.length",
+				"a, *b = 1, 2, *[3, 4]; print a, '|', b, '|', b.length",
+				
+				//"a,b,*c = *[[]]; print a, b, c",
+				
+				
+				
+		};
+
+		String[] outputs = {
+				"1,23",
+				"1,2Array",
+				"1Array",
+				"Array",
+				
+				"1234|4",
+				"1|234|3",
+				
+				//"nil",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
