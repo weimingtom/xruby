@@ -15,6 +15,7 @@
 <p><a href="#intro">Introduction</a></p>
 <p><a href="#howto">How to Compile Ruby?</a></p>
 <p><a href="#example">Example</a></p>
+<p><a href="#builtin">Builtin Libraries</a></p>
 <p><a href="#parser">About XRuby's Parser</a></p>
 
 
@@ -170,9 +171,40 @@ Class BLOCK$1 represents the blocks passed to "3.times", and its body is the imp
 </p>
 
 
+<h3><a name="builtin">Builtin Libraries</h3>
+<p>
+The easiest way to jump start XRuby hacking is to study the source code in the 'com.xruby.core.builtin' packages.
+</p>
+
+<p>
+The following code snippet illustrates how Fixnm::+ is implemented:
+</p>
+
+
+<pre>
+
+class Fixnum_operator_plus extends RubyMethod {
+	public Fixnum_operator_plus() {
+		super(1, false);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+		Integer value1 = (Integer)receiver.getValue();
+		Integer value2 = (Integer)args[0].getValue();
+		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
+	}
+}
+
+...
+RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
+c.defineMethod("+", new Fixnum_operator_plus());
+...
+</pre>
+
+
 <h3><a name="parser">XRuby's Parser</h3>
 <p>
-XRuby's parser used an <a href="http://www.antlr.org">Antlr</a> based grammar. Which is so far the only alternative ruby grammar other than the
+XRuby's parser used an <a href="http://www.antlr.org">Antlr</a> based grammar. This is so far the only alternative ruby grammar other than the
 one in the c ruby.
 </p>
 
