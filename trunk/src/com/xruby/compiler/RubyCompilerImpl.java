@@ -390,8 +390,12 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGeneratorForRunMethod().dup();
 	}
 	
-	public void visitArrayElementEnd() {
-		cg_.getMethodGeneratorForRunMethod().ArrayValue_addValue();
+	public void visitArrayElementEnd(boolean asterisk) {
+		if (asterisk) {
+			cg_.getMethodGeneratorForRunMethod().ArrayValue_expand();
+		} else {
+			cg_.getMethodGeneratorForRunMethod().ArrayValue_add();
+		}
 	}
 	
 	public void visitHashElementEnd() {

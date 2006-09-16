@@ -90,13 +90,7 @@ class Array_concat extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
 		ArrayValue left = (ArrayValue)receiver.getValue();
-		Object right = args[0].getValue();
-		if (right instanceof ArrayValue) {
-			left.concat((ArrayValue)right);
-		} else {
-			left.add((RubyValue)right);
-		}
-
+		left.concat(args[0]);
 		return receiver;
 	}
 }

@@ -244,8 +244,12 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("[\n");
 	}
 
-	public void visitArrayElementEnd() {
-		result_.append("]\n");
+	public void visitArrayElementEnd(boolean asterisk) {
+		if (asterisk) {
+			result_.append("]\n");
+		} else {
+			result_.append("]*\n");
+		}
 	}
 
 	public void visitHashBegin() {

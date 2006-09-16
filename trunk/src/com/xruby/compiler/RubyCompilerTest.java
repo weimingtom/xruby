@@ -206,7 +206,10 @@ public class RubyCompilerTest extends TestCase {
 				"$\\ = '!';    print 1,2,3;   $\\ = nil",
 				
 				"print [5,6,7]",
-				"print [5,6,[1, 2]]",
+				"a = [5,6,[1, 2]]; print a, a.length",
+				"a = [5,6,*[1, 2]]; print a, a.length",
+				"a = [5,6,*1]; print a, a.length ",
+				"a = [5,6,*nil]; print a, a.length",
 		};
 
 		String[] outputs = {
@@ -220,7 +223,10 @@ public class RubyCompilerTest extends TestCase {
 				"123!",
 				
 				"567",
-				"5612",
+				"56123",
+				"56124",
+				"5613",
+				"563",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
