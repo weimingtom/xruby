@@ -270,6 +270,7 @@ returns [ArrayExpression e]
 }
 		:	#(	LBRACK	{e = new ArrayExpression();}
 				(element=expression	{e.addElement(element);})*
+				(REST_ARG_PREFIX	element=expression	{e.setAsteriskElement(element);})?
 			)
 		|	EMPTY_ARRAY		{e = new ArrayExpression();}
 		;

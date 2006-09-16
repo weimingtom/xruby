@@ -62,7 +62,7 @@ public interface CodeVisitor {
 	public void visitArrayBegin(int size);
 	public void visitArrayEnd();
 	public void visitArrayElementBegin();
-	public void visitArrayElementEnd();
+	public void visitArrayElementEnd(boolean asterisk);
 	
 	public void visitYield();
 	public void visitYieldEnd();

@@ -53,9 +53,14 @@ class MethodGenerator extends GeneratorAdapter {
 		
 	}
 	
-	public void ArrayValue_addValue() {
+	public void ArrayValue_add() {
 		invokeVirtual(Type.getType(ArrayValue.class),
 				Method.getMethod("void add(com.xruby.core.lang.RubyValue)"));
+	}
+
+	public void ArrayValue_expand() {
+		invokeVirtual(Type.getType(ArrayValue.class),
+				Method.getMethod("void expand(com.xruby.core.lang.RubyValue)"));
 	}
 	
 	public void HashValue_addValue() {

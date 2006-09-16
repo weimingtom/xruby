@@ -95,7 +95,28 @@ public class ArrayValue {
 		return values_;
 	}
 	
-	public void concat(ArrayValue v) {
-		values_.addAll(v.getInternal());
+	public void concat(RubyValue v) throws RubyException {
+		Object o = v.getValue();
+		if (v.getRubyClass() != RubyRuntime.ArrayClass) {//TODO use RuyRuntime.testInstanceOf() ?
+			throw new RubyException(RubyRuntime.TypeErrorClass,
+					"can't convert " + v.getRubyClass().toString() + " into Array");
+		}
+
+		values_.addAll(((ArrayValue)o).getInternal());
+	}
+
+	public void expand(RubyValue v) {
+		Object o = v.getValue();
+		if (null == o) {
+			//[5,6,*nil]
+			values_.add(ObjectFactory.createArray(new ArrayValue(0)));
+		} else if (o instanceof ArrayValue) {
+			//[5,6,*[1, 2]]
+			values_.addAll(((ArrayValue)o).getInternal());	
+		} else {
+			//[5,6,*1]
+			values_.add(v);
+		}
 	}
 }
+

@@ -8,6 +8,7 @@ import java.util.*;
 
 public class ArrayExpression extends Expression {
 	private ArrayList<Expression> elements_;
+	private Expression asterisk_element_ = null;
 	
 	public ArrayExpression() {
 		elements_ = new ArrayList<Expression>();
@@ -26,6 +27,10 @@ public class ArrayExpression extends Expression {
 		elements_.add(e);
 	}
 
+	public void setAsteriskElement(Expression e) {
+		asterisk_element_ = e;
+	}
+
 	public ArrayList<Expression> getElements() {
 		return elements_;
 	}
@@ -33,12 +38,16 @@ public class ArrayExpression extends Expression {
 	public void accept(CodeVisitor visitor) {
 		visitor.visitArrayBegin(elements_.size());
 		
-		int i = 0;
 		for (Expression e : elements_) {
 			visitor.visitArrayElementBegin();
 			e.accept(visitor);
-			visitor.visitArrayElementEnd();
-			++i;
+			visitor.visitArrayElementEnd(false);
+		}
+
+		if (null != asterisk_element_) {
+			visitor.visitArrayElementBegin();
+			asterisk_element_.accept(visitor);
+			visitor.visitArrayElementEnd(true);
 		}
 		
 		visitor.visitArrayEnd();
