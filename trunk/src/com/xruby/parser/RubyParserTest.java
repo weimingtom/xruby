@@ -97,6 +97,7 @@ public class RubyParserTest extends TestCase
 			}
 			else
 			{
+				cause.printStackTrace();
 				assertTrue(cause.getMessage(), false);
 			}
 		}
@@ -1738,6 +1739,7 @@ public class RubyParserTest extends TestCase
 	public void test_dotColonOrArrayAccess()
 	{
 		String[] program_texts = {
+			"1.-@",
 			"yield[2]",
 			"yield.to_s",
 			"in_assigned.map{|i| i.name}",

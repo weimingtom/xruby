@@ -149,7 +149,7 @@ returns [Expression e]
 																			MethodCallExpression mc = (MethodCallExpression)right;
 																			e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
 																		} else {
-																			e = new MethodCallExpression(left, ((VariableExpression)right).getValue(), args, null);
+																			e = new MethodCallExpression(left, ((VariableExpression)right).getValue(), null, null);
 																		}
 																	}
 		|	#(CALL					(var=variable|yield:"yield"|defined:"defined?")	(args=arguments)?	(block=codeBlock)?)
@@ -261,6 +261,7 @@ returns [VariableExpression e]
 		:	constant:CONSTANT						{e = new VariableExpression(constant.getText(), false);}
 		|	id:IDENTIFIER								{e = new VariableExpression(id.getText(), false);}
 		|	function:FUNCTION						{e = new VariableExpression(function.getText(), true);}
+		|	unary:UNARY_PLUS_MINUS_METHOD_NAME	{e = new VariableExpression(unary.getText(), true);}//it does not look like a good place to put -@/+@, but bad programs should have failed in parser.
 		;
 
 arrayExpression

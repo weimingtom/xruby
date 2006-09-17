@@ -138,4 +138,16 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
+	
+	public void test_UNARY_PLUS_MINUS_METHOD_NAME() {
+		Program p = getProgram("1.-@");
+		CodePrinter CodePrinter = new CodePrinter();
+		p.accept(CodePrinter);
+		String expected_result =
+			"1\n" +
+			"parameters:0\n" +
+			"-@:true:false\n" +
+			"EOF";
+		assertEquals(expected_result, CodePrinter.toString());
+	}
 }

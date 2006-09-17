@@ -614,6 +614,7 @@ primaryExpressionThatCanBeMethodName
 		|	"redo"
 		|	EMPTY_ARRAY
 		|	EMPTY_ARRAY_ACCESS
+		|	UNARY_PLUS_MINUS_METHOD_NAME
 		;
 
 primaryExpressionThatCanNotBeMethodName
@@ -1123,7 +1124,9 @@ LOGICAL_OR_ASSIGN	:	"||="	;
 
 //ANTLR's linear approximate lookahead will cause trouble if you list UNARY_PLUS and UNARY_MINUS as two separated rules.
 UNARY_PLUS_MINUS_METHOD_NAME
-		:	{last_token_is_keyword_def_or_colon_with_no_following_space()}? ("+@"|"-@")
+		:	{last_token_is_keyword_def_or_colon_with_no_following_space() ||
+			last_token_is_dot_or_colon2()}?
+			("+@"|"-@")
 		;
 
 SEMI
