@@ -246,9 +246,9 @@ public class CodePrinter implements CodeVisitor {
 
 	public void visitArrayElementEnd(boolean asterisk) {
 		if (asterisk) {
-			result_.append("]\n");
-		} else {
 			result_.append("]*\n");
+		} else {
+			result_.append("]\n");
 		}
 	}
 
@@ -368,6 +368,27 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("end block:");
 		result_.append(last_statement_has_return_value);
 		result_.append("\n");
+	}
+
+	public void visitMrhs(int var, int index, boolean asterisk) {
+		result_.append(index);
+		if (asterisk) {
+			result_.append("*");
+		}
+		result_.append("\n");
+	}
+
+	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs) {
+		result_.append("begin MultipleAssignment:");
+		result_.append(single_lhs);
+		result_.append(":");
+		result_.append(single_rhs);
+		result_.append("\n");
+		return 0;
+	}
+
+	public void visitMultipleAssignmentEnd() {
+		result_.append("end MultipleAssignment\n");
 	}
 
 

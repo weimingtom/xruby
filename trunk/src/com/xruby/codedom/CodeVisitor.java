@@ -88,4 +88,8 @@ public interface CodeVisitor {
 	
 	public void visitBlock(int num_of_args, boolean has_asterisk_parameter);
 	public void visitBlockEnd(boolean last_statement_has_return_value);
+	
+	public void visitMrhs(int var, int index, boolean asterisk);
+	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs);
+	public void visitMultipleAssignmentEnd();
 }

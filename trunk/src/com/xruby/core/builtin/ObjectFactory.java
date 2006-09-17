@@ -74,6 +74,10 @@ public class ObjectFactory {
 	public static RubyValue createArray(ArrayValue value) {
 		return new RubyValue(RubyRuntime.ArrayClass, value);
 	}
+
+	public static RubyValue createEmptyArray() {
+		return new RubyValue(RubyRuntime.ArrayClass, new ArrayValue(0));
+	}
 	
 	public static RubyValue createHash(HashValue value) {
 		return new RubyValue(RubyRuntime.HashClass, value);

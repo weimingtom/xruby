@@ -23,6 +23,11 @@ public class ArrayExpression extends Expression {
 		elements_ = elements;
 	}
 	
+	public ArrayExpression(ArrayList<Expression> elements, Expression asterisk_element) {
+		elements_ = elements;
+		asterisk_element_ = asterisk_element;
+	}
+	
 	public void addElement(Expression e) {
 		elements_.add(e);
 	}
@@ -35,7 +40,7 @@ public class ArrayExpression extends Expression {
 		return elements_;
 	}
 	
-	public void accept(CodeVisitor visitor) {
+	void accept(CodeVisitor visitor, boolean for_multiple_assign) {
 		visitor.visitArrayBegin(elements_.size());
 		
 		for (Expression e : elements_) {
@@ -50,6 +55,13 @@ public class ArrayExpression extends Expression {
 			visitor.visitArrayElementEnd(true);
 		}
 		
-		visitor.visitArrayEnd();
+		if (!for_multiple_assign) {
+			visitor.visitArrayEnd();
+		}
 	}
+	
+	public void accept(CodeVisitor visitor) {
+		accept(visitor, false);
+	}
+	
 }

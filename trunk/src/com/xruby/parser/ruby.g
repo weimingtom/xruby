@@ -648,7 +648,6 @@ arrayReferenceArgument
 			(	COMMA! {if (ASSIGN == LA(1)||RBRACK == LA(1)) break;}
 				(seen_star:REST_ARG_PREFIX)?	keyValuePair	{if (null != seen_star) break;}
 			)*
-		|	{LA(2) == LBRACK}?	REST_ARG_PREFIX!	LBRACK!	(arrayReferenceArgument)?	RBRACK!	//optimazation: [*[1, 2]] = [1, 2]
 		|	REST_ARG_PREFIX	expression	(LINE_BREAK!)?
 		;
 

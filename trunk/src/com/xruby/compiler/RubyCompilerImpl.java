@@ -455,38 +455,6 @@ class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 
-	public void visitExpandArray() {
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("Object getValue()"));
-		cg_.getMethodGeneratorForRunMethod().cast(Type.getType(Object.class), Type.getType(ArrayValue.class));
-		int array_value = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(ArrayValue.class));
-		cg_.getMethodGeneratorForRunMethod().storeLocal(array_value);
-
-		cg_.getMethodGeneratorForRunMethod().push(0);
-		int index = cg_.getMethodGeneratorForRunMethod().newLocal(Type.INT_TYPE);
-		cg_.getMethodGeneratorForRunMethod().storeLocal(index);
-
-//jump to test
-		Label test = new Label();
-		cg_.getMethodGeneratorForRunMethod().goTo(test);
-
-//body
-		Label body = cg_.getMethodGeneratorForRunMethod().mark();
-		cg_.getMethodGeneratorForRunMethod().loadLocal(array_value);
-		cg_.getMethodGeneratorForRunMethod().loadLocal(index);
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(ArrayValue.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue get(int)"));
-		cg_.getMethodGeneratorForRunMethod().iinc(index, 1);
-
-//test
-		cg_.getMethodGeneratorForRunMethod().mark(test);
-		cg_.getMethodGeneratorForRunMethod().loadLocal(index);
-		cg_.getMethodGeneratorForRunMethod().loadLocal(array_value);
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(ArrayValue.class),
-				Method.getMethod("int size()"));
-		cg_.getMethodGeneratorForRunMethod().ifICmp(GeneratorAdapter.LT, body);
-	}
-
 	public void visitClassVariableExpression(String name) {
 		visitSelfExpression();
 		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyValue.class),
@@ -525,5 +493,32 @@ class RubyCompilerImpl implements CodeVisitor {
 				Method.getMethod("com.xruby.core.lang.RubyValue setInstanceVariable(com.xruby.core.lang.RubyValue, String)"));
 	}
 	
+	public void visitMrhs(int var, int index, boolean asterisk) {
+		cg_.getMethodGeneratorForRunMethod().loadLocal(var);
+		if (asterisk) {
+			cg_.getMethodGeneratorForRunMethod().ArrayValue_collect(index);
+		} else {
+			cg_.getMethodGeneratorForRunMethod().ArrayValue_get(index);
+		}
+	}
 
+	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_mhs) {
+		if (single_lhs) {
+			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.builtin.ArrayValue)"));
+			return 0;
+		} else {
+			if (single_mhs) {
+				cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+						Method.getMethod("com.xruby.core.builtin.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.core.builtin.ArrayValue)"));
+			}
+			int var = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(ArrayValue.class));
+			cg_.getMethodGeneratorForRunMethod().storeLocal(var);
+			return var;
+		}
+	}
+
+	public void visitMultipleAssignmentEnd() {
+		//do nothing
+	}
 }
