@@ -38,7 +38,7 @@ public class SymbolTableManager
 
 	public void leaveBlock()
 	{
-		assert(null != current_block_);
+		//assert(null != current_block_);
 		current_block_ = null;
 	}
 
@@ -56,7 +56,7 @@ public class SymbolTableManager
 
 	public void leaveModule()
 	{
-		assert(null != current_module_);
+		//assert(null != current_module_);
 		current_module_ = null;
 	}
 
