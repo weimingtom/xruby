@@ -86,7 +86,7 @@ public class RubyTreeParserTest extends TestCase {
 				" ( COMPSTMT ( PARALLEL_ASSIGN ( CALL a ) b * c ( MRHS nil ) ) )",
 				" ( COMPSTMT ( PARALLEL_ASSIGN ( CALL a ) b ( MRHS 1 ) ) )",
 				" ( COMPSTMT ( PARALLEL_ASSIGN * a ( MRHS nil ) ) )",
-				" ( COMPSTMT ( PARALLEL_ASSIGN a ( MRHS * ( [ 1 2 ) ) ) )",
+				" ( COMPSTMT ( PARALLEL_ASSIGN a ( MRHS * ( [ * ( [ 1 2 ) ) ) ) )",
 				" ( COMPSTMT ( PARALLEL_ASSIGN ( = a 1 ) 2 3 ) )",
 				" ( COMPSTMT ( PARALLEL_ASSIGN a ( MRHS * nil ) ) )",
 				" ( COMPSTMT ( = a 1 ) ( = b 2 ) ( PARALLEL_ASSIGN a b ( MRHS b a ) ) )",
