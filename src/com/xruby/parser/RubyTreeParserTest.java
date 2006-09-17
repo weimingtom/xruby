@@ -24,6 +24,7 @@ public class RubyTreeParserTest extends TestCase {
 				
 				"[*[1, 2]]",
 				
+				"1.-@",
 				"3.times",
 				"3.times {}",
 					
@@ -92,6 +93,7 @@ public class RubyTreeParserTest extends TestCase {
 				" ( COMPSTMT ( = a 1 ) ( = b 2 ) ( PARALLEL_ASSIGN a b ( MRHS b a ) ) )",
 				" ( COMPSTMT ( [ * ( [ 1 2 ) ) )",
 				
+				" ( COMPSTMT ( . 1 -@ ) )",
 				" ( COMPSTMT ( . 3 times ) )",
 				" ( COMPSTMT ( . 3 ( CALL times BLOCK ) ) )",
 
