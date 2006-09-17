@@ -107,16 +107,47 @@ public class ArrayValue {
 
 	public void expand(RubyValue v) {
 		Object o = v.getValue();
-		if (null == o) {
-			//[5,6,*nil]
-			values_.add(ObjectFactory.createArray(new ArrayValue(0)));
-		} else if (o instanceof ArrayValue) {
+		if (o instanceof ArrayValue) {
 			//[5,6,*[1, 2]]
 			values_.addAll(((ArrayValue)o).getInternal());	
 		} else {
-			//[5,6,*1]
+			//[5,6,*1], [5,6,*nil]
 			values_.add(v);
 		}
+	}
+
+	public static RubyValue expandArrayIfThereIsZeroOrOneValue(ArrayValue a) {
+		if (a.size() <= 1) {
+			return a.get(0);
+		} else {
+			return ObjectFactory.createArray(a);
+		}
+	}
+	
+	public static ArrayValue expandArrayIfThereIsOnlyOneArrayValue(ArrayValue a) {
+		if (a.size() == 1 &&
+				a.get(0).getValue() instanceof ArrayValue) {
+			return (ArrayValue)a.get(0).getValue();
+		} else {
+			return a;
+		}
+	}
+
+	//create a new Array containing every element from index to the end
+	public RubyValue collect(int index) {
+		assert(index >= 0);
+
+		final int size = values_.size() - index;
+		if (size < 0) {
+			return ObjectFactory.createEmptyArray();
+		}
+
+		ArrayValue v = new ArrayValue(size);
+		for (int i = index; i < values_.size(); ++i) {
+			v.add(values_.get(i));
+		}
+
+		return ObjectFactory.createArray(v);
 	}
 }
 

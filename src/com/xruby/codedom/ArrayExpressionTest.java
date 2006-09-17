@@ -38,4 +38,25 @@ public class ArrayExpressionTest extends TestingAstTestCase {
 "EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
+	
+	public void test_asterisk() {
+		Program p = getProgram("[*[1, 2]]");
+		CodePrinter CodePrinter = new CodePrinter();
+		p.accept(CodePrinter);
+		String expected_result = 
+			"[:0\n" +
+			"[\n" +
+			"[:2\n" +
+			"[\n" +
+			"1\n" +
+			"]\n" +
+			"[\n" +
+			"2\n" +
+			"]\n" +
+			"]!\n" +
+			"]*\n" +
+			"]!\n" +
+			"EOF";
+		assertEquals(expected_result, CodePrinter.toString());
+	}
 }

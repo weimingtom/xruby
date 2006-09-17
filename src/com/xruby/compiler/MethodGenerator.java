@@ -63,6 +63,18 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void expand(com.xruby.core.lang.RubyValue)"));
 	}
 	
+	public void ArrayValue_get(int index) {
+		push(index);
+		invokeVirtual(Type.getType(ArrayValue.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue get(int)"));
+	}
+
+	public void ArrayValue_collect(int index) {
+		push(index);
+		invokeVirtual(Type.getType(ArrayValue.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue collect(int)"));
+	}
+	
 	public void HashValue_addValue() {
 		invokeVirtual(Type.getType(HashValue.class),
 				Method.getMethod("void add(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue)"));
@@ -184,6 +196,7 @@ class MethodGenerator extends GeneratorAdapter {
 		dup();
 		storeLocal(var);
 	}
+	
 	public void RubyClass_aliasMethod(String newName, String oldName) {
 		loadCurrentClass();
 		push(newName);

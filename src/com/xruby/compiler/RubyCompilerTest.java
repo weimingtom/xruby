@@ -193,6 +193,28 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_array_expand() {
+		String[] program_texts = {				
+				"a = [5,6,[1, 2]]; print a, a.length",
+				"a = [5,6,*[1, 2]]; print a, a.length",
+				"a = [5,6,*1]; print a, a.length ",
+				"a = [5,6,*nil]; print a, a.length",
+				"a = [*nil]; print a, '|', a.length, a[0].class",
+				"a = [*[1, 2]]; print a, '|', a.length, a[0].class",
+		};
+
+		String[] outputs = {
+				"56123",
+				"56124",
+				"5613",
+				"563",
+				"|1NilClass",
+				"12|2Fixnum",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 
 	public void test_print() {
 		String[] program_texts = {
@@ -206,10 +228,8 @@ public class RubyCompilerTest extends TestCase {
 				"$\\ = '!';    print 1,2,3;   $\\ = nil",
 				
 				"print [5,6,7]",
-				"a = [5,6,[1, 2]]; print a, a.length",
-				"a = [5,6,*[1, 2]]; print a, a.length",
-				"a = [5,6,*1]; print a, a.length ",
-				"a = [5,6,*nil]; print a, a.length",
+				"print [ nil ]",
+				"print [ nil ][0];",
 		};
 
 		String[] outputs = {
@@ -223,10 +243,8 @@ public class RubyCompilerTest extends TestCase {
 				"123!",
 				
 				"567",
-				"56123",
-				"56124",
-				"5613",
-				"563",
+				"",
+				"nil",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1305,14 +1323,17 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_multiple_assignment_no_asterisk() {
 		String[] program_texts = {
+				"a, b = 3, 4; print a, b",
 				"a = 1; b = 2;   a, b = b, a; print a, b",
 				"a = 1; b = 2; c = 3;   a, b, c = b, a; print a, b, c",
 				"a = 1; b = 2;   a, b = b, a, print(3); print a, b",
+				
 				"a = 1, 2, 3; print a.class, a",
 				"a = 1, 2.5; print a",
 		};
 		
 		String[] outputs = {
+				"34",
 				"21",
 				"21nil",
 				"321",
@@ -1330,6 +1351,10 @@ public class RubyCompilerTest extends TestCase {
 			"a,b,*c = nil; print a, b, c, c.class, c.length",
 			"*a = 1, 2, 3, 4, 5; print a",
 			"a, *b = 88, 99; print a, b, b.class",
+			
+			"a,b,*c = []; print a, '|', b, '|', c",
+			"a,b,*c = [1, 2, 3]; print a, '|', b, '|', c",
+			"*a = []; print a[0].class",
 		};
 		
 		String[] outputs = {
@@ -1338,6 +1363,9 @@ public class RubyCompilerTest extends TestCase {
 			"nilnilArray0",
 			"12345",
 			"8899Array",
+			"nil|nil|",
+			"1|2|3",
+			"Array",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1348,11 +1376,11 @@ public class RubyCompilerTest extends TestCase {
 				"a = *nil; print a",
 				"a = *123; print a",
 				"a = 1; b = *a; print b",
-				"a = []; b = *a; print b",
+				"a = []; b = *a; print b, b.class",
 				
 				"x = [1, 2, 3]; a, b, c = *x; print a, ',', b, ',', c",
 				"x = [1, 2, 3]; a, b = *x; print a, ',', b",
-				"x = [1, 2, 3]; a = *x; print a, a.class",
+				"x = [1, 2, 3]; a = *x; print a, a.class, a.length",
 				
 				"x = [1, 2, 3]; a, b = 99, *x; print a, ',', b",
 				"x = [1, 2, 3]; a, b = 88, 99, *x; print a, ',', b",
@@ -1362,11 +1390,11 @@ public class RubyCompilerTest extends TestCase {
 				"nil",
 				"123",
 				"1",
-				"nil",
+				"nilNilClass",
 				
 				"1,2,3",
 				"1,2",
-				"123Array",
+				"123Array3",
 				
 				"99,1",
 				"88,99",
@@ -1385,7 +1413,10 @@ public class RubyCompilerTest extends TestCase {
 				"*a = 1, 2, *[3, 4]; print a, '|', a.length",
 				"a, *b = 1, 2, *[3, 4]; print a, '|', b, '|', b.length",
 				
-				//"a,b,*c = *[[]]; print a, b, c",
+				"a, b, *c = 1, *[2, 3]; print a, '|', b, '|', c",
+				"a, b, *c = 1, *[2, 3, 4]; print a, '|', b, '|', c",
+				
+				"a,b,*c = *[[]]; print a, b, c",
 				
 				
 				
@@ -1400,7 +1431,10 @@ public class RubyCompilerTest extends TestCase {
 				"1234|4",
 				"1|234|3",
 				
-				//"nil",
+				"1|2|3",
+				"1|2|34",
+				
+				"nil",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

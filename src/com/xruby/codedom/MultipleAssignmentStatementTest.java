@@ -7,10 +7,6 @@ package com.xruby.codedom;
 
 public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 
-	public void setUp() {
-		NameFactory.reset();
-	}
-	
 	public void test_equal_number_on_left_right() {
 		Program p = getProgram("a = 1; b = 2;   a, b = b, a");
 		CodePrinter CodePrinter = new CodePrinter();
@@ -97,7 +93,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 	
-	public void test_asterisk() {
+	public void test_asterisk_only_on_the_right() {
 		Program p = getProgram("a = *nil");
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
@@ -105,50 +101,15 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"nil\n" +
 			"parameters:0\n" +
 			"to_a:true:false\n" +
+			"tmp$0 =\n" +
 			"parameters:0\n" +
 			"length:true:false\n" +
 			"1\n" +
 			">\n" +
 			"if\n" +
-			"nil\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
+			"tmp$0\n" +
 			"end if\n" +
-			"nil\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:0\n" +
-			")\n" +
-			"[]:true:false\n" +
-			"end if!\n"+
-			"a //=\n" +
-			"EOF";
-		
-		assertEquals(expected_result, CodePrinter.toString());
-	}
-	
-	public void test_asterisk2() {
-		Program p = getProgram("a = *1");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
-		String expected_result = 
-			"1\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
-			"parameters:0\n" +
-			"length:true:false\n" +
-			"1\n" +
-			">\n" +
-			"if\n" +
-			"1\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
-			"end if\n" +
-			"1\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
+			"tmp$0\n" +
 			"parameters:1\n" +
 			"(\n" +
 			"0:0\n" +
@@ -161,35 +122,30 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 	
-	public void test_asterisk3() {
+	public void test_asterisk_only_on_the_right_2() {
 		Program p = getProgram("a = *[1,2]");
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
 		String expected_result = 
 			"[:2\n" +
-			"[\n1\n]\n" +
-			"[\n2\n]\n" +
+			"[\n" +
+			"1\n" +
+			"]\n" +
+			"[\n" +
+			"2\n" +
+			"]\n" +
 			"]!\n" +
 			"parameters:0\n" +
 			"to_a:true:false\n" +
+			"tmp$0 =\n" +
 			"parameters:0\n" +
 			"length:true:false\n" +
 			"1\n" +
 			">\n" +
 			"if\n" +
-			"[:2\n" +
-			"[\n1\n]\n" +
-			"[\n2\n]\n" +
-			"]!\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
+			"tmp$0\n" +
 			"end if\n" +
-			"[:2\n" +
-			"[\n1\n]\n" +
-			"[\n2\n]\n" +
-			"]!\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
+			"tmp$0\n" +
 			"parameters:1\n" +
 			"(\n" +
 			"0:0\n" +
@@ -202,48 +158,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 	
-	public void test_asterisk4() {
-		Program p = getProgram("a = *[*[1,2]]");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
-		String expected_result = 
-			"[:2\n" +
-			"[\n1\n]\n" +
-			"[\n2\n]\n" +
-			"]!\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
-			"parameters:0\n" +
-			"length:true:false\n" +
-			"1\n" +
-			">\n" +
-			"if\n" +
-			"[:2\n" +
-			"[\n1\n]\n" +
-			"[\n2\n]\n" +
-			"]!\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
-			"end if\n" +
-			"[:2\n" +
-			"[\n1\n]\n" +
-			"[\n2\n]\n" +
-			"]!\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:0\n" +
-			")\n" +
-			"[]:true:false\n" +
-			"end if!\n" +
-			"a //=\n" +
-			"EOF";
-		
-		assertEquals(expected_result, CodePrinter.toString());
-	}
-	
-	public void test_asterisk_on_the_left() {
+	public void test_asterisk__onlyon_the_left() {
 		Program p = getProgram("*a = nil");
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
@@ -288,31 +203,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 	
-	public void test_one_rvalue() {
-		Program p1 = getProgram("a, b = []");
-		CodePrinter CodePrinter1 = new CodePrinter();
-		p1.accept(CodePrinter1);
-		
-		Program p2 = getProgram("a, b = nil");
-		CodePrinter CodePrinter2 = new CodePrinter();
-		p2.accept(CodePrinter2);
-		
-		assertEquals(CodePrinter2.toString(), CodePrinter1.toString());
-	}
-	
-	public void test_one_rvalue_2() {
-		Program p1 = getProgram("a, b = [1, 2]");
-		CodePrinter CodePrinter1 = new CodePrinter();
-		p1.accept(CodePrinter1);
-		
-		Program p2 = getProgram("a, b = 1, 2");
-		CodePrinter CodePrinter2 = new CodePrinter();
-		p2.accept(CodePrinter2);
-		
-		assertEquals(CodePrinter2.toString(), CodePrinter1.toString());
-	}
-	
-	public void test_asterisk_on_both_side() {
+	public void test_asterisk_on_both_sides() {
 		Program p = getProgram("a,b,*c = *[]");
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
@@ -339,7 +230,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 
-	public void test_asterisk_on_both_side_2() {
+	public void test_asterisk_on_both_sides_2() {
 		Program p = getProgram("*a = *nil");
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
@@ -364,39 +255,4 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 	
-	public void test_asterisk_expand() {
-		Program p = getProgram("a = 1; b = *a");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
-		String expected_result = 
-			"1\n" +
-			"a =\n" +
-			";\n" +
-			"a\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
-			"parameters:0\n" +
-			"length:true:false\n" +
-			"1\n" +
-			">\n" +
-			"if\n" +
-			"a\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
-			"end if\n" +
-			"a\n" +
-			"parameters:0\n" +
-			"to_a:true:false\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:0\n" +
-			")\n" +
-			"[]:true:false\n" +
-			"end if!\n"+
-			"b //=\n" +
-			"EOF";
-		
-		assertEquals(expected_result, CodePrinter.toString());
-	}
-
 }
