@@ -114,6 +114,28 @@ class Kernel_printf extends RubyMethod {
 	}
 }
 
+class Kernel_p extends RubyMethod {
+	public Kernel_p() {
+		super(-1, false);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+		for (RubyValue arg : args) {
+			if (ObjectFactory.nilValue == arg) {
+				System.out.println("nil");
+			} else if (RubyRuntime.StringClass == arg.getRubyClass()){
+				StringBuilder value = (StringBuilder)arg.getValue();
+				System.out.println(value.toString());
+			} else {
+				RubyValue str = RubyRuntime.callPublicMethod(arg, null, null, "inspect");
+				StringBuilder value = (StringBuilder)str.getValue();
+				System.out.println(value.toString());
+			}
+		}
+		return ObjectFactory.nilValue;
+	}
+}
+
 class Kernel_class extends RubyMethod {
 	public Kernel_class() {
 		super(-1, false);
@@ -279,6 +301,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("puts", new Kernel_puts());
 		m.defineMethod("print", new Kernel_print());
 		m.defineMethod("printf", new Kernel_printf());
+		m.defineMethod("p", new Kernel_p());
 		m.defineMethod("class", new Kernel_class());
 		m.defineMethod("raise", new Kernel_raise());
 		m.defineMethod("===", new Kernel_operator_case_equal());
