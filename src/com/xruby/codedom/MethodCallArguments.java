@@ -17,9 +17,12 @@ public class MethodCallArguments implements Visitable {
 	public MethodCallArguments(Expression argument) {
 		arguments_.add(argument);
 	}
+
+	boolean hasAsteriskArguments() {
+		return null != asterisk_arguments_;
+	}
 	
 	public int size() {
-		expandAsteriskArgument();
 		return arguments_.size();
 	}
 
@@ -44,32 +47,27 @@ public class MethodCallArguments implements Visitable {
 		arguments_.add(argument);
 	}
 
-	protected void expandAsteriskArgument() {
-		//TODO duplication with MultipleAssignmentStatement
-		if (null != asterisk_arguments_) {
-			if ((asterisk_arguments_ instanceof NilExpression) ||
-					(asterisk_arguments_ instanceof IntegerExpression)) {
-				arguments_.add(asterisk_arguments_);
-				asterisk_arguments_ = null;
-			}  else if (asterisk_arguments_ instanceof ArrayExpression) {
-				final ArrayList<Expression> elements = ((ArrayExpression)asterisk_arguments_).getElements();
-				for (Expression e : elements) {
-					arguments_.add(e);
-				}
-				asterisk_arguments_ = null;
-			}
-		}
-	}
-
-	public void accept(CodeVisitor visitor) {
-		expandAsteriskArgument();
-		
+	private void accept_no_asterisk_arguments(CodeVisitor visitor) {
 		int i = 0;
 		for (Expression exp : arguments_) {
 			visitor.visitParameterBegin(i);
 			exp.accept(visitor);
 			visitor.visitParameterEnd();
 			++i;
+		}
+	}
+
+	private void accept_with_asterisk_arguments(CodeVisitor visitor) {
+		ArrayExpression to_a = new ArrayExpression(arguments_, asterisk_arguments_);
+		to_a.accept(visitor, true);
+		visitor.visitAsteriskParameter();
+	}
+
+	public void accept(CodeVisitor visitor) {
+		if (null == asterisk_arguments_) {		
+			accept_no_asterisk_arguments(visitor);
+		} else {
+			accept_with_asterisk_arguments(visitor);
 		}
 	}
 }

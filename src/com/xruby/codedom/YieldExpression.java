@@ -15,13 +15,18 @@ public class YieldExpression extends Expression {
 	public void accept(CodeVisitor visitor) {
 		visitor.visitYield();
 
-		if (null != arguments_) {
-			visitor.visitParameters(arguments_.size());
+		if (null == arguments_) {
+			visitor.visitParameters(0);
+		} else if (arguments_.hasAsteriskArguments()) {
 			arguments_.accept(visitor);
 		} else {
-			visitor.visitParameters(0);
+			visitor.visitParameters(arguments_.size());
+			arguments_.accept(visitor);
 		}
 
-		visitor.visitYieldEnd();
+		boolean single_rhs = (null != arguments_) && (arguments_.size() == 1);
+
+		visitor.visitYieldEnd(single_rhs);
 	}
 }
+

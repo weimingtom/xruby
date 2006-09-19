@@ -7,8 +7,6 @@ package com.xruby.codedom;
 public class ReturnArguments extends MethodCallArguments {
 
 	public void accept(CodeVisitor visitor) {
-		expandAsteriskArgument();
-		
 		if (arguments_.size() > 1) {
 			ArrayExpression a = new ArrayExpression(arguments_);
 			a.accept(visitor);

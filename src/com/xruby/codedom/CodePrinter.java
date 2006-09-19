@@ -276,8 +276,10 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("yield\n");
 	}
 	
-	public void visitYieldEnd() {
-		result_.append("end yield\n");
+	public void visitYieldEnd(boolean single_rhs) {
+		result_.append("end yield:");
+		result_.append(single_rhs);
+		result_.append("\n");
 	}
 
 	public void visitGlobalVariableExpression(String value) {
@@ -389,6 +391,10 @@ public class CodePrinter implements CodeVisitor {
 
 	public void visitMultipleAssignmentEnd() {
 		result_.append("end MultipleAssignment\n");
+	}
+
+	public void visitAsteriskParameter() {
+		result_.append("AsteriskParameter\n");
 	}
 
 

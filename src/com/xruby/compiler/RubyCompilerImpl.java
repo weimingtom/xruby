@@ -415,7 +415,11 @@ class RubyCompilerImpl implements CodeVisitor {
 		visitSelfExpression();
 	}
 
-	public void visitYieldEnd( ) { 
+	public void visitYieldEnd(boolean single_rhs) { 
+		/*if (single_rhs) {
+			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+						Method.getMethod("com.xruby.core.lang.RubyValue[] expandArrayIfThereIsOnlyOneArrayValue(com.xruby.core.lang.RubyValue[])"));
+		}*/
 		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyBlock.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue invoke(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue[])"));
 	}
@@ -502,13 +506,13 @@ class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 
-	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_mhs) {
+	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs) {
 		if (single_lhs) {
 			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
 					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.builtin.ArrayValue)"));
 			return 0;
 		} else {
-			if (single_mhs) {
+			if (single_rhs) {
 				cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
 						Method.getMethod("com.xruby.core.builtin.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.core.builtin.ArrayValue)"));
 			}
@@ -520,5 +524,10 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitMultipleAssignmentEnd() {
 		//do nothing
+	}
+
+	public void visitAsteriskParameter() {
+		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(ArrayValue.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue[] toArray2()"));
 	}
 }
