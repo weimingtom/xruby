@@ -28,7 +28,20 @@ public class ArrayValue {
 	}
 
 	public RubyValue[] toArray() {
-		return values_.toArray(new RubyValue[values_.size()]);
+		if (values_.isEmpty()) {
+			return null;
+		} else {
+			return values_.toArray(new RubyValue[values_.size()]);
+		}
+	}
+	
+	public RubyValue[] toArray2() {
+		//def f; ar = [1, 2,3,4]; yield ar; end; f {|a,b,*c| print c}
+		if (values_.size() == 1 && values_.get(0).getValue() instanceof ArrayValue) {
+			return ((ArrayValue)values_.get(0).getValue()).toArray();
+		} else {
+			return toArray();
+		}
 	}
 
 	public RubyValue set(int index, RubyValue value) throws RubyException {

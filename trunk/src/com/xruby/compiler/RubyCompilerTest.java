@@ -336,9 +336,6 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_asterisk_parameter() {
 		String[] program_texts = {
-				"def f; yield []; end; f {|a,b,*c| print a, b, c}",
-				"def f; yield; end; f {|*a| print a}",
-				
 				"def my_print(*a)\n" +
 				"	print a\n" +
 				"end\n" +
@@ -353,21 +350,12 @@ public class RubyCompilerTest extends TestCase {
 				"	print a, a\n" +
 				"end\n" +
 				"my_print ':)', 5634 , 888",
-				
-				"def f; yield; end; f {|a,b,*c| print a, b, c}",
-				"def f; yield nil; end; f {|a,b,*c| print a, b, c}",
-				//"def f; ar = [1, 2,3,4]; yield ar; end; f {|a,b,*c| print c}",
 		};
 
 		String[] outputs = {
-				"nilnil",
-				"",
 				":)5634888",
 				"5634888:)",
 				":)5634888:)5634888",
-				"nilnil",
-				"nilnil",
-				//"34",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -899,14 +887,58 @@ public class RubyCompilerTest extends TestCase {
 			assertTrue(file2.delete());
 		}
 	}
+	
+	public void test_yield() {
+		String[] program_texts = {
+				"def f; yield *[[]]; end; f {|a| print a.class, a.length}",//a == []
+				"def f; yield [[]]; end; f {|a| print a.class, a.length}",
+				"def f; yield [[]]; end; f {|a,b,*c| print a,'!',b,'!',c}",
+				"def f; yield *[[]]; end; f {|a,b,*c| print a,'|',b,'|',c}",//a == []
+				
+				//"def f; yield []; end; f {|a,b,*c| print a, b, c, 3}",
+				"def f; yield; end; f {|*a| print a}",
+				"def f; yield; end; f {|a,b,*c| print a, b, c, 1}",
+				"def f; yield nil; end; f {|a,b,*c| print a, b, c, 2}",
+				"def f; ar = [1, 2,3,4]; yield ar; end; f {|a,b,*c| print c}",
+				
+				"def f; yield 1, 2; end; f {|a| print a, a.class}",
+				"def f; yield []; end; f {|a| print a, a.class}",
+				"def f; yield 1, 2; end; f {|a, b| print a, b}",
+				"def f; yield *[3, 4]; end; f {|a, b| print a, b}",
+				"def f; yield [1]; end; f {|a| print a, a.class}",
+				
+				"def f; yield [nil]; end; f {|a| print a, a.class, '|', a.length}",
+				"def f; yield nil; end; f {|a| print a}",
+				"def f; yield *nil; end; f {|a| print a, a.class}",
+		};
+
+		String[] outputs = {
+				"Array0",
+				"Array1",
+				"!nil!",
+				"|nil|",
+
+				//"nilnil3",
+				"",
+				"nilnil1",
+				"nilnil2",
+				"34",
+				
+				"12Array",
+				"Array",
+				"12",
+				"34",
+				"1Array",
+				
+				"Array|1",
+				"nil",
+				"nilNilClass",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 
 	public void test_block() {
-
-		Integer a = new Integer(1);
-		final Integer b = a;
-		a = new Integer(100);
-		System.out.println(b.intValue());
-
 		String[] program_texts = {
 				"def a\n" +
 				"	yield(\"haha\")\n" +

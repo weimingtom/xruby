@@ -5,7 +5,7 @@
 package com.xruby.codedom;
 
 public class YieldExpressionTest extends TestingAstTestCase {
-	public void test_1() {
+	public void test_nil() {
 		Program p = getProgram("yield nil");
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
@@ -20,7 +20,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 	
-	public void test_2() {
+	public void test_asterisk_nil() {
 		Program p = getProgram("yield *nil");
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);

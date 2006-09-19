@@ -15,6 +15,7 @@ public interface CodeVisitor {
 	public void visitLocalVariableAssignmentOperator(String var);
 	public void visitLocalVariableMultipleAssignmentOperator(String var);
 
+	public void visitAsteriskParameter();
 	public void visitParameters(int size);
 	public void visitParameterBegin(int index);
 	public void visitParameterEnd();
@@ -65,7 +66,7 @@ public interface CodeVisitor {
 	public void visitArrayElementEnd(boolean asterisk);
 	
 	public void visitYield();
-	public void visitYieldEnd();
+	public void visitYieldEnd(boolean single_rhs);
 
 	public void visitSymbolExpression(String value);
 	public void visitGlobalVariableExpression(String value);
