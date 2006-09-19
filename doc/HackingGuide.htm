@@ -1,13 +1,14 @@
 <html>
 <head>
 <title>XRuby Hacking Guide</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
 
 <h2>XRuby Hacking Guide</h2>
 <i>Xue Yong Zhi (zhixueyong @ hotmail . com)</i>
 
-<p>NOTE: this article is still under development. Last significant update: Sep 15, 2006.</p>
+<p>NOTE: this article is still under development. Last significant update: Sep 19, 2006.</p>
 
 
 
@@ -16,7 +17,8 @@
 <p><a href="#howto">How to Compile Ruby?</a></p>
 <p><a href="#example">Example</a></p>
 <p><a href="#builtin">Builtin Libraries</a></p>
-<p><a href="#parser">About XRuby's Parser</a></p>
+<p><a href="#parser">XRuby's Parser</a></p>
+<p><a href="#trouble_shooting">Trouble Shooting</p>
 
 
 <h3><a name="intro">Introduction</h3>
@@ -204,8 +206,31 @@ c.defineMethod("+", new Fixnum_operator_plus());
 
 <h3><a name="parser">XRuby's Parser</h3>
 <p>
-XRuby's parser used an <a href="http://www.antlr.org">Antlr</a> based grammar. This is so far the only alternative ruby grammar other than the
+XRuby's parser used <a href="http://www.antlr.org">Antlr</a> as the parser generator. This is so far the only alternative ruby grammar other than the
 one in the c ruby.
+</p>
+
+<p>
+For lots of programming languages, lexing and parsing are two seperated steps: first lexer groups input characters into tokens, then parser groups 
+tokens into syntactical units. But in Ruby (and Perl), lexer and parser are more tightly coupled: sometimes the lexer need context information from 
+the passer ( e.g.  expression substitutions in a double quote string)! 
+</p>
+
+<h3><a name="trouble_shooting">Trouble Shooting</h3>
+<p>
+As XRuby developers, our changes may break the compiler and make bad bytecodes get generated. When this happens, there are tree tools we
+can rely on: javap, ASM, and your favorite Java decompiler (I recommend <a href="http://www.kpdus.com/jad.html">jad</a>).
+</p>
+
+<p>
+If the generated  class file is well formed but does not work as expected, we can simply use decompiler to translate bytecodes to very
+readable Java source code, then spot errors. 
+</p>
+
+<p>
+If what you get is a verifier error, then most decompilers do not work (jad may simply crash in this situation). We have to go back to javap
+and read at bytecode level. Most of the time the message given by the JVM class verifier is not helpful, but we can use ASM to get to the
+error location quicker (see ASM FAQ: <a href=" http://asm.objectweb.org/doc/faq.html#Q4">Why do I get the [xxx] verifier error?</a>). 
 </p>
 
 </body>
