@@ -13,6 +13,11 @@ public class Program implements Visitable {
 	}
 
 	public void accept(CodeVisitor visitor) {
+		if (null == compoundStatement_) {
+			visitor.visitEof(false);
+			return;
+		}
+
 		compoundStatement_.accept(visitor);
 		visitor.visitEof(compoundStatement_.last_statement_has_return_value());
 	}

@@ -16,9 +16,13 @@ options {
 }
 
 {
-	public Program parse(AST t) throws RecognitionException
-	{
-		return program(t);
+	public Program parse(AST t) throws RecognitionException {
+		Program p = program(t);
+		if (null == p) {
+			return new Program(null);
+		} else {
+			return p;
+		}
 	}
 
 }
