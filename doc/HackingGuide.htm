@@ -8,7 +8,7 @@
 <h2>XRuby Hacking Guide</h2>
 <i>Xue Yong Zhi (zhixueyong @ hotmail . com)</i>
 
-<p>NOTE: this article is still under development. Last significant update: Sep 19, 2006.</p>
+<p>NOTE: this article is still under development. Last significant update: Sep 20, 2006.</p>
 
 
 
@@ -122,11 +122,12 @@ public class main
     }
 }
 
+
 //say_hello_three_times$0.class
 class say_hello_three_times$0 extends RubyMethod
 {
 
-    protected RubyValue run(RubyValue rubyvalue, RubyValue arubyvalue[], RubyBlock rubyblock)
+    protected RubyValue run(RubyValue rubyvalue, ArrayValue arrayvalue, RubyBlock rubyblock)
         throws RubyException
     {
         return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(3), null, new BLOCK._cls1(), "times");
@@ -138,16 +139,17 @@ class say_hello_three_times$0 extends RubyMethod
     }
 }
 
+
 //test/BLOCK$1.class
 class BLOCK$1 extends RubyBlock
 {
 
-    protected RubyValue run(RubyValue rubyvalue, RubyValue arubyvalue[])
+    protected RubyValue run(RubyValue rubyvalue, ArrayValue arrayvalue)
         throws RubyException
     {
-        return RubyRuntime.callMethod(rubyvalue, new RubyValue[] {
-            ObjectFactory.createString("hello")
-        }, null, "puts");
+        ArrayValue arrayvalue1 = new ArrayValue(1);
+        arrayvalue1.add(ObjectFactory.createString("hello"));
+        return RubyRuntime.callMethod(rubyvalue, arrayvalue1, null, "puts");
     }
 
     public BLOCK$1()
@@ -155,6 +157,7 @@ class BLOCK$1 extends RubyBlock
         super(0, false);
     }
 }
+
 
 </pre>
 
@@ -190,9 +193,9 @@ class Fixnum_operator_plus extends RubyMethod {
 		super(1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args[0].getValue();
+		Integer value2 = (Integer)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
 	}
 }
