@@ -12,19 +12,18 @@ public class BlockTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"self\n" +
-			"parameters:0\n" +
 			"block:3:false\n" +
 			"parameter:a\n" +
 			"parameter:b\n" +
 			"parameter:c\n" +
 			"self\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:a\n" +
-			")\n" +
-			"puts:false:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"a\n" +
+			"]\n" +
+			"puts:false\n" +
 			"end block:true\n" +
-			"f:false:true\n" +
+			"f:false\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -35,16 +34,15 @@ public class BlockTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"3\n" +
-			"parameters:0\n" +
 			"block:0:false\n" +
 			"self\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:Ho!\n" +
-			")\n" +
-			"print:false:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"Ho!\n" +
+			"]\n" +
+			"print:false\n" +
 			"end block:true\n" +
-			"times:true:true\n" +
+			"times:true\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -55,19 +53,18 @@ public class BlockTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"self\n" +
-			"parameters:0\n" +
 			"block:2:true\n" +
 			"parameter:a\n" +
 			"parameter:b\n" +
 			"*parameter:c\n" +
 			"self\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:c\n" +
-			")\n" +
-			"puts:false:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"c\n" +
+			"]\n" +
+			"puts:false\n" +
 			"end block:true\n" +
-			"f:false:true\n" +
+			"f:false\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}

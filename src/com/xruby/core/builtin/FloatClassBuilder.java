@@ -5,13 +5,14 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class Float_to_s extends RubyMethod {
 	public Float_to_s(int argc) {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		Float value = (Float)receiver.getValue();
 		return ObjectFactory.createString(value.toString());
 	}

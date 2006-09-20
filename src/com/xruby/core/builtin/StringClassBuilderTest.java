@@ -6,6 +6,7 @@ package com.xruby.core.builtin;
 
 import junit.framework.TestCase;
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 public class StringClassBuilderTest extends TestCase {
 	

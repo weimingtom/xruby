@@ -5,13 +5,14 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class String_operator_mod extends RubyMethod {
 	public String_operator_mod(int argc) {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -21,7 +22,7 @@ class String_operator_array_access extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -31,7 +32,7 @@ class String_sub_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -41,7 +42,7 @@ class String_slice extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -51,7 +52,7 @@ class String_reverse_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -61,7 +62,7 @@ class String_include_question extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -71,7 +72,7 @@ class String_succ extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -81,7 +82,7 @@ class String_upto extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -91,7 +92,7 @@ class String_oct extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -101,7 +102,7 @@ class String_operator_array_assign extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -111,7 +112,7 @@ class String_capitalize extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringBuilder value = (StringBuilder)receiver.getValue();
 		StringBuilder new_value = new StringBuilder(value.toString().toLowerCase());
 		char first = new_value.charAt(0);
@@ -125,13 +126,13 @@ class String_operator_equal extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
-		if (args[0].getRubyClass() != RubyRuntime.StringClass) {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (args.get(0).getRubyClass() != RubyRuntime.StringClass) {
 			return ObjectFactory.falseValue;
 		}
 
 		StringBuilder a = (StringBuilder)receiver.getValue();
-		StringBuilder b = (StringBuilder)args[0].getValue();
+		StringBuilder b = (StringBuilder)args.get(0).getValue();
 		if (a.toString().equals(b.toString())) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -145,7 +146,7 @@ class String_delete_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -155,7 +156,7 @@ class String_delete extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -165,7 +166,7 @@ class String_tr_s extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -176,7 +177,7 @@ class String_upcase_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringBuilder value = (StringBuilder)receiver.getValue();
 		StringBuilder new_value = new StringBuilder(value.toString().toUpperCase());
 		if (new_value.toString().equals(value.toString())) {
@@ -194,7 +195,7 @@ class String_crypt extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -204,7 +205,7 @@ class String_casecmp extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -214,7 +215,7 @@ class String_match extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -225,7 +226,7 @@ class String_capitalize_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringBuilder value = (StringBuilder)receiver.getValue();
 		StringBuilder new_value = new StringBuilder(value.toString().toLowerCase());
 		char first = new_value.charAt(0);
@@ -244,7 +245,7 @@ class String_each_byte extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -254,7 +255,7 @@ class String_tr_s_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -264,7 +265,7 @@ class String_operator_star extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -274,7 +275,7 @@ class String_strip extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -284,7 +285,7 @@ class String_upcase extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringBuilder value = (StringBuilder)receiver.getValue();
 		return ObjectFactory.createString(value.toString().toUpperCase());
 	}
@@ -295,7 +296,7 @@ class String_downcase extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringBuilder value = (StringBuilder)receiver.getValue();
 		return ObjectFactory.createString(value.toString().toLowerCase());
 	}
@@ -306,7 +307,7 @@ class String_rindex extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -316,7 +317,7 @@ class String_center extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -326,7 +327,7 @@ class String_operator_plus extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -336,7 +337,7 @@ class String_sum extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -346,7 +347,7 @@ class String_count extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -356,7 +357,7 @@ class String_rstrip_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -366,7 +367,7 @@ class String_operator_compare extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -376,7 +377,7 @@ class String_empty_question extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -386,7 +387,7 @@ class String_length extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -396,7 +397,7 @@ class String_chomp extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -406,7 +407,7 @@ class String_size extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -416,7 +417,7 @@ class String_gsub extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -426,7 +427,7 @@ class String_chomp_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -436,7 +437,7 @@ class String_each_line extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -446,7 +447,7 @@ class String_squeeze_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -456,7 +457,7 @@ class String_rstrip extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -466,7 +467,7 @@ class String_chop extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -477,7 +478,7 @@ class String_chop_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -487,7 +488,7 @@ class String_ljust extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -497,7 +498,7 @@ class String_slice_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -507,7 +508,7 @@ class String_lstrip_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -517,7 +518,7 @@ class String_strip_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -527,7 +528,7 @@ class String_dump extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -538,7 +539,7 @@ class String_downcase_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringBuilder value = (StringBuilder)receiver.getValue();
 		StringBuilder new_value = new StringBuilder(value.toString().toLowerCase());
 		if (new_value.toString().equals(value.toString())) {
@@ -555,7 +556,7 @@ class String_eql_question extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -565,7 +566,7 @@ class String_rjust extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -575,7 +576,7 @@ class String_inspect extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -585,7 +586,7 @@ class String_swapcase_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -595,7 +596,7 @@ class String_operator_left_shift extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -605,7 +606,7 @@ class String_succ_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -615,7 +616,7 @@ class String_replace extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -625,7 +626,7 @@ class String_operator_match extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -635,7 +636,7 @@ class String_each extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -645,7 +646,7 @@ class String_next extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -655,7 +656,7 @@ class String_to_sym extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -665,7 +666,7 @@ class String_scan extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -675,7 +676,7 @@ class String_gsub_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -685,7 +686,7 @@ class String_lstrip extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -695,7 +696,7 @@ class String_next_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -705,7 +706,7 @@ class String_index extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -715,7 +716,7 @@ class String_hex extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -725,7 +726,7 @@ class String_insert extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -735,7 +736,7 @@ class String_sub extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -745,7 +746,7 @@ class String_split extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -755,7 +756,7 @@ class String_hash extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -765,7 +766,7 @@ class String_swapcase extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -775,7 +776,7 @@ class String_intern extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -785,7 +786,7 @@ class String_tr_danger extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -795,7 +796,7 @@ class String_tr extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -805,7 +806,7 @@ class String_concat extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -815,7 +816,7 @@ class String_reverse extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -825,7 +826,7 @@ class String_squeeze extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -836,7 +837,7 @@ class String_to_s extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		return receiver;
 	}
 }
@@ -846,7 +847,7 @@ class String_to_f extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringBuilder value = (StringBuilder)receiver.getValue();
 		return ObjectFactory.createFloat(Float.valueOf(value.toString()));
 	}
@@ -857,7 +858,7 @@ class String_to_i extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringBuilder value = (StringBuilder)receiver.getValue();
 		return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
 	}
@@ -868,9 +869,9 @@ class String_initialize extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
-		if (args[0] != null) {
-			receiver.setValue(args[0].getValue());
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (args.get(0) != null) {
+			receiver.setValue(args.get(0).getValue());
 		}
 
 		return receiver;
@@ -882,8 +883,8 @@ class String_initialize_copy extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
-		receiver.setValue(args[0].getValue());
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		receiver.setValue(args.get(0).getValue());
 		return receiver;
 	}
 }

@@ -5,10 +5,11 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class Module_AccessControl {
 
-	static RubyValue run(int access, RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	static RubyValue run(int access, RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		RubyClass c = (RubyClass)receiver.getValue();
 
 		if (null == args) {
@@ -41,7 +42,7 @@ class Module_public extends RubyMethod {
 		setAccess(PRIVATE);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		return Module_AccessControl.run(PUBLIC, receiver, args, block);
 	}
 }
@@ -52,7 +53,7 @@ class Module_protected extends RubyMethod {
 		setAccess(PRIVATE);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		return Module_AccessControl.run(PROTECTED, receiver, args, block);
 	}
 }
@@ -63,7 +64,7 @@ class Module_private extends RubyMethod {
 		setAccess(PRIVATE);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		return Module_AccessControl.run(PRIVATE, receiver, args, block);
 	}
 }

@@ -8,7 +8,7 @@ import java.util.*;
 
 public class ExceptionList {
 
-	private ArrayList<VariableExpression> arguments_ = new ArrayList<VariableExpression>();
+	private ArrayList<Expression> arguments_ = new ArrayList<Expression>();
 	private VariableExpression var_ = null;
 	
 	public void addArgument(VariableExpression v) {
@@ -20,13 +20,12 @@ public class ExceptionList {
 	}
 	
 	public Object accept(CodeVisitor visitor, Object excepton_var) {
-		visitor.visitParameters(arguments_.size());
-		
-		int i = 0;
-		for (VariableExpression v : arguments_) {
-			visitor.visitParameterBegin(i);
-			v.accept(visitor);
-			visitor.visitParameterEnd();
+
+		if (arguments_.isEmpty()) {
+			visitor.visitNoParameter();
+		} else {
+			ArrayExpression a = new ArrayExpression(arguments_);
+			a.accept(visitor, false);
 		}
 
 		if (null != var_) {

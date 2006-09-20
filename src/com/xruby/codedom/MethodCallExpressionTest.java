@@ -12,13 +12,12 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"self\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:2\n" +
-			"parameters:0\n" +
-			"class:true:false\n" +
-			")\n" +
-			"puts:false:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"2\n" +
+			"class:true\n" +
+			"]\n" +
+			"puts:false\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -29,13 +28,12 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"self\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:1\n" +
-			"parameters:0\n" +
-			"class:true:false\n" +
-			")\n" +
-			"puts:false:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"1\n" +
+			"class:true\n" +
+			"]\n" +
+			"puts:false\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -46,8 +44,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"self\n" +
-			"parameters:0\n" +
-			"puts:false:false\n" +
+			"puts:false\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -58,14 +55,14 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"self\n" +
-			"parameters:2\n" +
-			"(\n" +
-			"0:1\n" +
-			")\n" +
-			"(\n" +
-			"1:2\n" +
-			")\n" +
-			"puts:false:false\n" +
+			"[:2\n" +
+			"[\n" +
+			"1\n" +
+			"]\n" +
+			"[\n" +
+			"2\n" +
+			"]\n" +
+			"puts:false\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -76,13 +73,12 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"self\n" +
-			"parameters:0\n" +
-			"a:false:false\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:1\n" +
-			")\n" +
-			"[]:true:false\n" +
+			"a:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"1\n" +
+			"]\n" +
+			"[]:true\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -96,11 +92,11 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"a =\n" +
 			";\n" +
 			"a\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:1\n" +
-			")\n" +
-			"[]:true:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"1\n" +
+			"]\n" +
+			"[]:true\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -111,14 +107,13 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"self\n" +
-			"parameters:0\n" +
-			"a:false:false\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:1\n" +
+			"a:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"1\n" +
 			"-@\n" +
-			")\n" +
-			"[]:true:false\n" +
+			"]\n" +
+			"[]:true\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -130,11 +125,11 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result =
 			"self\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:`java -x`\n" +
-			")\n" +
-			"puts:false:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"`java -x`\n" +
+			"]\n" +
+			"puts:false\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -145,8 +140,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result =
 			"1\n" +
-			"parameters:0\n" +
-			"-@:true:false\n" +
+			"-@:true\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}

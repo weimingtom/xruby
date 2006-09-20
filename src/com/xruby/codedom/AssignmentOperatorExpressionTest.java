@@ -26,14 +26,14 @@ public class AssignmentOperatorExpressionTest extends TestingAstTestCase {
 			"a =\n" +
 			";\n" +
 			"a\n" +
-			"parameters:2\n" +
-			"(\n" +
-			"0:0\n" +
-			")\n" +
-			"(\n" +
-			"1:1\n" +
-			")\n" +
-			"[]=:true:false\n" +
+			"[:2\n" +
+			"[\n" +
+			"0\n" +
+			"]\n" +
+			"[\n" +
+			"1\n" +
+			"]\n" +
+			"[]=:true\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}

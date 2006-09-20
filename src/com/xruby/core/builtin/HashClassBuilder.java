@@ -5,13 +5,14 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class Hash_length extends RubyMethod {
 	public Hash_length(int argc) {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		HashValue value = (HashValue)receiver.getValue();
 		return ObjectFactory.createFixnum(value.size());
 	}
@@ -22,10 +23,10 @@ class Hash_hash_access extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		HashValue value = (HashValue)receiver.getValue();
-		if (1 == args.length) {
-			return value.get(args[0]);
+		if (1 == args.size()) {
+			return value.get(args.get(0));
 		}
 		
 		//TODO
@@ -38,10 +39,10 @@ class Hash_hash_set extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		HashValue value = (HashValue)receiver.getValue();
-		value.add(args[0], args[1]);
-		return args[1];
+		value.add(args.get(0), args.get(1));
+		return args.get(1);
 	}
 }
 

@@ -4,7 +4,7 @@
 
 package com.xruby.core.lang;
 
-import com.xruby.core.builtin.*;
+import com.xruby.core.value.*;
 
 class MethodBlockBase {
 	protected int argc_;
@@ -16,20 +16,13 @@ class MethodBlockBase {
 		has_asterisk_parameter_ = has_asterisk_parameter;
 	}
 
-	protected RubyValue initializeAsteriskParameter(RubyValue[] args) {
-		final int args_length = (null == args)? 0 : args.length;
-		int extra = args_length - argc_;
-		if (extra < 0) {
-			extra = 0;
+	protected RubyValue initializeAsteriskParameter(ArrayValue args) {
+		if (null == args) {
+			asterisk_parameter_ = ObjectFactory.createEmptyArray();
+		} else {
+			asterisk_parameter_ = args.collect(argc_);
 		}
 		
-		ArrayValue a = new ArrayValue(extra);
-		
-		for (int i = args_length - extra; i < args_length; ++i) {
-			a.add(args[i]);
-		}
-		
-		asterisk_parameter_ = new RubyValue(RubyRuntime.ArrayClass, a);
 		return asterisk_parameter_;
 	}
 }
@@ -39,58 +32,17 @@ public abstract class RubyBlock extends MethodBlockBase {
 		super(argc, has_asterisk_parameter);
 	}
 
-	private static RubyValue javaArrayToRubyArray(RubyValue[] args) {
-		if (null == args) {
-			return ObjectFactory.createEmptyArray();
-		} else if (args.length == 1) {
-			return args[0];
+	public RubyValue invoke(RubyValue receiver, ArrayValue args) {
+		boolean single_lhs = (1 == argc_) && (!has_asterisk_parameter_);
+		boolean single_rhs = (null != args) && (1 == args.size()) && (!args.expanded()) && (argc_ > 0);
+		if (single_lhs) {
+			return run(receiver, new ArrayValue(ArrayValue.expandArrayIfThereIsZeroOrOneValue(args)));
+		} else if (single_rhs) {
+			return run(receiver, ArrayValue.expandArrayIfThereIsOnlyOneArrayValue(args));
 		} else {
-			ArrayValue v = new ArrayValue(args.length);
-			for (RubyValue arg : args) {
-				v.add(arg);
-			}
-			return ObjectFactory.createArray(v);
-		}
-	}
-
-	public RubyValue invoke(RubyValue receiver, RubyValue[] args) {
-		/*if ((argc_ > 1) &&
-				(null != args && args.length == 1) &&
-				(args[0].getValue() instanceof ArrayValue)) {
-			//"def f; yield []; end; f {|a,b,*c| print a, b, c, 3}",
-			//TODO maybe we should test if args[0] supports 'to_ary' method
-			ArrayValue v = (ArrayValue)args[0].getValue();
-			args = v.toArray();
-		}*/
-
-		if (argc_ == 1 &&
-				!has_asterisk_parameter_ &&
-				null != args &&
-				args.length > 0) {
-			//"def f; yield 1, 2; end; f {|a| print a, a.class}",
-			RubyValue[] new_args = new RubyValue[1];
-			new_args[0] = javaArrayToRubyArray(args);
-			return run(receiver, new_args);
-		} else {
-			RubyValue[] new_args = args;
-			if (null == args) {
-				if (argc_ > 0) {
-					new_args = new RubyValue[argc_];
-					for (int i = 0; i < argc_ ; ++i) {
-						new_args[i] = ObjectFactory.nilValue;
-					}
-				}
-			} else if (args.length < argc_) {
-				new_args = new RubyValue[argc_];
-				System.arraycopy(args, 0, new_args, 0, args.length);
-				for (int i = args.length; i < argc_ ; ++i) {
-					new_args[i] = ObjectFactory.nilValue;
-				}
-			}
-			
-			return run(receiver, new_args);
+			return run(receiver, null != args ? args : new ArrayValue(0));
 		}
 	}
 	
-	protected abstract RubyValue run(RubyValue receiver, RubyValue[] args);
+	protected abstract RubyValue run(RubyValue receiver, ArrayValue args);
 }

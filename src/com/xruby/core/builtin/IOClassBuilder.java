@@ -5,18 +5,19 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class IO_write extends RubyMethod {
 	public IO_write(int argc) {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringBuilder value;
-		if (RubyRuntime.StringClass == args[0].getRubyClass()) {
-			value = (StringBuilder)args[0].getValue();
+		if (RubyRuntime.StringClass == args.get(0).getRubyClass()) {
+			value = (StringBuilder)args.get(0).getValue();
 		} else {
-			RubyValue str = RubyRuntime.callPublicMethod(args[0], null, "to_s");
+			RubyValue str = RubyRuntime.callPublicMethod(args.get(0), null, "to_s");
 			value = (StringBuilder) str.getValue();
 		}
 		

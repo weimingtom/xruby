@@ -5,7 +5,7 @@
 package com.xruby.core.lang;
 
 import java.util.concurrent.*;
-import com.xruby.core.builtin.*;;
+import com.xruby.core.value.*;
 
 /*
 $* $ARGV
