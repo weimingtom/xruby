@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class MethodCallArguments implements Visitable {
 
 	protected final ArrayList<Expression> arguments_ = new ArrayList<Expression>();
-	private Expression asterisk_arguments_ = null;
+	protected Expression asterisk_arguments_ = null;
 	
 	public MethodCallArguments() {
 	}
