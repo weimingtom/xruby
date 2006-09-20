@@ -12,7 +12,7 @@ public interface CodeVisitor {
 	public void visitGlobalVariableAssignmentOperator(String var);
 	public void visitInstanceVariableAssignmentOperator(String var);
 	public void visitClassVariableAssignmentOperator(String var);
-	public void visitLocalVariableAssignmentOperator(String var);
+	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call);
 	public void visitLocalVariableMultipleAssignmentOperator(String var);
 
 	public void visitNoParameter();
@@ -58,7 +58,7 @@ public interface CodeVisitor {
 	public Object visitAfterRescueBody(Object next_label, Object end_label, boolean is_last);
 	public void visitRescueEnd(Object exception_var);
 
-	public void visitArrayBegin(int size);
+	public void visitArrayBegin(int size, boolean notSingleAsterisk);
 	public void visitArrayEnd();
 	public void visitArrayElementBegin();
 	public void visitArrayElementEnd(boolean asterisk);

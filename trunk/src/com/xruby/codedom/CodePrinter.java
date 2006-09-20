@@ -36,9 +36,13 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(" =\n");
 	}
 
-	public void visitLocalVariableAssignmentOperator(String var) {
+	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
 		result_.append(var);
-		result_.append(" =\n");
+		if (rhs_is_method_call) {
+			result_.append(" *=\n");
+		} else {
+			result_.append(" =\n");
+		}
 	}
 	
 	public void visitLocalVariableMultipleAssignmentOperator(String var) {
@@ -218,7 +222,10 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public void visitArrayBegin(int size) {
+	public void visitArrayBegin(int size,boolean notSingleAsterisk) {
+		if (!notSingleAsterisk) {
+			result_.append("*");
+		}
 		result_.append("[:");
 		result_.append(size);
 		result_.append("\n");

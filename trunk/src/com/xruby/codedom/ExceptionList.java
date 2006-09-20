@@ -24,7 +24,7 @@ public class ExceptionList {
 		if (arguments_.isEmpty()) {
 			visitor.visitNoParameter();
 		} else {
-			ArrayExpression a = new ArrayExpression(arguments_);
+			ArrayExpression a = new ArrayExpression(arguments_, null);
 			a.accept(visitor, false);
 		}
 

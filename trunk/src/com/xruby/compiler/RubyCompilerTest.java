@@ -1492,4 +1492,24 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_return() {
+		String[] program_texts = {
+				"def r; return 1;  end; a = r(); print 1",
+				"def r; return *1; end; a = r(); print a, a.class",
+				"def r; return []; end; a = r(); print a, a.class",
+				"def r; return [*[]]; end; a = r(); print a, a.class, '*'",
+				"def r; return *[[]]; end; a = *r(); print a",
+		};
+
+		String[] outputs = {
+				"1",
+				"1Fixnum",
+				"Array",
+				"Array*",
+				"nil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

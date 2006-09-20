@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 public class ArrayValueTest extends TestCase {
 	public void test() throws RubyException {
-		ArrayValue a = new ArrayValue(0);
+		ArrayValue a = new ArrayValue(0, true);
 		assertEquals(0, a.size());
 		assertEquals(ObjectFactory.nilValue, a.get(-1));
 		assertEquals(ObjectFactory.nilValue, a.get(0));
@@ -44,7 +44,7 @@ public class ArrayValueTest extends TestCase {
 	}
 	
 	public void test_collect() {
-		ArrayValue a = new ArrayValue(1);
+		ArrayValue a = new ArrayValue(1, true);
 		a.add(ObjectFactory.nilValue);
 		
 		RubyValue v = a.collect(0);
@@ -54,7 +54,7 @@ public class ArrayValueTest extends TestCase {
 	}
 	
 	public void test_collect_empty() {
-		ArrayValue a = new ArrayValue(0);
+		ArrayValue a = new ArrayValue(0, true);
 		
 		RubyValue v = a.collect(0);
 		ArrayValue r = (ArrayValue)v.getValue();
@@ -62,10 +62,10 @@ public class ArrayValueTest extends TestCase {
 	}
 	
 	public void test_expand() {
-		ArrayValue a = new ArrayValue(1);
+		ArrayValue a = new ArrayValue(1, true);
 		a.add(ObjectFactory.createFixnum(1));
 		
-		ArrayValue b = new ArrayValue(2);
+		ArrayValue b = new ArrayValue(2, true);
 		b.add(ObjectFactory.createFixnum(2));
 		b.add(ObjectFactory.createFixnum(3));
 		
