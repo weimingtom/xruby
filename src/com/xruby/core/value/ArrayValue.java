@@ -14,14 +14,15 @@ import com.xruby.core.lang.*;
  */
 public class ArrayValue implements Iterable<RubyValue> {
 	private ArrayList<RubyValue> values_;
-	private boolean expanded_ = false; //e.g. yield *[[]]
+	private boolean notSingleAsterisk_ = true; //e.g. yield *[[]]
 
-	public boolean expanded() {
-		return expanded_;
+	public boolean notSingleAsterisk() {
+		return notSingleAsterisk_;
 	}
 	
-	public ArrayValue(int size) {
+	public ArrayValue(int size, boolean notSingleAsterisk) {
 		values_ = new ArrayList<RubyValue>(size);
+		notSingleAsterisk_ = notSingleAsterisk;
 	}
 	
 	public ArrayValue(RubyValue v) {
@@ -116,8 +117,6 @@ public class ArrayValue implements Iterable<RubyValue> {
 	}
 
 	public void expand(RubyValue v) {
-		expanded_ = true;
-
 		Object o = v.getValue();
 		if (o instanceof ArrayValue) {
 			//[5,6,*[1, 2]]
@@ -134,6 +133,17 @@ public class ArrayValue implements Iterable<RubyValue> {
 		} else {
 			return ObjectFactory.createArray(a);
 		}
+	}
+
+	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyValue v) {
+		if (v.getValue() instanceof ArrayValue) {
+			ArrayValue a = (ArrayValue)v.getValue();
+			if (!a.notSingleAsterisk()) {
+				return expandArrayIfThereIsZeroOrOneValue(a);
+			}
+		}
+
+		return v;
 	}
 	
 	public static ArrayValue expandArrayIfThereIsOnlyOneArrayValue(ArrayValue a) {
@@ -154,7 +164,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 			return ObjectFactory.createEmptyArray();
 		}
 
-		ArrayValue v = new ArrayValue(size);
+		ArrayValue v = new ArrayValue(size, true);
 		for (int i = index; i < values_.size(); ++i) {
 			v.add(values_.get(i));
 		}

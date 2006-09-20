@@ -290,7 +290,7 @@ class Kernel_to_a extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		ArrayValue v = new ArrayValue(1);
+		ArrayValue v = new ArrayValue(1, true);
 		v.add(receiver);
 		return ObjectFactory.createArray(v);
 	}

@@ -8,24 +8,19 @@ import java.util.*;
 
 public class ArrayExpression extends Expression {
 	private ArrayList<Expression> elements_;
-	private Expression asterisk_element_ = null;
+	private Expression asterisk_element_;
+	private boolean notSingleAsterisk_;
 	
 	public ArrayExpression() {
 		elements_ = new ArrayList<Expression>();
+		asterisk_element_ = null;
+		notSingleAsterisk_ = true;
 	}
-	
-	public ArrayExpression(Expression e) {
-		elements_ = new ArrayList<Expression>();
-		elements_.add(e);
-	}
-	
-	public ArrayExpression(ArrayList<Expression> elements) {
-		elements_ = elements;
-	}
-	
-	public ArrayExpression(ArrayList<Expression> elements, Expression asterisk_element) {
+
+	ArrayExpression(ArrayList<Expression> elements, Expression asterisk_element) {
 		elements_ = elements;
 		asterisk_element_ = asterisk_element;
+		notSingleAsterisk_ = elements.size() > 0;
 	}
 	
 	public void addElement(Expression e) {
@@ -41,7 +36,7 @@ public class ArrayExpression extends Expression {
 	}
 	
 	void accept(CodeVisitor visitor, boolean create_ruby_value) {
-		visitor.visitArrayBegin(elements_.size());
+		visitor.visitArrayBegin(elements_.size(), notSingleAsterisk_);
 		
 		for (Expression e : elements_) {
 			visitor.visitArrayElementBegin();

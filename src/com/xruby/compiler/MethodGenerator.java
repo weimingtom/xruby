@@ -30,13 +30,14 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void <init> ()"));
 	}
 	
-	public void new_ArrayValue(int size) {
+	public void new_ArrayValue(int size, boolean notSingleAsterisk) {
 		Type arrayValue = Type.getType(ArrayValue.class);
 		newInstance(arrayValue);
 		dup();
 		push(size);
+		push(notSingleAsterisk);
 		invokeConstructor(arrayValue,
-				Method.getMethod("void <init> (int)"));
+				Method.getMethod("void <init> (int, boolean)"));
 	}
 	
 	public void new_HashValue() {

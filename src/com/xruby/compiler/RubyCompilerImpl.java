@@ -171,7 +171,11 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGeneratorForRunMethod().GlobalVatiables_set(var);
 	}
 
-	public void visitLocalVariableAssignmentOperator(String var) {
+	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
+		if (rhs_is_method_call) {
+			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.lang.RubyValue)"));
+		}
 		cg_.getMethodGeneratorForRunMethod().storeLocal(cg_.getLocalVariable(var));
 		cg_.getMethodGeneratorForRunMethod().loadLocal(cg_.getLocalVariable(var));//do not pop operand off empty stack
 	}
@@ -360,8 +364,8 @@ class RubyCompilerImpl implements CodeVisitor {
 		return visitAfterIfBody(next_label, end_label, is_last);
 	}
 	
-	public void visitArrayBegin(int size) {
-		cg_.getMethodGeneratorForRunMethod().new_ArrayValue(size);
+	public void visitArrayBegin(int size, boolean notSingleAsterisk) {
+		cg_.getMethodGeneratorForRunMethod().new_ArrayValue(size, notSingleAsterisk);
 	}
 	
 	public void visitHashBegin() {

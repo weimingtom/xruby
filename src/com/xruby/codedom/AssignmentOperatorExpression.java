@@ -9,14 +9,14 @@ import antlr.RecognitionException;
 public class AssignmentOperatorExpression extends Expression {
 
 	private String name_;
-	private Expression right_;
+	private Expression value_;
 
 	String getName() {
 		return name_;
 	}
 	
 	Expression getValue() {
-		return right_;
+		return value_;
 	}
 	
 	public static Expression create(Expression left, Expression right) throws RecognitionException {
@@ -45,12 +45,12 @@ public class AssignmentOperatorExpression extends Expression {
 			throw new RecognitionException("Only variable can be assigned");
 		}
 		
-		right_ = right;
+		value_ = right;
 	}
 
 	public void accept(CodeVisitor visitor) {
-		right_.accept(visitor);
-
+		value_.accept(visitor);
+		
 		switch (name_.charAt(0)) {
 			case '$':
 				visitor.visitGlobalVariableAssignmentOperator(name_);
@@ -63,7 +63,7 @@ public class AssignmentOperatorExpression extends Expression {
 				}
 				break;
 			default:
-				visitor.visitLocalVariableAssignmentOperator(name_);	
+				visitor.visitLocalVariableAssignmentOperator(name_, value_ instanceof MethodCallExpression);
 		}
 	}
 }

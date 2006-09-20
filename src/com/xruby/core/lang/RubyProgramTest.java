@@ -22,7 +22,7 @@ class TestingProgram implements RubyProgram {
 	public RubyValue run() throws RubyException {
 		
 		//puts nil, "abC", "5432"
-		ArrayValue args = new ArrayValue(3);
+		ArrayValue args = new ArrayValue(3, true);
 		args.add(ObjectFactory.nilValue);
 		args.add(ObjectFactory.createString("ABCD"));
 		args.add(ObjectFactory.createFixnum(5432));
