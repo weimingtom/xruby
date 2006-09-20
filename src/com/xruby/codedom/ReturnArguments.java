@@ -8,7 +8,7 @@ public class ReturnArguments extends MethodCallArguments {
 
 	public void accept(CodeVisitor visitor) {
 		if (arguments_.size() > 1) {
-			ArrayExpression a = new ArrayExpression(arguments_);
+			ArrayExpression a = new ArrayExpression(arguments_, asterisk_arguments_);
 			a.accept(visitor);
 		} else if (arguments_.size() == 1){
 			arguments_.get(0).accept(visitor);
