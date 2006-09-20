@@ -46,23 +46,21 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
 		String expected_result = 
-"def my_methods:0:false\n" +
-"self\n" +
-"parameters:1\n" +
-"(\n" +
-"0:123\n" +
-")\n" +
-"puts:false:false\n" +
-";\n" +
-"yield\n" +
-"parameters:0\n" +
-"end yield\n" +
-"end def:true\n" +
-";\n" +
-"self\n" +
-"parameters:0\n" +
-"my_methods:false:false\n" +
-"EOF";
+			"def my_methods:0:false\n" +
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"123\n" +
+			"]\n" +
+			"puts:false\n" +
+			";\n" +
+			"yield\n" +
+			"end yield:false\n" +
+			"end def:true\n" +
+			";\n" +
+			"self\n" +
+			"my_methods:false\n" +
+			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 	
@@ -71,18 +69,18 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
 		String expected_result = 
-"def my_methods:3:false\n" +
-"parameter:a\n" +
-"parameter:b\n" +
-"parameter:c\n" +
-"self\n" +
-"parameters:1\n" +
-"(\n" +
-"0:a\n" +
-")\n" +
-"puts:false:false\n" +
-"end def:true\n" +
-"EOF";
+			"def my_methods:3:false\n" +
+			"parameter:a\n" +
+			"parameter:b\n" +
+			"parameter:c\n" +
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"a\n" +
+			"]\n" +
+			"puts:false\n" +
+			"end def:true\n" +
+			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 	
@@ -109,18 +107,18 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
 		String expected_result = 
-"def my_methods:2:true\n" +
-"parameter:a\n" +
-"parameter:b\n" +
-"*parameter:c\n" +
-"self\n" +
-"parameters:1\n" +
-"(\n" +
-"0:c\n" +
-")\n" +
-"puts:false:false\n" +
-"end def:true\n" +
-"EOF";
+			"def my_methods:2:true\n" +
+			"parameter:a\n" +
+			"parameter:b\n" +
+			"*parameter:c\n" +
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"c\n" +
+			"]\n" +
+			"puts:false\n" +
+			"end def:true\n" +
+			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());		
 	}
 

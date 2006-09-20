@@ -5,13 +5,14 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class Array_length extends RubyMethod {
 	public Array_length() {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		ArrayValue value = (ArrayValue)receiver.getValue();
 		return ObjectFactory.createFixnum(value.size());
 	}
@@ -22,7 +23,7 @@ class Array_to_s extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		ArrayValue value = (ArrayValue)receiver.getValue();
 		return value.to_s();
 	}
@@ -33,7 +34,7 @@ class Array_to_a extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		return receiver;
 	}
 }
@@ -43,10 +44,10 @@ class Array_array_access extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		ArrayValue value = (ArrayValue)receiver.getValue();
-		if (1 == args.length) {
-			Integer i = (Integer)args[0].getValue();
+		if (1 == args.size()) {
+			Integer i = (Integer)args.get(0).getValue();
 			return value.get(i);
 		}
 		
@@ -60,11 +61,11 @@ class Array_array_set extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		//TODO index can be range, -1 etc
 		ArrayValue value = (ArrayValue)receiver.getValue();
-		Integer index = (Integer)args[0].getValue();
-		return value.set(index, args[1]);
+		Integer index = (Integer)args.get(0).getValue();
+		return value.set(index, args.get(1));
 	}
 }
 
@@ -73,9 +74,9 @@ class Array_array_equal extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		ArrayValue left = (ArrayValue)receiver.getValue();
-		Object right = args[0].getValue();
+		Object right = args.get(0).getValue();
 		if (!(right instanceof ArrayValue)) {
 			return ObjectFactory.falseValue;
 		}
@@ -88,9 +89,9 @@ class Array_concat extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		ArrayValue left = (ArrayValue)receiver.getValue();
-		left.concat(args[0]);
+		left.concat(args.get(0));
 		return receiver;
 	}
 }

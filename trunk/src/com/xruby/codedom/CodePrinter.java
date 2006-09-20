@@ -46,29 +46,17 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(" //=\n");
 	}
 
-	public void visitMethodCall(String methodName, boolean hasReceiver, boolean hasBlock) {
+	public void visitNoParameter() {
+	}
+
+	public void visitNoBlock() {
+	}
+
+	public void visitMethodCall(String methodName, boolean hasReceiver) {
 		result_.append(methodName);
 		result_.append(":");
 		result_.append(hasReceiver);
-		result_.append(":");
-		result_.append(hasBlock);
 		result_.append("\n");
-	}
-
-	public void visitParameters(int size) {
-		result_.append("parameters:");
-		result_.append(size);
-		result_.append("\n");
-	}
-	
-	public void visitParameterBegin(int index) {
-		result_.append("(\n");
-		result_.append(index);
-		result_.append(":");
-	}
-
-	public void visitParameterEnd() {
-		result_.append(")\n");
 	}
 
 	public void visitFloatExpression(float value) {
@@ -272,7 +260,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(":" + value + "\n");
 	}
 
-	public void visitYield() {
+	public void visitYieldBegin() {
 		result_.append("yield\n");
 	}
 	
@@ -392,11 +380,5 @@ public class CodePrinter implements CodeVisitor {
 	public void visitMultipleAssignmentEnd() {
 		result_.append("end MultipleAssignment\n");
 	}
-
-	public void visitAsteriskParameter() {
-		result_.append("AsteriskParameter\n");
-	}
-
-
 
 }

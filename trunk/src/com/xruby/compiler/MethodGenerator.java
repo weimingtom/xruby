@@ -7,8 +7,8 @@ package com.xruby.compiler;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
 
-import com.xruby.core.builtin.*;
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class MethodGenerator extends GeneratorAdapter {
 	
@@ -22,11 +22,6 @@ class MethodGenerator extends GeneratorAdapter {
 		super(arg0, arg1, arg2, arg3, arg4);
 	}
 
-	public void new_RubyValue_Array(int size) {
-		push(size);
-		newArray(Type.getType(RubyValue.class));
-	}
-	
 	public void new_MethodClass(String methodName) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
@@ -130,12 +125,12 @@ class MethodGenerator extends GeneratorAdapter {
 	
 	public void ObjectFactory_createArray() {
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.core.lang.RubyValue createArray(com.xruby.core.builtin.ArrayValue)"));
+                Method.getMethod("com.xruby.core.lang.RubyValue createArray(com.xruby.core.value.ArrayValue)"));
 	}
 	
 	public void ObjectFactory_createHash() {
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.core.lang.RubyValue createHash(com.xruby.core.builtin.HashValue)"));
+                Method.getMethod("com.xruby.core.lang.RubyValue createHash(com.xruby.core.value.HashValue)"));
 	}
 
 	public void GlobalVatiables_set(String var) {
@@ -168,10 +163,11 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 
 	public void loadMethodPrameter(int index) {
-		//signatiure run(RubyValue reciever, RubyValue[] parameters, RubyBlock block)
+		//signatiure run(RubyValue reciever, ArrayValue parameters, RubyBlock block)
 		loadArg(1);
 		push(index);
-		arrayLoad(Type.getType(RubyValue.class));	
+		invokeVirtual(Type.getType(ArrayValue.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue get(int)"));
 	}
 
 	public void GlobalVatiables_alias(String newName, String oldName) {
@@ -254,7 +250,7 @@ class MethodGenerator extends GeneratorAdapter {
 		loadThis();
 		loadArg(1);
 		invokeVirtual(Type.getType(c),
-				Method.getMethod("com.xruby.core.lang.RubyValue initializeAsteriskParameter(com.xruby.core.lang.RubyValue[])"));
+				Method.getMethod("com.xruby.core.lang.RubyValue initializeAsteriskParameter(com.xruby.core.value.ArrayValue)"));
 
 	}
 

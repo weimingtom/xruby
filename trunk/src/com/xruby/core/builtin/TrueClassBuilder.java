@@ -4,9 +4,7 @@
 
 package com.xruby.core.builtin;
 
-import com.xruby.core.lang.RubyClass;
-import com.xruby.core.lang.RubyRuntime;
-
+import com.xruby.core.lang.*;
 
 public class TrueClassBuilder {
 	

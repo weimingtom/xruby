@@ -4,14 +4,11 @@
 
 package com.xruby.compiler;
 
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
+import org.objectweb.asm.*;
+import org.objectweb.asm.commons.*;
 import java.util.*;
 import com.xruby.core.lang.*;
-import com.xruby.core.builtin.*;;
+import com.xruby.core.value.*;
 
 class SymbolTable {
 	private final Map<String, Integer> local_variables_ = new HashMap<String, Integer>();
@@ -265,7 +262,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 		createConstructorOfRubyMethod(argc, has_asterisk_parameter);
 		
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.core.lang.RubyValue run(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue[], com.xruby.core.lang.RubyBlock)"),
+				Method.getMethod("com.xruby.core.lang.RubyValue run(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyBlock)"),
 				null,// signature
 				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
 				cw_);
@@ -309,7 +306,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		createConstructorOfRubyBlock(argc, has_asterisk_parameter);
 		
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.core.lang.RubyValue run(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue[])"),
+				Method.getMethod("com.xruby.core.lang.RubyValue run(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue)"),
 				null,// signature
 				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
 				cw_);

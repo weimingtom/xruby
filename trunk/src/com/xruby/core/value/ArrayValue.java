@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.builtin;
+package com.xruby.core.value;
 
 import java.util.*;
 
@@ -12,11 +12,21 @@ import com.xruby.core.lang.*;
  * @breif Internal representation of a ruby array 
  * 
  */
-public class ArrayValue {
+public class ArrayValue implements Iterable<RubyValue> {
 	private ArrayList<RubyValue> values_;
+	private boolean expanded_ = false; //e.g. yield *[[]]
 
+	public boolean expanded() {
+		return expanded_;
+	}
+	
 	public ArrayValue(int size) {
 		values_ = new ArrayList<RubyValue>(size);
+	}
+	
+	public ArrayValue(RubyValue v) {
+		values_ = new ArrayList<RubyValue>(1);
+		values_.add(v);
 	}
 	
 	public void add(RubyValue v) {
@@ -26,22 +36,9 @@ public class ArrayValue {
 	public int size() {
 		return values_.size();
 	}
-
-	public RubyValue[] toArray() {
-		if (values_.isEmpty()) {
-			return null;
-		} else {
-			return values_.toArray(new RubyValue[values_.size()]);
-		}
-	}
 	
-	public RubyValue[] toArray2() {
-		//def f; ar = [1, 2,3,4]; yield ar; end; f {|a,b,*c| print c}
-		if (values_.size() == 1 && values_.get(0).getValue() instanceof ArrayValue) {
-			return ((ArrayValue)values_.get(0).getValue()).toArray();
-		} else {
-			return toArray();
-		}
+	public Iterator<RubyValue> iterator() {
+		return values_.iterator();
 	}
 
 	public RubyValue set(int index, RubyValue value) throws RubyException {
@@ -119,6 +116,8 @@ public class ArrayValue {
 	}
 
 	public void expand(RubyValue v) {
+		expanded_ = true;
+
 		Object o = v.getValue();
 		if (o instanceof ArrayValue) {
 			//[5,6,*[1, 2]]

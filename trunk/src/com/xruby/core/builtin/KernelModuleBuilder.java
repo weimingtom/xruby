@@ -9,6 +9,7 @@ import antlr.TokenStreamException;
 
 import com.xruby.core.lang.*;
 import com.xruby.compiler.*;
+import com.xruby.core.value.*;
 
 import java.io.*;
 import java.util.jar.*;
@@ -20,9 +21,9 @@ class Kernel_eval extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		RubyCompiler compiler = new RubyCompiler();
-		StringBuilder program_text = (StringBuilder)args[0].getValue();
+		StringBuilder program_text = (StringBuilder)args.get(0).getValue();
 
 		try {
 			CompilationResults codes = compiler.compile(new StringReader(program_text.toString()));
@@ -47,7 +48,7 @@ class Kernel_puts extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		for (RubyValue arg : args) {
 			if (ObjectFactory.nilValue == arg) {
 				System.out.println("nil");
@@ -69,22 +70,22 @@ class Kernel_print extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		// if no argument given, print `$_'
 		if (null == args) {
-			args = new RubyValue[] {GlobalVariables.LAST_READ_LINE};
+			args = new ArrayValue(GlobalVariables.LAST_READ_LINE);
 		}
 		
-		for (int i = 0; i < args.length; ++i) {
+		for (int i = 0; i < args.size(); ++i) {
 			// insert the output field separator($,) if not nil
 			if (i > 0 && GlobalVariables.OUTPUT_FIELD_SEPARATOR != ObjectFactory.nilValue) {
 				RubyRuntime.callPublicMethod(GlobalVariables.STDOUT, GlobalVariables.OUTPUT_FIELD_SEPARATOR, "write");
 			}
 			
-			if (args[i] == ObjectFactory.nilValue) {
+			if (args.get(i) == ObjectFactory.nilValue) {
 				RubyRuntime.callPublicMethod(GlobalVariables.STDOUT, ObjectFactory.createString("nil"), "write");
 			} else {
-				RubyRuntime.callPublicMethod(GlobalVariables.STDOUT, args[i], "write");
+				RubyRuntime.callPublicMethod(GlobalVariables.STDOUT, args.get(i), "write");
 			}
 		}
 		
@@ -102,13 +103,13 @@ class Kernel_printf extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
-		Object[] raw_args = new Object[args.length - 1];
-		for (int i = 1; i < args.length; ++i) {
-			raw_args[i - 1] = args[i].getValue();
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		Object[] raw_args = new Object[args.size() - 1];
+		for (int i = 1; i < args.size(); ++i) {
+			raw_args[i - 1] = args.get(i).getValue();
 		}
 		
-		String fmt = ((StringBuilder)args[0].getValue()).toString();
+		String fmt = ((StringBuilder)args.get(0).getValue()).toString();
 		System.out.printf(fmt, raw_args);
 		return ObjectFactory.nilValue;
 	}
@@ -119,7 +120,7 @@ class Kernel_p extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		for (RubyValue arg : args) {
 			if (ObjectFactory.nilValue == arg) {
 				System.out.println("nil");
@@ -141,7 +142,7 @@ class Kernel_class extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		return ObjectFactory.createString(receiver.getRubyClass().getName());
 	}
 }
@@ -151,8 +152,8 @@ class Kernel_operator_case_equal extends RubyMethod {
 		super(1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
-		if (receiver == args[0]) {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (receiver == args.get(0)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -165,7 +166,7 @@ class Kernel_method_missing extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -175,13 +176,13 @@ class Kernel_raise extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		if (null == args) {
 			//TODO With no arguments, raises the exception in $! or raises a RuntimeError if $! is nil.
 			throw new RubyException("not implemented!");
-		} else if (1 == args.length && (args[0].getRubyClass() == RubyRuntime.StringClass)) {
+		} else if (1 == args.size() && (args.get(0).getRubyClass() == RubyRuntime.StringClass)) {
 			//With a single String argument, raises a RuntimeError with the string as a message.
-			throw new RubyException(RubyRuntime.RuntimeErrorClass, ((StringBuilder)args[0].getValue()).toString());
+			throw new RubyException(RubyRuntime.RuntimeErrorClass, ((StringBuilder)args.get(0).getValue()).toString());
 		} else {
 			//TODO Otherwise, the first parameter should be the name of an Exception class
 			//(or an object that returns an Exception when sent exception). The optional second
@@ -246,8 +247,8 @@ class Kernel_require extends RubyMethod {
 		super(1, false);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
-		StringBuilder required_file = (StringBuilder)args[0].getValue();
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		StringBuilder required_file = (StringBuilder)args.get(0).getValue();
 		File filename = NameFactory.find_corresponding_jar_file(required_file.toString(), null);//TODO search $:
 		if (null == filename) {
 			return ObjectFactory.falseValue;
@@ -269,7 +270,7 @@ class Kernel_load extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 		/*
 		 * Loads and executes the Ruby program in the file aFileName.
@@ -288,7 +289,7 @@ class Kernel_to_a extends RubyMethod {
 		super(-1, false);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		ArrayValue v = new ArrayValue(1);
 		v.add(receiver);
 		return ObjectFactory.createArray(v);

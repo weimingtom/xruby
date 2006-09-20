@@ -5,13 +5,14 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class Integer_downto extends RubyMethod {
 	public Integer_downto(int argc) {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -21,7 +22,7 @@ class Integer_upto extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -31,7 +32,7 @@ class Integer_chr extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -41,7 +42,7 @@ class Integer_succ extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -51,7 +52,7 @@ class Integer_to_int extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -61,7 +62,7 @@ class Integer_ceil extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -71,7 +72,7 @@ class Integer_floor extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -81,7 +82,7 @@ class Integer_to_i extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		return receiver;
 	}
 }
@@ -91,7 +92,7 @@ class Integer_integer_question extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -101,7 +102,7 @@ class Integer_times extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -111,7 +112,7 @@ class Integer_round extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -121,7 +122,7 @@ class Integer_next extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }
@@ -131,7 +132,7 @@ class Integer_truncate extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		throw new RubyException("not implemented!");
 	}
 }

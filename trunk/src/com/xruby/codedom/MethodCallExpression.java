@@ -44,17 +44,19 @@ public class MethodCallExpression extends Expression {
 			visitor.visitSelfExpression();
 		}
 
-		visitor.visitParameters((null != arguments_)? arguments_.size() : 0);
 		if (null != arguments_) {
 			arguments_.accept(visitor);
+		} else {
+			visitor.visitNoParameter();
 		}
 
 		if (null != block_) {
 			block_.accept(visitor);
+		} else {
+			visitor.visitNoBlock();
 		}
 
 		visitor.visitMethodCall(methodName_,
-							(null != receiver_),
-							(null != block_));
+							(null != receiver_));
 	}
 }

@@ -47,27 +47,8 @@ public class MethodCallArguments implements Visitable {
 		arguments_.add(argument);
 	}
 
-	private void accept_no_asterisk_arguments(CodeVisitor visitor) {
-		int i = 0;
-		for (Expression exp : arguments_) {
-			visitor.visitParameterBegin(i);
-			exp.accept(visitor);
-			visitor.visitParameterEnd();
-			++i;
-		}
-	}
-
-	private void accept_with_asterisk_arguments(CodeVisitor visitor) {
-		ArrayExpression to_a = new ArrayExpression(arguments_, asterisk_arguments_);
-		to_a.accept(visitor, true);
-		visitor.visitAsteriskParameter();
-	}
-
 	public void accept(CodeVisitor visitor) {
-		if (null == asterisk_arguments_) {		
-			accept_no_asterisk_arguments(visitor);
-		} else {
-			accept_with_asterisk_arguments(visitor);
-		}
+		ArrayExpression to_a = new ArrayExpression(arguments_, asterisk_arguments_);
+		to_a.accept(visitor, false);
 	}
 }

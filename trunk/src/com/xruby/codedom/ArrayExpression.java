@@ -40,7 +40,7 @@ public class ArrayExpression extends Expression {
 		return elements_;
 	}
 	
-	void accept(CodeVisitor visitor, boolean for_multiple_assign) {
+	void accept(CodeVisitor visitor, boolean create_ruby_value) {
 		visitor.visitArrayBegin(elements_.size());
 		
 		for (Expression e : elements_) {
@@ -55,13 +55,13 @@ public class ArrayExpression extends Expression {
 			visitor.visitArrayElementEnd(true);
 		}
 		
-		if (!for_multiple_assign) {
+		if (create_ruby_value) {
 			visitor.visitArrayEnd();
 		}
 	}
 	
 	public void accept(CodeVisitor visitor) {
-		accept(visitor, false);
+		accept(visitor, true);
 	}
 	
 }

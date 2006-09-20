@@ -4,6 +4,8 @@
 
 package com.xruby.core.lang;
 
+import com.xruby.core.value.*;
+
 public abstract class RubyMethod extends MethodBlockBase {
 	private int access_;
 	
@@ -37,7 +39,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @return
 	 * @throws RubyException
 	 */
-	public final RubyValue invoke(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	public final RubyValue invoke(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		//For now it just call run(), but in the future we may
 		//add some extra here, like checking if number of parameters matches.
 		return run(receiver, args, block);
@@ -50,5 +52,5 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @return
 	 * @throws RubyException
 	 */
-	protected abstract RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException;
+	protected abstract RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException;
 }

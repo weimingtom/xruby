@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.builtin;
+package com.xruby.core.value;
 
 import com.xruby.core.lang.*;
 

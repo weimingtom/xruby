@@ -4,7 +4,7 @@
 
 package com.xruby.core.lang;
 
-import com.xruby.core.builtin.*;
+import com.xruby.core.value.*;
 
 import java.io.*;
 import junit.framework.TestCase;
@@ -20,29 +20,40 @@ class TestingProgram implements RubyProgram {
 	}
 	
 	public RubyValue run() throws RubyException {
-
+		
 		//puts nil, "abC", "5432"
-		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue, new RubyValue[] {ObjectFactory.nilValue,
-				ObjectFactory.createString("ABCD"),
-				ObjectFactory.createFixnum(5432)},
-									null, "print");
+		ArrayValue args = new ArrayValue(3);
+		args.add(ObjectFactory.nilValue);
+		args.add(ObjectFactory.createString("ABCD"));
+		args.add(ObjectFactory.createFixnum(5432));
+		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+								args,
+								null,
+								"print");
 
 		//puts "hello world"
-		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue, new RubyValue[] {ObjectFactory.createString("hello, world!")},
-									null, "print");
+		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+								new ArrayValue(ObjectFactory.createString("hello, world!")),
+								null,
+								"print");
 
 		//puts 123
-		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue, new RubyValue[] {ObjectFactory.createFixnum(123)},
-									null, "print");
+		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+								new ArrayValue(ObjectFactory.createFixnum(123)),
+								null,
+								"print");
 
 		//puts 1.2
-		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue, new RubyValue[] {ObjectFactory.createFloat((float)1.2)},
-									null, "print");
+		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+								new ArrayValue(ObjectFactory.createFloat((float)1.2)),
+								null,
+								"print");
 
 		//return 123 + 456
 		return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(123),
-				new RubyValue[] {ObjectFactory.createFixnum(456)},
-									null, "+");
+								new ArrayValue(ObjectFactory.createFixnum(456)),
+								null,
+								"+");
 	}
 }
 

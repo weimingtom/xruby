@@ -14,28 +14,28 @@ public class BodyStatementTest extends TestingAstTestCase {
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
 		String expected_result = 
-"prepare rescue begin\n" +
-"self\n" +
-"parameters:1\n" +
-"(\n" +
-"0:!!!!\n" +
-")\n" +
-"raise:false:false\n" +
-"prepare rescue end\n" +
-"parameters:1\n" +
-"(\n" +
-"0:RuntimeError\n" +
-")\n" +
-"=>null\n" +
-"self\n" +
-"parameters:1\n" +
-"(\n" +
-"0:xxx\n" +
-")\n" +
-"print:false:false\n" +
-"end rescue\n" +
-"end rescue!\n" +
-"EOF";
+			"prepare rescue begin\n" +
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"!!!!\n" +
+			"]\n" +
+			"raise:false\n" +
+			"prepare rescue end\n" +
+			"[:1\n" +
+			"[\n" +
+			"RuntimeError\n" +
+			"]\n" +
+			"=>null\n" +
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"xxx\n" +
+			"]\n" +
+			"print:false\n" +
+			"end rescue\n" +
+			"end rescue!\n" +
+			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 }

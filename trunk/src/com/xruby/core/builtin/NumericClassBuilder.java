@@ -5,13 +5,14 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class Numeric_unary_plus extends RubyMethod {
 	public Numeric_unary_plus(int argc) {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		return receiver;
 	}
 }
@@ -21,7 +22,7 @@ class Numeric_unary_minus extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(0), receiver, "-");
 	}
 }

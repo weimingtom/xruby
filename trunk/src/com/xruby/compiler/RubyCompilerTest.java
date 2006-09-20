@@ -895,14 +895,15 @@ public class RubyCompilerTest extends TestCase {
 				"def f; yield [[]]; end; f {|a,b,*c| print a,'!',b,'!',c}",
 				"def f; yield *[[]]; end; f {|a,b,*c| print a,'|',b,'|',c}",//a == []
 				
-				//"def f; yield []; end; f {|a,b,*c| print a, b, c, 3}",
+				"def f; yield []; end; f {|a,b,*c| print a, b, c, 3}",
+				"def f; yield []; end; f {|a| print a, a.class}",
+				"def f; yield []; end; f {|*a| print a, a.class, a.length, a[0].class}", //a == [[]]
 				"def f; yield; end; f {|*a| print a}",
 				"def f; yield; end; f {|a,b,*c| print a, b, c, 1}",
 				"def f; yield nil; end; f {|a,b,*c| print a, b, c, 2}",
 				"def f; ar = [1, 2,3,4]; yield ar; end; f {|a,b,*c| print c}",
 				
 				"def f; yield 1, 2; end; f {|a| print a, a.class}",
-				"def f; yield []; end; f {|a| print a, a.class}",
 				"def f; yield 1, 2; end; f {|a, b| print a, b}",
 				"def f; yield *[3, 4]; end; f {|a, b| print a, b}",
 				"def f; yield [1]; end; f {|a| print a, a.class}",
@@ -918,14 +919,15 @@ public class RubyCompilerTest extends TestCase {
 				"!nil!",
 				"|nil|",
 
-				//"nilnil3",
+				"nilnil3",
+				"Array",
+				"Array1Array",
 				"",
 				"nilnil1",
 				"nilnil2",
 				"34",
 				
 				"12Array",
-				"Array",
 				"12",
 				"34",
 				"1Array",

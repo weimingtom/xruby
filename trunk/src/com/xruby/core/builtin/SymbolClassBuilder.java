@@ -5,13 +5,14 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 class Symbol_id2name extends RubyMethod {
 	public Symbol_id2name(int argc) {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		String value = (String)receiver.getValue();
 		return ObjectFactory.createString(value);
 	}
@@ -22,7 +23,7 @@ class Symbol_inspect extends RubyMethod {
 		super(argc);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		String value = (String)receiver.getValue();
 		return ObjectFactory.createString(":" + value);
 	}

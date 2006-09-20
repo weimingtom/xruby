@@ -13,14 +13,11 @@ public class YieldExpression extends Expression {
 	}
 
 	public void accept(CodeVisitor visitor) {
-		visitor.visitYield();
+		visitor.visitYieldBegin();
 
 		if (null == arguments_) {
-			visitor.visitParameters(0);
-		} else if (arguments_.hasAsteriskArguments()) {
-			arguments_.accept(visitor);
+			visitor.visitNoParameter();
 		} else {
-			visitor.visitParameters(arguments_.size());
 			arguments_.accept(visitor);
 		}
 

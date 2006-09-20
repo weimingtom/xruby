@@ -7,6 +7,7 @@ package com.xruby.core.lang;
 import java.io.*;
 
 import com.xruby.core.builtin.*;
+import com.xruby.core.value.*;
 
 public class RubyRuntime {
 	
@@ -75,7 +76,7 @@ public class RubyRuntime {
 		return testTrueFalse(r);
 	}
 
-	public static boolean testExceptionType(RubyValue[] classes_to_compare, RubyException e) {
+	public static boolean testExceptionType(ArrayValue classes_to_compare, RubyException e) {
 		RubyValue value = e.getRubyValue();
 		for (RubyValue class_to_compare : classes_to_compare) {
 			if (testInstanceOf(class_to_compare, value)) {
@@ -91,7 +92,7 @@ public class RubyRuntime {
 	}
 
 	//receiver is implicit self
-	public static RubyValue callMethod(RubyValue receiver, RubyValue[] args, RubyBlock block, String method_name) throws RubyException {
+	public static RubyValue callMethod(RubyValue receiver, ArrayValue args, RubyBlock block, String method_name) throws RubyException {
 		RubyMethod m = receiver.findMethod(method_name);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "method '" +  method_name + "' can not be found in 'Object'");
@@ -102,10 +103,10 @@ public class RubyRuntime {
 
 	//method call with one argument and no block
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyValue arg, String method_name) throws RubyException {
-		return callPublicMethod(receiver, new RubyValue[] {arg}, null, method_name);
+		return callPublicMethod(receiver, new ArrayValue(arg), null, method_name);
 	}
 
-	public static RubyValue callPublicMethod(RubyValue receiver, RubyValue[] args, RubyBlock block, String method_name) throws RubyException {
+	public static RubyValue callPublicMethod(RubyValue receiver, ArrayValue args, RubyBlock block, String method_name) throws RubyException {
 		
 		RubyMethod m = receiver.findPublicMethod(method_name);
 		if (null == m) {

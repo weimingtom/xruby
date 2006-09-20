@@ -7,7 +7,7 @@ package com.xruby.core.lang;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import com.xruby.core.builtin.ObjectFactory;
+import com.xruby.core.value.*;
 
 import junit.framework.TestCase;
 
@@ -20,12 +20,13 @@ class f extends RubyMethod
         super(i);
     }
 
-    public RubyValue run(RubyValue rubyvalue, RubyValue arubyvalue[], RubyBlock block)
+    public RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block)
         throws RubyException
     {
-        return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue, new RubyValue[] {
-            ObjectFactory.createString("hello")
-        }, block, "puts");
+        return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+        					new ArrayValue(ObjectFactory.createString("hello")),
+        					block,
+        					"puts");
     }
 }
 

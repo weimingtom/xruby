@@ -5,7 +5,7 @@
 package com.xruby.core.lang;
 
 import junit.framework.TestCase;
-import com.xruby.core.builtin.*;
+import com.xruby.core.value.*;
 
 public class RubyValueTest extends TestCase {
 	public void test_equals() {

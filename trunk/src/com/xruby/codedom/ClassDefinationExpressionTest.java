@@ -19,19 +19,17 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 			"class C < Object\n" +
 			"def f:0:false\n" +
 			"self\n" +
-			"parameters:1\n" +
-			"(\n" +
-			"0:~~~~\n" +
-			")\n" +
-			"puts:false:false\n" +
+			"[:1\n" +
+			"[\n" +
+			"~~~~\n" +
+			"]\n" +
+			"puts:false\n" +
 			"end def:true\n" +
 			"end C:true\n" +
 			";\n" +
 			"C\n" +
-			"parameters:0\n" +
-			"new:true:false\n" +
-			"parameters:0\n" +
-			"f:true:false\n" +
+			"new:true\n" +
+			"f:true\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}

@@ -7,7 +7,7 @@ package com.xruby.codedom;
 public interface CodeVisitor {
 	public void visitBinaryOperator(String operator);
 	public void visitUnaryOperator(String operator);
-	public void visitMethodCall(String methodName, boolean hasReceiver, boolean hasBlock);
+	public void visitMethodCall(String methodName, boolean hasReceiver);
 
 	public void visitGlobalVariableAssignmentOperator(String var);
 	public void visitInstanceVariableAssignmentOperator(String var);
@@ -15,10 +15,8 @@ public interface CodeVisitor {
 	public void visitLocalVariableAssignmentOperator(String var);
 	public void visitLocalVariableMultipleAssignmentOperator(String var);
 
-	public void visitAsteriskParameter();
-	public void visitParameters(int size);
-	public void visitParameterBegin(int index);
-	public void visitParameterEnd();
+	public void visitNoParameter();
+	public void visitNoBlock();
 	
 	public void visitFloatExpression(float value);
 	public void visitIntegerExpression(int value);
@@ -65,7 +63,7 @@ public interface CodeVisitor {
 	public void visitArrayElementBegin();
 	public void visitArrayElementEnd(boolean asterisk);
 	
-	public void visitYield();
+	public void visitYieldBegin();
 	public void visitYieldEnd(boolean single_rhs);
 
 	public void visitSymbolExpression(String value);
