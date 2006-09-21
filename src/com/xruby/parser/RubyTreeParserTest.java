@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 public class RubyTreeParserTest extends TestCase {
 	public void test_ast() throws RecognitionException, TokenStreamException {
 		String[] program_texts = {
+				"a,=*[1]",
 				"a,b,*c = nil",
 				"a, b = 1",
 				"*a = nil",
@@ -84,6 +85,7 @@ public class RubyTreeParserTest extends TestCase {
 				};
 
 		String[] expected_texts = {
+				" ( COMPSTMT ( PARALLEL_ASSIGN ( CALL a ) ( MRHS * ( [ 1 ) ) ) )",
 				" ( COMPSTMT ( PARALLEL_ASSIGN ( CALL a ) b * c ( MRHS nil ) ) )",
 				" ( COMPSTMT ( PARALLEL_ASSIGN ( CALL a ) b ( MRHS 1 ) ) )",
 				" ( COMPSTMT ( PARALLEL_ASSIGN * a ( MRHS nil ) ) )",

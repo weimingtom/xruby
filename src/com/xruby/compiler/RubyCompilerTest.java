@@ -1440,6 +1440,8 @@ public class RubyCompilerTest extends TestCase {
 				
 				"x = [1, 2, 3]; a, b = 99, *x; print a, ',', b",
 				"x = [1, 2, 3]; a, b = 88, 99, *x; print a, ',', b",
+				
+				"a,=*[1]; print a, a.class",
 		};
 		
 		String[] outputs = {
@@ -1454,6 +1456,8 @@ public class RubyCompilerTest extends TestCase {
 				
 				"99,1",
 				"88,99",
+				
+				"1Fixnum",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
