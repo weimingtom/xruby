@@ -13,8 +13,8 @@ class Fixnum_operator_right_shift extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() >> value2.intValue());
 	}
 }
@@ -25,8 +25,8 @@ class Fixnum_operator_left_shift extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() << value2.intValue());
 	}
 }
@@ -37,12 +37,12 @@ class Fixnum_operator_equal extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		if (!(args.get(0).getValue() instanceof Integer)) {
+		if (!(args.get(0).getValue() instanceof IntegerValue)) {
 			return ObjectFactory.falseValue;
 		}
 		
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		if (value1.intValue() == value2.intValue()) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -58,8 +58,8 @@ class Fixnum_operator_case_equal extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		if (value1.intValue() == value2.intValue()) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -104,8 +104,8 @@ class Fixnum_operator_plus extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
 	}
 }
@@ -126,8 +126,8 @@ class Fixnum_operator_less_or_equal extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		if (value1.intValue() <= value2.intValue()) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -162,8 +162,8 @@ class Fixnum_operator_minus extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() - value2.intValue());
 	}
 }
@@ -174,8 +174,8 @@ class Fixnum_operator_div extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() / value2.intValue());
 	}
 }
@@ -186,7 +186,7 @@ class Fixnum_to_s extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value = (Integer)receiver.getValue();
+		IntegerValue value = (IntegerValue)receiver.getValue();
 		return ObjectFactory.createString(value.toString());
 	}
 }
@@ -207,8 +207,8 @@ class Fixnum_operator_mod extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() % value2.intValue());
 	}
 }
@@ -219,8 +219,8 @@ class Fixnum_operator_bor extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() | value2.intValue());
 	}
 }
@@ -231,8 +231,8 @@ class Fixnum_operator_band extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() & value2.intValue());
 	}
 }
@@ -243,8 +243,8 @@ class Fixnum_operator_less_than extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		if (value1.intValue() < value2.intValue()) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -279,8 +279,8 @@ class Fixnum_operator_compare extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		int value1 = ((Integer)receiver.getValue()).intValue();
-		int value2 = ((Integer)args.get(0).getValue()).intValue();
+		int value1 = ((IntegerValue)receiver.getValue()).intValue();
+		int value2 = ((IntegerValue)args.get(0).getValue()).intValue();
 		if (value1 < value2) {
 			return ObjectFactory.createFixnum(-1);
 		} else if (value1 == value2) {
@@ -317,8 +317,8 @@ class Fixnum_operator_bxor extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() ^ value2.intValue());
 	}
 }
@@ -339,8 +339,8 @@ class Fixnum_operator_greater_than extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		if (value1.intValue() > value2.intValue()) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -355,8 +355,8 @@ class Fixnum_operator_greater_or_equal extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		if (value1.intValue() >= value2.intValue()) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -371,8 +371,8 @@ class Fixnum_operator_star extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		Integer value1 = (Integer)receiver.getValue();
-		Integer value2 = (Integer)args.get(0).getValue();
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() * value2.intValue());
 	}
 }

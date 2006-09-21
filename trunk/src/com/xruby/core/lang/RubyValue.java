@@ -41,7 +41,7 @@ public class RubyValue extends MethodCollection {
 	
 	public int hashCode() {
 		if (class_ == RubyRuntime.FixnumClass) {
-			return ((Integer)value_).hashCode();
+			return ((IntegerValue)value_).hashCode();
 		} else if (class_ == RubyRuntime.StringClass) {
 			return ((StringValue)value_).toString().hashCode();
 		}else {

@@ -106,9 +106,14 @@ class Kernel_printf extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		Object[] raw_args = new Object[args.size() - 1];
 		for (int i = 1; i < args.size(); ++i) {
-			raw_args[i - 1] = args.get(i).getValue();
+			Object v = args.get(i).getValue();
+			if (v instanceof IntegerValue) {
+				raw_args[i - 1] = new Integer(((IntegerValue)v).intValue());
+			} else {
+				raw_args[i - 1] = v;
+			}
 		}
-		
+
 		String fmt = ((StringValue)args.get(0).getValue()).toString();
 		System.out.printf(fmt, raw_args);
 		return ObjectFactory.nilValue;

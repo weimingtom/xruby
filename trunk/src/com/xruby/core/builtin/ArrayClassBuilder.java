@@ -47,8 +47,8 @@ class Array_array_access extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		ArrayValue value = (ArrayValue)receiver.getValue();
 		if (1 == args.size()) {
-			Integer i = (Integer)args.get(0).getValue();
-			return value.get(i);
+			IntegerValue i = (IntegerValue)args.get(0).getValue();
+			return value.get(i.intValue());
 		}
 		
 		//TODO
@@ -64,8 +64,8 @@ class Array_array_set extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		//TODO index can be range, -1 etc
 		ArrayValue value = (ArrayValue)receiver.getValue();
-		Integer index = (Integer)args.get(0).getValue();
-		return value.set(index, args.get(1));
+		IntegerValue index = (IntegerValue)args.get(0).getValue();
+		return value.set(index.intValue(), args.get(1));
 	}
 }
 
