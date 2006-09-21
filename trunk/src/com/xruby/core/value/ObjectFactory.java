@@ -48,10 +48,10 @@ public class ObjectFactory {
 	}
 	
 	public static RubyValue createString(String value) {
-		return new RubyValue(RubyRuntime.StringClass, new StringBuilder(value));
+		return new RubyValue(RubyRuntime.StringClass, new StringValue(value));
 	}
 	
-	public static RubyValue createString(StringBuilder value) {
+	public static RubyValue createString(StringValue value) {
 		return new RubyValue(RubyRuntime.StringClass, value);
 	}
 	
