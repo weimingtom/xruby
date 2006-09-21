@@ -453,6 +453,7 @@ public class RubyCompilerTest extends TestCase {
 				"print false.class\n" +
 				"print nil.class\n" +
 				"print String.class",
+				"print 1.class.class",
 		};
 
 		String[] outputs = {
@@ -462,6 +463,7 @@ public class RubyCompilerTest extends TestCase {
 				"TrueClass" +
 				"FalseClass" +
 				"NilClass" +
+				"Class",
 				"Class",
 		};
 
