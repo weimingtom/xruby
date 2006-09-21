@@ -26,7 +26,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 		p.accept(CodePrinter);
 		String expected_result = 
 			"yield\n" +
-			"[:0\n" +
+			"*[:0\n" +
 			"[\n" +
 			"nil\n" +
 			"]*\n" +
