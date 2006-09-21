@@ -143,7 +143,7 @@ class Kernel_class extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		return ObjectFactory.createString(receiver.getRubyClass().getName());
+		return ObjectFactory.createClass(receiver.getRubyClass());
 	}
 }
 
@@ -296,6 +296,17 @@ class Kernel_to_a extends RubyMethod {
 	}
 }
 
+class Kernel_to_s extends RubyMethod {
+	public Kernel_to_s() {
+		super(-1, false);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		String className = receiver.getRubyClass().getName();
+		return ObjectFactory.createString("#<" + className + ":0x" + Integer.toHexString(receiver.hashCode()) + "x>");
+	}
+}
+
 public class KernelModuleBuilder {
 	public static RubyModule create() {
 		RubyModule m = RubyRuntime.GlobalScope.defineModule("Kernel");
@@ -311,6 +322,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("require", new Kernel_require());
 		m.defineMethod("load", new Kernel_load());
 		m.defineMethod("to_a", new Kernel_to_a());
+		m.defineMethod("to_s", new Kernel_to_s());
 		return m;
 	}
 }
