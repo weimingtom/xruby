@@ -28,31 +28,43 @@ end
 test_check "assignment"
 
 a=[]; a[0] ||= "bar";
-test_ok(a[0] == "bar")
+test_ok(a[0] == "bar")  #1
+
 h={}; h["foo"] ||= "bar";
-test_ok(h["foo"] == "bar")
+test_ok(h["foo"] == "bar") #2
 
 aa = 5
 aa ||= 25
 test_ok(aa == 5)
+
 bb ||= 25
 test_ok(bb == 25)
+
 cc &&=33
 test_ok(cc == nil)
 cc = 5
 cc &&=44
 test_ok(cc == 44)#6
 
+
 a = nil; test_ok(a == nil)
 a = 1; test_ok(a == 1) 
+
+
+
 a = []; test_ok(a == [])
+
 a = [1]; test_ok(a == [1])#10
 a = [nil]; test_ok(a == [nil])
 a = [[]]; test_ok(a == [[]])
 a = [1,2]; test_ok(a == [1,2])
+
+
+
 a = [*[]]; test_ok(a == [])
 a = [*[1]]; test_ok(a == [1])
 a = [*[1,2]]; test_ok(a == [1,2])
+
 
 a = *nil; test_ok(a == nil)
 a = *1; test_ok(a == 1)
@@ -74,7 +86,6 @@ a = *[*[1,2]]; test_ok(a == [1,2])
 *a = [*[]]; test_ok(a == [[]])
 *a = [*[1]]; test_ok(a == [[1]])
 *a = [*[1,2]]; test_ok(a == [[1,2]])
-
 *a = *nil; test_ok(a == [nil])
 *a = *1; test_ok(a == [1])
 *a = *[]; test_ok(a == [])
@@ -255,7 +266,7 @@ def r; return *[1,2]; end; a,b,*c = r(); test_ok([a,b,c] == [1,2,[]])
 def r; return *[*[]]; end; a,b,*c = r(); test_ok([a,b,c] == [nil,nil,[]])
 def r; return *[*[1]]; end; a,b,*c = r(); test_ok([a,b,c] == [1,nil,[]])
 def r; return *[*[1,2]]; end; a,b,*c = r(); test_ok([a,b,c] == [1,2,[]])#200
-=begin
+
 f = lambda {|r,| test_ok([] == r)}
 f.call([], *[])
 
@@ -279,8 +290,8 @@ test_ok(f.call(42) == [42])
 test_ok(f.call([42]) == [[42]])
 test_ok(f.call([[42]]) == [[[42]]])
 test_ok(f.call([42,55]) == [[42,55]])
-test_ok(f.call(42,55) == [42,55])
-
+test_ok(f.call(42,55) == [42,55])#216
+=begin
 a,=*[1]
 test_ok(a == 1)
 a,=*[[1]]
