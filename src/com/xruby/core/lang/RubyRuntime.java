@@ -158,7 +158,7 @@ public class RubyRuntime {
 			}
 			stdout.close();
 			
-			return ObjectFactory.createString(output);
+			return ObjectFactory.createString(output.toString());
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.ExceptionClass, e.getMessage());
 		}

@@ -92,11 +92,11 @@ public class ArrayValue implements Iterable<RubyValue> {
 	}
 
 	public RubyValue to_s() throws RubyException {
-		StringBuilder r = new StringBuilder();
+		StringValue r = new StringValue();
 		
 		for (RubyValue v : values_) {
 			RubyValue s = RubyRuntime.callPublicMethod(v, null, "to_s");
-			r.append((StringBuilder)s.getValue());
+			r.append((StringValue)s.getValue());
 		}
 		
 		return ObjectFactory.createString(r);

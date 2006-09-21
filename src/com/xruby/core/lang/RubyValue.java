@@ -43,7 +43,7 @@ public class RubyValue extends MethodCollection {
 		if (class_ == RubyRuntime.FixnumClass) {
 			return ((Integer)value_).hashCode();
 		} else if (class_ == RubyRuntime.StringClass) {
-			return ((StringBuilder)value_).toString().hashCode();
+			return ((StringValue)value_).toString().hashCode();
 		}else {
 			return super.hashCode();
 		}
@@ -56,7 +56,7 @@ public class RubyValue extends MethodCollection {
 		}
 		
 		if (class_ == RubyRuntime.StringClass) {
-			return ((StringBuilder)value_).toString().equals(((StringBuilder)v.getValue()).toString());
+			return ((StringValue)value_).toString().equals(((StringValue)v.getValue()).toString());
 		} else if (null == value_) {
 			return (null == v.getValue());
 		} else {

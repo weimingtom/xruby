@@ -12,7 +12,7 @@ public class StringClassBuilderTest extends TestCase {
 	
 	public void test_to_s() throws RubyException {
 		RubyValue str = ObjectFactory.createString("abc");
-		StringBuilder value = (StringBuilder)str.getValue();
+		StringValue value = (StringValue)str.getValue();
 		assertEquals("abc", value.toString());
 		RubyMethod m = str.findPublicMethod("to_s");
 		RubyValue result = m.invoke(str, null, null);
@@ -22,7 +22,7 @@ public class StringClassBuilderTest extends TestCase {
 	
 	public void test_to_str() throws RubyException {
 		RubyValue str = ObjectFactory.createString("abc");
-		StringBuilder value = (StringBuilder)str.getValue();
+		StringValue value = (StringValue)str.getValue();
 		assertEquals("abc", value.toString());
 		RubyMethod m = str.findPublicMethod("to_str");
 		RubyValue result = m.invoke(str, null, null);
@@ -31,7 +31,7 @@ public class StringClassBuilderTest extends TestCase {
 
 	public void test_to_i() throws RubyException {
 		RubyValue str = ObjectFactory.createString("1234");
-		StringBuilder value = (StringBuilder)str.getValue();
+		StringValue value = (StringValue)str.getValue();
 		assertEquals("1234", value.toString());
 		RubyMethod m = str.findPublicMethod("to_i");
 		RubyValue result = m.invoke(str, null, null);
@@ -41,7 +41,7 @@ public class StringClassBuilderTest extends TestCase {
 	
 	public void test_to_f() throws RubyException {
 		RubyValue str = ObjectFactory.createString("0.1234");
-		StringBuilder value = (StringBuilder)str.getValue();
+		StringValue value = (StringValue)str.getValue();
 		assertEquals("0.1234", value.toString());
 		RubyMethod m = str.findPublicMethod("to_f");
 		RubyValue result = m.invoke(str, null, null);
@@ -51,37 +51,37 @@ public class StringClassBuilderTest extends TestCase {
 	
 	public void test_upcase() throws RubyException {
 		RubyValue str = ObjectFactory.createString("abcDe");
-		StringBuilder value = (StringBuilder)str.getValue();
+		StringValue value = (StringValue)str.getValue();
 		assertEquals(value.toString(), "abcDe");
 		RubyMethod m = str.findPublicMethod("upcase");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result != str);
 		assertEquals("abcDe", value.toString());
-		StringBuilder result_value = (StringBuilder)result.getValue();
+		StringValue result_value = (StringValue)result.getValue();
 		assertEquals("ABCDE", result_value.toString());
 		
 		str = ObjectFactory.createString("abcDe");
-		value = (StringBuilder)str.getValue();
+		value = (StringValue)str.getValue();
 		assertEquals(value.toString(), "abcDe");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
 		assertEquals("abcDe", value.toString());
-		result_value = (StringBuilder)result.getValue();
+		result_value = (StringValue)result.getValue();
 		assertEquals("ABCDE", result_value.toString());
 	}
 	
 	public void test_upcase_dangers() throws RubyException {
 		RubyValue str = ObjectFactory.createString("abcDe");
-		StringBuilder value = (StringBuilder)str.getValue();
+		StringValue value = (StringValue)str.getValue();
 		assertEquals("abcDe", value.toString());
 		RubyMethod m = str.findPublicMethod("upcase!");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		StringBuilder result_value = (StringBuilder)result.getValue();
+		StringValue result_value = (StringValue)result.getValue();
 		assertEquals("ABCDE", result_value.toString());
 		
 		str = ObjectFactory.createString("ABC");
-		value = (StringBuilder)str.getValue();
+		value = (StringValue)str.getValue();
 		assertEquals("ABC", value.toString());
 		result = m.invoke(str, null, null);
 		assertEquals("ABC", value.toString());
@@ -90,37 +90,37 @@ public class StringClassBuilderTest extends TestCase {
 
 	public void test_downcase() throws RubyException {
 		RubyValue str = ObjectFactory.createString("abcDe");
-		StringBuilder value = (StringBuilder)str.getValue();
+		StringValue value = (StringValue)str.getValue();
 		assertEquals(value.toString(), "abcDe");
 		RubyMethod m = str.findPublicMethod("downcase");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result != str);
 		assertEquals("abcDe", value.toString());
-		StringBuilder result_value = (StringBuilder)result.getValue();
+		StringValue result_value = (StringValue)result.getValue();
 		assertEquals("abcde", result_value.toString());
 		
 		str = ObjectFactory.createString("abcDe");
-		value = (StringBuilder)str.getValue();
+		value = (StringValue)str.getValue();
 		assertEquals(value.toString(), "abcDe");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
 		assertEquals("abcDe", value.toString());
-		result_value = (StringBuilder)result.getValue();
+		result_value = (StringValue)result.getValue();
 		assertEquals("abcde", result_value.toString());
 	}
 	
 	public void test_downcase_dangers() throws RubyException {
 		RubyValue str = ObjectFactory.createString("abcDe");
-		StringBuilder value = (StringBuilder)str.getValue();
+		StringValue value = (StringValue)str.getValue();
 		assertEquals("abcDe", value.toString());
 		RubyMethod m = str.findPublicMethod("downcase!");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		StringBuilder result_value = (StringBuilder)result.getValue();
+		StringValue result_value = (StringValue)result.getValue();
 		assertEquals("abcde", result_value.toString());
 		
 		str = ObjectFactory.createString("abc");
-		value = (StringBuilder)str.getValue();
+		value = (StringValue)str.getValue();
 		assertEquals("abc", value.toString());
 		result = m.invoke(str, null, null);
 		assertEquals("abc", value.toString());
@@ -132,22 +132,22 @@ public class StringClassBuilderTest extends TestCase {
 		RubyMethod m = str.findPublicMethod("capitalize");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result != str);
-		assertEquals("Abc", ((StringBuilder)result.getValue()).toString());
+		assertEquals("Abc", ((StringValue)result.getValue()).toString());
 		
 		str = ObjectFactory.createString("HELLO");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
-		assertEquals("Hello", ((StringBuilder)result.getValue()).toString());
+		assertEquals("Hello", ((StringValue)result.getValue()).toString());
 
 		str = ObjectFactory.createString("123ABC");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
-		assertEquals("123abc", ((StringBuilder)result.getValue()).toString());
+		assertEquals("123abc", ((StringValue)result.getValue()).toString());
 		
 		str = ObjectFactory.createString("Hello");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
-		assertEquals("Hello", ((StringBuilder)result.getValue()).toString());
+		assertEquals("Hello", ((StringValue)result.getValue()).toString());
 	}
 	
 	public void test_capitalize_danger() throws RubyException {
@@ -155,21 +155,21 @@ public class StringClassBuilderTest extends TestCase {
 		RubyMethod m = str.findPublicMethod("capitalize!");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		assertEquals("Abc", ((StringBuilder)result.getValue()).toString());
+		assertEquals("Abc", ((StringValue)result.getValue()).toString());
 		
 		str = ObjectFactory.createString("HELLO");
 		result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		assertEquals("Hello", ((StringBuilder)result.getValue()).toString());
+		assertEquals("Hello", ((StringValue)result.getValue()).toString());
 
 		str = ObjectFactory.createString("123ABC");
 		result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		assertEquals("123abc", ((StringBuilder)result.getValue()).toString());
+		assertEquals("123abc", ((StringValue)result.getValue()).toString());
 		
 		str = ObjectFactory.createString("Hello");
 		result = m.invoke(str, null, null);
 		assertEquals(ObjectFactory.nilValue, result);
-		assertEquals("Hello", ((StringBuilder)str.getValue()).toString());
+		assertEquals("Hello", ((StringValue)str.getValue()).toString());
 	}
 }

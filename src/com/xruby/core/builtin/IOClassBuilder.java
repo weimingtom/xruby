@@ -13,12 +13,12 @@ class IO_write extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		StringBuilder value;
+		StringValue value;
 		if (RubyRuntime.StringClass == args.get(0).getRubyClass()) {
-			value = (StringBuilder)args.get(0).getValue();
+			value = (StringValue)args.get(0).getValue();
 		} else {
 			RubyValue str = RubyRuntime.callPublicMethod(args.get(0), null, "to_s");
-			value = (StringBuilder) str.getValue();
+			value = (StringValue) str.getValue();
 		}
 		
 		System.out.print(value.toString());

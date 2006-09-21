@@ -113,10 +113,9 @@ class String_capitalize extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		StringBuilder value = (StringBuilder)receiver.getValue();
-		StringBuilder new_value = new StringBuilder(value.toString().toLowerCase());
-		char first = new_value.charAt(0);
-		new_value.setCharAt(0, Character.toUpperCase(first));
+		StringValue value = (StringValue)receiver.getValue();
+		StringValue new_value = new StringValue(value.toString());
+		new_value.capitalize();
 		return ObjectFactory.createString(new_value);
 	}
 }
@@ -131,8 +130,8 @@ class String_operator_equal extends RubyMethod {
 			return ObjectFactory.falseValue;
 		}
 
-		StringBuilder a = (StringBuilder)receiver.getValue();
-		StringBuilder b = (StringBuilder)args.get(0).getValue();
+		StringValue a = (StringValue)receiver.getValue();
+		StringValue b = (StringValue)args.get(0).getValue();
 		if (a.toString().equals(b.toString())) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -178,8 +177,8 @@ class String_upcase_danger extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		StringBuilder value = (StringBuilder)receiver.getValue();
-		StringBuilder new_value = new StringBuilder(value.toString().toUpperCase());
+		StringValue value = (StringValue)receiver.getValue();
+		StringValue new_value = new StringValue(value.toString().toUpperCase());
 		if (new_value.toString().equals(value.toString())) {
 			//no changes
 			return ObjectFactory.nilValue;
@@ -227,15 +226,12 @@ class String_capitalize_danger extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		StringBuilder value = (StringBuilder)receiver.getValue();
-		StringBuilder new_value = new StringBuilder(value.toString().toLowerCase());
-		char first = new_value.charAt(0);
-		new_value.setCharAt(0, Character.toUpperCase(first));
-		if (new_value.toString().equals(value.toString())) {
-			return ObjectFactory.nilValue;
-		} else {
-			receiver.setValue(new_value);
+		StringValue value = (StringValue)receiver.getValue();
+		boolean changed = value.capitalize();
+		if (changed) {
 			return receiver;
+		} else {
+			return ObjectFactory.nilValue;
 		}
 	}
 }
@@ -286,7 +282,7 @@ class String_upcase extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		StringBuilder value = (StringBuilder)receiver.getValue();
+		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createString(value.toString().toUpperCase());
 	}
 }
@@ -297,7 +293,7 @@ class String_downcase extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		StringBuilder value = (StringBuilder)receiver.getValue();
+		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createString(value.toString().toLowerCase());
 	}
 }
@@ -540,8 +536,8 @@ class String_downcase_danger extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		StringBuilder value = (StringBuilder)receiver.getValue();
-		StringBuilder new_value = new StringBuilder(value.toString().toLowerCase());
+		StringValue value = (StringValue)receiver.getValue();
+		StringValue new_value = new StringValue(value.toString().toLowerCase());
 		if (new_value.toString().equals(value.toString())) {
 			return ObjectFactory.nilValue;
 		} else {
@@ -848,7 +844,7 @@ class String_to_f extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		StringBuilder value = (StringBuilder)receiver.getValue();
+		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createFloat(Float.valueOf(value.toString()));
 	}
 }
@@ -859,7 +855,7 @@ class String_to_i extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		StringBuilder value = (StringBuilder)receiver.getValue();
+		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
 	}
 }
