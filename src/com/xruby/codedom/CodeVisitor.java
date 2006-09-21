@@ -61,7 +61,7 @@ public interface CodeVisitor {
 	public void visitArrayBegin(int size, boolean notSingleAsterisk);
 	public void visitArrayEnd();
 	public void visitArrayElementBegin();
-	public void visitArrayElementEnd(boolean asterisk);
+	public void visitArrayElementEnd(boolean asterisk, boolean is_method_call);
 	
 	public void visitYieldBegin();
 	public void visitYieldEnd(boolean single_rhs);

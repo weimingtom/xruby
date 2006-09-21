@@ -1500,6 +1500,7 @@ public class RubyCompilerTest extends TestCase {
 				"def r; return []; end; a = r(); print a, a.class",
 				"def r; return [*[]]; end; a = r(); print a, a.class, '*'",
 				"def r; return *[[]]; end; a = *r(); print a",
+				"def r; return *nil; end; *a = r(); print a.class, a.length, a[0]",	//a == [nil]
 		};
 
 		String[] outputs = {
@@ -1508,6 +1509,7 @@ public class RubyCompilerTest extends TestCase {
 				"Array",
 				"Array*",
 				"nil",
+				"Array1nil",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

@@ -380,11 +380,11 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGeneratorForRunMethod().dup();
 	}
 	
-	public void visitArrayElementEnd(boolean asterisk) {
+	public void visitArrayElementEnd(boolean asterisk, boolean is_method_call) {
 		if (asterisk) {
-			cg_.getMethodGeneratorForRunMethod().ArrayValue_expand();
+			cg_.getMethodGeneratorForRunMethod().ArrayValue_expand(is_method_call);
 		} else {
-			cg_.getMethodGeneratorForRunMethod().ArrayValue_add();
+			cg_.getMethodGeneratorForRunMethod().ArrayValue_add(is_method_call);
 		}
 	}
 	

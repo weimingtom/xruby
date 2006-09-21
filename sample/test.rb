@@ -28,43 +28,31 @@ end
 test_check "assignment"
 
 a=[]; a[0] ||= "bar";
-test_ok(a[0] == "bar")  #1
-
+test_ok(a[0] == "bar")
 h={}; h["foo"] ||= "bar";
-test_ok(h["foo"] == "bar") #2
+test_ok(h["foo"] == "bar")
 
 aa = 5
 aa ||= 25
 test_ok(aa == 5)
-
 bb ||= 25
 test_ok(bb == 25)
-
 cc &&=33
 test_ok(cc == nil)
 cc = 5
 cc &&=44
 test_ok(cc == 44)#6
 
-
 a = nil; test_ok(a == nil)
 a = 1; test_ok(a == 1) 
-
-
-
 a = []; test_ok(a == [])
-
 a = [1]; test_ok(a == [1])#10
 a = [nil]; test_ok(a == [nil])
 a = [[]]; test_ok(a == [[]])
 a = [1,2]; test_ok(a == [1,2])
-
-
-
 a = [*[]]; test_ok(a == [])
 a = [*[1]]; test_ok(a == [1])
 a = [*[1,2]]; test_ok(a == [1,2])
-
 
 a = *nil; test_ok(a == nil)
 a = *1; test_ok(a == 1)
@@ -75,7 +63,7 @@ a = *[[]]; test_ok(a == [])
 a = *[1,2]; test_ok(a == [1,2])
 a = *[*[]]; test_ok(a == nil)
 a = *[*[1]]; test_ok(a == 1)
-a = *[*[1,2]]; test_ok(a == [1,2])#26
+a = *[*[1,2]]; test_ok(a == [1,2])
 *a = nil; test_ok(a == [nil])
 *a = 1; test_ok(a == [1])
 *a = []; test_ok(a == [[]])
@@ -85,11 +73,12 @@ a = *[*[1,2]]; test_ok(a == [1,2])#26
 *a = [1,2]; test_ok(a == [[1,2]])
 *a = [*[]]; test_ok(a == [[]])
 *a = [*[1]]; test_ok(a == [[1]])
-*a = [*[1,2]]; test_ok(a == [[1,2]])#36
-*a = *nil; test_ok(a == [nil])#37 need special handling
+*a = [*[1,2]]; test_ok(a == [[1,2]])
+
+*a = *nil; test_ok(a == [nil])
 *a = *1; test_ok(a == [1])
 *a = *[]; test_ok(a == [])
-*a = *[1]; test_ok(a == [1])#40
+*a = *[1]; test_ok(a == [1])
 *a = *[nil]; test_ok(a == [nil])
 *a = *[[]]; test_ok(a == [[]])
 *a = *[1,2]; test_ok(a == [1,2])
@@ -98,9 +87,9 @@ a = *[*[1,2]]; test_ok(a == [1,2])#26
 *a = *[*[1,2]]; test_ok(a == [1,2])#46
 
 a,b,*c = nil; test_ok([a,b,c] == [nil,nil,[]])
-a,b,*c = 1; test_ok([a,b,c] == [1,nil,[]])#48
+a,b,*c = 1; test_ok([a,b,c] == [1,nil,[]])
 a,b,*c = []; test_ok([a,b,c] == [nil,nil,[]])
-a,b,*c = [1]; test_ok([a,b,c] == [1,nil,[]])#50
+a,b,*c = [1]; test_ok([a,b,c] == [1,nil,[]])
 a,b,*c = [nil]; test_ok([a,b,c] == [nil,nil,[]])
 a,b,*c = [[]]; test_ok([a,b,c] == [[],nil,[]])
 a,b,*c = [1,2]; test_ok([a,b,c] == [1,2,[]])
@@ -111,7 +100,7 @@ a,b,*c = [*[1,2]]; test_ok([a,b,c] == [1,2,[]])#56
 a,b,*c = *nil; test_ok([a,b,c] == [nil,nil,[]])
 a,b,*c = *1; test_ok([a,b,c] == [1,nil,[]])
 a,b,*c = *[]; test_ok([a,b,c] == [nil,nil,[]])
-a,b,*c = *[1]; test_ok([a,b,c] == [1,nil,[]])#60
+a,b,*c = *[1]; test_ok([a,b,c] == [1,nil,[]])
 a,b,*c = *[nil]; test_ok([a,b,c] == [nil,nil,[]])
 a,b,*c = *[[]]; test_ok([a,b,c] == [[],nil,[]])
 a,b,*c = *[1,2]; test_ok([a,b,c] == [1,2,[]])
@@ -121,7 +110,7 @@ a,b,*c = *[*[1,2]]; test_ok([a,b,c] == [1,2,[]])#66
 
 def f; yield nil; end; f {|a| test_ok(a == nil)}
 def f; yield 1; end; f {|a| test_ok(a == 1)}
-def f; yield []; end; f {|a| test_ok(a == [])}#69---------------------------------
+def f; yield []; end; f {|a| test_ok(a == [])}
 def f; yield [1]; end; f {|a| test_ok(a == [1])}
 def f; yield [nil]; end; f {|a| test_ok(a == [nil])}
 def f; yield [[]]; end; f {|a| test_ok(a == [[]])}
@@ -129,7 +118,7 @@ def f; yield [*[]]; end; f {|a| test_ok(a == [])}
 def f; yield [*[1]]; end; f {|a| test_ok(a == [1])}
 def f; yield [*[1,2]]; end; f {|a| test_ok(a == [1,2])}#75
 
-def f; yield *nil; end; f {|a| test_ok(a == nil)}#76--------------------------
+def f; yield *nil; end; f {|a| test_ok(a == nil)}
 def f; yield *1; end; f {|a| test_ok(a == 1)}
 def f; yield *[1]; end; f {|a| test_ok(a == 1)}
 def f; yield *[nil]; end; f {|a| test_ok(a == nil)}
@@ -144,23 +133,23 @@ def f; yield [1]; end; f {|*a| test_ok(a == [[1]])}
 def f; yield [nil]; end; f {|*a| test_ok(a == [[nil]])}
 def f; yield [[]]; end; f {|*a| test_ok(a == [[[]]])}
 def f; yield [1,2]; end; f {|*a| test_ok(a == [[1,2]])}
-def f; yield [*[]]; end; f {|*a| test_ok(a == [[]])}#90
+def f; yield [*[]]; end; f {|*a| test_ok(a == [[]])}
 def f; yield [*[1]]; end; f {|*a| test_ok(a == [[1]])}
 def f; yield [*[1,2]]; end; f {|*a| test_ok(a == [[1,2]])}#92
 
 def f; yield *nil; end; f {|*a| test_ok(a == [nil])}
 def f; yield *1; end; f {|*a| test_ok(a == [1])}
-def f; yield *[]; end; f {|*a| test_ok(a == [])}#95---------------
+def f; yield *[]; end; f {|*a| test_ok(a == [])}
 def f; yield *[1]; end; f {|*a| test_ok(a == [1])}
 def f; yield *[nil]; end; f {|*a| test_ok(a == [nil])}
 def f; yield *[[]]; end; f {|*a| test_ok(a == [[]])}
 def f; yield *[*[]]; end; f {|*a| test_ok(a == [])}
-def f; yield *[*[1]]; end; f {|*a| test_ok(a == [1])}#100
-def f; yield *[*[1,2]]; end; f {|*a| test_ok(a == [1,2])}
+def f; yield *[*[1]]; end; f {|*a| test_ok(a == [1])}
+def f; yield *[*[1,2]]; end; f {|*a| test_ok(a == [1,2])}#101
 
 def f; yield; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}
 def f; yield nil; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}
-def f; yield 1; end; f {|a,b,*c| test_ok([a,b,c] == [1,nil,[]])}#104
+def f; yield 1; end; f {|a,b,*c| test_ok([a,b,c] == [1,nil,[]])}
 def f; yield []; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}
 def f; yield [1]; end; f {|a,b,*c| test_ok([a,b,c] == [1,nil,[]])}
 def f; yield [nil]; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}
@@ -173,9 +162,8 @@ def f; yield *nil; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}
 def f; yield *1; end; f {|a,b,*c| test_ok([a,b,c] == [1,nil,[]])}
 def f; yield *[]; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}
 def f; yield *[1]; end; f {|a,b,*c| test_ok([a,b,c] == [1,nil,[]])}
-def f; yield *[nil]; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}#116
-def f; yield *[[]]; end; f {|a,b,*c| test_ok([a,b,c] == [[],nil,[]])}#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#def f; yield *[[]]; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+def f; yield *[nil]; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}
+def f; yield *[[]]; end; f {|a,b,*c| test_ok([a,b,c] == [[],nil,[]])}
 def f; yield *[*[]]; end; f {|a,b,*c| test_ok([a,b,c] == [nil,nil,[]])}
 def f; yield *[*[1]]; end; f {|a,b,*c| test_ok([a,b,c] == [1,nil,[]])}
 def f; yield *[*[1,2]]; end; f {|a,b,*c| test_ok([a,b,c] == [1,2,[]])}#120
@@ -205,14 +193,14 @@ def r; return *nil; end; a = *r(); test_ok(a == nil)
 def r; return *1; end; a = *r(); test_ok(a == 1)
 def r; return *[]; end; a = *r(); test_ok(a == nil)
 def r; return *[1]; end; a = *r(); test_ok(a == 1)
-def r; return *[nil]; end; a = *r(); test_ok(a == nil)#144
+def r; return *[nil]; end; a = *r(); test_ok(a == nil)
 def r; return *[[]]; end; a = *r(); test_ok(a == nil)
 def r; return *[*[]]; end; a = *r(); test_ok(a == nil)
 def r; return *[*[1]]; end; a = *r(); test_ok(a == 1)
 def r; return *[*[1,2]]; end; a = *r(); test_ok(a == [1,2])#148
 
 def r; return; end; *a = r(); test_ok(a == [nil])
-def r; return nil; end; *a = r(); test_ok(a == [nil])#150
+def r; return nil; end; *a = r(); test_ok(a == [nil])
 def r; return 1; end; *a = r(); test_ok(a == [1])
 def r; return []; end; *a = r(); test_ok(a == [[]])
 def r; return [1]; end; *a = r(); test_ok(a == [[1]])
@@ -234,19 +222,17 @@ def r; return *[*[]]; end; *a = r(); test_ok(a == [nil])
 def r; return *[*[1]]; end; *a = r(); test_ok(a == [1])
 def r; return *[*[1,2]]; end; *a = r(); test_ok(a == [[1,2]])#169
 
-#TODOdef r; return *nil; end; *a = *r(); test_ok(a == [nil])
-def r; return *nil; end; *a = *r(); test_ok(a == [])#TODO!!!!!!!!!!!!!!
+def r; return *nil; end; *a = *r(); test_ok(a == [nil])
 def r; return *1; end; *a = *r(); test_ok(a == [1])
-#TODOdef r; return *[]; end; *a = *r(); test_ok(a == [nil])
-def r; return *[]; end; *a = *r(); test_ok(a == [])#TODO!!!!!!!!!!!!!!
+def r; return *[]; end; *a = *r(); test_ok(a == [nil])
 def r; return *[1]; end; *a = *r(); test_ok(a == [1])
 def r; return *[nil]; end; *a = *r(); test_ok(a == [nil])
 def r; return *[[]]; end; *a = *r(); test_ok(a == [])
 def r; return *[1,2]; end; *a = *r(); test_ok(a == [1,2])
 def r; return *[*[]]; end; *a = *r(); test_ok(a == [nil])
 def r; return *[*[1]]; end; *a = *r(); test_ok(a == [1])
-def r; return *[*[1,2]]; end; *a = *r(); test_ok(a == [1,2])
-=begin
+def r; return *[*[1,2]]; end; *a = *r(); test_ok(a == [1,2])#179
+
 def r; return; end; a,b,*c = r(); test_ok([a,b,c] == [nil,nil,[]])
 def r; return nil; end; a,b,*c = r(); test_ok([a,b,c] == [nil,nil,[]])
 def r; return 1; end; a,b,*c = r(); test_ok([a,b,c] == [1,nil,[]])
@@ -257,7 +243,7 @@ def r; return [[]]; end; a,b,*c = r(); test_ok([a,b,c] == [[],nil,[]])
 def r; return [1,2]; end; a,b,*c = r(); test_ok([a,b,c] == [1,2,[]])
 def r; return [*[]]; end; a,b,*c = r(); test_ok([a,b,c] == [nil,nil,[]])
 def r; return [*[1]]; end; a,b,*c = r(); test_ok([a,b,c] == [1,nil,[]])
-def r; return [*[1,2]]; end; a,b,*c = r(); test_ok([a,b,c] == [1,2,[]])
+def r; return [*[1,2]]; end; a,b,*c = r(); test_ok([a,b,c] == [1,2,[]])#190
 
 def r; return *nil; end; a,b,*c = r(); test_ok([a,b,c] == [nil,nil,[]])
 def r; return *1; end; a,b,*c = r(); test_ok([a,b,c] == [1,nil,[]])
@@ -268,8 +254,8 @@ def r; return *[[]]; end; a,b,*c = r(); test_ok([a,b,c] == [nil,nil,[]])
 def r; return *[1,2]; end; a,b,*c = r(); test_ok([a,b,c] == [1,2,[]])
 def r; return *[*[]]; end; a,b,*c = r(); test_ok([a,b,c] == [nil,nil,[]])
 def r; return *[*[1]]; end; a,b,*c = r(); test_ok([a,b,c] == [1,nil,[]])
-def r; return *[*[1,2]]; end; a,b,*c = r(); test_ok([a,b,c] == [1,2,[]])
-
+def r; return *[*[1,2]]; end; a,b,*c = r(); test_ok([a,b,c] == [1,2,[]])#200
+=begin
 f = lambda {|r,| test_ok([] == r)}
 f.call([], *[])
 

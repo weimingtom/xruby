@@ -239,12 +239,17 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("[\n");
 	}
 
-	public void visitArrayElementEnd(boolean asterisk) {
+	public void visitArrayElementEnd(boolean asterisk,boolean is_method_call) {
+		result_.append("[");
 		if (asterisk) {
-			result_.append("]*\n");
-		} else {
-			result_.append("]\n");
+			result_.append("*");
 		}
+
+		if (is_method_call)
+		{
+			result_.append("()\n");
+		}
+		result_.append("\n");
 	}
 
 	public void visitHashBegin() {
