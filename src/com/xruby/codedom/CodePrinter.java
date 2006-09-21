@@ -240,7 +240,7 @@ public class CodePrinter implements CodeVisitor {
 	}
 
 	public void visitArrayElementEnd(boolean asterisk,boolean is_method_call) {
-		result_.append("[");
+		result_.append("]");
 		if (asterisk) {
 			result_.append("*");
 		}
