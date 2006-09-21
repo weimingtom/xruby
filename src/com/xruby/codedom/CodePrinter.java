@@ -247,7 +247,7 @@ public class CodePrinter implements CodeVisitor {
 
 		if (is_method_call)
 		{
-			result_.append("()\n");
+			result_.append("()");
 		}
 		result_.append("\n");
 	}
