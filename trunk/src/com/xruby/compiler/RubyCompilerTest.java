@@ -1500,6 +1500,23 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	/*
+	public void test_nested_assignment() {
+		String[] program_texts = {
+				"b, (c, d), e = 1,2,3,4; print b, c, d, e",
+				"b, (c, d), e = 1,[2,3,4],5; print b, c, d, e",
+				"b, (c,*d), e = 1,[2,3,4],5; print b, c, d, d.class, e",
+		};
+		
+		String[] outputs = {
+				"12nil3",
+				"1235",
+				"1234Array5",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}*/
+	
 	public void test_return() {
 		String[] program_texts = {
 				"def r; return 1;  end; a = r(); print 1",

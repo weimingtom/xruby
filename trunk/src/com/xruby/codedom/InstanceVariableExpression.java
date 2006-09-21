@@ -4,7 +4,7 @@
 
 package com.xruby.codedom;
 
-public class InstanceVariableExpression extends Expression {
+public class InstanceVariableExpression extends VariableExpression {
 	private final String value_;
 	
 	public String getValue() {
@@ -17,5 +17,9 @@ public class InstanceVariableExpression extends Expression {
 
 	public void accept(CodeVisitor visitor) {
 		visitor.visitInstanceVariableExpression(value_);
+	}
+
+	public void acceptAsAssignment(CodeVisitor visitor, boolean rhs_is_method_call, boolean is_multiple_assign) {
+		visitor.visitInstanceVariableAssignmentOperator(value_, rhs_is_method_call);
 	}
 }

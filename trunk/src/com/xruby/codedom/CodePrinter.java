@@ -21,22 +21,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 	
-	public void visitGlobalVariableAssignmentOperator(String var) {
-		result_.append(var);
-		result_.append(" =\n");
-	}
-
-	public void visitInstanceVariableAssignmentOperator(String var) {
-		result_.append(var);
-		result_.append(" =\n");
-	}
-
-	public void visitClassVariableAssignmentOperator(String var) {
-		result_.append(var);
-		result_.append(" =\n");
-	}
-
-	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
+	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
 		result_.append(var);
 		if (rhs_is_method_call) {
 			result_.append(" *=\n");
@@ -44,12 +29,27 @@ public class CodePrinter implements CodeVisitor {
 			result_.append(" =\n");
 		}
 	}
-	
-	public void visitLocalVariableMultipleAssignmentOperator(String var) {
-		result_.append(var);
-		result_.append(" //=\n");
+
+	public void visitInstanceVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
+		visitGlobalVariableAssignmentOperator(var, rhs_is_method_call);
 	}
 
+	public void visitClassVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
+		visitGlobalVariableAssignmentOperator(var, rhs_is_method_call);
+	}
+
+	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment) {
+		result_.append(var);
+		result_.append(" ");
+		if (rhs_is_method_call) {
+			result_.append("*");
+		}
+		if (is_multiple_assignment) {
+			result_.append("//");
+		}
+		result_.append("=\n");
+	}
+	
 	public void visitNoParameter() {
 	}
 
@@ -132,7 +132,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("EOF");
 	}
 
-	public void visitVariableExpression(String value) {
+	public void visitLocalVariableExpression(String value) {
 		result_.append(value);
 		result_.append("\n");
 	}

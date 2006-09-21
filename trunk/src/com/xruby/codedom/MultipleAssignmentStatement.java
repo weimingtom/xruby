@@ -8,9 +8,9 @@ import java.util.*;
 import antlr.RecognitionException;
 
 public class MultipleAssignmentStatement extends Statement {
-	private ArrayList<String> mlhs_ = new ArrayList<String>();
+	private ArrayList<VariableExpression> mlhs_ = new ArrayList<VariableExpression>();
 	private ArrayList<Expression> mrhs_ = new ArrayList<Expression>();
-	private String asterisk_lhs_ = null;
+	private VariableExpression asterisk_lhs_ = null;
 	private Expression asterisk_rhs_ = null;
 	private boolean handle_special_case_ = false;
 	
@@ -21,14 +21,12 @@ public class MultipleAssignmentStatement extends Statement {
 		}
 		
 		if (e instanceof VariableExpression) {
-			mlhs_.add(((VariableExpression)e).getValue());
-		} else if (e instanceof GlobalVariableExpression) {
-			mlhs_.add(((GlobalVariableExpression)e).getValue());
+			mlhs_.add((VariableExpression)e);
 		} else if (e instanceof AssignmentOperatorExpression) {
 			//For inputs like 'a = 1, 2, 3', tree parser will recognize them, but in wrong struture
 			AssignmentOperatorExpression a = (AssignmentOperatorExpression)e;
-			mlhs_.add(a.getName());
-			mrhs_.add(a.getValue());
+			mlhs_.add(a.getLhs());
+			mrhs_.add(a.getRhs());
 			handle_special_case_ = true;
 		} else if (e instanceof MethodCallExpression) {
 			//For inputs like 'a, b = 1', a will be recognized as MethodCall
@@ -37,7 +35,7 @@ public class MultipleAssignmentStatement extends Statement {
 					m.getArguments().size() > 0) {//TODO more erro checking? e.g. a(), b = 1
 				throw new RecognitionException("Only variable can be parallel assigned");
 			}
-			mlhs_.add(m.getName());
+			mlhs_.add(new LocalVariableExpression(m.getName(), false));
 		} else {
 			throw new RecognitionException("Only variable can be parallel assigned");
 		}
@@ -55,29 +53,12 @@ public class MultipleAssignmentStatement extends Statement {
 	public void setAsteriskLhs(Expression e)throws RecognitionException {
 		assert(null == asterisk_lhs_);
 		if (e instanceof VariableExpression) {
-			asterisk_lhs_ = ((VariableExpression)e).getValue();
+			asterisk_lhs_ = (VariableExpression)e;
 		} else {
 			throw new RecognitionException("Only variable can be parallel assigned");
 		}
 	}
 	
-	private void visitMlhs(String name, CodeVisitor visitor) {
-		switch (name.charAt(0)) {
-			case '$':
-				visitor.visitGlobalVariableAssignmentOperator(name);
-				break;
-			case '@':
-				if ('@' == name.charAt(1)) {
-					visitor.visitClassVariableAssignmentOperator(name);
-				} else {
-					visitor.visitInstanceVariableAssignmentOperator(name);
-				}
-				break;
-			default:
-				visitor.visitLocalVariableMultipleAssignmentOperator(name);	
-		}
-	}
-
 	public void accept(CodeVisitor visitor) {
 		
 		Collections.reverse(mlhs_);
@@ -91,7 +72,7 @@ public class MultipleAssignmentStatement extends Statement {
 		if (mlhs_.size() == 1 && null == asterisk_lhs_) {
 			//a = 1, 2 is as same as a = [1, 2]
 			visitor.visitMultipleAssignmentBegin(true, single_mrhs);
-			visitMlhs(mlhs_.get(0), visitor);
+			mlhs_.get(0).acceptAsAssignment(visitor, false, true);
 		} else {
 			int var = visitor.visitMultipleAssignmentBegin(false, single_mrhs);
 			
@@ -101,11 +82,11 @@ public class MultipleAssignmentStatement extends Statement {
 			
 			if (null != asterisk_lhs_) {
 				visitor.visitMrhs(var, mlhs_.size(), true);
-				visitMlhs(asterisk_lhs_, visitor);
+				asterisk_lhs_.acceptAsAssignment(visitor, false, true);
 			}
 			
-			for (String name : mlhs_) {
-				visitMlhs(name, visitor);
+			for (VariableExpression lhs : mlhs_) {
+				lhs.acceptAsAssignment(visitor, false, true);
 			}
 		}
 		
