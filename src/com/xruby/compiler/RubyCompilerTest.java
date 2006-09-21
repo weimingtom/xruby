@@ -11,6 +11,7 @@ import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
 import com.xruby.core.lang.*;
+import com.xruby.core.value.*;
 
 public class RubyCompilerTest extends TestCase {
 
@@ -25,7 +26,7 @@ public class RubyCompilerTest extends TestCase {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
 				assertTrue(null != codes);
 				RubyValue v = codes.run();
-				Integer r = (Integer)v.getValue();
+				IntegerValue r = (IntegerValue)v.getValue();
 				assertEquals(results[i], r.intValue());
 			} catch (Exception e) {
 				assertTrue("Error at " + i + ": " + e.getMessage(), false);
