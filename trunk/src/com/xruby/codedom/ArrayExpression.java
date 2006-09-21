@@ -41,13 +41,13 @@ public class ArrayExpression extends Expression {
 		for (Expression e : elements_) {
 			visitor.visitArrayElementBegin();
 			e.accept(visitor);
-			visitor.visitArrayElementEnd(false);
+			visitor.visitArrayElementEnd(false, e instanceof MethodCallExpression);
 		}
 
 		if (null != asterisk_element_) {
 			visitor.visitArrayElementBegin();
 			asterisk_element_.accept(visitor);
-			visitor.visitArrayElementEnd(true);
+			visitor.visitArrayElementEnd(true, asterisk_element_ instanceof MethodCallExpression);
 		}
 		
 		if (create_ruby_value) {

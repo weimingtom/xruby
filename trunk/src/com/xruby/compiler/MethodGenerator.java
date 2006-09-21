@@ -49,12 +49,21 @@ class MethodGenerator extends GeneratorAdapter {
 		
 	}
 	
-	public void ArrayValue_add() {
+	public void ArrayValue_add(boolean is_method_call) {
+		if (is_method_call) {
+			invokeStatic(Type.getType(ArrayValue.class),
+					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.lang.RubyValue)"));
+		}
 		invokeVirtual(Type.getType(ArrayValue.class),
 				Method.getMethod("void add(com.xruby.core.lang.RubyValue)"));
 	}
 
-	public void ArrayValue_expand() {
+	public void ArrayValue_expand(boolean is_method_call) {
+		if (is_method_call) {
+			invokeStatic(Type.getType(ArrayValue.class),
+					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.lang.RubyValue)"));
+		}
+
 		invokeVirtual(Type.getType(ArrayValue.class),
 				Method.getMethod("void expand(com.xruby.core.lang.RubyValue)"));
 	}
