@@ -9,11 +9,10 @@ public interface CodeVisitor {
 	public void visitUnaryOperator(String operator);
 	public void visitMethodCall(String methodName, boolean hasReceiver);
 
-	public void visitGlobalVariableAssignmentOperator(String var);
-	public void visitInstanceVariableAssignmentOperator(String var);
-	public void visitClassVariableAssignmentOperator(String var);
-	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call);
-	public void visitLocalVariableMultipleAssignmentOperator(String var);
+	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call);
+	public void visitInstanceVariableAssignmentOperator(String var, boolean rhs_is_method_call);
+	public void visitClassVariableAssignmentOperator(String var, boolean rhs_is_method_call);
+	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment);
 
 	public void visitNoParameter();
 	public void visitNoBlock();
@@ -21,7 +20,7 @@ public interface CodeVisitor {
 	public void visitFloatExpression(float value);
 	public void visitIntegerExpression(int value);
 	public void visitStringExpression(String value);
-	public void visitVariableExpression(String value); 
+	public void visitLocalVariableExpression(String value); 
 	public void visitTrueExpression();
 	public void visitFalseExpression();
 	public void visitNilExpression();

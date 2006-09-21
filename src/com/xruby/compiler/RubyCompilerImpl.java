@@ -166,21 +166,26 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);
 		visitBinaryOperator(operator);
 	}
+
+	private void expandArrayIfThereIsZeroOrOneValue() {
+		cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.lang.RubyValue)"));
+	}
 	
-	public void visitGlobalVariableAssignmentOperator(String var) {
+	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
+		if (rhs_is_method_call) {
+			expandArrayIfThereIsZeroOrOneValue();
+		}
 		cg_.getMethodGeneratorForRunMethod().GlobalVatiables_set(var);
 	}
 
-	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
+	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
 		if (rhs_is_method_call) {
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
-					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.lang.RubyValue)"));
+			expandArrayIfThereIsZeroOrOneValue();
 		}
-		cg_.getMethodGeneratorForRunMethod().storeLocal(cg_.getLocalVariable(var));
-		cg_.getMethodGeneratorForRunMethod().loadLocal(cg_.getLocalVariable(var));//do not pop operand off empty stack
-	}
-
-	public void visitLocalVariableMultipleAssignmentOperator(String var) {
+		if (!is_multiple_assign) {
+			cg_.getMethodGeneratorForRunMethod().dup();//do not pop off empty stack
+		}
 		cg_.getMethodGeneratorForRunMethod().storeLocal(cg_.getLocalVariable(var));
 	}
 	
@@ -211,7 +216,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGeneratorForRunMethod().returnValue();
 	}
 
-	public void visitVariableExpression(String value) {
+	public void visitLocalVariableExpression(String value) {
 		cg_.loadVariable(value);
 	}
 
@@ -458,7 +463,10 @@ class RubyCompilerImpl implements CodeVisitor {
 				Method.getMethod("com.xruby.core.lang.RubyValue getClassVariable(String)"));
 	}
 
-	public void visitClassVariableAssignmentOperator(String name) {
+	public void visitClassVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
+		if (rhs_is_method_call) {
+			expandArrayIfThereIsZeroOrOneValue();
+		}
 		int value = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyValue.class));
 		cg_.getMethodGeneratorForRunMethod().storeLocal(value);
 		visitSelfExpression();
@@ -477,7 +485,10 @@ class RubyCompilerImpl implements CodeVisitor {
 				Method.getMethod("com.xruby.core.lang.RubyValue getInstanceVariable(String)"));
 	}
 
-	public void visitInstanceVariableAssignmentOperator(String name) {
+	public void visitInstanceVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
+		if (rhs_is_method_call) {
+			expandArrayIfThereIsZeroOrOneValue();
+		}
 		int value = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyValue.class));
 		cg_.getMethodGeneratorForRunMethod().storeLocal(value);
 		visitSelfExpression();

@@ -8,15 +8,15 @@ import antlr.RecognitionException;
 
 public class AssignmentOperatorExpression extends Expression {
 
-	private String name_;
-	private Expression value_;
+	private VariableExpression lhs_;
+	private Expression rhs_;
 
-	String getName() {
-		return name_;
+	VariableExpression getLhs() {
+		return lhs_;
 	}
 	
-	Expression getValue() {
-		return value_;
+	Expression getRhs() {
+		return rhs_;
 	}
 	
 	public static Expression create(Expression left, Expression right) throws RecognitionException {
@@ -34,36 +34,16 @@ public class AssignmentOperatorExpression extends Expression {
 
 	public AssignmentOperatorExpression(Expression left, Expression right) throws RecognitionException {
 		if (left instanceof VariableExpression) {
-			name_ = ((VariableExpression)left).getValue();
-		} else if (left instanceof GlobalVariableExpression) {
-			name_ = ((GlobalVariableExpression)left).getValue();
-		}  else if (left instanceof InstanceVariableExpression) {
-			name_ = ((InstanceVariableExpression)left).getValue();
-		}  else if (left instanceof ClassVariableExpression) {
-			name_ = ((ClassVariableExpression)left).getValue();
+			lhs_ = (VariableExpression)left;
 		} else {
 			throw new RecognitionException("Only variable can be assigned");
 		}
 		
-		value_ = right;
+		rhs_ = right;
 	}
 
 	public void accept(CodeVisitor visitor) {
-		value_.accept(visitor);
-		
-		switch (name_.charAt(0)) {
-			case '$':
-				visitor.visitGlobalVariableAssignmentOperator(name_);
-				break;
-			case '@':
-				if ('@' == name_.charAt(1)) {
-					visitor.visitClassVariableAssignmentOperator(name_);
-				} else {
-					visitor.visitInstanceVariableAssignmentOperator(name_);
-				}
-				break;
-			default:
-				visitor.visitLocalVariableAssignmentOperator(name_, value_ instanceof MethodCallExpression);
-		}
+		rhs_.accept(visitor);
+		lhs_.acceptAsAssignment(visitor, rhs_ instanceof MethodCallExpression, false);
 	}
 }

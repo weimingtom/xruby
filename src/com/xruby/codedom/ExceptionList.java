@@ -9,13 +9,13 @@ import java.util.*;
 public class ExceptionList {
 
 	private ArrayList<Expression> arguments_ = new ArrayList<Expression>();
-	private VariableExpression var_ = null;
+	private LocalVariableExpression var_ = null;
 	
-	public void addArgument(VariableExpression v) {
+	public void addArgument(LocalVariableExpression v) {
 		arguments_.add(v);
 	}
 	
-	public void addExceptionVariable(VariableExpression v) {
+	public void addExceptionVariable(LocalVariableExpression v) {
 		var_ = v;
 	}
 	

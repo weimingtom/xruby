@@ -58,8 +58,8 @@ returns [Statement s]
 }
 		:	e=expression
 			{
-				if (e instanceof VariableExpression) {
-					VariableExpression var = (VariableExpression)e;
+				if (e instanceof LocalVariableExpression) {
+					LocalVariableExpression var = (LocalVariableExpression)e;
 					if (var.isFunction()) {
 						e = new MethodCallExpression(null, var.getValue(), null, null);
 					}
@@ -95,7 +95,7 @@ returns [Expression e]
 	Expression right = null;
 	MethodCallArguments args = null;
 	ReturnArguments return_args = null;
-	VariableExpression var = null;
+	LocalVariableExpression var = null;
 	Block block = null;
 	CompoundStatement cs = null;
 }
@@ -153,7 +153,7 @@ returns [Expression e]
 																			MethodCallExpression mc = (MethodCallExpression)right;
 																			e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
 																		} else {
-																			e = new MethodCallExpression(left, ((VariableExpression)right).getValue(), null, null);
+																			e = new MethodCallExpression(left, ((LocalVariableExpression)right).getValue(), null, null);
 																		}
 																	}
 		|	#(CALL					(var=variable|yield:"yield"|defined:"defined?")	(args=arguments)?	(block=codeBlock)?)
@@ -261,11 +261,11 @@ returns [Expression e]
 		;
 
 variable
-returns [VariableExpression e]
-		:	constant:CONSTANT						{e = new VariableExpression(constant.getText(), false);}
-		|	id:IDENTIFIER								{e = new VariableExpression(id.getText(), false);}
-		|	function:FUNCTION						{e = new VariableExpression(function.getText(), true);}
-		|	unary:UNARY_PLUS_MINUS_METHOD_NAME	{e = new VariableExpression(unary.getText(), true);}//it does not look like a good place to put -@/+@, but bad programs should have failed in parser.
+returns [LocalVariableExpression e]
+		:	constant:CONSTANT						{e = new LocalVariableExpression(constant.getText(), false);}
+		|	id:IDENTIFIER								{e = new LocalVariableExpression(id.getText(), false);}
+		|	function:FUNCTION						{e = new LocalVariableExpression(function.getText(), true);}
+		|	unary:UNARY_PLUS_MINUS_METHOD_NAME	{e = new LocalVariableExpression(unary.getText(), true);}//it does not look like a good place to put -@/+@, but bad programs should have failed in parser.
 		;
 
 arrayExpression
@@ -521,7 +521,7 @@ returns [BodyStatement bs]
 exceptionList
 returns [ExceptionList el]
 {
-	VariableExpression v;
+	LocalVariableExpression v;
 }
 		:	{el = new ExceptionList();}
 			(v=variable	{el.addArgument(v);})*
