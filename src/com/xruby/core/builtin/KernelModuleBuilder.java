@@ -312,6 +312,16 @@ class Kernel_to_s extends RubyMethod {
 	}
 }
 
+class Kernel_lambda extends RubyMethod {
+	public Kernel_lambda() {
+		super(0, false);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		return new RubyValue(RubyRuntime.ProcClass, block);
+	}
+}
+
 public class KernelModuleBuilder {
 	public static RubyModule create() {
 		RubyModule m = RubyRuntime.GlobalScope.defineModule("Kernel");
@@ -328,6 +338,9 @@ public class KernelModuleBuilder {
 		m.defineMethod("load", new Kernel_load());
 		m.defineMethod("to_a", new Kernel_to_a());
 		m.defineMethod("to_s", new Kernel_to_s());
+		RubyMethod lambda = new Kernel_lambda();
+		m.defineMethod("lambda", lambda);
+		m.defineMethod("proc", lambda);
 		return m;
 	}
 }
