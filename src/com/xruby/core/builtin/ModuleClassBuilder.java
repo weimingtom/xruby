@@ -69,6 +69,16 @@ class Module_private extends RubyMethod {
 	}
 }
 
+class Module_to_s extends RubyMethod {
+	public Module_to_s() {
+		super(-1, false);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		return ObjectFactory.createString(receiver.getRubyClass().getName());
+	}
+}
+
 public class ModuleClassBuilder {
 	
 	public static RubyClass create() {
@@ -76,6 +86,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("public", new Module_public());
 		c.defineMethod("protected", new Module_protected());
 		c.defineMethod("private", new Module_private());
+		c.defineMethod("to_s", new Module_to_s());
 		return c;
 	}
 }
