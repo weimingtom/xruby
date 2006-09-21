@@ -16,7 +16,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"[\n" +
 			"2\n" +
 			"class:true\n" +
-			"]\n" +
+			"]()\n" +
 			"puts:false\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
@@ -32,7 +32,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"[\n" +
 			"1\n" +
 			"class:true\n" +
-			"]\n" +
+			"]()\n" +
 			"puts:false\n" +
 			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
