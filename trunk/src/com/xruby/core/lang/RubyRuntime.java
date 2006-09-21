@@ -30,6 +30,7 @@ public class RubyRuntime {
 	public static RubyClass HashClass = HashClassBuilder.create();
 	public static RubyClass SymbolClass = SymbolClassBuilder.create();
 	public static RubyClass IOClass = IOClassBuilder.create();
+	public static RubyClass ProcClass = ProcClassBuilder.create();
 	
 	public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", ObjectClass);
 	

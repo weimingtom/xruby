@@ -1517,4 +1517,26 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_lamda_proc() {
+		String[] program_texts = {
+				"a = lambda {print 'xxx'}; a.call",
+				"a = lambda {|x| print x}; a.call('yyy')",
+				"a = proc {|x, y| print x, y}; a.call(1, 2)",
+				
+				//FIXME "a = lambda {print self}; a.call",
+				
+		};
+
+		String[] outputs = {
+				"xxx",
+				"yyy",
+				"12",
+				
+				//FIXME "self",
+				
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

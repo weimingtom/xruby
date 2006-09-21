@@ -25,6 +25,7 @@ public class ObjectFactory {
 	public static final RubyValue ExceptionClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ExceptionClass);
 	public static final RubyValue RuntimeErrorClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RuntimeErrorClass);
 	public static final RubyValue ClassClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ClassClass);
+	public static final RubyValue ProcClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ProcClass);
 
 	public static boolean isBuiltin(String name) {
 		if (name.equals("Object") ||
@@ -40,7 +41,8 @@ public class ObjectFactory {
 				name.equals("RuntimeError") ||
 				name.equals("Array") ||
 				name.equals("Hash") ||
-				name.equals("ClassClass")) {
+				name.equals("ClassClass") ||
+				name.equals("Proc")) {
 			return true;
 		} else {
 			return false;
