@@ -47,9 +47,13 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
 		String expected_result = 
-"nil\n" +
-"return\n" +
-"EOF";
+			"*[:0\n" +
+			"[\n" +
+			"nil\n" +
+			"]*\n" +
+			"]!\n" +
+			"return\n" +
+			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 	
@@ -58,9 +62,14 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 		CodePrinter CodePrinter = new CodePrinter();
 		p.accept(CodePrinter);
 		String expected_result = 
-"nil\n" +
-"return\n" +
-"EOF";
+			"*[:0\n" +
+			"[\n" +
+			"[:0\n" +
+			"]!\n" +
+			"]*\n" +
+			"]!\n" +
+			"return\n" +
+			"EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
 }
