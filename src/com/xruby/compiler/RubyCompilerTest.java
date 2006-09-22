@@ -1559,4 +1559,17 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+
+	public void test_loop_no_block_given() {
+		String[] program_texts = {
+				"loop",
+		};
+
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.LocalJumpErrorClass, "in `loop': no block given"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
+
 }
