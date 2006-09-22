@@ -53,8 +53,6 @@ statement
 returns [Statement s]
 {
 	Expression e = null;
-	String newname = null;
-	String oldname = null;
 }
 		:	e=expression
 			{
@@ -66,17 +64,56 @@ returns [Statement s]
 				}
 				s = new ExpressionStatement(e);
 			}
-		|	#("alias"	newname=aliasParameter	oldname=aliasParameter)	{s = new AliasStatement(newname, oldname);}
-		|	#("undef"	{s = new UndefStatement();}	(func:FUNCTION	{((UndefStatement)s).add(func.getText());})+)
-		|	#(	PARALLEL_ASSIGN	{s = new MultipleAssignmentStatement();}
-				(e=expression	{((MultipleAssignmentStatement)s).addLhs(e);})*
-				(REST_ARG_PREFIX	e=expression	{((MultipleAssignmentStatement)s).setAsteriskLhs(e);})?
+		|	s=alias
+		|	s=undef
+		|	s=multipleAssignment
+		;
+
+alias
+returns[AliasStatement s]
+{
+	String newname = null;
+	String oldname = null;
+}
+		:	#("alias"	newname=aliasParameter	oldname=aliasParameter)	{s = new AliasStatement(newname, oldname);}
+		;
+		
+undef
+returns[UndefStatement s]
+		:	#("undef"	{s = new UndefStatement();}	(func:FUNCTION	{s.add(func.getText());})+)
+		;
+
+multipleAssignment
+returns[MultipleAssignmentStatement s]
+{
+	Expression e = null;
+}
+		:	#(	MULTIPLE_ASSIGN	{s = new MultipleAssignmentStatement();}
+				(e=lhs	{((MultipleAssignmentStatement)s).addLhs(e);})*
+				(REST_ARG_PREFIX	e=expression	{s.setAsteriskLhs(e);})?
 				(
 					#(MRHS	
 					(e=expression	{((MultipleAssignmentStatement)s).addRhs(e);})*
-					(REST_ARG_PREFIX	e=expression	{((MultipleAssignmentStatement)s).setAsteriskRhs(e);})?
+					(REST_ARG_PREFIX	e=expression	{s.setAsteriskRhs(e);})?
 					)
 				)?
+			)
+		;
+
+lhs
+returns[Expression e]
+		:	e=expression
+		|	e=nestedLhs
+		;
+
+nestedLhs
+returns[NestedVariableExpression e]
+{
+	Expression exp = null;
+}
+		:	#(	NESTED_LHS			{e = new NestedVariableExpression();}
+				(exp=expression		{e.addLhs(exp);})*
+				(REST_ARG_PREFIX	exp=expression	{e.setAsteriskLhs(exp);})?
 			)
 		;
 

@@ -90,4 +90,7 @@ public interface CodeVisitor {
 	public void visitMrhs(int var, int index, boolean asterisk);
 	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs);
 	public void visitMultipleAssignmentEnd();
+	
+	public int visitNestedVariableBegin(boolean single_lhs);
+	public void visitNestedVariableEnd();
 }

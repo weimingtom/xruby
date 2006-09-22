@@ -29,8 +29,9 @@ tokens {
 	COMPSTMT;
 	SYMBOL;
 	BLOCK;
-	PARALLEL_ASSIGN;
+	MULTIPLE_ASSIGN;
 	MRHS;
+	NESTED_LHS;
 }
 
 {
@@ -144,12 +145,17 @@ statementWithoutModifier
 				mrhs
 				{is_parallel_assignment = true;}
 			)
-			{if (is_parallel_assignment) {#statementWithoutModifier = #(#[PARALLEL_ASSIGN, "PARALLEL_ASSIGN"], #statementWithoutModifier);}}
+			{if (is_parallel_assignment) {#statementWithoutModifier = #(#[MULTIPLE_ASSIGN, "MULTIPLE_ASSIGN"], #statementWithoutModifier);}}
 		;
 
 //LPAREN can start primaryExpression, have to use syntactic predicate here.
 mlhs_item
-		:	(LPAREN	dotColonOrArrayAccess	COMMA)=>	LPAREN	dotColonOrArrayAccess	(COMMA	dotColonOrArrayAccess)+	RPAREN
+		:	(LPAREN!	dotColonOrArrayAccess	COMMA)=>
+			LPAREN!
+			dotColonOrArrayAccess
+			(COMMA!	(seen_star:REST_ARG_PREFIX)?	dotColonOrArrayAccess	{if (null != seen_star) break;})+
+			RPAREN!
+			{#mlhs_item = #(#[NESTED_LHS, "NESTED_LHS"], #mlhs_item);}
 		|	dotColonOrArrayAccess
 		;
 

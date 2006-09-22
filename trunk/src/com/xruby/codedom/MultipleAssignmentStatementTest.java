@@ -26,8 +26,8 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"2\n" +
 			"]\n" +
 			"begin MultipleAssignment:false:false\n" +
-			"0\n" +
-			"1\n" +
+			"mrhs:0\n" +
+			"mrhs:1\n" +
 			"b //=\n" +
 			"a //=\n" +
 			"end MultipleAssignment\n" +
@@ -55,11 +55,51 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"]!\n" +
 			"]*\n" +
 			"begin MultipleAssignment:false:false\n" +
-			"0\n" +
-			"1*\n" +
+			"mrhs:0\n" +
+			"mrhs:1*\n" +
 			"b //=\n" +
 			"a //=\n" +
 			"end MultipleAssignment\n" +
+			"EOF";
+		
+		assertEquals(expected_result, CodePrinter.toString());
+	}
+	
+	public void test_nested() {
+		Program p = getProgram("b, (c, d), e = 1,2,3,4;b;c;d;e");
+		CodePrinter CodePrinter = new CodePrinter();
+		p.accept(CodePrinter);
+		String expected_result = 
+			"[:4\n" +
+			"[\n" +
+			"1\n" +
+			"]\n" +
+			"[\n" +
+			"2\n" +
+			"]\n" +
+			"[\n" +
+			"3\n" +
+			"]\n" +
+			"[\n" +
+			"4\n" +
+			"]\n" +
+			"begin MultipleAssignment:false:false\n" +
+			"mrhs:0\n" +
+			"mrhs:1\n" +
+			"mrhs:2\n" +
+			"e //=\n" +
+			"begin NestedVariable\n" +
+			"mrhs:0\n" +
+			"mrhs:1\n" +
+			"d //=\n" +
+			"c //=\n" +
+			"end NestedVariable\n" +
+			"b //=\n" +
+			"end MultipleAssignment\n" +
+			"b\n;\n" +
+			"c\n;\n" +
+			"d\n;\n" +
+			"e\n" +
 			"EOF";
 		
 		assertEquals(expected_result, CodePrinter.toString());

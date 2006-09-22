@@ -364,9 +364,6 @@ public class RubyLexer extends RubyLexerBase
 		{
 			switch (token.getType())
 			{
-				case RPAREN:
-					allow_asignment_ = true;// def asctime() strftime('%c') end
-					break;
 				/*it is OK to do this error checking here, now we leave it to the parser.
 				case LPAREN:
 					switch (last_token_.getType()) {
@@ -388,6 +385,8 @@ public class RubyLexer extends RubyLexerBase
 					allow_asignment_ = true;
 					is_in_condition = false;
 					break;
+				case RPAREN:
+					allow_asignment_ = true;// def asctime() strftime('%c') end
 				case COMMA:
 				case ASSIGN:
 				case ASSIGN_WITH_NO_LEADING_SPACE:
@@ -410,6 +409,7 @@ public class RubyLexer extends RubyLexerBase
 					// a = 1;
 					// a=b=1;
 					// a, b, c = 1, 2, 3
+					// b, (c, d), e = 1,2,3,4
 					//Be careful with a.b = 1, A::b = 1 etc
 					if (allow_asignment_&&
 						(DOT!= token_before_last_token_.getType())&&

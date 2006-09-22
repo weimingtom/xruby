@@ -291,7 +291,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "puts", 2),
 							new TestingCommonToken(HERE_DOC_BEGIN, "EOM", 2),
 							new TestingCommonToken(COMMA, "", 2),
-							new TestingCommonToken(FUNCTION, "src", 2),//should be IDENTIFIER, but we have no parser here
+							new TestingCommonToken(IDENTIFIER, "src", 2),
 							new TestingCommonToken(LINE_BREAK, "", 2),
 							new TestingCommonToken(LITERAL_end, "end", 8),
 		};
@@ -472,13 +472,13 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "raise", 2),
 							new TestingCommonToken(FUNCTION, "POPAuthenticationError", 2),
 							new TestingCommonToken(COMMA, "", 2),
-							new TestingCommonToken(FUNCTION, "res", 2),//should be IDENTIFIER, but we have no parser here
+							new TestingCommonToken(IDENTIFIER, "res", 2),
 							new TestingCommonToken(UNLESS_MODIFIER, "unless", 2),
 							new TestingCommonToken(REGEX, "\\A\\+OK", 2),
 							new TestingCommonToken(CASE_EQUAL, "===", 2),
-							new TestingCommonToken(FUNCTION, "res", 2),//should be IDENTIFIER, but we have no parser here
+							new TestingCommonToken(IDENTIFIER, "res", 2),
 							new TestingCommonToken(LINE_BREAK, "", 2),
-							new TestingCommonToken(FUNCTION, "res", 3),//should be IDENTIFIER, but we have no parser here
+							new TestingCommonToken(IDENTIFIER, "res", 3),
 							new TestingCommonToken(LINE_BREAK, "", 3),
 							new TestingCommonToken(LITERAL_end, "end", 4),
 		};
