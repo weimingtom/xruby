@@ -322,6 +322,20 @@ class Kernel_lambda extends RubyMethod {
 	}
 }
 
+class Kernel_loop extends RubyMethod {
+	public Kernel_loop() {
+		super(0, false);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (null == block) {
+			throw new RubyException(RubyRuntime.LocalJumpErrorClass, "in `loop': no block given");
+		}
+		
+		return block.invoke(receiver, args);
+	}
+}
+
 public class KernelModuleBuilder {
 	public static RubyModule create() {
 		RubyModule m = RubyRuntime.GlobalScope.defineModule("Kernel");
@@ -341,6 +355,7 @@ public class KernelModuleBuilder {
 		RubyMethod lambda = new Kernel_lambda();
 		m.defineMethod("lambda", lambda);
 		m.defineMethod("proc", lambda);
+		m.defineMethod("loop", new Kernel_loop());
 		return m;
 	}
 }

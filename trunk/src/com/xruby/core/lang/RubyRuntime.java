@@ -43,6 +43,7 @@ public class RubyRuntime {
 	public static RubyClass NoMethodErrorClass = GlobalScope.defineNewClass("NoMethodError", NameErrorClass);
 	
 	public static RubyClass RuntimeErrorClass = GlobalScope.defineNewClass("RuntimeError", StandardErrorClass);
+	public static RubyClass LocalJumpErrorClass = GlobalScope.defineNewClass("LocalJumpError", StandardErrorClass);
 	
 	static {
 		if (!RubyRuntimeSettings.CompileOnly) {
