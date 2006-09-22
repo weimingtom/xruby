@@ -69,6 +69,22 @@ public class BlockTest extends TestingAstTestCase {
 		assertEquals(expected_result, codeprinter.toString());
 	}
 	
+	public void test_break_in_block() {
+		Program p = getProgram("loop do break; end");
+		CodePrinter codeprinter = new CodePrinter();
+		p.accept(codeprinter);
+		String expected_result = 
+			"self\n" +
+			"block:0:false\n" +
+			"begin break\n" +
+			"nil\n" +
+			"end break\n" +
+			"end block:false\n" +
+			"loop:false\n" +
+			"EOF";
+		assertEquals(expected_result, codeprinter.toString());
+	}
+	
 	public void test_do_end_is_same_as_curly_braces() {
 		Program p1 = getProgram("f {|a, b, *c|   puts c  }");
 		CodePrinter cp1 = new CodePrinter();
@@ -80,4 +96,6 @@ public class BlockTest extends TestingAstTestCase {
 		
 		assertEquals(cp1.toString(), cp2.toString());
 	}
+	
+	
 }

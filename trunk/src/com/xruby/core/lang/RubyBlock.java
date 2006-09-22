@@ -28,6 +28,18 @@ class MethodBlockBase {
 }
 
 public abstract class RubyBlock extends MethodBlockBase {
+
+	// if run finished, and breakValue_ is not null, it indicated break happend
+	//e.g.
+	// loop do
+	//      break 'xxx'
+	// end
+	protected RubyValue breakValue_ = null;
+
+	public RubyValue getBreakValue() {
+		return breakValue_;
+	}
+		
 	public RubyBlock(int argc, boolean has_asterisk_parameter) {
 		super(argc, has_asterisk_parameter);
 	}
@@ -46,3 +58,4 @@ public abstract class RubyBlock extends MethodBlockBase {
 	
 	protected abstract RubyValue run(RubyValue receiver, ArrayValue args);
 }
+
