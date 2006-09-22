@@ -155,6 +155,14 @@ public class ArrayValue implements Iterable<RubyValue> {
 		}
 	}
 
+	public static ArrayValue convertToArrayIfNotYet(RubyValue v) {
+		if (v.getValue() instanceof ArrayValue) {
+			return (ArrayValue)v.getValue();
+		} else {
+			return new ArrayValue(v);
+		}
+	}
+
 	//create a new Array containing every element from index to the end
 	public RubyValue collect(int index) {
 		assert(index >= 0);

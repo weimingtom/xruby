@@ -373,6 +373,7 @@ public class CodePrinter implements CodeVisitor {
 	}
 
 	public void visitMrhs(int var, int index, boolean asterisk) {
+		result_.append("mrhs:");
 		result_.append(index);
 		if (asterisk) {
 			result_.append("*");
@@ -391,6 +392,15 @@ public class CodePrinter implements CodeVisitor {
 
 	public void visitMultipleAssignmentEnd() {
 		result_.append("end MultipleAssignment\n");
+	}
+
+	public int visitNestedVariableBegin(boolean single_lhs) {
+		result_.append("begin NestedVariable\n");
+		return 0;
+	}
+	
+	public void visitNestedVariableEnd() {
+		result_.append("end NestedVariable\n");
 	}
 
 }

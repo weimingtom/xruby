@@ -526,4 +526,20 @@ class RubyCompilerImpl implements CodeVisitor {
 	public void visitMultipleAssignmentEnd() {
 		//do nothing
 	}
+	
+	public int visitNestedVariableBegin(boolean single_lhs) {
+		if (single_lhs) {
+			return 0;
+		} else {
+			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+							Method.getMethod("com.xruby.core.value.ArrayValue convertToArrayIfNotYet(com.xruby.core.lang.RubyValue)"));
+			int var = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(ArrayValue.class));
+			cg_.getMethodGeneratorForRunMethod().storeLocal(var);
+			return var;
+		}
+	}
+	
+	public void visitNestedVariableEnd() {
+		//do nothing
+	}
 }

@@ -1500,7 +1500,6 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	/*
 	public void test_nested_assignment() {
 		String[] program_texts = {
 				"b, (c, d), e = 1,2,3,4; print b, c, d, e",
@@ -1515,7 +1514,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
-	}*/
+	}
 	
 	public void test_return() {
 		String[] program_texts = {
