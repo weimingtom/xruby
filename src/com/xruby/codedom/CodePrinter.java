@@ -318,6 +318,14 @@ public class CodePrinter implements CodeVisitor {
 	public void visitReturn() {
 		result_.append("return\n");
 	}
+	
+	public void visitBreakBegin() {
+		result_.append("begin break\n");
+	}
+
+	public void visitBreakEnd() {
+		result_.append("end break\n");
+	}
 
 	public void visitAliasGlobalVariable(String newName, String oldName) {
 		visitAliasMethod(newName, oldName);

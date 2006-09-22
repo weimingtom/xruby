@@ -542,4 +542,18 @@ class RubyCompilerImpl implements CodeVisitor {
 	public void visitNestedVariableEnd() {
 		//do nothing
 	}
+
+	public void visitBreakBegin() {
+		if (cg_ instanceof ClassGeneratorForRubyBlock) {
+			cg_.getMethodGeneratorForRunMethod().loadThis();
+		}
+		//TODO
+	}
+
+	public void visitBreakEnd() {
+		if (cg_ instanceof ClassGeneratorForRubyBlock) {
+			cg_.getMethodGeneratorForRunMethod().breakBlock();
+		}
+		//TODO
+	}
 }

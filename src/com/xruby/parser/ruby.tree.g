@@ -223,7 +223,8 @@ returns [Expression e]
 		|	e=arrayExpression
 		|	e=hashExpression
 		|	e=symbol
-		|	#("return"	(return_args=return_arguments)?)		{e = new ReturnExpression(return_args);}
+		|	#("return"	(return_args=return_arguments)?)	{e = new ReturnExpression(return_args);}
+		|	#("break"		(return_args=return_arguments)?)	{e = new BreakExpression(return_args);}
 		|	#(LPAREN	cs=compoundStatement)			{e = new ParenthesisExpression(cs);}
 		;
 

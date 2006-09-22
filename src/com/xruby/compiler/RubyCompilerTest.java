@@ -1571,5 +1571,17 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
+	
+	public void test_loop() {
+		String[] program_texts = {
+				"a = loop do break; end; print a",
+		};
+		
+		String[] outputs = {
+				"nil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 
 }

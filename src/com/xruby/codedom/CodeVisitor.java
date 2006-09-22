@@ -70,7 +70,11 @@ public interface CodeVisitor {
 	public void visitClassVariableExpression(String value);
 	public void visitInstanceVariableExpression(String value);
 	public void visitCommandOutputExpression(String value);
+	
 	public void visitReturn();
+	public void visitBreakBegin();
+	public void visitBreakEnd();
+	
 	public void visitAliasGlobalVariable(String newName, String oldName);
 	public void visitAliasMethod(String newName, String oldName);
 	public void visitUndef(String name);

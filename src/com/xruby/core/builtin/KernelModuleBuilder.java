@@ -331,8 +331,13 @@ class Kernel_loop extends RubyMethod {
 		if (null == block) {
 			throw new RubyException(RubyRuntime.LocalJumpErrorClass, "in `loop': no block given");
 		}
-		
-		return block.invoke(receiver, args);
+
+		for (;;) {
+			block.invoke(receiver, args);
+			if (block.getBreakValue() != null) {
+				return block.getBreakValue();
+			}
+		}
 	}
 }
 

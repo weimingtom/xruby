@@ -32,7 +32,8 @@ public class CompoundStatement implements Visitable {
 		}
 		else if (statements_.get(statements_.size() - 1) instanceof ExpressionStatement) {
 			ExpressionStatement e = (ExpressionStatement)statements_.get(statements_.size() - 1);
-			if (e.getExpression() instanceof ReturnExpression) {
+			if (e.getExpression() instanceof ReturnExpression ||
+				e.getExpression() instanceof BreakExpression) {
 				return false;
 			} else {
 				return true;

@@ -264,6 +264,12 @@ class MethodGenerator extends GeneratorAdapter {
 
 	}
 
+	public void breakBlock() {
+		putField(Type.getType(RubyBlock.class), "breakValue_", Type.getType(RubyValue.class));
+		visitInsn(Opcodes.ACONST_NULL);
+		returnValue();
+	}
+
 }
 
 class MethodGeneratorForClassBuilder extends MethodGenerator {
