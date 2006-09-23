@@ -154,6 +154,12 @@ class RubyCompilerImpl implements CodeVisitor {
 		} else if (operator.equals("||")) {
 			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
 					Method.getMethod("com.xruby.core.lang.RubyValue operatorOr(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue)"));
+		} else if (operator.equals("!=")) {
+			cg_.getMethodGeneratorForRunMethod().push("==");
+			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
+			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue operatorNot(com.xruby.core.lang.RubyValue)"));
 		} else {
 			//operator as method call
 			cg_.getMethodGeneratorForRunMethod().push(operator);
@@ -163,8 +169,15 @@ class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitUnaryOperator(String operator) {
-		cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);
-		visitBinaryOperator(operator);
+		if (operator.equals("!")) {
+			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue operatorNot(com.xruby.core.lang.RubyValue)"));
+		} else {
+			cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);
+			cg_.getMethodGeneratorForRunMethod().push(operator);
+			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
+		}
 	}
 
 	private void expandArrayIfThereIsZeroOrOneValue() {

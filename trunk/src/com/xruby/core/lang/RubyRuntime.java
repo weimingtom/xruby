@@ -139,6 +139,14 @@ public class RubyRuntime {
 			return second;
 		}
 	}
+
+	public static RubyValue operatorNot(RubyValue value) {
+		if (testTrueFalse(value)) {
+			return ObjectFactory.falseValue;
+		} else {
+			return ObjectFactory.trueValue;
+		}
+	}
 	
 	public static RubyValue runCommandAndCaptureOutput(String value) throws RubyException {
 		try {

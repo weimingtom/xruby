@@ -694,6 +694,20 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_not_equal() {
+		String[] program_texts = {
+				"print 'abc'!=123",
+				"print 'abc'!='abc'",
+		};
+		
+		String[] outputs = {
+				"true",
+				"false",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 
 	public void test_equal() {
 		String[] program_texts = {
@@ -739,6 +753,20 @@ public class RubyCompilerTest extends TestCase {
 				"xxx",
 				"1",
 				"5678",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_not() {
+		String[] program_texts = {
+				"print !true",
+				"print !false",
+		};
+
+		String[] outputs = {
+				"false",
+				"true",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
