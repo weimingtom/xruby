@@ -225,6 +225,7 @@ returns [Expression e]
 		|	e=symbol
 		|	#("return"	(return_args=return_arguments)?)	{e = new ReturnExpression(return_args);}
 		|	#("break"		(return_args=return_arguments)?)	{e = new BreakExpression(return_args);}
+		|	#("next"		(return_args=return_arguments)?)	{e = new NextExpression(return_args);}
 		|	#(LPAREN	cs=compoundStatement)			{e = new ParenthesisExpression(cs);}
 		;
 

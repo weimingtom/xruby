@@ -44,6 +44,8 @@ public class AssignmentOperatorExpression extends Expression {
 
 	public void accept(CodeVisitor visitor) {
 		rhs_.accept(visitor);
-		lhs_.acceptAsAssignment(visitor, rhs_ instanceof MethodCallExpression, false);
+		lhs_.acceptAsAssignment(visitor,
+				rhs_ instanceof MethodCallExpression || rhs_ instanceof YieldExpression,
+				false);
 	}
 }

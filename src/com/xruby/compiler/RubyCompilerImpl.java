@@ -556,4 +556,14 @@ class RubyCompilerImpl implements CodeVisitor {
 		}
 		//TODO
 	}
+
+	public void visitNextBegin() {
+	}
+
+	public void visitNextEnd() {
+		if (cg_ instanceof ClassGeneratorForRubyBlock) {
+			visitReturn();
+		}
+		//TODO
+	}
 }

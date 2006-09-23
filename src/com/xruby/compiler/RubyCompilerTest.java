@@ -1583,5 +1583,19 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_next_in_block() {
+		String[] program_texts = {
+				"def f; a= yield; print a; end; f {next 1}",
+				"def f; a= yield; print a, a.class; end; f {next *nil}",
+		};
+		
+		String[] outputs = {
+				"1",
+				"nilNilClass",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 
 }
