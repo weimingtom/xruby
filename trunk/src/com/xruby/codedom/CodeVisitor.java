@@ -74,6 +74,8 @@ public interface CodeVisitor {
 	public void visitReturn();
 	public void visitBreakBegin();
 	public void visitBreakEnd();
+	public void visitNextBegin();
+	public void visitNextEnd();
 	
 	public void visitAliasGlobalVariable(String newName, String oldName);
 	public void visitAliasMethod(String newName, String oldName);
