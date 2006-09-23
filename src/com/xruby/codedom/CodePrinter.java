@@ -16,6 +16,24 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 	
+	public Object visitAndBinaryOperatorLeft() {
+		result_.append("&& left\n");
+		return null;
+	}
+	
+	public void visitAndBinaryOperatorRight(Object label) {
+		result_.append("&& right\n");
+	}
+	
+	public Object visitOrBinaryOperatorLeft() {
+		result_.append("|| left\n");
+		return null;
+	}
+	
+	public void visitOrBinaryOperatorRight(Object label) {
+		result_.append("|| right\n");
+	}
+	
 	public void visitUnaryOperator(String operator) {
 		result_.append(operator);
 		result_.append("\n");

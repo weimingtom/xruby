@@ -6,6 +6,10 @@ package com.xruby.codedom;
 
 public interface CodeVisitor {
 	public void visitBinaryOperator(String operator);
+	public Object visitAndBinaryOperatorLeft();
+	public void visitAndBinaryOperatorRight(Object label);
+	public Object visitOrBinaryOperatorLeft();
+	public void visitOrBinaryOperatorRight(Object label);
 	public void visitUnaryOperator(String operator);
 	public void visitMethodCall(String methodName, boolean hasReceiver);
 

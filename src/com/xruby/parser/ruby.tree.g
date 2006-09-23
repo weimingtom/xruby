@@ -136,8 +136,8 @@ returns [Expression e]
 	Block block = null;
 	CompoundStatement cs = null;
 }
-		:	#("and"					left=expression	right=expression)	{e = new BinaryOperatorExpression("&&", left, right);}
-		|	#("or"					left=expression	right=expression)	{e = new BinaryOperatorExpression("||", left, right);}
+		:	#("and"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
+		|	#("or"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("||", left, right);}
 		|	#("not"					left=expression)					{e = new UnaryOperatorExpression("!", left);}
 		|	#(QUESTION				condition=expression	left=expression	right=expression)
 																	{e = new IfExpression(condition, left, right);}
@@ -153,12 +153,12 @@ returns [Expression e]
 		|	#(BOR_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("|", left, right));}
 		|	#(LEFT_SHIFT_ASSIGN		left=expression	right=expression)	{e =AssignmentOperatorExpression.create(left,  new BinaryOperatorExpression("<<", left, right));}
 		|	#(RIGHT_SHIFT_ASSIGN	left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression(">>", left, right));}
-		|	#(LOGICAL_AND_ASSIGN	left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("&&", left, right));}
-		|	#(LOGICAL_OR_ASSIGN		left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("||", left, right));}
+		|	#(LOGICAL_AND_ASSIGN	left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new AndOrBinaryOperatorExpression("&&", left, right));}
+		|	#(LOGICAL_OR_ASSIGN		left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new AndOrBinaryOperatorExpression("||", left, right));}
 		|	#(INCLUSIVE_RANGE		left=expression	right=expression)	{e = new BinaryOperatorExpression("...", left, right);}
 		|	#(EXCLUSIVE_RANGE		left=expression	right=expression)	{e = new BinaryOperatorExpression("..", left, right);}
-		|	#(LOGICAL_OR			left=expression	right=expression)	{e = new BinaryOperatorExpression("||", left, right);}
-		|	#(LOGICAL_AND			left=expression	right=expression)	{e = new BinaryOperatorExpression("&&", left, right);}
+		|	#(LOGICAL_OR			left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("||", left, right);}
+		|	#(LOGICAL_AND			left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
 		|	#(COMPARE				left=expression	right=expression)	{e = new BinaryOperatorExpression("<=>", left, right);}
 		|	#(EQUAL					left=expression	right=expression)	{e = new BinaryOperatorExpression("==", left, right);}
 		|	#(CASE_EQUAL			left=expression	right=expression)	{e = new BinaryOperatorExpression("===", left, right);}

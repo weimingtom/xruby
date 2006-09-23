@@ -148,13 +148,7 @@ class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitBinaryOperator(String operator) {
-		if (operator.equals("&&")) {
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
-					Method.getMethod("com.xruby.core.lang.RubyValue operatorAnd(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue)"));
-		} else if (operator.equals("||")) {
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
-					Method.getMethod("com.xruby.core.lang.RubyValue operatorOr(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue)"));
-		} else if (operator.equals("!=")) {
+		if (operator.equals("!=")) {
 			cg_.getMethodGeneratorForRunMethod().push("==");
 			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
@@ -166,6 +160,34 @@ class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
 		}
+	}
+	
+	public Object visitAndBinaryOperatorLeft() {
+		//The and and && operators evaluate their first operand. If false,
+		//the expression returns false; otherwise, the expression returns
+		//the value of the second operand. 
+		cg_.getMethodGeneratorForRunMethod().dup();
+		Label label = (Label)visitAfterIfCondition();
+		cg_.getMethodGeneratorForRunMethod().pop();//discard the current value;
+		return label;
+	}
+
+	public void visitAndBinaryOperatorRight(Object label) {
+		cg_.getMethodGeneratorForRunMethod().mark((Label)label);
+	}
+
+	public Object visitOrBinaryOperatorLeft() {
+		//The or and || operators evaluate their first operand. If true, 
+		//the expression returns true; otherwise, the expression returns
+		//the value of the second operand. 
+		cg_.getMethodGeneratorForRunMethod().dup();
+		Label label = (Label)visitAfterUnlessCondition();
+		cg_.getMethodGeneratorForRunMethod().pop();//discard the current value;
+		return label;
+	}
+
+	public void visitOrBinaryOperatorRight(Object label) {
+		visitAndBinaryOperatorRight(label);
 	}
 
 	public void visitUnaryOperator(String operator) {
@@ -326,8 +348,7 @@ class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public Object visitAfterUnlessCondition() {
-		cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("boolean testTrueFalse(com.xruby.core.lang.RubyValue)"));
+		cg_.getMethodGeneratorForRunMethod().RubyRuntime_testTrueFalse();
 		Label label = new Label();
 		cg_.getMethodGeneratorForRunMethod().ifZCmp(GeneratorAdapter.NE, label);
 		return label;

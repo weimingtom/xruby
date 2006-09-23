@@ -531,7 +531,7 @@ public class RubyCompilerTest extends TestCase {
 				"	print 'xxx'\n" +
 				"end",
 
-				"if false\n" +
+				"if false then" +
 				"	print 1\n" +
 				"elsif true\n" +
 				"	print 2\n" +
@@ -615,18 +615,21 @@ public class RubyCompilerTest extends TestCase {
 				"\n" +
 				"print a",
 
-				"a =unless true\n" +
+				"a =unless true then" +
 				"	111\n" +
 				"else\n" +
 				"	222\n" +
 				"end\n" +
 				"\n" +
 				"print a",
+				
+				"$bad = false; unless $x == $x; $bad = true; end; print $bad"
 		};
 
 		String[] outputs = {
 				"111",
 				"222",
+				"false",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -721,6 +724,7 @@ public class RubyCompilerTest extends TestCase {
 				"print [1, 2, 3]==[1, 2, 3]",
 				"print [1, 2, 3]==[1, 2, 3, 4]",
 				"a = nil; print a==nil",
+				"$x = '0'; print $x == $x",
 				//"print :s == :s",
 		};
 
@@ -735,6 +739,7 @@ public class RubyCompilerTest extends TestCase {
 				"true",
 				"false",
 				"true",
+				"true",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -746,6 +751,10 @@ public class RubyCompilerTest extends TestCase {
 				"print true && 'xxx'",
 				"print 1 or 'yyyy'",
 				"print false || 5678",
+				"true && (print 'xxx')",
+				"false && (print 'xxx')",
+				"false || (print 'xxx')",
+				"true || (print 'xxx')",
 		};
 
 		String[] outputs = {
@@ -753,6 +762,10 @@ public class RubyCompilerTest extends TestCase {
 				"xxx",
 				"1",
 				"5678",
+				"xxx",
+				"",
+				"xxx",
+				"",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
