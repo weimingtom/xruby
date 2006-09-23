@@ -920,15 +920,15 @@ blockMethodDefinationArgument
 
 
 thenOrTermialOrColon
-		:	"then"
-		|	terminal	("then")?
-		|	COLON
+		:	"then"!
+		|	terminal	("then"!)?
+		|	COLON!
 		;
 
 doOrTermialOrColon
-		:	DO_IN_CONDITION
+		:	DO_IN_CONDITION!
 		|	terminal
-		|	COLON
+		|	COLON!
 		;
 
 operator_ASSIGN				:	(ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)				(options{greedy=true;}:LINE_BREAK!)?;
