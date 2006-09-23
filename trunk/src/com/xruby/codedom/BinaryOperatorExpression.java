@@ -6,9 +6,9 @@ package com.xruby.codedom;
 
 public class BinaryOperatorExpression extends Expression {
 
-	private String operator_;
-	private Expression left_;
-	private Expression right_;
+	protected String operator_;
+	protected Expression left_;
+	protected Expression right_;
 
 	public BinaryOperatorExpression(String operator, Expression left, Expression right) {
 		operator_ = operator;

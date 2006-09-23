@@ -455,7 +455,7 @@ r([1,2,[]]){next *[1,2]}
 r([nil,nil,[]]){next *[*[]]}
 r([1,nil,[]]){next *[*[1]]}
 r([1,2,[]]){next *[*[1,2]]}#354
-=begin
+
 test_check "condition"
 
 $x = '0';
@@ -472,10 +472,12 @@ test_check "if/unless";
 $x = 'test';
 test_ok(if $x == $x then true else false end)
 $bad = false
+=begin
 unless $x == $x
   $bad = true
 end
 test_ok(!$bad)
+
 test_ok(unless $x != $x then true else false end)
 
 test_check "case"

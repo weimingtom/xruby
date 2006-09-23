@@ -117,28 +117,6 @@ public class RubyRuntime {
 		
 		return m.invoke(receiver, args, block);
 	}
-	
-	public static RubyValue operatorAnd(RubyValue first, RubyValue second) {
-		//The and and && operators evaluate their first operand. If false,
-		//the expression returns false; otherwise, the expression returns
-		//the value of the second operand. 
-		if (!testTrueFalse(first)) {
-			return first;
-		} else {
-			return second;
-		}
-	}
-	
-	public static RubyValue operatorOr(RubyValue first, RubyValue second) {
-		//The or and || operators evaluate their first operand. If true, 
-		//the expression returns true; otherwise, the expression returns
-		//the value of the second operand. 
-		if (testTrueFalse(first)) {
-			return first;
-		} else {
-			return second;
-		}
-	}
 
 	public static RubyValue operatorNot(RubyValue value) {
 		if (testTrueFalse(value)) {
