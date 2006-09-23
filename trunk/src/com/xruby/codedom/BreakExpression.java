@@ -2,7 +2,7 @@ package com.xruby.codedom;
 
 public class BreakExpression extends Expression {
 
-private ReturnArguments arguments_;
+	private ReturnArguments arguments_;
 	
 	public BreakExpression(ReturnArguments arguments){
 		arguments_ = arguments;
