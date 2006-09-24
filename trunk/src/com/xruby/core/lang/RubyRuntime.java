@@ -32,6 +32,7 @@ public class RubyRuntime {
 	public static RubyClass IOClass = IOClassBuilder.create();
 	public static RubyClass ProcClass = ProcClassBuilder.create();
 	public static RubyClass RangeClass = RangeClassBuilder.create();
+	public static RubyClass RegexpClass = RegexpClassBuilder.create();
 	
 	public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", ObjectClass);
 	
