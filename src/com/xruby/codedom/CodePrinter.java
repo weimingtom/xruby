@@ -172,11 +172,8 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public Object visitAfterIfBody(Object next_label, Object end_label, boolean is_last) {
+	public Object visitAfterIfBody(Object next_label, Object end_label) {
 		result_.append("end if");
-		if (is_last) {
-			result_.append("!");
-		}
 		result_.append("\n");
 		return null;
 	}
@@ -191,11 +188,8 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public Object visitAfterWhenBody(Object next_label, Object end_label, boolean is_last) {
+	public Object visitAfterWhenBody(Object next_label, Object end_label) {
 		result_.append("end when");
-		if (is_last) {
-			result_.append("!");
-		}
 		result_.append("\n");
 		return null;
 	}
@@ -205,11 +199,8 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public Object visitAfterUnlessBody(Object next_label, Object end_label, boolean is_last) {
+	public Object visitAfterUnlessBody(Object next_label, Object end_label) {
 		result_.append("end unless");
-		if (is_last) {
-			result_.append("!");
-		}
 		result_.append("\n");
 		return null;
 	}
@@ -224,12 +215,12 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public Object visitAfterRescueBody(Object next_label, Object end_label, boolean is_last) {
+	public Object visitAfterRescueBody(Object next_label, Object end_label) {
 		result_.append("end rescue\n");
 		return null;
 	}
 
-	public void visitRescueEnd(Object exception_var) {
+	public void visitRescueEnd(Object exception_var, Object end_label) {
 		result_.append("end rescue!\n");
 	}
 	

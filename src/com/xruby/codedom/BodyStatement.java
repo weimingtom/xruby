@@ -15,7 +15,7 @@ class Rescue {
 		body_ = body;
 	}
 
-	public Object accept(CodeVisitor visitor, Object start_label, Object last_label, Object excepton_var, boolean is_last) {
+	public Object accept(CodeVisitor visitor, Object start_label, Object last_label, Object excepton_var) {
 		
 		Object next_label = condition_.accept(visitor, excepton_var);
 		
@@ -23,7 +23,7 @@ class Rescue {
 			body_.accept(visitor);
 		}
 
-		return visitor.visitAfterRescueBody(next_label, last_label, is_last);
+		return visitor.visitAfterRescueBody(next_label, last_label);
 	}
 }
 
@@ -69,14 +69,12 @@ public class BodyStatement implements Visitable {
 		
 		if (!rescues_.isEmpty()) {
 			Object exception_var = visitor.visitPrepareRescueEnd(start_label);
-			int i = 0;
 			Object last_label = null;
 			for (Rescue rescue : rescues_) {
-				++i;
-				last_label = rescue.accept(visitor, start_label, last_label, exception_var, i == rescues_.size());
+				last_label = rescue.accept(visitor, start_label, last_label, exception_var);
 			}
 			
-			visitor.visitRescueEnd(exception_var);
+			visitor.visitRescueEnd(exception_var, last_label);
 		}
 	}
 }
