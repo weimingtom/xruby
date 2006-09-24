@@ -102,6 +102,12 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeStatic(Type.getType(ObjectFactory.class),
                 Method.getMethod("com.xruby.core.lang.RubyValue createString(String)"));
 	}
+
+	public void ObjectFactory_createRegexp(String value) {
+		push(value);
+		invokeStatic(Type.getType(ObjectFactory.class),
+                Method.getMethod("com.xruby.core.lang.RubyValue createRegexp(String)"));
+	}
 	
 	public void ObjectFactory_createSymbol(String value) {
 		push(value);

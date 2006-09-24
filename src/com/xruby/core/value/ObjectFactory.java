@@ -27,6 +27,7 @@ public class ObjectFactory {
 	public static final RubyValue ClassClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ClassClass);
 	public static final RubyValue ProcClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ProcClass);
 	public static final RubyValue RangeClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RangeClass);
+	public static final RubyValue RegexpClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RegexpClass);
 
 	public static boolean isBuiltin(String name) {
 		if (name.equals("Object") ||
@@ -44,7 +45,8 @@ public class ObjectFactory {
 				name.equals("Hash") ||
 				name.equals("ClassClass") ||
 				name.equals("Proc") ||
-				name.equals("Range")) {
+				name.equals("Range") ||
+				name.equals("Regexp")) {
 			return true;
 		} else {
 			return false;
@@ -53,6 +55,10 @@ public class ObjectFactory {
 	
 	public static RubyValue createString(String value) {
 		return new RubyValue(RubyRuntime.StringClass, new StringValue(value));
+	}
+
+	public static RubyValue createRegexp(String value) {
+		return new RubyValue(RubyRuntime.StringClass, new RegexpValue(value));
 	}
 	
 	public static RubyValue createString(StringValue value) {

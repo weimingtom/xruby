@@ -235,6 +235,10 @@ class RubyCompilerImpl implements CodeVisitor {
 	public void visitStringExpression(String value) {
 		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createString(value);
 	}
+	
+	public void visitRegexpExpression(String value) {
+		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createRegexp(value);
+	}
 
 	public void visitSymbolExpression(String value) {
 		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createSymbol(value);

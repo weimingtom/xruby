@@ -26,6 +26,7 @@ public interface CodeVisitor {
 	public void visitFloatExpression(float value);
 	public void visitIntegerExpression(int value);
 	public void visitStringExpression(String value);
+	public void visitRegexpExpression(String value);
 	public void visitLocalVariableExpression(String value); 
 	public void visitTrueExpression();
 	public void visitFalseExpression();

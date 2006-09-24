@@ -104,6 +104,12 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
+	public void visitRegexpExpression(String value) {
+		result_.append("/");
+		result_.append(value);
+		result_.append("/\n");
+	}
+	
 	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter) {
 		result_.append("def ");
 		result_.append(methodName);

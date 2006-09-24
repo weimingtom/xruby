@@ -273,6 +273,7 @@ returns [Expression e]
 		|	double_quote_string:DOUBLE_QUOTE_STRING	{e = new StringExpression(double_quote_string.getText(), true);}
 		|	single_quote_string:SINGLE_QUOTE_STRING	{e = new StringExpression(single_quote_string.getText(), false);}
 		|	command_output:COMMAND_OUTPUT			{e = new CommandOutputExpression(command_output.getText());}
+		|	regex:REGEX								{e = new RegexpExpression(regex.getText());}
 		|	e=variable
 		|	gvar:GLOBAL_VARIABLE 					{e = new GlobalVariableExpression(gvar.getText());}
 		|	"true"									{e = new TrueExpression();}
