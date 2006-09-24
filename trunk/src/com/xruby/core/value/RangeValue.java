@@ -12,5 +12,16 @@ public class RangeValue {
 		right_ = right;
 		isExclusive_ = isExclusive;
 	}
+
+	/// Test if @value is in the range
+	public boolean include(int value) {
+		if (value >= left_ && value < right_) {
+			return true;
+		} else if (!isExclusive_ && value == right_) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 }

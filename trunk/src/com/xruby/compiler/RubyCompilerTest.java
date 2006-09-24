@@ -74,7 +74,7 @@ public class RubyCompilerTest extends TestCase {
 
 				System.setOut(original);
 
-				assertEquals(outputs[i], output.toString());
+				assertEquals("Failed at " + i, outputs[i], output.toString());
 			} catch (RubyException e) {
 				assertTrue("RubyException at " + i + ": " + e.getMessage(), false);
 			} catch (RecognitionException e) {
@@ -1656,4 +1656,32 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 
+	public void test_range_case_equal() {
+		String[] program_texts = {
+				"a = 1..3; print a === 0",
+				"a = 1..3; print a === 1",
+				"a = 1..3; print a === 2",
+				"a = 1..3; print a === 3",
+				"a = 1..3; print a === 4",
+				
+				"a = 1...3; print a === 3",
+				
+				"a = 1...3; print a === 'x'",
+				
+		};
+		
+		String[] outputs = {
+				"false",
+				"true",
+				"true",
+				"true",
+				"false",
+				
+				"false",
+				
+				"false",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
