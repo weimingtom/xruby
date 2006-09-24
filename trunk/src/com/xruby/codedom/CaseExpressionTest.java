@@ -22,7 +22,7 @@ public class CaseExpressionTest extends TestingAstTestCase {
 "2\n" +
 "end when\n" +
 "3\n" +
-"end when!\n" +
+"end when\n" +
 "EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}

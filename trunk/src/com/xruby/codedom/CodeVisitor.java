@@ -46,20 +46,20 @@ public interface CodeVisitor {
 	public void visitEof(boolean last_statement_has_return_value);
 	
 	public Object visitAfterIfCondition();
-	public Object visitAfterIfBody(Object next_label, Object end_label, boolean is_last);
+	public Object visitAfterIfBody(Object next_label, Object end_label);
 	
 	public Object visitAfterCaseCondition();
 	public Object visitAfterWhenCondition(Object case_value);
-	public Object visitAfterWhenBody(Object next_label, Object end_label, boolean is_last);
+	public Object visitAfterWhenBody(Object next_label, Object end_label);
 
 	public Object visitAfterUnlessCondition();
-	public Object visitAfterUnlessBody(Object next_label, Object end_label, boolean is_last);
+	public Object visitAfterUnlessBody(Object next_label, Object end_label);
 	
 	public Object visitPrepareRescueBegin();
 	public Object visitPrepareRescueEnd(Object start);
 	public Object visitRescueVariable(String name, Object exception_var);
-	public Object visitAfterRescueBody(Object next_label, Object end_label, boolean is_last);
-	public void visitRescueEnd(Object exception_var);
+	public Object visitAfterRescueBody(Object next_label, Object end_label);
+	public void visitRescueEnd(Object exception_var, Object end_label);
 
 	public void visitArrayBegin(int size, boolean notSingleAsterisk);
 	public void visitArrayEnd();

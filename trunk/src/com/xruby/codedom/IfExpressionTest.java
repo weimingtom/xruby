@@ -15,7 +15,7 @@ public class IfExpressionTest extends TestingAstTestCase {
 "1\n" +
 "end if\n" +
 "2\n" +
-"end if!\n" +
+"end if\n" +
 "EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -30,7 +30,7 @@ public class IfExpressionTest extends TestingAstTestCase {
 "1\n" +
 "end if\n" +
 "2\n" +
-"end if!\n" +
+"end if\n" +
 "EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}
@@ -63,7 +63,7 @@ public class IfExpressionTest extends TestingAstTestCase {
 "3\n" +
 "end if\n" +
 "4\n" +
-"end if!\n" +
+"end if\n" +
 "EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}

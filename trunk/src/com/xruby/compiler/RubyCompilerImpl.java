@@ -299,21 +299,16 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);//TODO should push the value of the while expression
 	}
 
-	public Object visitAfterIfBody(Object next_label, Object end_label, boolean is_last) {
+	public Object visitAfterIfBody(Object next_label, Object end_label) {
 		if (null == end_label) {
 			end_label = new Label();
 		}
 		
-		if (is_last) {
-			cg_.getMethodGeneratorForRunMethod().mark((Label)end_label);
-		}
-		else {
+		if (null != next_label) {
 			cg_.getMethodGeneratorForRunMethod().goTo((Label)end_label);
 			cg_.getMethodGeneratorForRunMethod().mark((Label)next_label);
-		}
-		
-		if (null != next_label) {
-			cg_.getMethodGeneratorForRunMethod().mark((Label)next_label);
+		} else {
+			cg_.getMethodGeneratorForRunMethod().mark((Label)end_label);
 		}
 
 		return end_label;
@@ -335,8 +330,8 @@ class RubyCompilerImpl implements CodeVisitor {
 		return label;
 	}
 
-	public Object visitAfterWhenBody(Object next_label, Object end_label, boolean is_last) {
-		return visitAfterIfBody(next_label, end_label, is_last);
+	public Object visitAfterWhenBody(Object next_label, Object end_label) {
+		return visitAfterIfBody(next_label, end_label);
 	}
 
 	public void visitTrueExpression() {
@@ -354,8 +349,8 @@ class RubyCompilerImpl implements CodeVisitor {
 		return label;
 	}
 
-	public Object visitAfterUnlessBody(Object next_label, Object end_label, boolean is_last) {
-		return visitAfterIfBody(next_label, end_label, is_last);
+	public Object visitAfterUnlessBody(Object next_label, Object end_label) {
+		return visitAfterIfBody(next_label, end_label);
 	}
 
 	public Object visitPrepareRescueBegin() {
@@ -380,7 +375,8 @@ class RubyCompilerImpl implements CodeVisitor {
 		return new Pair<Integer, Label>(exception_variable, after_exception);
 	}
 
-	public void visitRescueEnd(Object var) {
+	public void visitRescueEnd(Object var, Object end_label) {
+		cg_.getMethodGeneratorForRunMethod().mark((Label)end_label);
 		Label after_exception = ((Pair<Integer, Label>)var).second;
 		cg_.getMethodGeneratorForRunMethod().mark(after_exception);
 	}
@@ -399,8 +395,8 @@ class RubyCompilerImpl implements CodeVisitor {
 		return label;
 	}
 	
-	public Object visitAfterRescueBody(Object next_label, Object end_label, boolean is_last) {
-		return visitAfterIfBody(next_label, end_label, is_last);
+	public Object visitAfterRescueBody(Object next_label, Object end_label) {
+		return visitAfterIfBody(next_label, end_label);
 	}
 	
 	public void visitArrayBegin(int size, boolean notSingleAsterisk) {

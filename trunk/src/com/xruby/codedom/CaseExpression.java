@@ -22,7 +22,7 @@ class When {
 		if (null != body_) {
 			body_.accept(visitor);
 		}
-		return visitor.visitAfterWhenBody(next_label, end_label, false);
+		return visitor.visitAfterWhenBody(next_label, end_label);
 	}
 }
 
@@ -43,7 +43,16 @@ public class CaseExpression extends Expression {
 		else_body_ = body;
 	}
 
+	private void ensureElseBodyIsNotEmpty() {
+		if (null == else_body_) {
+			else_body_ = new CompoundStatement();
+			else_body_.addStatement(new ExpressionStatement(new NilExpression()));
+		}
+	}
+
 	public void accept(CodeVisitor visitor) {
+		ensureElseBodyIsNotEmpty();
+		
 		condition_.accept(visitor);
 		Object var = visitor.visitAfterCaseCondition();
 
@@ -52,9 +61,7 @@ public class CaseExpression extends Expression {
 			end_label = when.accept(visitor, var, end_label);
 		}
 		
-		if (null != else_body_) {
-			else_body_.accept(visitor);
-			visitor.visitAfterWhenBody(null, end_label, true);
-		}
+		else_body_.accept(visitor);
+		visitor.visitAfterWhenBody(null, end_label);
 	}
 }

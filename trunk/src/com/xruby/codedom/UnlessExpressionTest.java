@@ -19,7 +19,7 @@ public class UnlessExpressionTest extends TestingAstTestCase {
 "111\n" +
 "end unless\n" +
 "222\n" +
-"end unless!\n" +
+"end unless\n" +
 "EOF";
 		assertEquals(expected_result, CodePrinter.toString());
 	}

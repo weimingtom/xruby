@@ -16,20 +16,20 @@ class Elseif {
 		body_ = body;
 	}
 
-	public void accept(CodeVisitor visitor, Object end_label, boolean is_last) {
+	public void accept(CodeVisitor visitor, Object end_label) {
 		condition_.accept(visitor);
 		Object next_label = visitor.visitAfterIfCondition();
 		if (null != body_) {
 			body_.accept(visitor);
 		}
-		visitor.visitAfterIfBody(next_label, end_label, is_last);
+		visitor.visitAfterIfBody(next_label, end_label);
 	}
 }
 
 public class IfExpression extends Expression {
 
 	private final Expression if_condition_;
-	private final CompoundStatement if_body_;
+	private CompoundStatement if_body_;
 	private ArrayList<Elseif> elsifs = new ArrayList<Elseif>();
 	private CompoundStatement else_body_;
 
@@ -53,8 +53,21 @@ public class IfExpression extends Expression {
 	public void addElse(CompoundStatement body) {
 		else_body_ = body;
 	}
+
+	private void ensureIfBodyAndElseBodyAreNotEmpty() {
+		if (null == if_body_) {
+			if_body_ = new CompoundStatement();
+			if_body_.addStatement(new ExpressionStatement(new NilExpression()));
+		}
+
+		if (null == else_body_) {
+			else_body_ = new CompoundStatement();
+			else_body_.addStatement(new ExpressionStatement(new NilExpression()));
+		}
+	}
 	
 	public void accept(CodeVisitor visitor) {
+		ensureIfBodyAndElseBodyAreNotEmpty();
 		
 		//optimazation
 		//TODO add more optimazation
@@ -70,21 +83,16 @@ public class IfExpression extends Expression {
 	private void accept_with_no_optimazation(CodeVisitor visitor) {
 		if_condition_.accept(visitor);
 		Object next_label = visitor.visitAfterIfCondition();
-		if (null != if_body_) {
-			if_body_.accept(visitor);
-		}
-		final Object end_label = visitor.visitAfterIfBody(next_label, null, elsifs.isEmpty() && (null == else_body_));
 
-		int elsif_left = elsifs.size();
+		if_body_.accept(visitor);
+		final Object end_label = visitor.visitAfterIfBody(next_label, null);
+
 		for (Elseif elsif : elsifs) {
-			--elsif_left;
-			elsif.accept(visitor, end_label, (0 == elsif_left) && (null == else_body_));
+			elsif.accept(visitor, end_label);
 		}
 		
-		if (null != else_body_) {
-			else_body_.accept(visitor);
-			visitor.visitAfterIfBody(null, end_label, true);
-		}
+		else_body_.accept(visitor);
+		visitor.visitAfterIfBody(null, end_label);
 	}
 
 }
