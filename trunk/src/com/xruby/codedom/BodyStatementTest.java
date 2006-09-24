@@ -11,8 +11,8 @@ public class BodyStatementTest extends TestingAstTestCase {
 				"	rescue RuntimeError\n" +
 				"		print \"xxx\"\n" +
 				"end");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"prepare rescue begin\n" +
 			"self\n" +
@@ -36,6 +36,6 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"end rescue\n" +
 			"end rescue!\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 }

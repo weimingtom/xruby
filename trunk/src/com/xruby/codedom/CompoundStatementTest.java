@@ -8,8 +8,8 @@ public class CompoundStatementTest extends TestingAstTestCase {
 
 	public void test() {
 		Program p = getProgram("0;2;2.4\n  \"hello\" ; \"\\thello\\r\\n\" ; '\\thello\\r\\n' ");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"0\n" +
 			";\n" +
@@ -23,13 +23,13 @@ public class CompoundStatementTest extends TestingAstTestCase {
 			";\n" +
 			"\\thello\\r\\n\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 
 	public void test_true_false_nil() {
 		Program p = getProgram("true;false;nil");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"true\n" +
 			";\n" +
@@ -37,6 +37,6 @@ public class CompoundStatementTest extends TestingAstTestCase {
 			";\n" +
 			"nil\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 }

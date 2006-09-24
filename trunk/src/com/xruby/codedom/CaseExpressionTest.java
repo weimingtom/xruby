@@ -12,8 +12,8 @@ public class CaseExpressionTest extends TestingAstTestCase {
 				"	else\n" +
 				"		3\n" +
 				"end");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "1\n" +
 "case\n" +
@@ -24,6 +24,6 @@ public class CaseExpressionTest extends TestingAstTestCase {
 "3\n" +
 "end when\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 }

@@ -13,8 +13,8 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 				"	end\n" +
 				"end\n" +
 				"C.new.f");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"class C < Object\n" +
 			"def f:0:false\n" +
@@ -31,20 +31,20 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 			"new:true\n" +
 			"f:true\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_class_defination2() {
 		Program p = getProgram(
 				"class C < Integer\n" +
 				"end");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"class C < Integer\n" +
 			"end C:false\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 }

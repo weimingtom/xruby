@@ -49,8 +49,8 @@ public class BlockTest extends TestingAstTestCase {
 	
 	public void test_asterisk_parameter() {
 		Program p = getProgram("f {|a, b, *c|   puts c  }");
-		CodePrinter codeprinter = new CodePrinter();
-		p.accept(codeprinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"self\n" +
 			"block:2:true\n" +
@@ -66,13 +66,13 @@ public class BlockTest extends TestingAstTestCase {
 			"end block:true\n" +
 			"f:false\n" +
 			"EOF";
-		assertEquals(expected_result, codeprinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_break_in_block() {
 		Program p = getProgram("loop do break; end");
-		CodePrinter codeprinter = new CodePrinter();
-		p.accept(codeprinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"self\n" +
 			"block:0:false\n" +
@@ -82,7 +82,7 @@ public class BlockTest extends TestingAstTestCase {
 			"end block:false\n" +
 			"loop:false\n" +
 			"EOF";
-		assertEquals(expected_result, codeprinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_do_end_is_same_as_curly_braces() {

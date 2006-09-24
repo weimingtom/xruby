@@ -9,11 +9,11 @@ import junit.framework.TestCase;
 public class DefinedExpressionTest extends TestingAstTestCase {
 	public void test() {
 		Program p = getProgram("defined? nil");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"nil\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 }

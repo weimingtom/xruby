@@ -7,8 +7,8 @@ package com.xruby.codedom;
 public class YieldExpressionTest extends TestingAstTestCase {
 	public void test_nil() {
 		Program p = getProgram("yield nil");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"yield\n" +
 			"[:1\n" +
@@ -17,13 +17,13 @@ public class YieldExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"end yield:true\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_asterisk_nil() {
 		Program p = getProgram("yield *nil");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"yield\n" +
 			"*[:0\n" +
@@ -32,7 +32,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 			"]*\n" +
 			"end yield:false\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 }

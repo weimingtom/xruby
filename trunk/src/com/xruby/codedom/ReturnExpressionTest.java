@@ -7,30 +7,30 @@ package com.xruby.codedom;
 public class ReturnExpressionTest extends TestingAstTestCase {
 	public void test_return_1() {
 		Program p = getProgram("return 1");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "1\n" +
 "return\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_return() {
 		Program p = getProgram("return");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "nil\n" +
 "return\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_return_1_2_3() {
 		Program p = getProgram("return 1, 2, 3");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "[:3\n" +
 "[\n1\n]\n" +
@@ -39,13 +39,13 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 "]!\n" +
 "return\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_return_asterisk_nil() {
 		Program p = getProgram("return *nil");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"*[:0\n" +
 			"[\n" +
@@ -54,13 +54,13 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 			"]!\n" +
 			"return\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_return_asterisk_empty_array() {
 		Program p = getProgram("return *[]");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"*[:0\n" +
 			"[\n" +
@@ -70,6 +70,6 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 			"]!\n" +
 			"return\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 }
