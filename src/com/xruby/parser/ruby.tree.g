@@ -155,8 +155,8 @@ returns [Expression e]
 		|	#(RIGHT_SHIFT_ASSIGN	left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression(">>", left, right));}
 		|	#(LOGICAL_AND_ASSIGN	left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new AndOrBinaryOperatorExpression("&&", left, right));}
 		|	#(LOGICAL_OR_ASSIGN		left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new AndOrBinaryOperatorExpression("||", left, right));}
-		|	#(INCLUSIVE_RANGE		left=expression	right=expression)	{e = new BinaryOperatorExpression("...", left, right);}
-		|	#(EXCLUSIVE_RANGE		left=expression	right=expression)	{e = new BinaryOperatorExpression("..", left, right);}
+		|	#(INCLUSIVE_RANGE		left=expression	right=expression)	{e = new RangeOperatorExpression("..", left, right);}
+		|	#(EXCLUSIVE_RANGE		left=expression	right=expression)	{e = new RangeOperatorExpression("...", left, right);}
 		|	#(LOGICAL_OR			left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("||", left, right);}
 		|	#(LOGICAL_AND			left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
 		|	#(COMPARE				left=expression	right=expression)	{e = new BinaryOperatorExpression("<=>", left, right);}

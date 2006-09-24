@@ -26,6 +26,7 @@ public class ObjectFactory {
 	public static final RubyValue RuntimeErrorClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RuntimeErrorClass);
 	public static final RubyValue ClassClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ClassClass);
 	public static final RubyValue ProcClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ProcClass);
+	public static final RubyValue RangeClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RangeClass);
 
 	public static boolean isBuiltin(String name) {
 		if (name.equals("Object") ||
@@ -42,7 +43,8 @@ public class ObjectFactory {
 				name.equals("Array") ||
 				name.equals("Hash") ||
 				name.equals("ClassClass") ||
-				name.equals("Proc")) {
+				name.equals("Proc") ||
+				name.equals("Range")) {
 			return true;
 		} else {
 			return false;
@@ -83,5 +85,19 @@ public class ObjectFactory {
 	
 	public static RubyValue createHash(HashValue value) {
 		return new RubyValue(RubyRuntime.HashClass, value);
+	}
+
+	public static RubyValue createRange(RubyValue left, RubyValue right, boolean isExclusive) throws RubyException {
+		Object l = left.getValue();
+		Object r = right.getValue();
+		if (!(l instanceof IntegerValue) ||
+			!(r instanceof IntegerValue)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
+		}
+		
+		return new RubyValue(RubyRuntime.RangeClass, 
+			new RangeValue(((IntegerValue)l).intValue(),
+				((IntegerValue)r).intValue(),
+				isExclusive));
 	}
 }

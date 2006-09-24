@@ -596,4 +596,14 @@ class RubyCompilerImpl implements CodeVisitor {
 		}
 		//TODO
 	}
+
+	public void visitExclusiveRangeOperator() {
+		cg_.getMethodGeneratorForRunMethod().push(true);
+		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createRange();
+	}
+
+	public void visitInclusiveRangeOperator() {
+		cg_.getMethodGeneratorForRunMethod().push(false);
+		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createRange();
+	}
 }

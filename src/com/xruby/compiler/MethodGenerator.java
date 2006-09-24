@@ -270,6 +270,11 @@ class MethodGenerator extends GeneratorAdapter {
 		returnValue();
 	}
 
+	public void ObjectFactory_createRange() {
+		invokeStatic(Type.getType(ObjectFactory.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue createRange(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, boolean)"));
+	}
+
 }
 
 class MethodGeneratorForClassBuilder extends MethodGenerator {

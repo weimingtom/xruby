@@ -1640,4 +1640,20 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
+	public void test_range_exception() {
+		String[] program_texts = {
+				"1 .. 'x'",
+				"'x' ... 3",
+				"'x' ... 'y'",
+		};
+
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
+			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
+			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
+
 }

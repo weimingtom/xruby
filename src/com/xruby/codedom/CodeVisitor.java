@@ -11,6 +11,8 @@ public interface CodeVisitor {
 	public Object visitOrBinaryOperatorLeft();
 	public void visitOrBinaryOperatorRight(Object label);
 	public void visitUnaryOperator(String operator);
+	public void visitInclusiveRangeOperator();
+	public void visitExclusiveRangeOperator();
 	public void visitMethodCall(String methodName, boolean hasReceiver);
 
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call);
