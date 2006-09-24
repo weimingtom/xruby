@@ -479,7 +479,7 @@ end
 test_ok(!$bad)
 
 test_ok(unless $x != $x then true else false end)
-=begin
+
 test_check "case"
 
 case 5
@@ -509,7 +509,7 @@ when 5
 else
   test_ok(false)
 end
-
+=begin
 case "foobar"
 when /^f.*r$/
   test_ok(true)
