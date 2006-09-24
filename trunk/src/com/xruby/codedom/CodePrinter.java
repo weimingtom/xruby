@@ -34,6 +34,14 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("|| right\n");
 	}
 	
+	public void visitExclusiveRangeOperator() {
+		result_.append("... operator\n");
+	}
+
+	public void visitInclusiveRangeOperator() {
+		result_.append(".. operator\n");
+	}
+	
 	public void visitUnaryOperator(String operator) {
 		result_.append(operator);
 		result_.append("\n");
@@ -427,5 +435,4 @@ public class CodePrinter implements CodeVisitor {
 	public void visitNestedVariableEnd() {
 		result_.append("end NestedVariable\n");
 	}
-
 }
