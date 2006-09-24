@@ -11,8 +11,8 @@ public class UnlessExpressionTest extends TestingAstTestCase {
 				"else\n" +
 				"	222\n" +
 				"end");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "true\n" +
 "unless\n" +
@@ -21,7 +21,7 @@ public class UnlessExpressionTest extends TestingAstTestCase {
 "222\n" +
 "end unless\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_optimazation() {
@@ -30,11 +30,11 @@ public class UnlessExpressionTest extends TestingAstTestCase {
 				"else\n" +
 				"	222\n" +
 				"end");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "111\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 }

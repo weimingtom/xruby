@@ -8,34 +8,34 @@ package com.xruby.codedom;
 public class HashExpressionTest extends TestingAstTestCase {
 	public void test_array() {
 		Program p = getProgram("{'a' => 'xxxx', 'b' => 'yyyy'}");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "{!\n" +
 "{\na\nxxxx\n}\n" +
 "{\nb\nyyyy\n}\n" +
 "}!\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_empty() {
 		Program p = getProgram("{ }");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "{!\n}!\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_empty2() {
 		Program p = getProgram("{}");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "{!\n}!\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 }

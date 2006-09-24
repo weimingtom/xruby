@@ -9,8 +9,8 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 
 	public void test_no_asterisk() {
 		Program p = getProgram("a = 1; b = 2;   a, b = 1, 2");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"1\n" +
 			"a =\n" +
@@ -32,13 +32,13 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"a //=\n" +
 			"end MultipleAssignment\n" +
 			"EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_asterisk() {
 		Program p = getProgram("a, *b = 1, *[2, 3]");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"[:1\n" +
 			"[\n" +
@@ -62,13 +62,13 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"end MultipleAssignment\n" +
 			"EOF";
 		
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_nested() {
 		Program p = getProgram("b, (c, d), e = 1,2,3,4;b;c;d;e");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 			"[:4\n" +
 			"[\n" +
@@ -102,6 +102,6 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"e\n" +
 			"EOF";
 		
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 }

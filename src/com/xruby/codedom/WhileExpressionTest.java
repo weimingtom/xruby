@@ -7,8 +7,8 @@ package com.xruby.codedom;
 public class WhileExpressionTest extends TestingAstTestCase {
 	public void test_while() {
 		Program p = getProgram("while true\n true end");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "while\n" +
 "true\n" +
@@ -16,16 +16,16 @@ public class WhileExpressionTest extends TestingAstTestCase {
 "true\n" +
 "end while\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_optimazation() {
 		Program p = getProgram("while false\n true end");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 	public void test_while_more() {
@@ -34,8 +34,8 @@ public class WhileExpressionTest extends TestingAstTestCase {
 				"while a > 1\n" +
 				"true\n" +
 				"end");
-		CodePrinter CodePrinter = new CodePrinter();
-		p.accept(CodePrinter);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
 		String expected_result = 
 "2\n" +
 "a =\n" +
@@ -48,7 +48,7 @@ public class WhileExpressionTest extends TestingAstTestCase {
 ">\n" +
 "end while\n" +
 "EOF";
-		assertEquals(expected_result, CodePrinter.toString());
+		assertEquals(expected_result, cp.toString());
 	}
 	
 }
