@@ -322,6 +322,8 @@ public class RubyCompilerTest extends TestCase {
 				" return 1, 2, 3\n" +
 				"end\n" +
 				"print f()",
+				
+				"def f(a); a; end; print f('yyy')",
 		};
 
 		String[] outputs = {
@@ -330,6 +332,7 @@ public class RubyCompilerTest extends TestCase {
 				"xxx",
 				"nil",
 				"123",
+				"yyy",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
