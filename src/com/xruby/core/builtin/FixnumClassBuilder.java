@@ -68,36 +68,6 @@ class Fixnum_operator_case_equal extends RubyMethod {
 	}
 }
 
-class Fixnum_operator_power extends RubyMethod {
-	public Fixnum_operator_power() {
-		super(1, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
-	}
-}
-
-class Fixnum_quo extends RubyMethod {
-	public Fixnum_quo() {
-		super(1, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
-	}
-}
-
-class Fixnum_modulo extends RubyMethod {
-	public Fixnum_modulo() {
-		super(1, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
-	}
-}
-
 class Fixnum_operator_plus extends RubyMethod {
 	public Fixnum_operator_plus() {
 		super(1, false);
@@ -107,16 +77,6 @@ class Fixnum_operator_plus extends RubyMethod {
 		IntegerValue value1 = (IntegerValue)receiver.getValue();
 		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
-	}
-}
-
-class Fixnum_size extends RubyMethod {
-	public Fixnum_size() {
-		super(0, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
 	}
 }
 
@@ -133,26 +93,6 @@ class Fixnum_operator_less_or_equal extends RubyMethod {
 		} else {
 			return ObjectFactory.falseValue;
 		}
-	}
-}
-
-class Fixnum_to_f extends RubyMethod {
-	public Fixnum_to_f() {
-		super(0, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
-	}
-}
-
-class Fixnum_operator_array_access extends RubyMethod {
-	public Fixnum_operator_array_access() {
-		super(1, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
 	}
 }
 
@@ -188,16 +128,6 @@ class Fixnum_to_s extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		IntegerValue value = (IntegerValue)receiver.getValue();
 		return ObjectFactory.createString(value.toString());
-	}
-}
-
-class Fixnum_zero_question extends RubyMethod {
-	public Fixnum_zero_question() {
-		super(0, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
 	}
 }
 
@@ -253,26 +183,6 @@ class Fixnum_operator_less_than extends RubyMethod {
 	}
 }
 
-class Fixnum_divmod extends RubyMethod {
-	public Fixnum_divmod() {
-		super(1, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
-	}
-}
-
-class Fixnum_id2name extends RubyMethod {
-	public Fixnum_id2name() {
-		super(0, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
-	}
-}
-
 class Fixnum_operator_compare extends RubyMethod {
 	public Fixnum_operator_compare() {
 		super(1, false);
@@ -291,26 +201,6 @@ class Fixnum_operator_compare extends RubyMethod {
 	}
 }
 
-class Fixnum_abs extends RubyMethod {
-	public Fixnum_abs() {
-		super(0, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
-	}
-}
-
-class Fixnum_to_sym extends RubyMethod {
-	public Fixnum_to_sym() {
-		super(0, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
-	}
-}
-
 class Fixnum_operator_bxor extends RubyMethod {
 	public Fixnum_operator_bxor() {
 		super(1, false);
@@ -320,16 +210,6 @@ class Fixnum_operator_bxor extends RubyMethod {
 		IntegerValue value1 = (IntegerValue)receiver.getValue();
 		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() ^ value2.intValue());
-	}
-}
-
-class Fixnum_operator_not extends RubyMethod {
-	public Fixnum_operator_not() {
-		super(0, false);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
 	}
 }
 
@@ -384,30 +264,18 @@ public class FixnumClassBuilder {
 		c.defineMethod("<<", new Fixnum_operator_left_shift());
 		c.defineMethod("==", new Fixnum_operator_equal());
 		c.defineMethod("===", new Fixnum_operator_case_equal());
-		c.defineMethod("**", new Fixnum_operator_power());
-		c.defineMethod("quo", new Fixnum_quo());
-		c.defineMethod("modulo", new Fixnum_modulo());
 		c.defineMethod("+", new Fixnum_operator_plus());
-		c.defineMethod("size", new Fixnum_size());
 		c.defineMethod("<=", new Fixnum_operator_less_or_equal());
-		c.defineMethod("to_f", new Fixnum_to_f());
-		c.defineMethod("[]", new Fixnum_operator_array_access());
 		c.defineMethod("-", new Fixnum_operator_minus());
 		c.defineMethod("/", new Fixnum_operator_div());
 		c.defineMethod("to_s", new Fixnum_to_s());
-		c.defineMethod("zero?", new Fixnum_zero_question());
 		c.defineMethod("%", new Fixnum_operator_mod());
 		c.defineMethod("|", new Fixnum_operator_bor());
 		c.defineMethod("&", new Fixnum_operator_band());
 		c.defineMethod("<", new Fixnum_operator_less_than());
-		c.defineMethod("divmod", new Fixnum_divmod());
 		c.defineMethod("div", new Fixnum_operator_div());
-		c.defineMethod("id2name", new Fixnum_id2name());
 		c.defineMethod("<=>", new Fixnum_operator_compare());
-		c.defineMethod("abs", new Fixnum_abs());
-		c.defineMethod("to_sym", new Fixnum_to_sym());
 		c.defineMethod("^", new Fixnum_operator_bxor());
-		c.defineMethod("~", new Fixnum_operator_not());
 		c.defineMethod(">", new Fixnum_operator_greater_than());
 		c.defineMethod(">=", new Fixnum_operator_greater_or_equal());
 		c.defineMethod("*", new Fixnum_operator_star());
