@@ -509,7 +509,7 @@ when 5
 else
   test_ok(false)
 end
-=begin
+
 case "foobar"
 when /^f.*r$/
   test_ok(true)
@@ -518,7 +518,7 @@ else
 end
 
 test_check "while/until";
-
+=begin
 tmp = open("while_tmp", "w")
 tmp.print "tvi925\n";
 tmp.print "tvi920\n";

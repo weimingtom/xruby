@@ -58,7 +58,7 @@ public class ObjectFactory {
 	}
 
 	public static RubyValue createRegexp(String value) {
-		return new RubyValue(RubyRuntime.StringClass, new RegexpValue(value));
+		return new RubyValue(RubyRuntime.RegexpClass, new RegexpValue(value));
 	}
 	
 	public static RubyValue createString(StringValue value) {
