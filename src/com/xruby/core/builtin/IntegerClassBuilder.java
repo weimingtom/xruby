@@ -53,7 +53,7 @@ class Integer_to_int extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		throw new RubyException("not implemented!");
+		return receiver;
 	}
 }
 
