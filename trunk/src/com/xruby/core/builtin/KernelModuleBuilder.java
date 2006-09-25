@@ -18,7 +18,7 @@ import java.util.*;
 //TODO imcomplete
 class Kernel_eval extends RubyMethod {
 	public Kernel_eval() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -67,7 +67,7 @@ class Kernel_puts extends RubyMethod {
 
 class Kernel_print extends RubyMethod {
 	public Kernel_print() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -100,7 +100,7 @@ class Kernel_print extends RubyMethod {
 
 class Kernel_printf extends RubyMethod {
 	public Kernel_printf() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -122,7 +122,7 @@ class Kernel_printf extends RubyMethod {
 
 class Kernel_p extends RubyMethod {
 	public Kernel_p() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -144,7 +144,7 @@ class Kernel_p extends RubyMethod {
 
 class Kernel_class extends RubyMethod {
 	public Kernel_class() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -154,7 +154,7 @@ class Kernel_class extends RubyMethod {
 
 class Kernel_operator_case_equal extends RubyMethod {
 	public Kernel_operator_case_equal() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -168,7 +168,7 @@ class Kernel_operator_case_equal extends RubyMethod {
 
 class Kernel_method_missing extends RubyMethod {
 	public Kernel_method_missing() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -178,7 +178,7 @@ class Kernel_method_missing extends RubyMethod {
 
 class Kernel_raise extends RubyMethod {
 	public Kernel_raise() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -249,7 +249,7 @@ class JarLoader extends ClassLoader
 
 class Kernel_require extends RubyMethod {
 	public Kernel_require() {
-		super(1, false);
+		super(1);
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -272,7 +272,7 @@ class Kernel_require extends RubyMethod {
 
 class Kernel_load extends RubyMethod {
 	public Kernel_load() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -291,7 +291,7 @@ class Kernel_load extends RubyMethod {
 
 class Kernel_to_a extends RubyMethod {
 	public Kernel_to_a() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -303,7 +303,7 @@ class Kernel_to_a extends RubyMethod {
 
 class Kernel_to_s extends RubyMethod {
 	public Kernel_to_s() {
-		super(-1, false);
+		super(-1);
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -314,7 +314,7 @@ class Kernel_to_s extends RubyMethod {
 
 class Kernel_lambda extends RubyMethod {
 	public Kernel_lambda() {
-		super(0, false);
+		super(0);
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -324,7 +324,7 @@ class Kernel_lambda extends RubyMethod {
 
 class Kernel_loop extends RubyMethod {
 	public Kernel_loop() {
-		super(0, false);
+		super(0);
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {

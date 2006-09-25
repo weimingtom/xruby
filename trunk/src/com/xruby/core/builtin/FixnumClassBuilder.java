@@ -9,7 +9,7 @@ import com.xruby.core.value.*;
 
 class Fixnum_operator_right_shift extends RubyMethod {
 	public Fixnum_operator_right_shift() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -21,7 +21,7 @@ class Fixnum_operator_right_shift extends RubyMethod {
 
 class Fixnum_operator_left_shift extends RubyMethod {
 	public Fixnum_operator_left_shift() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -33,7 +33,7 @@ class Fixnum_operator_left_shift extends RubyMethod {
 
 class Fixnum_operator_equal extends RubyMethod {
 	public Fixnum_operator_equal() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -54,7 +54,7 @@ class Fixnum_operator_equal extends RubyMethod {
 //C Ruby does not need this function since it can compare integer directly
 class Fixnum_operator_case_equal extends RubyMethod {
 	public Fixnum_operator_case_equal() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -70,7 +70,7 @@ class Fixnum_operator_case_equal extends RubyMethod {
 
 class Fixnum_operator_plus extends RubyMethod {
 	public Fixnum_operator_plus() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -82,7 +82,7 @@ class Fixnum_operator_plus extends RubyMethod {
 
 class Fixnum_operator_less_or_equal extends RubyMethod {
 	public Fixnum_operator_less_or_equal() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -98,7 +98,7 @@ class Fixnum_operator_less_or_equal extends RubyMethod {
 
 class Fixnum_operator_minus extends RubyMethod {
 	public Fixnum_operator_minus() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -110,7 +110,7 @@ class Fixnum_operator_minus extends RubyMethod {
 
 class Fixnum_operator_div extends RubyMethod {
 	public Fixnum_operator_div() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -133,7 +133,7 @@ class Fixnum_to_s extends RubyMethod {
 
 class Fixnum_operator_mod extends RubyMethod {
 	public Fixnum_operator_mod() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -145,7 +145,7 @@ class Fixnum_operator_mod extends RubyMethod {
 
 class Fixnum_operator_bor extends RubyMethod {
 	public Fixnum_operator_bor() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -157,7 +157,7 @@ class Fixnum_operator_bor extends RubyMethod {
 
 class Fixnum_operator_band extends RubyMethod {
 	public Fixnum_operator_band() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -169,7 +169,7 @@ class Fixnum_operator_band extends RubyMethod {
 
 class Fixnum_operator_less_than extends RubyMethod {
 	public Fixnum_operator_less_than() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -185,7 +185,7 @@ class Fixnum_operator_less_than extends RubyMethod {
 
 class Fixnum_operator_compare extends RubyMethod {
 	public Fixnum_operator_compare() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -203,7 +203,7 @@ class Fixnum_operator_compare extends RubyMethod {
 
 class Fixnum_operator_bxor extends RubyMethod {
 	public Fixnum_operator_bxor() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -215,7 +215,7 @@ class Fixnum_operator_bxor extends RubyMethod {
 
 class Fixnum_operator_greater_than extends RubyMethod {
 	public Fixnum_operator_greater_than() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -231,7 +231,7 @@ class Fixnum_operator_greater_than extends RubyMethod {
 
 class Fixnum_operator_greater_or_equal extends RubyMethod {
 	public Fixnum_operator_greater_or_equal() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -247,7 +247,7 @@ class Fixnum_operator_greater_or_equal extends RubyMethod {
 
 class Fixnum_operator_star extends RubyMethod {
 	public Fixnum_operator_star() {
-		super(1, false);
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {

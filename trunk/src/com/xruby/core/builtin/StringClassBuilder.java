@@ -8,8 +8,8 @@ import com.xruby.core.lang.*;
 import com.xruby.core.value.*;
 
 class String_capitalize extends RubyMethod {
-	public String_capitalize(int argc) {
-		super(argc);
+	public String_capitalize() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -21,8 +21,8 @@ class String_capitalize extends RubyMethod {
 }
 
 class String_operator_equal extends RubyMethod {
-	public String_operator_equal(int argc) {
-		super(argc);
+	public String_operator_equal() {
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -42,8 +42,8 @@ class String_operator_equal extends RubyMethod {
 
 /// Upcases the contents of str, returning nil if no changes were made
 class String_upcase_danger extends RubyMethod {
-	public String_upcase_danger(int argc) {
-		super(argc);
+	public String_upcase_danger() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -61,8 +61,8 @@ class String_upcase_danger extends RubyMethod {
 
 ///Modifies str by converting the first character to uppercase and the remainder to lowercase. Returns nil if no changes are made.
 class String_capitalize_danger extends RubyMethod {
-	public String_capitalize_danger(int argc) {
-		super(argc);
+	public String_capitalize_danger() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -77,8 +77,8 @@ class String_capitalize_danger extends RubyMethod {
 }
 
 class String_upcase extends RubyMethod {
-	public String_upcase(int argc) {
-		super(argc);
+	public String_upcase() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -88,8 +88,8 @@ class String_upcase extends RubyMethod {
 }
 
 class String_downcase extends RubyMethod {
-	public String_downcase(int argc) {
-		super(argc);
+	public String_downcase() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -100,8 +100,8 @@ class String_downcase extends RubyMethod {
 
 /// Downcases the contents of str, returning nil if no changes were made. 
 class String_downcase_danger extends RubyMethod {
-	public String_downcase_danger(int argc) {
-		super(argc);
+	public String_downcase_danger() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -117,8 +117,8 @@ class String_downcase_danger extends RubyMethod {
 }
 
 class String_to_f extends RubyMethod {
-	public String_to_f(int argc) {
-		super(argc);
+	public String_to_f() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -128,8 +128,8 @@ class String_to_f extends RubyMethod {
 }
 
 class String_to_i extends RubyMethod {
-	public String_to_i(int argc) {
-		super(argc);
+	public String_to_i() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -139,8 +139,8 @@ class String_to_i extends RubyMethod {
 }
 
 class String_initialize extends RubyMethod {
-	public String_initialize(int argc) {
-		super(argc);
+	public String_initialize() {
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -153,8 +153,8 @@ class String_initialize extends RubyMethod {
 }
 
 class String_initialize_copy extends RubyMethod {
-	public String_initialize_copy(int argc) {
-		super(argc);
+	public String_initialize_copy() {
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -166,17 +166,17 @@ class String_initialize_copy extends RubyMethod {
 public class StringClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("String", RubyRuntime.ObjectClass);
-		c.defineMethod("capitalize", new String_capitalize(0));
-		c.defineMethod("==", new String_operator_equal(1));
-		c.defineMethod("upcase!", new String_upcase_danger(0));
-		c.defineMethod("capitalize!", new String_capitalize_danger(0));
-		c.defineMethod("upcase", new String_upcase(0));
-		c.defineMethod("downcase", new String_downcase(0));
-		c.defineMethod("to_f", new String_to_f(0));
-		c.defineMethod("to_i", new String_to_i(-1));
-		c.defineMethod("downcase!", new String_downcase_danger(0));
-		c.defineMethod("initialize_copy", new String_initialize_copy(1));
-		c.defineMethod("initialize", new String_initialize(-1));
+		c.defineMethod("capitalize", new String_capitalize());
+		c.defineMethod("==", new String_operator_equal());
+		c.defineMethod("upcase!", new String_upcase_danger());
+		c.defineMethod("capitalize!", new String_capitalize_danger());
+		c.defineMethod("upcase", new String_upcase());
+		c.defineMethod("downcase", new String_downcase());
+		c.defineMethod("to_f", new String_to_f());
+		c.defineMethod("to_i", new String_to_i());
+		c.defineMethod("downcase!", new String_downcase_danger());
+		c.defineMethod("initialize_copy", new String_initialize_copy());
+		c.defineMethod("initialize", new String_initialize());
 		return c;
 	}
 }

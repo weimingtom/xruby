@@ -8,8 +8,8 @@ import com.xruby.core.lang.*;
 import com.xruby.core.value.*;
 
 class IO_write extends RubyMethod {
-	public IO_write(int argc) {
-		super(argc);
+	public IO_write() {
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -31,7 +31,7 @@ public class IOClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("IO",
 				RubyRuntime.ObjectClass);
-		c.defineMethod("write", new IO_write(1));
+		c.defineMethod("write", new IO_write());
 		return c;
 	}
 }

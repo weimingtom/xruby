@@ -5,7 +5,6 @@
 package com.xruby.core.builtin;
 
 import com.xruby.core.lang.*;
-import com.xruby.core.value.*;
 
 public class IntegerClassBuilder {
 	public static RubyClass create() {

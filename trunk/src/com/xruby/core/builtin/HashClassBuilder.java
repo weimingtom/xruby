@@ -8,8 +8,8 @@ import com.xruby.core.lang.*;
 import com.xruby.core.value.*;
 
 class Hash_length extends RubyMethod {
-	public Hash_length(int argc) {
-		super(argc);
+	public Hash_length() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -19,8 +19,8 @@ class Hash_length extends RubyMethod {
 }
 
 class Hash_hash_access extends RubyMethod {
-	public Hash_hash_access(int argc) {
-		super(argc);
+	public Hash_hash_access() {
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -35,8 +35,8 @@ class Hash_hash_access extends RubyMethod {
 }
 
 class Hash_hash_set extends RubyMethod {
-	public Hash_hash_set(int argc) {
-		super(argc);
+	public Hash_hash_set() {
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -49,9 +49,9 @@ class Hash_hash_set extends RubyMethod {
 public class HashClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Hash", RubyRuntime.ObjectClass);
-		c.defineMethod("length", new Hash_length(0));
-		c.defineMethod("[]", new Hash_hash_access(-1));
-		c.defineMethod("[]=", new Hash_hash_set(-1));
+		c.defineMethod("length", new Hash_length());
+		c.defineMethod("[]", new Hash_hash_access());
+		c.defineMethod("[]=", new Hash_hash_set());
 		return c;
 	}
 }
