@@ -116,16 +116,6 @@ class String_downcase_danger extends RubyMethod {
 	}
 }
 
-class String_to_s extends RubyMethod {
-	public String_to_s(int argc) {
-		super(argc);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		return receiver;
-	}
-}
-
 class String_to_f extends RubyMethod {
 	public String_to_f(int argc) {
 		super(argc);
