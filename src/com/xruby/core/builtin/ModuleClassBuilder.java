@@ -38,7 +38,7 @@ class Module_AccessControl {
 
 class Module_public extends RubyMethod {
 	public Module_public() {
-		super(-1, false);
+		super(-1);
 		setAccess(PRIVATE);
 	}
 
@@ -49,7 +49,7 @@ class Module_public extends RubyMethod {
 
 class Module_protected extends RubyMethod {
 	public Module_protected() {
-		super(-1, false);
+		super(-1);
 		setAccess(PRIVATE);
 	}
 
@@ -60,7 +60,7 @@ class Module_protected extends RubyMethod {
 
 class Module_private extends RubyMethod {
 	public Module_private() {
-		super(-1, false);
+		super(-1);
 		setAccess(PRIVATE);
 	}
 
@@ -71,7 +71,7 @@ class Module_private extends RubyMethod {
 
 class Module_to_s extends RubyMethod {
 	public Module_to_s() {
-		super(-1, false);
+		super(-1);
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {

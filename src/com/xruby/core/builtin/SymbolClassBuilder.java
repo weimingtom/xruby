@@ -8,8 +8,8 @@ import com.xruby.core.lang.*;
 import com.xruby.core.value.*;
 
 class Symbol_id2name extends RubyMethod {
-	public Symbol_id2name(int argc) {
-		super(argc);
+	public Symbol_id2name() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -19,8 +19,8 @@ class Symbol_id2name extends RubyMethod {
 }
 
 class Symbol_inspect extends RubyMethod {
-	public Symbol_inspect(int argc) {
-		super(argc);
+	public Symbol_inspect() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -33,8 +33,8 @@ public class SymbolClassBuilder {
 	
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Symbol", RubyRuntime.ObjectClass);
-		c.defineMethod("id2name", new Symbol_id2name(0));
-		c.defineMethod("inspect", new Symbol_inspect(0));
+		c.defineMethod("id2name", new Symbol_id2name());
+		c.defineMethod("inspect", new Symbol_inspect());
 		return c;
 	}
 }

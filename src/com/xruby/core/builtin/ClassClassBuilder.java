@@ -8,8 +8,8 @@ import com.xruby.core.lang.*;
 import com.xruby.core.value.*;
 
 class Class_new extends RubyMethod {
-	public Class_new(int argc) {
-		super(argc);
+	public Class_new() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -22,7 +22,7 @@ public class ClassClassBuilder {
 	
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Class", RubyRuntime.ModuleClass);
-		c.defineMethod("new", new Class_new(0));
+		c.defineMethod("new", new Class_new());
 		return c;
 	}
 }

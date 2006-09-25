@@ -8,8 +8,8 @@ import com.xruby.core.lang.*;
 import com.xruby.core.value.*;
 
 class Numeric_unary_plus extends RubyMethod {
-	public Numeric_unary_plus(int argc) {
-		super(argc);
+	public Numeric_unary_plus() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -18,8 +18,8 @@ class Numeric_unary_plus extends RubyMethod {
 }
 
 class Numeric_unary_minus extends RubyMethod {
-	public Numeric_unary_minus(int argc) {
-		super(argc);
+	public Numeric_unary_minus() {
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -31,8 +31,8 @@ public class NumericClassBuilder {
 	
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Numeric", RubyRuntime.ObjectClass);
-		c.defineMethod("+@", new Numeric_unary_plus(0));
-		c.defineMethod("-@", new Numeric_unary_minus(0));
+		c.defineMethod("+@", new Numeric_unary_plus());
+		c.defineMethod("-@", new Numeric_unary_minus());
 		return c;
 	}
 }
