@@ -9,25 +9,6 @@ import com.xruby.core.lang.*;
 import com.xruby.core.value.*;
 
 public class StringClassBuilderTest extends TestCase {
-	
-	public void test_to_s() throws RubyException {
-		RubyValue str = ObjectFactory.createString("abc");
-		StringValue value = (StringValue)str.getValue();
-		assertEquals("abc", value.toString());
-		RubyMethod m = str.findPublicMethod("to_s");
-		RubyValue result = m.invoke(str, null, null);
-		assertTrue(result == str);
-		assertTrue(str.getValue() == result.getValue());
-	}
-	
-	public void test_to_str() throws RubyException {
-		RubyValue str = ObjectFactory.createString("abc");
-		StringValue value = (StringValue)str.getValue();
-		assertEquals("abc", value.toString());
-		RubyMethod m = str.findPublicMethod("to_str");
-		RubyValue result = m.invoke(str, null, null);
-		assertEquals((Object)str.getValue(), (Object)result.getValue());
-	}
 
 	public void test_to_i() throws RubyException {
 		RubyValue str = ObjectFactory.createString("1234");

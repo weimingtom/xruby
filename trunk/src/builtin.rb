@@ -31,6 +31,14 @@ end
 
 =end
 
+class String
+	def to_s
+		return self
+	end
+	
+	alias to_str to_s
+end
+
 class Integer < Numeric
 	
 	def times
