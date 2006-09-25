@@ -45,10 +45,31 @@ class Integer < Numeric
 	def next
 		self + 1
 	end
+
+	#Synonym for Integer#next
+	def succ
+		self + 1
+	end
 	
 	#Always returns true
 	def integer?
 		true
+	end
+
+	def upto(to)
+		a = self
+		while a <= to
+			yield a
+			a += 1
+		end
+	end
+
+	def downto(to)
+		a = self
+		while a >= to
+			yield a
+			a -= 1
+		end
 	end
 end
 
