@@ -72,4 +72,32 @@ public class ArrayValueTest extends TestCase {
 		a.expand(ObjectFactory.createArray(b));
 		assertEquals(3, a.size());
 	}
+	
+	public void test_get_range() {
+		ArrayValue a = new ArrayValue(1, true);
+		a.add(ObjectFactory.createFixnum(1));
+		a.add(ObjectFactory.createFixnum(2));
+		
+		RangeValue stdRange = new RangeValue(0, 1, false);
+		RubyValue b = a.get(stdRange);
+		assertTrue(b.getValue() instanceof ArrayValue);
+		ArrayValue rangeArray = (ArrayValue)b.getValue();
+		assertEquals(2, rangeArray.size());
+		assertEquals(1, ((IntegerValue)rangeArray.get(0).getValue()).intValue());
+		assertEquals(2, ((IntegerValue)rangeArray.get(1).getValue()).intValue());
+		
+		RangeValue negRange = new RangeValue(0, -1, false);
+		b = a.get(negRange);
+		assertTrue(b.getValue() instanceof ArrayValue);
+		rangeArray = (ArrayValue)b.getValue();
+		assertEquals(2, rangeArray.size());
+		assertEquals(1, ((IntegerValue)rangeArray.get(0).getValue()).intValue());
+		assertEquals(2, ((IntegerValue)rangeArray.get(1).getValue()).intValue());
+		
+		RangeValue oppositeRange = new RangeValue(1, 0, false);
+		b = a.get(oppositeRange);
+		assertTrue(b.getValue() instanceof ArrayValue);
+		rangeArray = (ArrayValue)b.getValue();
+		assertEquals(0, rangeArray.size());
+	}
 }

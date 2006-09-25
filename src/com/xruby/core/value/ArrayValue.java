@@ -76,6 +76,28 @@ public class ArrayValue implements Iterable<RubyValue> {
 			return values_.get(index);
 		}
 	}
+	
+	public RubyValue get(RangeValue range) {
+		int left = range.getLeft();
+		if (left < 0) {
+			left += values_.size();
+		}
+		int right = range.getRight();
+		if (right < 0) {
+			right += values_.size();
+		}
+		int size = right - left;
+		size = size > 0 ? size : 0;
+		
+		ArrayValue rangeArray = new ArrayValue(size, true);
+		
+		for (int i = left; i <= right; i++) {
+			RubyValue value = values_.get(i);			
+			rangeArray.add(value);
+		}
+		
+		return ObjectFactory.createArray(rangeArray);
+	}
 
 	public RubyValue equals(ArrayValue that) throws RubyException {
 		if (values_.size() != that.size()) {
