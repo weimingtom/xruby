@@ -80,6 +80,16 @@ class Module_to_s extends RubyMethod {
 	}
 }
 
+class Module_inspect extends RubyMethod {
+	public Module_inspect() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		return RubyRuntime.callPublicMethod(receiver, args, block, "to_s");
+	}
+}
+
 public class ModuleClassBuilder {
 	
 	public static RubyClass create() {
@@ -88,6 +98,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("protected", new Module_protected());
 		c.defineMethod("private", new Module_private());
 		c.defineMethod("to_s", new Module_to_s());
+		c.defineMethod("inspect", new Module_inspect());
 		return c;
 	}
 }
