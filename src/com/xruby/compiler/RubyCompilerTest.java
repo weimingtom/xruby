@@ -1684,4 +1684,19 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_regex_case_equal() {
+		String[] program_texts = {
+				"print /^f.*r$/ === 'foobar'",
+				"print /hello/ === '1234'",
+				
+		};
+		
+		String[] outputs = {
+				"true",
+				"false",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

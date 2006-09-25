@@ -145,6 +145,24 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		assertEquals(expected_result, cp.toString());
 	}
 	
+	public void test_command_and_operator() {
+		Program p = getProgram("print /hello/ === 'xxxhello123'");
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
+		String expected_result =
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"/hello/\n" +
+			"xxxhello123\n" +
+			"===\n" +
+			"]\n" +
+			"print:false\n" +
+			"EOF";
+		assertEquals(expected_result, cp.toString());
+
+	}
+	
 	/*FIXME
 	public void test_command_and_operator() {
 		Program p = getProgram("print (1..3) === 0");
