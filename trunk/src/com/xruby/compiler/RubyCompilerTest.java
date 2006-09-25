@@ -152,7 +152,7 @@ public class RubyCompilerTest extends TestCase {
 
 
 	public void test_simple_methodcall() {
-		String[] program_texts = { "1.to_i", "0.to_i", "123.to_i.to_i.to_i",  "\"500\".to_i"};
+		String[] program_texts = { "1.to_i", "0.to_int", "123.to_i.to_int.to_i",  "\"500\".to_i"};
 		int[] results = { 1, 0, 123, 500};
 
 		compile_run_and_compare_result(program_texts, results);

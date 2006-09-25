@@ -41,6 +41,12 @@ end
 
 class Integer < Numeric
 	
+	def to_i
+		return self
+	end
+	
+	alias to_int to_i
+	
 	def times
 		a = 0
 		while a < self
