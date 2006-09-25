@@ -1,7 +1,5 @@
 package com.xruby.core.value;
 
-import com.xruby.core.lang.*;
-
 public class RangeValue {
 	private int left_;
 	private int right_;
@@ -11,6 +9,14 @@ public class RangeValue {
 		left_ = left;
 		right_ = right;
 		isExclusive_ = isExclusive;
+	}
+	
+	public int getLeft() {
+		return left_;
+	}
+	
+	public int getRight() {
+		return right_;
 	}
 
 	/// Test if @value is in the range
