@@ -47,8 +47,14 @@ class Array_array_access extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		ArrayValue value = (ArrayValue)receiver.getValue();
 		if (1 == args.size()) {
-			IntegerValue i = (IntegerValue)args.get(0).getValue();
-			return value.get(i.intValue());
+			Object argValue = args.get(0).getValue();
+			if (argValue instanceof IntegerValue) {
+				IntegerValue index = (IntegerValue)argValue;
+				return value.get(index.intValue());
+			} else if (argValue instanceof RangeValue) {				
+				RangeValue range = (RangeValue)argValue;
+				return value.get(range);
+			}
 		}
 		
 		//TODO
