@@ -46,6 +46,7 @@ class Array_array_access extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		ArrayValue value = (ArrayValue)receiver.getValue();
+		
 		if (1 == args.size()) {
 			Object argValue = args.get(0).getValue();
 			if (argValue instanceof IntegerValue) {
@@ -53,7 +54,21 @@ class Array_array_access extends RubyMethod {
 				return value.get(index.intValue());
 			} else if (argValue instanceof RangeValue) {				
 				RangeValue range = (RangeValue)argValue;
-				return value.get(range);
+				ArrayValue resultValue = value.subarray(range);
+				return ObjectFactory.createArray(resultValue);
+			}
+		} else if (2 == args.size()) {
+			Object arg0Value = args.get(0).getValue();
+			Object arg1Value = args.get(1).getValue();
+			if (arg0Value instanceof IntegerValue && arg1Value instanceof IntegerValue) {
+				int begin = ((IntegerValue)arg0Value).intValue();
+				int length = ((IntegerValue)arg1Value).intValue();
+				ArrayValue resultValue = value.subarray(begin, length);
+				if (resultValue == null) {
+					return ObjectFactory.nilValue;
+				}
+				
+				return ObjectFactory.createArray(resultValue);
 			}
 		}
 		

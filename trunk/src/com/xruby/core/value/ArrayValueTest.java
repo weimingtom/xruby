@@ -73,7 +73,7 @@ public class ArrayValueTest extends TestCase {
 		assertEquals(3, a.size());
 	}
 	
-	public void test_get_range() {
+	public void test_range_subarray() {
 		// a = [1, 2]
 		ArrayValue a = new ArrayValue(1, true);
 		a.add(ObjectFactory.createFixnum(1));
@@ -81,28 +81,49 @@ public class ArrayValueTest extends TestCase {
 		
 		// [0..1]
 		RangeValue stdRange = new RangeValue(0, 1, false);
-		RubyValue b = a.get(stdRange);
-		assertTrue(b.getValue() instanceof ArrayValue);
-		ArrayValue rangeArray = (ArrayValue)b.getValue();
+		ArrayValue rangeArray = a.subarray(stdRange);
 		assertEquals(2, rangeArray.size());
 		assertEquals(1, ((IntegerValue)rangeArray.get(0).getValue()).intValue());
 		assertEquals(2, ((IntegerValue)rangeArray.get(1).getValue()).intValue());
 		
-		// [0, -1]
+		// [0..-1]
 		RangeValue negRange = new RangeValue(0, -1, false);
-		b = a.get(negRange);
-		assertTrue(b.getValue() instanceof ArrayValue);
-		rangeArray = (ArrayValue)b.getValue();
+		rangeArray = a.subarray(negRange);
 		assertEquals(2, rangeArray.size());
 		assertEquals(1, ((IntegerValue)rangeArray.get(0).getValue()).intValue());
 		assertEquals(2, ((IntegerValue)rangeArray.get(1).getValue()).intValue());
 		
-		// [1, 0]
-		RangeValue oppositeRange = new RangeValue(1, 0, false);
-		b = a.get(oppositeRange);
-		assertTrue(b.getValue() instanceof ArrayValue);
-		rangeArray = (ArrayValue)b.getValue();
+		// [2..0]
+		RangeValue oppositeRange = new RangeValue(2, 0, false);
+		rangeArray = a.subarray(oppositeRange);
 		assertEquals(0, rangeArray.size());
+	}
+	
+	public void test_subarray() throws RubyException {
+		// a = [1, 2, 3]
+		ArrayValue a = new ArrayValue();
+		a.add(ObjectFactory.createFixnum(1));
+		a.add(ObjectFactory.createFixnum(2));
+		a.add(ObjectFactory.createFixnum(3));
+		
+		// a[1, 2]
+		ArrayValue b = a.subarray(1, 2);
+		assertEquals(2, b.size());
+		assertEquals(2, ((IntegerValue)b.get(0).getValue()).intValue());
+		assertEquals(3, ((IntegerValue)b.get(1).getValue()).intValue());
+		
+		// begin > array size
+		b = a.subarray(4, 2);
+		assertNull(b);
+		
+		// begin < 0
+		b = a.subarray(-1, 1);
+		assertEquals(1, b.size());
+		assertEquals(3, ((IntegerValue)b.get(0).getValue()).intValue());
+		
+		// length < 0
+		b = a.subarray(0, -1);
+		assertNull(b);
 	}
 	
 	public void test_plus() {
