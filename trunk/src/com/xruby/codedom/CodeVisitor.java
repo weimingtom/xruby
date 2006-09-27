@@ -97,8 +97,8 @@ public interface CodeVisitor {
 	public void visitWhileConditionBegin(Object label_pair);
 	public void visitWhileConditionEnd(Object label_pair, boolean is_until);
 	
-	public void visitBlock(int num_of_args, boolean has_asterisk_parameter);
-	public void visitBlockEnd(boolean last_statement_has_return_value);
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter);
+	public void visitBlockEnd(String name, boolean last_statement_has_return_value);
 	
 	public void visitMrhs(int var, int index, boolean asterisk);
 	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs);
