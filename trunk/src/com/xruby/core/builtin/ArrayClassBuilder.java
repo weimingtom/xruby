@@ -102,6 +102,33 @@ class Array_concat extends RubyMethod {
 	}
 }
 
+class Array_plus extends RubyMethod {
+	public Array_plus() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		ArrayValue left = (ArrayValue)receiver.getValue();
+		ArrayValue right = (ArrayValue)args.get(0).getValue();
+		ArrayValue resultArray = left.plus(right);
+		return ObjectFactory.createArray(resultArray);
+	}
+}
+
+class Array_times extends RubyMethod {
+	public Array_times() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		ArrayValue array = (ArrayValue)receiver.getValue();
+		IntegerValue times = (IntegerValue)args.get(0).getValue();
+		ArrayValue resultArray = array.times(times.intValue());		
+		
+		return ObjectFactory.createArray(resultArray);
+	}
+}
+
 public class ArrayClassBuilder {
 	
 	public static RubyClass create() {
@@ -113,6 +140,8 @@ public class ArrayClassBuilder {
 		c.defineMethod("[]=", new Array_array_set());
 		c.defineMethod("==", new Array_array_equal());
 		c.defineMethod("concat", new Array_concat());
+		c.defineMethod("+", new Array_plus());
+		c.defineMethod("*", new Array_times());
 		return c;
 	}
 }
