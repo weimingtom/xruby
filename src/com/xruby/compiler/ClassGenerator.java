@@ -6,47 +6,8 @@ package com.xruby.compiler;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
-import java.util.*;
 import com.xruby.core.lang.*;
 import com.xruby.core.value.*;
-
-class SymbolTable {
-	private final Map<String, Integer> local_variables_ = new HashMap<String, Integer>();
-	private final ArrayList<String> method_parameters_ = new ArrayList<String>();
-	private String asterisk_parameters_ = null;
-	private int access_counter_ = 0;
-	
-	public void addLocalVariable(String name, int i) {
-		local_variables_.put(name, i);
-	}
-	
-	public Integer getLocalVariable(String name) {
-		return local_variables_.get(name);
-	}
-	
-	public void addMethodParameters(String name) {
-		method_parameters_.add(name);
-	}
-
-	public void setMethodAsteriskParameters(String name) {
-		assert(null == asterisk_parameters_);
-		asterisk_parameters_ = name;
-	}
-	
-	public int getMethodParameter(String name) {
-		return method_parameters_.indexOf(name);
-	}
-
-	public int getMethodAsteriskParameter(String name) {
-		if (null == asterisk_parameters_) {
-			return -1;
-		} else if (!asterisk_parameters_.equals(name)) {
-			return -1;
-		} else {
-			return access_counter_++;
-		}
-	}
-}
 
 abstract class ClassGenerator {
 	
@@ -55,7 +16,7 @@ abstract class ClassGenerator {
 	protected MethodGenerator mg_for_run_method_ = null;
 	private MethodGenerator mg_for_class_builder_method_ = null;//TODO should be a queue
 
-	private SymbolTable getSymbolTable() {
+	SymbolTable getSymbolTable() {
 		return getMethodGeneratorForRunMethod().getSymbolTable();
 	}
 
@@ -182,147 +143,6 @@ abstract class ClassGenerator {
 				cw);
 		mg.loadThis();
 		mg.invokeConstructor(Type.getType(Object.class), m);
-		mg.returnValue();
-		mg.endMethod();
-	}
-}
-
-class ClassGeneratorForRubyProgram extends ClassGenerator {
-	public ClassGeneratorForRubyProgram(String name) {
-		super(name);
-		mg_for_run_method_ = visitRubyProgram();
-	}
-	
-	protected Class getType() {
-		assert(false);
-		return null;
-	}
-
-	private MethodGenerator visitRubyProgram() {
-		cw_.visit(Opcodes.V1_5,
-				Opcodes.ACC_PUBLIC,
-				name_,
-				null,										// signature
-				"java/lang/Object",							// superName
-				new String[] { "com/xruby/core/lang/RubyProgram" }	// interface
-				);
-
-		createImplicitConstructor(cw_);
-		createStaticVoidMain(cw_);
-		
-		//Implement RubyProgram
-		return new MethodGenerator(Opcodes.ACC_PUBLIC,
-				Method.getMethod("com.xruby.core.lang.RubyValue run()"),
-				null,// signature
-				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
-				cw_);
-	}
-
-	private void createStaticVoidMain(ClassWriter cw) {
-		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
-				Method.getMethod("void main (String[])"),
-				null,
-				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
-				cw);
-
-		Type program = Type.getType("L" + name_ + ";");
-		mg.newInstance(program);
-		mg.dup();
-		mg.invokeConstructor(program,
-				Method.getMethod("void <init> ()"));
-		mg.invokeVirtual(program,
-				Method.getMethod("com.xruby.core.lang.RubyValue run()"));
-		mg.pop();
-		
-		mg.returnValue();
-		mg.endMethod();
-	}
-	
-}
-
-class ClassGeneratorForRubyMethod extends ClassGenerator {
-	public ClassGeneratorForRubyMethod(String name, int argc, boolean has_asterisk_parameter) {
-		super(name);
-		mg_for_run_method_ = visitRubyMethod(argc, has_asterisk_parameter);
-	}
-	
-	protected Class getType() {
-		return RubyMethod.class;
-	}
-
-	private MethodGenerator visitRubyMethod(int argc, boolean has_asterisk_parameter) {
-		cw_.visit(Opcodes.V1_5,
-				0,		//No modifier
-				name_,	
-				null,								// signature
-				"com/xruby/core/lang/RubyMethod",	// superName
-				null								// interface
-				);
-		
-		createConstructorOfRubyMethod(argc, has_asterisk_parameter);
-		
-		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.core.lang.RubyValue run(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyBlock)"),
-				null,// signature
-				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
-				cw_);
-	}
-
-	private void createConstructorOfRubyMethod(int argc, boolean has_asterisk_parameter) {
-		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
-				Method.getMethod("void <init> ()"),
-				null,
-				null,
-				cw_);
-		mg.loadThis();
-		mg.push(argc);
-		mg.push(has_asterisk_parameter);
-		mg.invokeConstructor(Type.getType(RubyMethod.class),
-						Method.getMethod("void <init> (int, boolean)"));
-		mg.returnValue();
-		mg.endMethod();
-	}
-}
-
-class ClassGeneratorForRubyBlock extends ClassGenerator {
-	public ClassGeneratorForRubyBlock(String name, int argc, boolean has_asterisk_parameter) {
-		super(name);
-		mg_for_run_method_ = visitRubyBlock(argc, has_asterisk_parameter);
-	}
-	
-	protected Class getType() {
-		return RubyBlock.class;
-	}
-
-	private MethodGenerator visitRubyBlock(int argc, boolean has_asterisk_parameter) {
-		cw_.visit(Opcodes.V1_5,
-				0,		//No modifier
-				name_,	
-				null,								// signature
-				"com/xruby/core/lang/RubyBlock",	// superName
-				null								// interface
-				);
-		
-		createConstructorOfRubyBlock(argc, has_asterisk_parameter);
-		
-		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.core.lang.RubyValue run(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue)"),
-				null,// signature
-				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
-				cw_);
-	}
-
-	private void createConstructorOfRubyBlock(int argc, boolean has_asterisk_parameter) {
-		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
-				Method.getMethod("void <init> ()"),
-				null,
-				null,
-				cw_);
-		mg.loadThis();
-		mg.push(argc);
-		mg.push(has_asterisk_parameter);
-		mg.invokeConstructor(Type.getType(RubyBlock.class),
-						Method.getMethod("void <init> (int, boolean)"));
 		mg.returnValue();
 		mg.endMethod();
 	}

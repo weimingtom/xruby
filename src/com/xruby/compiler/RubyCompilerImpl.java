@@ -92,18 +92,33 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_ = new ClassGeneratorForRubyMethod(uniqueMethodName, num_of_args, has_asterisk_parameter);
 	}
 
-	public void visitBlock(int num_of_args, boolean has_asterisk_parameter) {
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter) {
 		String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_);
 		
-		cg_.getMethodGeneratorForRunMethod().new_MethodClass(uniqueBlockName);
-
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
-		cg_ = new ClassGeneratorForRubyBlock(uniqueBlockName, num_of_args, has_asterisk_parameter);
+		cg_ = new ClassGeneratorForRubyBlock(uniqueBlockName,
+					num_of_args,
+					has_asterisk_parameter,
+					cg_.getSymbolTable());
+		return uniqueBlockName;
 	}
 
-	public void visitBlockEnd(boolean last_statement_has_return_value) {
-		visitMethodDefinationEnd(last_statement_has_return_value);
+	public void visitBlockEnd(String uniqueBlockName, boolean last_statement_has_return_value) {
+		if (!last_statement_has_return_value) {
+			cg_.getMethodGeneratorForRunMethod().ObjectFactory_nilValue();
+		}
+
+		cg_.getMethodGeneratorForRunMethod().returnValue();
+		cg_.getMethodGeneratorForRunMethod().endMethod();
+		cg_.visitEnd();
+
+		String[] commons = ((ClassGeneratorForRubyBlock)cg_).createFieldsAndConstructorOfRubyBlock();
+		
+		compilation_results_.add(cg_.getCompilationResult());
+		cg_ = suspended_cgs_.pop();
+		
+		cg_.getMethodGeneratorForRunMethod().new_BlockClass(uniqueBlockName, commons);
 	}
 	
 	public void visitMethodDefinationParameter(String name) {

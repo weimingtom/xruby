@@ -26,7 +26,7 @@ public class Block implements Visitable {
 	}
 
 	public void accept(CodeVisitor visitor) {
-		visitor.visitBlock(parameters_.size(), (null != asterisk_parameter_));
+		String name = visitor.visitBlock(parameters_.size(), (null != asterisk_parameter_));
 		
 		for (String p : parameters_) {
 			visitor.visitMethodDefinationParameter(p);
@@ -40,7 +40,7 @@ public class Block implements Visitable {
 			bodyStatement_.accept(visitor);
 		}
 
-		visitor.visitBlockEnd((null != bodyStatement_) ?
+		visitor.visitBlockEnd(name, (null != bodyStatement_) ?
 										bodyStatement_.last_statement_has_return_value() : false);
 	}
 }

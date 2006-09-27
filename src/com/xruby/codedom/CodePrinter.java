@@ -397,15 +397,16 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("super\n");
 	}
 
-	public void visitBlock(int num_of_args, boolean has_asterisk_parameter) {
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter) {
 		result_.append("block:");
 		result_.append(num_of_args);
 		result_.append(":");
 		result_.append(has_asterisk_parameter);
 		result_.append("\n");
+		return null;
 	}
 
-	public void visitBlockEnd(boolean last_statement_has_return_value) {
+	public void visitBlockEnd(String name, boolean last_statement_has_return_value) {
 		result_.append("end block:");
 		result_.append(last_statement_has_return_value);
 		result_.append("\n");

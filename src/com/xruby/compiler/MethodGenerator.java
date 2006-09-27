@@ -29,6 +29,26 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeConstructor(methodNameType,
 				Method.getMethod("void <init> ()"));
 	}
+
+	public void new_BlockClass(String methodName, String[] commons) {
+		Type methodNameType = Type.getType("L" + methodName + ";");
+		newInstance(methodNameType);
+		dup();
+
+		for (String name : commons) {
+			int i = symbol_table_.getMethodParameter(name);
+			if (i >= 0) {
+				loadMethodPrameter(i);
+			} else {
+				Integer l = symbol_table_.getLocalVariable(name);
+				assert(null != l);
+				loadLocal(l.intValue());
+			}
+		}
+		
+		invokeConstructor(methodNameType,
+				Method.getMethod(ClassGeneratorForRubyBlock.buildContructorSignature(commons.length)));
+	}
 	
 	public void new_ArrayValue(int size, boolean notSingleAsterisk) {
 		Type arrayValue = Type.getType(ArrayValue.class);
