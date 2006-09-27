@@ -20,6 +20,15 @@ public class ArrayValue implements Iterable<RubyValue> {
 		return notSingleAsterisk_;
 	}
 	
+	public ArrayValue() {
+		values_ = new ArrayList<RubyValue>();
+		notSingleAsterisk_ = true;
+	}
+	
+	public ArrayValue(int size) {
+		this(size, true);
+	}
+	
 	public ArrayValue(int size, boolean notSingleAsterisk) {
 		values_ = new ArrayList<RubyValue>(size);
 		notSingleAsterisk_ = notSingleAsterisk;
@@ -200,6 +209,28 @@ public class ArrayValue implements Iterable<RubyValue> {
 		}
 
 		return ObjectFactory.createArray(v);
+	}
+	
+	public ArrayValue plus(ArrayValue array) {
+		int size = values_.size() + array.size();
+		ArrayValue resultArray = new ArrayValue(size);
+		resultArray.values_.addAll(values_);
+		resultArray.values_.addAll(array.values_);
+		return resultArray;
+	}
+
+	public ArrayValue times(int times) throws RubyException {
+		if (times < 0) {
+			throw new RubyException("negative argument");
+		}
+		
+		int size = values_.size() * times;
+		ArrayValue resultArray = new ArrayValue(size);
+		for (int i = 0; i < times; i++) {
+			resultArray.values_.addAll(values_);
+		}
+		
+		return resultArray;
 	}
 }
 
