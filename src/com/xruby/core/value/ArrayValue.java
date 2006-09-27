@@ -86,7 +86,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 		}
 	}
 	
-	public RubyValue get(RangeValue range) {
+	public ArrayValue subarray(RangeValue range) {
 		int left = range.getLeft();
 		if (left < 0) {
 			left += values_.size();
@@ -95,17 +95,45 @@ public class ArrayValue implements Iterable<RubyValue> {
 		if (right < 0) {
 			right += values_.size();
 		}
-		int size = right - left;
-		size = size > 0 ? size : 0;
 		
-		ArrayValue rangeArray = new ArrayValue(size, true);
+		int length = right - left + 1;
+		length = length > 0 ? length : 0;
 		
-		for (int i = left; i <= right; i++) {
-			RubyValue value = values_.get(i);			
-			rangeArray.add(value);
+		return subarray(left, length);
+	}
+	
+	public ArrayValue subarray(int begin, int length) {
+		int arraySize = values_.size();
+		if (begin > arraySize) {
+			return null;
 		}
 		
-		return ObjectFactory.createArray(rangeArray);
+		if (length < 0) {
+			return null;
+		}
+		
+		if (begin < 0) {
+			begin += values_.size();
+		}
+		
+		if (begin + length > arraySize) {
+			length = arraySize - begin;
+			if (length < 0) {
+				length = 0;
+			}
+		}
+		
+		if (length == 0) {
+			return new ArrayValue(0);
+		}
+		
+		ArrayValue resultArray = new ArrayValue(length);
+		int last = begin + length;
+		for (int i = begin; i < last; i++) {
+			resultArray.add(values_.get(i));
+		}	
+		
+		return resultArray;
 	}
 
 	public RubyValue equals(ArrayValue that) throws RubyException {
