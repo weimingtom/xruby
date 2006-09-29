@@ -383,12 +383,15 @@ public class RubyCompilerTest extends TestCase {
 				"	print a\n" +
 				"end\n" +
 				"my_print ':)', 5634 , 888",
+
+				"def f(a); a = 1; end;  x = 100; f(x); print x",
 		};
 
 		String[] outputs = {
 				"123",
 				":)",
 				"888:)",
+				"100",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1027,15 +1030,15 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"a=1;   4.times {print a}",
 				"def f(a); 1.times {print a} end; f 101",
+				"a = 1; 5.times {|a| print a;}",
 				//FIXME"a=1;   4.times {a=2; print a};  puts a",
-				//"a = 1; 5.times {|a| print a;}",
 		};
 		
 		String[] outputs = {
 				"1111",
 				"101",
+				"01234",
 				//"22222",
-				//"01234",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

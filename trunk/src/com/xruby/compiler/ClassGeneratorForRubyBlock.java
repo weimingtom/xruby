@@ -14,8 +14,9 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	Set<String> fields_ = new HashSet<String>();
 	
 	public void loadVariable(String name) {
-		if (symbol_table_of_the_current_scope_.getLocalVariable(name) != null ||
-			symbol_table_of_the_current_scope_.getMethodParameter(name) >= 0) {
+		if ((symbol_table_of_the_current_scope_.getLocalVariable(name) != null ||
+			symbol_table_of_the_current_scope_.getMethodParameter(name) >= 0) &&
+			getSymbolTable().getMethodParameter(name) < 0) {
 			fields_.add(name);
 			mg_for_run_method_.loadThis();
 			mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
