@@ -1030,15 +1030,29 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"a=1;   4.times {print a}",
 				"def f(a); 1.times {print a} end; f 101",
-				"a = 1; 5.times {|a| print a;}",
-				//FIXME"a=1;   4.times {a=2; print a};  puts a",
+				"a = 1; 5.times {|a| print a;}; print a",
+				"5.times {b = 3; print b;}",
+				"a=1;   4.times {a=2; print a};  print a",
+				"a = 1; 5.times {a = 9}; print a",
+				"a = 1; 5.times {|a| a = 9; print a;}; print a",
+				"a = 1; 5.times {|a| print a; a = 9; print a;}; print a",
+				"a = 1; 5.times {|a| print a; if false; a = 9; end; print a;}; print a",
+				"a = 1; 5.times {|*a| print a}; print a",
+				"a = 1; 4.times {|*a| a = 6; print a}; print a",
 		};
 		
 		String[] outputs = {
 				"1111",
 				"101",
-				"01234",
-				//"22222",
+				"012344",
+				"33333",
+				"22222",
+				"9",
+				"999999",
+				"09192939499",
+				"00112233444",
+				"012344",
+				"66666",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

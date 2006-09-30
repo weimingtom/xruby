@@ -50,13 +50,19 @@ public class MethodCallExpression extends Expression {
 			visitor.visitNoParameter();
 		}
 
+		String name = null;
+		String[] assignedCommons = null;
 		if (null != block_) {
-			block_.accept(visitor);
+			Pair p = block_.accept(visitor);
+			name = p.name;
+			assignedCommons = p.value;
 		} else {
 			visitor.visitNoBlock();
 		}
 
 		visitor.visitMethodCall(methodName_,
-							(null != receiver_));
+							(null != receiver_),
+							assignedCommons,
+							name);
 	}
 }

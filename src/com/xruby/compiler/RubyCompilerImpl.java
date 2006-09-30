@@ -104,7 +104,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		return uniqueBlockName;
 	}
 
-	public void visitBlockEnd(String uniqueBlockName, boolean last_statement_has_return_value) {
+	public String[] visitBlockEnd(String uniqueBlockName, boolean last_statement_has_return_value) {
 		if (!last_statement_has_return_value) {
 			cg_.getMethodGeneratorForRunMethod().ObjectFactory_nilValue();
 		}
@@ -114,11 +114,17 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.visitEnd();
 
 		String[] commons = ((ClassGeneratorForRubyBlock)cg_).createFieldsAndConstructorOfRubyBlock();
+		String[] assigned_commons = ((ClassGeneratorForRubyBlock)cg_).getAssignedFields();
 		
 		compilation_results_.add(cg_.getCompilationResult());
 		cg_ = suspended_cgs_.pop();
 		
 		cg_.getMethodGeneratorForRunMethod().new_BlockClass(uniqueBlockName, commons);
+
+		if (assigned_commons.length > 0) {
+			cg_.getMethodGeneratorForRunMethod().saveBlockForFutureRestore();
+		}
+		return assigned_commons;
 	}
 	
 	public void visitMethodDefinationParameter(String name) {
@@ -150,7 +156,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);
 	}
 	
-	public void visitMethodCall(String methodName, boolean hasReceiver) {	
+	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {	
 		if (hasReceiver) {	
 			cg_.getMethodGeneratorForRunMethod().push(methodName);
 			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
@@ -159,6 +165,13 @@ class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGeneratorForRunMethod().push(methodName);
 			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue callMethod(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyBlock, String)"));
+		}
+
+		if (null != assignedCommons && assignedCommons.length > 0) {
+			cg_.getMethodGeneratorForRunMethod().dup();
+			for (String name : assignedCommons) {
+				cg_.getMethodGeneratorForRunMethod().restoreLocalVariableFromBlock(blockName, name);
+			}
 		}
 	}
 
@@ -236,7 +249,8 @@ class RubyCompilerImpl implements CodeVisitor {
 		if (!is_multiple_assign) {
 			cg_.getMethodGeneratorForRunMethod().dup();//do not pop off empty stack
 		}
-		cg_.getMethodGeneratorForRunMethod().storeLocal(cg_.getLocalVariable(var));
+
+		cg_.storeVariable(var);
 	}
 	
 	public void visitFloatExpression(float value) {

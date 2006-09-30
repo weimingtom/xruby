@@ -6,7 +6,12 @@ package com.xruby.codedom;
 
 import java.util.ArrayList;
 
-public class Block implements Visitable {
+class Pair {
+	String name;
+	String[] value;
+};
+
+public class Block {
 
 	private CompoundStatement bodyStatement_ = null;
 	private ArrayList<String> parameters_ = new ArrayList<String>();
@@ -25,7 +30,7 @@ public class Block implements Visitable {
 		asterisk_parameter_ = name;
 	}
 
-	public void accept(CodeVisitor visitor) {
+	public Pair accept(CodeVisitor visitor) {
 		String name = visitor.visitBlock(parameters_.size(), (null != asterisk_parameter_));
 		
 		for (String p : parameters_) {
@@ -40,7 +45,10 @@ public class Block implements Visitable {
 			bodyStatement_.accept(visitor);
 		}
 
-		visitor.visitBlockEnd(name, (null != bodyStatement_) ?
+		Pair p = new Pair();
+		p.name = name;
+		p.value = visitor.visitBlockEnd(name, (null != bodyStatement_) ?
 										bodyStatement_.last_statement_has_return_value() : false);
+		return p;
 	}
 }

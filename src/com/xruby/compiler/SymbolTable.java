@@ -12,8 +12,13 @@ class SymbolTable {
 		local_variables_.put(name, i);
 	}
 	
-	public Integer getLocalVariable(String name) {
-		return local_variables_.get(name);
+	public int getLocalVariable(String name) {
+		Integer i = local_variables_.get(name);
+		if (null == i) {
+			return -1;
+		} else {
+			return i.intValue();
+		}
 	}
 	
 	public void addMethodParameters(String name) {
@@ -38,4 +43,5 @@ class SymbolTable {
 			return access_counter_++;
 		}
 	}
+
 }
