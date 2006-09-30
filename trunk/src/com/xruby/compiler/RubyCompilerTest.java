@@ -1725,4 +1725,28 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test__FILE__() {
+		String [] program_texts = {
+				"print __FILE__",
+		};
+		
+		String[] outputs = {
+				"-",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test__LINE__() {
+		String [] program_texts = {
+				"print __LINE__  \n print __LINE__   \n\n   print __LINE__",
+		};
+		
+		String[] outputs = {
+				"124",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

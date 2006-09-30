@@ -37,6 +37,6 @@ public class RubyCompiler {
 		CompilerException {
 		RubyParser parser = new RubyParser(reader);
 		RubyCompilerImpl compiler = new RubyCompilerImpl(filename);
-		return compiler.compile(parser.parse());
+		return compiler.compile(parser.parse(filename));
 	}
 }

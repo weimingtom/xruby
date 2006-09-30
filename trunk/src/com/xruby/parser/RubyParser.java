@@ -37,14 +37,15 @@ public class RubyParser extends RubyParserBase
 	/// @return AST
 	AST createAST() throws RecognitionException, TokenStreamException
 	{
+		setASTNodeClass("com.xruby.parser.ASTWithLineNumber");
 		program();
 		return getAST();
 	}
 
-	public Program parse() throws RecognitionException, TokenStreamException
+	public Program parse(String filename) throws RecognitionException, TokenStreamException
 	{
 		RubyTreeParser treeparser = new RubyTreeParser();
-		return treeparser.parse(createAST());
+		return treeparser.parse(createAST(), filename);
 	}
 
 	protected void tell_lexer_we_have_finished_parsing_methodparameters()
