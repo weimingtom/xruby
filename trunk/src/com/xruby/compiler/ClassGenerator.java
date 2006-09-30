@@ -27,6 +27,10 @@ abstract class ClassGenerator {
 			return false;
 		}
 	}
+
+	public void storeVariable(String name) {
+		getMethodGeneratorForRunMethod().storeLocal(getLocalVariable(name));
+	}
 	
 	public void startClassBuilderMethod(String name) {
 		mg_for_class_builder_method_ = new MethodGeneratorForClassBuilder(
@@ -103,7 +107,7 @@ abstract class ClassGenerator {
 		}
 		
 		//now it must be local variable
-		if (getSymbolTable().getLocalVariable(name) == null) {
+		if (getSymbolTable().getLocalVariable(name) < 0) {
 			getMethodGeneratorForRunMethod().ObjectFactory_nilValue();// never used, for example a = a + 1
 		} else {
 			getMethodGeneratorForRunMethod().loadLocal(getLocalVariable(name));
@@ -112,12 +116,12 @@ abstract class ClassGenerator {
 	}
 	
 	public int getLocalVariable(String name) {
-		Integer r = getSymbolTable().getLocalVariable(name);
-		if (null != r) {
-			return r;
+		int i = getSymbolTable().getLocalVariable(name);
+		if (i >= 0) {
+			return i;
 		}
 
-		int i = getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyValue.class));
+		i = getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyValue.class));
 		getSymbolTable().addLocalVariable(name, i);
 		return i;
 	}

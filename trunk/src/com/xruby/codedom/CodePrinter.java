@@ -82,7 +82,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitNoBlock() {
 	}
 
-	public void visitMethodCall(String methodName, boolean hasReceiver) {
+	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {
 		result_.append(methodName);
 		result_.append(":");
 		result_.append(hasReceiver);
@@ -406,10 +406,11 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public void visitBlockEnd(String name, boolean last_statement_has_return_value) {
+	public String[] visitBlockEnd(String name, boolean last_statement_has_return_value) {
 		result_.append("end block:");
 		result_.append(last_statement_has_return_value);
 		result_.append("\n");
+		return null;
 	}
 
 	public void visitMrhs(int var, int index, boolean asterisk) {

@@ -1,7 +1,7 @@
 package com.xruby.compiler;
 
 import org.objectweb.asm.*;
-import org.objectweb.asm.commons.Method;
+import org.objectweb.asm.commons.*;
 
 import com.xruby.core.lang.*;
 import java.util.*;
@@ -11,20 +11,9 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	private final SymbolTable symbol_table_of_the_current_scope_;
 	private final int argc_;
 	private final boolean has_asterisk_parameter_;
-	Set<String> fields_ = new HashSet<String>();
-	
-	public void loadVariable(String name) {
-		if ((symbol_table_of_the_current_scope_.getLocalVariable(name) != null ||
-			symbol_table_of_the_current_scope_.getMethodParameter(name) >= 0) &&
-			getSymbolTable().getMethodParameter(name) < 0) {
-			fields_.add(name);
-			mg_for_run_method_.loadThis();
-			mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
-		} else {
-			super.loadVariable(name);
-		}
-	}
-	
+	Set<String> fields_ = new HashSet<String>();//assigned fields are fields as well
+	Set<String> assigned_fields_ = new HashSet<String>();
+
 	public ClassGeneratorForRubyBlock(String name,
 			int argc,
 			boolean has_asterisk_parameter,
@@ -38,6 +27,63 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	
 	protected Class getType() {
 		return RubyBlock.class;
+	}
+
+	private boolean isDefinedInCurrentScope(String name) {
+		return (symbol_table_of_the_current_scope_.getLocalVariable(name) >= 0 ||
+			symbol_table_of_the_current_scope_.getMethodParameter(name) >= 0);
+	}
+
+	private void loadField(String name) {
+		mg_for_run_method_.loadThis();
+		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
+	}
+	
+	public void loadVariable(String name) {
+		if (isDefinedInCurrentScope(name)) {
+			fields_.add(name);
+			loadField(name);
+		} else {
+			super.loadVariable(name);
+		}
+	}
+
+	private void storeField(String name) {
+		super.storeVariable("tmp$");
+			
+		getMethodGeneratorForRunMethod().loadThis();
+		loadVariable("tmp$");
+		getMethodGeneratorForRunMethod().putField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
+	}
+
+	public void storeVariable(String name) {
+		if (isDefinedInCurrentScope(name)) {
+			fields_.add(name);
+			assigned_fields_.add(name);
+			storeField(name);
+		} else {
+			super.storeVariable(name);
+		}
+	}
+
+	private void initialFiledUsingBlockParameter(String name) {
+		if (isDefinedInCurrentScope(name)) {
+			fields_.add(name);
+			assigned_fields_.add(name);
+			getMethodGeneratorForRunMethod().loadThis();
+			super.loadVariable(name);
+			getMethodGeneratorForRunMethod().putField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
+		}
+	}
+
+	public void addParameter(String name) {
+		super.addParameter(name);
+		initialFiledUsingBlockParameter(name);
+	}
+
+	public void setAsteriskParameter(String name) {
+		super.setAsteriskParameter(name);
+		initialFiledUsingBlockParameter(name);
 	}
 
 	private MethodGenerator visitRubyBlock(int argc, boolean has_asterisk_parameter) {
@@ -74,10 +120,14 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		createFields(commons);
 		return commons;
 	}
-	
+
+	public String[] getAssignedFields() {
+		return assigned_fields_.toArray(new String[assigned_fields_.size()]);
+	}
+
 	private void createFields(final String[] commons) {
 		for (String name : commons) {
-			FieldVisitor fv = cw_.visitField(Opcodes.ACC_PRIVATE,
+			FieldVisitor fv = cw_.visitField(assigned_fields_.contains(name) ? Opcodes.ACC_PUBLIC : Opcodes.ACC_PRIVATE,
 					name,
 					Type.getDescriptor(RubyValue.class),
 					null,

@@ -13,7 +13,7 @@ public interface CodeVisitor {
 	public void visitUnaryOperator(String operator);
 	public void visitInclusiveRangeOperator();
 	public void visitExclusiveRangeOperator();
-	public void visitMethodCall(String methodName, boolean hasReceiver);
+	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName);
 
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call);
 	public void visitInstanceVariableAssignmentOperator(String var, boolean rhs_is_method_call);
@@ -98,7 +98,7 @@ public interface CodeVisitor {
 	public void visitWhileConditionEnd(Object label_pair, boolean is_until);
 	
 	public String visitBlock(int num_of_args, boolean has_asterisk_parameter);
-	public void visitBlockEnd(String name, boolean last_statement_has_return_value);
+	public String[] visitBlockEnd(String name, boolean last_statement_has_return_value);
 	
 	public void visitMrhs(int var, int index, boolean asterisk);
 	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs);

@@ -21,6 +21,22 @@ class MethodGenerator extends GeneratorAdapter {
 	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
 		super(arg0, arg1, arg2, arg3, arg4);
 	}
+	
+	public void saveBlockForFutureRestore() {
+		dup();
+		int i = symbol_table_.getLocalVariable("block$");
+		if (i < 0) {
+			i = newLocal(Type.getType(RubyBlock.class));
+			symbol_table_.addLocalVariable("block$", i);
+		}
+		storeLocal(i);
+	}
+
+	public void restoreLocalVariableFromBlock(String blockName, String name) {
+		loadLocal(getSymbolTable().getLocalVariable("block$"));
+		getField(Type.getType("L" + blockName + ";"), name, Type.getType(RubyValue.class));
+		storeLocal(getSymbolTable().getLocalVariable(name));
+	}
 
 	public void new_MethodClass(String methodName) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
@@ -40,9 +56,9 @@ class MethodGenerator extends GeneratorAdapter {
 			if (i >= 0) {
 				loadMethodPrameter(i);
 			} else {
-				Integer l = symbol_table_.getLocalVariable(name);
-				assert(null != l);
-				loadLocal(l.intValue());
+				i = symbol_table_.getLocalVariable(name);
+				assert(i >= 0);
+				loadLocal(i);
 			}
 		}
 		
