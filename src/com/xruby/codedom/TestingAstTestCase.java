@@ -22,7 +22,7 @@ class TestingAstTestCase extends TestCase {
 
 		Program p = null;
 		try {
-			p = parser.parse();
+			p = parser.parse("TestingAstTestCase.rb");
 		} catch (TokenStreamException e) {
 			assertTrue(e.toString(), false);
 		} catch (RecognitionException e) {

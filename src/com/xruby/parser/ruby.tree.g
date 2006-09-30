@@ -16,7 +16,11 @@ options {
 }
 
 {
-	public Program parse(AST t) throws RecognitionException {
+	private String filename_ = null;
+
+	public Program parse(AST t, String filename) throws RecognitionException {
+		filename_ = filename;
+
 		Program p = program(t);
 		if (null == p) {
 			return new Program(null);
@@ -283,6 +287,8 @@ returns [Expression e]
 		|	"nil"										{e = new NilExpression();}
 		|	class_variable:CLASS_VARIABLE				{e = new ClassVariableExpression(class_variable.getText());}
 		|	instance_variable:INSTANCE_VARIABLE		{e = new InstanceVariableExpression(instance_variable.getText());}
+		|	"__FILE__"								{e = new StringExpression((null != filename_) ? filename_ : "-", false);}
+		|	line:"__LINE__"							{e = new IntegerExpression(line.getLine());}
 		;
 
 symbol
