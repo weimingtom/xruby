@@ -1754,12 +1754,15 @@ public class RubyCompilerTest extends TestCase {
 		String [] program_texts = {
 				"print \"abc#{}opq#{   }xyz\"",
 				"$a=1;$b= 2;print \"abc#$a opq#$b xyz\"",
-				//TODO"a=1;b= 2;print \"abc#{a}opq#{  b }xyz\"",
+				"a=3;b= 4;print \"abc#{a}opq#{  b }xyz\"",
+				"a=1;print \"abc#{a=a+1}\"; print a",
 		};
 		
 		String[] outputs = {
 				"abcopqxyz",
 				"abc1 opq2 xyz",
+				"abc3opq4xyz",
+				"abc22",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

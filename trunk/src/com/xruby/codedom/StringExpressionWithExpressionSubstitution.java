@@ -45,8 +45,11 @@ public class StringExpressionWithExpressionSubstitution extends Expression {
 			} else if (o instanceof GlobalVariableExpression) {
 				((GlobalVariableExpression)o).accept(visitor);
 				visitor.visitStringExpressionWithExpressionSubstitution();
+			} else if (o instanceof CompoundStatement){
+				((CompoundStatement)o).accept(visitor);
+				visitor.visitStringExpressionWithExpressionSubstitution();
 			} else {
-				
+				assert(false);
 			}
 		}
 		
