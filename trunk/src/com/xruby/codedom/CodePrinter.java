@@ -112,6 +112,9 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(value);
 		result_.append("\n");
 	}
+
+	public void visitStringExpressionWithExpressionSubstitution() {
+	}
 	
 	public void visitStringExpressionWithExpressionSubstitutionEnd() {
 		result_.append("StringExpressionWithExpressionSubstitutionEnd\n");

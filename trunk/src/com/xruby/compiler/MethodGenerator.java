@@ -127,6 +127,11 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(StringValue.class),
 				Method.getMethod("com.xruby.core.value.StringValue appendString(String)"));
 	}
+
+	public void StringValue_append() {
+		invokeVirtual(Type.getType(StringValue.class),
+				Method.getMethod("com.xruby.core.value.StringValue appendString(com.xruby.core.lang.RubyValue)"));
+	}
 	
 	public void HashValue_addValue() {
 		invokeVirtual(Type.getType(HashValue.class),

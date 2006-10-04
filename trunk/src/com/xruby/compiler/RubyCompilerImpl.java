@@ -272,6 +272,10 @@ class RubyCompilerImpl implements CodeVisitor {
 	public void visitStringExpressionWithExpressionSubstitution(String value) {
 		cg_.getMethodGeneratorForRunMethod().StringValue_append(value);
 	}
+
+	public void visitStringExpressionWithExpressionSubstitution() {
+		cg_.getMethodGeneratorForRunMethod().StringValue_append();
+	}
 	
 	public void visitStringExpressionWithExpressionSubstitutionEnd() {
 		cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ObjectFactory.class),

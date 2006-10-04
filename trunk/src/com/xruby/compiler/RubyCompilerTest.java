@@ -1753,10 +1753,13 @@ public class RubyCompilerTest extends TestCase {
 	public void test_ExpressionSubstitution() {
 		String [] program_texts = {
 				"print \"abc#{}opq#{   }xyz\"",
+				"$a=1;$b= 2;print \"abc#$a opq#$b xyz\"",
+				//TODO"a=1;b= 2;print \"abc#{a}opq#{  b }xyz\"",
 		};
 		
 		String[] outputs = {
 				"abcopqxyz",
+				"abc1 opq2 xyz",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
