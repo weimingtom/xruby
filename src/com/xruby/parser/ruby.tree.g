@@ -308,8 +308,8 @@ expression_substituation[StringExpressionWithExpressionSubstitution e]
 	CompoundStatement cs = null;
 }
 		:	(	cs=compoundStatement	{e.addCompoundStatement(cs);}
-			|	g:GLOBAL_VARIABLE 		{e.addGlobalVariable(c.getText());}
-			|	i:INSTANCE_VARIABLE		{e.addInstanceVariable(c.getText());}
+			|	g:GLOBAL_VARIABLE 		{e.addGlobalVariable(g.getText());}
+			|	i:INSTANCE_VARIABLE		{e.addInstanceVariable(i.getText());}
 			|	c:CLASS_VARIABLE		{e.addClassVariable(c.getText());}
 			)
 		;

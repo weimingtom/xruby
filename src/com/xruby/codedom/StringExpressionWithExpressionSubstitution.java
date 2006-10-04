@@ -14,15 +14,15 @@ public class StringExpressionWithExpressionSubstitution extends Expression {
 	}
 	
 	public void addGlobalVariable(String s) {
-		stmts_.add(new MethodCallExpression(new GlobalVariableExpression(s), "to_s" , null, null));
+		stmts_.add(new GlobalVariableExpression(s));
 	}
 	
 	public void addInstanceVariable(String s) {
-		stmts_.add(new MethodCallExpression(new InstanceVariableExpression(s), "to_s" , null, null));
+		stmts_.add(new InstanceVariableExpression(s));
 	}
 	
 	public void addClassVariable(String s) {
-		stmts_.add(new MethodCallExpression(new ClassVariableExpression(s), "to_s" , null, null));
+		stmts_.add(new ClassVariableExpression(s));
 	}
 	
 	public void addString(String s) {
@@ -36,7 +36,16 @@ public class StringExpressionWithExpressionSubstitution extends Expression {
 		for (Object o : stmts_) {
 			if (o instanceof String) {
 				visitor.visitStringExpressionWithExpressionSubstitution((String)o);
-			} else if (o instanceof MethodCallExpression) {
+			} else if (o instanceof InstanceVariableExpression) {
+				((InstanceVariableExpression)o).accept(visitor);
+				visitor.visitStringExpressionWithExpressionSubstitution();
+			} else if (o instanceof ClassVariableExpression) {
+				((ClassVariableExpression)o).accept(visitor);
+				visitor.visitStringExpressionWithExpressionSubstitution();
+			} else if (o instanceof GlobalVariableExpression) {
+				((GlobalVariableExpression)o).accept(visitor);
+				visitor.visitStringExpressionWithExpressionSubstitution();
+			} else {
 				
 			}
 		}

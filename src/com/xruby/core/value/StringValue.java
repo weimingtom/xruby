@@ -1,5 +1,7 @@
 package com.xruby.core.value;
 
+import com.xruby.core.lang.*;
+
 public class StringValue {
 	private StringBuilder sb_;
 	
@@ -22,6 +24,11 @@ public class StringValue {
 	public StringValue appendString(String v) {
 		sb_.append(v);
 		return this;
+	}
+
+	public StringValue appendString(RubyValue v) throws RubyException {
+		RubyValue r = RubyRuntime.callPublicMethod(v, null, null, "to_s");
+		return appendString(((StringValue)r.getValue()).toString());
 	}
 	
 	//Modifies str by converting the first character to uppercase and the remainder to lowercase.
