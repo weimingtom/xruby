@@ -1749,4 +1749,16 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_ExpressionSubstitution() {
+		String [] program_texts = {
+				"print \"abc#{}opq#{   }xyz\"",
+		};
+		
+		String[] outputs = {
+				"abcopqxyz",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
