@@ -34,6 +34,10 @@ public interface CodeVisitor {
 	public void visitSuperExpression();
 	public void visitSelfExpression();
 	
+	public void visitStringExpressionWithExpressionSubstitutionBegin();
+	public void visitStringExpressionWithExpressionSubstitution(String value);
+	public void visitStringExpressionWithExpressionSubstitutionEnd();
+	
 	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter);
 	public void visitMethodDefinationParameter(String name);
 	public void visitMethodDefinationAsteriskParameter(String name);

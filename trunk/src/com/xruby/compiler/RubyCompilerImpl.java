@@ -265,6 +265,19 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createString(value);
 	}
 	
+	public void visitStringExpressionWithExpressionSubstitutionBegin() {
+		cg_.getMethodGeneratorForRunMethod().new_StringValue();
+	}
+	
+	public void visitStringExpressionWithExpressionSubstitution(String value) {
+		cg_.getMethodGeneratorForRunMethod().StringValue_append(value);
+	}
+	
+	public void visitStringExpressionWithExpressionSubstitutionEnd() {
+		cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ObjectFactory.class),
+                Method.getMethod("com.xruby.core.lang.RubyValue createString(com.xruby.core.value.StringValue)"));
+	}
+	
 	public void visitRegexpExpression(String value) {
 		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createRegexp(value);
 	}

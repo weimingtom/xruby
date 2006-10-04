@@ -559,14 +559,15 @@ predefinedValue
 string
 		:	double_quote_string_value:DOUBLE_QUOTE_STRING
 		|	single_quote_string_value:SINGLE_QUOTE_STRING
-		|	STRING_BEFORE_EXPRESSION_SUBSTITUTION
-			expression_substituation	(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation)*
+		|	STRING_BEFORE_EXPRESSION_SUBSTITUTION^
+			expression_substituation
+			(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation)*
 			STRING_AFTER_EXPRESSION_SUBSTITUTION
 		;
 
 protected
 expression_substituation
-		:	(	LCURLY_BLOCK	compoundStatement	RCURLY
+		:	(	LCURLY_BLOCK!	(compoundStatement)?	RCURLY!
 			|	GLOBAL_VARIABLE 
 			|	INSTANCE_VARIABLE
 			|	CLASS_VARIABLE

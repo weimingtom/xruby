@@ -289,6 +289,29 @@ returns [Expression e]
 		|	instance_variable:INSTANCE_VARIABLE		{e = new InstanceVariableExpression(instance_variable.getText());}
 		|	"__FILE__"								{e = new StringExpression((null != filename_) ? filename_ : "-", false);}
 		|	line:"__LINE__"							{e = new IntegerExpression(line.getLine());}
+		|	e=stringWithExpressionUubstituation
+		;
+
+stringWithExpressionUubstituation
+returns [StringExpressionWithExpressionSubstitution e]
+		:	#(	b:STRING_BEFORE_EXPRESSION_SUBSTITUTION	{e = new StringExpressionWithExpressionSubstitution(b.getText());}
+				(expression_substituation[e])?
+				(m:STRING_BETWEEN_EXPRESSION_SUBSTITUTION	{e.addString(m.getText());}
+				(expression_substituation[e])?
+				)*
+				a:STRING_AFTER_EXPRESSION_SUBSTITUTION		{e.addString(a.getText());}
+			)
+		;
+
+expression_substituation[StringExpressionWithExpressionSubstitution e]
+{
+	CompoundStatement cs = null;
+}
+		:	(	cs=compoundStatement	{e.addCompoundStatement(cs);}
+			|	g:GLOBAL_VARIABLE 		{e.addGlobalVariable(c.getText());}
+			|	i:INSTANCE_VARIABLE		{e.addInstanceVariable(c.getText());}
+			|	c:CLASS_VARIABLE		{e.addClassVariable(c.getText());}
+			)
 		;
 
 symbol

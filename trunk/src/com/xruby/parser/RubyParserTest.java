@@ -201,7 +201,9 @@ public class RubyParserTest extends TestCase
 	public void test_string()
 	{
 		String[] program_texts = {
-			"\":in `#{id.id2name}'\"",
+				"\"abc#{}opq#{   }xyz\"",
+				
+"\":in `#{id.id2name}'\"",
 "%Q[def #{ali}(*opts)\n" +
 "                          @shell.__send__(:#{command},\n" +
 "                                          *(CommandProcessor.alias_map[:#{ali}].call *opts))\n" +

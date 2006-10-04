@@ -155,7 +155,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 		
 		for (RubyValue v : values_) {
 			RubyValue s = RubyRuntime.callPublicMethod(v, null, "to_s");
-			r.append((StringValue)s.getValue());
+			r.appendString(((StringValue)s.getValue()).toString());
 		}
 		
 		return ObjectFactory.createString(r);

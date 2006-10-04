@@ -19,12 +19,9 @@ public class StringValue {
 		return sb_.length();
 	}
 	
-	StringBuilder getInternal() {
-		return sb_;
-	}
-	
-	public void append(StringValue v) {
-		sb_.append(v.getInternal());
+	public StringValue appendString(String v) {
+		sb_.append(v);
+		return this;
 	}
 	
 	//Modifies str by converting the first character to uppercase and the remainder to lowercase.

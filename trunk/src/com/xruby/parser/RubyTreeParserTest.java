@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 public class RubyTreeParserTest extends TestCase {
 	public void test_ast() throws RecognitionException, TokenStreamException {
 		String[] program_texts = {
+				"\"abc#{}opq#{   }xyz\"",
 				"(1)",
 				"b, (c, d), e = 1,2,3,4",
 				"a,=*[1]",
@@ -87,6 +88,7 @@ public class RubyTreeParserTest extends TestCase {
 				};
 
 		String[] expected_texts = {
+				" ( COMPSTMT ( abc opq xyz ) )",
 				" ( COMPSTMT ( ( ( COMPSTMT 1 ) ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN ( CALL b ) ( NESTED_LHS c d ) e ( MRHS 1 2 3 4 ) ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN ( CALL a ) ( MRHS * ( [ 1 ) ) ) )",

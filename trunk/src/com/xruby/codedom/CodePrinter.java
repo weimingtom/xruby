@@ -103,6 +103,19 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(value);
 		result_.append("\n");
 	}
+	
+	public void visitStringExpressionWithExpressionSubstitutionBegin() {
+		result_.append("visitStringExpressionWithExpressionSubstitutionBegin\n");
+	}
+	
+	public void visitStringExpressionWithExpressionSubstitution(String value) {
+		result_.append(value);
+		result_.append("\n");
+	}
+	
+	public void visitStringExpressionWithExpressionSubstitutionEnd() {
+		result_.append("StringExpressionWithExpressionSubstitutionEnd\n");
+	}
 
 	public void visitRegexpExpression(String value) {
 		result_.append("/");

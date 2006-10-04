@@ -77,12 +77,18 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 	
 	public void new_HashValue() {
-		Type hashValue = Type.getType(HashValue.class);
-		newInstance(hashValue);
+		Type t = Type.getType(HashValue.class);
+		newInstance(t);
 		dup();
-		invokeConstructor(hashValue,
-				Method.getMethod("void <init> ()"));
+		invokeConstructor(t, Method.getMethod("void <init> ()"));
 		
+	}
+	
+	public void new_StringValue() {
+		Type t = Type.getType(StringValue.class);
+		newInstance(t);
+		dup();
+		invokeConstructor(t, Method.getMethod("void <init> ()"));
 	}
 	
 	public void ArrayValue_add(boolean is_method_call) {
@@ -116,6 +122,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.core.lang.RubyValue collect(int)"));
 	}
 	
+	public void StringValue_append(String value) {
+		push(value);
+		invokeVirtual(Type.getType(StringValue.class),
+				Method.getMethod("com.xruby.core.value.StringValue appendString(String)"));
+	}
+	
 	public void HashValue_addValue() {
 		invokeVirtual(Type.getType(HashValue.class),
 				Method.getMethod("void add(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue)"));
@@ -138,7 +150,7 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeStatic(Type.getType(ObjectFactory.class),
                 Method.getMethod("com.xruby.core.lang.RubyValue createString(String)"));
 	}
-
+	
 	public void ObjectFactory_createRegexp(String value) {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
