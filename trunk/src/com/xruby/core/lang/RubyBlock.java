@@ -9,11 +9,14 @@ import com.xruby.core.value.*;
 class MethodBlockBase {
 	protected int argc_;
 	protected boolean has_asterisk_parameter_;
+	protected int default_argc_;
 	protected RubyValue asterisk_parameter_;
+	protected RubyValue[] default_values_ = null;
 	
-	protected MethodBlockBase(int argc, boolean has_asterisk_parameter) {
+	protected MethodBlockBase(int argc, boolean has_asterisk_parameter, int default_argc) {
 		argc_ = argc;
 		has_asterisk_parameter_ = has_asterisk_parameter;
+		default_argc_ = default_argc;
 	}
 
 	protected RubyValue initializeAsteriskParameter(ArrayValue args) {
@@ -24,6 +27,9 @@ class MethodBlockBase {
 		}
 		
 		return asterisk_parameter_;
+	}
+
+	protected void initializeDefaultParameter(ArrayValue args, int index) {
 	}
 }
 
@@ -40,8 +46,8 @@ public abstract class RubyBlock extends MethodBlockBase {
 		return breakValue_;
 	}
 		
-	public RubyBlock(int argc, boolean has_asterisk_parameter) {
-		super(argc, has_asterisk_parameter);
+	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc) {
+		super(argc, has_asterisk_parameter, default_argc);
 	}
 
 	public RubyValue invoke(RubyValue receiver, ArrayValue args) {

@@ -81,7 +81,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.loadVariable(moduleName);
 	}
 
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter) {
+	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
 
 		String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
 
@@ -89,10 +89,10 @@ class RubyCompilerImpl implements CodeVisitor {
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
-		cg_ = new ClassGeneratorForRubyMethod(uniqueMethodName, num_of_args, has_asterisk_parameter);
+		cg_ = new ClassGeneratorForRubyMethod(uniqueMethodName, num_of_args, has_asterisk_parameter, num_of_default_args);
 	}
 
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter) {
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
 		String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_);
 		
 		//Save the current state and sart a new class file to write.
@@ -100,6 +100,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_ = new ClassGeneratorForRubyBlock(uniqueBlockName,
 					num_of_args,
 					has_asterisk_parameter,
+					num_of_default_args,
 					cg_.getSymbolTable());
 		return uniqueBlockName;
 	}

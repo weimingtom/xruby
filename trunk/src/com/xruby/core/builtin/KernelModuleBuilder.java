@@ -45,7 +45,7 @@ class Kernel_eval extends RubyMethod {
 
 class Kernel_puts extends RubyMethod {
 	public Kernel_puts() {
-		super(-1, false);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {

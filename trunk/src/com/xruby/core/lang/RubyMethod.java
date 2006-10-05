@@ -23,12 +23,12 @@ public abstract class RubyMethod extends MethodBlockBase {
 	
 	//TODO remove this later(update all ClassBuilder)
 	public RubyMethod(int argc) {
-		super(argc, false);
+		super(argc, false, 0);
 		access_ = PUBLIC;
 	}
 	
-	public RubyMethod(int argc, boolean has_asterisk_parameter)  {
-		super(argc, has_asterisk_parameter);
+	public RubyMethod(int argc, boolean has_asterisk_parameter, int default_argc)  {
+		super(argc, has_asterisk_parameter, default_argc);
 		access_ = PUBLIC;
 	}
 	
@@ -40,8 +40,17 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @throws RubyException
 	 */
 	public final RubyValue invoke(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		//For now it just call run(), but in the future we may
-		//add some extra here, like checking if number of parameters matches.
+		/*if (argc_ > 0) {
+			int args_length = (null == args) ? 0 : args.size();
+			if (args_length < (argc_ - default_argc_)) {
+				//number of arguments falls short anyway
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
+			} else if (args_length < argc_) {
+				//need default parameter
+				initializeDefaultParameter(args, args_length);
+			}
+		}*/
+
 		return run(receiver, args, block);
 	}
 	

@@ -1786,4 +1786,39 @@ public class RubyCompilerTest extends TestCase {
 		assertTrue(file.exists());
 		assertTrue(file.delete());
 	}
+	
+	/*
+	public void test_wrong_number_of_arguments() {
+		String[] program_texts = {
+				"def f(a) end; f",
+				"def f(a, b, c) end; f(1)",
+				"def f(a, b, c=2) end; f(1)",
+		};
+
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
+			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 3)"),
+			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 2)"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
+	
+	public void test_default_argument() {
+		String [] program_texts = {
+				"def f(a = 5432) print a; end; f 666",
+				"def f(a = 5432) print a; end; f",
+				"def x; 99; end;  def f(a=x()) print a; end; f",
+				"def f(a=x()) print a; end; print 'hi'; def x; print 'x';99; end;  f",
+		};
+		
+		String[] outputs = {
+				"666",
+				"5432",
+				"99",
+				"hix99",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}*/
 }

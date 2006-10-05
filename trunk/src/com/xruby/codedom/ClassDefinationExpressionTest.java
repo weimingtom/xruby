@@ -17,7 +17,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 		p.accept(cp);
 		String expected_result = 
 			"class C < Object\n" +
-			"def f:0:false\n" +
+			"def f:0:false:0\n" +
 			"self\n" +
 			"[:1\n" +
 			"[\n" +

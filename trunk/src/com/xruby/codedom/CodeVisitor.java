@@ -39,7 +39,7 @@ public interface CodeVisitor {
 	public void visitStringExpressionWithExpressionSubstitution();
 	public void visitStringExpressionWithExpressionSubstitutionEnd();
 	
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter);
+	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args);
 	public void visitMethodDefinationParameter(String name);
 	public void visitMethodDefinationAsteriskParameter(String name);
 	public void visitMethodDefinationEnd(boolean last_statement_has_return_value);
@@ -102,7 +102,7 @@ public interface CodeVisitor {
 	public void visitWhileConditionBegin(Object label_pair);
 	public void visitWhileConditionEnd(Object label_pair, boolean is_until);
 	
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter);
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args);
 	public String[] visitBlockEnd(String name, boolean last_statement_has_return_value);
 	
 	public void visitMrhs(int var, int index, boolean asterisk);

@@ -11,18 +11,21 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	private final SymbolTable symbol_table_of_the_current_scope_;
 	private final int argc_;
 	private final boolean has_asterisk_parameter_;
+	private final int default_argc_;
 	Set<String> fields_ = new HashSet<String>();//assigned fields are fields as well
 	Set<String> assigned_fields_ = new HashSet<String>();
 
 	public ClassGeneratorForRubyBlock(String name,
 			int argc,
 			boolean has_asterisk_parameter,
+			int default_argc,
 			SymbolTable symbol_table_of_the_current_scope) {
 		super(name);
-		mg_for_run_method_ = visitRubyBlock(argc, has_asterisk_parameter);
+		mg_for_run_method_ = visitRubyBlock();
 		symbol_table_of_the_current_scope_ = symbol_table_of_the_current_scope;
 		argc_ = argc;
 		has_asterisk_parameter_ = has_asterisk_parameter;
+		default_argc_ = default_argc;
 	}
 	
 	protected Class getType() {
@@ -86,7 +89,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		initialFiledUsingBlockParameter(name);
 	}
 
-	private MethodGenerator visitRubyBlock(int argc, boolean has_asterisk_parameter) {
+	private MethodGenerator visitRubyBlock() {
 		cw_.visit(Opcodes.V1_5,
 				0,		//No modifier
 				name_,	
@@ -148,8 +151,9 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.loadThis();
 		mg.push(argc_);
 		mg.push(has_asterisk_parameter_);
+		mg.push(default_argc_);
 		mg.invokeConstructor(Type.getType(RubyBlock.class),
-						Method.getMethod("void <init> (int, boolean)"));
+						Method.getMethod("void <init> (int, boolean, int)"));
 		
 		for (int i = 0; i < commons.length; ++i) {
 			mg.loadThis();
