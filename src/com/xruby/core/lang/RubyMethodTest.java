@@ -15,9 +15,9 @@ import junit.framework.TestCase;
 class f extends RubyMethod
 {
 
-    public f(int i)
+    public f()
     {
-        super(i);
+        super(0);
     }
 
     public RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block)
@@ -38,7 +38,7 @@ public class RubyMethodTest extends TestCase {
 		PrintStream original = System.out;
 		System.setOut(new PrintStream(output));
 
-		f m = new f(2);
+		f m = new f();
 		m.invoke(null, null, null);
 		
 		System.setOut(original);

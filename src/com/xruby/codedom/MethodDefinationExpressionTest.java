@@ -10,18 +10,19 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"def my_methods:0:false\n" +
+"def my_methods:0:false:0\n" +
 "end def:false\n" +
 "EOF";
 		assertEquals(expected_result, cp.toString());		
 	}
 
 	public void test_return() {
-		Program p = getProgram("def my_methods() return end");
+		Program p = getProgram("def my_methods(a=1) return end");
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"def my_methods:0:false\n" +
+"def my_methods:1:false:1\n" +
+"parameter:a\n" +
 "nil\n" +
 "return\n" +
 "end def:false\n" +
@@ -34,7 +35,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"def &:1:false\n" +
+"def &:1:false:0\n" +
 "parameter:anObject\n" +
 "end def:false\n" +
 "EOF";
@@ -46,7 +47,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"def my_methods:0:false\n" +
+			"def my_methods:0:false:0\n" +
 			"self\n" +
 			"[:1\n" +
 			"[\n" +
@@ -69,7 +70,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"def my_methods:3:false\n" +
+			"def my_methods:3:false:0\n" +
 			"parameter:a\n" +
 			"parameter:b\n" +
 			"parameter:c\n" +
@@ -107,7 +108,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"def my_methods:2:true\n" +
+			"def my_methods:2:true:0\n" +
 			"parameter:a\n" +
 			"parameter:b\n" +
 			"*parameter:c\n" +

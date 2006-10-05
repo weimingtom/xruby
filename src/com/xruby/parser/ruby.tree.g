@@ -492,11 +492,13 @@ returns [MethodDefinationExpression e]
 codeBlock
 returns [Block b]
 {
-		CompoundStatement cs = null;
+	CompoundStatement cs = null;
+	Expression default_value = null;
 }
 		:	#(	BLOCK					{b = new Block();}
-				((id:IDENTIFIER|func:FUNCTION)
-					{b.addParameter((null != id) ? id.getText() : func.getText());}
+				(	(id:IDENTIFIER|func:FUNCTION)
+					((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	default_value=expression)?
+					{b.addParameter((null != id) ? id.getText() : func.getText(), default_value);}
 				)*
 				(
 					REST_ARG_PREFIX	(id2:IDENTIFIER|func2:FUNCTION)

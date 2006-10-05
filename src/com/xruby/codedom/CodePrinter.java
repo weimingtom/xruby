@@ -126,13 +126,15 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("/\n");
 	}
 	
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter) {
+	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
 		result_.append("def ");
 		result_.append(methodName);
 		result_.append(":");
 		result_.append(num_of_args);
 		result_.append(":");
 		result_.append(has_asterisk_parameter);
+		result_.append(":");
+		result_.append(num_of_default_args);
 		result_.append("\n");
 	}
 
@@ -413,11 +415,13 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("super\n");
 	}
 
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter) {
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
 		result_.append("block:");
 		result_.append(num_of_args);
 		result_.append(":");
 		result_.append(has_asterisk_parameter);
+		result_.append(":");
+		result_.append(num_of_default_args);	
 		result_.append("\n");
 		return null;
 	}

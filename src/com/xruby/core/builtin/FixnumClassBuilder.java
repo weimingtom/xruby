@@ -122,7 +122,7 @@ class Fixnum_operator_div extends RubyMethod {
 
 class Fixnum_to_s extends RubyMethod {
 	public Fixnum_to_s() {
-		super(0, false);
+		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {

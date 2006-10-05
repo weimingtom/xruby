@@ -12,7 +12,7 @@ public class BlockTest extends TestingAstTestCase {
 		p.accept(cp);
 		String expected_result = 
 			"self\n" +
-			"block:3:false\n" +
+			"block:3:false:0\n" +
 			"parameter:a\n" +
 			"parameter:b\n" +
 			"parameter:c\n" +
@@ -34,7 +34,7 @@ public class BlockTest extends TestingAstTestCase {
 		p.accept(cp);
 		String expected_result = 
 			"3\n" +
-			"block:0:false\n" +
+			"block:0:false:0\n" +
 			"self\n" +
 			"[:1\n" +
 			"[\n" +
@@ -53,7 +53,7 @@ public class BlockTest extends TestingAstTestCase {
 		p.accept(cp);
 		String expected_result = 
 			"self\n" +
-			"block:2:true\n" +
+			"block:2:true:0\n" +
 			"parameter:a\n" +
 			"parameter:b\n" +
 			"*parameter:c\n" +
@@ -75,7 +75,7 @@ public class BlockTest extends TestingAstTestCase {
 		p.accept(cp);
 		String expected_result = 
 			"self\n" +
-			"block:0:false\n" +
+			"block:0:false:0\n" +
 			"begin break\n" +
 			"nil\n" +
 			"end break\n" +

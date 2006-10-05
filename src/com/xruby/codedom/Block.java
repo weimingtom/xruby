@@ -16,13 +16,17 @@ public class Block {
 	private CompoundStatement bodyStatement_ = null;
 	private ArrayList<String> parameters_ = new ArrayList<String>();
 	private String asterisk_parameter_ = null;
+	private ArrayList<Expression> default_parameters_ = new ArrayList<Expression>();
 	
 	public void setBody(CompoundStatement bodyStatement) {
 		bodyStatement_ = bodyStatement;
 	}
 	
-	public void addParameter(String name) {
+	public void addParameter(String name, Expression default_value) {
 		parameters_.add(name);
+		if (null != default_value) {
+			default_parameters_.add(default_value);
+		}
 	}
 
 	public void setAsteriskParameter(String name) {
@@ -31,11 +35,13 @@ public class Block {
 	}
 
 	public Pair accept(CodeVisitor visitor) {
-		String name = visitor.visitBlock(parameters_.size(), (null != asterisk_parameter_));
+		String name = visitor.visitBlock(parameters_.size(), (null != asterisk_parameter_), default_parameters_.size());
 		
 		for (String p : parameters_) {
 			visitor.visitMethodDefinationParameter(p);
 		}
+		
+		//TODO support default_value
 
 		if (null != asterisk_parameter_) {
 			visitor.visitMethodDefinationAsteriskParameter(asterisk_parameter_);
