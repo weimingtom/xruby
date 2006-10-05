@@ -1013,6 +1013,8 @@ public class RubyCompilerTest extends TestCase {
 				"	print yield(66)\n" +
 				"end\n" +
 				"a {|x| print x; 99}",
+				
+				"3.times {|x, y| print x, y}",
 		};
 
 		String[] outputs = {
@@ -1021,6 +1023,7 @@ public class RubyCompilerTest extends TestCase {
 				"01234",
 				"5nil",
 				"6699",
+				"0nil1nil2nil",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
