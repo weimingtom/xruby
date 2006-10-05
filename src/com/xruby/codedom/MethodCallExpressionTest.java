@@ -6,6 +6,21 @@ package com.xruby.codedom;
 
 public class MethodCallExpressionTest extends TestingAstTestCase {
 
+	public void test_dot() {
+		Program p = getProgram("4.div 2");
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
+		String expected_result = 
+			"4\n" +
+			"[:1\n" +
+			"[\n" +
+			"2\n" +
+			"]\n" +
+			"div:true\n" +
+			"EOF";
+		assertEquals(expected_result, cp.toString());
+	}
+	
 	public void test3() {
 		Program p = getProgram("puts 2.class");
 		CodePrinter cp = new CodePrinter();

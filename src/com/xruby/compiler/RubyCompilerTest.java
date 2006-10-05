@@ -120,8 +120,8 @@ public class RubyCompilerTest extends TestCase {
 	public void test_BinaryOperatorExpression() {
 		String[] program_texts = { "2+2", "0 + 100", "0 + 0", "654321 + 9999",
 				"0xFF + 1", "3 - 5", "3 * 5 * 2", "100/2", "4%2", "7%3",
-				"1 + 2 + 3 -0 + 100", "6- 5 *2 + 100 - 6" };
-		int[] results = { 4, 100, 0, 664320, 256, -2, 30, 50, 0, 1, 106, 90, };
+				"1 + 2 + 3 -0 + 100", "6- 5 *2 + 100 - 6", "4.div 2", };
+		int[] results = { 4, 100, 0, 664320, 256, -2, 30, 50, 0, 1, 106, 90, 2};
 
 		compile_run_and_compare_result(program_texts, results);
 	}

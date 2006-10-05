@@ -197,7 +197,12 @@ returns [Expression e]
 																			e = new MethodCallExpression(left, ((LocalVariableExpression)right).getValue(), null, null);
 																		}
 																	}
-		|	#(CALL					(var=variable|yield:"yield"|defined:"defined?")	(args=arguments)?	(block=codeBlock)?)
+		|	#(CALL					(var=variable
+									|yield:"yield"
+									|defined:"defined?"
+									|#(DOT					left=expression	right=expression)
+									)
+									(args=arguments)?	(block=codeBlock)?)
 																	{
 																		if (null != yield) {
 																			if (null != block) {
@@ -209,8 +214,15 @@ returns [Expression e]
 																				throw new RecognitionException("block can not be passed into defined?");
 																			}
 																			e = new DefinedExpression(args);
-																		} else {
+																		} else if (null != var) {
 																			e = new MethodCallExpression(null, var.getValue(), args, block);
+																		} else {
+																			if (right instanceof MethodCallExpression) {
+																				MethodCallExpression mc = (MethodCallExpression)right;
+																				e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
+																			} else {
+																				e = new MethodCallExpression(left, ((LocalVariableExpression)right).getValue(), args, block);
+																			}
 																		}
 																	}
 		|	#(LBRACK_ARRAY_ACCESS	left=expression	args=elements_as_arguments)	{e = new MethodCallExpression(left, "[]", args, null);}

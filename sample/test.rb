@@ -519,16 +519,15 @@ end
 
 test_check "while/until";
 tmp = open("while_tmp", "w")
-=begin
+
 tmp.print "tvi925\n";
 tmp.print "tvi920\n";
 tmp.print "vt100\n";
 tmp.print "Amiga\n";
 tmp.print "paper\n";
 tmp.close
-
+=begin
 # test break
-
 tmp = open("while_tmp", "r")
 test_ok(tmp.kind_of?(File))
 
