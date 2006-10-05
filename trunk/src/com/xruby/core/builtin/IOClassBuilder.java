@@ -21,8 +21,37 @@ class IO_write extends RubyMethod {
 			value = (StringValue) str.getValue();
 		}
 		
-		System.out.print(value.toString());
+		IOValue io = (IOValue)receiver.getValue();
+		if (null == io) {
+			System.out.print(value.toString());
+		} else {
+			io.print(value.toString());
+		}
 		return ObjectFactory.createFixnum(value.length());
+	}
+}
+
+class IO_print extends Kernel_print {
+	public IO_print() {
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		return _run(receiver, args, block);
+	}
+}
+
+class IO_close extends RubyMethod {
+	public IO_close() {
+		super(0);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		IOValue io = (IOValue)receiver.getValue();
+		if (null != io) {
+			//not stdout, stderr, stdin
+			io.close();
+		}
+		return ObjectFactory.nilValue;
 	}
 }
 
@@ -32,6 +61,8 @@ public class IOClassBuilder {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("IO",
 				RubyRuntime.ObjectClass);
 		c.defineMethod("write", new IO_write());
+		c.defineMethod("print", new IO_print());
+		c.defineMethod("close", new IO_close());
 		return c;
 	}
 }

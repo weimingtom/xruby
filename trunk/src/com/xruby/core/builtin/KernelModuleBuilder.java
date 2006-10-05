@@ -71,6 +71,10 @@ class Kernel_print extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		return _run(GlobalVariables.STDOUT, args, block);
+	}
+	
+	protected RubyValue _run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		// if no argument given, print `$_'
 		if (null == args) {
 			args = new ArrayValue(GlobalVariables.LAST_READ_LINE);
@@ -79,19 +83,19 @@ class Kernel_print extends RubyMethod {
 		for (int i = 0; i < args.size(); ++i) {
 			// insert the output field separator($,) if not nil
 			if (i > 0 && GlobalVariables.OUTPUT_FIELD_SEPARATOR != ObjectFactory.nilValue) {
-				RubyRuntime.callPublicMethod(GlobalVariables.STDOUT, GlobalVariables.OUTPUT_FIELD_SEPARATOR, "write");
+				RubyRuntime.callPublicMethod(receiver, GlobalVariables.OUTPUT_FIELD_SEPARATOR, "write");
 			}
 			
 			if (args.get(i) == ObjectFactory.nilValue) {
-				RubyRuntime.callPublicMethod(GlobalVariables.STDOUT, ObjectFactory.createString("nil"), "write");
+				RubyRuntime.callPublicMethod(receiver, ObjectFactory.createString("nil"), "write");
 			} else {
-				RubyRuntime.callPublicMethod(GlobalVariables.STDOUT, args.get(i), "write");
+				RubyRuntime.callPublicMethod(receiver, args.get(i), "write");
 			}
 		}
 		
 		// if the output record separator($\) is not nil, it will be appended to the output.
 		if ( GlobalVariables.OUTPUT_RECORD_SEPARATOR != ObjectFactory.nilValue) {
-			RubyRuntime.callPublicMethod(GlobalVariables.STDOUT, GlobalVariables.OUTPUT_RECORD_SEPARATOR, "write");
+			RubyRuntime.callPublicMethod(receiver, GlobalVariables.OUTPUT_RECORD_SEPARATOR, "write");
 		}
 
 		return ObjectFactory.nilValue;
@@ -341,6 +345,18 @@ class Kernel_loop extends RubyMethod {
 	}
 }
 
+class Kernel_open extends RubyMethod {
+	public Kernel_open() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		StringValue filename = (StringValue)args.get(0).getValue();
+		StringValue mode = (StringValue)args.get(1).getValue();
+		return ObjectFactory.createFile(filename.toString(), mode.toString());
+	}
+}
+
 public class KernelModuleBuilder {
 	public static RubyModule create() {
 		RubyModule m = RubyRuntime.GlobalScope.defineModule("Kernel");
@@ -361,6 +377,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("lambda", lambda);
 		m.defineMethod("proc", lambda);
 		m.defineMethod("loop", new Kernel_loop());
+		m.defineMethod("open", new Kernel_open());
 		return m;
 	}
 }
