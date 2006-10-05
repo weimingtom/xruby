@@ -1767,4 +1767,23 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_File() {
+		File file = new File("test_File.txt");
+		file.delete();
+		assert(!file.exists());
+		
+		String [] program_texts = {
+				"f = open('test_File.txt', 'w'); print f.class; print f.close",
+		};
+		
+		String[] outputs = {
+				"Filenil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+		
+		assertTrue(file.exists());
+		assertTrue(file.delete());
+	}
 }

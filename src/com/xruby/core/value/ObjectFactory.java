@@ -25,10 +25,13 @@ public class ObjectFactory {
 	public static final RubyValue ExceptionClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ExceptionClass);
 	public static final RubyValue RuntimeErrorClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RuntimeErrorClass);
 	public static final RubyValue ClassClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ClassClass);
+	public static final RubyValue IOClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.IOClass);
 	public static final RubyValue ProcClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ProcClass);
 	public static final RubyValue RangeClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RangeClass);
 	public static final RubyValue RegexpClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RegexpClass);
+	public static final RubyValue FileClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.FileClass);
 
+	
 	public static boolean isBuiltin(String name) {
 		if (name.equals("Object") ||
 				name.equals("NilClass") ||
@@ -44,9 +47,11 @@ public class ObjectFactory {
 				name.equals("Array") ||
 				name.equals("Hash") ||
 				name.equals("ClassClass") ||
+				name.equals("IO") ||
 				name.equals("Proc") ||
 				name.equals("Range") ||
-				name.equals("Regexp")) {
+				name.equals("Regexp") ||
+				name.equals("File")) {
 			return true;
 		} else {
 			return false;
@@ -93,6 +98,10 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.HashClass, value);
 	}
 
+	public static RubyValue createFile(String filename, String mode) {
+		return new RubyValue(RubyRuntime.FileClass, new IOValue(filename, mode));
+	}
+	
 	public static RubyValue createRange(RubyValue left, RubyValue right, boolean isExclusive) throws RubyException {
 		Object l = left.getValue();
 		Object r = right.getValue();

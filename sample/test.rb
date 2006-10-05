@@ -518,8 +518,8 @@ else
 end
 
 test_check "while/until";
-=begin
 tmp = open("while_tmp", "w")
+=begin
 tmp.print "tvi925\n";
 tmp.print "tvi920\n";
 tmp.print "vt100\n";
