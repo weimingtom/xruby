@@ -239,6 +239,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.core.lang.RubyValue get(int)"));
 	}
 
+	public void loadMethodPrameterLength() {
+		loadArg(1);
+		invokeVirtual(Type.getType(ArrayValue.class),
+				Method.getMethod("int size()"));
+	}
+
 	public void GlobalVatiables_alias(String newName, String oldName) {
 		push(newName);
 		push(oldName);

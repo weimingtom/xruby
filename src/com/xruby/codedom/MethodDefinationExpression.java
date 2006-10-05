@@ -45,7 +45,13 @@ public class MethodDefinationExpression extends Expression {
 			visitor.visitMethodDefinationAsteriskParameter(asterisk_parameter_);
 		}
 
-		//TODO asterisk_parameter_
+		int i = parameters_.size() - default_parameters_.size();
+		for (Expression e : default_parameters_) {
+			Object next_label = visitor.visitMethodDefinationDefaultParameterBegin(i);
+			e.accept(visitor);
+			visitor.visitMethodDefinationDefaultParameterEnd(next_label);
+			++i;
+		}
 		
 		if (null != bodyStatement_) {
 			bodyStatement_.accept(visitor);

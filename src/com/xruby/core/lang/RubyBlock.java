@@ -28,9 +28,6 @@ class MethodBlockBase {
 		
 		return asterisk_parameter_;
 	}
-
-	protected void initializeDefaultParameter(ArrayValue args, int index) {
-	}
 }
 
 public abstract class RubyBlock extends MethodBlockBase {

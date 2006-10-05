@@ -149,6 +149,23 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_ = suspended_cgs_.pop();
 	}
 
+	public Object visitMethodDefinationDefaultParameterBegin(int index) {
+		Label next_label = new Label();
+
+		cg_.getMethodGeneratorForRunMethod().loadMethodPrameterLength();
+		cg_.getMethodGeneratorForRunMethod().push(index);
+		cg_.getMethodGeneratorForRunMethod().ifICmp(GeneratorAdapter.GT, next_label);
+
+		cg_.getMethodGeneratorForRunMethod().loadArg(1);
+		
+		return next_label;
+	}
+
+	public void visitMethodDefinationDefaultParameterEnd(Object next_label) {
+		cg_.getMethodGeneratorForRunMethod().ArrayValue_add(false);
+		cg_.getMethodGeneratorForRunMethod().mark((Label)next_label);
+	}
+
 	public void visitNoParameter() {
 		cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);
 	}

@@ -43,6 +43,8 @@ public interface CodeVisitor {
 	public void visitMethodDefinationParameter(String name);
 	public void visitMethodDefinationAsteriskParameter(String name);
 	public void visitMethodDefinationEnd(boolean last_statement_has_return_value);
+	public Object visitMethodDefinationDefaultParameterBegin(int index);
+	public void visitMethodDefinationDefaultParameterEnd(Object next_label);
 	
 	public void visitClassDefination(String className, String superClassName);
 	public void visitClassDefinationEnd(String className, boolean last_statement_has_return_value);

@@ -15,14 +15,33 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 "EOF";
 		assertEquals(expected_result, cp.toString());		
 	}
-
-	public void test_return() {
-		Program p = getProgram("def my_methods(a=1) return end");
+	
+	public void test_default_parameter() {
+		Program p = getProgram("def my_methods(a, b = 1, c = 2) end");
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"def my_methods:1:false:1\n" +
+"def my_methods:3:false:2\n" +
 "parameter:a\n" +
+"parameter:b\n" +
+"parameter:c\n" +
+"DefaultParameterBegin:1\n" +
+"1\n" +
+"DefaultParameterEnd\n" +
+"DefaultParameterBegin:2\n" +
+"2\n" +
+"DefaultParameterEnd\n" +
+"end def:false\n" +
+"EOF";
+		assertEquals(expected_result, cp.toString());		
+	}
+
+	public void test_return() {
+		Program p = getProgram("def my_methods() return end");
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
+		String expected_result = 
+"def my_methods:0:false:0\n" +
 "nil\n" +
 "return\n" +
 "end def:false\n" +
