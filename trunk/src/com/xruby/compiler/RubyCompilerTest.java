@@ -1787,7 +1787,6 @@ public class RubyCompilerTest extends TestCase {
 		assertTrue(file.delete());
 	}
 	
-	/*
 	public void test_wrong_number_of_arguments() {
 		String[] program_texts = {
 				"def f(a) end; f",
@@ -1803,22 +1802,30 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
-	
+
 	public void test_default_argument() {
 		String [] program_texts = {
 				"def f(a = 5432) print a; end; f 666",
 				"def f(a = 5432) print a; end; f",
+				"def f(a = 111, b = 222) print a, b; end; f",
+				"def f(a = 111, b = 222) print a, b; end; f 333",
+				"def f(a = 111, b = 222) print a, b; end; f 333, 444",
 				"def x; 99; end;  def f(a=x()) print a; end; f",
 				"def f(a=x()) print a; end; print 'hi'; def x; print 'x';99; end;  f",
+				"def f(a=x()) print a; end; print 'hi'; def x; print 'x';99; end;  f 88",
 		};
 		
 		String[] outputs = {
 				"666",
 				"5432",
+				"111222",
+				"333222",
+				"333444",
 				"99",
 				"hix99",
+				"hi88",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
-	}*/
+	}
 }

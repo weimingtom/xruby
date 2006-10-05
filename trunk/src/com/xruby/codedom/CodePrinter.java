@@ -356,6 +356,17 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
+	public Object visitMethodDefinationDefaultParameterBegin(int index) {
+		result_.append("DefaultParameterBegin:");
+		result_.append(index);
+		result_.append("\n");
+		return null;
+	}
+
+	public void visitMethodDefinationDefaultParameterEnd(Object next_label) {
+		result_.append("DefaultParameterEnd\n");
+	}
+
 	public void visitReturn() {
 		result_.append("return\n");
 	}
