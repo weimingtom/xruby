@@ -37,7 +37,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_ = new ClassGeneratorForRubyProgram(NameFactory.createClassName(script_name_, null));
 		program.accept(this);
 
-		cg_.getMethodGeneratorForRunMethod().endMethod();
+		cg_.getMethodGenerator().endMethod();
 		cg_.visitEnd();
 		compilation_results_.add(cg_.getCompilationResult());
 		return compilation_results_;
@@ -45,24 +45,24 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitClassDefination(String className, String superClassName) {
 
-		cg_.getMethodGeneratorForRunMethod().loadThis();
+		cg_.getMethodGenerator().loadThis();
 
 		if (isInGlobalScope()) {
-			cg_.getMethodGeneratorForRunMethod().getStatic(Type.getType(RubyRuntime.class),
+			cg_.getMethodGenerator().getStatic(Type.getType(RubyRuntime.class),
 					"GlobalScope",
 					Type.getType(RubyModule.class));
 		} else {
 			//FIXME
 		}
 		
-		cg_.getMethodGeneratorForRunMethod().defineClass(className, superClassName);
-		cg_.getMethodGeneratorForRunMethod().dup();
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPublic()"));
-		cg_.getMethodGeneratorForRunMethod().dup();
-		int var_as_ruby_class = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyClass.class));
-		cg_.getMethodGeneratorForRunMethod().storeLocal(var_as_ruby_class);
-		cg_.getMethodGeneratorForRunMethod().saveCurrentClassAsRubyValueThenLoad(cg_.getLocalVariable(className));
-		cg_.getMethodGeneratorForRunMethod().loadLocal(var_as_ruby_class);
+		cg_.getMethodGenerator().defineClass(className, superClassName);
+		cg_.getMethodGenerator().dup();
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPublic()"));
+		cg_.getMethodGenerator().dup();
+		int var_as_ruby_class = cg_.getMethodGenerator().newLocal(Type.getType(RubyClass.class));
+		cg_.getMethodGenerator().storeLocal(var_as_ruby_class);
+		cg_.getMethodGenerator().saveCurrentClassAsRubyValueThenLoad(cg_.getLocalVariable(className));
+		cg_.getMethodGenerator().loadLocal(var_as_ruby_class);
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
@@ -85,7 +85,7 @@ class RubyCompilerImpl implements CodeVisitor {
 
 		String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
 
-		cg_.getMethodGeneratorForRunMethod().defineMethod(methodName, uniqueMethodName);
+		cg_.getMethodGenerator().defineMethod(methodName, uniqueMethodName);
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
@@ -107,11 +107,11 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public String[] visitBlockEnd(String uniqueBlockName, boolean last_statement_has_return_value) {
 		if (!last_statement_has_return_value) {
-			cg_.getMethodGeneratorForRunMethod().ObjectFactory_nilValue();
+			cg_.getMethodGenerator().ObjectFactory_nilValue();
 		}
 
-		cg_.getMethodGeneratorForRunMethod().returnValue();
-		cg_.getMethodGeneratorForRunMethod().endMethod();
+		cg_.getMethodGenerator().returnValue();
+		cg_.getMethodGenerator().endMethod();
 		cg_.visitEnd();
 
 		String[] commons = ((ClassGeneratorForRubyBlock)cg_).createFieldsAndConstructorOfRubyBlock();
@@ -120,10 +120,10 @@ class RubyCompilerImpl implements CodeVisitor {
 		compilation_results_.add(cg_.getCompilationResult());
 		cg_ = suspended_cgs_.pop();
 		
-		cg_.getMethodGeneratorForRunMethod().new_BlockClass(uniqueBlockName, commons);
+		cg_.getMethodGenerator().new_BlockClass(uniqueBlockName, commons);
 
 		if (assigned_commons.length > 0) {
-			cg_.getMethodGeneratorForRunMethod().saveBlockForFutureRestore();
+			cg_.getMethodGenerator().saveBlockForFutureRestore();
 		}
 		return assigned_commons;
 	}
@@ -138,11 +138,11 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitMethodDefinationEnd(boolean last_statement_has_return_value) {
 		if (!last_statement_has_return_value) {
-			cg_.getMethodGeneratorForRunMethod().ObjectFactory_nilValue();
+			cg_.getMethodGenerator().ObjectFactory_nilValue();
 		}
 
-		cg_.getMethodGeneratorForRunMethod().returnValue();
-		cg_.getMethodGeneratorForRunMethod().endMethod();
+		cg_.getMethodGenerator().returnValue();
+		cg_.getMethodGenerator().endMethod();
 		cg_.visitEnd();
 		
 		compilation_results_.add(cg_.getCompilationResult());
@@ -152,58 +152,58 @@ class RubyCompilerImpl implements CodeVisitor {
 	public Object visitMethodDefinationDefaultParameterBegin(int index) {
 		Label next_label = new Label();
 
-		cg_.getMethodGeneratorForRunMethod().loadMethodPrameterLength();
-		cg_.getMethodGeneratorForRunMethod().push(index);
-		cg_.getMethodGeneratorForRunMethod().ifICmp(GeneratorAdapter.GT, next_label);
+		cg_.getMethodGenerator().loadMethodPrameterLength();
+		cg_.getMethodGenerator().push(index);
+		cg_.getMethodGenerator().ifICmp(GeneratorAdapter.GT, next_label);
 
-		cg_.getMethodGeneratorForRunMethod().loadArg(1);
+		cg_.getMethodGenerator().loadArg(1);
 		
 		return next_label;
 	}
 
 	public void visitMethodDefinationDefaultParameterEnd(Object next_label) {
-		cg_.getMethodGeneratorForRunMethod().ArrayValue_add(false);
-		cg_.getMethodGeneratorForRunMethod().mark((Label)next_label);
+		cg_.getMethodGenerator().ArrayValue_add(false);
+		cg_.getMethodGenerator().mark((Label)next_label);
 	}
 
 	public void visitNoParameter() {
-		cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);
+		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
 	}
 
 	public void visitNoBlock() {
-		cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);
+		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
 	}
 	
 	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {	
 		if (hasReceiver) {	
-			cg_.getMethodGeneratorForRunMethod().push(methodName);
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+			cg_.getMethodGenerator().push(methodName);
+			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyBlock, String)"));
 		} else {
-			cg_.getMethodGeneratorForRunMethod().push(methodName);
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+			cg_.getMethodGenerator().push(methodName);
+			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue callMethod(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyBlock, String)"));
 		}
 
 		if (null != assignedCommons && assignedCommons.length > 0) {
-			cg_.getMethodGeneratorForRunMethod().dup();
+			cg_.getMethodGenerator().dup();
 			for (String name : assignedCommons) {
-				cg_.getMethodGeneratorForRunMethod().restoreLocalVariableFromBlock(blockName, name);
+				cg_.getMethodGenerator().restoreLocalVariableFromBlock(blockName, name);
 			}
 		}
 	}
 
 	public void visitBinaryOperator(String operator) {
 		if (operator.equals("!=")) {
-			cg_.getMethodGeneratorForRunMethod().push("==");
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+			cg_.getMethodGenerator().push("==");
+			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue operatorNot(com.xruby.core.lang.RubyValue)"));
 		} else {
 			//operator as method call
-			cg_.getMethodGeneratorForRunMethod().push(operator);
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+			cg_.getMethodGenerator().push(operator);
+			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
 		}
 	}
@@ -212,23 +212,23 @@ class RubyCompilerImpl implements CodeVisitor {
 		//The and and && operators evaluate their first operand. If false,
 		//the expression returns false; otherwise, the expression returns
 		//the value of the second operand. 
-		cg_.getMethodGeneratorForRunMethod().dup();
+		cg_.getMethodGenerator().dup();
 		Label label = (Label)visitAfterIfCondition();
-		cg_.getMethodGeneratorForRunMethod().pop();//discard the current value;
+		cg_.getMethodGenerator().pop();//discard the current value;
 		return label;
 	}
 
 	public void visitAndBinaryOperatorRight(Object label) {
-		cg_.getMethodGeneratorForRunMethod().mark((Label)label);
+		cg_.getMethodGenerator().mark((Label)label);
 	}
 
 	public Object visitOrBinaryOperatorLeft() {
 		//The or and || operators evaluate their first operand. If true, 
 		//the expression returns true; otherwise, the expression returns
 		//the value of the second operand. 
-		cg_.getMethodGeneratorForRunMethod().dup();
+		cg_.getMethodGenerator().dup();
 		Label label = (Label)visitAfterUnlessCondition();
-		cg_.getMethodGeneratorForRunMethod().pop();//discard the current value;
+		cg_.getMethodGenerator().pop();//discard the current value;
 		return label;
 	}
 
@@ -238,18 +238,18 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitUnaryOperator(String operator) {
 		if (operator.equals("!")) {
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue operatorNot(com.xruby.core.lang.RubyValue)"));
 		} else {
-			cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);
-			cg_.getMethodGeneratorForRunMethod().push(operator);
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+			cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
+			cg_.getMethodGenerator().push(operator);
+			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
 		}
 	}
 
 	private void expandArrayIfThereIsZeroOrOneValue() {
-		cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+		cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
 					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.lang.RubyValue)"));
 	}
 	
@@ -257,7 +257,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		if (rhs_is_method_call) {
 			expandArrayIfThereIsZeroOrOneValue();
 		}
-		cg_.getMethodGeneratorForRunMethod().GlobalVatiables_set(var);
+		cg_.getMethodGenerator().GlobalVatiables_set(var);
 	}
 
 	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
@@ -265,58 +265,58 @@ class RubyCompilerImpl implements CodeVisitor {
 			expandArrayIfThereIsZeroOrOneValue();
 		}
 		if (!is_multiple_assign) {
-			cg_.getMethodGeneratorForRunMethod().dup();//do not pop off empty stack
+			cg_.getMethodGenerator().dup();//do not pop off empty stack
 		}
 
 		cg_.storeVariable(var);
 	}
 	
 	public void visitFloatExpression(float value) {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createFloat(value);
+		cg_.getMethodGenerator().ObjectFactory_createFloat(value);
 	}
 
 	public void visitIntegerExpression(int value) {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createFixnum(value);
+		cg_.getMethodGenerator().ObjectFactory_createFixnum(value);
 	}
 
 	public void visitStringExpression(String value) {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createString(value);
+		cg_.getMethodGenerator().ObjectFactory_createString(value);
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitutionBegin() {
-		cg_.getMethodGeneratorForRunMethod().new_StringValue();
+		cg_.getMethodGenerator().new_StringValue();
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitution(String value) {
-		cg_.getMethodGeneratorForRunMethod().StringValue_append(value);
+		cg_.getMethodGenerator().StringValue_append(value);
 	}
 
 	public void visitStringExpressionWithExpressionSubstitution() {
-		cg_.getMethodGeneratorForRunMethod().StringValue_append();
+		cg_.getMethodGenerator().StringValue_append();
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitutionEnd() {
-		cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ObjectFactory.class),
+		cg_.getMethodGenerator().invokeStatic(Type.getType(ObjectFactory.class),
                 Method.getMethod("com.xruby.core.lang.RubyValue createString(com.xruby.core.value.StringValue)"));
 	}
 	
 	public void visitRegexpExpression(String value) {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createRegexp(value);
+		cg_.getMethodGenerator().ObjectFactory_createRegexp(value);
 	}
 
 	public void visitSymbolExpression(String value) {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createSymbol(value);
+		cg_.getMethodGenerator().ObjectFactory_createSymbol(value);
 	}
 	
 	public void visitTerminal() {
-		cg_.getMethodGeneratorForRunMethod().pop();
+		cg_.getMethodGenerator().pop();
 	}
 	
 	public void visitEof(boolean last_statement_has_return_value) {
 		if (!last_statement_has_return_value) {
-			cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);
+			cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
 		}
-		cg_.getMethodGeneratorForRunMethod().returnValue();
+		cg_.getMethodGenerator().returnValue();
 	}
 
 	public void visitLocalVariableExpression(String value) {
@@ -324,13 +324,13 @@ class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitNilExpression() {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_nilValue();
+		cg_.getMethodGenerator().ObjectFactory_nilValue();
 	}
 
 	public Object visitAfterIfCondition() {
-		cg_.getMethodGeneratorForRunMethod().RubyRuntime_testTrueFalse();
+		cg_.getMethodGenerator().RubyRuntime_testTrueFalse();
 		Label label = new Label();
-		cg_.getMethodGeneratorForRunMethod().ifZCmp(GeneratorAdapter.EQ, label);
+		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
 		return label;
 	}
 
@@ -346,25 +346,25 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public Object visitWhileBody() {
 		Label condition_label = new Label();
-		cg_.getMethodGeneratorForRunMethod().goTo(condition_label);
+		cg_.getMethodGenerator().goTo(condition_label);
 		Label body_label = new Label();
-		cg_.getMethodGeneratorForRunMethod().mark(body_label);
+		cg_.getMethodGenerator().mark(body_label);
 		return new Pair<Label, Label>(body_label, condition_label);
 	}
 
 	public void visitWhileConditionBegin(Object label_pair) {
-		cg_.getMethodGeneratorForRunMethod().pop();
-		cg_.getMethodGeneratorForRunMethod().mark(((Pair<Label, Label>)label_pair).second);
+		cg_.getMethodGenerator().pop();
+		cg_.getMethodGenerator().mark(((Pair<Label, Label>)label_pair).second);
 	}
 
 	public void visitWhileConditionEnd(Object label_pair, boolean is_until) {
-		cg_.getMethodGeneratorForRunMethod().RubyRuntime_testTrueFalse();
+		cg_.getMethodGenerator().RubyRuntime_testTrueFalse();
 		if (is_until) {
-			cg_.getMethodGeneratorForRunMethod().ifZCmp(GeneratorAdapter.EQ, ((Pair<Label, Label>)label_pair).first);
+			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, ((Pair<Label, Label>)label_pair).first);
 		} else {
-			cg_.getMethodGeneratorForRunMethod().ifZCmp(GeneratorAdapter.NE, ((Pair<Label, Label>)label_pair).first);
+			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, ((Pair<Label, Label>)label_pair).first);
 		}
-		cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);//TODO should push the value of the while expression
+		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);//TODO should push the value of the while expression
 	}
 
 	public Object visitAfterIfBody(Object next_label, Object end_label) {
@@ -373,10 +373,10 @@ class RubyCompilerImpl implements CodeVisitor {
 		}
 		
 		if (null != next_label) {
-			cg_.getMethodGeneratorForRunMethod().goTo((Label)end_label);
-			cg_.getMethodGeneratorForRunMethod().mark((Label)next_label);
+			cg_.getMethodGenerator().goTo((Label)end_label);
+			cg_.getMethodGenerator().mark((Label)next_label);
 		} else {
-			cg_.getMethodGeneratorForRunMethod().mark((Label)end_label);
+			cg_.getMethodGenerator().mark((Label)end_label);
 		}
 
 		return end_label;
@@ -384,17 +384,17 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public Object visitAfterCaseCondition() {
 		int i = cg_.getAnonymousLocalVariable();
-		cg_.getMethodGeneratorForRunMethod().storeLocal(i);
+		cg_.getMethodGenerator().storeLocal(i);
 		return i;
 	}
 
 	public Object visitAfterWhenCondition(Object case_value) {
 		int i = (Integer)case_value;
-		cg_.getMethodGeneratorForRunMethod().loadLocal(i);
-		cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+		cg_.getMethodGenerator().loadLocal(i);
+		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("boolean testEqual(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue)"));
 		Label label = new Label();
-		cg_.getMethodGeneratorForRunMethod().ifZCmp(GeneratorAdapter.EQ, label);
+		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
 		return label;
 	}
 
@@ -403,17 +403,17 @@ class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitTrueExpression() {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_trueValue();
+		cg_.getMethodGenerator().ObjectFactory_trueValue();
 	}
 
 	public void visitFalseExpression() {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_falseValue();
+		cg_.getMethodGenerator().ObjectFactory_falseValue();
 	}
 
 	public Object visitAfterUnlessCondition() {
-		cg_.getMethodGeneratorForRunMethod().RubyRuntime_testTrueFalse();
+		cg_.getMethodGenerator().RubyRuntime_testTrueFalse();
 		Label label = new Label();
-		cg_.getMethodGeneratorForRunMethod().ifZCmp(GeneratorAdapter.NE, label);
+		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, label);
 		return label;
 	}
 
@@ -422,43 +422,43 @@ class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public Object visitPrepareRescueBegin() {
-		return cg_.getMethodGeneratorForRunMethod().mark();
+		return cg_.getMethodGenerator().mark();
 	}
 
 	public Object visitPrepareRescueEnd(Object start) {
-		Label end = cg_.getMethodGeneratorForRunMethod().mark();
+		Label end = cg_.getMethodGenerator().mark();
 
 		Label after_exception = new Label();
-		cg_.getMethodGeneratorForRunMethod().goTo(after_exception);
+		cg_.getMethodGenerator().goTo(after_exception);
 		
-		cg_.getMethodGeneratorForRunMethod().catchException((Label)start,
+		cg_.getMethodGenerator().catchException((Label)start,
 				end,
 				Type.getType(RubyException.class));
 
 		int exception_variable = cg_.getAnonymousLocalVariable();
-		cg_.getMethodGeneratorForRunMethod().storeLocal(exception_variable);
+		cg_.getMethodGenerator().storeLocal(exception_variable);
 
-		cg_.getMethodGeneratorForRunMethod().visitInsn(Opcodes.ACONST_NULL);//hack???
+		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);//hack???
 		
 		return new Pair<Integer, Label>(exception_variable, after_exception);
 	}
 
 	public void visitRescueEnd(Object var, Object end_label) {
-		cg_.getMethodGeneratorForRunMethod().mark((Label)end_label);
+		cg_.getMethodGenerator().mark((Label)end_label);
 		Label after_exception = ((Pair<Integer, Label>)var).second;
-		cg_.getMethodGeneratorForRunMethod().mark(after_exception);
+		cg_.getMethodGenerator().mark(after_exception);
 	}
 
 	public Object visitRescueVariable(String name, Object var) {
 		int exception_variable = ((Pair<Integer, Label>)var).first;
-		cg_.getMethodGeneratorForRunMethod().loadLocal(exception_variable);
-		cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(RubyRuntime.class),
+		cg_.getMethodGenerator().loadLocal(exception_variable);
+		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("boolean testExceptionType(com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyException)"));
 		
 		Label label = new Label();
-		cg_.getMethodGeneratorForRunMethod().ifZCmp(GeneratorAdapter.EQ, label);
+		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
 
-		cg_.getMethodGeneratorForRunMethod().pop();//hack???
+		cg_.getMethodGenerator().pop();//hack???
 		
 		return label;
 	}
@@ -468,77 +468,77 @@ class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitArrayBegin(int size, boolean notSingleAsterisk) {
-		cg_.getMethodGeneratorForRunMethod().new_ArrayValue(size, notSingleAsterisk);
+		cg_.getMethodGenerator().new_ArrayValue(size, notSingleAsterisk);
 	}
 	
 	public void visitHashBegin() {
-		cg_.getMethodGeneratorForRunMethod().new_HashValue();
+		cg_.getMethodGenerator().new_HashValue();
 	}
 
 	public void visitArrayElementBegin() {
-		cg_.getMethodGeneratorForRunMethod().dup();
+		cg_.getMethodGenerator().dup();
 	}
 
 	public void visitHashElementBegin() {
-		cg_.getMethodGeneratorForRunMethod().dup();
+		cg_.getMethodGenerator().dup();
 	}
 	
 	public void visitArrayElementEnd(boolean asterisk, boolean is_method_call) {
 		if (asterisk) {
-			cg_.getMethodGeneratorForRunMethod().ArrayValue_expand(is_method_call);
+			cg_.getMethodGenerator().ArrayValue_expand(is_method_call);
 		} else {
-			cg_.getMethodGeneratorForRunMethod().ArrayValue_add(is_method_call);
+			cg_.getMethodGenerator().ArrayValue_add(is_method_call);
 		}
 	}
 	
 	public void visitHashElementEnd() {
-		cg_.getMethodGeneratorForRunMethod().HashValue_addValue();
+		cg_.getMethodGenerator().HashValue_addValue();
 	}
 	
 	public void visitArrayEnd() {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createArray();
+		cg_.getMethodGenerator().ObjectFactory_createArray();
 	}
 	
 	public void visitHashEnd() {
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createHash();
+		cg_.getMethodGenerator().ObjectFactory_createHash();
 	}
 
 	public void visitYieldBegin() {
-		cg_.getMethodGeneratorForRunMethod().loadArg(2);//TODO error checking: make sure yield is called in the right context
+		cg_.getMethodGenerator().loadArg(2);//TODO error checking: make sure yield is called in the right context
 		visitSelfExpression();
 	}
 
 	public void visitYieldEnd(boolean single_rhs) { 
 		/*if (single_rhs) {
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+			cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
 						Method.getMethod("com.xruby.core.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.core.value.ArrayValue)"));
 		}*/
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyBlock.class),
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyBlock.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue invoke(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue)"));
 	}
 
 	public void visitGlobalVariableExpression(String value) {
-		cg_.getMethodGeneratorForRunMethod().GlobalVatiables_get(value);
+		cg_.getMethodGenerator().GlobalVatiables_get(value);
 	}
 
 	public void visitCommandOutputExpression(String value) {
-		cg_.getMethodGeneratorForRunMethod().runCommandAndCaptureOutput(value);
+		cg_.getMethodGenerator().runCommandAndCaptureOutput(value);
 	}
 
 	public void visitReturn() {
-		cg_.getMethodGeneratorForRunMethod().returnValue();
+		cg_.getMethodGenerator().returnValue();
 	}
 
 	public void visitAliasGlobalVariable(String newName, String oldName) {
-		cg_.getMethodGeneratorForRunMethod().GlobalVatiables_alias(newName, oldName);
+		cg_.getMethodGenerator().GlobalVatiables_alias(newName, oldName);
 	}
 
 	public void visitAliasMethod(String newName, String oldName) {
-		cg_.getMethodGeneratorForRunMethod().RubyClass_aliasMethod(newName, oldName);	
+		cg_.getMethodGenerator().RubyClass_aliasMethod(newName, oldName);	
 	}
 
 	public void visitUndef(String name) {
-		cg_.getMethodGeneratorForRunMethod().RubyClass_undefMethod(name);
+		cg_.getMethodGenerator().RubyClass_undefMethod(name);
 	}
 	
 	public void visitSuperExpression() {
@@ -546,18 +546,18 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitSelfExpression() {
 		if (!isInGlobalScope()) {
-			cg_.getMethodGeneratorForRunMethod().loadArg(0);
+			cg_.getMethodGenerator().loadArg(0);
 		} else {
-			cg_.getMethodGeneratorForRunMethod().ObjectFactory_topLevelSelfValue();
+			cg_.getMethodGenerator().ObjectFactory_topLevelSelfValue();
 		}
 	}
 
 	public void visitClassVariableExpression(String name) {
 		visitSelfExpression();
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyValue.class),
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
 				Method.getMethod("com.xruby.core.lang.RubyClass getRubyClass()"));
-		cg_.getMethodGeneratorForRunMethod().push(name);
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyClass.class),
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyClass.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue getClassVariable(String)"));
 	}
 
@@ -565,27 +565,27 @@ class RubyCompilerImpl implements CodeVisitor {
 		if (rhs_is_method_call) {
 			expandArrayIfThereIsZeroOrOneValue();
 		}
-		int value = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyValue.class));
-		cg_.getMethodGeneratorForRunMethod().storeLocal(value);
+		int value = cg_.getMethodGenerator().newLocal(Type.getType(RubyValue.class));
+		cg_.getMethodGenerator().storeLocal(value);
 
 		if (cg_.isInClassBuilder()) {
-			cg_.getMethodGeneratorForRunMethod().loadArg(1);
+			cg_.getMethodGenerator().loadArg(1);
 		} else {
 			visitSelfExpression();
-			cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyValue.class),
+			cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
 					Method.getMethod("com.xruby.core.lang.RubyClass getRubyClass()"));
 		}
 		
-		cg_.getMethodGeneratorForRunMethod().loadLocal(value);
-		cg_.getMethodGeneratorForRunMethod().push(name);
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyClass.class),
+		cg_.getMethodGenerator().loadLocal(value);
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyClass.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue setClassVariable(com.xruby.core.lang.RubyValue, String)"));
 	}
 	
 	public void visitInstanceVariableExpression(String name) {
 		visitSelfExpression();
-		cg_.getMethodGeneratorForRunMethod().push(name);
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyValue.class),
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue getInstanceVariable(String)"));
 	}
 
@@ -593,36 +593,36 @@ class RubyCompilerImpl implements CodeVisitor {
 		if (rhs_is_method_call) {
 			expandArrayIfThereIsZeroOrOneValue();
 		}
-		int value = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyValue.class));
-		cg_.getMethodGeneratorForRunMethod().storeLocal(value);
+		int value = cg_.getMethodGenerator().newLocal(Type.getType(RubyValue.class));
+		cg_.getMethodGenerator().storeLocal(value);
 		visitSelfExpression();
-		cg_.getMethodGeneratorForRunMethod().loadLocal(value);
-		cg_.getMethodGeneratorForRunMethod().push(name);
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyValue.class),
+		cg_.getMethodGenerator().loadLocal(value);
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue setInstanceVariable(com.xruby.core.lang.RubyValue, String)"));
 	}
 	
 	public void visitMrhs(int var, int index, boolean asterisk) {
-		cg_.getMethodGeneratorForRunMethod().loadLocal(var);
+		cg_.getMethodGenerator().loadLocal(var);
 		if (asterisk) {
-			cg_.getMethodGeneratorForRunMethod().ArrayValue_collect(index);
+			cg_.getMethodGenerator().ArrayValue_collect(index);
 		} else {
-			cg_.getMethodGeneratorForRunMethod().ArrayValue_get(index);
+			cg_.getMethodGenerator().ArrayValue_get(index);
 		}
 	}
 
 	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs) {
 		if (single_lhs) {
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+			cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
 					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.value.ArrayValue)"));
 			return 0;
 		} else {
 			if (single_rhs) {
-				cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+				cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
 						Method.getMethod("com.xruby.core.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.core.value.ArrayValue)"));
 			}
-			int var = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(ArrayValue.class));
-			cg_.getMethodGeneratorForRunMethod().storeLocal(var);
+			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
+			cg_.getMethodGenerator().storeLocal(var);
 			return var;
 		}
 	}
@@ -635,10 +635,10 @@ class RubyCompilerImpl implements CodeVisitor {
 		if (single_lhs) {
 			return 0;
 		} else {
-			cg_.getMethodGeneratorForRunMethod().invokeStatic(Type.getType(ArrayValue.class),
+			cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
 							Method.getMethod("com.xruby.core.value.ArrayValue convertToArrayIfNotYet(com.xruby.core.lang.RubyValue)"));
-			int var = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(ArrayValue.class));
-			cg_.getMethodGeneratorForRunMethod().storeLocal(var);
+			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
+			cg_.getMethodGenerator().storeLocal(var);
 			return var;
 		}
 	}
@@ -649,14 +649,14 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitBreakBegin() {
 		if (cg_ instanceof ClassGeneratorForRubyBlock) {
-			cg_.getMethodGeneratorForRunMethod().loadThis();
+			cg_.getMethodGenerator().loadThis();
 		}
 		//TODO
 	}
 
 	public void visitBreakEnd() {
 		if (cg_ instanceof ClassGeneratorForRubyBlock) {
-			cg_.getMethodGeneratorForRunMethod().breakBlock();
+			cg_.getMethodGenerator().breakBlock();
 		}
 		//TODO
 	}
@@ -672,12 +672,12 @@ class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitExclusiveRangeOperator() {
-		cg_.getMethodGeneratorForRunMethod().push(true);
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createRange();
+		cg_.getMethodGenerator().push(true);
+		cg_.getMethodGenerator().ObjectFactory_createRange();
 	}
 
 	public void visitInclusiveRangeOperator() {
-		cg_.getMethodGeneratorForRunMethod().push(false);
-		cg_.getMethodGeneratorForRunMethod().ObjectFactory_createRange();
+		cg_.getMethodGenerator().push(false);
+		cg_.getMethodGenerator().ObjectFactory_createRange();
 	}
 }
