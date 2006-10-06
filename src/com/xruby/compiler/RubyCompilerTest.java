@@ -1399,12 +1399,27 @@ public class RubyCompilerTest extends TestCase {
 				"a = TestInstanceVariable.new\n" +
 				"a.f\n" +
 				"a.display",
+				
+				" class MyClass\n" +
+				"   @one = 1\n" +
+				"   def do_something\n" +
+				"     @one = 2\n" +
+				"   end\n" +
+				"   def output\n" +
+				"     print @one\n" +
+				"   end\n" +
+				" end\n" +
+				" instance = MyClass.new\n" +
+				" instance.output\n" +
+				" instance.do_something\n" +
+				" instance.output",
 		};
 
 		String[] outputs = {
 				"nil",
 				"234",
 				"123",
+				"nil2",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1428,11 +1443,29 @@ public class RubyCompilerTest extends TestCase {
 				"a = TestClassVariable.new\n" +
 				"a.f\n" +
 				"a.display",
+				
+				" class MyClass\n" +
+				"   @@value = 1\n" +
+				"   def add_one\n" +
+				"     @@value= @@value + 1\n" +
+				"   end\n" +
+				"   \n" +
+				"   def value\n" +
+				"     @@value\n" +
+				"   end\n" +
+				" end\n" +
+				" instanceOne = MyClass.new\n" +
+				" instanceTwo = MyClass.new\n" +
+				" print instanceOne.value\n" +
+				" instanceOne.add_one\n" +
+				" print instanceOne.value\n" +
+				" print instanceTwo.value",
 		};
 
 		String[] outputs = {
 				"567",
 				"123",
+				"122",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

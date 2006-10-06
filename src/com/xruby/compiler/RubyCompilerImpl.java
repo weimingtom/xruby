@@ -567,9 +567,15 @@ class RubyCompilerImpl implements CodeVisitor {
 		}
 		int value = cg_.getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyValue.class));
 		cg_.getMethodGeneratorForRunMethod().storeLocal(value);
-		visitSelfExpression();
-		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("com.xruby.core.lang.RubyClass getRubyClass()"));
+
+		if (cg_.isInClassBuilder()) {
+			cg_.getMethodGeneratorForRunMethod().loadArg(1);
+		} else {
+			visitSelfExpression();
+			cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyValue.class),
+					Method.getMethod("com.xruby.core.lang.RubyClass getRubyClass()"));
+		}
+		
 		cg_.getMethodGeneratorForRunMethod().loadLocal(value);
 		cg_.getMethodGeneratorForRunMethod().push(name);
 		cg_.getMethodGeneratorForRunMethod().invokeVirtual(Type.getType(RubyClass.class),
