@@ -17,7 +17,7 @@ abstract class ClassGenerator {
 	private MethodGenerator mg_for_class_builder_method_ = null;//TODO should be a queue
 
 	SymbolTable getSymbolTable() {
-		return getMethodGeneratorForRunMethod().getSymbolTable();
+		return getMethodGenerator().getSymbolTable();
 	}
 
 	public boolean isInClassBuilder() {
@@ -29,7 +29,7 @@ abstract class ClassGenerator {
 	}
 
 	public void storeVariable(String name) {
-		getMethodGeneratorForRunMethod().storeLocal(getLocalVariable(name));
+		getMethodGenerator().storeLocal(getLocalVariable(name));
 	}
 	
 	public void startClassBuilderMethod(String name) {
@@ -75,7 +75,7 @@ abstract class ClassGenerator {
 	}
 
 	public int getAnonymousLocalVariable() {
-		return getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyValue.class));
+		return getMethodGenerator().newLocal(Type.getType(RubyValue.class));
 	}
 	
 	abstract protected Class getType();
@@ -83,7 +83,7 @@ abstract class ClassGenerator {
 	public void loadVariable(String name) {
 		//quick access for builtin
 		if (ObjectFactory.isBuiltin(name)) {
-			getMethodGeneratorForRunMethod().getStatic(Type.getType(ObjectFactory.class),
+			getMethodGenerator().getStatic(Type.getType(ObjectFactory.class),
 					name + "ClassValue",
 					Type.getType(RubyValue.class));
 			return;
@@ -92,25 +92,25 @@ abstract class ClassGenerator {
 		// check if this is asterisk method parameter
 		int access_counter = getSymbolTable().getMethodAsteriskParameter(name);
 		if (0 == access_counter) {
-			getMethodGeneratorForRunMethod().call_initializeAsteriskParameter(getType());
+			getMethodGenerator().call_initializeAsteriskParameter(getType());
 			return;
 		} else if (access_counter > 0) {
-			getMethodGeneratorForRunMethod().load_asterisk_parameter_(getType());
+			getMethodGenerator().load_asterisk_parameter_(getType());
 			return;
 		}
 		
 		//check if this is normal method parameter
 		int index = getSymbolTable().getMethodParameter(name);
 		if (index >= 0) {
-			getMethodGeneratorForRunMethod().loadMethodPrameter(index);
+			getMethodGenerator().loadMethodPrameter(index);
 			return;
 		}
 		
 		//now it must be local variable
 		if (getSymbolTable().getLocalVariable(name) < 0) {
-			getMethodGeneratorForRunMethod().ObjectFactory_nilValue();// never used, for example a = a + 1
+			getMethodGenerator().ObjectFactory_nilValue();// never used, for example a = a + 1
 		} else {
-			getMethodGeneratorForRunMethod().loadLocal(getLocalVariable(name));
+			getMethodGenerator().loadLocal(getLocalVariable(name));
 		}
 		return;
 	}
@@ -121,12 +121,12 @@ abstract class ClassGenerator {
 			return i;
 		}
 
-		i = getMethodGeneratorForRunMethod().newLocal(Type.getType(RubyValue.class));
+		i = getMethodGenerator().newLocal(Type.getType(RubyValue.class));
 		getSymbolTable().addLocalVariable(name, i);
 		return i;
 	}
 	
-	public MethodGenerator getMethodGeneratorForRunMethod() {
+	public MethodGenerator getMethodGenerator() {
 		if (null != mg_for_class_builder_method_) {
 			return mg_for_class_builder_method_;
 		} else {

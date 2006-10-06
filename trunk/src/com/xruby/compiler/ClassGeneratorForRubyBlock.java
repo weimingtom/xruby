@@ -54,9 +54,9 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	private void storeField(String name) {
 		super.storeVariable("tmp$");
 			
-		getMethodGeneratorForRunMethod().loadThis();
+		getMethodGenerator().loadThis();
 		loadVariable("tmp$");
-		getMethodGeneratorForRunMethod().putField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
+		getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
 	}
 
 	public void storeVariable(String name) {
@@ -73,9 +73,9 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		if (isDefinedInCurrentScope(name)) {
 			fields_.add(name);
 			assigned_fields_.add(name);
-			getMethodGeneratorForRunMethod().loadThis();
+			getMethodGenerator().loadThis();
 			super.loadVariable(name);
-			getMethodGeneratorForRunMethod().putField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
+			getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
 		}
 	}
 
