@@ -48,20 +48,25 @@ public class RubyRuntime {
 	public static RubyClass RuntimeErrorClass = GlobalScope.defineNewClass("RuntimeError", StandardErrorClass);
 	public static RubyClass LocalJumpErrorClass = GlobalScope.defineNewClass("LocalJumpError", StandardErrorClass);
 	
-	static {
-		if (!RubyRuntimeSettings.CompileOnly) {
-			try {
-				Class c = Class.forName("builtin.main");
-				Object o = c.newInstance();
-				RubyProgram p = (RubyProgram)o;
-				p.run();
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (RubyException e) {
-				e.printStackTrace();
-				System.exit(-1);
-			}
+	private static boolean builtin_initialized_ = false;
+	
+	public static void initBuiltin() {
+		if (builtin_initialized_) {
+			return;
+		}
+		
+		try {
+			Class c = Class.forName("builtin.main");
+			Object o = c.newInstance();
+			RubyProgram p = (RubyProgram)o;
+			p.run();
+			builtin_initialized_ = true;
+		} catch (ClassNotFoundException e) {
+		} catch (InstantiationException e) {
+		} catch (IllegalAccessException e) {
+		} catch (RubyException e) {
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 		
