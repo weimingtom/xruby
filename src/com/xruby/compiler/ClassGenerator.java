@@ -35,7 +35,7 @@ abstract class ClassGenerator {
 	public void startClassBuilderMethod(String name) {
 		mg_for_class_builder_method_ = new MethodGeneratorForClassBuilder(
 				Opcodes.ACC_PRIVATE,
-				Method.getMethod("com.xruby.core.lang.RubyValue " + name + "(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyClass)"),
+				Method.getMethod("com.xruby.core.lang.RubyValue " + name + "(com.xruby.core.lang.RubyValue, com.xruby.core.lang.MethodCollection)"),
 				null,
 				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
 				cw_);
@@ -55,7 +55,7 @@ abstract class ClassGenerator {
 
 	public void callClassBuilderMethod(String name) {
 		mg_for_run_method_.invokeConstructor(Type.getType("L" + name_ + ";"), 
-			Method.getMethod("com.xruby.core.lang.RubyValue " + name + "(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyClass)"));
+			Method.getMethod("com.xruby.core.lang.RubyValue " + name + "(com.xruby.core.lang.RubyValue, com.xruby.core.lang.MethodCollection)"));
 	}
 
 	protected ClassGenerator(String name) {

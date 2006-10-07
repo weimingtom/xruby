@@ -1943,4 +1943,41 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_module() {
+		String [] program_texts = {
+				"module B; end; print B.class",
+				//TODO"module TestModule; end; print TestModule",
+		};
+		
+		String[] outputs = {
+				"Module",
+				//TODO"TestModule",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	/*TODO
+	public void test_include_module() {
+		String [] program_texts = {
+				"module B\n" +
+				"	@@var = 100\n" +
+				"	\n" +
+				"	def f\n" +
+				"		print @@var\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"include B\n" +
+				"f";
+		};
+		
+		String[] outputs = {
+				"100",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+		
+	}*/
 }
