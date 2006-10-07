@@ -173,6 +173,12 @@ public class RubyLexer extends RubyLexerBase
 
 	private void updateSymbolTable(Token token) throws TokenStreamException
 	{
+		if (LITERAL_module == last_token_.getType() ||
+						LITERAL_class == last_token_.getType()) {
+			stm_.addLocalVarible(token.getText());
+			return;
+		}
+		
 		if (allow_for_expression_parameter_)
 		{
 			stm_.addLocalVarible(token.getText());
@@ -428,9 +434,7 @@ public class RubyLexer extends RubyLexerBase
 				case CONSTANT:
 				case FUNCTION:
 					if (DOT != last_token_.getType() &&
-						COLON2 != last_token_.getType() &&
-						LITERAL_module != last_token_.getType() &&
-						LITERAL_class != last_token_.getType())
+						COLON2 != last_token_.getType())
 					{
 						updateSymbolTable(token);
 					}

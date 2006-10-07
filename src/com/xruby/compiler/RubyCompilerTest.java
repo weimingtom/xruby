@@ -484,7 +484,6 @@ public class RubyCompilerTest extends TestCase {
 			"S.new.hello\n" +
 			"B()",
 			
-			/*TODO
 			"def B\n" +
 			"	print 999\n" +
 			"end\n" +
@@ -499,8 +498,8 @@ public class RubyCompilerTest extends TestCase {
 			"end\n" +
 			"\n" +
 			"S.new.hello\n" +
-			"B",    <-- B should resolved as class B, not method B() 
-			*/
+			"B",    //<-- B should resolved as class B, not method B() 
+			
 		};
 		
 		
@@ -508,7 +507,7 @@ public class RubyCompilerTest extends TestCase {
 		String[] outputs = {
 				"7654",
 				"7654999",
-				//TODO"4567",
+				"4567",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1947,12 +1946,12 @@ public class RubyCompilerTest extends TestCase {
 	public void test_module() {
 		String [] program_texts = {
 				"module B; end; print B.class",
-				//TODO"module TestModule; end; print TestModule",
+				"module TestModule; end; print TestModule",
 		};
 		
 		String[] outputs = {
 				"Module",
-				//TODO"TestModule",
+				"TestModule",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
