@@ -26,7 +26,7 @@ public class RubyParserTest extends TestCase
 		debug_message.append("\" ");
 		if (null != exception)
 		{
-			debug_message.append(exception.getMessage());
+			debug_message.append(exception.toString());
 		}
 
 		//Dump token streams;
@@ -98,7 +98,7 @@ public class RubyParserTest extends TestCase
 			else
 			{
 				cause.printStackTrace();
-				assertTrue(cause.getMessage(), false);
+				assertTrue(cause.toString(), false);
 			}
 		}
 
