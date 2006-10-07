@@ -5,7 +5,6 @@
 package com.xruby.core.lang;
 
 import java.util.*;
-import com.xruby.core.builtin.*;
 
 /**
  * Hold all instances of the class
