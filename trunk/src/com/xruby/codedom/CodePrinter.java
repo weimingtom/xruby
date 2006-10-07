@@ -148,9 +148,9 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("<<<<<\n");
 	}
 	
-	public void visitModuleDefination(String className) {
+	public void visitModuleDefination(String moduleName) {
 		result_.append("module ");
-		result_.append(className);
+		result_.append(moduleName);
 		result_.append("\n");
 	}
 
@@ -160,18 +160,14 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 	
-	public void visitClassDefinationEnd(String className, boolean last_statement_has_return_value) {
-		result_.append("end ");
-		result_.append(className);
-		result_.append(":");
+	public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
+		result_.append("end:");
 		result_.append(last_statement_has_return_value);
 		result_.append("\n");
 	}
 
-	public void visitModuleDefinationEnd(String moduleName, boolean last_statement_has_return_value) {
-		result_.append("end ");
-		result_.append(moduleName);
-		result_.append(":");
+	public void visitModuleDefinationEnd(boolean last_statement_has_return_value) {
+		result_.append("end:");
 		result_.append(last_statement_has_return_value);
 		result_.append("\n");
 	}

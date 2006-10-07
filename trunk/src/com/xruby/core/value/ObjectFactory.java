@@ -86,6 +86,10 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.ClassClass, value);
 	}
 
+	public static RubyValue createModule(RubyModule value) {
+		return new RubyValue(RubyRuntime.ModuleClass, value);
+	}
+
 	public static RubyValue createArray(ArrayValue value) {
 		return new RubyValue(RubyRuntime.ArrayClass, value);
 	}

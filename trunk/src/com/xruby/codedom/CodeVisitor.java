@@ -48,10 +48,10 @@ public interface CodeVisitor {
 	
 	public void visitClassDefination1(String className);
 	public void visitClassDefination2(String className);
-	public void visitClassDefinationEnd(String className, boolean last_statement_has_return_value);
+	public void visitClassDefinationEnd(boolean last_statement_has_return_value);
 	
-	public void visitModuleDefination(String className);
-	public void visitModuleDefinationEnd(String moduleName, boolean last_statement_has_return_value);
+	public void visitModuleDefination(String moduleName);
+	public void visitModuleDefinationEnd(boolean last_statement_has_return_value);
 	
 	public void visitTerminal();
 	public void visitEof(boolean last_statement_has_return_value);

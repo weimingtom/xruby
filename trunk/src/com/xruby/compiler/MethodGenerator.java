@@ -267,19 +267,26 @@ class MethodGenerator extends GeneratorAdapter {
 		dup();
 		storeLocal(var);
 	}
+
+	public void saveCurrentModuleAsRubyValueThenLoad(int var) {
+		invokeStatic(Type.getType(ObjectFactory.class),
+				Method.getMethod("com.xruby.core.lang.RubyValue createModule(com.xruby.core.lang.RubyModule)"));
+		dup();
+		storeLocal(var);
+	}
 	
-	public void RubyClass_aliasMethod(String newName, String oldName) {
+	public void MethodCollection_aliasMethod(String newName, String oldName) {
 		loadCurrentClass();
 		push(newName);
 		push(oldName);
-		invokeVirtual(Type.getType(RubyClass.class),
+		invokeVirtual(Type.getType(MethodCollection.class),
 				Method.getMethod("void aliasMethod(String, String)"));
 	}
 
-	public void RubyClass_undefMethod(String name) {
+	public void MethodCollection_undefMethod(String name) {
 		loadCurrentClass();
 		push(name);
-		invokeVirtual(Type.getType(RubyClass.class),
+		invokeVirtual(Type.getType(MethodCollection.class),
 				Method.getMethod("void undefMethod(String)"));
 	}
 
@@ -293,7 +300,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.core.lang.RubyClass defineClass(String, com.xruby.core.lang.RubyValue)"));
 	}
 
-	public void defineMethod(String methodName, String uniqueMethodName) {
+	public void RubyModule_defineModule() {
+		invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("com.xruby.core.lang.RubyModule defineModule(String)"));
+	}
+
+	public void MethodCollection_defineMethod(String methodName, String uniqueMethodName) {
 		if (!loadCurrentClass()) {
 			dup();
 			invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPrivate()"));	
@@ -301,7 +313,7 @@ class MethodGenerator extends GeneratorAdapter {
 		
 		push(methodName);
 		new_MethodClass(uniqueMethodName);
-		invokeVirtual(Type.getType(RubyClass.class),
+		invokeVirtual(Type.getType(MethodCollection.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue defineMethod(String, com.xruby.core.lang.RubyMethod)"));
 	}
 

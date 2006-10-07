@@ -27,7 +27,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"puts:false\n" +
 			"end def:true\n" +
-			"end C:true\n" +
+			"end:true\n" +
 			";\n" +
 			"C\n" +
 			"new:true\n" +
@@ -46,7 +46,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 			"class C\n" +
 			"Integer\n" +
 			"<<<<<\n" +
-			"end C:false\n" +
+			"end:false\n" +
 			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}

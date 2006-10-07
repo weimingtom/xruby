@@ -61,8 +61,10 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitClassDefination2(String className) {
 		cg_.getMethodGenerator().RubyModule_defineClass();
+		
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPublic()"));
+		
 		cg_.getMethodGenerator().dup();
 		int var_as_ruby_class = cg_.getMethodGenerator().newLocal(Type.getType(RubyClass.class));
 		cg_.getMethodGenerator().storeLocal(var_as_ruby_class);
@@ -74,23 +76,34 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.startClassBuilderMethod(method_name_for_class_builder);
 	}
 
-	public void visitClassDefinationEnd(String className, boolean last_statement_has_return_value) {
+	public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
 		cg_.endClassBuilderMethod(last_statement_has_return_value);
 	}
 
-	public void visitModuleDefination(String className) {
-		// TODO Auto-generated method stub
+	public void visitModuleDefination(String moduleName) {
+		visitClassDefination1(moduleName);
+		cg_.getMethodGenerator().RubyModule_defineModule();
+
+		cg_.getMethodGenerator().dup();
+		int var_as_ruby_module = cg_.getMethodGenerator().newLocal(Type.getType(RubyModule.class));
+		cg_.getMethodGenerator().storeLocal(var_as_ruby_module);
+		cg_.getMethodGenerator().saveCurrentModuleAsRubyValueThenLoad(cg_.getLocalVariable(moduleName));
+		cg_.getMethodGenerator().loadLocal(var_as_ruby_module);
+
+		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
+		cg_.callClassBuilderMethod(method_name_for_class_builder);
+		cg_.startClassBuilderMethod(method_name_for_class_builder);
 	}
 
-	public void visitModuleDefinationEnd(String moduleName, boolean last_statement_has_return_value) {
-		cg_.loadVariable(moduleName);
+	public void visitModuleDefinationEnd(boolean last_statement_has_return_value) {
+		visitClassDefinationEnd(last_statement_has_return_value);//TODO
 	}
 
 	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
 
 		String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
 
-		cg_.getMethodGenerator().defineMethod(methodName, uniqueMethodName);
+		cg_.getMethodGenerator().MethodCollection_defineMethod(methodName, uniqueMethodName);
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
@@ -539,11 +552,11 @@ class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitAliasMethod(String newName, String oldName) {
-		cg_.getMethodGenerator().RubyClass_aliasMethod(newName, oldName);	
+		cg_.getMethodGenerator().MethodCollection_aliasMethod(newName, oldName);	
 	}
 
 	public void visitUndef(String name) {
-		cg_.getMethodGenerator().RubyClass_undefMethod(name);
+		cg_.getMethodGenerator().MethodCollection_undefMethod(name);
 	}
 	
 	public void visitSuperExpression() {
@@ -562,7 +575,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
 				Method.getMethod("com.xruby.core.lang.RubyClass getRubyClass()"));
 		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyClass.class),
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(MethodCollection.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue getClassVariable(String)"));
 	}
 
@@ -583,7 +596,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		
 		cg_.getMethodGenerator().loadLocal(value);
 		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyClass.class),
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(MethodCollection.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue setClassVariable(com.xruby.core.lang.RubyValue, String)"));
 	}
 	
