@@ -59,7 +59,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 			}
 			catch (TokenStreamException e)
 			{
-				assertTrue(program_texts[i]+ e.getMessage(), false);
+				assertTrue(program_texts[i]+ e.toString(), false);
 			}
 		}
 	}
@@ -81,7 +81,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		}
 		catch (TokenStreamException e)
 		{
-			assertTrue(program_text + e.getMessage(), false);
+			assertTrue(program_text + e.toString(), false);
 		}
 		
 	}
@@ -106,7 +106,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		}
 		catch (TokenStreamException e)
 		{
-			assertTrue(program_text + e.getMessage(), false);
+			assertTrue(program_text + e.toString(), false);
 		}
 	}
 

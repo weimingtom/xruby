@@ -104,7 +104,7 @@ public class RubyLexerSmokeTest
 		}
 		catch (TokenStreamException e)
 		{
-			System.out.println("lexer exception for " + filename + ": " + e.getMessage() + "\n" + debug_message.toString());
+			System.out.println("lexer exception for " + filename + ": " + e.toString() + "\n" + debug_message.toString());
 			++numberOfFails;
 		}
 		

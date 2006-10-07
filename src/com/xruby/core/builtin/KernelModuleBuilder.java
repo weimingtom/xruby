@@ -30,15 +30,15 @@ class Kernel_eval extends RubyMethod {
 			RubyValue v = codes.run();
 			return v;
 		} catch (RecognitionException e) {
-			throw new RubyException(e.getMessage());
+			throw new RubyException(e.toString());
 		} catch (TokenStreamException e) {
-			throw new RubyException(e.getMessage());
+			throw new RubyException(e.toString());
 		} catch (CompilerException e) {
-			throw new RubyException(e.getMessage());
+			throw new RubyException(e.toString());
 		} catch (InstantiationException e) {
-			throw new RubyException(e.getMessage());
+			throw new RubyException(e.toString());
 		} catch (IllegalAccessException e) {
-			throw new RubyException(e.getMessage());
+			throw new RubyException(e.toString());
 		}
 	}
 }

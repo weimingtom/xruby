@@ -33,7 +33,7 @@ public class RubyCompilerTest extends TestCase {
 				IntegerValue r = (IntegerValue)v.getValue();
 				assertEquals(results[i], r.intValue());
 			} catch (Exception e) {
-				assertTrue("Error at " + i + ": " + e.getMessage(), false);
+				assertTrue("Error at " + i + ": " + e.toString(), false);
 			}
 		}
 	}
@@ -80,17 +80,17 @@ public class RubyCompilerTest extends TestCase {
 
 				assertEquals("Failed at " + i, outputs[i], output.toString());
 			} catch (RubyException e) {
-				assertTrue("RubyException at " + i + ": " + e.getMessage(), false);
+				assertTrue("RubyException at " + i + ": " + e.toString(), false);
 			} catch (RecognitionException e) {
-				assertTrue("RecognitionException at " + i + ": " + e.getMessage(), false);
+				assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
 			} catch (TokenStreamException e) {
-				assertTrue("TokenStreamException at " + i + ": " + e.getMessage(), false);
+				assertTrue("TokenStreamException at " + i + ": " + e.toString(), false);
 			} catch (CompilerException e) {
-				assertTrue("CompilerException at " + i + ": " + e.getMessage(), false);
+				assertTrue("CompilerException at " + i + ": " + e.toString(), false);
 			} catch (InstantiationException e) {
-				assertTrue("InstantiationException at " + i + ": " + e.getMessage(), false);
+				assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
 			} catch (IllegalAccessException e) {
-				assertTrue("IllegalAccessException at " + i + ": " + e.getMessage(), false);
+				assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
 			}
 		}
 	}
@@ -281,7 +281,7 @@ public class RubyCompilerTest extends TestCase {
 			CompilationResults codes = compiler.compile(new StringReader(program_texts));
 			assertEquals(2, codes.size());
 		} catch (Exception e) {
-			assertTrue("Error : " + e.getMessage(), false);
+			assertTrue("Error : " + e.toString(), false);
 		}
 	}
 
@@ -1957,9 +1957,18 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	/*TODO
+	/*
 	public void test_include_module() {
 		String [] program_texts = {
+				"module B\n" +
+				"	def f\n" +
+				"		print 77777\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"include B\n" +
+				"f",
+				
 				"module B\n" +
 				"	@@var = 100\n" +
 				"	\n" +
@@ -1969,10 +1978,11 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"include B\n" +
-				"f";
+				"f",
 		};
 		
 		String[] outputs = {
+				"77777",
 				"100",
 		};
 		

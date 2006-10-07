@@ -158,15 +158,15 @@ public class RubyLexer extends RubyLexerBase
 				throw new TokenStreamRecognitionException(e);
 			}
 		}
-		catch (CharStreamException cse)
+		catch (CharStreamException e)
 		{
-			if (cse instanceof CharStreamIOException)
+			if (e instanceof CharStreamIOException)
 			{
-				throw new TokenStreamIOException(((CharStreamIOException)cse).io);
+				throw new TokenStreamIOException(((CharStreamIOException)e).io);
 			}
 			else
 			{
-				throw new TokenStreamException(cse.getMessage());
+				throw new TokenStreamException(e.toString());
 			}
 		}
 	}
