@@ -450,6 +450,7 @@ returns [ClassDefinationExpression e]
 			)
 			{
 				if (super_class instanceof MethodCallExpression) {
+					//TODO maybe we should not do this translation everytime
 					super_class = new LocalVariableExpression(((MethodCallExpression)super_class).getName(), false);
 				}
 				e = new ClassDefinationExpression(name, super_class, body);
