@@ -467,10 +467,48 @@ public class RubyCompilerTest extends TestCase {
 			"end\n" +
 			"\n" +
 			"S.new.say",
+			
+			"def B\n" +
+			"	print 999\n" +
+			"end\n" +
+			"\n" +
+			"class B\n" +
+			"	def hello\n" +
+			"		print 7654\n" +
+			"	end\n" +
+			"end\n" +
+			"\n" +
+			"class S < B\n" +
+			"end\n" +
+			"\n" +
+			"S.new.hello\n" +
+			"B()",
+			
+			/*TODO
+			"def B\n" +
+			"	print 999\n" +
+			"end\n" +
+			"\n" +
+			"class B\n" +
+			"	def hello\n" +
+			"		print 4567\n" +
+			"	end\n" +
+			"end\n" +
+			"\n" +
+			"class S < B\n" +
+			"end\n" +
+			"\n" +
+			"S.new.hello\n" +
+			"B",    <-- B should resolved as class B, not method B() 
+			*/
 		};
+		
+		
 		
 		String[] outputs = {
 				"7654",
+				"7654999",
+				//TODO"4567",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
