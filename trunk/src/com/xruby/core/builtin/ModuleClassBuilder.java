@@ -75,7 +75,7 @@ class Module_to_s extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		RubyClass c = (RubyClass)receiver.getValue();
+		MethodCollection c = (MethodCollection)receiver.getValue();
 		return ObjectFactory.createString(c.getName());
 	}
 }
