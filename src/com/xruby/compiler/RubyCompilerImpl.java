@@ -43,7 +43,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		return compilation_results_;
 	}
 
-	public void visitClassDefination(String className, String superClassName) {
+	public void visitClassDefination1(String className) {
 
 		cg_.getMethodGenerator().loadThis();
 
@@ -54,8 +54,13 @@ class RubyCompilerImpl implements CodeVisitor {
 		} else {
 			//FIXME
 		}
-		
-		cg_.getMethodGenerator().defineClass(className, superClassName);
+
+		cg_.getMethodGenerator().push(className);
+		//super class will be pushed next, then visitSuperClass() will be called
+	}
+
+	public void visitClassDefination2(String className) {
+		cg_.getMethodGenerator().RubyModule_defineClass();
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPublic()"));
 		cg_.getMethodGenerator().dup();

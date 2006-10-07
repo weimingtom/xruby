@@ -15,6 +15,10 @@ import com.xruby.core.value.*;
 
 public class RubyCompilerTest extends TestCase {
 
+	public void setUp() {
+		RubyRuntime.initBuiltin();
+	}
+	
 	private void compile_run_and_compare_result(String[] program_texts, int[] results) {
 		assertEquals("the number of 'results' should match 'program_texts'",
 				program_texts.length, results.length);
@@ -397,7 +401,7 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
-	public void test_class_run() {
+	public void test_class() {
 		String[] program_texts = {
 				"class C\n" +
 				"	def f\n" +
@@ -449,6 +453,43 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_class_inheritence() {
+		String[] program_texts = {
+			"class B\n" +
+			"	def say\n" +
+			"		print 7654\n" +
+			"	end\n" +
+			"end\n" +
+			"\n" +
+			"class S < B\n" +
+			"end\n" +
+			"\n" +
+			"S.new.say",
+		};
+		
+		String[] outputs = {
+				"7654",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_class_inheritence_exception() {
+		String[] program_texts = {
+				"B = 1\n" +
+				"class S < B\n" +
+				"end\n" +
+				"\n" +
+				"S.new.hello",
+		};
+		
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (Fixnum given)"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 
 	public void test_dot_class_method() {

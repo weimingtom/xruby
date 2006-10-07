@@ -54,6 +54,7 @@ public class Main {
 				results.save(filename);
 			} else {
 				logger_.info("Executing " + filename + "...");
+				RubyRuntime.initBuiltin();
 				results.run();
 			}
 		} catch (Exception e) {

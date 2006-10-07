@@ -138,12 +138,14 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public void visitClassDefination(String className, String superClassName) {
+	public void visitClassDefination1(String className) {
 		result_.append("class ");
 		result_.append(className);
-		result_.append(" < ");
-		result_.append(superClassName);
 		result_.append("\n");
+	}
+
+	public void visitClassDefination2(String className) {
+		result_.append("<<<<<\n");
 	}
 	
 	public void visitModuleDefination(String className) {

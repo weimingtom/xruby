@@ -16,7 +16,9 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"class C < Object\n" +
+			"class C\n" +
+			"Object\n" +
+			"<<<<<\n" +
 			"def f:0:false:0\n" +
 			"self\n" +
 			"[:1\n" +
@@ -41,7 +43,9 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"class C < Integer\n" +
+			"class C\n" +
+			"Integer\n" +
+			"<<<<<\n" +
 			"end C:false\n" +
 			"EOF";
 		assertEquals(expected_result, cp.toString());

@@ -440,16 +440,19 @@ classDefination
 returns [ClassDefinationExpression e]
 {
 	String name = null;
-	String superClassName = "Object";
+	Expression super_class = new LocalVariableExpression("Object", false);
 	BodyStatement body = null;
 }
 		:	#("class"
 			name=className
-			(LESS_THAN	superClassName=className)?
+			(LESS_THAN	super_class=expression)?
 			(body=bodyStatement)?
 			)
 			{
-				e = new ClassDefinationExpression(name, superClassName, body);
+				if (super_class instanceof MethodCallExpression) {
+					super_class = new LocalVariableExpression(((MethodCallExpression)super_class).getName(), false);
+				}
+				e = new ClassDefinationExpression(name, super_class, body);
 			}
 		;
 

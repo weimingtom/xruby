@@ -288,20 +288,9 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("boolean testTrueFalse(com.xruby.core.lang.RubyValue)"));
 	}
 
-	public void defineClass(String className, String parentClassName) {
-		if (ObjectFactory.isBuiltin(parentClassName)) {
-			push(className);
-			getStatic(Type.getType(RubyRuntime.class),
-					parentClassName + "Class",
-					Type.getType(RubyClass.class));
-			invokeVirtual(Type.getType(RubyModule.class),
-					Method.getMethod("com.xruby.core.lang.RubyClass defineClass(String, com.xruby.core.lang.RubyClass)"));
-		} else {
-			push(className);
-			push(parentClassName);
-			invokeVirtual(Type.getType(RubyModule.class),
-					Method.getMethod("com.xruby.core.lang.RubyClass defineClass(String, String)"));
-		}
+	public void RubyModule_defineClass() {
+		invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("com.xruby.core.lang.RubyClass defineClass(String, com.xruby.core.lang.RubyValue)"));
 	}
 
 	public void defineMethod(String methodName, String uniqueMethodName) {

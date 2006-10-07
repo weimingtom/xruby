@@ -46,7 +46,8 @@ public interface CodeVisitor {
 	public Object visitMethodDefinationDefaultParameterBegin(int index);
 	public void visitMethodDefinationDefaultParameterEnd(Object next_label);
 	
-	public void visitClassDefination(String className, String superClassName);
+	public void visitClassDefination1(String className);
+	public void visitClassDefination2(String className);
 	public void visitClassDefinationEnd(String className, boolean last_statement_has_return_value);
 	
 	public void visitModuleDefination(String className);
