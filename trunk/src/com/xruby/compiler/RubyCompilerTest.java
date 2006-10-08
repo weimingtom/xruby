@@ -1968,7 +1968,7 @@ public class RubyCompilerTest extends TestCase {
 				"include B\n" +
 				"f",
 				
-				/*"module B\n" +
+				"module B\n" +
 				"	@@var = 100\n" +
 				"	\n" +
 				"	def f\n" +
@@ -1977,12 +1977,12 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"include B\n" +
-				"f",*/
+				"f",
 		};
 		
 		String[] outputs = {
 				"77777",
-				//"100",
+				"100",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
