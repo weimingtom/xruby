@@ -4,14 +4,14 @@ import java.util.*;
 
 abstract class ClassVariableCollection {
 	protected String name_;
-	protected Map<String, RubyValue> class_varibles_ = new HashMap<String, RubyValue>();
+	private Map<String, RubyValue> class_varibles_ = new HashMap<String, RubyValue>();
 
-	Map<String, RubyValue> getClassVaribles() {
-		return class_varibles_;
-	}
-	
 	public String getName() {
 		return name_;
+	}
+
+	RubyValue findClassVariable(String name) {
+		return class_varibles_.get(name);
 	}
 
 	public RubyValue getClassVariable(String name) throws RubyException {

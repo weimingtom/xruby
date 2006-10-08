@@ -1960,29 +1960,62 @@ public class RubyCompilerTest extends TestCase {
 	public void test_top_level_include_module() {
 		String [] program_texts = {
 				"module B\n" +
-				"	def f\n" +
+				"	def test_top_level_include_module\n" +
 				"		print 77777\n" +
 				"	end\n" +
 				"end\n" +
 				"\n" +
 				"include B\n" +
-				"f",
+				"test_top_level_include_module",
 				
 				"module B\n" +
 				"	@@var = 100\n" +
 				"	\n" +
-				"	def f\n" +
+				"	def test_top_level_include_module\n" +
 				"		print @@var\n" +
 				"	end\n" +
 				"end\n" +
 				"\n" +
 				"include B\n" +
-				"f",
+				"test_top_level_include_module",
+				
+				"module B1\n" +
+				"	def g\n" +
+				"		print \"B1\"\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"module B2\n" +
+				"	def g\n" +
+				"		print \"B2\"\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"include B1\n" +
+				"include B2\n" +
+				"g",
+				
+				/*TODO
+				"module B\n" +
+				"end\n" +
+				"\n" +
+				"include B\n" +
+				"\n" +
+				"module B\n" +
+				"	def test_top_level_include_module2\n" +
+				"		print 8765\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"test_top_level_include_module2",
+				*/
 		};
 		
 		String[] outputs = {
 				"77777",
 				"100",
+				"B2",
+				//"8765",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

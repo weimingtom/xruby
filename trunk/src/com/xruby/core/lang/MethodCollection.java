@@ -7,17 +7,8 @@ package com.xruby.core.lang;
 import java.util.*;
 
 public abstract class MethodCollection extends ClassVariableCollection {
-	protected Map<String, RubyMethod> methods_ = new HashMap<String, RubyMethod>();
+	private Map<String, RubyMethod> methods_ = new HashMap<String, RubyMethod>();
 	private int current_access_mode_ = RubyMethod.PUBLIC;
-
-	Map<String, RubyMethod> getMethods() {
-		return methods_;
-	}
-
-	public void includeModule(RubyModule m) {
-		methods_.putAll(m.getMethods());
-		class_varibles_.putAll(m.getClassVaribles());
-	}
 
 	RubyMethod findMethod(String method_name) {
 		return methods_.get(method_name);
