@@ -7,7 +7,7 @@ package com.xruby.core.lang;
 /**
  * Hold all instances of the class
  */
-public class RubyClass extends MixinCollection {
+public class RubyClass extends MethodCollection {
 	//private Set<RubyObject> instances_ = new HashSet<RubyObject>();
 	private RubyClass superclass_;
 

@@ -1968,8 +1968,7 @@ public class RubyCompilerTest extends TestCase {
 				"include B\n" +
 				"f",
 				
-				/*TODO
-				"module B\n" +
+				/*"module B\n" +
 				"	@@var = 100\n" +
 				"	\n" +
 				"	def f\n" +
