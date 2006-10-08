@@ -55,6 +55,8 @@ public class RubyRuntime {
 			return;
 		}
 		
+		TopLevelSelfInitializer.init();
+		
 		try {
 			Class c = Class.forName("builtin.main");
 			Object o = c.newInstance();

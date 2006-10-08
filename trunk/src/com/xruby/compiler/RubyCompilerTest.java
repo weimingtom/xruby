@@ -1957,8 +1957,7 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	/*
-	public void test_include_module() {
+	public void test_top_level_include_module() {
 		String [] program_texts = {
 				"module B\n" +
 				"	def f\n" +
@@ -1969,6 +1968,7 @@ public class RubyCompilerTest extends TestCase {
 				"include B\n" +
 				"f",
 				
+				/*TODO
 				"module B\n" +
 				"	@@var = 100\n" +
 				"	\n" +
@@ -1978,15 +1978,40 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"include B\n" +
-				"f",
+				"f",*/
 		};
 		
 		String[] outputs = {
 				"77777",
-				"100",
+				//"100",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_include_wrong_type() {
+		String[] program_texts = {
+				"include 'x'",
+		};
+
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type String (expected Module)"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
+	
+	/*TODO
+	public void test_singleton_method() {
+		String [] program_texts = {
+				"a = 'x'; def a.ffff; print 9521 end; a.ffff",
+		};
 		
+		String[] outputs = {
+				"9521",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
 	}*/
+	
 }
