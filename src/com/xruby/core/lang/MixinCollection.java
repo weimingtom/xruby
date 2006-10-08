@@ -6,7 +6,7 @@ public class MixinCollection extends MethodCollection {
 	private ArrayList<RubyModule> mixins_ = new ArrayList<RubyModule>();
 
 	public void includeModule(RubyModule m) {
-		mixins_.add(m);
+		mixins_.add(0, m);
 	}
 
 	RubyMethod findMethod(String method_name) {
