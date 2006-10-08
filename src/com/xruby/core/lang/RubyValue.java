@@ -7,7 +7,7 @@ package com.xruby.core.lang;
 import java.util.*;
 import com.xruby.core.value.*;
 
-public class RubyValue extends MethodCollection {
+public class RubyValue extends MixinCollection {
 
 	private RubyClass class_;
 	private Object value_ = null;
