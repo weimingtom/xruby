@@ -365,6 +365,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("proc", lambda);
 		m.defineMethod("loop", new Kernel_loop());
 		m.defineMethod("open", new Kernel_open());
+		RubyRuntime.ObjectClass.includeModule(m);
 		return m;
 	}
 }

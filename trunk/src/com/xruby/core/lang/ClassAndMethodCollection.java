@@ -8,25 +8,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 abstract class ClassAndMethodCollection extends MethodCollection {
-	protected Map<String, RubyClass> classes_ = new HashMap<String, RubyClass>();
+	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
 
 	/// This method is only used by java classes in package 'com.xruby.core.builtin'.
 	/// It has less overhead than 'defineClass' (no hash table lookup).
 	/// This method is NOT used by classes compiled from ruby script.
 	public RubyClass defineNewClass(String name, RubyClass parent) {
 		RubyClass c = new RubyClass(name, parent);
-		classes_.put(name, c);
+		constants_.put(name, new RubyValue(RubyRuntime.ClassClass, c));//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
 		return c;
 	}
 
 	private RubyClass defineClass(String name, RubyClass parent) throws RubyException {
-		RubyClass c = classes_.get(name);
-		if (null == c) {
-			c = new RubyClass(name, parent);
-			classes_.put(name, c);
-			return c;
+		RubyValue v = constants_.get(name);
+		if (null == v) {
+			return defineNewClass(name, parent);
 		}
 
+		if (v.getRubyClass() != RubyRuntime.ClassClass) {
+			throw new RubyException(RubyRuntime.TypeErrorClass, name + " is not a class");
+		}
+		
+		RubyClass c = (RubyClass)v.getValue();
 		if (!c.isMyParent(parent)){
 			throw new RubyException(RubyRuntime.TypeErrorClass, "superclass mismatch for class "+ name);
 		}

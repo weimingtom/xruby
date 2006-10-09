@@ -25,7 +25,6 @@ public class ObjectClassBuilder {
 	
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Object", null);
-		c.includeModule(RubyRuntime.KernelModule);
 		c.defineMethod("==", new Object_operator_equal());
 		return c;
 	}

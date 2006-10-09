@@ -61,10 +61,7 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitClassDefination2(String className) {
 		cg_.getMethodGenerator().RubyModule_defineClass();
-		
-		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPublic()"));
-		
+			
 		cg_.getMethodGenerator().dup();
 		int var_as_ruby_class = cg_.getMethodGenerator().newLocal(Type.getType(RubyClass.class));
 		cg_.getMethodGenerator().storeLocal(var_as_ruby_class);
