@@ -3,15 +3,13 @@
 #Some built-in functions can be implemented in pure ruby, so they are implemented here.
 #
 
-
-=begin
-
 module Kernel
-	def to_a x
-		[x]
+	def to_a
+		[self]
 	end
 end
 
+=begin
 class Symbol
 	alias to_s id2name
 end
