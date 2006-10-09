@@ -14,8 +14,10 @@ public class RubyRuntime {
 	//For performance reason we provide direct access(static public field) for most builtin types.
 	//Note: order is important: should creare parent classes first!
 	public static RubyModule GlobalScope = new RubyModule(null);
-	public static RubyModule KernelModule = KernelModuleBuilder.create();
 	public static RubyClass ObjectClass = ObjectClassBuilder.create();
+	public static RubyClass ModuleClass = ModuleClassBuilder.create();
+	public static RubyClass ClassClass = ClassClassBuilder.create();
+	public static RubyModule KernelModule = KernelModuleBuilder.create();
 	public static RubyClass NilClassClass = NilClassBuilder.create();
 	public static RubyClass TrueClassClass = TrueClassBuilder.create();
 	public static RubyClass FalseClassClass = FalseClassBuilder.create();
@@ -24,8 +26,6 @@ public class RubyRuntime {
 	public static RubyClass FixnumClass = FixnumClassBuilder.create();
 	public static RubyClass StringClass = StringClassBuilder.create();
 	public static RubyClass FloatClass = FloatClassBuilder.create();
-	public static RubyClass ModuleClass = ModuleClassBuilder.create();
-	public static RubyClass ClassClass = ClassClassBuilder.create();
 	public static RubyClass ArrayClass = ArrayClassBuilder.create();
 	public static RubyClass HashClass = HashClassBuilder.create();
 	public static RubyClass SymbolClass = SymbolClassBuilder.create();

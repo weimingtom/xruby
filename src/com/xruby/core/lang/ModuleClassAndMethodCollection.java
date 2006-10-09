@@ -4,31 +4,34 @@
 
 package com.xruby.core.lang;
 
-import java.util.HashMap;
-import java.util.Map;
-
 class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
-	protected Map<String, RubyModule> modules_ = new HashMap<String, RubyModule>();
-
 	public RubyModule defineNewModule(String name) {
 		RubyModule m = new RubyModule(name);
-		modules_.put(name, m);
+		constants_.put(name, new RubyValue(RubyRuntime.ModuleClass, m));
 		return m;
 	}
 
-	public RubyModule defineModule(String name) {
-		RubyModule m = modules_.get(name);
-		if (null == m) {
+	public RubyModule defineModule(String name) throws RubyException {
+		RubyValue v = constants_.get(name);
+		if (null == v) {
 			return defineNewModule(name);
 		}
-
-		return m;
+		
+		if (v.getRubyClass() != RubyRuntime.ModuleClass) {
+			throw new RubyException(RubyRuntime.TypeErrorClass, name + " is not a module");
+		}
+		
+		return (RubyModule)v.getValue();
 	}
 
 	/// e.g. A::B
 	public RubyValue getConstantViaColon(String name) throws RubyException {
-		//TODO
-		throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + name_ + "::" + name);
+		RubyValue v = constants_.get(name);
+		if (null == v) {
+			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + name_ + "::" + name);
+		}
+
+		return v;
 	}
 }
 

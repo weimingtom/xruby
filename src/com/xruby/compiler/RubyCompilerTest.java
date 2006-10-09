@@ -520,10 +520,13 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"S.new.hello",
+				
+				"class C;end; class C < String;end",
 		};
 		
 		RubyException[] exceptions = {
 			new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (Fixnum given)"),
+			new RubyException(RubyRuntime.TypeErrorClass, "superclass mismatch for class C"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -1947,7 +1950,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_module() {
 		String [] program_texts = {
-				"module B; end; print B.class",
+				"module TestModule; end; print TestModule.class",
 				"module TestModule; end; print TestModule",
 		};
 		
@@ -1961,16 +1964,16 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_top_level_include_module() {
 		String [] program_texts = {
-				"module B\n" +
+				"module TestTopLevelIncludeModule\n" +
 				"	def test_top_level_include_module\n" +
 				"		print 77777\n" +
 				"	end\n" +
 				"end\n" +
 				"\n" +
-				"include B\n" +
+				"include TestTopLevelIncludeModule\n" +
 				"test_top_level_include_module",
 				
-				"module B\n" +
+				"module TestTopLevelIncludeModule\n" +
 				"	@@var = 100\n" +
 				"	\n" +
 				"	def test_top_level_include_module\n" +
@@ -1978,31 +1981,31 @@ public class RubyCompilerTest extends TestCase {
 				"	end\n" +
 				"end\n" +
 				"\n" +
-				"include B\n" +
+				"include TestTopLevelIncludeModule\n" +
 				"test_top_level_include_module",
 				
-				"module B1\n" +
+				"module TestTopLevelIncludeModule1\n" +
 				"	def g\n" +
 				"		print \"B1\"\n" +
 				"	end\n" +
 				"end\n" +
 				"\n" +
-				"module B2\n" +
+				"module TestTopLevelIncludeModule2\n" +
 				"	def g\n" +
 				"		print \"B2\"\n" +
 				"	end\n" +
 				"end\n" +
 				"\n" +
-				"include B1\n" +
-				"include B2\n" +
+				"include TestTopLevelIncludeModule1\n" +
+				"include TestTopLevelIncludeModule2\n" +
 				"g",
 				
-				"module B\n" +
+				"module TestTopLevelIncludeModule3\n" +
 				"end\n" +
 				"\n" +
-				"include B\n" +
+				"include TestTopLevelIncludeModule3\n" +
 				"\n" +
-				"module B\n" +
+				"module TestTopLevelIncludeModule3\n" +
 				"	def test_top_level_include_module2\n" +
 				"		print 8765\n" +
 				"	end\n" +
@@ -2032,6 +2035,54 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
+	
+	public void test_class_and_module_name_conflict() {
+		String[] program_texts = {
+				"module TestNameConflict;end; class  TestNameConflict;end",
+				"class  TestNameConflict2;end; module TestNameConflict2;end;",
+		};
+
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.TypeErrorClass, "TestNameConflict is not a class"),
+			new RubyException(RubyRuntime.TypeErrorClass, "TestNameConflict2 is not a module"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
+	
+	/*TODO
+	public void test_class_in_module() {
+		String [] program_texts = {
+				"module M\n" +
+				"	class C\n" +
+				"		def f\n" +
+				"			print \"MCf\"\n" +
+				"		end\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"M::C.new.f",
+		};
+		
+		String[] outputs = {
+				"MCf",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_class_in_module_uninitialized_constant() {
+		String[] program_texts = {
+				"module M; end; M::B",
+		};
+
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant M::B"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
+	*/
 	
 	/*TODO
 	public void test_singleton_method() {
