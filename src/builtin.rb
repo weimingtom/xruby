@@ -9,18 +9,18 @@ module Kernel
 	end
 end
 
-=begin
-class Symbol
-	alias to_s id2name
-end
-
 class Array
 	def to_a
 		self
 	end
 	
-	alias to_s join
+	alias join to_s
 	alias to_ary to_a
+end
+
+=begin
+class Symbol
+	alias to_s id2name
 end
 
 def self.to_s

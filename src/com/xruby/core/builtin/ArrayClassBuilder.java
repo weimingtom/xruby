@@ -29,16 +29,6 @@ class Array_to_s extends RubyMethod {
 	}
 }
 
-class Array_to_a extends RubyMethod {
-	public Array_to_a() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		return receiver;
-	}
-}
-
 class Array_array_access extends RubyMethod {
 	public Array_array_access() {
 		super(-1);
@@ -150,7 +140,6 @@ public class ArrayClassBuilder {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Array", RubyRuntime.ObjectClass);
 		c.defineMethod("length", new Array_length());
 		c.defineMethod("to_s", new Array_to_s());
-		c.defineMethod("to_a", new Array_to_a());
 		c.defineMethod("[]", new Array_array_access());
 		c.defineMethod("[]=", new Array_array_set());
 		c.defineMethod("==", new Array_array_equal());
