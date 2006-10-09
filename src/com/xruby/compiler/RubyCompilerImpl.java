@@ -61,12 +61,14 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitClassDefination2(String className) {
 		cg_.getMethodGenerator().RubyModule_defineClass();
-			
+
 		cg_.getMethodGenerator().dup();
-		int var_as_ruby_class = cg_.getMethodGenerator().newLocal(Type.getType(RubyClass.class));
-		cg_.getMethodGenerator().storeLocal(var_as_ruby_class);
-		cg_.getMethodGenerator().saveCurrentClassAsRubyValueThenLoad(cg_.getLocalVariable(className));
-		cg_.getMethodGenerator().loadLocal(var_as_ruby_class);
+		cg_.getMethodGenerator().storeLocal(cg_.getLocalVariable(className));
+		
+		cg_.getMethodGenerator().dup();
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("Object getValue()"));
+		cg_.getMethodGenerator().checkCast(Type.getType(MethodCollection.class));
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
@@ -82,10 +84,12 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().RubyModule_defineModule();
 
 		cg_.getMethodGenerator().dup();
-		int var_as_ruby_module = cg_.getMethodGenerator().newLocal(Type.getType(RubyModule.class));
-		cg_.getMethodGenerator().storeLocal(var_as_ruby_module);
-		cg_.getMethodGenerator().saveCurrentModuleAsRubyValueThenLoad(cg_.getLocalVariable(moduleName));
-		cg_.getMethodGenerator().loadLocal(var_as_ruby_module);
+		cg_.getMethodGenerator().storeLocal(cg_.getLocalVariable(moduleName));
+
+		cg_.getMethodGenerator().dup();
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("Object getValue()"));
+		cg_.getMethodGenerator().checkCast(Type.getType(MethodCollection.class));
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);

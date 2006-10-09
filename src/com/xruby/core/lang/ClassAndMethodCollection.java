@@ -19,10 +19,12 @@ abstract class ClassAndMethodCollection extends MethodCollection {
 		return c;
 	}
 
-	private RubyClass defineClass(String name, RubyClass parent) throws RubyException {
+	private RubyValue defineClass(String name, RubyClass parent) throws RubyException {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
-			return defineNewClass(name, parent);
+			v = new RubyValue(RubyRuntime.ClassClass, new RubyClass(name, parent));
+			constants_.put(name, v);
+			return v;
 		}
 
 		if (v.getRubyClass() != RubyRuntime.ClassClass) {
@@ -35,11 +37,11 @@ abstract class ClassAndMethodCollection extends MethodCollection {
 		}
 
 		c.setAccessPublic();
-		return c;
+		return v;
 	}
 
 	/// define a new class or get a old one
-	public RubyClass defineClass(String name, RubyValue parent) throws RubyException {
+	public RubyValue defineClass(String name, RubyValue parent) throws RubyException {
 		if (parent.getRubyClass() != RubyRuntime.ClassClass) {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (" + parent.getRubyClass().getName() + " given)");
 		}

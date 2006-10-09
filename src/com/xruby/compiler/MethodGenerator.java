@@ -260,21 +260,6 @@ class MethodGenerator extends GeneratorAdapter {
 		return false;
 	}
 
-	/// make current class a RubyValue and save it as  a local variable
-	public void saveCurrentClassAsRubyValueThenLoad(int var) {
-		invokeStatic(Type.getType(ObjectFactory.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue createClass(com.xruby.core.lang.RubyClass)"));
-		dup();
-		storeLocal(var);
-	}
-
-	public void saveCurrentModuleAsRubyValueThenLoad(int var) {
-		invokeStatic(Type.getType(ObjectFactory.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue createModule(com.xruby.core.lang.RubyModule)"));
-		dup();
-		storeLocal(var);
-	}
-	
 	public void MethodCollection_aliasMethod(String newName, String oldName) {
 		loadCurrentClass();
 		push(newName);
@@ -297,12 +282,12 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void RubyModule_defineClass() {
 		invokeVirtual(Type.getType(RubyModule.class),
-				Method.getMethod("com.xruby.core.lang.RubyClass defineClass(String, com.xruby.core.lang.RubyValue)"));
+				Method.getMethod("com.xruby.core.lang.RubyValue defineClass(String, com.xruby.core.lang.RubyValue)"));
 	}
 
 	public void RubyModule_defineModule() {
 		invokeVirtual(Type.getType(RubyModule.class),
-				Method.getMethod("com.xruby.core.lang.RubyModule defineModule(String)"));
+				Method.getMethod("com.xruby.core.lang.RubyValue defineModule(String)"));
 	}
 
 	public void MethodCollection_defineMethod(String methodName, String uniqueMethodName) {
