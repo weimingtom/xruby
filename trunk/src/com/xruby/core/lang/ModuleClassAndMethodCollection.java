@@ -7,21 +7,23 @@ package com.xruby.core.lang;
 class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	public RubyModule defineNewModule(String name) {
 		RubyModule m = new RubyModule(name);
-		constants_.put(name, new RubyValue(RubyRuntime.ModuleClass, m));
+		constants_.put(name, new RubyValue(RubyRuntime.ModuleClass, m));//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
 		return m;
 	}
 
-	public RubyModule defineModule(String name) throws RubyException {
+	public RubyValue defineModule(String name) throws RubyException {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
-			return defineNewModule(name);
+			v = new RubyValue(RubyRuntime.ModuleClass, new RubyModule(name));
+			constants_.put(name, v);
+			return v;
 		}
 		
 		if (v.getRubyClass() != RubyRuntime.ModuleClass) {
 			throw new RubyException(RubyRuntime.TypeErrorClass, name + " is not a module");
 		}
 		
-		return (RubyModule)v.getValue();
+		return v;
 	}
 
 	/// e.g. A::B
