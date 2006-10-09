@@ -11,8 +11,12 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	protected Map<String, RubyModule> modules_ = new HashMap<String, RubyModule>();
 
 	public RubyModule defineModule(String name) {
-		RubyModule m = new RubyModule(name);
-		modules_.put(name, m);
+		RubyModule m = modules_.get(name);
+		if (null == m) {
+			m = new RubyModule(name);
+			modules_.put(name, m);
+		}
+
 		return m;
 	}
 
