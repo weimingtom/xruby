@@ -18,15 +18,14 @@ class Array
 	alias to_ary to_a
 end
 
-=begin
 class Symbol
 	alias to_s id2name
 end
 
+=begin
 def self.to_s
 	return "main"
 end
-
 =end
 
 class String

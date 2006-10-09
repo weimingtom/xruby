@@ -873,11 +873,13 @@ public class RubyCompilerTest extends TestCase {
 	public void test_symbol() {
 		String[] program_texts = {
 				"print :hello1.id2name",
+				"print :hello2.to_a",
 				"print :fred.inspect",
 		};
 
 		String[] outputs = {
 				"hello1",
+				"hello2",
 				":fred",
 		};
 
