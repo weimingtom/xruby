@@ -293,18 +293,6 @@ class Kernel_load extends RubyMethod {
 	}
 }
 
-class Kernel_to_a extends RubyMethod {
-	public Kernel_to_a() {
-		super(-1);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		ArrayValue v = new ArrayValue(1, true);
-		v.add(receiver);
-		return ObjectFactory.createArray(v);
-	}
-}
-
 class Kernel_to_s extends RubyMethod {
 	public Kernel_to_s() {
 		super(-1);
@@ -371,7 +359,6 @@ public class KernelModuleBuilder {
 		m.defineMethod("eval", new Kernel_eval());
 		m.defineMethod("require", new Kernel_require());
 		m.defineMethod("load", new Kernel_load());
-		m.defineMethod("to_a", new Kernel_to_a());
 		m.defineMethod("to_s", new Kernel_to_s());
 		RubyMethod lambda = new Kernel_lambda();
 		m.defineMethod("lambda", lambda);
