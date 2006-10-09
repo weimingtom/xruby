@@ -347,7 +347,7 @@ class Kernel_open extends RubyMethod {
 
 public class KernelModuleBuilder {
 	public static RubyModule create() {
-		RubyModule m = RubyRuntime.GlobalScope.defineModule("Kernel");
+		RubyModule m = RubyRuntime.GlobalScope.defineNewModule("Kernel");
 		m.defineMethod("puts", new Kernel_puts());
 		m.defineMethod("print", new Kernel_print());
 		m.defineMethod("printf", new Kernel_printf());
