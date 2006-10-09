@@ -1995,7 +1995,6 @@ public class RubyCompilerTest extends TestCase {
 				"include B2\n" +
 				"g",
 				
-				/*TODO
 				"module B\n" +
 				"end\n" +
 				"\n" +
@@ -2008,14 +2007,13 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"test_top_level_include_module2",
-				*/
 		};
 		
 		String[] outputs = {
 				"77777",
 				"100",
 				"B2",
-				//"8765",
+				"8765",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
