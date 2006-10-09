@@ -31,14 +31,14 @@ public abstract class MethodCollection extends ClassVariableCollection {
 	
 	public void undefMethod(String name) throws RubyException {
 		if (methods_.remove(name) == null) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + name + "for class `Object' (NameError)");
+			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + name +  " for class `Object'");
 		}
 	}
 	
 	public void aliasMethod(String newName, String oldName) throws RubyException {
 		RubyMethod m = methods_.get(oldName);
 		if (null == m) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + oldName + "for class `Object' (NameError)");
+			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + oldName + " for class `Object'");
 		}
 		
 		methods_.put(newName, m);
