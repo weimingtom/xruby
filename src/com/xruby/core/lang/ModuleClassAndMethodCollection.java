@@ -4,7 +4,9 @@
 
 package com.xruby.core.lang;
 
-class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
+import com.xruby.core.value.*;
+
+public class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	public RubyModule defineNewModule(String name) {
 		RubyModule m = new RubyModule(name);
 		constants_.put(name, new RubyValue(RubyRuntime.ModuleClass, m));//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
@@ -27,13 +29,24 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	}
 
 	/// e.g. A::B
-	public RubyValue getConstantViaColon(String name) throws RubyException {
+	RubyValue getConstantViaColon2(String name) throws RubyException {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + name_ + "::" + name);
 		}
 
 		return v;
+	}
+
+	public static RubyValue getConstantViaColon2(RubyValue receiver, String name) throws RubyException {
+		if (receiver.getRubyClass() != RubyRuntime.ClassClass &&
+			receiver.getRubyClass() != RubyRuntime.ModuleClass) {
+			RubyValue v = RubyRuntime.callPublicMethod(receiver, null, "to_s");
+			String s = ((StringValue)v.getValue()).toString();
+			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
+		}
+		
+		return ((ModuleClassAndMethodCollection)receiver.getValue()).getConstantViaColon2(name);
 	}
 }
 

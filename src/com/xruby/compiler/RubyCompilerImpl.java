@@ -699,4 +699,10 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().push(false);
 		cg_.getMethodGenerator().ObjectFactory_createRange();
 	}
+
+	public void visitColon2(String name) {
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().invokeStatic(Type.getType(ModuleClassAndMethodCollection.class),
+			Method.getMethod("com.xruby.core.lang.RubyValue getConstantViaColon2(com.xruby.core.lang.RubyValue, String)"));
+	}
 }

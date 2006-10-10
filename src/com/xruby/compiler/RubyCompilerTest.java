@@ -2050,10 +2050,10 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 	
-	/*TODO
-	public void test_class_in_module() {
+	/*
+	public void test_constant_in_module() {
 		String [] program_texts = {
-				"module M\n" +
+				"module ConstantInModule\n" +
 				"	class C\n" +
 				"		def f\n" +
 				"			print \"MCf\"\n" +
@@ -2061,28 +2061,43 @@ public class RubyCompilerTest extends TestCase {
 				"	end\n" +
 				"end\n" +
 				"\n" +
-				"M::C.new.f",
+				"ConstantInModule::C.new.f",
+				
+				"class ConstantInModule2\n" +
+				"	class C\n" +
+				"		def f\n" +
+				"			print \"MCf2\"\n" +
+				"		end\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"ConstantInModule2::C.new.f",
+				
+				"module ConstantInModule; ABC = 123; end; print ConstantInModule::ABC",
 		};
 		
 		String[] outputs = {
 				"MCf",
+				//"MCf2",
+				//"123",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
-	}
+	}*/
 	
-	public void test_class_in_module_uninitialized_constant() {
+	public void test_constant_in_module_exception() {
 		String[] program_texts = {
-				"module M; end; M::B",
+				"module ConstantInModuleException; end; ConstantInModuleException::B",
+				"a=1; a::B",
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant M::B"),
+			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant ConstantInModuleException::B"),
+			new RubyException(RubyRuntime.TypeErrorClass, "1 is not a class/module"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
-	*/
 	
 	/*TODO
 	public void test_singleton_method() {

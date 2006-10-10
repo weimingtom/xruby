@@ -46,7 +46,13 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(operator);
 		result_.append("\n");
 	}
-	
+
+	public void visitColon2(String name) {
+		result_.append("::");
+		result_.append(name);
+		result_.append("\n");
+	}
+
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
 		result_.append(var);
 		if (rhs_is_method_call) {
