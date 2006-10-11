@@ -431,7 +431,6 @@ public class RubyLexer extends RubyLexerBase
 					}
 					break;
 				case IDENTIFIER:
-				case CONSTANT:
 				case FUNCTION:
 					if (DOT != last_token_.getType() &&
 						COLON2 != last_token_.getType())

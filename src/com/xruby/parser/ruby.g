@@ -614,7 +614,7 @@ primaryExpressionThatCanBeMethodName
 		|	"self"
 		|	"super"
 		|	CONSTANT
-		|	LEADING_COLON2!	FUNCTION
+		|	LEADING_COLON2!	CONSTANT
 		|	"retry"
 		|	"yield"		{can_be_command_ = 2;}
 		|	keyword_defined
@@ -752,7 +752,7 @@ moduleDefination
 		;
 
 moduleName
-		:	CONSTANT	(COLON2 FUNCTION)*
+		:	CONSTANT	(COLON2 CONSTANT)*
 		;
 
 classDefination
@@ -777,8 +777,8 @@ cpath	: tCOLON3 cname
 		;
 */
 className
-		:	(CONSTANT|FUNCTION)	(COLON2	FUNCTION)*
-		|	(LEADING_COLON2	FUNCTION)	(COLON2	FUNCTION)*
+		:	(CONSTANT|FUNCTION)	(COLON2	CONSTANT)*
+		|	(LEADING_COLON2	CONSTANT)	(COLON2	CONSTANT)*
 		;
 
 methodDefination
@@ -1444,7 +1444,7 @@ CLASS_VARIABLE
 
 CONSTANT
 options{testLiterals=true;}
-		:	('A'..'Z')	('a'..'z'|'A'..'Z'|'_'|'0'..'9')*	{if (last_token_is_dot_or_colon2()) {$setType(FUNCTION);}}
+		:	('A'..'Z')	('a'..'z'|'A'..'Z'|'_'|'0'..'9')*
 		;
 
 INTEGER
