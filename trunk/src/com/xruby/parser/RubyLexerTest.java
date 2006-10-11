@@ -286,7 +286,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "src"),
 							new TestingCommonToken(RPAREN, ")"),
 							new TestingCommonToken(LINE_BREAK, ""),
-							new TestingCommonToken(FUNCTION, "Logging", 2),
+							new TestingCommonToken(CONSTANT, "Logging", 2),
 							new TestingCommonToken(COLON2, "::", 2),
 							new TestingCommonToken(FUNCTION, "puts", 2),
 							new TestingCommonToken(HERE_DOC_BEGIN, "EOM", 2),
@@ -403,7 +403,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(LITERAL_self, "self"),
 							new TestingCommonToken(DIV, "/"),
-							new TestingCommonToken(FUNCTION, "Rational"),
+							new TestingCommonToken(CONSTANT, "Rational"),
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "new!"),
 							new TestingCommonToken(LPAREN, "("),
@@ -470,7 +470,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(RPAREN, ")"),
 							new TestingCommonToken(LINE_BREAK, ""),
 							new TestingCommonToken(FUNCTION, "raise", 2),
-							new TestingCommonToken(FUNCTION, "POPAuthenticationError", 2),
+							new TestingCommonToken(CONSTANT, "POPAuthenticationError", 2),
 							new TestingCommonToken(COMMA, "", 2),
 							new TestingCommonToken(IDENTIFIER, "res", 2),
 							new TestingCommonToken(UNLESS_MODIFIER, "unless", 2),
@@ -1207,7 +1207,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 			"MyClass3",
 		};
 
-		assert_type(program_texts, FUNCTION);
+		assert_type(program_texts, CONSTANT);
 	}
 
 	public void test_INTEGER()
