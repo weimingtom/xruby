@@ -2062,7 +2062,6 @@ public class RubyCompilerTest extends TestCase {
 				"\n" +
 				"ConstantInModule::C.new.f",
 				
-				/*
 				"class ConstantInModule2\n" +
 				"	class C\n" +
 				"		def f\n" +
@@ -2073,13 +2072,14 @@ public class RubyCompilerTest extends TestCase {
 				"\n" +
 				"ConstantInModule2::C.new.f",
 				
+				/*
 				"module ConstantInModule; ABC = 123; end; print ConstantInModule::ABC",
 				*/
 		};
 		
 		String[] outputs = {
 				"MCf",
-				//"MCf2",
+				"MCf2",
 				//"123",
 		};
 		
