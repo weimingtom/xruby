@@ -2050,7 +2050,7 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 	
-	public void test_constant_in_module() {
+	public void test_class_module_in_class_module() {
 		String [] program_texts = {
 				"module ConstantInModule\n" +
 				"	class C\n" +
@@ -2071,18 +2071,29 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"ConstantInModule2::C.new.f",
-				
-				/*
-				"module ConstantInModule; ABC = 123; end; print ConstantInModule::ABC",
-				*/
 		};
 		
 		String[] outputs = {
 				"MCf",
 				"MCf2",
-				//"123",
 		};
 		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_constant_in_class_module() {
+		String [] program_texts = {
+				"TestConstant = 1999; print ::TestConstant",
+				"::TestConstant2 = 9991; print ::TestConstant2",
+				//TODO "module ConstantInModule; ABC = 123; end; print ConstantInModule::ABC",
+		};
+		
+		String[] outputs = {
+				"1999",
+				"9991",
+				//"123",
+		};
+	
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
