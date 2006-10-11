@@ -7,12 +7,12 @@ package com.xruby.core.lang;
 /**
  * Hold all instances of the class
  */
-public class RubyClass extends MethodCollectionWithMixin {
+public class RubyClass extends RubyModule {
 	//private Set<RubyObject> instances_ = new HashSet<RubyObject>();
 	private RubyClass superclass_;
 
 	public RubyClass(String name, RubyClass superclass) {
-		super.name_ = name;
+		super(name);
 		superclass_ = superclass;
 	}
 

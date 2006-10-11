@@ -6,7 +6,7 @@ package com.xruby.core.lang;
 
 import com.xruby.core.value.*;
 
-public class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
+class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	public RubyModule defineNewModule(String name) {
 		RubyModule m = new RubyModule(name);
 		constants_.put(name, new RubyValue(RubyRuntime.ModuleClass, m));//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue

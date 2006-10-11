@@ -52,7 +52,7 @@ class RubyCompilerImpl implements CodeVisitor {
 					"GlobalScope",
 					Type.getType(RubyModule.class));
 		} else {
-			//FIXME
+			cg_.getMethodGenerator().loadArg(1);
 		}
 
 		cg_.getMethodGenerator().push(className);
@@ -68,7 +68,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
 				Method.getMethod("Object getValue()"));
-		cg_.getMethodGenerator().checkCast(Type.getType(MethodCollection.class));
+		cg_.getMethodGenerator().checkCast(Type.getType(RubyModule.class));
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
@@ -89,7 +89,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
 				Method.getMethod("Object getValue()"));
-		cg_.getMethodGenerator().checkCast(Type.getType(MethodCollection.class));
+		cg_.getMethodGenerator().checkCast(Type.getType(RubyModule.class));
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
@@ -576,7 +576,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
 				Method.getMethod("com.xruby.core.lang.RubyClass getRubyClass()"));
 		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(MethodCollection.class),
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyModule.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue getClassVariable(String)"));
 	}
 
@@ -597,7 +597,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		
 		cg_.getMethodGenerator().loadLocal(value);
 		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(MethodCollection.class),
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyModule.class),
 				Method.getMethod("com.xruby.core.lang.RubyValue setClassVariable(com.xruby.core.lang.RubyValue, String)"));
 	}
 	
@@ -702,7 +702,7 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitColon2(String name) {
 		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeStatic(Type.getType(ModuleClassAndMethodCollection.class),
+		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
 			Method.getMethod("com.xruby.core.lang.RubyValue getConstantViaColon2(com.xruby.core.lang.RubyValue, String)"));
 	}
 }
