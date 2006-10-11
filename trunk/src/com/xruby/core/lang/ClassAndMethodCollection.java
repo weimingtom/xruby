@@ -7,7 +7,7 @@ package com.xruby.core.lang;
 import java.util.HashMap;
 import java.util.Map;
 
-abstract class ClassAndMethodCollection extends MethodCollection {
+abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
 
 	/// This method is only used by java classes in package 'com.xruby.core.builtin'.
