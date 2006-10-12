@@ -38,15 +38,30 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		return v;
 	}
 
-	public static RubyValue getConstant(RubyValue receiver, String name) throws RubyException {
+	RubyValue setConstant(String name, RubyValue value) {
+		constants_.put(name, value);
+		return value;
+	}
+
+	private static void throw_type_error_if_not_class_module(RubyValue receiver) throws RubyException {
 		if (receiver.getRubyClass() != RubyRuntime.ClassClass &&
 			receiver.getRubyClass() != RubyRuntime.ModuleClass) {
 			RubyValue v = RubyRuntime.callPublicMethod(receiver, null, "to_s");
 			String s = ((StringValue)v.getValue()).toString();
 			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
 		}
+	}
+
+	public static RubyValue getConstant(RubyValue receiver, String name) throws RubyException {
+		throw_type_error_if_not_class_module(receiver);
 		
 		return ((ModuleClassAndMethodCollection)receiver.getValue()).getConstant(name);
+	}
+
+	public static RubyValue setConstant(RubyValue receiver, RubyValue value, String name) throws RubyException {
+		throw_type_error_if_not_class_module(receiver);
+
+		return ((ModuleClassAndMethodCollection)receiver.getValue()).setConstant(name, value);
 	}
 }
 
