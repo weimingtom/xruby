@@ -226,7 +226,7 @@ returns [Expression e]
 																		}
 																	}
 		|	#(LBRACK_ARRAY_ACCESS	left=expression	args=elements_as_arguments)	{e = new MethodCallExpression(left, "[]", args, null);}
-		|	#(COLON2				left=expression	right=expression)	{e = new Colon2Expression(left, ((LocalVariableExpression)right).getValue());}
+		|	#(COLON2				left=expression	(constant:CONSTANT|function:FUNCTION))	{e = new Colon2Expression(left, (null != constant) ? constant.getText() : function.getText());}
 		|	e=primaryExpression
 		|	e=methodDefination
 		|	e=moduleDefination
