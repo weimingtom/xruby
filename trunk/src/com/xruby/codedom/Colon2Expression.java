@@ -12,7 +12,7 @@ public class Colon2Expression extends Expression {
 	
 	public void accept(CodeVisitor visitor) {
 		left_.accept(visitor);
-		visitor.visitColon2(name_);
+		visitor.visitConstant(name_);
 	}
 
 }

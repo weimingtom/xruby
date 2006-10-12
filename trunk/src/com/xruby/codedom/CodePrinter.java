@@ -47,7 +47,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public void visitColon2(String name) {
+	public void visitConstant(String name) {
 		result_.append("::");
 		result_.append(name);
 		result_.append("\n");
