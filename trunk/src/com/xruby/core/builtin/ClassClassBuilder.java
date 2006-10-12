@@ -13,8 +13,19 @@ class Class_new extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		RubyClass value = (RubyClass)receiver.getValue();
-		return new RubyValue(value, null);
+		RubyClass value = (RubyClass)receiver.getValue();		
+		RubyValue clazz = new RubyValue(value, null);
+		callInitializeMethod(clazz, args, block);
+		
+		return clazz;
+	}
+
+	private void callInitializeMethod(RubyValue clazz, ArrayValue args,
+			RubyBlock block) throws RubyException {
+		RubyMethod m = clazz.findMethod("initialize");
+		if (m != null) {
+			m.invoke(clazz, args, block);
+		}
 	}
 }
 
