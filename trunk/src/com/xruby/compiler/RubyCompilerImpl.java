@@ -703,6 +703,6 @@ class RubyCompilerImpl implements CodeVisitor {
 	public void visitConstant(String name) {
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.core.lang.RubyValue getConstantViaColon2(com.xruby.core.lang.RubyValue, String)"));
+			Method.getMethod("com.xruby.core.lang.RubyValue getConstant(com.xruby.core.lang.RubyValue, String)"));
 	}
 }

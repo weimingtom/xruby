@@ -29,7 +29,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	}
 
 	/// e.g. A::B
-	RubyValue getConstantViaColon2(String name) throws RubyException {
+	RubyValue getConstant(String name) throws RubyException {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + name_ + "::" + name);
@@ -38,7 +38,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		return v;
 	}
 
-	public static RubyValue getConstantViaColon2(RubyValue receiver, String name) throws RubyException {
+	public static RubyValue getConstant(RubyValue receiver, String name) throws RubyException {
 		if (receiver.getRubyClass() != RubyRuntime.ClassClass &&
 			receiver.getRubyClass() != RubyRuntime.ModuleClass) {
 			RubyValue v = RubyRuntime.callPublicMethod(receiver, null, "to_s");
@@ -46,7 +46,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
 		}
 		
-		return ((ModuleClassAndMethodCollection)receiver.getValue()).getConstantViaColon2(name);
+		return ((ModuleClassAndMethodCollection)receiver.getValue()).getConstant(name);
 	}
 }
 
