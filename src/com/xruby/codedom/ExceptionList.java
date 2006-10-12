@@ -11,7 +11,7 @@ public class ExceptionList {
 	private ArrayList<Expression> arguments_ = new ArrayList<Expression>();
 	private LocalVariableExpression var_ = null;
 	
-	public void addArgument(LocalVariableExpression v) {
+	public void addArgument(Expression v) {
 		arguments_.add(v);
 	}
 	

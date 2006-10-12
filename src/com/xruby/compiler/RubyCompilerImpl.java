@@ -289,6 +289,11 @@ class RubyCompilerImpl implements CodeVisitor {
 
 		cg_.storeVariable(var);
 	}
+
+	public void visitTopLevelConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
+		//FIXME
+		visitLocalVariableAssignmentOperator(var, rhs_is_method_call, is_multiple_assign);
+	}
 	
 	public void visitFloatExpression(float value) {
 		cg_.getMethodGenerator().ObjectFactory_createFloat(value);
@@ -340,6 +345,11 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitLocalVariableExpression(String value) {
 		cg_.loadVariable(value);
+	}
+
+	public void visitTopLevelConstant(String value) {
+		//FIXME
+		visitLocalVariableExpression(value);
 	}
 
 	public void visitNilExpression() {
