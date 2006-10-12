@@ -14,7 +14,7 @@ public interface CodeVisitor {
 	public void visitInclusiveRangeOperator();
 	public void visitExclusiveRangeOperator();
 	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName);
-	public void visitColon2(String name);
+	public void visitConstant(String name);
 
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call);
 	public void visitInstanceVariableAssignmentOperator(String var, boolean rhs_is_method_call);
