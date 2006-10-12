@@ -137,6 +137,7 @@ returns [Expression e]
 	MethodCallArguments args = null;
 	ReturnArguments return_args = null;
 	CompoundStatement cs = null;
+	String method_name = null;
 }
 		:	#("and"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
 		|	#("or"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("||", left, right);}
@@ -186,13 +187,13 @@ returns [Expression e]
 		|	#(UNARY_MINUS			left=expression)					{e = new UnaryOperatorExpression("-@", left);}
 		|	#(BNOT					left=expression)					{e = new UnaryOperatorExpression("~", left);}
 		|	#(NOT					left=expression)					{e = new UnaryOperatorExpression("!", left);}
-		|	#(DOT					left=expression	right=expression)
+		|	#(DOT					left=expression	(right=callExpression|method_name=methodCallName))
 																	{
-																		if (right instanceof MethodCallExpression) {
+																		if (right != null) {
 																			MethodCallExpression mc = (MethodCallExpression)right;
 																			e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
 																		} else {
-																			e = new MethodCallExpression(left, ((LocalVariableExpression)right).getValue(), null, null);
+																			e = new MethodCallExpression(left, method_name, null, null);
 																		}
 																	}
 		|	e=callExpression
@@ -219,18 +220,22 @@ returns [Expression e]
 callExpression
 returns [Expression e]
 {
-	LocalVariableExpression var = null;
+	String method_name = null;
+	String method_name2 = null;
 	MethodCallArguments args = null;
 	Block block = null;
 	Expression left = null;
 	Expression right = null;
 }
-		:	#(CALL		(var=variable
-			|yield:"yield"
-			|defined:"defined?"
-			|#(DOT					left=expression	right=expression)
+		:	#(	CALL	
+				(	method_name=methodCallName
+					|yield:"yield"
+					|defined:"defined?"
+					|#(DOT					left=expression	(right=callExpression|method_name2=methodCallName))
+				)
+				(args=arguments)?
+				(block=codeBlock)?
 			)
-			(args=arguments)?	(block=codeBlock)?)
 			{
 				if (null != yield) {
 					if (null != block) {
@@ -242,13 +247,13 @@ returns [Expression e]
 						throw new RecognitionException("block can not be passed into defined?");
 					}
 					e = new DefinedExpression(args);
-				} else if (null != var) {
-					e = new MethodCallExpression(null, var.getValue(), args, block);
-				} else if (right instanceof MethodCallExpression) {
+				} else if (null != method_name) {
+					e = new MethodCallExpression(null, method_name, args, block);
+				} else if (right != null) {
 					MethodCallExpression mc = (MethodCallExpression)right;
 					e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
 				} else {
-					e = new MethodCallExpression(left, ((LocalVariableExpression)right).getValue(), args, block);
+					e = new MethodCallExpression(left, method_name2, args, block);
 				}
 			}
 		;
@@ -347,6 +352,14 @@ returns [Expression e]
 				//FIXME add more!
 				)
 			)
+		;
+
+methodCallName
+returns [String s]
+		:	constant:CONSTANT						{s = constant.getText();}
+		|	id:IDENTIFIER								{s = id.getText();}
+		|	function:FUNCTION						{s = function.getText();}
+		|	unary:UNARY_PLUS_MINUS_METHOD_NAME	{s = unary.getText();}
 		;
 
 variable
