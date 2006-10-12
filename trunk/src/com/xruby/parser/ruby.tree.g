@@ -136,8 +136,6 @@ returns [Expression e]
 	Expression right = null;
 	MethodCallArguments args = null;
 	ReturnArguments return_args = null;
-	LocalVariableExpression var = null;
-	Block block = null;
 	CompoundStatement cs = null;
 }
 		:	#("and"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
@@ -197,34 +195,7 @@ returns [Expression e]
 																			e = new MethodCallExpression(left, ((LocalVariableExpression)right).getValue(), null, null);
 																		}
 																	}
-		|	#(CALL					(var=variable
-									|yield:"yield"
-									|defined:"defined?"
-									|#(DOT					left=expression	right=expression)
-									)
-									(args=arguments)?	(block=codeBlock)?)
-																	{
-																		if (null != yield) {
-																			if (null != block) {
-																				throw new RecognitionException("block can not be passed into yield");
-																			}
-																			e = new YieldExpression(args);
-																		} else if (null != defined) {
-																			if (null != block) {
-																				throw new RecognitionException("block can not be passed into defined?");
-																			}
-																			e = new DefinedExpression(args);
-																		} else if (null != var) {
-																			e = new MethodCallExpression(null, var.getValue(), args, block);
-																		} else {
-																			if (right instanceof MethodCallExpression) {
-																				MethodCallExpression mc = (MethodCallExpression)right;
-																				e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
-																			} else {
-																				e = new MethodCallExpression(left, ((LocalVariableExpression)right).getValue(), args, block);
-																			}
-																		}
-																	}
+		|	e=callExpression
 		|	#(LBRACK_ARRAY_ACCESS	left=expression	args=elements_as_arguments)	{e = new MethodCallExpression(left, "[]", args, null);}
 		|	#(COLON2				left=expression	(constant:CONSTANT|function:FUNCTION))	{e = new Colon2Expression(left, (null != constant) ? constant.getText() : function.getText());}
 		|	e=primaryExpression
@@ -243,6 +214,43 @@ returns [Expression e]
 		|	#("break"		(return_args=return_arguments)?)	{e = new BreakExpression(return_args);}
 		|	#("next"		(return_args=return_arguments)?)	{e = new NextExpression(return_args);}
 		|	#(LPAREN	cs=compoundStatement)			{e = new ParenthesisExpression(cs);}
+		;
+
+callExpression
+returns [Expression e]
+{
+	LocalVariableExpression var = null;
+	MethodCallArguments args = null;
+	Block block = null;
+	Expression left = null;
+	Expression right = null;
+}
+		:	#(CALL		(var=variable
+			|yield:"yield"
+			|defined:"defined?"
+			|#(DOT					left=expression	right=expression)
+			)
+			(args=arguments)?	(block=codeBlock)?)
+			{
+				if (null != yield) {
+					if (null != block) {
+						throw new RecognitionException("block can not be passed into yield");
+					}
+					e = new YieldExpression(args);
+				} else if (null != defined) {
+					if (null != block) {
+						throw new RecognitionException("block can not be passed into defined?");
+					}
+					e = new DefinedExpression(args);
+				} else if (null != var) {
+					e = new MethodCallExpression(null, var.getValue(), args, block);
+				} else if (right instanceof MethodCallExpression) {
+					MethodCallExpression mc = (MethodCallExpression)right;
+					e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
+				} else {
+					e = new MethodCallExpression(left, ((LocalVariableExpression)right).getValue(), args, block);
+				}
+			}
 		;
 
 arguments
