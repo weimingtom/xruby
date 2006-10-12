@@ -53,6 +53,11 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
+	public void visitTopLevelConstant(String name) {
+		result_.append(name);
+		result_.append("\n");
+	}
+
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
 		result_.append(var);
 		if (rhs_is_method_call) {
@@ -80,6 +85,10 @@ public class CodePrinter implements CodeVisitor {
 			result_.append("//");
 		}
 		result_.append("=\n");
+	}
+
+	public void visitTopLevelConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment) {
+		visitLocalVariableAssignmentOperator(var, rhs_is_method_call, is_multiple_assignment);
 	}
 	
 	public void visitNoParameter() {

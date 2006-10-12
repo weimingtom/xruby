@@ -303,7 +303,8 @@ returns [Expression e]
 		|	single_quote_string:SINGLE_QUOTE_STRING	{e = new StringExpression(single_quote_string.getText(), false);}
 		|	command_output:COMMAND_OUTPUT			{e = new CommandOutputExpression(command_output.getText());}
 		|	regex:REGEX								{e = new RegexpExpression(regex.getText());}
-		|	e=variable
+		|	e=local_variable
+		|	constant:CONSTANT						{e = new TopLevelConstantExpression(constant.getText());}
 		|	gvar:GLOBAL_VARIABLE 					{e = new GlobalVariableExpression(gvar.getText());}
 		|	"true"									{e = new TrueExpression();}
 		|	"false"									{e = new FalseExpression();}
@@ -362,12 +363,10 @@ returns [String s]
 		|	unary:UNARY_PLUS_MINUS_METHOD_NAME	{s = unary.getText();}
 		;
 
-variable
+local_variable
 returns [LocalVariableExpression e]
-		:	constant:CONSTANT						{e = new LocalVariableExpression(constant.getText(), false);}
-		|	id:IDENTIFIER								{e = new LocalVariableExpression(id.getText(), false);}
+		:	id:IDENTIFIER								{e = new LocalVariableExpression(id.getText(), false);}
 		|	function:FUNCTION						{e = new LocalVariableExpression(function.getText(), true);}
-		|	unary:UNARY_PLUS_MINUS_METHOD_NAME	{e = new LocalVariableExpression(unary.getText(), true);}//it does not look like a good place to put -@/+@, but bad programs should have failed in parser.
 		;
 
 arrayExpression
@@ -625,9 +624,10 @@ returns [BodyStatement bs]
 exceptionList
 returns [ExceptionList el]
 {
+	Expression e;
 	LocalVariableExpression v;
 }
 		:	{el = new ExceptionList();}
-			(v=variable	{el.addArgument(v);})*
-			(ASSOC	v=variable	{el.addExceptionVariable(v);})?
+			(e=expression	{el.addArgument(e);})*
+			(ASSOC	v=local_variable	{el.addExceptionVariable(v);})?
 		;
