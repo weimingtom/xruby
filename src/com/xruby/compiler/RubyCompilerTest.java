@@ -2085,15 +2085,20 @@ public class RubyCompilerTest extends TestCase {
 		String [] program_texts = {
 				"TestConstant = 1999; print ::TestConstant",
 				"::TestConstant2 = 9991; print ::TestConstant2",
-				//TODO "module ConstantInModule; ABC = 123; end; print ConstantInModule::ABC",
+				/*"module ConstantInModule; ABC = 123; end; print ConstantInModule::ABC",
+				"C = 9;module TestConstant3;C = 10;puts C;end",
+				"C = 9;module TestConstant3;C = 10;puts ::C;end",
+				*/
 		};
 		
 		String[] outputs = {
 				"1999",
 				"9991",
-				//"123",
+				/*"123",
+				"10",
+				"9",*/
 		};
-	
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
@@ -2101,11 +2106,13 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"module ConstantInModuleException; end; ConstantInModuleException::B",
 				"a=1; a::B",
+				"ConstantInModuleException2=9; ConstantInModuleException2::B",
 		};
 
 		RubyException[] exceptions = {
 			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant ConstantInModuleException::B"),
 			new RubyException(RubyRuntime.TypeErrorClass, "1 is not a class/module"),
+			new RubyException(RubyRuntime.TypeErrorClass, "9 is not a class/module"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);

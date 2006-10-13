@@ -304,7 +304,7 @@ returns [Expression e]
 		|	command_output:COMMAND_OUTPUT			{e = new CommandOutputExpression(command_output.getText());}
 		|	regex:REGEX								{e = new RegexpExpression(regex.getText());}
 		|	e=local_variable
-		|	constant:CONSTANT						{e = new TopLevelConstantExpression(constant.getText());}
+		|	constant:CONSTANT						{e = new CurrentNamespaceConstantExpression(constant.getText());}
 		|	gvar:GLOBAL_VARIABLE 					{e = new GlobalVariableExpression(gvar.getText());}
 		|	"true"									{e = new TrueExpression();}
 		|	"false"									{e = new FalseExpression();}
