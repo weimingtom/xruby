@@ -181,19 +181,14 @@ public class ArrayValueTest extends TestCase {
 		assertEquals(1, a.size());
 		assertEquals(1, ((IntegerValue)v.getValue()).intValue());
 		assertEquals(2, ((IntegerValue)a.get(0).getValue()).intValue());
-		
-		// remove out bound index
-		try {
-			ArrayValue b = new ArrayValue();
-			b.remove(1);
-		} catch(RubyException re) {			
-		}
+
+		ArrayValue b = new ArrayValue();
+		v = b.remove(1);
+		assertEquals(ObjectFactory.nilValue, v);
 		
 		// remove negative index
-		try {
-			ArrayValue c = new ArrayValue();
-			c.remove(-1);
-		} catch(RubyException re) {			
-		}
+		ArrayValue c = new ArrayValue();
+		v = c.remove(-1);
+		assertEquals(ObjectFactory.nilValue, v);
 	}
 }
