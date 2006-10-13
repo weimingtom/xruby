@@ -1171,21 +1171,21 @@ public class RubyCompilerTest extends TestCase {
 				"def a; print 'qqq'; end; alias b a ; a",
 				"def c; print 'aaa'; end; alias d c ; d",
 
-				"class C\n" +
+				"class TestAliasMethod\n" +
 				"	def f\n" +
 				"		print \"~~~~\"\n" +
 				"	end\n" +
 				"	alias g f\n" +
 				"end\n" +
-				"C.new.f",
+				"TestAliasMethod.new.f",
 
-				"class B\n" +
+				"class TestAliasMethod2\n" +
 				"	def f\n" +
 				"		print \"3333\"\n" +
 				"	end\n" +
 				"	alias g f\n" +
 				"end\n" +
-				"B.new.g",
+				"TestAliasMethod2.new.g",
 		};
 
 		String[] outputs = {
@@ -2085,18 +2085,19 @@ public class RubyCompilerTest extends TestCase {
 		String [] program_texts = {
 				"TestConstant = 1999; print ::TestConstant",
 				"::TestConstant2 = 9991; print ::TestConstant2",
-				/*"module ConstantInModule; ABC = 123; end; print ConstantInModule::ABC",
-				"C = 9;module TestConstant3;C = 10;puts C;end",
-				"C = 9;module TestConstant3;C = 10;puts ::C;end",
-				*/
+				"module ConstantInModule; ABC = 123; end; print ConstantInModule::ABC",
+				"C = 9;module TestConstant3;C = 10;print C;end",
+				"C = 9;module TestConstant3;C = 10;print ::C;end",
+				"C = 9;module TestConstant3;C = 11;print self::C;end",
 		};
 		
 		String[] outputs = {
 				"1999",
 				"9991",
-				/*"123",
+				"123",
 				"10",
-				"9",*/
+				"9",
+				"11",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -2120,13 +2121,13 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_initialize() {
 		String [] program_texts = {
-				"class C\n" +
+				"class TestInitialize\n" +
 				"	def initialize\n" +
 				"		print \"in initialize\"\n" +
 				"	end\n" +
 				"end\n" +
 				"	\n" +
-				"C.new",
+				"TestInitialize.new",
 		};
 		
 		String[] outputs = {

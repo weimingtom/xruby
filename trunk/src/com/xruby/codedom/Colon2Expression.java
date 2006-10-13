@@ -1,6 +1,6 @@
 package com.xruby.codedom;
 
-public class Colon2Expression extends Expression {
+public class Colon2Expression extends VariableExpression {
 
 	private Expression left_;
 	private String name_;
@@ -11,8 +11,25 @@ public class Colon2Expression extends Expression {
 	}
 	
 	public void accept(CodeVisitor visitor) {
-		left_.accept(visitor);
-		visitor.visitConstant(name_);
+		if (null != left_) {
+			//e.g. "M::C"
+			left_.accept(visitor);
+			visitor.visitConstant(name_);
+		} else {
+			//e.g. "::C"
+			visitor.visitTopLevelConstant(name_);
+		}
+	}
+
+	public void acceptAsAssignment(CodeVisitor visitor, boolean rhs_is_method_call, boolean is_multiple_assign) {
+		if (null != left_) {
+			//e.g. "M::C"
+			left_.accept(visitor);
+			visitor.visitConstantAssignmentOperator(name_, rhs_is_method_call, is_multiple_assign);
+		} else {
+			//e.g. "::C"
+			visitor.visitTopLevelConstantAssignmentOperator(name_, rhs_is_method_call, is_multiple_assign);
+		}
 	}
 
 }

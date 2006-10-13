@@ -91,14 +91,6 @@ abstract class ClassGenerator {
 	abstract protected Class getType();
 	
 	public void loadVariable(String name) {
-		//quick access for builtin
-		if (ObjectFactory.isBuiltin(name)) {
-			getMethodGenerator().getStatic(Type.getType(ObjectFactory.class),
-					name + "ClassValue",
-					Type.getType(RubyValue.class));
-			return;
-		}
-
 		// check if this is asterisk method parameter
 		int access_counter = getSymbolTable().getMethodAsteriskParameter(name);
 		if (0 == access_counter) {

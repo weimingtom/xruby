@@ -290,11 +290,6 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.storeVariable(var);
 	}
 
-	public void visitCurrentNamespaceConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
-		//FIXME
-		visitLocalVariableAssignmentOperator(var, rhs_is_method_call, is_multiple_assign);
-	}
-	
 	public void visitFloatExpression(float value) {
 		cg_.getMethodGenerator().ObjectFactory_createFloat(value);
 	}
@@ -345,11 +340,6 @@ class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitLocalVariableExpression(String value) {
 		cg_.loadVariable(value);
-	}
-
-	public void visitCurrentNamespaceConstant(String value) {
-		//FIXME
-		visitLocalVariableExpression(value);
 	}
 
 	public void visitNilExpression() {
@@ -710,9 +700,58 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().ObjectFactory_createRange();
 	}
 
+	public void visitCurrentNamespaceConstant(String name) {
+		if (isInGlobalScope()) {
+			visitTopLevelConstant(name);
+			return;
+		}
+		
+		visitSelfExpression();
+		visitConstant(name);
+	}
+
 	public void visitConstant(String name) {
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
 			Method.getMethod("com.xruby.core.lang.RubyValue getConstant(com.xruby.core.lang.RubyValue, String)"));
+	}
+
+	public void visitTopLevelConstant(String name) {
+		//quick access for builtin
+		if (ObjectFactory.isBuiltin(name)) {
+			cg_.getMethodGenerator().getStatic(Type.getType(ObjectFactory.class),
+					name + "ClassValue",
+					Type.getType(RubyValue.class));
+			return;
+		}
+
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.core.lang.RubyValue getTopLevelConstant(String)"));
+	}
+
+	public void visitCurrentNamespaceConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assign) {
+		if (isInGlobalScope()) {
+			visitTopLevelConstantAssignmentOperator(name, rhs_is_method_call, is_multiple_assign);
+			return;
+		}
+		
+		visitSelfExpression();
+		visitConstantAssignmentOperator(name, rhs_is_method_call, is_multiple_assign);
+	}
+	
+	public void visitConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assignment) {
+		//TODO handle rhs_is_method_call and is_multiple_assignment
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.core.lang.RubyValue setConstant(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
+	}
+
+	public void visitTopLevelConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assignment) {
+		//TODO handle rhs_is_method_call and is_multiple_assignment
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.core.lang.RubyValue setTopLevelConstant(com.xruby.core.lang.RubyValue, String)"));
+		
 	}
 }

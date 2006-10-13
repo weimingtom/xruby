@@ -58,10 +58,18 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		return ((ModuleClassAndMethodCollection)receiver.getValue()).getConstant(name);
 	}
 
-	public static RubyValue setConstant(RubyValue receiver, RubyValue value, String name) throws RubyException {
+	public static RubyValue setConstant(RubyValue value, RubyValue receiver, String name) throws RubyException {
 		throw_type_error_if_not_class_module(receiver);
 
 		return ((ModuleClassAndMethodCollection)receiver.getValue()).setConstant(name, value);
+	}
+
+	public static RubyValue getTopLevelConstant(String name) throws RubyException {
+		return RubyRuntime.GlobalScope.getConstant(name);
+	}
+
+	public static RubyValue setTopLevelConstant(RubyValue value, String name) throws RubyException {
+		return RubyRuntime.GlobalScope.setConstant(name, value);
 	}
 }
 

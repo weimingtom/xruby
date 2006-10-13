@@ -16,12 +16,15 @@ public interface CodeVisitor {
 	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName);
 	public void visitConstant(String name);
 	public void visitCurrentNamespaceConstant(String name);
+	public void visitTopLevelConstant(String name);
 
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call);
 	public void visitInstanceVariableAssignmentOperator(String var, boolean rhs_is_method_call);
 	public void visitClassVariableAssignmentOperator(String var, boolean rhs_is_method_call);
 	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment);
 	public void visitCurrentNamespaceConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment);
+	public void visitTopLevelConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment);
+	public void visitConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment);
 
 	public void visitNoParameter();
 	public void visitNoBlock();

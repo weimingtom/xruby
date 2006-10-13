@@ -93,7 +93,7 @@ public class RubyTreeParserTest extends TestCase {
 
 		String[] expected_texts = {
 				" ( COMPSTMT ( :: A B ) )",
-				" ( COMPSTMT B )",
+				" ( COMPSTMT :: B )",
 				
 				" ( COMPSTMT ( CALL ( . 4 div ) ( ARG 2 ) ) )",
 				" ( COMPSTMT ( abc opq xyz ) )",

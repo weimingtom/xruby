@@ -17,7 +17,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 		p.accept(cp);
 		String expected_result = 
 			"class C\n" +
-			"Object\n" +
+			"::Object\n" +
 			"<<<<<\n" +
 			"def f:0:false:0\n" +
 			"self\n" +
@@ -29,7 +29,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 			"end def:true\n" +
 			"end:true\n" +
 			";\n" +
-			"C\n" +
+			"::C\n" +
 			"new:true\n" +
 			"f:true\n" +
 			"EOF";
@@ -44,7 +44,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 		p.accept(cp);
 		String expected_result = 
 			"class C\n" +
-			"Integer\n" +
+			"::Integer\n" +
 			"<<<<<\n" +
 			"end:false\n" +
 			"EOF";
