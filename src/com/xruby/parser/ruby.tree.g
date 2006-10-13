@@ -305,6 +305,7 @@ returns [Expression e]
 		|	regex:REGEX								{e = new RegexpExpression(regex.getText());}
 		|	e=local_variable
 		|	constant:CONSTANT						{e = new CurrentNamespaceConstantExpression(constant.getText());}
+		|	LEADING_COLON2	constant2:CONSTANT		{e = new Colon2Expression(null, constant2.getText());}
 		|	gvar:GLOBAL_VARIABLE 					{e = new GlobalVariableExpression(gvar.getText());}
 		|	"true"									{e = new TrueExpression();}
 		|	"false"									{e = new FalseExpression();}
@@ -460,7 +461,7 @@ classDefination
 returns [ClassDefinationExpression e]
 {
 	String name = null;
-	Expression super_class = new LocalVariableExpression("Object", false);
+	Expression super_class = new Colon2Expression(null, "Object");
 	BodyStatement body = null;
 }
 		:	#("class"

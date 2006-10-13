@@ -614,7 +614,7 @@ primaryExpressionThatCanBeMethodName
 		|	"self"
 		|	"super"
 		|	CONSTANT
-		|	LEADING_COLON2!	CONSTANT
+		|	LEADING_COLON2	CONSTANT
 		|	"retry"
 		|	"yield"		{can_be_command_ = 2;}
 		|	keyword_defined
