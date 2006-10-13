@@ -257,7 +257,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 
 	public ArrayValue times(int times) throws RubyException {
 		if (times < 0) {
-			throw new RubyException("negative argument");
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
 		}
 		
 		int size = values_.size() * times;
