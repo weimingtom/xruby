@@ -2118,6 +2118,24 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 	
+	public void test_initialize() {
+		String [] program_texts = {
+				"class C\n" +
+				"	def initialize\n" +
+				"		print \"in initialize\"\n" +
+				"	end\n" +
+				"end\n" +
+				"	\n" +
+				"C.new",
+		};
+		
+		String[] outputs = {
+				"in initialize",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	/*TODO
 	public void test_singleton_method() {
 		String [] program_texts = {
