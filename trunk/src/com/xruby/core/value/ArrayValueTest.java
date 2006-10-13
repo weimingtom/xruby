@@ -170,4 +170,30 @@ public class ArrayValueTest extends TestCase {
 		} catch (RubyException re) {			
 		}
 	}
+	
+	public void test_remove() throws RubyException {
+		// a = [1, 2]
+		ArrayValue a = new ArrayValue();
+		a.add(ObjectFactory.createFixnum(1));
+		a.add(ObjectFactory.createFixnum(2));
+		
+		RubyValue v = a.remove(0);
+		assertEquals(1, a.size());
+		assertEquals(1, ((IntegerValue)v.getValue()).intValue());
+		assertEquals(2, ((IntegerValue)a.get(0).getValue()).intValue());
+		
+		// remove out bound index
+		try {
+			ArrayValue b = new ArrayValue();
+			b.remove(1);
+		} catch(RubyException re) {			
+		}
+		
+		// remove negative index
+		try {
+			ArrayValue c = new ArrayValue();
+			c.remove(-1);
+		} catch(RubyException re) {			
+		}
+	}
 }

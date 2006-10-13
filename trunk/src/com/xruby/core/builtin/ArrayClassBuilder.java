@@ -134,6 +134,31 @@ class Array_times extends RubyMethod {
 	}
 }
 
+class Array_push extends RubyMethod {
+	public Array_push() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		ArrayValue array = (ArrayValue)receiver.getValue();
+		RubyValue obj = args.get(0);
+		array.add(obj);
+		return receiver;
+	}
+}
+
+class Array_delete_at extends RubyMethod {
+	public Array_delete_at() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		ArrayValue array = (ArrayValue)receiver.getValue();
+		IntegerValue pos = (IntegerValue)args.get(0).getValue();
+		return array.remove(pos.intValue());		
+	}
+}
+
 public class ArrayClassBuilder {
 	
 	public static RubyClass create() {
@@ -146,6 +171,8 @@ public class ArrayClassBuilder {
 		c.defineMethod("concat", new Array_concat());
 		c.defineMethod("+", new Array_plus());
 		c.defineMethod("*", new Array_times());
+		c.defineMethod("push", new Array_push());
+		c.defineMethod("delete_at", new Array_delete_at());
 		return c;
 	}
 }

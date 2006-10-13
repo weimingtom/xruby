@@ -43,6 +43,14 @@ public class ArrayValue implements Iterable<RubyValue> {
 		values_.add(v);
 	}
 	
+	public RubyValue remove(int index) throws RubyException {
+		if (index < 0 || index > size()) {
+			throw new RubyException("index out of bounds");
+		}
+		
+		return values_.remove(index);		
+	}
+	
 	public int size() {
 		return values_.size();
 	}
