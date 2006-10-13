@@ -53,7 +53,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public void visitTopLevelConstant(String name) {
+	public void visitCurrentNamespaceConstant(String name) {
 		result_.append(name);
 		result_.append("\n");
 	}
@@ -87,7 +87,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("=\n");
 	}
 
-	public void visitTopLevelConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment) {
+	public void visitCurrentNamespaceConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment) {
 		visitLocalVariableAssignmentOperator(var, rhs_is_method_call, is_multiple_assignment);
 	}
 	

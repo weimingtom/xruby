@@ -290,7 +290,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.storeVariable(var);
 	}
 
-	public void visitTopLevelConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
+	public void visitCurrentNamespaceConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
 		//FIXME
 		visitLocalVariableAssignmentOperator(var, rhs_is_method_call, is_multiple_assign);
 	}
@@ -347,7 +347,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.loadVariable(value);
 	}
 
-	public void visitTopLevelConstant(String value) {
+	public void visitCurrentNamespaceConstant(String value) {
 		//FIXME
 		visitLocalVariableExpression(value);
 	}
