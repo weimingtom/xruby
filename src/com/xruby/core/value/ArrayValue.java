@@ -45,7 +45,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 	
 	public RubyValue remove(int index) throws RubyException {
 		if (index < 0 || index > size()) {
-			throw new RubyException("index out of bounds");
+			return ObjectFactory.nilValue;
 		}
 		
 		return values_.remove(index);		
