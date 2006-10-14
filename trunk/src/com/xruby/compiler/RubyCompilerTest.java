@@ -2137,6 +2137,49 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_attr_reader() {
+		String [] program_texts = {
+				"class TestAttrReader\n" +
+				"	attr_reader :a\n" +
+				"\n" +
+				"	def initialize\n" +
+				"		@a = 5\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"print TestAttrReader.new.a",
+				
+				"class TestAttrReader2\n" +
+				"	attr_reader 'a'\n" +
+				"\n" +
+				"	def initialize\n" +
+				"		@a = 6\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"print TestAttrReader2.new.a",
+		};
+		
+		String[] outputs = {
+				"5",
+				"6",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_attr_reader_exception() {
+		String[] program_texts = {
+				"module AttrReaderException; attr_reader 1; end",
+		};
+
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.ArgumentErrorClass, "1 is not a symbol"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
+	
 	/*TODO
 	public void test_singleton_method() {
 		String [] program_texts = {

@@ -90,6 +90,52 @@ class Module_inspect extends RubyMethod {
 	}
 }
 
+class AttrReader extends RubyMethod {
+
+	private String methodName_;
+
+	public AttrReader(String methodName) {
+		super(0);
+		methodName_ = methodName;
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		return receiver.getInstanceVariable("@" + methodName_);
+	}
+}
+
+class Module_attr_reader extends RubyMethod {
+	public Module_attr_reader() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		RubyModule m = (RubyModule)receiver.getValue();
+
+		for (RubyValue v : args) {
+			String s = toString(v);
+			m.defineMethod(s, new AttrReader(s));
+		}
+
+		return ObjectFactory.nilValue;
+	}
+
+	private String toString(RubyValue v) throws RubyException {
+		if (v.getRubyClass() == RubyRuntime.StringClass) {
+			return ((StringValue)v.getValue()).toString();
+		} else if (v.getRubyClass() == RubyRuntime.SymbolClass) {
+			return (String)v.getValue();
+		} else {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, inspect(v) + " is not a symbol");
+		}
+	}
+	
+	private String inspect(RubyValue value) throws RubyException {
+		RubyValue v = RubyRuntime.callPublicMethod(value, null, "inspect");
+		return ((StringValue)v.getValue()).toString();
+	}
+}
+
 public class ModuleClassBuilder {
 	
 	public static RubyClass create() {
@@ -99,6 +145,10 @@ public class ModuleClassBuilder {
 		c.defineMethod("private", new Module_private());
 		c.defineMethod("to_s", new Module_to_s());
 		c.defineMethod("inspect", new Module_inspect());
+
+		c.setAccessPrivate();
+		c.defineMethod("attr_reader", new Module_attr_reader());
+		c.setAccessPublic();
 		return c;
 	}
 }

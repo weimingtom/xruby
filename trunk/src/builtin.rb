@@ -35,6 +35,7 @@ class String
 	end
 	
 	alias to_str to_s
+	alias inspect to_s
 end
 
 class Integer < Numeric
@@ -89,6 +90,8 @@ class Fixnum < Integer
 	def to_i
 		self
 	end
+	
+	alias inspect to_s
 end
 
 class NilClass
