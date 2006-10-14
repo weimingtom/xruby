@@ -2180,6 +2180,23 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 	
+	public void test_assignment_method() {
+		String [] program_texts = {
+				"class TestAssignmetMethod\n" +
+				"	def a=(x)\n" +
+				"		print \"fff\"\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"TestAssignmetMethod.new.a=4",
+		};
+		
+		String[] outputs = {
+				"fff",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 	/*TODO
 	public void test_singleton_method() {
 		String [] program_texts = {
@@ -2188,24 +2205,6 @@ public class RubyCompilerTest extends TestCase {
 		
 		String[] outputs = {
 				"9521",
-		};
-		
-		compile_run_and_compare_output(program_texts, outputs);
-	}
-	
-	public void test_assignment_method() {
-		String [] program_texts = {
-				"class C\n" +
-				"	def a=(x)\n" +
-				"		print \"fff\"\n" +
-				"	end\n" +
-				"end\n" +
-				"\n" +
-				"C.new.a=4",
-		};
-		
-		String[] outputs = {
-				"fff",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

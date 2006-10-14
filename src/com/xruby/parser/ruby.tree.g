@@ -547,7 +547,7 @@ returns [String s]
 methodName
 returns [String s]
 		:	id:IDENTIFIER			{s = id.getText();}
-		|	function:FUNCTION		{s = function.getText();}
+		|	function:FUNCTION	(assign:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = function.getText(); if (null != assign) {s += "=";}}
 		|	constant:CONSTANT	{s = constant.getText();}
 		|	LEFT_SHIFT			{s = "<<";}
 		|	RIGHT_SHIFT			{s = ">>";}
