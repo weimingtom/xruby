@@ -957,7 +957,7 @@ public class RubyCompilerTest extends TestCase {
 	}
 
 	public void test_require_2_files() throws RecognitionException, TokenStreamException, CompilerException, FileNotFoundException, IOException {
-		String program_text1 = "print 'xxxxx'";
+		String program_text1 = "print 'xxxxx'; REQUIRE_2_FILES = 1";
 		RubyCompiler compiler1 = new RubyCompiler();
 		CompilationResults codes1 = compiler1.compile(new StringReader(program_text1));
 		File file1 = new File("test_require1.jar");
@@ -965,7 +965,7 @@ public class RubyCompilerTest extends TestCase {
 		codes1.save("test_require1");
 		assertTrue(file1.exists());
 
-		String program_text2 = "print 'yyyyy'";
+		String program_text2 = "print 'yyyyy', REQUIRE_2_FILES";
 		RubyCompiler compiler2 = new RubyCompiler();
 		CompilationResults codes2 = compiler2.compile(new StringReader(program_text2));
 		File file2 = new File("test_require2.jar");
@@ -979,7 +979,7 @@ public class RubyCompilerTest extends TestCase {
 			};
 
 			String[] outputs = {
-					"xxxxxyyyyy",
+					"xxxxxyyyyy1",
 			};
 
 			compile_run_and_compare_output(program_texts, outputs);
