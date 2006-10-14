@@ -19,9 +19,15 @@ public class MethodCallExpression extends Expression {
 	}
 
 	public Expression convertElementAccessToElmentSet(Expression value) {
-		MethodCallArguments  args = arguments_.clone();
+		MethodCallArguments  args;
+		if (null != arguments_) {
+			args = arguments_.clone();
+		} else {
+			args = new MethodCallArguments();
+		}
+		
 		args.addArgument(value);
-		MethodCallExpression r = new MethodCallExpression(receiver_, "[]=", args, null);
+		MethodCallExpression r = new MethodCallExpression(receiver_, methodName_ + "=", args, null);
 		return r;
 	}
 
@@ -35,6 +41,10 @@ public class MethodCallExpression extends Expression {
 
 	public Block getBlock() {
 		return block_;
+	}
+
+	boolean hasReceiver() {
+		return (null != receiver_);
 	}
 
 	public void accept(CodeVisitor visitor) {
