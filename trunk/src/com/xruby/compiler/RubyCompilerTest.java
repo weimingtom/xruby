@@ -2191,6 +2191,25 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
-	}*/
+	}
+	
+	public void test_assignment_method() {
+		String [] program_texts = {
+				"class C\n" +
+				"	def a=(x)\n" +
+				"		print \"fff\"\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"C.new.a=4",
+		};
+		
+		String[] outputs = {
+				"fff",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	*/
 	
 }
