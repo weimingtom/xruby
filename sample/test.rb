@@ -526,11 +526,11 @@ tmp.print "vt100\n";
 tmp.print "Amiga\n";
 tmp.print "paper\n";
 tmp.close
-=begin
+
 # test break
 tmp = open("while_tmp", "r")
 test_ok(tmp.kind_of?(File))
-
+=begin
 while line = tmp.gets()
   break if /vt100/ =~ line
 end

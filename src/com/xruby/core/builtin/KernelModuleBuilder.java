@@ -345,6 +345,20 @@ class Kernel_open extends RubyMethod {
 	}
 }
 
+class Kernel_kind_of extends RubyMethod {
+	public Kernel_kind_of() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (RubyRuntime.testInstanceOf(args.get(0), receiver)) {
+			return ObjectFactory.trueValue;
+		} else {
+			return ObjectFactory.falseValue;
+		}
+	}
+}
+
 public class KernelModuleBuilder {
 	public static RubyModule create() {
 		RubyModule m = RubyRuntime.GlobalScope.defineNewModule("Kernel");
@@ -365,6 +379,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("proc", lambda);
 		m.defineMethod("loop", new Kernel_loop());
 		m.defineMethod("open", new Kernel_open());
+		m.defineMethod("kind_of?", new Kernel_kind_of());
 		RubyRuntime.ObjectClass.includeModule(m);
 		return m;
 	}

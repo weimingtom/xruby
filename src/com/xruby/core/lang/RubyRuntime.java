@@ -99,7 +99,7 @@ public class RubyRuntime {
 		return false;
 	}
 	
-	static boolean testInstanceOf(RubyValue class_to_compare, RubyValue value) {
+	public static boolean testInstanceOf(RubyValue class_to_compare, RubyValue value) {
 		return value.getRubyClass().isInstanceOf((RubyClass)class_to_compare.getValue());
 	}
 
