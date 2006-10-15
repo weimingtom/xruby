@@ -1,7 +1,7 @@
-package com.xruby.core.lang;
+package com.xruby.runtime.lang;
 
 import java.util.*;
-import com.xruby.core.value.*;
+import com.xruby.runtime.value.*;
 
 public class AtExitBlocks {
 	private static ArrayList<RubyBlock> registgered_blocks_ = new ArrayList<RubyBlock>();

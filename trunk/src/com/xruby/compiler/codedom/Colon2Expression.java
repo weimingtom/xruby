@@ -1,4 +1,4 @@
-package com.xruby.codedom;
+package com.xruby.compiler.codedom;
 
 public class Colon2Expression extends VariableExpression {
 

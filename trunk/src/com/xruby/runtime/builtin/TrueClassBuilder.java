@@ -2,9 +2,9 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.builtin;
+package com.xruby.runtime.builtin;
 
-import com.xruby.core.lang.*;
+import com.xruby.runtime.lang.*;
 
 public class TrueClassBuilder {
 	

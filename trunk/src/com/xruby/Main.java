@@ -5,7 +5,8 @@
 package com.xruby;
 
 import com.xruby.compiler.*;
-import com.xruby.core.lang.*;
+import com.xruby.compiler.codegen.*;
+import com.xruby.runtime.lang.*;
 import java.util.logging.*;
 
 public class Main {

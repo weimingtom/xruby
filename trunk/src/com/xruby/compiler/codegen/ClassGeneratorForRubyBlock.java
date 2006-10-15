@@ -1,9 +1,9 @@
-package com.xruby.compiler;
+package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
 
-import com.xruby.core.lang.*;
+import com.xruby.runtime.lang.*;
 import java.util.*;
 
 class ClassGeneratorForRubyBlock extends ClassGenerator {
@@ -94,12 +94,12 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 				0,		//No modifier
 				name_,	
 				null,								// signature
-				"com/xruby/core/lang/RubyBlock",	// superName
+				"com/xruby/runtime/lang/RubyBlock",	// superName
 				null								// interface
 				);
 	
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.core.lang.RubyValue run(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue)"),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue)"),
 				null,// signature
 				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
 				cw_);
@@ -111,7 +111,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			if (0 != i) {
 				method_name.append(", ");
 			}
-			method_name.append("com.xruby.core.lang.RubyValue");
+			method_name.append("com.xruby.runtime.lang.RubyValue");
 		}
 		method_name.append(")");
 		return method_name.toString();

@@ -2,14 +2,14 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.codedom;
+package com.xruby.compiler.codedom;
 
 import java.io.StringReader;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.xruby.parser.RubyParser;
+import com.xruby.compiler.parser.RubyParser;
 
 import junit.framework.TestCase;
 

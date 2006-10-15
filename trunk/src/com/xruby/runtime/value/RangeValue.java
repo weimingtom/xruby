@@ -1,4 +1,4 @@
-package com.xruby.core.value;
+package com.xruby.runtime.value;
 
 public class RangeValue {
 	private int left_;

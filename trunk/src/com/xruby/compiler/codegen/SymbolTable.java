@@ -1,4 +1,4 @@
-package com.xruby.compiler;
+package com.xruby.compiler.codegen;
 
 import java.util.*;
 

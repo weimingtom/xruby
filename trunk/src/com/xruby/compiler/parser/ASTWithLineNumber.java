@@ -1,4 +1,4 @@
-package com.xruby.parser;
+package com.xruby.compiler.parser;
 
 import antlr.*;
 import antlr.collections.*;

@@ -1,4 +1,4 @@
-package com.xruby.codedom;
+package com.xruby.compiler.codedom;
 
 public class NextExpressionTest extends TestingAstTestCase {
 	public void test_next_1() {

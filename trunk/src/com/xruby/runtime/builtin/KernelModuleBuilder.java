@@ -2,14 +2,15 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.builtin;
+package com.xruby.runtime.builtin;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.xruby.core.lang.*;
+import com.xruby.runtime.lang.*;
 import com.xruby.compiler.*;
-import com.xruby.core.value.*;
+import com.xruby.compiler.codegen.*;
+import com.xruby.runtime.value.*;
 
 import java.io.*;
 import java.util.jar.*;

@@ -2,10 +2,10 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.builtin;
+package com.xruby.runtime.builtin;
 
-import com.xruby.core.lang.*;
-import com.xruby.core.value.*;
+import com.xruby.runtime.lang.*;
+import com.xruby.runtime.value.*;
 
 class Float_to_s extends RubyMethod {
 	public Float_to_s() {

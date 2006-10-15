@@ -12,7 +12,7 @@
 	<property name="src.dir" location="src"/>
 	<property name="lib.dir" location="lib"/>
 	<property name="build.dir" location="build"/>
-	<property name="parser.dir" location="${src.dir}/com/xruby/parser"/>
+	<property name="parser.dir" location="${src.dir}/com/xruby/compiler/parser"/>
 	<property name="rubycode.dir" location="c:\\ruby"/>
 	<property name="antlr.jar" location="${lib.dir}/antlr/antlr-2.7.6.jar"/>
 	<property name="jarjar.jar" location="${lib.dir}/jarjar/jarjar-0.7.jar"/>

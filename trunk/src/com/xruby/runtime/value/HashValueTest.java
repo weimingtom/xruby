@@ -2,10 +2,10 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.value;
+package com.xruby.runtime.value;
 
 import junit.framework.*;
-import com.xruby.core.lang.*;
+import com.xruby.runtime.lang.*;
 
 public class HashValueTest extends TestCase {
 

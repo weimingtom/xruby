@@ -2,12 +2,12 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.compiler;
+package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
-import com.xruby.core.lang.*;
-import com.xruby.core.value.*;
+import com.xruby.runtime.lang.*;
+import com.xruby.runtime.value.*;
 import java.util.*;
 
 abstract class ClassGenerator {
@@ -41,7 +41,7 @@ abstract class ClassGenerator {
 
 		current_mg_for_class_builder_method_ = new MethodGeneratorForClassBuilder(
 				Opcodes.ACC_PRIVATE,
-				Method.getMethod("com.xruby.core.lang.RubyValue " + name + "(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyModule)"),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule)"),
 				null,
 				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
 				cw_);
@@ -65,7 +65,7 @@ abstract class ClassGenerator {
 
 	public void callClassBuilderMethod(String name) {
 		getMethodGenerator().invokeConstructor(Type.getType("L" + name_ + ";"), 
-			Method.getMethod("com.xruby.core.lang.RubyValue " + name + "(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyModule)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule)"));
 	}
 
 	protected ClassGenerator(String name) {

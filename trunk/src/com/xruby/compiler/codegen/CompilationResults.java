@@ -2,13 +2,14 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.compiler;
+package com.xruby.compiler.codegen;
 
 import java.io.*;
 import java.util.*;
 import java.util.jar.*;
 
-import com.xruby.core.lang.*;
+import com.xruby.runtime.lang.*;
+import com.xruby.compiler.*;
 
 class CompilationResultLoader extends ClassLoader
 {

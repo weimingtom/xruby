@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.compiler;
+package com.xruby.compiler.codegen;
 
 import java.io.*;
 import junit.framework.TestCase;

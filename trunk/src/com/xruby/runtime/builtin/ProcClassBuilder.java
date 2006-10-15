@@ -1,7 +1,7 @@
-package com.xruby.core.builtin;
+package com.xruby.runtime.builtin;
 
-import com.xruby.core.lang.*;
-import com.xruby.core.value.*;
+import com.xruby.runtime.lang.*;
+import com.xruby.runtime.value.*;
 
 class Proc_call extends RubyMethod {
 	public Proc_call() {

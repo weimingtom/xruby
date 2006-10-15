@@ -8,7 +8,8 @@ import java.io.*;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.xruby.parser.RubyParser;
+import com.xruby.compiler.parser.RubyParser;
+import com.xruby.compiler.codegen.*;
 
 public class RubyCompiler {
 

@@ -2,11 +2,11 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.value;
+package com.xruby.runtime.value;
 
 import java.util.*;
 
-import com.xruby.core.lang.RubyValue;
+import com.xruby.runtime.lang.RubyValue;
 
 /**
  * @breif Internal representation of a ruby hash 

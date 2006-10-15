@@ -2,10 +2,10 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.builtin;
+package com.xruby.runtime.builtin;
 
-import com.xruby.core.lang.RubyClass;
-import com.xruby.core.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyRuntime;
 
 public class NilClassBuilder {
 	

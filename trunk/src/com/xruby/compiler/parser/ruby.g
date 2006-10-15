@@ -1,5 +1,5 @@
 header {
-package com.xruby.parser;
+package com.xruby.compiler.parser;
 }
 
 /** 

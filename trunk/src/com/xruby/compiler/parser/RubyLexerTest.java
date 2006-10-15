@@ -2,11 +2,11 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.parser;
+package com.xruby.compiler.parser;
 
 import java.io.*;
 
-import com.xruby.parser.symboltable.SymbolTableManager;
+import com.xruby.compiler.parser.symboltable.SymbolTableManager;
 
 import junit.framework.*;
 import antlr.Token;

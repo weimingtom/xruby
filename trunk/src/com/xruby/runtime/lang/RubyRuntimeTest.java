@@ -2,10 +2,10 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.lang;
+package com.xruby.runtime.lang;
 
 import junit.framework.TestCase;
-import com.xruby.core.value.*;
+import com.xruby.runtime.value.*;
 
 public class RubyRuntimeTest extends TestCase {
 	public void test_testTrueFalse() {

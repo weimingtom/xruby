@@ -1,4 +1,4 @@
-package com.xruby.codedom;
+package com.xruby.compiler.codedom;
 
 // && and || are not as same as other binaray operators, they
 //are not method calls and can not be overiden.

@@ -2,11 +2,11 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.value;
+package com.xruby.runtime.value;
 
 import java.util.*;
 
-import com.xruby.core.lang.*;
+import com.xruby.runtime.lang.*;
 
 /**
  * @breif Internal representation of a ruby array 
