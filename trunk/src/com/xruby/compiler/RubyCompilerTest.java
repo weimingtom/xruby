@@ -2234,18 +2234,38 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	/*TODO
-	public void test_singleton_method() {
+	public void test_kind_of() {
 		String [] program_texts = {
-				"a = 'x'; def a.ffff; print 9521 end; a.ffff",
+				"print(1.kind_of?(Object))",
+				"print(1.kind_of?(Fixnum))",
+				"print(1.kind_of?(String))",
 		};
 		
 		String[] outputs = {
-				"9521",
+				"true",
+				"true",
+				"false",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	*/
+	
+	/*
+	public void test_singleton_method() {
+		String [] program_texts = {
+				"a = 'x'; def a.ffff; print 9521 end; a.ffff",
+				
+				"class TestSingletonClass; end\n" +
+				"def TestSingletonClass.new_method;print 4321;end\n" +
+				"TestSingletonClass.new_method\n",
+		};
+		
+		String[] outputs = {
+				"9521",
+				"4321",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}*/
 	
 }
