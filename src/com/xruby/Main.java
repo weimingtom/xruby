@@ -56,6 +56,7 @@ public class Main {
 				logger_.info("Executing " + filename + "...");
 				RubyRuntime.initBuiltin();
 				results.run();
+				AtExitBlocks.invokeAll();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
