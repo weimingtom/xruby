@@ -359,6 +359,21 @@ class Kernel_kind_of extends RubyMethod {
 	}
 }
 
+class Kernel_at_exit extends RubyMethod {
+	public Kernel_at_exit() {
+		super(0);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (null == block) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "called without a block");
+		}
+		
+		AtExitBlocks.registerBlock(block);
+		return new RubyValue(RubyRuntime.ProcClass, block);
+	}
+}
+
 public class KernelModuleBuilder {
 	public static RubyModule create() {
 		RubyModule m = RubyRuntime.GlobalScope.defineNewModule("Kernel");
@@ -380,6 +395,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("loop", new Kernel_loop());
 		m.defineMethod("open", new Kernel_open());
 		m.defineMethod("kind_of?", new Kernel_kind_of());
+		m.defineMethod("at_exit", new Kernel_at_exit());
 		RubyRuntime.ObjectClass.includeModule(m);
 		return m;
 	}

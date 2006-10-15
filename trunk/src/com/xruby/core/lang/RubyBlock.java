@@ -47,7 +47,7 @@ public abstract class RubyBlock extends MethodBlockBase {
 		super(argc, has_asterisk_parameter, default_argc);
 	}
 
-	public RubyValue invoke(RubyValue receiver, ArrayValue args) {
+	public RubyValue invoke(RubyValue receiver, ArrayValue args) throws RubyException {
 		boolean single_lhs = (1 == argc_) && (!has_asterisk_parameter_);
 		boolean single_rhs = (null != args) && (1 == args.size()) && (args.notSingleAsterisk()) && (argc_ > 0);
 		if (single_lhs) {
@@ -59,6 +59,6 @@ public abstract class RubyBlock extends MethodBlockBase {
 		}
 	}
 	
-	protected abstract RubyValue run(RubyValue receiver, ArrayValue args);
+	protected abstract RubyValue run(RubyValue receiver, ArrayValue args) throws RubyException;
 }
 
