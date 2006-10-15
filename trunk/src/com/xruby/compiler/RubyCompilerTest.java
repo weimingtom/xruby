@@ -2197,6 +2197,27 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_attr_writer() {
+		String [] program_texts = {
+				"class TestAttrWriter\n" +
+				"	attr_writer :a\n" +
+				"\n" +
+				"	def get_a\n" +
+				"		@a\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"x = TestAttrWriter.new; x.a = 5; print x.get_a",
+		};
+		
+		String[] outputs = {
+				"5",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	/*TODO
 	public void test_singleton_method() {
 		String [] program_texts = {

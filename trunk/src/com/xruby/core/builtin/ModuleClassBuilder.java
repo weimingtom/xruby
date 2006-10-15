@@ -96,11 +96,11 @@ class AttrReader extends RubyMethod {
 
 	public AttrReader(String methodName) {
 		super(0);
-		methodName_ = methodName;
+		methodName_ = "@" + methodName;
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		return receiver.getInstanceVariable("@" + methodName_);
+		return receiver.getInstanceVariable(methodName_);
 	}
 }
 
@@ -120,7 +120,7 @@ class Module_attr_reader extends RubyMethod {
 		return ObjectFactory.nilValue;
 	}
 
-	private String toString(RubyValue v) throws RubyException {
+	static String toString(RubyValue v) throws RubyException {
 		if (v.getRubyClass() == RubyRuntime.StringClass) {
 			return ((StringValue)v.getValue()).toString();
 		} else if (v.getRubyClass() == RubyRuntime.SymbolClass) {
@@ -130,9 +130,40 @@ class Module_attr_reader extends RubyMethod {
 		}
 	}
 	
-	private String inspect(RubyValue value) throws RubyException {
+	static String inspect(RubyValue value) throws RubyException {
 		RubyValue v = RubyRuntime.callPublicMethod(value, null, "inspect");
 		return ((StringValue)v.getValue()).toString();
+	}
+}
+
+class AttrWriter extends RubyMethod {
+
+	private String methodName_;
+
+	public AttrWriter(String methodName) {
+		super(1);
+		methodName_ = "@" + methodName;
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		return receiver.setInstanceVariable(args.get(0), methodName_);
+	}
+}
+
+class Module_attr_writer extends RubyMethod {
+	public Module_attr_writer() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		RubyModule m = (RubyModule)receiver.getValue();
+
+		for (RubyValue v : args) {
+			String s = Module_attr_reader.toString(v);
+			m.defineMethod(s + "=", new AttrWriter(s));
+		}
+
+		return ObjectFactory.nilValue;
 	}
 }
 
@@ -148,6 +179,7 @@ public class ModuleClassBuilder {
 
 		c.setAccessPrivate();
 		c.defineMethod("attr_reader", new Module_attr_reader());
+		c.defineMethod("attr_writer", new Module_attr_writer());
 		c.setAccessPublic();
 		return c;
 	}
