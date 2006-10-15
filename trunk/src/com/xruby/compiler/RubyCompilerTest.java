@@ -2218,6 +2218,22 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_attr_accessor() {
+		String [] program_texts = {
+				"class TestAttrAccessor\n" +
+				"	attr_accessor :a\n" +
+				"end\n" +
+				"\n" +
+				"x = TestAttrAccessor.new; x.a = 5; print x.a",
+		};
+		
+		String[] outputs = {
+				"5",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	/*TODO
 	public void test_singleton_method() {
 		String [] program_texts = {
