@@ -2,12 +2,12 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.lang;
+package com.xruby.runtime.lang;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import com.xruby.core.value.*;
+import com.xruby.runtime.value.*;
 
 import junit.framework.TestCase;
 

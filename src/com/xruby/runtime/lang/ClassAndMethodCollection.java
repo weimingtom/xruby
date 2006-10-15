@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.core.lang;
+package com.xruby.runtime.lang;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
 abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
 
-	/// This method is only used by java classes in package 'com.xruby.core.builtin'.
+	/// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
 	/// It has less overhead than 'defineClass' (no hash table lookup).
 	/// This method is NOT used by classes compiled from ruby script.
 	public RubyClass defineNewClass(String name, RubyClass parent) {

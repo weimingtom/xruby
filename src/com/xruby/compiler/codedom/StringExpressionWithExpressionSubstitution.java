@@ -1,4 +1,4 @@
-package com.xruby.codedom;
+package com.xruby.compiler.codedom;
 
 import java.util.*;
 

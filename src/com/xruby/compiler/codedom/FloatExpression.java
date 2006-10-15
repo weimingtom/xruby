@@ -3,7 +3,7 @@
  */
 
 
-package com.xruby.codedom;
+package com.xruby.compiler.codedom;
 
 public class FloatExpression extends Expression
 {

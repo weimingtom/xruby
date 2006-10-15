@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.compiler;
+package com.xruby.compiler.codegen;
 
 public class CompilerException extends Exception {
 	/**

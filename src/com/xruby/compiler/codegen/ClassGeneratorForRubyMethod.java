@@ -1,11 +1,11 @@
-package com.xruby.compiler;
+package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.Method;
 
-import com.xruby.core.lang.RubyException;
-import com.xruby.core.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyMethod;
 
 class ClassGeneratorForRubyMethod extends ClassGenerator {
 	public ClassGeneratorForRubyMethod(String name, int argc, boolean has_asterisk_parameter, int default_argc) {
@@ -22,14 +22,14 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				0,		//No modifier
 				name_,	
 				null,								// signature
-				"com/xruby/core/lang/RubyMethod",	// superName
+				"com/xruby/runtime/lang/RubyMethod",	// superName
 				null								// interface
 				);
 		
 		createConstructorOfRubyMethod(argc, has_asterisk_parameter, default_argc);
 		
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.core.lang.RubyValue run(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyBlock)"),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock)"),
 				null,// signature
 				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
 				cw_);

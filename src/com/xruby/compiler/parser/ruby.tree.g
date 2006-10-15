@@ -1,7 +1,7 @@
 header {
-package com.xruby.parser;
+package com.xruby.compiler.parser;
 
-import com.xruby.codedom.*;
+import com.xruby.compiler.codedom.*;
 }
 
 /** 

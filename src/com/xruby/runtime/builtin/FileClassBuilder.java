@@ -1,6 +1,6 @@
-package com.xruby.core.builtin;
+package com.xruby.runtime.builtin;
 
-import com.xruby.core.lang.*;
+import com.xruby.runtime.lang.*;
 
 public class FileClassBuilder {
 

@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.compiler;
+package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -12,11 +12,11 @@ import org.objectweb.asm.commons.Method;
 
 import java.util.*;
 
-import com.xruby.codedom.*;
-import com.xruby.core.lang.*;
-import com.xruby.core.value.*;
+import com.xruby.compiler.codedom.*;
+import com.xruby.runtime.lang.*;
+import com.xruby.runtime.value.*;
 
-class RubyCompilerImpl implements CodeVisitor {
+public class RubyCompilerImpl implements CodeVisitor {
 	
 	private ClassGenerator cg_;
 	private Stack<ClassGenerator> suspended_cgs_ = new Stack<ClassGenerator>();
@@ -197,11 +197,11 @@ class RubyCompilerImpl implements CodeVisitor {
 		if (hasReceiver) {	
 			cg_.getMethodGenerator().push(methodName);
 			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyBlock, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
 		} else {
 			cg_.getMethodGenerator().push(methodName);
 			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue callMethod(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyBlock, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
 		}
 
 		if (null != assignedCommons && assignedCommons.length > 0) {
@@ -216,14 +216,14 @@ class RubyCompilerImpl implements CodeVisitor {
 		if (operator.equals("!=")) {
 			cg_.getMethodGenerator().push("==");
 			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
 			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue operatorNot(com.xruby.core.lang.RubyValue)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue operatorNot(com.xruby.runtime.lang.RubyValue)"));
 		} else {
 			//operator as method call
 			cg_.getMethodGenerator().push(operator);
 			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
 		}
 	}
 	
@@ -258,18 +258,18 @@ class RubyCompilerImpl implements CodeVisitor {
 	public void visitUnaryOperator(String operator) {
 		if (operator.equals("!")) {
 			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue operatorNot(com.xruby.core.lang.RubyValue)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue operatorNot(com.xruby.runtime.lang.RubyValue)"));
 		} else {
 			cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
 			cg_.getMethodGenerator().push(operator);
 			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue callPublicMethod(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
 		}
 	}
 
 	private void expandArrayIfThereIsZeroOrOneValue() {
 		cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.lang.RubyValue)"));
+					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 	}
 	
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
@@ -316,7 +316,7 @@ class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitStringExpressionWithExpressionSubstitutionEnd() {
 		cg_.getMethodGenerator().invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.core.lang.RubyValue createString(com.xruby.core.value.StringValue)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(com.xruby.runtime.value.StringValue)"));
 	}
 	
 	public void visitRegexpExpression(String value) {
@@ -411,7 +411,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		int i = (Integer)case_value;
 		cg_.getMethodGenerator().loadLocal(i);
 		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("boolean testEqual(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue)"));
+				Method.getMethod("boolean testEqual(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 		Label label = new Label();
 		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
 		return label;
@@ -472,7 +472,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		int exception_variable = ((Pair<Integer, Label>)var).first;
 		cg_.getMethodGenerator().loadLocal(exception_variable);
 		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("boolean testExceptionType(com.xruby.core.value.ArrayValue, com.xruby.core.lang.RubyException)"));
+				Method.getMethod("boolean testExceptionType(com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyException)"));
 		
 		Label label = new Label();
 		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
@@ -530,10 +530,10 @@ class RubyCompilerImpl implements CodeVisitor {
 	public void visitYieldEnd(boolean single_rhs) { 
 		/*if (single_rhs) {
 			cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-						Method.getMethod("com.xruby.core.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.core.value.ArrayValue)"));
+						Method.getMethod("com.xruby.runtime.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.runtime.value.ArrayValue)"));
 		}*/
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyBlock.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue invoke(com.xruby.core.lang.RubyValue, com.xruby.core.value.ArrayValue)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue)"));
 	}
 
 	public void visitGlobalVariableExpression(String value) {
@@ -574,10 +574,10 @@ class RubyCompilerImpl implements CodeVisitor {
 	public void visitClassVariableExpression(String name) {
 		visitSelfExpression();
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("com.xruby.core.lang.RubyClass getRubyClass()"));
+				Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyModule.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue getClassVariable(String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue getClassVariable(String)"));
 	}
 
 	public void visitClassVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
@@ -592,20 +592,20 @@ class RubyCompilerImpl implements CodeVisitor {
 		} else {
 			visitSelfExpression();
 			cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-					Method.getMethod("com.xruby.core.lang.RubyClass getRubyClass()"));
+					Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
 		}
 		
 		cg_.getMethodGenerator().loadLocal(value);
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyModule.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue setClassVariable(com.xruby.core.lang.RubyValue, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue setClassVariable(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 	
 	public void visitInstanceVariableExpression(String name) {
 		visitSelfExpression();
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue getInstanceVariable(String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue getInstanceVariable(String)"));
 	}
 
 	public void visitInstanceVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
@@ -618,7 +618,7 @@ class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().loadLocal(value);
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("com.xruby.core.lang.RubyValue setInstanceVariable(com.xruby.core.lang.RubyValue, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 	
 	public void visitMrhs(int var, int index, boolean asterisk) {
@@ -633,12 +633,12 @@ class RubyCompilerImpl implements CodeVisitor {
 	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs) {
 		if (single_lhs) {
 			cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-					Method.getMethod("com.xruby.core.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.core.value.ArrayValue)"));
+					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.value.ArrayValue)"));
 			return 0;
 		} else {
 			if (single_rhs) {
 				cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-						Method.getMethod("com.xruby.core.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.core.value.ArrayValue)"));
+						Method.getMethod("com.xruby.runtime.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.runtime.value.ArrayValue)"));
 			}
 			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
 			cg_.getMethodGenerator().storeLocal(var);
@@ -655,7 +655,7 @@ class RubyCompilerImpl implements CodeVisitor {
 			return 0;
 		} else {
 			cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-							Method.getMethod("com.xruby.core.value.ArrayValue convertToArrayIfNotYet(com.xruby.core.lang.RubyValue)"));
+							Method.getMethod("com.xruby.runtime.value.ArrayValue convertToArrayIfNotYet(com.xruby.runtime.lang.RubyValue)"));
 			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
 			cg_.getMethodGenerator().storeLocal(var);
 			return var;
@@ -713,7 +713,7 @@ class RubyCompilerImpl implements CodeVisitor {
 	public void visitConstant(String name) {
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.core.lang.RubyValue getConstant(com.xruby.core.lang.RubyValue, String)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getConstant(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
 	public void visitTopLevelConstant(String name) {
@@ -727,7 +727,7 @@ class RubyCompilerImpl implements CodeVisitor {
 
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.core.lang.RubyValue getTopLevelConstant(String)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getTopLevelConstant(String)"));
 	}
 
 	public void visitCurrentNamespaceConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assign) {
@@ -744,14 +744,14 @@ class RubyCompilerImpl implements CodeVisitor {
 		//TODO handle rhs_is_method_call and is_multiple_assignment
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.core.lang.RubyValue setConstant(com.xruby.core.lang.RubyValue, com.xruby.core.lang.RubyValue, String)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyValue setConstant(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
 	public void visitTopLevelConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assignment) {
 		//TODO handle rhs_is_method_call and is_multiple_assignment
 		cg_.getMethodGenerator().push(name);
 		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.core.lang.RubyValue setTopLevelConstant(com.xruby.core.lang.RubyValue, String)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyValue setTopLevelConstant(com.xruby.runtime.lang.RubyValue, String)"));
 		
 	}
 }

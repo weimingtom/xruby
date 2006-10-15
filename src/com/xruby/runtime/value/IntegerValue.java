@@ -1,4 +1,4 @@
-package com.xruby.core.value;
+package com.xruby.runtime.value;
 
 public class IntegerValue {
 	private int i_;

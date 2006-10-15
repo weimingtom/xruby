@@ -1,11 +1,11 @@
-package com.xruby.compiler;
+package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.Method;
 
-import com.xruby.core.lang.RubyException;
+import com.xruby.runtime.lang.RubyException;
 
 class ClassGeneratorForRubyProgram extends ClassGenerator {
 	public ClassGeneratorForRubyProgram(String name) {
@@ -24,7 +24,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				name_,
 				null,										// signature
 				"java/lang/Object",							// superName
-				new String[] { "com/xruby/core/lang/RubyProgram" }	// interface
+				new String[] { "com/xruby/runtime/lang/RubyProgram" }	// interface
 				);
 
 		createImplicitConstructor(cw_);
@@ -32,7 +32,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		
 		//Implement RubyProgram
 		return new MethodGenerator(Opcodes.ACC_PUBLIC,
-				Method.getMethod("com.xruby.core.lang.RubyValue run()"),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"),
 				null,// signature
 				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
 				cw_);
@@ -51,7 +51,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		mg.invokeConstructor(program,
 				Method.getMethod("void <init> ()"));
 		mg.invokeVirtual(program,
-				Method.getMethod("com.xruby.core.lang.RubyValue run()"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"));
 		mg.pop();
 		
 		mg.returnValue();

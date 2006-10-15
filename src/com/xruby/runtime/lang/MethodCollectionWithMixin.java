@@ -1,4 +1,4 @@
-package com.xruby.core.lang;
+package com.xruby.runtime.lang;
 
 import java.util.*;
 

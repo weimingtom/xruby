@@ -10,8 +10,9 @@ import java.io.*;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.xruby.core.lang.*;
-import com.xruby.core.value.*;
+import com.xruby.runtime.lang.*;
+import com.xruby.runtime.value.*;
+import com.xruby.compiler.codegen.*;
 
 public class RubyCompilerTest extends TestCase {
 

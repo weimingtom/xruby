@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.codedom;
+package com.xruby.compiler.codedom;
 
 public class ClassDefinationExpressionTest extends TestingAstTestCase {
 	public void test_class_defination() {

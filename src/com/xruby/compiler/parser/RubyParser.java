@@ -3,10 +3,10 @@
  */
 
 
-package com.xruby.parser;
+package com.xruby.compiler.parser;
 
-import com.xruby.parser.symboltable.SymbolTableManager;
-import com.xruby.codedom.Program;
+import com.xruby.compiler.parser.symboltable.SymbolTableManager;
+import com.xruby.compiler.codedom.Program;
 
 import java.io.Reader;
 
@@ -37,7 +37,7 @@ public class RubyParser extends RubyParserBase
 	/// @return AST
 	AST createAST() throws RecognitionException, TokenStreamException
 	{
-		setASTNodeClass("com.xruby.parser.ASTWithLineNumber");
+		setASTNodeClass("com.xruby.compiler.parser.ASTWithLineNumber");
 		program();
 		return getAST();
 	}

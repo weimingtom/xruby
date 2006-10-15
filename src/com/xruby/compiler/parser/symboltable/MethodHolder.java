@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-package com.xruby.parser.symboltable;
+package com.xruby.compiler.parser.symboltable;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
-package com.xruby.core.value;
+package com.xruby.runtime.value;
 
-import com.xruby.core.lang.*;
+import com.xruby.runtime.lang.*;
 
 public class StringValue {
 	private StringBuilder sb_;
