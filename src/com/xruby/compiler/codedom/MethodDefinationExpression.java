@@ -9,6 +9,7 @@ import java.util.*;
 public class MethodDefinationExpression extends Expression {
 
 	private String methodName_;
+	private Expression method_owner_;
 	private BodyStatement bodyStatement_ = null;
 	private ArrayList<String> parameters_ = new ArrayList<String>();
 	private String asterisk_parameter_ = null;
@@ -16,6 +17,12 @@ public class MethodDefinationExpression extends Expression {
 	
 	public MethodDefinationExpression(String methodName) {
 		methodName_ = methodName;
+		method_owner_ = null;
+	}
+
+	public MethodDefinationExpression(String methodName, Expression method_owner) {
+		methodName_ = methodName;
+		method_owner_ = method_owner;
 	}
 	
 	public void setBody(BodyStatement bodyStatement) {
@@ -35,7 +42,15 @@ public class MethodDefinationExpression extends Expression {
 	}
 	
 	public void accept(CodeVisitor visitor) {
-		visitor.visitMethodDefination(methodName_, parameters_.size(), (null != asterisk_parameter_), default_parameters_.size());
+		if (null != method_owner_) {
+			method_owner_.accept(visitor);
+		}
+		
+		visitor.visitMethodDefination(methodName_,
+						parameters_.size(),
+						(null != asterisk_parameter_),
+						default_parameters_.size(),
+						(null != method_owner_));
 		
 		for (String p : parameters_) {
 			visitor.visitMethodDefinationParameter(p);

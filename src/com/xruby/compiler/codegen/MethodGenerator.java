@@ -290,10 +290,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue defineModule(String)"));
 	}
 
-	public void MethodCollection_defineMethod(String methodName, String uniqueMethodName) {
-		if (!loadCurrentClass()) {
-			dup();
-			invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPrivate()"));	
+	public void MethodCollection_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
+		if (!is_singleton_method) {
+			if (!loadCurrentClass()) {
+				dup();
+				invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPrivate()"));	
+			}
 		}
 		
 		push(methodName);

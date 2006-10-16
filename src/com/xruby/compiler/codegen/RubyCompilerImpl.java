@@ -100,11 +100,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 		visitClassDefinationEnd(last_statement_has_return_value);//TODO
 	}
 
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
+	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
 
 		String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
 
-		cg_.getMethodGenerator().MethodCollection_defineMethod(methodName, uniqueMethodName);
+		cg_.getMethodGenerator().MethodCollection_defineMethod(methodName, uniqueMethodName, is_singleton_method);
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);

@@ -10,7 +10,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"def my_methods:0:false:0\n" +
+"def my_methods:0:false:0:false\n" +
 "end def:false\n" +
 "EOF";
 		assertEquals(expected_result, cp.toString());		
@@ -21,7 +21,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"def my_methods:3:false:2\n" +
+"def my_methods:3:false:2:false\n" +
 "parameter:a\n" +
 "parameter:b\n" +
 "parameter:c\n" +
@@ -41,7 +41,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"def my_methods:0:false:0\n" +
+"def my_methods:0:false:0:false\n" +
 "nil\n" +
 "return\n" +
 "end def:false\n" +
@@ -54,7 +54,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"def &:1:false:0\n" +
+"def &:1:false:0:false\n" +
 "parameter:anObject\n" +
 "end def:false\n" +
 "EOF";
@@ -66,7 +66,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"def my_methods:0:false:0\n" +
+			"def my_methods:0:false:0:false\n" +
 			"self\n" +
 			"[:1\n" +
 			"[\n" +
@@ -89,7 +89,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"def my_methods:3:false:0\n" +
+			"def my_methods:3:false:0:false\n" +
 			"parameter:a\n" +
 			"parameter:b\n" +
 			"parameter:c\n" +
@@ -127,7 +127,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"def my_methods:2:true:0\n" +
+			"def my_methods:2:true:0:false\n" +
 			"parameter:a\n" +
 			"parameter:b\n" +
 			"*parameter:c\n" +

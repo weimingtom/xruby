@@ -32,6 +32,7 @@ tokens {
 	MULTIPLE_ASSIGN;
 	MRHS;
 	NESTED_LHS;
+	SINGLETON_METHOD;
 }
 
 {
@@ -801,19 +802,27 @@ methodNameSupplement
 		;
 
 methodName
-		:	operatorAsMethodname
-		|	keywordAsMethodName
-		|	(id:IDENTIFIER
-			|function:FUNCTION	
-			|constant:CONSTANT	
-			)	(methodNameSupplement|ASSIGN_WITH_NO_LEADING_SPACE)?
-		|	LPAREN
-			expression	(LINE_BREAK!)?
-			RPAREN
-			methodNameSupplement
-		|	(INSTANCE_VARIABLE|CLASS_VARIABLE|GLOBAL_VARIABLE )	methodNameSupplement
-		|	("nil"|"self"|"true"|"false"|"__FILE__"|"__LINE__")	methodNameSupplement
-		|	UNARY_PLUS_MINUS_METHOD_NAME
+{boolean is_singleton_method = false;}
+		:	(	operatorAsMethodname
+			|	keywordAsMethodName
+			|	(id:IDENTIFIER
+				|function:FUNCTION	
+				|constant:CONSTANT	
+				)
+				(methodNameSupplement{is_singleton_method = true;}|ASSIGN_WITH_NO_LEADING_SPACE)?
+			|	LPAREN
+				expression	(LINE_BREAK!)?
+				RPAREN
+				methodNameSupplement{is_singleton_method = true;}
+			|	(INSTANCE_VARIABLE|CLASS_VARIABLE|GLOBAL_VARIABLE )	methodNameSupplement	{is_singleton_method = true;}
+			|	("nil"|"self"|"true"|"false"|"__FILE__"|"__LINE__")	methodNameSupplement	{is_singleton_method = true;}
+			|	UNARY_PLUS_MINUS_METHOD_NAME
+			)
+			{
+				if (is_singleton_method) {
+					#methodName = #(#[SINGLETON_METHOD, "SINGLETON_METHOD"], #methodName);
+				}
+			}
 		;
 
 operatorAsMethodname

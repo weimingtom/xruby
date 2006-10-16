@@ -494,13 +494,15 @@ returns [MethodDefinationExpression e]
 {
 	String name = null;
 	BodyStatement body = null;
-	Expression default_value = null;
+	Expression exp = null;
 }
 		:	#("def"
-				name=methodName	{e = new MethodDefinationExpression(name);}
+				(name=methodName	{e = new MethodDefinationExpression(name);}
+				|#(SINGLETON_METHOD exp=expression DOT	name=methodName	{e = new MethodDefinationExpression(name, exp);})
+				)
 				(	(id:IDENTIFIER|func:FUNCTION)
-					((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	default_value=expression)?
-					{e.addParameter((null != id) ? id.getText() : func.getText(), default_value);}
+					((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	exp=expression)?
+					{e.addParameter((null != id) ? id.getText() : func.getText(), exp);}
 				)*
 				(
 					REST_ARG_PREFIX	(id2:IDENTIFIER|func2:FUNCTION)

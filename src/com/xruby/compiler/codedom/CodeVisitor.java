@@ -45,7 +45,7 @@ public interface CodeVisitor {
 	public void visitStringExpressionWithExpressionSubstitution();
 	public void visitStringExpressionWithExpressionSubstitutionEnd();
 	
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args);
+	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method);
 	public void visitMethodDefinationParameter(String name);
 	public void visitMethodDefinationAsteriskParameter(String name);
 	public void visitMethodDefinationEnd(boolean last_statement_has_return_value);
