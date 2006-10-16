@@ -144,7 +144,9 @@ class String_initialize extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		if (args.get(0) != null) {
+		if (args == null) {
+			receiver.setValue(new StringValue(""));
+		} else if (args.get(0) != null) {
 			receiver.setValue(args.get(0).getValue());
 		}
 
