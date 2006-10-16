@@ -152,7 +152,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("/\n");
 	}
 	
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
+	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
 		result_.append("def ");
 		result_.append(methodName);
 		result_.append(":");
@@ -161,6 +161,8 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(has_asterisk_parameter);
 		result_.append(":");
 		result_.append(num_of_default_args);
+		result_.append(":");
+		result_.append(is_singleton_method);
 		result_.append("\n");
 	}
 

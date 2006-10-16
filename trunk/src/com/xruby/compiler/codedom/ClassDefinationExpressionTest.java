@@ -19,7 +19,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 			"class C\n" +
 			"::Object\n" +
 			"<<<<<\n" +
-			"def f:0:false:0\n" +
+			"def f:0:false:0:false\n" +
 			"self\n" +
 			"[:1\n" +
 			"[\n" +
