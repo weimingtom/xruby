@@ -705,9 +705,18 @@ public class RubyCompilerImpl implements CodeVisitor {
 			visitTopLevelConstant(name);
 			return;
 		}
-		
-		visitSelfExpression();
-		visitConstant(name);
+
+		if (cg_.isInClassBuilder()) {
+			cg_.getMethodGenerator().loadArg(1);
+		} else {
+			visitSelfExpression();
+			cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
+					Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
+		}
+
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getCurrentNamespaceConstant(String)"));
 	}
 
 	public void visitConstant(String name) {
