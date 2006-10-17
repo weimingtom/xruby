@@ -343,15 +343,17 @@ expression_substituation[StringExpressionWithExpressionSubstitution e]
 
 symbol
 returns [Expression e]
+{String s = null;}
 		:	#(SYMBOL
 				(id:IDENTIFIER		{e= new SymbolExpression(id.getText());}
 				|f:FUNCTION			{e= new SymbolExpression(f.getText());}
 				|constant:CONSTANT	{e= new SymbolExpression(constant.getText());}
 				|g:GLOBAL_VARIABLE 	{e= new SymbolExpression(g.getText());}
 				|i:INSTANCE_VARIABLE	{e= new SymbolExpression(i.getText());}
-				|c:CLASS_VARIABLE		{e= new SymbolExpression(c.getText());}
+				|c:CLASS_VARIABLE	{e= new SymbolExpression(c.getText());}
 				|u:UNARY_PLUS_MINUS_METHOD_NAME	{e= new SymbolExpression(u.getText());}
-				//FIXME add more!
+				|s=keyword			{e = new SymbolExpression(s);}
+				|s=operator			{e = new SymbolExpression(s);}
 				)
 			)
 		;
@@ -551,7 +553,13 @@ returns [String s]
 		:	id:IDENTIFIER			{s = id.getText();}
 		|	function:FUNCTION	(assign:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = function.getText(); if (null != assign) {s += "=";}}
 		|	constant:CONSTANT	{s = constant.getText();}
-		|	LEFT_SHIFT			{s = "<<";}
+		|	s=keyword
+		|	s=operator
+		;
+
+operator
+returns [String s]
+		:	LEFT_SHIFT			{s = "<<";}
 		|	RIGHT_SHIFT			{s = ">>";}
 		|	EQUAL				{s = "==";}
 		|	CASE_EQUAL			{s = "===";}
@@ -570,11 +578,15 @@ returns [String s]
 		|	BXOR				{s = "^";}
 		|	(EMPTY_ARRAY	|EMPTY_ARRAY_ACCESS)	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = "[]=";}
 		|	MATCH				{s = "=~";}
-		|	COMPARE			{s = "<=>";}
+		|	COMPARE				{s = "<=>";}
 		|	BNOT				{s = "!";}
 		|	SINGLE_QUOTE		{s = "`";}
-		|	"and"				{s = "and";}
-		|	"def"				{s = "def";}
+		;
+
+keyword
+returns [String s]
+		:	"and"				{s = "and";}
+		|	"def"					{s = "def";}
 		|	"end"				{s = "end";}
 		|	"in"					{s = "in";}
 		|	"or"					{s = "or";}

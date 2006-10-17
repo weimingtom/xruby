@@ -879,12 +879,16 @@ public class RubyCompilerTest extends TestCase {
 				"print :hello1.id2name",
 				"print :hello2.to_a",
 				"print :fred.inspect",
+				"print :next.to_a",
+				"print :<<",
 		};
 
 		String[] outputs = {
 				"hello1",
 				"hello2",
 				":fred",
+				"next",
+				"<<",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
