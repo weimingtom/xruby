@@ -147,6 +147,17 @@ class Array_push extends RubyMethod {
 	}
 }
 
+class Array_pop extends RubyMethod {
+	public Array_pop() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {		
+		ArrayValue array = (ArrayValue)receiver.getValue();		
+		return array.remove(array.size() - 1);		
+	}
+}
+
 class Array_delete_at extends RubyMethod {
 	public Array_delete_at() {
 		super(1);
@@ -172,6 +183,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("+", new Array_plus());
 		c.defineMethod("*", new Array_times());
 		c.defineMethod("push", new Array_push());
+		c.defineMethod("pop", new Array_pop());
 		c.defineMethod("delete_at", new Array_delete_at());
 		return c;
 	}
