@@ -2296,12 +2296,16 @@ public class RubyCompilerTest extends TestCase {
 				"print 1.respond_to?(:to_s)",
 				"print 1.respond_to?('no_such_method_xxx')",
 				"print 1.respond_to?(:no_such_method_xxx)",
+				"print 1.respond_to?(:lambda, true)",
+				"print 1.respond_to?(:lambda)",
 		};
 		
 		String[] outputs = {
 				"true",
 				"true",
 				"false",
+				"false",
+				"true",
 				"false",
 		};
 		
