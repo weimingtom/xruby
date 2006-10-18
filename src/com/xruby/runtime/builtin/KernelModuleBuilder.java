@@ -376,7 +376,7 @@ class Kernel_instance_of extends RubyMethod {
 
 class Kernel_respond_to extends RubyMethod {
 	public Kernel_respond_to() {
-		super(1);
+		super(-1);
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
@@ -390,6 +390,21 @@ class Kernel_respond_to extends RubyMethod {
 		} else {
 			return ObjectFactory.falseValue;
 		}
+	}
+}
+
+class Kernel_send extends RubyMethod {
+	public Kernel_send() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (args.size() < 1) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "no method name given");
+		}
+
+		RubyValue method_name = args.remove(0);
+		return RubyRuntime.callMethod(receiver, args, block, convertToString(method_name));
 	}
 }
 
@@ -420,7 +435,9 @@ public class KernelModuleBuilder {
 		m.defineMethod("kind_of?", new Kernel_kind_of());
 		m.defineMethod("instance_of?", new Kernel_instance_of());
 		m.defineMethod("respond_to?", new Kernel_respond_to());
-		m.defineMethod("at_exit", new Kernel_at_exit());
+		RubyMethod send = new Kernel_send();
+		m.defineMethod("send", send);
+		m.defineMethod("__send__", send);
 		
 		m.setAccessPrivate();
 		m.defineMethod("puts", new Kernel_puts());
@@ -434,6 +451,7 @@ public class KernelModuleBuilder {
 		RubyMethod lambda = new Kernel_lambda();
 		m.defineMethod("lambda", lambda);
 		m.defineMethod("proc", lambda);
+		m.defineMethod("at_exit", new Kernel_at_exit());
 		m.setAccessPublic();
 
 		RubyRuntime.ObjectClass.includeModule(m);
