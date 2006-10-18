@@ -374,6 +374,20 @@ class Kernel_instance_of extends RubyMethod {
 	}
 }
 
+class Kernel_respond_to extends RubyMethod {
+	public Kernel_respond_to() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (RubyRuntime.hasMethod(receiver, convertToString(args.get(0)))) {
+			return ObjectFactory.trueValue;
+		} else {
+			return ObjectFactory.falseValue;
+		}
+	}
+}
+
 class Kernel_at_exit extends RubyMethod {
 	public Kernel_at_exit() {
 		super(0);
@@ -411,6 +425,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("open", new Kernel_open());
 		m.defineMethod("kind_of?", new Kernel_kind_of());
 		m.defineMethod("instance_of?", new Kernel_instance_of());
+		m.defineMethod("respond_to?", new Kernel_respond_to());
 		m.defineMethod("at_exit", new Kernel_at_exit());
 		RubyRuntime.ObjectClass.includeModule(m);
 		return m;

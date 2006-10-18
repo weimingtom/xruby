@@ -113,26 +113,11 @@ class Module_attr_reader extends RubyMethod {
 		RubyModule m = (RubyModule)receiver.getValue();
 
 		for (RubyValue v : args) {
-			String s = toString(v);
+			String s = convertToString(v);
 			m.defineMethod(s, new AttrReader(s));
 		}
 
 		return ObjectFactory.nilValue;
-	}
-
-	static String toString(RubyValue v) throws RubyException {
-		if (v.getRubyClass() == RubyRuntime.StringClass) {
-			return ((StringValue)v.getValue()).toString();
-		} else if (v.getRubyClass() == RubyRuntime.SymbolClass) {
-			return (String)v.getValue();
-		} else {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, inspect(v) + " is not a symbol");
-		}
-	}
-	
-	static String inspect(RubyValue value) throws RubyException {
-		RubyValue v = RubyRuntime.callPublicMethod(value, null, "inspect");
-		return ((StringValue)v.getValue()).toString();
 	}
 }
 
@@ -159,7 +144,7 @@ class Module_attr_writer extends RubyMethod {
 		RubyModule m = (RubyModule)receiver.getValue();
 
 		for (RubyValue v : args) {
-			String s = Module_attr_reader.toString(v);
+			String s = convertToString(v);
 			m.defineMethod(s + "=", new AttrWriter(s));
 		}
 
@@ -176,7 +161,7 @@ class Module_attr_accessor extends RubyMethod {
 		RubyModule m = (RubyModule)receiver.getValue();
 
 		for (RubyValue v : args) {
-			String s = Module_attr_reader.toString(v);
+			String s = convertToString(v);
 			m.defineMethod(s, new AttrReader(s));
 			m.defineMethod(s + "=", new AttrWriter(s));
 		}

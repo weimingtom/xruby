@@ -32,6 +32,21 @@ public abstract class RubyMethod extends MethodBlockBase {
 		access_ = PUBLIC;
 	}
 	
+	protected static String convertToString(RubyValue v) throws RubyException {
+		if (v.getRubyClass() == RubyRuntime.StringClass) {
+			return ((StringValue)v.getValue()).toString();
+		} else if (v.getRubyClass() == RubyRuntime.SymbolClass) {
+			return (String)v.getValue();
+		} else {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, inspect(v) + " is not a symbol");
+		}
+	}
+	
+	private static String inspect(RubyValue value) throws RubyException {
+		RubyValue v = RubyRuntime.callPublicMethod(value, null, "inspect");
+		return ((StringValue)v.getValue()).toString();
+	}
+	
 	/**
 	 * Emulate ruby's parameter passing behavior
 	 * @param receiver

@@ -2289,6 +2289,24 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+
+	public void test_respond_to() {
+		String [] program_texts = {
+				"print 1.respond_to?('to_s')",
+				"print 1.respond_to?(:to_s)",
+				"print 1.respond_to?('no_such_method_xxx')",
+				"print 1.respond_to?(:no_such_method_xxx)",
+		};
+		
+		String[] outputs = {
+				"true",
+				"true",
+				"false",
+				"false",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 	
 	public void test_singleton_method() {
 		String [] program_texts = {

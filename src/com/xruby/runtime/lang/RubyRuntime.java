@@ -132,6 +132,11 @@ public class RubyRuntime {
 		return m.invoke(receiver, args, block);
 	}
 
+	public static boolean hasMethod(RubyValue receiver, String method_name) {
+		RubyMethod m = receiver.findMethod(method_name);
+		return (null != m);
+	}
+
 	public static RubyValue operatorNot(RubyValue value) {
 		if (testTrueFalse(value)) {
 			return ObjectFactory.falseValue;
