@@ -91,7 +91,7 @@ public class RubyRuntime {
 	public static boolean testExceptionType(ArrayValue classes_to_compare, RubyException e) {
 		RubyValue value = e.getRubyValue();
 		for (RubyValue class_to_compare : classes_to_compare) {
-			if (testInstanceOf(class_to_compare, value)) {
+			if (isKindOf(class_to_compare, value)) {
 				return true;
 			}
 		}
@@ -99,8 +99,12 @@ public class RubyRuntime {
 		return false;
 	}
 	
-	public static boolean testInstanceOf(RubyValue class_to_compare, RubyValue value) {
-		return value.getRubyClass().isInstanceOf((RubyClass)class_to_compare.getValue());
+	public static boolean isKindOf(RubyValue class_to_compare, RubyValue value) {
+		return value.getRubyClass().isKindOf((RubyClass)class_to_compare.getValue());
+	}
+
+	public static boolean isInstanceOf(RubyValue class_to_compare, RubyValue value) {
+		return (value.getRubyClass() == (RubyClass)class_to_compare.getValue());
 	}
 
 	//receiver is implicit self

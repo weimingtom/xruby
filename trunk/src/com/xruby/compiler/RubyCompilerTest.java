@@ -2258,12 +2258,32 @@ public class RubyCompilerTest extends TestCase {
 		String [] program_texts = {
 				"print(1.kind_of?(Object))",
 				"print(1.kind_of?(Fixnum))",
+				"print(1.kind_of?(Numeric))",
 				"print(1.kind_of?(String))",
 		};
 		
 		String[] outputs = {
 				"true",
 				"true",
+				"true",
+				"false",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+
+	public void test_instance_of() {
+		String [] program_texts = {
+				"print(1.instance_of?(Object))",
+				"print(1.instance_of?(Fixnum))",
+				"print(1.instance_of?(Numeric))",
+				"print(1.instance_of?(String))",
+		};
+		
+		String[] outputs = {
+				"false",
+				"true",
+				"false",
 				"false",
 		};
 		

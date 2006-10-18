@@ -20,11 +20,11 @@ public class RubyClass extends RubyModule {
 		return superclass_ == superclass;
 	}
 
-	boolean isInstanceOf(RubyClass value) {
+	boolean isKindOf(RubyClass value) {
 		if (value == this) {
 			return true;
 		} else if (null != superclass_) {
-			return superclass_.isInstanceOf(value);
+			return superclass_.isKindOf(value);
 		} else {
 			return false;
 		}

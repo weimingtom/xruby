@@ -352,7 +352,21 @@ class Kernel_kind_of extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		if (RubyRuntime.testInstanceOf(args.get(0), receiver)) {
+		if (RubyRuntime.isKindOf(args.get(0), receiver)) {
+			return ObjectFactory.trueValue;
+		} else {
+			return ObjectFactory.falseValue;
+		}
+	}
+}
+
+class Kernel_instance_of extends RubyMethod {
+	public Kernel_instance_of() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (RubyRuntime.isInstanceOf(args.get(0), receiver)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -396,6 +410,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("loop", new Kernel_loop());
 		m.defineMethod("open", new Kernel_open());
 		m.defineMethod("kind_of?", new Kernel_kind_of());
+		m.defineMethod("instance_of?", new Kernel_instance_of());
 		m.defineMethod("at_exit", new Kernel_at_exit());
 		RubyRuntime.ObjectClass.includeModule(m);
 		return m;
