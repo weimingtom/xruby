@@ -380,7 +380,12 @@ class Kernel_respond_to extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		if (RubyRuntime.hasMethod(receiver, convertToString(args.get(0)))) {
+		if (args.size() < 1) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
+		}
+
+		boolean include_private = (ObjectFactory.trueValue == args.get(1));
+		if (RubyRuntime.hasMethod(receiver, convertToString(args.get(0)), include_private)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -406,27 +411,31 @@ class Kernel_at_exit extends RubyMethod {
 public class KernelModuleBuilder {
 	public static RubyModule create() {
 		RubyModule m = RubyRuntime.GlobalScope.defineNewModule("Kernel");
-		m.defineMethod("puts", new Kernel_puts());
-		m.defineMethod("print", new Kernel_print());
-		m.defineMethod("printf", new Kernel_printf());
-		m.defineMethod("p", new Kernel_p());
 		m.defineMethod("class", new Kernel_class());
 		m.defineMethod("raise", new Kernel_raise());
 		m.defineMethod("===", new Kernel_operator_case_equal());
-		m.defineMethod("method_missing", new Kernel_method_missing());
-		m.defineMethod("eval", new Kernel_eval());
-		m.defineMethod("require", new Kernel_require());
-		m.defineMethod("load", new Kernel_load());
 		m.defineMethod("to_s", new Kernel_to_s());
-		RubyMethod lambda = new Kernel_lambda();
-		m.defineMethod("lambda", lambda);
-		m.defineMethod("proc", lambda);
 		m.defineMethod("loop", new Kernel_loop());
 		m.defineMethod("open", new Kernel_open());
 		m.defineMethod("kind_of?", new Kernel_kind_of());
 		m.defineMethod("instance_of?", new Kernel_instance_of());
 		m.defineMethod("respond_to?", new Kernel_respond_to());
 		m.defineMethod("at_exit", new Kernel_at_exit());
+		
+		m.setAccessPrivate();
+		m.defineMethod("puts", new Kernel_puts());
+		m.defineMethod("print", new Kernel_print());
+		m.defineMethod("printf", new Kernel_printf());
+		m.defineMethod("p", new Kernel_p());
+		m.defineMethod("method_missing", new Kernel_method_missing());
+		m.defineMethod("eval", new Kernel_eval());
+		m.defineMethod("require", new Kernel_require());
+		m.defineMethod("load", new Kernel_load());
+		RubyMethod lambda = new Kernel_lambda();
+		m.defineMethod("lambda", lambda);
+		m.defineMethod("proc", lambda);
+		m.setAccessPublic();
+
 		RubyRuntime.ObjectClass.includeModule(m);
 		return m;
 	}

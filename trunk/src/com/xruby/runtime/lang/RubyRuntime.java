@@ -132,9 +132,12 @@ public class RubyRuntime {
 		return m.invoke(receiver, args, block);
 	}
 
-	public static boolean hasMethod(RubyValue receiver, String method_name) {
-		RubyMethod m = receiver.findMethod(method_name);
-		return (null != m);
+	public static boolean hasMethod(RubyValue receiver, String method_name, boolean include_private) {
+		if (include_private) {
+			return (null != receiver.findMethod(method_name));
+		} else {
+			return (null != receiver.findPublicMethod(method_name));
+		}
 	}
 
 	public static RubyValue operatorNot(RubyValue value) {
