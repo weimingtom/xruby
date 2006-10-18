@@ -2348,5 +2348,18 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
+	public void test_send() {
+		String [] program_texts = {
+				"print 'xx'.send(:length)",
+				"print 1.__send__(:+, 2)",
+		};
+
+		String[] outputs = {
+				"2",
+				"3",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
