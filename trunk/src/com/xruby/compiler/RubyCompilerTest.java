@@ -2293,6 +2293,7 @@ public class RubyCompilerTest extends TestCase {
 				"print 123 if false",
 				"print 456 unless false",
 				"print 456 unless true",
+				"print 1 if true if true",
 		};
 
 		String[] outputs = {
@@ -2300,6 +2301,7 @@ public class RubyCompilerTest extends TestCase {
 				"",
 				"456",
 				"",
+				"1",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
