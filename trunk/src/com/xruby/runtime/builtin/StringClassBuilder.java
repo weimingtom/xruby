@@ -138,6 +138,17 @@ class String_to_i extends RubyMethod {
 	}
 }
 
+class String_length extends RubyMethod {
+	public String_length() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		StringValue value = (StringValue)receiver.getValue();
+		return ObjectFactory.createFixnum(value.length());
+	}
+}
+
 class String_initialize extends RubyMethod {
 	public String_initialize() {
 		super(-1);
@@ -176,6 +187,7 @@ public class StringClassBuilder {
 		c.defineMethod("downcase", new String_downcase());
 		c.defineMethod("to_f", new String_to_f());
 		c.defineMethod("to_i", new String_to_i());
+		c.defineMethod("length", new String_length());
 		c.defineMethod("downcase!", new String_downcase_danger());
 		c.defineMethod("initialize_copy", new String_initialize_copy());
 		c.defineMethod("initialize", new String_initialize());
