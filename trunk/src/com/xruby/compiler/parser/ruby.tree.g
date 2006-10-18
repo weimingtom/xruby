@@ -55,6 +55,14 @@ returns [CompoundStatement cs]
 
 statement
 returns [Statement s]
+		:	s=expressionStatement
+		|	s=alias
+		|	s=undef
+		|	s=multipleAssignment
+		;
+
+expressionStatement
+returns[ExpressionStatement s]
 {
 	Expression e = null;
 }
@@ -68,9 +76,6 @@ returns [Statement s]
 				}
 				s = new ExpressionStatement(e);
 			}
-		|	s=alias
-		|	s=undef
-		|	s=multipleAssignment
 		;
 
 alias

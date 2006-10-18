@@ -111,12 +111,12 @@ terminal
 		;
 
 statement
-		:	statementWithoutModifier
-									(IF_MODIFIER			expression
-									|UNLESS_MODIFIER	expression
-									|WHILE_MODIFIER		expression
-									|UNTIL_MODIFIER		expression
-									|RESCUE_MODIFIER	expression	//TODO should replace "expression" with "statement" for RESCUE_MODIFIER
+		:	body:statementWithoutModifier
+									(!IF_MODIFIER^		if_condition:expression	{#statement = #(#[LITERAL_if, "if"], if_condition, #(#[COMPSTMT, "COMPSTMT"], #body));}
+									|!UNLESS_MODIFIER^	unless_condition:expression	{#statement = #(#[LITERAL_unless, "unless"], unless_condition, #(#[COMPSTMT, "COMPSTMT"], #body));}
+									|!WHILE_MODIFIER^	while_condition:expression	{#statement = #(#[LITERAL_while, "while"], while_condition, #(#[COMPSTMT, "COMPSTMT"], #body));}
+									|!UNTIL_MODIFIER^	until_condition:expression	{#statement = #(#[LITERAL_until, "until"], until_condition, #(#[COMPSTMT, "COMPSTMT"], #body));}
+									|!RESCUE_MODIFIER^	rescue_condition:expression	{#statement = #(#[LITERAL_rescue, "rescue"], rescue_condition, #(#[COMPSTMT, "COMPSTMT"], #body));}
 									)*
 		;
 

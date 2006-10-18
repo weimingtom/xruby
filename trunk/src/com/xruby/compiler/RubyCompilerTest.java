@@ -2287,4 +2287,22 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_if_unless_modifier() {
+		String [] program_texts = {
+				"print 123 if true",
+				"print 123 if false",
+				"print 456 unless false",
+				"print 456 unless true",
+		};
+
+		String[] outputs = {
+				"123",
+				"",
+				"456",
+				"",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 }
