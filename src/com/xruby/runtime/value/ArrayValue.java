@@ -175,7 +175,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 	
 	public void concat(RubyValue v) throws RubyException {
 		Object o = v.getValue();
-		if (v.getRubyClass() != RubyRuntime.ArrayClass) {//TODO use RuyRuntime.testInstanceOf() ?
+		if (v.getRubyClass() != RubyRuntime.ArrayClass) {//TODO use RuyRuntime.isKindOf() ?
 			throw new RubyException(RubyRuntime.TypeErrorClass,
 					"can't convert " + v.getRubyClass().toString() + " into Array");
 		}

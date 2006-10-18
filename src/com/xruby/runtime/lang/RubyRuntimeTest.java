@@ -26,13 +26,13 @@ public class RubyRuntimeTest extends TestCase {
 		assertFalse(RubyRuntime.testEqual(ObjectFactory.createFixnum(88), ObjectFactory.createFixnum(89)));
 	}
 
-	public void test_testInstanceOf() {
-		assertTrue(RubyRuntime.testInstanceOf(ObjectFactory.createClass(RubyRuntime.TrueClassClass), ObjectFactory.trueValue));
-		assertTrue(RubyRuntime.testInstanceOf(ObjectFactory.createClass(RubyRuntime.ObjectClass), ObjectFactory.trueValue));
-		assertTrue(RubyRuntime.testInstanceOf(ObjectFactory.createClass(RubyRuntime.FalseClassClass), ObjectFactory.falseValue));
-		assertFalse(RubyRuntime.testInstanceOf(ObjectFactory.createClass(RubyRuntime.FalseClassClass), ObjectFactory.trueValue));
-		assertTrue(RubyRuntime.testInstanceOf(ObjectFactory.createClass(RubyRuntime.FixnumClass), ObjectFactory.createFixnum(88)));
-		assertFalse(RubyRuntime.testInstanceOf(ObjectFactory.createClass(RubyRuntime.FloatClass), ObjectFactory.createFixnum(88)));
+	public void test_isKindOf() {
+		assertTrue(RubyRuntime.isKindOf(ObjectFactory.createClass(RubyRuntime.TrueClassClass), ObjectFactory.trueValue));
+		assertTrue(RubyRuntime.isKindOf(ObjectFactory.createClass(RubyRuntime.ObjectClass), ObjectFactory.trueValue));
+		assertTrue(RubyRuntime.isKindOf(ObjectFactory.createClass(RubyRuntime.FalseClassClass), ObjectFactory.falseValue));
+		assertFalse(RubyRuntime.isKindOf(ObjectFactory.createClass(RubyRuntime.FalseClassClass), ObjectFactory.trueValue));
+		assertTrue(RubyRuntime.isKindOf(ObjectFactory.createClass(RubyRuntime.FixnumClass), ObjectFactory.createFixnum(88)));
+		assertFalse(RubyRuntime.isKindOf(ObjectFactory.createClass(RubyRuntime.FloatClass), ObjectFactory.createFixnum(88)));
 	}
 
 }
