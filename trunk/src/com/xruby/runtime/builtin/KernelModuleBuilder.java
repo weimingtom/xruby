@@ -385,10 +385,18 @@ class Kernel_respond_to extends RubyMethod {
 		}
 
 		boolean include_private = (ObjectFactory.trueValue == args.get(1));
-		if (RubyRuntime.hasMethod(receiver, convertToString(args.get(0)), include_private)) {
+		if (hasMethod(receiver, convertToString(args.get(0)), include_private)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
+		}
+	}
+
+	private boolean hasMethod(RubyValue receiver, String method_name, boolean include_private) {
+		if (include_private) {
+			return (null != receiver.findMethod(method_name));
+		} else {
+			return (null != receiver.findPublicMethod(method_name));
 		}
 	}
 }
@@ -405,6 +413,21 @@ class Kernel_send extends RubyMethod {
 
 		RubyValue method_name = args.remove(0);
 		return RubyRuntime.callMethod(receiver, args, block, convertToString(method_name));
+	}
+}
+
+class Kernel_method extends RubyMethod {
+	public Kernel_method() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		String method_name = convertToString(args.get(0));
+		RubyMethod  m = receiver.findPublicMethod(method_name);
+		if (null == m) {
+			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
+		}
+		return ObjectFactory.createMethod(receiver, m);
 	}
 }
 
@@ -438,6 +461,7 @@ public class KernelModuleBuilder {
 		RubyMethod send = new Kernel_send();
 		m.defineMethod("send", send);
 		m.defineMethod("__send__", send);
+		m.defineMethod("method", new Kernel_method());
 		
 		m.setAccessPrivate();
 		m.defineMethod("puts", new Kernel_puts());

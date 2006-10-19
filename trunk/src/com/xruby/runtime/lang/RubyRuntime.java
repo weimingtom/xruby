@@ -34,6 +34,7 @@ public class RubyRuntime {
 	public static RubyClass RangeClass = RangeClassBuilder.create();
 	public static RubyClass RegexpClass = RegexpClassBuilder.create();
 	public static RubyClass FileClass = FileClassBuilder.create();
+	public static RubyClass MethodClass = MethodClassBuilder.create();
 	
 	public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", ObjectClass);
 	
@@ -130,14 +131,6 @@ public class RubyRuntime {
 		}
 		
 		return m.invoke(receiver, args, block);
-	}
-
-	public static boolean hasMethod(RubyValue receiver, String method_name, boolean include_private) {
-		if (include_private) {
-			return (null != receiver.findMethod(method_name));
-		} else {
-			return (null != receiver.findPublicMethod(method_name));
-		}
 	}
 
 	public static RubyValue operatorNot(RubyValue value) {
