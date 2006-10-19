@@ -5,14 +5,25 @@ import com.xruby.runtime.lang.*;
 public class MethodValue {
 
 	private RubyValue receiver_;
-	private RubyMethod methods_;
+	private String name_;
+	private RubyMethod method_;
 	
-	public MethodValue(RubyValue receiver, RubyMethod methods) {
+	public MethodValue(RubyValue receiver, String name, RubyMethod method) {
 		receiver_ = receiver;
-		methods_ = methods;
+		name_ = name;
+		method_ = method;
 	}
 
 	public RubyValue call(ArrayValue args, RubyBlock block) throws RubyException {
-		return methods_.invoke(receiver_, args, block);
+		return method_.invoke(receiver_, args, block);
+	}
+	
+	public String toString() {
+		StringBuilder s = new StringBuilder("#<Method: ");
+		s.append(receiver_.getRubyClass().getName());
+		s.append("#");
+		s.append(name_);
+		s.append(">");
+		return s.toString();
 	}
 }

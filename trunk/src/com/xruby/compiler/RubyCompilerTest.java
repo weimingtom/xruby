@@ -2367,11 +2367,13 @@ public class RubyCompilerTest extends TestCase {
 		String [] program_texts = {
 				"m = 'xx'.method(:length); print m.call",
 				"m = 1.method('+'); print m.call(2)",
+				"m = 1.method('+'); print m",
 		};
 
 		String[] outputs = {
 				"2",
 				"3",
+				"#<Method: Fixnum#+>",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

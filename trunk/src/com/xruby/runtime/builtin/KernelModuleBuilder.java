@@ -427,7 +427,7 @@ class Kernel_method extends RubyMethod {
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}
-		return ObjectFactory.createMethod(receiver, m);
+		return ObjectFactory.createMethod(receiver, method_name, m);
 	}
 }
 

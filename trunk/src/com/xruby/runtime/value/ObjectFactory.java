@@ -107,8 +107,8 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.FileClass, new IOValue(filename, mode));
 	}
 	
-	public static RubyValue createMethod(RubyValue r, RubyMethod m) {
-		return new RubyValue(RubyRuntime.MethodClass, new MethodValue(r, m));
+	public static RubyValue createMethod(RubyValue r, String s, RubyMethod m) {
+		return new RubyValue(RubyRuntime.MethodClass, new MethodValue(r, s, m));
 	}
 	
 	public static RubyValue createRange(RubyValue left, RubyValue right, boolean isExclusive) throws RubyException {
