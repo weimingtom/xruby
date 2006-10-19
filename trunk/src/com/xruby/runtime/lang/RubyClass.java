@@ -4,6 +4,8 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.value.*;
+
 /**
  * Hold all instances of the class
  */
@@ -56,4 +58,10 @@ public class RubyClass extends RubyModule {
 		return null;
 	}
 
+	void collectMethodNames(ArrayValue a) {
+		super.collectMethodNames(a);
+		if (null != superclass_){
+			superclass_.collectMethodNames(a);
+		}
+	}
 }

@@ -431,6 +431,18 @@ class Kernel_method extends RubyMethod {
 	}
 }
 
+class Kernel_methods extends RubyMethod {
+	public Kernel_methods() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		ArrayValue a = new ArrayValue();
+		receiver.collectMethodNames(a);
+		return ObjectFactory.createArray(a);
+	}
+}
+
 class Kernel_at_exit extends RubyMethod {
 	public Kernel_at_exit() {
 		super(0);
@@ -462,6 +474,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("send", send);
 		m.defineMethod("__send__", send);
 		m.defineMethod("method", new Kernel_method());
+		m.defineMethod("methods", new Kernel_methods());
 		
 		m.setAccessPrivate();
 		m.defineMethod("puts", new Kernel_puts());

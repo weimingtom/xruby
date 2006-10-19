@@ -268,5 +268,16 @@ public class ArrayValue implements Iterable<RubyValue> {
 		
 		return resultArray;
 	}
+
+	/// Returns true if the given object is present
+	public boolean include(RubyValue v) throws RubyException {
+		for (RubyValue value : values_) {
+			if (RubyRuntime.testEqual(value, v)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
 

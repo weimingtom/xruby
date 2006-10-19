@@ -411,7 +411,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		int i = (Integer)case_value;
 		cg_.getMethodGenerator().loadLocal(i);
 		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("boolean testEqual(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+				Method.getMethod("boolean testCaseEqual(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 		Label label = new Label();
 		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
 		return label;

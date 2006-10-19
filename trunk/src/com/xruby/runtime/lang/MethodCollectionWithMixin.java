@@ -1,6 +1,7 @@
 package com.xruby.runtime.lang;
 
 import java.util.*;
+import com.xruby.runtime.value.*;
 
 public class MethodCollectionWithMixin extends MethodCollection {
 	private ArrayList<RubyModule> mixins_ = new ArrayList<RubyModule>();
@@ -41,6 +42,13 @@ public class MethodCollectionWithMixin extends MethodCollection {
 		}
 		
 		return null;
+	}
+
+	void collectMethodNames(ArrayValue a) {
+		super.collectMethodNames(a);
+		for (RubyModule module : mixins_) {
+			module.collectMethodNames(a);
+		}
 	}
 
 	public RubyValue getClassVariable(String name) throws RubyException {
