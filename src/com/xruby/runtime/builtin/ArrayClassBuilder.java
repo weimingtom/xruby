@@ -170,6 +170,21 @@ class Array_delete_at extends RubyMethod {
 	}
 }
 
+class Array_include extends RubyMethod {
+	public Array_include() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		ArrayValue array = (ArrayValue)receiver.getValue();
+		if (array.include(args.get(0))) {
+			return ObjectFactory.trueValue;
+		} else {
+			return ObjectFactory.falseValue;
+		}
+	}
+}
+
 public class ArrayClassBuilder {
 	
 	public static RubyClass create() {
@@ -185,6 +200,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("push", new Array_push());
 		c.defineMethod("pop", new Array_pop());
 		c.defineMethod("delete_at", new Array_delete_at());
+		c.defineMethod("include?", new Array_include());
 		return c;
 	}
 }

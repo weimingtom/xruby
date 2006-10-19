@@ -84,8 +84,13 @@ public class RubyRuntime {
 		}
 	}
 
-	public static boolean testEqual(RubyValue value1, RubyValue value2) throws RubyException {
+	public static boolean testCaseEqual(RubyValue value1, RubyValue value2) throws RubyException {
 		RubyValue r = callPublicMethod(value1, value2, "===");
+		return testTrueFalse(r);
+	}
+
+	public static boolean testEqual(RubyValue value1, RubyValue value2) throws RubyException {
+		RubyValue r = callPublicMethod(value1, value2, "==");
 		return testTrueFalse(r);
 	}
 

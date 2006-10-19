@@ -18,12 +18,12 @@ public class RubyRuntimeTest extends TestCase {
 		assertTrue(RubyRuntime.testTrueFalse(ObjectFactory.createString("XXX")));
 	}
 	
-	public void test_testEqual() throws RubyException {
-		assertTrue(RubyRuntime.testEqual(ObjectFactory.trueValue, ObjectFactory.trueValue));
-		assertTrue(RubyRuntime.testEqual(ObjectFactory.falseValue, ObjectFactory.falseValue));
-		assertFalse(RubyRuntime.testEqual(ObjectFactory.trueValue, ObjectFactory.falseValue));
-		assertTrue(RubyRuntime.testEqual(ObjectFactory.createFixnum(88), ObjectFactory.createFixnum(88)));
-		assertFalse(RubyRuntime.testEqual(ObjectFactory.createFixnum(88), ObjectFactory.createFixnum(89)));
+	public void test_testCaseEqual() throws RubyException {
+		assertTrue(RubyRuntime.testCaseEqual(ObjectFactory.trueValue, ObjectFactory.trueValue));
+		assertTrue(RubyRuntime.testCaseEqual(ObjectFactory.falseValue, ObjectFactory.falseValue));
+		assertFalse(RubyRuntime.testCaseEqual(ObjectFactory.trueValue, ObjectFactory.falseValue));
+		assertTrue(RubyRuntime.testCaseEqual(ObjectFactory.createFixnum(88), ObjectFactory.createFixnum(88)));
+		assertFalse(RubyRuntime.testCaseEqual(ObjectFactory.createFixnum(88), ObjectFactory.createFixnum(89)));
 	}
 
 	public void test_isKindOf() {

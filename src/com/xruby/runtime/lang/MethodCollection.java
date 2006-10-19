@@ -5,6 +5,7 @@
 package com.xruby.runtime.lang;
 
 import java.util.*;
+import com.xruby.runtime.value.*;
 
 public abstract class MethodCollection extends ClassVariableCollection {
 	private Map<String, RubyMethod> methods_ = new HashMap<String, RubyMethod>();
@@ -21,6 +22,12 @@ public abstract class MethodCollection extends ClassVariableCollection {
 		}
 
 		return null;
+	}
+
+	void collectMethodNames(ArrayValue a) {
+		for (String s : methods_.keySet()) {
+			a.add(ObjectFactory.createString(s));
+		}
 	}
 
 	public RubyValue defineMethod(String name, RubyMethod m) {

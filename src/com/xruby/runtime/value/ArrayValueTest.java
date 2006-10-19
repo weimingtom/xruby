@@ -191,4 +191,25 @@ public class ArrayValueTest extends TestCase {
 		v = c.remove(-1);
 		assertEquals(ObjectFactory.nilValue, v);
 	}
+
+	public void test_includes() throws RubyException {
+		ArrayValue a = new ArrayValue();
+		RubyValue i1 = ObjectFactory.createFixnum(1);
+		RubyValue i2 = ObjectFactory.createFixnum(2);
+		RubyValue i3 = ObjectFactory.createFixnum(2);
+		RubyValue i4 = ObjectFactory.createFixnum(4);
+
+		assertTrue(!a.include(i1));
+		assertTrue(!a.include(i2));
+		assertTrue(!a.include(i3));
+		assertTrue(!a.include(i4));
+
+		a.add(i1);
+		a.add(i2);
+
+		assertTrue(a.include(i1));
+		assertTrue(a.include(i2));
+		assertTrue(a.include(i3));
+		assertTrue(!a.include(i4));
+	}
 }

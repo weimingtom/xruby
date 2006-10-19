@@ -90,8 +90,10 @@ public class RubyValue extends MethodCollection {
 			return class_.findMethod(method_name);
 		}
 	}
+
+	public void collectMethodNames(ArrayValue a) {
+		super.collectMethodNames(a);
+		class_.collectMethodNames(a);
+	}
 }
 
-
-
- 

@@ -2378,4 +2378,18 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_Kernel_methods() {
+		String [] program_texts = {
+				"print 1.methods.include?('methods')",
+				"print 1.methods.include?('no_such_method_xxxx')",
+		};
+
+		String[] outputs = {
+				"true",
+				"false",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
