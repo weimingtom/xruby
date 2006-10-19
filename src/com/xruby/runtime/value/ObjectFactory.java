@@ -30,7 +30,7 @@ public class ObjectFactory {
 	public static final RubyValue RangeClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RangeClass);
 	public static final RubyValue RegexpClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RegexpClass);
 	public static final RubyValue FileClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.FileClass);
-
+	public static final RubyValue MethodClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.MethodClass);
 	
 	public static boolean isBuiltin(String name) {
 		if (name.equals("Object") ||
@@ -51,7 +51,8 @@ public class ObjectFactory {
 				name.equals("Proc") ||
 				name.equals("Range") ||
 				name.equals("Regexp") ||
-				name.equals("File")) {
+				name.equals("File") ||
+				name.equals("Method")) {
 			return true;
 		} else {
 			return false;
@@ -104,6 +105,10 @@ public class ObjectFactory {
 
 	public static RubyValue createFile(String filename, String mode) {
 		return new RubyValue(RubyRuntime.FileClass, new IOValue(filename, mode));
+	}
+	
+	public static RubyValue createMethod(RubyValue r, RubyMethod m) {
+		return new RubyValue(RubyRuntime.MethodClass, new MethodValue(r, m));
 	}
 	
 	public static RubyValue createRange(RubyValue left, RubyValue right, boolean isExclusive) throws RubyException {
