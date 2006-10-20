@@ -2392,4 +2392,17 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_implicit_hash() {
+		String [] program_texts = {
+				"def f a; print a.class, a['a'], a['b']; end\n" +
+				"f 'a' => 1, 'b' => 2",
+		};
+
+		String[] outputs = {
+				"Hash12",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
