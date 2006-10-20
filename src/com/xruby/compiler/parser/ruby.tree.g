@@ -281,10 +281,10 @@ returns [HashExpression e]
 {
 	Expression key = null;
 	Expression value = null;
-	e = null;
+	e = new HashExpression();
 }
 		:	(
-				#(	ASSOC	{if(null == e) e = new HashExpression();}
+				#(	ASSOC
 					key=expression
 					(value=expression)?
 					{e.addElement(key, value);value=null;}
