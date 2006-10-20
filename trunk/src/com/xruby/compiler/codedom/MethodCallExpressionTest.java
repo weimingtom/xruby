@@ -178,6 +178,18 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 
 	}
 	
+	public void test_implicit_hash() {
+		Program p1 = getProgram("f('a' => 1, 'b' => 2)");
+		CodePrinter cp1 = new CodePrinter();
+		p1.accept(cp1);
+		
+		Program p2 = getProgram("f({'a' => 1, 'b' => 2})");
+		CodePrinter cp2 = new CodePrinter();
+		p2.accept(cp2);
+		
+		assertEquals(cp1.toString(), cp2.toString());
+	}
+	
 	/*FIXME
 	public void test_command_and_operator() {
 		Program p = getProgram("print (1..3) === 0");

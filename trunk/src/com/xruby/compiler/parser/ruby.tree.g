@@ -271,8 +271,25 @@ returns [MethodCallArguments args]
 }
 		:	#(ARG
 			(e = expression	{args.addArgument(e);})*
+			(e = implicitHash	{args.addArgument(e);})?
 			(REST_ARG_PREFIX	e = expression	{args.setAsteriskArgument(e);})?
 			)
+		;
+
+implicitHash
+returns [HashExpression e]
+{
+	Expression key = null;
+	Expression value = null;
+	e = null;
+}
+		:	(
+				#(	ASSOC	{if(null == e) e = new HashExpression();}
+					key=expression
+					(value=expression)?
+					{e.addElement(key, value);value=null;}
+				)
+			)+
 		;
 
 return_arguments

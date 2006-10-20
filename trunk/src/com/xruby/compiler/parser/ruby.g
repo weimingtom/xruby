@@ -538,7 +538,7 @@ boolean seen_star_or_band = false;
 		;
 
 normalMethodInvocationArgument[boolean should_ignore_line_break]
-		:	expression	(options{greedy=true;/*caused by command*/}:ASSOC	expression)?	({should_ignore_line_break}?	LINE_BREAK!)?
+		:	expression	(options{greedy=true;/*caused by command*/}:ASSOC^	expression)?	({should_ignore_line_break}?	LINE_BREAK!)?
 		;
 
 restMethodInvocationArgument
