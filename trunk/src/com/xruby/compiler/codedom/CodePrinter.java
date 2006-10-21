@@ -149,6 +149,10 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("StringExpressionWithExpressionSubstitutionEnd\n");
 	}
 
+	public void visitRegexpExpressionWithExpressionSubstitutionEnd() {
+		result_.append("RegexExpressionWithExpressionSubstitutionEnd\n");
+	}
+
 	public void visitRegexpExpression(String value) {
 		result_.append("/");
 		result_.append(value);

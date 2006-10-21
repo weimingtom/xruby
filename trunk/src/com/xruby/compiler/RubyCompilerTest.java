@@ -1850,6 +1850,21 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_RegexpExpressionSubstitution() {
+		String [] program_texts = {
+				"print /^f#{}.*r#{   }$/ === 'foobar'",
+				"a = 'f.*r'; print /^#{a}$/ === 'foobar'",
+		};
+		
+		String[] outputs = {
+				"true",
+				"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	
 	public void test__FILE__() {
 		String [] program_texts = {
 				"print __FILE__",
@@ -1874,7 +1889,7 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_ExpressionSubstitution() {
+	public void test_StringExpressionSubstitution() {
 		String [] program_texts = {
 				"print \"abc#{}opq#{   }xyz\"",
 				"$a=1;$b= 2;print \"abc#$a opq#$b xyz\"",

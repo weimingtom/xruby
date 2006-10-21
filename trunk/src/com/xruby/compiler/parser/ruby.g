@@ -578,7 +578,7 @@ expression_substituation
 
 regex
 		:	REGEX
-		|	REGEX_BEFORE_EXPRESSION_SUBSTITUTION
+		|	REGEX_BEFORE_EXPRESSION_SUBSTITUTION^
 			expression_substituation	{tell_lexer_we_have_finished_parsing_regex_expression_substituation();}
 			(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation	{tell_lexer_we_have_finished_parsing_regex_expression_substituation();})*
 			STRING_AFTER_EXPRESSION_SUBSTITUTION
@@ -586,7 +586,7 @@ regex
 
 command_output
 		:	COMMAND_OUTPUT
-		|	COMMAND_OUTPUT_BEFORE_EXPRESSION_SUBSTITUTION
+		|	COMMAND_OUTPUT_BEFORE_EXPRESSION_SUBSTITUTION^
 			expression_substituation	(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation)*
 			STRING_AFTER_EXPRESSION_SUBSTITUTION
 		;
