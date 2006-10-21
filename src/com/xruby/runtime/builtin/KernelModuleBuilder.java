@@ -311,7 +311,7 @@ class Kernel_lambda extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		return new RubyValue(RubyRuntime.ProcClass, block);
+		return ObjectFactory.createProc(block);
 	}
 }
 
@@ -454,7 +454,7 @@ class Kernel_at_exit extends RubyMethod {
 		}
 		
 		AtExitBlocks.registerBlock(block);
-		return new RubyValue(RubyRuntime.ProcClass, block);
+		return ObjectFactory.createProc(block);
 	}
 }
 

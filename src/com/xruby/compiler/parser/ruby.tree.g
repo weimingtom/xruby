@@ -532,6 +532,10 @@ returns [MethodDefinationExpression e]
 					REST_ARG_PREFIX	(id2:IDENTIFIER|func2:FUNCTION)
 					{e.setAsteriskParameter((null != id2) ? id2.getText() : func2.getText());}
 				)?
+				(
+					BLOCK_ARG_PREFIX (id3:IDENTIFIER|func3:FUNCTION)
+					{e.setBlockParameter((null != id3) ? id3.getText() : func3.getText());}
+				)?
 				(body=bodyStatement {e.setBody(body);})?
 			)
 		;

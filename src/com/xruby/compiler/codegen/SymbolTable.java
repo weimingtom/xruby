@@ -6,7 +6,9 @@ class SymbolTable {
 	private final Map<String, Integer> local_variables_ = new HashMap<String, Integer>();
 	private final ArrayList<String> method_parameters_ = new ArrayList<String>();
 	private String asterisk_parameters_ = null;
-	private int access_counter_ = 0;
+	private String block_parameters_ = null;
+	private int asterisk_parameters_access_counter_ = 0;
+	private int block_parameters_access_counter_ = 0;
 	
 	public void addLocalVariable(String name, int i) {
 		local_variables_.put(name, i);
@@ -29,6 +31,11 @@ class SymbolTable {
 		assert(null == asterisk_parameters_);
 		asterisk_parameters_ = name;
 	}
+
+	public void setMethodBlockParameters(String name) {
+		assert(null == block_parameters_);
+		block_parameters_ = name;
+	}
 	
 	public int getMethodParameter(String name) {
 		return method_parameters_.indexOf(name);
@@ -40,7 +47,17 @@ class SymbolTable {
 		} else if (!asterisk_parameters_.equals(name)) {
 			return -1;
 		} else {
-			return access_counter_++;
+			return asterisk_parameters_access_counter_++;
+		}
+	}
+
+	public int getMethodBlockParameter(String name) {
+		if (null == block_parameters_) {
+			return -1;
+		} else if (!block_parameters_.equals(name)) {
+			return -1;
+		} else {
+			return block_parameters_access_counter_++;
 		}
 	}
 

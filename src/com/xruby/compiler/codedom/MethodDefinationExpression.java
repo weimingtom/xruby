@@ -13,6 +13,7 @@ public class MethodDefinationExpression extends Expression {
 	private BodyStatement bodyStatement_ = null;
 	private ArrayList<String> parameters_ = new ArrayList<String>();
 	private String asterisk_parameter_ = null;
+	private String block_parameter_ = null;
 	private ArrayList<Expression> default_parameters_ = new ArrayList<Expression>();
 	
 	public MethodDefinationExpression(String methodName) {
@@ -40,6 +41,11 @@ public class MethodDefinationExpression extends Expression {
 		assert(null == asterisk_parameter_);
 		asterisk_parameter_ = name;
 	}
+
+	public void setBlockParameter(String name) {
+		assert(null == block_parameter_);
+		block_parameter_ = name;
+	}
 	
 	public void accept(CodeVisitor visitor) {
 		if (null != method_owner_) {
@@ -58,6 +64,10 @@ public class MethodDefinationExpression extends Expression {
 		
 		if (null != asterisk_parameter_) {
 			visitor.visitMethodDefinationAsteriskParameter(asterisk_parameter_);
+		}
+
+		if (null != block_parameter_) {
+			visitor.visitMethodDefinationBlockParameter(block_parameter_);
 		}
 
 		int i = parameters_.size() - default_parameters_.size();

@@ -18,6 +18,10 @@ abstract class ClassGenerator {
 	private Stack<MethodGenerator> suspended_mgs_for_class_builder_method_ = new Stack<MethodGenerator>();
 	private MethodGenerator current_mg_for_class_builder_method_ = null;//TODO should be a queue
 
+	protected ClassGenerator(String name) {
+		name_ = name;
+	}
+
 	SymbolTable getSymbolTable() {
 		return getMethodGenerator().getSymbolTable();
 	}
@@ -68,16 +72,16 @@ abstract class ClassGenerator {
 			Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule)"));
 	}
 
-	protected ClassGenerator(String name) {
-		name_ = name;
-	}
-	
 	public void addParameter(String name) {
 		getSymbolTable().addMethodParameters(name);
 	}
 
 	public void setAsteriskParameter(String name) {
 		getSymbolTable().setMethodAsteriskParameters(name);
+	}
+
+	public void setBlockParameter(String name) {
+		getSymbolTable().setMethodBlockParameters(name);
 	}
 	
 	public void visitEnd() {
@@ -91,13 +95,26 @@ abstract class ClassGenerator {
 	abstract protected Class getType();
 	
 	public void loadVariable(String name) {
-		// check if this is asterisk method parameter
-		int access_counter = getSymbolTable().getMethodAsteriskParameter(name);
-		if (0 == access_counter) {
+		// First check if this is asterisk method parameter
+		// Actually we do not have to have the following code block: we can move initializeAsteriskParameter
+		// to the RubyMethod.initializeAsteriskParameter method so that it is always called. And may be we should
+		// -- this will make code generation simpler. But doing it here has a little advantage (optimazation): if the
+		//asterisk parameter is not used, we can avoid calling initializeAsteriskParameter().
+		int asterisk_parameter_access_counter = getSymbolTable().getMethodAsteriskParameter(name);
+		if (0 == asterisk_parameter_access_counter) {
 			getMethodGenerator().call_initializeAsteriskParameter(getType());
 			return;
-		} else if (access_counter > 0) {
+		} else if (asterisk_parameter_access_counter > 0) {
 			getMethodGenerator().load_asterisk_parameter_(getType());
+			return;
+		}
+
+		int block_parameter_access_counter = getSymbolTable().getMethodBlockParameter(name);
+		if (0 == block_parameter_access_counter) {
+			getMethodGenerator().call_initializeBlockParameter(getType());
+			return;
+		} else if (block_parameter_access_counter > 0) {
+			getMethodGenerator().load_block_parameter_(getType());
 			return;
 		}
 		

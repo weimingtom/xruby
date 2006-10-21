@@ -48,6 +48,7 @@ public interface CodeVisitor {
 	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method);
 	public void visitMethodDefinationParameter(String name);
 	public void visitMethodDefinationAsteriskParameter(String name);
+	public void visitMethodDefinationBlockParameter(String name);
 	public void visitMethodDefinationEnd(boolean last_statement_has_return_value);
 	public Object visitMethodDefinationDefaultParameterBegin(int index);
 	public void visitMethodDefinationDefaultParameterEnd(Object next_label);

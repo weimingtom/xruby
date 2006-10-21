@@ -155,6 +155,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.setAsteriskParameter(name);
 	}
 
+	public void visitMethodDefinationBlockParameter(String name) {
+		cg_.setBlockParameter(name);
+	}
+
 	public void visitMethodDefinationEnd(boolean last_statement_has_return_value) {
 		if (!last_statement_has_return_value) {
 			cg_.getMethodGenerator().ObjectFactory_nilValue();

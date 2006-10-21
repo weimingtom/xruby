@@ -110,6 +110,10 @@ public class ObjectFactory {
 	public static RubyValue createMethod(RubyValue r, String s, RubyMethod m) {
 		return new RubyValue(RubyRuntime.MethodClass, new MethodValue(r, s, m));
 	}
+
+	public static RubyValue createProc(RubyBlock block) {
+		return new RubyValue(RubyRuntime.ProcClass, block);
+	}
 	
 	public static RubyValue createRange(RubyValue left, RubyValue right, boolean isExclusive) throws RubyException {
 		Object l = left.getValue();
