@@ -7,6 +7,10 @@ package com.xruby.compiler.codedom;
 public class StringExpression extends Expression {
 	private final StringBuilder value_ = new StringBuilder();
 
+	public StringExpression(String value, boolean double_quote) {
+		appendString(value, double_quote);
+	}
+
 	public String getValue() {
 		return value_.toString();
 	}
@@ -70,10 +74,6 @@ public class StringExpression extends Expression {
 		} else {
 			value_.append(value);
 		}
-	}
-
-	public StringExpression(String value, boolean double_quote) {
-		appendString(value, double_quote);
 	}
 
 	public void accept(CodeVisitor visitor) {
