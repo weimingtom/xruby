@@ -339,10 +339,11 @@ returns [Expression e]
 		|	instance_variable:INSTANCE_VARIABLE		{e = new InstanceVariableExpression(instance_variable.getText());}
 		|	"__FILE__"								{e = new StringExpression((null != filename_) ? filename_ : "-", false);}
 		|	line:"__LINE__"							{e = new IntegerExpression(line.getLine());}
-		|	e=stringWithExpressionUubstituation
+		|	e=stringWithExpressionSubstituation
+		|	e=regexWithExpressionSubstituation
 		;
 
-stringWithExpressionUubstituation
+stringWithExpressionSubstituation
 returns [StringExpressionWithExpressionSubstitution e]
 		:	#(	b:STRING_BEFORE_EXPRESSION_SUBSTITUTION	{e = new StringExpressionWithExpressionSubstitution(b.getText());}
 				(expression_substituation[e])?
@@ -353,7 +354,18 @@ returns [StringExpressionWithExpressionSubstitution e]
 			)
 		;
 
-expression_substituation[StringExpressionWithExpressionSubstitution e]
+regexWithExpressionSubstituation
+returns [RegexpExpressionWithExpressionSubstitution e]
+		:	#(	b:REGEX_BEFORE_EXPRESSION_SUBSTITUTION	{e = new RegexpExpressionWithExpressionSubstitution(b.getText());}
+				(expression_substituation[e])?
+				(m:STRING_BETWEEN_EXPRESSION_SUBSTITUTION	{e.addString(m.getText());}
+				(expression_substituation[e])?
+				)*
+				a:STRING_AFTER_EXPRESSION_SUBSTITUTION		{e.addString(a.getText());}
+			)
+		;
+
+expression_substituation[ExpressionWithExpressionSubstitution e]
 {
 	CompoundStatement cs = null;
 }

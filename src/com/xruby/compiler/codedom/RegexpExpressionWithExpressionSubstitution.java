@@ -1,8 +1,8 @@
 package com.xruby.compiler.codedom;
 
-public class StringExpressionWithExpressionSubstitution extends ExpressionWithExpressionSubstitution {
-	
-	public StringExpressionWithExpressionSubstitution(String s) {
+public class RegexpExpressionWithExpressionSubstitution extends ExpressionWithExpressionSubstitution {
+
+	public RegexpExpressionWithExpressionSubstitution(String s) {
 		addString(s);
 	}
 
@@ -30,7 +30,7 @@ public class StringExpressionWithExpressionSubstitution extends ExpressionWithEx
 			}
 		}
 		
-		visitor.visitStringExpressionWithExpressionSubstitutionEnd();
+		visitor.visitRegexpExpressionWithExpressionSubstitutionEnd();
 	}
-	
+
 }
