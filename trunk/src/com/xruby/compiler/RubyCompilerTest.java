@@ -2405,4 +2405,22 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_block_arg() {
+		String [] program_texts = {
+				"def f &arg; print arg.class; end;   f {}",
+				"def f &arg; print arg.class; end;   f",
+				"def f(&arg); arg.call; end;   f {print 123}",
+				"def f(&arg); arg.call(345); end;   f {|x| print x}",
+		};
+
+		String[] outputs = {
+				"Proc",
+				"NilClass",
+				"123",
+				"345",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

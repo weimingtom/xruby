@@ -382,6 +382,12 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
+	public void visitMethodDefinationBlockParameter(String name) {
+		result_.append("&parameter:");
+		result_.append(name);
+		result_.append("\n");
+	}
+
 	public Object visitMethodDefinationDefaultParameterBegin(int index) {
 		result_.append("DefaultParameterBegin:");
 		result_.append(index);

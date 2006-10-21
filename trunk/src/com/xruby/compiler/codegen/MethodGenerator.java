@@ -309,12 +309,24 @@ class MethodGenerator extends GeneratorAdapter {
 		getField(Type.getType(c), "asterisk_parameter_", Type.getType(RubyValue.class));
 	}
 
+	public void load_block_parameter_(Class c) {
+		loadThis();
+		getField(Type.getType(c), "block_parameter_", Type.getType(RubyValue.class));
+	}
+
 	public void call_initializeAsteriskParameter(Class c) {
 		loadThis();
 		loadArg(1);
 		invokeVirtual(Type.getType(c),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue initializeAsteriskParameter(com.xruby.runtime.value.ArrayValue)"));
 
+	}
+
+	public void call_initializeBlockParameter(Class c) {
+		loadThis();
+		loadArg(2);
+		invokeVirtual(Type.getType(c),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue initializeBlockParameter(com.xruby.runtime.lang.RubyBlock)"));
 	}
 
 	public void breakBlock() {

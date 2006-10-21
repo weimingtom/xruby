@@ -11,6 +11,7 @@ class MethodBlockBase {
 	protected boolean has_asterisk_parameter_;
 	protected int default_argc_;
 	protected RubyValue asterisk_parameter_;
+	protected RubyValue block_parameter_;
 	protected RubyValue[] default_values_ = null;
 	
 	protected MethodBlockBase(int argc, boolean has_asterisk_parameter, int default_argc) {
@@ -27,6 +28,16 @@ class MethodBlockBase {
 		}
 		
 		return asterisk_parameter_;
+	}
+
+	protected RubyValue initializeBlockParameter(RubyBlock block) {
+		if (null == block) {
+			block_parameter_ = ObjectFactory.nilValue;
+		} else {
+			block_parameter_ = ObjectFactory.createProc(block);
+		}
+
+		return block_parameter_;
 	}
 }
 
