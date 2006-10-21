@@ -196,6 +196,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitNoBlock() {
 		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
 	}
+
+	public void visitBlockArgument() {
+		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("Object getValue()"));
+		cg_.getMethodGenerator().checkCast(Type.getType(RubyBlock.class));
+	}
 	
 	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {	
 		if (hasReceiver) {	

@@ -4,6 +4,8 @@
 
 package com.xruby.compiler.codedom;
 
+import antlr.RecognitionException;
+
 public class MethodCallExpression extends Expression {
 
 	private Expression receiver_; 
@@ -11,14 +13,18 @@ public class MethodCallExpression extends Expression {
 	private Block block_;
 	private MethodCallArguments arguments_;
 
-	public MethodCallExpression(Expression receiver, String methodName, MethodCallArguments arguments, Block block) {
+	public MethodCallExpression(Expression receiver, String methodName, MethodCallArguments arguments, Block block) throws RecognitionException {
+		if (null != block && null != arguments && null != arguments.getBlockArgument()) {
+			throw new RecognitionException("both block arg and actual block given");
+		}
+
 		receiver_ = receiver;
 		methodName_ = methodName;
 		arguments_ = arguments;
 		block_ = block;
 	}
 
-	public Expression convertElementAccessToElmentSet(Expression value) {
+	public Expression convertElementAccessToElmentSet(Expression value) throws RecognitionException {
 		MethodCallArguments  args;
 		if (null != arguments_) {
 			args = arguments_.clone();
@@ -66,6 +72,9 @@ public class MethodCallExpression extends Expression {
 			Pair p = block_.accept(visitor);
 			name = p.name;
 			assignedCommons = p.value;
+		} else if (null != arguments_ && null != arguments_.getBlockArgument()) {
+			arguments_.getBlockArgument().accept(visitor);
+			visitor.visitBlockArgument();
 		} else {
 			visitor.visitNoBlock();
 		}

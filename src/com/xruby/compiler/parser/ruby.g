@@ -925,7 +925,7 @@ restMethodDefinationArgument
 		;
 
 blockMethodDefinationArgument
-		:	BLOCK_ARG_PREFIX	(IDENTIFIER	|	FUNCTION)
+		:	BLOCK_ARG_PREFIX	(id1:IDENTIFIER{addMethodParameter(id1);}|id2:FUNCTION{addMethodParameter(id2);})
 		;
 
 

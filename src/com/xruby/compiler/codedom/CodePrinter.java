@@ -108,6 +108,9 @@ public class CodePrinter implements CodeVisitor {
 	public void visitNoBlock() {
 	}
 
+	public void visitBlockArgument() {
+	}
+
 	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {
 		result_.append(methodName);
 		result_.append(":");
