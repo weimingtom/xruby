@@ -157,6 +157,7 @@ public class RubyParserTest extends TestCase
 				"module test end end",
 				"123 abc",
 				"[1](1)",
+				"def f(&arg, a) end",
 		};
 
 		for (String program_text : program_texts) {
