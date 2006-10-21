@@ -28,6 +28,7 @@ public interface CodeVisitor {
 
 	public void visitNoParameter();
 	public void visitNoBlock();
+	public void visitBlockArgument();
 	
 	public void visitFloatExpression(float value);
 	public void visitIntegerExpression(int value);

@@ -273,6 +273,7 @@ returns [MethodCallArguments args]
 			(e = expression	{args.addArgument(e);})*
 			(e = implicitHash	{args.addArgument(e);})?
 			(REST_ARG_PREFIX	e = expression	{args.setAsteriskArgument(e);})?
+			(BLOCK_ARG_PREFIX	e = expression	{args.setBlockArgument(e);})?
 			)
 		;
 

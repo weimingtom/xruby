@@ -2412,6 +2412,26 @@ public class RubyCompilerTest extends TestCase {
 				"def f &arg; print arg.class; end;   f",
 				"def f(&arg); arg.call; end;   f {print 123}",
 				"def f(&arg); arg.call(345); end;   f {|x| print x}",
+				
+				"def f\n" +
+				"	yield\n" +
+				"end\n" +
+				"\n" +
+				"def g &arg\n" +
+				"	f &arg\n" +
+				"end\n" +
+				"\n" +
+				"g {print 321}",
+				
+				"def f\n" +
+				"	yield 222, 333\n" +
+				"end\n" +
+				"\n" +
+				"def g &arg\n" +
+				"	f &arg\n" +
+				"end\n" +
+				"\n" +
+				"g {|x, y| print x, y}",
 		};
 
 		String[] outputs = {
@@ -2419,8 +2439,11 @@ public class RubyCompilerTest extends TestCase {
 				"NilClass",
 				"123",
 				"345",
+				
+				"321",
+				"222333",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 }
