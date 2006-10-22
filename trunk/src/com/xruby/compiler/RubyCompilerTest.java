@@ -881,6 +881,7 @@ public class RubyCompilerTest extends TestCase {
 				"print :fred.inspect",
 				"print :next.to_a",
 				"print :<<",
+				"print :eql?",
 		};
 
 		String[] outputs = {
@@ -889,6 +890,7 @@ public class RubyCompilerTest extends TestCase {
 				":fred",
 				"next",
 				"<<",
+				"eql?",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1175,6 +1177,7 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"def a; print 'qqq'; end; alias b a ; a",
 				"def c; print 'aaa'; end; alias d c ; d",
+				"def e; print 'bbb'; end; alias :f :e ; f",
 
 				"class TestAliasMethod\n" +
 				"	def f\n" +
@@ -1196,6 +1199,7 @@ public class RubyCompilerTest extends TestCase {
 		String[] outputs = {
 				"qqq",
 				"aaa",
+				"bbb",
 				"~~~~",
 				"3333",
 		};
@@ -1214,13 +1218,14 @@ public class RubyCompilerTest extends TestCase {
 				"CTest.new.f123",
 
 				"def a; print 'qqq'; end; undef a; a",
-
+				"def b; print 'qqq'; end; undef :b; b",
 
 		};
 
 		RubyException[] exceptions = {
 			new RubyException(RubyRuntime.NameErrorClass, "public method 'f123' can not be found in 'CTest'"),
 			new RubyException(RubyRuntime.NameErrorClass, "method 'a' can not be found in 'Object'"),
+			new RubyException(RubyRuntime.NameErrorClass, "method 'b' can not be found in 'Object'"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);

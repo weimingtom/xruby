@@ -86,10 +86,26 @@ returns[AliasStatement s]
 }
 		:	#("alias"	newname=aliasParameter	oldname=aliasParameter)	{s = new AliasStatement(newname, oldname);}
 		;
+
+aliasParameter
+returns[String s]
+{SymbolExpression sym = null;}
+		:	gvar:GLOBAL_VARIABLE {s = gvar.getText();}
+		|	func:FUNCTION		{s = func.getText();}
+		|	sym=symbol			{s = sym.getValue();}
+		;
 		
 undef
 returns[UndefStatement s]
-		:	#("undef"	{s = new UndefStatement();}	(func:FUNCTION	{s.add(func.getText());})+)
+{String name = null;}
+		:	#("undef"	{s = new UndefStatement();}	(name=undefParameter	{s.add(name);})+)
+		;
+
+undefParameter
+returns[String s]
+{SymbolExpression sym = null;}
+		:	func:FUNCTION		{s = func.getText();}
+		|	sym=symbol			{s = sym.getValue();}
 		;
 
 multipleAssignment
@@ -124,12 +140,6 @@ returns[NestedVariableExpression e]
 				(exp=expression		{e.addLhs(exp);})*
 				(REST_ARG_PREFIX	exp=expression	{e.setAsteriskLhs(exp);})?
 			)
-		;
-
-aliasParameter
-returns[String s]
-		:	gvar:GLOBAL_VARIABLE 	{s = gvar.getText();}
-		|	func:FUNCTION		{s = func.getText();}
 		;
 
 expression
@@ -377,7 +387,7 @@ expression_substituation[ExpressionWithExpressionSubstitution e]
 		;
 
 symbol
-returns [Expression e]
+returns [SymbolExpression e]
 {String s = null;}
 		:	#(SYMBOL
 				(id:IDENTIFIER		{e= new SymbolExpression(id.getText());}
