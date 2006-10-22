@@ -2170,10 +2170,14 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"	\n" +
 				"TestInitialize.new",
+				
+				"print String.new('xxx')",
 		};
 		
 		String[] outputs = {
 				"in initialize",
+				
+				"xxx",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
