@@ -11,6 +11,10 @@ public class SymbolExpression extends Expression {
 		value_ = value;
 	}
 
+	public String getValue() {
+		return value_;
+	}
+
 	public void accept(CodeVisitor visitor) {
 		visitor.visitSymbolExpression(value_.toString());
 	}
