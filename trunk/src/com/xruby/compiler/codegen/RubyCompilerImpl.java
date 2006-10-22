@@ -193,8 +193,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
 	}
 
-	public void visitNoBlock() {
-		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
+	public void visitNoBlock(boolean is_in_super) {
+		if (is_in_super) {
+			cg_.getMethodGenerator().loadArg(2);
+		} else {
+			cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
+		}
 	}
 
 	public void visitBlockArgument() {

@@ -105,7 +105,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitNoParameter() {
 	}
 
-	public void visitNoBlock() {
+	public void visitNoBlock(boolean is_in_super) {
 	}
 
 	public void visitBlockArgument() {

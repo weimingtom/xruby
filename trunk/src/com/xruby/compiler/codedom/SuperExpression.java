@@ -23,17 +23,13 @@ public class SuperExpression extends Expression {
 			arguments_.accept(visitor);
 		}
 
-		String name = null;
-		String[] assignedCommons = null;
 		if (null != block_) {
-			Pair p = block_.accept(visitor);
-			name = p.name;
-			assignedCommons = p.value;
+			block_.accept(visitor);
 		} else if (null != arguments_ && null != arguments_.getBlockArgument()) {
 			arguments_.getBlockArgument().accept(visitor);
 			visitor.visitBlockArgument();
 		} else {
-			visitor.visitNoBlock();
+			visitor.visitNoBlock(true);
 		}
 
 		visitor.visitSuperEnd();

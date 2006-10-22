@@ -27,7 +27,7 @@ public interface CodeVisitor {
 	public void visitConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment);
 
 	public void visitNoParameter();
-	public void visitNoBlock();
+	public void visitNoBlock(boolean is_in_super);
 	public void visitBlockArgument();
 	
 	public void visitFloatExpression(float value);

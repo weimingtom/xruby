@@ -2482,7 +2482,6 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"print MyString.new(\"xxx\").to_s",
 				
-				/*TODO
 				"class TestSuper1\n" +
 				"	def f\n" +
 				"		yield\n" +
@@ -2509,13 +2508,13 @@ public class RubyCompilerTest extends TestCase {
 				"	end\n" +
 				"end\n" +
 				"\n" +
-				"TestSuper4.new.f",*/
+				"TestSuper4.new.f",
 		};
 
 		String[] outputs = {
 				"xxx",
-				//"yyy",
-				//"zzz",
+				"yyy",
+				"zzz",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
