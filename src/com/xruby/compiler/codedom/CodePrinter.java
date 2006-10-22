@@ -153,6 +153,10 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("RegexExpressionWithExpressionSubstitutionEnd\n");
 	}
 
+	public void visitCommandOutputExpressionWithExpressionSubstitutionEnd() {
+		result_.append("CommandOutputExpressionWithExpressionSubstitutionEnd\n");
+	}
+
 	public void visitRegexpExpression(String value) {
 		result_.append("/");
 		result_.append(value);

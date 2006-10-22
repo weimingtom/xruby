@@ -351,6 +351,7 @@ returns [Expression e]
 		|	line:"__LINE__"							{e = new IntegerExpression(line.getLine());}
 		|	e=stringWithExpressionSubstituation
 		|	e=regexWithExpressionSubstituation
+		|	e=commandOutputWithExpressionSubstituation
 		;
 
 stringWithExpressionSubstituation
@@ -367,6 +368,17 @@ returns [StringExpressionWithExpressionSubstitution e]
 regexWithExpressionSubstituation
 returns [RegexpExpressionWithExpressionSubstitution e]
 		:	#(	b:REGEX_BEFORE_EXPRESSION_SUBSTITUTION	{e = new RegexpExpressionWithExpressionSubstitution(b.getText());}
+				(expression_substituation[e])?
+				(m:STRING_BETWEEN_EXPRESSION_SUBSTITUTION	{e.addString(m.getText());}
+				(expression_substituation[e])?
+				)*
+				a:STRING_AFTER_EXPRESSION_SUBSTITUTION		{e.addString(a.getText());}
+			)
+		;
+
+commandOutputWithExpressionSubstituation
+returns [CommandOutputExpressionWithExpressionSubstitution e]
+		:	#(	b:COMMAND_OUTPUT_BEFORE_EXPRESSION_SUBSTITUTION	{e = new CommandOutputExpressionWithExpressionSubstitution(b.getText());}
 				(expression_substituation[e])?
 				(m:STRING_BETWEEN_EXPRESSION_SUBSTITUTION	{e.addString(m.getText());}
 				(expression_substituation[e])?
