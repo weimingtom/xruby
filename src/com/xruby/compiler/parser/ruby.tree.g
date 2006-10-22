@@ -245,6 +245,7 @@ returns [Expression e]
 		:	#(	CALL	
 				(	method_name=methodCallName
 					|yield:"yield"
+					|sup:"super"
 					|defined:"defined?"
 					|#(DOT					left=expression	(right=callExpression|method_name2=methodCallName))
 				)
@@ -257,6 +258,8 @@ returns [Expression e]
 						throw new RecognitionException("block can not be passed into yield");
 					}
 					e = new YieldExpression(args);
+				} else if (null != sup) {
+					e = new SuperExpression(args, block);
 				} else if (null != defined) {
 					if (null != block) {
 						throw new RecognitionException("block can not be passed into defined?");
@@ -343,7 +346,6 @@ returns [Expression e]
 		|	"true"									{e = new TrueExpression();}
 		|	"false"									{e = new FalseExpression();}
 		|	"self"									{e = new SelfExpression();}
-		|	"super"									{e = new SuperExpression();}
 		|	"nil"										{e = new NilExpression();}
 		|	class_variable:CLASS_VARIABLE				{e = new ClassVariableExpression(class_variable.getText());}
 		|	instance_variable:INSTANCE_VARIABLE		{e = new InstanceVariableExpression(instance_variable.getText());}

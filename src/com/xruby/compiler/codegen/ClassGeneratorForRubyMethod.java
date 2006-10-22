@@ -8,9 +8,17 @@ import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyMethod;
 
 class ClassGeneratorForRubyMethod extends ClassGenerator {
-	public ClassGeneratorForRubyMethod(String name, int argc, boolean has_asterisk_parameter, int default_argc) {
+
+	private String methodName_;//this name is saved for 'super'
+	
+	public ClassGeneratorForRubyMethod(String methodName, String name, int argc, boolean has_asterisk_parameter, int default_argc) {
 		super(name);
+		methodName_ = methodName;
 		mg_for_run_method_ = visitRubyMethod(argc, has_asterisk_parameter, default_argc);
+	}
+
+	String getMethodName() {
+		return methodName_;
 	}
 	
 	protected Class getType() {

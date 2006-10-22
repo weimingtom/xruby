@@ -31,6 +31,14 @@ public class RubyClass extends RubyModule {
 			return false;
 		}
 	}
+
+	RubyMethod findSuperMethod(String method_name) {
+		if (null != superclass_){
+			return superclass_.findMethod(method_name);
+		}
+		
+		return null;
+	}
 	
 	RubyMethod findMethod(String method_name) {
 		RubyMethod m = super.findMethod(method_name);

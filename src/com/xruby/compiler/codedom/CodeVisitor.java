@@ -36,7 +36,6 @@ public interface CodeVisitor {
 	public void visitTrueExpression();
 	public void visitFalseExpression();
 	public void visitNilExpression();
-	public void visitSuperExpression();
 	public void visitSelfExpression();
 	public void visitStringExpression(String value);
 	public void visitRegexpExpression(String value);
@@ -89,7 +88,10 @@ public interface CodeVisitor {
 	public void visitArrayElementEnd(boolean asterisk, boolean is_method_call);
 	
 	public void visitYieldBegin();
-	public void visitYieldEnd(boolean single_rhs);
+	public void visitYieldEnd();
+
+	public void visitSuperBegin();
+	public void visitSuperEnd();
 
 	public void visitSymbolExpression(String value);
 	public void visitGlobalVariableExpression(String value);

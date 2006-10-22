@@ -2472,4 +2472,52 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_super() {
+		String [] program_texts = {
+				"class MyString < String\n" +
+				"	def to_s\n" +
+				"		super\n" +
+				"	end\n" +
+				"end\n" +
+				"print MyString.new(\"xxx\").to_s",
+				
+				/*TODO
+				"class TestSuper1\n" +
+				"	def f\n" +
+				"		yield\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"class TestSuper2 < TestSuper1\n" +
+				"	def f\n" +
+				"		super\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"TestSuper2.new.f {print \"yyy\"}",
+				
+				"class TestSuper3\n" +
+				"	def f\n" +
+				"		yield\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"class TestSuper4 < TestSuper3\n" +
+				"	def f\n" +
+				"		super {print \"zzz\"}\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"TestSuper4.new.f",*/
+		};
+
+		String[] outputs = {
+				"xxx",
+				//"yyy",
+				//"zzz",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

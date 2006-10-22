@@ -21,9 +21,7 @@ public class YieldExpression extends Expression {
 			arguments_.accept(visitor);
 		}
 
-		boolean single_rhs = (null != arguments_) && (arguments_.size() == 1);
-
-		visitor.visitYieldEnd(single_rhs);
+		visitor.visitYieldEnd();
 	}
 }
 
