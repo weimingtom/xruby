@@ -129,12 +129,20 @@ public class RubyRuntime {
 	}
 
 	public static RubyValue callPublicMethod(RubyValue receiver, ArrayValue args, RubyBlock block, String method_name) throws RubyException {
-		
 		RubyMethod m = receiver.findPublicMethod(method_name);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}
 		
+		return m.invoke(receiver, args, block);
+	}
+
+	public static RubyValue callSuperMethod(RubyValue receiver, ArrayValue args, RubyBlock block, String method_name) throws RubyException {
+		RubyMethod m = receiver.getRubyClass().findSuperMethod(method_name);
+		if (null == m) {
+			throw new RubyException(RubyRuntime.NameErrorClass, "super method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
+		}
+
 		return m.invoke(receiver, args, block);
 	}
 

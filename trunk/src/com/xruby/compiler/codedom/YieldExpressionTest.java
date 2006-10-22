@@ -15,7 +15,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 			"[\n" +
 			"nil\n" +
 			"]\n" +
-			"end yield:true\n" +
+			"end yield\n" +
 			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}
@@ -30,7 +30,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 			"[\n" +
 			"nil\n" +
 			"]*\n" +
-			"end yield:false\n" +
+			"end yield\n" +
 			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}

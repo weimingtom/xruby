@@ -613,7 +613,7 @@ primaryExpressionThatCanBeMethodName
 		:	FUNCTION	{can_be_command_ = 2;}
 		|	IDENTIFIER		//this is OK: p = 1; p 1
 		|	"self"
-		|	"super"
+		|	"super"		{can_be_command_ = 2;}
 		|	CONSTANT
 		|	LEADING_COLON2	CONSTANT
 		|	"retry"

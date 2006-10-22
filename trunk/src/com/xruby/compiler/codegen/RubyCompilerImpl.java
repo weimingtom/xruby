@@ -108,7 +108,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
-		cg_ = new ClassGeneratorForRubyMethod(uniqueMethodName, num_of_args, has_asterisk_parameter, num_of_default_args);
+		cg_ = new ClassGeneratorForRubyMethod(methodName, uniqueMethodName, num_of_args, has_asterisk_parameter, num_of_default_args);
 	}
 
 	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
@@ -550,13 +550,19 @@ public class RubyCompilerImpl implements CodeVisitor {
 		visitSelfExpression();
 	}
 
-	public void visitYieldEnd(boolean single_rhs) { 
-		/*if (single_rhs) {
-			cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-						Method.getMethod("com.xruby.runtime.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.runtime.value.ArrayValue)"));
-		}*/
+	public void visitYieldEnd() {
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyBlock.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue)"));
+	}
+
+	public void visitSuperBegin() {
+		cg_.getMethodGenerator().loadArg(0);//TODO error checking: super called outside of method (NoMethodError)
+	}
+
+	public void visitSuperEnd() {
+		cg_.getMethodGenerator().push(((ClassGeneratorForRubyMethod)cg_).getMethodName());
+		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
 	public void visitGlobalVariableExpression(String value) {
@@ -584,9 +590,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().MethodCollection_undefMethod(name);
 	}
 	
-	public void visitSuperExpression() {
-	}
-
 	public void visitSelfExpression() {
 		if (!isInGlobalScope()) {
 			cg_.getMethodGenerator().loadArg(0);

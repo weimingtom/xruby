@@ -354,10 +354,16 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("yield\n");
 	}
 	
-	public void visitYieldEnd(boolean single_rhs) {
-		result_.append("end yield:");
-		result_.append(single_rhs);
-		result_.append("\n");
+	public void visitYieldEnd() {
+		result_.append("end yield\n");
+	}
+
+	public void visitSuperBegin() {
+		result_.append("super\n");
+	}
+	
+	public void visitSuperEnd() {
+		result_.append("end super\n");
 	}
 
 	public void visitGlobalVariableExpression(String value) {
@@ -463,10 +469,6 @@ public class CodePrinter implements CodeVisitor {
 
 	public void visitSelfExpression() {
 		result_.append("self\n");
-	}
-
-	public void visitSuperExpression() {
-		result_.append("super\n");
 	}
 
 	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {

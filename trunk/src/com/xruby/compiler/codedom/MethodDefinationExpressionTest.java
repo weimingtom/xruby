@@ -75,7 +75,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 			"puts:false\n" +
 			";\n" +
 			"yield\n" +
-			"end yield:false\n" +
+			"end yield\n" +
 			"end def:true\n" +
 			";\n" +
 			"self\n" +
