@@ -76,7 +76,7 @@ public class MethodCallExpression extends Expression {
 			arguments_.getBlockArgument().accept(visitor);
 			visitor.visitBlockArgument();
 		} else {
-			visitor.visitNoBlock();
+			visitor.visitNoBlock(false);
 		}
 
 		visitor.visitMethodCall(methodName_,
