@@ -225,8 +225,7 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 	}
 
-	public void runCommandAndCaptureOutput(String value) {
-		push(value);
+	public void runCommandAndCaptureOutput() {
 		invokeStatic(Type.getType(RubyRuntime.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));
 	}

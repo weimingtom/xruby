@@ -32,20 +32,22 @@ public interface CodeVisitor {
 	
 	public void visitFloatExpression(float value);
 	public void visitIntegerExpression(int value);
-	public void visitStringExpression(String value);
-	public void visitRegexpExpression(String value);
 	public void visitLocalVariableExpression(String value); 
 	public void visitTrueExpression();
 	public void visitFalseExpression();
 	public void visitNilExpression();
 	public void visitSuperExpression();
 	public void visitSelfExpression();
+	public void visitStringExpression(String value);
+	public void visitRegexpExpression(String value);
+	public void visitCommandOutputExpression(String value);
 	
 	public void visitStringExpressionWithExpressionSubstitutionBegin();
 	public void visitStringExpressionWithExpressionSubstitution(String value);
 	public void visitStringExpressionWithExpressionSubstitution();
 	public void visitStringExpressionWithExpressionSubstitutionEnd();
 	public void visitRegexpExpressionWithExpressionSubstitutionEnd();
+	public void visitCommandOutputExpressionWithExpressionSubstitutionEnd();
 	
 	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method);
 	public void visitMethodDefinationParameter(String name);
@@ -93,7 +95,6 @@ public interface CodeVisitor {
 	public void visitGlobalVariableExpression(String value);
 	public void visitClassVariableExpression(String value);
 	public void visitInstanceVariableExpression(String value);
-	public void visitCommandOutputExpression(String value);
 	
 	public void visitReturn();
 	public void visitBreakBegin();
