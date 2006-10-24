@@ -4,8 +4,6 @@
 
 package com.xruby.compiler.codedom;
 
-import junit.framework.TestCase;
-
 public class DefinedExpressionTest extends TestingAstTestCase {
 	public void test() {
 		Program p = getProgram("defined? nil");
