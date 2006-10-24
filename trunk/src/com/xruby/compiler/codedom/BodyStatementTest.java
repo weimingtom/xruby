@@ -6,7 +6,8 @@ package com.xruby.compiler.codedom;
 
 public class BodyStatementTest extends TestingAstTestCase {
 	public void test() {
-		Program p = getProgram(	"begin\n" +
+		Program p = getProgram(
+				"begin\n" +
 				"	raise \"!!!!\"\n" +
 				"	rescue RuntimeError\n" +
 				"		print \"xxx\"\n" +
@@ -32,6 +33,45 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"[\n" +
 			"xxx\n" +
 			"]\n" +
+			"print:false\n" +
+			"end rescue\n" +
+			"end rescue!\n" +
+			"EOF";
+		assertEquals(expected_result, cp.toString());
+	}
+	
+	public void test2() {
+		Program p = getProgram(
+				"begin\n" +
+				"	raise \"!!!!\"\n" +
+				"	rescue M::RuntimeError => e\n" +
+				"		print e\n" +
+				"end");
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
+		String expected_result = 
+			//TODO seems e is not handled correctly
+			"prepare rescue begin\n" +
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"!!!!\n" +
+			"]\n" +
+			"raise:false\n" +
+			"prepare rescue end\n" +
+			"[:1\n" +
+			"[\n" +
+			"::M\n" +
+			"::RuntimeError\n" +
+			"]\n" +
+			"e\n" +
+			"=>e\n" +
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"self\n" +
+			"e:false\n" +
+			"]()\n" +
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +
