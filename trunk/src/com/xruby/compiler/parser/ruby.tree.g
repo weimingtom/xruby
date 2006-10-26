@@ -589,8 +589,11 @@ returns [Block b]
 					{b.addParameter((null != id) ? id.getText() : func.getText(), default_value);}
 				)*
 				(
-					REST_ARG_PREFIX	(id2:IDENTIFIER|func2:FUNCTION)
+					REST_ARG_PREFIX
+					(
+					(id2:IDENTIFIER|func2:FUNCTION)
 					{b.setAsteriskParameter((null != id2) ? id2.getText() : func2.getText());}
+					)?
 				)?
 				(cs=compoundStatement	{b.setBody(cs);})?
 			)

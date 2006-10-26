@@ -69,6 +69,26 @@ public class BlockTest extends TestingAstTestCase {
 		assertEquals(expected_result, cp.toString());
 	}
 	
+	public void test_asterisk_parameter_no_name() {
+		Program p = getProgram("f {|a, *|   puts a  }");
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
+		String expected_result = 
+			"self\n" +
+			"block:1:false:0\n" +
+			"parameter:a\n" +
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"a\n" +
+			"]\n" +
+			"puts:false\n" +
+			"end block:true\n" +
+			"f:false\n" +
+			"EOF";
+		assertEquals(expected_result, cp.toString());
+	}
+	
 	public void test_break_in_block() {
 		Program p = getProgram("loop do break; end");
 		CodePrinter cp = new CodePrinter();
