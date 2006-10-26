@@ -1370,7 +1370,7 @@ STRING_CHAR
 
 //The first '-' after "<<" is alway interpreted as heredoc's special meaning, so be greedy
 HERE_DOC_BEGIN
-		:	{expect_heredoc()}?	"<<"!	delimiter:HERE_DOC_DELIMITER
+		:	{expect_heredoc()}?	"<<"!	HERE_DOC_DELIMITER
 		|	"<<="	{$setType(LEFT_SHIFT_ASSIGN);}
 		|	"<<"		{$setType(LEFT_SHIFT);}
 		;
