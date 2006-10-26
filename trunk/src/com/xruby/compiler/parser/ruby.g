@@ -700,7 +700,7 @@ exceptionHandlingExpression
 		;
 
 exceptionList
-		:	((className|INSTANCE_VARIABLE)	(COMMA!	(className|INSTANCE_VARIABLE))*)?	(ASSOC	(IDENTIFIER|FUNCTION))?
+		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	(IDENTIFIER|FUNCTION))?
 		;
 
 ifExpression
