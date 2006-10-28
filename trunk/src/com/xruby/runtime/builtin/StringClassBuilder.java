@@ -176,6 +176,18 @@ class String_initialize_copy extends RubyMethod {
 	}
 }
 
+class String_plus extends RubyMethod {
+	public String_plus() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		StringValue v1 = (StringValue)receiver.getValue();
+		StringValue v2 = (StringValue)args.get(0).getValue();
+		return ObjectFactory.createString(v1.toString() + v2.toString());
+	}
+}
+
 public class StringClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("String", RubyRuntime.ObjectClass);
@@ -191,6 +203,7 @@ public class StringClassBuilder {
 		c.defineMethod("downcase!", new String_downcase_danger());
 		c.defineMethod("initialize_copy", new String_initialize_copy());
 		c.defineMethod("initialize", new String_initialize());
+		c.defineMethod("+", new String_plus());
 		return c;
 	}
 }
