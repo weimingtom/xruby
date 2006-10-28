@@ -35,6 +35,7 @@ public class RubyRuntime {
 	public static RubyClass RegexpClass = RegexpClassBuilder.create();
 	public static RubyClass FileClass = FileClassBuilder.create();
 	public static RubyClass MethodClass = MethodClassBuilder.create();
+	public static RubyClass TimeClass = TimeClassBuilder.create();
 	
 	public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", ObjectClass);
 	
@@ -56,7 +57,8 @@ public class RubyRuntime {
 			return;
 		}
 		
-		TopLevelSelfInitializer.init();
+		TopLevelSelfInitializer.initSingletonMethods();
+		TimeClassBuilder.initSingletonMethods();
 		
 		try {
 			Class c = Class.forName("builtin.main");
