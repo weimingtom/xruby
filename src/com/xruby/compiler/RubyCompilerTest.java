@@ -2538,7 +2538,11 @@ public class RubyCompilerTest extends TestCase {
 				"  hey\n" +
 				" EOF\n",
 				
-				"print <<-EOF + \"#{'xxx'}\"\n" +
+				"print(<<EOF)\n" +
+				" eee\n" +
+				"EOF\n",
+				
+				"print <<-EOF + \"#{'yyy'}\"\n" +
 				"  hey\n" +
 				" EOF\n",
 		};
@@ -2550,6 +2554,8 @@ public class RubyCompilerTest extends TestCase {
 				
 				"  hey\n" +
 				"xxx",
+				
+				" eee\n",
 				
 				"  hey\n" +
 				"yyy",
