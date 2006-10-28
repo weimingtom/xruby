@@ -2519,4 +2519,86 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_heredoc() {
+		String [] program_texts = {
+				"print <<EOF\n" +
+				"hey\n" +
+				"EOF\n",
+				
+				"print <<EOF\n" +
+				"  hey\n" +
+				"EOF\n",
+				
+				"print <<-EOF\n" +
+				"   hey\n" +
+				" EOF\n",
+				
+				"print <<-EOF + 'xxx'\n" +
+				"  hey\n" +
+				" EOF\n",
+				
+				"print <<-EOF + \"#{'xxx'}\"\n" +
+				"  hey\n" +
+				" EOF\n",
+		};
+
+		String[] outputs = {
+				"hey\n",
+				"  hey\n",
+				"   hey\n",
+				
+				"  hey\n" +
+				"xxx",
+				
+				"  hey\n" +
+				"yyy",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_multiple_heredoc() {
+		String [] program_texts = {
+				"print <<EOF, 99, <<EOA\n" +
+				" hey\n" +
+				"EOF\n" +
+				" there\n" +
+				"EOA\n",
+				
+				"print <<-EOF, 99, <<-EOA\n" +
+				" hello\n" +
+				"  EOF\n" +
+				" there\n" +
+				"  EOA\n",
+				
+				"print <<-EOF + 'xxx' + <<-EOA\n" +
+				" hello\n" +
+				"  EOF\n" +
+				" there\n" +
+				"  EOA\n",
+				
+				"print <<-EOF + String.new('yyy') + <<-EOA\n" +
+				" hello\n" +
+				"  EOF\n" +
+				" there\n" +
+				"  EOA\n",
+		};
+
+		String[] outputs = {
+				" hey\n" +
+				"99 there\n",
+				
+				" hello\n" +
+				"99 there\n",
+				
+				" hello\n" +
+				"xxx there\n",
+				
+				" hello\n" +
+				"yyy there\n",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

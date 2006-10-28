@@ -338,6 +338,7 @@ returns [Expression e]
 		|	double_quote_string:DOUBLE_QUOTE_STRING	{e = new StringExpression(double_quote_string.getText(), true);}
 		|	single_quote_string:SINGLE_QUOTE_STRING	{e = new StringExpression(single_quote_string.getText(), false);}
 		|	command_output:COMMAND_OUTPUT			{e = new CommandOutputExpression(command_output.getText());}
+		|	heredoc:HEREDOC							{e = new StringExpression(heredoc.getText(), true);}
 		|	regex:REGEX								{e = new RegexpExpression(regex.getText());}
 		|	e=local_variable
 		|	constant:CONSTANT						{e = new CurrentNamespaceConstantExpression(constant.getText());}

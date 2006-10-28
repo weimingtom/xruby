@@ -190,10 +190,9 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(GLOBAL_VARIABLE , "$stderr"),
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "puts"),
-							new TestingCommonToken(HERE_DOC_BEGIN, "EOS"),
+							new TestingCommonToken(HEREDOC, "Usage: #{myname} [--key keypair_file] name\n" +
+							"  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n"),
 							new TestingCommonToken(LINE_BREAK, ""),
-							//new TestingCommonToken(HERE_DOC_CONTENT, "Usage: #{myname} [--key keypair_file] name\n" +
-//"  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n"),
 		};
 
 		assert_type(program_text, token_types);
@@ -211,9 +210,8 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "body"),
 							new TestingCommonToken(ASSIGN, "="),
-							new TestingCommonToken(HERE_DOC_BEGIN, "-_end_of_html_"),
+							new TestingCommonToken(HEREDOC, "      <HTML/>\n"),
 							new TestingCommonToken(LINE_BREAK, ""),
-							//new TestingCommonToken(HERE_DOC_CONTENT, "      <HTML/>\n"),
 		};
 
 		assert_type(program_text, token_types);
@@ -231,9 +229,8 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(DOT, ".", 2),
 							new TestingCommonToken(FUNCTION, "body", 2),
 							new TestingCommonToken(ASSIGN, "=", 2),
-							new TestingCommonToken(HERE_DOC_BEGIN, "-_end_of_html_", 2),
+							new TestingCommonToken(HEREDOC, "", 2),
 							new TestingCommonToken(LINE_BREAK, "", 2),
-							//new TestingCommonToken(HERE_DOC_CONTENT, "", 2),
 		};
 
 		assert_type(program_text, token_types);
@@ -275,7 +272,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 "  Logging::puts <<\"EOM\", src\n"	+
 "checked program was:\n"	+
 "/* begin */\n"	+
-"%s/* end */\n\n"+
+"%s/* end */\n\n" +
 "EOM\n"	+
 "end";
 
@@ -289,7 +286,9 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(CONSTANT, "Logging", 2),
 							new TestingCommonToken(COLON2, "::", 2),
 							new TestingCommonToken(FUNCTION, "puts", 2),
-							new TestingCommonToken(HERE_DOC_BEGIN, "EOM", 2),
+							new TestingCommonToken(HEREDOC, "checked program was:\n"	+
+									"/* begin */\n"	+
+									"%s/* end */\n\n", 2),
 							new TestingCommonToken(COMMA, "", 2),
 							new TestingCommonToken(IDENTIFIER, "src", 2),
 							new TestingCommonToken(LINE_BREAK, "", 2),
@@ -298,7 +297,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 
 		assert_type(program_text, token_types);
 	}
-
+	
 	public void test_token_stream12()
 	{
 		String program_text = "1%200";
@@ -556,7 +555,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(DOT, ".", 2), 
 							new TestingCommonToken(FUNCTION, "module_eval", 2),
 							new TestingCommonToken(LPAREN, "(", 2),
-							new TestingCommonToken(HERE_DOC_BEGIN, "-EOC", 2),
+							new TestingCommonToken(HEREDOC, "", 2),
 							new TestingCommonToken(COMMA, "", 2),
 							new TestingCommonToken(LITERAL___FILE__, "__FILE__", 2),
 							new TestingCommonToken(COMMA, "", 2),
@@ -593,7 +592,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(FUNCTION, "module_eval"),
-							new TestingCommonToken(HERE_DOC_BEGIN, "-end_eval"),
+							new TestingCommonToken(HEREDOC, ""),
 							new TestingCommonToken(LINE_BREAK, ""),
 		};
 
@@ -1550,7 +1549,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, Token.EOF_TYPE, expected_texts);
 	}
 
-	/*public void test_HERE_DOC_BEGIN()
+	/*public void test_HEREDOC_BEGIN()
 	{
 		String[] program_texts = {
 			"<<EOF\nThe price is #{$Price}.\nEOF\n",
@@ -1564,7 +1563,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 			"The price is\n #{$Price}.\n",
 		};
 
-		assert_type(program_texts, HERE_DOC_BEGIN, expected_texts);
+		assert_type(program_texts, HEREDOC_BEGIN, expected_texts);
 	}*/
 
 	public void test_RDOC()
