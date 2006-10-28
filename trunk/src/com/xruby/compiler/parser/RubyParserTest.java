@@ -361,6 +361,19 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "className");
 	}
 
+	public void test_compoundStatement2()
+	{
+		String[] program_texts = {
+				"   methods += <<-BEGIN + nn_element_def(element) + <<-END\n" +
+				"          def #{element.downcase}(attributes = {})\n" +
+				"        BEGIN\n" +
+				"          end\n" +
+				"        END\n",
+		};
+		
+		parse(program_texts, "compoundStatement");
+	}
+	
 	public void test_compoundStatement()
 	{
 		String[] program_texts = {
@@ -383,11 +396,7 @@ public class RubyParserTest extends TestCase
 "int t() { void ((*volatile p)()); p = (void ((*)()))\n" +
 "SRC\n",
 
-			"   methods += <<-BEGIN + nn_element_def(element) + <<-END\n" +
-"          def #{element.downcase}(attributes = {})\n" +
-"        BEGIN\n" +
-"          end\n" +
-"        END\n",
+
 
 			"TkPhotoImage.new(:data=><<'EOD')\nEOD\n",
 			"TkMessage.new(:text => <<EOM).pack\nEOM\n",
