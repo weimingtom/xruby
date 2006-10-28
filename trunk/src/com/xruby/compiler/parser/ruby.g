@@ -584,14 +584,6 @@ regex
 			STRING_AFTER_EXPRESSION_SUBSTITUTION
 		;
 
-heredoc
-		:	HEREDOC
-		|	HEREDOC_BEFORE_EXPRESSION_SUBSTITUTION^
-			expression_substituation
-			(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation)*
-			STRING_AFTER_EXPRESSION_SUBSTITUTION
-		;
-
 command_output
 		:	COMMAND_OUTPUT
 		|	COMMAND_OUTPUT_BEFORE_EXPRESSION_SUBSTITUTION^
@@ -602,7 +594,7 @@ command_output
 literal
 		:	regex
 		|	(options{greedy=true;/*caused by command*/}:string)+
-		|	heredoc
+		|	HERE_DOC_BEGIN
 		|	command_output
 		|	symbol
 		|	W_ARRAY
@@ -1375,30 +1367,16 @@ STRING_CHAR
 		|	ESC
 		;
 
-/*
-DOUBLE_QUOTE_STRING
-		:	delimiter:'\"'!
-			({LA(1) != delimiter && !expression_substitution_is_next()}?	STRING_CHAR)*
-			end:.!//skip delimiter
-			{
-				if (end != delimiter)
-				{
-					$setType(STRING_BEFORE_EXPRESSION_SUBSTITUTION);
-					set_current_special_string_delimiter(delimiter, 1);
-				}
-			}
-		;
-*/
 
 //The first '-' after "<<" is alway interpreted as heredoc's special meaning, so be greedy
-HEREDOC_BEGIN
-		:	{expect_heredoc()}?	"<<"!	HEREDOC_DELIMITER
+HERE_DOC_BEGIN
+		:	{expect_heredoc()}?	"<<"!	HERE_DOC_DELIMITER
 		|	"<<="	{$setType(LEFT_SHIFT_ASSIGN);}
 		|	"<<"		{$setType(LEFT_SHIFT);}
 		;
 
 protected
-HEREDOC[String delimiter]
+HERE_DOC_CONTENT[String delimiter]
 		:	(next_line:ANYTHING_OTHER_THAN_LINE_FEED	LINE_FEED	{if (is_delimiter(next_line.getText(), delimiter)) break;})+
 			{
 				//skip delimiter
@@ -1407,7 +1385,7 @@ HEREDOC[String delimiter]
 		;
 
 protected
-HEREDOC_DELIMITER
+HERE_DOC_DELIMITER
 		:	(options{greedy=true;}:'-')?
 				((options{greedy=true;}:	~(' ' | '\n' | '\r' | '\'' | '"' | ',' | ')' | '=' | '.' | ';'))+
 				|	'\''!	(~('\'' | '\r' | '\n'))+	'\''!

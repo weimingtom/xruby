@@ -4,16 +4,9 @@
 
 package com.xruby.compiler.parser;
 
-import java.util.ArrayList;
-import java.util.Stack;
+import java.util.*;
 import java.io.Reader;
-import antlr.Token;
-import antlr.TokenStreamException;
-import antlr.RecognitionException;
-import antlr.TokenStreamRecognitionException;
-import antlr.CharStreamException;
-import antlr.CharStreamIOException;
-import antlr.TokenStreamIOException;
+import antlr.*;
 import com.xruby.compiler.parser.symboltable.SymbolTableManager;
 
 class StringDelimiter
@@ -49,6 +42,7 @@ public class RubyLexer extends RubyLexerBase
 	private SymbolTableManager stm_;
 	private Token token_before_last_token_ = new Token();//create a new toekn with invalid type
 	private Token last_token_ = new Token();//create a new toekn with invalid type
+	private ArrayList<String> heredoc_delimiters_ = new ArrayList<String>();
 	private boolean allow_asignment_ = true;
 	private boolean allow_block_parameter_ = false;
 	private boolean allow_for_expression_parameter_ = false;
@@ -58,9 +52,8 @@ public class RubyLexer extends RubyLexerBase
 	private boolean just_finished_parsing_string_expression_substituation_ = false;
 	private boolean just_finished_parsing_symbol_ = false;
 	private Stack<StringDelimiter> current_special_string_delimiter_ = new Stack<StringDelimiter>();
-	private ArrayList<Token> saved_tokens_to_handle_heredoc_ = new ArrayList<Token>();
-	boolean is_parsing_here_doc_ = false;
-	
+	private Queue<String> heredocs_ = new LinkedList<String>();
+
 	public RubyLexer(Reader in, SymbolTableManager stm)
 	{
 		super(in);
@@ -70,6 +63,10 @@ public class RubyLexer extends RubyLexerBase
 	SymbolTableManager getSymbolTableManager()
 	{
 		return stm_;	
+	}
+
+	Queue<String> getHereDocs() {
+		return heredocs_;
 	}
 
 	protected void set_current_special_string_delimiter(char delimiter, int delimiter_count)
@@ -112,6 +109,67 @@ public class RubyLexer extends RubyLexerBase
 		return seen_whitespace_;
 	}
 
+	private Token _nextToken() throws TokenStreamException
+	{
+		try
+		{
+			try
+			{
+				if (just_finished_parsing_string_expression_substituation_ || just_finished_parsing_regex_expression_substituation_)
+				{
+					if (current_special_string_delimiter_.empty()) {
+						throw new TokenStreamException("Delimiter mismatch!");
+					}
+
+					StringDelimiter delimiter = current_special_string_delimiter_.peek();
+					mSTRING_BETWEEN_EXPRESSION_SUBSTITUTION(true, delimiter.getDelimiter(), delimiter.getCount());
+					Token t = _returnToken;
+					//System.out.println(t.getText());
+					if (STRING_AFTER_EXPRESSION_SUBSTITUTION == t.getType()) {
+						current_special_string_delimiter_.pop();
+						if (just_finished_parsing_regex_expression_substituation_) {
+							mREGEX_MODIFIER(false);
+						}
+					}
+					just_finished_parsing_string_expression_substituation_ = false;
+					just_finished_parsing_regex_expression_substituation_ = false;
+					return t; 
+				}
+
+				switch(last_token_.getType())
+				{
+					case LINE_BREAK:
+						while (heredoc_delimiters_.size() > 0)
+						{
+							//expect here doc
+							//match it but skip the content, so that parser does not have to parse it (but we'd better save it to symbol table).
+							mHERE_DOC_CONTENT(true, heredoc_delimiters_.get(0));
+							heredocs_.add(_returnToken.getText());
+							heredoc_delimiters_.remove(0);
+						}
+						return super.nextToken();
+					default:
+						return super.nextToken();
+				}
+			}
+			catch (RecognitionException e)
+			{
+				throw new TokenStreamRecognitionException(e);
+			}
+		}
+		catch (CharStreamException e)
+		{
+			if (e instanceof CharStreamIOException)
+			{
+				throw new TokenStreamIOException(((CharStreamIOException)e).io);
+			}
+			else
+			{
+				throw new TokenStreamException(e.toString());
+			}
+		}
+	}
+
 	private void updateSymbolTable(Token token) throws TokenStreamException
 	{
 		if (LITERAL_module == last_token_.getType() ||
@@ -143,7 +201,7 @@ public class RubyLexer extends RubyLexerBase
 
 	protected boolean expect_heredoc_content()
 	{
-		return is_parsing_here_doc_;
+		return (heredoc_delimiters_.size() > 0);
 	}
 
 	private boolean expect_modifier()
@@ -295,68 +353,9 @@ public class RubyLexer extends RubyLexerBase
 		}
 	}
 
-	private Token __nextToken() throws TokenStreamException, RecognitionException, CharStreamException {
-		
-		if (just_finished_parsing_string_expression_substituation_ || just_finished_parsing_regex_expression_substituation_) {
-			if (current_special_string_delimiter_.empty()) {
-				throw new TokenStreamException("Delimiter mismatch!");
-			}
-
-			StringDelimiter delimiter = current_special_string_delimiter_.peek();
-			mSTRING_BETWEEN_EXPRESSION_SUBSTITUTION(true, delimiter.getDelimiter(), delimiter.getCount());
-			Token t = _returnToken;
-			//System.out.println(t.getText());
-			if (STRING_AFTER_EXPRESSION_SUBSTITUTION == t.getType()) {
-				current_special_string_delimiter_.pop();
-				if (just_finished_parsing_regex_expression_substituation_) {
-					mREGEX_MODIFIER(false);
-				}
-			}
-			just_finished_parsing_string_expression_substituation_ = false;
-			just_finished_parsing_regex_expression_substituation_ = false;
-			return t; 
-		}
-
-		return super.nextToken();
-	}
-
-	private void replace_HEREDOC_BEGIN_with_HEREDOC(Token heredoc) {
-		int i = 0;
-		for (Token t : saved_tokens_to_handle_heredoc_) {
-			if (t.getType() == HEREDOC_BEGIN) {
-				saved_tokens_to_handle_heredoc_.set(i, heredoc);
-				return;
-			}
-			++i;
-		}
-		
-		assert(false);
-	}
-
-	public Token nextToken() throws TokenStreamException {
-		try {
-			try {
-				return _nextToken();
-			} catch (RecognitionException e) {
-				throw new TokenStreamRecognitionException(e);
-			}
-		} catch (CharStreamException e) {
-			if (e instanceof CharStreamIOException) {
-				throw new TokenStreamIOException(((CharStreamIOException)e).io);
-			} else {
-				throw new TokenStreamException(e.toString());
-			}
-		}
-	}
-
-	private Token _nextToken() throws TokenStreamException, RecognitionException, CharStreamException
+	public Token nextToken() throws TokenStreamException
 	{
-		Token token;
-		if (!saved_tokens_to_handle_heredoc_.isEmpty()) {
-			token = saved_tokens_to_handle_heredoc_.remove(0);
-		} else {
-			token = __nextToken();
-		}
+		Token token = _nextToken();
 
 		//Even if there are rules for the following tokens, they should not show up here.
 		assert(WHITE_SPACE != token.getType());
@@ -366,35 +365,25 @@ public class RubyLexer extends RubyLexerBase
 		assert(RPAREN_IN_METHOD_DEFINATION != token.getType());
 		assert(Token.SKIP != token.getType());
 
-		if (!keywordOrOperatorToMethodName(token)) {//Do not do anything if convertion is done.
-			switch (token.getType()) {
-				case HEREDOC_BEGIN:
-					is_parsing_here_doc_ = true;
-					saved_tokens_to_handle_heredoc_.add(token);
-					ArrayList<String> delimiters = new ArrayList<String>();
-					delimiters.add(token.getText());
-					token_before_last_token_ = last_token_;
-					last_token_ = token;
-					
-					for (;;) {
-						token = __nextToken();
-						saved_tokens_to_handle_heredoc_.add(token);
-						if (token.getType() == LINE_BREAK) {
-							break;
-						} else if (token.getType() == HEREDOC_BEGIN) {
-							delimiters.add(token.getText());
-						}
-						token_before_last_token_ = last_token_;
-						last_token_ = token;
+		if (!keywordOrOperatorToMethodName(token))//Do not do anything if convertion is done.
+		{
+			switch (token.getType())
+			{
+				/*it is OK to do this error checking here, now we leave it to the parser.
+				case LPAREN:
+					switch (last_token_.getType()) {
+						case INTEGER:
+						case DOUBLE_QUOTE_STRING:
+						case SINGLE_QUOTE_STRING:
+						case REGEX:
+						case STRING_AFTER_EXPRESSION_SUBSTITUTION:
+						case FLOAT:
+							throw new TokenStreamException("'(' is not expected");
 					}
-
-					while (!delimiters.isEmpty()) {
-						mHEREDOC(true, delimiters.remove(0));
-						replace_HEREDOC_BEGIN_with_HEREDOC(_returnToken);
-					}
-
-					token = saved_tokens_to_handle_heredoc_.remove(0);
-					is_parsing_here_doc_ = false;
+					break;
+				*/
+				case HERE_DOC_BEGIN:
+					heredoc_delimiters_.add(token.getText());
 					break;
 				case SEMI:
 				case LINE_BREAK:
@@ -516,8 +505,6 @@ public class RubyLexer extends RubyLexerBase
 			case SINGLE_QUOTE_STRING:
 			case DOUBLE_QUOTE_STRING:
 			case STRING_AFTER_EXPRESSION_SUBSTITUTION:
-			case HEREDOC:
-			case HEREDOC_BEGIN:
 			case RBRACK:
 			case EMPTY_ARRAY:
 			case EMPTY_ARRAY_ACCESS:
@@ -734,8 +721,6 @@ public class RubyLexer extends RubyLexerBase
 			case SINGLE_QUOTE_STRING:
 			case DOUBLE_QUOTE_STRING:
 			case STRING_AFTER_EXPRESSION_SUBSTITUTION:
-			case HEREDOC:
-			case HEREDOC_BEGIN:
 			case REGEX:
 			case INSTANCE_VARIABLE:
 			case CLASS_VARIABLE:
