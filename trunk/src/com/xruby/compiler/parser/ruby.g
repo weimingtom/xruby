@@ -542,7 +542,7 @@ normalMethodInvocationArgument[boolean should_ignore_line_break]
 		;
 
 restMethodInvocationArgument
-		:	REST_ARG_PREFIX	expression	(options{greedy=true;/*caused by command*/}:COMMA	blockMethodInvocationArgument)?
+		:	REST_ARG_PREFIX	expression	(options{greedy=true;/*caused by command*/}:COMMA!	blockMethodInvocationArgument)?
 		;
 
 blockMethodInvocationArgument
@@ -675,7 +675,7 @@ hashExpression
 				(
 					keyValuePair
 					(options{greedy=true;}:{RCURLY != LA(2)}?	COMMA!	keyValuePair)*
-					(COMMA)?
+					(COMMA!)?
 				)?
 			RCURLY!
 		;
