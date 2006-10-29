@@ -41,6 +41,11 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg_for_run_method_.loadThis();
 		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
 	}
+
+	public void loadBlockOfCurrentMethod() {
+		mg_for_run_method_.loadThis();
+		mg_for_run_method_.getField(Type.getType(RubyBlock.class), "blockOfCurrentMethod_", Type.getType(RubyBlock.class));
+	}
 	
 	public void loadVariable(String name) {
 		if (isDefinedInCurrentScope(name)) {
@@ -106,11 +111,9 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	static String buildContructorSignature(int size) {
-		StringBuilder method_name = new StringBuilder("void <init> (");
+		StringBuilder method_name = new StringBuilder("void <init> (com.xruby.runtime.lang.RubyBlock");
 		for (int i = 0; i < size; ++i) {
-			if (0 != i) {
-				method_name.append(", ");
-			}
+			method_name.append(", ");
 			method_name.append("com.xruby.runtime.lang.RubyValue");
 		}
 		method_name.append(")");
@@ -152,12 +155,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.push(argc_);
 		mg.push(has_asterisk_parameter_);
 		mg.push(default_argc_);
+		mg.loadArg(0);
 		mg.invokeConstructor(Type.getType(RubyBlock.class),
-						Method.getMethod("void <init> (int, boolean, int)"));
+						Method.getMethod("void <init> (int, boolean, int, com.xruby.runtime.lang.RubyBlock)"));
 		
 		for (int i = 0; i < commons.length; ++i) {
 			mg.loadThis();
-			mg.loadArg(i);
+			mg.loadArg(i + 1);
 			mg.putField(Type.getType("L" + name_ + ";"), commons[i], Type.getType(RubyValue.class));
 		}
 		

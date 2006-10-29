@@ -1121,6 +1121,18 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
+	public void test_yield_in_block() {
+		String[] program_texts = {
+				"def f; 2.times {yield} ; end;   f {print '5'}",
+		};
+		
+		String[] outputs = {
+				"55",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_block_binding_scope() {
 		String[] program_texts = {
 				"a=1;   4.times {print a}",
