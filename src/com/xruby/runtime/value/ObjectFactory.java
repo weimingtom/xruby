@@ -81,7 +81,7 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.FixnumClass, new IntegerValue(value));
 	}
 
-	public static RubyValue createFloat(float value) {
+	public static RubyValue createFloat(double value) {
 		return new RubyValue(RubyRuntime.FloatClass, new FloatValue(value));
 	}
 	

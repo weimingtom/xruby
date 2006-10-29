@@ -26,7 +26,7 @@ class Float_operator_minus extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		FloatValue value1 = (FloatValue)receiver.getValue();
 		FloatValue value2 = (FloatValue)args.get(0).getValue();
-		return ObjectFactory.createFloat(value1.floatValue() - value2.floatValue());
+		return ObjectFactory.createFloat(value1.doubleValue() - value2.doubleValue());
 	}
 }
 

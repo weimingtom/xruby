@@ -123,7 +123,7 @@ class String_to_f extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringValue value = (StringValue)receiver.getValue();
-		return ObjectFactory.createFloat(Float.valueOf(value.toString()));
+		return ObjectFactory.createFloat(Double.valueOf(value.toString()));
 	}
 }
 

@@ -7,10 +7,6 @@ package com.xruby.compiler.codedom;
 public class IntegerExpression extends Expression {
 	private int value_;
 
-	public int getValue() {
-		return value_;
-	}
-
 	public IntegerExpression(int value) {
 		value_ = value;
 	}

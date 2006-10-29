@@ -304,7 +304,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.storeVariable(var);
 	}
 
-	public void visitFloatExpression(float value) {
+	public void visitFloatExpression(double value) {
 		cg_.getMethodGenerator().ObjectFactory_createFloat(value);
 	}
 

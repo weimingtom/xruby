@@ -30,7 +30,7 @@ public interface CodeVisitor {
 	public void visitNoBlock(boolean is_in_super);
 	public void visitBlockArgument();
 	
-	public void visitFloatExpression(float value);
+	public void visitFloatExpression(double value);
 	public void visitIntegerExpression(int value);
 	public void visitLocalVariableExpression(String value); 
 	public void visitTrueExpression();

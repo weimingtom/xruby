@@ -26,8 +26,8 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals("0.1234", value.toString());
 		RubyMethod m = str.findPublicMethod("to_f");
 		RubyValue result = m.invoke(str, null, null);
-		Float result_value = (Float)result.getValue();
-		assertEquals((float)0.1234, result_value.floatValue());
+		FloatValue result_value = (FloatValue)result.getValue();
+		assertEquals((double)0.1234, result_value.doubleValue());
 	}
 	
 	public void test_upcase() throws RubyException {

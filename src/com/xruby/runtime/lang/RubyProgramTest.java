@@ -45,7 +45,7 @@ class TestingProgram implements RubyProgram {
 
 		//puts 1.2
 		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
-								new ArrayValue(ObjectFactory.createFloat((float)1.2)),
+								new ArrayValue(ObjectFactory.createFloat(1.2)),
 								null,
 								"print");
 
