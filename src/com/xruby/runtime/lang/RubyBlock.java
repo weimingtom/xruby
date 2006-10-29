@@ -39,6 +39,7 @@ class MethodBlockBase {
 
 		return block_parameter_;
 	}
+
 }
 
 public abstract class RubyBlock extends MethodBlockBase {
@@ -49,13 +50,15 @@ public abstract class RubyBlock extends MethodBlockBase {
 	//      break 'xxx'
 	// end
 	protected RubyValue breakValue_ = null;
+	protected RubyBlock blockOfCurrentMethod_;
 
 	public RubyValue getBreakValue() {
 		return breakValue_;
 	}
 		
-	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc) {
+	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block) {
 		super(argc, has_asterisk_parameter, default_argc);
+		blockOfCurrentMethod_ = block;
 	}
 
 	public RubyValue invoke(RubyValue receiver, ArrayValue args) throws RubyException {
@@ -69,7 +72,7 @@ public abstract class RubyBlock extends MethodBlockBase {
 			return run(receiver, null != args ? args : new ArrayValue(0, true));
 		}
 	}
-	
+
 	protected abstract RubyValue run(RubyValue receiver, ArrayValue args) throws RubyException;
 }
 

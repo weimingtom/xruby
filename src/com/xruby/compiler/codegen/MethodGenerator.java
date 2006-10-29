@@ -46,11 +46,17 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void <init> ()"));
 	}
 
-	public void new_BlockClass(String methodName, String[] commons) {
+	public void new_BlockClass(String methodName, String[] commons, boolean is_in_global_scope) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
 		dup();
 
+		if (is_in_global_scope) {
+			visitInsn(Opcodes.ACONST_NULL);
+		} else {
+			loadArg(2);
+		}
+		
 		for (String name : commons) {
 			int i = symbol_table_.getMethodParameter(name);
 			if (i >= 0) {

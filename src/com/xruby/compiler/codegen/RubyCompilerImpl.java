@@ -31,6 +31,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return suspended_cgs_.empty() && !cg_.isInClassBuilder();
 	}
 
+	private boolean isInBlock() {
+		return (cg_ instanceof ClassGeneratorForRubyBlock);
+	}
+
 	public CompilationResults compile(Program program)
 			throws CompilerException {
 
@@ -139,7 +143,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		compilation_results_.add(cg_.getCompilationResult());
 		cg_ = suspended_cgs_.pop();
 		
-		cg_.getMethodGenerator().new_BlockClass(uniqueBlockName, commons);
+		cg_.getMethodGenerator().new_BlockClass(uniqueBlockName, commons, isInGlobalScope());
 
 		if (assigned_commons.length > 0) {
 			cg_.getMethodGenerator().saveBlockForFutureRestore();
@@ -550,7 +554,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitYieldBegin() {
-		cg_.getMethodGenerator().loadArg(2);//TODO error checking: make sure yield is called in the right context
+		if (isInBlock()) {
+			((ClassGeneratorForRubyBlock)cg_).loadBlockOfCurrentMethod();
+		} else {
+			cg_.getMethodGenerator().loadArg(2);//TODO error checking: make sure yield is called in the right context
+		}
 		visitSelfExpression();
 	}
 
