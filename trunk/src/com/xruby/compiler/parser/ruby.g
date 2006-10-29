@@ -921,7 +921,7 @@ normalMethodDefinationArgument
 		;
 
 restMethodDefinationArgument
-		:	REST_ARG_PREFIX	((id1:IDENTIFIER{addMethodParameter(id1);}|id2:FUNCTION{addMethodParameter(id2);})	(COMMA	blockMethodDefinationArgument)?)?
+		:	REST_ARG_PREFIX	((id1:IDENTIFIER{addMethodParameter(id1);}|id2:FUNCTION{addMethodParameter(id2);})	(COMMA!	blockMethodDefinationArgument)?)?
 		;
 
 blockMethodDefinationArgument
@@ -1090,7 +1090,7 @@ RBRACK				:	']'		;
 EMPTY_ARRAY			:	"[]"		{if (expect_array_access()) {$setType(EMPTY_ARRAY_ACCESS);}};
 LCURLY_HASH			:	'{'		{if (!expect_hash()) {$setType(LCURLY_BLOCK);}};
 RCURLY				:	'}'		;
-COMMA				:	','!		;
+COMMA				:	','		;
 COLON				:	':'		{if (!space_is_next())	{$setType(COLON_WITH_NO_FOLLOWING_SPACE);}};
 COLON2				:	"::"		{if (expect_leading_colon2())	{$setType(LEADING_COLON2);}};
 
@@ -1146,7 +1146,7 @@ UNARY_PLUS_MINUS_METHOD_NAME
 		;
 
 SEMI
-		:	';'!	(WHITE_SPACE_CAHR!		|	LINE_FEED!	|	';'!)*
+		:	';'	(WHITE_SPACE_CAHR!		|	LINE_FEED!	|	';'!)*
 			{
 				if (last_token_is_semi())
 				{
@@ -1157,8 +1157,8 @@ SEMI
 
 //treat "\n\n\n\n;" as SEMI
 LINE_BREAK
-		:	{expect_heredoc_content()}?	LINE_FEED!
-		|	PURE_LINE_BREAK!	(SEMI!	{$setType(SEMI);})?
+		:	{expect_heredoc_content()}?	LINE_FEED
+		|	PURE_LINE_BREAK	(SEMI!	{$setType(SEMI);})?
 			{
 				if ((LINE_BREAK == _ttype) && should_ignore_linebreak())
 				{
@@ -1177,7 +1177,7 @@ PURE_LINE_BREAK
 protected
 LINE_FEED
 		:	('\n'
-			|	'\r'	(options{greedy=true;}:'\n')?
+			|	'\r'!	(options{greedy=true;}:'\n')?
 			)
 			{newline();}
 		;

@@ -121,7 +121,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(FUNCTION, "puts"),
 							new TestingCommonToken(DOUBLE_QUOTE_STRING, "hello"),
-							new TestingCommonToken(SEMI, ""),
+							new TestingCommonToken(SEMI, ";"),
 		};
 
 		assert_type(program_text, token_types);
@@ -173,7 +173,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(UNARY_PLUS_MINUS_METHOD_NAME, "-@"),
 							new TestingCommonToken(LPAREN, "("),
 							new TestingCommonToken(RPAREN, ")"),
-							new TestingCommonToken(SEMI, ""),
+							new TestingCommonToken(SEMI, ";"),
 							new TestingCommonToken(LITERAL_end, "end"),
 		};
 
@@ -191,7 +191,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "puts"),
 							new TestingCommonToken(HERE_DOC_BEGIN, "EOS"),
-							new TestingCommonToken(LINE_BREAK, ""),
+							new TestingCommonToken(LINE_BREAK, "\n"),
 							//new TestingCommonToken(HERE_DOC_CONTENT, "Usage: #{myname} [--key keypair_file] name\n" +
 //"  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n"),
 		};
@@ -212,7 +212,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "body"),
 							new TestingCommonToken(ASSIGN, "="),
 							new TestingCommonToken(HERE_DOC_BEGIN, "-_end_of_html_"),
-							new TestingCommonToken(LINE_BREAK, ""),
+							new TestingCommonToken(LINE_BREAK, "\n"),
 							//new TestingCommonToken(HERE_DOC_CONTENT, "      <HTML/>\n"),
 		};
 
@@ -226,13 +226,13 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 "    _end_of_html_\n";
 
 		TestingCommonToken[] token_types =  {
-							new TestingCommonToken(LINE_BREAK, "", 1),
+							new TestingCommonToken(LINE_BREAK, "\n", 1),
 							new TestingCommonToken(FUNCTION, "res", 2),
 							new TestingCommonToken(DOT, ".", 2),
 							new TestingCommonToken(FUNCTION, "body", 2),
 							new TestingCommonToken(ASSIGN, "=", 2),
 							new TestingCommonToken(HERE_DOC_BEGIN, "-_end_of_html_", 2),
-							new TestingCommonToken(LINE_BREAK, "", 2),
+							new TestingCommonToken(LINE_BREAK, "\n", 2),
 							//new TestingCommonToken(HERE_DOC_CONTENT, "", 2),
 		};
 
@@ -244,7 +244,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		String program_text = "\n\n\nunless /{$1}\\z/o =~ s";
 
 		TestingCommonToken[] token_types =  {
-							new TestingCommonToken(LINE_BREAK, "", 1),
+							new TestingCommonToken(LINE_BREAK, "\n", 1),
 							new TestingCommonToken(LITERAL_unless, "unless", 4),
 							new TestingCommonToken(REGEX, "{$1}\\z", 4),
 							new TestingCommonToken(MATCH, "=~", 4),
@@ -285,14 +285,14 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(LPAREN, "("),
 							new TestingCommonToken(FUNCTION, "src"),
 							new TestingCommonToken(RPAREN, ")"),
-							new TestingCommonToken(LINE_BREAK, ""),
+							new TestingCommonToken(LINE_BREAK, "\n"),
 							new TestingCommonToken(CONSTANT, "Logging", 2),
 							new TestingCommonToken(COLON2, "::", 2),
 							new TestingCommonToken(FUNCTION, "puts", 2),
 							new TestingCommonToken(HERE_DOC_BEGIN, "EOM", 2),
-							new TestingCommonToken(COMMA, "", 2),
+							new TestingCommonToken(COMMA, ",", 2),
 							new TestingCommonToken(IDENTIFIER, "src", 2),
-							new TestingCommonToken(LINE_BREAK, "", 2),
+							new TestingCommonToken(LINE_BREAK, "\n", 2),
 							new TestingCommonToken(LITERAL_end, "end", 8),
 		};
 
@@ -317,7 +317,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		String program_text = "; ;\t   ;";
 
 		TestingCommonToken[] token_types =  {
-							new TestingCommonToken(SEMI, ""),
+							new TestingCommonToken(SEMI, ";"),
 		};
 
 		assert_type(program_text, token_types);
@@ -331,10 +331,10 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "a"),
 							new TestingCommonToken(ASSIGN, "="),
 							new TestingCommonToken(INTEGER, "1"),
-							new TestingCommonToken(SEMI, ""),
+							new TestingCommonToken(SEMI, ";"),
 							new TestingCommonToken(IDENTIFIER, "a"),
 							//new TestingCommonToken(LINE_BREAK, "\n"),
-							new TestingCommonToken(SEMI, "", 1),
+							new TestingCommonToken(SEMI, "\n", 1),
 		};
 
 		assert_type(program_text, token_types);
@@ -365,11 +365,11 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "sprintf"),
 							new TestingCommonToken(LPAREN, "("),
 							new TestingCommonToken(DOUBLE_QUOTE_STRING, "Rational(%s, %s)"),
-							new TestingCommonToken(COMMA, ""),
+							new TestingCommonToken(COMMA, ","),
 							new TestingCommonToken(INSTANCE_VARIABLE, "@numerator"),
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "inspect"),
-							new TestingCommonToken(COMMA, ""),
+							new TestingCommonToken(COMMA, ","),
 							new TestingCommonToken(INSTANCE_VARIABLE, "@denominator"),
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "inspect"),
@@ -388,9 +388,9 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "gsub!"),
 							new TestingCommonToken(REGEX, "\\n"),
-							new TestingCommonToken(COMMA, ""),
+							new TestingCommonToken(COMMA, ","),
 							new TestingCommonToken(DOUBLE_QUOTE_STRING, ""),
-							new TestingCommonToken(LINE_BREAK, ""),
+							new TestingCommonToken(LINE_BREAK, "\n"),
 		};
 
 		assert_type(program_text, token_types);
@@ -408,7 +408,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "new!"),
 							new TestingCommonToken(LPAREN, "("),
 							new TestingCommonToken(FUNCTION, "a"),
-							new TestingCommonToken(COMMA, ""),
+							new TestingCommonToken(COMMA, ","),
 							new TestingCommonToken(INTEGER, "1"),
 							new TestingCommonToken(RPAREN, ")"),
 		};
@@ -468,18 +468,18 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(LPAREN, "("),
 							new TestingCommonToken(FUNCTION, "res"),
 							new TestingCommonToken(RPAREN, ")"),
-							new TestingCommonToken(LINE_BREAK, ""),
+							new TestingCommonToken(LINE_BREAK, "\n"),
 							new TestingCommonToken(FUNCTION, "raise", 2),
 							new TestingCommonToken(CONSTANT, "POPAuthenticationError", 2),
-							new TestingCommonToken(COMMA, "", 2),
+							new TestingCommonToken(COMMA, ",", 2),
 							new TestingCommonToken(IDENTIFIER, "res", 2),
 							new TestingCommonToken(UNLESS_MODIFIER, "unless", 2),
 							new TestingCommonToken(REGEX, "\\A\\+OK", 2),
 							new TestingCommonToken(CASE_EQUAL, "===", 2),
 							new TestingCommonToken(IDENTIFIER, "res", 2),
-							new TestingCommonToken(LINE_BREAK, "", 2),
+							new TestingCommonToken(LINE_BREAK, "\n", 2),
 							new TestingCommonToken(IDENTIFIER, "res", 3),
-							new TestingCommonToken(LINE_BREAK, "", 3),
+							new TestingCommonToken(LINE_BREAK, "\n", 3),
 							new TestingCommonToken(LITERAL_end, "end", 4),
 		};
 
@@ -545,26 +545,26 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(LITERAL_def, "def"), 
 							new TestingCommonToken(FUNCTION, "a"),
-							new TestingCommonToken(SEMI, ""),
+							new TestingCommonToken(SEMI, ";"),
 							new TestingCommonToken(FUNCTION, "f"), 
 							new TestingCommonToken(LITERAL_do, "do"),
 							new TestingCommonToken(BOR, "|"),
 							new TestingCommonToken(IDENTIFIER, "element"),
 							new TestingCommonToken(BOR, "|"),
-							new TestingCommonToken(LINE_BREAK, ""),
+							new TestingCommonToken(LINE_BREAK, "\n"),
 							new TestingCommonToken(FUNCTION, "klass", 2),
 							new TestingCommonToken(DOT, ".", 2), 
 							new TestingCommonToken(FUNCTION, "module_eval", 2),
 							new TestingCommonToken(LPAREN, "(", 2),
 							new TestingCommonToken(HERE_DOC_BEGIN, "-EOC", 2),
-							new TestingCommonToken(COMMA, "", 2),
+							new TestingCommonToken(COMMA, ",", 2),
 							new TestingCommonToken(LITERAL___FILE__, "__FILE__", 2),
-							new TestingCommonToken(COMMA, "", 2),
+							new TestingCommonToken(COMMA, ",", 2),
 							new TestingCommonToken(LITERAL___LINE__, "__LINE__", 2),
 							new TestingCommonToken(RPAREN, ")", 2),
-							new TestingCommonToken(LINE_BREAK, "", 2),
+							new TestingCommonToken(LINE_BREAK, "\n", 2),
 							new TestingCommonToken(LITERAL_end, "end", 4),
-							new TestingCommonToken(LINE_BREAK, "", 4),
+							new TestingCommonToken(LINE_BREAK, "\n", 4),
 							new TestingCommonToken(LITERAL_end, "end", 5),
 		};
 
@@ -577,7 +577,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		String program_text = ";if true then end";
 
 		TestingCommonToken[] token_types =  {
-							new TestingCommonToken(SEMI, ""),
+							new TestingCommonToken(SEMI, ";"),
 							new TestingCommonToken(LITERAL_if, "if"),
 							new TestingCommonToken(LITERAL_true, "true"),
 							new TestingCommonToken(LITERAL_then, "then"),
@@ -594,7 +594,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(FUNCTION, "module_eval"),
 							new TestingCommonToken(HERE_DOC_BEGIN, "-end_eval"),
-							new TestingCommonToken(LINE_BREAK, ""),
+							new TestingCommonToken(LINE_BREAK, "\n"),
 		};
 
 		assert_type(program_text, token_types);
@@ -772,10 +772,10 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		};
 
 		String[] expected_texts = {
-			"",
-			"",
-			"",
-			"",
+			",",
+			",",
+			",",
+			",",
 		};
 
 		assert_type(program_texts, COMMA, expected_texts);
@@ -966,11 +966,11 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		};
 
 		String[] expected_texts = {
-			"",
-			"",
-			"",
-			"",
-			"",
+			"\n",
+			";",
+			";",
+			";",
+			";",
 		};
 
 		assert_type(program_texts, SEMI, expected_texts);
@@ -1078,10 +1078,10 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 
 		String[] expected_texts = {
 			"",
-			"",
-			"",
-			"",
-			"",
+			"\n",
+			"\n",
+			"\n",
+			"\n",
 		};
 
 		assert_type(program_texts, LINE_BREAK, expected_texts);
