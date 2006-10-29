@@ -141,5 +141,18 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 			"EOF";
 		assertEquals(expected_result, cp.toString());		
 	}
+	
+	public void test_astersisk_and_block_parameter() {
+		Program p = getProgram("def assert_raises(*args, &block) \n end");
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
+		String expected_result = 
+			"def assert_raises:0:true:0:false\n" +
+			"*parameter:args\n" +
+			"&parameter:block\n" +
+			"end def:false\n" +
+			"EOF";
+		assertEquals(expected_result, cp.toString());	
+	}
 
 }
