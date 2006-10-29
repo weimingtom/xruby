@@ -6,7 +6,7 @@ import com.xruby.runtime.lang.*;
 import java.io.*;
 
 //This file serves as an example of running Ruby program in Java
-public class Test {
+public class Example {
 
 	public static void main(String[] args) throws Exception {
 		RubyCompiler compiler = new RubyCompiler();
