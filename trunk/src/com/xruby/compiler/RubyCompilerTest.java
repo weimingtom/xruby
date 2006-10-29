@@ -2608,15 +2608,4 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_Time() {
-		String [] program_texts = {
-				"Time.new.to_f",
-		};
-
-		String[] outputs = {
-				"Hash12",
-		};
-		
-		compile_run_and_compare_output(program_texts, outputs);
-	}
 }

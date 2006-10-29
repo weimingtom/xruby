@@ -138,10 +138,10 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 	}
 	
-	public void ObjectFactory_createFloat(float value) {
+	public void ObjectFactory_createFloat(double value) {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createFloat(float)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue createFloat(double)"));
 	}
 	
 	public void ObjectFactory_createFixnum(int value) {

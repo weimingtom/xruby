@@ -1,17 +1,17 @@
 package com.xruby.runtime.value;
 
 public class FloatValue {
-	private float value_;
+	private double value_;
 	
-	public FloatValue(float value) {
+	public FloatValue(double value) {
 		value_ = value;
 	}
 	
-	public float floatValue() {
+	public double doubleValue() {
 		return value_;
 	}
 	
 	public String toString() {
-		return Float.toString(value_);
+		return Double.toString(value_);
 	}
 }

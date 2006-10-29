@@ -7,14 +7,10 @@ package com.xruby.compiler.codedom;
 
 public class FloatExpression extends Expression
 {
-	private float value_;
-	
-	public float getValue() {
-		return value_;
-	}
+	private double value_;
 
 	public FloatExpression(String value) {
-		value_ = Float.parseFloat(value);
+		value_ = Double.parseDouble(value);
 	}
 
 	public void accept(CodeVisitor visitor) {

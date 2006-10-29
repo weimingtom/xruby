@@ -118,7 +118,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public void visitFloatExpression(float value) {
+	public void visitFloatExpression(double value) {
 		result_.append(value);
 		result_.append("\n");
 	}
