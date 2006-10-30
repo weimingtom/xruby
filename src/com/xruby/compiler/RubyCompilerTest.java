@@ -390,6 +390,7 @@ public class RubyCompilerTest extends TestCase {
 				"my_print ':)', 5634 , 888",
 
 				"def f(a); a = 1; end;  x = 100; f(x); print x",
+				"def f(x); x= 5; print x; end; f(4)",
 		};
 
 		String[] outputs = {
@@ -397,6 +398,7 @@ public class RubyCompilerTest extends TestCase {
 				":)",
 				"888:)",
 				"100",
+				"5",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1148,6 +1150,8 @@ public class RubyCompilerTest extends TestCase {
 				"a = 1; 5.times {|a| print a; if false; a = 9; end; print a;}; print a",
 				"a = 1; 5.times {|*a| print a}; print a",
 				"a = 1; 4.times {|*a| a = 6; print a}; print a",
+				
+				"def f(x); 1.times { x = 5} ; print x;  end;   f(1)",
 		};
 		
 		String[] outputs = {
@@ -1162,6 +1166,8 @@ public class RubyCompilerTest extends TestCase {
 				"00112233444",
 				"012344",
 				"66666",
+				
+				"5",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
