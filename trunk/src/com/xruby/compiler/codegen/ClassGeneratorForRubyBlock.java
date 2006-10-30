@@ -42,11 +42,6 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
 	}
 
-	public void loadBlockOfCurrentMethod() {
-		mg_for_run_method_.loadThis();
-		mg_for_run_method_.getField(Type.getType(RubyBlock.class), "blockOfCurrentMethod_", Type.getType(RubyBlock.class));
-	}
-	
 	public void loadVariable(String name) {
 		if (isDefinedInCurrentScope(name)) {
 			fields_.add(name);

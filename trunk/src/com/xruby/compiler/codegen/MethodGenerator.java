@@ -46,13 +46,20 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void <init> ()"));
 	}
 
-	public void new_BlockClass(String methodName, String[] commons, boolean is_in_global_scope) {
+	public void loadBlockOfCurrentMethod() {
+		loadThis();
+		getField(Type.getType(RubyBlock.class), "blockOfCurrentMethod_", Type.getType(RubyBlock.class));
+	}
+
+	public void new_BlockClass(String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
 		dup();
 
 		if (is_in_global_scope) {
 			visitInsn(Opcodes.ACONST_NULL);
+		} else if (is_in_block) {
+			loadBlockOfCurrentMethod();
 		} else {
 			loadArg(2);
 		}
