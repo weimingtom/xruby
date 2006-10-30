@@ -35,7 +35,7 @@ abstract class ClassGenerator {
 	}
 
 	public void storeVariable(String name) {
-		getMethodGenerator().storeLocal(getLocalVariable(name));
+		getMethodGenerator().storeLocal(getMethodGenerator().getLocalVariable(name));
 	}
 	
 	public void startClassBuilderMethod(String name) {
@@ -95,7 +95,13 @@ abstract class ClassGenerator {
 	abstract protected Class getType();
 	
 	public void loadVariable(String name) {
-		// First check if this is asterisk method parameter
+		//check if this is local variable
+		if (getSymbolTable().getLocalVariable(name) >= 0) {
+			getMethodGenerator().loadLocal(getMethodGenerator().getLocalVariable(name));
+			return;
+		}
+		
+		// check if this is asterisk method parameter
 		// Actually we do not have to have the following code block: we can move initializeAsteriskParameter
 		// to the RubyMethod.initializeAsteriskParameter method so that it is always called. And may be we should
 		// -- this will make code generation simpler. But doing it here has a little advantage (optimazation): if the
@@ -125,24 +131,9 @@ abstract class ClassGenerator {
 			return;
 		}
 		
-		//now it must be local variable
-		if (getSymbolTable().getLocalVariable(name) < 0) {
-			getMethodGenerator().ObjectFactory_nilValue();// never used, for example a = a + 1
-		} else {
-			getMethodGenerator().loadLocal(getLocalVariable(name));
-		}
+		// never used, for example a = a + 1
+		getMethodGenerator().ObjectFactory_nilValue();
 		return;
-	}
-	
-	public int getLocalVariable(String name) {
-		int i = getSymbolTable().getLocalVariable(name);
-		if (i >= 0) {
-			return i;
-		}
-
-		i = getMethodGenerator().newLocal(Type.getType(RubyValue.class));
-		getSymbolTable().addLocalVariable(name, i);
-		return i;
 	}
 	
 	public MethodGenerator getMethodGenerator() {

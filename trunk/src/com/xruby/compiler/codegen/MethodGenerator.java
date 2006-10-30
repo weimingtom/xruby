@@ -32,10 +32,21 @@ class MethodGenerator extends GeneratorAdapter {
 		storeLocal(i);
 	}
 
+	public int getLocalVariable(String name) {
+		int i = getSymbolTable().getLocalVariable(name);
+		if (i >= 0) {
+			return i;
+		}
+
+		i = newLocal(Type.getType(RubyValue.class));
+		getSymbolTable().addLocalVariable(name, i);
+		return i;
+	}
+
 	public void restoreLocalVariableFromBlock(String blockName, String name) {
 		loadLocal(getSymbolTable().getLocalVariable("block$"));
 		getField(Type.getType("L" + blockName + ";"), name, Type.getType(RubyValue.class));
-		storeLocal(getSymbolTable().getLocalVariable(name));
+		storeLocal(getLocalVariable(name));
 	}
 
 	public void new_MethodClass(String methodName) {

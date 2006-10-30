@@ -67,7 +67,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().RubyModule_defineClass();
 
 		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().storeLocal(cg_.getLocalVariable(className));
+		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(className));
 		
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
@@ -88,7 +88,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().RubyModule_defineModule();
 
 		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().storeLocal(cg_.getLocalVariable(moduleName));
+		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(moduleName));
 
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
