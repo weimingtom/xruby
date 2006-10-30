@@ -1124,10 +1124,12 @@ public class RubyCompilerTest extends TestCase {
 	public void test_yield_in_block() {
 		String[] program_texts = {
 				"def f; 2.times {yield} ; end;   f {print '5'}",
+				"def f; 2.times { 3.times {yield}} ; end;   f {print '5'}",
 		};
 		
 		String[] outputs = {
 				"55",
+				"555555",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
