@@ -2628,4 +2628,44 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_class_left_shift() {
+		String [] program_texts = {
+				"a = \"\"\n" +
+				"class <<a\n" +
+				"	def f\n" +
+				"		99\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"print a.f",
+				
+				"class TestClassLeftShift\n" +
+				"	class << self\n" +
+				"		def f\n" +
+				"			88\n" +
+				"		end\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"print TestClassLeftShift.f",
+				
+				"class TestClassLeftShift\n" +
+				"	class << TestClassLeftShift\n" +
+				"		def f\n" +
+				"			77\n" +
+				"		end\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"print TestClassLeftShift.f",
+		};
+
+		String[] outputs = {
+				"99",
+				"88",
+				"77",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

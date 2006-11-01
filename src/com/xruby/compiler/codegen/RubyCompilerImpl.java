@@ -79,6 +79,18 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.startClassBuilderMethod(method_name_for_class_builder);
 	}
 
+	public void visitClassDefination3() {
+		cg_.getMethodGenerator().loadThis();
+	}
+
+	public void visitClassDefination4() {
+		cg_.getMethodGenerator().dup();
+
+		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder("SIGLETON");
+		cg_.callClassBuilderMethod(method_name_for_class_builder);
+		cg_.startClassBuilderMethod(method_name_for_class_builder);
+	}
+
 	public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
 		cg_.endClassBuilderMethod(last_statement_has_return_value);
 	}

@@ -526,16 +526,22 @@ classDefination
 returns [ClassDefinationExpression e]
 {
 	String name = null;
+	Expression exp = null;
 	Expression super_class = new Colon2Expression(null, "Object");
 	BodyStatement body = null;
 }
 		:	#("class"
-			name=className
-			(LESS_THAN	super_class=expression)?
+			(name=className	(LESS_THAN	super_class=expression)?
+			|LEFT_SHIFT	exp=expression
+			)
 			(body=bodyStatement)?
 			)
 			{
-				e = new ClassDefinationExpression(name, super_class, body);
+				if (name != null) {
+					e = new ClassDefinationExpression(name, super_class, body);
+				} else {
+					e = new ClassDefinationExpression(exp, super_class, body);
+				}
 			}
 		;
 
