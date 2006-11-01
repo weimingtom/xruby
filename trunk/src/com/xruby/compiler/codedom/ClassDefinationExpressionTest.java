@@ -18,7 +18,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 		String expected_result = 
 			"class C\n" +
 			"::Object\n" +
-			"<<<<<\n" +
+			"ClassDefination2\n" +
 			"def f:0:false:0:false\n" +
 			"self\n" +
 			"[:1\n" +
@@ -45,7 +45,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 		String expected_result = 
 			"class C\n" +
 			"::Integer\n" +
-			"<<<<<\n" +
+			"ClassDefination2\n" +
 			"end:false\n" +
 			"EOF";
 		assertEquals(expected_result, cp.toString());

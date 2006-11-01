@@ -7,12 +7,18 @@ package com.xruby.runtime.lang;
 import java.util.*;
 import com.xruby.runtime.value.*;
 
-public class RubyValue extends MethodCollection {
+public class RubyValue extends RubyModule {
 
 	private RubyClass class_;
 	private Object value_ = null;
 	private Map<String, RubyValue> instance_varibles_ = new HashMap<String, RubyValue>();
 
+	public RubyValue(RubyClass c, Object value) {
+		super(null);
+		class_ = c;
+		value_ = value;
+	}
+	
 	public RubyValue getInstanceVariable(String name) {
 		RubyValue v = instance_varibles_.get(name);
 		if (null != v) {
@@ -66,11 +72,6 @@ public class RubyValue extends MethodCollection {
 	
 	public String toString() {
 		return class_.toString() + value_.toString();
-	}
-
-	public RubyValue(RubyClass c, Object value) {
-		class_ = c;
-		value_ = value;
 	}
 
 	public RubyMethod findPublicMethod(String method_name) {

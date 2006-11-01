@@ -58,6 +58,8 @@ public interface CodeVisitor {
 	
 	public void visitClassDefination1(String className);
 	public void visitClassDefination2(String className);
+	public void visitClassDefination3();
+	public void visitClassDefination4();
 	public void visitClassDefinationEnd(boolean last_statement_has_return_value);
 	
 	public void visitModuleDefination(String moduleName);
