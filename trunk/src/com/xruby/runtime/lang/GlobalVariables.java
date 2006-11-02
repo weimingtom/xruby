@@ -44,6 +44,8 @@ public class GlobalVariables {
 	public static RubyValue LAST_READ_LINE = ObjectFactory.nilValue;
 	public static RubyValue OUTPUT_FIELD_SEPARATOR = ObjectFactory.nilValue;
 	public static RubyValue OUTPUT_RECORD_SEPARATOR = ObjectFactory.nilValue;
+	public static RubyValue INPUT_RECORD_SEPARATOR = ObjectFactory.createString("\n");
+	
 	public static String translatePredefined(final String name) {
 		if (name.equals("$stdout")) {
 			return "STDOUT";
@@ -53,13 +55,11 @@ public class GlobalVariables {
 			return "OUTPUT_FIELD_SEPARATOR";
 		} else if (name.equals("$\\")) {
 			return "OUTPUT_RECORD_SEPARATOR";
+		} else if (name.equals("$/")) {
+			return "INPUT_RECORD_SEPARATOR";
 		} else {
 			return null;
 		}
-	}
-	
-	void test() {
-		STDOUT = ObjectFactory.nilValue;
 	}
 	
 	public static RubyValue get(String name) {

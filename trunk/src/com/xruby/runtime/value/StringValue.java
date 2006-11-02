@@ -8,6 +8,10 @@ public class StringValue {
 	public StringValue(String s) {
 		sb_ = new StringBuilder(s);
 	}
+
+	public StringValue(StringBuilder sb) {
+		sb_ = sb;
+	}
 	
 	public StringValue() {
 		sb_ = new StringBuilder();
