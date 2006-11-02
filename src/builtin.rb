@@ -23,11 +23,9 @@ class Symbol
 	alias to_s id2name
 end
 
-=begin
 def self.to_s
 	return "main"
 end
-=end
 
 class String
 	def to_s
