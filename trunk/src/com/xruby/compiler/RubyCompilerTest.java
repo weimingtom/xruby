@@ -1317,6 +1317,8 @@ public class RubyCompilerTest extends TestCase {
 				"class A\n" +
 				"	print self.class\n" +
 				"end",
+				
+				"print self",
 		};
 
 		String[] outputs = {
@@ -1324,6 +1326,7 @@ public class RubyCompilerTest extends TestCase {
 				"4",
 				"Object",
 				"Class",
+				"main",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
