@@ -55,6 +55,26 @@ class IO_close extends RubyMethod {
 	}
 }
 
+class IO_gets extends RubyMethod {
+	public IO_gets() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		IOValue io = (IOValue)receiver.getValue();
+		if (null != io) {
+			if (null == args) {
+				return io.gets(GlobalVariables.INPUT_RECORD_SEPARATOR);
+			} else {
+				return io.gets(args.get(0));
+			}
+		}
+		
+		//TODO stdout, stderr, stdin
+		return ObjectFactory.nilValue;
+	}
+}
+
 public class IOClassBuilder {
 
 	public static RubyClass create() {
@@ -62,6 +82,7 @@ public class IOClassBuilder {
 				RubyRuntime.ObjectClass);
 		c.defineMethod("write", new IO_write());
 		c.defineMethod("print", new IO_print());
+		c.defineMethod("gets", new IO_gets());
 		c.defineMethod("close", new IO_close());
 		return c;
 	}

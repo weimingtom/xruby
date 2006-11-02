@@ -341,8 +341,12 @@ class Kernel_open extends RubyMethod {
 	
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		StringValue filename = (StringValue)args.get(0).getValue();
-		StringValue mode = (StringValue)args.get(1).getValue();
-		return ObjectFactory.createFile(filename.toString(), mode.toString());
+		if (args.size() <= 1) {
+			return ObjectFactory.createFile(filename.toString(), "r");
+		} else {
+			StringValue mode = (StringValue)args.get(1).getValue();
+			return ObjectFactory.createFile(filename.toString(), mode.toString());
+		}
 	}
 }
 

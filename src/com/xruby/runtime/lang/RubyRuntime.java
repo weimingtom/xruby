@@ -46,6 +46,7 @@ public class RubyRuntime {
 	public static RubyClass RangeErrorClass = GlobalScope.defineNewClass("RangeError", StandardErrorClass);
 	public static RubyClass NameErrorClass = GlobalScope.defineNewClass("NameError", StandardErrorClass);
 	public static RubyClass NoMethodErrorClass = GlobalScope.defineNewClass("NoMethodError", NameErrorClass);
+	public static RubyClass IOErrorClass = GlobalScope.defineNewClass("IOError", StandardErrorClass);
 	
 	public static RubyClass RuntimeErrorClass = GlobalScope.defineNewClass("RuntimeError", StandardErrorClass);
 	public static RubyClass LocalJumpErrorClass = GlobalScope.defineNewClass("LocalJumpError", StandardErrorClass);
