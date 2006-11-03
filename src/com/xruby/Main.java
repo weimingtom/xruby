@@ -7,18 +7,15 @@ package com.xruby;
 import com.xruby.compiler.*;
 import com.xruby.compiler.codegen.*;
 import com.xruby.runtime.lang.*;
-import java.util.logging.*;
 
 public class Main {
-
-	public static final Logger logger_ = Logger.getLogger("com.xruby");
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
 
-		logger_.info("xruby v" + RubyCompiler.VERSION + ". Copyright 2005-2006 Xue Yong Zhi");
+		System.out.println("XRuby v" + RubyCompiler.VERSION + ". Copyright 2005-2006 Xue Yong Zhi");
 
 		CommandLineOptions options = new CommandLineOptions(args);
 		if (options.isHelp()) {
@@ -36,7 +33,7 @@ public class Main {
 	}
 
 	private static void help() {
-		logger_.info("Usage: xruby [-c] filename1, filename2, ...");
+		System.out.println("Usage: xruby [-c] filename1, filename2, ...");
 	}
 
 	private static void compile(String filename, boolean compileOnly) {
@@ -46,15 +43,17 @@ public class Main {
 		}
 
 		try {
+			System.out.println("Compilation of " + filename + " strarted");
+
 			RubyCompiler compiler = new RubyCompiler();
 			CompilationResults results = compiler.compile(filename);
 
-			logger_.info("Compilation of " + filename + " finished successfully");
+			System.out.println("Compilation of " + filename + " finished successfully");
 
 			if (compileOnly) {
 				results.save(filename);
 			} else {
-				logger_.info("Executing " + filename + "...");
+				System.out.println("Executing " + filename + "...");
 				RubyRuntime.initBuiltin();
 				results.run();
 				AtExitBlocks.invokeAll();
