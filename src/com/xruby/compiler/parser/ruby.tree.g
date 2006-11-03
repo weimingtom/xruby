@@ -527,7 +527,7 @@ returns [ClassDefinationExpression e]
 {
 	String name = null;
 	Expression exp = null;
-	Expression super_class = new Colon2Expression(null, "Object");
+	Expression super_class = null;
 	BodyStatement body = null;
 }
 		:	#("class"

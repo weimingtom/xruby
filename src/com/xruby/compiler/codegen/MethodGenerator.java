@@ -303,9 +303,14 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("boolean testTrueFalse(com.xruby.runtime.lang.RubyValue)"));
 	}
 
-	public void RubyModule_defineClass() {
-		invokeVirtual(Type.getType(RubyModule.class),
+	public void RubyModule_defineClass(boolean isBuiltin) {
+		if (isBuiltin) {
+			invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue defineBuiltInClass(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+		} else {
+			invokeVirtual(Type.getType(RubyModule.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue defineClass(String, com.xruby.runtime.lang.RubyValue)"));
+		}
 	}
 
 	public void RubyModule_defineModule() {

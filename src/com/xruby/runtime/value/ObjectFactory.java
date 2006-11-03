@@ -24,7 +24,10 @@ public class ObjectFactory {
 	public static final RubyValue StringClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.StringClass);
 	public static final RubyValue ExceptionClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ExceptionClass);
 	public static final RubyValue RuntimeErrorClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RuntimeErrorClass);
+	public static final RubyValue ArrayClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ArrayClass);
+	public static final RubyValue HashClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.HashClass);
 	public static final RubyValue ClassClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ClassClass);
+	public static final RubyValue ModuleClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ModuleClass);
 	public static final RubyValue IOClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.IOClass);
 	public static final RubyValue ProcClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.ProcClass);
 	public static final RubyValue RangeClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.RangeClass);
@@ -47,7 +50,8 @@ public class ObjectFactory {
 				name.equals("RuntimeError") ||
 				name.equals("Array") ||
 				name.equals("Hash") ||
-				name.equals("ClassClass") ||
+				name.equals("Class") ||
+				name.equals("Module") ||
 				name.equals("IO") ||
 				name.equals("Proc") ||
 				name.equals("Range") ||
