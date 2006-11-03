@@ -26,7 +26,7 @@ class f extends RubyMethod
         return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
         					new ArrayValue(ObjectFactory.createString("hello")),
         					block,
-        					"puts");
+        					"print");
     }
 }
 
@@ -43,7 +43,7 @@ public class RubyMethodTest extends TestCase {
 		
 		System.setOut(original);
 		
-		String expected = "hello\r\n";
+		String expected = "hello";
 		assertEquals(expected, output.toString());
 	}
 }
