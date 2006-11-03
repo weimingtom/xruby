@@ -59,12 +59,18 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().loadArg(1);
 		}
 
-		cg_.getMethodGenerator().push(className);
+		if (ObjectFactory.isBuiltin(className)) {
+			cg_.getMethodGenerator().getStatic(Type.getType(ObjectFactory.class),
+					className + "ClassValue",
+					Type.getType(RubyValue.class));
+		} else {
+			cg_.getMethodGenerator().push(className);
+		}
 		//super class will be pushed next, then visitSuperClass() will be called
 	}
 
 	public void visitClassDefination2(String className) {
-		cg_.getMethodGenerator().RubyModule_defineClass();
+		cg_.getMethodGenerator().RubyModule_defineClass(ObjectFactory.isBuiltin(className));
 
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(className));
@@ -215,6 +221,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 		} else {
 			cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
 		}
+	}
+
+	public void visitNoSuperClass() {
+		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
 	}
 
 	public void visitBlockArgument() {

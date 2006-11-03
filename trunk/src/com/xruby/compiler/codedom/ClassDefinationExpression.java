@@ -28,7 +28,11 @@ public class ClassDefinationExpression extends Expression {
 	public void accept(CodeVisitor visitor) {
 		if (null != className_) {
 			visitor.visitClassDefination1(className_);
-			superClass_.accept(visitor);
+			if (null != superClass_) {
+				superClass_.accept(visitor);
+			} else {
+				visitor.visitNoSuperClass();
+			}
 			visitor.visitClassDefination2(className_);
 		} else {
 			visitor.visitClassDefination3();

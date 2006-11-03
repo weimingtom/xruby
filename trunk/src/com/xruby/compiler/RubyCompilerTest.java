@@ -2368,11 +2368,20 @@ public class RubyCompilerTest extends TestCase {
 				"class TestSingletonClass; end\n" +
 				"def TestSingletonClass.new_method;print 4321;end\n" +
 				"TestSingletonClass.new_method\n",
+				
+				"class Class\n" +
+				"	def test_meta\n" +
+				"		print \"Test meta\"\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"Module.test_meta", 
 		};
 		
 		String[] outputs = {
 				"9521",
 				"4321",
+				"Test meta",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

@@ -27,7 +27,7 @@ public class SymbolTableManager
 		addLocalVarible("RuntimeError");
 		addLocalVarible("Array");
 		addLocalVarible("Hash");
-		addLocalVarible("ClassClass");
+		addLocalVarible("Class");
 	}
 	
 	public RubyModule enterModule()
