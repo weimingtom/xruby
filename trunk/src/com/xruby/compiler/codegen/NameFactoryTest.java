@@ -34,7 +34,7 @@ public class NameFactoryTest extends TestCase {
 	public void test_createJarFileName() {
 		assertEquals((new File("test.jar")).toString(), NameFactory.createJarFileName("test.rb.bak").toString());
 		assertEquals((new File("STDIN.jar")).toString(), NameFactory.createJarFileName(null).toString());
-		assertEquals(new File("test.jar").toString(), NameFactory.createJarFileName("c:\\ruby\\lib\\test.rb").toString());
+		assertEquals(new File("test.jar").toString(), NameFactory.createJarFileName("c:/ruby/lib/test.rb").toString());
 	}
 	
 	public void test_change_suffix_to_jar() {
