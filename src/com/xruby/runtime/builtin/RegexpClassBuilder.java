@@ -47,11 +47,34 @@ class Regexp_match extends RubyMethod {
 	}
 }
 
+class Regexp_match_operator extends RubyMethod {
+	public Regexp_match_operator() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		Object o = args.get(0).getValue();
+		if (!(o instanceof StringValue)) {
+			//not comparable
+			return ObjectFactory.falseValue;
+		}
+
+		RegexpValue r = (RegexpValue)receiver.getValue();
+		int p = r.matchPosition(((StringValue)o).toString());
+		if (p < 0) {
+			return ObjectFactory.nilValue;
+		} else {
+			return ObjectFactory.createFixnum(p);
+		}
+	}
+}
+
 public class RegexpClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Regexp", RubyRuntime.ObjectClass);
 		c.defineMethod("===", new Regexp_case_equal());
 		c.defineMethod("match", new Regexp_match());
+		c.defineMethod("=~", new Regexp_match_operator());
 		return c;
 	}
 }

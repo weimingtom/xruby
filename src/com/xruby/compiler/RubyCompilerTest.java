@@ -1883,10 +1883,16 @@ public class RubyCompilerTest extends TestCase {
 	public void test_regex_match() {
 		String[] program_texts = {
 				"print /(.)(.)(\\d+)(\\d)/.match(\"THX1138.\")",
+				"print /(.)(.)(\\d+)(\\d)/.match(\"THX.\")",
+				"print /(.)(.)(\\d)+(\\d)/ =~  \"THX1138.\"",
+				"print /(.)(.)(\\d+)(\\d)/ =~ \"THX.\"",
 		};
 		
 		String[] outputs = {
 				"HX1138",
+				"nil",
+				"1",
+				"nil",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
