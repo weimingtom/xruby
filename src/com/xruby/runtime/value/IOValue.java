@@ -30,6 +30,14 @@ public class IOValue {
 		}
 	}
 	
+	public boolean eof() throws RubyException {
+		try {
+			return file_.length() == file_.getFilePointer();
+		} catch (IOException e) {
+			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
+		}
+	}
+	
 	public void close() {
 		if (null != file_) {
 			try {
