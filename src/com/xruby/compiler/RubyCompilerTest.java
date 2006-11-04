@@ -2685,18 +2685,18 @@ public class RubyCompilerTest extends TestCase {
 		
 		File f = new File("test_IO_gets.txt");
 		PrintWriter out = new PrintWriter(new FileWriter(f));
-		out.println("line 1");
-		out.println("line 2");
+		out.print("line 1\n");
+		out.print("line 2");
 		out.close();
 		
 		String [] program_texts = {
 				"print open(\"test_IO_gets.txt\").gets(nil)",
-				//"print open(\"test_IO_gets.txt\").gets",
+				"print open(\"test_IO_gets.txt\").gets",
 		};
 		
 		String[] outputs = {
-				"line 1\nline 2\n",
-				//"line 1",
+				"line 1\nline 2",
+				"line 1",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
