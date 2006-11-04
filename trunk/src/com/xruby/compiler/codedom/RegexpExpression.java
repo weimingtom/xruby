@@ -3,7 +3,7 @@ package com.xruby.compiler.codedom;
 public class RegexpExpression extends StringExpression {
 
 	public RegexpExpression(String value) {
-		super(value, true);
+		super(value, false);
 	}
 
 	public void accept(CodeVisitor visitor) {

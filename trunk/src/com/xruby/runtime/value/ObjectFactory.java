@@ -140,4 +140,8 @@ public class ObjectFactory {
 				((IntegerValue)r).intValue(),
 				isExclusive));
 	}
+
+	public static RubyValue createMatchData(MatchDataValue m) {
+		return new RubyValue(RubyRuntime.MatchDataClass, m);
+	}
 }

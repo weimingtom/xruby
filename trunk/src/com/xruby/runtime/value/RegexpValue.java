@@ -10,8 +10,17 @@ public class RegexpValue {
 		regex_ = Pattern.compile(v);
 	}
 	
-	public boolean match(String v) {
+	public boolean caseEqual(String v) {
 		Matcher m = regex_.matcher(v);
-		return m.matches();
+		return m.find();
+	}
+	
+	public MatchDataValue match(String v) {
+		Matcher m = regex_.matcher(v);
+		if (m.find()) {
+			return new MatchDataValue(m);
+		} else {
+			return null;
+		}
 	}
 }
