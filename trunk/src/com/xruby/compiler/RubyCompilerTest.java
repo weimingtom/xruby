@@ -2690,8 +2690,8 @@ public class RubyCompilerTest extends TestCase {
 		out.close();
 		
 		String [] program_texts = {
-				"print open(\"test_IO_gets.txt\").gets(nil)",
-				"print open(\"test_IO_gets.txt\").gets",
+				"f = open(\"test_IO_gets.txt\"); print f.gets(nil); f.close",
+				"f = open(\"test_IO_gets.txt\"); print f.gets; f.close",
 		};
 		
 		String[] outputs = {
@@ -2701,6 +2701,28 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 		
-		f.delete();
+		assertTrue(f.delete());
+	}
+	
+	public void test_IO_eof() throws IOException {
+		File f = new File("test_IO_eof.txt");
+		PrintWriter out = new PrintWriter(new FileWriter(f));
+		out.print("line 1\n");
+		out.print("line 2");
+		out.close();
+		
+		String [] program_texts = {
+				"f = open(\"test_IO_eof.txt\"); f.gets(nil); print f.eof?; f.close",
+				"f = open(\"test_IO_eof.txt\"); print f.eof; f.close",
+		};
+		
+		String[] outputs = {
+				"true",
+				"false",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+		
+		assertTrue(f.delete());
 	}
 }

@@ -75,6 +75,22 @@ class IO_gets extends RubyMethod {
 	}
 }
 
+
+class IO_eof extends RubyMethod {
+	public IO_eof() {
+		super(0);
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		IOValue io = (IOValue)receiver.getValue();
+		if (io.eof()) {
+			return ObjectFactory.trueValue;
+		} else {
+			return ObjectFactory.falseValue;
+		}
+	}
+}
+
 public class IOClassBuilder {
 
 	public static RubyClass create() {
@@ -84,6 +100,9 @@ public class IOClassBuilder {
 		c.defineMethod("print", new IO_print());
 		c.defineMethod("gets", new IO_gets());
 		c.defineMethod("close", new IO_close());
+		RubyMethod eof = new IO_eof();
+		c.defineMethod("eof", eof);
+		c.defineMethod("eof?", eof);
 		return c;
 	}
 }
