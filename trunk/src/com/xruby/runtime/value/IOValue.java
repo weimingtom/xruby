@@ -55,18 +55,15 @@ public class IOValue {
 	}
 
 	private StringValue readsTheEntireContents() throws IOException {
-		StringValue r = new StringValue();
-		String s;
-		while ((s = file_.readLine()) != null) {
-			r.appendString(s);
-			r.appendString("\n");//Line-terminating characters are discarded by readLine
-		}
-		return r;
+		int size = (int)file_.length();//TODO converted long to int
+		byte[] buffer = new byte[size];
+		file_.read(buffer);
+		return new StringValue(new String(buffer));
 	}
 
 	private StringValue readUntilSeperator(String separator) throws IOException {
-		//FIXME
-		return null;
+		//FIXME This is cheating, should read until separator
+		return new StringValue(file_.readLine());
 	}
 	
 	public RubyValue gets(RubyValue separator) throws RubyException {
