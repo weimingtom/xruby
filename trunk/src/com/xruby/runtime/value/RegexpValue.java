@@ -23,4 +23,13 @@ public class RegexpValue {
 			return null;
 		}
 	}
+	
+	public int matchPosition(String v) {
+		Matcher m = regex_.matcher(v);
+		if (m.find()) {
+			return m.start();
+		} else {
+			return -1;
+		}
+	}
 }

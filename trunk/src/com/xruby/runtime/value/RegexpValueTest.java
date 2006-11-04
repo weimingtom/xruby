@@ -8,5 +8,7 @@ public class RegexpValueTest extends TestCase {
 		assertTrue((new RegexpValue("hello")).caseEqual("hello"));
 		assertTrue(!(new RegexpValue("hellxxx")).caseEqual("hello"));
 		assertTrue((new RegexpValue("(.)(.)(\\d+)(\\d)")).caseEqual("THX1138."));
+		assertEquals(1, (new RegexpValue("(.)(.)(\\d+)(\\d)")).matchPosition("THX1138."));
+		assertEquals(-1, (new RegexpValue("(.)(.)(\\d+)(\\d)")).matchPosition("THX1."));
 	}
 }
