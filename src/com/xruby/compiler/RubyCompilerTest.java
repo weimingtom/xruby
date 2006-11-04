@@ -1880,6 +1880,18 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_regex_match() {
+		String[] program_texts = {
+				"print /(.)(.)(\\d+)(\\d)/.match(\"THX1138.\")",
+		};
+		
+		String[] outputs = {
+				"HX1138",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_RegexpExpressionSubstitution() {
 		String [] program_texts = {
 				"print /^f#{}.*r#{   }$/ === 'foobar'",
