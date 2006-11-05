@@ -1311,10 +1311,14 @@ public class RubyCompilerTest extends TestCase {
 	public void test_break_in_while() {
 		String[] program_texts = {
 				"i = 0; while i < 5; i = i + 1; print i; break if i == 3; end",
+				"print (while true; break 66; end)",
+				"print (while true; break; end)",
 		};
 		
 		String[] outputs = {
 				"123",
+				"66",
+				"nil",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
