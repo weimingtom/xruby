@@ -1307,6 +1307,18 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_break_in_while() {
+		String[] program_texts = {
+				"i = 0; while i < 5; i = i + 1; print i; break if i == 3; end",
+		};
+		
+		String[] outputs = {
+				"123",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 
 	public void test_self() {
 		String[] program_texts = {
