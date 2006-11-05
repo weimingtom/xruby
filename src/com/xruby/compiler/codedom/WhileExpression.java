@@ -29,16 +29,19 @@ public class WhileExpression extends Expression {
 	}
 	
 	public void accept(CodeVisitor visitor) {
+		//We used to generate code for body first, then condition (javac does this as well, it will help to create a little more efficient code).
+		//But later we changed it back, because local variable may be first assigned in while expression's condition,  and we are replying
+		//codegen backend to to maintain a symbol table -- so we should not change the consequence of visiting.
 
-		Object label_pair = visitor.visitWhileBody();
-		
+		visitor.visitWhileConditionBegin();
+		condition_.accept(visitor);
+		visitor.visitWhileConditionEnd(is_until_);
+
 		if (null != body_) {
 			body_.accept(visitor);
 		}
 		
-		visitor.visitWhileConditionBegin();
-		condition_.accept(visitor);
-		visitor.visitWhileConditionEnd(label_pair, is_until_);
+		visitor.visitWhileBodyEnd();
 	}
 
 }

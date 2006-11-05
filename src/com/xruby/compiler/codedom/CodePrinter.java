@@ -465,16 +465,15 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public Object visitWhileBody() {
+	public void visitWhileBodyEnd() {
 		result_.append("while\n");
-		return null;
 	}
 
 	public void visitWhileConditionBegin() {
 		result_.append("while condition\n");
 	}
 
-	public void visitWhileConditionEnd(Object label_pair, boolean is_until) {
+	public void visitWhileConditionEnd(boolean is_until) {
 		result_.append("end while\n");
 	}
 
