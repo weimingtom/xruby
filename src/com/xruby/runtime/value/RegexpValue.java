@@ -32,4 +32,8 @@ public class RegexpValue {
 			return -1;
 		}
 	}
+	
+	public String gsub(StringValue str, StringValue repl) {
+		return regex_.matcher(str.toString()).replaceAll(repl.toString());
+	}
 }
