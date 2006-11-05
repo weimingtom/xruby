@@ -22,6 +22,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	private Stack<ClassGenerator> suspended_cgs_ = new Stack<ClassGenerator>();
 	private CompilationResults compilation_results_ = new CompilationResults();
 	private String script_name_;
+	private LabelManager labelManager_ = new LabelManager();
 	
 	public RubyCompilerImpl(String script_name) {
 		script_name_ = script_name;
@@ -417,6 +418,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public Object visitWhileBody() {
+		labelManager_.openNewScope();
+		labelManager_.setCurrentBreak(new Label());
+		
 		Label condition_label = new Label();
 		cg_.getMethodGenerator().goTo(condition_label);
 		Label body_label = new Label();
@@ -437,6 +441,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, ((Pair<Label, Label>)label_pair).first);
 		}
 		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);//TODO should push the value of the while expression
+
+		cg_.getMethodGenerator().mark(labelManager_.getCurrentBreak());
+		labelManager_.closeCurrentScope();
 	}
 
 	public Object visitAfterIfBody(Object next_label, Object end_label) {
@@ -728,27 +735,28 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitBreakBegin() {
-		if (cg_ instanceof ClassGeneratorForRubyBlock) {
+		if (isInBlock()) {
 			cg_.getMethodGenerator().loadThis();
 		}
-		//TODO
 	}
 
 	public void visitBreakEnd() {
-		if (cg_ instanceof ClassGeneratorForRubyBlock) {
+		if (isInBlock()) {
 			cg_.getMethodGenerator().breakBlock();
+		} else {
+			cg_.getMethodGenerator().goTo(labelManager_.getCurrentBreak());
 		}
-		//TODO
 	}
 
 	public void visitNextBegin() {
 	}
 
 	public void visitNextEnd() {
-		if (cg_ instanceof ClassGeneratorForRubyBlock) {
+		if (isInBlock()) {
 			visitReturn();
+		} else {
+			cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
 		}
-		//TODO
 	}
 
 	public void visitExclusiveRangeOperator() {
