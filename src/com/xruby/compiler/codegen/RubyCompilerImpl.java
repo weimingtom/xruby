@@ -419,8 +419,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public Object visitWhileBody() {
 		labelManager_.openNewScope();
-		labelManager_.setCurrentBreak(new Label());
-		labelManager_.setCurrentNext(new Label());
 		
 		cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
 		Label body_label = new Label();

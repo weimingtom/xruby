@@ -6,19 +6,11 @@ import org.objectweb.asm.Label;
 
 class LabelManager {
 	private class LabelGroup {
-		public Label break_ = null;
-		public Label next_ = null;
+		public Label break_ = new Label();
+		public Label next_ = new Label();
 	}
 	
 	private Stack<LabelGroup> labels_ = new Stack<LabelGroup>();
-	
-	public void setCurrentBreak(Label label) {
-		labels_.peek().break_ = label;
-	}
-	
-	public void setCurrentNext(Label label) {
-		labels_.peek().next_ = label;
-	}
 	
 	public Label getCurrentBreak() {
 		return labels_.peek().break_;
