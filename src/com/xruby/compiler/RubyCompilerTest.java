@@ -2747,10 +2747,12 @@ public class RubyCompilerTest extends TestCase {
 	public void test_gsub() {
 		String [] program_texts = {
 				"$_ = 'quick brown fox'; gsub /[aeiou]/, '*';  print $_ ",
+				"$_ = 'quick brown fox'; print gsub /[aeiou]/, '&'",
 		};
 		
 		String[] outputs = {
 				"q**ck br*wn f*x",
+				"q&&ck br&wn f&x",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
