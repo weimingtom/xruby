@@ -8,6 +8,8 @@ class LabelManager {
 	private class LabelGroup {
 		public Label break_ = new Label();
 		public Label next_ = new Label();
+		public Label redo_ = new Label();
+		public Label x_ = new Label();//general purpose label
 	}
 	
 	private Stack<LabelGroup> labels_ = new Stack<LabelGroup>();
@@ -18,6 +20,14 @@ class LabelManager {
 	
 	public Label getCurrentNext() {
 		return labels_.peek().next_;
+	}
+
+	public Label getCurrentRedo() {
+		return labels_.peek().redo_;
+	}
+
+	public Label getCurrentX() {
+		return labels_.peek().x_;
 	}
 	
 	public void openNewScope() {

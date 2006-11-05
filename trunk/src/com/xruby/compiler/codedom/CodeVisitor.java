@@ -116,10 +116,10 @@ public interface CodeVisitor {
 	public void visitHashEnd();
 	public void visitHashElementBegin();
 	public void visitHashElementEnd();
-
-	public Object visitWhileBody();
+	
 	public void visitWhileConditionBegin();
-	public void visitWhileConditionEnd(Object label_pair, boolean is_until);
+	public void visitWhileConditionEnd(boolean is_until);
+	public void visitWhileBodyEnd();
 	
 	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args);
 	public String[] visitBlockEnd(String name, boolean last_statement_has_return_value);

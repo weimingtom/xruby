@@ -1340,6 +1340,23 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_local_variable_assigned_in_whille_condition() {
+		String[] program_texts = {
+			"$TestWhile = 0\n" +
+			"def f\n" +
+			"	$TestWhile = $TestWhile + 1 \n" +
+			"end\n" +
+			"\n" +
+			"while i = f(); break if i > 5; print i; end ",
+		};
+		
+		String[] outputs = {
+				"12345",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_self() {
 		String[] program_texts = {
 				"print 1.next",

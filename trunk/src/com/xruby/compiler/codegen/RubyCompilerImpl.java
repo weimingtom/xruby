@@ -417,30 +417,29 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 
-	public Object visitWhileBody() {
-		labelManager_.openNewScope();
-		
-		cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
-		Label body_label = new Label();
-		cg_.getMethodGenerator().mark(body_label);
-		return body_label;
-	}
-
 	public void visitWhileConditionBegin() {
-		cg_.getMethodGenerator().pop();
+		labelManager_.openNewScope();
 		cg_.getMethodGenerator().mark(labelManager_.getCurrentNext());
 	}
 
-	public void visitWhileConditionEnd(Object body_label, boolean is_until) {
+	public void visitWhileConditionEnd(boolean is_until) {		
 		cg_.getMethodGenerator().RubyRuntime_testTrueFalse();
 		if (is_until) {
-			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, (Label)body_label);
+			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, labelManager_.getCurrentX());
 		} else {
-			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, (Label)body_label);
+			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, labelManager_.getCurrentX());
 		}
 
-		visitNilExpression();//the return value of while expression if not breaked
+		cg_.getMethodGenerator().mark(labelManager_.getCurrentRedo());
+	}
 
+	public void visitWhileBodyEnd() {
+		cg_.getMethodGenerator().pop();
+		cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
+
+		cg_.getMethodGenerator().mark(labelManager_.getCurrentX());
+		visitNilExpression();//this is the value of while expression if no break is called.
+		
 		cg_.getMethodGenerator().mark(labelManager_.getCurrentBreak());
 		labelManager_.closeCurrentScope();
 	}
