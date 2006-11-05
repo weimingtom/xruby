@@ -24,8 +24,14 @@ public class IOValue {
 		assert(null == file_);
 		try {
 			file_ = new RandomAccessFile(filename, translateMode(mode));
+			if (mode.equals("w")) {
+				file_.setLength(0);
+			}
 			return true;
 		} catch (FileNotFoundException e) {
+			return false;
+		} catch (IOException e) {
+			file_ = null;
 			return false;
 		}
 	}
@@ -55,7 +61,7 @@ public class IOValue {
 		}
 		
 		try {
-			file_.writeChars(s);
+			file_.writeBytes(s);
 			return true;
 		} catch (IOException e) {
 			return false;
