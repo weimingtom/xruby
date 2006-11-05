@@ -530,14 +530,14 @@ tmp.close
 # test break
 tmp = open("while_tmp", "r")
 test_ok(tmp.kind_of?(File))
-=begin
+
 while line = tmp.gets()
   break if /vt100/ =~ line
 end
 
 test_ok(!tmp.eof? && /vt100/ =~ line)
 tmp.close
-
+=begin
 # test next
 $bad = false
 tmp = open("while_tmp", "r")
