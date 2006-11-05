@@ -118,7 +118,7 @@ public interface CodeVisitor {
 	public void visitHashElementEnd();
 
 	public Object visitWhileBody();
-	public void visitWhileConditionBegin(Object label_pair);
+	public void visitWhileConditionBegin();
 	public void visitWhileConditionEnd(Object label_pair, boolean is_until);
 	
 	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args);

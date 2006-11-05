@@ -420,27 +420,28 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public Object visitWhileBody() {
 		labelManager_.openNewScope();
 		labelManager_.setCurrentBreak(new Label());
+		labelManager_.setCurrentNext(new Label());
 		
-		Label condition_label = new Label();
-		cg_.getMethodGenerator().goTo(condition_label);
+		cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
 		Label body_label = new Label();
 		cg_.getMethodGenerator().mark(body_label);
-		return new Pair<Label, Label>(body_label, condition_label);
+		return body_label;
 	}
 
-	public void visitWhileConditionBegin(Object label_pair) {
+	public void visitWhileConditionBegin() {
 		cg_.getMethodGenerator().pop();
-		cg_.getMethodGenerator().mark(((Pair<Label, Label>)label_pair).second);
+		cg_.getMethodGenerator().mark(labelManager_.getCurrentNext());
 	}
 
-	public void visitWhileConditionEnd(Object label_pair, boolean is_until) {
+	public void visitWhileConditionEnd(Object body_label, boolean is_until) {
 		cg_.getMethodGenerator().RubyRuntime_testTrueFalse();
 		if (is_until) {
-			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, ((Pair<Label, Label>)label_pair).first);
+			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, (Label)body_label);
 		} else {
-			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, ((Pair<Label, Label>)label_pair).first);
+			cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, (Label)body_label);
 		}
-		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);//TODO should push the value of the while expression
+
+		visitNilExpression();//the return value of while expression if not breaked
 
 		cg_.getMethodGenerator().mark(labelManager_.getCurrentBreak());
 		labelManager_.closeCurrentScope();
@@ -755,6 +756,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (isInBlock()) {
 			visitReturn();
 		} else {
+			cg_.getMethodGenerator().pop();
 			cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
 		}
 	}

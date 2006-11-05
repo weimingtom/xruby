@@ -17,7 +17,7 @@ class LabelManager {
 	}
 	
 	public void setCurrentNext(Label label) {
-		labels_.peek().break_ = label;
+		labels_.peek().next_ = label;
 	}
 	
 	public Label getCurrentBreak() {

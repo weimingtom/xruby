@@ -470,7 +470,7 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public void visitWhileConditionBegin(Object label_pair) {
+	public void visitWhileConditionBegin() {
 		result_.append("while condition\n");
 	}
 

@@ -36,7 +36,7 @@ public class WhileExpression extends Expression {
 			body_.accept(visitor);
 		}
 		
-		visitor.visitWhileConditionBegin(label_pair);
+		visitor.visitWhileConditionBegin();
 		condition_.accept(visitor);
 		visitor.visitWhileConditionEnd(label_pair, is_until_);
 	}
