@@ -68,16 +68,21 @@ public class IOValue {
 		}
 	}
 
-	private StringValue readsTheEntireContents() throws IOException {
+	private RubyValue readsTheEntireContents() throws IOException {
 		int size = (int)file_.length();//TODO converted long to int
 		byte[] buffer = new byte[size];
 		file_.read(buffer);
-		return new StringValue(new String(buffer));
+		return ObjectFactory.createString(new String(buffer));
 	}
 
-	private StringValue readUntilSeperator(String separator) throws IOException {
+	private RubyValue readUntilSeperator(String separator) throws IOException {
 		//FIXME This is cheating, should read until separator
-		return new StringValue(file_.readLine());
+		String s = file_.readLine();
+		if (null == s) {
+			return ObjectFactory.nilValue;
+		} else {
+			return ObjectFactory.createString(s + "\n");
+		}
 	}
 	
 	public RubyValue gets(RubyValue separator) throws RubyException {
@@ -87,7 +92,7 @@ public class IOValue {
 
 		try {
 			if (ObjectFactory.nilValue == separator) {
-				return ObjectFactory.createString(readsTheEntireContents());
+				return readsTheEntireContents();
 			}
 
 			if (separator.getRubyClass() != RubyRuntime.StringClass) {
@@ -95,7 +100,8 @@ public class IOValue {
 			}
 
 			StringValue s = (StringValue)separator.getValue();
-			return ObjectFactory.createString(readUntilSeperator(s.toString()));
+			
+			return readUntilSeperator(s.toString());
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
 		}

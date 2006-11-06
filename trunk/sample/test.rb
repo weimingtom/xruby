@@ -537,7 +537,7 @@ end
 
 test_ok(!tmp.eof? && /vt100/ =~ line)
 tmp.close
-=begin
+
 # test next
 $bad = false
 tmp = open("while_tmp", "r")
@@ -547,7 +547,7 @@ while line = tmp.gets()
 end
 test_ok(!(!tmp.eof? || /vt100/ =~ line || $bad))
 tmp.close
-
+=begin
 # test redo
 $bad = false
 tmp = open("while_tmp", "r")
