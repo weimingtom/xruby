@@ -2771,12 +2771,16 @@ public class RubyCompilerTest extends TestCase {
 				"f = open(\"test_IO_gets.txt\"); print f.gets(nil); f.close",
 				"f = open(\"test_IO_gets.txt\"); print f.gets; f.close",
 				"f = open(\"test_IO_gets.txt\"); print f.gets; print f.gets; print f.gets; f.close",
+				
+				"f = open(\"test_IO_gets.txt\"); print f.gets; print $_; f.close",
 		};
 		
 		String[] outputs = {
 				"line 1\nline 2",
 				"line 1\n",
 				"line 1\nline 2\nnil",//TODO should be "line 1\nline 2nil", IO#gets should be fixed
+
+				"line 1\nline 1\n",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
