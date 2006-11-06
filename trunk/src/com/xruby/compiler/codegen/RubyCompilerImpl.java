@@ -758,6 +758,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 
+	public void visitRedo() {
+		cg_.getMethodGenerator().goTo(labelManager_.getCurrentRedo());
+	}
+
 	public void visitExclusiveRangeOperator() {
 		cg_.getMethodGenerator().push(true);
 		cg_.getMethodGenerator().ObjectFactory_createRange();

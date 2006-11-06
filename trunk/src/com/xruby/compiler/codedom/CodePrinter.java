@@ -446,6 +446,10 @@ public class CodePrinter implements CodeVisitor {
 	public void visitNextEnd() {
 		result_.append("end next\n");
 	}
+	
+	public void visitRedo() {
+		result_.append("redo\n");
+	}
 
 	public void visitAliasGlobalVariable(String newName, String oldName) {
 		visitAliasMethod(newName, oldName);

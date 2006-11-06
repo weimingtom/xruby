@@ -233,6 +233,7 @@ returns [Expression e]
 		|	#("break"		(return_args=return_arguments)?)	{e = new BreakExpression(return_args);}
 		|	#("next"		(return_args=return_arguments)?)	{e = new NextExpression(return_args);}
 		|	#(LPAREN	cs=compoundStatement)			{e = new ParenthesisExpression(cs);}
+		|	"redo"										{e = new RedoExpression();}
 		;
 
 callExpression
