@@ -2813,15 +2813,21 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_gsub() {
 		String [] program_texts = {
-				"$_ = 'quick brown fox'; gsub /[aeiou]/, '*';  print $_ ",
+				"$_ = 'quick brown fox'; gsub /[aeiou]/, '*'; print $_",
 				"$_ = 'quick brown fox'; print gsub /[aeiou]/, '&'",
 				"$_ = 'quick brown fox'; print $_.gsub /[aeiou]/, '-'",
+				
+				"$_ = 'quick brown fox'; print gsub! /cat/, '*'; print $_",
+				"$_ = 'quick brown fox'; print($_.gsub!(/cat/, '-')); print $_",
 		};
 		
 		String[] outputs = {
 				"q**ck br*wn f*x",
 				"q&&ck br&wn f&x",
 				"q--ck br-wn f-x",
+				
+				"nilquick brown fox",
+				"nilquick brown fox",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

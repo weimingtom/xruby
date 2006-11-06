@@ -474,6 +474,21 @@ class Kernel_gsub extends String_gsub {
 	}
 }
 
+class Kernel_gsub_danger extends String_gsub_danger {
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (GlobalVariables.LAST_READ_LINE.getRubyClass() != RubyRuntime.StringClass) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.LAST_READ_LINE.getRubyClass().getName() + " given)");
+		}
+
+		RubyValue r = super.run(GlobalVariables.LAST_READ_LINE, args, block);
+		if (r != ObjectFactory.nilValue) {
+			GlobalVariables.LAST_READ_LINE = r;
+		}
+		return r;
+	}
+}
+
 public class KernelModuleBuilder {
 	public static RubyModule create() {
 		RubyModule m = RubyRuntime.GlobalScope.defineNewModule("Kernel");
@@ -506,6 +521,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("proc", lambda);
 		m.defineMethod("at_exit", new Kernel_at_exit());
 		m.defineMethod("gsub", new Kernel_gsub());
+		m.defineMethod("gsub!", new Kernel_gsub_danger());
 		m.setAccessPublic();
 
 		RubyRuntime.ObjectClass.includeModule(m);

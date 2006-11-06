@@ -192,8 +192,8 @@ class String_gsub extends RubyMethod {
 	public String_gsub() {
 		super(-1);
 	}
-	
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+
+	protected void checkParameters(ArrayValue args) throws RubyException {
 		if (args.size() < 2) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for 2)");
 		}
@@ -205,12 +205,33 @@ class String_gsub extends RubyMethod {
 		if (args.get(1).getRubyClass() != RubyRuntime.StringClass) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "can't convert " + args.get(1).getRubyClass().getName() + " into String");
 		}
+	}
+	
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		checkParameters(args);
 		
 		StringValue g = (StringValue)receiver.getValue();
 		RegexpValue r = (RegexpValue)args.get(0).getValue();
 		StringValue s = (StringValue)args.get(1).getValue();
 
 		return ObjectFactory.createString(r.gsub(g, s));
+	}
+}
+
+class String_gsub_danger extends String_gsub {
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		checkParameters(args);
+
+		StringValue g = (StringValue)receiver.getValue();
+		RegexpValue r = (RegexpValue)args.get(0).getValue();
+		StringValue s = (StringValue)args.get(1).getValue();
+
+		String result = r.gsub(g, s);
+		if (g.toString().equals(result)) {
+			return ObjectFactory.nilValue;
+		} else {
+			return ObjectFactory.createString(result);
+		}
 	}
 }
 
@@ -231,6 +252,7 @@ public class StringClassBuilder {
 		c.defineMethod("initialize", new String_initialize());
 		c.defineMethod("+", new String_plus());
 		c.defineMethod("gsub", new String_gsub());
+		c.defineMethod("gsub!", new String_gsub_danger());
 		return c;
 	}
 }
