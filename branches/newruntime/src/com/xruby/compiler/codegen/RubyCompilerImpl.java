@@ -743,15 +743,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitTopLevelConstant(String name) {
 		//quick access for builtin
 		if (ObjectFactory.isBuiltin(name)) {
-			cg_.getMethodGenerator().getStatic(Type.getType(ObjectFactory.class),
-					name + "ClassValue",
-					Type.getType(RubyValue.class));
+			cg_.getMethodGenerator().ObjectFactory_getBuiltinClass(name);
 			return;
 		}
 
-		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue getTopLevelConstant(String)"));
+		cg_.getMethodGenerator().RubyModule_getTopLevelConstant(name);
 	}
 
 	public void visitCurrentNamespaceConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assign) {
@@ -766,16 +762,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assignment) {
 		//TODO handle rhs_is_method_call and is_multiple_assignment
-		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue setConstant(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
+		cg_.getMethodGenerator().RubyModule_setConstant(name);
 	}
 
 	public void visitTopLevelConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assignment) {
 		//TODO handle rhs_is_method_call and is_multiple_assignment
-		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue setTopLevelConstant(com.xruby.runtime.lang.RubyValue, String)"));
-		
+		cg_.getMethodGenerator().RubyModule_setTopLevelConstant(name);
 	}
 }

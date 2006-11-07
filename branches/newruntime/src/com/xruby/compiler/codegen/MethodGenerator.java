@@ -431,10 +431,28 @@ class MethodGenerator extends GeneratorAdapter {
 			Method.getMethod("com.xruby.runtime.lang.RubyValue getCurrentNamespaceConstant(String)"));
 	}
 
+	public void RubyModule_getTopLevelConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getTopLevelConstant(String)"));
+	}
+
 	public void RubyModule_getConstant(String name) {
 		push(name);
 		invokeStatic(Type.getType(RubyModule.class),
 			Method.getMethod("com.xruby.runtime.lang.RubyValue getConstant(com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
+	public void RubyModule_setConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue setConstant(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
+	public void RubyModule_setTopLevelConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue setTopLevelConstant(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
 	public void RubyBlock_invoke() {
