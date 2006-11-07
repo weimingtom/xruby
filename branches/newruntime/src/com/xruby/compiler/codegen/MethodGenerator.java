@@ -435,6 +435,18 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
 	}
 
+	public void RubyValue_getInstanceVariable(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue getInstanceVariable(String)"));
+	}
+
+	public void RubyValue_setInstanceVariable(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
 	public void RubyModule_getClassVariable(String name) {
 		push(name);
 		invokeVirtual(Type.getType(RubyModule.class),
