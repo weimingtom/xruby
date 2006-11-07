@@ -152,7 +152,17 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void ArrayValue_expandArrayIfThereIsZeroOrOneValue() {
 		invokeStatic(Type.getType(ArrayValue.class),
-					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void ArrayValue_expandArrayIfThereIsZeroOrOneValue2() {
+		invokeStatic(Type.getType(ArrayValue.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.value.ArrayValue)"));
+	}
+
+	public void ArrayValue_expandArrayIfThereIsOnlyOneArrayValue() {
+		invokeStatic(Type.getType(ArrayValue.class),
+			Method.getMethod("com.xruby.runtime.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.runtime.value.ArrayValue)"));
 	}
 	
 	public void StringValue_append(String value) {
