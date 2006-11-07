@@ -36,6 +36,7 @@ public class ObjectFactory {
 	public static final RubyValue MethodClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.MethodClass);
 	public static final RubyValue TimeClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.TimeClass);
 	public static final RubyValue MatchDataClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.MatchDataClass);
+	public static final RubyValue BignumClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.BignumClass);
 	
 	public static boolean isBuiltin(String name) {
 		if (name.equals("Object") ||
@@ -60,7 +61,8 @@ public class ObjectFactory {
 				name.equals("File") ||
 				name.equals("Method") ||
 				name.equals("Time") ||
-				name.equals("MatchDate")) {
+				name.equals("MatchDate") ||
+				name.equals("Bignum")) {
 			return true;
 		} else {
 			return false;
@@ -144,4 +146,8 @@ public class ObjectFactory {
 	public static RubyValue createMatchData(MatchDataValue m) {
 		return new RubyValue(RubyRuntime.MatchDataClass, m);
 	}
+
+	/*public static RubyValue createBignum(BigInteger value) { 
+		return new RubyValue(RubyRuntime.BignumClass, new BignumValue(value)); 
+	}*/
 }
