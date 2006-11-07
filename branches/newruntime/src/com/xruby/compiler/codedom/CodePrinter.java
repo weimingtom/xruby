@@ -446,6 +446,10 @@ public class CodePrinter implements CodeVisitor {
 	public void visitNextEnd() {
 		result_.append("end next\n");
 	}
+	
+	public void visitRedo() {
+		result_.append("redo\n");
+	}
 
 	public void visitAliasGlobalVariable(String newName, String oldName) {
 		visitAliasMethod(newName, oldName);
@@ -466,7 +470,7 @@ public class CodePrinter implements CodeVisitor {
 	}
 
 	public void visitWhileBodyEnd() {
-		result_.append("while\n");
+		result_.append("end while\n");
 	}
 
 	public void visitWhileConditionBegin() {
@@ -474,7 +478,7 @@ public class CodePrinter implements CodeVisitor {
 	}
 
 	public void visitWhileConditionEnd(boolean is_until) {
-		result_.append("end while\n");
+		result_.append("end while condition\n");
 	}
 
 	public void visitSelfExpression() {
