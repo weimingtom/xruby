@@ -328,6 +328,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
+	public void RubyRuntime_callPublicMethod_OneArgNoBlcok(String methodName) {
+		push(methodName);
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));	
+	}
+
 	public void RubyRuntime_callMethod(String methodName) {
 		push(methodName);
 		invokeStatic(Type.getType(RubyRuntime.class),
