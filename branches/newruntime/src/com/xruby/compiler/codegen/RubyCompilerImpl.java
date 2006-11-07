@@ -241,16 +241,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitBinaryOperator(String operator) {
 		if (operator.equals("!=")) {
-			cg_.getMethodGenerator().push("==");
-			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
-			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue operatorNot(com.xruby.runtime.lang.RubyValue)"));
+			cg_.getMethodGenerator().RubyRuntime_callPublicMethod_OneArgNoBlcok("==");
+			cg_.getMethodGenerator().RubyRuntime_operatorNot();
 		} else {
 			//operator as method call
-			cg_.getMethodGenerator().push(operator);
-			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
+			cg_.getMethodGenerator().RubyRuntime_callPublicMethod_OneArgNoBlcok(operator);
 		}
 	}
 	
