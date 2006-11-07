@@ -53,17 +53,13 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().loadThis();
 
 		if (isInGlobalScope()) {
-			cg_.getMethodGenerator().getStatic(Type.getType(RubyRuntime.class),
-					"GlobalScope",
-					Type.getType(RubyModule.class));
+			cg_.getMethodGenerator().RubyRuntime_GlobalScope();
 		} else {
 			cg_.getMethodGenerator().loadArg(1);
 		}
 
 		if (ObjectFactory.isBuiltin(className)) {
-			cg_.getMethodGenerator().getStatic(Type.getType(ObjectFactory.class),
-					className + "ClassValue",
-					Type.getType(RubyValue.class));
+			cg_.getMethodGenerator().ObjectFactory_getBuiltinClass(className);
 		} else {
 			cg_.getMethodGenerator().push(className);
 		}
@@ -77,9 +73,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(className));
 		
 		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("Object getValue()"));
-		cg_.getMethodGenerator().checkCast(Type.getType(RubyModule.class));
+		cg_.getMethodGenerator().RubyValue_to_RubyModule();
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);

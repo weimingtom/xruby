@@ -161,6 +161,18 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(HashValue.class),
 				Method.getMethod("void add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 	}
+
+	public void RubyValue_to_RubyModule() {
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("Object getValue()"));
+		checkCast(Type.getType(RubyModule.class));
+	}
+
+	public void ObjectFactory_getBuiltinClass(String className) {
+		getStatic(Type.getType(ObjectFactory.class),
+					className + "ClassValue",
+					Type.getType(RubyValue.class));
+	}
 	
 	public void ObjectFactory_createFloat(double value) {
 		push(value);
@@ -301,6 +313,12 @@ class MethodGenerator extends GeneratorAdapter {
 	public void RubyRuntime_testTrueFalse() {
 		invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("boolean testTrueFalse(com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void RubyRuntime_GlobalScope() {
+		getStatic(Type.getType(RubyRuntime.class),
+					"GlobalScope",
+					Type.getType(RubyModule.class));
 	}
 
 	public void RubyModule_defineClass(boolean isBuiltin) {
