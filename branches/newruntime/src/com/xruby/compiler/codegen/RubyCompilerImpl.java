@@ -649,13 +649,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs) {
 		if (single_lhs) {
-			cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.value.ArrayValue)"));
+			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue2();
 			return 0;
 		} else {
 			if (single_rhs) {
-				cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-						Method.getMethod("com.xruby.runtime.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.runtime.value.ArrayValue)"));
+				cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsOnlyOneArrayValue();
 			}
 			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
 			cg_.getMethodGenerator().storeLocal(var);
