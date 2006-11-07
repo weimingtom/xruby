@@ -669,8 +669,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (single_lhs) {
 			return 0;
 		} else {
-			cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-							Method.getMethod("com.xruby.runtime.value.ArrayValue convertToArrayIfNotYet(com.xruby.runtime.lang.RubyValue)"));
+			cg_.getMethodGenerator().ArrayValue_convertToArrayIfNotYet();
 			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
 			cg_.getMethodGenerator().storeLocal(var);
 			return var;
@@ -731,19 +730,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().loadArg(1);
 		} else {
 			visitSelfExpression();
-			cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-					Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
+			cg_.getMethodGenerator().RubyValue_getRubyClass();
 		}
 
-		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue getCurrentNamespaceConstant(String)"));
+		cg_.getMethodGenerator().RubyModule_getCurrentNamespaceConstant(name);
 	}
 
 	public void visitConstant(String name) {
-		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue getConstant(com.xruby.runtime.lang.RubyValue, String)"));
+		cg_.getMethodGenerator().RubyModule_getConstant(name);
 	}
 
 	public void visitTopLevelConstant(String name) {

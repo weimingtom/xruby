@@ -164,6 +164,11 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeStatic(Type.getType(ArrayValue.class),
 			Method.getMethod("com.xruby.runtime.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.runtime.value.ArrayValue)"));
 	}
+
+	public void ArrayValue_convertToArrayIfNotYet() {
+		invokeStatic(Type.getType(ArrayValue.class),
+			Method.getMethod("com.xruby.runtime.value.ArrayValue convertToArrayIfNotYet(com.xruby.runtime.lang.RubyValue)"));
+	}
 	
 	public void StringValue_append(String value) {
 		push(value);
@@ -418,6 +423,18 @@ class MethodGenerator extends GeneratorAdapter {
 	public void RubyModule_defineModule() {
 		invokeVirtual(Type.getType(RubyModule.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue defineModule(String)"));
+	}
+
+	public void RubyModule_getCurrentNamespaceConstant(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getCurrentNamespaceConstant(String)"));
+	}
+
+	public void RubyModule_getConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getConstant(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
 	public void RubyBlock_invoke() {
