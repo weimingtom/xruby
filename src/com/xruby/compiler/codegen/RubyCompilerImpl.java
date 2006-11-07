@@ -435,8 +435,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public Object visitAfterWhenCondition(Object case_value) {
 		int i = (Integer)case_value;
 		cg_.getMethodGenerator().loadLocal(i);
-		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("boolean testCaseEqual(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+		cg_.getMethodGenerator().RubyRuntime_testCaseEqual();
 		Label label = new Label();
 		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
 		return label;
@@ -496,8 +495,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public Object visitRescueVariable(String name, Object var) {
 		int exception_variable = ((Pair<Integer, Label>)var).first;
 		cg_.getMethodGenerator().loadLocal(exception_variable);
-		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("boolean testExceptionType(com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyException)"));
+		cg_.getMethodGenerator().RubyRuntime_testExceptionType();
 		
 		Label label = new Label();
 		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);

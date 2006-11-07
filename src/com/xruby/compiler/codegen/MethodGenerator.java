@@ -379,6 +379,16 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));
 	}
 
+	public void RubyRuntime_testCaseEqual() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("boolean testCaseEqual(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void RubyRuntime_testExceptionType() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("boolean testExceptionType(com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyException)"));
+	}
+
 	public void RubyModule_defineClass(boolean isBuiltin) {
 		if (isBuiltin) {
 			invokeVirtual(Type.getType(RubyModule.class),
