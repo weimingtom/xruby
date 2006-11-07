@@ -225,14 +225,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {	
-		if (hasReceiver) {	
-			cg_.getMethodGenerator().push(methodName);
-			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
+		if (hasReceiver) {
+			cg_.getMethodGenerator().RubyRuntime_callPublicMethod(methodName);
 		} else {
-			cg_.getMethodGenerator().push(methodName);
-			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
+			cg_.getMethodGenerator().RubyRuntime_callMethod(methodName);
 		}
 
 		if (null != assignedCommons && assignedCommons.length > 0) {

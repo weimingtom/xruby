@@ -267,11 +267,6 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 	}
 
-	public void runCommandAndCaptureOutput() {
-		invokeStatic(Type.getType(RubyRuntime.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));
-	}
-
 	public void loadMethodPrameter(int index) {
 		//signatiure run(RubyValue reciever, ArrayValue parameters, RubyBlock block)
 		loadArg(1);
@@ -325,6 +320,28 @@ class MethodGenerator extends GeneratorAdapter {
 		getStatic(Type.getType(RubyRuntime.class),
 					"GlobalScope",
 					Type.getType(RubyModule.class));
+	}
+
+	public void RubyRuntime_callPublicMethod(String methodName) {
+		push(methodName);
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
+	}
+
+	public void RubyRuntime_callMethod(String methodName) {
+		push(methodName);
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
+	}
+
+	public void RubyRuntime_operatorNot() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue operatorNot(com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void runCommandAndCaptureOutput() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));
 	}
 
 	public void RubyModule_defineClass(boolean isBuiltin) {
