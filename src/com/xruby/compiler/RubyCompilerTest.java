@@ -1326,6 +1326,18 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_next_in_while() {
 		String[] program_texts = {
+				"i = 0; while i < 5;  i = i+1; redo if i == 3; print i; end",
+		};
+		
+		String[] outputs = {
+				"1245",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+
+	public void test_redo_in_while() {
+		String[] program_texts = {
 				"i = 0; while i < 5; i = i + 1; next; print i; end",
 				"i = 0; while i < 5; i = i + 1; next if i == 3; print i; end",
 				"i = 0; while i < 5; i = i + 1; next (print 'x') if i ==3; print i; end",
@@ -2758,11 +2770,17 @@ public class RubyCompilerTest extends TestCase {
 		String [] program_texts = {
 				"f = open(\"test_IO_gets.txt\"); print f.gets(nil); f.close",
 				"f = open(\"test_IO_gets.txt\"); print f.gets; f.close",
+				"f = open(\"test_IO_gets.txt\"); print f.gets; print f.gets; print f.gets; f.close",
+				
+				"f = open(\"test_IO_gets.txt\"); print f.gets; print $_; f.close",
 		};
 		
 		String[] outputs = {
 				"line 1\nline 2",
-				"line 1",
+				"line 1\n",
+				"line 1\nline 2\nnil",//TODO should be "line 1\nline 2nil", IO#gets should be fixed
+
+				"line 1\nline 1\n",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -2795,13 +2813,21 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_gsub() {
 		String [] program_texts = {
-				"$_ = 'quick brown fox'; gsub /[aeiou]/, '*';  print $_ ",
+				"$_ = 'quick brown fox'; gsub /[aeiou]/, '*'; print $_",
 				"$_ = 'quick brown fox'; print gsub /[aeiou]/, '&'",
+				"$_ = 'quick brown fox'; print $_.gsub /[aeiou]/, '-'",
+				
+				"$_ = 'quick brown fox'; print gsub! /cat/, '*'; print $_",
+				"$_ = 'quick brown fox'; print($_.gsub!(/cat/, '-')); print $_",
 		};
 		
 		String[] outputs = {
 				"q**ck br*wn f*x",
 				"q&&ck br&wn f&x",
+				"q--ck br-wn f-x",
+				
+				"nilquick brown fox",
+				"nilquick brown fox",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

@@ -10,12 +10,12 @@ public class WhileExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"while\n" +
-"true\n" +
-"while condition\n" +
-"true\n" +
-"end while\n" +
-"EOF";
+			"while condition\n" +
+			"true\n" +
+			"end while condition\n" +
+			"true\n" +
+			"end while\n" +
+			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}
 	
@@ -37,17 +37,17 @@ public class WhileExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-"2\n" +
-"a =\n" +
-";\n" +
-"while\n" +
-"true\n" +
-"while condition\n" +
-"a\n" +
-"1\n" +
-">\n" +
-"end while\n" +
-"EOF";
+			"2\n" +
+			"a =\n" +
+			";\n" +
+			"while condition\n" +
+			"a\n" +
+			"1\n" +
+			">\n" +
+			"end while condition\n" +
+			"true\n" +
+			"end while\n" +
+			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}
 	

@@ -462,34 +462,30 @@ class Kernel_at_exit extends RubyMethod {
 	}
 }
 
-class Kernel_gsub extends RubyMethod {
-	public Kernel_gsub() {
-		super(-1);
-	}
-	
+class Kernel_gsub extends String_gsub {
+
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		if (args.size() < 2) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for 2)");
-		}
-		
 		if (GlobalVariables.LAST_READ_LINE.getRubyClass() != RubyRuntime.StringClass) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.LAST_READ_LINE.getRubyClass().getName() + " given)");
 		}
-		
-		if (args.get(0).getRubyClass() != RubyRuntime.RegexpClass) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
-		}
-		
-		if (args.get(1).getRubyClass() != RubyRuntime.StringClass) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "can't convert " + args.get(1).getRubyClass().getName() + " into String");
-		}
-		
-		StringValue g = (StringValue)GlobalVariables.LAST_READ_LINE.getValue();
-		RegexpValue r = (RegexpValue)args.get(0).getValue();
-		StringValue s = (StringValue)args.get(1).getValue();
-		
-		GlobalVariables.LAST_READ_LINE = ObjectFactory.createString(r.gsub(g, s));
+
+		GlobalVariables.LAST_READ_LINE = super.run(GlobalVariables.LAST_READ_LINE, args, block);
 		return GlobalVariables.LAST_READ_LINE;
+	}
+}
+
+class Kernel_gsub_danger extends String_gsub_danger {
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		if (GlobalVariables.LAST_READ_LINE.getRubyClass() != RubyRuntime.StringClass) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.LAST_READ_LINE.getRubyClass().getName() + " given)");
+		}
+
+		RubyValue r = super.run(GlobalVariables.LAST_READ_LINE, args, block);
+		if (r != ObjectFactory.nilValue) {
+			GlobalVariables.LAST_READ_LINE = r;
+		}
+		return r;
 	}
 }
 
@@ -525,6 +521,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("proc", lambda);
 		m.defineMethod("at_exit", new Kernel_at_exit());
 		m.defineMethod("gsub", new Kernel_gsub());
+		m.defineMethod("gsub!", new Kernel_gsub_danger());
 		m.setAccessPublic();
 
 		RubyRuntime.ObjectClass.includeModule(m);

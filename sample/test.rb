@@ -537,7 +537,7 @@ end
 
 test_ok(!tmp.eof? && /vt100/ =~ line)
 tmp.close
-=begin
+
 # test next
 $bad = false
 tmp = open("while_tmp", "r")
@@ -563,7 +563,7 @@ while tmp.gets()
 end
 test_ok(tmp.eof? && !$bad)
 tmp.close
-
+=begin
 sum=0
 for i in 1..10
   sum += i

@@ -63,18 +63,16 @@ class IO_gets extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
 		IOValue io = (IOValue)receiver.getValue();
 		if (null != io) {
-			if (null == args) {
-				return io.gets(GlobalVariables.INPUT_RECORD_SEPARATOR);
-			} else {
-				return io.gets(args.get(0));
-			}
+			RubyValue seperator = (null == args) ?  GlobalVariables.INPUT_RECORD_SEPARATOR : args.get(0);
+			GlobalVariables.LAST_READ_LINE = io.gets(seperator);
+		} else {
+			//TODO stdout, stderr, stdin
+			GlobalVariables.LAST_READ_LINE = ObjectFactory.nilValue;
 		}
-		
-		//TODO stdout, stderr, stdin
-		return ObjectFactory.nilValue;
+
+		return GlobalVariables.LAST_READ_LINE;
 	}
 }
-
 
 class IO_eof extends RubyMethod {
 	public IO_eof() {
