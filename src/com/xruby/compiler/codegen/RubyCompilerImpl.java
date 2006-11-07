@@ -624,9 +624,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitInstanceVariableExpression(String name) {
 		visitSelfExpression();
-		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue getInstanceVariable(String)"));
+		cg_.getMethodGenerator().RubyValue_getInstanceVariable(name);
 	}
 
 	public void visitInstanceVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
@@ -637,9 +635,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().storeLocal(value);
 		visitSelfExpression();
 		cg_.getMethodGenerator().loadLocal(value);
-		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, String)"));
+		cg_.getMethodGenerator().RubyValue_setInstanceVariable(name);
 	}
 	
 	public void visitMrhs(int var, int index, boolean asterisk) {
