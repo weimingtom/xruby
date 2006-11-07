@@ -73,7 +73,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(className));
 		
 		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().RubyValue_to_RubyModule();
+		cg_.getMethodGenerator().convert_RubyValue_to_RubyModule();
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
@@ -104,9 +104,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(moduleName));
 
 		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("Object getValue()"));
-		cg_.getMethodGenerator().checkCast(Type.getType(RubyModule.class));
+		cg_.getMethodGenerator().convert_RubyValue_to_RubyModule();
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
@@ -223,9 +221,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitBlockArgument() {
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("Object getValue()"));
-		cg_.getMethodGenerator().checkCast(Type.getType(RubyBlock.class));
+		cg_.getMethodGenerator().convert_RubyValue_to_RubyBlock();
 	}
 	
 	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {	

@@ -162,10 +162,16 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 	}
 
-	public void RubyValue_to_RubyModule() {
+	public void convert_RubyValue_to_RubyModule() {
 		invokeVirtual(Type.getType(RubyValue.class),
 				Method.getMethod("Object getValue()"));
 		checkCast(Type.getType(RubyModule.class));
+	}
+
+	public void convert_RubyValue_to_RubyBlock() {
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("Object getValue()"));
+		checkCast(Type.getType(RubyBlock.class));
 	}
 
 	public void ObjectFactory_getBuiltinClass(String className) {
