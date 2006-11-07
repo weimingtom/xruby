@@ -333,16 +333,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitRegexpExpressionWithExpressionSubstitutionEnd() {
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(StringValue.class),
-			Method.getMethod("String toString()"));
-		cg_.getMethodGenerator().invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createRegexp(String)"));
+		cg_.getMethodGenerator().ObjectFactory_createRegexp();
 	}
 
 	public void visitCommandOutputExpressionWithExpressionSubstitutionEnd() {
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(StringValue.class),
-			Method.getMethod("String toString()"));
-		cg_.getMethodGenerator().runCommandAndCaptureOutput();
+		cg_.getMethodGenerator().RubyRuntime_runCommandAndCaptureOutput();
 	}
 	
 	public void visitRegexpExpression(String value) {
@@ -581,8 +576,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitCommandOutputExpression(String value) {
-		cg_.getMethodGenerator().push(value);
-		cg_.getMethodGenerator().runCommandAndCaptureOutput();
+		cg_.getMethodGenerator().RubyRuntime_runCommandAndCaptureOutput(value);
 	}
 
 	public void visitReturn() {
