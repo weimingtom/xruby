@@ -205,19 +205,19 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitNoParameter() {
-		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
+		cg_.getMethodGenerator().pushNull();
 	}
 
 	public void visitNoBlock(boolean is_in_super) {
 		if (is_in_super) {
 			cg_.getMethodGenerator().loadArg(2);
 		} else {
-			cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
+			cg_.getMethodGenerator().pushNull();
 		}
 	}
 
 	public void visitNoSuperClass() {
-		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
+		cg_.getMethodGenerator().pushNull();
 	}
 
 	public void visitBlockArgument() {
@@ -281,7 +281,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (operator.equals("!")) {
 			cg_.getMethodGenerator().RubyRuntime_operatorNot();
 		} else {
-			cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
+			cg_.getMethodGenerator().pushNull();
 			cg_.getMethodGenerator().RubyRuntime_callPublicMethod_OneArgNoBlcok(operator);
 		}
 	}
@@ -354,7 +354,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitEof(boolean last_statement_has_return_value) {
 		if (!last_statement_has_return_value) {
-			cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
+			cg_.getMethodGenerator().pushNull();
 		}
 		cg_.getMethodGenerator().returnValue();
 	}
@@ -482,7 +482,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		int exception_variable = cg_.getAnonymousLocalVariable();
 		cg_.getMethodGenerator().storeLocal(exception_variable);
 
-		cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);//hack???
+		cg_.getMethodGenerator().pushNull();//hack???
 		
 		return new Pair<Integer, Label>(exception_variable, after_exception);
 	}

@@ -14,12 +14,16 @@ class MethodGenerator extends GeneratorAdapter {
 	
 	private SymbolTable symbol_table_ = new SymbolTable();
 
+	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
+		super(arg0, arg1, arg2, arg3, arg4);
+	}
+	
 	public SymbolTable getSymbolTable() {
 		return symbol_table_;
 	}
-	
-	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
-		super(arg0, arg1, arg2, arg3, arg4);
+
+	public void pushNull() {
+		visitInsn(Opcodes.ACONST_NULL);
 	}
 	
 	public void saveBlockForFutureRestore() {
@@ -68,7 +72,7 @@ class MethodGenerator extends GeneratorAdapter {
 		dup();
 
 		if (is_in_global_scope) {
-			visitInsn(Opcodes.ACONST_NULL);
+			pushNull();
 		} else if (is_in_block) {
 			loadBlockOfCurrentMethod();
 		} else {
@@ -431,7 +435,7 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void breakBlock() {
 		putField(Type.getType(RubyBlock.class), "breakValue_", Type.getType(RubyValue.class));
-		visitInsn(Opcodes.ACONST_NULL);
+		pushNull();
 		returnValue();
 	}
 
