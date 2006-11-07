@@ -145,6 +145,11 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(ArrayValue.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue collect(int)"));
 	}
+
+	public void ArrayValue_expandArrayIfThereIsZeroOrOneValue() {
+		invokeStatic(Type.getType(ArrayValue.class),
+					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
+	}
 	
 	public void StringValue_append(String value) {
 		push(value);
@@ -196,6 +201,11 @@ class MethodGenerator extends GeneratorAdapter {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue createString(String)"));
+	}
+
+	public void ObjectFactory_createString() {
+		invokeStatic(Type.getType(ObjectFactory.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(com.xruby.runtime.value.StringValue)"));
 	}
 	
 	public void ObjectFactory_createRegexp(String value) {
