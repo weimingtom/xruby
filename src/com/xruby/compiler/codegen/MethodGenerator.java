@@ -14,12 +14,16 @@ class MethodGenerator extends GeneratorAdapter {
 	
 	private SymbolTable symbol_table_ = new SymbolTable();
 
+	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
+		super(arg0, arg1, arg2, arg3, arg4);
+	}
+	
 	public SymbolTable getSymbolTable() {
 		return symbol_table_;
 	}
-	
-	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
-		super(arg0, arg1, arg2, arg3, arg4);
+
+	public void pushNull() {
+		visitInsn(Opcodes.ACONST_NULL);
 	}
 	
 	public void saveBlockForFutureRestore() {
@@ -68,7 +72,7 @@ class MethodGenerator extends GeneratorAdapter {
 		dup();
 
 		if (is_in_global_scope) {
-			visitInsn(Opcodes.ACONST_NULL);
+			pushNull();
 		} else if (is_in_block) {
 			loadBlockOfCurrentMethod();
 		} else {
@@ -145,6 +149,26 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(ArrayValue.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue collect(int)"));
 	}
+
+	public void ArrayValue_expandArrayIfThereIsZeroOrOneValue() {
+		invokeStatic(Type.getType(ArrayValue.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void ArrayValue_expandArrayIfThereIsZeroOrOneValue2() {
+		invokeStatic(Type.getType(ArrayValue.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.value.ArrayValue)"));
+	}
+
+	public void ArrayValue_expandArrayIfThereIsOnlyOneArrayValue() {
+		invokeStatic(Type.getType(ArrayValue.class),
+			Method.getMethod("com.xruby.runtime.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.runtime.value.ArrayValue)"));
+	}
+
+	public void ArrayValue_convertToArrayIfNotYet() {
+		invokeStatic(Type.getType(ArrayValue.class),
+			Method.getMethod("com.xruby.runtime.value.ArrayValue convertToArrayIfNotYet(com.xruby.runtime.lang.RubyValue)"));
+	}
 	
 	public void StringValue_append(String value) {
 		push(value);
@@ -160,6 +184,24 @@ class MethodGenerator extends GeneratorAdapter {
 	public void HashValue_addValue() {
 		invokeVirtual(Type.getType(HashValue.class),
 				Method.getMethod("void add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void convert_RubyValue_to_RubyModule() {
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("Object getValue()"));
+		checkCast(Type.getType(RubyModule.class));
+	}
+
+	public void convert_RubyValue_to_RubyBlock() {
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("Object getValue()"));
+		checkCast(Type.getType(RubyBlock.class));
+	}
+
+	public void ObjectFactory_getBuiltinClass(String className) {
+		getStatic(Type.getType(ObjectFactory.class),
+					className + "ClassValue",
+					Type.getType(RubyValue.class));
 	}
 	
 	public void ObjectFactory_createFloat(double value) {
@@ -179,9 +221,21 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeStatic(Type.getType(ObjectFactory.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue createString(String)"));
 	}
+
+	public void ObjectFactory_createString() {
+		invokeStatic(Type.getType(ObjectFactory.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(com.xruby.runtime.value.StringValue)"));
+	}
 	
 	public void ObjectFactory_createRegexp(String value) {
 		push(value);
+		invokeStatic(Type.getType(ObjectFactory.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue createRegexp(String)"));
+	}
+
+	public void ObjectFactory_createRegexp() {
+		invokeVirtual(Type.getType(StringValue.class),
+			Method.getMethod("String toString()"));
 		invokeStatic(Type.getType(ObjectFactory.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue createRegexp(String)"));
 	}
@@ -249,11 +303,6 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 	}
 
-	public void runCommandAndCaptureOutput() {
-		invokeStatic(Type.getType(RubyRuntime.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));
-	}
-
 	public void loadMethodPrameter(int index) {
 		//signatiure run(RubyValue reciever, ArrayValue parameters, RubyBlock block)
 		loadArg(1);
@@ -303,6 +352,64 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("boolean testTrueFalse(com.xruby.runtime.lang.RubyValue)"));
 	}
 
+	public void RubyRuntime_GlobalScope() {
+		getStatic(Type.getType(RubyRuntime.class),
+					"GlobalScope",
+					Type.getType(RubyModule.class));
+	}
+
+	public void RubyRuntime_callPublicMethod(String methodName) {
+		push(methodName);
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
+	}
+
+	public void RubyRuntime_callPublicMethod_OneArgNoBlcok(String methodName) {
+		push(methodName);
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));	
+	}
+
+	public void RubyRuntime_callMethod(String methodName) {
+		push(methodName);
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
+	}
+
+	public void RubyRuntime_callSuperMethod(String methodName) {
+		push(methodName);
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
+	}
+
+	public void RubyRuntime_operatorNot() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue operatorNot(com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void RubyRuntime_runCommandAndCaptureOutput(String command) {
+		push(command);
+		invokeStatic(Type.getType(RubyRuntime.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));
+	}
+
+	public void RubyRuntime_runCommandAndCaptureOutput() {
+		invokeVirtual(Type.getType(StringValue.class),
+			Method.getMethod("String toString()"));
+		invokeStatic(Type.getType(RubyRuntime.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));
+	}
+
+	public void RubyRuntime_testCaseEqual() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("boolean testCaseEqual(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void RubyRuntime_testExceptionType() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("boolean testExceptionType(com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyException)"));
+	}
+
 	public void RubyModule_defineClass(boolean isBuiltin) {
 		if (isBuiltin) {
 			invokeVirtual(Type.getType(RubyModule.class),
@@ -318,6 +425,42 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue defineModule(String)"));
 	}
 
+	public void RubyModule_getCurrentNamespaceConstant(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getCurrentNamespaceConstant(String)"));
+	}
+
+	public void RubyModule_getTopLevelConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getTopLevelConstant(String)"));
+	}
+
+	public void RubyModule_getConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getConstant(com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
+	public void RubyModule_setConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue setConstant(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
+	public void RubyModule_setTopLevelConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyModule.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue setTopLevelConstant(com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
+	public void RubyBlock_invoke() {
+		invokeVirtual(Type.getType(RubyBlock.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue)"));
+
+	}
+
 	public void MethodCollection_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
 		if (!is_singleton_method) {
 			if (!loadCurrentClass()) {
@@ -330,6 +473,35 @@ class MethodGenerator extends GeneratorAdapter {
 		new_MethodClass(uniqueMethodName);
 		invokeVirtual(Type.getType(MethodCollection.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
+	}
+
+	public void RubyValue_getRubyClass() {
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
+	}
+
+	public void RubyValue_getInstanceVariable(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue getInstanceVariable(String)"));
+	}
+
+	public void RubyValue_setInstanceVariable(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
+	public void RubyModule_getClassVariable(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue getClassVariable(String)"));
+	}
+
+	public void RubyModule_setClassVariable(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue setClassVariable(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
 	public void load_asterisk_parameter_(Class c) {
@@ -359,7 +531,7 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void breakBlock() {
 		putField(Type.getType(RubyBlock.class), "breakValue_", Type.getType(RubyValue.class));
-		visitInsn(Opcodes.ACONST_NULL);
+		pushNull();
 		returnValue();
 	}
 
