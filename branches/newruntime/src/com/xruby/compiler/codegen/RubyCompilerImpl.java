@@ -555,8 +555,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitYieldEnd() {
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyBlock.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue)"));
+		cg_.getMethodGenerator().RubyBlock_invoke();
 	}
 
 	public void visitSuperBegin() {
@@ -564,9 +563,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitSuperEnd() {
-		cg_.getMethodGenerator().push(((ClassGeneratorForRubyMethod)cg_).getMethodName());
-		cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
+		cg_.getMethodGenerator().RubyRuntime_callSuperMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
 	}
 
 	public void visitGlobalVariableExpression(String value) {
@@ -603,11 +600,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitClassVariableExpression(String name) {
 		visitSelfExpression();
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
-		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyModule.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue getClassVariable(String)"));
+		cg_.getMethodGenerator().RubyValue_getRubyClass();
+		cg_.getMethodGenerator().RubyModule_getClassVariable(name);
 	}
 
 	public void visitClassVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
@@ -621,14 +615,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().loadArg(1);
 		} else {
 			visitSelfExpression();
-			cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyValue.class),
-					Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
+			cg_.getMethodGenerator().RubyValue_getRubyClass();
 		}
 		
 		cg_.getMethodGenerator().loadLocal(value);
-		cg_.getMethodGenerator().push(name);
-		cg_.getMethodGenerator().invokeVirtual(Type.getType(RubyModule.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue setClassVariable(com.xruby.runtime.lang.RubyValue, String)"));
+		cg_.getMethodGenerator().RubyModule_setClassVariable(name);
 	}
 	
 	public void visitInstanceVariableExpression(String name) {

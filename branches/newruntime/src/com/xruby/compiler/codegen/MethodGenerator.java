@@ -361,6 +361,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
+	public void RubyRuntime_callSuperMethod(String methodName) {
+		push(methodName);
+		invokeStatic(Type.getType(RubyRuntime.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock, String)"));
+	}
+
 	public void RubyRuntime_operatorNot() {
 		invokeStatic(Type.getType(RubyRuntime.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue operatorNot(com.xruby.runtime.lang.RubyValue)"));
@@ -404,6 +410,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue defineModule(String)"));
 	}
 
+	public void RubyBlock_invoke() {
+		invokeVirtual(Type.getType(RubyBlock.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue)"));
+
+	}
+
 	public void MethodCollection_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
 		if (!is_singleton_method) {
 			if (!loadCurrentClass()) {
@@ -416,6 +428,23 @@ class MethodGenerator extends GeneratorAdapter {
 		new_MethodClass(uniqueMethodName);
 		invokeVirtual(Type.getType(MethodCollection.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
+	}
+
+	public void RubyValue_getRubyClass() {
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
+	}
+
+	public void RubyModule_getClassVariable(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue getClassVariable(String)"));
+	}
+
+	public void RubyModule_setClassVariable(String name) {
+		push(name);
+		invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue setClassVariable(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
 	public void load_asterisk_parameter_(Class c) {
