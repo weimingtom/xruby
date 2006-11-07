@@ -279,31 +279,23 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitUnaryOperator(String operator) {
 		if (operator.equals("!")) {
-			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue operatorNot(com.xruby.runtime.lang.RubyValue)"));
+			cg_.getMethodGenerator().RubyRuntime_operatorNot();
 		} else {
 			cg_.getMethodGenerator().visitInsn(Opcodes.ACONST_NULL);
-			cg_.getMethodGenerator().push(operator);
-			cg_.getMethodGenerator().invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
+			cg_.getMethodGenerator().RubyRuntime_callPublicMethod_OneArgNoBlcok(operator);
 		}
-	}
-
-	private void expandArrayIfThereIsZeroOrOneValue() {
-		cg_.getMethodGenerator().invokeStatic(Type.getType(ArrayValue.class),
-					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 	}
 	
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
 		if (rhs_is_method_call) {
-			expandArrayIfThereIsZeroOrOneValue();
+			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue();
 		}
 		cg_.getMethodGenerator().GlobalVatiables_set(var);
 	}
 
 	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
 		if (rhs_is_method_call) {
-			expandArrayIfThereIsZeroOrOneValue();
+			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue();
 		}
 		if (!is_multiple_assign) {
 			cg_.getMethodGenerator().dup();//do not pop off empty stack
@@ -337,8 +329,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitutionEnd() {
-		cg_.getMethodGenerator().invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(com.xruby.runtime.value.StringValue)"));
+		cg_.getMethodGenerator().ObjectFactory_createString();
 	}
 	
 	public void visitRegexpExpressionWithExpressionSubstitutionEnd() {
@@ -629,7 +620,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitClassVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
 		if (rhs_is_method_call) {
-			expandArrayIfThereIsZeroOrOneValue();
+			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue();
 		}
 		int value = cg_.getMethodGenerator().newLocal(Type.getType(RubyValue.class));
 		cg_.getMethodGenerator().storeLocal(value);
@@ -657,7 +648,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitInstanceVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
 		if (rhs_is_method_call) {
-			expandArrayIfThereIsZeroOrOneValue();
+			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue();
 		}
 		int value = cg_.getMethodGenerator().newLocal(Type.getType(RubyValue.class));
 		cg_.getMethodGenerator().storeLocal(value);
