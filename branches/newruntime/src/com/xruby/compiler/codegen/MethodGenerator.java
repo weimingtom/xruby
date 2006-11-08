@@ -121,7 +121,7 @@ class MethodGenerator extends GeneratorAdapter {
 	
 	public void ArrayValue_add(boolean is_method_call) {
 		if (is_method_call) {
-			invokeStatic(Type.getType(ArrayValue.class),
+			invokeStatic(Type.getType(RubyRuntime.class),
 					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 		}
 		invokeVirtual(Type.getType(ArrayValue.class),
@@ -130,7 +130,7 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void ArrayValue_expand(boolean is_method_call) {
 		if (is_method_call) {
-			invokeStatic(Type.getType(ArrayValue.class),
+			invokeStatic(Type.getType(RubyRuntime.class),
 					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 		}
 
@@ -150,26 +150,6 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue collect(int)"));
 	}
 
-	public void ArrayValue_expandArrayIfThereIsZeroOrOneValue() {
-		invokeStatic(Type.getType(ArrayValue.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
-	}
-
-	public void ArrayValue_expandArrayIfThereIsZeroOrOneValue2() {
-		invokeStatic(Type.getType(ArrayValue.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.value.ArrayValue)"));
-	}
-
-	public void ArrayValue_expandArrayIfThereIsOnlyOneArrayValue() {
-		invokeStatic(Type.getType(ArrayValue.class),
-			Method.getMethod("com.xruby.runtime.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.runtime.value.ArrayValue)"));
-	}
-
-	public void ArrayValue_convertToArrayIfNotYet() {
-		invokeStatic(Type.getType(ArrayValue.class),
-			Method.getMethod("com.xruby.runtime.value.ArrayValue convertToArrayIfNotYet(com.xruby.runtime.lang.RubyValue)"));
-	}
-	
 	public void StringValue_append(String value) {
 		push(value);
 		invokeVirtual(Type.getType(StringValue.class),
@@ -415,6 +395,26 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("boolean testExceptionType(com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyException)"));
 	}
 
+	public void RubyRuntime_expandArrayIfThereIsZeroOrOneValue() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void RubyRuntime_expandArrayIfThereIsZeroOrOneValue2() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.value.ArrayValue)"));
+	}
+
+	public void RubyRuntime_expandArrayIfThereIsOnlyOneArrayValue() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+			Method.getMethod("com.xruby.runtime.value.ArrayValue expandArrayIfThereIsOnlyOneArrayValue(com.xruby.runtime.value.ArrayValue)"));
+	}
+
+	public void RubyRuntime_convertToArrayIfNotYet() {
+		invokeStatic(Type.getType(RubyRuntime.class),
+			Method.getMethod("com.xruby.runtime.value.ArrayValue convertToArrayIfNotYet(com.xruby.runtime.lang.RubyValue)"));
+	}
+	
 	public void RubyModule_defineClass(boolean isBuiltin) {
 		if (isBuiltin) {
 			invokeVirtual(Type.getType(RubyModule.class),

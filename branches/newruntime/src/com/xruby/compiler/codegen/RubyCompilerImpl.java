@@ -288,14 +288,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
 		if (rhs_is_method_call) {
-			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue();
+			cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsZeroOrOneValue();
 		}
 		cg_.getMethodGenerator().GlobalVatiables_set(var);
 	}
 
 	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
 		if (rhs_is_method_call) {
-			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue();
+			cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsZeroOrOneValue();
 		}
 		if (!is_multiple_assign) {
 			cg_.getMethodGenerator().dup();//do not pop off empty stack
@@ -606,7 +606,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitClassVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
 		if (rhs_is_method_call) {
-			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue();
+			cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsZeroOrOneValue();
 		}
 		int value = cg_.getMethodGenerator().newLocal(Type.getType(RubyValue.class));
 		cg_.getMethodGenerator().storeLocal(value);
@@ -629,7 +629,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitInstanceVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
 		if (rhs_is_method_call) {
-			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue();
+			cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsZeroOrOneValue();
 		}
 		int value = cg_.getMethodGenerator().newLocal(Type.getType(RubyValue.class));
 		cg_.getMethodGenerator().storeLocal(value);
@@ -649,11 +649,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs) {
 		if (single_lhs) {
-			cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsZeroOrOneValue2();
+			cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsZeroOrOneValue2();
 			return 0;
 		} else {
 			if (single_rhs) {
-				cg_.getMethodGenerator().ArrayValue_expandArrayIfThereIsOnlyOneArrayValue();
+				cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsOnlyOneArrayValue();
 			}
 			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
 			cg_.getMethodGenerator().storeLocal(var);
@@ -669,7 +669,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (single_lhs) {
 			return 0;
 		} else {
-			cg_.getMethodGenerator().ArrayValue_convertToArrayIfNotYet();
+			cg_.getMethodGenerator().RubyRuntime_convertToArrayIfNotYet();
 			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
 			cg_.getMethodGenerator().storeLocal(var);
 			return var;
