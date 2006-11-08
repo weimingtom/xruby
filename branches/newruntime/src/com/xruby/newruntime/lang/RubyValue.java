@@ -1,6 +1,7 @@
 package com.xruby.newruntime.lang;
 
 import com.xruby.newruntime.value.RubyFixnum;
+import com.xruby.newruntime.value.RubyArray;
 
 public class RubyValue {
 	public int objectAddress() {
@@ -8,31 +9,31 @@ public class RubyValue {
 	}
 	
 	public RubyValue callMethod(String name) {
-		return this.callMethod(name, new RubyValue[0], RubyBlock.NULL_BLOCK);
+		return this.callMethod(name, RubyMethod.NULL_ARG, RubyBlock.NULL_BLOCK);
 	}
 	
 	public RubyValue callMethod(String name, RubyValue arg) {
-		return this.callMethod(name, new RubyValue[]{arg}, RubyBlock.NULL_BLOCK);
+		return this.callMethod(name, new RubyArray(arg), RubyBlock.NULL_BLOCK);
 	}
 	
-	public RubyValue callMethod(String name, RubyValue[] args) {
+	public RubyValue callMethod(String name, RubyArray args) {
 		return this.callMethod(name, args, RubyBlock.NULL_BLOCK);
 	}
 	
 	public RubyValue callMethod(String name, RubyBlock block) {
-		return this.callMethod(name, new RubyValue[0], block);
+		return this.callMethod(name, RubyMethod.NULL_ARG, block);
 	}
 	
-	public RubyValue callMethod(String name, RubyValue[] args, RubyBlock block) {
+	public RubyValue callMethod(String name, RubyArray args, RubyBlock block) {
 		RubyID id = StringMap.intern(name);
 		return this.callMethod(id, args, block);
 	}
 	
-	public RubyValue callMethod(RubyID id, RubyValue[] args) {
-		return this.callMethod(id, args, null);
+	public RubyValue callMethod(RubyID id, RubyArray args) {
+		return this.callMethod(id, args, RubyBlock.NULL_BLOCK);
 	}
 	
-	public RubyValue callMethod(RubyID id, RubyValue[] args, RubyBlock block) {
+	public RubyValue callMethod(RubyID id, RubyArray args, RubyBlock block) {
 		RubyClass klass = RubyUtil.classof(this);
 		return klass.callMethod(this, id, args, block);
 	}

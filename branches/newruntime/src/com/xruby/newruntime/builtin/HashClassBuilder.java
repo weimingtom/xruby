@@ -10,6 +10,7 @@ import com.xruby.newruntime.lang.RubyUtil;
 import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyFixnum;
 import com.xruby.newruntime.value.RubyHash;
+import com.xruby.newruntime.value.RubyArray;
 
 public class HashClassBuilder implements ClassBuilder {
 	private RubyClass hashClass;
@@ -136,7 +137,7 @@ public class HashClassBuilder implements ClassBuilder {
 
 class HashMethod {
 	public static RubyMethod alloc = new RubyMethod() {
-		protected RubyValue run(RubyValue receiver, RubyValue[] args,
+		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			return new RubyHash();
 		}		
@@ -164,11 +165,11 @@ class HashMethod {
 	};
 	
 	public static RubyMethod aset = new RubyMethod() {
-		protected RubyValue run(RubyValue receiver, RubyValue[] args,
+		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			RubyHash hash = (RubyHash)receiver;
-			if (args.length == 2) {
-				return hash.put(args[0], args[1]);
+			if (args.length() == 2) {
+				return hash.put(args.get(0), args.get(1));
 			}
 			
 			// FIXME: throws exception

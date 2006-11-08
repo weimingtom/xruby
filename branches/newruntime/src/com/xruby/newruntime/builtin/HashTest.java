@@ -7,6 +7,7 @@ import com.xruby.newruntime.lang.RubyRuntime;
 import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyFixnum;
 import com.xruby.newruntime.value.RubyHash;
+import com.xruby.newruntime.value.RubyArray;
 
 public class HashTest extends TestCase {
 	public void testInit() {
@@ -22,7 +23,7 @@ public class HashTest extends TestCase {
 		RubyFixnum key = RubyFixnum.int2Fix(0);
 		assertEquals(RubyConstant.QNIL, hash.callMethod("[]", key));
 		RubyFixnum value = RubyFixnum.int2Fix(1);
-		hash.callMethod("[]=", new RubyValue[]{key, value});
+		hash.callMethod("[]=", new RubyArray(key, value));
 		assertEquals(value, hash.callMethod("[]", key));
 	}
 }

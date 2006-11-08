@@ -7,6 +7,7 @@ import com.xruby.newruntime.lang.RubyNoArgMethod;
 import com.xruby.newruntime.lang.RubyRuntime;
 import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.value.RubyArray;
 
 public class GlobalBuilder implements ClassBuilder {
 	public void initialize() {
@@ -20,17 +21,17 @@ public class GlobalBuilder implements ClassBuilder {
 
 class GlobalMethod {
 	public static RubyMethod raise = new RubyMethod() {
-		protected RubyValue run(RubyValue receiver, RubyValue[] args,
+		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			
-			int argc = args.length;
+			int argc = args.length();
 			switch (argc) {
 			case 0:
 				RubyRuntime.raise(RubyRuntime.runtimeError, " not implemented");
 				break;
 			case 1:				
-				if (args[0] instanceof RubyString) {
-					RubyRuntime.raise(RubyRuntime.runtimeError, ((RubyString)args[0]).getString());
+				if (args.get(0) instanceof RubyString) {
+					RubyRuntime.raise(RubyRuntime.runtimeError, ((RubyString)args.get(0)).getString());
 					break;
 				}
 				

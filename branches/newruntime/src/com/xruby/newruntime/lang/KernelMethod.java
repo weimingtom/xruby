@@ -1,6 +1,7 @@
 package com.xruby.newruntime.lang;
 
 import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.value.RubyArray;
 
 public class KernelMethod {
 	private static RubyID ID_EQ = StringMap.intern("==");
@@ -12,8 +13,8 @@ public class KernelMethod {
 	};
 	
 	public static RubyMethod equal = new NoBlockRubyMethod() {		
-		public RubyValue run(RubyValue receiver, RubyValue[] args) {
-			if (receiver == args[0]) {
+		public RubyValue run(RubyValue receiver, RubyArray args) {
+			if (receiver == args.get(0)) {
 				return RubyConstant.QTRUE;
 			}
 			
@@ -75,9 +76,9 @@ public class KernelMethod {
 	};
 	
 	public static RubyMethod methods = new RubyMethod() {
-		protected RubyValue run(RubyValue receiver, RubyValue[] args,
+		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
-			if (args.length == 0) {
+			if (null == args) {
 				RubyClass klass = RubyUtil.classof(receiver);
 				return klass.instanceMethod(true);
 			} else {
