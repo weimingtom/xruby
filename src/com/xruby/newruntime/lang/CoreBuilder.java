@@ -73,8 +73,8 @@ public class CoreBuilder implements ClassBuilder {
 	    */
 	    this.kernelModule.defineMethod("to_s", KernelMethod.anyToS, 0);
 	    this.kernelModule.defineMethod("inspect", KernelMethod.objectInspect, 0);
+	    this.kernelModule.defineMethod("methods", KernelMethod.methods, -1);
 	    /*
-	    rb_define_method(rb_mKernel, "methods", rb_obj_methods, -1);
 	    rb_define_method(rb_mKernel, "singleton_methods", 
 			     rb_obj_singleton_methods, -1); // in class.c 
 	    rb_define_method(rb_mKernel, "protected_methods", 
