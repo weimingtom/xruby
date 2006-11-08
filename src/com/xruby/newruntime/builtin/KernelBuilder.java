@@ -6,6 +6,7 @@ import com.xruby.newruntime.lang.RubyModule;
 import com.xruby.newruntime.lang.RubyRuntime;
 import com.xruby.newruntime.lang.RubySymbol;
 import com.xruby.newruntime.lang.RubyValue;
+import com.xruby.newruntime.value.RubyArray;
 
 public class KernelBuilder implements ClassBuilder {
 	private RubyModule kernelModule;
@@ -19,18 +20,14 @@ public class KernelBuilder implements ClassBuilder {
 
 class KernelMethod {
 	public static RubyMethod send = new RubyMethod() {
-		protected RubyValue run(RubyValue receiver, RubyValue[] args,
+		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
-			if (args.length == 0) {
+			if (args.length() == 0) {
 				RubyRuntime.raise(RubyRuntime.argumentError, "no method name given");
 			}
 			
-			RubySymbol methodSymbol = (RubySymbol)args[0];
-			int destLen = args.length - 1;
-			RubyValue[] destArgs = new RubyValue[destLen];
-			System.arraycopy(args, 1, destArgs, 0, destLen);
-			
-			return receiver.callMethod(methodSymbol.toID(), destArgs, block);
+			RubySymbol methodSymbol = (RubySymbol)args.remove(0);
+			return receiver.callMethod(methodSymbol.toID(), args, block);
 		}		
 	};
 }

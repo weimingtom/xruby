@@ -21,12 +21,10 @@ class ArrayMethod {
 	};
 	
 	public static RubyMethod initialize = new NoBlockRubyMethod() {
-		public RubyValue run(RubyValue receiver, RubyValue[] args) {
-			if (args == null) {
-				args = new RubyValue[0];
-			}
+		public RubyValue run(RubyValue receiver, RubyArray args) {
+			int args_length = (args == null) ? 0 : args.length();
 			
-			switch (args.length) {
+			switch (args_length) {
 			case 0:
 				return receiver;
 				// FIXME: block given
@@ -66,20 +64,20 @@ class ArrayMethod {
 	};
 	
 	public static RubyMethod aref = new NoBlockRubyMethod() {
-		public RubyValue run(RubyValue receiver, RubyValue[] args) {
+		public RubyValue run(RubyValue receiver, RubyArray args) {
 			RubyArray array = (RubyArray)receiver;
-			switch (args.length) {
+			switch (args.length()) {
 			case 2:
-				RubyValue argValue0 = args[0];
+				RubyValue argValue0 = args.get(0);
 				if (argValue0 instanceof RubySymbol) {
 					RubyRuntime.raise(RubyRuntime.typeError, "Symbol as array index");
 				}
 				
-				int begin = RubyUtil.valueToInt(args[0]);
-				int length = RubyUtil.valueToInt(args[1]);
+				int begin = RubyUtil.valueToInt(args.get(0));
+				int length = RubyUtil.valueToInt(args.get(1));
 				return ((RubyArray)receiver).subArray(begin, length);
 			default:
-				RubyValue argValue = args[0];
+				RubyValue argValue = args.get(0);
 				if (argValue instanceof RubyFixnum) {
 					RubyFixnum index = (RubyFixnum)argValue;
 					return array.get(index.intValue());
@@ -98,16 +96,16 @@ class ArrayMethod {
 	};
 	
 	public static RubyMethod aset = new NoBlockRubyMethod() {
-		public RubyValue run(RubyValue receiver, RubyValue[] args) {
+		public RubyValue run(RubyValue receiver, RubyArray args) {
 			RubyArray array = (RubyArray)receiver;
 			
 			// argc == 3
-			if (args.length == 3) {
-				if (args[0] instanceof RubySymbol) {
+			if (args.length() == 3) {
+				if (args.get(0) instanceof RubySymbol) {
 					RubyRuntime.raise(RubyRuntime.typeError, "Symbol as array index");
 				}
 				
-				if (args[1] instanceof RubySymbol) {
+				if (args.get(1) instanceof RubySymbol) {
 					RubyRuntime.raise(RubyRuntime.typeError, "Symbol as subarray length");
 				}
 				
@@ -115,19 +113,19 @@ class ArrayMethod {
 			}
 			
 			// wrong arg
-			if (args.length != 2) {
-				RubyRuntime.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for 2)", args.length);
+			if (args.length() != 2) {
+				RubyRuntime.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for 2)", args.length());
 			}
 			
 			// default
-			if (args[0] instanceof RubyFixnum) {
-				int index = ((RubyFixnum)args[0]).intValue(); 
-				array.set(index, args[1]);
+			if (args.get(0) instanceof RubyFixnum) {
+				int index = ((RubyFixnum)args.get(0)).intValue(); 
+				array.set(index, args.get(1));
 			}
 			
 			// FIXME: other case
 			
-			return args[1];
+			return args.get(1);
 		}
 	};
 	
@@ -187,7 +185,7 @@ class ArrayMethod {
 	};
 	
 	public static RubyMethod push = new RubyMethod() {
-		protected RubyValue run(RubyValue receiver, RubyValue[] args,
+		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			RubyArray array = (RubyArray)receiver;
 			for (RubyValue arg : args) {

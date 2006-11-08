@@ -1,5 +1,7 @@
 package com.xruby.newruntime.lang;
 
+import com.xruby.newruntime.value.RubyArray;
+
 public class ClassMethod {
 	private static RubyID init = StringMap.intern("initialize");
 	
@@ -11,7 +13,7 @@ public class ClassMethod {
 	};
 	
 	public static RubyMethod newInstance = new NoBlockRubyMethod() {
-		public RubyValue run(RubyValue receiver, RubyValue[] args) throws RubyException {
+		public RubyValue run(RubyValue receiver, RubyArray args) throws RubyException {
 			RubyValue obj = receiver.callMethod(RubyID.ID_ALLOCATOR, args);			
 			obj.callMethod(init, args);
 			

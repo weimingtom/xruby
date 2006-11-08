@@ -7,11 +7,12 @@ import com.xruby.newruntime.lang.RubyOneArgMethod;
 import com.xruby.newruntime.lang.RubyUtil;
 import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyFixnum;
+import com.xruby.newruntime.value.RubyArray;
 
 class FixnumMethod {
 	public static RubyMethod toS = new NoBlockRubyMethod() {
-		public RubyValue run(RubyValue receiver, RubyValue[] args) {
-			long base = (args.length == 0) ? 10 : (RubyUtil.valueToLong(args[0]));
+		public RubyValue run(RubyValue receiver, RubyArray args) {
+			long base = (null == args) ? 10 : (RubyUtil.valueToLong(args.get(0)));
 			RubyFixnum fixnum = (RubyFixnum)receiver;
 			return fixnum.toS(base);
 		}

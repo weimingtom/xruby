@@ -1,5 +1,7 @@
 package com.xruby.newruntime.lang;
 
+import com.xruby.newruntime.value.RubyArray;
+
 public class RubyDelegateMethod extends RubyMethod {
 	protected void before() {		
 	}
@@ -13,7 +15,7 @@ public class RubyDelegateMethod extends RubyMethod {
 		this.delegate = method;
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyValue[] args,
+	protected RubyValue run(RubyValue receiver, RubyArray args,
 			RubyBlock block) {
 		this.before();
 		RubyValue result = this.delegate.run(receiver, args, block);

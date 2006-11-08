@@ -102,7 +102,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		this.methodTable.put(newId, method);
 	}
 	
-	RubyValue callMethod(RubyValue receiver, RubyID name, RubyValue[] args, RubyBlock block) {
+	RubyValue callMethod(RubyValue receiver, RubyID name, RubyArray args, RubyBlock block) {
 		RubyMethod method = this.findMethod(name);
 		if (method != null) {
 			return method.invoke(receiver, args, block);

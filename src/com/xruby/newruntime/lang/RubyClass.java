@@ -1,12 +1,14 @@
 package com.xruby.newruntime.lang;
 
 import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.value.RubyArray;
 
 public class RubyClass extends RubyClassModuleBase {
 	public RubyValue newInstance() {
-		return this.newInstance(new RubyValue[0]);
+		return this.newInstance(RubyMethod.NULL_ARG);
 	}
-	public RubyValue newInstance(RubyValue[] args) {
+
+	public RubyValue newInstance(RubyArray args) {
 		return this.callMethod("new", args);
 	}
 	
