@@ -1,5 +1,7 @@
 package com.xruby.newruntime.lang;
 
+import com.xruby.newruntime.value.RubyFixnum;
+
 public class RubyValue {
 	public int objectAddress() {
 		return super.hashCode();
@@ -35,13 +37,18 @@ public class RubyValue {
 		return klass.callMethod(this, id, args, block);
 	}
 	
-	private static RubyClass singletonClass(RubyValue value) {
+	private RubyClass singletonClass() {
 		RubyClass klass;
 		
-		RubyBasic basic = (RubyBasic)value;
+		if ((this instanceof RubyFixnum) || (this instanceof RubySymbol)) {
+			RubyRuntime.raise(RubyRuntime.typeError, "can't define singleton");
+		}
 		
-		if (basic.getRubyClass().isSingleton()) {
-			klass = (RubyClass)basic.getRubyClass().getIv("__attached__");
+		RubyBasic basic = (RubyBasic)this;
+		
+		if (basic.getRubyClass().isSingleton() 
+				&& basic.getRubyClass().getIv("__attached__") == this) {
+			klass = basic.getRubyClass();
 		} else {
 			klass = RubyInternalUtil.createMetaClass(basic, basic.getRubyClass());
 		}
@@ -50,7 +57,7 @@ public class RubyValue {
 	}
 	
 	public void defineSingletonMethod(String name, RubyMethod method, int argc) {
-		RubyClass klass = singletonClass(this);
+		RubyClass klass = singletonClass();
 		klass.defineMethod(name, method, argc);
 	}
 	

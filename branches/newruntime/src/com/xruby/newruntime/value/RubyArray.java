@@ -1,6 +1,7 @@
 package com.xruby.newruntime.value;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.xruby.newruntime.lang.RubyBasic;
 import com.xruby.newruntime.lang.RubyConstant;
@@ -8,7 +9,7 @@ import com.xruby.newruntime.lang.RubyRuntime;
 import com.xruby.newruntime.lang.RubyUtil;
 import com.xruby.newruntime.lang.RubyValue;
 
-public class RubyArray extends RubyBasic {
+public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	private ArrayList<RubyValue> array = new ArrayList<RubyValue>();
 	
 	public RubyArray() {
@@ -139,5 +140,9 @@ public class RubyArray extends RubyBasic {
 		}
 		
 		return false;
+	}
+	
+	public Iterator<RubyValue> iterator() {
+		return this.array.iterator();
 	}
 }

@@ -7,9 +7,11 @@ import com.xruby.newruntime.builtin.FalseClassBuilder;
 import com.xruby.newruntime.builtin.FileClassBuilder;
 import com.xruby.newruntime.builtin.FixnumClassBuilder;
 import com.xruby.newruntime.builtin.FloatClassBuilder;
+import com.xruby.newruntime.builtin.GlobalBuilder;
 import com.xruby.newruntime.builtin.HashClassBuilder;
 import com.xruby.newruntime.builtin.IOClassBuilder;
 import com.xruby.newruntime.builtin.IntegerClassBuilder;
+import com.xruby.newruntime.builtin.KernelBuilder;
 import com.xruby.newruntime.builtin.NilClassBuilder;
 import com.xruby.newruntime.builtin.NumericClassBuilder;
 import com.xruby.newruntime.builtin.TopSelfBuilder;
@@ -82,6 +84,12 @@ public class RubyRuntime {
 		initArray();		
 		initHash();
 		initIO();
+		initGlobal();
+	}
+	
+	private static void initGlobal() {
+		GlobalBuilder builder = new GlobalBuilder();
+		builder.initialize();
 	}
 
 	private static void initObject() {
@@ -93,6 +101,9 @@ public class RubyRuntime {
 		moduleClass = coreBuilder.getModuleClass();
 		classClass = coreBuilder.getClassClass();
 		kernelModule = coreBuilder.getKernelModule();
+		
+		KernelBuilder kernelBuilder = new KernelBuilder();
+		kernelBuilder.initialize();
 		
 		TopSelfBuilder topSelfBuilder = new TopSelfBuilder();
 		topSelfBuilder.initialize();
@@ -206,6 +217,10 @@ public class RubyRuntime {
 	}
 	
 	// API: Global
+	public static void defineGlobalMethod(String name, RubyMethod method, int argc) {
+		kernelModule.defineModuleMethod(name, method, argc);
+	}
+	
 	public static void defineGlobalConst(String name, RubyValue value) {
 		objectClass.defineConst(name, value);
 	}

@@ -3,9 +3,10 @@ package com.xruby.newruntime.lang;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class RubyClassModuleBase extends RubyIvBase {
-	private static RubyID ID_ALLOCATOR = RubyID.ID_ALLOCATOR;
-	
+import com.xruby.newruntime.value.RubyArray;
+import com.xruby.newruntime.value.RubyString;
+
+public abstract class RubyClassModuleBase extends RubyIvBase {	
 	protected RubyClass superclass;	
 	protected Map<RubyID, RubyMethodWrapper> methodTable;
 	
@@ -25,18 +26,17 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	// method
 	public void defineAllocMethod(RubyMethod method) {
 		RubyClass metaClass = RubyUtil.classof(this);
-		metaClass.addMethod(ID_ALLOCATOR, method, 0, RubyMethodAttr.PRIVATE);
+		metaClass.addMethod(RubyID.ID_ALLOCATOR, method, 0, RubyMethodAttr.PRIVATE);
 	}
 	
 	public void defineMethod(String name, RubyMethod method, int argc) {
 		RubyID id = StringMap.intern(name);
 		this.addMethod(id, method, argc, RubyMethodAttr.PUBLIC);
-	}
+	}	
 	
-	// package access
 	public void undefAllocMethod() {
 		RubyClass metaClass = RubyUtil.classof(this);
-		metaClass.addMethod(ID_ALLOCATOR, null, 0, RubyMethodAttr.PRIVATE);
+		metaClass.addMethod(RubyID.ID_ALLOCATOR, null, 0, RubyMethodAttr.PRIVATE);
 	}
 	
 	public void undefMethod(String name) {
@@ -51,10 +51,42 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		this.aliasMethod(newId, oldId);
 	}
 	
+	// package access
 	void definePrivateMethod(String name, RubyMethod method, int argc) {
 		RubyID id = StringMap.intern(name);
 		this.addMethod(id, method, argc, RubyMethodAttr.PRIVATE);
 	}
+	
+	public RubyArray instanceMethod(boolean recursion) {
+		return this.methodList(recursion, defaultFilter);
+	}
+	
+	private RubyArray methodList(boolean recursion, MethodFilter filter) {
+		RubyArray result = new RubyArray();
+		
+		RubyClassModuleBase base = (RubyClassModuleBase)this;
+		for (; base != null; base = base.superclass) {
+			for (Map.Entry<RubyID, RubyMethodWrapper> entry :base.methodTable.entrySet()) {
+				RubyMethodWrapper wrapper = entry.getValue();
+				RubyID id = entry.getKey();
+				
+				if (id != RubyID.ID_ALLOCATOR && wrapper != null && filter.accept(id, wrapper)) {
+					String methodName = StringMap.id2name(id);
+					result.add(RubyString.newString(methodName));
+				}
+			}
+			
+			if (base instanceof RubyIncludeClass || base.isSingleton()) {
+				continue;
+			}
+			
+			if (!recursion) {
+				break;
+			}
+		}
+		
+		return result;
+	}	
 	
 	protected void addMethod(RubyID id, RubyMethod method, int argc, RubyMethodAttr attr) {	
 		RubyMethodWrapper wrapper = new RubyMethodWrapper(method, argc, attr);
@@ -197,4 +229,32 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		
 		return false;
 	}
+	
+	private static interface MethodFilter {
+		boolean accept(RubyID methodNameId, RubyMethodWrapper method);
+	}
+	
+	private static MethodFilter defaultFilter = new MethodFilter() {
+		public boolean accept(RubyID methodNameId, RubyMethodWrapper method) {
+			return method.getAttr() != RubyMethodAttr.PRIVATE;
+		}		
+	};
+	
+	private static MethodFilter privateFilter = new MethodFilter() {
+		public boolean accept(RubyID methodNameId, RubyMethodWrapper method) {
+			return method.getAttr() == RubyMethodAttr.PRIVATE;
+		}		
+	};
+	
+	private static MethodFilter protectedFilter = new MethodFilter() {
+		public boolean accept(RubyID methodNameId, RubyMethodWrapper method) {
+			return method.getAttr() == RubyMethodAttr.PRIVATE;
+		}		
+	};
+	
+	private static MethodFilter publicFilter = new MethodFilter() {
+		public boolean accept(RubyID methodNameId, RubyMethodWrapper method) {
+			return method.getAttr() == RubyMethodAttr.PRIVATE;
+		}		
+	};
 }
