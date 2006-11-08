@@ -183,5 +183,41 @@ public class RubyRuntime {
 			throw new RubyException(RubyRuntime.ExceptionClass, e.toString());
 		}
 	}
+	
+	public static RubyValue expandArrayIfThereIsZeroOrOneValue(ArrayValue a) {
+		if (a.size() <= 1) {
+			return a.get(0);
+		} else {
+			return ObjectFactory.createArray(a);
+		}
+	}
+
+	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyValue v) {
+		if (v.getValue() instanceof ArrayValue) {
+			ArrayValue a = (ArrayValue)v.getValue();
+			if (!a.notSingleAsterisk()) {
+				return expandArrayIfThereIsZeroOrOneValue(a);
+			}
+		}
+
+		return v;
+	}
+	
+	public static ArrayValue expandArrayIfThereIsOnlyOneArrayValue(ArrayValue a) {
+		if (a.size() == 1 &&
+				a.get(0).getValue() instanceof ArrayValue) {
+			return (ArrayValue)a.get(0).getValue();
+		} else {
+			return a;
+		}
+	}
+
+	public static ArrayValue convertToArrayIfNotYet(RubyValue v) {
+		if (v.getValue() instanceof ArrayValue) {
+			return (ArrayValue)v.getValue();
+		} else {
+			return new ArrayValue(v);
+		}
+	}
 
 }
