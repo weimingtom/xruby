@@ -280,6 +280,11 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.lang.RubyValue createHash(com.xruby.runtime.value.HashValue)"));
 	}
 
+	public void ObjectFactory_createRange() {
+		invokeStatic(Type.getType(ObjectFactory.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue createRange(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, boolean)"));
+	}
+	
 	public void GlobalVatiables_set(String var) {
 		String name = GlobalVariables.translatePredefined(var);
 		if (null != name) {
@@ -533,11 +538,6 @@ class MethodGenerator extends GeneratorAdapter {
 		putField(Type.getType(RubyBlock.class), "breakValue_", Type.getType(RubyValue.class));
 		pushNull();
 		returnValue();
-	}
-
-	public void ObjectFactory_createRange() {
-		invokeStatic(Type.getType(ObjectFactory.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue createRange(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, boolean)"));
 	}
 
 }
