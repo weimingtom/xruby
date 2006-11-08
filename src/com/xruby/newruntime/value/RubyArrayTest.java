@@ -112,4 +112,18 @@ public class RubyArrayTest extends TestCase {
 		assertFalse(array.include(RubyFixnum.int2Fix(1)));
 		assertTrue(array.include(RubyFixnum.int2Fix(0)));
 	}
+	
+	public void test_isNotSingleAsterisk() {
+		RubyArray array = new RubyArray();
+		assertTrue(array.isNotSingleAsterisk());
+		
+		array = new RubyArray(2);
+		assertTrue(array.isNotSingleAsterisk());
+		
+		array = new RubyArray(3, true);
+		assertTrue(array.isNotSingleAsterisk());
+		
+		array = new RubyArray(4, false);
+		assertTrue(!array.isNotSingleAsterisk());
+	}
 }

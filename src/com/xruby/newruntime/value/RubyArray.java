@@ -10,10 +10,25 @@ import com.xruby.newruntime.lang.RubyUtil;
 import com.xruby.newruntime.lang.RubyValue;
 
 public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
-	private ArrayList<RubyValue> array = new ArrayList<RubyValue>();
+	private ArrayList<RubyValue> array;
+	private boolean isNotSingleAsterisk; //e.g. does not look like yield *[[]]
 	
 	public RubyArray() {
+		this(1, true);
+	}
+
+	public RubyArray(int size) {
+		this(size, true);
+	}
+	
+	public RubyArray(int size, boolean isNotSingleAsterisk) {
 		this.setRubyClass(RubyRuntime.arrayClass);
+		array = new ArrayList<RubyValue>(size);
+		this.isNotSingleAsterisk = isNotSingleAsterisk;
+	}
+
+	public boolean isNotSingleAsterisk() {
+		return this.isNotSingleAsterisk;
 	}
 	
 	public int length() {
