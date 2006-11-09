@@ -8,7 +8,7 @@ class Time_new extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		return ObjectFactory.createTime(new TimeValue());
 	}
 }
@@ -18,7 +18,7 @@ class Time_to_f extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		TimeValue t = (TimeValue)receiver.getValue();
 		return ObjectFactory.createFloat(t.getTime());
 	}
@@ -29,7 +29,7 @@ class Time_to_i extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		TimeValue t = (TimeValue)receiver.getValue();
 		return ObjectFactory.createFixnum((int)t.getTime());
 	}

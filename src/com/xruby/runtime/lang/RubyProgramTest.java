@@ -22,7 +22,7 @@ class TestingProgram implements RubyProgram {
 	public RubyValue run() throws RubyException {
 		
 		//puts nil, "abC", "5432"
-		ArrayValue args = new ArrayValue(3, true);
+		RubyArray args = new RubyArray(3, true);
 		args.add(ObjectFactory.nilValue);
 		args.add(ObjectFactory.createString("ABCD"));
 		args.add(ObjectFactory.createFixnum(5432));
@@ -33,25 +33,25 @@ class TestingProgram implements RubyProgram {
 
 		//puts "hello world"
 		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
-								new ArrayValue(ObjectFactory.createString("hello, world!")),
+								new RubyArray(ObjectFactory.createString("hello, world!")),
 								null,
 								"print");
 
 		//puts 123
 		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
-								new ArrayValue(ObjectFactory.createFixnum(123)),
+								new RubyArray(ObjectFactory.createFixnum(123)),
 								null,
 								"print");
 
 		//puts 1.2
 		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
-								new ArrayValue(ObjectFactory.createFloat(1.2)),
+								new RubyArray(ObjectFactory.createFloat(1.2)),
 								null,
 								"print");
 
 		//return 123 + 456
 		return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(123),
-								new ArrayValue(ObjectFactory.createFixnum(456)),
+								new RubyArray(ObjectFactory.createFixnum(456)),
 								null,
 								"+");
 	}

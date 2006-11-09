@@ -54,7 +54,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @return
 	 * @throws RubyException
 	 */
-	public final RubyValue invoke(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	public final RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		if (argc_ > 0) {
 			int args_length = (null == args) ? 0 : args.size();
 			if (args_length < (argc_ - default_argc_)) {
@@ -62,7 +62,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 				throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
 			} else if (args_length < argc_ && null == args) {
 				//need default parameter, allocate one to avoid null reference
-				args = new ArrayValue();
+				args = new RubyArray();
 			}
 		}
 
@@ -76,5 +76,5 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @return
 	 * @throws RubyException
 	 */
-	protected abstract RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException;
+	protected abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException;
 }

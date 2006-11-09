@@ -12,7 +12,7 @@ class Class_new extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		RubyClass value = (RubyClass)receiver.getValue();		
 		RubyValue clazz = new RubyValue(value, null);
 		callInitializeMethod(clazz, args, block);
@@ -20,7 +20,7 @@ class Class_new extends RubyMethod {
 		return clazz;
 	}
 
-	private void callInitializeMethod(RubyValue clazz, ArrayValue args,
+	private void callInitializeMethod(RubyValue clazz, RubyArray args,
 			RubyBlock block) throws RubyException {
 		RubyMethod m = clazz.findMethod("initialize");
 		if (m != null) {
