@@ -99,12 +99,12 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.ModuleClass, value);
 	}
 
-	public static RubyValue createArray(ArrayValue value) {
+	public static RubyValue createArray(RubyArray value) {
 		return new RubyValue(RubyRuntime.ArrayClass, value);
 	}
 
 	public static RubyValue createEmptyArray() {
-		return new RubyValue(RubyRuntime.ArrayClass, new ArrayValue(0, true));
+		return new RubyValue(RubyRuntime.ArrayClass, new RubyArray(0, true));
 	}
 	
 	public static RubyValue createHash(HashValue value) {

@@ -92,7 +92,7 @@ public class RubyValue extends RubyModule {
 		}
 	}
 
-	public void collectMethodNames(ArrayValue a) {
+	public void collectMethodNames(RubyArray a) {
 		super.collectMethodNames(a);
 		class_.collectMethodNames(a);
 	}

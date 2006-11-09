@@ -12,7 +12,7 @@ class IO_write extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		StringValue value;
 		if (RubyRuntime.StringClass == args.get(0).getRubyClass()) {
 			value = (StringValue)args.get(0).getValue();
@@ -35,7 +35,7 @@ class IO_print extends Kernel_print {
 	public IO_print() {
 	}
 	
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		return _run(receiver, args, block);
 	}
 }
@@ -45,7 +45,7 @@ class IO_close extends RubyMethod {
 		super(0);
 	}
 	
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		IOValue io = (IOValue)receiver.getValue();
 		if (null != io) {
 			//not stdout, stderr, stdin
@@ -60,7 +60,7 @@ class IO_gets extends RubyMethod {
 		super(-1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		IOValue io = (IOValue)receiver.getValue();
 		if (null != io) {
 			RubyValue seperator = (null == args) ?  GlobalVariables.INPUT_RECORD_SEPARATOR : args.get(0);
@@ -79,7 +79,7 @@ class IO_eof extends RubyMethod {
 		super(0);
 	}
 	
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		IOValue io = (IOValue)receiver.getValue();
 		if (io.eof()) {
 			return ObjectFactory.trueValue;

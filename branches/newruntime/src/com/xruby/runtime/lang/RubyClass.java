@@ -66,7 +66,7 @@ public class RubyClass extends RubyModule {
 		return null;
 	}
 
-	void collectMethodNames(ArrayValue a) {
+	void collectMethodNames(RubyArray a) {
 		super.collectMethodNames(a);
 		if (null != superclass_){
 			superclass_.collectMethodNames(a);

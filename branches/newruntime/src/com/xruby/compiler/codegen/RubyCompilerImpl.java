@@ -200,7 +200,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitMethodDefinationDefaultParameterEnd(Object next_label) {
-		cg_.getMethodGenerator().ArrayValue_add(false);
+		cg_.getMethodGenerator().RubyArray_add(false);
 		cg_.getMethodGenerator().mark((Label)next_label);
 	}
 
@@ -510,7 +510,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitArrayBegin(int size, boolean notSingleAsterisk) {
-		cg_.getMethodGenerator().new_ArrayValue(size, notSingleAsterisk);
+		cg_.getMethodGenerator().new_RubyArray(size, notSingleAsterisk);
 	}
 	
 	public void visitHashBegin() {
@@ -527,9 +527,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitArrayElementEnd(boolean asterisk, boolean is_method_call) {
 		if (asterisk) {
-			cg_.getMethodGenerator().ArrayValue_expand(is_method_call);
+			cg_.getMethodGenerator().RubyArray_expand(is_method_call);
 		} else {
-			cg_.getMethodGenerator().ArrayValue_add(is_method_call);
+			cg_.getMethodGenerator().RubyArray_add(is_method_call);
 		}
 	}
 	
@@ -641,9 +641,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitMrhs(int var, int index, boolean asterisk) {
 		cg_.getMethodGenerator().loadLocal(var);
 		if (asterisk) {
-			cg_.getMethodGenerator().ArrayValue_collect(index);
+			cg_.getMethodGenerator().RubyArray_collect(index);
 		} else {
-			cg_.getMethodGenerator().ArrayValue_get(index);
+			cg_.getMethodGenerator().RubyArray_get(index);
 		}
 	}
 
@@ -653,9 +653,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 			return 0;
 		} else {
 			if (single_rhs) {
-				cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsOnlyOneArrayValue();
+				cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsOnlyOneRubyArray();
 			}
-			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
+			int var = cg_.getMethodGenerator().newLocal(Type.getType(RubyArray.class));
 			cg_.getMethodGenerator().storeLocal(var);
 			return var;
 		}
@@ -670,7 +670,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			return 0;
 		} else {
 			cg_.getMethodGenerator().RubyRuntime_convertToArrayIfNotYet();
-			int var = cg_.getMethodGenerator().newLocal(Type.getType(ArrayValue.class));
+			int var = cg_.getMethodGenerator().newLocal(Type.getType(RubyArray.class));
 			cg_.getMethodGenerator().storeLocal(var);
 			return var;
 		}
