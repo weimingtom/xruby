@@ -195,7 +195,7 @@ public class RubyRuntime {
 	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyValue v) {
 		if (v.getValue() instanceof RubyArray) {
 			RubyArray a = (RubyArray)v.getValue();
-			if (!a.notSingleAsterisk()) {
+			if (!a.isNotSingleAsterisk()) {
 				return expandArrayIfThereIsZeroOrOneValue(a);
 			}
 		}

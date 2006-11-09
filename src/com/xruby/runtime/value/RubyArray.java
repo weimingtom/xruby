@@ -1,7 +1,3 @@
-/** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
- */
-
 package com.xruby.runtime.value;
 
 import java.util.*;
@@ -14,29 +10,34 @@ import com.xruby.runtime.lang.*;
  */
 public class RubyArray implements Iterable<RubyValue> {
 	private ArrayList<RubyValue> array;
-	private boolean notSingleAsterisk_ = true; //e.g. yield *[[]]
-
-	public boolean notSingleAsterisk() {
-		return notSingleAsterisk_;
-	}
+	private boolean isNotSingleAsterisk; //e.g. does not look like yield *[[]]
 	
 	public RubyArray() {
-		array = new ArrayList<RubyValue>();
-		notSingleAsterisk_ = true;
+		this(1, true);
 	}
 	
 	public RubyArray(int size) {
 		this(size, true);
 	}
 	
-	public RubyArray(int size, boolean notSingleAsterisk) {
-		array = new ArrayList<RubyValue>(size);
-		notSingleAsterisk_ = notSingleAsterisk;
+	public RubyArray(RubyValue v) {
+		this(1, true);
+		add(v);
+	}
+
+	public RubyArray(RubyValue value1, RubyValue value2) {
+		this(2, true);
+		add(value1);
+		add(value2);
 	}
 	
-	public RubyArray(RubyValue v) {
-		array = new ArrayList<RubyValue>(1);
-		array.add(v);
+	public RubyArray(int size, boolean isNotSingleAsterisk) {
+		array = new ArrayList<RubyValue>(size);
+		this.isNotSingleAsterisk = isNotSingleAsterisk;
+	}
+	
+	public boolean isNotSingleAsterisk() {
+		return this.isNotSingleAsterisk;
 	}
 	
 	public void add(RubyValue v) {
