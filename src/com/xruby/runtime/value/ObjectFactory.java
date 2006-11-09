@@ -4,6 +4,8 @@
 
 package com.xruby.runtime.value;
 
+import java.math.BigInteger;
+
 import com.xruby.runtime.lang.*;
 
 public class ObjectFactory {
@@ -147,7 +149,11 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.MatchDataClass, m);
 	}
 
-	/*public static RubyValue createBignum(BigInteger value) { 
+	public static RubyValue createBignum(BigInteger value) { 
 		return new RubyValue(RubyRuntime.BignumClass, new BignumValue(value)); 
-	}*/
+	}
+	
+	public static RubyValue createInteger(String value, int radix) {
+		return BignumValue.bignorm(new BigInteger(value, radix));
+	}
 }

@@ -4,22 +4,28 @@
 
 package com.xruby.compiler.codedom;
 
-public class IntegerExpression extends Expression {
-	private int value_;
+import java.math.BigInteger;
 
-	public IntegerExpression(int value) {
+public class IntegerExpression extends Expression {
+	private BigInteger value_;
+
+	public IntegerExpression(BigInteger value) {
 		value_ = value;
+	}
+	
+	public IntegerExpression(int value){
+		value_ = BigInteger.valueOf(value);
 	}
 
 	public IntegerExpression(String value, int radix) {
 		try {
-			value_ = Integer.parseInt(value, radix);
+			value_ = new BigInteger(value, radix);
 		} catch (NumberFormatException e) {
 			//TODO
 		}
 	}
 
 	public void accept(CodeVisitor visitor) {
-		visitor.visitIntegerExpression(value_);
+		visitor.visitIntegerExpression(value_.toString(), 10);
 	}
 }
