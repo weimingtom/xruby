@@ -33,7 +33,7 @@ public interface CodeVisitor {
 	public void visitNoSuperClass();
 	
 	public void visitFloatExpression(double value);
-	public void visitIntegerExpression(int value);
+	public void visitIntegerExpression(String value, int radix);
 	public void visitLocalVariableExpression(String value); 
 	public void visitTrueExpression();
 	public void visitFalseExpression();

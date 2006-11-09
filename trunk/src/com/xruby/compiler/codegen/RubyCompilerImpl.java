@@ -308,8 +308,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().ObjectFactory_createFloat(value);
 	}
 
-	public void visitIntegerExpression(int value) {
-		cg_.getMethodGenerator().ObjectFactory_createFixnum(value);
+	public void visitIntegerExpression(String value, int radix) {
+		cg_.getMethodGenerator().ObjectFactory_createInteger(value, radix);
 	}
 
 	public void visitStringExpression(String value) {

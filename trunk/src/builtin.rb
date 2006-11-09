@@ -37,7 +37,7 @@ class String
 end
 
 class Integer < Numeric
-	
+
 	def to_i
 		return self
 	end
@@ -90,6 +90,33 @@ class Fixnum < Integer
 	end
 	
 	alias inspect to_s
+end
+
+class Bignum < Integer
+	def >=(value)
+		compare = (self <=> value)
+		return compare != -1
+	end
+
+	def ==(value)
+		compare = (self <=> value)
+		return compare == 0
+	end
+
+	def <=(value)
+		compare = (self <=> value)
+		return compare != 1
+	end
+
+	def >(value)
+		compare = (self <=> value)
+		return compare == 1
+	end
+
+	def <(value)
+		compare = (self <=> value)
+		return compare == -1
+	end
 end
 
 class NilClass
