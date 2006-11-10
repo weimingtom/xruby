@@ -24,6 +24,7 @@ public class RubyRuntime {
 	public static RubyClass NumericClass = NumericClassBuilder.create();
 	public static RubyClass IntegerClass = IntegerClassBuilder.create();
 	public static RubyClass FixnumClass = FixnumClassBuilder.create();
+	public static RubyClass BignumClass = BignumClassBuilder.create();
 	public static RubyClass StringClass = StringClassBuilder.create();
 	public static RubyClass FloatClass = FloatClassBuilder.create();
 	public static RubyClass ArrayClass = ArrayClassBuilder.create();
@@ -61,6 +62,9 @@ public class RubyRuntime {
 		
 		TopLevelSelfInitializer.initSingletonMethods();
 		TimeClassBuilder.initSingletonMethods();
+		BignumClassBuilder.initSingletonMethods();
+		IOClassBuilder.initSingletonMethods();
+		FileClassBuilder.initSingletonMethods();
 		
 		try {
 			Class c = Class.forName("builtin.main");

@@ -4,6 +4,8 @@
 
 package com.xruby.compiler.codedom;
 
+import java.math.BigInteger;
+
 public class CodePrinter implements CodeVisitor {
 	StringBuilder result_ = new StringBuilder();
 
@@ -126,8 +128,8 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public void visitIntegerExpression(int value) {
-		result_.append(value);
+	public void visitIntegerExpression(String value, int radix) {
+		result_.append(new BigInteger(value, radix).toString());
 		result_.append("\n");
 	}
 
