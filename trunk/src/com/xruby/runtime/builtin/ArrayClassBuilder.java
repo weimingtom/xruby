@@ -185,6 +185,17 @@ class Array_include extends RubyMethod {
 	}
 }
 
+class Array_unshift extends RubyMethod {
+	public Array_unshift() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		RubyArray array = (RubyArray)receiver.getValue();
+		return array.unshift(args);
+	}
+}
+
 public class ArrayClassBuilder {
 	
 	public static RubyClass create() {
@@ -201,6 +212,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("pop", new Array_pop());
 		c.defineMethod("delete_at", new Array_delete_at());
 		c.defineMethod("include?", new Array_include());
+		c.defineMethod("unshift", new Array_unshift());
 		return c;
 	}
 }

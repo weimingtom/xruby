@@ -34,6 +34,22 @@ class File_expand_path extends RubyMethod {
 	}
 }
 
+class File_dirname extends RubyMethod {
+	public File_dirname() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		StringValue fileName = (StringValue)args.get(0).getValue();
+		File file = new File(fileName.toString());
+		String parent = file.getParent();
+		if (parent == null){
+			return ObjectFactory.createString(".");
+		}
+		return ObjectFactory.createString(parent);
+	}
+}
+
 public class FileClassBuilder {
 
 	public static RubyClass create() {
@@ -45,5 +61,6 @@ public class FileClassBuilder {
 	public static void initSingletonMethods() {
 		ObjectFactory.FileClassValue.defineMethod("file?", new File_is_file());
 		ObjectFactory.FileClassValue.defineMethod("expand_path", new File_expand_path());
+		ObjectFactory.FileClassValue.defineMethod("dirname", new File_dirname());
 	}
 }

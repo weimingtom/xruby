@@ -10,7 +10,8 @@ import com.xruby.runtime.value.*;
 class Module_AccessControl {
 
 	static RubyValue run(int access, RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
-		RubyClass c = (RubyClass)receiver.getValue();
+
+		RubyModule c = (RubyModule)receiver.getValue();
 
 		if (null == args) {
 			c.setAccessMode(access);
@@ -170,6 +171,22 @@ class Module_attr_accessor extends RubyMethod {
 	}
 }
 
+class Module_include_module extends RubyMethod {
+	public Module_include_module () {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		RubyModule module = (RubyModule)receiver.getValue();
+		if (args != null) {
+			for(RubyValue m: args){
+				module.includeModule((RubyModule)m.getValue());
+			}
+		}
+		return ObjectFactory.nilValue;
+	}
+}
+
 public class ModuleClassBuilder {
 	
 	public static RubyClass create() {
@@ -179,6 +196,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("private", new Module_private());
 		c.defineMethod("to_s", new Module_to_s());
 		c.defineMethod("inspect", new Module_inspect());
+		c.defineMethod("include", new Module_include_module());
 
 		c.setAccessPrivate();
 		c.defineMethod("attr_reader", new Module_attr_reader());
@@ -186,5 +204,8 @@ public class ModuleClassBuilder {
 		c.defineMethod("attr_accessor", new Module_attr_accessor());
 		c.setAccessPublic();
 		return c;
+	}
+	
+	public static void initSingletonMethods() {
 	}
 }

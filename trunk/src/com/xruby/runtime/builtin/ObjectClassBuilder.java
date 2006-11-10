@@ -29,4 +29,6 @@ public class ObjectClassBuilder {
 		return c;
 	}
 	
+	public static void initSingletonMethods() {
+	}
 }
