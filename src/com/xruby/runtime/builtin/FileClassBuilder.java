@@ -22,6 +22,18 @@ class File_is_file extends RubyMethod {
 	}
 }
 
+class File_expand_path extends RubyMethod {
+	public File_expand_path() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		StringValue fileName = (StringValue)args.get(0).getValue();
+		File file = new File(fileName.toString());
+		return ObjectFactory.createString(file.getAbsolutePath());
+	}
+}
+
 public class FileClassBuilder {
 
 	public static RubyClass create() {
@@ -32,5 +44,6 @@ public class FileClassBuilder {
 	
 	public static void initSingletonMethods() {
 		ObjectFactory.FileClassValue.defineMethod("file?", new File_is_file());
+		ObjectFactory.FileClassValue.defineMethod("expand_path", new File_expand_path());
 	}
 }
