@@ -106,4 +106,46 @@ public class IOValue {
 			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
 		}
 	}
+	
+	public RubyValue read() throws RubyException{
+		if (null == file_) {
+			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
+		}
+		
+		try{
+			return readsTheEntireContents();
+		} catch (IOException e) {
+			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
+		}
+	}
+	
+	public RubyValue read(long length) throws RubyException{
+		if (null == file_) {
+			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
+		}
+		
+		try{
+			long size = file_.length();
+			size = Math.min(length, size);
+			byte[] buffer = new byte[(int)size];
+			file_.read(buffer);
+			return ObjectFactory.createString(new String(buffer));
+		} catch (IOException e) {
+			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
+		}
+	}
+	
+	public RubyValue read(int length, int offset) throws RubyException{
+		if (null == file_) {
+			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
+		}
+		
+		try{
+			file_.seek(offset);
+		} catch (IOException e) {
+			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
+		}
+		
+		return read(length);
+	}
 }

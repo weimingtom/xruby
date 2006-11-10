@@ -122,6 +122,26 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_result(program_texts, results);
 	}
 
+	public void test_big_integer() {
+		String[] program_texts = {
+				"print 0x123456789abcdef0",
+				"print (1 << 40)",
+				"print ((1 << 40) >> 30)",
+				"print (0x123456789abcdef0 <=> 0x123456789abcdef0)",
+				"print ((1 << 600) <=> ((1 << 600) + 1))",
+				"print (0xabcdef0123456789 * 0x123456789abcdef0)"
+		};
+		String[] outputs = {
+				"1311768467463790320",
+				"1099511627776",
+				"1024",
+				"0",
+				"-1",
+				"16239449295734013608292442272905420400"
+		};
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+
 	public void test_BinaryOperatorExpression() {
 		String[] program_texts = { "2+2", "0 + 100", "0 + 0", "654321 + 9999",
 				"0xFF + 1", "3 - 5", "3 * 5 * 2", "100/2", "4%2", "7%3",
