@@ -55,19 +55,19 @@ a, b, c, *d = 1, [2, 3], *[4, 5, 6]
 
 Step 1: Create an array, and add all rhs into it:
 	//create the array
-	ArrayValue rhs_as_array = new ArrayValue(2, true);
+	RubyArray rhs_as_array = new RubyArray(2, true);
 
 	// add 1
 	rhs_as_array.add(ObjectFactory.createFixnum(1));
 
 	//create [2, 3], and add it uing add() method
-	ArrayValue array_2_3 = new ArrayValue(2, true);
+	RubyArray array_2_3 = new RubyArray(2, true);
 	array_2_3.add(ObjectFactory.createFixnum(2));
 	array_2_3.add(ObjectFactory.createFixnum(3));
 	rhs_as_array.add(ObjectFactory.createArray(array_2_3));
 	
 	//create [4, 5, 6], and add it uing expand() method
-	ArrayValue array_4_5_6 = new ArrayValue(3, true); 
+	RubyArray array_4_5_6 = new RubyArray(3, true); 
 	array_4_5_6.add(ObjectFactory.createFixnum(4));
 	array_4_5_6.add(ObjectFactory.createFixnum(5));
 	array_4_5_6.add(ObjectFactory.createFixnum(6));
