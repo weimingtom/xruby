@@ -131,7 +131,7 @@ public class main
 class say_hello_three_times$0 extends RubyMethod
 {
 
-    protected RubyValue run(RubyValue rubyvalue, ArrayValue arrayvalue, RubyBlock rubyblock)
+    protected RubyValue run(RubyValue rubyvalue, RubyArray arrayvalue, RubyBlock rubyblock)
         throws RubyException
     {
         return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(3), null, new BLOCK._cls1(), "times");
@@ -148,10 +148,10 @@ class say_hello_three_times$0 extends RubyMethod
 class BLOCK$1 extends RubyBlock
 {
 
-    protected RubyValue run(RubyValue rubyvalue, ArrayValue arrayvalue)
+    protected RubyValue run(RubyValue rubyvalue, RubyArray arrayvalue)
         throws RubyException
     {
-        ArrayValue arrayvalue1 = new ArrayValue(1);
+        RubyArray arrayvalue1 = new RubyArray(1);
         arrayvalue1.add(ObjectFactory.createString("hello"));
         return RubyRuntime.callMethod(rubyvalue, arrayvalue1, null, "puts");
     }
@@ -235,7 +235,7 @@ class Fixnum_operator_plus extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		IntegerValue value1 = (IntegerValue)receiver.getValue();
 		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
