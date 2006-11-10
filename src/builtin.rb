@@ -57,6 +57,9 @@ module Kernel
 
 	#private
 	def load_file(file_name)
+		# TODO: delete the DEBUG info
+		puts "[DEBUG] Loading library: #{file_name}"
+
 		content = ::IO.read(file_name)
 		eval(content)
 		$__loaded_libraries.push(file_name) unless $__loaded_libraries.include?(file_name)
@@ -73,9 +76,9 @@ class Array
 		result = ""
 		selfObject = self
 		(length - 1).times do |index|
-			result += selfObject[index] + sepString
+			result += selfObject[index].to_s + sepString
 		end
-		result += selfObject[length - 1] if length != 0
+		result += selfObject[length - 1].to_s if length != 0
 		result
 	end
 	
@@ -271,4 +274,7 @@ class FalseClass
 	def to_s
 		return "false"
 	end
+end
+
+class ThreadError < StandardError
 end
