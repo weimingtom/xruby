@@ -8,9 +8,9 @@ import com.xruby.runtime.lang.*;
 
 import junit.framework.TestCase;
 
-public class ArrayValueTest extends TestCase {
+public class RubyArrayTest extends TestCase {
 	public void test() throws RubyException {
-		ArrayValue a = new ArrayValue(0, true);
+		RubyArray a = new RubyArray(0, true);
 		assertEquals(0, a.size());
 		assertEquals(ObjectFactory.nilValue, a.get(-1));
 		assertEquals(ObjectFactory.nilValue, a.get(0));
@@ -44,28 +44,28 @@ public class ArrayValueTest extends TestCase {
 	}
 	
 	public void test_collect() {
-		ArrayValue a = new ArrayValue(1, true);
+		RubyArray a = new RubyArray(1, true);
 		a.add(ObjectFactory.nilValue);
 		
 		RubyValue v = a.collect(0);
-		ArrayValue r = (ArrayValue)v.getValue();
+		RubyArray r = (RubyArray)v.getValue();
 		assertEquals(1, r.size());
 		assertEquals(ObjectFactory.nilValue, r.get(0));
 	}
 	
 	public void test_collect_empty() {
-		ArrayValue a = new ArrayValue(0, true);
+		RubyArray a = new RubyArray(0, true);
 		
 		RubyValue v = a.collect(0);
-		ArrayValue r = (ArrayValue)v.getValue();
+		RubyArray r = (RubyArray)v.getValue();
 		assertEquals(0, r.size());
 	}
 	
 	public void test_expand() {
-		ArrayValue a = new ArrayValue(1, true);
+		RubyArray a = new RubyArray(1, true);
 		a.add(ObjectFactory.createFixnum(1));
 		
-		ArrayValue b = new ArrayValue(2, true);
+		RubyArray b = new RubyArray(2, true);
 		b.add(ObjectFactory.createFixnum(2));
 		b.add(ObjectFactory.createFixnum(3));
 		
@@ -75,13 +75,13 @@ public class ArrayValueTest extends TestCase {
 	
 	public void test_range_subarray() {
 		// a = [1, 2]
-		ArrayValue a = new ArrayValue(1, true);
+		RubyArray a = new RubyArray(1, true);
 		a.add(ObjectFactory.createFixnum(1));
 		a.add(ObjectFactory.createFixnum(2));
 		
 		// [0..1]
 		RangeValue stdRange = new RangeValue(0, 1, false);
-		ArrayValue rangeArray = a.subarray(stdRange);
+		RubyArray rangeArray = a.subarray(stdRange);
 		assertEquals(2, rangeArray.size());
 		assertEquals(1, ((IntegerValue)rangeArray.get(0).getValue()).intValue());
 		assertEquals(2, ((IntegerValue)rangeArray.get(1).getValue()).intValue());
@@ -101,13 +101,13 @@ public class ArrayValueTest extends TestCase {
 	
 	public void test_subarray() throws RubyException {
 		// a = [1, 2, 3]
-		ArrayValue a = new ArrayValue();
+		RubyArray a = new RubyArray();
 		a.add(ObjectFactory.createFixnum(1));
 		a.add(ObjectFactory.createFixnum(2));
 		a.add(ObjectFactory.createFixnum(3));
 		
 		// a[1, 2]
-		ArrayValue b = a.subarray(1, 2);
+		RubyArray b = a.subarray(1, 2);
 		assertEquals(2, b.size());
 		assertEquals(2, ((IntegerValue)b.get(0).getValue()).intValue());
 		assertEquals(3, ((IntegerValue)b.get(1).getValue()).intValue());
@@ -128,17 +128,17 @@ public class ArrayValueTest extends TestCase {
 	
 	public void test_plus() {
 		// a = [1, 2]
-		ArrayValue a = new ArrayValue();
+		RubyArray a = new RubyArray();
 		a.add(ObjectFactory.createFixnum(1));
 		a.add(ObjectFactory.createFixnum(2));
 		
 		// b = [3, 4]
-		ArrayValue b = new ArrayValue();
+		RubyArray b = new RubyArray();
 		a.add(ObjectFactory.createFixnum(3));
 		a.add(ObjectFactory.createFixnum(4));
 		
 		// [1, 2, 3, 4]
-		ArrayValue newArray = a.plus(b);
+		RubyArray newArray = a.plus(b);
 		assertEquals(4, newArray.size());
 		assertEquals(1, ((IntegerValue)newArray.get(0).getValue()).intValue());
 		assertEquals(2, ((IntegerValue)newArray.get(1).getValue()).intValue());
@@ -148,12 +148,12 @@ public class ArrayValueTest extends TestCase {
 	
 	public void test_times() throws RubyException {
 		// a = [1, 2]
-		ArrayValue a = new ArrayValue();
+		RubyArray a = new RubyArray();
 		a.add(ObjectFactory.createFixnum(1));
 		a.add(ObjectFactory.createFixnum(2));
 		
 		// [1, 2, 1, 2]
-		ArrayValue newArray = a.times(2);
+		RubyArray newArray = a.times(2);
 		assertEquals(4, newArray.size());
 		assertEquals(1, ((IntegerValue)newArray.get(0).getValue()).intValue());
 		assertEquals(2, ((IntegerValue)newArray.get(1).getValue()).intValue());
@@ -173,7 +173,7 @@ public class ArrayValueTest extends TestCase {
 	
 	public void test_remove() throws RubyException {
 		// a = [1, 2]
-		ArrayValue a = new ArrayValue();
+		RubyArray a = new RubyArray();
 		a.add(ObjectFactory.createFixnum(1));
 		a.add(ObjectFactory.createFixnum(2));
 		
@@ -182,18 +182,18 @@ public class ArrayValueTest extends TestCase {
 		assertEquals(1, ((IntegerValue)v.getValue()).intValue());
 		assertEquals(2, ((IntegerValue)a.get(0).getValue()).intValue());
 
-		ArrayValue b = new ArrayValue();
+		RubyArray b = new RubyArray();
 		v = b.remove(1);
 		assertEquals(ObjectFactory.nilValue, v);
 		
 		// remove negative index
-		ArrayValue c = new ArrayValue();
+		RubyArray c = new RubyArray();
 		v = c.remove(-1);
 		assertEquals(ObjectFactory.nilValue, v);
 	}
 
 	public void test_includes() throws RubyException {
-		ArrayValue a = new ArrayValue();
+		RubyArray a = new RubyArray();
 		RubyValue i1 = ObjectFactory.createFixnum(1);
 		RubyValue i2 = ObjectFactory.createFixnum(2);
 		RubyValue i3 = ObjectFactory.createFixnum(2);

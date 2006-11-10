@@ -20,11 +20,11 @@ class f extends RubyMethod
         super(0);
     }
 
-    public RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block)
+    public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block)
         throws RubyException
     {
         return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
-        					new ArrayValue(ObjectFactory.createString("hello")),
+        					new RubyArray(ObjectFactory.createString("hello")),
         					block,
         					"print");
     }

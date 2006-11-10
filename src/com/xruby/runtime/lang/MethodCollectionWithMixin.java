@@ -44,7 +44,7 @@ public class MethodCollectionWithMixin extends MethodCollection {
 		return null;
 	}
 
-	void collectMethodNames(ArrayValue a) {
+	void collectMethodNames(RubyArray a) {
 		super.collectMethodNames(a);
 		for (RubyModule module : mixins_) {
 			module.collectMethodNames(a);

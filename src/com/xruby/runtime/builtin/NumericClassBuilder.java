@@ -12,7 +12,7 @@ class Numeric_unary_plus extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		return receiver;
 	}
 }
@@ -22,7 +22,7 @@ class Numeric_unary_minus extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(0), receiver, "-");
 	}
 }

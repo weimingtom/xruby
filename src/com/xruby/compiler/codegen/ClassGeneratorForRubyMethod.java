@@ -37,7 +37,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 		createConstructorOfRubyMethod(argc, has_asterisk_parameter, default_argc);
 		
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue, com.xruby.runtime.lang.RubyBlock)"),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock)"),
 				null,// signature
 				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
 				cw_);

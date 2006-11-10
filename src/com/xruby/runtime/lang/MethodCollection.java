@@ -24,7 +24,7 @@ public abstract class MethodCollection extends ClassVariableCollection {
 		return null;
 	}
 
-	void collectMethodNames(ArrayValue a) {
+	void collectMethodNames(RubyArray a) {
 		for (String s : methods_.keySet()) {
 			a.add(ObjectFactory.createString(s));
 		}

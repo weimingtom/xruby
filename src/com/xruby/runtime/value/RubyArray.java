@@ -12,7 +12,7 @@ import com.xruby.runtime.lang.*;
  * @breif Internal representation of a ruby array 
  * 
  */
-public class ArrayValue implements Iterable<RubyValue> {
+public class RubyArray implements Iterable<RubyValue> {
 	private ArrayList<RubyValue> values_;
 	private boolean notSingleAsterisk_ = true; //e.g. yield *[[]]
 
@@ -20,21 +20,21 @@ public class ArrayValue implements Iterable<RubyValue> {
 		return notSingleAsterisk_;
 	}
 	
-	public ArrayValue() {
+	public RubyArray() {
 		values_ = new ArrayList<RubyValue>();
 		notSingleAsterisk_ = true;
 	}
 	
-	public ArrayValue(int size) {
+	public RubyArray(int size) {
 		this(size, true);
 	}
 	
-	public ArrayValue(int size, boolean notSingleAsterisk) {
+	public RubyArray(int size, boolean notSingleAsterisk) {
 		values_ = new ArrayList<RubyValue>(size);
 		notSingleAsterisk_ = notSingleAsterisk;
 	}
 	
-	public ArrayValue(RubyValue v) {
+	public RubyArray(RubyValue v) {
 		values_ = new ArrayList<RubyValue>(1);
 		values_.add(v);
 	}
@@ -94,7 +94,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 		}
 	}
 	
-	public ArrayValue subarray(RangeValue range) {
+	public RubyArray subarray(RangeValue range) {
 		int left = range.getLeft();
 		if (left < 0) {
 			left += values_.size();
@@ -110,7 +110,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 		return subarray(left, length);
 	}
 	
-	public ArrayValue subarray(int begin, int length) {
+	public RubyArray subarray(int begin, int length) {
 		int arraySize = values_.size();
 		if (begin > arraySize) {
 			return null;
@@ -132,10 +132,10 @@ public class ArrayValue implements Iterable<RubyValue> {
 		}
 		
 		if (length == 0) {
-			return new ArrayValue(0);
+			return new RubyArray(0);
 		}
 		
-		ArrayValue resultArray = new ArrayValue(length);
+		RubyArray resultArray = new RubyArray(length);
 		int last = begin + length;
 		for (int i = begin; i < last; i++) {
 			resultArray.add(values_.get(i));
@@ -144,7 +144,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 		return resultArray;
 	}
 
-	public RubyValue equals(ArrayValue that) throws RubyException {
+	public RubyValue equals(RubyArray that) throws RubyException {
 		if (values_.size() != that.size()) {
 			return ObjectFactory.falseValue;
 		}
@@ -180,53 +180,17 @@ public class ArrayValue implements Iterable<RubyValue> {
 					"can't convert " + v.getRubyClass().toString() + " into Array");
 		}
 
-		values_.addAll(((ArrayValue)o).getInternal());
+		values_.addAll(((RubyArray)o).getInternal());
 	}
 
 	public void expand(RubyValue v) {
 		Object o = v.getValue();
-		if (o instanceof ArrayValue) {
+		if (o instanceof RubyArray) {
 			//[5,6,*[1, 2]]
-			values_.addAll(((ArrayValue)o).getInternal());	
+			values_.addAll(((RubyArray)o).getInternal());	
 		} else {
 			//[5,6,*1], [5,6,*nil]
 			values_.add(v);
-		}
-	}
-
-	public static RubyValue expandArrayIfThereIsZeroOrOneValue(ArrayValue a) {
-		if (a.size() <= 1) {
-			return a.get(0);
-		} else {
-			return ObjectFactory.createArray(a);
-		}
-	}
-
-	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyValue v) {
-		if (v.getValue() instanceof ArrayValue) {
-			ArrayValue a = (ArrayValue)v.getValue();
-			if (!a.notSingleAsterisk()) {
-				return expandArrayIfThereIsZeroOrOneValue(a);
-			}
-		}
-
-		return v;
-	}
-	
-	public static ArrayValue expandArrayIfThereIsOnlyOneArrayValue(ArrayValue a) {
-		if (a.size() == 1 &&
-				a.get(0).getValue() instanceof ArrayValue) {
-			return (ArrayValue)a.get(0).getValue();
-		} else {
-			return a;
-		}
-	}
-
-	public static ArrayValue convertToArrayIfNotYet(RubyValue v) {
-		if (v.getValue() instanceof ArrayValue) {
-			return (ArrayValue)v.getValue();
-		} else {
-			return new ArrayValue(v);
 		}
 	}
 
@@ -239,7 +203,7 @@ public class ArrayValue implements Iterable<RubyValue> {
 			return ObjectFactory.createEmptyArray();
 		}
 
-		ArrayValue v = new ArrayValue(size, true);
+		RubyArray v = new RubyArray(size, true);
 		for (int i = index; i < values_.size(); ++i) {
 			v.add(values_.get(i));
 		}
@@ -247,21 +211,21 @@ public class ArrayValue implements Iterable<RubyValue> {
 		return ObjectFactory.createArray(v);
 	}
 	
-	public ArrayValue plus(ArrayValue array) {
+	public RubyArray plus(RubyArray array) {
 		int size = values_.size() + array.size();
-		ArrayValue resultArray = new ArrayValue(size);
+		RubyArray resultArray = new RubyArray(size);
 		resultArray.values_.addAll(values_);
 		resultArray.values_.addAll(array.values_);
 		return resultArray;
 	}
 
-	public ArrayValue times(int times) throws RubyException {
+	public RubyArray times(int times) throws RubyException {
 		if (times < 0) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
 		}
 		
 		int size = values_.size() * times;
-		ArrayValue resultArray = new ArrayValue(size);
+		RubyArray resultArray = new RubyArray(size);
 		for (int i = 0; i < times; i++) {
 			resultArray.values_.addAll(values_);
 		}

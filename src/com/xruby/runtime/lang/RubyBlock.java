@@ -20,7 +20,7 @@ class MethodBlockBase {
 		default_argc_ = default_argc;
 	}
 
-	protected RubyValue initializeAsteriskParameter(ArrayValue args) {
+	protected RubyValue initializeAsteriskParameter(RubyArray args) {
 		if (null == args) {
 			asterisk_parameter_ = ObjectFactory.createEmptyArray();
 		} else {
@@ -61,18 +61,18 @@ public abstract class RubyBlock extends MethodBlockBase {
 		blockOfCurrentMethod_ = block;
 	}
 
-	public RubyValue invoke(RubyValue receiver, ArrayValue args) throws RubyException {
+	public RubyValue invoke(RubyValue receiver, RubyArray args) throws RubyException {
 		boolean single_lhs = (1 == argc_) && (!has_asterisk_parameter_);
 		boolean single_rhs = (null != args) && (1 == args.size()) && (args.notSingleAsterisk()) && (argc_ > 0);
 		if (single_lhs) {
-			return run(receiver, new ArrayValue(ArrayValue.expandArrayIfThereIsZeroOrOneValue(args)));
+			return run(receiver, new RubyArray(RubyRuntime.expandArrayIfThereIsZeroOrOneValue(args)));
 		} else if (single_rhs) {
-			return run(receiver, ArrayValue.expandArrayIfThereIsOnlyOneArrayValue(args));
+			return run(receiver, RubyRuntime.expandArrayIfThereIsOnlyOneRubyArray(args));
 		} else {
-			return run(receiver, null != args ? args : new ArrayValue(0, true));
+			return run(receiver, null != args ? args : new RubyArray(0, true));
 		}
 	}
 
-	protected abstract RubyValue run(RubyValue receiver, ArrayValue args) throws RubyException;
+	protected abstract RubyValue run(RubyValue receiver, RubyArray args) throws RubyException;
 }
 
