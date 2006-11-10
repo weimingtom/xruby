@@ -235,6 +235,31 @@ class String_gsub_danger extends String_gsub {
 	}
 }
 
+class String_split extends RubyMethod {
+	public String_split() {
+		super(2, false, 1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		StringValue g = (StringValue)receiver.getValue();
+		RegexpValue r = (RegexpValue)args.get(0).getValue();
+		String[] splitResult;
+		
+		if (args.size() == 1){
+			splitResult = r.getValue().split(g.toString());
+		}else{
+			IntegerValue i = (IntegerValue)args.get(1).getValue();
+			splitResult = r.getValue().split(g.toString(), i.intValue());
+		}
+		
+		RubyArray value = new RubyArray(splitResult.length);
+		for(String str : splitResult){
+			value.add(ObjectFactory.createString(str));
+		}
+		return ObjectFactory.createArray(value);
+	}
+}
+
 public class StringClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("String", RubyRuntime.ObjectClass);
@@ -253,6 +278,7 @@ public class StringClassBuilder {
 		c.defineMethod("+", new String_plus());
 		c.defineMethod("gsub", new String_gsub());
 		c.defineMethod("gsub!", new String_gsub_danger());
+		c.defineMethod("split", new String_split());
 		return c;
 	}
 }

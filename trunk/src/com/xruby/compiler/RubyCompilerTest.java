@@ -2852,4 +2852,26 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_split() {
+		String [] program_texts = {
+				"print ('abc de b,sf cde'.split(/ /).length)",
+				"print ('abc de b,sf cde'.split(/ /, 2).length)",
+				"print ('abc de b,sf cde'.split(/ ,/).length)",
+				"print ('abc de b,sf cde'.split(/ ,/, 2).length)",
+				"print ('abc de b,sf cde'.split(/[ ,]/).length)",
+				"print ('abc de b,sf cde'.split(/[ ,]/, 2).length)"
+		};
+		
+		String[] outputs = {
+				"4",
+				"2",
+				"1",
+				"1",
+				"5",
+				"2"
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

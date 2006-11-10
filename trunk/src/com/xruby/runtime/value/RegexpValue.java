@@ -36,4 +36,8 @@ public class RegexpValue {
 	public String gsub(StringValue str, StringValue repl) {
 		return regex_.matcher(str.toString()).replaceAll(repl.toString());
 	}
+	
+	public Pattern getValue() {
+		return regex_;
+	}
 }

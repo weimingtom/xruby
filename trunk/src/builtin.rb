@@ -3,7 +3,8 @@
 #Some built-in functions can be implemented in pure ruby, so they are implemented here.
 #
 
-$: = ["..", "./foobarlib", "."]
+$: = ["./stdlib", "."]
+$__loaded_libraries = []
 
 module Kernel
 	def to_a
@@ -11,20 +12,15 @@ module Kernel
 	end
 
 	alias require__ require
+	alias load__    load
 
+	#private
 	def require(path)
-# TODO: xruby BUG: return from block
+		# TODO: xruby BUG: return from block
 =begin
 		$:.length.times do |index|
 			file_name = $:[index] + "/" + path + ".rb"
-			next unless ::File.file?(file_name)
-			begin
-				content = ::IO.read(file_name)
-				eval(content)
-				return true
-			rescue
-				next
-			end
+			return load_file(file_name)
 		end
 =end
 		counter = 0
@@ -32,15 +28,39 @@ module Kernel
 			file_name = $:[counter] + "/" + path + ".rb"
 			counter += 1
 			next unless ::File.file?(file_name)
-			begin
-				content = ::IO.read(file_name)
-				eval(content)
-				return true
-			rescue
-				return false
-			end
+
+			return load_once(file_name)
 		end
-		require__(path)
+		require__(path)	
+	end
+
+	#private
+	def load(path)
+		counter = 0
+		while counter < $:.length
+			file_name = $:[counter] + "/" + path + ".rb"
+			counter += 1
+
+			next unless ::File.file?(file_name)
+			return load_file(file_name)
+		end
+		require__(path)	
+	end
+
+	#private
+	def load_once(file_name)
+		absolute_path = ::File.expand_path(file_name)
+		return false if $__loaded_libraries.include?(absolute_path)
+		result = load_file(absolute_path)
+		result
+	end
+
+	#private
+	def load_file(file_name)
+		content = ::IO.read(file_name)
+		eval(content)
+		$__loaded_libraries.push(file_name) unless $__loaded_libraries.include?(file_name)
+		true
 	end
 end
 
@@ -48,8 +68,18 @@ class Array
 	def to_a
 		self
 	end
+
+	def join(sepString=" ")
+		result = ""
+		selfObject = self
+		(length - 1).times do |index|
+			result += selfObject[index] + sepString
+		end
+		result += selfObject[length - 1] if length != 0
+		result
+	end
 	
-	alias join to_s
+	#alias join to_s
 	alias to_ary to_a
 	alias size length
 end
