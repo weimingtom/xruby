@@ -89,6 +89,30 @@ class IO_eof extends RubyMethod {
 	}
 }
 
+class IO_read extends RubyMethod {
+	public IO_read() {
+		super(3, false, 2);
+	}
+
+	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+		StringValue fileName = (StringValue)args.get(0).getValue();
+		IOValue io = new IOValue(fileName.toString(), "r");
+		int offset;
+		int length;
+		if (args.size() == 1){
+			return io.read();
+		}else{
+			length = ((IntegerValue)args.get(1).getValue()).intValue();
+			if(args.size() == 2){			
+				return io.read(length);
+			}else{
+				offset = ((IntegerValue)args.get(2).getValue()).intValue();
+				return io.read(length, offset);
+			}
+		}
+	}
+}
+
 public class IOClassBuilder {
 
 	public static RubyClass create() {
@@ -102,5 +126,9 @@ public class IOClassBuilder {
 		c.defineMethod("eof", eof);
 		c.defineMethod("eof?", eof);
 		return c;
+	}
+	
+	public static void initSingletonMethods() {
+		ObjectFactory.IOClassValue.defineMethod("read", new IO_read());
 	}
 }

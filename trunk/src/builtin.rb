@@ -3,9 +3,44 @@
 #Some built-in functions can be implemented in pure ruby, so they are implemented here.
 #
 
+$: = ["..", "./foobarlib", "."]
+
 module Kernel
 	def to_a
 		[self]
+	end
+
+	alias require__ require
+
+	def require(path)
+# TODO: xruby BUG: return from block
+=begin
+		$:.length.times do |index|
+			file_name = $:[index] + "/" + path + ".rb"
+			next unless ::File.file?(file_name)
+			begin
+				content = ::IO.read(file_name)
+				eval(content)
+				return true
+			rescue
+				next
+			end
+		end
+=end
+		counter = 0
+		while counter < $:.length
+			file_name = $:[counter] + "/" + path + ".rb"
+			counter += 1
+			next unless ::File.file?(file_name)
+			begin
+				content = ::IO.read(file_name)
+				eval(content)
+				return true
+			rescue
+				return false
+			end
+		end
+		require__(path)
 	end
 end
 

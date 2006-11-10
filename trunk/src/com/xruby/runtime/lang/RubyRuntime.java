@@ -63,6 +63,8 @@ public class RubyRuntime {
 		TopLevelSelfInitializer.initSingletonMethods();
 		TimeClassBuilder.initSingletonMethods();
 		BignumClassBuilder.initSingletonMethods();
+		IOClassBuilder.initSingletonMethods();
+		FileClassBuilder.initSingletonMethods();
 		
 		try {
 			Class c = Class.forName("builtin.main");
