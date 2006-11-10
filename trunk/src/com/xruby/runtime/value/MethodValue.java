@@ -14,7 +14,7 @@ public class MethodValue {
 		method_ = method;
 	}
 
-	public RubyValue call(ArrayValue args, RubyBlock block) throws RubyException {
+	public RubyValue call(RubyArray args, RubyBlock block) throws RubyException {
 		return method_.invoke(receiver_, args, block);
 	}
 	

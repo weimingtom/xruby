@@ -8,7 +8,7 @@ class Range_case_equal extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		Object o = args.get(0).getValue();
 		if (!(o instanceof IntegerValue)) {
 			//not comparable
@@ -29,7 +29,7 @@ class Range_to_s extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		RangeValue r = (RangeValue)receiver.getValue();
 		int left = r.getLeft();
 		int right = r.getRight();

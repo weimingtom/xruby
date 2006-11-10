@@ -3,7 +3,7 @@ package com.xruby.runtime.builtin;
 import java.io.File;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.ArrayValue;
+import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.StringValue;
 
@@ -12,7 +12,7 @@ class File_is_file extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
 		StringValue fileName = (StringValue)args.get(0).getValue();
 		File file = new File(fileName.toString());
 		if (file.isFile()){

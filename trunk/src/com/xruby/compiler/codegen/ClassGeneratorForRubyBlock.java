@@ -99,7 +99,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 				);
 	
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.ArrayValue)"),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"),
 				null,// signature
 				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
 				cw_);
