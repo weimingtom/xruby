@@ -13,34 +13,39 @@ import com.xruby.runtime.lang.*;
  * 
  */
 public class RubyArray implements Iterable<RubyValue> {
-	private ArrayList<RubyValue> values_;
-	private boolean notSingleAsterisk_ = true; //e.g. yield *[[]]
-
-	public boolean notSingleAsterisk() {
-		return notSingleAsterisk_;
-	}
+	private ArrayList<RubyValue> array;
+	private boolean isNotSingleAsterisk; //e.g. does not look like yield *[[]]
 	
 	public RubyArray() {
-		values_ = new ArrayList<RubyValue>();
-		notSingleAsterisk_ = true;
+		this(1, true);
 	}
 	
 	public RubyArray(int size) {
 		this(size, true);
 	}
 	
-	public RubyArray(int size, boolean notSingleAsterisk) {
-		values_ = new ArrayList<RubyValue>(size);
-		notSingleAsterisk_ = notSingleAsterisk;
+	public RubyArray(RubyValue v) {
+		this(1, true);
+		add(v);
+	}
+
+	public RubyArray(RubyValue value1, RubyValue value2) {
+		this(2, true);
+		add(value1);
+		add(value2);
 	}
 	
-	public RubyArray(RubyValue v) {
-		values_ = new ArrayList<RubyValue>(1);
-		values_.add(v);
+	public RubyArray(int size, boolean isNotSingleAsterisk) {
+		array = new ArrayList<RubyValue>(size);
+		this.isNotSingleAsterisk = isNotSingleAsterisk;
+	}
+	
+	public boolean isNotSingleAsterisk() {
+		return this.isNotSingleAsterisk;
 	}
 	
 	public void add(RubyValue v) {
-		values_.add(v);
+		array.add(v);
 	}
 	
 	public RubyValue remove(int index) throws RubyException {
@@ -48,20 +53,20 @@ public class RubyArray implements Iterable<RubyValue> {
 			return ObjectFactory.nilValue;
 		}
 		
-		return values_.remove(index);		
+		return array.remove(index);		
 	}
 	
 	public int size() {
-		return values_.size();
+		return array.size();
 	}
 	
 	public Iterator<RubyValue> iterator() {
-		return values_.iterator();
+		return array.iterator();
 	}
 
 	public RubyValue set(int index, RubyValue value) throws RubyException {
 		if (index < 0) {
-			index = values_.size() + index;
+			index = array.size() + index;
 		}
 
 		if (index < 0) {
@@ -69,14 +74,14 @@ public class RubyArray implements Iterable<RubyValue> {
 			throw new RubyException("IndexError");
 		}
 	
-		if (index < values_.size()) {
-			values_.set(index, value);
+		if (index < array.size()) {
+			array.set(index, value);
 		} else {
-			values_.ensureCapacity(index + 1);
-			for (int i = values_.size(); i < index; ++i) {
-				values_.add(ObjectFactory.nilValue);
+			array.ensureCapacity(index + 1);
+			for (int i = array.size(); i < index; ++i) {
+				array.add(ObjectFactory.nilValue);
 			}
-			values_.add(value);
+			array.add(value);
 		}
 
 		return value;
@@ -84,24 +89,24 @@ public class RubyArray implements Iterable<RubyValue> {
 	
 	public RubyValue get(int index) {
 		if (index < 0) {
-			index = values_.size() + index;
+			index = array.size() + index;
 		}
 		
 		if (index < 0 || index >= size()) {
 			return ObjectFactory.nilValue;
 		} else {
-			return values_.get(index);
+			return array.get(index);
 		}
 	}
 	
 	public RubyArray subarray(RangeValue range) {
 		int left = range.getLeft();
 		if (left < 0) {
-			left += values_.size();
+			left += array.size();
 		}
 		int right = range.getRight();
 		if (right < 0) {
-			right += values_.size();
+			right += array.size();
 		}
 		
 		int length = right - left + 1;
@@ -111,7 +116,7 @@ public class RubyArray implements Iterable<RubyValue> {
 	}
 	
 	public RubyArray subarray(int begin, int length) {
-		int arraySize = values_.size();
+		int arraySize = array.size();
 		if (begin > arraySize) {
 			return null;
 		}
@@ -121,7 +126,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		}
 		
 		if (begin < 0) {
-			begin += values_.size();
+			begin += array.size();
 		}
 		
 		if (begin + length > arraySize) {
@@ -138,18 +143,18 @@ public class RubyArray implements Iterable<RubyValue> {
 		RubyArray resultArray = new RubyArray(length);
 		int last = begin + length;
 		for (int i = begin; i < last; i++) {
-			resultArray.add(values_.get(i));
+			resultArray.add(array.get(i));
 		}	
 		
 		return resultArray;
 	}
 
 	public RubyValue equals(RubyArray that) throws RubyException {
-		if (values_.size() != that.size()) {
+		if (array.size() != that.size()) {
 			return ObjectFactory.falseValue;
 		}
 
-		for (int i = 0; i < values_.size(); ++i) {
+		for (int i = 0; i < array.size(); ++i) {
 			if (RubyRuntime.callPublicMethod(this.get(i), that.get(i), "==") == ObjectFactory.falseValue) {
 				return ObjectFactory.falseValue;
 			}
@@ -161,7 +166,7 @@ public class RubyArray implements Iterable<RubyValue> {
 	public RubyValue to_s() throws RubyException {
 		StringValue r = new StringValue();
 		
-		for (RubyValue v : values_) {
+		for (RubyValue v : array) {
 			RubyValue s = RubyRuntime.callPublicMethod(v, null, "to_s");
 			r.appendString(((StringValue)s.getValue()).toString());
 		}
@@ -170,7 +175,7 @@ public class RubyArray implements Iterable<RubyValue> {
 	}
 	
 	ArrayList<RubyValue> getInternal() {
-		return values_;
+		return array;
 	}
 	
 	public void concat(RubyValue v) throws RubyException {
@@ -180,42 +185,14 @@ public class RubyArray implements Iterable<RubyValue> {
 					"can't convert " + v.getRubyClass().toString() + " into Array");
 		}
 
-		values_.addAll(((RubyArray)o).getInternal());
+		array.addAll(((RubyArray)o).getInternal());
 	}
 
-	public void expand(RubyValue v) {
-		Object o = v.getValue();
-		if (o instanceof RubyArray) {
-			//[5,6,*[1, 2]]
-			values_.addAll(((RubyArray)o).getInternal());	
-		} else {
-			//[5,6,*1], [5,6,*nil]
-			values_.add(v);
-		}
-	}
-
-	//create a new Array containing every element from index to the end
-	public RubyValue collect(int index) {
-		assert(index >= 0);
-
-		final int size = values_.size() - index;
-		if (size < 0) {
-			return ObjectFactory.createEmptyArray();
-		}
-
-		RubyArray v = new RubyArray(size, true);
-		for (int i = index; i < values_.size(); ++i) {
-			v.add(values_.get(i));
-		}
-
-		return ObjectFactory.createArray(v);
-	}
-	
-	public RubyArray plus(RubyArray array) {
-		int size = values_.size() + array.size();
+	public RubyArray plus(RubyArray v) {
+		int size = array.size() + v.size();
 		RubyArray resultArray = new RubyArray(size);
-		resultArray.values_.addAll(values_);
-		resultArray.values_.addAll(array.values_);
+		resultArray.array.addAll(array);
+		resultArray.array.addAll(v.array);
 		return resultArray;
 	}
 
@@ -224,10 +201,10 @@ public class RubyArray implements Iterable<RubyValue> {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
 		}
 		
-		int size = values_.size() * times;
+		int size = array.size() * times;
 		RubyArray resultArray = new RubyArray(size);
 		for (int i = 0; i < times; i++) {
-			resultArray.values_.addAll(values_);
+			resultArray.array.addAll(array);
 		}
 		
 		return resultArray;
@@ -235,7 +212,7 @@ public class RubyArray implements Iterable<RubyValue> {
 
 	/// Returns true if the given object is present
 	public boolean include(RubyValue v) throws RubyException {
-		for (RubyValue value : values_) {
+		for (RubyValue value : array) {
 			if (RubyRuntime.testEqual(value, v)) {
 				return true;
 			}
@@ -243,5 +220,34 @@ public class RubyArray implements Iterable<RubyValue> {
 		
 		return false;
 	}
+
+	public void expand(RubyValue v) {
+		Object o = v.getValue();
+		if (o instanceof RubyArray) {
+			//[5,6,*[1, 2]]
+			array.addAll(((RubyArray)o).getInternal());	
+		} else {
+			//[5,6,*1], [5,6,*nil]
+			array.add(v);
+		}
+	}
+
+	//create a new Array containing every element from index to the end
+	public RubyValue collect(int index) {
+		assert(index >= 0);
+
+		final int size = array.size() - index;
+		if (size < 0) {
+			return ObjectFactory.createEmptyArray();
+		}
+
+		RubyArray v = new RubyArray(size, true);
+		for (int i = index; i < array.size(); ++i) {
+			v.add(array.get(i));
+		}
+
+		return ObjectFactory.createArray(v);
+	}
+	
 }
 
