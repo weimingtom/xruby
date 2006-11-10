@@ -21,9 +21,9 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		this(size, true);
 	}
 
-	public RubyArray(RubyValue value) {
+	public RubyArray(RubyValue v) {
 		this(1, true);
-		add(value);
+		add(v);
 	}
 
 	public RubyArray(RubyValue value1, RubyValue value2) {
@@ -42,10 +42,6 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return this.isNotSingleAsterisk;
 	}
 	
-	public int length() {
-		return this.array.size();
-	}
-	
 	public boolean isEmpty() {
 		return this.array.isEmpty();
 	}
@@ -53,21 +49,23 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	public void add(RubyValue value) {
 		this.array.add(value);
 	}
-	
-	public RubyValue get(int index) {
-		int size = array.size();
-		
-		if (index < 0) {
-			index += size;
+
+	public RubyValue remove(int index) {
+		if (index < 0 || index >= this.array.size()) {
+			return RubyConstant.QNIL;			
 		}
 		
-		if (index < 0 || index >= size) {
-			return RubyConstant.QNIL;
-		}
-		
-		return this.array.get((int)index);
+		return this.array.remove((int)index);
 	}
-	
+
+	public int length() {
+		return this.array.size();
+	}
+
+	public Iterator<RubyValue> iterator() {
+		return this.array.iterator();
+	}
+
 	public void set(int index, RubyValue value) {
 		int size = this.array.size();
 		if (index < 0) {
@@ -89,28 +87,55 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		}
 	}
 	
-	public RubyValue remove(int index) {
-		if (index < 0 || index >= this.array.size()) {
-			return RubyConstant.QNIL;			
+	public RubyValue get(int index) {
+		int size = array.size();
+		
+		if (index < 0) {
+			index += size;
 		}
 		
-		return this.array.remove((int)index);
-	}
-	
-	public RubyArray subArray(int begin, int length) {
-		return null;
-	}
-	
-	public RubyString toS() {
-		RubyString buf = RubyString.newString();
-		
-		for (RubyValue value : array) {			
-			buf.append(value);
+		if (index < 0 || index >= size) {
+			return RubyConstant.QNIL;
 		}
 		
-		return buf;
+		return this.array.get((int)index);
 	}
-	
+
+	//TODO public RubyValue subArray(RRange)
+	public RubyValue subArray(int begin, int length) {
+		int arraySize = array.size();
+		if (begin > arraySize) {
+			return RubyConstant.QNIL;
+		}
+		
+		if (length < 0) {
+			return RubyConstant.QNIL;
+		}
+		
+		if (begin < 0) {
+			begin += array.size();
+		}
+		
+		if (begin + length > arraySize) {
+			length = arraySize - begin;
+			if (length < 0) {
+				length = 0;
+			}
+		}
+		
+		if (length == 0) {
+			return new RubyArray(0);
+		}
+		
+		RubyArray resultArray = new RubyArray(length);
+		int last = begin + length;
+		for (int i = begin; i < last; i++) {
+			resultArray.add(array.get(i));
+		}	
+		
+		return resultArray;
+	}
+
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -128,17 +153,27 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return false;
 	}	
 	
-	public void concat(RubyArray array) {
-		this.array.addAll(array.array);
+	public RubyString toS() {
+		RubyString buf = RubyString.newString();
+		
+		for (RubyValue value : array) {			
+			buf.append(value);
+		}
+		
+		return buf;
 	}
 	
-	public RubyArray plus(RubyArray array) {
+	public RubyArray plus(RubyArray v) {
 		RubyArray result = new RubyArray();
 		result.array.addAll(this.array);
-		result.array.addAll(array.array);
+		result.array.addAll(v.array);
 		return result;
 	}
-	
+
+	public void concat(RubyArray v) {
+		this.array.addAll(v.array);
+	}
+
 	public RubyArray times(int times) {
 		if (times == 0) {
 			return new RubyArray();			
@@ -167,8 +202,32 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		
 		return false;
 	}
-	
-	public Iterator<RubyValue> iterator() {
-		return this.array.iterator();
+
+	public void expand(RubyValue v) {
+		if (v instanceof RubyArray) {
+			//[5,6,*[1, 2]]
+			array.addAll(((RubyArray)v).array);	
+		} else {
+			//[5,6,*1], [5,6,*nil]
+			array.add(v);
+		}
 	}
+
+	//create a new Array containing every element from index to the end
+	public RubyValue collect(int index) {
+		assert(index >= 0);
+
+		final int size = array.size() - index;
+		if (size < 0) {
+			return new RubyArray(0);
+		}
+
+		RubyArray v = new RubyArray(size, true);
+		for (int i = index; i < array.size(); ++i) {
+			v.add(array.get(i));
+		}
+
+		return v;
+	}
+	
 }
