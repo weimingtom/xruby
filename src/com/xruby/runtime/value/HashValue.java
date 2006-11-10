@@ -4,9 +4,11 @@
 
 package com.xruby.runtime.value;
 
-import java.util.*;
-
+import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @breif Internal representation of a ruby hash 
@@ -24,8 +26,20 @@ public class HashValue {
 	public int size() {
 		return map_.size();
 	}
-	
-	public RubyValue get(RubyValue k) {
+
+    public RubyValue to_s() throws RubyException {
+		StringValue r = new StringValue();
+
+		for (RubyValue key : map_.keySet()) {
+            RubyValue value = map_.get(key);
+            r.appendString((key.getValue()).toString()+(value.getValue()).toString());
+		}
+
+		return ObjectFactory.createString(r);
+	}
+
+
+    public RubyValue get(RubyValue k) {
 		RubyValue v = map_.get(k);
 		if (null == v) {
 			return default_value_;
