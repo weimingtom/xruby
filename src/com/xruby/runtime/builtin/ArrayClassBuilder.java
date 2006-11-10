@@ -196,6 +196,19 @@ class Array_unshift extends RubyMethod {
 	}
 }
 
+class Array_initialize extends RubyMethod {
+	public Array_initialize() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		RubyArray array = new RubyArray();
+        receiver.setValue(array);
+
+        return receiver;
+	}
+}
+
 public class ArrayClassBuilder {
 	
 	public static RubyClass create() {
@@ -213,7 +226,8 @@ public class ArrayClassBuilder {
 		c.defineMethod("delete_at", new Array_delete_at());
 		c.defineMethod("include?", new Array_include());
 		c.defineMethod("unshift", new Array_unshift());
-		return c;
+        c.defineMethod("initialize", new Array_initialize());
+        return c;
 	}
 }
 

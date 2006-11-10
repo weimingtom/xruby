@@ -66,13 +66,28 @@ class Hash_to_s extends RubyMethod {
     }
 }
 
+class Hash_initialize extends RubyMethod {
+    public Hash_initialize() {
+        super(0);
+    }
+
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+        HashValue hash = new HashValue();
+        receiver.setValue(hash);
+        
+        return receiver;
+    }
+}
+
 public class HashClassBuilder {
-	public static RubyClass create() {
+    
+    public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Hash", RubyRuntime.ObjectClass);
-		c.defineMethod("length", new Hash_length());
+        c.defineMethod("length", new Hash_length());
 		c.defineMethod("[]", new Hash_hash_access());
 		c.defineMethod("[]=", new Hash_hash_set());
         c.defineMethod("to_s", new Hash_to_s());
+        c.defineMethod("initialize", new Hash_initialize());
         return c;
 	}
 }
