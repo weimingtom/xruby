@@ -57,6 +57,7 @@ public class RubyTreeParserTest extends TestCase {
 				"a",
 				"a [1]",
 				"a[1]",
+				"self[0]",
 				
 				"case 1\n" +
 				"	when 1\n" +
@@ -129,6 +130,8 @@ public class RubyTreeParserTest extends TestCase {
 				" ( COMPSTMT ( CALL a ) )",
 				" ( COMPSTMT ( CALL a ( ARG ( [ 1 ) ) ) )",
 				" ( COMPSTMT ( [ ( CALL a ) 1 ) )",
+				" ( COMPSTMT ( [ self 0 ) )",
+				
 				" ( COMPSTMT ( case 1 when ( MRHS 1 ) ( COMPSTMT 1 ) else ( COMPSTMT 2 ) ) )",
 				" ( COMPSTMT ( if true elsif false else ) )",
 				" ( COMPSTMT true false nil )",
