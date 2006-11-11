@@ -132,17 +132,25 @@ public class ObjectFactory {
 	}
 	
 	public static RubyValue createRange(RubyValue left, RubyValue right, boolean isExclusive) throws RubyException {
-		Object l = left.getValue();
-		Object r = right.getValue();
-		if (!(l instanceof IntegerValue) ||
-			!(r instanceof IntegerValue)) {
+		// test operator <=>
+		RubyMethod m = left.findMethod("<=>");
+		if (m == null){
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
 		}
-		
-		return new RubyValue(RubyRuntime.RangeClass, 
-			new RangeValue(((IntegerValue)l).intValue(),
-				((IntegerValue)r).intValue(),
-				isExclusive));
+		RubyArray args = new RubyArray();
+		args.add(right);
+		try{
+			RubyValue result = m.invoke(left, args, null);
+			if (result == ObjectFactory.nilValue){
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
+			}
+		}catch(RubyException exception){
+			if (exception.getRubyValue().getRubyClass() == RubyRuntime.ArgumentErrorClass){
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
+			}
+			throw exception;
+		}
+		return new RubyValue(RubyRuntime.RangeClass, new RangeValue(left, right, isExclusive));
 	}
 
 	public static RubyValue createMatchData(MatchDataValue m) {
@@ -155,5 +163,12 @@ public class ObjectFactory {
 	
 	public static RubyValue createInteger(String value, int radix) {
 		return BignumValue.bignorm(new BigInteger(value, radix));
+	}
+	
+	public static RubyValue createBoolean(boolean value) {
+		if (value){
+			return trueValue;
+		}
+		return falseValue;
 	}
 }

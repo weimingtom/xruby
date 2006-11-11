@@ -122,6 +122,23 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_result(program_texts, results);
 	}
 	
+	public void test_fixnum_to_f() {
+		String[] program_texts = {
+				//"print 1.to_f",
+				//"print 2.to_f",
+				//"print 3.to_f",
+				//"print 1.to_f / 3"
+		};
+		
+		String[] outputs = {
+				//"1.0",
+				//"2.0",
+				//"3.0",
+				//"0.333333333333333"
+		};
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_big_integer() {
 		String[] program_texts = {
 				"print 0x123456789abcdef0",
@@ -1946,13 +1963,14 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"1 .. 'x'",
 				"'x' ... 3",
-				"'x' ... 'y'",
+				// TODO: delete this line, new Range class support this
+				//"'x' ... 'y'",
 		};
 
 		RubyException[] exceptions = {
 			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
 			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
-			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
+			//new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);

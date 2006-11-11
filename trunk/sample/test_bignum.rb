@@ -1,7 +1,8 @@
 require 'common'
 
 test_check "bignum"
-def fact(n)
+def fact(nn)
+  n = nn
   return 1 if n == 0
   f = 1
   while n>0
@@ -24,6 +25,7 @@ test_ok($x == -815915283247897734345611269596115894272000000000)
 test_ok(2-(2**32) == -(2**32-2))
 test_ok(2**32 - 5 == (2**32-3)-2)
 
+=begin
 $good = true;
 for i in 1000..1014
   $good = false if ((1 << i) != (2**i))
@@ -88,5 +90,4 @@ end
 
 shift_test(-4518325415524767873)
 shift_test(-0xfffffffffffffffff)
-
-
+=end
