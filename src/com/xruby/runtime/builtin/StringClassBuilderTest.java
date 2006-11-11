@@ -153,4 +153,43 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals(ObjectFactory.nilValue, result);
 		assertEquals("Hello", ((StringValue)str.getValue()).toString());
 	}
+	
+	public void test_operator_compare() throws RubyException {
+		RubyValue str1 = ObjectFactory.createString("abc");
+		RubyValue str2 = ObjectFactory.createString("abd");
+		RubyArray args = new RubyArray();
+		args.add(str2);
+		RubyMethod m = str1.findPublicMethod("<=>");
+		RubyValue result = m.invoke(str1, args, null);
+		assertEquals(result, ObjectFactory.createFixnum(-1));
+		
+		str2 = ObjectFactory.createString("abb");
+		args = new RubyArray();
+		args.add(str2);
+		result = m.invoke(str1, args, null);
+		assertEquals(result, ObjectFactory.createFixnum(1));
+		
+		str2 = ObjectFactory.createString("abc");
+		args = new RubyArray();
+		args.add(str2);
+		result = m.invoke(str1, args, null);
+		assertEquals(result, ObjectFactory.createFixnum(0));
+		
+		str2 = ObjectFactory.createString("a");
+		args = new RubyArray();
+		args.add(str2);
+		result = m.invoke(str1, args, null);
+		assertEquals(result, ObjectFactory.createFixnum(1));
+		
+		str2 = ObjectFactory.createString("b");
+		args = new RubyArray();
+		args.add(str2);
+		result = m.invoke(str1, args, null);
+		assertEquals(result, ObjectFactory.createFixnum(-1));
+		
+		args = new RubyArray();
+		args.add(ObjectFactory.createFixnum(1));
+		result = m.invoke(str1, args, null);
+		assertTrue(result == ObjectFactory.nilValue);
+	}
 }

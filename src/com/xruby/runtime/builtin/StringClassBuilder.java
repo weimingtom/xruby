@@ -260,6 +260,28 @@ class String_split extends RubyMethod {
 	}
 }
 
+class String_operator_compare extends RubyMethod {
+	public String_operator_compare() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		StringValue value1 = (StringValue)receiver.getValue();
+		Object arg = args.get(0).getValue();
+		if (!(arg instanceof StringValue)){
+			return ObjectFactory.nilValue;
+		}
+		StringValue value2 = (StringValue)args.get(0).getValue();
+		int compare = value1.toString().compareTo(value2.toString());
+		if (compare > 0){
+			compare = 1;
+		}else if(compare < 0){
+			compare = -1;
+		}
+		return ObjectFactory.createFixnum(compare);
+	}
+}
+
 public class StringClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("String", RubyRuntime.ObjectClass);
@@ -279,6 +301,7 @@ public class StringClassBuilder {
 		c.defineMethod("gsub", new String_gsub());
 		c.defineMethod("gsub!", new String_gsub_danger());
 		c.defineMethod("split", new String_split());
+		c.defineMethod("<=>", new String_operator_compare());
 		return c;
 	}
 }

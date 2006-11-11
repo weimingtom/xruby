@@ -16,19 +16,9 @@ module Kernel
 
 	#private
 	def require(path)
-		# TODO: xruby BUG: return from block
-=begin
 		$:.length.times do |index|
 			file_name = $:[index] + "/" + path + ".rb"
-			return load_file(file_name)
-		end
-=end
-		counter = 0
-		while counter < $:.length
-			file_name = $:[counter] + "/" + path + ".rb"
-			counter += 1
 			next unless ::File.file?(file_name)
-
 			return load_once(file_name)
 		end
 		require__(path)	
@@ -36,11 +26,8 @@ module Kernel
 
 	#private
 	def load(path)
-		counter = 0
-		while counter < $:.length
-			file_name = $:[counter] + "/" + path + ".rb"
-			counter += 1
-
+		$:.length.times do |index|
+			file_name = $:[index] + "/" + path + ".rb"
 			next unless ::File.file?(file_name)
 			return load_file(file_name)
 		end
@@ -72,13 +59,14 @@ class Array
 		self
 	end
 
-	def join(sepString=" ")
+	def join(sepString="")
+		return to_s if sepString.nil? || sepString == ""
+
 		result = ""
-		selfObject = self
 		(length - 1).times do |index|
-			result += selfObject[index].to_s + sepString
+			result += self[index].to_s + sepString
 		end
-		result += selfObject[length - 1].to_s if length != 0
+		result += self[length - 1].to_s if length != 0
 		result
 	end
 	
@@ -98,6 +86,10 @@ end
 class String
 	def to_s
 		return self
+	end
+
+	def succ
+
 	end
 	
 	alias to_str to_s
@@ -129,7 +121,7 @@ class Integer < Numeric
 	def succ
 		self + 1
 	end
-	
+
 	#Always returns true
 	def integer?
 		true
@@ -273,6 +265,46 @@ class FalseClass
 	
 	def to_s
 		return "false"
+	end
+end
+
+class Range
+	def each
+		return self if exclude_end? && (self.begin <=> self.end) != -1
+		return self if !exclude_end? && (self.begin <=> self.end) == 1
+		iter = self.begin
+		while (iter <=> self.end) != 0
+			yield(iter)
+			iter = iter.succ
+		end
+		yield(iter) unless exclude_end?
+		self
+	end
+
+	# xruby BUG #12
+=begin
+	def ===(value)
+		each do |item|
+			return true if value == item
+		end
+		false
+	end
+=end
+
+	def ===(value)
+		found = false
+		each do |item|
+			if (item <=> value) == 0
+				found = true
+				break
+			end
+		end
+		found
+	end
+
+	def to_s
+		return self.begin.to_s + "..." + self.end.to_s if exclude_end?
+		return self.begin.to_s + ".." + self.end.to_s
 	end
 end
 

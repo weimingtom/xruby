@@ -5,7 +5,7 @@ $:.unshift(File.dirname(__FILE__))
 #require 'test_array'
 #require 'test_assignment_1'
 require 'test_assignment'
-#require 'test_bignum'
+require 'test_bignum'
 #require 'test_call'
 require 'test_case'
 #require 'test_clone'
