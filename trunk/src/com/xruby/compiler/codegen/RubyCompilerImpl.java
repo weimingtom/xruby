@@ -551,6 +551,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		} else {
 			cg_.getMethodGenerator().loadArg(2);//TODO error checking: make sure yield is called in the right context
 		}
+		cg_.getMethodGenerator().dup();//will be used to call breaked().
 		visitSelfExpression();
 	}
 
@@ -694,7 +695,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitNext() {
 		if (isInBlock()) {
-			cg_.getMethodGenerator().breakBlock();
+			cg_.getMethodGenerator().returnValue();
 		} else {
 			cg_.getMethodGenerator().pop();
 			cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
