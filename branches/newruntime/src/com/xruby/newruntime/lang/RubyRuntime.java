@@ -43,6 +43,7 @@ public class RubyRuntime {
 	public static RubyClass indexError;
 	public static RubyClass rangeError;
 	public static RubyClass nameError;
+	public static RubyClass noMethodError;
 	
 	public static RubyClass scriptError;
 	public static RubyClass syntaxError;
@@ -148,6 +149,7 @@ public class RubyRuntime {
 		indexError =  builder.getIndexError();
 		rangeError = builder.getRangeError();
 		nameError = builder.getNameError();
+		noMethodError = builder.getNoMethodError();
 		
 		scriptError = builder.getScriptError();
 		syntaxError =  builder.getSyntaxError();

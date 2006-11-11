@@ -40,7 +40,7 @@ public class KernelMethod {
 	
 	public static RubyMethod anyToS = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) throws RubyException {
-			String name = RubyUtil.getObjectClassname(receiver);
+			String name = receiver.getRubyClassName().getString();
 			return RubyString.newString("#<" + name + ":0x" + Integer.toHexString(receiver.hashCode()) + ">");
 		}
 	};
@@ -49,7 +49,7 @@ public class KernelMethod {
 		protected RubyValue run(RubyValue receiver) throws RubyException {
 			if (receiver instanceof RubyObject 
 					&& ((RubyObject)receiver).getIvSize() > 0) {
-				String name = RubyUtil.getObjectClassname(receiver);
+				String name = receiver.getRubyClassName().getString();
 				// FIXME: inspect
 			}
 			
@@ -78,7 +78,7 @@ public class KernelMethod {
 	public static RubyMethod methods = new RubyMethod() {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
-			if (null == args) {
+			if (args == null || args.length() == 0) {
 				RubyClass klass = RubyUtil.classof(receiver);
 				return klass.instanceMethod(true);
 			} else {

@@ -6,7 +6,9 @@ import java.util.Map;
 import com.xruby.newruntime.value.RubyArray;
 import com.xruby.newruntime.value.RubyString;
 
-public abstract class RubyClassModuleBase extends RubyIvBase {	
+public abstract class RubyClassModuleBase extends RubyIvBase {
+	private static MethodCache cache = new MethodCache();
+	
 	protected RubyClass superclass;	
 	protected Map<RubyID, RubyMethodWrapper> methodTable;
 	
@@ -102,28 +104,79 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		this.methodTable.put(newId, method);
 	}
 	
-	RubyValue callMethod(RubyValue receiver, RubyID name, RubyArray args, RubyBlock block) {
-		RubyMethod method = this.findMethod(name);
-		if (method != null) {
-			return method.invoke(receiver, args, block);
+	// FIXME: move to class?
+	RubyValue callMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyBlock block) {
+		RubyMethodWrapper wrapper = this.findMethod(mid);
+		if (wrapper == null) {
+			return this.methodMissing(receiver, mid);
 		}
+		
+		int argc = wrapper.getArgc();
+		if (argc >= 0 && args != null && args.length() != argc) {
+			RubyRuntime.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for %d)", args.length(), argc);
+		}
+		
+		RubyMethod method = wrapper.getMethod();
+		if (method == null) {
+			return this.methodMissing(receiver, mid);
+		}
+		
+		return method.invoke(receiver, args);
+	}
+	
+	private RubyMethodWrapper findMethod(RubyID mid) {
+		// find method in cache
+		MethodCache.CacheEntry entry = cache.getMethod(this, mid);
+		if (entry != null && entry.klass == this && entry.mid == mid) {
+			if (entry.method == null) {
+				return null;
+			} else {
+				return entry.method;
+			}
+		}
+		
+		RubyMethodWrapper wrapper = searchMethod(mid);
+		
+		// put method in cache
+		if (entry == null) {
+			entry = new MethodCache.CacheEntry();
+		}
+		
+		entry.klass = this;
+		entry.mid = mid;
+		entry.method = wrapper;
+	
+		return wrapper;		
+	}
+
+	private RubyMethodWrapper searchMethod(RubyID mid) {
+		// find method in method table
+		RubyClassModuleBase klass = this;
+		
+		while (klass != null) {	
+			RubyMethodWrapper method = klass.methodTable.get(mid);
+			
+			if (method != null) {
+				return method;
+			}
+			
+			klass = klass.superclass;
+		} 
 		
 		return null;
 	}
 	
-	private RubyMethod findMethod(RubyID id) {
-		RubyClassModuleBase klass = this;
-		
-		while (klass != null) {	
-			RubyMethodWrapper method = klass.methodTable.get(id);
-			if (method != null) {
-				return method.getMethod();
-			}
-			
-			klass = klass.superclass;
+	private RubyValue methodMissing(RubyValue obj, RubyID id) {
+		if (id == RubyID.ID_ALLOCATOR) {
+			RubyRuntime.raise(RubyRuntime.typeError, "allocator undefined for %s", obj.getRubyClassName().getString());
 		}
 		
-		return null;		
+		// FIXME: invoke method missing
+		
+		RubyRuntime.raise(RubyRuntime.noMethodError, "undefined method `%s' for %s", StringMap.id2name(id), obj.getRubyClassName());
+		
+		// unable reach here
+		return null;
 	}
 	
 	// const
