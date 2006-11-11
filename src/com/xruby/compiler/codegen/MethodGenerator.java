@@ -472,6 +472,17 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(RubyBlock.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"));
 
+		int value = newLocal(Type.getType(RubyValue.class));
+		storeLocal(value);
+
+		invokeVirtual(Type.getType(RubyBlock.class),
+				Method.getMethod("boolean breaked()"));
+		Label after_return = new Label();
+		ifZCmp(GeneratorAdapter.EQ, after_return);
+		loadLocal(value);
+		returnValue();//TODO more error checking, may not in the method context
+		mark(after_return);
+		loadLocal(value);
 	}
 
 	public void MethodCollection_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
