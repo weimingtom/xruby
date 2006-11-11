@@ -96,9 +96,8 @@ public class BlockTest extends TestingAstTestCase {
 		String expected_result = 
 			"self\n" +
 			"block:0:false:0\n" +
-			"begin break\n" +
 			"nil\n" +
-			"end break\n" +
+			"break\n" +
 			"end block:false\n" +
 			"loop:false\n" +
 			"EOF";

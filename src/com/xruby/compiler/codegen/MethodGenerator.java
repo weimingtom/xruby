@@ -543,8 +543,9 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 
 	public void breakBlock() {
-		putField(Type.getType(RubyBlock.class), "breakValue_", Type.getType(RubyValue.class));
-		pushNull();
+		loadThis();
+		push(true);
+		putField(Type.getType(RubyBlock.class), "__breaked__", Type.getType(boolean.class));
 		returnValue();
 	}
 

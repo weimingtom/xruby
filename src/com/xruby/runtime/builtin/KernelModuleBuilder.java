@@ -326,9 +326,9 @@ class Kernel_loop extends RubyMethod {
 		}
 
 		for (;;) {
-			block.invoke(receiver, args);
-			if (block.getBreakValue() != null) {
-				return block.getBreakValue();
+			RubyValue v = block.invoke(receiver, args);
+			if (block.breaked()) {
+				return v;
 			}
 		}
 	}

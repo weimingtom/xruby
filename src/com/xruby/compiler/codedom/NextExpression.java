@@ -9,14 +9,12 @@ public class NextExpression extends Expression {
 	}
 	
 	public void accept(CodeVisitor visitor) {
-		visitor.visitNextBegin();
-		
 		if (null != arguments_) { 
 			arguments_.accept(visitor);
 		} else {
 			visitor.visitNilExpression();
 		}
 
-		visitor.visitNextEnd();
+		visitor.visitNext();
 	}
 }

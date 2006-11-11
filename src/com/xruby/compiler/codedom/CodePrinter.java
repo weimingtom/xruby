@@ -433,20 +433,12 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("return\n");
 	}
 	
-	public void visitBreakBegin() {
-		result_.append("begin break\n");
-	}
-
-	public void visitBreakEnd() {
-		result_.append("end break\n");
+	public void visitBreak() {
+		result_.append("break\n");
 	}
 	
-	public void visitNextBegin() {
-		result_.append("begin next\n");
-	}
-
-	public void visitNextEnd() {
-		result_.append("end next\n");
+	public void visitNext() {
+		result_.append("next\n");
 	}
 	
 	public void visitRedo() {
