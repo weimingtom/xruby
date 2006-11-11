@@ -6,6 +6,7 @@ package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyBlock;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +19,9 @@ public class HashValue {
 	private Map<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
 	
 	private RubyValue default_value_ = ObjectFactory.nilValue;
-	
-	public void add(RubyValue k, RubyValue v) {
+    private RubyBlock block = null;
+
+    public void add(RubyValue k, RubyValue v) {
 		map_.put(k, v);
 	}
 	
@@ -47,5 +49,22 @@ public class HashValue {
 			return v;
 		}
 	}
-	
+
+    // Getter and Setter for default value
+    public RubyValue getDefaultValue() {
+        return default_value_;
+    }
+
+    public void setDefaultValue(RubyValue defaultValue) {
+        this.default_value_ = defaultValue;
+    }
+
+
+    public RubyBlock getBlock() {
+        return block;
+    }
+
+    public void setBlock(RubyBlock block) {
+        this.block = block;
+    }
 }
