@@ -1,42 +1,8 @@
 package com.xruby.newruntime.lang;
 
 import com.xruby.newruntime.value.RubyFixnum;
-import com.xruby.newruntime.value.RubyString;
 
-
-public class RubyUtil {
-	static RubyClass realClass(RubyClass klass) {			
-		while (klass.isSingleton() || klass instanceof RubyIncludeClass) {
-			klass = klass.getSuper();
-		}
-		
-		return (RubyClass)klass;
-	}
-	
-	static RubyString classPath(RubyClass klass) {
-		
-		// FIXME: to implement Ruby
-		return null;
-	}
-	
-	static RubyString className(RubyClass klass) {	
-		RubyClass real = realClass(klass);
-		
-		return real.getName();
-		
-		// FIXME: class path real
-		// return classPath(real);
-	}
-	
-	static String class2name(RubyClass klass) {
-		RubyString s = className(klass);
-		return s.getString();		
-	}
-	
-	public static String getObjectClassname(RubyValue value) {
-		return class2name(RubyUtil.classof(value));
-	}
-	
+public class RubyUtil {	
 	public static long valueToLong(RubyValue value) {
 		if (value instanceof RubyFixnum) {
 			return ((RubyFixnum)value).longValue();

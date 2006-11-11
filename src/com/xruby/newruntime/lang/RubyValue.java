@@ -2,12 +2,14 @@ package com.xruby.newruntime.lang;
 
 import com.xruby.newruntime.value.RubyFixnum;
 import com.xruby.newruntime.value.RubyArray;
+import com.xruby.newruntime.value.RubyString;
 
 public class RubyValue {
 	public int objectAddress() {
 		return super.hashCode();
 	}
 	
+	// method
 	public RubyValue callMethod(String name) {
 		return this.callMethod(name, RubyMethod.NULL_ARG, RubyBlock.NULL_BLOCK);
 	}
@@ -80,5 +82,11 @@ public class RubyValue {
 	protected RubyValue getIvar(RubyID id) {
 		// generic implementation
 		return null;
+	}
+	
+	// class
+	public RubyString getRubyClassName() {
+		RubyClass klass = RubyUtil.classof(this);
+		return klass.getName();
 	}
 }

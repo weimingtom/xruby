@@ -63,7 +63,6 @@ public class KernelMethodTest extends TestCase {
 		for (RubyValue value : resultArray) {
 			assertTrue(value instanceof RubyString);
 			RubyString str = (RubyString)value;
-			System.out.println(str.getString());
 			if ("methods".equals(str.getString())) {
 				found = true;
 			}

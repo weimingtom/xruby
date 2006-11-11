@@ -43,7 +43,9 @@ public class CoreTest extends TestCase {
 		RubyModule kernelModule = RubyRuntime.kernelModule;
 		assertNotNull(kernelModule);
 		RubyClass kernelMetaClass = kernelModule.getRubyClass();
-		assertEquals(moduleClass, kernelMetaClass);
+		
+		// FIXME:test real class
+		assertEquals(moduleClass, kernelMetaClass.realClass());
 	}
 	
 	public void testDefineClass() {

@@ -21,6 +21,7 @@ public class ExceptionBuilder implements ClassBuilder {
 	private RubyClass indexError;
 	private RubyClass rangeError;
 	private RubyClass nameError;
+	private RubyClass noMethodError;
 	
 	private RubyClass scriptError;
 	private RubyClass syntaxError;
@@ -65,6 +66,10 @@ public class ExceptionBuilder implements ClassBuilder {
 
 	public RubyClass getNameError() {
 		return nameError;
+	}
+	
+	public RubyClass getNoMethodError() {
+		return noMethodError;
 	}
 
 	public RubyClass getNoMemoryError() {
@@ -164,6 +169,11 @@ public class ExceptionBuilder implements ClassBuilder {
 	    rb_define_method(rb_cNameErrorMesg, "to_str", name_err_mesg_to_str, 0);
 	    rb_define_method(rb_cNameErrorMesg, "_dump", name_err_mesg_to_str, 1);
 	    rb_define_singleton_method(rb_cNameErrorMesg, "_load", name_err_mesg_load, 1);
+	    */
+		
+		this.noMethodError = RubyRuntime.defineClass("NoMethodError", this.nameError);
+		
+		/*
 	    rb_eNoMethodError = rb_define_class("NoMethodError", rb_eNameError);
 	    rb_define_method(rb_eNoMethodError, "initialize", nometh_err_initialize, -1);
 	    rb_define_method(rb_eNoMethodError, "args", nometh_err_args, 0);
