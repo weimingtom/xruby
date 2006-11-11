@@ -6,9 +6,8 @@ public class BreakExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"begin break\n" +
 			"1\n" +
-			"end break\n" +
+			"break\n" +
 			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}

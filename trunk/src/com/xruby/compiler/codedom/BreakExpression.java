@@ -9,15 +9,13 @@ public class BreakExpression extends Expression {
 	}
 	
 	public void accept(CodeVisitor visitor) {
-		visitor.visitBreakBegin();
-		
 		if (null != arguments_) { 
 			arguments_.accept(visitor);
 		} else {
 			visitor.visitNilExpression();
 		}
 
-		visitor.visitBreakEnd();
+		visitor.visitBreak();
 	}
 
 }

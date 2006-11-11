@@ -1878,10 +1878,12 @@ public class RubyCompilerTest extends TestCase {
 	public void test_loop() {
 		String[] program_texts = {
 				"a = loop do break; end; print a",
+				"a = loop do break 123; end; print a",
 		};
 		
 		String[] outputs = {
 				"nil",
+				"123",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

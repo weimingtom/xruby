@@ -575,7 +575,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitReturn() {
-		cg_.getMethodGenerator().returnValue();
+		if (isInBlock()) {
+			cg_.getMethodGenerator().breakBlock();
+		} else {
+			cg_.getMethodGenerator().returnValue();
+		}
 	}
 
 	public void visitAliasGlobalVariable(String newName, String oldName) {
@@ -680,13 +684,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		//do nothing
 	}
 
-	public void visitBreakBegin() {
-		if (isInBlock()) {
-			cg_.getMethodGenerator().loadThis();
-		}
-	}
-
-	public void visitBreakEnd() {
+	public void visitBreak() {
 		if (isInBlock()) {
 			cg_.getMethodGenerator().breakBlock();
 		} else {
@@ -694,12 +692,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 
-	public void visitNextBegin() {
-	}
-
-	public void visitNextEnd() {
+	public void visitNext() {
 		if (isInBlock()) {
-			visitReturn();
+			cg_.getMethodGenerator().breakBlock();
 		} else {
 			cg_.getMethodGenerator().pop();
 			cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
