@@ -27,7 +27,7 @@ class MethodGenerator extends GeneratorAdapter {
 		visitInsn(Opcodes.ACONST_NULL);
 	}
 	
-	public void saveBlockForFutureRestore() {
+	public void saveBlockForFutureRestoreAndCheckReturned() {
 		dup();
 		int i = symbol_table_.getLocalVariable("block$");
 		if (i < 0) {
