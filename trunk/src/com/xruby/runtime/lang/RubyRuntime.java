@@ -94,12 +94,12 @@ public class RubyRuntime {
 		}
 	}
 
-	public static boolean testCaseEqual(RubyValue value1, RubyValue value2) throws RubyException {
+	public static boolean testCaseEqual(RubyValue value1, RubyValue value2) {
 		RubyValue r = callPublicMethod(value1, value2, "===");
 		return testTrueFalse(r);
 	}
 
-	public static boolean testEqual(RubyValue value1, RubyValue value2) throws RubyException {
+	public static boolean testEqual(RubyValue value1, RubyValue value2) {
 		RubyValue r = callPublicMethod(value1, value2, "==");
 		return testTrueFalse(r);
 	}
@@ -124,7 +124,7 @@ public class RubyRuntime {
 	}
 
 	//receiver is implicit self
-	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) throws RubyException {
+	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findMethod(method_name);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "method '" +  method_name + "' can not be found in 'Object'");
@@ -134,11 +134,11 @@ public class RubyRuntime {
 	}
 
 	//method call with one argument and no block
-	public static RubyValue callPublicMethod(RubyValue receiver, RubyValue arg, String method_name) throws RubyException {
+	public static RubyValue callPublicMethod(RubyValue receiver, RubyValue arg, String method_name) {
 		return callPublicMethod(receiver, new RubyArray(arg), null, method_name);
 	}
 
-	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) throws RubyException {
+	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findPublicMethod(method_name);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
@@ -147,7 +147,7 @@ public class RubyRuntime {
 		return m.invoke(receiver, args, block);
 	}
 
-	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) throws RubyException {
+	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.getRubyClass().findSuperMethod(method_name);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "super method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
@@ -164,7 +164,7 @@ public class RubyRuntime {
 		}
 	}
 	
-	public static RubyValue runCommandAndCaptureOutput(String value) throws RubyException {
+	public static RubyValue runCommandAndCaptureOutput(String value) {
 		try {
 			Process p = Runtime.getRuntime().exec(value);
 			StringBuilder output = new StringBuilder();

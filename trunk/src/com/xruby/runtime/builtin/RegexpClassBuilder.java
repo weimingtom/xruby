@@ -9,7 +9,7 @@ class Regexp_case_equal extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		Object o = args.get(0).getValue();
 		if (!(o instanceof StringValue)) {
 			//not comparable
@@ -30,7 +30,7 @@ class Regexp_match extends RubyMethod {
 		super(1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		Object o = args.get(0).getValue();
 		if (!(o instanceof StringValue)) {
 			//not comparable
@@ -52,7 +52,7 @@ class Regexp_match_operator extends RubyMethod {
 		super(1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		Object o = args.get(0).getValue();
 		if (!(o instanceof StringValue)) {
 			//not comparable

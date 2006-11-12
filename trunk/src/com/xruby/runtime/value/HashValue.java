@@ -29,7 +29,7 @@ public class HashValue {
 		return map_.size();
 	}
 
-    public RubyValue to_s() throws RubyException {
+    public RubyValue to_s() {
 		StringValue r = new StringValue();
 
 		for (RubyValue key : map_.keySet()) {

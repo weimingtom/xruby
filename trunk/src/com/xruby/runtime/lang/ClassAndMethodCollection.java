@@ -19,7 +19,7 @@ abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 		return c;
 	}
 
-	private RubyValue defineClass(String name, RubyClass parent) throws RubyException {
+	private RubyValue defineClass(String name, RubyClass parent) {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
 			v = new RubyValue(RubyRuntime.ClassClass, new RubyClass(name, (null == parent) ? RubyRuntime.ObjectClass : parent));
@@ -44,7 +44,7 @@ abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 	}
 
 	/// define a new class or get a old one
-	public RubyValue defineClass(String name, RubyValue parent) throws RubyException {
+	public RubyValue defineClass(String name, RubyValue parent) {
 		if (null != parent && parent.getRubyClass() != RubyRuntime.ClassClass) {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (" + parent.getRubyClass().getName() + " given)");
 		}
@@ -53,7 +53,7 @@ abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 	}
 
 	/// For compile-time recognizable builtin class
-	public RubyValue defineBuiltInClass(RubyValue v, RubyValue parent) throws RubyException {
+	public RubyValue defineBuiltInClass(RubyValue v, RubyValue parent) {
 		RubyClass c = (RubyClass)v.getValue();
 
 		if (null != parent) {

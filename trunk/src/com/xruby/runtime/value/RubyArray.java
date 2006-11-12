@@ -48,7 +48,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		array.add(v);
 	}
 	
-	public RubyValue remove(int index) throws RubyException {
+	public RubyValue remove(int index) {
 		if (index < 0 || index > size()) {
 			return ObjectFactory.nilValue;
 		}
@@ -64,7 +64,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		return array.iterator();
 	}
 
-	public RubyValue set(int index, RubyValue value) throws RubyException {
+	public RubyValue set(int index, RubyValue value) {
 		if (index < 0) {
 			index = array.size() + index;
 		}
@@ -149,7 +149,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		return resultArray;
 	}
 
-	public RubyValue equals(RubyArray that) throws RubyException {
+	public RubyValue equals(RubyArray that) {
 		if (array.size() != that.size()) {
 			return ObjectFactory.falseValue;
 		}
@@ -163,7 +163,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		return ObjectFactory.trueValue;
 	}
 
-	public RubyValue to_s() throws RubyException {
+	public RubyValue to_s() {
 		StringValue r = new StringValue();
 		
 		for (RubyValue v : array) {
@@ -178,7 +178,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		return array;
 	}
 	
-	public void concat(RubyValue v) throws RubyException {
+	public void concat(RubyValue v) {
 		Object o = v.getValue();
 		if (v.getRubyClass() != RubyRuntime.ArrayClass) {//TODO use RuyRuntime.isKindOf() ?
 			throw new RubyException(RubyRuntime.TypeErrorClass,
@@ -196,7 +196,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		return resultArray;
 	}
 
-	public RubyArray times(int times) throws RubyException {
+	public RubyArray times(int times) {
 		if (times < 0) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
 		}
@@ -211,7 +211,7 @@ public class RubyArray implements Iterable<RubyValue> {
 	}
 
 	/// Returns true if the given object is present
-	public boolean include(RubyValue v) throws RubyException {
+	public boolean include(RubyValue v) {
 		for (RubyValue value : array) {
 			if (RubyRuntime.testEqual(value, v)) {
 				return true;

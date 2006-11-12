@@ -7,7 +7,7 @@ package com.xruby.runtime.lang;
 /**
  * Anything that goes wrong in runtime.
  */
-public class RubyException extends Exception {
+public class RubyException extends RuntimeException {
 	/**
 	 * 
 	 */

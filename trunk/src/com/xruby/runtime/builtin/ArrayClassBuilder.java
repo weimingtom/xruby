@@ -12,7 +12,7 @@ class Array_length extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray value = (RubyArray)receiver.getValue();
 		return ObjectFactory.createFixnum(value.size());
 	}
@@ -23,7 +23,7 @@ class Array_to_s extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray value = (RubyArray)receiver.getValue();
 		return value.to_s();
 	}
@@ -34,7 +34,7 @@ class Array_array_access extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray value = (RubyArray)receiver.getValue();
 		
 		if (1 == args.size()) {
@@ -73,7 +73,7 @@ class Array_array_set extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		//TODO index can be range, -1 etc
 		RubyArray value = (RubyArray)receiver.getValue();
 		IntegerValue index = (IntegerValue)args.get(0).getValue();
@@ -86,7 +86,7 @@ class Array_array_equal extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray left = (RubyArray)receiver.getValue();
 		Object right = args.get(0).getValue();
 		if (!(right instanceof RubyArray)) {
@@ -101,7 +101,7 @@ class Array_concat extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray left = (RubyArray)receiver.getValue();
 		left.concat(args.get(0));
 		return receiver;
@@ -113,7 +113,7 @@ class Array_plus extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray left = (RubyArray)receiver.getValue();
 		RubyArray right = (RubyArray)args.get(0).getValue();
 		RubyArray resultArray = left.plus(right);
@@ -126,7 +126,7 @@ class Array_times extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver.getValue();
 		IntegerValue times = (IntegerValue)args.get(0).getValue();
 		RubyArray resultArray = array.times(times.intValue());		
@@ -140,7 +140,7 @@ class Array_push extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver.getValue();
 		RubyValue obj = args.get(0);
 		array.add(obj);
@@ -153,7 +153,7 @@ class Array_pop extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {		
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
 		RubyArray array = (RubyArray)receiver.getValue();		
 		return array.remove(array.size() - 1);		
 	}
@@ -164,7 +164,7 @@ class Array_delete_at extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver.getValue();
 		IntegerValue pos = (IntegerValue)args.get(0).getValue();
 		return array.remove(pos.intValue());		
@@ -176,7 +176,7 @@ class Array_include extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver.getValue();
 		if (array.include(args.get(0))) {
 			return ObjectFactory.trueValue;
@@ -191,7 +191,7 @@ class Array_unshift extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver.getValue();
 		return array.unshift(args);
 	}
@@ -202,7 +202,7 @@ class Array_initialize extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = new RubyArray();
         receiver.setValue(array);
 

@@ -8,7 +8,7 @@ class MatchData_to_s extends RubyMethod {
 		super(0);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		MatchDataValue matchdata = (MatchDataValue)receiver.getValue();
 		return ObjectFactory.createString(matchdata.to_s());
 	}

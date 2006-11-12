@@ -20,7 +20,7 @@ class Hash_length extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		HashValue value = (HashValue)receiver.getValue();
 		return ObjectFactory.createFixnum(value.size());
 	}
@@ -31,7 +31,7 @@ class Hash_hash_access extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		HashValue value = (HashValue)receiver.getValue();
 		if (1 == args.size()) {
 			RubyValue retValue = value.get(args.get(0));
@@ -59,7 +59,7 @@ class Hash_hash_set extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		HashValue value = (HashValue)receiver.getValue();
 		value.add(args.get(0), args.get(1));
 		return args.get(1);
@@ -72,7 +72,7 @@ class Hash_to_s extends RubyMethod {
         super(0);
     }
 
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         HashValue value = (HashValue) receiver.getValue();
 		return value.to_s();
     }
@@ -83,7 +83,7 @@ class Hash_initialize extends RubyMethod {
         super(0);
     }
 
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         HashValue hash = new HashValue();
 
         if(null != block && null != args) { // validation

@@ -9,7 +9,7 @@ import com.xruby.runtime.lang.*;
 import junit.framework.TestCase;
 
 public class RubyArrayTest extends TestCase {
-	public void test() throws RubyException {
+	public void test() {
 		RubyArray a = new RubyArray(0, true);
 		assertEquals(0, a.size());
 		assertEquals(ObjectFactory.nilValue, a.get(-1));
@@ -99,7 +99,7 @@ public class RubyArrayTest extends TestCase {
 		assertEquals(0, rangeArray.size());
 	}*/
 	
-	public void test_subarray() throws RubyException {
+	public void test_subarray() {
 		// a = [1, 2, 3]
 		RubyArray a = new RubyArray();
 		a.add(ObjectFactory.createFixnum(1));
@@ -146,7 +146,7 @@ public class RubyArrayTest extends TestCase {
 		assertEquals(4, ((IntegerValue)newArray.get(3).getValue()).intValue());
 	}
 	
-	public void test_times() throws RubyException {
+	public void test_times() {
 		// a = [1, 2]
 		RubyArray a = new RubyArray();
 		a.add(ObjectFactory.createFixnum(1));
@@ -171,7 +171,7 @@ public class RubyArrayTest extends TestCase {
 		}
 	}
 	
-	public void test_remove() throws RubyException {
+	public void test_remove() {
 		// a = [1, 2]
 		RubyArray a = new RubyArray();
 		a.add(ObjectFactory.createFixnum(1));
@@ -192,7 +192,7 @@ public class RubyArrayTest extends TestCase {
 		assertEquals(ObjectFactory.nilValue, v);
 	}
 
-	public void test_includes() throws RubyException {
+	public void test_includes() {
 		RubyArray a = new RubyArray();
 		RubyValue i1 = ObjectFactory.createFixnum(1);
 		RubyValue i2 = ObjectFactory.createFixnum(2);

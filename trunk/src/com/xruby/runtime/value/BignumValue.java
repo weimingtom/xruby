@@ -41,7 +41,7 @@ public class BignumValue {
 		value_ = value;
 	}
 	
-	public RubyValue op_mul(RubyValue v) throws RubyException {
+	public RubyValue op_mul(RubyValue v) {
 		Object value = v.getValue();
 		BigInteger result;
 		if (value instanceof BignumValue){
@@ -64,7 +64,7 @@ public class BignumValue {
 		return bignorm(result);
 	}
 	
-	public RubyValue op_div(RubyValue v) throws RubyException {
+	public RubyValue op_div(RubyValue v) {
 		Object value = v.getValue();
 		BigInteger result;
 		if (value instanceof BignumValue){
@@ -87,7 +87,7 @@ public class BignumValue {
 		return bignorm(result);
 	}
 	
-	public RubyValue op_add(RubyValue v) throws RubyException {
+	public RubyValue op_add(RubyValue v) {
 		Object value = v.getValue();
 		BigInteger result;
 		if (value instanceof BignumValue){
@@ -110,7 +110,7 @@ public class BignumValue {
 		return bignorm(result);
 	}
 	
-	public RubyValue op_sub(RubyValue v) throws RubyException {
+	public RubyValue op_sub(RubyValue v) {
 		Object value = v.getValue();
 		BigInteger result;
 		if (value instanceof BignumValue){
@@ -133,7 +133,7 @@ public class BignumValue {
 		return bignorm(result);
 	}
 	
-	public RubyValue op_mod(RubyValue v) throws RubyException {
+	public RubyValue op_mod(RubyValue v) {
 		Object value = v.getValue();
 		BigInteger result;
 		if (value instanceof BignumValue){

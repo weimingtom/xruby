@@ -12,7 +12,7 @@ class Object_operator_equal extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (receiver == args.get(0)) {
 			return ObjectFactory.trueValue;
 		} else {

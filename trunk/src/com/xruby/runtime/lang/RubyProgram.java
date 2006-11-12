@@ -6,5 +6,5 @@ package com.xruby.runtime.lang;
 
 public interface RubyProgram {
 	
-	public RubyValue run() throws RubyException;
+	public RubyValue run();
 }

@@ -12,7 +12,7 @@ class File_is_file extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue fileName = (StringValue)args.get(0).getValue();
 		File file = new File(fileName.toString());
 		if (file.isFile()){
@@ -27,7 +27,7 @@ class File_expand_path extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue fileName = (StringValue)args.get(0).getValue();
 		File file = new File(fileName.toString());
 		return ObjectFactory.createString(file.getAbsolutePath());
@@ -39,7 +39,7 @@ class File_dirname extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue fileName = (StringValue)args.get(0).getValue();
 		File file = new File(fileName.toString());
 		String parent = file.getParent();

@@ -10,7 +10,7 @@ public class AtExitBlocks {
 		registgered_blocks_.add(0, block);
 	}
 	
-	public static void invokeAll() throws RubyException {
+	public static void invokeAll() {
 		for (RubyBlock block : registgered_blocks_) {
 			block.invoke(ObjectFactory.topLevelSelfValue, null);
 		}

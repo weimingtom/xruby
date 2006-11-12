@@ -19,7 +19,7 @@ class TestingProgram implements RubyProgram {
 		}
 	}
 	
-	public RubyValue run() throws RubyException {
+	public RubyValue run() {
 		
 		//puts nil, "abC", "5432"
 		RubyArray args = new RubyArray(3, true);
@@ -59,7 +59,7 @@ class TestingProgram implements RubyProgram {
 
 public class RubyProgramTest extends TestCase {
 
-	public void test_output() throws RubyException {
+	public void test_output() {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		PrintStream original = System.out;
 		System.setOut(new PrintStream(output));

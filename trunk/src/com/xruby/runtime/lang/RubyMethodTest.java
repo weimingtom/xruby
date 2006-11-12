@@ -32,7 +32,7 @@ class f extends RubyMethod
 
 
 public class RubyMethodTest extends TestCase {
-	public void test() throws RubyException {
+	public void test() {
 		
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		PrintStream original = System.out;

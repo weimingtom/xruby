@@ -12,7 +12,7 @@ class String_capitalize extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		StringValue new_value = new StringValue(value.toString());
 		new_value.capitalize();
@@ -25,7 +25,7 @@ class String_operator_equal extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (args.get(0).getRubyClass() != RubyRuntime.StringClass) {
 			return ObjectFactory.falseValue;
 		}
@@ -46,7 +46,7 @@ class String_upcase_danger extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		StringValue new_value = new StringValue(value.toString().toUpperCase());
 		if (new_value.toString().equals(value.toString())) {
@@ -65,7 +65,7 @@ class String_capitalize_danger extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		boolean changed = value.capitalize();
 		if (changed) {
@@ -81,7 +81,7 @@ class String_upcase extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createString(value.toString().toUpperCase());
 	}
@@ -92,7 +92,7 @@ class String_downcase extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createString(value.toString().toLowerCase());
 	}
@@ -104,7 +104,7 @@ class String_downcase_danger extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		StringValue new_value = new StringValue(value.toString().toLowerCase());
 		if (new_value.toString().equals(value.toString())) {
@@ -121,7 +121,7 @@ class String_to_f extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createFloat(Double.valueOf(value.toString()));
 	}
@@ -132,7 +132,7 @@ class String_to_i extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
 	}
@@ -143,7 +143,7 @@ class String_to_s extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createString(value.toString());
 	}
@@ -154,7 +154,7 @@ class String_length extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
 		return ObjectFactory.createFixnum(value.length());
 	}
@@ -165,7 +165,7 @@ class String_initialize extends RubyMethod {
 		super(-1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (args == null) {
 			receiver.setValue(new StringValue(""));
 		} else if (args.get(0) != null) {
@@ -181,7 +181,7 @@ class String_initialize_copy extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		receiver.setValue(args.get(0).getValue());
 		return receiver;
 	}
@@ -192,7 +192,7 @@ class String_plus extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue v1 = (StringValue)receiver.getValue();
 		StringValue v2 = (StringValue)args.get(0).getValue();
 		return ObjectFactory.createString(v1.toString() + v2.toString());
@@ -204,7 +204,7 @@ class String_gsub extends RubyMethod {
 		super(-1);
 	}
 
-	protected void checkParameters(RubyArray args) throws RubyException {
+	protected void checkParameters(RubyArray args) {
 		if (args.size() < 2) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for 2)");
 		}
@@ -218,7 +218,7 @@ class String_gsub extends RubyMethod {
 		}
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		checkParameters(args);
 		
 		StringValue g = (StringValue)receiver.getValue();
@@ -230,7 +230,7 @@ class String_gsub extends RubyMethod {
 }
 
 class String_gsub_danger extends String_gsub {
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		checkParameters(args);
 
 		StringValue g = (StringValue)receiver.getValue();
@@ -251,7 +251,7 @@ class String_split extends RubyMethod {
 		super(2, false, 1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue g = (StringValue)receiver.getValue();
 		RegexpValue r = (RegexpValue)args.get(0).getValue();
 		String[] splitResult;
@@ -276,7 +276,7 @@ class String_operator_compare extends RubyMethod {
 		super(1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value1 = (StringValue)receiver.getValue();
 		Object arg = args.get(0).getValue();
 		if (!(arg instanceof StringValue)){

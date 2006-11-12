@@ -12,7 +12,7 @@ class Float_to_s extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		FloatValue value = (FloatValue)receiver.getValue();
 		return ObjectFactory.createString(value.toString());
 	}
@@ -23,7 +23,7 @@ class Float_operator_minus extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		FloatValue value1 = (FloatValue)receiver.getValue();
 		FloatValue value2 = (FloatValue)args.get(0).getValue();
 		return ObjectFactory.createFloat(value1.doubleValue() - value2.doubleValue());

@@ -36,7 +36,7 @@ public class IOValue {
 		}
 	}
 	
-	public boolean eof() throws RubyException {
+	public boolean eof() {
 		try {
 			return file_.length() == file_.getFilePointer();
 		} catch (IOException e) {
@@ -55,7 +55,7 @@ public class IOValue {
 		}
 	}
 	
-	public boolean print(String s) throws RubyException {
+	public boolean print(String s) {
 		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
@@ -85,7 +85,7 @@ public class IOValue {
 		}
 	}
 	
-	public RubyValue gets(RubyValue separator) throws RubyException {
+	public RubyValue gets(RubyValue separator) {
 		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}

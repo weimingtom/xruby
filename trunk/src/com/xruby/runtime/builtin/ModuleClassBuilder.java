@@ -9,7 +9,7 @@ import com.xruby.runtime.value.*;
 
 class Module_AccessControl {
 
-	static RubyValue run(int access, RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	static RubyValue run(int access, RubyValue receiver, RubyArray args, RubyBlock block) {
 
 		RubyModule c = (RubyModule)receiver.getValue();
 
@@ -43,7 +43,7 @@ class Module_public extends RubyMethod {
 		setAccess(PRIVATE);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return Module_AccessControl.run(PUBLIC, receiver, args, block);
 	}
 }
@@ -54,7 +54,7 @@ class Module_protected extends RubyMethod {
 		setAccess(PRIVATE);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return Module_AccessControl.run(PROTECTED, receiver, args, block);
 	}
 }
@@ -65,7 +65,7 @@ class Module_private extends RubyMethod {
 		setAccess(PRIVATE);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return Module_AccessControl.run(PRIVATE, receiver, args, block);
 	}
 }
@@ -75,7 +75,7 @@ class Module_to_s extends RubyMethod {
 		super(-1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule c = (RubyModule)receiver.getValue();
 		return ObjectFactory.createString(c.getName());
 	}
@@ -86,7 +86,7 @@ class Module_inspect extends RubyMethod {
 		super(-1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return RubyRuntime.callPublicMethod(receiver, args, block, "to_s");
 	}
 }
@@ -100,7 +100,7 @@ class AttrReader extends RubyMethod {
 		methodName_ = "@" + methodName;
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return receiver.getInstanceVariable(methodName_);
 	}
 }
@@ -110,7 +110,7 @@ class Module_attr_reader extends RubyMethod {
 		super(-1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule m = (RubyModule)receiver.getValue();
 
 		for (RubyValue v : args) {
@@ -131,7 +131,7 @@ class AttrWriter extends RubyMethod {
 		methodName_ = "@" + methodName;
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return receiver.setInstanceVariable(args.get(0), methodName_);
 	}
 }
@@ -141,7 +141,7 @@ class Module_attr_writer extends RubyMethod {
 		super(-1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule m = (RubyModule)receiver.getValue();
 
 		for (RubyValue v : args) {
@@ -158,7 +158,7 @@ class Module_attr_accessor extends RubyMethod {
 		super(-1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule m = (RubyModule)receiver.getValue();
 
 		for (RubyValue v : args) {
@@ -176,7 +176,7 @@ class Module_include_module extends RubyMethod {
 		super(-1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule module = (RubyModule)receiver.getValue();
 		if (args != null) {
 			for(RubyValue m: args){
