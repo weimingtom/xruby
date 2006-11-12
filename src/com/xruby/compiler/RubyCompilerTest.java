@@ -769,6 +769,12 @@ public class RubyCompilerTest extends TestCase {
 				"	raise \"!!!!\"\n" +
 				"rescue RuntimeError\n" +
 				"	print \"xxx\"\n" +
+				"end",
+				
+				"begin\n" +
+				"	raise \"!!!!\"\n" +
+				"rescue\n" +
+				"	print \"yyy\"\n" +
 				"end",	
 
 				"begin\n" +
@@ -805,6 +811,7 @@ public class RubyCompilerTest extends TestCase {
 
 		String[] outputs = {
 				"xxx",
+				"yyy",
 				"aaabbb",
 				"zzzddd",
 				"111",
