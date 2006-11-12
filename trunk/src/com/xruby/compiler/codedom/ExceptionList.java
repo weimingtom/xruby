@@ -22,11 +22,11 @@ public class ExceptionList {
 	public Object accept(CodeVisitor visitor, Object excepton_var) {
 
 		if (arguments_.isEmpty()) {
-			visitor.visitNoParameter();
-		} else {
-			ArrayExpression a = new ArrayExpression(arguments_, null);
-			a.accept(visitor, false);
+			arguments_.add(new Colon2Expression(null, "RuntimeError"));
 		}
+		
+		ArrayExpression a = new ArrayExpression(arguments_, null);
+		a.accept(visitor, false);
 
 		if (null != var_) {
 			var_.accept(visitor);
