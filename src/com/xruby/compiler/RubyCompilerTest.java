@@ -2425,6 +2425,25 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_assignment_parameter() {
+		String [] program_texts = {
+				"def f x\n" +
+				"	while x > 0\n" +
+				"		x -= 1\n" +
+				"		print x\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"f(5)",
+		};
+		
+		String[] outputs = {
+				"43210",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_attr_writer() {
 		String [] program_texts = {
 				"class TestAttrWriter\n" +

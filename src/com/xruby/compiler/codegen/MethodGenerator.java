@@ -43,9 +43,24 @@ class MethodGenerator extends GeneratorAdapter {
 			return i;
 		}
 
-		i = newLocal(Type.getType(RubyValue.class));
+		return getNewLocalVariable(name);
+	}
+
+	public int getNewLocalVariable(String name) {
+		int i = newLocal(Type.getType(RubyValue.class));
 		getSymbolTable().addLocalVariable(name, i);
 		return i;
+	}
+	
+	public void storeParameter(int index) {
+		int i = newLocal(Type.getType(RubyValue.class));
+		storeLocal(i);
+		loadArg(1);
+		push(index);
+		loadLocal(i);
+		invokeVirtual(Type.getType(RubyArray.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue set(int, com.xruby.runtime.lang.RubyValue)"));
+		pop();
 	}
 
 	public void restoreLocalVariableFromBlock(String blockName, String name) {
