@@ -608,6 +608,17 @@ class MethodGenerator extends GeneratorAdapter {
 		return var;
 	}
 
+	public int saveRubyValueAsLocalVariable() {
+		int var = newLocal(Type.getType(RubyValue.class));
+		storeLocal(var);
+		return var;
+	}
+	
+	public void catchRubyException(Label start, Label end) {
+		catchException(start,
+				end,
+				Type.getType(RubyException.class));
+	}
 }
 
 class MethodGeneratorForClassBuilder extends MethodGenerator {
