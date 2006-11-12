@@ -601,6 +601,12 @@ class MethodGenerator extends GeneratorAdapter {
 		putField(Type.getType(RubyBlock.class), "__returned__", Type.getType(boolean.class));
 		returnValue();
 	}
+	
+	public int saveRubyArrayAsLocalVariable() {
+		int var = newLocal(Type.getType(RubyArray.class));
+		storeLocal(var);
+		return var;
+	}
 
 }
 

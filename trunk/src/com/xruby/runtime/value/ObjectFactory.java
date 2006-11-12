@@ -40,37 +40,6 @@ public class ObjectFactory {
 	public static final RubyValue MatchDataClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.MatchDataClass);
 	public static final RubyValue BignumClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.BignumClass);
 	
-	public static boolean isBuiltin(String name) {
-		if (name.equals("Object") ||
-				name.equals("NilClass") ||
-				name.equals("TrueClass") ||
-				name.equals("FalseClass") ||
-				name.equals("Numeric") ||
-				name.equals("Integer") ||
-				name.equals("Fixnum") ||
-				name.equals("Float") ||
-				name.equals("String") ||
-				name.equals("Exception") ||
-				name.equals("RuntimeError") ||
-				name.equals("Array") ||
-				name.equals("Hash") ||
-				name.equals("Class") ||
-				name.equals("Module") ||
-				name.equals("IO") ||
-				name.equals("Proc") ||
-				name.equals("Range") ||
-				name.equals("Regexp") ||
-				name.equals("File") ||
-				name.equals("Method") ||
-				name.equals("Time") ||
-				name.equals("MatchDate") ||
-				name.equals("Bignum")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
 	public static RubyValue createString(String value) {
 		return new RubyValue(RubyRuntime.StringClass, new StringValue(value));
 	}
