@@ -4,17 +4,15 @@
 
 package com.xruby.compiler.codegen;
 
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
 
 import java.util.*;
 
 import com.xruby.compiler.codedom.*;
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.*;
+//import com.xruby.runtime.value.*;
 
 public class RubyCompilerImpl implements CodeVisitor {
 	
@@ -34,6 +32,37 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	private boolean isInBlock() {
 		return (cg_ instanceof ClassGeneratorForRubyBlock);
+	}
+	
+	private static boolean isBuiltin(String name) {
+		if (name.equals("Object") ||
+				name.equals("NilClass") ||
+				name.equals("TrueClass") ||
+				name.equals("FalseClass") ||
+				name.equals("Numeric") ||
+				name.equals("Integer") ||
+				name.equals("Fixnum") ||
+				name.equals("Float") ||
+				name.equals("String") ||
+				name.equals("Exception") ||
+				name.equals("RuntimeError") ||
+				name.equals("Array") ||
+				name.equals("Hash") ||
+				name.equals("Class") ||
+				name.equals("Module") ||
+				name.equals("IO") ||
+				name.equals("Proc") ||
+				name.equals("Range") ||
+				name.equals("Regexp") ||
+				name.equals("File") ||
+				name.equals("Method") ||
+				name.equals("Time") ||
+				name.equals("MatchDate") ||
+				name.equals("Bignum")) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public CompilationResults compile(Program program)
@@ -58,7 +87,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().loadArg(1);
 		}
 
-		if (ObjectFactory.isBuiltin(className)) {
+		if (isBuiltin(className)) {
 			cg_.getMethodGenerator().ObjectFactory_getBuiltinClass(className);
 		} else {
 			cg_.getMethodGenerator().push(className);
@@ -67,7 +96,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitClassDefination2(String className) {
-		cg_.getMethodGenerator().RubyModule_defineClass(ObjectFactory.isBuiltin(className));
+		cg_.getMethodGenerator().RubyModule_defineClass(isBuiltin(className));
 
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(className));
@@ -663,9 +692,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			if (single_rhs) {
 				cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsOnlyOneRubyArray();
 			}
-			int var = cg_.getMethodGenerator().newLocal(Type.getType(RubyArray.class));
-			cg_.getMethodGenerator().storeLocal(var);
-			return var;
+			return cg_.getMethodGenerator().saveRubyArrayAsLocalVariable();
 		}
 	}
 
@@ -678,9 +705,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			return 0;
 		} else {
 			cg_.getMethodGenerator().RubyRuntime_convertToArrayIfNotYet();
-			int var = cg_.getMethodGenerator().newLocal(Type.getType(RubyArray.class));
-			cg_.getMethodGenerator().storeLocal(var);
-			return var;
+			return cg_.getMethodGenerator().saveRubyArrayAsLocalVariable();
 		}
 	}
 	
@@ -741,7 +766,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitTopLevelConstant(String name) {
 		//quick access for builtin
-		if (ObjectFactory.isBuiltin(name)) {
+		if (isBuiltin(name)) {
 			cg_.getMethodGenerator().ObjectFactory_getBuiltinClass(name);
 			return;
 		}
