@@ -204,7 +204,7 @@ class Bignum_operator_compare extends RubyMethod {
 			}
 		}
 		else{
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "comparison of Fixnum with " + args.get(0).getRubyClass().getName() + " failed");
+			return ObjectFactory.nilValue;
 		}
 		return ObjectFactory.createFixnum(result);
 	}

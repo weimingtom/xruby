@@ -121,7 +121,24 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_result(program_texts, results);
 	}
-
+	
+	public void test_fixnum_to_f() {
+		String[] program_texts = {
+				//"print 1.to_f",
+				//"print 2.to_f",
+				//"print 3.to_f",
+				//"print 1.to_f / 3"
+		};
+		
+		String[] outputs = {
+				//"1.0",
+				//"2.0",
+				//"3.0",
+				//"0.333333333333333"
+		};
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_big_integer() {
 		String[] program_texts = {
 				"print 0x123456789abcdef0",
@@ -752,6 +769,12 @@ public class RubyCompilerTest extends TestCase {
 				"	raise \"!!!!\"\n" +
 				"rescue RuntimeError\n" +
 				"	print \"xxx\"\n" +
+				"end",
+				
+				"begin\n" +
+				"	raise \"!!!!\"\n" +
+				"rescue\n" +
+				"	print \"yyy\"\n" +
 				"end",	
 
 				"begin\n" +
@@ -788,6 +811,7 @@ public class RubyCompilerTest extends TestCase {
 
 		String[] outputs = {
 				"xxx",
+				"yyy",
 				"aaabbb",
 				"zzzddd",
 				"111",
@@ -1878,10 +1902,61 @@ public class RubyCompilerTest extends TestCase {
 	public void test_loop() {
 		String[] program_texts = {
 				"a = loop do break; end; print a",
+				"a = loop do break 123; end; print a",
 		};
 		
 		String[] outputs = {
 				"nil",
+				"123",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_return_break_next_in_block() {
+		String[] program_texts = {
+				"def test()\n" +
+				"    3.times do |index|\n" +
+				"        print index\n" +
+				"        return\n" +
+				"    end\n" +
+				"end\n" +
+				"\n" +
+				"test()",
+				
+				"def test()\n" +
+				"    3.times do |index|\n" +
+				"        print index\n" +
+				"        break\n" +
+				"    end\n" +
+				"end\n" +
+				"\n" +
+				"test()",
+				
+				"def test()\n" +
+				"    3.times do |index|\n" +
+				"        print index\n" +
+				"        next\n" +
+				"    end\n" +
+				"end\n" +
+				"\n" +
+				"test()",
+				
+				"def f()\n" +
+				"    3.times do |index|\n" +
+				"        return 123\n" +
+				"    end\n" +
+				"    print 456\n" +
+				"end\n" +
+				"\n" +
+				"print f()",
+		};
+		
+		String[] outputs = {
+				"0",
+				"0",
+				"012",
+				"123",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1905,13 +1980,14 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"1 .. 'x'",
 				"'x' ... 3",
-				"'x' ... 'y'",
+				// TODO: delete this line, new Range class support this
+				//"'x' ... 'y'",
 		};
 
 		RubyException[] exceptions = {
 			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
 			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
-			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
+			//new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -2361,6 +2437,25 @@ public class RubyCompilerTest extends TestCase {
 		
 		String[] outputs = {
 				"fff",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_assignment_parameter() {
+		String [] program_texts = {
+				"def f x\n" +
+				"	while x > 0\n" +
+				"		x -= 1\n" +
+				"		print x\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"f(5)",
+		};
+		
+		String[] outputs = {
+				"43210",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -2848,6 +2943,28 @@ public class RubyCompilerTest extends TestCase {
 				
 				"nilquick brown fox",
 				"nilquick brown fox",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_split() {
+		String [] program_texts = {
+				"print ('abc de b,sf cde'.split(/ /).length)",
+				"print ('abc de b,sf cde'.split(/ /, 2).length)",
+				"print ('abc de b,sf cde'.split(/ ,/).length)",
+				"print ('abc de b,sf cde'.split(/ ,/, 2).length)",
+				"print ('abc de b,sf cde'.split(/[ ,]/).length)",
+				"print ('abc de b,sf cde'.split(/[ ,]/, 2).length)"
+		};
+		
+		String[] outputs = {
+				"4",
+				"2",
+				"1",
+				"1",
+				"5",
+				"2"
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

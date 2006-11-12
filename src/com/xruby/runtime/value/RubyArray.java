@@ -99,7 +99,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		}
 	}
 	
-	public RubyArray subarray(RangeValue range) {
+	/*public RubyArray subarray(RangeValue range) {
 		int left = range.getLeft();
 		if (left < 0) {
 			left += array.size();
@@ -113,7 +113,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		length = length > 0 ? length : 0;
 		
 		return subarray(left, length);
-	}
+	}*/
 	
 	public RubyArray subarray(int begin, int length) {
 		int arraySize = array.size();
@@ -247,6 +247,16 @@ public class RubyArray implements Iterable<RubyValue> {
 		}
 
 		return ObjectFactory.createArray(v);
+	}
+	
+	public RubyValue unshift(RubyValue value){
+		array.add(0, value);
+		return ObjectFactory.createArray(this);
+	}
+	
+	public RubyValue unshift(RubyArray value){
+		array.addAll(0, value.getInternal());
+		return ObjectFactory.createArray(this);
 	}
 	
 }

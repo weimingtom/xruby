@@ -6,9 +6,8 @@ public class NextExpressionTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"begin next\n" +
 			"1\n" +
-			"end next\n" +
+			"next\n" +
 			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}

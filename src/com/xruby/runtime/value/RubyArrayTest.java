@@ -73,7 +73,7 @@ public class RubyArrayTest extends TestCase {
 		assertEquals(3, a.size());
 	}
 	
-	public void test_range_subarray() {
+	/*public void test_range_subarray() {
 		// a = [1, 2]
 		RubyArray a = new RubyArray(1, true);
 		a.add(ObjectFactory.createFixnum(1));
@@ -97,7 +97,7 @@ public class RubyArrayTest extends TestCase {
 		RangeValue oppositeRange = new RangeValue(2, 0, false);
 		rangeArray = a.subarray(oppositeRange);
 		assertEquals(0, rangeArray.size());
-	}
+	}*/
 	
 	public void test_subarray() throws RubyException {
 		// a = [1, 2, 3]

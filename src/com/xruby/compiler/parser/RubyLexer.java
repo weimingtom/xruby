@@ -501,6 +501,10 @@ public class RubyLexer extends RubyLexerBase
 			case INSTANCE_VARIABLE:
 			case CLASS_VARIABLE:
 			case GLOBAL_VARIABLE :
+			case LITERAL_self:
+			case LITERAL_nil:
+			case LITERAL_false:
+			case LITERAL_true:
 			case RPAREN:
 			case SINGLE_QUOTE_STRING:
 			case DOUBLE_QUOTE_STRING:

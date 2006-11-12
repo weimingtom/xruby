@@ -12,7 +12,7 @@ public class IntegerExpression extends Expression {
 	public IntegerExpression(BigInteger value) {
 		value_ = value;
 	}
-
+	
 	public IntegerExpression(int value){
 		value_ = BigInteger.valueOf(value);
 	}

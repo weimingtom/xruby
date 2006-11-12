@@ -156,9 +156,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 		
 		cg_.getMethodGenerator().new_BlockClass(uniqueBlockName, commons, isInGlobalScope(), isInBlock());
 
-		if (assigned_commons.length > 0) {
-			cg_.getMethodGenerator().saveBlockForFutureRestore();
-		}
+		cg_.getMethodGenerator().saveBlockForFutureRestoreAndCheckReturned();
+
 		return assigned_commons;
 	}
 	
@@ -236,6 +235,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 			for (String name : assignedCommons) {
 				cg_.getMethodGenerator().restoreLocalVariableFromBlock(blockName, name);
 			}
+		}
+
+		if (null != blockName) {
+			cg_.getMethodGenerator().returnIfBlockReturned();
 		}
 	}
 
@@ -551,6 +554,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		} else {
 			cg_.getMethodGenerator().loadArg(2);//TODO error checking: make sure yield is called in the right context
 		}
+		cg_.getMethodGenerator().dup();//will be used to call breaked().
 		visitSelfExpression();
 	}
 
@@ -575,7 +579,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitReturn() {
-		cg_.getMethodGenerator().returnValue();
+		if (isInBlock()) {
+			cg_.getMethodGenerator().returnFromBlock();
+		} else {
+			cg_.getMethodGenerator().returnValue();
+		}
 	}
 
 	public void visitAliasGlobalVariable(String newName, String oldName) {
@@ -680,26 +688,17 @@ public class RubyCompilerImpl implements CodeVisitor {
 		//do nothing
 	}
 
-	public void visitBreakBegin() {
+	public void visitBreak() {
 		if (isInBlock()) {
-			cg_.getMethodGenerator().loadThis();
-		}
-	}
-
-	public void visitBreakEnd() {
-		if (isInBlock()) {
-			cg_.getMethodGenerator().breakBlock();
+			cg_.getMethodGenerator().breakFromBlock();
 		} else {
 			cg_.getMethodGenerator().goTo(labelManager_.getCurrentBreak());
 		}
 	}
 
-	public void visitNextBegin() {
-	}
-
-	public void visitNextEnd() {
+	public void visitNext() {
 		if (isInBlock()) {
-			visitReturn();
+			cg_.getMethodGenerator().returnValue();
 		} else {
 			cg_.getMethodGenerator().pop();
 			cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
