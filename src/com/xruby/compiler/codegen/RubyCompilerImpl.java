@@ -156,9 +156,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 		
 		cg_.getMethodGenerator().new_BlockClass(uniqueBlockName, commons, isInGlobalScope(), isInBlock());
 
-		if (assigned_commons.length > 0) {
-			cg_.getMethodGenerator().saveBlockForFutureRestore();
-		}
+		cg_.getMethodGenerator().saveBlockForFutureRestore();
+
 		return assigned_commons;
 	}
 	
@@ -236,6 +235,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 			for (String name : assignedCommons) {
 				cg_.getMethodGenerator().restoreLocalVariableFromBlock(blockName, name);
 			}
+		}
+
+		if (null != blockName) {
+			cg_.getMethodGenerator().returnIfBlockReturned();
 		}
 	}
 
@@ -577,7 +580,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitReturn() {
 		if (isInBlock()) {
-			cg_.getMethodGenerator().breakBlock();
+			cg_.getMethodGenerator().returnFromBlock();
 		} else {
 			cg_.getMethodGenerator().returnValue();
 		}
@@ -687,7 +690,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitBreak() {
 		if (isInBlock()) {
-			cg_.getMethodGenerator().breakBlock();
+			cg_.getMethodGenerator().breakFromBlock();
 		} else {
 			cg_.getMethodGenerator().goTo(labelManager_.getCurrentBreak());
 		}

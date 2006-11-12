@@ -1934,12 +1934,22 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"test()",
+				
+				"def f()\n" +
+				"    3.times do |index|\n" +
+				"        return 123\n" +
+				"    end\n" +
+				"    print 456\n" +
+				"end\n" +
+				"\n" +
+				"print f()",
 		};
 		
 		String[] outputs = {
 				"0",
 				"0",
 				"012",
+				"123",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

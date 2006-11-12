@@ -50,10 +50,15 @@ public abstract class RubyBlock extends MethodBlockBase {
 	//      break 'xxx'
 	// end
 	protected boolean __breaked__ = false;
+	protected boolean __returned__ = false;
 	protected RubyBlock blockOfCurrentMethod_;
 
 	public boolean breaked() {
-		return __breaked__;
+		return __breaked__ || __returned__;
+	}
+
+	public boolean returned() {
+		return __returned__;
 	}
 		
 	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block) {
