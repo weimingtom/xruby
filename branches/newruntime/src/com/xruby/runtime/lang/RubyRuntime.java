@@ -61,6 +61,8 @@ public class RubyRuntime {
 		}
 		
 		TopLevelSelfInitializer.initSingletonMethods();
+		ObjectClassBuilder.initSingletonMethods();
+		ModuleClassBuilder.initSingletonMethods();
 		TimeClassBuilder.initSingletonMethods();
 		BignumClassBuilder.initSingletonMethods();
 		IOClassBuilder.initSingletonMethods();
@@ -187,7 +189,7 @@ public class RubyRuntime {
 			throw new RubyException(RubyRuntime.ExceptionClass, e.toString());
 		}
 	}
-	
+
 	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyArray a) {
 		if (a.size() <= 1) {
 			return a.get(0);

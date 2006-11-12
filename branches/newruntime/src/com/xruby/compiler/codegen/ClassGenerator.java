@@ -7,7 +7,6 @@ package com.xruby.compiler.codegen;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.*;
 import java.util.*;
 
 abstract class ClassGenerator {
@@ -35,7 +34,19 @@ abstract class ClassGenerator {
 	}
 
 	public void storeVariable(String name) {
-		getMethodGenerator().storeLocal(getMethodGenerator().getLocalVariable(name));
+		int i = getSymbolTable().getLocalVariable(name);
+		if (i >= 0) {
+			getMethodGenerator().storeLocal(i);
+			return;
+		} 
+
+		int index = getSymbolTable().getMethodParameter(name);
+		if (index >= 0) {
+			getMethodGenerator().storeParameter(index);
+			return;
+		}
+
+		getMethodGenerator().storeLocal(getMethodGenerator().getNewLocalVariable(name));
 	}
 	
 	public void startClassBuilderMethod(String name) {
@@ -73,15 +84,15 @@ abstract class ClassGenerator {
 	}
 
 	public void addParameter(String name) {
-		getSymbolTable().addMethodParameters(name);
+		getSymbolTable().addMethodParameter(name);
 	}
 
 	public void setAsteriskParameter(String name) {
-		getSymbolTable().setMethodAsteriskParameters(name);
+		getSymbolTable().setMethodAsteriskParameter(name);
 	}
 
 	public void setBlockParameter(String name) {
-		getSymbolTable().setMethodBlockParameters(name);
+		getSymbolTable().setMethodBlockParameter(name);
 	}
 	
 	public void visitEnd() {

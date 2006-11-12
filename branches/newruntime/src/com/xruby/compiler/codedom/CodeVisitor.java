@@ -103,10 +103,8 @@ public interface CodeVisitor {
 	public void visitInstanceVariableExpression(String value);
 	
 	public void visitReturn();
-	public void visitBreakBegin();
-	public void visitBreakEnd();
-	public void visitNextBegin();
-	public void visitNextEnd();
+	public void visitBreak();
+	public void visitNext();
 	public void visitRedo();
 	
 	public void visitAliasGlobalVariable(String newName, String oldName);

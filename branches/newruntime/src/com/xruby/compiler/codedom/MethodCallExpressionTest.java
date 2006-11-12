@@ -132,6 +132,21 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}
+	
+	public void test_self_array_access() {
+		Program p = getProgram("self[0]");
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
+		String expected_result = 
+			"self\n" +
+			"[:1\n" +
+			"[\n" +
+			"0\n" +
+			"]\n" +
+			"[]:true\n" +
+			"EOF";
+		assertEquals(expected_result, cp.toString());
+	}
 
 	
 	public void test_command() {

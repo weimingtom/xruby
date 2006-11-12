@@ -58,11 +58,8 @@ class Fixnum_operator_equal extends RubyMethod {
 			result = (floatValue1 == floatValue2);
 		}
 		else if (value instanceof IntegerValue){
-		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
+			IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 			result = (value1.intValue() == value2.intValue());
-		}
-		else{
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "comparison of Fixnum with " + args.get(0).getRubyClass().getName() + " failed");
 		}
 
 		if (result){
@@ -347,8 +344,8 @@ class Fixnum_operator_compare extends RubyMethod {
 				result = -1;
 			}else if(sign < 0){
 				result = 1;
+			}
 		}
-	}
 		else if (value2 instanceof IntegerValue){
 			IntegerValue fixnumValue2 = (IntegerValue)value2;
 			result = (value1.intValue() - fixnumValue2.intValue());
@@ -368,7 +365,7 @@ class Fixnum_operator_compare extends RubyMethod {
 			}
 		}
 		else{
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "comparison of Fixnum with " + args.get(0).getRubyClass().getName() + " failed");
+			return ObjectFactory.nilValue;
 		}
 		return ObjectFactory.createFixnum(result);
 	}
@@ -515,6 +512,58 @@ class Fixnum_to_f extends RubyMethod {
 	}
 }
 
+class Fixnum_star_star extends RubyMethod {
+	public Fixnum_star_star () {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		int value1 = ((IntegerValue)receiver.getValue()).intValue();
+		Object value2 = args.get(0).getValue();
+		if (value2 instanceof BignumValue){
+			BigInteger bigValue2 = ((BignumValue)value2).getValue();
+			assert (bigValue2.signum() != 0);
+			if (value1 == 1){
+				if (bigValue2.signum() > 0){
+					return ObjectFactory.createFixnum(1);
+				}else{
+					// TODO: return Rational
+					throw new RubyException("return Rational value not implemented");
+				}
+			}else if (value1 == 0){
+				if (bigValue2.signum() > 0){
+					return ObjectFactory.createFixnum(0);
+				}else{
+					// TODO: return Rational
+					throw new RubyException("return Rational value not implemented");
+				}
+			}else if (value1 == -1){
+				if (bigValue2.signum() > 0){
+					if (bigValue2.intValue() % 2 == 0){
+						return ObjectFactory.createFixnum(1);
+					}else{
+						return ObjectFactory.createFixnum(-1);
+					}
+				}else{
+					// TODO: return Rational
+					throw new RubyException("return Rational value not implemented");
+				}
+			}
+		}else if(value2 instanceof IntegerValue){
+			IntegerValue intValue2 = (IntegerValue)value2;
+			BigInteger bigValue1 = BigInteger.valueOf(value1);
+			BigInteger result = bigValue1.pow(intValue2.intValue());
+			return BignumValue.bignorm(result);
+		}else if(value2 instanceof FloatValue){
+			double floatValue1 = value1;
+			double floatValue2 = ((FloatValue)value2).doubleValue();
+			return ObjectFactory.createFloat(Math.pow(floatValue1, floatValue2));
+		}
+		// TODO: coerce args(0) into star-star Fixnum
+		throw new RubyException(RubyRuntime.ArgumentErrorClass, "Fixnum cannot star-star with " + args.get(0).getRubyClass().getName());
+	}
+}
+
 public class FixnumClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
@@ -538,6 +587,7 @@ public class FixnumClassBuilder {
 		c.defineMethod(">=", new Fixnum_operator_greater_or_equal());
 		c.defineMethod("*", new Fixnum_operator_star());
 		c.defineMethod("to_f", new Fixnum_to_f());
+		c.defineMethod("**", new Fixnum_star_star());
 		return c;
 	}
 }

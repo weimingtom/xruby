@@ -44,16 +44,21 @@ class MethodBlockBase {
 
 public abstract class RubyBlock extends MethodBlockBase {
 
-	// if run finished, and breakValue_ is not null, it indicated break happend
+	// if run finished, and __breaked__ is not true, it indicated break happend
 	//e.g.
 	// loop do
 	//      break 'xxx'
 	// end
-	protected RubyValue breakValue_ = null;
+	protected boolean __breaked__ = false;
+	protected boolean __returned__ = false;
 	protected RubyBlock blockOfCurrentMethod_;
 
-	public RubyValue getBreakValue() {
-		return breakValue_;
+	public boolean breaked() {
+		return __breaked__ || __returned__;
+	}
+
+	public boolean returned() {
+		return __returned__;
 	}
 		
 	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block) {

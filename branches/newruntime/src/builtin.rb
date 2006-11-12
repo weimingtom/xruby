@@ -3,9 +3,54 @@
 #Some built-in functions can be implemented in pure ruby, so they are implemented here.
 #
 
+$: = ["./stdlib", "."]
+$__loaded_libraries = []
+
 module Kernel
 	def to_a
 		[self]
+	end
+
+	alias require__ require
+	alias load__    load
+
+	#private
+	def require(path)
+		$:.length.times do |index|
+			file_name = $:[index] + "/" + path + ".rb"
+			next unless ::File.file?(file_name)
+			return load_once(file_name)
+		end
+		require__(path)	
+	end
+
+	#private
+	def load(path)
+		$:.length.times do |index|
+			file_name = $:[index] + "/" + path + ".rb"
+			next unless ::File.file?(file_name)
+			return load_file(file_name)
+		end
+		require__(path)	
+	end
+
+	#private
+	def load_once(file_name)
+		absolute_path = ::File.expand_path(file_name)
+		return false if $__loaded_libraries.include?(absolute_path)
+		result = load_file(absolute_path)
+		result
+	end
+
+	#private
+	def load_file(file_name)
+		# TODO: delete the DEBUG info
+		puts "[DEBUG] Loading library: #{file_name}"
+
+		content = ::IO.read(file_name)
+		eval(content)
+		$__loaded_libraries.push(file_name) unless $__loaded_libraries.include?(file_name)
+		true
 	end
 end
 
@@ -13,8 +58,19 @@ class Array
 	def to_a
 		self
 	end
+
+	def join(sepString="")
+		return to_s if sepString.nil? || sepString == ""
+
+		result = ""
+		(length - 1).times do |index|
+			result += self[index].to_s + sepString
+		end
+		result += self[length - 1].to_s if length != 0
+		result
+	end
 	
-	alias join to_s
+	#alias join to_s
 	alias to_ary to_a
 	alias size length
 end
@@ -31,13 +87,17 @@ class String
 	def to_s
 		return self
 	end
+
+	def succ
+
+	end
 	
 	alias to_str to_s
 	alias inspect to_s
 end
 
 class Integer < Numeric
-	
+
 	def to_i
 		return self
 	end
@@ -61,7 +121,7 @@ class Integer < Numeric
 	def succ
 		self + 1
 	end
-	
+
 	#Always returns true
 	def integer?
 		true
@@ -90,6 +150,33 @@ class Fixnum < Integer
 	end
 	
 	alias inspect to_s
+end
+
+class Bignum < Integer
+	def >=(value)
+		compare = (self <=> value)
+		return compare != -1
+	end
+
+	def ==(value)
+		compare = (self <=> value)
+		return compare == 0
+	end
+
+	def <=(value)
+		compare = (self <=> value)
+		return compare != 1
+	end
+
+	def >(value)
+		compare = (self <=> value)
+		return compare == 1
+	end
+
+	def <(value)
+		compare = (self <=> value)
+		return compare == -1
+	end
 end
 
 class NilClass
@@ -179,4 +266,47 @@ class FalseClass
 	def to_s
 		return "false"
 	end
+end
+
+class Range
+	def each
+		return self if exclude_end? && (self.begin <=> self.end) != -1
+		return self if !exclude_end? && (self.begin <=> self.end) == 1
+		iter = self.begin
+		while (iter <=> self.end) != 0
+			yield(iter)
+			iter = iter.succ
+		end
+		yield(iter) unless exclude_end?
+		self
+	end
+
+	# xruby BUG #12
+=begin
+	def ===(value)
+		each do |item|
+			return true if value == item
+		end
+		false
+	end
+=end
+
+	def ===(value)
+		found = false
+		each do |item|
+			if (item <=> value) == 0
+				found = true
+				break
+			end
+		end
+		found
+	end
+
+	def to_s
+		return self.begin.to_s + "..." + self.end.to_s if exclude_end?
+		return self.begin.to_s + ".." + self.end.to_s
+	end
+end
+
+class ThreadError < StandardError
 end

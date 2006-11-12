@@ -4,6 +4,9 @@
 
 package com.xruby.runtime.lang;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import com.xruby.runtime.value.*;
 
 class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
@@ -88,6 +91,16 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 
 	public static RubyValue setTopLevelConstant(RubyValue value, String name) throws RubyException {
 		return RubyRuntime.GlobalScope.setConstant(name, value);
+	}
+	
+	public RubyValue getConstants() {
+		Set<String> keys = constants_.keySet();
+		RubyArray result = new RubyArray(keys.size());
+		Iterator<String> iterator = keys.iterator();
+		while (iterator.hasNext()){
+			result.add(ObjectFactory.createString(iterator.next()));
+		}
+		return ObjectFactory.createArray(result);
 	}
 }
 

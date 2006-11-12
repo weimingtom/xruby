@@ -4,6 +4,7 @@
 
 package com.xruby.compiler.codegen;
 
+
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
 
@@ -26,7 +27,7 @@ class MethodGenerator extends GeneratorAdapter {
 		visitInsn(Opcodes.ACONST_NULL);
 	}
 	
-	public void saveBlockForFutureRestore() {
+	public void saveBlockForFutureRestoreAndCheckReturned() {
 		dup();
 		int i = symbol_table_.getLocalVariable("block$");
 		if (i < 0) {
@@ -42,15 +43,46 @@ class MethodGenerator extends GeneratorAdapter {
 			return i;
 		}
 
-		i = newLocal(Type.getType(RubyValue.class));
+		return getNewLocalVariable(name);
+	}
+
+	public int getNewLocalVariable(String name) {
+		int i = newLocal(Type.getType(RubyValue.class));
 		getSymbolTable().addLocalVariable(name, i);
 		return i;
+	}
+	
+	public void storeParameter(int index) {
+		int i = newLocal(Type.getType(RubyValue.class));
+		storeLocal(i);
+		loadArg(1);
+		push(index);
+		loadLocal(i);
+		invokeVirtual(Type.getType(RubyArray.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue set(int, com.xruby.runtime.lang.RubyValue)"));
+		pop();
 	}
 
 	public void restoreLocalVariableFromBlock(String blockName, String name) {
 		loadLocal(getSymbolTable().getLocalVariable("block$"));
 		getField(Type.getType("L" + blockName + ";"), name, Type.getType(RubyValue.class));
 		storeLocal(getLocalVariable(name));
+	}
+
+	public void returnIfBlockReturned() {
+		int value = newLocal(Type.getType(RubyValue.class));
+		storeLocal(value);
+
+		loadLocal(getSymbolTable().getLocalVariable("block$"));
+	
+		invokeVirtual(Type.getType(RubyBlock.class),
+				Method.getMethod("boolean returned()"));
+		Label after_return = new Label();
+		ifZCmp(GeneratorAdapter.EQ, after_return);
+		loadLocal(value);
+		returnValue();//TODO more error checking, may not in the method context
+		mark(after_return);
+		loadLocal(value);
 	}
 
 	public void new_MethodClass(String methodName) {
@@ -195,7 +227,7 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeStatic(Type.getType(ObjectFactory.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue createFixnum(int)"));
 	}
-
+	
 	public void ObjectFactory_createInteger(String value, int radix) {
 		push(value);
 		push(radix);
@@ -471,6 +503,21 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(RubyBlock.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"));
 
+		checkBreaked();
+	}
+
+	private void checkBreaked() {
+		int value = newLocal(Type.getType(RubyValue.class));
+		storeLocal(value);
+
+		invokeVirtual(Type.getType(RubyBlock.class),
+				Method.getMethod("boolean breaked()"));
+		Label after_return = new Label();
+		ifZCmp(GeneratorAdapter.EQ, after_return);
+		loadLocal(value);
+		returnValue();//TODO more error checking, may not in the method context
+		mark(after_return);
+		loadLocal(value);
 	}
 
 	public void MethodCollection_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
@@ -541,9 +588,17 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue initializeBlockParameter(com.xruby.runtime.lang.RubyBlock)"));
 	}
 
-	public void breakBlock() {
-		putField(Type.getType(RubyBlock.class), "breakValue_", Type.getType(RubyValue.class));
-		pushNull();
+	public void breakFromBlock() {
+		loadThis();
+		push(true);
+		putField(Type.getType(RubyBlock.class), "__breaked__", Type.getType(boolean.class));
+		returnValue();
+	}
+
+	public void returnFromBlock() {
+		loadThis();
+		push(true);
+		putField(Type.getType(RubyBlock.class), "__returned__", Type.getType(boolean.class));
 		returnValue();
 	}
 

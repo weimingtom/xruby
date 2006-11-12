@@ -42,9 +42,10 @@ class Array_array_access extends RubyMethod {
 			if (argValue instanceof IntegerValue) {
 				IntegerValue index = (IntegerValue)argValue;
 				return value.get(index.intValue());
-			} else if (argValue instanceof RangeValue) {				
-				RangeValue range = (RangeValue)argValue;
-				RubyArray resultValue = value.subarray(range);
+			} else if (argValue instanceof RangeValue) {
+				IntegerValue begin = (IntegerValue)((RangeValue)argValue).getLeft().getValue();
+				IntegerValue end = (IntegerValue)((RangeValue)argValue).getLeft().getValue();
+				RubyArray resultValue = value.subarray(begin.intValue(), end.intValue());
 				return ObjectFactory.createArray(resultValue);
 			}
 		} else if (2 == args.size()) {
@@ -185,6 +186,30 @@ class Array_include extends RubyMethod {
 	}
 }
 
+class Array_unshift extends RubyMethod {
+	public Array_unshift() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		RubyArray array = (RubyArray)receiver.getValue();
+		return array.unshift(args);
+	}
+}
+
+class Array_initialize extends RubyMethod {
+	public Array_initialize() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		RubyArray array = new RubyArray();
+        receiver.setValue(array);
+
+        return receiver;
+	}
+}
+
 public class ArrayClassBuilder {
 	
 	public static RubyClass create() {
@@ -201,7 +226,9 @@ public class ArrayClassBuilder {
 		c.defineMethod("pop", new Array_pop());
 		c.defineMethod("delete_at", new Array_delete_at());
 		c.defineMethod("include?", new Array_include());
-		return c;
+		c.defineMethod("unshift", new Array_unshift());
+        c.defineMethod("initialize", new Array_initialize());
+        return c;
 	}
 }
 
