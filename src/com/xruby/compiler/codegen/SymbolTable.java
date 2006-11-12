@@ -23,16 +23,16 @@ class SymbolTable {
 		}
 	}
 	
-	public void addMethodParameters(String name) {
+	public void addMethodParameter(String name) {
 		method_parameters_.add(name);
 	}
 
-	public void setMethodAsteriskParameters(String name) {
+	public void setMethodAsteriskParameter(String name) {
 		assert(null == asterisk_parameters_);
 		asterisk_parameters_ = name;
 	}
 
-	public void setMethodBlockParameters(String name) {
+	public void setMethodBlockParameter(String name) {
 		assert(null == block_parameters_);
 		block_parameters_ = name;
 	}
