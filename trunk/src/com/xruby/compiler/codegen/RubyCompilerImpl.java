@@ -4,15 +4,12 @@
 
 package com.xruby.compiler.codegen;
 
-import org.objectweb.asm.Type;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 import java.util.*;
 
 import com.xruby.compiler.codedom.*;
-import com.xruby.runtime.lang.*;
-//import com.xruby.runtime.value.*;
 
 public class RubyCompilerImpl implements CodeVisitor {
 	
@@ -506,9 +503,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		Label after_exception = new Label();
 		cg_.getMethodGenerator().goTo(after_exception);
 		
-		cg_.getMethodGenerator().catchException((Label)start,
-				end,
-				Type.getType(RubyException.class));
+		cg_.getMethodGenerator().catchRubyException((Label)start, end);
 
 		int exception_variable = cg_.getAnonymousLocalVariable();
 		cg_.getMethodGenerator().storeLocal(exception_variable);
@@ -645,8 +640,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (rhs_is_method_call) {
 			cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsZeroOrOneValue();
 		}
-		int value = cg_.getMethodGenerator().newLocal(Type.getType(RubyValue.class));
-		cg_.getMethodGenerator().storeLocal(value);
+		int value = cg_.getMethodGenerator().saveRubyValueAsLocalVariable();
 
 		if (cg_.isInClassBuilder()) {
 			cg_.getMethodGenerator().loadArg(1);
@@ -668,8 +662,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (rhs_is_method_call) {
 			cg_.getMethodGenerator().RubyRuntime_expandArrayIfThereIsZeroOrOneValue();
 		}
-		int value = cg_.getMethodGenerator().newLocal(Type.getType(RubyValue.class));
-		cg_.getMethodGenerator().storeLocal(value);
+		int value = cg_.getMethodGenerator().saveRubyValueAsLocalVariable();
 		visitSelfExpression();
 		cg_.getMethodGenerator().loadLocal(value);
 		cg_.getMethodGenerator().RubyValue_setInstanceVariable(name);
