@@ -16,7 +16,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		return m;
 	}
 
-	public RubyValue defineModule(String name) throws RubyException {
+	public RubyValue defineModule(String name) {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
 			v = new RubyValue(RubyRuntime.ModuleClass, new RubyModule(name));
@@ -32,7 +32,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	}
 
 	/// e.g. A::B
-	RubyValue getConstant(String name) throws RubyException {
+	RubyValue getConstant(String name) {
 		return constants_.get(name);
 	}
 
@@ -41,7 +41,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		return value;
 	}
 
-	public RubyValue getCurrentNamespaceConstant(String name) throws RubyException {
+	public RubyValue getCurrentNamespaceConstant(String name) {
 		RubyValue v = getConstant(name);
 		if (null != v) {
 			return v;
@@ -54,7 +54,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		return v;
 	}
 
-	private static void throw_type_error_if_not_class_module(RubyValue receiver) throws RubyException {
+	private static void throw_type_error_if_not_class_module(RubyValue receiver) {
 		if (receiver.getRubyClass() != RubyRuntime.ClassClass &&
 			receiver.getRubyClass() != RubyRuntime.ModuleClass) {
 			RubyValue v = RubyRuntime.callPublicMethod(receiver, null, "to_s");
@@ -63,7 +63,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		}
 	}
 
-	public static RubyValue getConstant(RubyValue receiver, String name) throws RubyException {
+	public static RubyValue getConstant(RubyValue receiver, String name) {
 		throw_type_error_if_not_class_module(receiver);
 		
 		RubyValue v = ((ModuleClassAndMethodCollection)receiver.getValue()).getConstant(name);
@@ -75,13 +75,13 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		return v;
 	}
 
-	public static RubyValue setConstant(RubyValue value, RubyValue receiver, String name) throws RubyException {
+	public static RubyValue setConstant(RubyValue value, RubyValue receiver, String name) {
 		throw_type_error_if_not_class_module(receiver);
 
 		return ((ModuleClassAndMethodCollection)receiver.getValue()).setConstant(name, value);
 	}
 
-	public static RubyValue getTopLevelConstant(String name) throws RubyException {
+	public static RubyValue getTopLevelConstant(String name) {
 		RubyValue v = RubyRuntime.GlobalScope.getConstant(name);
 		if (null == v) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + name);
@@ -89,7 +89,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		return v;
 	}
 
-	public static RubyValue setTopLevelConstant(RubyValue value, String name) throws RubyException {
+	public static RubyValue setTopLevelConstant(RubyValue value, String name) {
 		return RubyRuntime.GlobalScope.setConstant(name, value);
 	}
 	

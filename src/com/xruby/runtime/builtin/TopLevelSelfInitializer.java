@@ -8,7 +8,7 @@ class TopLevelSelf_include extends RubyMethod {
 		super(-1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		assert(ObjectFactory.topLevelSelfValue == receiver);
 
 		for (RubyValue v : args) {

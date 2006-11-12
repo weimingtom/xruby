@@ -36,13 +36,13 @@ public abstract class MethodCollection extends ClassVariableCollection {
 		return null;//FIXME return something real!
 	}
 	
-	public void undefMethod(String name) throws RubyException {
+	public void undefMethod(String name) {
 		if (methods_.remove(name) == null) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + name +  " for class `Object'");
 		}
 	}
 	
-	public void aliasMethod(String newName, String oldName) throws RubyException {
+	public void aliasMethod(String newName, String oldName) {
 		RubyMethod m = methods_.get(oldName);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + oldName + " for class `Object'");

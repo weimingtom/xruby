@@ -100,7 +100,7 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.TimeClass, t);
 	}
 	
-	public static RubyValue createRange(RubyValue left, RubyValue right, boolean isExclusive) throws RubyException {
+	public static RubyValue createRange(RubyValue left, RubyValue right, boolean isExclusive) {
 		// test operator <=>
 		RubyMethod m = left.findMethod("<=>");
 		if (m == null){

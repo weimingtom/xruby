@@ -18,7 +18,7 @@ public class RubyRuntimeTest extends TestCase {
 		assertTrue(RubyRuntime.testTrueFalse(ObjectFactory.createString("XXX")));
 	}
 	
-	public void test_testCaseEqual() throws RubyException {
+	public void test_testCaseEqual() {
 		assertTrue(RubyRuntime.testCaseEqual(ObjectFactory.trueValue, ObjectFactory.trueValue));
 		assertTrue(RubyRuntime.testCaseEqual(ObjectFactory.falseValue, ObjectFactory.falseValue));
 		assertFalse(RubyRuntime.testCaseEqual(ObjectFactory.trueValue, ObjectFactory.falseValue));

@@ -14,7 +14,7 @@ abstract class ClassVariableCollection {
 		return class_varibles_.get(name);
 	}
 
-	public RubyValue getClassVariable(String name) throws RubyException {
+	public RubyValue getClassVariable(String name) {
 		RubyValue v = class_varibles_.get(name);
 		if (null != v) {
 			return v;

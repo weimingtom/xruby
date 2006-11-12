@@ -30,7 +30,7 @@ public class StringValue {
 		return this;
 	}
 
-	public StringValue appendString(RubyValue v) throws RubyException {
+	public StringValue appendString(RubyValue v) {
 		RubyValue r = RubyRuntime.callPublicMethod(v, null, null, "to_s");
 		return appendString(((StringValue)r.getValue()).toString());
 	}

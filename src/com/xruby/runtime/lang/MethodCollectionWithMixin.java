@@ -51,7 +51,7 @@ public class MethodCollectionWithMixin extends MethodCollection {
 		}
 	}
 
-	public RubyValue getClassVariable(String name) throws RubyException {
+	public RubyValue getClassVariable(String name) {
 		RubyValue v = super.findClassVariable(name);
 		if (null != v) {
 			return v;

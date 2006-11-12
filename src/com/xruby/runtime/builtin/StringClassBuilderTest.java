@@ -10,7 +10,7 @@ import com.xruby.runtime.value.*;
 
 public class StringClassBuilderTest extends TestCase {
 
-	public void test_to_i() throws RubyException {
+	public void test_to_i() {
 		RubyValue str = ObjectFactory.createString("1234");
 		StringValue value = (StringValue)str.getValue();
 		assertEquals("1234", value.toString());
@@ -20,7 +20,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals(1234, result_value.intValue());
 	}
 	
-	public void test_to_f() throws RubyException {
+	public void test_to_f() {
 		RubyValue str = ObjectFactory.createString("0.1234");
 		StringValue value = (StringValue)str.getValue();
 		assertEquals("0.1234", value.toString());
@@ -30,7 +30,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals((double)0.1234, result_value.doubleValue());
 	}
 	
-	public void test_upcase() throws RubyException {
+	public void test_upcase() {
 		RubyValue str = ObjectFactory.createString("abcDe");
 		StringValue value = (StringValue)str.getValue();
 		assertEquals(value.toString(), "abcDe");
@@ -51,7 +51,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals("ABCDE", result_value.toString());
 	}
 	
-	public void test_upcase_dangers() throws RubyException {
+	public void test_upcase_dangers() {
 		RubyValue str = ObjectFactory.createString("abcDe");
 		StringValue value = (StringValue)str.getValue();
 		assertEquals("abcDe", value.toString());
@@ -69,7 +69,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals(ObjectFactory.nilValue, result);
 	}
 
-	public void test_downcase() throws RubyException {
+	public void test_downcase() {
 		RubyValue str = ObjectFactory.createString("abcDe");
 		StringValue value = (StringValue)str.getValue();
 		assertEquals(value.toString(), "abcDe");
@@ -90,7 +90,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals("abcde", result_value.toString());
 	}
 	
-	public void test_downcase_dangers() throws RubyException {
+	public void test_downcase_dangers() {
 		RubyValue str = ObjectFactory.createString("abcDe");
 		StringValue value = (StringValue)str.getValue();
 		assertEquals("abcDe", value.toString());
@@ -108,7 +108,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals(ObjectFactory.nilValue, result);
 	}
 
-	public void test_capitalize() throws RubyException {
+	public void test_capitalize() {
 		RubyValue str = ObjectFactory.createString("abc");
 		RubyMethod m = str.findPublicMethod("capitalize");
 		RubyValue result = m.invoke(str, null, null);
@@ -131,7 +131,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals("Hello", ((StringValue)result.getValue()).toString());
 	}
 	
-	public void test_capitalize_danger() throws RubyException {
+	public void test_capitalize_danger() {
 		RubyValue str = ObjectFactory.createString("abc");
 		RubyMethod m = str.findPublicMethod("capitalize!");
 		RubyValue result = m.invoke(str, null, null);
@@ -154,7 +154,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals("Hello", ((StringValue)str.getValue()).toString());
 	}
 	
-	public void test_operator_compare() throws RubyException {
+	public void test_operator_compare() {
 		RubyValue str1 = ObjectFactory.createString("abc");
 		RubyValue str2 = ObjectFactory.createString("abd");
 		RubyArray args = new RubyArray();

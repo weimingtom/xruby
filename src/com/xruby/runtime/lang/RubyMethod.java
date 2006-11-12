@@ -32,7 +32,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 		access_ = PUBLIC;
 	}
 	
-	protected static String convertToString(RubyValue v) throws RubyException {
+	protected static String convertToString(RubyValue v) {
 		if (v.getRubyClass() == RubyRuntime.StringClass) {
 			return ((StringValue)v.getValue()).toString();
 		} else if (v.getRubyClass() == RubyRuntime.SymbolClass) {
@@ -42,7 +42,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 		}
 	}
 	
-	private static String inspect(RubyValue value) throws RubyException {
+	private static String inspect(RubyValue value) {
 		RubyValue v = RubyRuntime.callPublicMethod(value, null, "inspect");
 		return ((StringValue)v.getValue()).toString();
 	}
@@ -54,7 +54,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @return
 	 * @throws RubyException
 	 */
-	public final RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public final RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (argc_ > 0) {
 			int args_length = (null == args) ? 0 : args.size();
 			if (args_length < (argc_ - default_argc_)) {
@@ -76,5 +76,5 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @return
 	 * @throws RubyException
 	 */
-	protected abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException;
+	protected abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block);
 }

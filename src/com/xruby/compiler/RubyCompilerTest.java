@@ -2875,7 +2875,7 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_IO_gets() throws RubyException {
+	public void test_IO_gets() {
 		
 		IOValue out = new IOValue("test_IO_gets.txt", "w");
 		out.print("line 1\n");

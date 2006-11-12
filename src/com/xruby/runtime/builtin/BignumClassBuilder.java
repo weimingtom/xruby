@@ -10,7 +10,7 @@ class Bignum_new extends RubyMethod {
 		super(0, false, 2);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		throw new RubyException(RubyRuntime.RuntimeErrorClass, "Bitnum#new cannot be called");
 		/*BigInteger bigValue;
 		
@@ -37,7 +37,7 @@ class Bignum_to_s extends RubyMethod {
 		super(0, false, 1); 
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		if (args == null || args.size() == 0 || args.get(0) == null){
 			return ObjectFactory.createString(value.to_s());
@@ -53,7 +53,7 @@ class Bignum_operator_star extends RubyMethod {
 		super(1);
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		RubyValue arg = args.get(0);
 		return value.op_mul(arg);
@@ -65,7 +65,7 @@ class Bignum_operator_divide extends RubyMethod {
 		super(1);
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		RubyValue arg = args.get(0);
 		return value.op_div(arg);
@@ -77,7 +77,7 @@ class Bignum_operator_plus extends RubyMethod {
 		super(1);
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		RubyValue arg = args.get(0);
 		return value.op_add(arg);
@@ -89,7 +89,7 @@ class Bignum_operator_minus extends RubyMethod {
 		super(1);
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		RubyValue arg = args.get(0);
 		return value.op_sub(arg);
@@ -101,7 +101,7 @@ class Bignum_operator_mod extends RubyMethod {
 		super(1);
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		RubyValue arg = args.get(0);
 		return value.op_mod(arg);
@@ -113,7 +113,7 @@ class Bignum_operator_bor extends RubyMethod {
 		super(1);
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		RubyValue arg = args.get(0);
 		return value.op_bor(arg);
@@ -125,7 +125,7 @@ class Bignum_operator_band extends RubyMethod {
 		super(1);
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		RubyValue arg = args.get(0);
 		return value.op_band(arg);
@@ -137,7 +137,7 @@ class Bignum_operator_bxor extends RubyMethod {
 		super(1);
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		RubyValue arg = args.get(0);
 		return value.op_bxor(arg);
@@ -149,7 +149,7 @@ class Bignum_operator_right_shift extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value1 = (BignumValue)receiver.getValue();
 		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		if (value2.intValue() < 0){
@@ -165,7 +165,7 @@ class Bignum_operator_left_shift extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value1 = (BignumValue)receiver.getValue();
 		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
 		if (value2.intValue() <= 0){
@@ -180,7 +180,7 @@ class Bignum_operator_compare extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value1 = (BignumValue)receiver.getValue();
 		Object value2 = args.get(0).getValue();
 		int result = 0;
@@ -215,7 +215,7 @@ class Bignum_to_f extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value1 = (BignumValue)receiver.getValue();
 		return ObjectFactory.createFloat(value1.getValue().doubleValue());
 	}
