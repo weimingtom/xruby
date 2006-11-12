@@ -34,7 +34,19 @@ abstract class ClassGenerator {
 	}
 
 	public void storeVariable(String name) {
-		getMethodGenerator().storeLocal(getMethodGenerator().getLocalVariable(name));
+		int i = getSymbolTable().getLocalVariable(name);
+		if (i >= 0) {
+			getMethodGenerator().storeLocal(i);
+			return;
+		} 
+
+		int index = getSymbolTable().getMethodParameter(name);
+		if (index >= 0) {
+			getMethodGenerator().storeParameter(index);
+			return;
+		}
+
+		getMethodGenerator().storeLocal(getMethodGenerator().getNewLocalVariable(name));
 	}
 	
 	public void startClassBuilderMethod(String name) {
