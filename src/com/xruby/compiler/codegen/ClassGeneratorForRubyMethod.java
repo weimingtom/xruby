@@ -4,8 +4,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.Method;
 
-import com.xruby.runtime.lang.RubyException;
-import com.xruby.runtime.lang.RubyMethod;
+//import com.xruby.runtime.lang.RubyMethod;
 
 class ClassGeneratorForRubyMethod extends ClassGenerator {
 
@@ -22,7 +21,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 	}
 	
 	protected Class getType() {
-		return RubyMethod.class;
+		return Types.RubyMethodClass;
 	}
 
 	private MethodGenerator visitRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
@@ -53,7 +52,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 		mg.push(argc);
 		mg.push(has_asterisk_parameter);
 		mg.push(default_argc);
-		mg.invokeConstructor(Type.getType(RubyMethod.class),
+		mg.invokeConstructor(Type.getType(Types.RubyMethodClass),
 						Method.getMethod("void <init> (int, boolean, int)"));
 		mg.returnValue();
 		mg.endMethod();
