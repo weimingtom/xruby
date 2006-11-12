@@ -156,7 +156,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		
 		cg_.getMethodGenerator().new_BlockClass(uniqueBlockName, commons, isInGlobalScope(), isInBlock());
 
-		cg_.getMethodGenerator().saveBlockForFutureRestore();
+		cg_.getMethodGenerator().saveBlockForFutureRestoreAndCheckReturned();
 
 		return assigned_commons;
 	}
