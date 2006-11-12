@@ -7,7 +7,6 @@ package com.xruby.compiler.codegen;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.*;
 import java.util.*;
 
 abstract class ClassGenerator {
@@ -73,15 +72,15 @@ abstract class ClassGenerator {
 	}
 
 	public void addParameter(String name) {
-		getSymbolTable().addMethodParameters(name);
+		getSymbolTable().addMethodParameter(name);
 	}
 
 	public void setAsteriskParameter(String name) {
-		getSymbolTable().setMethodAsteriskParameters(name);
+		getSymbolTable().setMethodAsteriskParameter(name);
 	}
 
 	public void setBlockParameter(String name) {
-		getSymbolTable().setMethodBlockParameters(name);
+		getSymbolTable().setMethodBlockParameter(name);
 	}
 	
 	public void visitEnd() {
