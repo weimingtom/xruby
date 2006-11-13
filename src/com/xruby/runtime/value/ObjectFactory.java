@@ -57,7 +57,7 @@ public class ObjectFactory {
 	}
 
 	public static RubyValue createFixnum(int value) {
-		return new RubyValue(RubyRuntime.FixnumClass, new IntegerValue(value));
+		return new RubyValue(RubyRuntime.FixnumClass, new RubyFixnum(value));
 	}
 
 	public static RubyValue createFloat(double value) {

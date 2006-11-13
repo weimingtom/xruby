@@ -32,7 +32,7 @@ public class RubyCompilerTest extends TestCase {
 				assertTrue(null != codes);
 				RubyProgram p = (RubyProgram)codes.getRubyProgram();
 				RubyValue v = p.run();
-				IntegerValue r = (IntegerValue)v.getValue();
+				RubyFixnum r = (RubyFixnum)v.getValue();
 				assertEquals(results[i], r.intValue());
 			} catch (Exception e) {
 				assertTrue("Error at " + i + ": " + e.toString(), false);

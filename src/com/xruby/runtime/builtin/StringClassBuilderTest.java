@@ -16,7 +16,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals("1234", value.toString());
 		RubyMethod m = str.findPublicMethod("to_i");
 		RubyValue result = m.invoke(str, null, null);
-		IntegerValue result_value = (IntegerValue)result.getValue();
+		RubyFixnum result_value = (RubyFixnum)result.getValue();
 		assertEquals(1234, result_value.intValue());
 	}
 	

@@ -48,8 +48,8 @@ public class BignumValue {
 			BignumValue bigValue = (BignumValue)value;
 			result = getValue().multiply(bigValue.getValue());
 		}
-		else if (value instanceof IntegerValue){
-			IntegerValue intValue = (IntegerValue)value;
+		else if (value instanceof RubyFixnum){
+			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().multiply(bigValue);
 		}
@@ -71,8 +71,8 @@ public class BignumValue {
 			BignumValue bigValue = (BignumValue)value;
 			result = getValue().divide(bigValue.getValue());
 		}
-		else if (value instanceof IntegerValue){
-			IntegerValue intValue = (IntegerValue)value;
+		else if (value instanceof RubyFixnum){
+			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().divide(bigValue);
 		}
@@ -94,8 +94,8 @@ public class BignumValue {
 			BignumValue bigValue = (BignumValue)value;
 			result = getValue().add(bigValue.getValue());
 		}
-		else if (value instanceof IntegerValue){
-			IntegerValue intValue = (IntegerValue)value;
+		else if (value instanceof RubyFixnum){
+			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().add(bigValue);
 		}
@@ -117,8 +117,8 @@ public class BignumValue {
 			BignumValue bigValue = (BignumValue)value;
 			result = getValue().subtract(bigValue.getValue());
 		}
-		else if (value instanceof IntegerValue){
-			IntegerValue intValue = (IntegerValue)value;
+		else if (value instanceof RubyFixnum){
+			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().subtract(bigValue);
 		}
@@ -140,8 +140,8 @@ public class BignumValue {
 			BignumValue bigValue = (BignumValue)value;
 			result = getValue().mod(bigValue.getValue());
 		}
-		else if (value instanceof IntegerValue){
-			IntegerValue intValue = (IntegerValue)value;
+		else if (value instanceof RubyFixnum){
+			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().mod(bigValue);
 		}
@@ -163,8 +163,8 @@ public class BignumValue {
 			BignumValue bigValue = (BignumValue)value;
 			result = getValue().and(bigValue.getValue());
 		}
-		else if (value instanceof IntegerValue){
-			IntegerValue intValue = (IntegerValue)value;
+		else if (value instanceof RubyFixnum){
+			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().and(bigValue);
 		}
@@ -186,8 +186,8 @@ public class BignumValue {
 			BignumValue bigValue = (BignumValue)value;
 			result = getValue().or(bigValue.getValue());
 		}
-		else if (value instanceof IntegerValue){
-			IntegerValue intValue = (IntegerValue)value;
+		else if (value instanceof RubyFixnum){
+			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().or(bigValue);
 		}
@@ -209,8 +209,8 @@ public class BignumValue {
 			BignumValue bigValue = (BignumValue)value;
 			result = getValue().xor(bigValue.getValue());
 		}
-		else if (value instanceof IntegerValue){
-			IntegerValue intValue = (IntegerValue)value;
+		else if (value instanceof RubyFixnum){
+			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().xor(bigValue);
 		}
