@@ -11,6 +11,11 @@ public class RubyString extends RubyBasic {
 		this.str = new StringBuilder(s);
 	}
 	
+	private RubyString(char c) {
+		this.str = new StringBuilder();
+		this.str.append(c);
+	}
+	
 	private RubyString() {
 		this.str = new StringBuilder();
 	}
@@ -28,6 +33,10 @@ public class RubyString extends RubyBasic {
 		return new RubyString(s);
 	}
 	
+	public static RubyString newString(char c) {
+		return new RubyString(c);
+	}
+	
 	public static RubyString newString() {
 		return new RubyString();
 	}
@@ -39,5 +48,9 @@ public class RubyString extends RubyBasic {
 	public void append(RubyValue v) {
 		RubyString s = (RubyString)v.callMethod("to_s");
 		this.str.append(s.getString());
+	}
+
+	public String toString() {
+		return this.str.toString();
 	}
 }

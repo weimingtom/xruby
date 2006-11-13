@@ -8,7 +8,7 @@ import com.xruby.newruntime.lang.RubySymbol;
 import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyArray;
 
-public class KernelBuilder implements ClassBuilder {
+public class KernelBuilder implements ExtensionBuilder {
 	private RubyModule kernelModule;
 
 	public void initialize() {

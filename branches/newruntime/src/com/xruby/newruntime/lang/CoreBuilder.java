@@ -1,8 +1,8 @@
 package com.xruby.newruntime.lang;
 
-import com.xruby.newruntime.builtin.ClassBuilder;
+import com.xruby.newruntime.builtin.ExtensionBuilder;
 
-public class CoreBuilder implements ClassBuilder {	
+public class CoreBuilder implements ExtensionBuilder {	
 	private RubyClass objectClass;
 	private RubyClass moduleClass;
 	private RubyClass classClass;

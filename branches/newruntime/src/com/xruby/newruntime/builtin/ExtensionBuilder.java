@@ -1,5 +1,5 @@
 package com.xruby.newruntime.builtin;
 
-public interface ClassBuilder {
+public interface ExtensionBuilder {
 	void initialize();
 }

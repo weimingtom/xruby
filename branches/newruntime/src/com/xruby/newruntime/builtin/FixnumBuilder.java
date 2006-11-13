@@ -3,7 +3,7 @@ package com.xruby.newruntime.builtin;
 import com.xruby.newruntime.lang.RubyClass;
 import com.xruby.newruntime.lang.RubyRuntime;
 
-public class FixnumClassBuilder implements ClassBuilder {
+public class FixnumBuilder implements ExtensionBuilder {
 	private RubyClass fixnumClass;
 	
 	public RubyClass getFixnumClass() {
