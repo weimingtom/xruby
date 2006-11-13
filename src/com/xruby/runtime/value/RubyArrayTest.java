@@ -73,32 +73,6 @@ public class RubyArrayTest extends TestCase {
 		assertEquals(3, a.size());
 	}
 	
-	/*public void test_range_subarray() {
-		// a = [1, 2]
-		RubyArray a = new RubyArray(1, true);
-		a.add(ObjectFactory.createFixnum(1));
-		a.add(ObjectFactory.createFixnum(2));
-		
-		// [0..1]
-		RangeValue stdRange = new RangeValue(0, 1, false);
-		RubyArray rangeArray = a.subarray(stdRange);
-		assertEquals(2, rangeArray.size());
-		assertEquals(1, ((IntegerValue)rangeArray.get(0).getValue()).intValue());
-		assertEquals(2, ((IntegerValue)rangeArray.get(1).getValue()).intValue());
-		
-		// [0..-1]
-		RangeValue negRange = new RangeValue(0, -1, false);
-		rangeArray = a.subarray(negRange);
-		assertEquals(2, rangeArray.size());
-		assertEquals(1, ((IntegerValue)rangeArray.get(0).getValue()).intValue());
-		assertEquals(2, ((IntegerValue)rangeArray.get(1).getValue()).intValue());
-		
-		// [2..0]
-		RangeValue oppositeRange = new RangeValue(2, 0, false);
-		rangeArray = a.subarray(oppositeRange);
-		assertEquals(0, rangeArray.size());
-	}*/
-	
 	public void test_subarray() {
 		// a = [1, 2, 3]
 		RubyArray a = new RubyArray();

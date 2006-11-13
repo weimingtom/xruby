@@ -42,9 +42,9 @@ class Array_array_access extends RubyMethod {
 			if (argValue instanceof IntegerValue) {
 				IntegerValue index = (IntegerValue)argValue;
 				return value.get(index.intValue());
-			} else if (argValue instanceof RangeValue) {
-				IntegerValue begin = (IntegerValue)((RangeValue)argValue).getLeft().getValue();
-				IntegerValue end = (IntegerValue)((RangeValue)argValue).getLeft().getValue();
+			} else if (argValue instanceof RubyRange) {
+				IntegerValue begin = (IntegerValue)((RubyRange)argValue).getLeft().getValue();
+				IntegerValue end = (IntegerValue)((RubyRange)argValue).getLeft().getValue();
 				RubyArray resultValue = value.subarray(begin.intValue(), end.intValue());
 				return ObjectFactory.createArray(resultValue);
 			}

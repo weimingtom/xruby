@@ -10,7 +10,7 @@ class Range_begin extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RangeValue r = (RangeValue)receiver.getValue();
+		RubyRange r = (RubyRange)receiver.getValue();
 		return r.getLeft();
 	}
 }
@@ -21,7 +21,7 @@ class Range_end extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RangeValue r = (RangeValue)receiver.getValue();
+		RubyRange r = (RubyRange)receiver.getValue();
 		return r.getRight();
 	}
 }
@@ -32,8 +32,8 @@ class Range_exclude_end extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RangeValue r = (RangeValue)receiver.getValue();
-		return r.excludeEnd();
+		RubyRange r = (RubyRange)receiver.getValue();
+		return ObjectFactory.createBoolean(r.isExcludeEnd());
 	}
 }
 

@@ -119,7 +119,7 @@ public class ObjectFactory {
 			}
 			throw exception;
 		}
-		return new RubyValue(RubyRuntime.RangeClass, new RangeValue(left, right, isExclusive));
+		return new RubyValue(RubyRuntime.RangeClass, new RubyRange(left, right, isExclusive));
 	}
 
 	public static RubyValue createMatchData(RubyMatchData m) {
