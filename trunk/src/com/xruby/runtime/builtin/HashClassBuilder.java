@@ -11,7 +11,7 @@ import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 
-import com.xruby.runtime.value.HashValue;
+import com.xruby.runtime.value.RubyHash;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
@@ -21,7 +21,7 @@ class Hash_length extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		HashValue value = (HashValue)receiver.getValue();
+		RubyHash value = (RubyHash)receiver.getValue();
 		return ObjectFactory.createFixnum(value.size());
 	}
 }
@@ -32,7 +32,7 @@ class Hash_hash_access extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		HashValue value = (HashValue)receiver.getValue();
+		RubyHash value = (RubyHash)receiver.getValue();
 		if (1 == args.size()) {
 			RubyValue retValue = value.get(args.get(0));
             RubyBlock defBlock = value.getBlock();
@@ -60,7 +60,7 @@ class Hash_hash_set extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		HashValue value = (HashValue)receiver.getValue();
+		RubyHash value = (RubyHash)receiver.getValue();
 		value.add(args.get(0), args.get(1));
 		return args.get(1);
 	}
@@ -73,7 +73,7 @@ class Hash_to_s extends RubyMethod {
     }
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        HashValue value = (HashValue) receiver.getValue();
+        RubyHash value = (RubyHash) receiver.getValue();
 		return value.to_s();
     }
 }
@@ -84,7 +84,7 @@ class Hash_initialize extends RubyMethod {
     }
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        HashValue hash = new HashValue();
+        RubyHash hash = new RubyHash();
 
         if(null != block && null != args) { // validation
             throw new RubyException("Hash: in `initialize': wrong number of arguments");

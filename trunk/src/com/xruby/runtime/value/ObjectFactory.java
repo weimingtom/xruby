@@ -80,7 +80,7 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.ArrayClass, new RubyArray(0, true));
 	}
 	
-	public static RubyValue createHash(HashValue value) {
+	public static RubyValue createHash(RubyHash value) {
 		return new RubyValue(RubyRuntime.HashClass, value);
 	}
 

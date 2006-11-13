@@ -137,7 +137,7 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 	
 	public void new_HashValue() {
-		Type t = Type.getType(HashValue.class);
+		Type t = Type.getType(RubyHash.class);
 		newInstance(t);
 		dup();
 		invokeConstructor(t, Method.getMethod("void <init> ()"));
@@ -194,7 +194,7 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 	
 	public void HashValue_addValue() {
-		invokeVirtual(Type.getType(HashValue.class),
+		invokeVirtual(Type.getType(RubyHash.class),
 				Method.getMethod("void add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 	}
 
@@ -296,7 +296,7 @@ class MethodGenerator extends GeneratorAdapter {
 	
 	public void ObjectFactory_createHash() {
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createHash(com.xruby.runtime.value.HashValue)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue createHash(com.xruby.runtime.value.RubyHash)"));
 	}
 
 	public void ObjectFactory_createRange() {
