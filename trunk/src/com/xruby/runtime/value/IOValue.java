@@ -107,7 +107,7 @@ public class IOValue {
 		}
 	}
 	
-	public RubyValue read() throws RubyException{
+	public RubyValue read() {
 		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
@@ -119,7 +119,7 @@ public class IOValue {
 		}
 	}
 	
-	public RubyValue read(long length) throws RubyException{
+	public RubyValue read(long length) {
 		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
@@ -135,7 +135,7 @@ public class IOValue {
 		}
 	}
 	
-	public RubyValue read(int length, int offset) throws RubyException{
+	public RubyValue read(int length, int offset) {
 		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}

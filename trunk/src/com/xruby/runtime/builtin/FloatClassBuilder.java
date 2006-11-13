@@ -48,7 +48,7 @@ class Float_operator_compare extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		FloatValue value1 = (FloatValue)receiver.getValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
@@ -80,7 +80,7 @@ class Float_floor extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double value = ((FloatValue)receiver.getValue()).doubleValue();
 		value = Math.floor(value);
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
@@ -95,7 +95,7 @@ class Float_ceil extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double value = ((FloatValue)receiver.getValue()).doubleValue();
 		value = Math.ceil(value);
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
@@ -110,7 +110,7 @@ class Float_truncate extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double value = ((FloatValue)receiver.getValue()).doubleValue();
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
 			return ObjectFactory.createFixnum((int)value);
@@ -124,7 +124,7 @@ class Float_round extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double value = ((FloatValue)receiver.getValue()).doubleValue();
 		value = Math.round(value);
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
@@ -139,7 +139,7 @@ class Float_operator_mod extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double floatValue1 = ((FloatValue)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
@@ -164,7 +164,7 @@ class Float_operator_plus extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double floatValue1 = ((FloatValue)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
@@ -187,7 +187,7 @@ class Float_operator_star extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double floatValue1 = ((FloatValue)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
@@ -210,7 +210,7 @@ class Float_operator_div extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double floatValue1 = ((FloatValue)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
@@ -233,7 +233,7 @@ class Float_abs extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double value = ((FloatValue)receiver.getValue()).doubleValue();
 		return ObjectFactory.createFloat(Math.abs(value));
 	}
@@ -244,7 +244,7 @@ class Float_finite extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double value = ((FloatValue)receiver.getValue()).doubleValue();
 		return ObjectFactory.createBoolean(!Double.isInfinite(value));
 	}
@@ -255,7 +255,7 @@ class Float_infinite extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double value = ((FloatValue)receiver.getValue()).doubleValue();
 		if (value == Double.NEGATIVE_INFINITY){
 			return ObjectFactory.createFixnum(-1);
@@ -272,7 +272,7 @@ class Float_nan extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		double value = ((FloatValue)receiver.getValue()).doubleValue();
 		return ObjectFactory.createBoolean(Double.isNaN(value));
 	}

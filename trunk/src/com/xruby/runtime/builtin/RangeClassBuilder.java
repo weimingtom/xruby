@@ -42,7 +42,7 @@ class Range_initialize extends RubyMethod {
 		super(3, false, 1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block)  {
 		RubyValue left = args.get(0);
 		RubyValue right = args.get(1);
 		boolean isExclusive = false;
