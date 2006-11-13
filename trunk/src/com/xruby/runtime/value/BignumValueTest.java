@@ -45,14 +45,14 @@ public class BignumValueTest extends TestCase {
 		RubyValue a = ObjectFactory.createFixnum(30);
 		RubyValue result = v.op_mul(a);
 		assertEquals(result.getRubyClass(), RubyRuntime.FixnumClass);
-		IntegerValue fixnumValue = (IntegerValue)result.getValue();
+		RubyFixnum fixnumValue = (RubyFixnum)result.getValue();
 		assertEquals(fixnumValue.intValue(), 3000);
 		
 		// Bignum * Bignum == Fixnum ( < Integer.MAX_VALUE )
 		a = ObjectFactory.createBignum(BigInteger.valueOf(30));
 		result = v.op_mul(a);
 		assertEquals(result.getRubyClass(), RubyRuntime.FixnumClass);
-		fixnumValue = (IntegerValue)result.getValue();
+		fixnumValue = (RubyFixnum)result.getValue();
 		assertEquals(fixnumValue.intValue(), 3000);
 		
 		// Bignum * Fixnum == Bignum ( > Integer.MAX_VALUE )

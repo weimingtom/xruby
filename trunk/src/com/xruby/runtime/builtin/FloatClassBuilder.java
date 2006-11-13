@@ -31,8 +31,8 @@ class Float_operator_minus extends RubyMethod {
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
-		}else if(value2 instanceof IntegerValue){
-			floatValue2 = ((IntegerValue)value2).intValue();
+		}else if(value2 instanceof RubyFixnum){
+			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
@@ -55,8 +55,8 @@ class Float_operator_compare extends RubyMethod {
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
 		}
-		else if (value2 instanceof IntegerValue){
-			floatValue2 = ((IntegerValue)value2).intValue();
+		else if (value2 instanceof RubyFixnum){
+			floatValue2 = ((RubyFixnum)value2).intValue();
 		}
 		else if (value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
@@ -145,8 +145,8 @@ class Float_operator_mod extends RubyMethod {
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
-		}else if(value2 instanceof IntegerValue){
-			floatValue2 = ((IntegerValue)value2).intValue();
+		}else if(value2 instanceof RubyFixnum){
+			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
@@ -170,8 +170,8 @@ class Float_operator_plus extends RubyMethod {
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
-		}else if(value2 instanceof IntegerValue){
-			floatValue2 = ((IntegerValue)value2).intValue();
+		}else if(value2 instanceof RubyFixnum){
+			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
@@ -193,8 +193,8 @@ class Float_operator_star extends RubyMethod {
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
-		}else if(value2 instanceof IntegerValue){
-			floatValue2 = ((IntegerValue)value2).intValue();
+		}else if(value2 instanceof RubyFixnum){
+			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
@@ -216,8 +216,8 @@ class Float_operator_div extends RubyMethod {
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
-		}else if(value2 instanceof IntegerValue){
-			floatValue2 = ((IntegerValue)value2).intValue();
+		}else if(value2 instanceof RubyFixnum){
+			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{

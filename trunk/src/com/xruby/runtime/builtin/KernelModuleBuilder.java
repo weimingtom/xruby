@@ -112,8 +112,8 @@ class Kernel_printf extends RubyMethod {
 		Object[] raw_args = new Object[args.size() - 1];
 		for (int i = 1; i < args.size(); ++i) {
 			Object v = args.get(i).getValue();
-			if (v instanceof IntegerValue) {
-				raw_args[i - 1] = new Integer(((IntegerValue)v).intValue());
+			if (v instanceof RubyFixnum) {
+				raw_args[i - 1] = new Integer(((RubyFixnum)v).intValue());
 			} else {
 				raw_args[i - 1] = v;
 			}

@@ -137,7 +137,7 @@ class String_to_i extends RubyMethod {
 		if (args == null || args.size() == 0){
 			return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
 		}else{
-			int radix = ((IntegerValue)args.get(0).getValue()).intValue();
+			int radix = ((RubyFixnum)args.get(0).getValue()).intValue();
 			if (radix >= 2 && radix <= 36){
 				return ObjectFactory.createFixnum(Integer.valueOf(value.toString(), radix));
 			}
@@ -267,7 +267,7 @@ class String_split extends RubyMethod {
 		if (args.size() == 1){
 			splitResult = r.getValue().split(g.toString());
 		}else{
-			IntegerValue i = (IntegerValue)args.get(1).getValue();
+			RubyFixnum i = (RubyFixnum)args.get(1).getValue();
 			splitResult = r.getValue().split(g.toString(), i.intValue());
 		}
 		

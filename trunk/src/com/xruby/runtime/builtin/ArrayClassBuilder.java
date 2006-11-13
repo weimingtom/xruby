@@ -39,21 +39,21 @@ class Array_array_access extends RubyMethod {
 		
 		if (1 == args.size()) {
 			Object argValue = args.get(0).getValue();
-			if (argValue instanceof IntegerValue) {
-				IntegerValue index = (IntegerValue)argValue;
+			if (argValue instanceof RubyFixnum) {
+				RubyFixnum index = (RubyFixnum)argValue;
 				return value.get(index.intValue());
 			} else if (argValue instanceof RubyRange) {
-				IntegerValue begin = (IntegerValue)((RubyRange)argValue).getLeft().getValue();
-				IntegerValue end = (IntegerValue)((RubyRange)argValue).getLeft().getValue();
+				RubyFixnum begin = (RubyFixnum)((RubyRange)argValue).getLeft().getValue();
+				RubyFixnum end = (RubyFixnum)((RubyRange)argValue).getLeft().getValue();
 				RubyArray resultValue = value.subarray(begin.intValue(), end.intValue());
 				return ObjectFactory.createArray(resultValue);
 			}
 		} else if (2 == args.size()) {
 			Object arg0Value = args.get(0).getValue();
 			Object arg1Value = args.get(1).getValue();
-			if (arg0Value instanceof IntegerValue && arg1Value instanceof IntegerValue) {
-				int begin = ((IntegerValue)arg0Value).intValue();
-				int length = ((IntegerValue)arg1Value).intValue();
+			if (arg0Value instanceof RubyFixnum && arg1Value instanceof RubyFixnum) {
+				int begin = ((RubyFixnum)arg0Value).intValue();
+				int length = ((RubyFixnum)arg1Value).intValue();
 				RubyArray resultValue = value.subarray(begin, length);
 				if (resultValue == null) {
 					return ObjectFactory.nilValue;
@@ -76,7 +76,7 @@ class Array_array_set extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		//TODO index can be range, -1 etc
 		RubyArray value = (RubyArray)receiver.getValue();
-		IntegerValue index = (IntegerValue)args.get(0).getValue();
+		RubyFixnum index = (RubyFixnum)args.get(0).getValue();
 		return value.set(index.intValue(), args.get(1));
 	}
 }
@@ -128,7 +128,7 @@ class Array_times extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver.getValue();
-		IntegerValue times = (IntegerValue)args.get(0).getValue();
+		RubyFixnum times = (RubyFixnum)args.get(0).getValue();
 		RubyArray resultArray = array.times(times.intValue());		
 		
 		return ObjectFactory.createArray(resultArray);
@@ -166,7 +166,7 @@ class Array_delete_at extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver.getValue();
-		IntegerValue pos = (IntegerValue)args.get(0).getValue();
+		RubyFixnum pos = (RubyFixnum)args.get(0).getValue();
 		return array.remove(pos.intValue());		
 	}
 }

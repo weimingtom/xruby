@@ -1,31 +1,31 @@
 package com.xruby.runtime.value;
 
-public class IntegerValue {
-	private int i_;
+public class RubyFixnum {
+	private int value;
 	
-	public IntegerValue(int i) {
-		i_ = i;
+	public RubyFixnum(int i) {
+		value = i;
 	}
 	
 	public int intValue() {
-		return i_;
+		return value;
 	}
 	
 	public int hashCode() {
-		return i_;
+		return value;
 	}
 	
 	public boolean equals(Object o) {
 		if (null == o) {
 			return false;
-		} else if (o instanceof IntegerValue) {
-			return i_ == ((IntegerValue)o).intValue();
+		} else if (o instanceof RubyFixnum) {
+			return value == ((RubyFixnum)o).intValue();
 		} else {
 			return false;
 		}
 	}
 	
 	public String toString() {
-		return Integer.toString(i_);
+		return Integer.toString(value);
 	}
 }

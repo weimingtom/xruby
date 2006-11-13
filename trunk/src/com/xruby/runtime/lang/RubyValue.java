@@ -47,7 +47,7 @@ public class RubyValue extends RubyModule {
 	
 	public int hashCode() {
 		if (class_ == RubyRuntime.FixnumClass) {
-			return ((IntegerValue)value_).hashCode();
+			return ((RubyFixnum)value_).hashCode();
 		} else if (class_ == RubyRuntime.StringClass) {
 			return ((RubyString)value_).toString().hashCode();
 		}else {

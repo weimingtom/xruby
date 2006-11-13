@@ -102,11 +102,11 @@ class IO_read extends RubyMethod {
 		if (args.size() == 1){
 			return io.read();
 		}else{
-			length = ((IntegerValue)args.get(1).getValue()).intValue();
+			length = ((RubyFixnum)args.get(1).getValue()).intValue();
 			if(args.size() == 2){			
 				return io.read(length);
 			}else{
-				offset = ((IntegerValue)args.get(2).getValue()).intValue();
+				offset = ((RubyFixnum)args.get(2).getValue()).intValue();
 				return io.read(length, offset);
 			}
 		}
