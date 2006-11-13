@@ -1,21 +1,37 @@
 package com.xruby.newruntime.lang;
 
-import com.xruby.newruntime.builtin.ArrayClassBuilder;
-import com.xruby.newruntime.builtin.EnumModuleBuilder;
+import com.xruby.newruntime.builtin.ArrayBuilder;
+import com.xruby.newruntime.builtin.BignumBuilder;
+import com.xruby.newruntime.builtin.BindingBuilder;
+import com.xruby.newruntime.builtin.ComparableBuilder;
+import com.xruby.newruntime.builtin.DataBuilder;
+import com.xruby.newruntime.builtin.DirBuilder;
+import com.xruby.newruntime.builtin.EnumBuilder;
 import com.xruby.newruntime.builtin.ExceptionBuilder;
-import com.xruby.newruntime.builtin.FalseClassBuilder;
-import com.xruby.newruntime.builtin.FileClassBuilder;
-import com.xruby.newruntime.builtin.FixnumClassBuilder;
-import com.xruby.newruntime.builtin.FloatClassBuilder;
+import com.xruby.newruntime.builtin.FalseBuilder;
+import com.xruby.newruntime.builtin.FileBuilder;
+import com.xruby.newruntime.builtin.FixnumBuilder;
+import com.xruby.newruntime.builtin.FloatBuilder;
 import com.xruby.newruntime.builtin.GlobalBuilder;
-import com.xruby.newruntime.builtin.HashClassBuilder;
-import com.xruby.newruntime.builtin.IOClassBuilder;
-import com.xruby.newruntime.builtin.IntegerClassBuilder;
+import com.xruby.newruntime.builtin.HashBuilder;
+import com.xruby.newruntime.builtin.IOBuilder;
+import com.xruby.newruntime.builtin.IntegerBuilder;
 import com.xruby.newruntime.builtin.KernelBuilder;
-import com.xruby.newruntime.builtin.NilClassBuilder;
-import com.xruby.newruntime.builtin.NumericClassBuilder;
+import com.xruby.newruntime.builtin.MarshalBuilder;
+import com.xruby.newruntime.builtin.MathBuilder;
+import com.xruby.newruntime.builtin.MethodBuilder;
+import com.xruby.newruntime.builtin.NilBuilder;
+import com.xruby.newruntime.builtin.NumericBuilder;
+import com.xruby.newruntime.builtin.PrecisionBuilder;
+import com.xruby.newruntime.builtin.ProcBuilder;
+import com.xruby.newruntime.builtin.ProcessBuilder;
+import com.xruby.newruntime.builtin.RangeBuilder;
+import com.xruby.newruntime.builtin.RegexpBuilder;
+import com.xruby.newruntime.builtin.StructBuilder;
+import com.xruby.newruntime.builtin.ThreadBuilder;
+import com.xruby.newruntime.builtin.TimeBuilder;
 import com.xruby.newruntime.builtin.TopSelfBuilder;
-import com.xruby.newruntime.builtin.TrueClassBuilder;
+import com.xruby.newruntime.builtin.TrueBuilder;
 
 public class RubyRuntime {
 	public static RubyClass objectClass;
@@ -23,13 +39,19 @@ public class RubyRuntime {
 	public static RubyClass classClass;
 	public static RubyModule kernelModule;
 	
+	public static RubyClass dataClass;
+	
 	public static RubyValue topSelf;
 	
 	public static RubyClass trueClass;
 	public static RubyClass falseClass;
 	public static RubyClass nilClass;	
 	
+	public static RubyModule comparableModule;
+	
 	public static RubyModule enumerableModule;
+	
+	public static RubyModule precisionModule;
 	
 	public static RubyClass exceptionException;
 	public static RubyClass systemExitException;
@@ -57,19 +79,50 @@ public class RubyRuntime {
 	public static RubyClass systemCallError;
 	public static RubyModule errnoModule;
 	
+	public static RubyClass threadError;
+	public static RubyClass threadClass;
+	public static RubyClass continuationClass;
+	public static RubyClass threadGroupClass;
+
+	public static RubyClass zeroDivError;
+	public static RubyClass floatDomainError;
 	public static RubyClass numericClass;
 	public static RubyClass integerClass;
 	public static RubyClass fixnumClass;
 	public static RubyClass floatClass;
+	public static RubyClass bignumClass;
 	
 	public static RubyClass arrayClass;
 	
 	public static RubyClass hashClass;
 	
+	public static RubyClass structClass;
+	
+	public static RubyClass regexpError;
+	public static RubyClass regexpClass;
+	public static RubyClass matchClass;
+	
+	public static RubyClass rangeClass;
+	
 	public static RubyClass ioError;
 	public static RubyClass eofError;
 	public static RubyClass ioClass;
 	public static RubyClass fileClass;
+	public static RubyModule fileTestModule;
+	
+	public static RubyClass dirClass;
+	
+	public static RubyClass timeClass;
+	
+	public static RubyModule processModule;
+	
+	public static RubyClass procClass;
+	public static RubyClass methodClass;
+	public static RubyClass unboundMethodClass;
+	
+	public static RubyClass bindingClass; 
+	
+	public static RubyModule mathModule;
 	
 	static CoreBuilder coreBuilder;
 	
@@ -79,12 +132,26 @@ public class RubyRuntime {
 
 	private static void initRuntime() {
 		initObject();		
+		initComparable();
 		initEnum();	
+		initPrecision();
 		initException();
+		initThread();
 		initNumeric();
+		initBignum();
 		initArray();		
 		initHash();
+		initStruct();
+		initRegexp();
+		initRange();
 		initIO();
+		initDir();
+		initTime();
+		initProcess();
+		initProc();
+		initBinding();
+		initMath();
+		initMarshal();
 		initGlobal();
 	}
 	
@@ -106,31 +173,47 @@ public class RubyRuntime {
 		KernelBuilder kernelBuilder = new KernelBuilder();
 		kernelBuilder.initialize();
 		
+		DataBuilder dataClassBuilder = new DataBuilder();
+		dataClassBuilder.initialize();
+		dataClass = dataClassBuilder.getDataClass();
+		
 		TopSelfBuilder topSelfBuilder = new TopSelfBuilder();
 		topSelfBuilder.initialize();
 		topSelf = topSelfBuilder.getTopSelf();
 		
-		TrueClassBuilder trueClassBuilder = new TrueClassBuilder();
+		TrueBuilder trueClassBuilder = new TrueBuilder();
 		trueClassBuilder.initialize();
 		trueClass = trueClassBuilder.getTrueClass();
 		defineGlobalConst("TRUE", RubyConstant.QTRUE);
 		
-		FalseClassBuilder falseClassBuilder = new FalseClassBuilder();
+		FalseBuilder falseClassBuilder = new FalseBuilder();
 		falseClassBuilder.initialize();		
 		falseClass = falseClassBuilder.getFalseClass();
 		defineGlobalConst("FALSE", RubyConstant.QFALSE);
 		
-		NilClassBuilder nilClassBuilder = new NilClassBuilder();
+		NilBuilder nilClassBuilder = new NilBuilder();
 		nilClassBuilder.initialize();
 		nilClass = nilClassBuilder.getNilClass();
 		defineGlobalConst("NIL", RubyConstant.QNIL);
 	}
 	
+	private static void initComparable() {
+		ComparableBuilder builder = new ComparableBuilder();
+		builder.initialize();
+		comparableModule = builder.getComparableModule();
+	}
+	
 	private static void initEnum() {
 		// init enum
-		EnumModuleBuilder builder = new EnumModuleBuilder();
+		EnumBuilder builder = new EnumBuilder();
 		builder.initialize();
 		enumerableModule = builder.getEnumModule();
+	}
+	
+	private static void initPrecision() {
+		PrecisionBuilder builder = new PrecisionBuilder();
+		builder.initialize();
+		precisionModule = builder.getPrecisionModule();
 	}
 	
 	private static void initException() {
@@ -164,49 +247,133 @@ public class RubyRuntime {
 		errnoModule = builder.getErrnoModule();
 	}
 	
+	private static void initThread() {
+		ThreadBuilder builder = new ThreadBuilder();
+		builder.initialize();
+		threadError = builder.getThreadError();
+		threadClass = builder.getThreadClass();
+		continuationClass = builder.getContinuationClass();
+		threadGroupClass = builder.getThreadGroupClass();
+	}
+	
 	private static void initNumeric() {
 		// init numeric
-		NumericClassBuilder numericClassBuilder = new NumericClassBuilder();
+		NumericBuilder numericClassBuilder = new NumericBuilder();
 		numericClassBuilder.initialize();
+		zeroDivError = numericClassBuilder.getZeroDivError();
+		floatDomainError = numericClassBuilder.getFloatDomainError();
 		numericClass = numericClassBuilder.getNumericClass();
 		
-		IntegerClassBuilder integerClassBuilder = new IntegerClassBuilder();
+		IntegerBuilder integerClassBuilder = new IntegerBuilder();
 		integerClassBuilder.initialize();		
 		integerClass = integerClassBuilder.getIntegerClass();
 		
-		FixnumClassBuilder fixnumClassBuilder = new FixnumClassBuilder();
+		FixnumBuilder fixnumClassBuilder = new FixnumBuilder();
 		fixnumClassBuilder.initialize();
 		fixnumClass = fixnumClassBuilder.getFixnumClass();
 		
-		FloatClassBuilder floatClassBuilder = new FloatClassBuilder();
+		FloatBuilder floatClassBuilder = new FloatBuilder();
 		floatClassBuilder.initialize();
 		floatClass = floatClassBuilder.getFloatClass();
 	}
 	
+	private static void initBignum() {
+		BignumBuilder builder = new BignumBuilder();
+		builder.initialize();
+		bignumClass = builder.getBignumClass();
+	}
+	
 	private static void initArray() {
 		// init array
-		ArrayClassBuilder builder = new ArrayClassBuilder();
+		ArrayBuilder builder = new ArrayBuilder();
 		builder.initialize();
 		arrayClass = builder.getArrayClass();
 	}
 	
 	private static void initHash() {
 		// init hash
-		HashClassBuilder builder = new HashClassBuilder();
+		HashBuilder builder = new HashBuilder();
 		builder.initialize();
 		hashClass = builder.getHashClass();
 	}
 	
+	private static void initStruct() {
+		StructBuilder builder = new StructBuilder();
+		builder.initialize();
+		structClass = builder.getStructClass();		
+	}
+	
+	private static void initRegexp() {
+		RegexpBuilder builder = new RegexpBuilder();
+		builder.initialize();
+		regexpError = builder.getRegexpError();
+		regexpClass = builder.getRegexpClass();
+		matchClass = builder.getMatchClass();
+	}
+	
+	private static void initRange() {
+		RangeBuilder builder = new RangeBuilder();
+		builder.initialize();
+		rangeClass = builder.getRangeClass();
+	}
+	
 	private static void initIO() {
-		IOClassBuilder builder = new IOClassBuilder();
+		IOBuilder builder = new IOBuilder();
 		builder.initialize();
 		ioError = builder.getIoError();
 		eofError = builder.getEofError();
 		ioClass = builder.getIoClass();
 		
-		FileClassBuilder fileClassBuilder = new FileClassBuilder();
+		FileBuilder fileClassBuilder = new FileBuilder();
 		fileClassBuilder.initialize();
 		fileClass = fileClassBuilder.getFileClass();
+		fileTestModule = fileClassBuilder.getFileTestModule();
+	}
+	
+	private static void initDir() {
+		DirBuilder builder = new DirBuilder();
+		builder.initialize();
+		dirClass = builder.getDirClass();
+	}
+	
+	private static void initTime() {
+		TimeBuilder builder = new TimeBuilder();
+		builder.initialize();
+		timeClass = builder.getTimeClass();
+	}
+	
+	private static void initProcess() {
+		ProcessBuilder builder = new ProcessBuilder();
+		builder.initialize();
+		processModule = builder.getProcessModule();
+	}
+	
+	private static void initProc() {
+		ProcBuilder procClassBuilder = new ProcBuilder();
+		procClassBuilder.initialize();		
+		procClass = procClassBuilder.getProcClass();
+		
+		MethodBuilder methodClassBuilder = new MethodBuilder();
+		methodClassBuilder.initialize();
+		methodClass = methodClassBuilder.getMethodClass();
+		unboundMethodClass = methodClassBuilder.getUnboundMethodClass();
+	}
+	
+	private static void initBinding() {
+		BindingBuilder builder = new BindingBuilder();
+		builder.initialize();
+		bindingClass = builder.getBindingClass(); 
+	}
+	
+	private static void initMath() {
+		MathBuilder builder = new MathBuilder();
+		builder.initialize();
+		mathModule = builder.getMathModule();
+	}
+	
+	private static void initMarshal() {
+		MarshalBuilder builder = new MarshalBuilder();
+		builder.initialize();
 	}
 	
 	// API: Defining Classes

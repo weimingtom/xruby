@@ -3,7 +3,7 @@ package com.xruby.newruntime.builtin;
 import com.xruby.newruntime.lang.RubyClass;
 import com.xruby.newruntime.lang.RubyRuntime;
 
-public class ArrayClassBuilder implements ClassBuilder {
+public class ArrayBuilder implements ExtensionBuilder {
 	private RubyClass arrayClass;
 	
 	public RubyClass getArrayClass() {

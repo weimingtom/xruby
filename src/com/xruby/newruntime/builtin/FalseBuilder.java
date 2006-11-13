@@ -10,7 +10,7 @@ import com.xruby.newruntime.lang.RubyUtil;
 import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyString;
 
-public class FalseClassBuilder implements ClassBuilder {
+public class FalseBuilder implements ExtensionBuilder {
 	private RubyClass falseClass;
 	
 	public RubyClass getFalseClass() {

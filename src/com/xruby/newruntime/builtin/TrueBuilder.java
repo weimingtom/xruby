@@ -10,7 +10,7 @@ import com.xruby.newruntime.lang.RubyUtil;
 import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyString;
 
-public class TrueClassBuilder implements ClassBuilder {
+public class TrueBuilder implements ExtensionBuilder {
 	private RubyClass trueClass;
 	
 	public RubyClass getTrueClass() {

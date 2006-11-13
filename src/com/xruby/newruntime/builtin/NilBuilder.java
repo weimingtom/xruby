@@ -9,7 +9,7 @@ import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyFixnum;
 import com.xruby.newruntime.value.RubyString;
 
-public class NilClassBuilder implements ClassBuilder {
+public class NilBuilder implements ExtensionBuilder {
 	private RubyClass nilClass;
 	
 	public RubyClass getNilClass() {

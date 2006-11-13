@@ -13,10 +13,10 @@ import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.lang.StringMap;
 import com.xruby.newruntime.value.RubyString;
 
-public class SymbolClassBuilder {
+public class SymbolBuilder {
 	private RubyClass symbolClass;
 	
-	public SymbolClassBuilder() {
+	public SymbolBuilder() {
 		initialize();
 	}
 	

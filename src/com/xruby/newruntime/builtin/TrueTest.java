@@ -2,7 +2,7 @@ package com.xruby.newruntime.builtin;
 
 import junit.framework.TestCase;
 
-public class TrueClassTest extends TestCase {
+public class TrueTest extends TestCase {
 	public void testAnd() {		
 	}
 	

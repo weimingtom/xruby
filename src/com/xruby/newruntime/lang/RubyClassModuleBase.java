@@ -28,7 +28,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	// method
 	public void defineAllocMethod(RubyMethod method) {
 		RubyClass metaClass = RubyUtil.classof(this);
-		metaClass.addMethod(RubyID.ID_ALLOCATOR, method, 0, RubyMethodAttr.PRIVATE);
+		metaClass.addMethod(RubyID.ID_ALLOCATOR, method, -1, RubyMethodAttr.PRIVATE);
 	}
 	
 	public void defineMethod(String name, RubyMethod method, int argc) {

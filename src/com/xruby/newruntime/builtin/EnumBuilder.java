@@ -3,7 +3,7 @@ package com.xruby.newruntime.builtin;
 import com.xruby.newruntime.lang.RubyModule;
 import com.xruby.newruntime.lang.RubyRuntime;
 
-public class EnumModuleBuilder implements ClassBuilder {
+public class EnumBuilder implements ExtensionBuilder {
 	private RubyModule enumModule;
 
 	public RubyModule getEnumModule() {

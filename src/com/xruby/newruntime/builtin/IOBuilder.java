@@ -10,7 +10,7 @@ import com.xruby.newruntime.value.RubyFile;
 import com.xruby.newruntime.value.RubyFixnum;
 import com.xruby.newruntime.value.RubyIO;
 
-public class IOClassBuilder implements ClassBuilder {
+public class IOBuilder implements ExtensionBuilder {
 	private RubyClass ioError;
 	private RubyClass eofError;
 	private RubyClass ioClass;	

@@ -8,7 +8,7 @@ import com.xruby.newruntime.lang.RubyNoArgMethod;
 import com.xruby.newruntime.lang.RubyRuntime;
 import com.xruby.newruntime.lang.RubyValue;
 
-public class ExceptionBuilder implements ClassBuilder {
+public class ExceptionBuilder implements ExtensionBuilder {
 	private RubyClass exceptionException;
 	private RubyClass systemExitException;
 	private RubyClass fatalException;

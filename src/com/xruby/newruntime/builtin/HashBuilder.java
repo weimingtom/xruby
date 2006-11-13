@@ -12,7 +12,7 @@ import com.xruby.newruntime.value.RubyFixnum;
 import com.xruby.newruntime.value.RubyHash;
 import com.xruby.newruntime.value.RubyArray;
 
-public class HashClassBuilder implements ClassBuilder {
+public class HashBuilder implements ExtensionBuilder {
 	private RubyClass hashClass;
 	
 	public RubyClass getHashClass() {

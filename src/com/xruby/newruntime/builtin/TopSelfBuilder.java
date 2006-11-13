@@ -6,7 +6,7 @@ import com.xruby.newruntime.lang.RubyRuntime;
 import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyString;
 
-public class TopSelfBuilder implements ClassBuilder {
+public class TopSelfBuilder implements ExtensionBuilder {
 	public RubyValue rbTopSelf;
 	
 	public void initialize() {

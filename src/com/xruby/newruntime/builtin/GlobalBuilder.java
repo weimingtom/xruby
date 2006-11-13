@@ -9,7 +9,7 @@ import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyString;
 import com.xruby.newruntime.value.RubyArray;
 
-public class GlobalBuilder implements ClassBuilder {
+public class GlobalBuilder implements ExtensionBuilder {
 	public void initialize() {
 		RubyRuntime.defineGlobalMethod("raise", GlobalMethod.raise, -1);
 		RubyRuntime.defineGlobalMethod("fail", GlobalMethod.raise, -1);

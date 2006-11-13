@@ -8,7 +8,7 @@ import com.xruby.newruntime.lang.RubyValue;
 import com.xruby.newruntime.value.RubyFloat;
 import com.xruby.newruntime.value.RubyString;
 
-public class FloatClassBuilder implements ClassBuilder {
+public class FloatBuilder implements ExtensionBuilder {
 	private RubyClass floatClass;
 	
 	public RubyClass getFloatClass() {
