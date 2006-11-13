@@ -4,10 +4,10 @@ import java.io.*;
 
 import com.xruby.runtime.lang.*;
 
-public class IOValue {
-	private RandomAccessFile file_ = null;
+public class RubyIO {
+	private RandomAccessFile file = null;
 
-	public IOValue(String filename, String mode) {
+	public RubyIO(String filename, String mode) {
 		open(filename, mode);
 	}
 	
@@ -21,34 +21,34 @@ public class IOValue {
 	}
 	
 	private boolean open(String filename, String mode) {
-		assert(null == file_);
+		assert(null == file);
 		try {
-			file_ = new RandomAccessFile(filename, translateMode(mode));
+			file = new RandomAccessFile(filename, translateMode(mode));
 			if (mode.equals("w")) {
-				file_.setLength(0);
+				file.setLength(0);
 			}
 			return true;
 		} catch (FileNotFoundException e) {
 			return false;
 		} catch (IOException e) {
-			file_ = null;
+			file = null;
 			return false;
 		}
 	}
 	
 	public boolean eof() {
 		try {
-			return file_.length() == file_.getFilePointer();
+			return file.length() == file.getFilePointer();
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
 		}
 	}
 	
 	public void close() {
-		if (null != file_) {
+		if (null != file) {
 			try {
-				file_.close();
-				file_ = null;
+				file.close();
+				file = null;
 			} catch (IOException e) {
 				//Do not care
 			}
@@ -56,12 +56,12 @@ public class IOValue {
 	}
 	
 	public boolean print(String s) {
-		if (null == file_) {
+		if (null == file) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 		
 		try {
-			file_.writeBytes(s);
+			file.writeBytes(s);
 			return true;
 		} catch (IOException e) {
 			return false;
@@ -69,15 +69,15 @@ public class IOValue {
 	}
 
 	private RubyValue readsTheEntireContents() throws IOException {
-		int size = (int)file_.length();//TODO converted long to int
+		int size = (int)file.length();//TODO converted long to int
 		byte[] buffer = new byte[size];
-		file_.read(buffer);
+		file.read(buffer);
 		return ObjectFactory.createString(new String(buffer));
 	}
 
 	private RubyValue readUntilSeperator(String separator) throws IOException {
 		//FIXME This is cheating, should read until separator
-		String s = file_.readLine();
+		String s = file.readLine();
 		if (null == s) {
 			return ObjectFactory.nilValue;
 		} else {
@@ -86,7 +86,7 @@ public class IOValue {
 	}
 	
 	public RubyValue gets(RubyValue separator) {
-		if (null == file_) {
+		if (null == file) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 
@@ -108,7 +108,7 @@ public class IOValue {
 	}
 	
 	public RubyValue read() {
-		if (null == file_) {
+		if (null == file) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 		
@@ -120,15 +120,15 @@ public class IOValue {
 	}
 	
 	public RubyValue read(long length) {
-		if (null == file_) {
+		if (null == file) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 		
 		try{
-			long size = file_.length();
+			long size = file.length();
 			size = Math.min(length, size);
 			byte[] buffer = new byte[(int)size];
-			file_.read(buffer);
+			file.read(buffer);
 			return ObjectFactory.createString(new String(buffer));
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
@@ -136,12 +136,12 @@ public class IOValue {
 	}
 	
 	public RubyValue read(int length, int offset) {
-		if (null == file_) {
+		if (null == file) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 		
 		try{
-			file_.seek(offset);
+			file.seek(offset);
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
 		}
