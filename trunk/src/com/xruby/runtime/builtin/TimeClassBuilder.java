@@ -20,7 +20,7 @@ class Time_to_f extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyTime t = (RubyTime)receiver.getValue();
-		return ObjectFactory.createFloat(t.getTime());
+		return ObjectFactory.createFloat((double)t.getTime() / 1000);
 	}
 }
 
@@ -31,7 +31,7 @@ class Time_to_i extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyTime t = (RubyTime)receiver.getValue();
-		return ObjectFactory.createFixnum((int)t.getTime());
+		return ObjectFactory.createFixnum((int)(t.getTime() / 1000));
 	}
 }
 
