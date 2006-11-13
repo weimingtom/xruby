@@ -25,6 +25,60 @@ test_ok($x == -815915283247897734345611269596115894272000000000)
 test_ok(2-(2**32) == -(2**32-2))
 test_ok(2**32 - 5 == (2**32-3)-2)
 
+$x = "110010".to_i(2)
+
+$x <<= 32
+32.times do |index|
+	test_ok($x[index] == 0)
+end
+test_ok($x[32] == 0)
+test_ok($x[33] == 1)
+test_ok($x[34] == 0)
+test_ok($x[35] == 0)
+test_ok($x[36] == 1)
+test_ok($x[37] == 1)
+test_ok($x[38] == 0)
+100.times do |index|
+	test_ok($x[38 + index] == 0)
+end
+
+
+$x = (1 << 50)
+$y = (1 << 40)
+test_ok($x.to_s == "1125899906842624")
+test_ok((-$x).to_s == "-1125899906842624")
+test_ok($y.to_s == "1099511627776")
+test_ok($x + $y == 1126999418470400)
+test_ok($x - $y == 1124800395214848)
+test_ok($x * $y == 1237940039285380274899124224)
+test_ok($x / $y == 1024)
+test_ok($y % $x == 1099511627776)
+test_ok($x ** 5 == 1809251394333065553493296640760748560207343510400633813116524750123642650624)
+
+test_ok(~$x == -1125899906842625)
+test_ok($x | $y == 1126999418470400)
+test_ok($x & $y == 0)
+test_ok($x ^ $y == 1126999418470400)
+test_ok($x << 3 == 9007199254740992)
+test_ok($x << -3 == 140737488355328)
+test_ok($x >> 3 == 140737488355328)
+test_ok($x >> -3 == 9007199254740992)
+
+$x = ($x ** $x)
+test_ok($x.class == Float)
+test_ok($x.to_s == "Infinity")
+
+
+test_ok(1.size == 4)
+test_ok((1 << 31).size == 4)
+test_ok((1 << 32).size == 8)
+test_ok((1 << 63).size == 8)
+test_ok((1 << 64).size == 12)
+
+$x = (1 << 33)
+test_ok($x == $x.to_i)
+#test_ok($x.object_id == $x.to_i.object_id)
+
 =begin
 $good = true;
 for i in 1000..1014

@@ -29,11 +29,24 @@ class Class_new extends RubyMethod {
 	}
 }
 
+class Class_operator_equal extends RubyMethod {
+	public Class_operator_equal() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		RubyClass value1 = (RubyClass)receiver.getValue();
+		RubyClass value2 = (RubyClass)args.get(0).getValue();
+		return ObjectFactory.createBoolean(value1 == value2);
+	}
+}
+
 public class ClassClassBuilder {
 	
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Class", RubyRuntime.ModuleClass);
 		c.defineMethod("new", new Class_new());
+		c.defineMethod("==", new Class_operator_equal());
 		return c;
 	}
 }

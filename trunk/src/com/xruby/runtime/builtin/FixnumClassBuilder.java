@@ -512,8 +512,8 @@ class Fixnum_to_f extends RubyMethod {
 	}
 }
 
-class Fixnum_star_star extends RubyMethod {
-	public Fixnum_star_star () {
+class Fixnum_operator_star_star extends RubyMethod {
+	public Fixnum_operator_star_star () {
 		super(1);
 	}
 	
@@ -564,6 +564,17 @@ class Fixnum_star_star extends RubyMethod {
 	}
 }
 
+class Fixnum_operator_bnot extends RubyMethod {
+	public Fixnum_operator_bnot() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		IntegerValue value1 = (IntegerValue)receiver.getValue();
+		return ObjectFactory.createFixnum(~value1.intValue());
+	}
+}
+
 public class FixnumClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
@@ -587,7 +598,8 @@ public class FixnumClassBuilder {
 		c.defineMethod(">=", new Fixnum_operator_greater_or_equal());
 		c.defineMethod("*", new Fixnum_operator_star());
 		c.defineMethod("to_f", new Fixnum_to_f());
-		c.defineMethod("**", new Fixnum_star_star());
+		c.defineMethod("**", new Fixnum_operator_star_star());
+		c.defineMethod("~", new Fixnum_operator_bnot());
 		return c;
 	}
 }

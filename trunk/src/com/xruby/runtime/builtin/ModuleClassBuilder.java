@@ -205,7 +205,4 @@ public class ModuleClassBuilder {
 		c.setAccessPublic();
 		return c;
 	}
-	
-	public static void initSingletonMethods() {
-	}
 }
