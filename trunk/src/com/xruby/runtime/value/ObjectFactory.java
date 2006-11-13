@@ -127,11 +127,11 @@ public class ObjectFactory {
 	}
 
 	public static RubyValue createBignum(BigInteger value) { 
-		return new RubyValue(RubyRuntime.BignumClass, new BignumValue(value)); 
+		return new RubyValue(RubyRuntime.BignumClass, new RubyBignum(value)); 
 	}
 	
 	public static RubyValue createInteger(String value, int radix) {
-		return BignumValue.bignorm(new BigInteger(value, radix));
+		return RubyBignum.bignorm(new BigInteger(value, radix));
 	}
 	
 	public static RubyValue createBoolean(boolean value) {
