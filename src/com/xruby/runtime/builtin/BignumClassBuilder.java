@@ -5,8 +5,8 @@ import java.math.BigInteger;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Bignum_new extends RubyMethod {
-	public Bignum_new() {
+class Bignum_initialize extends RubyMethod {
+	public Bignum_initialize() {
 		super(0, false, 2);
 	}
 
@@ -28,7 +28,8 @@ class Bignum_new extends RubyMethod {
 		else{
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
 		}
-		return ObjectFactory.createBignum(bigValue);*/
+		receiver.setValue(new BignumValue(bigValue));
+		return receiver;*/
 	}
 }
 
@@ -144,6 +145,17 @@ class Bignum_operator_bxor extends RubyMethod {
 	} 
 }
 
+class Bignum_operator_bnot extends RubyMethod { 
+	public Bignum_operator_bnot() {
+		super(0);
+	}
+
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		BignumValue value = (BignumValue)receiver.getValue();
+		return BignumValue.bignorm(value.getValue().not());
+	} 
+}
+
 class Bignum_operator_right_shift extends RubyMethod {
 	public Bignum_operator_right_shift() {
 		super(1);
@@ -221,6 +233,70 @@ class Bignum_to_f extends RubyMethod {
 	}
 }
 
+class Bignum_size extends RubyMethod {
+	public Bignum_size() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		BignumValue value1 = (BignumValue)receiver.getValue();
+		int alignedBytesCount = (((value1.getValue().bitLength() - 1) & -32) >> 3) + 4;
+		return ObjectFactory.createFixnum(alignedBytesCount);
+	}
+}
+
+class Bignum_get_bit extends RubyMethod {
+	public Bignum_get_bit() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		BignumValue value1 = (BignumValue)receiver.getValue();
+		IntegerValue index = (IntegerValue)args.get(0).getValue();
+		boolean flag = value1.getValue().testBit(index.intValue());
+		if (flag){
+			return ObjectFactory.createFixnum(1);
+		}
+		return ObjectFactory.createFixnum(0);
+	}
+}
+
+class Bignum_operator_star_star extends RubyMethod {
+	public Bignum_operator_star_star () {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		BigInteger value1 = ((BignumValue)receiver.getValue()).getValue();
+		Object value2 = args.get(0).getValue();
+		double floatValue2 = 0;
+		if (value2 instanceof BignumValue){
+			// TODO: output wraning: "in a**b, b may be too big"
+			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
+		}else if(value2 instanceof FloatValue){
+			floatValue2 = ((FloatValue)value2).doubleValue();
+		}else if(value2 instanceof IntegerValue){
+			int intValue2 = ((IntegerValue)value2).intValue();
+			if (intValue2 == 0){
+				return ObjectFactory.createFixnum(1);
+			}
+			if (intValue2 > 0){
+				if (value1.bitLength() * intValue2 > 1024 * 1024){
+					// TODO: output wraning: "in a**b, b may be too big"
+				}else{
+					BigInteger result = value1.pow(intValue2);
+					return ObjectFactory.createBignum(result);
+				}
+			}
+			floatValue2 = intValue2;
+		}else{
+			// TODO: coerce args(0) into star-star
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Bignum cannot star-star with " + args.get(0).getRubyClass().getName());
+		}
+		return ObjectFactory.createFloat(Math.pow(value1.doubleValue(), floatValue2));
+	}
+}
+
 public class BignumClassBuilder {
 	public static RubyClass create(){
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Bignum", RubyRuntime.IntegerClass);
@@ -237,11 +313,11 @@ public class BignumClassBuilder {
 		c.defineMethod("<<", new Bignum_operator_left_shift());
 		c.defineMethod("<=>", new Bignum_operator_compare());
 		c.defineMethod("to_f",  new Bignum_to_f());
+		c.defineMethod("size",  new Bignum_size());
+		c.defineMethod("~",  new Bignum_operator_bnot());
+		c.defineMethod("[]",  new Bignum_get_bit());
+		c.defineMethod("**",  new Bignum_operator_star_star());
+		c.defineMethod("initialize",  new Bignum_initialize());
 		return c;
-	}
-	
-	public static void initSingletonMethods() {
-		RubyMethod m = new Bignum_new();
-		ObjectFactory.BignumClassValue.defineMethod("new", m);
 	}
 }

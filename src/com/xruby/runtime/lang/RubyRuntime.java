@@ -61,10 +61,7 @@ public class RubyRuntime {
 		}
 		
 		TopLevelSelfInitializer.initSingletonMethods();
-		ObjectClassBuilder.initSingletonMethods();
-		ModuleClassBuilder.initSingletonMethods();
 		TimeClassBuilder.initSingletonMethods();
-		BignumClassBuilder.initSingletonMethods();
 		IOClassBuilder.initSingletonMethods();
 		FileClassBuilder.initSingletonMethods();
 		

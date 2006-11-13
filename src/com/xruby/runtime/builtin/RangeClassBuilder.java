@@ -37,6 +37,26 @@ class Range_exclude_end extends RubyMethod {
 	}
 }
 
+class Range_initialize extends RubyMethod {
+	public Range_initialize() {
+		super(3, false, 1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+		RubyValue left = args.get(0);
+		RubyValue right = args.get(1);
+		boolean isExclusive = false;
+		if (args.size() == 3){
+			RubyValue exclusive = args.get(2);
+			if (exclusive != ObjectFactory.nilValue && exclusive != ObjectFactory.falseValue){
+				isExclusive = true;
+			}
+		}
+		receiver.setValue(ObjectFactory.createRange(left, right, isExclusive).getValue());
+		return receiver;
+	}
+}
+
 public class RangeClassBuilder {
 	
 	public static RubyClass create() {
@@ -46,6 +66,7 @@ public class RangeClassBuilder {
 		c.defineMethod("begin", new Range_begin());
 		c.defineMethod("end", new Range_end());
 		c.defineMethod("exclude_end?", new Range_exclude_end());
+		c.defineMethod("initialize", new Range_initialize());
 		return c;
 	}
 }

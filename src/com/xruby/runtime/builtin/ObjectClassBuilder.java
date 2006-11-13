@@ -28,7 +28,4 @@ public class ObjectClassBuilder {
 		c.defineMethod("==", new Object_operator_equal());
 		return c;
 	}
-	
-	public static void initSingletonMethods() {
-	}
 }

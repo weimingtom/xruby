@@ -129,12 +129,20 @@ class String_to_f extends RubyMethod {
 
 class String_to_i extends RubyMethod {
 	public String_to_i() {
-		super(0);
+		super(1, false, 1);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		StringValue value = (StringValue)receiver.getValue();
-		return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
+		if (args == null || args.size() == 0){
+			return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
+		}else{
+			int radix = ((IntegerValue)args.get(0).getValue()).intValue();
+			if (radix >= 2 && radix <= 36){
+				return ObjectFactory.createFixnum(Integer.valueOf(value.toString(), radix));
+			}
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
+		}
 	}
 }
 
@@ -292,6 +300,7 @@ class String_operator_compare extends RubyMethod {
 		return ObjectFactory.createFixnum(compare);
 	}
 }
+
 
 public class StringClassBuilder {
 	public static RubyClass create() {
