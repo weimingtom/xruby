@@ -30,7 +30,8 @@ public class RubyCompilerTest extends TestCase {
 			try {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
 				assertTrue(null != codes);
-				RubyValue v = codes.run();
+				RubyProgram p = (RubyProgram)codes.getRubyProgram();
+				RubyValue v = p.run();
 				IntegerValue r = (IntegerValue)v.getValue();
 				assertEquals(results[i], r.intValue());
 			} catch (Exception e) {
@@ -49,7 +50,8 @@ public class RubyCompilerTest extends TestCase {
 			try {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
 				assertTrue(null != codes);
-				codes.run();
+				RubyProgram p = (RubyProgram)codes.getRubyProgram();
+				p.run();
 				assertTrue("Error at " + i + ": should throw RubyException", false);
 			} catch (RubyException e) {
 				assertEquals(exceptions[i], e);
@@ -70,13 +72,14 @@ public class RubyCompilerTest extends TestCase {
 			try {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
 				assertTrue(null != codes);
+				RubyProgram p = (RubyProgram)codes.getRubyProgram();
 
 				ByteArrayOutputStream output = new ByteArrayOutputStream();
 				PrintStream original = System.out;
 				System.setOut(new PrintStream(output));
 
-				codes.run();
-
+				p.run();
+				
 				System.setOut(original);
 
 				assertEquals("Failed at " + i, outputs[i], output.toString());
@@ -101,8 +104,9 @@ public class RubyCompilerTest extends TestCase {
 		RubyCompiler compiler = new RubyCompiler();
 		CompilationResults codes = compiler.compile(new StringReader(program_texts));
 		assertTrue(null != codes);
+		RubyProgram p = (RubyProgram)codes.getRubyProgram();
 		try {
-			codes.run();
+			p.run();
 		} catch (RubyException e) {
 			RubyValue v = e.getRubyValue();
 			assertEquals(v.getRubyClass(), RubyRuntime.RuntimeErrorClass);

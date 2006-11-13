@@ -28,8 +28,8 @@ class Kernel_eval extends RubyMethod {
 
 		try {
 			CompilationResults codes = compiler.compile(new StringReader(program_text.toString()));
-			RubyValue v = codes.run();
-			return v;
+			RubyProgram p = (RubyProgram)codes.getRubyProgram();
+			return p.run();
 		} catch (RecognitionException e) {
 			throw new RubyException(e.toString());
 		} catch (TokenStreamException e) {
