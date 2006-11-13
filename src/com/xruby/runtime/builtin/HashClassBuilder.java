@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
@@ -48,7 +48,7 @@ class Hash_hash_access extends RubyMethod {
 
             return retValue;
         }
-		
+
 		//TODO
 		throw new RubyException("not implemented");
 	}
@@ -67,7 +67,7 @@ class Hash_hash_set extends RubyMethod {
 }
 
 class Hash_to_s extends RubyMethod {
-    
+
     public Hash_to_s() {
         super(0);
     }
@@ -75,6 +75,20 @@ class Hash_to_s extends RubyMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyHash value = (RubyHash) receiver.getValue();
 		return value.to_s();
+    }
+}
+
+class Hash_each extends RubyMethod {
+
+    public Hash_each() {
+        super(0);
+    }
+
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyHash hash = (RubyHash)receiver.getValue();
+        hash.rb_iterate(receiver, block);
+
+        return receiver;
     }
 }
 
@@ -101,20 +115,24 @@ class Hash_initialize extends RubyMethod {
 
 
         receiver.setValue(hash);
-        
+
         return receiver;
     }
 }
 
 public class HashClassBuilder {
-    
+
     public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Hash", RubyRuntime.ObjectClass);
         c.defineMethod("length", new Hash_length());
 		c.defineMethod("[]", new Hash_hash_access());
 		c.defineMethod("[]=", new Hash_hash_set());
+        c.defineMethod("each", new Hash_each());
         c.defineMethod("to_s", new Hash_to_s());
         c.defineMethod("initialize", new Hash_initialize());
+
+        c.includeModule(EnumerableBuilder.create());
+
         return c;
 	}
 }

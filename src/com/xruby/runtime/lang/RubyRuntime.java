@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
@@ -10,7 +10,7 @@ import com.xruby.runtime.builtin.*;
 import com.xruby.runtime.value.*;
 
 public class RubyRuntime {
-	
+
 	//For performance reason we provide direct access(static public field) for most builtin types.
 	//Note: order is important: should creare parent classes first!
 	public static RubyModule GlobalScope = new RubyModule(null);
@@ -38,9 +38,9 @@ public class RubyRuntime {
 	public static RubyClass MethodClass = MethodClassBuilder.create();
 	public static RubyClass TimeClass = TimeClassBuilder.create();
 	public static RubyClass MatchDataClass = MatchDataClassBuilder.create();
-	
+
 	public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", ObjectClass);
-	
+
 	public static RubyClass StandardErrorClass = GlobalScope.defineNewClass("StandardError", ExceptionClass);
 	public static RubyClass TypeErrorClass = GlobalScope.defineNewClass("TypeError", StandardErrorClass);
 	public static RubyClass ArgumentErrorClass = GlobalScope.defineNewClass("ArgumentError", StandardErrorClass);
@@ -49,22 +49,24 @@ public class RubyRuntime {
 	public static RubyClass NameErrorClass = GlobalScope.defineNewClass("NameError", StandardErrorClass);
 	public static RubyClass NoMethodErrorClass = GlobalScope.defineNewClass("NoMethodError", NameErrorClass);
 	public static RubyClass IOErrorClass = GlobalScope.defineNewClass("IOError", StandardErrorClass);
-	
+
 	public static RubyClass RuntimeErrorClass = GlobalScope.defineNewClass("RuntimeError", StandardErrorClass);
 	public static RubyClass LocalJumpErrorClass = GlobalScope.defineNewClass("LocalJumpError", StandardErrorClass);
-	
-	private static boolean builtin_initialized_ = false;
-	
+
+    public static RubyModule EnumModule = EnumerableBuilder.create();
+
+    private static boolean builtin_initialized_ = false;
+
 	public static void initBuiltin() {
 		if (builtin_initialized_) {
 			return;
 		}
-		
+
 		TopLevelSelfInitializer.initSingletonMethods();
 		TimeClassBuilder.initSingletonMethods();
 		IOClassBuilder.initSingletonMethods();
 		FileClassBuilder.initSingletonMethods();
-		
+
 		try {
 			Class c = Class.forName("builtin.main");
 			Object o = c.newInstance();
@@ -79,7 +81,7 @@ public class RubyRuntime {
 			System.exit(-1);
 		}
 	}
-		
+
 	public static boolean testTrueFalse(RubyValue value) {
 		//only 'nil' and 'false' is false.
 		if (value.getRubyClass() == FalseClassClass) {
@@ -111,13 +113,13 @@ public class RubyRuntime {
 
 		return false;
 	}
-	
+
 	public static boolean isKindOf(RubyValue class_to_compare, RubyValue value) {
 		return value.getRubyClass().isKindOf((RubyClass)class_to_compare.getValue());
 	}
 
 	public static boolean isInstanceOf(RubyValue class_to_compare, RubyValue value) {
-		return (value.getRubyClass() == (RubyClass)class_to_compare.getValue());
+		return (value.getRubyClass() == class_to_compare.getValue());
 	}
 
 	//receiver is implicit self
@@ -140,7 +142,7 @@ public class RubyRuntime {
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}
-		
+
 		return m.invoke(receiver, args, block);
 	}
 
@@ -160,12 +162,12 @@ public class RubyRuntime {
 			return ObjectFactory.trueValue;
 		}
 	}
-	
+
 	public static RubyValue runCommandAndCaptureOutput(String value) {
 		try {
 			Process p = Runtime.getRuntime().exec(value);
 			StringBuilder output = new StringBuilder();
-			
+
 			BufferedReader stderr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 			String line;
 			while ((line = stderr.readLine()) != null) {
@@ -180,7 +182,7 @@ public class RubyRuntime {
 				output.append("\n");
 			}
 			stdout.close();
-			
+
 			return ObjectFactory.createString(output.toString());
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.ExceptionClass, e.toString());
@@ -205,7 +207,7 @@ public class RubyRuntime {
 
 		return v;
 	}
-	
+
 	public static RubyArray expandArrayIfThereIsOnlyOneRubyArray(RubyArray a) {
 		if (a.size() == 1 &&
 				a.get(0).getValue() instanceof RubyArray) {
