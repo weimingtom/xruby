@@ -99,22 +99,6 @@ public class RubyArray implements Iterable<RubyValue> {
 		}
 	}
 	
-	/*public RubyArray subarray(RangeValue range) {
-		int left = range.getLeft();
-		if (left < 0) {
-			left += array.size();
-		}
-		int right = range.getRight();
-		if (right < 0) {
-			right += array.size();
-		}
-		
-		int length = right - left + 1;
-		length = length > 0 ? length : 0;
-		
-		return subarray(left, length);
-	}*/
-	
 	public RubyArray subarray(int begin, int length) {
 		int arraySize = array.size();
 		if (begin > arraySize) {
