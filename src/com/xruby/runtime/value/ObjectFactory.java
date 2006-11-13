@@ -85,7 +85,7 @@ public class ObjectFactory {
 	}
 
 	public static RubyValue createFile(String filename, String mode) {
-		return new RubyValue(RubyRuntime.FileClass, new IOValue(filename, mode));
+		return new RubyValue(RubyRuntime.FileClass, new RubyIO(filename, mode));
 	}
 	
 	public static RubyValue createMethod(RubyValue r, String s, RubyMethod m) {

@@ -2881,7 +2881,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_IO_gets() {
 		
-		IOValue out = new IOValue("test_IO_gets.txt", "w");
+		RubyIO out = new RubyIO("test_IO_gets.txt", "w");
 		out.print("line 1\n");
 		out.print("line 2");
 		out.close();

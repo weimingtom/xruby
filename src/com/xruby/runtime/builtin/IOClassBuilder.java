@@ -21,7 +21,7 @@ class IO_write extends RubyMethod {
 			value = (RubyString) str.getValue();
 		}
 		
-		IOValue io = (IOValue)receiver.getValue();
+		RubyIO io = (RubyIO)receiver.getValue();
 		if (null == io) {
 			System.out.print(value.toString());
 		} else {
@@ -46,7 +46,7 @@ class IO_close extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		IOValue io = (IOValue)receiver.getValue();
+		RubyIO io = (RubyIO)receiver.getValue();
 		if (null != io) {
 			//not stdout, stderr, stdin
 			io.close();
@@ -61,7 +61,7 @@ class IO_gets extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		IOValue io = (IOValue)receiver.getValue();
+		RubyIO io = (RubyIO)receiver.getValue();
 		if (null != io) {
 			RubyValue seperator = (null == args) ?  GlobalVariables.INPUT_RECORD_SEPARATOR : args.get(0);
 			GlobalVariables.LAST_READ_LINE = io.gets(seperator);
@@ -80,7 +80,7 @@ class IO_eof extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		IOValue io = (IOValue)receiver.getValue();
+		RubyIO io = (RubyIO)receiver.getValue();
 		if (io.eof()) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -96,7 +96,7 @@ class IO_read extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString fileName = (RubyString)args.get(0).getValue();
-		IOValue io = new IOValue(fileName.toString(), "r");
+		RubyIO io = new RubyIO(fileName.toString(), "r");
 		int offset;
 		int length;
 		if (args.size() == 1){
