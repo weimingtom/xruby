@@ -144,8 +144,8 @@ class MethodGenerator extends GeneratorAdapter {
 		
 	}
 	
-	public void new_StringValue() {
-		Type t = Type.getType(StringValue.class);
+	public void new_RubyString() {
+		Type t = Type.getType(RubyString.class);
 		newInstance(t);
 		dup();
 		invokeConstructor(t, Method.getMethod("void <init> ()"));
@@ -182,15 +182,15 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue collect(int)"));
 	}
 
-	public void StringValue_append(String value) {
+	public void RubyString_append(String value) {
 		push(value);
-		invokeVirtual(Type.getType(StringValue.class),
-				Method.getMethod("com.xruby.runtime.value.StringValue appendString(String)"));
+		invokeVirtual(Type.getType(RubyString.class),
+				Method.getMethod("com.xruby.runtime.value.RubyString appendString(String)"));
 	}
 
-	public void StringValue_append() {
-		invokeVirtual(Type.getType(StringValue.class),
-				Method.getMethod("com.xruby.runtime.value.StringValue appendString(com.xruby.runtime.lang.RubyValue)"));
+	public void RubyString_append() {
+		invokeVirtual(Type.getType(RubyString.class),
+				Method.getMethod("com.xruby.runtime.value.RubyString appendString(com.xruby.runtime.lang.RubyValue)"));
 	}
 	
 	public void HashValue_addValue() {
@@ -243,7 +243,7 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void ObjectFactory_createString() {
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(com.xruby.runtime.value.StringValue)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(com.xruby.runtime.value.RubyString)"));
 	}
 	
 	public void ObjectFactory_createRegexp(String value) {
@@ -253,7 +253,7 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 
 	public void ObjectFactory_createRegexp() {
-		invokeVirtual(Type.getType(StringValue.class),
+		invokeVirtual(Type.getType(RubyString.class),
 			Method.getMethod("String toString()"));
 		invokeStatic(Type.getType(ObjectFactory.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue createRegexp(String)"));
@@ -418,7 +418,7 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 
 	public void RubyRuntime_runCommandAndCaptureOutput() {
-		invokeVirtual(Type.getType(StringValue.class),
+		invokeVirtual(Type.getType(RubyString.class),
 			Method.getMethod("String toString()"));
 		invokeStatic(Type.getType(RubyRuntime.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));

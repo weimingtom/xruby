@@ -5,7 +5,7 @@ import java.io.File;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.StringValue;
+import com.xruby.runtime.value.RubyString;
 
 class File_is_file extends RubyMethod {
 	public File_is_file() {
@@ -13,7 +13,7 @@ class File_is_file extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		StringValue fileName = (StringValue)args.get(0).getValue();
+		RubyString fileName = (RubyString)args.get(0).getValue();
 		File file = new File(fileName.toString());
 		if (file.isFile()){
 			return ObjectFactory.trueValue;
@@ -28,7 +28,7 @@ class File_expand_path extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		StringValue fileName = (StringValue)args.get(0).getValue();
+		RubyString fileName = (RubyString)args.get(0).getValue();
 		File file = new File(fileName.toString());
 		return ObjectFactory.createString(file.getAbsolutePath());
 	}
@@ -40,7 +40,7 @@ class File_dirname extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		StringValue fileName = (StringValue)args.get(0).getValue();
+		RubyString fileName = (RubyString)args.get(0).getValue();
 		File file = new File(fileName.toString());
 		String parent = file.getParent();
 		if (parent == null){

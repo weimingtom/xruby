@@ -17,11 +17,11 @@ class Bignum_initialize extends RubyMethod {
 		if (args == null || args.size() == 0)
 			bigValue = new BigInteger("0");
 		else if (args.size() == 1){
-			StringValue str = (StringValue)args.get(0).getValue();
+			RubyString str = (RubyString)args.get(0).getValue();
 			bigValue = new BigInteger(str.toString());
 		}
 		else if (args.size() == 2){
-			StringValue str = (StringValue)args.get(0).getValue();
+			RubyString str = (RubyString)args.get(0).getValue();
 			IntegerValue radix = (IntegerValue)args.get(1).getValue();
 			bigValue = new BigInteger(str.toString(), radix.intValue());
 		}

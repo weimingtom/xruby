@@ -33,7 +33,7 @@ public class RegexpValue {
 		}
 	}
 	
-	public String gsub(StringValue str, StringValue repl) {
+	public String gsub(RubyString str, RubyString repl) {
 		return regex_.matcher(str.toString()).replaceAll(repl.toString());
 	}
 	

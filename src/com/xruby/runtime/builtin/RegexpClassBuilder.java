@@ -11,13 +11,13 @@ class Regexp_case_equal extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		Object o = args.get(0).getValue();
-		if (!(o instanceof StringValue)) {
+		if (!(o instanceof RubyString)) {
 			//not comparable
 			return ObjectFactory.falseValue;
 		}
 
 		RegexpValue r = (RegexpValue)receiver.getValue();
-		if (r.caseEqual(((StringValue)o).toString())) {
+		if (r.caseEqual(((RubyString)o).toString())) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -32,13 +32,13 @@ class Regexp_match extends RubyMethod {
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		Object o = args.get(0).getValue();
-		if (!(o instanceof StringValue)) {
+		if (!(o instanceof RubyString)) {
 			//not comparable
 			return ObjectFactory.falseValue;
 		}
 
 		RegexpValue r = (RegexpValue)receiver.getValue();
-		MatchDataValue m = r.match(((StringValue)o).toString());
+		MatchDataValue m = r.match(((RubyString)o).toString());
 		if (null == m) {
 			return ObjectFactory.nilValue;
 		} else {
@@ -54,13 +54,13 @@ class Regexp_match_operator extends RubyMethod {
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		Object o = args.get(0).getValue();
-		if (!(o instanceof StringValue)) {
+		if (!(o instanceof RubyString)) {
 			//not comparable
 			return ObjectFactory.falseValue;
 		}
 
 		RegexpValue r = (RegexpValue)receiver.getValue();
-		int p = r.matchPosition(((StringValue)o).toString());
+		int p = r.matchPosition(((RubyString)o).toString());
 		if (p < 0) {
 			return ObjectFactory.nilValue;
 		} else {

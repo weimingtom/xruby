@@ -30,7 +30,7 @@ public class HashValue {
 	}
 
     public RubyValue to_s() {
-		StringValue r = new StringValue();
+		RubyString r = new RubyString();
 
 		for (RubyValue key : map_.keySet()) {
             RubyValue value = map_.get(key);

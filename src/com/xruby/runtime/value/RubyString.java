@@ -2,18 +2,18 @@ package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
 
-public class StringValue {
+public class RubyString {
 	private StringBuilder sb_;
 	
-	public StringValue(String s) {
+	public RubyString(String s) {
 		sb_ = new StringBuilder(s);
 	}
 
-	public StringValue(StringBuilder sb) {
+	public RubyString(StringBuilder sb) {
 		sb_ = sb;
 	}
 	
-	public StringValue() {
+	public RubyString() {
 		sb_ = new StringBuilder();
 	}
 	
@@ -25,14 +25,14 @@ public class StringValue {
 		return sb_.length();
 	}
 	
-	public StringValue appendString(String v) {
+	public RubyString appendString(String v) {
 		sb_.append(v);
 		return this;
 	}
 
-	public StringValue appendString(RubyValue v) {
+	public RubyString appendString(RubyValue v) {
 		RubyValue r = RubyRuntime.callPublicMethod(v, null, null, "to_s");
-		return appendString(((StringValue)r.getValue()).toString());
+		return appendString(((RubyString)r.getValue()).toString());
 	}
 	
 	//Modifies str by converting the first character to uppercase and the remainder to lowercase.

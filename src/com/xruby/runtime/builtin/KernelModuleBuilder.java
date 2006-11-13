@@ -24,7 +24,7 @@ class Kernel_eval extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyCompiler compiler = new RubyCompiler();
-		StringValue program_text = (StringValue)args.get(0).getValue();
+		RubyString program_text = (RubyString)args.get(0).getValue();
 
 		try {
 			CompilationResults codes = compiler.compile(new StringReader(program_text.toString()));
@@ -54,11 +54,11 @@ class Kernel_puts extends RubyMethod {
 			if (ObjectFactory.nilValue == arg) {
 				System.out.println("nil");
 			} else if (RubyRuntime.StringClass == arg.getRubyClass()){
-				StringValue value = (StringValue)arg.getValue();
+				RubyString value = (RubyString)arg.getValue();
 				System.out.println(value.toString());
 			} else {
 				RubyValue str = RubyRuntime.callPublicMethod(arg, null, null, "to_s");
-				StringValue value = (StringValue)str.getValue();
+				RubyString value = (RubyString)str.getValue();
 				System.out.println(value.toString());
 			}
 		}
@@ -119,7 +119,7 @@ class Kernel_printf extends RubyMethod {
 			}
 		}
 
-		String fmt = ((StringValue)args.get(0).getValue()).toString();
+		String fmt = ((RubyString)args.get(0).getValue()).toString();
 		System.out.printf(fmt, raw_args);
 		return ObjectFactory.nilValue;
 	}
@@ -135,11 +135,11 @@ class Kernel_p extends RubyMethod {
 			if (ObjectFactory.nilValue == arg) {
 				System.out.println("nil");
 			} else if (RubyRuntime.StringClass == arg.getRubyClass()){
-				StringValue value = (StringValue)arg.getValue();
+				RubyString value = (RubyString)arg.getValue();
 				System.out.println(value.toString());
 			} else {
 				RubyValue str = RubyRuntime.callPublicMethod(arg, null, null, "inspect");
-				StringValue value = (StringValue)str.getValue();
+				RubyString value = (RubyString)str.getValue();
 				System.out.println(value.toString());
 			}
 		}
@@ -192,7 +192,7 @@ class Kernel_raise extends RubyMethod {
 			throw new RubyException("not implemented!");
 		} else if (1 == args.size() && (args.get(0).getRubyClass() == RubyRuntime.StringClass)) {
 			//With a single String argument, raises a RuntimeError with the string as a message.
-			throw new RubyException(RubyRuntime.RuntimeErrorClass, ((StringValue)args.get(0).getValue()).toString());
+			throw new RubyException(RubyRuntime.RuntimeErrorClass, ((RubyString)args.get(0).getValue()).toString());
 		} else {
 			//TODO Otherwise, the first parameter should be the name of an Exception class
 			//(or an object that returns an Exception when sent exception). The optional second
@@ -258,7 +258,7 @@ class Kernel_require extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		StringValue required_file = (StringValue)args.get(0).getValue();
+		RubyString required_file = (RubyString)args.get(0).getValue();
 		File filename = NameFactory.find_corresponding_jar_file(required_file.toString(), null);//TODO search $:
 		if (null == filename) {
 			return ObjectFactory.falseValue;
@@ -340,11 +340,11 @@ class Kernel_open extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		StringValue filename = (StringValue)args.get(0).getValue();
+		RubyString filename = (RubyString)args.get(0).getValue();
 		if (args.size() <= 1) {
 			return ObjectFactory.createFile(filename.toString(), "r");
 		} else {
-			StringValue mode = (StringValue)args.get(1).getValue();
+			RubyString mode = (RubyString)args.get(1).getValue();
 			return ObjectFactory.createFile(filename.toString(), mode.toString());
 		}
 	}
