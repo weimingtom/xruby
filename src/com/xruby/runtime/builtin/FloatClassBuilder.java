@@ -29,8 +29,8 @@ class Float_operator_minus extends RubyMethod {
 		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
-		if (value2 instanceof BignumValue){
-			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
+		if (value2 instanceof RubyBignum){
+			floatValue2 = ((RubyBignum)value2).getValue().doubleValue();
 		}else if(value2 instanceof RubyFixnum){
 			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
@@ -52,8 +52,8 @@ class Float_operator_compare extends RubyMethod {
 		RubyFloat value1 = (RubyFloat)receiver.getValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
-		if (value2 instanceof BignumValue){
-			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
+		if (value2 instanceof RubyBignum){
+			floatValue2 = ((RubyBignum)value2).getValue().doubleValue();
 		}
 		else if (value2 instanceof RubyFixnum){
 			floatValue2 = ((RubyFixnum)value2).intValue();
@@ -115,7 +115,7 @@ class Float_truncate extends RubyMethod {
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
 			return ObjectFactory.createFixnum((int)value);
 		}
-		return BignumValue.bignorm(BigDecimal.valueOf(value).toBigInteger());
+		return RubyBignum.bignorm(BigDecimal.valueOf(value).toBigInteger());
 	}
 }
 
@@ -130,7 +130,7 @@ class Float_round extends RubyMethod {
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
 			return ObjectFactory.createFixnum((int)value);
 		}
-		return BignumValue.bignorm(BigDecimal.valueOf(value).toBigInteger());
+		return RubyBignum.bignorm(BigDecimal.valueOf(value).toBigInteger());
 	}
 }
 
@@ -143,8 +143,8 @@ class Float_operator_mod extends RubyMethod {
 		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
-		if (value2 instanceof BignumValue){
-			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
+		if (value2 instanceof RubyBignum){
+			floatValue2 = ((RubyBignum)value2).getValue().doubleValue();
 		}else if(value2 instanceof RubyFixnum){
 			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
@@ -168,8 +168,8 @@ class Float_operator_plus extends RubyMethod {
 		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
-		if (value2 instanceof BignumValue){
-			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
+		if (value2 instanceof RubyBignum){
+			floatValue2 = ((RubyBignum)value2).getValue().doubleValue();
 		}else if(value2 instanceof RubyFixnum){
 			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
@@ -191,8 +191,8 @@ class Float_operator_star extends RubyMethod {
 		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
-		if (value2 instanceof BignumValue){
-			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
+		if (value2 instanceof RubyBignum){
+			floatValue2 = ((RubyBignum)value2).getValue().doubleValue();
 		}else if(value2 instanceof RubyFixnum){
 			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
@@ -214,8 +214,8 @@ class Float_operator_div extends RubyMethod {
 		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
-		if (value2 instanceof BignumValue){
-			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
+		if (value2 instanceof RubyBignum){
+			floatValue2 = ((RubyBignum)value2).getValue().doubleValue();
 		}else if(value2 instanceof RubyFixnum){
 			floatValue2 = ((RubyFixnum)value2).intValue();
 		}else if(value2 instanceof RubyFloat){
