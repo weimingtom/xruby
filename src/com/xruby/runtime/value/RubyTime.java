@@ -10,6 +10,6 @@ public class RubyTime {
 	}
 	
 	public long getTime() {
-		return date_.getTime() / 1000;
+		return date_.getTime();
 	}
 }
