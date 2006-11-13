@@ -53,8 +53,8 @@ public class BignumValue {
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().multiply(bigValue);
 		}
-		else if (value instanceof FloatValue){
-			FloatValue floatValue = (FloatValue)value;
+		else if (value instanceof RubyFloat){
+			RubyFloat floatValue = (RubyFloat)value;
 			double ret = getValue().doubleValue() * floatValue.doubleValue();
 			return ObjectFactory.createFloat(ret);
 		}
@@ -76,8 +76,8 @@ public class BignumValue {
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().divide(bigValue);
 		}
-		else if (value instanceof FloatValue){
-			FloatValue floatValue = (FloatValue)value;
+		else if (value instanceof RubyFloat){
+			RubyFloat floatValue = (RubyFloat)value;
 			double ret = getValue().doubleValue() / floatValue.doubleValue();
 			return ObjectFactory.createFloat(ret);
 		}
@@ -99,8 +99,8 @@ public class BignumValue {
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().add(bigValue);
 		}
-		else if (value instanceof FloatValue){
-			FloatValue floatValue = (FloatValue)value;
+		else if (value instanceof RubyFloat){
+			RubyFloat floatValue = (RubyFloat)value;
 			double ret = getValue().doubleValue() + floatValue.doubleValue();
 			return ObjectFactory.createFloat(ret);
 		}
@@ -122,8 +122,8 @@ public class BignumValue {
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().subtract(bigValue);
 		}
-		else if (value instanceof FloatValue){
-			FloatValue floatValue = (FloatValue)value;
+		else if (value instanceof RubyFloat){
+			RubyFloat floatValue = (RubyFloat)value;
 			double ret = getValue().doubleValue() - floatValue.doubleValue();
 			return ObjectFactory.createFloat(ret);
 		}
@@ -145,9 +145,9 @@ public class BignumValue {
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().mod(bigValue);
 		}
-		else if (value instanceof FloatValue){
+		else if (value instanceof RubyFloat){
 			double floatValue1 = getValue().doubleValue();
-			double floatValue2 = ((FloatValue)value).doubleValue();
+			double floatValue2 = ((RubyFloat)value).doubleValue();
 			return ObjectFactory.createFloat(floatValue1 % floatValue2);
 		}
 		else{
@@ -168,8 +168,8 @@ public class BignumValue {
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().and(bigValue);
 		}
-		else if (value instanceof FloatValue){
-			double floatValue = ((FloatValue)value).doubleValue();
+		else if (value instanceof RubyFloat){
+			double floatValue = ((RubyFloat)value).doubleValue();
 			BigInteger bigValue = BigDecimal.valueOf(floatValue).toBigInteger();
 			result = getValue().and(bigValue);
 		}
@@ -191,8 +191,8 @@ public class BignumValue {
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().or(bigValue);
 		}
-		else if (value instanceof FloatValue){
-			double floatValue = ((FloatValue)value).doubleValue();
+		else if (value instanceof RubyFloat){
+			double floatValue = ((RubyFloat)value).doubleValue();
 			BigInteger bigValue = BigDecimal.valueOf(floatValue).toBigInteger();
 			result = getValue().or(bigValue);
 		}
@@ -214,8 +214,8 @@ public class BignumValue {
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
 			result = getValue().xor(bigValue);
 		}
-		else if (value instanceof FloatValue){
-			double floatValue = ((FloatValue)value).doubleValue();
+		else if (value instanceof RubyFloat){
+			double floatValue = ((RubyFloat)value).doubleValue();
 			BigInteger bigValue = BigDecimal.valueOf(floatValue).toBigInteger();
 			result = getValue().xor(bigValue);
 		}

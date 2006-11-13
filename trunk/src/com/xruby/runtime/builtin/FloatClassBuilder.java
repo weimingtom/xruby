@@ -15,8 +15,8 @@ class Float_to_s extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		FloatValue value = (FloatValue)receiver.getValue();
-		return ObjectFactory.createString(value.toString());
+		RubyFloat value = (RubyFloat)receiver.getValue();
+		return ObjectFactory.createString(Double.toString(value.doubleValue()));
 	}
 }
 
@@ -26,15 +26,15 @@ class Float_operator_minus extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double floatValue1 = ((FloatValue)receiver.getValue()).doubleValue();
+		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
 		}else if(value2 instanceof IntegerValue){
 			floatValue2 = ((IntegerValue)value2).intValue();
-		}else if(value2 instanceof FloatValue){
-			floatValue2 = ((FloatValue)value2).doubleValue();
+		}else if(value2 instanceof RubyFloat){
+			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
 			// TODO: coerce args(0) into minus
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot minus with " + args.get(0).getRubyClass().getName());
@@ -49,7 +49,7 @@ class Float_operator_compare extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		FloatValue value1 = (FloatValue)receiver.getValue();
+		RubyFloat value1 = (RubyFloat)receiver.getValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
@@ -58,8 +58,8 @@ class Float_operator_compare extends RubyMethod {
 		else if (value2 instanceof IntegerValue){
 			floatValue2 = ((IntegerValue)value2).intValue();
 		}
-		else if (value2 instanceof FloatValue){
-			floatValue2 = ((FloatValue)value2).doubleValue();
+		else if (value2 instanceof RubyFloat){
+			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}
 		else{
 			return ObjectFactory.nilValue;
@@ -81,7 +81,7 @@ class Float_floor extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double value = ((FloatValue)receiver.getValue()).doubleValue();
+		double value = ((RubyFloat)receiver.getValue()).doubleValue();
 		value = Math.floor(value);
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
 			return ObjectFactory.createFixnum((int)value);
@@ -96,7 +96,7 @@ class Float_ceil extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double value = ((FloatValue)receiver.getValue()).doubleValue();
+		double value = ((RubyFloat)receiver.getValue()).doubleValue();
 		value = Math.ceil(value);
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
 			return ObjectFactory.createFixnum((int)value);
@@ -111,7 +111,7 @@ class Float_truncate extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double value = ((FloatValue)receiver.getValue()).doubleValue();
+		double value = ((RubyFloat)receiver.getValue()).doubleValue();
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
 			return ObjectFactory.createFixnum((int)value);
 		}
@@ -125,7 +125,7 @@ class Float_round extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double value = ((FloatValue)receiver.getValue()).doubleValue();
+		double value = ((RubyFloat)receiver.getValue()).doubleValue();
 		value = Math.round(value);
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
 			return ObjectFactory.createFixnum((int)value);
@@ -140,15 +140,15 @@ class Float_operator_mod extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double floatValue1 = ((FloatValue)receiver.getValue()).doubleValue();
+		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
 		}else if(value2 instanceof IntegerValue){
 			floatValue2 = ((IntegerValue)value2).intValue();
-		}else if(value2 instanceof FloatValue){
-			floatValue2 = ((FloatValue)value2).doubleValue();
+		}else if(value2 instanceof RubyFloat){
+			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
 			// TODO: coerce args(0) into mod
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot mod with " + args.get(0).getRubyClass().getName());
@@ -165,15 +165,15 @@ class Float_operator_plus extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double floatValue1 = ((FloatValue)receiver.getValue()).doubleValue();
+		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
 		}else if(value2 instanceof IntegerValue){
 			floatValue2 = ((IntegerValue)value2).intValue();
-		}else if(value2 instanceof FloatValue){
-			floatValue2 = ((FloatValue)value2).doubleValue();
+		}else if(value2 instanceof RubyFloat){
+			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
 			// TODO: coerce args(0) into plus
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot plus with " + args.get(0).getRubyClass().getName());
@@ -188,15 +188,15 @@ class Float_operator_star extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double floatValue1 = ((FloatValue)receiver.getValue()).doubleValue();
+		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
 		}else if(value2 instanceof IntegerValue){
 			floatValue2 = ((IntegerValue)value2).intValue();
-		}else if(value2 instanceof FloatValue){
-			floatValue2 = ((FloatValue)value2).doubleValue();
+		}else if(value2 instanceof RubyFloat){
+			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
 			// TODO: coerce args(0) into star
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot star with " + args.get(0).getRubyClass().getName());
@@ -211,15 +211,15 @@ class Float_operator_div extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double floatValue1 = ((FloatValue)receiver.getValue()).doubleValue();
+		double floatValue1 = ((RubyFloat)receiver.getValue()).doubleValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;
 		if (value2 instanceof BignumValue){
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
 		}else if(value2 instanceof IntegerValue){
 			floatValue2 = ((IntegerValue)value2).intValue();
-		}else if(value2 instanceof FloatValue){
-			floatValue2 = ((FloatValue)value2).doubleValue();
+		}else if(value2 instanceof RubyFloat){
+			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
 			// TODO: coerce args(0) into div
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot div with " + args.get(0).getRubyClass().getName());
@@ -234,7 +234,7 @@ class Float_abs extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double value = ((FloatValue)receiver.getValue()).doubleValue();
+		double value = ((RubyFloat)receiver.getValue()).doubleValue();
 		return ObjectFactory.createFloat(Math.abs(value));
 	}
 }
@@ -245,7 +245,7 @@ class Float_finite extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double value = ((FloatValue)receiver.getValue()).doubleValue();
+		double value = ((RubyFloat)receiver.getValue()).doubleValue();
 		return ObjectFactory.createBoolean(!Double.isInfinite(value));
 	}
 }
@@ -256,7 +256,7 @@ class Float_infinite extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double value = ((FloatValue)receiver.getValue()).doubleValue();
+		double value = ((RubyFloat)receiver.getValue()).doubleValue();
 		if (value == Double.NEGATIVE_INFINITY){
 			return ObjectFactory.createFixnum(-1);
 		}else if(value == Double.POSITIVE_INFINITY){
@@ -273,7 +273,7 @@ class Float_nan extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double value = ((FloatValue)receiver.getValue()).doubleValue();
+		double value = ((RubyFloat)receiver.getValue()).doubleValue();
 		return ObjectFactory.createBoolean(Double.isNaN(value));
 	}
 }

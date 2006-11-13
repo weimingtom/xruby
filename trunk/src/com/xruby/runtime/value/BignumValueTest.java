@@ -2,7 +2,6 @@ package com.xruby.runtime.value;
 
 import java.math.BigInteger;
 
-import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 
@@ -74,16 +73,16 @@ public class BignumValueTest extends TestCase {
 		//  Bignum * Float = Float
 		a = ObjectFactory.createFloat(0.1);
 		result = v.op_mul(a);
-		assertEquals(result.getValue().getClass(), FloatValue.class);
-		FloatValue floatValue = (FloatValue)result.getValue();
+		assertEquals(result.getValue().getClass(), RubyFloat.class);
+		RubyFloat floatValue = (RubyFloat)result.getValue();
 		assertEquals(floatValue.doubleValue(), -100 * 0.1);
 		
 		// Bignum * Float = Float
 		v.setValue(new BigInteger("100000000000000000000"));
 		a = ObjectFactory.createFloat(0.1);
 		result = v.op_mul(a);
-		assertEquals(result.getValue().getClass(), FloatValue.class);
-		floatValue = (FloatValue)result.getValue();
+		assertEquals(result.getValue().getClass(), RubyFloat.class);
+		floatValue = (RubyFloat)result.getValue();
 		assertEquals(floatValue.doubleValue(), 1.0e19);
 	}
 }
