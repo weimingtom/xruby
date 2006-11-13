@@ -12,7 +12,7 @@ public class StringClassBuilderTest extends TestCase {
 
 	public void test_to_i() {
 		RubyValue str = ObjectFactory.createString("1234");
-		StringValue value = (StringValue)str.getValue();
+		RubyString value = (RubyString)str.getValue();
 		assertEquals("1234", value.toString());
 		RubyMethod m = str.findPublicMethod("to_i");
 		RubyValue result = m.invoke(str, null, null);
@@ -22,7 +22,7 @@ public class StringClassBuilderTest extends TestCase {
 	
 	public void test_to_f() {
 		RubyValue str = ObjectFactory.createString("0.1234");
-		StringValue value = (StringValue)str.getValue();
+		RubyString value = (RubyString)str.getValue();
 		assertEquals("0.1234", value.toString());
 		RubyMethod m = str.findPublicMethod("to_f");
 		RubyValue result = m.invoke(str, null, null);
@@ -32,37 +32,37 @@ public class StringClassBuilderTest extends TestCase {
 	
 	public void test_upcase() {
 		RubyValue str = ObjectFactory.createString("abcDe");
-		StringValue value = (StringValue)str.getValue();
+		RubyString value = (RubyString)str.getValue();
 		assertEquals(value.toString(), "abcDe");
 		RubyMethod m = str.findPublicMethod("upcase");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result != str);
 		assertEquals("abcDe", value.toString());
-		StringValue result_value = (StringValue)result.getValue();
+		RubyString result_value = (RubyString)result.getValue();
 		assertEquals("ABCDE", result_value.toString());
 		
 		str = ObjectFactory.createString("abcDe");
-		value = (StringValue)str.getValue();
+		value = (RubyString)str.getValue();
 		assertEquals(value.toString(), "abcDe");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
 		assertEquals("abcDe", value.toString());
-		result_value = (StringValue)result.getValue();
+		result_value = (RubyString)result.getValue();
 		assertEquals("ABCDE", result_value.toString());
 	}
 	
 	public void test_upcase_dangers() {
 		RubyValue str = ObjectFactory.createString("abcDe");
-		StringValue value = (StringValue)str.getValue();
+		RubyString value = (RubyString)str.getValue();
 		assertEquals("abcDe", value.toString());
 		RubyMethod m = str.findPublicMethod("upcase!");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		StringValue result_value = (StringValue)result.getValue();
+		RubyString result_value = (RubyString)result.getValue();
 		assertEquals("ABCDE", result_value.toString());
 		
 		str = ObjectFactory.createString("ABC");
-		value = (StringValue)str.getValue();
+		value = (RubyString)str.getValue();
 		assertEquals("ABC", value.toString());
 		result = m.invoke(str, null, null);
 		assertEquals("ABC", value.toString());
@@ -71,37 +71,37 @@ public class StringClassBuilderTest extends TestCase {
 
 	public void test_downcase() {
 		RubyValue str = ObjectFactory.createString("abcDe");
-		StringValue value = (StringValue)str.getValue();
+		RubyString value = (RubyString)str.getValue();
 		assertEquals(value.toString(), "abcDe");
 		RubyMethod m = str.findPublicMethod("downcase");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result != str);
 		assertEquals("abcDe", value.toString());
-		StringValue result_value = (StringValue)result.getValue();
+		RubyString result_value = (RubyString)result.getValue();
 		assertEquals("abcde", result_value.toString());
 		
 		str = ObjectFactory.createString("abcDe");
-		value = (StringValue)str.getValue();
+		value = (RubyString)str.getValue();
 		assertEquals(value.toString(), "abcDe");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
 		assertEquals("abcDe", value.toString());
-		result_value = (StringValue)result.getValue();
+		result_value = (RubyString)result.getValue();
 		assertEquals("abcde", result_value.toString());
 	}
 	
 	public void test_downcase_dangers() {
 		RubyValue str = ObjectFactory.createString("abcDe");
-		StringValue value = (StringValue)str.getValue();
+		RubyString value = (RubyString)str.getValue();
 		assertEquals("abcDe", value.toString());
 		RubyMethod m = str.findPublicMethod("downcase!");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		StringValue result_value = (StringValue)result.getValue();
+		RubyString result_value = (RubyString)result.getValue();
 		assertEquals("abcde", result_value.toString());
 		
 		str = ObjectFactory.createString("abc");
-		value = (StringValue)str.getValue();
+		value = (RubyString)str.getValue();
 		assertEquals("abc", value.toString());
 		result = m.invoke(str, null, null);
 		assertEquals("abc", value.toString());
@@ -113,22 +113,22 @@ public class StringClassBuilderTest extends TestCase {
 		RubyMethod m = str.findPublicMethod("capitalize");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result != str);
-		assertEquals("Abc", ((StringValue)result.getValue()).toString());
+		assertEquals("Abc", ((RubyString)result.getValue()).toString());
 		
 		str = ObjectFactory.createString("HELLO");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
-		assertEquals("Hello", ((StringValue)result.getValue()).toString());
+		assertEquals("Hello", ((RubyString)result.getValue()).toString());
 
 		str = ObjectFactory.createString("123ABC");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
-		assertEquals("123abc", ((StringValue)result.getValue()).toString());
+		assertEquals("123abc", ((RubyString)result.getValue()).toString());
 		
 		str = ObjectFactory.createString("Hello");
 		result = m.invoke(str, null, null);
 		assertTrue(result != str);
-		assertEquals("Hello", ((StringValue)result.getValue()).toString());
+		assertEquals("Hello", ((RubyString)result.getValue()).toString());
 	}
 	
 	public void test_capitalize_danger() {
@@ -136,22 +136,22 @@ public class StringClassBuilderTest extends TestCase {
 		RubyMethod m = str.findPublicMethod("capitalize!");
 		RubyValue result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		assertEquals("Abc", ((StringValue)result.getValue()).toString());
+		assertEquals("Abc", ((RubyString)result.getValue()).toString());
 		
 		str = ObjectFactory.createString("HELLO");
 		result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		assertEquals("Hello", ((StringValue)result.getValue()).toString());
+		assertEquals("Hello", ((RubyString)result.getValue()).toString());
 
 		str = ObjectFactory.createString("123ABC");
 		result = m.invoke(str, null, null);
 		assertTrue(result == str);
-		assertEquals("123abc", ((StringValue)result.getValue()).toString());
+		assertEquals("123abc", ((RubyString)result.getValue()).toString());
 		
 		str = ObjectFactory.createString("Hello");
 		result = m.invoke(str, null, null);
 		assertEquals(ObjectFactory.nilValue, result);
-		assertEquals("Hello", ((StringValue)str.getValue()).toString());
+		assertEquals("Hello", ((RubyString)str.getValue()).toString());
 	}
 	
 	public void test_operator_compare() {

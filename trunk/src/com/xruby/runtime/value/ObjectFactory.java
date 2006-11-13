@@ -41,14 +41,14 @@ public class ObjectFactory {
 	public static final RubyValue BignumClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.BignumClass);
 	
 	public static RubyValue createString(String value) {
-		return new RubyValue(RubyRuntime.StringClass, new StringValue(value));
+		return new RubyValue(RubyRuntime.StringClass, new RubyString(value));
 	}
 
 	public static RubyValue createRegexp(String value) {
 		return new RubyValue(RubyRuntime.RegexpClass, new RegexpValue(value));
 	}
 	
-	public static RubyValue createString(StringValue value) {
+	public static RubyValue createString(RubyString value) {
 		return new RubyValue(RubyRuntime.StringClass, value);
 	}
 	

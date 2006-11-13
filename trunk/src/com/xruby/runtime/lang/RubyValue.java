@@ -49,7 +49,7 @@ public class RubyValue extends RubyModule {
 		if (class_ == RubyRuntime.FixnumClass) {
 			return ((IntegerValue)value_).hashCode();
 		} else if (class_ == RubyRuntime.StringClass) {
-			return ((StringValue)value_).toString().hashCode();
+			return ((RubyString)value_).toString().hashCode();
 		}else {
 			return super.hashCode();
 		}
@@ -62,7 +62,7 @@ public class RubyValue extends RubyModule {
 		}
 		
 		if (class_ == RubyRuntime.StringClass) {
-			return ((StringValue)value_).toString().equals(((StringValue)v.getValue()).toString());
+			return ((RubyString)value_).toString().equals(((RubyString)v.getValue()).toString());
 		} else if (null == value_) {
 			return (null == v.getValue());
 		} else {

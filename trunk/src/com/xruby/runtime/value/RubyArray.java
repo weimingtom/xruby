@@ -164,11 +164,11 @@ public class RubyArray implements Iterable<RubyValue> {
 	}
 
 	public RubyValue to_s() {
-		StringValue r = new StringValue();
+		RubyString r = new RubyString();
 		
 		for (RubyValue v : array) {
 			RubyValue s = RubyRuntime.callPublicMethod(v, null, "to_s");
-			r.appendString(((StringValue)s.getValue()).toString());
+			r.appendString(((RubyString)s.getValue()).toString());
 		}
 		
 		return ObjectFactory.createString(r);

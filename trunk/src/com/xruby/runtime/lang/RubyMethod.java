@@ -34,7 +34,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	
 	protected static String convertToString(RubyValue v) {
 		if (v.getRubyClass() == RubyRuntime.StringClass) {
-			return ((StringValue)v.getValue()).toString();
+			return ((RubyString)v.getValue()).toString();
 		} else if (v.getRubyClass() == RubyRuntime.SymbolClass) {
 			return (String)v.getValue();
 		} else {
@@ -44,7 +44,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	
 	private static String inspect(RubyValue value) {
 		RubyValue v = RubyRuntime.callPublicMethod(value, null, "inspect");
-		return ((StringValue)v.getValue()).toString();
+		return ((RubyString)v.getValue()).toString();
 	}
 	
 	/**

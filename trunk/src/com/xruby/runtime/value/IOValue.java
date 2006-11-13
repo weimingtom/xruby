@@ -99,7 +99,7 @@ public class IOValue {
 				throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + separator.getRubyClass().getName() + " into String");
 			}
 
-			StringValue s = (StringValue)separator.getValue();
+			RubyString s = (RubyString)separator.getValue();
 			
 			return readUntilSeperator(s.toString());
 		} catch (IOException e) {

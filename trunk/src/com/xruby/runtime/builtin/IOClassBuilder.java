@@ -13,12 +13,12 @@ class IO_write extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		StringValue value;
+		RubyString value;
 		if (RubyRuntime.StringClass == args.get(0).getRubyClass()) {
-			value = (StringValue)args.get(0).getValue();
+			value = (RubyString)args.get(0).getValue();
 		} else {
 			RubyValue str = RubyRuntime.callPublicMethod(args.get(0), null, "to_s");
-			value = (StringValue) str.getValue();
+			value = (RubyString) str.getValue();
 		}
 		
 		IOValue io = (IOValue)receiver.getValue();
@@ -95,7 +95,7 @@ class IO_read extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		StringValue fileName = (StringValue)args.get(0).getValue();
+		RubyString fileName = (RubyString)args.get(0).getValue();
 		IOValue io = new IOValue(fileName.toString(), "r");
 		int offset;
 		int length;

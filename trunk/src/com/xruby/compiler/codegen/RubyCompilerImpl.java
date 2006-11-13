@@ -346,15 +346,15 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitutionBegin() {
-		cg_.getMethodGenerator().new_StringValue();
+		cg_.getMethodGenerator().new_RubyString();
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitution(String value) {
-		cg_.getMethodGenerator().StringValue_append(value);
+		cg_.getMethodGenerator().RubyString_append(value);
 	}
 
 	public void visitStringExpressionWithExpressionSubstitution() {
-		cg_.getMethodGenerator().StringValue_append();
+		cg_.getMethodGenerator().RubyString_append();
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitutionEnd() {
