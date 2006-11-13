@@ -36,8 +36,7 @@ class Float_operator_minus extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			// TODO: coerce args(0) into minus
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot minus with " + args.get(0).getRubyClass().getName());
+			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
 		}
 		return ObjectFactory.createFloat(floatValue1 - floatValue2);
 	}
@@ -150,8 +149,7 @@ class Float_operator_mod extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			// TODO: coerce args(0) into mod
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot mod with " + args.get(0).getRubyClass().getName());
+			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
 		}
 		double value3 = floatValue1 / floatValue2;
 		double result = floatValue1 - Math.floor(floatValue2 * value3);
@@ -175,8 +173,7 @@ class Float_operator_plus extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			// TODO: coerce args(0) into plus
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot plus with " + args.get(0).getRubyClass().getName());
+			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
 		}
 		return ObjectFactory.createFloat(floatValue1 + floatValue2);
 	}
@@ -198,8 +195,7 @@ class Float_operator_star extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			// TODO: coerce args(0) into star
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot star with " + args.get(0).getRubyClass().getName());
+			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
 		}
 		return ObjectFactory.createFloat(floatValue1 * floatValue2);
 	}
@@ -221,8 +217,7 @@ class Float_operator_div extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			// TODO: coerce args(0) into div
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Float cannot div with " + args.get(0).getRubyClass().getName());
+			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
 		}
 		return ObjectFactory.createFloat(floatValue1 / floatValue2);
 	}

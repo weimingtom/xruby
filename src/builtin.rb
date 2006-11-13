@@ -54,17 +54,25 @@ module Kernel
 	end
 end
 
+class Object
+	def nil?
+		false
+	end
+end
+
 class Array
 	def to_a
 		self
 	end
 
+	# xrub BUG #16
 	def join(sepString="")
 		return to_s if sepString.nil? || sepString == ""
 
+		selfObject = self
 		result = ""
 		(length - 1).times do |index|
-			result += self[index].to_s + sepString
+			result += (selfObject[index].to_s) + sepString
 		end
 		result += self[length - 1].to_s if length != 0
 		result
@@ -347,6 +355,14 @@ class Range
 
 	alias first :begin
 	alias last :end
+end
+
+class File < IO
+	SEPARATOR = separator
+
+	def self.join(*strings)
+		strings.join(separator)
+	end
 end
 
 class ThreadError < StandardError
