@@ -9,7 +9,7 @@ class Time_new extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return ObjectFactory.createTime(new TimeValue());
+		return ObjectFactory.createTime(new RubyTime());
 	}
 }
 
@@ -19,7 +19,7 @@ class Time_to_f extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		TimeValue t = (TimeValue)receiver.getValue();
+		RubyTime t = (RubyTime)receiver.getValue();
 		return ObjectFactory.createFloat(t.getTime());
 	}
 }
@@ -30,7 +30,7 @@ class Time_to_i extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		TimeValue t = (TimeValue)receiver.getValue();
+		RubyTime t = (RubyTime)receiver.getValue();
 		return ObjectFactory.createFixnum((int)t.getTime());
 	}
 }

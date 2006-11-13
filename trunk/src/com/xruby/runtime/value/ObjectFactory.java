@@ -96,7 +96,7 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.ProcClass, block);
 	}
 	
-	public static RubyValue createTime(TimeValue t) {
+	public static RubyValue createTime(RubyTime t) {
 		return new RubyValue(RubyRuntime.TimeClass, t);
 	}
 	

@@ -2,10 +2,10 @@ package com.xruby.runtime.value;
 
 import java.util.Date;
 
-public class TimeValue {
+public class RubyTime {
 	private Date date_;
 	
-	public TimeValue() {
+	public RubyTime() {
 		date_ = new Date();
 	}
 	
