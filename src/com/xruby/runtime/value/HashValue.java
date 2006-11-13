@@ -4,7 +4,6 @@
 
 package com.xruby.runtime.value;
 
-import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyBlock;
 

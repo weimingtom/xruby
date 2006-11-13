@@ -206,9 +206,9 @@ class Bignum_operator_compare extends RubyMethod {
 			}
 			result = 1;
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.getValue().doubleValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			if (floatValue1 < floatValue2){
 				result = -1;
 			}else if(floatValue1 > floatValue2){
@@ -273,8 +273,8 @@ class Bignum_operator_star_star extends RubyMethod {
 		if (value2 instanceof BignumValue){
 			// TODO: output wraning: "in a**b, b may be too big"
 			floatValue2 = ((BignumValue)value2).getValue().doubleValue();
-		}else if(value2 instanceof FloatValue){
-			floatValue2 = ((FloatValue)value2).doubleValue();
+		}else if(value2 instanceof RubyFloat){
+			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else if(value2 instanceof IntegerValue){
 			int intValue2 = ((IntegerValue)value2).intValue();
 			if (intValue2 == 0){

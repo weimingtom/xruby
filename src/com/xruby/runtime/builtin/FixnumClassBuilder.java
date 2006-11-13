@@ -52,9 +52,9 @@ class Fixnum_operator_equal extends RubyMethod {
 		IntegerValue value1 = (IntegerValue)receiver.getValue();
 		Object value = args.get(0).getValue();
 		boolean result = false;
-		if (value instanceof FloatValue){
+		if (value instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value).doubleValue();
+			double floatValue2 = ((RubyFloat)value).doubleValue();
 			result = (floatValue1 == floatValue2);
 		}
 		else if (value instanceof IntegerValue){
@@ -119,9 +119,9 @@ class Fixnum_operator_less_or_equal extends RubyMethod {
 			IntegerValue fixnumValue2 = (IntegerValue)value2;
 			result = (value1.intValue() <= fixnumValue2.intValue());
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			result = (floatValue1 <= floatValue2);
 		}
 		else{
@@ -154,9 +154,9 @@ class Fixnum_operator_minus extends RubyMethod {
 			long result = (long)value1.intValue() - (long)fixnumValue2.intValue();
 			return BignumValue.bignorm(result);
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			return ObjectFactory.createFloat(floatValue1 - floatValue2);
 		}
 		// TODO: coerce args(0) into minus Fixnum
@@ -181,9 +181,9 @@ class Fixnum_operator_div extends RubyMethod {
 			int intValue2 = ((IntegerValue)value2).intValue();
 			return BignumValue.bignorm((long)value1.intValue() / (long)(intValue2));
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			return ObjectFactory.createFloat(floatValue1 / floatValue2);
 		}
 		// TODO: coerce args(0) into divide Fixnum
@@ -219,9 +219,9 @@ class Fixnum_operator_mod extends RubyMethod {
 			IntegerValue intValue2 = (IntegerValue)value2;
 			return ObjectFactory.createFixnum(value1.intValue() % intValue2.intValue());
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			return ObjectFactory.createFloat(floatValue1 % floatValue2);
 		}
 		// TODO: coerce args(0) into mod Fixnum
@@ -243,8 +243,8 @@ class Fixnum_operator_bor extends RubyMethod {
 		else if (value2 instanceof IntegerValue){
 			return ObjectFactory.createFixnum(value1.intValue() | ((IntegerValue)value2).intValue());
 		}
-		else if (value2 instanceof FloatValue){
-			FloatValue floatValue2 = (FloatValue)value2;
+		else if (value2 instanceof RubyFloat){
+			RubyFloat floatValue2 = (RubyFloat)value2;
 			if (floatValue2.doubleValue() > Integer.MAX_VALUE ||
 					floatValue2.doubleValue() < Integer.MIN_VALUE){
 				int intValue2 = (int)floatValue2.doubleValue();
@@ -274,8 +274,8 @@ class Fixnum_operator_band extends RubyMethod {
 		else if (value2 instanceof IntegerValue){
 			return ObjectFactory.createFixnum(value1.intValue() & ((IntegerValue)value2).intValue());
 		}
-		else if (value2 instanceof FloatValue){
-			FloatValue floatValue2 = (FloatValue)value2;
+		else if (value2 instanceof RubyFloat){
+			RubyFloat floatValue2 = (RubyFloat)value2;
 			if (floatValue2.doubleValue() > Integer.MAX_VALUE ||
 					floatValue2.doubleValue() < Integer.MIN_VALUE){
 				int intValue2 = (int)floatValue2.doubleValue();
@@ -310,9 +310,9 @@ class Fixnum_operator_less_than extends RubyMethod {
 			IntegerValue fixnumValue2 = (IntegerValue)value2;
 			result = (value1.intValue() < fixnumValue2.intValue());
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			result = (floatValue1 < floatValue2);
 		}
 		else{
@@ -355,9 +355,9 @@ class Fixnum_operator_compare extends RubyMethod {
 				result = 1;
 			}			
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			if (floatValue1 < floatValue2){
 				result = -1;
 			}else if(floatValue1 > floatValue2){
@@ -385,8 +385,8 @@ class Fixnum_operator_bxor extends RubyMethod {
 		else if (value2 instanceof IntegerValue){
 			return ObjectFactory.createFixnum(value1.intValue() ^ ((IntegerValue)value2).intValue());
 		}
-		else if (value2 instanceof FloatValue){
-			FloatValue floatValue2 = (FloatValue)value2;
+		else if (value2 instanceof RubyFloat){
+			RubyFloat floatValue2 = (RubyFloat)value2;
 			if (floatValue2.doubleValue() > Integer.MAX_VALUE ||
 					floatValue2.doubleValue() < Integer.MIN_VALUE){
 				int intValue2 = (int)floatValue2.doubleValue();
@@ -421,9 +421,9 @@ class Fixnum_operator_greater_than extends RubyMethod {
 			IntegerValue fixnumValue2 = (IntegerValue)value2;
 			result = (value1.intValue() > fixnumValue2.intValue());
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			result = (floatValue1 > floatValue2);
 		}
 		else{
@@ -457,9 +457,9 @@ class Fixnum_operator_greater_or_equal extends RubyMethod {
 			IntegerValue fixnumValue2 = (IntegerValue)value2;
 			result = (value1.intValue() >= fixnumValue2.intValue());
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			result = (floatValue1 >= floatValue2);
 		}
 		else{
@@ -491,9 +491,9 @@ class Fixnum_operator_star extends RubyMethod {
 			int intValue2 = ((IntegerValue)value2).intValue();
 			return BignumValue.bignorm((long)value1.intValue() * (long)(intValue2));
 		}
-		else if (value2 instanceof FloatValue){
+		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			return ObjectFactory.createFloat(floatValue1 * floatValue2);
 		}
 		// TODO: coerce args(0) into multiply Fixnum
@@ -554,9 +554,9 @@ class Fixnum_operator_star_star extends RubyMethod {
 			BigInteger bigValue1 = BigInteger.valueOf(value1);
 			BigInteger result = bigValue1.pow(intValue2.intValue());
 			return BignumValue.bignorm(result);
-		}else if(value2 instanceof FloatValue){
+		}else if(value2 instanceof RubyFloat){
 			double floatValue1 = value1;
-			double floatValue2 = ((FloatValue)value2).doubleValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			return ObjectFactory.createFloat(Math.pow(floatValue1, floatValue2));
 		}
 		// TODO: coerce args(0) into star-star Fixnum
