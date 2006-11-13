@@ -16,7 +16,7 @@ class Regexp_case_equal extends RubyMethod {
 			return ObjectFactory.falseValue;
 		}
 
-		RegexpValue r = (RegexpValue)receiver.getValue();
+		RubyRegexp r = (RubyRegexp)receiver.getValue();
 		if (r.caseEqual(((RubyString)o).toString())) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -37,8 +37,8 @@ class Regexp_match extends RubyMethod {
 			return ObjectFactory.falseValue;
 		}
 
-		RegexpValue r = (RegexpValue)receiver.getValue();
-		MatchDataValue m = r.match(((RubyString)o).toString());
+		RubyRegexp r = (RubyRegexp)receiver.getValue();
+		RubyMatchData m = r.match(((RubyString)o).toString());
 		if (null == m) {
 			return ObjectFactory.nilValue;
 		} else {
@@ -59,7 +59,7 @@ class Regexp_match_operator extends RubyMethod {
 			return ObjectFactory.falseValue;
 		}
 
-		RegexpValue r = (RegexpValue)receiver.getValue();
+		RubyRegexp r = (RubyRegexp)receiver.getValue();
 		int p = r.matchPosition(((RubyString)o).toString());
 		if (p < 0) {
 			return ObjectFactory.nilValue;

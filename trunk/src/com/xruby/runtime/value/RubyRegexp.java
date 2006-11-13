@@ -2,30 +2,30 @@ package com.xruby.runtime.value;
 
 import java.util.regex.*;
 
-public class RegexpValue {
+public class RubyRegexp {
 
-	private Pattern regex_;
+	private Pattern regex;
 	
-	public RegexpValue(String v) {
-		regex_ = Pattern.compile(v);
+	public RubyRegexp(String v) {
+		regex = Pattern.compile(v);
 	}
 	
 	public boolean caseEqual(String v) {
-		Matcher m = regex_.matcher(v);
+		Matcher m = regex.matcher(v);
 		return m.find();
 	}
 	
-	public MatchDataValue match(String v) {
-		Matcher m = regex_.matcher(v);
+	public RubyMatchData match(String v) {
+		Matcher m = regex.matcher(v);
 		if (m.find()) {
-			return new MatchDataValue(m);
+			return new RubyMatchData(m);
 		} else {
 			return null;
 		}
 	}
 	
 	public int matchPosition(String v) {
-		Matcher m = regex_.matcher(v);
+		Matcher m = regex.matcher(v);
 		if (m.find()) {
 			return m.start();
 		} else {
@@ -34,10 +34,10 @@ public class RegexpValue {
 	}
 	
 	public String gsub(RubyString str, RubyString repl) {
-		return regex_.matcher(str.toString()).replaceAll(repl.toString());
+		return regex.matcher(str.toString()).replaceAll(repl.toString());
 	}
 	
 	public Pattern getValue() {
-		return regex_;
+		return regex;
 	}
 }

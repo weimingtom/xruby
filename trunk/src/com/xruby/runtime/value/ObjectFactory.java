@@ -45,7 +45,7 @@ public class ObjectFactory {
 	}
 
 	public static RubyValue createRegexp(String value) {
-		return new RubyValue(RubyRuntime.RegexpClass, new RegexpValue(value));
+		return new RubyValue(RubyRuntime.RegexpClass, new RubyRegexp(value));
 	}
 	
 	public static RubyValue createString(RubyString value) {
@@ -122,7 +122,7 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.RangeClass, new RangeValue(left, right, isExclusive));
 	}
 
-	public static RubyValue createMatchData(MatchDataValue m) {
+	public static RubyValue createMatchData(RubyMatchData m) {
 		return new RubyValue(RubyRuntime.MatchDataClass, m);
 	}
 

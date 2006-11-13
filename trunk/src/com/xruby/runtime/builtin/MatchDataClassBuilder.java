@@ -9,7 +9,7 @@ class MatchData_to_s extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		MatchDataValue matchdata = (MatchDataValue)receiver.getValue();
+		RubyMatchData matchdata = (RubyMatchData)receiver.getValue();
 		return ObjectFactory.createString(matchdata.to_s());
 	}
 }

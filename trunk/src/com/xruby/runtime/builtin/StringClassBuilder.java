@@ -230,7 +230,7 @@ class String_gsub extends RubyMethod {
 		checkParameters(args);
 		
 		RubyString g = (RubyString)receiver.getValue();
-		RegexpValue r = (RegexpValue)args.get(0).getValue();
+		RubyRegexp r = (RubyRegexp)args.get(0).getValue();
 		RubyString s = (RubyString)args.get(1).getValue();
 
 		return ObjectFactory.createString(r.gsub(g, s));
@@ -242,7 +242,7 @@ class String_gsub_danger extends String_gsub {
 		checkParameters(args);
 
 		RubyString g = (RubyString)receiver.getValue();
-		RegexpValue r = (RegexpValue)args.get(0).getValue();
+		RubyRegexp r = (RubyRegexp)args.get(0).getValue();
 		RubyString s = (RubyString)args.get(1).getValue();
 
 		String result = r.gsub(g, s);
@@ -261,7 +261,7 @@ class String_split extends RubyMethod {
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString g = (RubyString)receiver.getValue();
-		RegexpValue r = (RegexpValue)args.get(0).getValue();
+		RubyRegexp r = (RubyRegexp)args.get(0).getValue();
 		String[] splitResult;
 		
 		if (args.size() == 1){
