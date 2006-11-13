@@ -156,7 +156,7 @@ public class BignumValue {
 		return bignorm(result);
 	}
 	
-	public RubyValue op_band(RubyValue v) throws RubyException{
+	public RubyValue op_band(RubyValue v) {
 		Object value = v.getValue();
 		BigInteger result;
 		if (value instanceof BignumValue){
@@ -179,7 +179,7 @@ public class BignumValue {
 		return bignorm(result);
 	}
 	
-	public RubyValue op_bor(RubyValue v) throws RubyException{
+	public RubyValue op_bor(RubyValue v) {
 		Object value = v.getValue();
 		BigInteger result;
 		if (value instanceof BignumValue){
@@ -202,7 +202,7 @@ public class BignumValue {
 		return bignorm(result);
 	}
 	
-	public RubyValue op_bxor(RubyValue v) throws RubyException{
+	public RubyValue op_bxor(RubyValue v) {
 		Object value = v.getValue();
 		BigInteger result;
 		if (value instanceof BignumValue){

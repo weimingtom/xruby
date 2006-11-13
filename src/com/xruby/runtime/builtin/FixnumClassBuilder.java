@@ -569,7 +569,7 @@ class Fixnum_operator_bnot extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		IntegerValue value1 = (IntegerValue)receiver.getValue();
 		return ObjectFactory.createFixnum(~value1.intValue());
 	}

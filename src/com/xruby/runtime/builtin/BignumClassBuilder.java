@@ -150,7 +150,7 @@ class Bignum_operator_bnot extends RubyMethod {
 		super(0);
 	}
 
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value = (BignumValue)receiver.getValue();
 		return BignumValue.bignorm(value.getValue().not());
 	} 
@@ -238,7 +238,7 @@ class Bignum_size extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value1 = (BignumValue)receiver.getValue();
 		int alignedBytesCount = (((value1.getValue().bitLength() - 1) & -32) >> 3) + 4;
 		return ObjectFactory.createFixnum(alignedBytesCount);
@@ -250,7 +250,7 @@ class Bignum_get_bit extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BignumValue value1 = (BignumValue)receiver.getValue();
 		IntegerValue index = (IntegerValue)args.get(0).getValue();
 		boolean flag = value1.getValue().testBit(index.intValue());
@@ -266,7 +266,7 @@ class Bignum_operator_star_star extends RubyMethod {
 		super(1);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BigInteger value1 = ((BignumValue)receiver.getValue()).getValue();
 		Object value2 = args.get(0).getValue();
 		double floatValue2 = 0;

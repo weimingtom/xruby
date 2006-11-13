@@ -40,7 +40,7 @@ public class BignumValueTest extends TestCase {
 		assertEquals(s, "24197857203266734874467610118318836400");
 	}
 	
-	public void testMultiply() throws RubyException{
+	public void testMultiply() {
 		// Bignum * Fixnum == Fixnum ( < Integer.MAX_VALUE )
 		BignumValue v = new BignumValue("100");
 		RubyValue a = ObjectFactory.createFixnum(30);

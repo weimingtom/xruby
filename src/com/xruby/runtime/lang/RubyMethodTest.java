@@ -21,7 +21,6 @@ class f extends RubyMethod
     }
 
     public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block)
-        throws RubyException
     {
         return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
         					new RubyArray(ObjectFactory.createString("hello")),
