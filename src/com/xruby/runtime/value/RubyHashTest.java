@@ -7,7 +7,7 @@ package com.xruby.runtime.value;
 import junit.framework.*;
 import com.xruby.runtime.lang.*;
 
-public class HashValueTest extends TestCase {
+public class RubyHashTest extends TestCase {
 
 	public void test_hashCode() {
 		assertEquals(ObjectFactory.createFixnum(123).hashCode(), ObjectFactory.createFixnum(123).hashCode());
@@ -15,7 +15,7 @@ public class HashValueTest extends TestCase {
 	}
 	
 	public void test_simple_add() {
-		HashValue h = new HashValue();
+		RubyHash h = new RubyHash();
 		RubyValue k1 = ObjectFactory.createFixnum(1);
 		RubyValue v1 = ObjectFactory.createString("xxx");
 		h.add(k1, v1);
@@ -24,10 +24,9 @@ public class HashValueTest extends TestCase {
 	}
 	
 	public void test_add() {
-		HashValue h = new HashValue();
+		RubyHash h = new RubyHash();
 		assertEquals(0, h.size());
 		
-	
 		RubyValue v1 = ObjectFactory.createString("xxx");
 		h.add(ObjectFactory.createFixnum(1), v1);
 		assertEquals(1, h.size());

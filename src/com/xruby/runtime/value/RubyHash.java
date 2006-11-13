@@ -14,7 +14,7 @@ import java.util.Map;
  * @breif Internal representation of a ruby hash 
  * 
  */
-public class HashValue {
+public class RubyHash {
 	private Map<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
 	
 	private RubyValue default_value_ = ObjectFactory.nilValue;
