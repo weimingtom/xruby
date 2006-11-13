@@ -17,13 +17,13 @@ class Fixnum_operator_right_shift extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		RubyFixnum value2 = (RubyFixnum)args.get(0).getValue();
-		if (value2.intValue() < 0){
+		int value2 = RubyTypesUtil.convertToFixnum(args.get(0)).intValue();
+		if (value2 < 0){
 			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
-			bigValue1 = bigValue1.shiftLeft(-value2.intValue());
+			bigValue1 = bigValue1.shiftLeft(-value2);
 			return RubyBignum.bignorm(bigValue1);
 		}
-		return ObjectFactory.createFixnum(value1.intValue() >> value2.intValue());
+		return ObjectFactory.createFixnum(value1.intValue() >> value2);
 	}
 }
 
@@ -34,12 +34,12 @@ class Fixnum_operator_left_shift extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		RubyFixnum value2 = (RubyFixnum)args.get(0).getValue();
-		if (value2.intValue() <= 0){
-			return ObjectFactory.createFixnum(value1.intValue() >> -value2.intValue());
+		int value2 = RubyTypesUtil.convertToFixnum(args.get(0)).intValue();
+		if (value2 <= 0){
+			return ObjectFactory.createFixnum(value1.intValue() >> -value2);
 		}
 		BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
-		return RubyBignum.bignorm(bigValue1.shiftLeft(value2.intValue()));
+		return RubyBignum.bignorm(bigValue1.shiftLeft(value2));
 	}
 }
 
@@ -71,33 +71,7 @@ class Fixnum_operator_equal extends RubyMethod {
 }
 
 //C Ruby does not need this function since it can compare integer directly
-class Fixnum_operator_case_equal extends RubyMethod {
-	public Fixnum_operator_case_equal() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		RubyFixnum value2 = (RubyFixnum)args.get(0).getValue();
-		if (value1.intValue() == value2.intValue()) {
-			return ObjectFactory.trueValue;
-		} else {
-			return ObjectFactory.falseValue;
-		}
-	}
-}
-
-class Fixnum_operator_plus extends RubyMethod {
-	public Fixnum_operator_plus() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		RubyFixnum value2 = (RubyFixnum)args.get(0).getValue();
-		long result = (long)value1.intValue() + (long)value2.intValue();
-		return RubyBignum.bignorm(result);
-	}
+class Fixnum_operator_case_equal extends Fixnum_operator_equal {
 }
 
 class Fixnum_operator_less_or_equal extends RubyMethod {
@@ -136,160 +110,6 @@ class Fixnum_operator_less_or_equal extends RubyMethod {
 	}
 }
 
-class Fixnum_operator_minus extends RubyMethod {
-	public Fixnum_operator_minus() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		Object value2 = args.get(0).getValue();
-		if (value2 instanceof RubyBignum){
-			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
-			BigInteger bigValue2 = ((RubyBignum)value2).getValue();
-			return RubyBignum.bignorm(bigValue1.subtract(bigValue2));
-		}
-		else if (value2 instanceof RubyFixnum){
-			RubyFixnum fixnumValue2 = (RubyFixnum)value2;
-			long result = (long)value1.intValue() - (long)fixnumValue2.intValue();
-			return RubyBignum.bignorm(result);
-		}
-		else if (value2 instanceof RubyFloat){
-			double floatValue1 = value1.intValue();
-			double floatValue2 = ((RubyFloat)value2).doubleValue();
-			return ObjectFactory.createFloat(floatValue1 - floatValue2);
-		}
-		// TODO: coerce args(0) into minus Fixnum
-		throw new RubyException(RubyRuntime.ArgumentErrorClass, "Fixnum cannot minus with " + args.get(0).getRubyClass().getName());
-	}
-}
-
-class Fixnum_operator_div extends RubyMethod {
-	public Fixnum_operator_div() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		Object value2 = args.get(0).getValue();
-		if (value2 instanceof RubyBignum){
-			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
-			BigInteger bigValue2 = ((RubyBignum)value2).getValue();
-			return RubyBignum.bignorm(bigValue1.divide(bigValue2));
-		}
-		else if (value2 instanceof RubyFixnum){
-			int intValue2 = ((RubyFixnum)value2).intValue();
-			return RubyBignum.bignorm((long)value1.intValue() / (long)(intValue2));
-		}
-		else if (value2 instanceof RubyFloat){
-			double floatValue1 = value1.intValue();
-			double floatValue2 = ((RubyFloat)value2).doubleValue();
-			return ObjectFactory.createFloat(floatValue1 / floatValue2);
-		}
-		// TODO: coerce args(0) into divide Fixnum
-		throw new RubyException(RubyRuntime.ArgumentErrorClass, "Fixnum cannot divide with " + args.get(0).getRubyClass().getName());
-	}
-}
-
-class Fixnum_to_s extends RubyMethod {
-	public Fixnum_to_s() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value = (RubyFixnum)receiver.getValue();
-		return ObjectFactory.createString(value.toString());
-	}
-}
-
-class Fixnum_operator_mod extends RubyMethod {
-	public Fixnum_operator_mod() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		Object value2 = args.get(0).getValue();
-		if (value2 instanceof RubyBignum){
-			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
-			BigInteger bigValue2 = ((RubyBignum)value2).getValue();
-			return RubyBignum.bignorm(bigValue1.mod(bigValue2));
-		}
-		else if (value2 instanceof RubyFixnum){
-			RubyFixnum intValue2 = (RubyFixnum)value2;
-			return ObjectFactory.createFixnum(value1.intValue() % intValue2.intValue());
-		}
-		else if (value2 instanceof RubyFloat){
-			double floatValue1 = value1.intValue();
-			double floatValue2 = ((RubyFloat)value2).doubleValue();
-			return ObjectFactory.createFloat(floatValue1 % floatValue2);
-		}
-		// TODO: coerce args(0) into mod Fixnum
-		throw new RubyException(RubyRuntime.ArgumentErrorClass, "Fixnum cannot mod with " + args.get(0).getRubyClass().getName());
-	}
-}
-
-class Fixnum_operator_bor extends RubyMethod {
-	public Fixnum_operator_bor() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		Object value2 = args.get(0).getValue();
-		if (value2 instanceof RubyBignum){
-			return ((RubyBignum)value2).op_bor(receiver);
-		}
-		else if (value2 instanceof RubyFixnum){
-			return ObjectFactory.createFixnum(value1.intValue() | ((RubyFixnum)value2).intValue());
-		}
-		else if (value2 instanceof RubyFloat){
-			RubyFloat floatValue2 = (RubyFloat)value2;
-			if (floatValue2.doubleValue() > Integer.MAX_VALUE ||
-					floatValue2.doubleValue() < Integer.MIN_VALUE){
-				int intValue2 = (int)floatValue2.doubleValue();
-				return ObjectFactory.createFixnum(value1.intValue() | intValue2);
-			}
-			else{
-				BigInteger bigValue2 = BigDecimal.valueOf(floatValue2.doubleValue()).toBigInteger();
-				return RubyBignum.bignorm(BigInteger.valueOf(value1.intValue()).or(bigValue2));
-			}
-		}
-		// TODO: coerce args(0) into binary or Fixnum
-		throw new RubyException(RubyRuntime.ArgumentErrorClass, "Fixnum cannot binary or with " + args.get(0).getRubyClass().getName());
-	}
-}
-
-class Fixnum_operator_band extends RubyMethod {
-	public Fixnum_operator_band() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		Object value2 = args.get(0).getValue();
-		if (value2 instanceof RubyBignum){
-			return ((RubyBignum)value2).op_band(receiver);
-		}
-		else if (value2 instanceof RubyFixnum){
-			return ObjectFactory.createFixnum(value1.intValue() & ((RubyFixnum)value2).intValue());
-		}
-		else if (value2 instanceof RubyFloat){
-			RubyFloat floatValue2 = (RubyFloat)value2;
-			if (floatValue2.doubleValue() > Integer.MAX_VALUE ||
-					floatValue2.doubleValue() < Integer.MIN_VALUE){
-				int intValue2 = (int)floatValue2.doubleValue();
-				return ObjectFactory.createFixnum(value1.intValue() & intValue2);
-			}
-			else{
-				BigInteger bigValue2 = BigDecimal.valueOf(floatValue2.doubleValue()).toBigInteger();
-				return RubyBignum.bignorm(BigInteger.valueOf(value1.intValue()).and(bigValue2));
-			}
-		}
-		// TODO: coerce args(0) into binary and Fixnum
-		throw new RubyException(RubyRuntime.ArgumentErrorClass, "Fixnum cannot binary and with " + args.get(0).getRubyClass().getName());
-	}
-}
 
 class Fixnum_operator_less_than extends RubyMethod {
 	public Fixnum_operator_less_than() {
@@ -371,36 +191,6 @@ class Fixnum_operator_compare extends RubyMethod {
 	}
 }
 
-class Fixnum_operator_bxor extends RubyMethod {
-	public Fixnum_operator_bxor() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		Object value2 = args.get(0).getValue();
-		if (value2 instanceof RubyBignum){
-			return ((RubyBignum)value2).op_bxor(receiver);
-		}
-		else if (value2 instanceof RubyFixnum){
-			return ObjectFactory.createFixnum(value1.intValue() ^ ((RubyFixnum)value2).intValue());
-		}
-		else if (value2 instanceof RubyFloat){
-			RubyFloat floatValue2 = (RubyFloat)value2;
-			if (floatValue2.doubleValue() > Integer.MAX_VALUE ||
-					floatValue2.doubleValue() < Integer.MIN_VALUE){
-				int intValue2 = (int)floatValue2.doubleValue();
-				return ObjectFactory.createFixnum(value1.intValue() ^ intValue2);
-			}
-			else{
-				BigInteger bigValue2 = BigDecimal.valueOf(floatValue2.doubleValue()).toBigInteger();
-				return RubyBignum.bignorm(BigInteger.valueOf(value1.intValue()).xor(bigValue2));
-			}
-		}
-		// TODO: coerce args(0) into binary xor Fixnum
-		throw new RubyException(RubyRuntime.ArgumentErrorClass, "Fixnum cannot binary xor with " + args.get(0).getRubyClass().getName());
-	}
-}
 
 class Fixnum_operator_greater_than extends RubyMethod {
 	public Fixnum_operator_greater_than() {
@@ -474,8 +264,8 @@ class Fixnum_operator_greater_or_equal extends RubyMethod {
 	}
 }
 
-class Fixnum_operator_star extends RubyMethod {
-	public Fixnum_operator_star() {
+class Fixnum_operator_plus extends RubyMethod {
+	public Fixnum_operator_plus() {
 		super(1);
 	}
 
@@ -485,30 +275,98 @@ class Fixnum_operator_star extends RubyMethod {
 		if (value2 instanceof RubyBignum){
 			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
 			BigInteger bigValue2 = ((RubyBignum)value2).getValue();
-			return RubyBignum.bignorm(bigValue1.multiply(bigValue2));
+			return RubyBignum.bignorm(bigValue1.add(bigValue2));
 		}
 		else if (value2 instanceof RubyFixnum){
-			int intValue2 = ((RubyFixnum)value2).intValue();
-			return RubyBignum.bignorm((long)value1.intValue() * (long)(intValue2));
+			RubyFixnum fixnumValue2 = (RubyFixnum)value2;
+			long result = (long)value1.intValue() + (long)fixnumValue2.intValue();
+			return RubyBignum.bignorm(result);
 		}
 		else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
 			double floatValue2 = ((RubyFloat)value2).doubleValue();
-			return ObjectFactory.createFloat(floatValue1 * floatValue2);
+			return ObjectFactory.createFloat(floatValue1 + floatValue2);
 		}
-		// TODO: coerce args(0) into multiply Fixnum
-		throw new RubyException(RubyRuntime.ArgumentErrorClass, "Fixnum cannot multiply with " + args.get(0).getRubyClass().getName());
+		throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Fixnum");
 	}
 }
 
-class Fixnum_to_f extends RubyMethod {
-	public Fixnum_to_f() {
-		super(0);
+class Fixnum_operator_minus extends RubyMethod {
+	public Fixnum_operator_minus() {
+		super(1);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
-		return ObjectFactory.createFloat(value1.intValue());
+		Object value2 = args.get(0).getValue();
+		if (value2 instanceof RubyBignum){
+			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
+			BigInteger bigValue2 = ((RubyBignum)value2).getValue();
+			return RubyBignum.bignorm(bigValue1.subtract(bigValue2));
+		}
+		else if (value2 instanceof RubyFixnum){
+			RubyFixnum fixnumValue2 = (RubyFixnum)value2;
+			long result = (long)value1.intValue() - (long)fixnumValue2.intValue();
+			return RubyBignum.bignorm(result);
+		}
+		else if (value2 instanceof RubyFloat){
+			double floatValue1 = value1.intValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
+			return ObjectFactory.createFloat(floatValue1 - floatValue2);
+		}
+		throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Fixnum");
+	}
+}
+
+class Fixnum_operator_div extends RubyMethod {
+	public Fixnum_operator_div() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		Object value2 = args.get(0).getValue();
+		if (value2 instanceof RubyBignum){
+			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
+			BigInteger bigValue2 = ((RubyBignum)value2).getValue();
+			return RubyBignum.bignorm(bigValue1.divide(bigValue2));
+		}
+		else if (value2 instanceof RubyFixnum){
+			int intValue2 = ((RubyFixnum)value2).intValue();
+			return RubyBignum.bignorm((long)value1.intValue() / (long)(intValue2));
+		}
+		else if (value2 instanceof RubyFloat){
+			double floatValue1 = value1.intValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
+			return ObjectFactory.createFloat(floatValue1 / floatValue2);
+		}
+		throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Fixnum");
+	}
+}
+
+class Fixnum_operator_mod extends RubyMethod {
+	public Fixnum_operator_mod() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		Object value2 = args.get(0).getValue();
+		if (value2 instanceof RubyBignum){
+			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
+			BigInteger bigValue2 = ((RubyBignum)value2).getValue();
+			return RubyBignum.bignorm(bigValue1.mod(bigValue2));
+		}
+		else if (value2 instanceof RubyFixnum){
+			RubyFixnum intValue2 = (RubyFixnum)value2;
+			return ObjectFactory.createFixnum(value1.intValue() % intValue2.intValue());
+		}
+		else if (value2 instanceof RubyFloat){
+			double floatValue1 = value1.intValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
+			return ObjectFactory.createFloat(floatValue1 % floatValue2);
+		}
+		throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Fixnum");
 	}
 }
 
@@ -559,10 +417,100 @@ class Fixnum_operator_star_star extends RubyMethod {
 			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			return ObjectFactory.createFloat(Math.pow(floatValue1, floatValue2));
 		}
-		// TODO: coerce args(0) into star-star Fixnum
-		throw new RubyException(RubyRuntime.ArgumentErrorClass, "Fixnum cannot star-star with " + args.get(0).getRubyClass().getName());
+		throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't coerced into Fixnum");
 	}
 }
+
+class Fixnum_operator_bor extends RubyMethod {
+	public Fixnum_operator_bor() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		Object value2 = args.get(0).getValue();
+		if (value2 instanceof RubyBignum){
+			return ((RubyBignum)value2).op_bor(receiver);
+		}
+		else if (value2 instanceof RubyFixnum){
+			return ObjectFactory.createFixnum(value1.intValue() | ((RubyFixnum)value2).intValue());
+		}
+		else if (value2 instanceof RubyFloat){
+			RubyFloat floatValue2 = (RubyFloat)value2;
+			if (floatValue2.doubleValue() > Integer.MAX_VALUE ||
+					floatValue2.doubleValue() < Integer.MIN_VALUE){
+				int intValue2 = (int)floatValue2.doubleValue();
+				return ObjectFactory.createFixnum(value1.intValue() | intValue2);
+			}
+			else{
+				BigInteger bigValue2 = BigDecimal.valueOf(floatValue2.doubleValue()).toBigInteger();
+				return RubyBignum.bignorm(BigInteger.valueOf(value1.intValue()).or(bigValue2));
+			}
+		}
+		throw new RubyException(RubyRuntime.TypeErrorClass, "Can't convert " + args.get(0).getRubyClass().getName() + " to Integer");
+	}
+}
+
+class Fixnum_operator_band extends RubyMethod {
+	public Fixnum_operator_band() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		Object value2 = args.get(0).getValue();
+		if (value2 instanceof RubyBignum){
+			return ((RubyBignum)value2).op_band(receiver);
+		}
+		else if (value2 instanceof RubyFixnum){
+			return ObjectFactory.createFixnum(value1.intValue() & ((RubyFixnum)value2).intValue());
+		}
+		else if (value2 instanceof RubyFloat){
+			RubyFloat floatValue2 = (RubyFloat)value2;
+			if (floatValue2.doubleValue() > Integer.MAX_VALUE ||
+					floatValue2.doubleValue() < Integer.MIN_VALUE){
+				int intValue2 = (int)floatValue2.doubleValue();
+				return ObjectFactory.createFixnum(value1.intValue() & intValue2);
+			}
+			else{
+				BigInteger bigValue2 = BigDecimal.valueOf(floatValue2.doubleValue()).toBigInteger();
+				return RubyBignum.bignorm(BigInteger.valueOf(value1.intValue()).and(bigValue2));
+			}
+		}
+		throw new RubyException(RubyRuntime.TypeErrorClass, "Can't convert " + args.get(0).getRubyClass().getName() + " to Integer");
+	}
+}
+
+class Fixnum_operator_bxor extends RubyMethod {
+	public Fixnum_operator_bxor() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		Object value2 = args.get(0).getValue();
+		if (value2 instanceof RubyBignum){
+			return ((RubyBignum)value2).op_bxor(receiver);
+		}
+		else if (value2 instanceof RubyFixnum){
+			return ObjectFactory.createFixnum(value1.intValue() ^ ((RubyFixnum)value2).intValue());
+		}
+		else if (value2 instanceof RubyFloat){
+			RubyFloat floatValue2 = (RubyFloat)value2;
+			if (floatValue2.doubleValue() > Integer.MAX_VALUE ||
+					floatValue2.doubleValue() < Integer.MIN_VALUE){
+				int intValue2 = (int)floatValue2.doubleValue();
+				return ObjectFactory.createFixnum(value1.intValue() ^ intValue2);
+			}
+			else{
+				BigInteger bigValue2 = BigDecimal.valueOf(floatValue2.doubleValue()).toBigInteger();
+				return RubyBignum.bignorm(BigInteger.valueOf(value1.intValue()).xor(bigValue2));
+			}
+		}
+		throw new RubyException(RubyRuntime.TypeErrorClass, "Can't convert " + args.get(0).getRubyClass().getName() + " to Integer");
+	}
+}
+
 
 class Fixnum_operator_bnot extends RubyMethod {
 	public Fixnum_operator_bnot() {
@@ -572,6 +520,55 @@ class Fixnum_operator_bnot extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
 		return ObjectFactory.createFixnum(~value1.intValue());
+	}
+}
+
+class Fixnum_operator_star extends RubyMethod {
+	public Fixnum_operator_star() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		Object value2 = args.get(0).getValue();
+		if (value2 instanceof RubyBignum){
+			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
+			BigInteger bigValue2 = ((RubyBignum)value2).getValue();
+			return RubyBignum.bignorm(bigValue1.multiply(bigValue2));
+		}
+		else if (value2 instanceof RubyFixnum){
+			int intValue2 = ((RubyFixnum)value2).intValue();
+			return RubyBignum.bignorm((long)value1.intValue() * (long)(intValue2));
+		}
+		else if (value2 instanceof RubyFloat){
+			double floatValue1 = value1.intValue();
+			double floatValue2 = ((RubyFloat)value2).doubleValue();
+			return ObjectFactory.createFloat(floatValue1 * floatValue2);
+		}
+		throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't coerced into Fixnum");
+	}
+}
+
+class Fixnum_to_f extends RubyMethod {
+	public Fixnum_to_f() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		return ObjectFactory.createFloat(value1.intValue());
+	}
+}
+
+
+class Fixnum_to_s extends RubyMethod {
+	public Fixnum_to_s() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value = (RubyFixnum)receiver.getValue();
+		return ObjectFactory.createString(value.toString());
 	}
 }
 

@@ -12,24 +12,6 @@ class Bignum_initialize extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		throw new RubyException(RubyRuntime.RuntimeErrorClass, "Bitnum#new cannot be called");
-		/*BigInteger bigValue;
-		
-		if (args == null || args.size() == 0)
-			bigValue = new BigInteger("0");
-		else if (args.size() == 1){
-			RubyString str = (RubyString)args.get(0).getValue();
-			bigValue = new BigInteger(str.toString());
-		}
-		else if (args.size() == 2){
-			RubyString str = (RubyString)args.get(0).getValue();
-			RubyFixnum radix = (RubyFixnum)args.get(1).getValue();
-			bigValue = new BigInteger(str.toString(), radix.intValue());
-		}
-		else{
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
-		}
-		receiver.setValue(new RubyBignum(bigValue));
-		return receiver;*/
 	}
 }
 
@@ -252,8 +234,8 @@ class Bignum_get_bit extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyBignum value1 = (RubyBignum)receiver.getValue();
-		RubyFixnum index = (RubyFixnum)args.get(0).getValue();
-		boolean flag = value1.getValue().testBit(index.intValue());
+		int index = RubyTypesUtil.convertToFixnum(args.get(0)).intValue();
+		boolean flag = value1.getValue().testBit(index);
 		if (flag){
 			return ObjectFactory.createFixnum(1);
 		}
@@ -290,8 +272,7 @@ class Bignum_operator_star_star extends RubyMethod {
 			}
 			floatValue2 = intValue2;
 		}else{
-			// TODO: coerce args(0) into star-star
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "Bignum cannot star-star with " + args.get(0).getRubyClass().getName());
+			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Bignum");
 		}
 		return ObjectFactory.createFloat(Math.pow(value1.doubleValue(), floatValue2));
 	}
