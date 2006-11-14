@@ -54,17 +54,25 @@ module Kernel
 	end
 end
 
+class Object
+	def nil?
+		false
+	end
+end
+
 class Array
 	def to_a
 		self
 	end
 
+	# xrub BUG #16
 	def join(sepString="")
 		return to_s if sepString.nil? || sepString == ""
 
+		selfObject = self
 		result = ""
 		(length - 1).times do |index|
-			result += self[index].to_s + sepString
+			result += (selfObject[index].to_s) + sepString
 		end
 		result += self[length - 1].to_s if length != 0
 		result
@@ -94,6 +102,73 @@ class String
 	
 	alias to_str to_s
 	alias inspect to_s
+end
+
+class Numeric
+	def >=(value)
+		compare = (self <=> value)
+		return compare != -1
+	end
+
+	def ==(value)
+		compare = (self <=> value)
+		return compare == 0
+	end
+
+	def <=(value)
+		compare = (self <=> value)
+		return compare != 1
+	end
+
+	def >(value)
+		compare = (self <=> value)
+		return compare == 1
+	end
+
+	def <(value)
+		compare = (self <=> value)
+		return compare == -1
+	end
+
+	def abs
+		return -self if (self <=> 0) == -1
+		self
+	end
+
+	def coerce(value)
+		[self, value]
+	end
+
+	def divmod(value)
+		[self / value, self % value]
+	end
+
+	def integer?
+		false
+	end
+
+	alias eql? :==
+
+	def modulo(value)
+		self % value
+	end
+
+	def nonzero?
+		return nil if self == 0
+		self
+	end
+	
+	def zero?
+		return true if self == 0
+		false
+	end
+
+	def remainder(value)
+		self_sign = (self < 0)
+		value_sign = (value < 0)
+		return self % value if self_sign == value_sign
+		self % (-value)
+	end
 end
 
 class Integer < Numeric
@@ -142,6 +217,14 @@ class Integer < Numeric
 			a -= 1
 		end
 	end
+
+	def size
+		4
+	end
+
+	def integer?
+		true
+	end
 end
 
 class Fixnum < Integer
@@ -153,30 +236,7 @@ class Fixnum < Integer
 end
 
 class Bignum < Integer
-	def >=(value)
-		compare = (self <=> value)
-		return compare != -1
-	end
-
-	def ==(value)
-		compare = (self <=> value)
-		return compare == 0
-	end
-
-	def <=(value)
-		compare = (self <=> value)
-		return compare != 1
-	end
-
-	def >(value)
-		compare = (self <=> value)
-		return compare == 1
-	end
-
-	def <(value)
-		compare = (self <=> value)
-		return compare == -1
-	end
+	#undef new
 end
 
 class NilClass
@@ -281,30 +341,27 @@ class Range
 		self
 	end
 
-	# xruby BUG #12
-=begin
 	def ===(value)
 		each do |item|
 			return true if value == item
 		end
 		false
 	end
-=end
-
-	def ===(value)
-		found = false
-		each do |item|
-			if (item <=> value) == 0
-				found = true
-				break
-			end
-		end
-		found
-	end
 
 	def to_s
 		return self.begin.to_s + "..." + self.end.to_s if exclude_end?
 		return self.begin.to_s + ".." + self.end.to_s
+	end
+
+	alias first :begin
+	alias last :end
+end
+
+class File < IO
+	SEPARATOR = separator
+
+	def self.join(*strings)
+		strings.join(separator)
 	end
 end
 
