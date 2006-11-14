@@ -66,6 +66,7 @@ public class RubyRuntime {
 	public static RubyClass rangeError;
 	public static RubyClass nameError;
 	public static RubyClass noMethodError;
+	public static RubyClass localJumpError;
 	
 	public static RubyClass scriptError;
 	public static RubyClass syntaxError;

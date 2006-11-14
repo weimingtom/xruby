@@ -28,7 +28,7 @@ public class RubyCompilerTest extends TestCase {
 				assertTrue(null != codes);
 				RubyProgram p = (RubyProgram)codes.getRubyProgram();
 				RubyValue v = p.run();
-				RubyFixnum r = (RubyFixnum)v.getValue();
+				RubyFixnum r = (RubyFixnum)v;
 				assertEquals(results[i], r.intValue());
 			} catch (Exception e) {
 				assertTrue("Error at " + i + ": " + e.toString(), false);
@@ -104,9 +104,9 @@ public class RubyCompilerTest extends TestCase {
 		try {
 			p.run();
 		} catch (RubyException e) {
-			RubyValue v = e.getRubyValue();
-			assertEquals(v.getRubyClass(), RubyRuntime.RuntimeErrorClass);
-			String s = (String)v.getValue();
+			RubyValue v = e.getRubyException();
+			assertEquals(v.getRubyClass(), RubyRuntime.runtimeError);
+			String s = e.getMessage();
 			assertEquals("test", s);
 			return;
 		}
@@ -565,8 +565,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (Fixnum given)"),
-			new RubyException(RubyRuntime.TypeErrorClass, "superclass mismatch for class C"),
+			new RubyException(RubyRuntime.typeError, "superclass must be a Class (Fixnum given)"),
+			new RubyException(RubyRuntime.typeError, "superclass mismatch for class C"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -1289,9 +1289,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.NameErrorClass, "public method 'f123' can not be found in 'CTest'"),
-			new RubyException(RubyRuntime.NameErrorClass, "method 'a' can not be found in 'Object'"),
-			new RubyException(RubyRuntime.NameErrorClass, "method 'b' can not be found in 'Object'"),
+			new RubyException(RubyRuntime.nameError, "public method 'f123' can not be found in 'CTest'"),
+			new RubyException(RubyRuntime.nameError, "method 'a' can not be found in 'Object'"),
+			new RubyException(RubyRuntime.nameError, "method 'b' can not be found in 'Object'"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -1568,11 +1568,11 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.NameErrorClass, "public method 'pf' can not be found in 'TestPrivateProtected1'"),
-			new RubyException(RubyRuntime.NameErrorClass, "public method 'test_private_protected2' can not be found in 'TestPrivateProtected2'"),
-			new RubyException(RubyRuntime.NameErrorClass, "public method 'tpp1' can not be found in 'TestPrivateProtected3'"),
-			new RubyException(RubyRuntime.NameErrorClass, "undefined method `no_such_method` for class `TestPrivateProtected4`"),
-			new RubyException(RubyRuntime.NameErrorClass, "public method 'test_private_protected5' can not be found in 'Object'"),
+			new RubyException(RubyRuntime.nameError, "public method 'pf' can not be found in 'TestPrivateProtected1'"),
+			new RubyException(RubyRuntime.nameError, "public method 'test_private_protected2' can not be found in 'TestPrivateProtected2'"),
+			new RubyException(RubyRuntime.nameError, "public method 'tpp1' can not be found in 'TestPrivateProtected3'"),
+			new RubyException(RubyRuntime.nameError, "undefined method `no_such_method` for class `TestPrivateProtected4`"),
+			new RubyException(RubyRuntime.nameError, "public method 'test_private_protected5' can not be found in 'Object'"),
 		};
 
 		compile_run_and_catch_exception(bad_program_texts, exceptions);
@@ -1698,7 +1698,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.NameErrorClass, "uninitialized class variable @@no_scuh_variable in Object"),	
+			new RubyException(RubyRuntime.nameError, "uninitialized class variable @@no_scuh_variable in Object"),	
 		};
 		
 		compile_run_and_catch_exception(bad_program_texts, exceptions);
@@ -1893,7 +1893,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.LocalJumpErrorClass, "in `loop': no block given"),
+			new RubyException(RubyRuntime.localJumpError, "in `loop': no block given"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -1985,9 +1985,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
-			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
-			//new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
+			new RubyException(RubyRuntime.argumentError, "bad value for range"),
+			new RubyException(RubyRuntime.argumentError, "bad value for range"),
+			//new RubyException(RubyRuntime.argumentError, "bad value for range"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -2139,9 +2139,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
-			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 3)"),
-			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 2)"),
+			new RubyException(RubyRuntime.argumentError, "wrong number of arguments (0 for 1)"),
+			new RubyException(RubyRuntime.argumentError, "wrong number of arguments (1 for 3)"),
+			new RubyException(RubyRuntime.argumentError, "wrong number of arguments (1 for 2)"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -2255,7 +2255,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type String (expected Module)"),
+			new RubyException(RubyRuntime.typeError, "wrong argument type String (expected Module)"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -2268,8 +2268,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.TypeErrorClass, "TestNameConflict is not a class"),
-			new RubyException(RubyRuntime.TypeErrorClass, "TestNameConflict2 is not a module"),
+			new RubyException(RubyRuntime.typeError, "TestNameConflict is not a class"),
+			new RubyException(RubyRuntime.typeError, "TestNameConflict2 is not a module"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -2350,10 +2350,10 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant CONSTANT_IN_MODULE_EXCEPTION_XXX"),
-			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant ConstantInModuleException::B"),
-			new RubyException(RubyRuntime.TypeErrorClass, "1 is not a class/module"),
-			new RubyException(RubyRuntime.TypeErrorClass, "9 is not a class/module"),
+			new RubyException(RubyRuntime.nameError, "uninitialized constant CONSTANT_IN_MODULE_EXCEPTION_XXX"),
+			new RubyException(RubyRuntime.nameError, "uninitialized constant ConstantInModuleException::B"),
+			new RubyException(RubyRuntime.typeError, "1 is not a class/module"),
+			new RubyException(RubyRuntime.typeError, "9 is not a class/module"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -2418,7 +2418,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.ArgumentErrorClass, "1 is not a symbol"),
+			new RubyException(RubyRuntime.argumentError, "1 is not a symbol"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
