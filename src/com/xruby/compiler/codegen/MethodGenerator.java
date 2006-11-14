@@ -79,6 +79,12 @@ class MethodGeneratorBase extends GeneratorAdapter {
 		storeLocal(i);
 	}
 
+	public void restoreLocalVariableFromBlock(String blockName, String name) {
+		loadLocal(getSymbolTable().getLocalVariable("block$"));
+		getField(Type.getType("L" + blockName + ";"), name, Type.getType(Types.RubyValueClass));
+		storeLocal(getLocalVariable(name));
+	}
+
 	public int getLocalVariable(String name) {
 		int i = getSymbolTable().getLocalVariable(name);
 		if (i >= 0) {
@@ -110,12 +116,6 @@ class MethodGenerator extends MethodGeneratorBase {
 	
 	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
 		super(arg0, arg1, arg2, arg3, arg4);
-	}
-
-	public void restoreLocalVariableFromBlock(String blockName, String name) {
-		loadLocal(getSymbolTable().getLocalVariable("block$"));
-		getField(Type.getType("L" + blockName + ";"), name, Type.getType(Types.RubyValueClass));
-		storeLocal(getLocalVariable(name));
 	}
 
 	public void returnIfBlockReturned() {
