@@ -56,11 +56,24 @@ public class RubyRuntime {
     public static RubyModule EnumModule = EnumerableBuilder.create();
 
     private static boolean builtin_initialized_ = false;
+    
+    public static void initBuiltin(){
+    	initBuiltin(null);
+    }
 
-	public static void initBuiltin() {
+	public static void initBuiltin(String args) {
 		if (builtin_initialized_) {
 			return;
 		}
+		
+		RubyArray argv = new RubyArray();
+		if (args != null){
+			String[] sargs = args.split(" ");
+			for (String arg: sargs){
+				argv.add(ObjectFactory.createString(arg));
+			}
+		}
+		RubyValue.setTopLevelConstant(ObjectFactory.createArray(argv), "ARGV");
 
 		TopLevelSelfInitializer.initSingletonMethods();
 		TimeClassBuilder.initSingletonMethods();
