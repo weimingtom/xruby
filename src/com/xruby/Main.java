@@ -24,10 +24,22 @@ public class Main {
 		}
 		
 		if (options.getFiles().size() == 0) {
-			compile(null, options.isCompileOnly(), options.getArgs());
+			compile(null, options.isCompileOnly(), null);
 		} else {
-			for (String filename : options.getFiles()) {
-				compile(filename, options.isCompileOnly(), options.getArgs());
+			if (options.isCompileOnly()){
+				for (String filename : options.getFiles()) {
+					compile(filename, options.isCompileOnly(), null);
+				}
+			}else{
+				String filename = args[0];
+				StringBuffer newArgs = new StringBuffer();
+				for(int i=1; i<args.length; ++i){
+					if (i != 1) {
+						newArgs.append(" ");
+					}
+					newArgs.append(args[i]);
+				}
+				compile(filename, false, newArgs.toString());
 			}
 		}
 	}
