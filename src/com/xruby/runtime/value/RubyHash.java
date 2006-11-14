@@ -65,6 +65,20 @@ public class RubyHash {
         }
     }
 
+    public RubyArray to_a() {
+        RubyArray array = new RubyArray();
+        for(RubyValue key: keys_) {
+            RubyValue value = map_.get(key);
+            RubyArray entry = new RubyArray();
+            entry.add(key);
+            entry.add(value);
+
+            array.add(ObjectFactory.createArray(entry));
+        }
+
+        return array;
+    }
+
     // Getter and Setter for default value
     public RubyValue getDefaultValue() {
         return default_value_;
