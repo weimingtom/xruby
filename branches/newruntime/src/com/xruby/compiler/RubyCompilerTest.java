@@ -2875,9 +2875,9 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_IO_gets() {
-		
-		RubyIO out = new RubyIO("test_IO_gets.txt", "w");
+	public void test_IO_gets() throws IOException {
+		File f = new File("test_IO_gets.txt");
+		PrintWriter out = new PrintWriter(new FileWriter(f));
 		out.print("line 1\n");
 		out.print("line 2");
 		out.close();
@@ -2900,7 +2900,6 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 		
-		File f = new File("test_IO_gets.txt");
 		assertTrue(f.delete());
 	}
 	
