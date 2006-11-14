@@ -8,23 +8,73 @@ package com.xruby.compiler.codegen;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
 
-import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.*;
+import com.xruby.newruntime.lang.*;
+import com.xruby.newruntime.value.*;
 
-class MethodGenerator extends GeneratorAdapter {
-	
-	private SymbolTable symbol_table_ = new SymbolTable();
+class MethodGeneratorBase extends GeneratorAdapter {
+	protected SymbolTable symbol_table_ = new SymbolTable();
 
-	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
+	public MethodGeneratorBase(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
 		super(arg0, arg1, arg2, arg3, arg4);
 	}
-	
+
 	public SymbolTable getSymbolTable() {
 		return symbol_table_;
 	}
 
 	public void pushNull() {
 		visitInsn(Opcodes.ACONST_NULL);
+	}
+
+	public int saveRubyArrayAsLocalVariable() {
+		int var = newLocal(Type.getType(RubyArray.class));
+		storeLocal(var);
+		return var;
+	}
+
+	public int saveRubyValueAsLocalVariable() {
+		int var = newLocal(Type.getType(Types.RubyValueClass));
+		storeLocal(var);
+		return var;
+	}
+	
+	public void catchRubyException(Label start, Label end) {
+		catchException(start,
+				end,
+				Type.getType(RubyException.class));
+	}
+
+	public void new_RubyArray(int size, boolean notSingleAsterisk) {
+		Type arrayValue = Type.getType(RubyArray.class);
+		newInstance(arrayValue);
+		dup();
+		push(size);
+		push(notSingleAsterisk);
+		invokeConstructor(arrayValue,
+				Method.getMethod("void <init> (int, boolean)"));
+	}
+	
+	public void new_HashValue() {
+		Type t = Type.getType(RubyHash.class);
+		newInstance(t);
+		dup();
+		invokeConstructor(t, Method.getMethod("void <init> ()"));
+		
+	}
+	
+	public void new_RubyString() {
+		Type t = Type.getType(RubyString.class);
+		newInstance(t);
+		dup();
+		invokeConstructor(t, Method.getMethod("void <init> ()"));
+	}
+	
+}
+
+class MethodGenerator extends MethodGeneratorBase {
+	
+	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
+		super(arg0, arg1, arg2, arg3, arg4);
 	}
 	
 	public void saveBlockForFutureRestoreAndCheckReturned() {
@@ -85,6 +135,11 @@ class MethodGenerator extends GeneratorAdapter {
 		loadLocal(value);
 	}
 
+	public void loadBlockOfCurrentMethod() {
+		loadThis();
+		getField(Type.getType(Types.RubyBlockClass), "blockOfCurrentMethod_", Type.getType(Types.RubyBlockClass));
+	}
+
 	public void new_MethodClass(String methodName) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
@@ -92,12 +147,7 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeConstructor(methodNameType,
 				Method.getMethod("void <init> ()"));
 	}
-
-	public void loadBlockOfCurrentMethod() {
-		loadThis();
-		getField(Type.getType(Types.RubyBlockClass), "blockOfCurrentMethod_", Type.getType(Types.RubyBlockClass));
-	}
-
+		
 	public void new_BlockClass(String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
@@ -124,31 +174,6 @@ class MethodGenerator extends GeneratorAdapter {
 		
 		invokeConstructor(methodNameType,
 				Method.getMethod(ClassGeneratorForRubyBlock.buildContructorSignature(commons.length)));
-	}
-	
-	public void new_RubyArray(int size, boolean notSingleAsterisk) {
-		Type arrayValue = Type.getType(RubyArray.class);
-		newInstance(arrayValue);
-		dup();
-		push(size);
-		push(notSingleAsterisk);
-		invokeConstructor(arrayValue,
-				Method.getMethod("void <init> (int, boolean)"));
-	}
-	
-	public void new_HashValue() {
-		Type t = Type.getType(RubyHash.class);
-		newInstance(t);
-		dup();
-		invokeConstructor(t, Method.getMethod("void <init> ()"));
-		
-	}
-	
-	public void new_RubyString() {
-		Type t = Type.getType(RubyString.class);
-		newInstance(t);
-		dup();
-		invokeConstructor(t, Method.getMethod("void <init> ()"));
 	}
 	
 	public void RubyArray_add(boolean is_method_call) {
@@ -602,23 +627,7 @@ class MethodGenerator extends GeneratorAdapter {
 		returnValue();
 	}
 	
-	public int saveRubyArrayAsLocalVariable() {
-		int var = newLocal(Type.getType(RubyArray.class));
-		storeLocal(var);
-		return var;
-	}
 
-	public int saveRubyValueAsLocalVariable() {
-		int var = newLocal(Type.getType(Types.RubyValueClass));
-		storeLocal(var);
-		return var;
-	}
-	
-	public void catchRubyException(Label start, Label end) {
-		catchException(start,
-				end,
-				Type.getType(RubyException.class));
-	}
 }
 
 class MethodGeneratorForClassBuilder extends MethodGenerator {

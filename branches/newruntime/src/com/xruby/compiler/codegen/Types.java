@@ -1,6 +1,6 @@
 package com.xruby.compiler.codegen;
 
-import com.xruby.runtime.lang.*;
+import com.xruby.newruntime.lang.*;
 
 /*
  * This class is created to control the dependency between "compiler" and "runtime" package
