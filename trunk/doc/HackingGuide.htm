@@ -232,8 +232,8 @@ class Fixnum_operator_plus extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		IntegerValue value1 = (IntegerValue)receiver.getValue();
-		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		RubyFixnum value2 = (RubyFixnum)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
 	}
 }
