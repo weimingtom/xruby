@@ -5,8 +5,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.Method;
 
-import com.xruby.runtime.lang.*;
-
 class ClassGeneratorForRubyProgram extends ClassGenerator {
 	public ClassGeneratorForRubyProgram(String name) {
 		super(name);
@@ -45,7 +43,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				null,
 				cw);
 
-		mg.invokeStatic(Type.getType(RubyRuntime.class),
+		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),
 				Method.getMethod("void initBuiltin()"));
 
 		Type program = Type.getType("L" + name_ + ";");
@@ -57,7 +55,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"));
 		mg.pop();
 
-		mg.invokeStatic(Type.getType(AtExitBlocks.class),
+		mg.invokeStatic(Type.getType(Types.AtExitBlocksClass),
 				Method.getMethod("void invokeAll()"));
 		
 		mg.returnValue();
