@@ -207,7 +207,16 @@ public class RubyArray implements Iterable<RubyValue> {
 		return false;
 	}
 
-	public void expand(RubyValue v) {
+    public void rb_iterate(RubyValue receiver, RubyBlock block) {
+        for(RubyValue item: array) {
+            RubyArray args = new RubyArray();
+            args.add(item);
+
+            block.invoke(receiver, args);
+        }
+    }
+
+    public void expand(RubyValue v) {
 		Object o = v.getValue();
 		if (o instanceof RubyArray) {
 			//[5,6,*[1, 2]]

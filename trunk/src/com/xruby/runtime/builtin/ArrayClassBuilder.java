@@ -186,6 +186,19 @@ class Array_include extends RubyMethod {
 	}
 }
 
+class Array_each extends RubyMethod {
+	public Array_each() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver.getValue();
+		array.rb_iterate(receiver, block);
+        
+        return receiver;
+	}
+}
+
 class Array_unshift extends RubyMethod {
 	public Array_unshift() {
 		super(-1);
@@ -228,6 +241,10 @@ public class ArrayClassBuilder {
 		c.defineMethod("include?", new Array_include());
 		c.defineMethod("unshift", new Array_unshift());
         c.defineMethod("initialize", new Array_initialize());
+        c.defineMethod("each", new Array_each());
+
+        c.includeModule(EnumerableBuilder.create());
+        
         return c;
 	}
 }
