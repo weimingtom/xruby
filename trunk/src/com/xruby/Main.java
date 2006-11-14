@@ -24,10 +24,10 @@ public class Main {
 		}
 		
 		if (options.getFiles().size() == 0) {
-			compile(null, options.isCompileOnly());
+			compile(null, options.isCompileOnly(), options.getArgs());
 		} else {
 			for (String filename : options.getFiles()) {
-				compile(filename, options.isCompileOnly());
+				compile(filename, options.isCompileOnly(), options.getArgs());
 			}
 		}
 	}
@@ -36,7 +36,7 @@ public class Main {
 		System.out.println("Usage: xruby [-c] filename1, filename2, ...");
 	}
 
-	private static void compile(String filename, boolean compileOnly) {
+	private static void compile(String filename, boolean compileOnly, String args) {
 
 		try {
 			System.out.println("Compilation of " + filename + " strarted");
@@ -51,7 +51,7 @@ public class Main {
 			} else {
 				System.out.println("Executing " + filename + "...");
 				RubyProgram p = (RubyProgram)results.getRubyProgram();
-				RubyRuntime.initBuiltin();
+				RubyRuntime.initBuiltin(args);
 				p.run();
 				AtExitBlocks.invokeAll();
 			}

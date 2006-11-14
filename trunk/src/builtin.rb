@@ -6,6 +6,8 @@
 $: = ["./stdlib", "."]
 $__loaded_libraries = []
 
+$* = ARGV
+
 module Kernel
 	def to_a
 		[self]
