@@ -6,7 +6,6 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
-import com.xruby.runtime.lang.*;
 import java.util.*;
 
 abstract class ClassGenerator {
@@ -58,7 +57,7 @@ abstract class ClassGenerator {
 				Opcodes.ACC_PRIVATE,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule)"),
 				null,
-				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
+				null,
 				cw_);
 	}
 
@@ -100,7 +99,7 @@ abstract class ClassGenerator {
 	}
 
 	public int getAnonymousLocalVariable() {
-		return getMethodGenerator().newLocal(Type.getType(RubyValue.class));
+		return getMethodGenerator().newLocal(Type.getType(Types.RubyValueClass));
 	}
 	
 	abstract protected Class getType();

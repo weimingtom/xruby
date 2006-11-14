@@ -8,7 +8,6 @@ import java.io.*;
 import java.util.*;
 import java.util.jar.*;
 
-import com.xruby.runtime.lang.*;
 import com.xruby.compiler.*;
 
 class CompilationResultLoader extends ClassLoader
@@ -85,7 +84,10 @@ public class CompilationResults {
 		return manifest;
 	}
 	
-	public RubyValue run() throws InstantiationException, IllegalAccessException, RubyException {
+	/*
+	 * @return an instance of RubyProgram. The user of the API need to cast the return value to RubyProgram
+	 */
+	public Object getRubyProgram() throws InstantiationException, IllegalAccessException {
 
 		CompilationResultLoader loader = new CompilationResultLoader();
 		Class classToRun = null;
@@ -94,7 +96,6 @@ public class CompilationResults {
 		}
 
 		//The "main program" is always the last one.
-		RubyProgram program = (RubyProgram) classToRun.newInstance();
-		return program.run();	
+		return classToRun.newInstance();
 	}
 }

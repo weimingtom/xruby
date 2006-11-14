@@ -2,8 +2,6 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
-
-import com.xruby.runtime.lang.*;
 import java.util.*;
 
 class ClassGeneratorForRubyBlock extends ClassGenerator {
@@ -29,7 +27,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 	
 	protected Class getType() {
-		return RubyBlock.class;
+		return Types.RubyBlockClass;
 	}
 
 	private boolean isDefinedInCurrentScope(String name) {
@@ -39,7 +37,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
 	private void loadField(String name) {
 		mg_for_run_method_.loadThis();
-		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
+		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
 	}
 
 	public void loadVariable(String name) {
@@ -56,7 +54,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			
 		getMethodGenerator().loadThis();
 		loadVariable("tmp$");
-		getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
+		getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
 	}
 
 	public void storeVariable(String name) {
@@ -75,7 +73,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			assigned_fields_.add(name);
 			getMethodGenerator().loadThis();
 			super.loadVariable(name);
-			getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(RubyValue.class));
+			getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
 		}
 	}
 
@@ -100,8 +98,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"),
-				null,// signature
-				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
+				null,
+				null,
 				cw_);
 	}
 
@@ -130,7 +128,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		for (String name : commons) {
 			FieldVisitor fv = cw_.visitField(assigned_fields_.contains(name) ? Opcodes.ACC_PUBLIC : Opcodes.ACC_PRIVATE,
 					name,
-					Type.getDescriptor(RubyValue.class),
+					Type.getDescriptor(Types.RubyValueClass),
 					null,
 					null
 					);
@@ -151,13 +149,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.push(has_asterisk_parameter_);
 		mg.push(default_argc_);
 		mg.loadArg(0);
-		mg.invokeConstructor(Type.getType(RubyBlock.class),
+		mg.invokeConstructor(Type.getType(Types.RubyBlockClass),
 						Method.getMethod("void <init> (int, boolean, int, com.xruby.runtime.lang.RubyBlock)"));
 		
 		for (int i = 0; i < commons.length; ++i) {
 			mg.loadThis();
 			mg.loadArg(i + 1);
-			mg.putField(Type.getType("L" + name_ + ";"), commons[i], Type.getType(RubyValue.class));
+			mg.putField(Type.getType("L" + name_ + ";"), commons[i], Type.getType(Types.RubyValueClass));
 		}
 		
 		mg.returnValue();
