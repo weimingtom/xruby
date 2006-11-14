@@ -112,13 +112,11 @@ public class main
     }
 
     public static void main(String args[])
-        throws RubyException
     {
         (new main()).run();
     }
 
     public RubyValue run()
-        throws RubyException
     {
         RubyRuntime.ObjectClass.setAccessPrivate();
         RubyRuntime.ObjectClass.defineMethod("say_hello_three_times", new say_hello_three_times._cls0());
@@ -132,7 +130,6 @@ class say_hello_three_times$0 extends RubyMethod
 {
 
     protected RubyValue run(RubyValue rubyvalue, RubyArray arrayvalue, RubyBlock rubyblock)
-        throws RubyException
     {
         return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(3), null, new BLOCK._cls1(), "times");
     }
@@ -149,7 +146,6 @@ class BLOCK$1 extends RubyBlock
 {
 
     protected RubyValue run(RubyValue rubyvalue, RubyArray arrayvalue)
-        throws RubyException
     {
         RubyArray arrayvalue1 = new RubyArray(1);
         arrayvalue1.add(ObjectFactory.createString("hello"));
@@ -235,9 +231,9 @@ class Fixnum_operator_plus extends RubyMethod {
 		super(1);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) throws RubyException {
-		IntegerValue value1 = (IntegerValue)receiver.getValue();
-		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		RubyFixnum value2 = (RubyFixnum)args.get(0).getValue();
 		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
 	}
 }
