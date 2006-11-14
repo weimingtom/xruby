@@ -153,6 +153,25 @@ public class RubyRuntime {
 		initMath();
 		initMarshal();
 		initGlobal();
+		
+		//FIXME enable the following line after compiler works with newruntime
+		//initBuiltin();
+	}
+	
+	//Load classes/modules implemented in builtin.rb
+	private static void initBuiltin() {
+		try {
+			Class c = Class.forName("builtin.main");
+			Object o = c.newInstance();
+			RubyProgram p = (RubyProgram)o;
+			p.run();
+		} catch (ClassNotFoundException e) {
+		} catch (InstantiationException e) {
+		} catch (IllegalAccessException e) {
+		} catch (RubyException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	private static void initGlobal() {
