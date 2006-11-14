@@ -33,8 +33,8 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		//Implement RubyProgram
 		return new MethodGenerator(Opcodes.ACC_PUBLIC,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"),
-				null,// signature
-				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
+				null,
+				null,
 				cw_);
 	}
 
@@ -42,7 +42,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
 				Method.getMethod("void main (String[])"),
 				null,
-				new Type[] {Type.getType(RubyException.class)},// Type[] exceptions
+				null,
 				cw);
 
 		mg.invokeStatic(Type.getType(RubyRuntime.class),

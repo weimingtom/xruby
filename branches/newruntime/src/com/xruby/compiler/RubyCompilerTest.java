@@ -30,8 +30,9 @@ public class RubyCompilerTest extends TestCase {
 			try {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
 				assertTrue(null != codes);
-				RubyValue v = codes.run();
-				IntegerValue r = (IntegerValue)v.getValue();
+				RubyProgram p = (RubyProgram)codes.getRubyProgram();
+				RubyValue v = p.run();
+				RubyFixnum r = (RubyFixnum)v.getValue();
 				assertEquals(results[i], r.intValue());
 			} catch (Exception e) {
 				assertTrue("Error at " + i + ": " + e.toString(), false);
@@ -49,7 +50,8 @@ public class RubyCompilerTest extends TestCase {
 			try {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
 				assertTrue(null != codes);
-				codes.run();
+				RubyProgram p = (RubyProgram)codes.getRubyProgram();
+				p.run();
 				assertTrue("Error at " + i + ": should throw RubyException", false);
 			} catch (RubyException e) {
 				assertEquals(exceptions[i], e);
@@ -70,13 +72,14 @@ public class RubyCompilerTest extends TestCase {
 			try {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
 				assertTrue(null != codes);
+				RubyProgram p = (RubyProgram)codes.getRubyProgram();
 
 				ByteArrayOutputStream output = new ByteArrayOutputStream();
 				PrintStream original = System.out;
 				System.setOut(new PrintStream(output));
 
-				codes.run();
-
+				p.run();
+				
 				System.setOut(original);
 
 				assertEquals("Failed at " + i, outputs[i], output.toString());
@@ -101,8 +104,9 @@ public class RubyCompilerTest extends TestCase {
 		RubyCompiler compiler = new RubyCompiler();
 		CompilationResults codes = compiler.compile(new StringReader(program_texts));
 		assertTrue(null != codes);
+		RubyProgram p = (RubyProgram)codes.getRubyProgram();
 		try {
-			codes.run();
+			p.run();
 		} catch (RubyException e) {
 			RubyValue v = e.getRubyValue();
 			assertEquals(v.getRubyClass(), RubyRuntime.RuntimeErrorClass);
@@ -2875,9 +2879,9 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_IO_gets() throws RubyException {
+	public void test_IO_gets() {
 		
-		IOValue out = new IOValue("test_IO_gets.txt", "w");
+		RubyIO out = new RubyIO("test_IO_gets.txt", "w");
 		out.print("line 1\n");
 		out.print("line 2");
 		out.close();
