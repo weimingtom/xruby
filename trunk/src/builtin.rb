@@ -365,6 +365,10 @@ class File < IO
 	def self.join(*strings)
 		strings.join(separator)
 	end
+
+	def self.split(filename)
+		[dirname(filename), basename(filename)]
+	end
 end
 
 class ThreadError < StandardError

@@ -55,7 +55,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 				name.equals("Method") ||
 				name.equals("Time") ||
 				name.equals("MatchDate") ||
-				name.equals("Bignum")) {
+				name.equals("Bignum") ||
+				name.equals("Dir")) {
 			return true;
 		} else {
 			return false;
