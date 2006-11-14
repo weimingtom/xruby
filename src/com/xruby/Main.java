@@ -38,10 +38,6 @@ public class Main {
 
 	private static void compile(String filename, boolean compileOnly) {
 
-		if (compileOnly) {
-			RubyRuntimeSettings.CompileOnly = true;
-		}
-
 		try {
 			System.out.println("Compilation of " + filename + " strarted");
 
