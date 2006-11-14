@@ -38,6 +38,7 @@ public class RubyRuntime {
 	public static RubyClass MethodClass = MethodClassBuilder.create();
 	public static RubyClass TimeClass = TimeClassBuilder.create();
 	public static RubyClass MatchDataClass = MatchDataClassBuilder.create();
+	public static RubyClass DirClass = DirClassBuilder.create();
 
 	public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", ObjectClass);
 
@@ -61,24 +62,25 @@ public class RubyRuntime {
     	initBuiltin(null);
     }
 
-	public static void initBuiltin(String args) {
+	public static void initBuiltin(String[] args) {
 		if (builtin_initialized_) {
 			return;
 		}
 		
 		RubyArray argv = new RubyArray();
 		if (args != null){
-			String[] sargs = args.split(" ");
-			for (String arg: sargs){
+			for (String arg: args){
 				argv.add(ObjectFactory.createString(arg));
 			}
 		}
+
 		RubyValue.setTopLevelConstant(ObjectFactory.createArray(argv), "ARGV");
 
 		TopLevelSelfInitializer.initSingletonMethods();
 		TimeClassBuilder.initSingletonMethods();
 		IOClassBuilder.initSingletonMethods();
 		FileClassBuilder.initSingletonMethods();
+		DirClassBuilder.initSingletonMethods();
 
 		try {
 			Class c = Class.forName("builtin.main");

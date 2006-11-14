@@ -39,6 +39,7 @@ public class ObjectFactory {
 	public static final RubyValue TimeClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.TimeClass);
 	public static final RubyValue MatchDataClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.MatchDataClass);
 	public static final RubyValue BignumClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.BignumClass);
+	public static final RubyValue DirClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.DirClass);
 	
 	public static RubyValue createString(String value) {
 		return new RubyValue(RubyRuntime.StringClass, new RubyString(value));

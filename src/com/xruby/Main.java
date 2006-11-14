@@ -32,14 +32,11 @@ public class Main {
 				}
 			}else{
 				String filename = args[0];
-				StringBuffer newArgs = new StringBuffer();
+				String[] newArgs = new String[args.length - 1];
 				for(int i=1; i<args.length; ++i){
-					if (i != 1) {
-						newArgs.append(" ");
-					}
-					newArgs.append(args[i]);
+					newArgs[i - 1] = args[i];
 				}
-				compile(filename, false, newArgs.toString());
+				compile(filename, false, newArgs);
 			}
 		}
 	}
@@ -48,7 +45,7 @@ public class Main {
 		System.out.println("Usage: xruby [-c] filename1, filename2, ...");
 	}
 
-	private static void compile(String filename, boolean compileOnly, String args) {
+	private static void compile(String filename, boolean compileOnly, String[] args) {
 
 		try {
 			System.out.println("Compilation of " + filename + " strarted");

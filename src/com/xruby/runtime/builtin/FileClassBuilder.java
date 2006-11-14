@@ -141,6 +141,38 @@ class File_size extends RubyMethod {
 	}
 }
 
+class File_rename extends RubyMethod {
+	public File_rename() {
+		super(2);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		String file1 = RubyTypesUtil.convertToString(args.get(0)).toString();
+		String file2 = RubyTypesUtil.convertToString(args.get(1)).toString();
+		File file = new File(file1);
+		if (!file.isFile() && !file.isDirectory()){
+			throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such file or directory - " + file1);
+		}
+		return ObjectFactory.createBoolean(file.renameTo(new File(file2)));
+	}
+}
+
+class File_open extends RubyMethod {
+	public File_open() {
+		super(3, false, 2);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		String filename = RubyTypesUtil.convertToString(args.get(0)).toString();
+		String mode = "r";
+		RubyValue arg1 = args.get(1);
+		if (arg1 != ObjectFactory.nilValue){
+			mode = RubyTypesUtil.convertToString(arg1).toString();
+		}
+		return ObjectFactory.createFile(filename, mode);
+	}
+}
+
 public class FileClassBuilder {
 
 	public static RubyClass create() {
@@ -158,5 +190,7 @@ public class FileClassBuilder {
 		ObjectFactory.FileClassValue.defineMethod("separator", new File_separator());
 		ObjectFactory.FileClassValue.defineMethod("mtime", new File_mtime());
 		ObjectFactory.FileClassValue.defineMethod("size", new File_size());
+		ObjectFactory.FileClassValue.defineMethod("open", new File_open());
+		ObjectFactory.FileClassValue.defineMethod("rename", new File_rename());
 	}
 }
