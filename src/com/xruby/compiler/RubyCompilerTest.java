@@ -16,10 +16,6 @@ import com.xruby.compiler.codegen.*;
 
 public class RubyCompilerTest extends TestCase {
 
-	public void setUp() {
-		RubyRuntime.initBuiltin();
-	}
-	
 	private void compile_run_and_compare_result(String[] program_texts, int[] results) {
 		assertEquals("the number of 'results' should match 'program_texts'",
 				program_texts.length, results.length);

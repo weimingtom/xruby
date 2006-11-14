@@ -51,7 +51,6 @@ public class Main {
 			} else {
 				System.out.println("Executing " + filename + "...");
 				RubyProgram p = (RubyProgram)results.getRubyProgram();
-				RubyRuntime.initBuiltin();
 				p.run();
 				AtExitBlocks.invokeAll();
 			}
