@@ -68,15 +68,7 @@ class MethodGeneratorBase extends GeneratorAdapter {
 		dup();
 		invokeConstructor(t, Method.getMethod("void <init> ()"));
 	}
-	
-}
 
-class MethodGenerator extends MethodGeneratorBase {
-	
-	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
-		super(arg0, arg1, arg2, arg3, arg4);
-	}
-	
 	public void saveBlockForFutureRestoreAndCheckReturned() {
 		dup();
 		int i = symbol_table_.getLocalVariable("block$");
@@ -101,7 +93,7 @@ class MethodGenerator extends MethodGeneratorBase {
 		getSymbolTable().addLocalVariable(name, i);
 		return i;
 	}
-	
+
 	public void storeParameter(int index) {
 		int i = newLocal(Type.getType(Types.RubyValueClass));
 		storeLocal(i);
@@ -111,6 +103,13 @@ class MethodGenerator extends MethodGeneratorBase {
 		invokeVirtual(Type.getType(RubyArray.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue set(int, com.xruby.runtime.lang.RubyValue)"));
 		pop();
+	}
+}
+
+class MethodGenerator extends MethodGeneratorBase {
+	
+	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
+		super(arg0, arg1, arg2, arg3, arg4);
 	}
 
 	public void restoreLocalVariableFromBlock(String blockName, String name) {
