@@ -1,13 +1,7 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubyUtil;
-import com.xruby.newruntime.lang.RubyValue;
-import com.xruby.newruntime.value.RubyFixnum;
-import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.lang.*;
+import com.xruby.newruntime.value.*;
 
 public class NilBuilder implements ExtensionBuilder {
 	private RubyClass nilClass;
@@ -40,13 +34,13 @@ class NilMethod {
 	
 	public static RubyMethod toS = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
-			return RubyString.newString("");
+			return ObjectFactory.createString("");
 		}		
 	};
 	
 	public static RubyMethod inspect = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
-			return RubyString.newString("nil");
+			return ObjectFactory.createString("nil");
 		}
 	};
 }

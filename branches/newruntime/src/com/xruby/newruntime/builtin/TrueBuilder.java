@@ -1,14 +1,7 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyConstant;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyOneArgMethod;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubyUtil;
-import com.xruby.newruntime.lang.RubyValue;
-import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.lang.*;
+import com.xruby.newruntime.value.*;
 
 public class TrueBuilder implements ExtensionBuilder {
 	private RubyClass trueClass;
@@ -30,7 +23,7 @@ public class TrueBuilder implements ExtensionBuilder {
 class TrueMethod {
 	public static RubyMethod toS = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
-			return RubyString.newString("true");
+			return ObjectFactory.createString("true");
 		}
 		
 	};

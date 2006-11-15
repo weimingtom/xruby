@@ -8,7 +8,7 @@ import com.xruby.newruntime.lang.RubyOneArgMethod;
 import com.xruby.newruntime.lang.RubyRuntime;
 import com.xruby.newruntime.lang.RubyUtil;
 import com.xruby.newruntime.lang.RubyValue;
-import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.value.ObjectFactory;
 
 public class FalseBuilder implements ExtensionBuilder {
 	private RubyClass falseClass;
@@ -30,7 +30,7 @@ public class FalseBuilder implements ExtensionBuilder {
 class FalseMethod {
 	public static final RubyMethod toS = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
-			return RubyString.newString("false");
+			return ObjectFactory.createString("false");
 		}		
 	};
 	

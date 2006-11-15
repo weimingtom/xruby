@@ -1,12 +1,7 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubyValue;
-import com.xruby.newruntime.value.RubyFloat;
-import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.lang.*;
+import com.xruby.newruntime.value.*;
 
 public class FloatBuilder implements ExtensionBuilder {
 	private RubyClass floatClass;
@@ -80,7 +75,7 @@ class FloatMethod {
 	public static RubyMethod toS = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			RubyFloat f = (RubyFloat)receiver;
-			return RubyString.newString(Double.toString(f.doubleValue()));
+			return ObjectFactory.createString(Double.toString(f.doubleValue()));
 		}
 	};
 }

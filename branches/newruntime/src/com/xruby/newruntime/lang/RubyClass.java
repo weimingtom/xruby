@@ -1,7 +1,6 @@
 package com.xruby.newruntime.lang;
 
-import com.xruby.newruntime.value.RubyString;
-import com.xruby.newruntime.value.RubyArray;
+import com.xruby.newruntime.value.*;
 
 public class RubyClass extends RubyClassModuleBase {
 	public RubyValue newInstance() {
@@ -32,7 +31,7 @@ public class RubyClass extends RubyClassModuleBase {
 		RubySymbol symbol = (RubySymbol)realClass.getIv("__classid__");
 		RubyID id = symbol.toID();
 		String path = StringMap.id2name(id);
-		return RubyString.newString(path);
+		return ObjectFactory.createString(path);
 	}
 	
 	RubyClass realClass() {

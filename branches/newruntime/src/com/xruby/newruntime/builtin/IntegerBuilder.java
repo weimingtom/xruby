@@ -1,13 +1,7 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubyUtil;
-import com.xruby.newruntime.lang.RubyValue;
-import com.xruby.newruntime.value.RubyFixnum;
-import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.lang.*;
+import com.xruby.newruntime.value.*;
 
 public class IntegerBuilder implements ExtensionBuilder {
 	private RubyClass integerClass;
@@ -66,7 +60,7 @@ class IntegerMethod {
 			
 			char c = (char)value;
 			
-			return RubyString.newString(c);
+			return ObjectFactory.createString(c);
 		}		
 	};
 }

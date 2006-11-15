@@ -40,7 +40,7 @@ public class RubyFixnum extends RubyValue {
 	}
 	
 	public RubyString toS(long radix) {
-		return RubyString.newString(Long.toString(this.value, (int)radix));
+		return ObjectFactory.createString(Long.toString(this.value, (int)radix));
 	}
 
 	public static RubyFixnum int2Fix(int i) {

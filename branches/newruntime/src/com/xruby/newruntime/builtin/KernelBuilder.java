@@ -1,11 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyBlock;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyModule;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubySymbol;
-import com.xruby.newruntime.lang.RubyValue;
+import com.xruby.newruntime.lang.*;
 import com.xruby.newruntime.value.RubyArray;
 
 public class KernelBuilder implements ExtensionBuilder {

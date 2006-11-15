@@ -154,7 +154,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	}	
 	
 	public RubyString toS() {
-		RubyString buf = RubyString.newString();
+		RubyString buf = ObjectFactory.createString("");
 		
 		for (RubyValue value : array) {			
 			buf.append(value);
