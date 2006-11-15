@@ -392,14 +392,14 @@ class MethodGenerator extends MethodGeneratorBase {
 		loadCurrentClass();
 		push(newName);
 		push(oldName);
-		invokeVirtual(Type.getType(MethodCollection.class),
+		invokeVirtual(Type.getType(RubyClassModuleBase.class),
 				Method.getMethod("void aliasMethod(String, String)"));
 	}
 
 	public void MethodCollection_undefMethod(String name) {
 		loadCurrentClass();
 		push(name);
-		invokeVirtual(Type.getType(MethodCollection.class),
+		invokeVirtual(Type.getType(RubyClassModuleBase.class),
 				Method.getMethod("void undefMethod(String)"));
 	}
 
@@ -562,7 +562,7 @@ class MethodGenerator extends MethodGeneratorBase {
 		
 		push(methodName);
 		new_MethodClass(uniqueMethodName);
-		invokeVirtual(Type.getType(MethodCollection.class),
+		invokeVirtual(Type.getType(RubyClassModuleBase.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
 	}
 
