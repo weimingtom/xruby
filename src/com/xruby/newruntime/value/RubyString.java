@@ -7,11 +7,11 @@ import com.xruby.newruntime.lang.RubyValue;
 public class RubyString extends RubyBasic {
 	private StringBuilder str;
 	
-	private RubyString(String s) {
+	RubyString(String s) {
 		this.str = new StringBuilder(s);
 	}
 	
-	private RubyString(char c) {
+	RubyString(char c) {
 		this.str = new StringBuilder();
 		this.str.append(c);
 	}
@@ -26,19 +26,6 @@ public class RubyString extends RubyBasic {
 	
 	public String getString() {
 		return this.str.toString();
-	}
-	
-	public static RubyString newString(String s) {
-		// FIXME: check null string
-		return new RubyString(s);
-	}
-	
-	public static RubyString newString(char c) {
-		return new RubyString(c);
-	}
-	
-	public static RubyString newString() {
-		return new RubyString();
 	}
 	
 	public int length() {

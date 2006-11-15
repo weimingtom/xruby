@@ -1,10 +1,7 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubyValue;
-import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.lang.*;
+import com.xruby.newruntime.value.ObjectFactory;
 
 public class TopSelfBuilder implements ExtensionBuilder {
 	public RubyValue rbTopSelf;
@@ -22,7 +19,7 @@ public class TopSelfBuilder implements ExtensionBuilder {
 class TopSelfMethod {
 	public static RubyMethod mainToS = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
-			return RubyString.newString("main");
+			return ObjectFactory.createString("main");
 		}		
 	};
 }

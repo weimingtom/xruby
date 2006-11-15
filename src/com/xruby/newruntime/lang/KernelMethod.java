@@ -1,7 +1,6 @@
 package com.xruby.newruntime.lang;
 
-import com.xruby.newruntime.value.RubyString;
-import com.xruby.newruntime.value.RubyArray;
+import com.xruby.newruntime.value.*;
 
 public class KernelMethod {
 	private static RubyID ID_EQ = StringMap.intern("==");
@@ -41,7 +40,7 @@ public class KernelMethod {
 	public static RubyMethod anyToS = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) throws RubyException {
 			String name = receiver.getRubyClassName().getString();
-			return RubyString.newString("#<" + name + ":0x" + Integer.toHexString(receiver.hashCode()) + ">");
+			return ObjectFactory.createString("#<" + name + ":0x" + Integer.toHexString(receiver.hashCode()) + ">");
 		}
 	};
 	

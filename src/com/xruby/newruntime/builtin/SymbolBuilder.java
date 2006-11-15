@@ -1,17 +1,7 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.KernelMethod;
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyDelegateMethod;
-import com.xruby.newruntime.lang.RubyID;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubySymbol;
-import com.xruby.newruntime.lang.RubyUtil;
-import com.xruby.newruntime.lang.RubyValue;
-import com.xruby.newruntime.lang.StringMap;
-import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.lang.*;
+import com.xruby.newruntime.value.*;
 
 public class SymbolBuilder {
 	private RubyClass symbolClass;
@@ -44,7 +34,7 @@ public class SymbolBuilder {
 		this.symbolClass.defineMethod("to_s", SymbolMethod.toS, 0);
 		this.symbolClass.defineMethod("id2name", SymbolMethod.toS, 0);
 		this.symbolClass.defineMethod("to_sym", SymbolMethod.toSym, 0);
-		this.symbolClass.defineMethod("===", KernelMethod.objectEqual, 1);
+		//this.symbolClass.defineMethod("===", KernelMethod.objectEqual, 1);
 	}
 }
 
@@ -63,7 +53,7 @@ class SymbolMethod {
 		protected RubyValue run(RubyValue receiver) {
 			RubyID id = ((RubySymbol)receiver).toID();
 			String name = StringMap.id2name(id);
-			return RubyString.newString(name);
+			return ObjectFactory.createString(name);
 		}
 	};
 	

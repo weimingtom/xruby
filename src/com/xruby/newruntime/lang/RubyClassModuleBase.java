@@ -3,8 +3,7 @@ package com.xruby.newruntime.lang;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.xruby.newruntime.value.RubyArray;
-import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.value.*;
 
 public abstract class RubyClassModuleBase extends RubyIvBase {
 	private static MethodCache cache = new MethodCache();
@@ -74,7 +73,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 				
 				if (id != RubyID.ID_ALLOCATOR && wrapper != null && filter.accept(id, wrapper)) {
 					String methodName = StringMap.id2name(id);
-					result.add(RubyString.newString(methodName));
+					result.add(ObjectFactory.createString(methodName));
 				}
 			}
 			

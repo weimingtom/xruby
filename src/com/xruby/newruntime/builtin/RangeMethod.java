@@ -1,16 +1,7 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.NoBlockRubyMethod;
-import com.xruby.newruntime.lang.RubyConstant;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyOneArgMethod;
-import com.xruby.newruntime.lang.RubyUtil;
-import com.xruby.newruntime.lang.RubyValue;
-import com.xruby.newruntime.value.RubyArray;
-import com.xruby.newruntime.value.RubyFixnum;
-import com.xruby.newruntime.value.RubyRange;
-import com.xruby.newruntime.value.RubyString;
+import com.xruby.newruntime.lang.*;
+import com.xruby.newruntime.value.*;
 
 public class RangeMethod {
 	public static RubyMethod alloc = new RubyNoArgMethod() {
@@ -64,7 +55,7 @@ public class RangeMethod {
 	public static RubyMethod toS = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			RubyRange range = (RubyRange)receiver;
-			return RubyString.newString(range.toString());
+			return ObjectFactory.createString(range.toString());
 		}
 	};
 	

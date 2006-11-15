@@ -251,7 +251,7 @@ class MethodGenerator extends MethodGeneratorBase {
 	public void ObjectFactory_createFloat(double value) {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createFloat(double)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyFloat createFloat(double)"));
 	}
 	
 	public void ObjectFactory_createFixnum(int value) {
