@@ -234,9 +234,17 @@ class MethodGenerator extends MethodGeneratorBase {
 		checkCast(Type.getType(Types.RubyBlockClass));
 	}
 
-	public void ObjectFactory_getBuiltinClass(String className) {
-		getStatic(Type.getType(ObjectFactory.class),
-					className + "ClassValue",
+	private String translateName(String rubyName) {
+		if (rubyName.equals("Kernel")) {
+			return "KernelModule";
+		}
+		
+		return rubyName.toLowerCase() + "Class";
+	}
+	
+	public void RubyRuntime_getBuiltinType(String className) {
+		getStatic(Type.getType(RubyRuntime.class),
+					translateName(className),
 					Type.getType(Types.RubyValueClass));
 	}
 	

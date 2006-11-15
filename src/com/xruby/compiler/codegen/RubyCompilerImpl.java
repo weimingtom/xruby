@@ -85,7 +85,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 
 		if (isBuiltin(className)) {
-			cg_.getMethodGenerator().ObjectFactory_getBuiltinClass(className);
+			cg_.getMethodGenerator().RubyRuntime_getBuiltinType(className);
 		} else {
 			cg_.getMethodGenerator().push(className);
 		}
@@ -760,7 +760,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitTopLevelConstant(String name) {
 		//quick access for builtin
 		if (isBuiltin(name)) {
-			cg_.getMethodGenerator().ObjectFactory_getBuiltinClass(name);
+			cg_.getMethodGenerator().RubyRuntime_getBuiltinType(name);
 			return;
 		}
 
