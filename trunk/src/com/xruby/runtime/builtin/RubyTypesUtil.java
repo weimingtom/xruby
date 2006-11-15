@@ -23,6 +23,10 @@ public class RubyTypesUtil {
 		return convertTo(RubyFloat.class, arg);
 	}
 	
+	public static RubyTime convertToTime(RubyValue arg){
+		return convertTo(RubyTime.class, arg);
+	}
+	
 	@SuppressWarnings("unchecked")
 	private static <T> T convertTo(Class<T> klass, RubyValue arg){
 		try{

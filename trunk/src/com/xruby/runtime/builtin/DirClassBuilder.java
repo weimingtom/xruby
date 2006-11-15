@@ -70,6 +70,26 @@ class Dir_rmdir extends RubyMethod {
 	}
 }
 
+class Dir_entries extends RubyMethod {
+	public Dir_entries() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		String dir = RubyTypesUtil.convertToString(args.get(0)).toString();
+		File file = new File(dir);
+		if (!file.isDirectory()){
+			throw new RubyException(RubyRuntime.RuntimeErrorClass, "Not a directory - " + dir);
+		}
+		RubyArray files = new RubyArray();
+		for (String f: file.list()){
+			files.add(ObjectFactory.createString(f));
+		}
+		return ObjectFactory.createArray(files);
+	}
+}
+
+
 public class DirClassBuilder {
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Dir", RubyRuntime.ObjectClass);
@@ -78,8 +98,14 @@ public class DirClassBuilder {
 	
 	public static void initSingletonMethods() {
 		ObjectFactory.DirClassValue.defineMethod("chdir", new Dir_chdir());
-		ObjectFactory.DirClassValue.defineMethod("getwd", new Dir_getwd());
+		RubyMethod getwd = new Dir_getwd();
+		ObjectFactory.DirClassValue.defineMethod("getwd", getwd);
+		ObjectFactory.DirClassValue.defineMethod("pwd", getwd);
 		ObjectFactory.DirClassValue.defineMethod("mkdir", new Dir_mkdir());
-		ObjectFactory.DirClassValue.defineMethod("rmdir", new Dir_mkdir());
+		RubyMethod rmdir = new Dir_rmdir();
+		ObjectFactory.DirClassValue.defineMethod("rmdir", rmdir);
+		ObjectFactory.DirClassValue.defineMethod("delete", rmdir);
+		ObjectFactory.DirClassValue.defineMethod("unlink", rmdir);
+		ObjectFactory.DirClassValue.defineMethod("entries", new Dir_entries());
 	}
 }
