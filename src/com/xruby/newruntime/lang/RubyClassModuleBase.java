@@ -282,6 +282,174 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		return false;
 	}
 	
+	// class path
+	private static RubyID classpathID = StringMap.intern("__classpath__");
+	private static RubyID tmpClasspathID = StringMap.intern("__tmp_classpath__");
+	
+	public RubyString getName() {
+		RubyClassModuleBase realClass = this.realClass();
+		return realClass.getClasspath();
+	}
+	
+	RubyClassModuleBase realClass() {
+		RubyClassModuleBase klass = this;
+		
+		while (klass.isSingleton() || klass instanceof RubyIncludeClass) {
+			klass = klass.superclass;
+		}
+		
+		return klass;
+	}
+	
+	static class FindClasspathResult {
+		RubyID name;
+		RubyString path;
+		RubyClassModuleBase track;
+		FindClasspathResult prev;
+	}
+	
+	private String getFindClasspath(RubyID id, FindClasspathResult result) {
+		String path = StringMap.id2name(id);
+		while (result != null) {
+			if (result.track == RubyRuntime.objectClass) {
+				break;
+			}
+			
+			RubyValue classpath = result.track.getIvar(classpathID);
+			if (classpath != null) {
+				RubyString cpStr = (RubyString)classpath;
+				return cpStr.getString() + "::" + path;
+			}
+			
+			path = StringMap.id2name(result.name) + "::" + path;
+			
+			result = result.prev;
+		}
+		
+		return path;
+	}	
+	
+	private boolean searchClasspath(RubyID id, RubyValue value, FindClasspathResult result) {
+		if (value == this) {
+			String path = getFindClasspath(id, result);			
+			result.path = ObjectFactory.createString(path);
+			
+			return true;
+		}
+		
+		if (value instanceof RubyClass || value instanceof RubyModule) {
+			RubyClassModuleBase base = (RubyClassModuleBase)value;
+			if (base.ivTable == null) {
+				return false;
+			}
+			
+			FindClasspathResult arg = new FindClasspathResult();
+			arg.name = id;
+			arg.track = base;
+			arg.prev = result;
+			if (searchClasspathInTable(base.ivTable, arg)) {
+				result.path = arg.path;
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	
+	
+	private boolean searchClasspathInTable(Map<RubyID, RubyValue> table, FindClasspathResult result) {
+		FindClasspathResult arg = new FindClasspathResult();
+		arg.name = null;
+		arg.prev = null;
+		arg.track = RubyRuntime.objectClass;
+		
+		for (Map.Entry<RubyID, RubyValue> e : table.entrySet()) {
+			RubyID id = e.getKey();
+			RubyValue value = e.getValue();
+			if (searchClasspath(id, value, arg)) {
+				result.path = arg.path;
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private RubyString findClasspath() {
+		FindClasspathResult result = new FindClasspathResult();
+		
+		if (RubyRuntime.objectClass.ivTable != null) {
+			searchClasspathInTable(RubyRuntime.objectClass.ivTable, result);
+		}
+		
+		if (result.path == null) {
+			// FIXME:search class table
+		}
+		
+		if (result.path != null) {
+			this.setIvar(classpathID, result.path);
+			this.removeIvar(tmpClasspathID);
+			return result.path;
+		}
+		
+		return null;
+	}
+	
+	private RubyString className() {
+		if (this.ivTable != null) {
+			RubyValue value = this.getIvar(classpathID);			
+			if (value == null) {
+				RubyID classID = StringMap.intern("__classid__");
+				value = this.getIvar(classID);
+				if (value == null) {
+					// FIXME: find class path
+					return findClasspath();
+				}
+				
+				RubyID foundClassID = ((RubySymbol)value).toID();
+				value = ObjectFactory.createString(StringMap.id2name(foundClassID));
+				
+				this.setIvar(classpathID, value);
+				this.removeIvar(classID);
+			}
+			
+			// FIXME: class cast exception :rb_bug("class path is not set properly");			
+			return (RubyString)value;
+		}
+		
+		// FIXME: find class path
+		return findClasspath();
+	}
+	
+	void setClasspath(RubyClassModuleBase outter, String name) {
+		String path;
+		if (outter == RubyRuntime.objectClass) {
+			path = name;
+		} else {
+			path = outter.getClasspath().getString() + "::" + name;
+		}
+		
+		this.setIvar(classpathID, ObjectFactory.createString(path));		
+	}
+	
+	RubyString getClasspath() {
+		RubyString name = this.className();
+		
+		if (name != null) {
+			return name;
+		}
+		
+		RubyValue path = this.getIvar(tmpClasspathID);
+		if (path != null && path instanceof RubyString) {
+			return (RubyString)path;
+		}
+		
+		// FIXME: look up
+		
+		return null;
+	}
+	
 	private static interface MethodFilter {
 		boolean accept(RubyID methodNameId, RubyMethodWrapper method);
 	}

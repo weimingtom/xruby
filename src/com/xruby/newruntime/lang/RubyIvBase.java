@@ -18,6 +18,12 @@ public abstract class RubyIvBase extends RubyBasic {
 		this.ivTable.put(id, value);
 	}
 	
+	protected void removeIvar(RubyID id) {
+		if (this.ivTable != null) {
+			this.ivTable.remove(id);
+		}
+	}
+	
 	protected void ensureIvTableNotNull() {
 		if (this.ivTable == null) {
 			this.ivTable = new HashMap<RubyID, RubyValue>();

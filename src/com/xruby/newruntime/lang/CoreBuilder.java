@@ -210,6 +210,34 @@ public class CoreBuilder implements ExtensionBuilder {
 		return klass;
 	}
 	
+	public RubyClass defineClassUnder(RubyClassModuleBase outter, String name, RubyClass superclass) {
+		RubyID id = StringMap.intern(name);
+		if (outter.isDefinedConst(id)) {
+			RubyValue value = outter.getConst(id);
+			try {
+				RubyClass klass = (RubyClass)value;
+				if (klass.getSuper().realClass() != superclass) {
+					RubyInternalUtil.nameError(id, "%s is already defined", name);
+				}
+				
+				return klass;
+			} catch (ClassCastException e) {
+				RubyRuntime.raise(RubyRuntime.typeError, "%s is not a class", name);
+			}
+		}
+		
+		if (superclass == null) {
+			// FIXME: warn
+		}
+		
+		RubyClass klass = this.defineIDClass(id, superclass);
+		klass.setClasspath(outter, name);
+		outter.setConst(id, klass);
+		// FIXME: inherited
+		
+		return klass;
+	}
+	
 	// Moudle API
 	public RubyModule defineModule(String name) {
 		RubyID id = StringMap.intern(name);	
@@ -226,6 +254,25 @@ public class CoreBuilder implements ExtensionBuilder {
 		// FIXME: insert module to class table
 		
 		this.objectClass.setConst(id, module);
+		
+		return module;
+	}
+	
+	public RubyModule defineModuleUnder(RubyClassModuleBase outter, String name) {
+		RubyID id = StringMap.intern(name);
+		if (outter.isDefinedConst(id)) {
+			RubyValue value = outter.getConst(id);
+			try {
+				RubyModule module = (RubyModule)value;				
+				return module;
+			} catch (ClassCastException e) {
+				RubyRuntime.raise(RubyRuntime.typeError, "%s::%s is not a module", outter.getName(), value.getRubyClassName());
+			}			
+		}
+		
+		RubyModule module = defineIDModule(id);
+		outter.setConst(id, module);
+		module.setClasspath(outter, name);
 		
 		return module;
 	}
@@ -260,10 +307,7 @@ public class CoreBuilder implements ExtensionBuilder {
 		RubyClass klass = createBootClass(superclass);
 		klass.setSingleton();
 		obj.setRubyClass(klass);
-		klass.attachSingletonClass(obj);
-		
-		// FIXME: attach object to singleton class
-		
+		klass.attachSingletonClass(obj);		
 		
 		return klass;
 	}

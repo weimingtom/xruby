@@ -110,6 +110,7 @@ public class RubyRuntime {
 	public static RubyClass ioClass;
 	public static RubyClass fileClass;
 	public static RubyModule fileTestModule;
+	public static RubyClass fileStatClass;
 	
 	public static RubyClass dirClass;
 	
@@ -348,6 +349,7 @@ public class RubyRuntime {
 		fileClassBuilder.initialize();
 		fileClass = fileClassBuilder.getFileClass();
 		fileTestModule = fileClassBuilder.getFileTestModule();
+		fileStatClass = fileClassBuilder.getFileStatClass();
 	}
 	
 	private static void initDir() {
@@ -403,6 +405,14 @@ public class RubyRuntime {
 	
 	public static RubyModule defineModule(String name) throws RubyException {
 		return coreBuilder.defineModule(name);
+	}
+	
+	public static RubyClass defineClassUnder(RubyClassModuleBase outter, String name, RubyClass superclass) {
+		return coreBuilder.defineClassUnder(outter, name, superclass);
+	}
+	
+	public static RubyModule defineModuleUnder(RubyClassModuleBase outter, String name) {
+		return coreBuilder.defineModuleUnder(outter, name);
 	}
 	
 	// API: Global
