@@ -44,7 +44,6 @@ public class CoreTest extends TestCase {
 		assertNotNull(kernelModule);
 		RubyClass kernelMetaClass = kernelModule.getRubyClass();
 		
-		// FIXME:test real class
 		assertEquals(moduleClass, kernelMetaClass.realClass());
 	}
 	
@@ -64,5 +63,26 @@ public class CoreTest extends TestCase {
 		RubyClass objectClass = RubyRuntime.defineClass("Object", null);
 		assertNotNull(objectClass);
 		assertEquals(RubyRuntime.objectClass, objectClass);
+	}
+	
+	public void testDefineUnderClass() {
+		RubyClass outterClass = RubyRuntime.defineClass("OutterClass", RubyRuntime.objectClass);
+		RubyClass innerClass = RubyRuntime.defineClassUnder(outterClass, "InnerClass", RubyRuntime.objectClass);
+		assertNotNull(innerClass);
+		assertEquals("OutterClass::InnerClass", innerClass.getName().getString());
+		
+		// defined
+		RubyClass definedClass = RubyRuntime.defineClassUnder(outterClass, "InnerClass", RubyRuntime.objectClass);
+		assertEquals(innerClass, definedClass);
+	}
+	
+	public void testDefinedUnderModule() {
+		RubyModule outterMoudle = RubyRuntime.defineModule("OutterModule");
+		RubyModule innerModule = RubyRuntime.defineModuleUnder(outterMoudle, "InnerModule");
+		assertNotNull(innerModule);
+		RubyModule inner2Module = RubyRuntime.defineModuleUnder(innerModule, "Inner2Module");
+		assertNotNull(inner2Module);
+		assertEquals("OutterModule::InnerModule::Inner2Module", inner2Module.getName().getString());
+		assertEquals("OutterModule::InnerModule", innerModule.getName().getString());
 	}
 }
