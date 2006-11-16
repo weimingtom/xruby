@@ -1,5 +1,8 @@
 package com.xruby.newruntime.value;
 
+import java.math.BigInteger;
+import com.xruby.newruntime.lang.*;
+
 public class ObjectFactory {
 	public static RubyString createString(String v) {
 		return new RubyString(v);
@@ -16,4 +19,13 @@ public class ObjectFactory {
 	public static RubyFloat createFloat(double v) {
 		return new RubyFloat(v);
 	}
+	
+	public static RubyValue createBignum(BigInteger value) { 
+		return new RubyBignum(value); 
+	}
+	
+	public static RubyValue createInteger(String value, int radix) {
+		return RubyBignum.bignorm(new BigInteger(value, radix));
+	}
+	
 }
