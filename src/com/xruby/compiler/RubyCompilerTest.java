@@ -115,9 +115,15 @@ public class RubyCompilerTest extends TestCase {
 	}
 
 	public void test_simple_integer() {
-		String[] program_texts = { "2", "0", "123456", "0b1100110", "0xFF",
-				"070", "+9", "-100"};
-		int[] results = { 2, 0, 123456, 102, 255, 56, 9, -100};
+		String[] program_texts = { "2", "0", "123456", "0b1100110", "0xFF", "070"};
+		int[] results = { 2, 0, 123456, 102, 255, 56};
+
+		compile_run_and_compare_result(program_texts, results);
+	}
+	
+	public void test_unary() {
+		String[] program_texts = {"+9", "-100"};
+		int[] results = {9, -100};
 
 		compile_run_and_compare_result(program_texts, results);
 	}
