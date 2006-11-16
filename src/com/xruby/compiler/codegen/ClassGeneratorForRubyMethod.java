@@ -4,7 +4,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.Method;
 
-//import com.xruby.runtime.lang.RubyMethod;
+//import com.xruby.newruntime.lang.RubyMethod;
 
 class ClassGeneratorForRubyMethod extends ClassGenerator {
 
@@ -29,14 +29,14 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				0,		//No modifier
 				name_,	
 				null,								// signature
-				"com/xruby/runtime/lang/RubyMethod",	// superName
+				"com/xruby/newruntime/lang/RubyMethod",	// superName
 				null								// interface
 				);
 		
 		createConstructorOfRubyMethod(argc, has_asterisk_parameter, default_argc);
 		
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock)"),
+				Method.getMethod("com.xruby.newruntime.lang.RubyValue run(com.xruby.newruntime.lang.RubyValue, com.xruby.newruntime.value.RubyArray, com.xruby.newruntime.lang.RubyBlock)"),
 				null,
 				null,
 				cw_);
