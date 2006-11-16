@@ -92,22 +92,22 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 				0,		//No modifier
 				name_,	
 				null,								// signature
-				"com/xruby/runtime/lang/RubyBlock",	// superName
+				"com/xruby/newruntime/lang/RubyBlock",	// superName
 				null								// interface
 				);
 	
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"),
+				Method.getMethod("com.xruby.newruntime.lang.RubyValue run(com.xruby.newruntime.lang.RubyValue, com.xruby.newruntime.value.RubyArray)"),
 				null,
 				null,
 				cw_);
 	}
 
 	static String buildContructorSignature(int size) {
-		StringBuilder method_name = new StringBuilder("void <init> (com.xruby.runtime.lang.RubyBlock");
+		StringBuilder method_name = new StringBuilder("void <init> (com.xruby.newruntime.lang.RubyBlock");
 		for (int i = 0; i < size; ++i) {
 			method_name.append(", ");
-			method_name.append("com.xruby.runtime.lang.RubyValue");
+			method_name.append("com.xruby.newruntime.lang.RubyValue");
 		}
 		method_name.append(")");
 		return method_name.toString();
@@ -150,7 +150,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.push(default_argc_);
 		mg.loadArg(0);
 		mg.invokeConstructor(Type.getType(Types.RubyBlockClass),
-						Method.getMethod("void <init> (int, boolean, int, com.xruby.runtime.lang.RubyBlock)"));
+						Method.getMethod("void <init> (int, boolean, int, com.xruby.newruntime.lang.RubyBlock)"));
 		
 		for (int i = 0; i < commons.length; ++i) {
 			mg.loadThis();
