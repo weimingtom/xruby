@@ -11,11 +11,11 @@ public abstract class MethodCollection extends ClassVariableCollection {
 	private Map<String, RubyMethod> methods_ = new HashMap<String, RubyMethod>();
 	private int current_access_mode_ = RubyMethod.PUBLIC;
 
-	RubyMethod findMethod(String method_name) {
+	protected RubyMethod findMethod(String method_name) {
 		return methods_.get(method_name);
 	}
 
-	RubyMethod findPublicMethod(String method_name) {
+	protected RubyMethod findPublicMethod(String method_name) {
 		RubyMethod m = methods_.get(method_name);
 		if (null != m && m.isPublic()) {
 			return m;

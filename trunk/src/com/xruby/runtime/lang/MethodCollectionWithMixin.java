@@ -12,7 +12,7 @@ public class MethodCollectionWithMixin extends MethodCollection {
 		}
 	}
 
-	RubyMethod findMethod(String method_name) {
+	protected RubyMethod findMethod(String method_name) {
 		RubyMethod m = super.findMethod(method_name);
 		if (null != m) {
 			return m;
@@ -28,7 +28,7 @@ public class MethodCollectionWithMixin extends MethodCollection {
 		return null;
 	}
 
-	RubyMethod findPublicMethod(String method_name) {
+	protected RubyMethod findPublicMethod(String method_name) {
 		RubyMethod m = super.findMethod(method_name);
 		if (null != m && m.isPublic()) {
 			return m;
