@@ -16,12 +16,13 @@ public class RequireExample {
 
         String program_text = "" +
                 "require_java 'org.beanworms.test.Talker'\n" +
+                "require_java 'java.util.Random'\n" +
                 "\n" +
                 "t = Talker.new\n" +
                 "t.talk \"XRuby\"\n" +
-                "t.talk \"Mr.\", \"XRuby\"" +
-                "# a = org.beanworms.test.Talker.new\n" +
-                "# a.talk \"XRuby\"\n";
+                "t.talk \"Mr.\", \"XRuby\"" + "\n" +
+                "r = Random.new 259" + "\n" +
+                "puts r.nextInt";
 
 		RubyCompiler compiler = new RubyCompiler();
 		CompilationResults codes = compiler.compile(new StringReader(program_text));

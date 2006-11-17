@@ -1,6 +1,9 @@
 package com.xruby.runtime.javasupport;
 
 import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.value.RubyBignum;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyClass;
 
@@ -11,8 +14,18 @@ import com.xruby.runtime.lang.RubyClass;
  */
 public class JavaUtil {
     public static final String RCLASS_STRING = "String";
+    private static final String RCLASS_FIXNUM = "Fixnum";
+    private static final String RCLASS_BIGNUM = "Bignum";
 
     public static RubyValue convertToRubyValue(Object value) {
+        if(null == value) {
+            return ObjectFactory.nilValue;
+        }
+
+        if(value.getClass().equals(Integer.class)) {
+            return ObjectFactory.createFixnum((Integer)value);
+        }
+
         return null;
     }
 
@@ -80,9 +93,15 @@ public class JavaUtil {
         if (className.equals(RCLASS_STRING)) {
             return value.getValue().toString();
         }
-        else {
-            return value.getValue();
+        else if (className.equals(RCLASS_FIXNUM)) {
+            return ((RubyFixnum)value.getValue()).intValue();
         }
+        else if (className.equals(RCLASS_BIGNUM)) {
+            return ((RubyBignum)value.getValue()).getValue();
+        }
+
+        return value.getValue();
+
     }
 }
 
