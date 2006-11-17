@@ -1,37 +1,7 @@
 package com.xruby.newruntime.lang;
 
 import com.xruby.newruntime.builtin.*;
-import com.xruby.newruntime.builtin.BignumBuilder;
-import com.xruby.newruntime.builtin.BindingBuilder;
-import com.xruby.newruntime.builtin.ComparableBuilder;
-import com.xruby.newruntime.builtin.DataBuilder;
-import com.xruby.newruntime.builtin.DirBuilder;
-import com.xruby.newruntime.builtin.EnumBuilder;
-import com.xruby.newruntime.builtin.ExceptionBuilder;
-import com.xruby.newruntime.builtin.FalseBuilder;
-import com.xruby.newruntime.builtin.FileBuilder;
-import com.xruby.newruntime.builtin.FixnumBuilder;
-import com.xruby.newruntime.builtin.FloatBuilder;
-import com.xruby.newruntime.builtin.GlobalBuilder;
-import com.xruby.newruntime.builtin.HashBuilder;
-import com.xruby.newruntime.builtin.IOBuilder;
-import com.xruby.newruntime.builtin.IntegerBuilder;
-import com.xruby.newruntime.builtin.KernelBuilder;
-import com.xruby.newruntime.builtin.MarshalBuilder;
-import com.xruby.newruntime.builtin.MathBuilder;
-import com.xruby.newruntime.builtin.MethodBuilder;
-import com.xruby.newruntime.builtin.NilBuilder;
-import com.xruby.newruntime.builtin.NumericBuilder;
-import com.xruby.newruntime.builtin.PrecisionBuilder;
-import com.xruby.newruntime.builtin.ProcBuilder;
 import com.xruby.newruntime.builtin.ProcessBuilder;
-import com.xruby.newruntime.builtin.RangeBuilder;
-import com.xruby.newruntime.builtin.RegexpBuilder;
-import com.xruby.newruntime.builtin.StructBuilder;
-import com.xruby.newruntime.builtin.ThreadBuilder;
-import com.xruby.newruntime.builtin.TimeBuilder;
-import com.xruby.newruntime.builtin.TopSelfBuilder;
-import com.xruby.newruntime.builtin.TrueBuilder;
 
 public class RubyRuntime {
 	public static RubyClass objectClass;
