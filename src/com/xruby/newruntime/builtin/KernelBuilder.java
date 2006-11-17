@@ -1,13 +1,13 @@
 package com.xruby.newruntime.builtin;
 
 import com.xruby.newruntime.lang.*;
-import com.xruby.newruntime.value.RubyArray;
+import com.xruby.newruntime.value.*;
 
 public class KernelBuilder implements ExtensionBuilder {
 	private RubyModule kernelModule;
 
 	public void initialize() {
-		this.kernelModule = RubyRuntime.defineModule("Kernel");	
+		this.kernelModule = RubyUtil.defineModule("Kernel");	
 		this.kernelModule.defineMethod("send", KernelMethod.send, -1);
 		this.kernelModule.defineMethod("__send__", KernelMethod.send, -1);
 	}
@@ -18,7 +18,7 @@ class KernelMethod {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			if (args.length() == 0) {
-				RubyRuntime.raise(RubyRuntime.argumentError, "no method name given");
+				RubyUtil.raise(RubyRuntime.argumentError, "no method name given");
 			}
 			
 			RubySymbol methodSymbol = (RubySymbol)args.remove(0);

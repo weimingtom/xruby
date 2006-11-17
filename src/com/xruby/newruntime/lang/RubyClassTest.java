@@ -18,7 +18,7 @@ public class RubyClassTest extends TestCase {
 	*/
 	
 	public void testDefineMethod() {
-		RubyClass testClass = RubyRuntime.defineClass("TestClass", RubyRuntime.objectClass);
+		RubyClass testClass = RubyUtil.defineClass("TestClass", RubyRuntime.objectClass);
 		testClass.defineMethod("test_method", new NoBlockRubyMethod() {
 			public RubyValue run(RubyValue receiver, RubyArray args) {
 				return RubyConstant.QNIL;
@@ -30,12 +30,12 @@ public class RubyClassTest extends TestCase {
 	}
 	
 	public void testClasName() {
-		RubyClass testClass = RubyRuntime.defineClass("TestClass", RubyRuntime.objectClass);
+		RubyClass testClass = RubyUtil.defineClass("TestClass", RubyRuntime.objectClass);
 		assertEquals("TestClass", testClass.getName().getString());
 	}
 	
 	public void testCallMissingMethod() {
-		RubyClass testClass = RubyRuntime.defineClass("TestClass", RubyRuntime.objectClass);
+		RubyClass testClass = RubyUtil.defineClass("TestClass", RubyRuntime.objectClass);
 		try {
 			testClass.callMethod("nothing");
 			fail();
@@ -44,7 +44,7 @@ public class RubyClassTest extends TestCase {
 	}
 	
 	public void testCallMethodWithWrongArguments() {
-		RubyClass testClass = RubyRuntime.defineClass("TestClass", RubyRuntime.objectClass);
+		RubyClass testClass = RubyUtil.defineClass("TestClass", RubyRuntime.objectClass);
 		testClass.defineMethod("test", RubyMethod.DUMMY_METHOD, 2);
 		try {
 			testClass.callMethod("test");

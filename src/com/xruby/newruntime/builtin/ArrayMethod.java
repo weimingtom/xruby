@@ -70,7 +70,7 @@ class ArrayMethod {
 			case 2:
 				RubyValue argValue0 = args.get(0);
 				if (argValue0 instanceof RubySymbol) {
-					RubyRuntime.raise(RubyRuntime.typeError, "Symbol as array index");
+					RubyUtil.raise(RubyRuntime.typeError, "Symbol as array index");
 				}
 				
 				int begin = RubyUtil.valueToInt(args.get(0));
@@ -84,7 +84,7 @@ class ArrayMethod {
 				}
 				
 				if (argValue instanceof RubySymbol) {
-					RubyRuntime.raise(RubyRuntime.typeError, "Symbol as array index");
+					RubyUtil.raise(RubyRuntime.typeError, "Symbol as array index");
 				}
 				
 				// FIXME: Range
@@ -102,11 +102,11 @@ class ArrayMethod {
 			// argc == 3
 			if (args.length() == 3) {
 				if (args.get(0) instanceof RubySymbol) {
-					RubyRuntime.raise(RubyRuntime.typeError, "Symbol as array index");
+					RubyUtil.raise(RubyRuntime.typeError, "Symbol as array index");
 				}
 				
 				if (args.get(1) instanceof RubySymbol) {
-					RubyRuntime.raise(RubyRuntime.typeError, "Symbol as subarray length");
+					RubyUtil.raise(RubyRuntime.typeError, "Symbol as subarray length");
 				}
 				
 				// FIXME:splice array
@@ -114,7 +114,7 @@ class ArrayMethod {
 			
 			// wrong arg
 			if (args.length() != 2) {
-				RubyRuntime.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for 2)", args.length());
+				RubyUtil.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for 2)", args.length());
 			}
 			
 			// default

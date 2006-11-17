@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class ProcBuilder implements ExtensionBuilder {
 	private RubyClass procClass;
@@ -11,7 +10,7 @@ public class ProcBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.procClass = RubyRuntime.defineClass("Proc", RubyRuntime.objectClass);
+		this.procClass = RubyUtil.defineClass("Proc", RubyRuntime.objectClass);
 		this.procClass.undefAllocMethod();
 		
 		/**

@@ -73,7 +73,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		}
 		
 		if (index < 0) {
-			RubyRuntime.raise(RubyRuntime.indexError, "index %d out of array", index);
+			RubyUtil.raise(RubyRuntime.indexError, "index %d out of array", index);
 		}
 		
 		if (index < size) {
@@ -180,7 +180,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		}
 		
 		if (times < 0) {
-			RubyRuntime.raise(RubyRuntime.argumentError, "negative argument");
+			RubyUtil.raise(RubyRuntime.argumentError, "negative argument");
 		}
 		
 		// FIXME: too big argument

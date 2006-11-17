@@ -12,7 +12,7 @@ public class BindingBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.bindingClass = RubyRuntime.defineClass("Binding", RubyRuntime.objectClass);
+		this.bindingClass = RubyUtil.defineClass("Binding", RubyRuntime.objectClass);
 		this.bindingClass.undefAllocMethod();
 		RubyUtil.classof(this.bindingClass).undefMethod("new");
 		

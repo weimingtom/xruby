@@ -1,10 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubyValue;
+import com.xruby.newruntime.lang.*;
 
 public class NumericBuilder implements ExtensionBuilder {
 	private RubyClass numericClass;
@@ -24,9 +20,9 @@ public class NumericBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.zeroDivError = RubyRuntime.defineClass("ZeroDivisionError", RubyRuntime.standardError);
-		this.floatDomainError = RubyRuntime.defineClass("FloatDomainError", RubyRuntime.rangeError);
-		this.numericClass = RubyRuntime.defineClass("Numeric", RubyRuntime.objectClass);
+		this.zeroDivError = RubyUtil.defineClass("ZeroDivisionError", RubyRuntime.standardError);
+		this.floatDomainError = RubyUtil.defineClass("FloatDomainError", RubyRuntime.rangeError);
+		this.numericClass = RubyUtil.defineClass("Numeric", RubyRuntime.objectClass);
 		
 		/*
 		 * rb_define_method(rb_cNumeric, "singleton_method_added", num_sadded, 1);

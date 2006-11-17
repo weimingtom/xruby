@@ -11,7 +11,7 @@ public class IntegerBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.integerClass = RubyRuntime.defineClass("Integer", RubyRuntime.numericClass);
+		this.integerClass = RubyUtil.defineClass("Integer", RubyRuntime.numericClass);
 		this.integerClass.undefAllocMethod();
 		RubyUtil.classof(this.integerClass).undefMethod("new");
 		this.integerClass.defineMethod("integer?", RubyMethod.TRUE_METHOD, 0);
@@ -55,7 +55,7 @@ class IntegerMethod {
 		protected RubyValue run(RubyValue receiver) {
 			int value = RubyUtil.valueToInt(receiver);
 			if (value < 0 || value > 0xff) {
-				RubyRuntime.raise(RubyRuntime.rangeError, "%ld out of char range", value);
+				RubyUtil.raise(RubyRuntime.rangeError, "%ld out of char range", value);
 			}
 			
 			char c = (char)value;

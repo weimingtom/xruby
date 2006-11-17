@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class DirBuilder implements ExtensionBuilder {
 	private RubyClass dirClass;
@@ -11,7 +10,7 @@ public class DirBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.dirClass = RubyRuntime.defineClass("Dir", RubyRuntime.objectClass);
+		this.dirClass = RubyUtil.defineClass("Dir", RubyRuntime.objectClass);
 		this.dirClass.includeModule(RubyRuntime.enumerableModule);
 		/*
 		 * rb_define_alloc_func(rb_cDir, dir_s_alloc);

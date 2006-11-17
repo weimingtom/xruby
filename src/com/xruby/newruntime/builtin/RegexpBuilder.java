@@ -22,8 +22,8 @@ public class RegexpBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.regexpError = RubyRuntime.defineClass("RegexpError", RubyRuntime.standardError);
-		this.regexpClass = RubyRuntime.defineClass("Regexp", RubyRuntime.objectClass);
+		this.regexpError = RubyUtil.defineClass("RegexpError", RubyRuntime.standardError);
+		this.regexpClass = RubyUtil.defineClass("Regexp", RubyRuntime.objectClass);
 		/**
 		 * rb_define_alloc_func(rb_cRegexp, rb_reg_s_alloc);
     rb_define_singleton_method(rb_cRegexp, "compile", rb_class_new_instance, -1);
@@ -55,7 +55,7 @@ public class RegexpBuilder implements ExtensionBuilder {
     rb_global_variable(&reg_cache);
 		 */
 		
-		this.matchClass = RubyRuntime.defineClass("MatchData", RubyRuntime.objectClass);
+		this.matchClass = RubyUtil.defineClass("MatchData", RubyRuntime.objectClass);
 		
 		/**
 		 * rb_define_global_const("MatchingData", rb_cMatch);

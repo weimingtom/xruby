@@ -18,7 +18,7 @@ public class FalseBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.falseClass = RubyRuntime.defineClass("FalseClass", RubyRuntime.objectClass);
+		this.falseClass = RubyUtil.defineClass("FalseClass", RubyRuntime.objectClass);
 		this.falseClass.defineMethod("to_s", FalseMethod.toS, 0);
 		this.falseClass.defineMethod("&", FalseMethod.and, 1);
 		this.falseClass.defineMethod("|", FalseMethod.or, 1);

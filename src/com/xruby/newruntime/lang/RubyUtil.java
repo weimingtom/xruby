@@ -9,7 +9,7 @@ public class RubyUtil {
 		}
 		
 		if (value == RubyConstant.QNIL) {
-			RubyRuntime.raise(RubyRuntime.typeError, "no implicit conversion from nil to integer");
+			raise(RubyRuntime.typeError, "no implicit conversion from nil to integer");
 		}
 		
 		// FIXME: convert
@@ -60,4 +60,51 @@ public class RubyUtil {
 		RubyBasic basic = (RubyBasic)value;
 		return basic.getRubyClass();
 	}
+	
+	// API: Defining Classes
+	public static RubyClass defineClass(String name, RubyClass superclass) throws RubyException {
+		return RubyRuntime.coreBuilder.defineClass(name, superclass);
+	}
+	
+	public static RubyModule defineModule(String name) throws RubyException {
+		return RubyRuntime.coreBuilder.defineModule(name);
+	}
+	
+	public static RubyClass defineClassUnder(RubyClassModuleBase outter, String name, RubyClass superclass) {
+		return RubyRuntime.coreBuilder.defineClassUnder(outter, name, superclass);
+	}
+	
+	public static RubyModule defineModuleUnder(RubyClassModuleBase outter, String name) {
+		return RubyRuntime.coreBuilder.defineModuleUnder(outter, name);
+	}
+	
+	// API: Global
+	public static void defineGlobalMethod(String name, RubyMethod method, int argc) {
+		RubyRuntime.kernelModule.defineModuleMethod(name, method, argc);
+	}
+	
+	public static void defineGlobalConst(String name, RubyValue value) {
+		RubyRuntime.objectClass.defineConst(name, value);
+	}
+	
+	// API: Exception
+	public static void raise(RubyClass exception, String fmt, Object... args) {
+		String msg = String.format(fmt, args);
+		RubyValue e = exception.newInstance();
+		throw new RubyException(e, msg);
+	}
+	
+	// API: log
+	public static void warn(String fmt, Object... args) {
+		
+	}
+	
+	public static void warning(String fmt, Object... args) {
+		
+	}
+	
+	public static void exit(int status) {
+		System.exit(status);
+	}
+	
 }

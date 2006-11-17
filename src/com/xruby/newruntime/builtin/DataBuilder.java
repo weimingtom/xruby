@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class DataBuilder implements ExtensionBuilder {
 	private RubyClass dataClass;
@@ -11,7 +10,7 @@ public class DataBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.dataClass = RubyRuntime.defineClass("Data", RubyRuntime.objectClass);
+		this.dataClass = RubyUtil.defineClass("Data", RubyRuntime.objectClass);
 		this.dataClass.undefAllocMethod();
 	}
 }

@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class ArrayBuilder implements ExtensionBuilder {
 	private RubyClass arrayClass;
@@ -11,7 +10,7 @@ public class ArrayBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.arrayClass = RubyRuntime.defineClass("Array", RubyRuntime.objectClass);
+		this.arrayClass = RubyUtil.defineClass("Array", RubyRuntime.objectClass);
 		this.arrayClass.includeModule(RubyRuntime.enumerableModule);
 		this.arrayClass.defineAllocMethod(ArrayMethod.alloc);
 		/*
