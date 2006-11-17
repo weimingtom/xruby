@@ -22,7 +22,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				name_,
 				null,										// signature
 				"java/lang/Object",							// superName
-				new String[] { "com/xruby/newruntime/lang/RubyProgram" }	// interface
+				new String[] { "com/xruby/runtime/lang/RubyProgram" }	// interface
 				);
 
 		createImplicitConstructor(cw_);
@@ -30,7 +30,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		
 		//Implement RubyProgram
 		return new MethodGenerator(Opcodes.ACC_PUBLIC,
-				Method.getMethod("com.xruby.newruntime.lang.RubyValue run()"),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"),
 				null,
 				null,
 				cw_);
@@ -52,7 +52,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		mg.invokeConstructor(program,
 				Method.getMethod("void <init> ()"));
 		mg.invokeVirtual(program,
-				Method.getMethod("com.xruby.newruntime.lang.RubyValue run()"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"));
 		mg.pop();
 
 		mg.invokeStatic(Type.getType(Types.AtExitBlocksClass),
