@@ -2,7 +2,7 @@ package com.xruby;
 
 import com.xruby.compiler.*;
 import com.xruby.compiler.codegen.*;
-import com.xruby.newruntime.lang.*;
+import com.xruby.runtime.lang.*;
 
 import java.io.*;
 
