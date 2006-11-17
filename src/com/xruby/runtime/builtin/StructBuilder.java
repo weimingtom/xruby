@@ -10,7 +10,7 @@ public class StructBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.structClass = RubyUtil.defineClass("Struct", RubyRuntime.objectClass);
+		this.structClass = RubyAPI.defineClass("Struct", RubyRuntime.objectClass);
 		this.structClass.includeModule(RubyRuntime.enumerableModule);
 		this.structClass.undefAllocMethod();
 		

@@ -6,7 +6,7 @@ import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyOneArgMethod;
 import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyUtil;
+import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.RubyFixnum;
 import com.xruby.runtime.value.RubyHash;
@@ -20,7 +20,7 @@ public class HashBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.hashClass = RubyUtil.defineClass("Hash", RubyRuntime.objectClass);
+		this.hashClass = RubyAPI.defineClass("Hash", RubyRuntime.objectClass);
 		this.hashClass.includeModule(RubyRuntime.enumerableModule);
 		this.hashClass.defineAllocMethod(HashMethod.alloc);
 		/*
@@ -153,7 +153,7 @@ class HashMethod {
 	public static RubyMethod empty = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			RubyHash hash = (RubyHash)receiver;
-			return RubyUtil.test(hash.isEmpty());
+			return RubyAPI.test(hash.isEmpty());
 		}
 	};
 	

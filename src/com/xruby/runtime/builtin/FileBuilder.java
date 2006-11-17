@@ -20,9 +20,9 @@ public class FileBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.fileTestModule = RubyUtil.defineModule("FileTest");
-		this.fileClass = RubyUtil.defineClass("File", RubyRuntime.ioClass);
-		this.fileStatClass = RubyUtil.defineClassUnder(this.fileClass, "Stat", RubyRuntime.objectClass);
-		RubyModule constModule = RubyUtil.defineModuleUnder(this.fileClass, "Constants");
+		this.fileTestModule = RubyAPI.defineModule("FileTest");
+		this.fileClass = RubyAPI.defineClass("File", RubyRuntime.ioClass);
+		this.fileStatClass = RubyAPI.defineClassUnder(this.fileClass, "Stat", RubyRuntime.objectClass);
+		RubyModule constModule = RubyAPI.defineModuleUnder(this.fileClass, "Constants");
 	}
 }

@@ -10,7 +10,7 @@ public class DataBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.dataClass = RubyUtil.defineClass("Data", RubyRuntime.objectClass);
+		this.dataClass = RubyAPI.defineClass("Data", RubyRuntime.objectClass);
 		this.dataClass.undefAllocMethod();
 	}
 }

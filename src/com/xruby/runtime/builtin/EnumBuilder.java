@@ -10,7 +10,7 @@ public class EnumBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.enumModule = RubyUtil.defineModule("Enumerable");
+		this.enumModule = RubyAPI.defineModule("Enumerable");
 	}
 }
 

@@ -8,7 +8,7 @@ import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyOneArgMethod;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
-import com.xruby.runtime.lang.RubyUtil;
+import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyFixnum;
@@ -46,7 +46,7 @@ class ArrayMethod {
 	
 	public static RubyMethod empty = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
-			return RubyUtil.test(((RubyArray)receiver).isEmpty());
+			return RubyAPI.test(((RubyArray)receiver).isEmpty());
 		}
 	};
 	
@@ -70,11 +70,11 @@ class ArrayMethod {
 			case 2:
 				RubyValue argValue0 = args.get(0);
 				if (argValue0 instanceof RubySymbol) {
-					RubyUtil.raise(RubyRuntime.typeError, "Symbol as array index");
+					RubyAPI.raise(RubyRuntime.typeError, "Symbol as array index");
 				}
 				
-				int begin = RubyUtil.valueToInt(args.get(0));
-				int length = RubyUtil.valueToInt(args.get(1));
+				int begin = RubyAPI.valueToInt(args.get(0));
+				int length = RubyAPI.valueToInt(args.get(1));
 				return ((RubyArray)receiver).subArray(begin, length);
 			default:
 				RubyValue argValue = args.get(0);
@@ -84,7 +84,7 @@ class ArrayMethod {
 				}
 				
 				if (argValue instanceof RubySymbol) {
-					RubyUtil.raise(RubyRuntime.typeError, "Symbol as array index");
+					RubyAPI.raise(RubyRuntime.typeError, "Symbol as array index");
 				}
 				
 				// FIXME: Range
@@ -102,11 +102,11 @@ class ArrayMethod {
 			// argc == 3
 			if (args.length() == 3) {
 				if (args.get(0) instanceof RubySymbol) {
-					RubyUtil.raise(RubyRuntime.typeError, "Symbol as array index");
+					RubyAPI.raise(RubyRuntime.typeError, "Symbol as array index");
 				}
 				
 				if (args.get(1) instanceof RubySymbol) {
-					RubyUtil.raise(RubyRuntime.typeError, "Symbol as subarray length");
+					RubyAPI.raise(RubyRuntime.typeError, "Symbol as subarray length");
 				}
 				
 				// FIXME:splice array
@@ -114,7 +114,7 @@ class ArrayMethod {
 			
 			// wrong arg
 			if (args.length() != 2) {
-				RubyUtil.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for 2)", args.length());
+				RubyAPI.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for 2)", args.length());
 			}
 			
 			// default
@@ -140,7 +140,7 @@ class ArrayMethod {
 				return RubyConstant.QFALSE;
 			}
 			
-			return RubyUtil.test(((RubyValue)receiver).equals(arg));
+			return RubyAPI.test(((RubyValue)receiver).equals(arg));
 		}		
 	};
 	
@@ -178,7 +178,7 @@ class ArrayMethod {
 	public static RubyMethod times = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			RubyArray array = (RubyArray)receiver;
-			int times = RubyUtil.valueToInt(arg);
+			int times = RubyAPI.valueToInt(arg);
 			
 			return array.times(times);
 		}
@@ -207,7 +207,7 @@ class ArrayMethod {
 	public static RubyMethod deleteAt = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			RubyArray array = (RubyArray)receiver;
-			int index = RubyUtil.valueToInt(arg);
+			int index = RubyAPI.valueToInt(arg);
 			
 			return array.remove(index);
 		}
@@ -216,7 +216,7 @@ class ArrayMethod {
 	public static RubyMethod include = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			RubyArray array = (RubyArray)receiver;
-			return RubyUtil.test(array.include(arg));
+			return RubyAPI.test(array.include(arg));
 		}
 	};
 }

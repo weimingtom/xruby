@@ -18,7 +18,7 @@ public class KernelMethod {
 			}
 			
 			RubyValue result = receiver.callMethod(ID_EQ, args);
-			return RubyUtil.test(result) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
+			return RubyAPI.test(result) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 	
@@ -32,7 +32,7 @@ public class KernelMethod {
 		}
 		
 		protected RubyValue run(RubyValue receiver) throws RubyException {
-			RubyClass klass = RubyUtil.classof(receiver);
+			RubyClass klass = RubyAPI.classof(receiver);
 			return realClass(klass);
 		} 
 	};
@@ -78,10 +78,10 @@ public class KernelMethod {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			if (args == null || args.length() == 0) {
-				RubyClass klass = RubyUtil.classof(receiver);
+				RubyClass klass = RubyAPI.classof(receiver);
 				return klass.instanceMethod(true);
 			} else {
-				RubyUtil.raise(RubyRuntime.runtimeError, " not implemented");
+				RubyAPI.raise(RubyRuntime.runtimeError, " not implemented");
 				return null;
 			}
 		}

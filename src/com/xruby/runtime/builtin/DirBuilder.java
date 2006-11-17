@@ -10,7 +10,7 @@ public class DirBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.dirClass = RubyUtil.defineClass("Dir", RubyRuntime.objectClass);
+		this.dirClass = RubyAPI.defineClass("Dir", RubyRuntime.objectClass);
 		this.dirClass.includeModule(RubyRuntime.enumerableModule);
 		/*
 		 * rb_define_alloc_func(rb_cDir, dir_s_alloc);

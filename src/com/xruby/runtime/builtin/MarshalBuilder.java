@@ -4,7 +4,7 @@ import com.xruby.runtime.lang.*;
 
 public class MarshalBuilder implements ExtensionBuilder {
 	public void initialize() {
-		RubyModule marshalModule = RubyUtil.defineModule("Marshal");
+		RubyModule marshalModule = RubyAPI.defineModule("Marshal");
 		
 		/*
 		 * s_dump = rb_intern("_dump");

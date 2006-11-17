@@ -36,7 +36,7 @@ public class RubyValue {
 	}
 	
 	public RubyValue callMethod(RubyID id, RubyArray args, RubyBlock block) {
-		RubyClass klass = RubyUtil.classof(this);
+		RubyClass klass = RubyAPI.classof(this);
 		return klass.callMethod(this, id, args, block);
 	}
 	
@@ -44,7 +44,7 @@ public class RubyValue {
 		RubyClass klass;
 		
 		if ((this instanceof RubyFixnum) || (this instanceof RubySymbol)) {
-			RubyUtil.raise(RubyRuntime.typeError, "can't define singleton");
+			RubyAPI.raise(RubyRuntime.typeError, "can't define singleton");
 		}
 		
 		RubyBasic basic = (RubyBasic)this;
@@ -86,7 +86,7 @@ public class RubyValue {
 	
 	// class
 	public RubyString getRubyClassName() {
-		RubyClass klass = RubyUtil.classof(this);
+		RubyClass klass = RubyAPI.classof(this);
 		return klass.getName();
 	}
 }

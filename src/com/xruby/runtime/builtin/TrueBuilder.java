@@ -11,12 +11,12 @@ public class TrueBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.trueClass = RubyUtil.defineClass("TrueClass", RubyRuntime.objectClass);
+		this.trueClass = RubyAPI.defineClass("TrueClass", RubyRuntime.objectClass);
 		this.trueClass.defineMethod("to_s", TrueMethod.toS, 0);
 		this.trueClass.defineMethod("&", TrueMethod.and, 1);
 		this.trueClass.defineMethod("|", TrueMethod.or, 1);
 		this.trueClass.defineMethod("^", TrueMethod.xor, 1);
-		RubyUtil.classof(this.trueClass).undefMethod("new");		
+		RubyAPI.classof(this.trueClass).undefMethod("new");		
 	}
 }
 
@@ -30,7 +30,7 @@ class TrueMethod {
 	
 	public static RubyMethod and = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
-			return RubyUtil.test(RubyUtil.test(arg));
+			return RubyAPI.test(RubyAPI.test(arg));
 		}		
 	};
 	
@@ -42,7 +42,7 @@ class TrueMethod {
 	
 	public static RubyMethod xor = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
-			return RubyUtil.test(!RubyUtil.test(arg));
+			return RubyAPI.test(!RubyAPI.test(arg));
 		}
 	};
 }

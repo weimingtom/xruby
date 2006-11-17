@@ -10,7 +10,7 @@ public class PrecisionBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.precisionModule = RubyUtil.defineModule("Precision");
+		this.precisionModule = RubyAPI.defineModule("Precision");
 		/*
 		 * rb_define_singleton_method(rb_mPrecision, "included", prec_included, 1);
     rb_define_method(rb_mPrecision, "prec", prec_prec, 1);

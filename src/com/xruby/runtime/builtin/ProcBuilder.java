@@ -10,7 +10,7 @@ public class ProcBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.procClass = RubyUtil.defineClass("Proc", RubyRuntime.objectClass);
+		this.procClass = RubyAPI.defineClass("Proc", RubyRuntime.objectClass);
 		this.procClass.undefAllocMethod();
 		
 		/**

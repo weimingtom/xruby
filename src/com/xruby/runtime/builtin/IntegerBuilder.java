@@ -11,9 +11,9 @@ public class IntegerBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.integerClass = RubyUtil.defineClass("Integer", RubyRuntime.numericClass);
+		this.integerClass = RubyAPI.defineClass("Integer", RubyRuntime.numericClass);
 		this.integerClass.undefAllocMethod();
-		RubyUtil.classof(this.integerClass).undefMethod("new");
+		RubyAPI.classof(this.integerClass).undefMethod("new");
 		this.integerClass.defineMethod("integer?", RubyMethod.TRUE_METHOD, 0);
 		/*
     rb_define_method(rb_cInteger, "upto", int_upto, 1);
@@ -53,9 +53,9 @@ class IntegerMethod {
 	
 	public static RubyMethod chr = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
-			int value = RubyUtil.valueToInt(receiver);
+			int value = RubyAPI.valueToInt(receiver);
 			if (value < 0 || value > 0xff) {
-				RubyUtil.raise(RubyRuntime.rangeError, "%ld out of char range", value);
+				RubyAPI.raise(RubyRuntime.rangeError, "%ld out of char range", value);
 			}
 			
 			char c = (char)value;

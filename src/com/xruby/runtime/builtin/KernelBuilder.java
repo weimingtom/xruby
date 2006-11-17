@@ -7,7 +7,7 @@ public class KernelBuilder implements ExtensionBuilder {
 	private RubyModule kernelModule;
 
 	public void initialize() {
-		this.kernelModule = RubyUtil.defineModule("Kernel");	
+		this.kernelModule = RubyAPI.defineModule("Kernel");	
 		this.kernelModule.defineMethod("send", KernelMethod.send, -1);
 		this.kernelModule.defineMethod("__send__", KernelMethod.send, -1);
 	}
@@ -18,7 +18,7 @@ class KernelMethod {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			if (args.length() == 0) {
-				RubyUtil.raise(RubyRuntime.argumentError, "no method name given");
+				RubyAPI.raise(RubyRuntime.argumentError, "no method name given");
 			}
 			
 			RubySymbol methodSymbol = (RubySymbol)args.remove(0);

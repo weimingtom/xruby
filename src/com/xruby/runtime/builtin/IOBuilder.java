@@ -21,10 +21,10 @@ public class IOBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.ioError = RubyUtil.defineClass("IOError", RubyRuntime.standardError);
-		this.eofError = RubyUtil.defineClass("EOFError", this.ioError);		
+		this.ioError = RubyAPI.defineClass("IOError", RubyRuntime.standardError);
+		this.eofError = RubyAPI.defineClass("EOFError", this.ioError);		
 	    
-		this.ioClass = RubyUtil.defineClass("IO", RubyRuntime.objectClass);
+		this.ioClass = RubyAPI.defineClass("IO", RubyRuntime.objectClass);
 		this.ioClass.includeModule(RubyRuntime.enumerableModule);
 		this.ioClass.defineAllocMethod(IOMethod.alloc);
 		
