@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class FixnumBuilder implements ExtensionBuilder {
 	private RubyClass fixnumClass;
@@ -11,7 +10,7 @@ public class FixnumBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.fixnumClass = RubyRuntime.defineClass("Fixnum", RubyRuntime.integerClass);
+		this.fixnumClass = RubyUtil.defineClass("Fixnum", RubyRuntime.integerClass);
 		
 		/*
 		 rb_include_module(rb_cFixnum, rb_mPrecision);

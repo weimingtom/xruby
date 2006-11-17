@@ -1,6 +1,6 @@
 package com.xruby.newruntime.lang;
 
-import com.xruby.newruntime.builtin.ArrayBuilder;
+import com.xruby.newruntime.builtin.*;
 import com.xruby.newruntime.builtin.BignumBuilder;
 import com.xruby.newruntime.builtin.BindingBuilder;
 import com.xruby.newruntime.builtin.ComparableBuilder;
@@ -205,17 +205,17 @@ public class RubyRuntime {
 		TrueBuilder trueClassBuilder = new TrueBuilder();
 		trueClassBuilder.initialize();
 		trueClass = trueClassBuilder.getTrueClass();
-		defineGlobalConst("TRUE", RubyConstant.QTRUE);
+		RubyUtil.defineGlobalConst("TRUE", RubyConstant.QTRUE);
 		
 		FalseBuilder falseClassBuilder = new FalseBuilder();
 		falseClassBuilder.initialize();		
 		falseClass = falseClassBuilder.getFalseClass();
-		defineGlobalConst("FALSE", RubyConstant.QFALSE);
+		RubyUtil.defineGlobalConst("FALSE", RubyConstant.QFALSE);
 		
 		NilBuilder nilClassBuilder = new NilBuilder();
 		nilClassBuilder.initialize();
 		nilClass = nilClassBuilder.getNilClass();
-		defineGlobalConst("NIL", RubyConstant.QNIL);
+		RubyUtil.defineGlobalConst("NIL", RubyConstant.QNIL);
 	}
 	
 	private static void initComparable() {
@@ -397,60 +397,7 @@ public class RubyRuntime {
 		MarshalBuilder builder = new MarshalBuilder();
 		builder.initialize();
 	}
-	
-	// API: Defining Classes
-	public static RubyClass defineClass(String name, RubyClass superclass) throws RubyException {
-		return coreBuilder.defineClass(name, superclass);
-	}
-	
-	public static RubyModule defineModule(String name) throws RubyException {
-		return coreBuilder.defineModule(name);
-	}
-	
-	public static RubyClass defineClassUnder(RubyClassModuleBase outter, String name, RubyClass superclass) {
-		return coreBuilder.defineClassUnder(outter, name, superclass);
-	}
-	
-	public static RubyModule defineModuleUnder(RubyClassModuleBase outter, String name) {
-		return coreBuilder.defineModuleUnder(outter, name);
-	}
-	
-	// API: Global
-	public static void defineGlobalMethod(String name, RubyMethod method, int argc) {
-		kernelModule.defineModuleMethod(name, method, argc);
-	}
-	
-	public static void defineGlobalConst(String name, RubyValue value) {
-		objectClass.defineConst(name, value);
-	}
-	
-	public static void setGv(String name, RubyValue value) {		
-	}
-	
-	public static RubyValue getGv(String name) {
-		return null;
-	}
-	
-	// API: Exception
-	public static void raise(RubyClass exception, String fmt, Object... args) {
-		String msg = String.format(fmt, args);
-		RubyValue e = exception.newInstance();
-		throw new RubyException(e, msg);
-	}
-	
-	// API: log
-	public static void warn(String fmt, Object... args) {
-		
-	}
-	
-	public static void warning(String fmt, Object... args) {
-		
-	}
-	
-	public static void exit(int status) {
-		System.exit(status);
-	}
-	
+
 	private RubyRuntime() {		
 	}
 }

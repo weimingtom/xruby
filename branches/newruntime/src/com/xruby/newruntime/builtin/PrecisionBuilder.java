@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyModule;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class PrecisionBuilder implements ExtensionBuilder {
 	private RubyModule precisionModule;
@@ -11,7 +10,7 @@ public class PrecisionBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.precisionModule = RubyRuntime.defineModule("Precision");
+		this.precisionModule = RubyUtil.defineModule("Precision");
 		/*
 		 * rb_define_singleton_method(rb_mPrecision, "included", prec_included, 1);
     rb_define_method(rb_mPrecision, "prec", prec_prec, 1);

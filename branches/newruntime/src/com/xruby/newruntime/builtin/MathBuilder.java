@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyModule;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class MathBuilder implements ExtensionBuilder {
 	private RubyModule mathModule;
@@ -11,7 +10,7 @@ public class MathBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.mathModule = RubyRuntime.defineModule("Math");
+		this.mathModule = RubyUtil.defineModule("Math");
 		/**
 		 * #ifdef M_PI
     rb_define_const(rb_mMath, "PI", rb_float_new(M_PI));

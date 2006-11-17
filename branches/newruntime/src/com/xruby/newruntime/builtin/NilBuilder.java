@@ -11,7 +11,7 @@ public class NilBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.nilClass = RubyRuntime.defineClass("NilClass", RubyRuntime.objectClass);
+		this.nilClass = RubyUtil.defineClass("NilClass", RubyRuntime.objectClass);
 		this.nilClass.defineMethod("to_i", NilMethod.toI, 0);
 		//this.rbNilClass.defineMethod("to_f", NilClassMethodCollection.NIL_TO_I, 0);
 		this.nilClass.defineMethod("to_s", NilMethod.toS, 0);

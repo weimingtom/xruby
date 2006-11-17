@@ -11,7 +11,7 @@ public class TrueBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.trueClass = RubyRuntime.defineClass("TrueClass", RubyRuntime.objectClass);
+		this.trueClass = RubyUtil.defineClass("TrueClass", RubyRuntime.objectClass);
 		this.trueClass.defineMethod("to_s", TrueMethod.toS, 0);
 		this.trueClass.defineMethod("&", TrueMethod.and, 1);
 		this.trueClass.defineMethod("|", TrueMethod.or, 1);

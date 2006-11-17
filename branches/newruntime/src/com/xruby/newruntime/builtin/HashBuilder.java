@@ -20,7 +20,7 @@ public class HashBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.hashClass = RubyRuntime.defineClass("Hash", RubyRuntime.objectClass);
+		this.hashClass = RubyUtil.defineClass("Hash", RubyRuntime.objectClass);
 		this.hashClass.includeModule(RubyRuntime.enumerableModule);
 		this.hashClass.defineAllocMethod(HashMethod.alloc);
 		/*

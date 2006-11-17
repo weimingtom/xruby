@@ -1,11 +1,10 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyModule;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class MarshalBuilder implements ExtensionBuilder {
 	public void initialize() {
-		RubyModule marshalModule = RubyRuntime.defineModule("Marshal");
+		RubyModule marshalModule = RubyUtil.defineModule("Marshal");
 		
 		/*
 		 * s_dump = rb_intern("_dump");

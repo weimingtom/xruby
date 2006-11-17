@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class RangeBuilder implements ExtensionBuilder {
 	private RubyClass rangeClass;
@@ -11,7 +10,7 @@ public class RangeBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.rangeClass = RubyRuntime.defineClass("Range", RubyRuntime.objectClass);
+		this.rangeClass = RubyUtil.defineClass("Range", RubyRuntime.objectClass);
 		this.rangeClass.includeModule(RubyRuntime.enumerableModule);
 		this.rangeClass.defineAllocMethod(RangeMethod.alloc);
 		this.rangeClass.defineMethod("initialize", RangeMethod.initialize, -1);

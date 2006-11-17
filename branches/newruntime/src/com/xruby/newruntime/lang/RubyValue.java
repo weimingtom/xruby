@@ -44,7 +44,7 @@ public class RubyValue {
 		RubyClass klass;
 		
 		if ((this instanceof RubyFixnum) || (this instanceof RubySymbol)) {
-			RubyRuntime.raise(RubyRuntime.typeError, "can't define singleton");
+			RubyUtil.raise(RubyRuntime.typeError, "can't define singleton");
 		}
 		
 		RubyBasic basic = (RubyBasic)this;

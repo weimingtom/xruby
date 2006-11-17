@@ -17,7 +17,7 @@ public class MethodBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.methodClass = RubyRuntime.defineClass("Method", RubyRuntime.objectClass);
+		this.methodClass = RubyUtil.defineClass("Method", RubyRuntime.objectClass);
 		this.methodClass.undefAllocMethod();
 		RubyUtil.classof(this.methodClass).undefMethod("new");
 		
@@ -34,7 +34,7 @@ public class MethodBuilder implements ExtensionBuilder {
     rb_define_method(rb_mKernel, "method", rb_obj_method, 1);
 		 */
 		
-		this.unboundMethodClass = RubyRuntime.defineClass("UnboundMethod", RubyRuntime.objectClass);
+		this.unboundMethodClass = RubyUtil.defineClass("UnboundMethod", RubyRuntime.objectClass);
 		this.unboundMethodClass.undefAllocMethod();
 		RubyUtil.classof(this.unboundMethodClass).undefMethod("new");
 		

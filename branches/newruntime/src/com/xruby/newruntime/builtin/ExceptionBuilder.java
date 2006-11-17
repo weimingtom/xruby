@@ -1,12 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.ClassMethod;
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyModule;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubyValue;
+import com.xruby.newruntime.lang.*;
 
 public class ExceptionBuilder implements ExtensionBuilder {
 	private RubyClass exceptionException;
@@ -122,7 +116,7 @@ public class ExceptionBuilder implements ExtensionBuilder {
 
 	public void initialize() {
 		this.exceptionException = 
-			RubyRuntime.defineClass("Exception", RubyRuntime.objectClass);
+			RubyUtil.defineClass("Exception", RubyRuntime.objectClass);
 		this.exceptionException.defineSingletonMethod("exception", 
 				ClassMethod.newInstance, -1);
 		
@@ -140,7 +134,7 @@ public class ExceptionBuilder implements ExtensionBuilder {
     rb_define_method(rb_eException, "set_backtrace", exc_set_backtrace, 1);
 		 */
 		
-		this.systemExitException  = RubyRuntime.defineClass("SystemExit", this.exceptionException);
+		this.systemExitException  = RubyUtil.defineClass("SystemExit", this.exceptionException);
 		
 		/*
 		rb_eSystemExit  = rb_define_class("SystemExit", rb_eException);
@@ -149,16 +143,16 @@ public class ExceptionBuilder implements ExtensionBuilder {
 	    rb_define_method(rb_eSystemExit, "success?", exit_success_p, 0);
 	    */
 		
-		this.fatalException = RubyRuntime.defineClass("fatal", this.exceptionException);
-		this.signalException = RubyRuntime.defineClass("SignalException", this.exceptionException);
-		this.interruptException = RubyRuntime.defineClass("Interrupt", this.signalException);
+		this.fatalException = RubyUtil.defineClass("fatal", this.exceptionException);
+		this.signalException = RubyUtil.defineClass("SignalException", this.exceptionException);
+		this.interruptException = RubyUtil.defineClass("Interrupt", this.signalException);
 		
-		this.standardError = RubyRuntime.defineClass("StandardError", this.exceptionException);
-		this.typeError = RubyRuntime.defineClass("TypeError", this.standardError);
-		this.argumentError = RubyRuntime.defineClass("ArgumentError", this.standardError);
-		this.indexError = RubyRuntime.defineClass("IndexError", this.standardError);
-		this.rangeError = RubyRuntime.defineClass("RangeError", this.standardError);
-		this.nameError = RubyRuntime.defineClass("NameError", this.standardError);
+		this.standardError = RubyUtil.defineClass("StandardError", this.exceptionException);
+		this.typeError = RubyUtil.defineClass("TypeError", this.standardError);
+		this.argumentError = RubyUtil.defineClass("ArgumentError", this.standardError);
+		this.indexError = RubyUtil.defineClass("IndexError", this.standardError);
+		this.rangeError = RubyUtil.defineClass("RangeError", this.standardError);
+		this.nameError = RubyUtil.defineClass("NameError", this.standardError);
 		
 		/*	    
 	    rb_define_method(rb_eNameError, "initialize", name_err_initialize, -1);
@@ -171,7 +165,7 @@ public class ExceptionBuilder implements ExtensionBuilder {
 	    rb_define_singleton_method(rb_cNameErrorMesg, "_load", name_err_mesg_load, 1);
 	    */
 		
-		this.noMethodError = RubyRuntime.defineClass("NoMethodError", this.nameError);
+		this.noMethodError = RubyUtil.defineClass("NoMethodError", this.nameError);
 		
 		/*
 	    rb_eNoMethodError = rb_define_class("NoMethodError", rb_eNameError);
@@ -179,20 +173,20 @@ public class ExceptionBuilder implements ExtensionBuilder {
 	    rb_define_method(rb_eNoMethodError, "args", nometh_err_args, 0);
 	    */
 		
-		this.scriptError = RubyRuntime.defineClass("ScriptError", this.exceptionException);
-		this.syntaxError = RubyRuntime.defineClass("SyntaxError", this.scriptError);
-		this.loadError = RubyRuntime.defineClass("LoadError", this.scriptError);
-		this.notImplementedError = RubyRuntime.defineClass("NotImplementedError", this.scriptError);
+		this.scriptError = RubyUtil.defineClass("ScriptError", this.exceptionException);
+		this.syntaxError = RubyUtil.defineClass("SyntaxError", this.scriptError);
+		this.loadError = RubyUtil.defineClass("LoadError", this.scriptError);
+		this.notImplementedError = RubyUtil.defineClass("NotImplementedError", this.scriptError);
 		
-		this.runtimeError = RubyRuntime.defineClass("RuntimeError", this.standardError);
-		this.securityError = RubyRuntime.defineClass("SecurityError", this.standardError);
-		this.noMemoryError = RubyRuntime.defineClass("NoMemoryError", this.exceptionException);
+		this.runtimeError = RubyUtil.defineClass("RuntimeError", this.standardError);
+		this.securityError = RubyUtil.defineClass("SecurityError", this.standardError);
+		this.noMemoryError = RubyUtil.defineClass("NoMemoryError", this.exceptionException);
 		
 		/*	    
 	    syserr_tbl = st_init_numtable();
 	    */
 		
-		this.systemCallError = RubyRuntime.defineClass("SystemCallError", this.standardError);
+		this.systemCallError = RubyUtil.defineClass("SystemCallError", this.standardError);
 		
 		/*	    
 	    rb_define_method(rb_eSystemCallError, "initialize", syserr_initialize, -1);
@@ -200,7 +194,7 @@ public class ExceptionBuilder implements ExtensionBuilder {
 	    rb_define_singleton_method(rb_eSystemCallError, "===", syserr_eqq, 1);
 	    */
 		
-		this.errnoModule = RubyRuntime.defineModule("Errno");
+		this.errnoModule = RubyUtil.defineModule("Errno");
 	    /*
 
 	    rb_define_global_function("warn", rb_warn_m, 1);

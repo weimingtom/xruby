@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyModule;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class ComparableBuilder implements ExtensionBuilder {
 	private RubyModule comparableModule;
@@ -11,7 +10,7 @@ public class ComparableBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.comparableModule = RubyRuntime.defineModule("Comparable");
+		this.comparableModule = RubyUtil.defineModule("Comparable");
 		/*
 		 * rb_define_method(rb_mComparable, "==", cmp_equal, 1);
     rb_define_method(rb_mComparable, ">", cmp_gt, 1);

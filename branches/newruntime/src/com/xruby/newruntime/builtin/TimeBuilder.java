@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class TimeBuilder implements ExtensionBuilder {
 	private RubyClass timeClass;
@@ -11,7 +10,7 @@ public class TimeBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.timeClass = RubyRuntime.defineClass("Time", RubyRuntime.objectClass);
+		this.timeClass = RubyUtil.defineClass("Time", RubyRuntime.objectClass);
 		this.timeClass.includeModule(RubyRuntime.comparableModule);
 		
 		/**

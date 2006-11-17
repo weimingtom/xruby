@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyModule;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class ProcessBuilder implements ExtensionBuilder {
 	private RubyModule processModule;
@@ -11,9 +10,9 @@ public class ProcessBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.processModule = RubyRuntime.defineModule("Process");
-		RubyModule procUIDModule = RubyRuntime.defineModuleUnder(this.processModule, "UID");
-		RubyModule procGIDModule = RubyRuntime.defineModuleUnder(this.processModule, "GID");
-		RubyModule procIDSyscall = RubyRuntime.defineModuleUnder(this.processModule, "Sys");
+		this.processModule = RubyUtil.defineModule("Process");
+		RubyModule procUIDModule = RubyUtil.defineModuleUnder(this.processModule, "UID");
+		RubyModule procGIDModule = RubyUtil.defineModuleUnder(this.processModule, "GID");
+		RubyModule procIDSyscall = RubyUtil.defineModuleUnder(this.processModule, "Sys");
 	}
 }

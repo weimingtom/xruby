@@ -112,7 +112,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		
 		int argc = wrapper.getArgc();
 		if (argc >= 0 && args != null && args.length() != argc) {
-			RubyRuntime.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for %d)", args.length(), argc);
+			RubyUtil.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for %d)", args.length(), argc);
 		}
 		
 		RubyMethod method = wrapper.getMethod();
@@ -167,12 +167,12 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	
 	private RubyValue methodMissing(RubyValue obj, RubyID id) {
 		if (id == RubyID.ID_ALLOCATOR) {
-			RubyRuntime.raise(RubyRuntime.typeError, "allocator undefined for %s", obj.getRubyClassName().getString());
+			RubyUtil.raise(RubyRuntime.typeError, "allocator undefined for %s", obj.getRubyClassName().getString());
 		}
 		
 		// FIXME: invoke method missing
 		
-		RubyRuntime.raise(RubyRuntime.noMethodError, "undefined method `%s' for %s", StringMap.id2name(id), obj.getRubyClassName());
+		RubyUtil.raise(RubyRuntime.noMethodError, "undefined method `%s' for %s", StringMap.id2name(id), obj.getRubyClassName());
 		
 		// unable reach here
 		return null;

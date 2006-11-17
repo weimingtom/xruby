@@ -27,8 +27,8 @@ public class ThreadBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.threadError = RubyRuntime.defineClass("ThreadError", RubyRuntime.standardError);
-		this.threadClass = RubyRuntime.defineClass("Thread", RubyRuntime.objectClass);
+		this.threadError = RubyUtil.defineClass("ThreadError", RubyRuntime.standardError);
+		this.threadClass = RubyUtil.defineClass("Thread", RubyRuntime.objectClass);
 		this.threadClass.undefAllocMethod();
 		
 		/**
@@ -79,7 +79,7 @@ public class ThreadBuilder implements ExtensionBuilder {
     rb_define_method(rb_cThread, "inspect", rb_thread_inspect, 0);
 		 */
 		
-		this.continuationClass = RubyRuntime.defineClass("Continuation", RubyRuntime.objectClass);
+		this.continuationClass = RubyUtil.defineClass("Continuation", RubyRuntime.objectClass);
 		this.continuationClass.undefAllocMethod();
 		RubyUtil.classof(this.continuationClass).undefMethod("new");
 		/**
@@ -89,7 +89,7 @@ public class ThreadBuilder implements ExtensionBuilder {
     rb_global_variable(&cont_protect);
 		 */
 		
-		this.threadGroupClass = RubyRuntime.defineClass("ThreadGroup", RubyRuntime.objectClass);
+		this.threadGroupClass = RubyUtil.defineClass("ThreadGroup", RubyRuntime.objectClass);
 		/*
 		rb_define_alloc_func(cThGroup, thgroup_s_alloc);
 	    rb_define_method(cThGroup, "list", thgroup_list, 0);

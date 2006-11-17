@@ -81,7 +81,7 @@ public class KernelMethod {
 				RubyClass klass = RubyUtil.classof(receiver);
 				return klass.instanceMethod(true);
 			} else {
-				RubyRuntime.raise(RubyRuntime.runtimeError, " not implemented");
+				RubyUtil.raise(RubyRuntime.runtimeError, " not implemented");
 				return null;
 			}
 		}

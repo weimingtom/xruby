@@ -1,7 +1,7 @@
 package com.xruby.newruntime.builtin;
 
 import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class BignumBuilder implements ExtensionBuilder {
 	private RubyClass bignumClass;
@@ -11,7 +11,7 @@ public class BignumBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.bignumClass = RubyRuntime.defineClass("Bignum", RubyRuntime.integerClass);
+		this.bignumClass = RubyUtil.defineClass("Bignum", RubyRuntime.integerClass);
 		/*
 rb_define_method(rb_cBignum, "to_s", rb_big_to_s, -1);
     rb_define_method(rb_cBignum, "coerce", rb_big_coerce, 1);

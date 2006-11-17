@@ -1,8 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyModule;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class FileBuilder implements ExtensionBuilder {
 	private RubyModule fileTestModule;
@@ -22,9 +20,9 @@ public class FileBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.fileTestModule = RubyRuntime.defineModule("FileTest");
-		this.fileClass = RubyRuntime.defineClass("File", RubyRuntime.ioClass);
-		this.fileStatClass = RubyRuntime.defineClassUnder(this.fileClass, "Stat", RubyRuntime.objectClass);
-		RubyModule constModule = RubyRuntime.defineModuleUnder(this.fileClass, "Constants");
+		this.fileTestModule = RubyUtil.defineModule("FileTest");
+		this.fileClass = RubyUtil.defineClass("File", RubyRuntime.ioClass);
+		this.fileStatClass = RubyUtil.defineClassUnder(this.fileClass, "Stat", RubyRuntime.objectClass);
+		RubyModule constModule = RubyUtil.defineModuleUnder(this.fileClass, "Constants");
 	}
 }

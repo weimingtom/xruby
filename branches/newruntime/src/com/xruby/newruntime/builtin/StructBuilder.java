@@ -1,7 +1,6 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyRuntime;
+import com.xruby.newruntime.lang.*;
 
 public class StructBuilder implements ExtensionBuilder {
 	private RubyClass structClass;
@@ -11,7 +10,7 @@ public class StructBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.structClass = RubyRuntime.defineClass("Struct", RubyRuntime.objectClass);
+		this.structClass = RubyUtil.defineClass("Struct", RubyRuntime.objectClass);
 		this.structClass.includeModule(RubyRuntime.enumerableModule);
 		this.structClass.undefAllocMethod();
 		

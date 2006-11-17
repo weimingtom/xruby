@@ -1,14 +1,7 @@
 package com.xruby.newruntime.builtin;
 
-import com.xruby.newruntime.lang.RubyClass;
-import com.xruby.newruntime.lang.RubyMethod;
-import com.xruby.newruntime.lang.RubyNoArgMethod;
-import com.xruby.newruntime.lang.RubyOneArgMethod;
-import com.xruby.newruntime.lang.RubyRuntime;
-import com.xruby.newruntime.lang.RubyValue;
-import com.xruby.newruntime.value.RubyFile;
-import com.xruby.newruntime.value.RubyFixnum;
-import com.xruby.newruntime.value.RubyIO;
+import com.xruby.newruntime.lang.*;
+import com.xruby.newruntime.value.*;
 
 public class IOBuilder implements ExtensionBuilder {
 	private RubyClass ioError;
@@ -28,10 +21,10 @@ public class IOBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.ioError = RubyRuntime.defineClass("IOError", RubyRuntime.standardError);
-		this.eofError = RubyRuntime.defineClass("EOFError", this.ioError);		
+		this.ioError = RubyUtil.defineClass("IOError", RubyRuntime.standardError);
+		this.eofError = RubyUtil.defineClass("EOFError", this.ioError);		
 	    
-		this.ioClass = RubyRuntime.defineClass("IO", RubyRuntime.objectClass);
+		this.ioClass = RubyUtil.defineClass("IO", RubyRuntime.objectClass);
 		this.ioClass.includeModule(RubyRuntime.enumerableModule);
 		this.ioClass.defineAllocMethod(IOMethod.alloc);
 		
