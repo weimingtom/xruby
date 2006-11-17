@@ -726,7 +726,10 @@ caseExpression
 		;
 
 forExpression
-		:	keyword_for block_vars	keyword_in expression doOrTermialOrColon
+		:	"for"^	(LINE_BREAK!)?
+			block_vars
+			"in"		(LINE_BREAK!)?
+			expression doOrTermialOrColon
 			(compoundStatement)?
 			"end"!
 		;
@@ -1014,9 +1017,9 @@ keyword_elsif		:	"elsif"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_end		:	"end"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_ensure	:	"ensure"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_false		:	"false"		(options{greedy=true;}:LINE_BREAK!)?;
-keyword_for		:	"for"			(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_for	:	"for"			(options{greedy=true;}:LINE_BREAK!)?;
 //keyword_if		:	"if"			(options{greedy=true;}:LINE_BREAK!)?;
-keyword_in		:	"in"			(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_in		:	"in"			(options{greedy=true;}:LINE_BREAK!)?;
 keyword_module	:	"module"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_next		:	"next"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_nil		:	"nil"			(options{greedy=true;}:LINE_BREAK!)?;

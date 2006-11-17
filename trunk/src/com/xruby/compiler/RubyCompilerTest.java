@@ -2973,4 +2973,16 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_for_in() {
+		String [] program_texts = {
+				"for i in 1..5 do print i end",
+		};
+		
+		String[] outputs = {
+				"12345",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
