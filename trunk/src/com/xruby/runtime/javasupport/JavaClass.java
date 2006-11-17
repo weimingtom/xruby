@@ -41,13 +41,6 @@ public class JavaClass extends RubyClass {
         initMethods(clazz);
     }
 
-    public void defineMethod(Method method) {
-        StringBuffer methodName = new StringBuffer(method.getName());
-
-        JavaMethod nativeMethod = new JavaMethod(method);
-        defineMethod(methodName.toString(), nativeMethod);
-    }
-
     private void initMethods(Class clazz) {
         Method[] methods = clazz.getDeclaredMethods();
 
