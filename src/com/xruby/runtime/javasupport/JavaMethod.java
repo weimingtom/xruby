@@ -47,7 +47,9 @@ public class JavaMethod extends RubyMethod {
 
         try {
             if(!isConstructor) {
-                method.invoke(object, arguments);
+                Object retValue = method.invoke(object, arguments);
+
+                return JavaUtil.convertToRubyValue(retValue);
             }
             else {
                 Object instance = constructor.newInstance(arguments);
