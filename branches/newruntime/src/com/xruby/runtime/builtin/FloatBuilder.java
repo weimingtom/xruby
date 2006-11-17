@@ -11,7 +11,7 @@ public class FloatBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.floatClass = RubyUtil.defineClass("Float", RubyRuntime.numericClass);
+		this.floatClass = RubyAPI.defineClass("Float", RubyRuntime.numericClass);
 		this.floatClass.undefAllocMethod();
 		this.floatClass.undefMethod("new");
 		

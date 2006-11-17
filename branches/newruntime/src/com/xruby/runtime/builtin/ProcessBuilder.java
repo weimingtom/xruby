@@ -10,9 +10,9 @@ public class ProcessBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.processModule = RubyUtil.defineModule("Process");
-		RubyModule procUIDModule = RubyUtil.defineModuleUnder(this.processModule, "UID");
-		RubyModule procGIDModule = RubyUtil.defineModuleUnder(this.processModule, "GID");
-		RubyModule procIDSyscall = RubyUtil.defineModuleUnder(this.processModule, "Sys");
+		this.processModule = RubyAPI.defineModule("Process");
+		RubyModule procUIDModule = RubyAPI.defineModuleUnder(this.processModule, "UID");
+		RubyModule procGIDModule = RubyAPI.defineModuleUnder(this.processModule, "GID");
+		RubyModule procIDSyscall = RubyAPI.defineModuleUnder(this.processModule, "Sys");
 	}
 }

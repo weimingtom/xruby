@@ -175,17 +175,17 @@ public class RubyRuntime {
 		TrueBuilder trueClassBuilder = new TrueBuilder();
 		trueClassBuilder.initialize();
 		trueClass = trueClassBuilder.getTrueClass();
-		RubyUtil.defineGlobalConst("TRUE", RubyConstant.QTRUE);
+		RubyAPI.defineGlobalConst("TRUE", RubyConstant.QTRUE);
 		
 		FalseBuilder falseClassBuilder = new FalseBuilder();
 		falseClassBuilder.initialize();		
 		falseClass = falseClassBuilder.getFalseClass();
-		RubyUtil.defineGlobalConst("FALSE", RubyConstant.QFALSE);
+		RubyAPI.defineGlobalConst("FALSE", RubyConstant.QFALSE);
 		
 		NilBuilder nilClassBuilder = new NilBuilder();
 		nilClassBuilder.initialize();
 		nilClass = nilClassBuilder.getNilClass();
-		RubyUtil.defineGlobalConst("NIL", RubyConstant.QNIL);
+		RubyAPI.defineGlobalConst("NIL", RubyConstant.QNIL);
 	}
 	
 	private static void initComparable() {

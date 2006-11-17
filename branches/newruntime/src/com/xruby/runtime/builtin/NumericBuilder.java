@@ -20,9 +20,9 @@ public class NumericBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.zeroDivError = RubyUtil.defineClass("ZeroDivisionError", RubyRuntime.standardError);
-		this.floatDomainError = RubyUtil.defineClass("FloatDomainError", RubyRuntime.rangeError);
-		this.numericClass = RubyUtil.defineClass("Numeric", RubyRuntime.objectClass);
+		this.zeroDivError = RubyAPI.defineClass("ZeroDivisionError", RubyRuntime.standardError);
+		this.floatDomainError = RubyAPI.defineClass("FloatDomainError", RubyRuntime.rangeError);
+		this.numericClass = RubyAPI.defineClass("Numeric", RubyRuntime.objectClass);
 		
 		/*
 		 * rb_define_method(rb_cNumeric, "singleton_method_added", num_sadded, 1);

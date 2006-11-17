@@ -10,7 +10,7 @@ public class FixnumBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.fixnumClass = RubyUtil.defineClass("Fixnum", RubyRuntime.integerClass);
+		this.fixnumClass = RubyAPI.defineClass("Fixnum", RubyRuntime.integerClass);
 		
 		/*
 		 rb_include_module(rb_cFixnum, rb_mPrecision);

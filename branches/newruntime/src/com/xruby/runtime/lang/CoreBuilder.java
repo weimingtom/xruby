@@ -190,12 +190,12 @@ public class CoreBuilder implements ExtensionBuilder {
 			try {
 				return (RubyClass)klassObj;
 			} catch (ClassCastException e) {
-				RubyUtil.raise(RubyRuntime.typeError, "%s is not a class", name);
+				RubyAPI.raise(RubyRuntime.typeError, "%s is not a class", name);
 			}
 		}
 		
 		if (superclass == null) {
-			RubyUtil.warn("no super class for `%s', Object assumed", name);
+			RubyAPI.warn("no super class for `%s', Object assumed", name);
 		}
 		
 		RubyClass klass = defineIDClass(id, superclass);
@@ -222,7 +222,7 @@ public class CoreBuilder implements ExtensionBuilder {
 				
 				return klass;
 			} catch (ClassCastException e) {
-				RubyUtil.raise(RubyRuntime.typeError, "%s is not a class", name);
+				RubyAPI.raise(RubyRuntime.typeError, "%s is not a class", name);
 			}
 		}
 		
@@ -266,7 +266,7 @@ public class CoreBuilder implements ExtensionBuilder {
 				RubyModule module = (RubyModule)value;				
 				return module;
 			} catch (ClassCastException e) {
-				RubyUtil.raise(RubyRuntime.typeError, "%s::%s is not a module", outter.getName(), value.getRubyClassName());
+				RubyAPI.raise(RubyRuntime.typeError, "%s::%s is not a module", outter.getName(), value.getRubyClassName());
 			}			
 		}
 		

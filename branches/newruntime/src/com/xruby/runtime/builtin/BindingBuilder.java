@@ -2,7 +2,7 @@ package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyUtil;
+import com.xruby.runtime.lang.RubyAPI;
 
 public class BindingBuilder implements ExtensionBuilder {
 	private RubyClass bindingClass;
@@ -12,9 +12,9 @@ public class BindingBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.bindingClass = RubyUtil.defineClass("Binding", RubyRuntime.objectClass);
+		this.bindingClass = RubyAPI.defineClass("Binding", RubyRuntime.objectClass);
 		this.bindingClass.undefAllocMethod();
-		RubyUtil.classof(this.bindingClass).undefMethod("new");
+		RubyAPI.classof(this.bindingClass).undefMethod("new");
 		
 		/**
     rb_define_method(rb_cBinding, "clone", proc_clone, 0);

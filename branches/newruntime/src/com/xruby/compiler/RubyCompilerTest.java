@@ -105,7 +105,7 @@ public class RubyCompilerTest extends TestCase {
 			p.run();
 		} catch (RubyException e) {
 			RubyValue v = e.getRubyException();
-			assertEquals(RubyUtil.classof(v), RubyRuntime.runtimeError);
+			assertEquals(RubyAPI.classof(v), RubyRuntime.runtimeError);
 			String s = e.getMessage();
 			assertEquals("test", s);
 			return;

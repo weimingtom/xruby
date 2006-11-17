@@ -10,7 +10,7 @@ public class MathBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.mathModule = RubyUtil.defineModule("Math");
+		this.mathModule = RubyAPI.defineModule("Math");
 		/**
 		 * #ifdef M_PI
     rb_define_const(rb_mMath, "PI", rb_float_new(M_PI));

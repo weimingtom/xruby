@@ -10,7 +10,7 @@ public class ArrayBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.arrayClass = RubyUtil.defineClass("Array", RubyRuntime.objectClass);
+		this.arrayClass = RubyAPI.defineClass("Array", RubyRuntime.objectClass);
 		this.arrayClass.includeModule(RubyRuntime.enumerableModule);
 		this.arrayClass.defineAllocMethod(ArrayMethod.alloc);
 		/*

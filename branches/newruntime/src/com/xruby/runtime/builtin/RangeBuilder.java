@@ -10,7 +10,7 @@ public class RangeBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.rangeClass = RubyUtil.defineClass("Range", RubyRuntime.objectClass);
+		this.rangeClass = RubyAPI.defineClass("Range", RubyRuntime.objectClass);
 		this.rangeClass.includeModule(RubyRuntime.enumerableModule);
 		this.rangeClass.defineAllocMethod(RangeMethod.alloc);
 		this.rangeClass.defineMethod("initialize", RangeMethod.initialize, -1);

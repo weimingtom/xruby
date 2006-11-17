@@ -15,9 +15,9 @@ public class SymbolBuilder {
 	}
 	
 	private void initialize() {
-		this.symbolClass = RubyUtil.defineClass("Symbol", RubyRuntime.objectClass);
+		this.symbolClass = RubyAPI.defineClass("Symbol", RubyRuntime.objectClass);
 		
-		RubyUtil.classof(this.symbolClass).undefMethod("new");
+		RubyAPI.classof(this.symbolClass).undefMethod("new");
 		
 		/*
 	    rb_define_singleton_method(rb_cSymbol, "all_symbols", 

@@ -10,7 +10,7 @@ public class TimeBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.timeClass = RubyUtil.defineClass("Time", RubyRuntime.objectClass);
+		this.timeClass = RubyAPI.defineClass("Time", RubyRuntime.objectClass);
 		this.timeClass.includeModule(RubyRuntime.comparableModule);
 		
 		/**

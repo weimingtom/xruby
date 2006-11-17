@@ -26,7 +26,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	
 	// method
 	public void defineAllocMethod(RubyMethod method) {
-		RubyClass metaClass = RubyUtil.classof(this);
+		RubyClass metaClass = RubyAPI.classof(this);
 		metaClass.addMethod(RubyID.ID_ALLOCATOR, method, -1, RubyMethodAttr.PRIVATE);
 	}
 	
@@ -36,7 +36,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	}	
 	
 	public void undefAllocMethod() {
-		RubyClass metaClass = RubyUtil.classof(this);
+		RubyClass metaClass = RubyAPI.classof(this);
 		metaClass.addMethod(RubyID.ID_ALLOCATOR, null, 0, RubyMethodAttr.PRIVATE);
 	}
 	
@@ -112,7 +112,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		
 		int argc = wrapper.getArgc();
 		if (argc >= 0 && args != null && args.length() != argc) {
-			RubyUtil.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for %d)", args.length(), argc);
+			RubyAPI.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for %d)", args.length(), argc);
 		}
 		
 		RubyMethod method = wrapper.getMethod();
@@ -167,12 +167,12 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	
 	private RubyValue methodMissing(RubyValue obj, RubyID id) {
 		if (id == RubyID.ID_ALLOCATOR) {
-			RubyUtil.raise(RubyRuntime.typeError, "allocator undefined for %s", obj.getRubyClassName().getString());
+			RubyAPI.raise(RubyRuntime.typeError, "allocator undefined for %s", obj.getRubyClassName().getString());
 		}
 		
 		// FIXME: invoke method missing
 		
-		RubyUtil.raise(RubyRuntime.noMethodError, "undefined method `%s' for %s", StringMap.id2name(id), obj.getRubyClassName());
+		RubyAPI.raise(RubyRuntime.noMethodError, "undefined method `%s' for %s", StringMap.id2name(id), obj.getRubyClassName());
 		
 		// unable reach here
 		return null;
@@ -266,11 +266,11 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	
 	// instance
 	public boolean isInstanceOf(RubyValue value) {
-		return RubyUtil.classof(value) == this;
+		return RubyAPI.classof(value) == this;
 	}
 	
 	public boolean isKindOf(RubyValue value) {
-		RubyClass klass = RubyUtil.classof(value);
+		RubyClass klass = RubyAPI.classof(value);
 		while (klass != null) {
 			if (klass == this || klass.methodTable == this.methodTable) {
 				return true;

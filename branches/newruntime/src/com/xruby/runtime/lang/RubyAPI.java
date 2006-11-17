@@ -2,7 +2,7 @@ package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.RubyFixnum;
 
-public class RubyUtil {	
+public class RubyAPI {	
 	public static long valueToLong(RubyValue value) {
 		if (value instanceof RubyFixnum) {
 			return ((RubyFixnum)value).longValue();
@@ -29,7 +29,7 @@ public class RubyUtil {
 			return false;
 		}
 		
-		return RubyUtil.test(value1.callMethod("==", value2));
+		return RubyAPI.test(value1.callMethod("==", value2));
 	}
 
 	public static boolean test(RubyValue value) {

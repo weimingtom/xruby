@@ -2,7 +2,7 @@ package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyUtil;
+import com.xruby.runtime.lang.RubyAPI;
 
 public class MethodBuilder implements ExtensionBuilder {
 	private RubyClass methodClass;
@@ -17,9 +17,9 @@ public class MethodBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.methodClass = RubyUtil.defineClass("Method", RubyRuntime.objectClass);
+		this.methodClass = RubyAPI.defineClass("Method", RubyRuntime.objectClass);
 		this.methodClass.undefAllocMethod();
-		RubyUtil.classof(this.methodClass).undefMethod("new");
+		RubyAPI.classof(this.methodClass).undefMethod("new");
 		
 		/*
     rb_define_method(rb_cMethod, "==", method_eq, 1);
@@ -34,9 +34,9 @@ public class MethodBuilder implements ExtensionBuilder {
     rb_define_method(rb_mKernel, "method", rb_obj_method, 1);
 		 */
 		
-		this.unboundMethodClass = RubyUtil.defineClass("UnboundMethod", RubyRuntime.objectClass);
+		this.unboundMethodClass = RubyAPI.defineClass("UnboundMethod", RubyRuntime.objectClass);
 		this.unboundMethodClass.undefAllocMethod();
-		RubyUtil.classof(this.unboundMethodClass).undefMethod("new");
+		RubyAPI.classof(this.unboundMethodClass).undefMethod("new");
 		
 		/*
     rb_define_method(rb_cUnboundMethod, "==", method_eq, 1);

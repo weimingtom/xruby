@@ -2,7 +2,7 @@ package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyUtil;
+import com.xruby.runtime.lang.RubyAPI;
 
 public class ThreadBuilder implements ExtensionBuilder {
 	private RubyClass threadError;
@@ -27,8 +27,8 @@ public class ThreadBuilder implements ExtensionBuilder {
 	}
 
 	public void initialize() {
-		this.threadError = RubyUtil.defineClass("ThreadError", RubyRuntime.standardError);
-		this.threadClass = RubyUtil.defineClass("Thread", RubyRuntime.objectClass);
+		this.threadError = RubyAPI.defineClass("ThreadError", RubyRuntime.standardError);
+		this.threadClass = RubyAPI.defineClass("Thread", RubyRuntime.objectClass);
 		this.threadClass.undefAllocMethod();
 		
 		/**
@@ -79,9 +79,9 @@ public class ThreadBuilder implements ExtensionBuilder {
     rb_define_method(rb_cThread, "inspect", rb_thread_inspect, 0);
 		 */
 		
-		this.continuationClass = RubyUtil.defineClass("Continuation", RubyRuntime.objectClass);
+		this.continuationClass = RubyAPI.defineClass("Continuation", RubyRuntime.objectClass);
 		this.continuationClass.undefAllocMethod();
-		RubyUtil.classof(this.continuationClass).undefMethod("new");
+		RubyAPI.classof(this.continuationClass).undefMethod("new");
 		/**
     rb_define_method(rb_cCont, "call", rb_cont_call, -1);
     rb_define_method(rb_cCont, "[]", rb_cont_call, -1);
@@ -89,7 +89,7 @@ public class ThreadBuilder implements ExtensionBuilder {
     rb_global_variable(&cont_protect);
 		 */
 		
-		this.threadGroupClass = RubyUtil.defineClass("ThreadGroup", RubyRuntime.objectClass);
+		this.threadGroupClass = RubyAPI.defineClass("ThreadGroup", RubyRuntime.objectClass);
 		/*
 		rb_define_alloc_func(cThGroup, thgroup_s_alloc);
 	    rb_define_method(cThGroup, "list", thgroup_list, 0);

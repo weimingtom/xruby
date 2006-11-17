@@ -48,39 +48,39 @@ public class CoreTest extends TestCase {
 	}
 	
 	public void testDefineClass() {
-		RubyClass testClass = RubyUtil.defineClass("TestClass", RubyRuntime.objectClass);
+		RubyClass testClass = RubyAPI.defineClass("TestClass", RubyRuntime.objectClass);
 		assertNotNull(testClass);
 		assertEquals(RubyRuntime.objectClass, testClass.getSuper());
 		
 		try {
-			RubyUtil.defineClass("NoSuperClass", null);
+			RubyAPI.defineClass("NoSuperClass", null);
 		} catch (RubyException e) {
-			assertEquals(RubyRuntime.typeError, RubyUtil.classof(e.getRubyException()));
+			assertEquals(RubyRuntime.typeError, RubyAPI.classof(e.getRubyException()));
 		}
 	}
 	
 	public void testDefineDefinedClass() {
-		RubyClass objectClass = RubyUtil.defineClass("Object", null);
+		RubyClass objectClass = RubyAPI.defineClass("Object", null);
 		assertNotNull(objectClass);
 		assertEquals(RubyRuntime.objectClass, objectClass);
 	}
 	
 	public void testDefineUnderClass() {
-		RubyClass outterClass = RubyUtil.defineClass("OutterClass", RubyRuntime.objectClass);
-		RubyClass innerClass = RubyUtil.defineClassUnder(outterClass, "InnerClass", RubyRuntime.objectClass);
+		RubyClass outterClass = RubyAPI.defineClass("OutterClass", RubyRuntime.objectClass);
+		RubyClass innerClass = RubyAPI.defineClassUnder(outterClass, "InnerClass", RubyRuntime.objectClass);
 		assertNotNull(innerClass);
 		assertEquals("OutterClass::InnerClass", innerClass.getName().getString());
 		
 		// defined
-		RubyClass definedClass = RubyUtil.defineClassUnder(outterClass, "InnerClass", RubyRuntime.objectClass);
+		RubyClass definedClass = RubyAPI.defineClassUnder(outterClass, "InnerClass", RubyRuntime.objectClass);
 		assertEquals(innerClass, definedClass);
 	}
 	
 	public void testDefinedUnderModule() {
-		RubyModule outterMoudle = RubyUtil.defineModule("OutterModule");
-		RubyModule innerModule = RubyUtil.defineModuleUnder(outterMoudle, "InnerModule");
+		RubyModule outterMoudle = RubyAPI.defineModule("OutterModule");
+		RubyModule innerModule = RubyAPI.defineModuleUnder(outterMoudle, "InnerModule");
 		assertNotNull(innerModule);
-		RubyModule inner2Module = RubyUtil.defineModuleUnder(innerModule, "Inner2Module");
+		RubyModule inner2Module = RubyAPI.defineModuleUnder(innerModule, "Inner2Module");
 		assertNotNull(inner2Module);
 		assertEquals("OutterModule::InnerModule::Inner2Module", inner2Module.getName().getString());
 		assertEquals("OutterModule::InnerModule", innerModule.getName().getString());

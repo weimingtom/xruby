@@ -6,7 +6,7 @@ import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyOneArgMethod;
 import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyUtil;
+import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.ObjectFactory;
 
@@ -18,12 +18,12 @@ public class FalseBuilder implements ExtensionBuilder {
 	}
 	
 	public void initialize() {
-		this.falseClass = RubyUtil.defineClass("FalseClass", RubyRuntime.objectClass);
+		this.falseClass = RubyAPI.defineClass("FalseClass", RubyRuntime.objectClass);
 		this.falseClass.defineMethod("to_s", FalseMethod.toS, 0);
 		this.falseClass.defineMethod("&", FalseMethod.and, 1);
 		this.falseClass.defineMethod("|", FalseMethod.or, 1);
 		this.falseClass.defineMethod("^", FalseMethod.xor, 1);
-		RubyUtil.classof(this.falseClass).undefMethod("new");
+		RubyAPI.classof(this.falseClass).undefMethod("new");
 	}
 }
 
@@ -42,13 +42,13 @@ class FalseMethod {
 	
 	public static final RubyMethod or = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
-			return RubyUtil.test(RubyUtil.test(arg));
+			return RubyAPI.test(RubyAPI.test(arg));
 		}
 	};
 	
 	public static final RubyMethod xor = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
-			return RubyUtil.test(RubyUtil.test(arg));
+			return RubyAPI.test(RubyAPI.test(arg));
 		}
 	};
 }

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import com.xruby.runtime.lang.RubyBasic;
 import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyUtil;
+import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyValue;
 
 public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
@@ -73,7 +73,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		}
 		
 		if (index < 0) {
-			RubyUtil.raise(RubyRuntime.indexError, "index %d out of array", index);
+			RubyAPI.raise(RubyRuntime.indexError, "index %d out of array", index);
 		}
 		
 		if (index < size) {
@@ -180,7 +180,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		}
 		
 		if (times < 0) {
-			RubyUtil.raise(RubyRuntime.argumentError, "negative argument");
+			RubyAPI.raise(RubyRuntime.argumentError, "negative argument");
 		}
 		
 		// FIXME: too big argument
@@ -195,7 +195,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	
 	public boolean include(RubyValue target) {
 		for (RubyValue value : this.array) {
-			if (RubyUtil.equal(value, target)) {
+			if (RubyAPI.equal(value, target)) {
 				return true;
 			}
 		}

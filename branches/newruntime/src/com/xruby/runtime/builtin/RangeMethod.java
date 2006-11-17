@@ -23,7 +23,7 @@ public class RangeMethod {
 			}
 			
 			if (argc >= 3) {
-				range.setExcludeEnd(RubyUtil.test(args.get(2)));
+				range.setExcludeEnd(RubyAPI.test(args.get(2)));
 			}
 			
 			return RubyConstant.QNIL;			
@@ -34,7 +34,7 @@ public class RangeMethod {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			RubyRange range = (RubyRange)receiver;
 			int value = ((RubyFixnum)arg).intValue();
-			return RubyUtil.test(range.include(value));
+			return RubyAPI.test(range.include(value));
 		}		
 	};
 	
@@ -62,14 +62,14 @@ public class RangeMethod {
 	public static RubyMethod excludeEnd = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			RubyRange range = (RubyRange)receiver;
-			return RubyUtil.test(range.isExcludeEnd());
+			return RubyAPI.test(range.isExcludeEnd());
 		}
 	};
 	
 	public static RubyMethod eq = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			RubyRange range = (RubyRange)receiver;
-			return RubyUtil.test(range.equals(arg));
+			return RubyAPI.test(range.equals(arg));
 		}
 	};
 }
