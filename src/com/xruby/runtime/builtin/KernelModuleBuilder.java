@@ -11,14 +11,17 @@ import com.xruby.runtime.lang.*;
 import com.xruby.compiler.*;
 import com.xruby.compiler.codegen.*;
 import com.xruby.runtime.value.*;
+import com.xruby.runtime.javasupport.JavaClass;
 
 import java.io.*;
 import java.util.jar.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 //TODO imcomplete
 class Kernel_eval extends RubyMethod {
-	public Kernel_eval() {
+
+    public Kernel_eval() {
 		super(-1);
 	}
 
@@ -275,6 +278,35 @@ class Kernel_require extends RubyMethod {
 	}
 }
 
+class Kernel_require_java extends RubyMethod {
+    private static Pattern packagePattern = Pattern.compile("\\.");
+
+    public Kernel_require_java() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString className = (RubyString)args.get(0).getValue();
+
+        try {
+            Class clazz = Class.forName(className.toString());
+            String[] names = packagePattern.split(className.toString());
+            String name = names[names.length - 1];
+
+            JavaClass jClazz = new JavaClass(clazz);
+
+            //TODO: The naming mechanism is not quite appropriate
+            RubyRuntime.GlobalScope.addNewClass(name, jClazz);
+            RubyRuntime.GlobalScope.addNewClass(className.toString(), jClazz);
+            
+        } catch (ClassNotFoundException e) {
+            throw new RubyException("Couldn't find class " + className.toString());
+        }
+
+        return ObjectFactory.trueValue;
+	}
+}
+
 class Kernel_load extends RubyMethod {
 	public Kernel_load() {
 		super(-1);
@@ -515,6 +547,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("method_missing", new Kernel_method_missing());
 		m.defineMethod("eval", new Kernel_eval());
 		m.defineMethod("require", new Kernel_require());
+		m.defineMethod("require_java", new Kernel_require_java());
 		m.defineMethod("load", new Kernel_load());
 		RubyMethod lambda = new Kernel_lambda();
 		m.defineMethod("lambda", lambda);

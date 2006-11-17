@@ -10,7 +10,11 @@ import java.util.Map;
 abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
 
-	/// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
+    public void addNewClass(String name, RubyClass clazz) {
+        constants_.put(name, new RubyValue(RubyRuntime.ClassClass, clazz));
+    }
+
+    /// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
 	/// It has less overhead than 'defineClass' (no hash table lookup).
 	/// This method is NOT used by classes compiled from ruby script.
 	public RubyClass defineNewClass(String name, RubyClass parent) {

@@ -40,7 +40,7 @@ public class RubyClass extends RubyModule {
 		return null;
 	}
 	
-	RubyMethod findMethod(String method_name) {
+	protected RubyMethod findMethod(String method_name) {
 		RubyMethod m = super.findMethod(method_name);
 		if (null != m) {
 			return m;
@@ -53,7 +53,7 @@ public class RubyClass extends RubyModule {
 		return null;
 	}
 	
-	RubyMethod findPublicMethod(String method_name) {
+	protected RubyMethod findPublicMethod(String method_name) {
 		RubyMethod m = super.findPublicMethod(method_name);
 		if (null != m) {
 			return m;
