@@ -112,13 +112,13 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 		
 		for (String name : commons) {
-			int i = symbol_table_.getMethodParameter(name);
+			int i = symbol_table_.getLocalVariable(name);
 			if (i >= 0) {
-				loadMethodPrameter(i);
-			} else {
-				i = symbol_table_.getLocalVariable(name);
-				assert(i >= 0);
 				loadLocal(i);
+			} else {
+				i = symbol_table_.getMethodParameter(name);
+				assert(i >= 0);
+				loadMethodPrameter(i);
 			}
 		}
 		
