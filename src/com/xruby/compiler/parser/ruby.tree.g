@@ -429,6 +429,7 @@ returns [String s]
 		|	id:IDENTIFIER								{s = id.getText();}
 		|	function:FUNCTION						{s = function.getText();}
 		|	unary:UNARY_PLUS_MINUS_METHOD_NAME	{s = unary.getText();}
+		|	empty_array:EMPTY_ARRAY					{s = empty_array.getText();}
 		;
 
 local_variable
