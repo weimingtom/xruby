@@ -1200,6 +1200,7 @@ public class RubyCompilerTest extends TestCase {
 				"a = 1; 4.times {|*a| a = 6; print a}; print a",
 				
 				"def f(x); 1.times { x = 5} ; print x;  end;   f(1)",
+				"def f(&x); x.call;  end;   f {print 555}",
 		};
 		
 		String[] outputs = {
@@ -1216,6 +1217,7 @@ public class RubyCompilerTest extends TestCase {
 				"66666",
 				
 				"5",
+				"555",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
