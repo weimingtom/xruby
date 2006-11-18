@@ -61,4 +61,18 @@ class SymbolTable {
 		}
 	}
 
+	public boolean isDefinedInCurrentScope(String name) {
+		if (getLocalVariable(name) >= 0) {
+			return true;
+		} else if (getMethodParameter(name) >= 0) {
+			return true;
+		} else if (null != asterisk_parameters_ && asterisk_parameters_.equals(name)) {
+			return true;
+		} else if (null != block_parameters_ && block_parameters_.equals(name)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
