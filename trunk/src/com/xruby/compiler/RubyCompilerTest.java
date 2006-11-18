@@ -217,13 +217,16 @@ public class RubyCompilerTest extends TestCase {
 				"[123][0]",
 				"[1.8, 24, 35][2]",
 				"a = [0, 9];a[1]",
-
+				
+				"a = [1,2,3]; a.[](0)",
 		};
 		int[] results = {
 				55,
 				123,
 				35,
 				9,
+			
+				1,
 		};
 
 		compile_run_and_compare_result(program_texts, results);
