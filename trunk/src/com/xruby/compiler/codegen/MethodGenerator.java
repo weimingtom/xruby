@@ -98,6 +98,11 @@ class MethodGenerator extends GeneratorAdapter {
 		getField(Type.getType(Types.RubyBlockClass), "blockOfCurrentMethod_", Type.getType(Types.RubyBlockClass));
 	}
 
+	public void loadSelfOfCurrentMethod() {
+		loadThis();
+		getField(Type.getType(Types.RubyBlockClass), "selfOfCurrentMethod_", Type.getType(Types.RubyValueClass));
+	}
+
 	public void loadVariable(Class c, String name) {
 		//check if this is local variable
 		if (getSymbolTable().getLocalVariable(name) >= 0) {
@@ -139,6 +144,16 @@ class MethodGenerator extends GeneratorAdapter {
 		ObjectFactory_nilValue();
 	}
 
+	public void loadSelf(boolean is_in_global_scope, boolean is_in_block) {
+		if (is_in_global_scope) {
+			ObjectFactory_topLevelSelfValue();
+		} else if (is_in_block) {
+			loadSelfOfCurrentMethod();
+		} else {
+			loadArg(0);
+		}
+	}
+
 	public void new_BlockClass(Class c, String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
@@ -151,6 +166,8 @@ class MethodGenerator extends GeneratorAdapter {
 		} else {
 			loadArg(2);
 		}
+
+		loadSelf(is_in_global_scope, is_in_block);
 		
 		for (String name : commons) {
 			loadVariable(c, name);

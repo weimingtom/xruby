@@ -624,11 +624,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitSelfExpression() {
-		if (!isInGlobalScope()) {
-			cg_.getMethodGenerator().loadArg(0);
-		} else {
-			cg_.getMethodGenerator().ObjectFactory_topLevelSelfValue();
-		}
+		cg_.getMethodGenerator().loadSelf(isInGlobalScope(), isInBlock());
 	}
 
 	public void visitClassVariableExpression(String name) {
