@@ -98,6 +98,47 @@ class MethodGenerator extends GeneratorAdapter {
 		getField(Type.getType(Types.RubyBlockClass), "blockOfCurrentMethod_", Type.getType(Types.RubyBlockClass));
 	}
 
+	public void loadVariable(Class c, String name) {
+		//check if this is local variable
+		if (getSymbolTable().getLocalVariable(name) >= 0) {
+			loadLocal(getLocalVariable(name));
+			return;
+		}
+		
+		// check if this is asterisk method parameter
+		// Actually we do not have to have the following code block: we can move initializeAsteriskParameter
+		// to the RubyMethod.initializeAsteriskParameter method so that it is always called. And may be we should
+		// -- this will make code generation simpler. But doing it here has a little advantage (optimazation): if the
+		//asterisk parameter is not used, we can avoid calling initializeAsteriskParameter().
+		int asterisk_parameter_access_counter = getSymbolTable().getMethodAsteriskParameter(name);
+		if (0 == asterisk_parameter_access_counter) {
+			call_initializeAsteriskParameter(c);
+			return;
+		} else if (asterisk_parameter_access_counter > 0) {
+			load_asterisk_parameter_(c);
+			return;
+		}
+
+		int block_parameter_access_counter = getSymbolTable().getMethodBlockParameter(name);
+		if (0 == block_parameter_access_counter) {
+			call_initializeBlockParameter(c);
+			return;
+		} else if (block_parameter_access_counter > 0) {
+			load_block_parameter_(c);
+			return;
+		}
+		
+		//check if this is normal method parameter
+		int index = getSymbolTable().getMethodParameter(name);
+		if (index >= 0) {
+			loadMethodPrameter(index);
+			return;
+		}
+		
+		// never used, for example a = a + 1
+		ObjectFactory_nilValue();
+	}
+
 	public void new_BlockClass(String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);

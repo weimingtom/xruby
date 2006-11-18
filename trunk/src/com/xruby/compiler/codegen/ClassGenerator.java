@@ -105,45 +105,7 @@ abstract class ClassGenerator {
 	abstract protected Class getType();
 	
 	public void loadVariable(String name) {
-		//check if this is local variable
-		if (getSymbolTable().getLocalVariable(name) >= 0) {
-			getMethodGenerator().loadLocal(getMethodGenerator().getLocalVariable(name));
-			return;
-		}
-		
-		// check if this is asterisk method parameter
-		// Actually we do not have to have the following code block: we can move initializeAsteriskParameter
-		// to the RubyMethod.initializeAsteriskParameter method so that it is always called. And may be we should
-		// -- this will make code generation simpler. But doing it here has a little advantage (optimazation): if the
-		//asterisk parameter is not used, we can avoid calling initializeAsteriskParameter().
-		int asterisk_parameter_access_counter = getSymbolTable().getMethodAsteriskParameter(name);
-		if (0 == asterisk_parameter_access_counter) {
-			getMethodGenerator().call_initializeAsteriskParameter(getType());
-			return;
-		} else if (asterisk_parameter_access_counter > 0) {
-			getMethodGenerator().load_asterisk_parameter_(getType());
-			return;
-		}
-
-		int block_parameter_access_counter = getSymbolTable().getMethodBlockParameter(name);
-		if (0 == block_parameter_access_counter) {
-			getMethodGenerator().call_initializeBlockParameter(getType());
-			return;
-		} else if (block_parameter_access_counter > 0) {
-			getMethodGenerator().load_block_parameter_(getType());
-			return;
-		}
-		
-		//check if this is normal method parameter
-		int index = getSymbolTable().getMethodParameter(name);
-		if (index >= 0) {
-			getMethodGenerator().loadMethodPrameter(index);
-			return;
-		}
-		
-		// never used, for example a = a + 1
-		getMethodGenerator().ObjectFactory_nilValue();
-		return;
+		getMethodGenerator().loadVariable(getType(), name);
 	}
 	
 	public MethodGenerator getMethodGenerator() {
