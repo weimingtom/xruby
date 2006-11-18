@@ -1201,6 +1201,22 @@ public class RubyCompilerTest extends TestCase {
 				
 				"def f(x); 1.times { x = 5} ; print x;  end;   f(1)",
 				"def f(&x); x.call;  end;   f {print 555}",
+				
+				"class TestBlockBindingScope\n" +
+				"    def initialize(num)\n" +
+				"        @num = num\n" +
+				"    end\n" +
+				"    \n" +
+				"    def each(&block)\n" +
+				"        for i in 0 .. @num \n" +
+				"            block.call(i) \n" +
+				"        end         \n" +
+				"    end\n" +
+				"    \n" +
+				"end\n" +
+				"\n" +
+				"te = TestBlockBindingScope.new(10)\n" +
+				"te.each {|item| print item}",
 		};
 		
 		String[] outputs = {
@@ -1218,6 +1234,8 @@ public class RubyCompilerTest extends TestCase {
 				
 				"5",
 				"555",
+				
+				"012345678910",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
