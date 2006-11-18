@@ -87,6 +87,11 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		initialFiledUsingBlockParameter(name);
 	}
 
+	public void setBlockParameter(String name) {
+		super.setBlockParameter(name);
+		initialFiledUsingBlockParameter(name);
+	}
+
 	private MethodGenerator visitRubyBlock() {
 		cw_.visit(Opcodes.V1_5,
 				0,		//No modifier
