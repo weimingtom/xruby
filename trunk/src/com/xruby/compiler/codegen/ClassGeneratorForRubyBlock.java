@@ -30,18 +30,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		return Types.RubyBlockClass;
 	}
 
-	private boolean isDefinedInCurrentScope(String name) {
-		return (symbol_table_of_the_current_scope_.getLocalVariable(name) >= 0 ||
-			symbol_table_of_the_current_scope_.getMethodParameter(name) >= 0);
-	}
-
 	private void loadField(String name) {
 		mg_for_run_method_.loadThis();
 		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
 	}
 
 	public void loadVariable(String name) {
-		if (isDefinedInCurrentScope(name)) {
+		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
 			fields_.add(name);
 			loadField(name);
 		} else {
@@ -58,7 +53,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	public void storeVariable(String name) {
-		if (isDefinedInCurrentScope(name)) {
+		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
 			fields_.add(name);
 			assigned_fields_.add(name);
 			storeField(name);
@@ -68,7 +63,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	private void initialFiledUsingBlockParameter(String name) {
-		if (isDefinedInCurrentScope(name)) {
+		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
 			fields_.add(name);
 			assigned_fields_.add(name);
 			getMethodGenerator().loadThis();
