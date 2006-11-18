@@ -52,6 +52,7 @@ public abstract class RubyBlock extends MethodBlockBase {
 	protected boolean __breaked__ = false;
 	protected boolean __returned__ = false;
 	protected RubyBlock blockOfCurrentMethod_;
+	protected RubyValue selfOfCurrentMethod_;
 
 	public boolean breaked() {
 		return __breaked__ || __returned__;
@@ -61,9 +62,10 @@ public abstract class RubyBlock extends MethodBlockBase {
 		return __returned__;
 	}
 		
-	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block) {
+	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block, RubyValue self) {
 		super(argc, has_asterisk_parameter, default_argc);
 		blockOfCurrentMethod_ = block;
+		selfOfCurrentMethod_ = self;
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args) {

@@ -1217,6 +1217,17 @@ public class RubyCompilerTest extends TestCase {
 				"\n" +
 				"te = TestBlockBindingScope.new(10)\n" +
 				"te.each {|item| print item}",
+				
+				"class Array\n" +
+				"    def test_self_in_block\n" +
+				"        self.length.times do |index|\n" +
+				"            print self[index]\n" +
+				"        end\n" +
+				"    end\n" +
+				"end\n" +
+				"\n" +
+				"foo = [4,5,6]\n" +
+				"foo.test_self_in_block",
 		};
 		
 		String[] outputs = {
@@ -1236,6 +1247,8 @@ public class RubyCompilerTest extends TestCase {
 				"555",
 				
 				"012345678910",
+				
+				"456",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
