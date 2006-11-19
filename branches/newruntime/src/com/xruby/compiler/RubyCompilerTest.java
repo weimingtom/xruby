@@ -219,13 +219,16 @@ public class RubyCompilerTest extends TestCase {
 				"[123][0]",
 				"[1.8, 24, 35][2]",
 				"a = [0, 9];a[1]",
-
+				
+				"a = [1,2,3]; a.[](0)",
 		};
 		int[] results = {
 				55,
 				123,
 				35,
 				9,
+			
+				1,
 		};
 
 		compile_run_and_compare_result(program_texts, results);
@@ -805,14 +808,17 @@ public class RubyCompilerTest extends TestCase {
 				"	print \"222\"\n" +
 				"end",
 
-				/*
-				//FIXME 
 				"begin\n" +
 				"	raise \"!!!!\"\n" +
 				"	rescue RuntimeError => e\n" +
 				"		print e\n" +
 				"end",
-				 */
+
+				"begin\n" +
+				"  raise \"test\"\n" +
+				"rescue => e\n" +
+				"  print e\n" +
+				"end",
 		};
 
 		String[] outputs = {
@@ -821,7 +827,8 @@ public class RubyCompilerTest extends TestCase {
 				"aaabbb",
 				"zzzddd",
 				"111",
-				//"!!!!",
+				"!!!!",
+				"test",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1202,6 +1209,34 @@ public class RubyCompilerTest extends TestCase {
 				"a = 1; 4.times {|*a| a = 6; print a}; print a",
 				
 				"def f(x); 1.times { x = 5} ; print x;  end;   f(1)",
+				"def f(&x); x.call;  end;   f {print 555}",
+				
+				"class TestBlockBindingScope\n" +
+				"    def initialize(num)\n" +
+				"        @num = num\n" +
+				"    end\n" +
+				"    \n" +
+				"    def each(&block)\n" +
+				"        for i in 0 .. @num \n" +
+				"            block.call(i) \n" +
+				"        end         \n" +
+				"    end\n" +
+				"    \n" +
+				"end\n" +
+				"\n" +
+				"te = TestBlockBindingScope.new(10)\n" +
+				"te.each {|item| print item}",
+				
+				"class Array\n" +
+				"    def test_self_in_block\n" +
+				"        self.length.times do |index|\n" +
+				"            print self[index]\n" +
+				"        end\n" +
+				"    end\n" +
+				"end\n" +
+				"\n" +
+				"foo = [4,5,6]\n" +
+				"foo.test_self_in_block",
 		};
 		
 		String[] outputs = {
@@ -1218,6 +1253,11 @@ public class RubyCompilerTest extends TestCase {
 				"66666",
 				
 				"5",
+				"555",
+				
+				"012345678910",
+				
+				"456",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -2970,6 +3010,18 @@ public class RubyCompilerTest extends TestCase {
 				"1",
 				"5",
 				"2"
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_for_in() {
+		String [] program_texts = {
+				"for i in 1..5 do print i end",
+		};
+		
+		String[] outputs = {
+				"12345",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

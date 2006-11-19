@@ -47,6 +47,7 @@ tokens {
 	protected void leaveModule()	{assert(false);}
 	protected void leaveBlock()	{assert(false);}
 	protected void addMethodParameter(Token id)	{assert(false);}
+	protected void addLocalVariable(Token id)	{assert(false);}
 	protected void tell_lexer_we_have_finished_parsing_methodparameters()	{assert(false);}
 	protected void tell_lexer_we_have_finished_parsing_symbol()	{assert(false);}
 	protected void tell_lexer_we_have_finished_parsing_string_expression_substituation()	{assert(false);}
@@ -700,7 +701,7 @@ exceptionHandlingExpression
 		;
 
 exceptionList
-		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	(IDENTIFIER|FUNCTION))?
+		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	(IDENTIFIER|func:FUNCTION{addLocalVariable(func);}))?
 		;
 
 ifExpression
@@ -726,7 +727,10 @@ caseExpression
 		;
 
 forExpression
-		:	keyword_for block_vars	keyword_in expression doOrTermialOrColon
+		:	"for"^	(LINE_BREAK!)?
+			block_vars
+			"in"		(LINE_BREAK!)?
+			expression doOrTermialOrColon
 			(compoundStatement)?
 			"end"!
 		;
@@ -1014,9 +1018,9 @@ keyword_elsif		:	"elsif"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_end		:	"end"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_ensure	:	"ensure"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_false		:	"false"		(options{greedy=true;}:LINE_BREAK!)?;
-keyword_for		:	"for"			(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_for	:	"for"			(options{greedy=true;}:LINE_BREAK!)?;
 //keyword_if		:	"if"			(options{greedy=true;}:LINE_BREAK!)?;
-keyword_in		:	"in"			(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_in		:	"in"			(options{greedy=true;}:LINE_BREAK!)?;
 keyword_module	:	"module"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_next		:	"next"		(options{greedy=true;}:LINE_BREAK!)?;
 keyword_nil		:	"nil"			(options{greedy=true;}:LINE_BREAK!)?;

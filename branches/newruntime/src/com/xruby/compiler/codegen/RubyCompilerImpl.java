@@ -55,7 +55,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 				name.equals("Method") ||
 				name.equals("Time") ||
 				name.equals("MatchDate") ||
-				name.equals("Bignum")) {
+				name.equals("Bignum") ||
+				name.equals("Dir")) {
 			return true;
 		} else {
 			return false;
@@ -180,7 +181,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		compilation_results_.add(cg_.getCompilationResult());
 		cg_ = suspended_cgs_.pop();
 		
-		cg_.getMethodGenerator().new_BlockClass(uniqueBlockName, commons, isInGlobalScope(), isInBlock());
+		cg_.getMethodGenerator().new_BlockClass(cg_.getType(), uniqueBlockName, commons, isInGlobalScope(), isInBlock());
 
 		cg_.getMethodGenerator().saveBlockForFutureRestoreAndCheckReturned();
 
@@ -521,14 +522,17 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public Object visitRescueVariable(String name, Object var) {
 		int exception_variable = ((Pair<Integer, Label>)var).first;
+		
 		cg_.getMethodGenerator().loadLocal(exception_variable);
 		cg_.getMethodGenerator().RubyRuntime_testExceptionType();
-		
 		Label label = new Label();
 		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
-
 		cg_.getMethodGenerator().pop();//hack???
-		
+
+		if (null != name) {
+			cg_.getMethodGenerator().storeRubyExceptionAsRubyValue(exception_variable, name);
+		}
+
 		return label;
 	}
 	
@@ -623,11 +627,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitSelfExpression() {
-		if (!isInGlobalScope()) {
-			cg_.getMethodGenerator().loadArg(0);
-		} else {
-			cg_.getMethodGenerator().ObjectFactory_topLevelSelfValue();
-		}
+		cg_.getMethodGenerator().loadSelf(isInGlobalScope(), isInBlock());
 	}
 
 	public void visitClassVariableExpression(String name) {

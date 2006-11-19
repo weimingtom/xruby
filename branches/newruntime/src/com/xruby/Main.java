@@ -24,10 +24,19 @@ public class Main {
 		}
 		
 		if (options.getFiles().size() == 0) {
-			compile(null, options.isCompileOnly());
+			compile(null, options.isCompileOnly(), null);
 		} else {
-			for (String filename : options.getFiles()) {
-				compile(filename, options.isCompileOnly());
+			if (options.isCompileOnly()){
+				for (String filename : options.getFiles()) {
+					compile(filename, options.isCompileOnly(), null);
+				}
+			}else{
+				String filename = args[0];
+				String[] newArgs = new String[args.length - 1];
+				for(int i=1; i<args.length; ++i){
+					newArgs[i - 1] = args[i];
+				}
+				compile(filename, false, newArgs);
 			}
 		}
 	}
@@ -36,7 +45,7 @@ public class Main {
 		System.out.println("Usage: xruby [-c] filename1, filename2, ...");
 	}
 
-	private static void compile(String filename, boolean compileOnly) {
+	private static void compile(String filename, boolean compileOnly, String[] args) {
 
 		try {
 			System.out.println("Compilation of " + filename + " strarted");
