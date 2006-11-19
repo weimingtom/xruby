@@ -7,6 +7,7 @@ package com.xruby;
 
 import java.util.ArrayList;
 
+
 class CommandLineOptions {
 	private boolean compileOnly_ = false;
 	private boolean help_ = false;
@@ -23,12 +24,12 @@ class CommandLineOptions {
 	public ArrayList<String> getFiles() {
 		return files_;
 	}
-
+	
 	public CommandLineOptions(String[] args) {
 		if (null == args) {
 			return;
 		}
-
+		
 		for (String arg : args) {
 			if (null == arg) {
 				continue;

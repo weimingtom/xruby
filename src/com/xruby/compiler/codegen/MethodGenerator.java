@@ -11,13 +11,14 @@ import org.objectweb.asm.commons.*;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class MethodGeneratorBase extends GeneratorAdapter {
-	protected SymbolTable symbol_table_ = new SymbolTable();
+class MethodGenerator extends GeneratorAdapter {
+	
+	private SymbolTable symbol_table_ = new SymbolTable();
 
-	public MethodGeneratorBase(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
+	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
 		super(arg0, arg1, arg2, arg3, arg4);
 	}
-
+	
 	public SymbolTable getSymbolTable() {
 		return symbol_table_;
 	}
@@ -25,7 +26,7 @@ class MethodGeneratorBase extends GeneratorAdapter {
 	public void pushNull() {
 		visitInsn(Opcodes.ACONST_NULL);
 	}
-
+	
 	public int saveRubyArrayAsLocalVariable() {
 		int var = newLocal(Type.getType(RubyArray.class));
 		storeLocal(var);
@@ -37,7 +38,7 @@ class MethodGeneratorBase extends GeneratorAdapter {
 		storeLocal(var);
 		return var;
 	}
-	
+
 	public void catchRubyException(Label start, Label end) {
 		catchException(start,
 				end,
@@ -110,12 +111,12 @@ class MethodGeneratorBase extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue set(int, com.xruby.runtime.lang.RubyValue)"));
 		pop();
 	}
-}
 
-class MethodGenerator extends MethodGeneratorBase {
-	
-	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
-		super(arg0, arg1, arg2, arg3, arg4);
+	public void storeRubyExceptionAsRubyValue(int exception_variable, String name) {
+		loadLocal(exception_variable);
+		invokeVirtual(Type.getType(RubyException.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getRubyValue()"));
+		storeVariable(name);
 	}
 
 	public void returnIfBlockReturned() {
@@ -146,8 +147,80 @@ class MethodGenerator extends MethodGeneratorBase {
 		invokeConstructor(methodNameType,
 				Method.getMethod("void <init> ()"));
 	}
+
+	public void loadSelfOfCurrentMethod() {
+		loadThis();
+		getField(Type.getType(Types.RubyBlockClass), "selfOfCurrentMethod_", Type.getType(Types.RubyValueClass));
+	}
+
+	public void storeVariable(String name) {
+		int i = getSymbolTable().getLocalVariable(name);
+		if (i >= 0) {
+			storeLocal(i);
+			return;
+		} 
+
+		int index = getSymbolTable().getMethodParameter(name);
+		if (index >= 0) {
+			storeParameter(index);
+			return;
+		}
+
+		storeLocal(getNewLocalVariable(name));
+	}
+	
+	public void loadVariable(Class c, String name) {
+		//check if this is local variable
+		if (getSymbolTable().getLocalVariable(name) >= 0) {
+			loadLocal(getLocalVariable(name));
+			return;
+		}
 		
-	public void new_BlockClass(String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
+		// check if this is asterisk method parameter
+		// Actually we do not have to have the following code block: we can move initializeAsteriskParameter
+		// to the RubyMethod.initializeAsteriskParameter method so that it is always called. And may be we should
+		// -- this will make code generation simpler. But doing it here has a little advantage (optimazation): if the
+		//asterisk parameter is not used, we can avoid calling initializeAsteriskParameter().
+		int asterisk_parameter_access_counter = getSymbolTable().getMethodAsteriskParameter(name);
+		if (0 == asterisk_parameter_access_counter) {
+			call_initializeAsteriskParameter(c);
+			return;
+		} else if (asterisk_parameter_access_counter > 0) {
+			load_asterisk_parameter_(c);
+			return;
+		}
+
+		int block_parameter_access_counter = getSymbolTable().getMethodBlockParameter(name);
+		if (0 == block_parameter_access_counter) {
+			call_initializeBlockParameter(c);
+			return;
+		} else if (block_parameter_access_counter > 0) {
+			load_block_parameter_(c);
+			return;
+		}
+		
+		//check if this is normal method parameter
+		int index = getSymbolTable().getMethodParameter(name);
+		if (index >= 0) {
+			loadMethodPrameter(index);
+			return;
+		}
+		
+		// never used, for example a = a + 1
+		ObjectFactory_nilValue();
+	}
+
+	public void loadSelf(boolean is_in_global_scope, boolean is_in_block) {
+		if (is_in_global_scope) {
+			ObjectFactory_topLevelSelfValue();
+		} else if (is_in_block) {
+			loadSelfOfCurrentMethod();
+		} else {
+			loadArg(0);
+		}
+	}
+
+	public void new_BlockClass(Class c, String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
 		dup();
@@ -159,22 +232,17 @@ class MethodGenerator extends MethodGeneratorBase {
 		} else {
 			loadArg(2);
 		}
+
+		loadSelf(is_in_global_scope, is_in_block);
 		
 		for (String name : commons) {
-			int i = symbol_table_.getMethodParameter(name);
-			if (i >= 0) {
-				loadMethodPrameter(i);
-			} else {
-				i = symbol_table_.getLocalVariable(name);
-				assert(i >= 0);
-				loadLocal(i);
-			}
+			loadVariable(c, name);
 		}
 		
 		invokeConstructor(methodNameType,
 				Method.getMethod(ClassGeneratorForRubyBlock.buildContructorSignature(commons.length)));
 	}
-	
+		
 	public void RubyArray_add(boolean is_method_call) {
 		if (is_method_call) {
 			invokeStatic(Type.getType(RubyRuntime.class),
@@ -241,7 +309,7 @@ class MethodGenerator extends MethodGeneratorBase {
 		
 		return rubyName.toLowerCase() + "Class";
 	}
-	
+
 	public void RubyRuntime_getBuiltinType(String className) {
 		getStatic(Type.getType(RubyRuntime.class),
 					translateName(className),
@@ -251,7 +319,13 @@ class MethodGenerator extends MethodGeneratorBase {
 	public void ObjectFactory_createFloat(double value) {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyFloat createFloat(double)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue createFloat(double)"));
+	}
+	
+	public void ObjectFactory_createFixnum(int value) {
+		push(value);
+		invokeStatic(Type.getType(ObjectFactory.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue createFixnum(int)"));
 	}
 	
 	public void ObjectFactory_createInteger(String value, int radix) {
@@ -628,7 +702,7 @@ class MethodGenerator extends MethodGeneratorBase {
 		returnValue();
 	}
 	
-
+	
 }
 
 class MethodGeneratorForClassBuilder extends MethodGenerator {

@@ -30,18 +30,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		return Types.RubyBlockClass;
 	}
 
-	private boolean isDefinedInCurrentScope(String name) {
-		return (symbol_table_of_the_current_scope_.getLocalVariable(name) >= 0 ||
-			symbol_table_of_the_current_scope_.getMethodParameter(name) >= 0);
-	}
-
 	private void loadField(String name) {
 		mg_for_run_method_.loadThis();
 		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
 	}
 
 	public void loadVariable(String name) {
-		if (isDefinedInCurrentScope(name)) {
+		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
 			fields_.add(name);
 			loadField(name);
 		} else {
@@ -58,7 +53,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	public void storeVariable(String name) {
-		if (isDefinedInCurrentScope(name)) {
+		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
 			fields_.add(name);
 			assigned_fields_.add(name);
 			storeField(name);
@@ -68,7 +63,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	private void initialFiledUsingBlockParameter(String name) {
-		if (isDefinedInCurrentScope(name)) {
+		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
 			fields_.add(name);
 			assigned_fields_.add(name);
 			getMethodGenerator().loadThis();
@@ -84,6 +79,11 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
 	public void setAsteriskParameter(String name) {
 		super.setAsteriskParameter(name);
+		initialFiledUsingBlockParameter(name);
+	}
+
+	public void setBlockParameter(String name) {
+		super.setBlockParameter(name);
 		initialFiledUsingBlockParameter(name);
 	}
 
@@ -104,7 +104,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	static String buildContructorSignature(int size) {
-		StringBuilder method_name = new StringBuilder("void <init> (com.xruby.runtime.lang.RubyBlock");
+		StringBuilder method_name = new StringBuilder("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue");
 		for (int i = 0; i < size; ++i) {
 			method_name.append(", ");
 			method_name.append("com.xruby.runtime.lang.RubyValue");
@@ -149,12 +149,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.push(has_asterisk_parameter_);
 		mg.push(default_argc_);
 		mg.loadArg(0);
+		mg.loadArg(1);
 		mg.invokeConstructor(Type.getType(Types.RubyBlockClass),
-						Method.getMethod("void <init> (int, boolean, int, com.xruby.runtime.lang.RubyBlock)"));
+						Method.getMethod("void <init> (int, boolean, int, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue)"));
 		
 		for (int i = 0; i < commons.length; ++i) {
 			mg.loadThis();
-			mg.loadArg(i + 1);
+			mg.loadArg(i + 2);
 			mg.putField(Type.getType("L" + name_ + ";"), commons[i], Type.getType(Types.RubyValueClass));
 		}
 		

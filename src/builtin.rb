@@ -6,6 +6,8 @@
 $: = ["./stdlib", "."]
 $__loaded_libraries = []
 
+$* = ARGV
+
 module Kernel
 	def to_a
 		[self]
@@ -104,7 +106,7 @@ class String
 	alias inspect to_s
 end
 
-class Numeric
+module Comparable
 	def >=(value)
 		compare = (self <=> value)
 		return compare != -1
@@ -128,6 +130,44 @@ class Numeric
 	def <(value)
 		compare = (self <=> value)
 		return compare == -1
+	end
+
+	def between?(a, b)
+		self >= a && self <= b
+	end
+end
+
+class Numeric
+	# TODO: BUG #18
+	#include Comparable
+
+	def >=(value)
+		compare = (self <=> value)
+		return compare != -1
+	end
+
+	def ==(value)
+		compare = (self <=> value)
+		return compare == 0
+	end
+
+	def <=(value)
+		compare = (self <=> value)
+		return compare != 1
+	end
+
+	def >(value)
+		compare = (self <=> value)
+		return compare == 1
+	end
+
+	def <(value)
+		compare = (self <=> value)
+		return compare == -1
+	end
+
+	def between?(a, b)
+		self >= a && self <= b
 	end
 
 	def abs
@@ -363,7 +403,49 @@ class File < IO
 	def self.join(*strings)
 		strings.join(separator)
 	end
+
+	def self.split(filename)
+		[dirname(filename), basename(filename)]
+	end
+end
+
+class Time
+	# TODO: BUG #18
+	# include Comparable
+	
+	def >=(value)
+		compare = (self <=> value)
+		return compare != -1
+	end
+
+	def ==(value)
+		compare = (self <=> value)
+		return compare == 0
+	end
+
+	def <=(value)
+		compare = (self <=> value)
+		return compare != 1
+	end
+
+	def >(value)
+		compare = (self <=> value)
+		return compare == 1
+	end
+
+	def <(value)
+		compare = (self <=> value)
+		return compare == -1
+	end
+
+	def between?(a, b)
+		self >= a && self <= b
+	end
+end
+
+class Dir
 end
 
 class ThreadError < StandardError
 end
+

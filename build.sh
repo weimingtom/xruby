@@ -1,3 +1,17 @@
+#!/bin/sh
 #For Cygwin, please use build.bat
 
-java -cp lib/ant/ant-1.6.5.jar:lib/ant/ant-launcher-1.6.5.jar:lib/ant/ant-antlr-1.6.5.jar:lib/ant/ant-junit-1.6.5.jar:lib/junit/junit-3.8.1.jar:"$JAVA_HOME/lib/tools.jar" org.apache.tools.ant.Main $1
+DIRLIBS="`ls lib/**/**`"
+
+for i in ${DIRLIBS}
+do 
+	if [ "$i" != "${DIRLIBS}" ] ; then
+	    if [ -z "$LOCALCLASSPATH" ] ; then
+		LOCALCLASSPATH=$i
+	    else
+		LOCALCLASSPATH="$i":$LOCALCLASSPATH
+	    fi
+	fi
+done
+
+java -cp "${LOCALCLASSPATH}:$JAVA_HOME/lib/tools.jar" org.apache.tools.ant.Main $1

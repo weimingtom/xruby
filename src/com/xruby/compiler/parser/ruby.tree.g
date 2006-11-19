@@ -223,6 +223,7 @@ returns [Expression e]
 		|	e=classDefination
 		|	e=ifExpression
 		|	e=whileExpression
+		|	e=forExpression
 		|	e=unlessExpression
 		|	e=caseExpression
 		|	e=exceptionHandlingExpression
@@ -428,6 +429,7 @@ returns [String s]
 		|	id:IDENTIFIER								{s = id.getText();}
 		|	function:FUNCTION						{s = function.getText();}
 		|	unary:UNARY_PLUS_MINUS_METHOD_NAME	{s = unary.getText();}
+		|	empty_array:EMPTY_ARRAY					{s = empty_array.getText();}
 		;
 
 local_variable
@@ -588,6 +590,22 @@ returns [MethodDefinationExpression e]
 			)
 		;
 
+forExpression
+returns [MethodCallExpression e]
+{
+	Expression exp = null;
+	Block b = null;
+	CompoundStatement cs = null;
+}
+		:	#(	"for"		{b = new Block();}
+				(id:IDENTIFIER|func:FUNCTION)	{b.addParameter((null != id) ? id.getText() : func.getText(), null);}
+				"in"
+				exp=expression
+				(cs=compoundStatement	{b.setBody(cs);})?
+				{e = new MethodCallExpression(exp, "each", null, b);}
+			)
+		;
+
 codeBlock
 returns [Block b]
 {
@@ -609,7 +627,6 @@ returns [Block b]
 				(cs=compoundStatement	{b.setBody(cs);})?
 			)
 		;
-
 
 className
 returns [String s]
