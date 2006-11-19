@@ -32,6 +32,6 @@ public class RubyException extends RuntimeException {
 	}
 	
 	public String toString() {
-		return value_.toString();
+		return (String)value_.getValue();
 	}
 }

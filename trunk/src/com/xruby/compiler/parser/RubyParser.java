@@ -112,5 +112,10 @@ public class RubyParser extends RubyParserBase
 	{
 		lexer_.getSymbolTableManager().addParameter(id.getText());
 	}
+
+	protected void addLocalVariable(Token id)
+	{
+		lexer_.getSymbolTableManager().addLocalVarible(id.getText());
+	}
 }
 
