@@ -64,14 +64,12 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"::M\n" +
 			"::RuntimeError\n" +
 			"]\n" +
-			"e\n" +
 			"=>e\n" +
 			"self\n" +
 			"[:1\n" +
 			"[\n" +
-			"self\n" +
-			"e:false\n" +
-			"]()\n" +
+			"e\n" +
+			"]\n" +
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +

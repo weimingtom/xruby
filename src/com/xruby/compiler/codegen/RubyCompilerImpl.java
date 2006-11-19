@@ -522,14 +522,17 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public Object visitRescueVariable(String name, Object var) {
 		int exception_variable = ((Pair<Integer, Label>)var).first;
+		
 		cg_.getMethodGenerator().loadLocal(exception_variable);
 		cg_.getMethodGenerator().RubyRuntime_testExceptionType();
-		
 		Label label = new Label();
 		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
-
 		cg_.getMethodGenerator().pop();//hack???
-		
+
+		if (null != name) {
+			cg_.getMethodGenerator().storeRubyExceptionAsRubyValue(exception_variable, name);
+		}
+
 		return label;
 	}
 	

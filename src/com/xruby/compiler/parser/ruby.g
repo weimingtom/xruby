@@ -47,6 +47,7 @@ tokens {
 	protected void leaveModule()	{assert(false);}
 	protected void leaveBlock()	{assert(false);}
 	protected void addMethodParameter(Token id)	{assert(false);}
+	protected void addLocalVariable(Token id)	{assert(false);}
 	protected void tell_lexer_we_have_finished_parsing_methodparameters()	{assert(false);}
 	protected void tell_lexer_we_have_finished_parsing_symbol()	{assert(false);}
 	protected void tell_lexer_we_have_finished_parsing_string_expression_substituation()	{assert(false);}
@@ -700,7 +701,7 @@ exceptionHandlingExpression
 		;
 
 exceptionList
-		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	(IDENTIFIER|FUNCTION))?
+		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	(IDENTIFIER|func:FUNCTION{addLocalVariable(func);}))?
 		;
 
 ifExpression

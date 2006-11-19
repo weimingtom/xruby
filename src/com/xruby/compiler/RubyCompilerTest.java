@@ -806,14 +806,17 @@ public class RubyCompilerTest extends TestCase {
 				"	print \"222\"\n" +
 				"end",
 
-				/*
-				//FIXME 
 				"begin\n" +
 				"	raise \"!!!!\"\n" +
 				"	rescue RuntimeError => e\n" +
 				"		print e\n" +
 				"end",
-				 */
+
+				"begin\n" +
+				"  raise \"test\"\n" +
+				"rescue => e\n" +
+				"  print e\n" +
+				"end",
 		};
 
 		String[] outputs = {
@@ -822,7 +825,8 @@ public class RubyCompilerTest extends TestCase {
 				"aaabbb",
 				"zzzddd",
 				"111",
-				//"!!!!",
+				"!!!!",
+				"test",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

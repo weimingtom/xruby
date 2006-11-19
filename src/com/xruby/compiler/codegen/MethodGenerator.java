@@ -51,7 +51,7 @@ class MethodGenerator extends GeneratorAdapter {
 		getSymbolTable().addLocalVariable(name, i);
 		return i;
 	}
-	
+
 	public void storeParameter(int index) {
 		int i = newLocal(Type.getType(Types.RubyValueClass));
 		storeLocal(i);
@@ -61,6 +61,13 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(RubyArray.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue set(int, com.xruby.runtime.lang.RubyValue)"));
 		pop();
+	}
+
+	public void storeRubyExceptionAsRubyValue(int exception_variable, String name) {
+		loadLocal(exception_variable);
+		invokeVirtual(Type.getType(RubyException.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getRubyValue()"));
+		storeVariable(name);
 	}
 
 	public void restoreLocalVariableFromBlock(String blockName, String name) {
@@ -103,6 +110,22 @@ class MethodGenerator extends GeneratorAdapter {
 		getField(Type.getType(Types.RubyBlockClass), "selfOfCurrentMethod_", Type.getType(Types.RubyValueClass));
 	}
 
+	public void storeVariable(String name) {
+		int i = getSymbolTable().getLocalVariable(name);
+		if (i >= 0) {
+			storeLocal(i);
+			return;
+		} 
+
+		int index = getSymbolTable().getMethodParameter(name);
+		if (index >= 0) {
+			storeParameter(index);
+			return;
+		}
+
+		storeLocal(getNewLocalVariable(name));
+	}
+	
 	public void loadVariable(Class c, String name) {
 		//check if this is local variable
 		if (getSymbolTable().getLocalVariable(name) >= 0) {

@@ -40,7 +40,7 @@ public class RubyRuntime {
 	public static RubyClass MatchDataClass = MatchDataClassBuilder.create();
 	public static RubyClass DirClass = DirClassBuilder.create();
 
-	public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", ObjectClass);
+	public static RubyClass ExceptionClass = ExceptionClassBuilder.create();
 
 	public static RubyClass StandardErrorClass = GlobalScope.defineNewClass("StandardError", ExceptionClass);
 	public static RubyClass TypeErrorClass = GlobalScope.defineNewClass("TypeError", StandardErrorClass);
