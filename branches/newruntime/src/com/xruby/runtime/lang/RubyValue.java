@@ -1,8 +1,6 @@
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyString;
+import com.xruby.runtime.value.*;
 
 public class RubyValue {
 	public int objectAddress() {
@@ -53,7 +51,7 @@ public class RubyValue {
 				&& basic.getRubyClass().getIv("__attached__") == this) {
 			klass = basic.getRubyClass();
 		} else {
-			klass = RubyInternalUtil.createMetaClass(basic, basic.getRubyClass());
+			klass = RubyAPI.createMetaClass(basic, basic.getRubyClass());
 		}
 		
 		return klass;

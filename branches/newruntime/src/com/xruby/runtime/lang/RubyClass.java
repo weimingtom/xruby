@@ -11,7 +11,7 @@ public class RubyClass extends RubyClassModuleBase {
 		return this.callMethod("new", args);
 	}
 	
-	void attachSingletonClass(RubyValue obj) {
+	public void attachSingletonClass(RubyValue obj) {
 		if (this.isSingleton()) {
 			ensureIvTableNotNull();
 			RubyID id = StringMap.intern("__attached__");
@@ -19,7 +19,7 @@ public class RubyClass extends RubyClassModuleBase {
 		}
 	}
 	
-	void setName(RubyID id) {
+	public void setName(RubyID id) {
 		this.setIv("__classid__", id.toSymbol());
 	}
 }

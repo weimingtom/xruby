@@ -1,4 +1,10 @@
-package com.xruby.runtime.lang;
+package com.xruby.runtime.builtin;
+
+import com.xruby.runtime.lang.RubyAPI;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyModule;
+import com.xruby.runtime.lang.RubyRuntime;
 
 import junit.framework.TestCase;
 

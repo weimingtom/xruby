@@ -1,6 +1,8 @@
 package com.xruby.runtime.lang;
 
 import junit.framework.TestCase;
+
+import com.xruby.runtime.builtin.CoreBuilder;
 import com.xruby.runtime.value.RubyArray;
 
 public class RubyClassTest extends TestCase {

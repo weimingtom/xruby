@@ -17,7 +17,7 @@ class RubyIDGenerator {
 }
 
 public class RubyID {
-	static RubyID ID_ALLOCATOR = new RubyID(1);
+	public static RubyID ID_ALLOCATOR = new RubyID(1);
 	
 	private long id;
 	
