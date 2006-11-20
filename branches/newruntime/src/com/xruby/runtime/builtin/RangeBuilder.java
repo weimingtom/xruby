@@ -60,7 +60,7 @@ class RangeMethod {
 			}
 			
 			if (argc >= 3) {
-				range.setExcludeEnd(RubyAPI.test(args.get(2)));
+				range.setExcludeEnd(RubyAPI.testTrueFalse(args.get(2)));
 			}
 			
 			return RubyConstant.QNIL;			

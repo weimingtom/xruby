@@ -42,13 +42,13 @@ class FalseMethod {
 	
 	public static final RubyMethod or = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
-			return RubyAPI.test(RubyAPI.test(arg));
+			return RubyAPI.test(RubyAPI.testTrueFalse(arg));
 		}
 	};
 	
 	public static final RubyMethod xor = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
-			return RubyAPI.test(RubyAPI.test(arg));
+			return RubyAPI.test(RubyAPI.testTrueFalse(arg));
 		}
 	};
 }

@@ -31,10 +31,11 @@ public class RubyAPI {
 			return false;
 		}
 		
-		return RubyAPI.test(value1.callMethod("==", value2));
+		return RubyAPI.testTrueFalse(value1.callMethod("==", value2));
 	}
 
-	public static boolean test(RubyValue value) {
+	public static boolean testTrueFalse(RubyValue value) {
+		//only 'nil' and 'false' is false
 		return value != RubyConstant.QNIL && value != RubyConstant.QFALSE; 
 	}
 

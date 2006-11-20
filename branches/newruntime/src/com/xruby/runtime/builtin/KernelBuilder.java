@@ -41,7 +41,7 @@ class KernelMethod {
 			}
 			
 			RubyValue result = receiver.callMethod(ID_EQ, args);
-			return RubyAPI.test(result) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
+			return RubyAPI.testTrueFalse(result) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 	
