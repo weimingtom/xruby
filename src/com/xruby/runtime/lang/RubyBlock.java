@@ -72,9 +72,9 @@ public abstract class RubyBlock extends MethodBlockBase {
 		boolean single_lhs = (1 == argc_) && (!has_asterisk_parameter_);
 		boolean single_rhs = (null != args) && (1 == args.size()) && (args.isNotSingleAsterisk()) && (argc_ > 0);
 		if (single_lhs) {
-			return run(receiver, new RubyArray(RubyRuntime.expandArrayIfThereIsZeroOrOneValue(args)));
+			return run(receiver, new RubyArray(RubyAPI.expandArrayIfThereIsZeroOrOneValue(args)));
 		} else if (single_rhs) {
-			return run(receiver, RubyRuntime.expandArrayIfThereIsOnlyOneRubyArray(args));
+			return run(receiver, RubyAPI.expandArrayIfThereIsOnlyOneRubyArray(args));
 		} else {
 			return run(receiver, null != args ? args : new RubyArray(0, true));
 		}

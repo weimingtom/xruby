@@ -22,7 +22,7 @@ class f extends RubyMethod
 
     public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block)
     {
-        return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+        return RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
         					new RubyArray(ObjectFactory.createString("hello")),
         					block,
         					"print");

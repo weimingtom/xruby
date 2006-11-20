@@ -43,7 +43,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	}
 	
 	private static String inspect(RubyValue value) {
-		RubyValue v = RubyRuntime.callPublicMethod(value, null, "inspect");
+		RubyValue v = RubyAPI.callPublicMethod(value, null, "inspect");
 		return ((RubyString)v.getValue()).toString();
 	}
 	

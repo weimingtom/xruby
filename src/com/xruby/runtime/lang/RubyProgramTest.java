@@ -26,31 +26,31 @@ class TestingProgram implements RubyProgram {
 		args.add(ObjectFactory.nilValue);
 		args.add(ObjectFactory.createString("ABCD"));
 		args.add(ObjectFactory.createFixnum(5432));
-		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+		RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
 								args,
 								null,
 								"print");
 
 		//puts "hello world"
-		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+		RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
 								new RubyArray(ObjectFactory.createString("hello, world!")),
 								null,
 								"print");
 
 		//puts 123
-		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+		RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
 								new RubyArray(ObjectFactory.createFixnum(123)),
 								null,
 								"print");
 
 		//puts 1.2
-		RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue,
+		RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
 								new RubyArray(ObjectFactory.createFloat(1.2)),
 								null,
 								"print");
 
 		//return 123 + 456
-		return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(123),
+		return RubyAPI.callPublicMethod(ObjectFactory.createFixnum(123),
 								new RubyArray(ObjectFactory.createFixnum(456)),
 								null,
 								"+");
