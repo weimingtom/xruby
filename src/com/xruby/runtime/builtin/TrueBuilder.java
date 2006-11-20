@@ -30,7 +30,7 @@ class TrueMethod {
 	
 	public static RubyMethod and = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
-			return RubyAPI.test(RubyAPI.testTrueFalse(arg));
+			return RubyAPI.testTrueFalse(arg) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}		
 	};
 	
@@ -42,7 +42,7 @@ class TrueMethod {
 	
 	public static RubyMethod xor = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
-			return RubyAPI.test(!RubyAPI.testTrueFalse(arg));
+			return !RubyAPI.testTrueFalse(arg) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 }

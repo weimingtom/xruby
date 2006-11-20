@@ -39,10 +39,6 @@ public class RubyAPI {
 		return value != RubyConstant.QNIL && value != RubyConstant.QFALSE; 
 	}
 
-	public static RubyConstant test(boolean value) {
-		return value ? RubyConstant.QTRUE : RubyConstant.QFALSE; 
-	}
-
 	public static RubyClass classof(RubyValue value) {
 		if (value == RubyConstant.QTRUE) {
 			return RubyRuntime.trueClass;

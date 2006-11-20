@@ -71,7 +71,7 @@ class RangeMethod {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			RubyRange range = (RubyRange)receiver;
 			int value = ((RubyFixnum)arg).intValue();
-			return RubyAPI.test(range.include(value));
+			return range.include(value) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}		
 	};
 	
@@ -99,14 +99,14 @@ class RangeMethod {
 	public static RubyMethod excludeEnd = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			RubyRange range = (RubyRange)receiver;
-			return RubyAPI.test(range.isExcludeEnd());
+			return range.isExcludeEnd() ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 	
 	public static RubyMethod eq = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			RubyRange range = (RubyRange)receiver;
-			return RubyAPI.test(range.equals(arg));
+			return range.equals(arg) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 }

@@ -2,6 +2,7 @@ package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyOneArgMethod;
@@ -153,7 +154,7 @@ class HashMethod {
 	public static RubyMethod empty = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			RubyHash hash = (RubyHash)receiver;
-			return RubyAPI.test(hash.isEmpty());
+			return hash.isEmpty() ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 	
