@@ -139,7 +139,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		}
 
 		for (int i = 0; i < array.size(); ++i) {
-			if (RubyRuntime.callPublicMethod(this.get(i), that.get(i), "==") == ObjectFactory.falseValue) {
+			if (RubyAPI.callPublicMethod(this.get(i), that.get(i), "==") == ObjectFactory.falseValue) {
 				return ObjectFactory.falseValue;
 			}
 		}
@@ -151,7 +151,7 @@ public class RubyArray implements Iterable<RubyValue> {
 		RubyString r = new RubyString();
 
 		for (RubyValue v : array) {
-			RubyValue s = RubyRuntime.callPublicMethod(v, null, "to_s");
+			RubyValue s = RubyAPI.callPublicMethod(v, null, "to_s");
 			r.appendString((s.getValue()).toString());
             // TODO: The output of to_s is not as the same as cruby, we should solve this issue
             // TODO: and change the corresponding testcases in RubyCompilerTest, such as test_array_expand.
@@ -199,7 +199,7 @@ public class RubyArray implements Iterable<RubyValue> {
 	/// Returns true if the given object is present
 	public boolean include(RubyValue v) {
 		for (RubyValue value : array) {
-			if (RubyRuntime.testEqual(value, v)) {
+			if (RubyAPI.testEqual(value, v)) {
 				return true;
 			}
 		}

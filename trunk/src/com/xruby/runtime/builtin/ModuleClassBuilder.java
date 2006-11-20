@@ -87,7 +87,7 @@ class Module_inspect extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return RubyRuntime.callPublicMethod(receiver, args, block, "to_s");
+		return RubyAPI.callPublicMethod(receiver, args, block, "to_s");
 	}
 }
 

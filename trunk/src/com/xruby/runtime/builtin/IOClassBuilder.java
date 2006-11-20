@@ -17,7 +17,7 @@ class IO_write extends RubyMethod {
 		if (RubyRuntime.StringClass == args.get(0).getRubyClass()) {
 			value = (RubyString)args.get(0).getValue();
 		} else {
-			RubyValue str = RubyRuntime.callPublicMethod(args.get(0), null, "to_s");
+			RubyValue str = RubyAPI.callPublicMethod(args.get(0), null, "to_s");
 			value = (RubyString) str.getValue();
 		}
 		

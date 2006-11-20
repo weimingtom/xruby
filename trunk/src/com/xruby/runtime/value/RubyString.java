@@ -31,7 +31,7 @@ public class RubyString {
 	}
 
 	public RubyString appendString(RubyValue v) {
-		RubyValue r = RubyRuntime.callPublicMethod(v, null, null, "to_s");
+		RubyValue r = RubyAPI.callPublicMethod(v, null, null, "to_s");
 		return appendString(((RubyString)r.getValue()).toString());
 	}
 	

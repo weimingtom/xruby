@@ -57,7 +57,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	private static void throw_type_error_if_not_class_module(RubyValue receiver) {
 		if (receiver.getRubyClass() != RubyRuntime.ClassClass &&
 			receiver.getRubyClass() != RubyRuntime.ModuleClass) {
-			RubyValue v = RubyRuntime.callPublicMethod(receiver, null, "to_s");
+			RubyValue v = RubyAPI.callPublicMethod(receiver, null, "to_s");
 			String s = ((RubyString)v.getValue()).toString();
 			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
 		}

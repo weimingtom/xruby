@@ -227,7 +227,7 @@ class MethodGenerator extends GeneratorAdapter {
 	
 	public void RubyArray_add(boolean is_method_call) {
 		if (is_method_call) {
-			invokeStatic(Type.getType(RubyRuntime.class),
+			invokeStatic(Type.getType(RubyAPI.class),
 					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 		}
 		invokeVirtual(Type.getType(RubyArray.class),
@@ -236,7 +236,7 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void RubyArray_expand(boolean is_method_call) {
 		if (is_method_call) {
-			invokeStatic(Type.getType(RubyRuntime.class),
+			invokeStatic(Type.getType(RubyAPI.class),
 					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 		}
 
@@ -445,86 +445,86 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void undefMethod(String)"));
 	}
 
-	public void RubyRuntime_testTrueFalse() {
-		invokeStatic(Type.getType(RubyRuntime.class),
-				Method.getMethod("boolean testTrueFalse(com.xruby.runtime.lang.RubyValue)"));
-	}
-
 	public void RubyRuntime_GlobalScope() {
 		getStatic(Type.getType(RubyRuntime.class),
 					"GlobalScope",
 					Type.getType(RubyModule.class));
 	}
 
-	public void RubyRuntime_callPublicMethod(String methodName) {
+	public void RubyAPI_testTrueFalse() {
+		invokeStatic(Type.getType(RubyAPI.class),
+				Method.getMethod("boolean testTrueFalse(com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void RubyAPI_callPublicMethod(String methodName) {
 		push(methodName);
-		invokeStatic(Type.getType(RubyRuntime.class),
+		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
-	public void RubyRuntime_callPublicMethod_OneArgNoBlcok(String methodName) {
+	public void RubyAPI_callPublicMethod_OneArgNoBlcok(String methodName) {
 		push(methodName);
-		invokeStatic(Type.getType(RubyRuntime.class),
+		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));	
 	}
 
-	public void RubyRuntime_callMethod(String methodName) {
+	public void RubyAPI_callMethod(String methodName) {
 		push(methodName);
-		invokeStatic(Type.getType(RubyRuntime.class),
+		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
-	public void RubyRuntime_callSuperMethod(String methodName) {
+	public void RubyAPI_callSuperMethod(String methodName) {
 		push(methodName);
-		invokeStatic(Type.getType(RubyRuntime.class),
+		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
-	public void RubyRuntime_operatorNot() {
-		invokeStatic(Type.getType(RubyRuntime.class),
+	public void RubyAPI_operatorNot() {
+		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue operatorNot(com.xruby.runtime.lang.RubyValue)"));
 	}
 
-	public void RubyRuntime_runCommandAndCaptureOutput(String command) {
+	public void RubyAPI_runCommandAndCaptureOutput(String command) {
 		push(command);
-		invokeStatic(Type.getType(RubyRuntime.class),
+		invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));
 	}
 
-	public void RubyRuntime_runCommandAndCaptureOutput() {
+	public void RubyAPI_runCommandAndCaptureOutput() {
 		invokeVirtual(Type.getType(RubyString.class),
 			Method.getMethod("String toString()"));
-		invokeStatic(Type.getType(RubyRuntime.class),
+		invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue runCommandAndCaptureOutput(String)"));
 	}
 
-	public void RubyRuntime_testCaseEqual() {
-		invokeStatic(Type.getType(RubyRuntime.class),
+	public void RubyAPI_testCaseEqual() {
+		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("boolean testCaseEqual(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 	}
 
-	public void RubyRuntime_testExceptionType() {
-		invokeStatic(Type.getType(RubyRuntime.class),
+	public void RubyAPI_testExceptionType() {
+		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("boolean testExceptionType(com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyException)"));
 	}
 
-	public void RubyRuntime_expandArrayIfThereIsZeroOrOneValue() {
-		invokeStatic(Type.getType(RubyRuntime.class),
+	public void RubyAPI_expandArrayIfThereIsZeroOrOneValue() {
+		invokeStatic(Type.getType(RubyAPI.class),
 			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 	}
 
-	public void RubyRuntime_expandArrayIfThereIsZeroOrOneValue2() {
-		invokeStatic(Type.getType(RubyRuntime.class),
+	public void RubyAPI_expandArrayIfThereIsZeroOrOneValue2() {
+		invokeStatic(Type.getType(RubyAPI.class),
 			Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.value.RubyArray)"));
 	}
 
-	public void RubyRuntime_expandArrayIfThereIsOnlyOneRubyArray() {
-		invokeStatic(Type.getType(RubyRuntime.class),
+	public void RubyAPI_expandArrayIfThereIsOnlyOneRubyArray() {
+		invokeStatic(Type.getType(RubyAPI.class),
 			Method.getMethod("com.xruby.runtime.value.RubyArray expandArrayIfThereIsOnlyOneRubyArray(com.xruby.runtime.value.RubyArray)"));
 	}
 
-	public void RubyRuntime_convertToArrayIfNotYet() {
-		invokeStatic(Type.getType(RubyRuntime.class),
+	public void RubyAPI_convertToArrayIfNotYet() {
+		invokeStatic(Type.getType(RubyAPI.class),
 			Method.getMethod("com.xruby.runtime.value.RubyArray convertToArrayIfNotYet(com.xruby.runtime.lang.RubyValue)"));
 	}
 	

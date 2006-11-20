@@ -60,7 +60,7 @@ class Kernel_puts extends RubyMethod {
 				RubyString value = (RubyString)arg.getValue();
 				System.out.println(value.toString());
 			} else {
-				RubyValue str = RubyRuntime.callPublicMethod(arg, null, null, "to_s");
+				RubyValue str = RubyAPI.callPublicMethod(arg, null, null, "to_s");
 				RubyString value = (RubyString)str.getValue();
 				System.out.println(value.toString());
 			}
@@ -87,19 +87,19 @@ class Kernel_print extends RubyMethod {
 		for (int i = 0; i < args.size(); ++i) {
 			// insert the output field separator($,) if not nil
 			if (i > 0 && GlobalVariables.OUTPUT_FIELD_SEPARATOR != ObjectFactory.nilValue) {
-				RubyRuntime.callPublicMethod(receiver, GlobalVariables.OUTPUT_FIELD_SEPARATOR, "write");
+				RubyAPI.callPublicMethod(receiver, GlobalVariables.OUTPUT_FIELD_SEPARATOR, "write");
 			}
 			
 			if (args.get(i) == ObjectFactory.nilValue) {
-				RubyRuntime.callPublicMethod(receiver, ObjectFactory.createString("nil"), "write");
+				RubyAPI.callPublicMethod(receiver, ObjectFactory.createString("nil"), "write");
 			} else {
-				RubyRuntime.callPublicMethod(receiver, args.get(i), "write");
+				RubyAPI.callPublicMethod(receiver, args.get(i), "write");
 			}
 		}
 		
 		// if the output record separator($\) is not nil, it will be appended to the output.
 		if ( GlobalVariables.OUTPUT_RECORD_SEPARATOR != ObjectFactory.nilValue) {
-			RubyRuntime.callPublicMethod(receiver, GlobalVariables.OUTPUT_RECORD_SEPARATOR, "write");
+			RubyAPI.callPublicMethod(receiver, GlobalVariables.OUTPUT_RECORD_SEPARATOR, "write");
 		}
 
 		return ObjectFactory.nilValue;
@@ -141,7 +141,7 @@ class Kernel_p extends RubyMethod {
 				RubyString value = (RubyString)arg.getValue();
 				System.out.println(value.toString());
 			} else {
-				RubyValue str = RubyRuntime.callPublicMethod(arg, null, null, "inspect");
+				RubyValue str = RubyAPI.callPublicMethod(arg, null, null, "inspect");
 				RubyString value = (RubyString)str.getValue();
 				System.out.println(value.toString());
 			}
@@ -388,7 +388,7 @@ class Kernel_kind_of extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (RubyRuntime.isKindOf(args.get(0), receiver)) {
+		if (RubyAPI.isKindOf(args.get(0), receiver)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -402,7 +402,7 @@ class Kernel_instance_of extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (RubyRuntime.isInstanceOf(args.get(0), receiver)) {
+		if (RubyAPI.isInstanceOf(args.get(0), receiver)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -448,7 +448,7 @@ class Kernel_send extends RubyMethod {
 		}
 
 		RubyValue method_name = args.remove(0);
-		return RubyRuntime.callMethod(receiver, args, block, convertToString(method_name));
+		return RubyAPI.callMethod(receiver, args, block, convertToString(method_name));
 	}
 }
 

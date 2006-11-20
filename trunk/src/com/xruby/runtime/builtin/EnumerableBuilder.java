@@ -17,7 +17,7 @@ class Enum_collect extends RubyMethod {
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
-        RubyRuntime.callPublicMethod(receiver, args, repeatableBlock, "each");
+        RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
         RubyArray array = repeatableBlock.getRetValue();
 
         return ObjectFactory.createArray(array);
@@ -32,7 +32,7 @@ class Enum_all extends RubyMethod {
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
-        RubyRuntime.callPublicMethod(receiver, args, repeatableBlock, "each");
+        RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
         RubyArray array = repeatableBlock.getRetValue();
 
         for (RubyValue value : array) {
@@ -53,7 +53,7 @@ class Enum_any extends RubyMethod {
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
-        RubyRuntime.callPublicMethod(receiver, args, repeatableBlock, "each");
+        RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
         RubyArray array = repeatableBlock.getRetValue();
 
         for (RubyValue value : array) {
