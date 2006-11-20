@@ -60,6 +60,11 @@ public class RubyAPI {
 		return basic.getRubyClass();
 	}
 	
+	//receiver is implicit self
+	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
+		return receiver.callMethod(method_name, args, block);
+	}
+	
 	private static void nameError(RubyID id, String fmt, Object... args) {
 		String msg = String.format(fmt, args);
 		RubyValue e = RubyRuntime.nameError.newInstance(
