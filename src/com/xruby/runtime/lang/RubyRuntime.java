@@ -156,11 +156,6 @@ public class RubyRuntime {
 		coreBuilder = new CoreBuilder();
 		coreBuilder.initialize();
 		
-		objectClass = coreBuilder.getObjectClass();
-		moduleClass = coreBuilder.getModuleClass();
-		classClass = coreBuilder.getClassClass();
-		kernelModule = coreBuilder.getKernelModule();
-		
 		KernelBuilder kernelBuilder = new KernelBuilder();
 		kernelBuilder.initialize();
 		

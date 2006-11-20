@@ -52,8 +52,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		this.aliasMethod(newId, oldId);
 	}
 	
-	// package access
-	void definePrivateMethod(String name, RubyMethod method, int argc) {
+	public void definePrivateMethod(String name, RubyMethod method, int argc) {
 		RubyID id = StringMap.intern(name);
 		this.addMethod(id, method, argc, RubyMethodAttr.PRIVATE);
 	}
@@ -291,7 +290,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		return realClass.getClasspath();
 	}
 	
-	RubyClassModuleBase realClass() {
+	public RubyClassModuleBase realClass() {
 		RubyClassModuleBase klass = this;
 		
 		while (klass.isSingleton() || klass instanceof RubyIncludeClass) {
@@ -422,7 +421,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		return findClasspath();
 	}
 	
-	void setClasspath(RubyClassModuleBase outter, String name) {
+	public void setClasspath(RubyClassModuleBase outter, String name) {
 		String path;
 		if (outter == RubyRuntime.objectClass) {
 			path = name;
