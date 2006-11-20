@@ -22,7 +22,7 @@ public class RubyAPI {
 		return (int)valueToLong(value);
 	}
 	
-	public static boolean equal(RubyValue value1, RubyValue value2) {
+	public static boolean testEqual(RubyValue value1, RubyValue value2) {
 		if (value1 == value2) {
 			return true;
 		}
