@@ -195,7 +195,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	
 	public boolean include(RubyValue target) {
 		for (RubyValue value : this.array) {
-			if (RubyAPI.equal(value, target)) {
+			if (RubyAPI.testEqual(value, target)) {
 				return true;
 			}
 		}
