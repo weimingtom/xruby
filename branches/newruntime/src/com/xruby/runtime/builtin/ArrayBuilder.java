@@ -154,7 +154,7 @@ class ArrayMethod {
 	
 	public static RubyMethod empty = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
-			return RubyAPI.test(((RubyArray)receiver).isEmpty());
+			return ((RubyArray)receiver).isEmpty()  ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 	
@@ -248,7 +248,7 @@ class ArrayMethod {
 				return RubyConstant.QFALSE;
 			}
 			
-			return RubyAPI.test(((RubyValue)receiver).equals(arg));
+			return ((RubyValue)receiver).equals(arg) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}		
 	};
 	
@@ -324,7 +324,7 @@ class ArrayMethod {
 	public static RubyMethod include = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			RubyArray array = (RubyArray)receiver;
-			return RubyAPI.test(array.include(arg));
+			return array.include(arg) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 }

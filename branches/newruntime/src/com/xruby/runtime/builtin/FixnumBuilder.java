@@ -83,7 +83,7 @@ class FixnumMethod {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			RubyFixnum num = (RubyFixnum)receiver;
 			if (arg instanceof RubyFixnum) {
-				return RubyAPI.test(num.equals(arg));
+				return num.equals(arg) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 			}
 			
 			// FIXME: num equal
@@ -186,7 +186,7 @@ class FixnumMethod {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			long left = RubyAPI.valueToLong(receiver);
 			long right = RubyAPI.valueToLong(arg);
-			return RubyAPI.test(left > right);
+			return (left > right) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 	
@@ -194,7 +194,7 @@ class FixnumMethod {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			long left = RubyAPI.valueToLong(receiver);
 			long right = RubyAPI.valueToLong(arg);
-			return RubyAPI.test(left >= right);
+			return (left >= right) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 	
@@ -202,7 +202,7 @@ class FixnumMethod {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			long left = RubyAPI.valueToLong(receiver);
 			long right = RubyAPI.valueToLong(arg);
-			return RubyAPI.test(left < right);
+			return (left < right) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 	
@@ -210,7 +210,7 @@ class FixnumMethod {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
 			long left = RubyAPI.valueToLong(receiver);
 			long right = RubyAPI.valueToLong(arg);
-			return RubyAPI.test(left <= right);
+			return (left <= right) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 	
@@ -248,7 +248,7 @@ class FixnumMethod {
 	public static RubyMethod zero = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			long value = RubyAPI.valueToLong(receiver);
-			return RubyAPI.test(value == 0);
+			return (value == 0) ? RubyConstant.QTRUE : RubyConstant.QFALSE;
 		}
 	};
 }
