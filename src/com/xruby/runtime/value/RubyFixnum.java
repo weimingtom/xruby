@@ -1,5 +1,7 @@
 package com.xruby.runtime.value;
 
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 
 
@@ -10,6 +12,10 @@ public class RubyFixnum extends RubyValue {
 		this.value = value;
 	}
 	
+	public RubyClass getRubyClass() {
+		return RubyRuntime.fixnumClass;
+	}
+
 	public long longValue() {
 		return this.value;
 	}

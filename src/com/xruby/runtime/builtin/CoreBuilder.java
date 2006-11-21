@@ -58,6 +58,11 @@ public class CoreBuilder implements ExtensionBuilder {
 	    /*
 	    rb_define_method(rb_mKernel, "singleton_methods", 
 			     rb_obj_singleton_methods, -1); // in class.c 
+			     */
+	    RubyRuntime.kernelModule.defineMethod("protected_methods", KernelMethod.protectedMethods, -1);
+	    RubyRuntime.kernelModule.defineMethod("private_methods", KernelMethod.privateMethods, -1);
+	    RubyRuntime.kernelModule.defineMethod("private_methods", KernelMethod.publicMethods, -1);
+	    /*
 	    rb_define_method(rb_mKernel, "protected_methods", 
 			     rb_obj_protected_methods, -1);
 	    rb_define_method(rb_mKernel, "private_methods", rb_obj_private_methods, -1);

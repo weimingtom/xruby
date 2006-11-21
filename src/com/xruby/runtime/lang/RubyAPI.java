@@ -38,27 +38,6 @@ public class RubyAPI {
 		//only 'nil' and 'false' is false
 		return value != RubyConstant.QNIL && value != RubyConstant.QFALSE; 
 	}
-
-	public static RubyClass classof(RubyValue value) {
-		if (value == RubyConstant.QTRUE) {
-			return RubyRuntime.trueClass;
-		} 
-		
-		if (value == RubyConstant.QFALSE) {
-			return RubyRuntime.falseClass;
-		}
-		
-		if (value == RubyConstant.QNIL) {
-			return RubyRuntime.nilClass;
-		}
-		
-		if (value instanceof RubyFixnum) {
-			return RubyRuntime.fixnumClass;
-		}
-		
-		RubyBasic basic = (RubyBasic)value;
-		return basic.getRubyClass();
-	}
 	
 	//receiver is implicit self
 	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {

@@ -19,7 +19,7 @@ public class MethodBuilder implements ExtensionBuilder {
 	public void initialize() {
 		this.methodClass = RubyAPI.defineClass("Method", RubyRuntime.objectClass);
 		this.methodClass.undefAllocMethod();
-		RubyAPI.classof(this.methodClass).undefMethod("new");
+		this.methodClass.getRubyClass().undefMethod("new");
 		
 		/*
     rb_define_method(rb_cMethod, "==", method_eq, 1);
@@ -36,7 +36,7 @@ public class MethodBuilder implements ExtensionBuilder {
 		
 		this.unboundMethodClass = RubyAPI.defineClass("UnboundMethod", RubyRuntime.objectClass);
 		this.unboundMethodClass.undefAllocMethod();
-		RubyAPI.classof(this.unboundMethodClass).undefMethod("new");
+		this.unboundMethodClass.getRubyClass().undefMethod("new");
 		
 		/*
     rb_define_method(rb_cUnboundMethod, "==", method_eq, 1);

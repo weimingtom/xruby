@@ -10,4 +10,8 @@ public class RubySymbol extends RubyValue {
 	public RubyID toID() {
 		return new RubyID(this.value);
 	}
+
+	public RubyClass getRubyClass() {
+		return RubyRuntime.symbolClass;
+	}
 }

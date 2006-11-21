@@ -16,7 +16,7 @@ public class TrueBuilder implements ExtensionBuilder {
 		this.trueClass.defineMethod("&", TrueMethod.and, 1);
 		this.trueClass.defineMethod("|", TrueMethod.or, 1);
 		this.trueClass.defineMethod("^", TrueMethod.xor, 1);
-		RubyAPI.classof(this.trueClass).undefMethod("new");		
+		this.trueClass.getRubyClass().undefMethod("new");		
 	}
 }
 

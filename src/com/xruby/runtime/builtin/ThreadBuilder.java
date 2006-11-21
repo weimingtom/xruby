@@ -81,7 +81,7 @@ public class ThreadBuilder implements ExtensionBuilder {
 		
 		this.continuationClass = RubyAPI.defineClass("Continuation", RubyRuntime.objectClass);
 		this.continuationClass.undefAllocMethod();
-		RubyAPI.classof(this.continuationClass).undefMethod("new");
+		this.continuationClass.getRubyClass().undefMethod("new");
 		/**
     rb_define_method(rb_cCont, "call", rb_cont_call, -1);
     rb_define_method(rb_cCont, "[]", rb_cont_call, -1);

@@ -21,7 +21,7 @@ public class NilBuilder implements ExtensionBuilder {
 		this.nilClass.defineMethod("|", FalseMethod.or, 1);
 		this.nilClass.defineMethod("^", FalseMethod.xor, 1);
 		this.nilClass.defineMethod("nil?", RubyMethod.TRUE_METHOD, 1);		
-		RubyAPI.classof(this.nilClass).undefMethod("new");
+		this.nilClass.getRubyClass().undefMethod("new");
 	}
 }
 
