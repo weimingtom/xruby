@@ -25,8 +25,9 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	}
 	
 	// method
+	// method definition
 	public void defineAllocMethod(RubyMethod method) {
-		RubyClass metaClass = RubyAPI.classof(this);
+		RubyClass metaClass = this.getRubyClass();
 		metaClass.addMethod(RubyID.ID_ALLOCATOR, method, -1, RubyMethodAttr.PRIVATE);
 	}
 	
@@ -36,7 +37,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	}	
 	
 	public void undefAllocMethod() {
-		RubyClass metaClass = RubyAPI.classof(this);
+		RubyClass metaClass = this.getRubyClass();
 		metaClass.addMethod(RubyID.ID_ALLOCATOR, null, 0, RubyMethodAttr.PRIVATE);
 	}
 	
@@ -57,8 +58,35 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		this.addMethod(id, method, argc, RubyMethodAttr.PRIVATE);
 	}
 	
-	public RubyArray instanceMethod(boolean recursion) {
+	protected void addMethod(RubyID id, RubyMethod method, int argc, RubyMethodAttr attr) {	
+		RubyMethodWrapper wrapper = new RubyMethodWrapper(method, argc, attr);
+		this.methodTable.put(id, wrapper);
+	}
+	
+	private void aliasMethod(RubyID newId, RubyID oldId) {
+		RubyMethodWrapper method = this.methodTable.get(oldId);
+		if (method == null) {
+			// FIXME: throw exception
+		}
+		
+		this.methodTable.put(newId, method);
+	}
+	
+	// method list
+	public RubyArray instanceMethods(boolean recursion) {
 		return this.methodList(recursion, defaultFilter);
+	}
+	
+	public RubyArray protectedInstanceMethods(boolean recursion) {
+		return this.methodList(recursion, protectedFilter);
+	}
+	
+	public RubyArray privateInstanceMethods(boolean recursion) {
+		return this.methodList(recursion, privateFilter);
+	}
+	
+	public RubyArray publicInstanceMethods(boolean recursion) {
+		return this.methodList(recursion, publicFilter);
 	}
 	
 	private RubyArray methodList(boolean recursion, MethodFilter filter) {
@@ -88,25 +116,40 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		return result;
 	}	
 	
-	protected void addMethod(RubyID id, RubyMethod method, int argc, RubyMethodAttr attr) {	
-		RubyMethodWrapper wrapper = new RubyMethodWrapper(method, argc, attr);
-		this.methodTable.put(id, wrapper);
-	}
-	
-	private void aliasMethod(RubyID newId, RubyID oldId) {
-		RubyMethodWrapper method = this.methodTable.get(oldId);
-		if (method == null) {
-			// FIXME: throw exception
-		}
-		
-		this.methodTable.put(newId, method);
-	}
-	
+	// method invocation	
 	// FIXME: move to class?
 	RubyValue callMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyBlock block) {
+		return invokeMethod(receiver, mid, args, RubyMethodScope.ALL);
+	}
+	
+	RubyValue callPublicMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyBlock block) {
+		return invokeMethod(receiver, mid, args, RubyMethodScope.ALL);
+	}
+	
+	RubyValue callSuperMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyBlock block) {
+		RubyClassModuleBase base = this.getSuper();
+		return base.invokeMethod(receiver, mid, args, RubyMethodScope.SUPER);
+	}
+
+	private RubyValue invokeMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyMethodScope scope) {
 		RubyMethodWrapper wrapper = this.findMethod(mid);
 		if (wrapper == null) {
 			return this.methodMissing(receiver, mid);
+		}
+		
+		switch (scope) {
+		case ALL:
+			break;
+		case PUBLIC:
+			if (wrapper.getAttr() != RubyMethodAttr.PUBLIC) {
+				return this.methodMissing(receiver, mid);
+			}
+		case PROTECTED:
+			break;
+		case PRIVATE:
+			break;
+		case SUPER:
+			break;
 		}
 		
 		int argc = wrapper.getArgc();
@@ -121,6 +164,8 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		
 		return method.invoke(receiver, args);
 	}
+	
+	
 	
 	private RubyMethodWrapper findMethod(RubyID mid) {
 		// find method in cache
@@ -265,11 +310,11 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	
 	// instance
 	public boolean isInstanceOf(RubyValue value) {
-		return RubyAPI.classof(value) == this;
+		return value.getRubyClass() == this;
 	}
 	
 	public boolean isKindOf(RubyValue value) {
-		RubyClass klass = RubyAPI.classof(value);
+		RubyClass klass = value.getRubyClass();
 		while (klass != null) {
 			if (klass == this || klass.methodTable == this.methodTable) {
 				return true;
@@ -340,6 +385,15 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 			RubyClassModuleBase base = (RubyClassModuleBase)value;
 			if (base.ivTable == null) {
 				return false;
+			}
+			
+			FindClasspathResult list = result;
+			while (list != null) {
+				if (list.track == value) {
+					return false;					
+				}
+				
+				list = list.prev;
 			}
 			
 			FindClasspathResult arg = new FindClasspathResult();

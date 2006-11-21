@@ -10,14 +10,14 @@ public class SymbolBuilder {
 		initialize();
 	}
 	
-	public RubyClass getArrayClass() {
+	public RubyClass getSymbolClass() {
 		return this.symbolClass;
 	}
 	
 	private void initialize() {
 		this.symbolClass = RubyAPI.defineClass("Symbol", RubyRuntime.objectClass);
 		
-		RubyAPI.classof(this.symbolClass).undefMethod("new");
+		this.symbolClass.getRubyClass().undefMethod("new");
 		
 		/*
 	    rb_define_singleton_method(rb_cSymbol, "all_symbols", 

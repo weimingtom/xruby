@@ -55,7 +55,7 @@ class KernelMethod {
 		}
 		
 		protected RubyValue run(RubyValue receiver) throws RubyException {
-			RubyClass klass = RubyAPI.classof(receiver);
+			RubyClass klass = receiver.getRubyClass();
 			return realClass(klass);
 		} 
 	};
@@ -100,14 +100,52 @@ class KernelMethod {
 	public static RubyMethod methods = new RubyMethod() {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
-			if (args == null || args.length() == 0) {
-				RubyClass klass = RubyAPI.classof(receiver);
-				return klass.instanceMethod(true);
-			} else {
-				RubyAPI.raise(RubyRuntime.runtimeError, " not implemented");
-				return null;
+			boolean recursion = true;
+			if (args != null && args.length() > 0) {
+				recursion = RubyAPI.testTrueFalse(args.get(0));
 			}
-		}
-		
+				
+			RubyClass klass = receiver.getRubyClass();
+			return klass.instanceMethods(recursion);
+		}		
+	};
+	
+	public static RubyMethod protectedMethods = new RubyMethod() {
+		protected RubyValue run(RubyValue receiver, RubyArray args,
+				RubyBlock block) {
+			boolean recursion = true;
+			if (args != null && args.length() > 0) {
+				recursion = RubyAPI.testTrueFalse(args.get(0));
+			}
+				
+			RubyClass klass = receiver.getRubyClass();
+			return klass.protectedInstanceMethods(recursion);
+		}		
+	};
+	
+	public static RubyMethod privateMethods = new RubyMethod() {
+		protected RubyValue run(RubyValue receiver, RubyArray args,
+				RubyBlock block) {
+			boolean recursion = true;
+			if (args != null && args.length() > 0) {
+				recursion = RubyAPI.testTrueFalse(args.get(0));
+			}
+				
+			RubyClass klass = receiver.getRubyClass();
+			return klass.privateInstanceMethods(recursion);
+		}		
+	};
+	
+	public static RubyMethod publicMethods = new RubyMethod() {
+		protected RubyValue run(RubyValue receiver, RubyArray args,
+				RubyBlock block) {
+			boolean recursion = true;
+			if (args != null && args.length() > 0) {
+				recursion = RubyAPI.testTrueFalse(args.get(0));
+			}
+				
+			RubyClass klass = receiver.getRubyClass();
+			return klass.publicInstanceMethods(recursion);
+		}		
 	};
 }

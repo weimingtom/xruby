@@ -23,7 +23,7 @@ public class FalseBuilder implements ExtensionBuilder {
 		this.falseClass.defineMethod("&", FalseMethod.and, 1);
 		this.falseClass.defineMethod("|", FalseMethod.or, 1);
 		this.falseClass.defineMethod("^", FalseMethod.xor, 1);
-		RubyAPI.classof(this.falseClass).undefMethod("new");
+		this.falseClass.getRubyClass().undefMethod("new");
 	}
 }
 

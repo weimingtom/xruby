@@ -2,7 +2,7 @@ package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.*;
 
-public class RubyValue {
+public abstract class RubyValue {
 	public int objectAddress() {
 		return super.hashCode();
 	}
@@ -34,7 +34,7 @@ public class RubyValue {
 	}
 	
 	public RubyValue callMethod(RubyID id, RubyArray args, RubyBlock block) {
-		RubyClass klass = RubyAPI.classof(this);
+		RubyClass klass = this.getRubyClass();
 		return klass.callMethod(this, id, args, block);
 	}
 	
@@ -83,8 +83,9 @@ public class RubyValue {
 	}
 	
 	// class
+	public abstract RubyClass getRubyClass();
 	public RubyString getRubyClassName() {
-		RubyClass klass = RubyAPI.classof(this);
+		RubyClass klass = this.getRubyClass();
 		return klass.getName();
 	}
 }

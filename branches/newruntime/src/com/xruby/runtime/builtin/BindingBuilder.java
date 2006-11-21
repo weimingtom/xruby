@@ -14,7 +14,7 @@ public class BindingBuilder implements ExtensionBuilder {
 	public void initialize() {
 		this.bindingClass = RubyAPI.defineClass("Binding", RubyRuntime.objectClass);
 		this.bindingClass.undefAllocMethod();
-		RubyAPI.classof(this.bindingClass).undefMethod("new");
+		this.bindingClass.getRubyClass().undefMethod("new");
 		
 		/**
     rb_define_method(rb_cBinding, "clone", proc_clone, 0);

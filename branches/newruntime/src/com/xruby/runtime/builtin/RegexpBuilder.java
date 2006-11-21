@@ -61,7 +61,7 @@ public class RegexpBuilder implements ExtensionBuilder {
 		 * rb_define_global_const("MatchingData", rb_cMatch);
 		 * rb_define_alloc_func(rb_cMatch, match_alloc);
 	 */
-		RubyAPI.classof(this.matchClass).undefMethod("new");
+		this.matchClass.getRubyClass().undefMethod("new");
     
     /*
     rb_define_method(rb_cMatch, "initialize_copy", match_init_copy, 1);

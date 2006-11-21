@@ -9,6 +9,7 @@ public class RubyRuntime {
 	public static RubyClass classClass;
 	public static RubyModule kernelModule;
 	
+	public static RubyClass symbolClass;
 	public static RubyClass dataClass;
 	
 	public static RubyValue topSelf;
@@ -103,7 +104,7 @@ public class RubyRuntime {
 	}
 
 	private static void initRuntime() {
-		initObject();		
+		initObject();	
 		initComparable();
 		initEnum();	
 		initPrecision();
@@ -158,6 +159,9 @@ public class RubyRuntime {
 		
 		KernelBuilder kernelBuilder = new KernelBuilder();
 		kernelBuilder.initialize();
+		
+		SymbolBuilder symbolBuilder = new SymbolBuilder();
+		symbolClass = symbolBuilder.getSymbolClass();
 		
 		DataBuilder dataClassBuilder = new DataBuilder();
 		dataClassBuilder.initialize();

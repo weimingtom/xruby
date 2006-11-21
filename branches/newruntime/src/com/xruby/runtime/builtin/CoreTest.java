@@ -61,7 +61,7 @@ public class CoreTest extends TestCase {
 		try {
 			RubyAPI.defineClass("NoSuperClass", null);
 		} catch (RubyException e) {
-			assertEquals(RubyRuntime.typeError, RubyAPI.classof(e.getRubyException()));
+			assertEquals(RubyRuntime.typeError, e.getRubyException().getRubyClass());
 		}
 	}
 	
@@ -84,6 +84,7 @@ public class CoreTest extends TestCase {
 	
 	public void testDefinedUnderModule() {
 		RubyModule outterMoudle = RubyAPI.defineModule("OutterModule");
+		System.out.println("----------------------------------");
 		RubyModule innerModule = RubyAPI.defineModuleUnder(outterMoudle, "InnerModule");
 		assertNotNull(innerModule);
 		RubyModule inner2Module = RubyAPI.defineModuleUnder(innerModule, "Inner2Module");
