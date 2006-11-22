@@ -615,7 +615,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitAliasGlobalVariable(String newName, String oldName) {
-		cg_.getMethodGenerator().GlobalVatiables_alias(newName, oldName);
+		cg_.getMethodGenerator().GlobalVariables_alias(newName, oldName);
 	}
 
 	public void visitAliasMethod(String newName, String oldName) {
