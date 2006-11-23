@@ -27,16 +27,6 @@ class MethodGenerator extends GeneratorAdapter {
 		visitInsn(Opcodes.ACONST_NULL);
 	}
 	
-	public void saveBlockForFutureRestoreAndCheckReturned() {
-		dup();
-		int i = symbol_table_.getLocalVariable("block$");
-		if (i < 0) {
-			i = newLocal(Type.getType(Types.RubyBlockClass));
-			symbol_table_.addLocalVariable("block$", i);
-		}
-		storeLocal(i);
-	}
-
 	public int getLocalVariable(String name) {
 		int i = getSymbolTable().getLocalVariable(name);
 		if (i >= 0) {
@@ -70,6 +60,16 @@ class MethodGenerator extends GeneratorAdapter {
 		storeVariable(name);
 	}
 
+	public void storeBlockForFutureRestoreAndCheckReturned() {
+		dup();
+		int i = symbol_table_.getLocalVariable("block$");
+		if (i < 0) {
+			i = newLocal(Type.getType(Types.RubyBlockClass));
+			symbol_table_.addLocalVariable("block$", i);
+		}
+		storeLocal(i);
+	}
+	
 	public void restoreLocalVariableFromBlock(String blockName, String name) {
 		loadLocal(getSymbolTable().getLocalVariable("block$"));
 		getField(Type.getType("L" + blockName + ";"), name, Type.getType(Types.RubyValueClass));
