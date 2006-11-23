@@ -441,7 +441,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		}
 		
 		if (result.path != null) {
-			this.setIvar(classpathID, result.path);
+			this.setInstanceVariable(classpathID, result.path);
 			this.removeIvar(tmpClasspathID);
 			return result.path;
 		}
@@ -463,7 +463,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 				RubyID foundClassID = ((RubySymbol)value).toID();
 				value = ObjectFactory.createString(StringMap.id2name(foundClassID));
 				
-				this.setIvar(classpathID, value);
+				this.setInstanceVariable(classpathID, value);
 				this.removeIvar(classID);
 			}
 			
@@ -483,7 +483,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 			path = outter.getClasspath().getString() + "::" + name;
 		}
 		
-		this.setIvar(classpathID, ObjectFactory.createString(path));		
+		this.setInstanceVariable(classpathID, ObjectFactory.createString(path));		
 	}
 	
 	RubyString getClasspath() {

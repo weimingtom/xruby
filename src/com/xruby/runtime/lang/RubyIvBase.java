@@ -12,7 +12,7 @@ public abstract class RubyIvBase extends RubyBasic {
 		return this.ivTable.get(id);
 	}
 
-	protected void setIvar(RubyID id, RubyValue value) {
+	protected void setInstanceVariable(RubyID id, RubyValue value) {
 		ensureIvTableNotNull();
 		
 		this.ivTable.put(id, value);
