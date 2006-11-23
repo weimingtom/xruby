@@ -146,7 +146,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
 
-		cg_.getMethodGenerator().MethodCollection_defineMethod(methodName, uniqueMethodName, is_singleton_method);
+		cg_.getMethodGenerator().RubyModule_defineMethod(methodName, uniqueMethodName, is_singleton_method);
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
@@ -619,11 +619,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitAliasMethod(String newName, String oldName) {
-		cg_.getMethodGenerator().MethodCollection_aliasMethod(newName, oldName);	
+		cg_.getMethodGenerator().RubyModule_aliasMethod(newName, oldName);	
 	}
 
 	public void visitUndef(String name) {
-		cg_.getMethodGenerator().MethodCollection_undefMethod(name);
+		cg_.getMethodGenerator().RubyModule_undefMethod(name);
 	}
 	
 	public void visitSelfExpression() {

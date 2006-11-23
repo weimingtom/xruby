@@ -627,6 +627,35 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue setClassVariable(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 	
+	public void RubyModule_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
+		if (!is_singleton_method) {
+			if (!loadCurrentClass()) {
+				dup();
+				invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPrivate()"));	
+			}
+		}
+		
+		push(methodName);
+		new_MethodClass(uniqueMethodName);
+		invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
+	}
+	
+	public void RubyModule_aliasMethod(String newName, String oldName) {
+		loadCurrentClass();
+		push(newName);
+		push(oldName);
+		invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("void aliasMethod(String, String)"));
+	}
+
+	public void RubyModule_undefMethod(String name) {
+		loadCurrentClass();
+		push(name);
+		invokeVirtual(Type.getType(RubyModule.class),
+				Method.getMethod("void undefMethod(String)"));
+	}
+	
 	public void RubyBlock_invoke() {
 		invokeVirtual(Type.getType(Types.RubyBlockClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"));
@@ -646,35 +675,6 @@ class MethodGenerator extends GeneratorAdapter {
 		returnValue();//TODO more error checking, may not in the method context
 		mark(after_return);
 		loadLocal(value);
-	}
-
-	public void MethodCollection_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
-		if (!is_singleton_method) {
-			if (!loadCurrentClass()) {
-				dup();
-				invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPrivate()"));	
-			}
-		}
-		
-		push(methodName);
-		new_MethodClass(uniqueMethodName);
-		invokeVirtual(Type.getType(MethodCollection.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
-	}
-	
-	public void MethodCollection_aliasMethod(String newName, String oldName) {
-		loadCurrentClass();
-		push(newName);
-		push(oldName);
-		invokeVirtual(Type.getType(MethodCollection.class),
-				Method.getMethod("void aliasMethod(String, String)"));
-	}
-
-	public void MethodCollection_undefMethod(String name) {
-		loadCurrentClass();
-		push(name);
-		invokeVirtual(Type.getType(MethodCollection.class),
-				Method.getMethod("void undefMethod(String)"));
 	}
 
 	public void RubyValue_getRubyClass() {
