@@ -3,7 +3,7 @@ package com.xruby.runtime.lang;
 import java.util.*;
 import com.xruby.runtime.value.*;
 
-public class MethodCollectionWithMixin extends MethodCollection {
+class MethodCollectionWithMixin extends MethodCollection {
 	private ArrayList<RubyModule> mixins_ = new ArrayList<RubyModule>();
 
 	public void includeModule(RubyModule m) {

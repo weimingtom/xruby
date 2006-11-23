@@ -7,7 +7,7 @@ package com.xruby.runtime.lang;
 import java.util.*;
 import com.xruby.runtime.value.*;
 
-public abstract class MethodCollection extends ClassVariableCollection {
+abstract class MethodCollection extends ClassVariableCollection {
 	private Map<String, RubyMethod> methods_ = new HashMap<String, RubyMethod>();
 	private int current_access_mode_ = RubyMethod.PUBLIC;
 
