@@ -44,6 +44,15 @@ public class RubyAPI {
 		return receiver.callMethod(method_name, args, block);
 	}
 	
+	//method call with one argument and no block
+	public static RubyValue callPublicMethod(RubyValue receiver, RubyValue arg, String method_name) {
+		return receiver.callPublicMethod(method_name, new RubyArray(arg), RubyBlock.NULL_BLOCK);
+	}
+	
+	public  static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
+		return receiver.callPublicMethod(method_name, args, block);
+	}
+	
 	private static void nameError(RubyID id, String fmt, Object... args) {
 		String msg = String.format(fmt, args);
 		RubyValue e = RubyRuntime.nameError.newInstance(

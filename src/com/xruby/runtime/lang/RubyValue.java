@@ -38,6 +38,12 @@ public abstract class RubyValue {
 		return klass.callMethod(this, id, args, block);
 	}
 	
+	public RubyValue callPublicMethod(String name, RubyArray args, RubyBlock block) {
+		RubyID id = StringMap.intern(name);
+		RubyClass klass = this.getRubyClass();
+		return klass.callPublicMethod(this, id, args, block);
+	}
+	
 	private RubyClass singletonClass() {
 		RubyClass klass;
 		
