@@ -48,7 +48,7 @@ public abstract class RubyValue {
 		RubyBasic basic = (RubyBasic)this;
 		
 		if (basic.getRubyClass().isSingleton() 
-				&& basic.getRubyClass().getIv("__attached__") == this) {
+				&& basic.getRubyClass().getInstanceVariable("__attached__") == this) {
 			klass = basic.getRubyClass();
 		} else {
 			klass = RubyAPI.createMetaClass(basic, basic.getRubyClass());
@@ -65,15 +65,15 @@ public abstract class RubyValue {
 	// instance variable
 	public final void setIv(String name, RubyValue value) {
 		RubyID id = StringMap.intern(name);
-		this.setIvar(id, value);
+		this.setInstanceVariable(id, value);
 	}
 	
-	public final RubyValue getIv(String name) {
+	public final RubyValue getInstanceVariable(String name) {
 		RubyID id = StringMap.intern(name);
 		return this.getIvar(id);
 	}
 	
-	protected void setIvar(RubyID id, RubyValue value) {
+	protected void setInstanceVariable(RubyID id, RubyValue value) {
 		// FIXME: generic implementation
 	}
 	
