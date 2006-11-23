@@ -63,21 +63,21 @@ public abstract class RubyValue {
 	}
 	
 	// instance variable
-	public final void setIv(String name, RubyValue value) {
+	public final void setInstanceVariable(String name, RubyValue value) {
 		RubyID id = StringMap.intern(name);
 		this.setInstanceVariable(id, value);
 	}
 	
 	public final RubyValue getInstanceVariable(String name) {
 		RubyID id = StringMap.intern(name);
-		return this.getIvar(id);
+		return this.getInstanceVariable(id);
 	}
 	
 	protected void setInstanceVariable(RubyID id, RubyValue value) {
 		// FIXME: generic implementation
 	}
 	
-	protected RubyValue getIvar(RubyID id) {
+	protected RubyValue getInstanceVariable(RubyID id) {
 		// generic implementation
 		return null;
 	}

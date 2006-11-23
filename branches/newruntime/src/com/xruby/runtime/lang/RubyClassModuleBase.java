@@ -359,7 +359,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 				break;
 			}
 			
-			RubyValue classpath = result.track.getIvar(classpathID);
+			RubyValue classpath = result.track.getInstanceVariable(classpathID);
 			if (classpath != null) {
 				RubyString cpStr = (RubyString)classpath;
 				return cpStr.getString() + "::" + path;
@@ -451,10 +451,10 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	
 	private RubyString className() {
 		if (this.ivTable != null) {
-			RubyValue value = this.getIvar(classpathID);			
+			RubyValue value = this.getInstanceVariable(classpathID);			
 			if (value == null) {
 				RubyID classID = StringMap.intern("__classid__");
-				value = this.getIvar(classID);
+				value = this.getInstanceVariable(classID);
 				if (value == null) {
 					// FIXME: find class path
 					return findClasspath();
@@ -493,7 +493,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 			return name;
 		}
 		
-		RubyValue path = this.getIvar(tmpClasspathID);
+		RubyValue path = this.getInstanceVariable(tmpClasspathID);
 		if (path != null && path instanceof RubyString) {
 			return (RubyString)path;
 		}
