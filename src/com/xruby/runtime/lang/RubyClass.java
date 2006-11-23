@@ -20,6 +20,6 @@ public class RubyClass extends RubyClassModuleBase {
 	}
 	
 	public void setName(RubyID id) {
-		this.setIv("__classid__", id.toSymbol());
+		this.setInstanceVariable("__classid__", id.toSymbol());
 	}
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 public abstract class RubyIvBase extends RubyBasic {
 	protected Map<RubyID, RubyValue> ivTable;
 
-	protected RubyValue getIvar(RubyID id) {
+	protected RubyValue getInstanceVariable(RubyID id) {
 		ensureIvTableNotNull();
 		
 		return this.ivTable.get(id);
