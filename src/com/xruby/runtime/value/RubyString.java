@@ -1,23 +1,19 @@
 package com.xruby.runtime.value;
 
-import com.xruby.runtime.lang.RubyBasic;
-import com.xruby.runtime.lang.RubyValue;
-
+import com.xruby.runtime.lang.*;
 
 public class RubyString extends RubyBasic {
 	private StringBuilder str;
 	
 	RubyString(String s) {
 		this.str = new StringBuilder(s);
+		this.setRubyClass(RubyRuntime.stringClass);
 	}
 	
 	RubyString(char c) {
 		this.str = new StringBuilder();
 		this.str.append(c);
-	}
-	
-	private RubyString() {
-		this.str = new StringBuilder();
+		this.setRubyClass(RubyRuntime.stringClass);
 	}
 	
 	public void setString(String s) {

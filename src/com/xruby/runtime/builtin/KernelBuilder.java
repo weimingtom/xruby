@@ -10,6 +10,7 @@ public class KernelBuilder implements ExtensionBuilder {
 		this.kernelModule = RubyAPI.defineModule("Kernel");	
 		this.kernelModule.defineMethod("send", KernelMethod.send, -1);
 		this.kernelModule.defineMethod("__send__", KernelMethod.send, -1);
+		this.kernelModule.defineMethod("print", KernelMethod.print, -1);
 	}
 }
 
@@ -19,7 +20,7 @@ class KernelMethod {
 	public static RubyMethod send = new RubyMethod() {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
-			if (args.length() == 0) {
+			if (args.size() == 0) {
 				RubyAPI.raise(RubyRuntime.argumentError, "no method name given");
 			}
 			
@@ -101,7 +102,7 @@ class KernelMethod {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			boolean recursion = true;
-			if (args != null && args.length() > 0) {
+			if (args != null && args.size() > 0) {
 				recursion = RubyAPI.testTrueFalse(args.get(0));
 			}
 				
@@ -114,7 +115,7 @@ class KernelMethod {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			boolean recursion = true;
-			if (args != null && args.length() > 0) {
+			if (args != null && args.size() > 0) {
 				recursion = RubyAPI.testTrueFalse(args.get(0));
 			}
 				
@@ -127,7 +128,7 @@ class KernelMethod {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			boolean recursion = true;
-			if (args != null && args.length() > 0) {
+			if (args != null && args.size() > 0) {
 				recursion = RubyAPI.testTrueFalse(args.get(0));
 			}
 				
@@ -140,7 +141,7 @@ class KernelMethod {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			boolean recursion = true;
-			if (args != null && args.length() > 0) {
+			if (args != null && args.size() > 0) {
 				recursion = RubyAPI.testTrueFalse(args.get(0));
 			}
 				
@@ -148,4 +149,37 @@ class KernelMethod {
 			return klass.publicInstanceMethods(recursion);
 		}		
 	};
+	
+	public static RubyMethod print = new RubyMethod() {
+		protected RubyValue run(RubyValue receiver, RubyArray args,
+				RubyBlock block) {
+			receiver = GlobalVariables.STDOUT;
+			
+			//if no argument given, print `$_'
+			if (null == args) {
+				args = new RubyArray(GlobalVariables.LAST_READ_LINE);
+			}
+			
+			for (int i = 0; i < args.size(); ++i) {
+				// insert the output field separator($,) if not nil
+				if (i > 0 && GlobalVariables.OUTPUT_FIELD_SEPARATOR != ObjectFactory.nilValue) {
+					RubyAPI.callPublicMethod(receiver, GlobalVariables.OUTPUT_FIELD_SEPARATOR, "write");
+				}
+				
+				if (args.get(i) == ObjectFactory.nilValue) {
+					RubyAPI.callPublicMethod(receiver, ObjectFactory.createString("nil"), "write");
+				} else {
+					RubyAPI.callPublicMethod(receiver, args.get(i), "write");
+				}
+			}
+			
+			// if the output record separator($\) is not nil, it will be appended to the output.
+			if ( GlobalVariables.OUTPUT_RECORD_SEPARATOR != ObjectFactory.nilValue) {
+				RubyAPI.callPublicMethod(receiver, GlobalVariables.OUTPUT_RECORD_SEPARATOR, "write");
+			}
+
+			return ObjectFactory.nilValue;
+		}
+	};
+	
 }

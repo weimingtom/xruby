@@ -249,9 +249,17 @@ class IOMethod {
 	
 	public static RubyMethod write = new RubyOneArgMethod() {
 		protected RubyValue run(RubyValue receiver, RubyValue arg) {
+			RubyString value;
+			if (RubyRuntime.stringClass == arg.getRubyClass()) {
+				value = (RubyString)arg;
+			} else {
+				RubyValue str = RubyAPI.callPublicMethod(arg, null, "to_s");
+				value = (RubyString) str;
+			}
+			
 			RubyIO io = (RubyIO)receiver;
-			int n = io.write(arg);
-			return RubyFixnum.int2Fix(n);
+			io.print(value.toString());
+			return ObjectFactory.createFixnum(value.length());
 		}		
 	};
 }

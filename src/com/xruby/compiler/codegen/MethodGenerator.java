@@ -391,12 +391,12 @@ class MethodGenerator extends GeneratorAdapter {
 	public void ObjectFactory_createString(String value) {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(String)"));
+                Method.getMethod("com.xruby.runtime.value.RubyString createString(String)"));
 	}
 
 	public void ObjectFactory_createString() {
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(com.xruby.runtime.value.RubyString)"));
+                Method.getMethod("com.xruby.runtime.value.RubyString createString(com.xruby.runtime.value.RubyString)"));
 	}
 	
 	public void ObjectFactory_createRegexp(String value) {

@@ -18,7 +18,7 @@ class GlobalMethod {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			
-			int argc = args.length();
+			int argc = args.size();
 			switch (argc) {
 			case 0:
 				RubyAPI.raise(RubyRuntime.runtimeError, " not implemented");

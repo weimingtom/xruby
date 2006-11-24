@@ -4,6 +4,14 @@ import java.math.BigInteger;
 import com.xruby.runtime.lang.*;
 
 public class ObjectFactory {
+	
+	public static final RubyBasic nilValue;
+	
+	static {
+		nilValue = new RubyBasic();
+		nilValue.setRubyClass(RubyRuntime.nilClass);
+	}
+	
 	public static RubyString createString(String v) {
 		return new RubyString(v);
 	}

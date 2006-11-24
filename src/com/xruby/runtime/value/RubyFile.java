@@ -18,7 +18,7 @@ public class RubyFile extends RubyIO {
 		this.setRubyClass(RubyRuntime.fileClass);
 	}
 	
-	RubyFile(InputStream is, OutputStream os, int fileno) {
+	public RubyFile(InputStream is, OutputStream os, int fileno) {
 		super(fileno);
 		this.is = is;
 		if (os != null) {

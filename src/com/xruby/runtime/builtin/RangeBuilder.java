@@ -50,7 +50,7 @@ class RangeMethod {
 	public static RubyMethod initialize = new NoBlockRubyMethod() {
 		public RubyValue run(RubyValue receiver, RubyArray args) {
 			RubyRange range = (RubyRange)receiver;
-			int argc = (args == null) ? 0 : args.length();
+			int argc = (args == null) ? 0 : args.size();
 			
 			if (argc >= 2) {
 				int begin = ((RubyFixnum)args.get(0)).intValue();

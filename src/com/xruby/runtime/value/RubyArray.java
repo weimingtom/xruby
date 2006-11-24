@@ -58,7 +58,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return this.array.remove((int)index);
 	}
 
-	public int length() {
+	public int size() {
 		return this.array.size();
 	}
 

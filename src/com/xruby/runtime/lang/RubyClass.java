@@ -53,8 +53,8 @@ public abstract class RubyClass extends RubyClassModuleBase {
 		}
 		
 		int argc = wrapper.getArgc();
-		if (argc >= 0 && args != null && args.length() != argc) {
-			RubyAPI.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for %d)", args.length(), argc);
+		if (argc >= 0 && args != null && args.size() != argc) {
+			RubyAPI.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for %d)", args.size(), argc);
 		}
 		
 		RubyMethod method = wrapper.getMethod();
