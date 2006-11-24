@@ -240,7 +240,7 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void loadSelf(boolean is_in_global_scope, boolean is_in_block) {
 		if (is_in_global_scope) {
-			ObjectFactory_topLevelSelfValue();
+			RubyRuntime_topSelf();
 		} else if (is_in_block) {
 			loadSelfOfCurrentMethod();
 		} else {
@@ -424,9 +424,9 @@ class MethodGenerator extends GeneratorAdapter {
 				Type.getType(Types.RubyValueClass));
 	}
 
-	public void ObjectFactory_topLevelSelfValue() {
-		getStatic(Type.getType(ObjectFactory.class),
-				"topLevelSelfValue",
+	public void RubyRuntime_topSelf() {
+		getStatic(Type.getType(RubyRuntime.class),
+				"topSelf",
 				Type.getType(Types.RubyValueClass));
 	}
 	
