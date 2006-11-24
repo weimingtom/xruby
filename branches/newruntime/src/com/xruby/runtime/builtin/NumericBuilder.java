@@ -1,6 +1,7 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.value.*;
 
 public class NumericBuilder implements ExtensionBuilder {
 	private RubyClass numericClass;
@@ -37,6 +38,7 @@ public class NumericBuilder implements ExtensionBuilder {
     rb_define_method(rb_cNumeric, "coerce", num_coerce, 1);
     */
 		this.numericClass.defineMethod("+@", NumericMethod.uplus, 0);
+		this.numericClass.defineMethod("-@", NumericMethod.uminus, 0);
 		/*
     rb_define_method(rb_cNumeric, "+@", num_uplus, 0);
     rb_define_method(rb_cNumeric, "-@", num_uminus, 0);
@@ -70,6 +72,12 @@ class NumericMethod {
 	public static RubyMethod uplus = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			return receiver;
+		}
+	};
+	
+	public static RubyMethod uminus = new RubyNoArgMethod() {
+		protected RubyValue run(RubyValue receiver) {
+			return RubyAPI.callPublicMethod(ObjectFactory.createFixnum(0), receiver, "-");
 		}
 	};
 }
