@@ -1,10 +1,10 @@
 package com.xruby.runtime.lang;
 
-public class RubyIncludeClass extends RubyClass {
+public class RubyRealClass extends RubyClass {
 	public boolean isReal() {
-		return false;
+		return true;
 	}
-	
+
 	public boolean isSingleton() {
 		return false;
 	}

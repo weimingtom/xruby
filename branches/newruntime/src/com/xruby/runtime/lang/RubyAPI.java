@@ -161,8 +161,8 @@ public class RubyAPI {
 			superclass = RubyRuntime.objectClass;
 		}
 		
-		RubyClass klass = createBootClass(superclass);
-		createMetaClass(klass, ((RubyBasic)superclass).getRubyClass());
+		RubyClass klass = createRealClass(superclass);
+		createMetaClass(klass, superclass.getRubyClass());
 		
 		return klass;
 	}
@@ -174,7 +174,7 @@ public class RubyAPI {
 	}
 	
 	public static RubyClass defineBootClass(String name, RubyClass superclass) {
-		RubyClass obj = createBootClass(superclass);
+		RubyClass obj = createRealClass(superclass);
 		
 		RubyID id = StringMap.intern(name);
 		obj.setName(id);
@@ -189,19 +189,18 @@ public class RubyAPI {
 		return obj;
 	}
 	
-	public static RubyClass createBootClass(RubyClass superclass) {
-		RubyClass klass = new RubyClass();	
+	public static RubyClass createRealClass(RubyClass superclass) {
+		RubyClass klass = new RubyRealClass();	
 		klass.setRubyClass(RubyRuntime.classClass);		
 		klass.setSuper(superclass);
-		
-		// FIXME: set iv table and method table
 		
 		return klass;
 	}
 	
 	public static RubyClass createMetaClass(RubyBasic obj, RubyClass superclass) {
-		RubyClass klass = createBootClass(superclass);
-		klass.setSingleton();
+		RubySingletonClass klass = new RubySingletonClass();
+		klass.setRubyClass(RubyRuntime.classClass);
+		klass.setSuper(superclass);
 		obj.setRubyClass(klass);
 		klass.attachSingletonClass(obj);		
 		

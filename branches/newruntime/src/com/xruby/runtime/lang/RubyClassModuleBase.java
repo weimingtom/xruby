@@ -6,7 +6,7 @@ import java.util.Map;
 import com.xruby.runtime.value.*;
 
 public abstract class RubyClassModuleBase extends RubyIvBase {
-	private static MethodCache cache = new MethodCache();
+	protected static MethodCache cache = new MethodCache();
 	
 	protected RubyClass superclass;	
 	protected Map<RubyID, RubyMethodWrapper> methodTable;
@@ -14,6 +14,9 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	public RubyClassModuleBase() {
 		this.methodTable = new HashMap<RubyID, RubyMethodWrapper>();
 	}
+	
+	// class attribute
+	public abstract boolean isReal();
 	
 	// super
 	public void setSuper(RubyClass superclass) {
@@ -104,7 +107,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 				}
 			}
 			
-			if (base instanceof RubyIncludeClass || base.isSingleton()) {
+			if (!base.isReal()) {
 				continue;
 			}
 			
@@ -114,112 +117,6 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		}
 		
 		return result;
-	}	
-	
-	// method invocation	
-	// FIXME: move to class?
-	RubyValue callMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyBlock block) {
-		return invokeMethod(receiver, mid, args, RubyMethodScope.ALL);
-	}
-	
-	RubyValue callPublicMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyBlock block) {
-		return invokeMethod(receiver, mid, args, RubyMethodScope.ALL);
-	}
-	
-	RubyValue callSuperMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyBlock block) {
-		RubyClassModuleBase base = this.getSuper();
-		return base.invokeMethod(receiver, mid, args, RubyMethodScope.SUPER);
-	}
-
-	private RubyValue invokeMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyMethodScope scope) {
-		RubyMethodWrapper wrapper = this.findMethod(mid);
-		if (wrapper == null) {
-			return this.methodMissing(receiver, mid);
-		}
-		
-		switch (scope) {
-		case ALL:
-			break;
-		case PUBLIC:
-			if (wrapper.getAttr() != RubyMethodAttr.PUBLIC) {
-				return this.methodMissing(receiver, mid);
-			}
-		case PROTECTED:
-			break;
-		case PRIVATE:
-			break;
-		case SUPER:
-			break;
-		}
-		
-		int argc = wrapper.getArgc();
-		if (argc >= 0 && args != null && args.length() != argc) {
-			RubyAPI.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for %d)", args.length(), argc);
-		}
-		
-		RubyMethod method = wrapper.getMethod();
-		if (method == null) {
-			return this.methodMissing(receiver, mid);
-		}
-		
-		return method.invoke(receiver, args);
-	}
-	
-	
-	
-	private RubyMethodWrapper findMethod(RubyID mid) {
-		// find method in cache
-		MethodCache.CacheEntry entry = cache.getMethod(this, mid);
-		if (entry != null && entry.klass == this && entry.mid == mid) {
-			if (entry.method == null) {
-				return null;
-			} else {
-				return entry.method;
-			}
-		}
-		
-		RubyMethodWrapper wrapper = searchMethod(mid);
-		
-		// put method in cache
-		if (entry == null) {
-			entry = new MethodCache.CacheEntry();
-		}
-		
-		entry.klass = this;
-		entry.mid = mid;
-		entry.method = wrapper;
-	
-		return wrapper;		
-	}
-
-	private RubyMethodWrapper searchMethod(RubyID mid) {
-		// find method in method table
-		RubyClassModuleBase klass = this;
-		
-		while (klass != null) {	
-			RubyMethodWrapper method = klass.methodTable.get(mid);
-			
-			if (method != null) {
-				return method;
-			}
-			
-			klass = klass.superclass;
-		} 
-		
-		return null;
-	}
-	
-	private RubyValue methodMissing(RubyValue obj, RubyID id) {
-		if (id == RubyID.ID_ALLOCATOR) {
-			RubyAPI.raise(RubyRuntime.typeError, "allocator undefined for %s", obj.getRubyClassName().getString());
-		}
-		
-		// FIXME: invoke method missing
-		
-		RubyAPI.raise(RubyRuntime.noMethodError, "undefined method `%s' for %s", StringMap.id2name(id), obj.getRubyClassName());
-		
-		// unable reach here
-		return null;
 	}
 	
 	// const
@@ -338,7 +235,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	public RubyClassModuleBase realClass() {
 		RubyClassModuleBase klass = this;
 		
-		while (klass.isSingleton() || klass instanceof RubyIncludeClass) {
+		while (!klass.isReal()) {
 			klass = klass.superclass;
 		}
 		
@@ -407,9 +304,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		}
 		
 		return false;
-	}
-
-	
+	}	
 	
 	private boolean searchClasspathInTable(Map<RubyID, RubyValue> table, FindClasspathResult result) {
 		FindClasspathResult arg = new FindClasspathResult();
