@@ -222,6 +222,42 @@ public class RubyAPI {
 		RubyValue e = exception.newInstance();
 		throw new RubyException(e, msg);
 	}
+
+	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyArray a) {
+		if (a.size() <= 1) {
+			return a.get(0);
+		} else {
+			return a;
+		}
+	}
+
+	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyValue v) {
+		if (v instanceof RubyArray) {
+			RubyArray a = (RubyArray)v;
+			if (!a.isNotSingleAsterisk()) {
+				return expandArrayIfThereIsZeroOrOneValue(a);
+			}
+		}
+	
+		return v;
+	}
+
+	public static RubyArray expandArrayIfThereIsOnlyOneRubyArray(RubyArray a) {
+		if (a.size() == 1 &&
+				a.get(0) instanceof RubyArray) {
+			return (RubyArray)a.get(0);
+		} else {
+			return a;
+		}
+	}
+	
+	public static RubyArray convertToArrayIfNotYet(RubyValue v) {
+		if (v instanceof RubyArray) {
+			return (RubyArray)v;
+		} else {
+			return new RubyArray(v);
+		}
+	}
 	
 	// API: log
 	public static void warn(String fmt, Object... args) {

@@ -36,7 +36,10 @@ public class GlobalVariables {
 	
 	private static ConcurrentHashMap<String, RubyValue> values_ = new ConcurrentHashMap<String, RubyValue>();
 	
-	//public static RubyValue STDOUT;
+	public static RubyIO STDIN = new RubyFile(System.in, null, 0);
+	public static RubyIO STDOUT = new RubyFile(null, System.out, 1);
+	public static RubyIO STDERR = new RubyFile(null, System.err, 2);
+	
 	public static RubyValue LAST_READ_LINE = RubyConstant.QNIL;
 	public static RubyValue OUTPUT_FIELD_SEPARATOR = RubyConstant.QNIL;
 	public static RubyValue OUTPUT_RECORD_SEPARATOR = RubyConstant.QNIL;

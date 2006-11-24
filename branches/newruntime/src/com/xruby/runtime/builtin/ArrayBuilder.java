@@ -130,7 +130,7 @@ class ArrayMethod {
 	
 	public static RubyMethod initialize = new NoBlockRubyMethod() {
 		public RubyValue run(RubyValue receiver, RubyArray args) {
-			int args_length = (args == null) ? 0 : args.length();
+			int args_length = (args == null) ? 0 : args.size();
 			
 			switch (args_length) {
 			case 0:
@@ -148,7 +148,7 @@ class ArrayMethod {
 	
 	public static RubyMethod length = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
-			return RubyFixnum.long2Fix(((RubyArray)receiver).length());
+			return RubyFixnum.long2Fix(((RubyArray)receiver).size());
 		}		
 	};
 	
@@ -174,7 +174,7 @@ class ArrayMethod {
 	public static RubyMethod aref = new NoBlockRubyMethod() {
 		public RubyValue run(RubyValue receiver, RubyArray args) {
 			RubyArray array = (RubyArray)receiver;
-			switch (args.length()) {
+			switch (args.size()) {
 			case 2:
 				RubyValue argValue0 = args.get(0);
 				if (argValue0 instanceof RubySymbol) {
@@ -208,7 +208,7 @@ class ArrayMethod {
 			RubyArray array = (RubyArray)receiver;
 			
 			// argc == 3
-			if (args.length() == 3) {
+			if (args.size() == 3) {
 				if (args.get(0) instanceof RubySymbol) {
 					RubyAPI.raise(RubyRuntime.typeError, "Symbol as array index");
 				}
@@ -221,8 +221,8 @@ class ArrayMethod {
 			}
 			
 			// wrong arg
-			if (args.length() != 2) {
-				RubyAPI.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for 2)", args.length());
+			if (args.size() != 2) {
+				RubyAPI.raise(RubyRuntime.argumentError, "wrong number of arguments (%d for 2)", args.size());
 			}
 			
 			// default
@@ -307,7 +307,7 @@ class ArrayMethod {
 	public static RubyMethod pop = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			RubyArray array = (RubyArray)receiver;
-			int index = array.length() - 1;
+			int index = array.size() - 1;
 			return array.remove(index);
 		}
 	};

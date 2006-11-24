@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 public class RubyArrayTest extends TestCase {
 	public void testInit() {
 		RubyArray array = new RubyArray();
-		assertEquals(0, array.length());
+		assertEquals(0, array.size());
 		assertTrue(array.isEmpty());
 	}
 	
@@ -20,18 +20,18 @@ public class RubyArrayTest extends TestCase {
 		// 1 element
 		array.set(0, RubyFixnum.int2Fix(0));
 		assertFalse(array.isEmpty());
-		assertEquals(1, array.length());
+		assertEquals(1, array.size());
 		assertEquals(RubyFixnum.int2Fix(0), array.get(0));
 		
 		// 2 elements
 		array.set(2, RubyFixnum.int2Fix(2));
-		assertEquals(3, array.length());
+		assertEquals(3, array.size());
 		assertEquals(RubyFixnum.int2Fix(2), array.get(2));
 		assertEquals(RubyConstant.QNIL, array.get(1));		
 		assertEquals(RubyFixnum.int2Fix(2), array.get(-1));
 		
 		array.set(-1, RubyFixnum.int2Fix(3));
-		assertEquals(3, array.length());
+		assertEquals(3, array.size());
 		assertEquals(RubyFixnum.int2Fix(3), array.get(2));
 		assertEquals(RubyFixnum.int2Fix(3), array.get(-1));
 		
@@ -61,7 +61,7 @@ public class RubyArrayTest extends TestCase {
 		array1.set(0, RubyFixnum.int2Fix(1));
 		
 		array0.concat(array1);
-		assertEquals(2, array0.length());
+		assertEquals(2, array0.size());
 		assertEquals(0, ((RubyFixnum)array0.get(0)).longValue());
 		assertEquals(1, ((RubyFixnum)array0.get(1)).longValue());
 	}
@@ -74,11 +74,11 @@ public class RubyArrayTest extends TestCase {
 		array1.set(0, RubyFixnum.int2Fix(1));
 		
 		RubyArray array2 = array0.plus(array1);
-		assertEquals(2, array2.length());
+		assertEquals(2, array2.size());
 		assertEquals(0, ((RubyFixnum)array2.get(0)).longValue());
 		assertEquals(1, ((RubyFixnum)array2.get(1)).longValue());
 		
-		assertEquals(1, array0.length());
+		assertEquals(1, array0.size());
 	}
 	
 	public void testTimes() {
@@ -86,15 +86,15 @@ public class RubyArrayTest extends TestCase {
 		array.set(0, RubyFixnum.int2Fix(0));
 		
 		RubyArray result = array.times(2);
-		assertEquals(2, result.length());
+		assertEquals(2, result.size());
 		assertEquals(0, ((RubyFixnum)result.get(0)).longValue());
 		assertEquals(0, ((RubyFixnum)result.get(1)).longValue());
 		
-		assertEquals(1, array.length());
+		assertEquals(1, array.size());
 		
 		// 0 times
 		result = array.times(0);
-		assertEquals(0, result.length());
+		assertEquals(0, result.size());
 		
 		// exception
 		try {

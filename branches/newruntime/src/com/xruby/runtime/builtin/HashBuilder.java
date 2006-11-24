@@ -169,7 +169,7 @@ class HashMethod {
 		protected RubyValue run(RubyValue receiver, RubyArray args,
 				RubyBlock block) {
 			RubyHash hash = (RubyHash)receiver;
-			if (args.length() == 2) {
+			if (args.size() == 2) {
 				return hash.put(args.get(0), args.get(1));
 			}
 			

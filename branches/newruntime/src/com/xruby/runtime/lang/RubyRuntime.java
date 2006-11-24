@@ -16,7 +16,9 @@ public class RubyRuntime {
 	
 	public static RubyClass trueClass;
 	public static RubyClass falseClass;
-	public static RubyClass nilClass;	
+	public static RubyClass nilClass;
+	
+	public static RubyClass stringClass;
 	
 	public static RubyModule comparableModule;
 	
@@ -126,6 +128,8 @@ public class RubyRuntime {
 		initMath();
 		initMarshal();
 		initGlobal();
+		
+		StringClassBuilder.initialize();
 		
 		//FIXME enable the following line after compiler works with runtime
 		//initBuiltin();
