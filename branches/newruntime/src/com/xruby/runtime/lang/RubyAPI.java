@@ -46,7 +46,7 @@ public class RubyAPI {
 	
 	//method call with one argument and no block
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyValue arg, String method_name) {
-		return receiver.callPublicMethod(method_name, new RubyArray(arg), RubyBlock.NULL_BLOCK);
+		return receiver.callPublicMethod(method_name, (null == arg) ? null : new RubyArray(arg), RubyBlock.NULL_BLOCK);
 	}
 	
 	public  static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
