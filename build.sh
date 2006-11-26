@@ -1,5 +1,5 @@
 #!/bin/sh
-#For Cygwin, please use build.bat
+# For Cygwin, please use build.bat
 
 DIRLIBS="`ls lib/**/**`"
 
