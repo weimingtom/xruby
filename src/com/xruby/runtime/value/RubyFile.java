@@ -10,8 +10,7 @@ public class RubyFile extends RubyIO {
 	private static int fileno = 3;
 	
 	private InputStream is;
-	private PrintStream os;
-	
+	private PrintStream os;	
 	
 	public RubyFile() {
 		super(fileno++);
@@ -22,7 +21,11 @@ public class RubyFile extends RubyIO {
 		super(fileno);
 		this.is = is;
 		if (os != null) {
-			this.os = new PrintStream(os);
+			if (os instanceof PrintStream) {
+				this.os = (PrintStream)os;
+			} else {
+				this.os = new PrintStream(os);
+			}
 		}
 		
 		this.setRubyClass(RubyRuntime.fileClass);
@@ -33,5 +36,9 @@ public class RubyFile extends RubyIO {
 		
 		this.os.print(text);
 		return text.length();
+	}
+
+	protected void flush() {
+		this.os.flush();
 	}
 }

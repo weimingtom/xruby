@@ -35,8 +35,16 @@ public class KernelTest extends TestCase {
 	
 	public void testClassMethod() {
 		RubyClass objectClass = RubyRuntime.objectClass;
-		RubyValue value = objectClass.callMethod("new");
+		RubyValue value = objectClass.newInstance();
 		assertEquals(objectClass, value.callMethod("class"));
+		assertEquals(objectClass, value.callMethod("type"));
+	}
+	
+	public void testToA() {
+		RubyValue value = RubyRuntime.topSelf.callMethod("to_a");
+		assertTrue(value instanceof RubyArray);
+		RubyArray array = (RubyArray)value;
+		assertEquals(RubyRuntime.topSelf, array.get(0));
 	}
 	
 	public void testToS() {

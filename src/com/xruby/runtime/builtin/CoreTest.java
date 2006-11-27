@@ -72,10 +72,10 @@ public class CoreTest extends TestCase {
 	}
 	
 	public void testDefineUnderClass() {
-		RubyClass outterClass = RubyAPI.defineClass("OutterClass", RubyRuntime.objectClass);
+		RubyClass outterClass = RubyAPI.defineClass("OuterClass", RubyRuntime.objectClass);
 		RubyClass innerClass = RubyAPI.defineClassUnder(outterClass, "InnerClass", RubyRuntime.objectClass);
 		assertNotNull(innerClass);
-		assertEquals("OutterClass::InnerClass", innerClass.getName().getString());
+		assertEquals("OuterClass::InnerClass", innerClass.getName());
 		
 		// defined
 		RubyClass definedClass = RubyAPI.defineClassUnder(outterClass, "InnerClass", RubyRuntime.objectClass);
@@ -83,13 +83,12 @@ public class CoreTest extends TestCase {
 	}
 	
 	public void testDefinedUnderModule() {
-		RubyModule outterMoudle = RubyAPI.defineModule("OutterModule");
-		System.out.println("----------------------------------");
+		RubyModule outterMoudle = RubyAPI.defineModule("OuterModule");
 		RubyModule innerModule = RubyAPI.defineModuleUnder(outterMoudle, "InnerModule");
 		assertNotNull(innerModule);
 		RubyModule inner2Module = RubyAPI.defineModuleUnder(innerModule, "Inner2Module");
 		assertNotNull(inner2Module);
-		assertEquals("OutterModule::InnerModule::Inner2Module", inner2Module.getName().getString());
-		assertEquals("OutterModule::InnerModule", innerModule.getName().getString());
+		assertEquals("OuterModule::InnerModule::Inner2Module", inner2Module.getName());
+		assertEquals("OuterModule::InnerModule", innerModule.getName());
 	}
 }

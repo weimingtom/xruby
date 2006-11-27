@@ -61,14 +61,19 @@ public class RubyAPI {
 		throw new RubyException(e, msg);
 	}
 	
-	// API: Defining Classes
+	// API: Defining Classes	
 	public static RubyClass defineClass(String name, RubyClass superclass) {
 		RubyID id = StringMap.intern(name);		
 		
 		if (RubyRuntime.objectClass.isDefinedConst(id)) {
 			RubyValue klassObj = RubyRuntime.objectClass.getConst(id);
 			try {
-				return (RubyClass)klassObj;
+				RubyClass klass = (RubyClass)klassObj;
+				if (klass.getSuper().realClass() != superclass) {
+					RubyAPI.nameError(id, "%s is already defined", name);
+				}
+				
+				return klass;
 			} catch (ClassCastException e) {
 				RubyAPI.raise(RubyRuntime.typeError, "%s is not a class", name);
 			}
@@ -79,21 +84,17 @@ public class RubyAPI {
 		}
 		
 		RubyClass klass = defineIDClass(id, superclass);
-		klass.setName(id);
-		
-		// FIXME: insert class to class table
-		
-		RubyRuntime.objectClass.setConst(id, klass);
-		
-		// FIXME: set inherited relation
+		klass.setName(id);		
+		RubyRuntime.objectClass.setConst(id, klass);		
+		setInheritedClass(superclass, klass);
 		
 		return klass;
 	}
 	
-	public static RubyClass defineClassUnder(RubyClassModuleBase outter, String name, RubyClass superclass) {
+	public static RubyClass defineClassUnder(RubyClassModuleBase outer, String name, RubyClass superclass) {
 		RubyID id = StringMap.intern(name);
-		if (outter.isDefinedConst(id)) {
-			RubyValue value = outter.getConst(id);
+		if (outer.isDefinedConst(id)) {
+			RubyValue value = outer.getConst(id);
 			try {
 				RubyClass klass = (RubyClass)value;
 				if (klass.getSuper().realClass() != superclass) {
@@ -107,15 +108,23 @@ public class RubyAPI {
 		}
 		
 		if (superclass == null) {
-			// FIXME: warn
+			RubyAPI.warn("no super class for `%s::%s', Object assumed", outer.getName(), name);
 		}
 		
 		RubyClass klass = defineIDClass(id, superclass);
-		klass.setClasspath(outter, name);
-		outter.setConst(id, klass);
-		// FIXME: inherited
+		klass.setClasspath(outer, name);
+		outer.setConst(id, klass);
+		setInheritedClass(superclass, klass);
 		
 		return klass;
+	}
+	
+	private static RubyValue setInheritedClass(RubyClass superclass, RubyClass klass) {
+		if (superclass == null) {
+			superclass = RubyRuntime.objectClass;
+		}
+		
+		return superclass.setInheritedClass(klass);
 	}
 	
 	public static RubyModule defineModule(String name) throws RubyException {
@@ -123,15 +132,14 @@ public class RubyAPI {
 		
 		if (RubyRuntime.objectClass.isDefinedConst(id)) {			
 			RubyValue moduleObj = RubyRuntime.objectClass.getConst(id);
-			
-			// FIXME: Catch type cast exception			
-			return (RubyModule)moduleObj;	
+			try {
+				return (RubyModule)moduleObj;
+			} catch (ClassCastException e) {
+				RubyAPI.raise(RubyRuntime.typeError, "%s is not a module", moduleObj.getRubyClass().getName());
+			}
 		}
 		
 		RubyModule module = defineIDModule(id);
-		
-		// FIXME: insert module to class table
-		
 		RubyRuntime.objectClass.setConst(id, module);
 		
 		return module;
@@ -145,7 +153,7 @@ public class RubyAPI {
 				RubyModule module = (RubyModule)value;				
 				return module;
 			} catch (ClassCastException e) {
-				RubyAPI.raise(RubyRuntime.typeError, "%s::%s is not a module", outter.getName(), value.getRubyClassName());
+				RubyAPI.raise(RubyRuntime.typeError, "%s::%s is not a module", outter.getName(), value.getRubyClass().getName());
 			}			
 		}
 		
@@ -162,8 +170,7 @@ public class RubyAPI {
 		}
 		
 		RubyClass klass = createRealClass(superclass);
-		createMetaClass(klass, superclass.getRubyClass());
-		
+		createMetaClass(klass, superclass.getRubyClass());		
 		return klass;
 	}
 	
@@ -174,26 +181,18 @@ public class RubyAPI {
 	}
 	
 	public static RubyClass defineBootClass(String name, RubyClass superclass) {
-		RubyClass obj = createRealClass(superclass);
-		
+		RubyClass obj = createRealClass(superclass);		
 		RubyID id = StringMap.intern(name);
 		obj.setName(id);
-		
-		//FIXME: insert class to class table
-		
-		// set class as const
-		RubyClass constObj = (RubyRuntime.objectClass != null) ? RubyRuntime.objectClass : obj;
-		
-		constObj.setConst(id, obj);
-		
+		RubyClass constObj = (RubyRuntime.objectClass != null) ? RubyRuntime.objectClass : obj;		
+		constObj.setConst(id, obj);		
 		return obj;
 	}
 	
 	public static RubyClass createRealClass(RubyClass superclass) {
 		RubyClass klass = new RubyRealClass();	
 		klass.setRubyClass(RubyRuntime.classClass);		
-		klass.setSuper(superclass);
-		
+		klass.setSuper(superclass);		
 		return klass;
 	}
 	
@@ -203,7 +202,6 @@ public class RubyAPI {
 		klass.setSuper(superclass);
 		obj.setRubyClass(klass);
 		klass.attachSingletonClass(obj);		
-		
 		return klass;
 	}
 
@@ -260,16 +258,18 @@ public class RubyAPI {
 	}
 	
 	// API: log
-	public static void warn(String fmt, Object... args) {
-		
+	public static void warn(String fmt, Object... args) {		
 	}
 	
 	public static void warning(String fmt, Object... args) {
 		
 	}
 	
-	public static void exit(int status) {
-		System.exit(status);
+	public static void bug(String fmt, Object... args) {
+		
 	}
 	
+	public static void exit(int status) {
+		System.exit(status);
+	}	
 }

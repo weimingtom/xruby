@@ -29,6 +29,10 @@ public abstract class RubyValue {
 		return this.callMethod(id, args, block);
 	}
 	
+	public RubyValue callMethod(RubyID id) {
+		return this.callMethod(id, RubyMethod.NULL_ARG, RubyBlock.NULL_BLOCK);
+	}
+	
 	public RubyValue callMethod(RubyID id, RubyArray args) {
 		return this.callMethod(id, args, RubyBlock.NULL_BLOCK);
 	}
@@ -90,8 +94,22 @@ public abstract class RubyValue {
 	
 	// class
 	public abstract RubyClass getRubyClass();
-	public RubyString getRubyClassName() {
-		RubyClass klass = this.getRubyClass();
-		return klass.getName();
+	
+	private static RubyID toSId = StringMap.intern("to_s");
+	private static RubyID inspectId = StringMap.intern("inspect");
+	
+	public String toString() {
+		RubyValue value = this.callMethod(toSId);
+		if (value instanceof RubyString) {
+			return ((RubyString)value).toString();
+		} else {
+			String name = this.getRubyClass().getName();
+			return "#<" + name + ":0x" + Integer.toHexString(this.objectAddress()) + ">";
+		}
+	}	
+	
+	public String inspect() {
+		RubyValue value = this.callMethod(inspectId);
+		return value.toString();
 	}
 }

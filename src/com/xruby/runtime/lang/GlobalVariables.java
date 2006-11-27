@@ -1,5 +1,7 @@
 package com.xruby.runtime.lang;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.concurrent.*;
 import com.xruby.runtime.value.*;
 
@@ -39,6 +41,21 @@ public class GlobalVariables {
 	public static RubyIO STDIN = new RubyFile(System.in, null, 0);
 	public static RubyIO STDOUT = new RubyFile(null, System.out, 1);
 	public static RubyIO STDERR = new RubyFile(null, System.err, 2);
+	
+	public static void setIn(InputStream in) {
+		System.setIn(in);
+		STDIN = new RubyFile(System.in, null, 0);
+	}
+	
+	public static void setOut(PrintStream out) {
+		System.setOut(out);
+		STDOUT = new RubyFile(null, System.out, 1);
+	}
+	
+	public static void setErr(PrintStream err) {
+		System.setErr(err);
+		STDERR = new RubyFile(null, System.err, 2);
+	}
 	
 	public static RubyValue LAST_READ_LINE = RubyConstant.QNIL;
 	public static RubyValue OUTPUT_FIELD_SEPARATOR = RubyConstant.QNIL;

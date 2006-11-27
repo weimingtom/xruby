@@ -60,10 +60,15 @@ public class IOBuilder implements ExtensionBuilder {
 
     rb_define_method(rb_cIO, "initialize_copy", rb_io_init_copy, 1);
     rb_define_method(rb_cIO, "reopen", rb_io_reopen, -1);
+    */
+		this.ioClass.defineMethod("print", IOMethod.print, -1);
+		/*
+	    rb_define_method(rb_cIO, "putc", rb_io_putc, 1);
+	    */
+		this.ioClass.defineMethod("puts", IOMethod.puts, -1);
 
-    rb_define_method(rb_cIO, "print", rb_io_print, -1);
-    rb_define_method(rb_cIO, "putc", rb_io_putc, 1);
-    rb_define_method(rb_cIO, "puts", rb_io_puts, -1);
+		/*
+    
     rb_define_method(rb_cIO, "printf", rb_io_printf, -1);
 
     rb_define_method(rb_cIO, "each",  rb_io_each_line, -1);
@@ -260,6 +265,20 @@ class IOMethod {
 			RubyIO io = (RubyIO)receiver;
 			io.print(value.toString());
 			return ObjectFactory.createFixnum(value.length());
+		}		
+	};
+	
+	public static RubyMethod puts = new RubyMethod() {
+		protected RubyValue run(RubyValue receiver, RubyArray args,
+				RubyBlock block) {			
+			return RubyIO.puts((RubyIO)receiver, args);
+		}		
+	};
+	
+	public static RubyMethod print = new RubyMethod() {
+		protected RubyValue run(RubyValue receiver, RubyArray args,
+				RubyBlock block) {			
+			return RubyIO.print((RubyIO)receiver, args);
 		}		
 	};
 }

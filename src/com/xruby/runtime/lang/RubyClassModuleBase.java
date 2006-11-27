@@ -226,8 +226,9 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	// class path
 	private static RubyID classpathID = StringMap.intern("__classpath__");
 	private static RubyID tmpClasspathID = StringMap.intern("__tmp_classpath__");
+	private static RubyID classID = StringMap.intern("__classid__");
 	
-	public RubyString getName() {
+	public String getName() {
 		RubyClassModuleBase realClass = this.realClass();
 		return realClass.getClasspath();
 	}
@@ -235,7 +236,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	public RubyClassModuleBase realClass() {
 		RubyClassModuleBase klass = this;
 		
-		while (!klass.isReal()) {
+		while (klass != null && !klass.isReal()) {
 			klass = klass.superclass;
 		}
 		
@@ -244,7 +245,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	
 	static class FindClasspathResult {
 		RubyID name;
-		RubyString path;
+		String path;
 		RubyClassModuleBase track;
 		FindClasspathResult prev;
 	}
@@ -273,7 +274,7 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 	private boolean searchClasspath(RubyID id, RubyValue value, FindClasspathResult result) {
 		if (value == this) {
 			String path = getFindClasspath(id, result);			
-			result.path = ObjectFactory.createString(path);
+			result.path = path;
 			
 			return true;
 		}
@@ -324,19 +325,15 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		return false;
 	}
 	
-	private RubyString findClasspath() {
+	private String findClasspath() {
 		FindClasspathResult result = new FindClasspathResult();
 		
 		if (RubyRuntime.objectClass.ivTable != null) {
 			searchClasspathInTable(RubyRuntime.objectClass.ivTable, result);
 		}
 		
-		if (result.path == null) {
-			// FIXME:search class table
-		}
-		
 		if (result.path != null) {
-			this.setInstanceVariable(classpathID, result.path);
+			this.setInstanceVariable(classpathID, ObjectFactory.createString(result.path));
 			this.removeIvar(tmpClasspathID);
 			return result.path;
 		}
@@ -344,29 +341,34 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		return null;
 	}
 	
-	private RubyString className() {
+	private String className() {
 		if (this.ivTable != null) {
+			String path = null;
+			
 			RubyValue value = this.getInstanceVariable(classpathID);			
-			if (value == null) {
-				RubyID classID = StringMap.intern("__classid__");
+			if (value == null) {				
 				value = this.getInstanceVariable(classID);
 				if (value == null) {
-					// FIXME: find class path
 					return findClasspath();
 				}
 				
 				RubyID foundClassID = ((RubySymbol)value).toID();
-				value = ObjectFactory.createString(StringMap.id2name(foundClassID));
+				path = StringMap.id2name(foundClassID);
+				value = ObjectFactory.createString(path);
 				
 				this.setInstanceVariable(classpathID, value);
 				this.removeIvar(classID);
+			} else {
+				try {
+					path = ((RubyString)value).getString();
+				} catch (ClassCastException e) {
+					RubyAPI.bug("class path is not set properly");
+				}
 			}
 			
-			// FIXME: class cast exception :rb_bug("class path is not set properly");			
-			return (RubyString)value;
+			return path;
 		}
 		
-		// FIXME: find class path
 		return findClasspath();
 	}
 	
@@ -375,27 +377,38 @@ public abstract class RubyClassModuleBase extends RubyIvBase {
 		if (outter == RubyRuntime.objectClass) {
 			path = name;
 		} else {
-			path = outter.getClasspath().getString() + "::" + name;
+			path = outter.getClasspath() + "::" + name;
 		}
 		
 		this.setInstanceVariable(classpathID, ObjectFactory.createString(path));		
 	}
 	
-	RubyString getClasspath() {
-		RubyString name = this.className();
+	String getClasspath() {
+		String name = this.className();
 		
 		if (name != null) {
 			return name;
 		}
 		
+		// look up temp classpath id
 		RubyValue path = this.getInstanceVariable(tmpClasspathID);
 		if (path != null && path instanceof RubyString) {
-			return (RubyString)path;
+			return ((RubyString)path).getString();
 		}
 		
-		// FIXME: look up
+		String prefix = "Class";
+		if (this instanceof RubyModule) {
+			if (this.getRubyClass() == RubyRuntime.moduleClass) {
+				prefix = "Module";
+			} else {
+				prefix = this.getRubyClass().getName();
+			}
+		}
 		
-		return null;
+		String tmppath = "#<" + prefix + ":0x" + this.objectAddress() + ">";
+		this.setInstanceVariable(tmpClasspathID, ObjectFactory.createString(tmppath));
+		
+		return tmppath;
 	}
 	
 	private static interface MethodFilter {
