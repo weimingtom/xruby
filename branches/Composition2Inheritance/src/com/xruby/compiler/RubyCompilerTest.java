@@ -54,7 +54,8 @@ public class RubyCompilerTest extends TestCase {
 				p.run();
 				assertTrue("Error at " + i + ": should throw RubyException", false);
 			} catch (RubyException e) {
-				assertEquals(exceptions[i], e);
+				assertEquals(exceptions[i].getRubyValue().getRubyClass(), e.getRubyValue().getRubyClass());
+				assertEquals(exceptions[i].getRubyValue().toString(), e.getRubyValue().toString());
 				continue;
 			} catch (Exception e) {
 				assertTrue("Error at " + i + ": should throw RubyException, not exception", false);
@@ -581,23 +582,23 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_dot_class_method() {
 		String[] program_texts = {
-				"print 1.class\n" +
-				"print 0.1.class\n" +
-				"print 'hello'.class\n" +
-				"print true.class\n" +
-				"print false.class\n" +
-				"print nil.class\n" +
+				"print 1.class\n",
+				"print 0.1.class\n",
+				"print 'hello'.class\n",
+				"print true.class\n",
+				"print false.class\n",
+				"print nil.class\n",
 				"print String.class",
 				"print 1.class.class",
 		};
 
 		String[] outputs = {
-				"Fixnum" +
-				"Float" +
-				"String" +
-				"TrueClass" +
-				"FalseClass" +
-				"NilClass" +
+				"Fixnum",
+				"Float",
+				"String",
+				"TrueClass",
+				"FalseClass",
+				"NilClass",
 				"Class",
 				"Class",
 		};

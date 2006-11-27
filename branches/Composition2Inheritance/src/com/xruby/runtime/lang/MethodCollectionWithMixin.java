@@ -3,9 +3,13 @@ package com.xruby.runtime.lang;
 import java.util.*;
 import com.xruby.runtime.value.*;
 
-class MethodCollectionWithMixin extends MethodCollection {
+abstract class MethodCollectionWithMixin extends MethodCollection {
 	private ArrayList<RubyModule> mixins_ = new ArrayList<RubyModule>();
 
+	MethodCollectionWithMixin(RubyClass c) {
+		super(c);
+	}
+	
 	public void includeModule(RubyModule m) {
 		if (!mixins_.contains(m)) {
 			mixins_.add(0, m);

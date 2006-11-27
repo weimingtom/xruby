@@ -7,9 +7,9 @@ public class RubyAPI {
 
 	public static boolean testTrueFalse(RubyValue value) {
 		//only 'nil' and 'false' is false.
-		if (value.getRubyClass() == RubyRuntime.FalseClassClass) {
+		if (value == ObjectFactory.falseValue) {
 			return false;
-		}  else if (value.getRubyClass() == RubyRuntime.NilClassClass) {
+		}  else if (value == ObjectFactory.nilValue) {
 			return false;
 		} else {
 			return true;

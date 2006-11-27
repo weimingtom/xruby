@@ -133,8 +133,8 @@ public class TimeClassBuilder {
 		c.defineMethod("<=>", new Time_operator_compare());
 		c.defineAllocMethod(new Time_new());
 		
-		c.defineSingletonMethod("now", ClassClassBuilder.class_new_);
-		c.defineSingletonMethod("at", new Time_at());
+		c.getSingletonClass().defineMethod("now", ClassClassBuilder.class_new_);
+		c.getSingletonClass().defineMethod("at", new Time_at());
 		
 	}
 }

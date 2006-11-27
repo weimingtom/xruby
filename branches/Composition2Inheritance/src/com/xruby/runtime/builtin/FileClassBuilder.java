@@ -176,16 +176,16 @@ public class FileClassBuilder {
 		RubyClass c = RubyRuntime.FileClass;
 		//c.defineMethod("id2name", new Symbol_id2name());
 		
-		c.defineSingletonMethod("file?", new File_file_question());
-		c.defineSingletonMethod("expand_path", new File_expand_path());
-		c.defineSingletonMethod("dirname", new File_dirname());
-		c.defineSingletonMethod("delete", new File_delete());
-		c.defineSingletonMethod("basename", new File_basename());
-		c.defineSingletonMethod("separator", new File_separator());
-		c.defineSingletonMethod("mtime", new File_mtime());
-		c.defineSingletonMethod("size", new File_size());
-		c.defineSingletonMethod("open", new File_open());
-		c.defineSingletonMethod("rename", new File_rename());
+		c.getSingletonClass().defineMethod("file?", new File_file_question());
+		c.getSingletonClass().defineMethod("expand_path", new File_expand_path());
+		c.getSingletonClass().defineMethod("dirname", new File_dirname());
+		c.getSingletonClass().defineMethod("delete", new File_delete());
+		c.getSingletonClass().defineMethod("basename", new File_basename());
+		c.getSingletonClass().defineMethod("separator", new File_separator());
+		c.getSingletonClass().defineMethod("mtime", new File_mtime());
+		c.getSingletonClass().defineMethod("size", new File_size());
+		c.getSingletonClass().defineMethod("open", new File_open());
+		c.getSingletonClass().defineMethod("rename", new File_rename());
 		
 	}
 

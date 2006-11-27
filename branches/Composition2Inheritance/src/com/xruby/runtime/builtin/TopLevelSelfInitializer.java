@@ -25,7 +25,7 @@ class TopLevelSelf_include extends RubyMethod {
 
 public class TopLevelSelfInitializer {
 	public static void initialize() {
-		ObjectFactory.topLevelSelfValue.defineSingletonMethod("include", new TopLevelSelf_include());
+		ObjectFactory.topLevelSelfValue.getSingletonClass().defineMethod("include", new TopLevelSelf_include());
 	}
 	
 }

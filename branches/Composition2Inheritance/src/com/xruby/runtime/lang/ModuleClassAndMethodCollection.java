@@ -9,26 +9,28 @@ import java.util.Set;
 
 import com.xruby.runtime.value.*;
 
-class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
+abstract class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
+	ModuleClassAndMethodCollection(RubyClass c) {
+		super(c);
+	}
+
 	public RubyModule defineNewModule(String name) {
 		RubyModule m = new RubyModule(name);
 		constants_.put(name, m);//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
 		return m;
 	}
 
-	public RubyValue defineModule(String name) {
+	public RubyModule defineModule(String name) {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
-			v = new RubyModule(name);
-			constants_.put(name, v);
-			return v;
+			return defineNewModule(name);
 		}
 		
-		if (v.getRubyClass() != RubyRuntime.ModuleClass) {
+		if (!(v instanceof RubyModule) || (v instanceof RubyClass)) {
 			throw new RubyException(RubyRuntime.TypeErrorClass, name + " is not a module");
 		}
 		
-		return v;
+		return (RubyModule)v;
 	}
 
 	/// e.g. A::B
@@ -55,8 +57,8 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	}
 
 	private static void throw_type_error_if_not_class_module(RubyValue receiver) {
-		if (receiver.getRubyClass() != RubyRuntime.ClassClass &&
-			receiver.getRubyClass() != RubyRuntime.ModuleClass) {
+		if (!(receiver instanceof RubyClass) &&
+				!(receiver instanceof RubyModule)) {
 			RubyValue v = RubyAPI.callPublicMethod(receiver, null, "to_s");
 			String s = ((RubyString)v).toString();
 			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");

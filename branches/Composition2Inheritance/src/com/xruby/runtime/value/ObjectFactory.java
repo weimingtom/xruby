@@ -11,10 +11,10 @@ import com.xruby.runtime.lang.*;
 
 public class ObjectFactory {
 	
-	public static final RubyValue trueValue = new RubyValue(RubyRuntime.TrueClassClass);
-	public static final RubyValue falseValue = new RubyValue(RubyRuntime.FalseClassClass);
-	public static final RubyValue nilValue = new RubyValue(RubyRuntime.NilClassClass);
-	public static final RubyValue topLevelSelfValue = new RubyValue(RubyRuntime.ObjectClass);
+	public static final RubyValue trueValue = new RubyObject(RubyRuntime.TrueClassClass);
+	public static final RubyValue falseValue = new RubyObject(RubyRuntime.FalseClassClass);
+	public static final RubyValue nilValue = new RubyObject(RubyRuntime.NilClassClass);
+	public static final RubyValue topLevelSelfValue = new RubyObject(RubyRuntime.ObjectClass);
 
 	public static RubyString createString(String value) {
 		return new RubyString(value);

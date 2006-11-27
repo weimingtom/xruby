@@ -122,7 +122,7 @@ public class IOClassBuilder {
 		c.defineMethod("eof", eof);
 		c.defineMethod("eof?", eof);
 		
-		c.defineSingletonMethod("read", new IO_read());
+		c.getSingletonClass().defineMethod("read", new IO_read());
 		
 	}
 }

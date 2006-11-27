@@ -10,6 +10,10 @@ import java.util.Map;
 abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
 
+	ClassAndMethodCollection(RubyClass c) {
+		super(c);
+	}
+
 	public void addNewClass(String name, RubyClass c) {
 		constants_.put(name, c);
 	}
@@ -23,12 +27,12 @@ abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 		return c;
 	}
 
-	private RubyValue defineClass(String name, RubyClass parent) {
+	private RubyClass defineClass(String name, RubyClass parent) {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
-			v = new RubyClass(name, (null == parent) ? RubyRuntime.ObjectClass : parent);
-			constants_.put(name, v);
-			return v;
+			RubyClass c = new RubyClass(name, (null == parent) ? RubyRuntime.ObjectClass : parent);
+			constants_.put(name, c);
+			return c;
 		}
 
 		if (!(v instanceof RubyClass)) {
@@ -44,12 +48,12 @@ abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 		}
 
 		c.setAccessPublic();
-		return v;
+		return c;
 	}
 
 	/// define a new class or get a old one
-	public RubyValue defineClass(String name, RubyValue parent) {
-		if (null != parent && parent.getRubyClass() != RubyRuntime.ClassClass) {
+	public RubyClass defineClass(String name, RubyValue parent) {
+		if (null != parent && !(parent instanceof RubyClass)) {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (" + parent.getRubyClass().getName() + " given)");
 		}
 
@@ -57,11 +61,11 @@ abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 	}
 
 	/// For compile-time recognizable builtin class
-	public RubyValue defineBuiltInClass(RubyValue v, RubyValue parent) {
+	public RubyClass defineBuiltInClass(RubyValue v, RubyValue parent) {
 		RubyClass c = (RubyClass)v;
 
 		if (null != parent) {
-			if (parent.getRubyClass() != RubyRuntime.ClassClass) {
+			if (!(parent instanceof RubyClass)) {
 				throw new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (" + parent.getRubyClass().getName() + " given)");
 			}
 
@@ -71,7 +75,7 @@ abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 		}
 
 		c.setAccessPublic();
-		return v;
+		return c;
 	}
 	
 }

@@ -51,7 +51,7 @@ public class RubyRuntime {
 	public static RubyClass RuntimeErrorClass = GlobalScope.defineNewClass("RuntimeError", StandardErrorClass);
 	public static RubyClass LocalJumpErrorClass = GlobalScope.defineNewClass("LocalJumpError", StandardErrorClass);
 
-	private static boolean builtin_initialized_ = true;
+	private static boolean builtin_initialized_ = false;
 
 	static {
 		ObjectClassBuilder.initialize();
@@ -96,7 +96,7 @@ public class RubyRuntime {
 			}
 		}
 
-		RubyValue.setTopLevelConstant(argv, "ARGV");
+		RubyModule.setTopLevelConstant(argv, "ARGV");
 		
 		TopLevelSelfInitializer.initialize();
 

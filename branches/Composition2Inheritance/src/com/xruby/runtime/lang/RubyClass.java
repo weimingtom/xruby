@@ -15,8 +15,13 @@ public class RubyClass extends RubyModule {
 	private RubyMethod alloc_method_;
 	
 	public RubyClass(String name, RubyClass superclass) {
-		super(RubyRuntime.ClassClass, name);
+		super(name);
 		superclass_ = superclass;
+	}
+	
+	//We called super(null, ...) in RubyModule's constructor to avoid initialization pains 
+	public RubyClass getRubyClass() {
+		return RubyRuntime.ClassClass;
 	}
 	
 	public void defineAllocMethod(RubyMethod m) {

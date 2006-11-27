@@ -27,11 +27,6 @@ public class RubyException extends RuntimeException {
 		return value_;
 	}
 
-	/*FIXME do I need this?
-	public boolean equals(Object obj) {
-		return value_.equals(((RubyException)obj).getRubyValue());
-	}*/
-	
 	//To get a friendly message
 	public String toString() {
 		return value_.toString();

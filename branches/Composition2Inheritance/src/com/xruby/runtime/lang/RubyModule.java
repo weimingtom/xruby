@@ -4,15 +4,15 @@
 
 package com.xruby.runtime.lang;
 
-public class RubyModule extends RubyValue {
+public class RubyModule extends ModuleClassAndMethodCollection {
 
 	public RubyModule(String name) {
-		this(RubyRuntime.ModuleClass, name);
-	}
-	
-	RubyModule(RubyClass c, String name) {
-		super(c);
+		super(null);
 		super.name_ = name;
 	}
-
+	
+	//We called super(null) in RubyModule's constructor to avoid initialization pains 
+	public RubyClass getRubyClass() {
+		return RubyRuntime.ModuleClass;
+	}
 }

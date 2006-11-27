@@ -27,7 +27,7 @@ class Object_alloc extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return new RubyValue((RubyClass)receiver);
+		return new RubyObject((RubyClass)receiver);
 	}
 }
 

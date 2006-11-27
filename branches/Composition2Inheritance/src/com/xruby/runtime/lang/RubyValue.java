@@ -7,9 +7,10 @@ package com.xruby.runtime.lang;
 import java.util.*;
 import com.xruby.runtime.value.*;
 
-public class RubyValue extends ModuleClassAndMethodCollection {
+public abstract class RubyValue {
 
 	private RubyClass class_;
+	private RubySingletonClass singleton_class_ = null;
 	private Map<String, RubyValue> instance_varibles_ = new HashMap<String, RubyValue>();
 
 	public RubyValue(RubyClass c) {
@@ -34,44 +35,39 @@ public class RubyValue extends ModuleClassAndMethodCollection {
 		return class_;
 	}
 	
-	public boolean equals(Object obj) {
-		RubyValue v = (RubyValue)obj;
-		if (class_ != v.getRubyClass()) {
-			return false;
+	public RubyClass getSingletonClass() {
+		if (null == singleton_class_) {
+			singleton_class_ = new RubySingletonClass();
 		}
-		
-		return super.equals(obj);
+		return singleton_class_;
 	}
 	
 	public String toString() {
-		return class_.toString() + super.toString();
+		return getRubyClass().toString() + super.toString();
 	}
 
 	public RubyMethod findPublicMethod(String method_name) {
-		RubyMethod m = super.findOwnMethod(method_name);
+		RubyMethod m = getSingletonClass().findClassMethod(method_name);
 		if (null != m && m.isPublic()) {
 			return m;
 		} else {
-			return class_.findClassPublicMethod(method_name);
+			return getRubyClass().findClassPublicMethod(method_name);
 		}
 	}
 
 	public RubyMethod findMethod(String method_name) {
-		RubyMethod m = super.findOwnMethod(method_name);
+		RubyMethod m = getSingletonClass().findClassMethod(method_name);
 		if (null != m) {
 			return m;
 		} else {
-			return class_.findClassMethod(method_name);
+			return getRubyClass().findClassMethod(method_name);
 		}
 	}
 
 	public void collectMethodNames(RubyArray a) {
-		super.collectOwnMethodNames(a);
-		class_.collectClassMethodNames(a);
+		getSingletonClass().collectOwnMethodNames(a);
+		getRubyClass().collectClassMethodNames(a);
 	}
-	
-	public void defineSingletonMethod(String name, RubyMethod method) {
-		//FIXME
-	}
+
 }
 

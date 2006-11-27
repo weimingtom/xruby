@@ -82,7 +82,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (isInGlobalScope()) {
 			cg_.getMethodGenerator().RubyRuntime_GlobalScope();
 		} else {
-			cg_.getMethodGenerator().loadArg(0);
+			cg_.getMethodGenerator().loadArg(1);
 		}
 
 		if (isBuiltin(className)) {
@@ -96,9 +96,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitClassDefination2(String className) {
 		cg_.getMethodGenerator().RubyModule_defineClass(isBuiltin(className));
 
+		//The class body may refer the constant, so save it before class builder starts.
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(className));
 		
+		cg_.getMethodGenerator().dup();
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
 		cg_.startClassBuilderMethod(method_name_for_class_builder);
@@ -109,6 +111,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitSingletonClassDefination2() {
+		cg_.getMethodGenerator().dup();
+		cg_.getMethodGenerator().RubyValue_getSingletonClass();
+		
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder("SIGLETON");
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
 		cg_.startClassBuilderMethod(method_name_for_class_builder);
@@ -125,6 +130,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(moduleName));
 
+		cg_.getMethodGenerator().dup();
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
 		cg_.startClassBuilderMethod(method_name_for_class_builder);
@@ -138,7 +144,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
 
-		cg_.getMethodGenerator().RubyValue_defineMethod(methodName, uniqueMethodName, is_singleton_method);
+		cg_.getMethodGenerator().RubyModule_defineMethod(methodName, uniqueMethodName, is_singleton_method);
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);

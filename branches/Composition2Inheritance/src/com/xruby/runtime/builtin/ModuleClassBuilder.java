@@ -190,7 +190,7 @@ class Module_include_module extends RubyMethod {
 public class ModuleClassBuilder {
 	
 	public static void initialize() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Module", RubyRuntime.ObjectClass);
+		RubyClass c = RubyRuntime.ModuleClass;
 		c.defineMethod("public", new Module_public());
 		c.defineMethod("protected", new Module_protected());
 		c.defineMethod("private", new Module_private());

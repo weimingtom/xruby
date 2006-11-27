@@ -94,16 +94,16 @@ public class DirClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.DirClass;
 		
-		c.defineSingletonMethod("chdir", new Dir_chdir());
+		c.getSingletonClass().defineMethod("chdir", new Dir_chdir());
 		RubyMethod getwd = new Dir_getwd();
-		c.defineSingletonMethod("getwd", getwd);
-		c.defineSingletonMethod("pwd", getwd);
+		c.getSingletonClass().defineMethod("getwd", getwd);
+		c.getSingletonClass().defineMethod("pwd", getwd);
 		c.defineMethod("mkdir", new Dir_mkdir());
 		RubyMethod rmdir = new Dir_rmdir();
-		c.defineSingletonMethod("rmdir", rmdir);
-		c.defineSingletonMethod("delete", rmdir);
-		c.defineSingletonMethod("unlink", rmdir);
-		c.defineSingletonMethod("entries", new Dir_entries());
+		c.getSingletonClass().defineMethod("rmdir", rmdir);
+		c.getSingletonClass().defineMethod("delete", rmdir);
+		c.getSingletonClass().defineMethod("unlink", rmdir);
+		c.getSingletonClass().defineMethod("entries", new Dir_entries());
 	
 	}
 	

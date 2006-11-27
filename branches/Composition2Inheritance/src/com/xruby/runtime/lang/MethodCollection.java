@@ -10,6 +10,10 @@ import com.xruby.runtime.value.*;
 abstract class MethodCollection extends ClassVariableCollection {
 	private Map<String, RubyMethod> methods_ = new HashMap<String, RubyMethod>();
 	private int current_access_mode_ = RubyMethod.PUBLIC;
+	
+	MethodCollection(RubyClass c) {
+		super(c);
+	}
 
 	protected RubyMethod findOwnMethod(String method_name) {
 		return methods_.get(method_name);
