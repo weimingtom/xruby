@@ -13,7 +13,7 @@ class Symbol_id2name extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String value = (String)receiver.getValue();
+		String value = ((RubySymbol)receiver).toString();
 		return ObjectFactory.createString(value);
 	}
 }
@@ -24,7 +24,7 @@ class Symbol_inspect extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String value = (String)receiver.getValue();
+		String value = ((RubySymbol)receiver).toString();
 		return ObjectFactory.createString(":" + value);
 	}
 }
