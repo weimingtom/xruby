@@ -14,4 +14,8 @@ public class RubyData<T> extends RubyBasic {
 	public T getData() {
 		return value_;
 	}
+	
+	public void setData(T v) {
+		value_ = v;
+	}
 }
