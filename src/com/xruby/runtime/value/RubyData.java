@@ -2,6 +2,11 @@ package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
 
+/**
+ * This is a general purpuse value holder. If you want to wrap up a simple value and 
+ * do not want to create a new subclass of RubyValue, this swiss army knife class is for you. 
+ * 
+ */
 public class RubyData<T> extends RubyBasic {
 	
 	private T value_;
