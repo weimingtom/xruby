@@ -10,6 +10,11 @@ public class GlobalBuilder implements ExtensionBuilder {
 		
 		RubyAPI.defineGlobalMethod("proc", GlobalMethod.lambda, 0);
 		RubyAPI.defineGlobalMethod("lambda", GlobalMethod.lambda, 0);
+		
+		RubyAPI.defineGlobalMethod("puts", GlobalMethod.puts, -1);
+		RubyAPI.defineGlobalMethod("print", GlobalMethod.print, -1);
+		RubyAPI.defineGlobalMethod("p", GlobalMethod.p, -1);
+		
 	}	
 }
 
@@ -45,7 +50,27 @@ class GlobalMethod {
 	public static RubyMethod lambda = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) {
 			return null;
-		}
-		
+		}		
+	};
+	
+	public static RubyMethod puts = new RubyMethod() {
+		protected RubyValue run(RubyValue receiver, RubyArray args,
+				RubyBlock block) {			
+			return RubyIO.puts(GlobalVariables.STDOUT, args);
+		}		
+	};
+	
+	public static RubyMethod print = new RubyMethod() {
+		protected RubyValue run(RubyValue receiver, RubyArray args,
+				RubyBlock block) {			
+			return RubyIO.print(GlobalVariables.STDOUT, args);
+		}		
+	};
+	
+	public static RubyMethod p = new RubyMethod() {
+		protected RubyValue run(RubyValue receiver, RubyArray args,
+				RubyBlock block) {			
+			return RubyIO.p(GlobalVariables.STDOUT, args);
+		}		
 	};
 }

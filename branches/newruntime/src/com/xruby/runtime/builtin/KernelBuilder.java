@@ -1,5 +1,8 @@
 package com.xruby.runtime.builtin;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
@@ -10,7 +13,6 @@ public class KernelBuilder implements ExtensionBuilder {
 		this.kernelModule = RubyAPI.defineModule("Kernel");	
 		this.kernelModule.defineMethod("send", KernelMethod.send, -1);
 		this.kernelModule.defineMethod("__send__", KernelMethod.send, -1);
-		this.kernelModule.defineMethod("print", KernelMethod.print, -1);
 	}
 }
 
@@ -46,34 +48,67 @@ class KernelMethod {
 		}
 	};
 	
-	public static RubyMethod objectClass = new RubyNoArgMethod() {
-		private RubyClass realClass(RubyClass klass) {			
-			while (klass.isSingleton() || klass instanceof RubyIncludeClass) {
-				klass = klass.getSuper();
-			}
-			
-			return (RubyClass)klass;
-		}
-		
-		protected RubyValue run(RubyValue receiver) throws RubyException {
+	public static RubyMethod objectClass = new RubyNoArgMethod() {		
+		protected RubyValue run(RubyValue receiver) {
 			RubyClass klass = receiver.getRubyClass();
-			return realClass(klass);
+			return klass.realClass();
 		} 
+	};
+	
+	public static RubyMethod objectType = new RubyNoArgMethod() {
+		protected RubyValue run(RubyValue receiver) {
+			RubyAPI.warn("Object#type is deprecated; use Object#class");
+			
+			RubyClass klass = receiver.getRubyClass();
+			return klass.realClass();
+		}
+	};
+	
+	public static RubyMethod anyToA = new RubyNoArgMethod() {
+		protected RubyValue run(RubyValue receiver) throws RubyException {
+			RubyAPI.warn("default `to_a' will be obsolete");
+			return new RubyArray(receiver);			
+		}
 	};
 	
 	public static RubyMethod anyToS = new RubyNoArgMethod() {
 		protected RubyValue run(RubyValue receiver) throws RubyException {
-			String name = receiver.getRubyClassName().getString();
-			return ObjectFactory.createString("#<" + name + ":0x" + Integer.toHexString(receiver.hashCode()) + ">");
+			String name = receiver.getRubyClass().getName();
+			return ObjectFactory.createString("#<" + name + ":0x" + Integer.toHexString(receiver.objectAddress()) + ">");
 		}
 	};
 	
 	public static RubyMethod objectInspect = new RubyNoArgMethod() {
+		private Set<RubyValue> inspectSet = null;
+		
+		private Set<RubyValue> getInspectSet(boolean create) {
+			if (this.inspectSet == null) {
+				if (create) {
+					this.inspectSet = new HashSet<RubyValue>();
+				}
+			}
+			
+			return this.inspectSet;
+		}
+		private boolean isInspectable(RubyValue value) {
+			Set<RubyValue> inspectSet = getInspectSet(false);
+			if (inspectSet == null) {
+				return false;
+			}
+			
+			return inspectSet.contains(value);
+		}
 		protected RubyValue run(RubyValue receiver) throws RubyException {
-			if (receiver instanceof RubyObject 
-					&& ((RubyObject)receiver).getIvSize() > 0) {
-				String name = receiver.getRubyClassName().getString();
-				// FIXME: inspect
+			if (receiver instanceof RubyObject) {
+				RubyObject rubyObj = (RubyObject)receiver;
+				if (rubyObj.getIvSize() > 0) {
+					if (isInspectable(receiver)) {
+						String name = receiver.getRubyClass().getName();
+						return ObjectFactory.createString("#<" + name + ":0x" + Integer.toHexString(receiver.objectAddress()) + ">");
+					} else {
+						// FIXME: inspect object iv
+					}
+				}
 			}
 			
 			return receiver.callMethod("to_s");
@@ -162,11 +197,11 @@ class KernelMethod {
 			
 			for (int i = 0; i < args.size(); ++i) {
 				// insert the output field separator($,) if not nil
-				if (i > 0 && GlobalVariables.OUTPUT_FIELD_SEPARATOR != ObjectFactory.nilValue) {
+				if (i > 0 && GlobalVariables.OUTPUT_FIELD_SEPARATOR != RubyConstant.QNIL) {
 					RubyAPI.callPublicMethod(receiver, GlobalVariables.OUTPUT_FIELD_SEPARATOR, "write");
 				}
 				
-				if (args.get(i) == ObjectFactory.nilValue) {
+				if (args.get(i) == RubyConstant.QNIL) {
 					RubyAPI.callPublicMethod(receiver, ObjectFactory.createString("nil"), "write");
 				} else {
 					RubyAPI.callPublicMethod(receiver, args.get(i), "write");
@@ -174,12 +209,11 @@ class KernelMethod {
 			}
 			
 			// if the output record separator($\) is not nil, it will be appended to the output.
-			if ( GlobalVariables.OUTPUT_RECORD_SEPARATOR != ObjectFactory.nilValue) {
+			if ( GlobalVariables.OUTPUT_RECORD_SEPARATOR != RubyConstant.QNIL) {
 				RubyAPI.callPublicMethod(receiver, GlobalVariables.OUTPUT_RECORD_SEPARATOR, "write");
 			}
 
-			return ObjectFactory.nilValue;
+			return RubyConstant.QNIL;
 		}
-	};
-	
+	};	
 }

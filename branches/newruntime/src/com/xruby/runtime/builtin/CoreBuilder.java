@@ -36,7 +36,7 @@ public class CoreBuilder implements ExtensionBuilder {
 		
 		RubyRuntime.kernelModule.defineMethod("eql?", KernelMethod.objectEqual, 1);
 		//RubyRuntime.rbKernelModule.defineMethod("id", new ObjIdObsoleteMethod(), 0);
-		//RubyRuntime.rbKernelModule.defineMethod("type", new ObjTypeMethod(), 0);
+		RubyRuntime.kernelModule.defineMethod("type", KernelMethod.objectType, 0);
 	    RubyRuntime.kernelModule.defineMethod("class", KernelMethod.objectClass, 0);
 		
 		//rb_define_method(rb_mKernel, "clone", rb_obj_clone, 0);
@@ -49,9 +49,10 @@ public class CoreBuilder implements ExtensionBuilder {
 	    rb_define_method(rb_mKernel, "untaint", rb_obj_untaint, 0);
 	    rb_define_method(rb_mKernel, "freeze", rb_obj_freeze, 0);
 	    rb_define_method(rb_mKernel, "frozen?", rb_obj_frozen_p, 0);
-
-	    rb_define_method(rb_mKernel, "to_a", rb_any_to_a, 0); // to be removed
+	    
 	    */
+
+	    RubyRuntime.kernelModule.defineMethod("to_a", KernelMethod.anyToA, 0);
 	    RubyRuntime.kernelModule.defineMethod("to_s", KernelMethod.anyToS, 0);
 	    RubyRuntime.kernelModule.defineMethod("inspect", KernelMethod.objectInspect, 0);
 	    RubyRuntime.kernelModule.defineMethod("methods", KernelMethod.methods, -1);
@@ -63,10 +64,6 @@ public class CoreBuilder implements ExtensionBuilder {
 	    RubyRuntime.kernelModule.defineMethod("private_methods", KernelMethod.privateMethods, -1);
 	    RubyRuntime.kernelModule.defineMethod("private_methods", KernelMethod.publicMethods, -1);
 	    /*
-	    rb_define_method(rb_mKernel, "protected_methods", 
-			     rb_obj_protected_methods, -1);
-	    rb_define_method(rb_mKernel, "private_methods", rb_obj_private_methods, -1);
-	    rb_define_method(rb_mKernel, "public_methods", rb_obj_public_methods, -1);
 	    rb_define_method(rb_mKernel, "instance_variables", 
 			     rb_obj_instance_variables, 0); // in variable.c
 	    rb_define_method(rb_mKernel, "instance_variable_get", rb_obj_ivar_get, 1);
@@ -153,17 +150,6 @@ public class CoreBuilder implements ExtensionBuilder {
 	    rb_define_alloc_func(rb_cClass, rb_class_s_alloc);
 	    rb_undef_method(rb_cClass, "extend_object");
 	    rb_undef_method(rb_cClass, "append_features");
-
-	    rb_cData = rb_define_class("Data", rb_cObject);
-	    rb_undef_alloc_func(rb_cData);
-	    */
-
-	    
-	    /*
-	    id_eq = rb_intern("==");
-	    id_eql = rb_intern("eql?");
-	    id_inspect = rb_intern("inspect");
-	    id_init_copy = rb_intern("initialize_copy");
 	    */
 	}
 }

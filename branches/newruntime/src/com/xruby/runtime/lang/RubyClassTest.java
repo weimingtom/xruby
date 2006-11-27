@@ -6,19 +6,6 @@ import com.xruby.runtime.builtin.CoreBuilder;
 import com.xruby.runtime.value.RubyArray;
 
 public class RubyClassTest extends TestCase {
-	private CoreBuilder builer;
-
-	/*
-	protected void setUp() throws Exception {
-		this.builer = new CoreBuilder();
-		this.builer.initialize();
-	}
-
-	protected void tearDown() throws Exception {
-		this.builer = null;
-	}
-	*/
-	
 	public void testDefineMethod() {
 		RubyClass testClass = RubyAPI.defineClass("TestClass", RubyRuntime.objectClass);
 		testClass.defineMethod("test_method", new NoBlockRubyMethod() {
@@ -33,7 +20,12 @@ public class RubyClassTest extends TestCase {
 	
 	public void testClasName() {
 		RubyClass testClass = RubyAPI.defineClass("TestClass", RubyRuntime.objectClass);
-		assertEquals("TestClass", testClass.getName().getString());
+		assertEquals("TestClass", testClass.getName());
+	}
+	
+	public void testClasspath() {
+		RubyClass testClass = RubyAPI.defineClass("TestClasspathClass", RubyRuntime.objectClass);
+		assertEquals("TestClasspathClass", testClass.getClasspath());
 	}
 	
 	public void testCallMissingMethod() {

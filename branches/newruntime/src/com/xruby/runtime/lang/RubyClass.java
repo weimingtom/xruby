@@ -17,6 +17,11 @@ public abstract class RubyClass extends RubyClassModuleBase {
 		this.setInstanceVariable("__classid__", id.toSymbol());
 	}
 	
+	// inherited class
+	public RubyValue setInheritedClass(RubyClass klass) {
+		return this.callMethod("inherited", klass);
+	}
+	
 	// method invocation	
 	public RubyValue callMethod(RubyValue receiver, RubyID mid, RubyArray args, RubyBlock block) {
 		return invokeMethod(receiver, mid, args, RubyMethodScope.ALL);
@@ -109,12 +114,12 @@ public abstract class RubyClass extends RubyClassModuleBase {
 	
 	private RubyValue methodMissing(RubyValue obj, RubyID id) {
 		if (id == RubyID.ID_ALLOCATOR) {
-			RubyAPI.raise(RubyRuntime.typeError, "allocator undefined for %s", obj.getRubyClassName().getString());
+			RubyAPI.raise(RubyRuntime.typeError, "allocator undefined for %s", obj.getRubyClass().getName());
 		}
 		
 		// FIXME: invoke method missing
 		
-		RubyAPI.raise(RubyRuntime.noMethodError, "undefined method `%s' for %s", StringMap.id2name(id), obj.getRubyClassName());
+		RubyAPI.raise(RubyRuntime.noMethodError, "undefined method `%s' for %s", StringMap.id2name(id), obj.getRubyClass().getName());
 		
 		// unable reach here
 		return null;
