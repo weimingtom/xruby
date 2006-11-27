@@ -48,12 +48,34 @@ public class RubyFixnum extends RubyValue {
 	public RubyString toS(long radix) {
 		return ObjectFactory.createString(Long.toString(this.value, (int)radix));
 	}
+	
+	private static class FixnumCache {
+		private FixnumCache(){}
+		
+		static final RubyFixnum cache[] = new RubyFixnum[-(-128) + 127 + 1];
+		
+		static {
+			for(int i = 0; i < cache.length; i++) {
+				cache[i] = new RubyFixnum(i - 128);
+			}
+		}
+	}
 
 	public static RubyFixnum int2Fix(int i) {
+		final int offset = 128;
+		if (i >= -128 && i <= 127) { // must cache 
+		    return FixnumCache.cache[i + offset];
+		}
+		
 		return new RubyFixnum(i);
 	}
 	
 	public static RubyFixnum long2Fix(long i) {
+		final int offset = 128;
+		if (i >= -128 && i <= 127) { // must cache 
+		    return FixnumCache.cache[(int)i + offset];
+		}
+		
 		return new RubyFixnum(i);
 	}
 }
