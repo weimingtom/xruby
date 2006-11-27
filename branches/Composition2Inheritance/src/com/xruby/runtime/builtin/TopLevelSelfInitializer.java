@@ -16,7 +16,7 @@ class TopLevelSelf_include extends RubyMethod {
 			if (c != RubyRuntime.ModuleClass) {
 				throw new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type " + c.getName() + " (expected Module)");
 			}
-			receiver.getRubyClass().includeModule((RubyModule)v.getValue());
+			receiver.getRubyClass().includeModule((RubyModule)v);
 		}
 		
 		return receiver;
@@ -24,8 +24,8 @@ class TopLevelSelf_include extends RubyMethod {
 }
 
 public class TopLevelSelfInitializer {
-	public static void initSingletonMethods() {
-		ObjectFactory.topLevelSelfValue.defineMethod("include", new TopLevelSelf_include());
+	public static void initialize() {
+		ObjectFactory.topLevelSelfValue.defineSingletonMethod("include", new TopLevelSelf_include());
 	}
 	
 }

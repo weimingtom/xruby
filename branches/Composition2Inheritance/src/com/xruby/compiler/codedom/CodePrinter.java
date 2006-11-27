@@ -192,12 +192,12 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("ClassDefination2\n");
 	}
 
-	public void visitClassDefination3() {
-		result_.append("ClassDefination3\n");
+	public void visitSingletonClassDefination1() {
+		result_.append("visitSingletonClassDefination1\n");
 	}
 
-	public void visitClassDefination4() {
-		result_.append("visitClassDefination4\n");
+	public void visitSingletonClassDefination2() {
+		result_.append("visitSingletonClassDefination2\n");
 	}
 	
 	public void visitModuleDefination(String moduleName) {

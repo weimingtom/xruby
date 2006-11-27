@@ -218,8 +218,8 @@ class Array_new extends RubyMethod {
 
 public class ArrayClassBuilder {
 	
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Array", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.ArrayClass;
 		c.defineMethod("length", new Array_length());
 		c.defineMethod("to_s", new Array_to_s());
 		c.defineMethod("[]", new Array_array_access());
@@ -233,12 +233,10 @@ public class ArrayClassBuilder {
 		c.defineMethod("delete_at", new Array_delete_at());
 		c.defineMethod("include?", new Array_include());
 		c.defineMethod("unshift", new Array_unshift());
-        c.defineMethod("each", new Array_each());
-        c.defineAllocMethod(new Array_new());
+		c.defineMethod("each", new Array_each());
+		c.defineAllocMethod(new Array_new());
 
-        c.includeModule(EnumerableBuilder.create());
-        
-        return c;
+		c.includeModule(RubyRuntime.EnumModule);
 	}
 }
 

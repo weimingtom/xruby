@@ -158,7 +158,7 @@ class Kernel_class extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return ObjectFactory.createClass(receiver.getRubyClass());
+		return receiver.getRubyClass();
 	}
 }
 
@@ -524,8 +524,8 @@ class Kernel_gsub_danger extends String_gsub_danger {
 }
 
 public class KernelModuleBuilder {
-	public static RubyModule create() {
-		RubyModule m = RubyRuntime.GlobalScope.defineNewModule("Kernel");
+	public static void initialize() {
+		RubyModule m = RubyRuntime.KernelModule;
 		m.defineMethod("class", new Kernel_class());
 		m.defineMethod("raise", new Kernel_raise());
 		m.defineMethod("===", new Kernel_operator_case_equal());
@@ -560,6 +560,5 @@ public class KernelModuleBuilder {
 		m.setAccessPublic();
 
 		RubyRuntime.ObjectClass.includeModule(m);
-		return m;
 	}
 }

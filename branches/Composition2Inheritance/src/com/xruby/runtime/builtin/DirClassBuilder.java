@@ -91,21 +91,20 @@ class Dir_entries extends RubyMethod {
 
 
 public class DirClassBuilder {
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Dir", RubyRuntime.ObjectClass);
-		return c;
+	public static void initialize() {
+		RubyClass c = RubyRuntime.DirClass;
+		
+		c.defineSingletonMethod("chdir", new Dir_chdir());
+		RubyMethod getwd = new Dir_getwd();
+		c.defineSingletonMethod("getwd", getwd);
+		c.defineSingletonMethod("pwd", getwd);
+		c.defineMethod("mkdir", new Dir_mkdir());
+		RubyMethod rmdir = new Dir_rmdir();
+		c.defineSingletonMethod("rmdir", rmdir);
+		c.defineSingletonMethod("delete", rmdir);
+		c.defineSingletonMethod("unlink", rmdir);
+		c.defineSingletonMethod("entries", new Dir_entries());
+	
 	}
 	
-	public static void initSingletonMethods() {
-		ObjectFactory.DirClassValue.defineMethod("chdir", new Dir_chdir());
-		RubyMethod getwd = new Dir_getwd();
-		ObjectFactory.DirClassValue.defineMethod("getwd", getwd);
-		ObjectFactory.DirClassValue.defineMethod("pwd", getwd);
-		ObjectFactory.DirClassValue.defineMethod("mkdir", new Dir_mkdir());
-		RubyMethod rmdir = new Dir_rmdir();
-		ObjectFactory.DirClassValue.defineMethod("rmdir", rmdir);
-		ObjectFactory.DirClassValue.defineMethod("delete", rmdir);
-		ObjectFactory.DirClassValue.defineMethod("unlink", rmdir);
-		ObjectFactory.DirClassValue.defineMethod("entries", new Dir_entries());
-	}
 }

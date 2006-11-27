@@ -35,8 +35,8 @@ public abstract class RubyMethod extends MethodBlockBase {
 	protected static String convertToString(RubyValue v) {
 		if (v instanceof RubyString) {
 			return ((RubyString)v).toString();
-		} else if (v.getRubyClass() == RubyRuntime.SymbolClass) {
-			return (String)v.getValue();
+		} else if (v instanceof RubySymbol) {
+			return ((RubySymbol)v).toString();
 		} else {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, inspect(v) + " is not a symbol");
 		}

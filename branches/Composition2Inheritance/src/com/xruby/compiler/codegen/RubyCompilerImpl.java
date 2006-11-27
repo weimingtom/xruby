@@ -82,11 +82,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (isInGlobalScope()) {
 			cg_.getMethodGenerator().RubyRuntime_GlobalScope();
 		} else {
-			cg_.getMethodGenerator().loadArg(1);
+			cg_.getMethodGenerator().loadArg(0);
 		}
 
 		if (isBuiltin(className)) {
-			cg_.getMethodGenerator().ObjectFactory_getBuiltinClass(className);
+			cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(className);
 		} else {
 			cg_.getMethodGenerator().push(className);
 		}
@@ -99,21 +99,16 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(className));
 		
-		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().RubyAPI_convertRubyValue2RubyModule();
-
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
 		cg_.startClassBuilderMethod(method_name_for_class_builder);
 	}
 
-	public void visitClassDefination3() {
+	public void visitSingletonClassDefination1() {
 		cg_.getMethodGenerator().loadThis();
 	}
 
-	public void visitClassDefination4() {
-		cg_.getMethodGenerator().dup();
-
+	public void visitSingletonClassDefination2() {
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder("SIGLETON");
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
 		cg_.startClassBuilderMethod(method_name_for_class_builder);
@@ -130,9 +125,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(moduleName));
 
-		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().RubyAPI_convertRubyValue2RubyModule();
-
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
 		cg_.startClassBuilderMethod(method_name_for_class_builder);
@@ -146,7 +138,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
 
-		cg_.getMethodGenerator().RubyModule_defineMethod(methodName, uniqueMethodName, is_singleton_method);
+		cg_.getMethodGenerator().RubyValue_defineMethod(methodName, uniqueMethodName, is_singleton_method);
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
@@ -513,12 +505,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return new Pair<Integer, Label>(exception_variable, after_exception);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void visitRescueEnd(Object var, Object end_label) {
 		cg_.getMethodGenerator().mark((Label)end_label);
 		Label after_exception = ((Pair<Integer, Label>)var).second;
 		cg_.getMethodGenerator().mark(after_exception);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object visitRescueVariable(String name, Object var) {
 		int exception_variable = ((Pair<Integer, Label>)var).first;
 		
@@ -529,7 +523,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().pop();//hack???
 
 		if (null != name) {
-			cg_.getMethodGenerator().storeRubyExceptionAsRubyValue(exception_variable, name);
+			cg_.getMethodGenerator().loadLocal(exception_variable);
+			cg_.getMethodGenerator().RubyAPI_convertRubyException2RubyValue();
+			cg_.getMethodGenerator().storeVariable(name);
 		}
 
 		return label;
@@ -640,7 +636,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		int value = cg_.getMethodGenerator().saveRubyValueAsLocalVariable();
 
 		if (cg_.isInClassBuilder()) {
-			cg_.getMethodGenerator().loadArg(1);
+			cg_.getMethodGenerator().loadCurrentClass();
 		} else {
 			visitSelfExpression();
 			cg_.getMethodGenerator().RubyValue_getRubyClass();
@@ -741,7 +737,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 
 		if (cg_.isInClassBuilder()) {
-			cg_.getMethodGenerator().loadArg(1);
+			cg_.getMethodGenerator().loadCurrentClass();
 		} else {
 			visitSelfExpression();
 			cg_.getMethodGenerator().RubyValue_getRubyClass();
@@ -757,7 +753,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitTopLevelConstant(String name) {
 		//quick access for builtin
 		if (isBuiltin(name)) {
-			cg_.getMethodGenerator().ObjectFactory_getBuiltinClass(name);
+			cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(name);
 			return;
 		}
 

@@ -15,7 +15,7 @@ public class RubyClass extends RubyModule {
 	private RubyMethod alloc_method_;
 	
 	public RubyClass(String name, RubyClass superclass) {
-		super(name);
+		super(RubyRuntime.ClassClass, name);
 		superclass_ = superclass;
 	}
 	
@@ -45,44 +45,44 @@ public class RubyClass extends RubyModule {
 		}
 	}
 
-	RubyMethod findSuperMethod(String method_name) {
+	RubyMethod findClassSuperMethod(String method_name) {
 		if (null != superclass_){
-			return superclass_.findMethod(method_name);
+			return superclass_.findClassMethod(method_name);
 		}
 		
 		return null;
 	}
 	
-	protected RubyMethod findMethod(String method_name) {
-		RubyMethod m = super.findMethod(method_name);
+	RubyMethod findClassMethod(String method_name) {
+		RubyMethod m = super.findOwnMethod(method_name);
 		if (null != m) {
 			return m;
 		} 
 		
 		if (null != superclass_){
-			return superclass_.findMethod(method_name);
+			return superclass_.findClassMethod(method_name);
 		}
 		
 		return null;
 	}
 	
-	protected RubyMethod findPublicMethod(String method_name) {
-		RubyMethod m = super.findPublicMethod(method_name);
+	RubyMethod findClassPublicMethod(String method_name) {
+		RubyMethod m = super.findOwnPublicMethod(method_name);
 		if (null != m) {
 			return m;
 		}
 		
 		if (null != superclass_){
-			return superclass_.findPublicMethod(method_name);
+			return superclass_.findClassPublicMethod(method_name);
 		}
 		
 		return null;
 	}
 
-	void collectMethodNames(RubyArray a) {
-		super.collectMethodNames(a);
+	void collectClassMethodNames(RubyArray a) {
+		super.collectOwnMethodNames(a);
 		if (null != superclass_){
-			superclass_.collectMethodNames(a);
+			superclass_.collectClassMethodNames(a);
 		}
 	}
 }

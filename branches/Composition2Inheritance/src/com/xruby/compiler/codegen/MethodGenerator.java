@@ -53,13 +53,6 @@ class MethodGenerator extends GeneratorAdapter {
 		pop();
 	}
 
-	public void storeRubyExceptionAsRubyValue(int exception_variable, String name) {
-		loadLocal(exception_variable);
-		invokeVirtual(Type.getType(RubyException.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue getRubyValue()"));
-		storeVariable(name);
-	}
-
 	public void storeBlockForFutureRestoreAndCheckReturned() {
 		dup();
 		int i = symbol_table_.getLocalVariable("block$");
@@ -326,10 +319,10 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 	}
 
-	public void ObjectFactory_getBuiltinClass(String className) {
-		getStatic(Type.getType(ObjectFactory.class),
-					className + "ClassValue",
-					Type.getType(Types.RubyValueClass));
+	public void RubyRuntime_getBuiltinClass(String className) {
+		getStatic(Type.getType(RubyRuntime.class),
+					className + "Class",
+					Type.getType(Types.RubyClassClass));
 	}
 	
 	public void ObjectFactory_createFloat(double value) {
@@ -378,7 +371,7 @@ class MethodGenerator extends GeneratorAdapter {
 	public void ObjectFactory_createSymbol(String value) {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createSymbol(String)"));
+                Method.getMethod("com.xruby.runtime.value.RubySymbol createSymbol(String)"));
 	}
 	
 	public void ObjectFactory_nilValue() {
@@ -540,9 +533,9 @@ class MethodGenerator extends GeneratorAdapter {
 			Method.getMethod("com.xruby.runtime.lang.RubyBlock convertRubyValue2RubyBlock(com.xruby.runtime.lang.RubyValue)"));
 	}
 
-	public void RubyAPI_convertRubyValue2RubyModule() {
+	public void RubyAPI_convertRubyException2RubyValue() {
 		invokeStatic(Type.getType(RubyAPI.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyModule convertRubyValue2RubyModule(com.xruby.runtime.lang.RubyValue)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyValue convertRubyException2RubyValue(com.xruby.runtime.lang.RubyException)"));
 	}
 	
 	public void RubyModule_defineClass(boolean isBuiltin) {
@@ -602,20 +595,6 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue setClassVariable(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 	
-	public void RubyModule_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
-		if (!is_singleton_method) {
-			if (!loadCurrentClass()) {
-				dup();
-				invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPrivate()"));	
-			}
-		}
-		
-		push(methodName);
-		new_MethodClass(uniqueMethodName);
-		invokeVirtual(Type.getType(RubyModule.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
-	}
-	
 	public void RubyModule_aliasMethod(String newName, String oldName) {
 		loadCurrentClass();
 		push(newName);
@@ -668,6 +647,20 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(Types.RubyValueClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, String)"));
 	}
+
+	public void RubyValue_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
+		if (!is_singleton_method) {
+			if (!loadCurrentClass()) {
+				dup();				
+				invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPrivate()"));
+			}
+		}
+		
+		push(methodName);
+		new_MethodClass(uniqueMethodName);
+		invokeVirtual(Type.getType(RubyValue.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
+	}
 }
 
 class MethodGeneratorForClassBuilder extends MethodGenerator {
@@ -676,7 +669,7 @@ class MethodGeneratorForClassBuilder extends MethodGenerator {
 	}
 
 	public boolean loadCurrentClass() {
-		loadArg(1);
+		loadArg(0);
 		return true;
 	}
 }

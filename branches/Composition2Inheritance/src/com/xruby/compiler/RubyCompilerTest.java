@@ -110,7 +110,7 @@ public class RubyCompilerTest extends TestCase {
 		} catch (RubyException e) {
 			RubyValue v = e.getRubyValue();
 			assertEquals(v.getRubyClass(), RubyRuntime.RuntimeErrorClass);
-			String s = (String)v.getValue();
+			String s = v.toString();
 			assertEquals("test", s);
 			return;
 		}
@@ -2880,7 +2880,7 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_class_left_shift() {
 		String [] program_texts = {
 				"a = \"\"\n" +

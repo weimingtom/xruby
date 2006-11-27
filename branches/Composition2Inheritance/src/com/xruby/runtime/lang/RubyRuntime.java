@@ -12,34 +12,34 @@ public class RubyRuntime {
 	//For performance reason we provide direct access(static public field) for most builtin types.
 	//Note: order is important: should creare parent classes first!
 	public static RubyModule GlobalScope = new RubyModule(null);
-	public static RubyClass ObjectClass = ObjectClassBuilder.create();
-	public static RubyClass ModuleClass = ModuleClassBuilder.create();
-	public static RubyClass ClassClass = ClassClassBuilder.create();
-	public static RubyModule KernelModule = KernelModuleBuilder.create();
-	public static RubyClass NilClassClass = NilClassBuilder.create();
-	public static RubyClass TrueClassClass = TrueClassBuilder.create();
-	public static RubyClass FalseClassClass = FalseClassBuilder.create();
-	public static RubyClass NumericClass = NumericClassBuilder.create();
-	public static RubyClass IntegerClass = IntegerClassBuilder.create();
-	public static RubyClass FixnumClass = FixnumClassBuilder.create();
-	public static RubyClass BignumClass = BignumClassBuilder.create();
-	public static RubyClass StringClass = StringClassBuilder.create();
-	public static RubyClass FloatClass = FloatClassBuilder.create();
-	public static RubyClass ArrayClass = ArrayClassBuilder.create();
-	public static RubyClass HashClass = HashClassBuilder.create();
-	public static RubyClass SymbolClass = SymbolClassBuilder.create();
-	public static RubyClass IOClass = IOClassBuilder.create();
-	public static RubyClass ProcClass = ProcClassBuilder.create();
-	public static RubyClass RangeClass = RangeClassBuilder.create();
-	public static RubyClass RegexpClass = RegexpClassBuilder.create();
-	public static RubyClass FileClass = FileClassBuilder.create();
-	public static RubyClass MethodClass = MethodClassBuilder.create();
-	public static RubyClass TimeClass = TimeClassBuilder.create();
-	public static RubyClass MatchDataClass = MatchDataClassBuilder.create();
-	public static RubyClass DirClass = DirClassBuilder.create();
-
-	public static RubyClass ExceptionClass = ExceptionClassBuilder.create();
-
+	public static RubyClass ObjectClass = GlobalScope.defineNewClass("Object", null);
+	public static RubyClass ModuleClass = GlobalScope.defineNewClass("Module", RubyRuntime.ObjectClass);
+	public static RubyClass ClassClass = GlobalScope.defineNewClass("Class", RubyRuntime.ModuleClass);
+	public static RubyModule KernelModule = GlobalScope.defineNewModule("Kernel");
+	public static RubyModule EnumModule = GlobalScope.defineNewModule("Enumerable");
+	public static RubyClass NilClassClass = GlobalScope.defineNewClass("NilClass", RubyRuntime.ObjectClass);
+	public static RubyClass TrueClassClass = GlobalScope.defineNewClass("TrueClass", RubyRuntime.ObjectClass);
+	public static RubyClass FalseClassClass = GlobalScope.defineNewClass("FalseClass", RubyRuntime.ObjectClass);
+	public static RubyClass NumericClass = GlobalScope.defineNewClass("Numeric", RubyRuntime.ObjectClass);
+	public static RubyClass IntegerClass = GlobalScope.defineNewClass("Integer", RubyRuntime.NumericClass);
+	public static RubyClass FixnumClass = GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
+	public static RubyClass BignumClass = GlobalScope.defineNewClass("Bignum", RubyRuntime.IntegerClass);
+	public static RubyClass StringClass = GlobalScope.defineNewClass("String", RubyRuntime.ObjectClass);
+	public static RubyClass FloatClass = GlobalScope.defineNewClass("Float", RubyRuntime.NumericClass);
+	public static RubyClass ArrayClass = GlobalScope.defineNewClass("Array", RubyRuntime.ObjectClass);
+	public static RubyClass HashClass = GlobalScope.defineNewClass("Hash", RubyRuntime.ObjectClass);
+	public static RubyClass SymbolClass = GlobalScope.defineNewClass("Symbol", RubyRuntime.ObjectClass);
+	public static RubyClass IOClass = GlobalScope.defineNewClass("IO", RubyRuntime.ObjectClass);
+	public static RubyClass ProcClass = GlobalScope.defineNewClass("Proc", RubyRuntime.ObjectClass);
+	public static RubyClass RangeClass = GlobalScope.defineNewClass("Range", RubyRuntime.ObjectClass);
+	public static RubyClass RegexpClass = GlobalScope.defineNewClass("Regexp", RubyRuntime.ObjectClass);
+	public static RubyClass FileClass = GlobalScope.defineNewClass("File", RubyRuntime.IOClass);
+	public static RubyClass MethodClass = GlobalScope.defineNewClass("Method", RubyRuntime.ObjectClass);
+	public static RubyClass TimeClass = GlobalScope.defineNewClass("Time", RubyRuntime.ObjectClass);
+	public static RubyClass MatchDataClass = GlobalScope.defineNewClass("MatchData", RubyRuntime.ObjectClass);
+	public static RubyClass DirClass = GlobalScope.defineNewClass("Dir", RubyRuntime.ObjectClass);
+	
+	public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", RubyRuntime.ObjectClass);
 	public static RubyClass StandardErrorClass = GlobalScope.defineNewClass("StandardError", ExceptionClass);
 	public static RubyClass TypeErrorClass = GlobalScope.defineNewClass("TypeError", StandardErrorClass);
 	public static RubyClass ArgumentErrorClass = GlobalScope.defineNewClass("ArgumentError", StandardErrorClass);
@@ -48,17 +48,41 @@ public class RubyRuntime {
 	public static RubyClass NameErrorClass = GlobalScope.defineNewClass("NameError", StandardErrorClass);
 	public static RubyClass NoMethodErrorClass = GlobalScope.defineNewClass("NoMethodError", NameErrorClass);
 	public static RubyClass IOErrorClass = GlobalScope.defineNewClass("IOError", StandardErrorClass);
-
 	public static RubyClass RuntimeErrorClass = GlobalScope.defineNewClass("RuntimeError", StandardErrorClass);
 	public static RubyClass LocalJumpErrorClass = GlobalScope.defineNewClass("LocalJumpError", StandardErrorClass);
 
-    public static RubyModule EnumModule = EnumerableBuilder.create();
+	private static boolean builtin_initialized_ = true;
 
-    private static boolean builtin_initialized_ = false;
-    
-    public static void initBuiltin(){
-    	initBuiltin(null);
-    }
+	static {
+		ObjectClassBuilder.initialize();
+		ModuleClassBuilder.initialize();
+		ClassClassBuilder.initialize();
+		KernelModuleBuilder.initialize();
+		EnumerableBuilder.initialize();
+		NumericClassBuilder.initialize();
+		IntegerClassBuilder.initialize();
+		FixnumClassBuilder.initialize();
+		BignumClassBuilder.initialize();
+		StringClassBuilder.initialize();
+		FloatClassBuilder.initialize();
+		ArrayClassBuilder.initialize();
+		HashClassBuilder.initialize();
+		SymbolClassBuilder.initialize();
+		IOClassBuilder.initialize();
+		ProcClassBuilder.initialize();
+		RangeClassBuilder.initialize();
+		RegexpClassBuilder.initialize();
+		FileClassBuilder.initialize();
+		MethodClassBuilder.initialize();
+		TimeClassBuilder.initialize();
+		MatchDataClassBuilder.initialize();
+		DirClassBuilder.initialize();
+		ExceptionClassBuilder.initialize();
+	}
+	
+	public static void initBuiltin(){
+		initBuiltin(null);
+	}
 
 	public static void initBuiltin(String[] args) {
 		if (builtin_initialized_) {
@@ -73,12 +97,8 @@ public class RubyRuntime {
 		}
 
 		RubyValue.setTopLevelConstant(argv, "ARGV");
-
-		TopLevelSelfInitializer.initSingletonMethods();
-		TimeClassBuilder.initSingletonMethods();
-		IOClassBuilder.initSingletonMethods();
-		FileClassBuilder.initSingletonMethods();
-		DirClassBuilder.initSingletonMethods();
+		
+		TopLevelSelfInitializer.initialize();
 
 		try {
 			Class c = Class.forName("builtin.main");

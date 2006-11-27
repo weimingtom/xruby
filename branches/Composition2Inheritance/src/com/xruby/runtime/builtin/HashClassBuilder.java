@@ -121,8 +121,8 @@ class Hash_new extends RubyMethod {
 
 public class HashClassBuilder {
 
-    public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Hash", RubyRuntime.ObjectClass);
+    public static void initialize() {
+		RubyClass c = RubyRuntime.HashClass;
 		c.defineMethod("length", new Hash_length());
 		c.defineMethod("[]", new Hash_hash_access());
 		c.defineMethod("[]=", new Hash_hash_set());
@@ -131,8 +131,6 @@ public class HashClassBuilder {
 		c.defineMethod("initialize", new Hash_initialize());
 		c.defineAllocMethod(new Hash_new());
 
-		c.includeModule(EnumerableBuilder.create());
-
-		return c;
+		c.includeModule(RubyRuntime.EnumModule);
 	}
 }

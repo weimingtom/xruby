@@ -12,14 +12,14 @@ class MethodCollectionWithMixin extends MethodCollection {
 		}
 	}
 
-	protected RubyMethod findMethod(String method_name) {
-		RubyMethod m = super.findMethod(method_name);
+	protected RubyMethod findOwnMethod(String method_name) {
+		RubyMethod m = super.findOwnMethod(method_name);
 		if (null != m) {
 			return m;
 		}
 		
 		for (RubyModule module : mixins_) {
-			m = module.findMethod(method_name);
+			m = module.findOwnMethod(method_name);
 			if (null != m) {
 				return m;
 			}
@@ -28,14 +28,14 @@ class MethodCollectionWithMixin extends MethodCollection {
 		return null;
 	}
 
-	protected RubyMethod findPublicMethod(String method_name) {
-		RubyMethod m = super.findMethod(method_name);
+	protected RubyMethod findOwnPublicMethod(String method_name) {
+		RubyMethod m = super.findOwnMethod(method_name);
 		if (null != m && m.isPublic()) {
 			return m;
 		}
 		
 		for (RubyModule module : mixins_) {
-			m = module.findMethod(method_name);
+			m = module.findOwnMethod(method_name);
 			if (null != m && m.isPublic()) {
 				return m;
 			}
@@ -44,10 +44,10 @@ class MethodCollectionWithMixin extends MethodCollection {
 		return null;
 	}
 
-	void collectMethodNames(RubyArray a) {
-		super.collectMethodNames(a);
+	void collectOwnMethodNames(RubyArray a) {
+		super.collectOwnMethodNames(a);
 		for (RubyModule module : mixins_) {
-			module.collectMethodNames(a);
+			module.collectOwnMethodNames(a);
 		}
 	}
 

@@ -11,11 +11,11 @@ abstract class MethodCollection extends ClassVariableCollection {
 	private Map<String, RubyMethod> methods_ = new HashMap<String, RubyMethod>();
 	private int current_access_mode_ = RubyMethod.PUBLIC;
 
-	protected RubyMethod findMethod(String method_name) {
+	protected RubyMethod findOwnMethod(String method_name) {
 		return methods_.get(method_name);
 	}
 
-	protected RubyMethod findPublicMethod(String method_name) {
+	protected RubyMethod findOwnPublicMethod(String method_name) {
 		RubyMethod m = methods_.get(method_name);
 		if (null != m && m.isPublic()) {
 			return m;
@@ -24,7 +24,7 @@ abstract class MethodCollection extends ClassVariableCollection {
 		return null;
 	}
 
-	void collectMethodNames(RubyArray a) {
+	void collectOwnMethodNames(RubyArray a) {
 		for (String s : methods_.keySet()) {
 			a.add(ObjectFactory.createString(s));
 		}
@@ -64,7 +64,7 @@ abstract class MethodCollection extends ClassVariableCollection {
 	}
 
 	public RubyMethod setAccess(String method_name, int access) {
-		RubyMethod m = findMethod(method_name);
+		RubyMethod m = findOwnMethod(method_name);
 		if (null != m) {
 			m.setAccess(access);
 		} 

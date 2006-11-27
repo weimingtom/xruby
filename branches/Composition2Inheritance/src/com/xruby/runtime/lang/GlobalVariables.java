@@ -40,7 +40,7 @@ public class GlobalVariables {
 	
 	private static ConcurrentHashMap<String, RubyValue> values_ = new ConcurrentHashMap<String, RubyValue>();
 	
-	public static RubyValue STDOUT = new RubyValue(RubyRuntime.IOClass, null);
+	public static RubyValue STDOUT = new RubyValue(RubyRuntime.IOClass);
 	public static RubyValue LAST_READ_LINE = ObjectFactory.nilValue;
 	public static RubyValue OUTPUT_FIELD_SEPARATOR = ObjectFactory.nilValue;
 	public static RubyValue OUTPUT_RECORD_SEPARATOR = ObjectFactory.nilValue;

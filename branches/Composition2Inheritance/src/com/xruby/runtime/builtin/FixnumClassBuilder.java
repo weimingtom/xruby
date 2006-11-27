@@ -573,8 +573,8 @@ class Fixnum_to_s extends RubyMethod {
 }
 
 public class FixnumClassBuilder {
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.FixnumClass;
 		c.defineMethod(">>", new Fixnum_operator_right_shift());
 		c.defineMethod("<<", new Fixnum_operator_left_shift());
 		c.defineMethod("==", new Fixnum_operator_equal());
@@ -597,6 +597,5 @@ public class FixnumClassBuilder {
 		c.defineMethod("to_f", new Fixnum_to_f());
 		c.defineMethod("**", new Fixnum_operator_star_star());
 		c.defineMethod("~", new Fixnum_operator_bnot());
-		return c;
 	}
 }

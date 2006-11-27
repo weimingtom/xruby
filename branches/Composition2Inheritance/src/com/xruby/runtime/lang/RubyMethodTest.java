@@ -12,16 +12,13 @@ import com.xruby.runtime.value.*;
 import junit.framework.TestCase;
 
 
-class f extends RubyMethod
-{
+class f extends RubyMethod {
 
-    public f()
-    {
+    public f() {
         super(0);
     }
 
-    public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block)
-    {
+    public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         return RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
         					new RubyArray(ObjectFactory.createString("hello")),
         					block,

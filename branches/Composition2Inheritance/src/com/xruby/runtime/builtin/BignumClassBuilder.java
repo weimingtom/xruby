@@ -279,8 +279,8 @@ class Bignum_operator_star_star extends RubyMethod {
 }
 
 public class BignumClassBuilder {
-	public static RubyClass create(){
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Bignum", RubyRuntime.IntegerClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.BignumClass;
 		c.defineMethod("to_s", new Bignum_to_s());
 		c.defineMethod("*", new Bignum_operator_star());
 		c.defineMethod("/", new Bignum_operator_divide());
@@ -299,6 +299,5 @@ public class BignumClassBuilder {
 		c.defineMethod("[]",  new Bignum_get_bit());
 		c.defineMethod("**",  new Bignum_operator_star_star());
 		c.defineMethod("initialize",  new Bignum_initialize());
-		return c;
 	}
 }

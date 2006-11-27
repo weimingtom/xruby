@@ -77,12 +77,11 @@ class Regexp_new extends RubyMethod {
 }
 
 public class RegexpClassBuilder {
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Regexp", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.RegexpClass;
 		c.defineMethod("===", new Regexp_case_equal());
 		c.defineMethod("match", new Regexp_match());
 		c.defineMethod("=~", new Regexp_match_operator());
 		c.defineAllocMethod(new Regexp_new());
-		return c;
 	}
 }

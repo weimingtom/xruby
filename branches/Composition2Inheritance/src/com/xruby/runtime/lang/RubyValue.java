@@ -7,16 +7,13 @@ package com.xruby.runtime.lang;
 import java.util.*;
 import com.xruby.runtime.value.*;
 
-public class RubyValue extends RubyModule {
+public class RubyValue extends ModuleClassAndMethodCollection {
 
 	private RubyClass class_;
-	private Object value_ = null;
 	private Map<String, RubyValue> instance_varibles_ = new HashMap<String, RubyValue>();
 
-	public RubyValue(RubyClass c, Object value) {
-		super(null);
+	public RubyValue(RubyClass c) {
 		class_ = c;
-		value_ = value;
 	}
 	
 	public RubyValue getInstanceVariable(String name) {
@@ -33,14 +30,6 @@ public class RubyValue extends RubyModule {
 		return value;
 	}
 
-	public Object getValue() {
-		return value_;
-	}
-	
-	public void setValue(Object value) {
-		value_ = value;
-	}
-
 	public RubyClass getRubyClass() {
 		return class_;
 	}
@@ -51,38 +40,38 @@ public class RubyValue extends RubyModule {
 			return false;
 		}
 		
-		if (null == value_) {
-			return (null == v.getValue());
-		} else {
-			return value_.equals(v.getValue());
-		}
+		return super.equals(obj);
 	}
 	
 	public String toString() {
-		return class_.toString() + value_.toString();
+		return class_.toString() + super.toString();
 	}
 
 	public RubyMethod findPublicMethod(String method_name) {
-		RubyMethod m = super.findMethod(method_name);
+		RubyMethod m = super.findOwnMethod(method_name);
 		if (null != m && m.isPublic()) {
 			return m;
 		} else {
-			return class_.findPublicMethod(method_name);
+			return class_.findClassPublicMethod(method_name);
 		}
 	}
 
 	public RubyMethod findMethod(String method_name) {
-		RubyMethod m = super.findMethod(method_name);
+		RubyMethod m = super.findOwnMethod(method_name);
 		if (null != m) {
 			return m;
 		} else {
-			return class_.findMethod(method_name);
+			return class_.findClassMethod(method_name);
 		}
 	}
 
 	public void collectMethodNames(RubyArray a) {
-		super.collectMethodNames(a);
-		class_.collectMethodNames(a);
+		super.collectOwnMethodNames(a);
+		class_.collectClassMethodNames(a);
+	}
+	
+	public void defineSingletonMethod(String name, RubyMethod method) {
+		//FIXME
 	}
 }
 

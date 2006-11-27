@@ -112,9 +112,8 @@ class IO_read extends RubyMethod {
 
 public class IOClassBuilder {
 
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("IO",
-				RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.IOClass;
 		c.defineMethod("write", new IO_write());
 		c.defineMethod("print", new IO_print());
 		c.defineMethod("gets", new IO_gets());
@@ -122,10 +121,8 @@ public class IOClassBuilder {
 		RubyMethod eof = new IO_eof();
 		c.defineMethod("eof", eof);
 		c.defineMethod("eof?", eof);
-		return c;
-	}
-	
-	public static void initSingletonMethods() {
-		ObjectFactory.IOClassValue.defineMethod("read", new IO_read());
+		
+		c.defineSingletonMethod("read", new IO_read());
+		
 	}
 }

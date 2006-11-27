@@ -15,10 +15,8 @@ class MatchData_to_s extends RubyMethod {
 }
 
 public class MatchDataClassBuilder {
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("MatchData",
-				RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.MatchDataClass;
 		c.defineMethod("to_s", new MatchData_to_s());
-		return c;
 	}
 }

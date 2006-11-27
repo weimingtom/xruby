@@ -31,10 +31,9 @@ class Symbol_inspect extends RubyMethod {
 
 public class SymbolClassBuilder {
 	
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Symbol", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.SymbolClass;
 		c.defineMethod("id2name", new Symbol_id2name());
 		c.defineMethod("inspect", new Symbol_inspect());
-		return c;
 	}
 }

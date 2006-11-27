@@ -27,12 +27,12 @@ class Method_to_s extends RubyMethod {
 
 public class MethodClassBuilder {
 	
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Method", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.MethodClass;
 		c.defineMethod("call", new Method_call());
 		RubyMethod to_s = new Method_to_s();
 		c.defineMethod("to_s", to_s);
 		c.defineMethod("inspect", to_s);
-		return c;
+		
 	}
 }

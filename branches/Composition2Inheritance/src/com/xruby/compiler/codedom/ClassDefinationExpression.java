@@ -35,9 +35,9 @@ public class ClassDefinationExpression extends Expression {
 			}
 			visitor.visitClassDefination2(className_);
 		} else {
-			visitor.visitClassDefination3();
+			visitor.visitSingletonClassDefination1();
 			exp_.accept(visitor);
-			visitor.visitClassDefination4();
+			visitor.visitSingletonClassDefination2();
 		}
 		
 		if (null != bodyStatement_) {

@@ -172,22 +172,21 @@ class File_open extends RubyMethod {
 
 public class FileClassBuilder {
 
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("File", RubyRuntime.IOClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.FileClass;
 		//c.defineMethod("id2name", new Symbol_id2name());
-		return c;
+		
+		c.defineSingletonMethod("file?", new File_file_question());
+		c.defineSingletonMethod("expand_path", new File_expand_path());
+		c.defineSingletonMethod("dirname", new File_dirname());
+		c.defineSingletonMethod("delete", new File_delete());
+		c.defineSingletonMethod("basename", new File_basename());
+		c.defineSingletonMethod("separator", new File_separator());
+		c.defineSingletonMethod("mtime", new File_mtime());
+		c.defineSingletonMethod("size", new File_size());
+		c.defineSingletonMethod("open", new File_open());
+		c.defineSingletonMethod("rename", new File_rename());
+		
 	}
-	
-	public static void initSingletonMethods() {
-		ObjectFactory.FileClassValue.defineMethod("file?", new File_file_question());
-		ObjectFactory.FileClassValue.defineMethod("expand_path", new File_expand_path());
-		ObjectFactory.FileClassValue.defineMethod("dirname", new File_dirname());
-		ObjectFactory.FileClassValue.defineMethod("delete", new File_delete());
-		ObjectFactory.FileClassValue.defineMethod("basename", new File_basename());
-		ObjectFactory.FileClassValue.defineMethod("separator", new File_separator());
-		ObjectFactory.FileClassValue.defineMethod("mtime", new File_mtime());
-		ObjectFactory.FileClassValue.defineMethod("size", new File_size());
-		ObjectFactory.FileClassValue.defineMethod("open", new File_open());
-		ObjectFactory.FileClassValue.defineMethod("rename", new File_rename());
-	}
+
 }

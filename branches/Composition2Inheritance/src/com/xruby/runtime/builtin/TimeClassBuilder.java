@@ -123,8 +123,8 @@ class Time_operator_compare extends RubyMethod {
 }
 
 public class TimeClassBuilder {
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Time", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.TimeClass;
 		c.defineMethod("to_f", new Time_to_f());
 		c.defineMethod("to_i", new Time_to_i());
 		c.defineMethod("to_s", new Time_to_s());
@@ -132,13 +132,10 @@ public class TimeClassBuilder {
 		c.defineMethod("-", new Time_minus());
 		c.defineMethod("<=>", new Time_operator_compare());
 		c.defineAllocMethod(new Time_new());
-		return c;
-	}
-
-	//Do not call this method in create(), otherwise it will cause initialization probelem.
-	public static void initSingletonMethods() {
-		ObjectFactory.TimeClassValue.defineMethod("now", ClassClassBuilder.class_new_);
-		ObjectFactory.TimeClassValue.defineMethod("at", new Time_at());
+		
+		c.defineSingletonMethod("now", ClassClassBuilder.class_new_);
+		c.defineSingletonMethod("at", new Time_at());
+		
 	}
 }
 

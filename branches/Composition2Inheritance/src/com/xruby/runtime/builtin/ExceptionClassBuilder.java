@@ -9,15 +9,14 @@ class Exception_to_s extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String value = (String)receiver.getValue();
+		String value = receiver.toString();
 		return ObjectFactory.createString(value);
 	}
 }
 
 public class ExceptionClassBuilder {
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Exception", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.ExceptionClass;
 		c.defineMethod("to_s", new Exception_to_s());
-		return c;
 	}
 }

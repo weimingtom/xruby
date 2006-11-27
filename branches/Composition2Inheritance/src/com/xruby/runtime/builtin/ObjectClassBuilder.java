@@ -27,16 +27,15 @@ class Object_alloc extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return new RubyValue((RubyClass)receiver.getValue(), null);
+		return new RubyValue((RubyClass)receiver);
 	}
 }
 
 public class ObjectClassBuilder {
 	
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Object", null);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.ObjectClass;
 		c.defineMethod("==", new Object_operator_equal());
 		c.defineAllocMethod(new Object_alloc());
-		return c;
 	}
 }

@@ -69,8 +69,8 @@ class Range_new extends RubyMethod {
 
 public class RangeClassBuilder {
 	
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Range", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.RangeClass;
 		//c.defineMethod("===", new Range_case_equal());
 		//c.defineMethod("to_s", new Range_to_s());
 		c.defineMethod("begin", new Range_begin());
@@ -78,6 +78,5 @@ public class RangeClassBuilder {
 		c.defineMethod("exclude_end?", new Range_exclude_end());
 		c.defineMethod("initialize", new Range_initialize());
 		c.defineAllocMethod(new Range_new());
-		return c;
 	}
 }

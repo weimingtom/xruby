@@ -191,17 +191,6 @@ class String_new extends RubyMethod {
 	}
 }
 
-class String_initialize_copy extends RubyMethod {
-	public String_initialize_copy() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		receiver.setValue(args.get(0).getValue());
-		return receiver;
-	}
-}
-
 class String_plus extends RubyMethod {
 	public String_plus() {
 		super(1);
@@ -310,8 +299,8 @@ class String_operator_compare extends RubyMethod {
 
 
 public class StringClassBuilder {
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("String", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.StringClass;
 		c.defineMethod("capitalize", new String_capitalize());
 		c.defineMethod("==", new String_operator_equal());
 		c.defineMethod("upcase!", new String_upcase_danger());
@@ -321,9 +310,9 @@ public class StringClassBuilder {
 		c.defineMethod("to_f", new String_to_f());
 		c.defineMethod("to_i", new String_to_i());
 		c.defineMethod("to_s", new String_to_s());
-        c.defineMethod("length", new String_length());
+		c.defineMethod("length", new String_length());
 		c.defineMethod("downcase!", new String_downcase_danger());
-		c.defineMethod("initialize_copy", new String_initialize_copy());
+		c.defineMethod("initialize_copy", new String_initialize());
 		c.defineMethod("initialize", new String_initialize());
 		c.defineMethod("+", new String_plus());
 		c.defineMethod("gsub", new String_gsub());
@@ -331,7 +320,6 @@ public class StringClassBuilder {
 		c.defineMethod("split", new String_split());
 		c.defineMethod("<=>", new String_operator_compare());
 		c.defineAllocMethod(new String_new());
-		return c;
 	}
 }
 

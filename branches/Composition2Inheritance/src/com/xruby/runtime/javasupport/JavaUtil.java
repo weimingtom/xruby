@@ -1,11 +1,7 @@
 package com.xruby.runtime.javasupport;
 
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyBignum;
-import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.value.*;
+import com.xruby.runtime.lang.*;
 
 /**
  * Helper class for Java Runtime
@@ -33,7 +29,8 @@ public class JavaUtil {
         return null;  
     }
 
-    public static Object convertToJavaValue(RubyValue value) {
+    @SuppressWarnings("unchecked")
+	public static Object convertToJavaValue(RubyValue value) {
         RubyClass clazz = value.getRubyClass();
         String className = clazz.getName();
 
@@ -41,7 +38,7 @@ public class JavaUtil {
             return convertToJavaValue(className, value);   
         }
         else {
-            return value.getValue();
+            return ((RubyData<Object>)value).getData();
         }
     }
 
@@ -89,18 +86,19 @@ public class JavaUtil {
                 name.equals("Dir");
     }
 
-    private static Object convertToJavaValue(String className, RubyValue value) {
+    @SuppressWarnings("unchecked")
+	private static Object convertToJavaValue(String className, RubyValue value) {
         if (className.equals(RCLASS_STRING)) {
-            return value.getValue().toString();
+            return ((RubyString)value).toString();
         }
         else if (className.equals(RCLASS_FIXNUM)) {
-            return ((RubyFixnum)value.getValue()).intValue();
+            return ((RubyFixnum)value).intValue();
         }
         else if (className.equals(RCLASS_BIGNUM)) {
-            return ((RubyBignum)value.getValue()).getValue();
+            return ((RubyBignum)value).getInternal();
         }
 
-        return value.getValue();
+        return ((RubyData<Object>)value).getData();
 
     }
 }

@@ -65,17 +65,13 @@ class Enum_any extends RubyMethod {
 }
 
 public class EnumerableBuilder {
-    private static RubyModule enumModuel = RubyRuntime.GlobalScope.defineNewModule("Enumerable");
+	public static void initialize() {
+		RubyModule m = RubyRuntime.EnumModule;
+		RubyMethod enum_collect = new Enum_collect();
+		m.defineMethod("collect", enum_collect);
+		m.defineMethod("map", enum_collect);
+		m.defineMethod("all?", new Enum_all());
+		m.defineMethod("any?", new Enum_any());
 
-    static {
-        RubyMethod enum_collect = new Enum_collect();
-        enumModuel.defineMethod("collect", enum_collect);
-        enumModuel.defineMethod("map", enum_collect);
-        enumModuel.defineMethod("all?", new Enum_all());
-        enumModuel.defineMethod("any?", new Enum_any());
-    }
-
-    public static RubyModule create() {
-        return enumModuel;
 	}
 }

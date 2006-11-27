@@ -7,6 +7,7 @@ package com.xruby.runtime.lang;
 import junit.framework.TestCase;
 
 public class RubyExceptionTest extends TestCase {
+	/*TODO remove this one? (I do not think we need equals())
 	public void test_equals() {
 		RubyException a = new RubyException(RubyRuntime.NameErrorClass, "xxxxx");
 		RubyException b = new RubyException(RubyRuntime.NameErrorClass, "xxxxx");
@@ -19,5 +20,5 @@ public class RubyExceptionTest extends TestCase {
 		RubyException e = new RubyException(RubyRuntime.NameErrorClass, "xxxxx");
 		RubyException f = new RubyException(RubyRuntime.ArgumentErrorClass, "xxxxx");
 		assertTrue(!e.equals(f));
-	}
+	}*/
 }

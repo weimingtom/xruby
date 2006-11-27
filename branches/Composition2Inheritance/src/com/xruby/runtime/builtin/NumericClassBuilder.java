@@ -29,10 +29,9 @@ class Numeric_unary_minus extends RubyMethod {
 
 public class NumericClassBuilder {
 	
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Numeric", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.NumericClass;
 		c.defineMethod("+@", new Numeric_unary_plus());
 		c.defineMethod("-@", new Numeric_unary_minus());
-		return c;
 	}
 }

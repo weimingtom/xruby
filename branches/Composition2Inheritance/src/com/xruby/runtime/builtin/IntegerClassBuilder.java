@@ -43,10 +43,9 @@ class Integer_chr extends RubyMethod {
 }
 
 public class IntegerClassBuilder {
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Integer", RubyRuntime.NumericClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.IntegerClass;
 		c.defineMethod("[]",  new Integer_get_bit());
 		c.defineMethod("chr",  new Integer_chr());
-		return c;
 	}
 }

@@ -275,8 +275,8 @@ class Float_nan extends RubyMethod {
 
 public class FloatClassBuilder {
 	
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Float", RubyRuntime.NumericClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.FloatClass;
 		c.defineMethod("to_s", new Float_to_s());
 		c.defineMethod("-", new Float_operator_minus());
 		c.defineMethod("+", new Float_operator_plus());
@@ -292,6 +292,5 @@ public class FloatClassBuilder {
 		c.defineMethod("finite?", new Float_finite());
 		c.defineMethod("infinite?", new Float_infinite());
 		c.defineMethod("nan?", new Float_nan());
-		return c;
 	}
 }

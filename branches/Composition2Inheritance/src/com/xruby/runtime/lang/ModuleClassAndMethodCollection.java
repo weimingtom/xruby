@@ -12,14 +12,14 @@ import com.xruby.runtime.value.*;
 class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	public RubyModule defineNewModule(String name) {
 		RubyModule m = new RubyModule(name);
-		constants_.put(name, new RubyValue(RubyRuntime.ModuleClass, m));//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
+		constants_.put(name, m);//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
 		return m;
 	}
 
 	public RubyValue defineModule(String name) {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
-			v = new RubyValue(RubyRuntime.ModuleClass, new RubyModule(name));
+			v = new RubyModule(name);
 			constants_.put(name, v);
 			return v;
 		}
@@ -66,9 +66,9 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	public static RubyValue getConstant(RubyValue receiver, String name) {
 		throw_type_error_if_not_class_module(receiver);
 		
-		RubyValue v = ((ModuleClassAndMethodCollection)receiver.getValue()).getConstant(name);
+		RubyValue v = ((ModuleClassAndMethodCollection)receiver).getConstant(name);
 		if (null == v) {
-			String module_name = ((ModuleClassAndMethodCollection)receiver.getValue()).getName();
+			String module_name = ((ModuleClassAndMethodCollection)receiver).getName();
 			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + module_name + "::" + name);
 		}
 		
@@ -78,7 +78,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	public static RubyValue setConstant(RubyValue value, RubyValue receiver, String name) {
 		throw_type_error_if_not_class_module(receiver);
 
-		return ((ModuleClassAndMethodCollection)receiver.getValue()).setConstant(name, value);
+		return ((ModuleClassAndMethodCollection)receiver).setConstant(name, value);
 	}
 
 	public static RubyValue getTopLevelConstant(String name) {

@@ -1,10 +1,7 @@
 package com.xruby.runtime.javasupport;
 
-import com.xruby.runtime.lang.RubyMethod;
-import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.RubyBlock;
-import com.xruby.runtime.lang.RubyException;
-import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.lang.*;
+import com.xruby.runtime.value.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
@@ -41,8 +38,9 @@ public class JavaMethod extends RubyMethod {
         this.isConstructor = true;
     }
 
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        Object object = receiver.getValue();
+    @SuppressWarnings("unchecked")
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        Object object = ((RubyData<Object>)receiver).getData();
         Object[] arguments = JavaUtil.convertToJavaValues(args);
 
         try {
@@ -53,7 +51,7 @@ public class JavaMethod extends RubyMethod {
             }
             else {
                 Object instance = constructor.newInstance(arguments);
-                receiver.setValue(instance);
+                ((RubyData<Object>)receiver).setData(instance);
             }
         } catch (Exception e) {          // IllegalAccessException and InvocationTargetException
             throw new RubyException(e.getMessage());

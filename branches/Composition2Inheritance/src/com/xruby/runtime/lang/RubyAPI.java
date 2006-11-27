@@ -38,11 +38,11 @@ public class RubyAPI {
 	}
 
 	public static boolean isKindOf(RubyValue class_to_compare, RubyValue value) {
-		return value.getRubyClass().isKindOf((RubyClass)class_to_compare.getValue());
+		return value.getRubyClass().isKindOf((RubyClass)class_to_compare);
 	}
 
 	public static boolean isInstanceOf(RubyValue class_to_compare, RubyValue value) {
-		return (value.getRubyClass() == class_to_compare.getValue());
+		return (value.getRubyClass() == class_to_compare);
 	}
 
 	//receiver is implicit self
@@ -70,7 +70,7 @@ public class RubyAPI {
 	}
 
 	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
-		RubyMethod m = receiver.getRubyClass().findSuperMethod(method_name);
+		RubyMethod m = receiver.getRubyClass().findClassSuperMethod(method_name);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "super method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}
@@ -121,8 +121,8 @@ public class RubyAPI {
 	}
 
 	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyValue v) {
-		if (v.getValue() instanceof RubyArray) {
-			RubyArray a = (RubyArray)v.getValue();
+		if (v instanceof RubyArray) {
+			RubyArray a = (RubyArray)v;
 			if (!a.isNotSingleAsterisk()) {
 				return expandArrayIfThereIsZeroOrOneValue(a);
 			}
@@ -133,16 +133,16 @@ public class RubyAPI {
 
 	public static RubyArray expandArrayIfThereIsOnlyOneRubyArray(RubyArray a) {
 		if (a.size() == 1 &&
-				a.get(0).getValue() instanceof RubyArray) {
-			return (RubyArray)a.get(0).getValue();
+				a.get(0) instanceof RubyArray) {
+			return (RubyArray)a.get(0);
 		} else {
 			return a;
 		}
 	}
 	
 	public static RubyArray convertToArrayIfNotYet(RubyValue v) {
-		if (v.getValue() instanceof RubyArray) {
-			return (RubyArray)v.getValue();
+		if (v instanceof RubyArray) {
+			return (RubyArray)v;
 		} else {
 			return new RubyArray(v);
 		}
@@ -153,7 +153,7 @@ public class RubyAPI {
 		return ((RubyData<RubyBlock>)v).getData();
 	}
 
-	public static RubyModule convertRubyValue2RubyModule(RubyValue v) {
-		return (RubyModule)v.getValue();
+	public static RubyValue convertRubyException2RubyValue(RubyException e) {
+		return e.getRubyValue();
 	}
 }

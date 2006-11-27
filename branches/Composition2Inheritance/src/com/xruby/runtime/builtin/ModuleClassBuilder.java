@@ -11,7 +11,7 @@ class Module_AccessControl {
 
 	static RubyValue run(int access, RubyValue receiver, RubyArray args, RubyBlock block) {
 
-		RubyModule c = (RubyModule)receiver.getValue();
+		RubyModule c = (RubyModule)receiver;
 
 		if (null == args) {
 			c.setAccessMode(access);
@@ -22,8 +22,8 @@ class Module_AccessControl {
 			String method_name;
 			if (arg instanceof RubyString) {
 				method_name = ((RubyString)arg).toString();
-			} else if (arg.getRubyClass() == RubyRuntime.SymbolClass) {
-				method_name = (String)arg.getValue();
+			} else if (arg instanceof RubySymbol) {
+				method_name = ((RubySymbol)arg).toString();
 			} else {
 				throw new RubyException(RubyRuntime.TypeErrorClass, arg.toString() + " is not a symbol");
 			}
@@ -76,7 +76,7 @@ class Module_to_s extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyModule c = (RubyModule)receiver.getValue();
+		RubyModule c = (RubyModule)receiver;
 		return ObjectFactory.createString(c.getName());
 	}
 }
@@ -111,7 +111,7 @@ class Module_attr_reader extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyModule m = (RubyModule)receiver.getValue();
+		RubyModule m = (RubyModule)receiver;
 
 		for (RubyValue v : args) {
 			String s = convertToString(v);
@@ -142,7 +142,7 @@ class Module_attr_writer extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyModule m = (RubyModule)receiver.getValue();
+		RubyModule m = (RubyModule)receiver;
 
 		for (RubyValue v : args) {
 			String s = convertToString(v);
@@ -159,7 +159,7 @@ class Module_attr_accessor extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyModule m = (RubyModule)receiver.getValue();
+		RubyModule m = (RubyModule)receiver;
 
 		for (RubyValue v : args) {
 			String s = convertToString(v);
@@ -177,10 +177,10 @@ class Module_include_module extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyModule module = (RubyModule)receiver.getValue();
+		RubyModule module = (RubyModule)receiver;
 		if (args != null) {
 			for(RubyValue m: args){
-				module.includeModule((RubyModule)m.getValue());
+				module.includeModule((RubyModule)m);
 			}
 		}
 		return ObjectFactory.nilValue;
@@ -189,7 +189,7 @@ class Module_include_module extends RubyMethod {
 
 public class ModuleClassBuilder {
 	
-	public static RubyClass create() {
+	public static void initialize() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Module", RubyRuntime.ObjectClass);
 		c.defineMethod("public", new Module_public());
 		c.defineMethod("protected", new Module_protected());
@@ -203,6 +203,5 @@ public class ModuleClassBuilder {
 		c.defineMethod("attr_writer", new Module_attr_writer());
 		c.defineMethod("attr_accessor", new Module_attr_accessor());
 		c.setAccessPublic();
-		return c;
 	}
 }

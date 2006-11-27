@@ -17,9 +17,8 @@ class Proc_call extends RubyMethod {
 
 public class ProcClassBuilder {
 	
-	public static RubyClass create() {
-		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Proc", RubyRuntime.ObjectClass);
+	public static void initialize() {
+		RubyClass c = RubyRuntime.ProcClass;
 		c.defineMethod("call", new Proc_call());
-		return c;
 	}
 }
