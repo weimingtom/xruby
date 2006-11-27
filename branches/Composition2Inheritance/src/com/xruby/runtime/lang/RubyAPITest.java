@@ -7,7 +7,7 @@ package com.xruby.runtime.lang;
 import junit.framework.TestCase;
 import com.xruby.runtime.value.*;
 
-public class RubyRuntimeTest extends TestCase {
+public class RubyAPITest extends TestCase {
 	public void test_testTrueFalse() {
 		assertTrue(RubyAPI.testTrueFalse(ObjectFactory.trueValue));
 		assertFalse(RubyAPI.testTrueFalse(ObjectFactory.falseValue));
@@ -27,12 +27,12 @@ public class RubyRuntimeTest extends TestCase {
 	}
 
 	public void test_isKindOf() {
-		assertTrue(RubyAPI.isKindOf(ObjectFactory.createClass(RubyRuntime.TrueClassClass), ObjectFactory.trueValue));
-		assertTrue(RubyAPI.isKindOf(ObjectFactory.createClass(RubyRuntime.ObjectClass), ObjectFactory.trueValue));
-		assertTrue(RubyAPI.isKindOf(ObjectFactory.createClass(RubyRuntime.FalseClassClass), ObjectFactory.falseValue));
-		assertFalse(RubyAPI.isKindOf(ObjectFactory.createClass(RubyRuntime.FalseClassClass), ObjectFactory.trueValue));
-		assertTrue(RubyAPI.isKindOf(ObjectFactory.createClass(RubyRuntime.FixnumClass), ObjectFactory.createFixnum(88)));
-		assertFalse(RubyAPI.isKindOf(ObjectFactory.createClass(RubyRuntime.FloatClass), ObjectFactory.createFixnum(88)));
+		assertTrue(RubyAPI.isKindOf(RubyRuntime.TrueClassClass, ObjectFactory.trueValue));
+		assertTrue(RubyAPI.isKindOf(RubyRuntime.ObjectClass, ObjectFactory.trueValue));
+		assertTrue(RubyAPI.isKindOf(RubyRuntime.FalseClassClass, ObjectFactory.falseValue));
+		assertFalse(RubyAPI.isKindOf(RubyRuntime.FalseClassClass, ObjectFactory.trueValue));
+		assertTrue(RubyAPI.isKindOf(RubyRuntime.FixnumClass, ObjectFactory.createFixnum(88)));
+		assertFalse(RubyAPI.isKindOf(RubyRuntime.FloatClass, ObjectFactory.createFixnum(88)));
 	}
 
 }
