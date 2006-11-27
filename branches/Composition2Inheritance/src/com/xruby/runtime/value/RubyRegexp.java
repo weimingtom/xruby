@@ -1,12 +1,22 @@
 package com.xruby.runtime.value;
 
 import java.util.regex.*;
+import com.xruby.runtime.lang.*;
 
-public class RubyRegexp {
+public class RubyRegexp extends RubyBasic {
 
 	private Pattern regex;
 	
-	public RubyRegexp(String v) {
+	RubyRegexp(String v) {
+		super(RubyRuntime.RegexpClass);
+		regex = Pattern.compile(v);
+	}
+
+	RubyRegexp() {
+		super(RubyRuntime.RegexpClass);
+	}
+
+	public void setValue(String v) {
 		regex = Pattern.compile(v);
 	}
 	
@@ -18,7 +28,7 @@ public class RubyRegexp {
 	public RubyMatchData match(String v) {
 		Matcher m = regex.matcher(v);
 		if (m.find()) {
-			return new RubyMatchData(m);
+			return ObjectFactory.createMatchData(m);
 		} else {
 			return null;
 		}
@@ -37,7 +47,7 @@ public class RubyRegexp {
 		return regex.matcher(str.toString()).replaceAll(repl.toString());
 	}
 	
-	public Pattern getValue() {
+	public Pattern getPattern() {
 		return regex;
 	}
 }

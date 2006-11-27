@@ -85,7 +85,7 @@ class Dir_entries extends RubyMethod {
 		for (String f: file.list()){
 			files.add(ObjectFactory.createString(f));
 		}
-		return ObjectFactory.createArray(files);
+		return files;
 	}
 }
 

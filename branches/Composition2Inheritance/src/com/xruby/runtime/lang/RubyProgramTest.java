@@ -69,7 +69,7 @@ public class RubyProgramTest extends TestCase {
 		
 		System.setOut(original);
 		
-		RubyFixnum i = (RubyFixnum)r.getValue();
+		RubyFixnum i = (RubyFixnum)r;
 		assertEquals(579, i.intValue());
 
 		String expected = 

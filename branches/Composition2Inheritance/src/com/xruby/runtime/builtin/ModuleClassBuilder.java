@@ -20,8 +20,8 @@ class Module_AccessControl {
 		
 		for (RubyValue arg : args) {
 			String method_name;
-			if (arg.getRubyClass() == RubyRuntime.StringClass) {
-				method_name = ((RubyString)arg.getValue()).toString();
+			if (arg instanceof RubyString) {
+				method_name = ((RubyString)arg).toString();
 			} else if (arg.getRubyClass() == RubyRuntime.SymbolClass) {
 				method_name = (String)arg.getValue();
 			} else {

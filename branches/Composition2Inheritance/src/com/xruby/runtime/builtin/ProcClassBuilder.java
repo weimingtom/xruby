@@ -8,8 +8,9 @@ class Proc_call extends RubyMethod {
 		super(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBlock b = (RubyBlock)receiver.getValue();
+		RubyBlock b = ((RubyData<RubyBlock>)receiver).getData();
 		return b.invoke(receiver, args);
 	}
 }

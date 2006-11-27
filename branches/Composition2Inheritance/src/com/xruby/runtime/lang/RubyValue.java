@@ -45,25 +45,13 @@ public class RubyValue extends RubyModule {
 		return class_;
 	}
 	
-	public int hashCode() {
-		if (class_ == RubyRuntime.FixnumClass) {
-			return ((RubyFixnum)value_).hashCode();
-		} else if (class_ == RubyRuntime.StringClass) {
-			return ((RubyString)value_).toString().hashCode();
-		}else {
-			return super.hashCode();
-		}
-    }
-	
 	public boolean equals(Object obj) {
 		RubyValue v = (RubyValue)obj;
 		if (class_ != v.getRubyClass()) {
 			return false;
 		}
 		
-		if (class_ == RubyRuntime.StringClass) {
-			return ((RubyString)value_).toString().equals(((RubyString)v.getValue()).toString());
-		} else if (null == value_) {
+		if (null == value_) {
 			return (null == v.getValue());
 		} else {
 			return value_.equals(v.getValue());

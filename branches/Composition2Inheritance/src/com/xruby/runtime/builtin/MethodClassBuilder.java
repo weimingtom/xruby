@@ -9,7 +9,7 @@ class Method_call extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		MethodValue m = (MethodValue)receiver.getValue();
+		MethodValue m = (MethodValue)receiver;
 		return m.call(args, block);
 	}
 }
@@ -20,7 +20,7 @@ class Method_to_s extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		MethodValue m = (MethodValue)receiver.getValue();
+		MethodValue m = (MethodValue)receiver;
 		return ObjectFactory.createString(m.toString());
 	}
 }

@@ -1,13 +1,13 @@
 package com.xruby.runtime.value;
 
 import java.io.*;
-
 import com.xruby.runtime.lang.*;
 
-public class RubyIO {
+public class RubyIO extends RubyBasic {
 	private RandomAccessFile file = null;
 
-	public RubyIO(String filename, String mode) {
+	RubyIO(String filename, String mode) {
+		super(RubyRuntime.FileClass);//FIXME create a new class for file
 		open(filename, mode);
 	}
 	
@@ -95,11 +95,11 @@ public class RubyIO {
 				return readsTheEntireContents();
 			}
 
-			if (separator.getRubyClass() != RubyRuntime.StringClass) {
+			if (!(separator instanceof RubyString)) {
 				throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + separator.getRubyClass().getName() + " into String");
 			}
 
-			RubyString s = (RubyString)separator.getValue();
+			RubyString s = (RubyString)separator;
 			
 			return readUntilSeperator(s.toString());
 		} catch (IOException e) {

@@ -12,7 +12,7 @@ import com.xruby.runtime.lang.*;
  * @breif Internal representation of a ruby array
  *
  */
-public class RubyArray implements Iterable<RubyValue> {
+public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	private ArrayList<RubyValue> array;
 	private boolean isNotSingleAsterisk; //e.g. does not look like yield *[[]]
 
@@ -36,6 +36,7 @@ public class RubyArray implements Iterable<RubyValue> {
 	}
 
 	public RubyArray(int size, boolean isNotSingleAsterisk) {
+		super(RubyRuntime.ArrayClass);
 		array = new ArrayList<RubyValue>(size);
 		this.isNotSingleAsterisk = isNotSingleAsterisk;
 	}
@@ -148,16 +149,17 @@ public class RubyArray implements Iterable<RubyValue> {
 	}
 
 	public RubyValue to_s() {
-		RubyString r = new RubyString();
+		RubyString r = ObjectFactory.createString();
 
 		for (RubyValue v : array) {
 			RubyValue s = RubyAPI.callPublicMethod(v, null, "to_s");
-			r.appendString((s.getValue()).toString());
+			r.appendString(s.toString());
+			
             // TODO: The output of to_s is not as the same as cruby, we should solve this issue
             // TODO: and change the corresponding testcases in RubyCompilerTest, such as test_array_expand.
         }
 
-		return ObjectFactory.createString(r);
+		return r;
 	}
 
 	ArrayList<RubyValue> getInternal() {
@@ -165,13 +167,12 @@ public class RubyArray implements Iterable<RubyValue> {
 	}
 
 	public void concat(RubyValue v) {
-		Object o = v.getValue();
-		if (v.getRubyClass() != RubyRuntime.ArrayClass) {//TODO use RuyRuntime.isKindOf() ?
+		if (!(v instanceof RubyArray)) {
 			throw new RubyException(RubyRuntime.TypeErrorClass,
 					"can't convert " + v.getRubyClass().toString() + " into Array");
 		}
 
-		array.addAll(((RubyArray)o).getInternal());
+		array.addAll(((RubyArray)v).getInternal());
 	}
 
 	public RubyArray plus(RubyArray v) {
@@ -217,10 +218,9 @@ public class RubyArray implements Iterable<RubyValue> {
     }
 
     public void expand(RubyValue v) {
-		Object o = v.getValue();
-		if (o instanceof RubyArray) {
+		if (v instanceof RubyArray) {
 			//[5,6,*[1, 2]]
-			array.addAll(((RubyArray)o).getInternal());
+			array.addAll(((RubyArray)v).getInternal());
 		} else {
 			//[5,6,*1], [5,6,*nil]
 			array.add(v);
@@ -233,25 +233,25 @@ public class RubyArray implements Iterable<RubyValue> {
 
 		final int size = array.size() - index;
 		if (size < 0) {
-			return ObjectFactory.createEmptyArray();
+			return new RubyArray();
 		}
 
-		RubyArray v = new RubyArray(size, true);
+		RubyArray a = new RubyArray(size, true);
 		for (int i = index; i < array.size(); ++i) {
-			v.add(array.get(i));
+			a.add(array.get(i));
 		}
 
-		return ObjectFactory.createArray(v);
+		return a;
 	}
 
-	public RubyValue unshift(RubyValue value){
+	public RubyArray unshift(RubyValue value){
 		array.add(0, value);
-		return ObjectFactory.createArray(this);
+		return this;
 	}
 
-	public RubyValue unshift(RubyArray value){
+	public RubyArray unshift(RubyArray value){
 		array.addAll(0, value.getInternal());
-		return ObjectFactory.createArray(this);
+		return this;
 	}
 
 }

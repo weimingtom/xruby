@@ -116,7 +116,7 @@ public class RubyAPI {
 		if (a.size() <= 1) {
 			return a.get(0);
 		} else {
-			return ObjectFactory.createArray(a);
+			return a;
 		}
 	}
 
@@ -147,5 +147,13 @@ public class RubyAPI {
 			return new RubyArray(v);
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static RubyBlock convertRubyValue2RubyBlock(RubyValue v) {
+		return ((RubyData<RubyBlock>)v).getData();
+	}
 
+	public static RubyModule convertRubyValue2RubyModule(RubyValue v) {
+		return (RubyModule)v.getValue();
+	}
 }

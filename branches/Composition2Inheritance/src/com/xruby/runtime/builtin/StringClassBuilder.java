@@ -13,10 +13,10 @@ class String_capitalize extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
-		RubyString new_value = new RubyString(value.toString());
+		RubyString value = (RubyString)receiver;
+		RubyString new_value = ObjectFactory.createString(value.toString());
 		new_value.capitalize();
-		return ObjectFactory.createString(new_value);
+		return new_value;
 	}
 }
 
@@ -26,12 +26,12 @@ class String_operator_equal extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (args.get(0).getRubyClass() != RubyRuntime.StringClass) {
+		if (!(args.get(0) instanceof RubyString)) {
 			return ObjectFactory.falseValue;
 		}
 
-		RubyString a = (RubyString)receiver.getValue();
-		RubyString b = (RubyString)args.get(0).getValue();
+		RubyString a = (RubyString)receiver;
+		RubyString b = (RubyString)args.get(0);
 		if (a.toString().equals(b.toString())) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -47,14 +47,13 @@ class String_upcase_danger extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
-		RubyString new_value = new RubyString(value.toString().toUpperCase());
-		if (new_value.toString().equals(value.toString())) {
+		RubyString value = (RubyString)receiver;
+		String new_value = value.toString().toUpperCase();
+		if (new_value.equals(value.toString())) {
 			//no changes
 			return ObjectFactory.nilValue;
 		} else {
-			receiver.setValue(new_value);
-			return receiver;
+			return value.setString(new_value);
 		}
 	}
 }
@@ -66,7 +65,7 @@ class String_capitalize_danger extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
+		RubyString value = (RubyString)receiver;
 		boolean changed = value.capitalize();
 		if (changed) {
 			return receiver;
@@ -82,7 +81,7 @@ class String_upcase extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
+		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createString(value.toString().toUpperCase());
 	}
 }
@@ -93,7 +92,7 @@ class String_downcase extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
+		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createString(value.toString().toLowerCase());
 	}
 }
@@ -105,13 +104,12 @@ class String_downcase_danger extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
-		RubyString new_value = new RubyString(value.toString().toLowerCase());
-		if (new_value.toString().equals(value.toString())) {
+		RubyString value = (RubyString)receiver;
+		String new_value = value.toString().toLowerCase();
+		if (new_value.equals(value.toString())) {
 			return ObjectFactory.nilValue;
 		} else {
-			receiver.setValue(new_value);
-			return receiver;
+			return value.setString(new_value);
 		}
 	}
 }
@@ -122,7 +120,7 @@ class String_to_f extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
+		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createFloat(Double.valueOf(value.toString()));
 	}
 }
@@ -133,11 +131,11 @@ class String_to_i extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
+		RubyString value = (RubyString)receiver;
 		if (args == null || args.size() == 0){
 			return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
 		}else{
-			int radix = ((RubyFixnum)args.get(0).getValue()).intValue();
+			int radix = ((RubyFixnum)args.get(0)).intValue();
 			if (radix >= 2 && radix <= 36){
 				return ObjectFactory.createFixnum(Integer.valueOf(value.toString(), radix));
 			}
@@ -152,7 +150,7 @@ class String_to_s extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
+		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createString(value.toString());
 	}
 }
@@ -163,7 +161,7 @@ class String_length extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver.getValue();
+		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createFixnum(value.length());
 	}
 }
@@ -174,13 +172,22 @@ class String_initialize extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (args == null) {
-			receiver.setValue(new RubyString(""));
-		} else if (args.get(0) != null) {
-			receiver.setValue(args.get(0).getValue());
+		if (args != null) {
+			String new_value = RubyTypesUtil.convertToString(args.get(0)).toString();
+			((RubyString)receiver).setString(new_value);
 		}
-
+		
 		return receiver;
+	}
+}
+
+class String_new extends RubyMethod {
+	public String_new() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		return ObjectFactory.createString();
 	}
 }
 
@@ -201,8 +208,8 @@ class String_plus extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString v1 = (RubyString)receiver.getValue();
-		RubyString v2 = (RubyString)args.get(0).getValue();
+		RubyString v1 = (RubyString)receiver;
+		RubyString v2 = (RubyString)args.get(0);
 		return ObjectFactory.createString(v1.toString() + v2.toString());
 	}
 }
@@ -217,11 +224,11 @@ class String_gsub extends RubyMethod {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for 2)");
 		}
 		
-		if (args.get(0).getRubyClass() != RubyRuntime.RegexpClass) {
+		if (!(args.get(0) instanceof RubyRegexp)) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
 		}
 		
-		if (args.get(1).getRubyClass() != RubyRuntime.StringClass) {
+		if (!(args.get(1) instanceof RubyString)) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "can't convert " + args.get(1).getRubyClass().getName() + " into String");
 		}
 	}
@@ -229,9 +236,9 @@ class String_gsub extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		checkParameters(args);
 		
-		RubyString g = (RubyString)receiver.getValue();
-		RubyRegexp r = (RubyRegexp)args.get(0).getValue();
-		RubyString s = (RubyString)args.get(1).getValue();
+		RubyString g = (RubyString)receiver;
+		RubyRegexp r = (RubyRegexp)args.get(0);
+		RubyString s = (RubyString)args.get(1);
 
 		return ObjectFactory.createString(r.gsub(g, s));
 	}
@@ -241,9 +248,9 @@ class String_gsub_danger extends String_gsub {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		checkParameters(args);
 
-		RubyString g = (RubyString)receiver.getValue();
-		RubyRegexp r = (RubyRegexp)args.get(0).getValue();
-		RubyString s = (RubyString)args.get(1).getValue();
+		RubyString g = (RubyString)receiver;
+		RubyRegexp r = (RubyRegexp)args.get(0);
+		RubyString s = (RubyString)args.get(1);
 
 		String result = r.gsub(g, s);
 		if (g.toString().equals(result)) {
@@ -260,22 +267,22 @@ class String_split extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString g = (RubyString)receiver.getValue();
-		RubyRegexp r = (RubyRegexp)args.get(0).getValue();
+		RubyString g = (RubyString)receiver;
+		RubyRegexp r = (RubyRegexp)args.get(0);
 		String[] splitResult;
 		
 		if (args.size() == 1){
-			splitResult = r.getValue().split(g.toString());
+			splitResult = r.getPattern().split(g.toString());
 		}else{
-			RubyFixnum i = (RubyFixnum)args.get(1).getValue();
-			splitResult = r.getValue().split(g.toString(), i.intValue());
+			RubyFixnum i = (RubyFixnum)args.get(1);
+			splitResult = r.getPattern().split(g.toString(), i.intValue());
 		}
 		
-		RubyArray value = new RubyArray(splitResult.length);
+		RubyArray a = new RubyArray(splitResult.length);
 		for(String str : splitResult){
-			value.add(ObjectFactory.createString(str));
+			a.add(ObjectFactory.createString(str));
 		}
-		return ObjectFactory.createArray(value);
+		return a;
 	}
 }
 
@@ -285,12 +292,12 @@ class String_operator_compare extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value1 = (RubyString)receiver.getValue();
-		Object arg = args.get(0).getValue();
-		if (!(arg instanceof RubyString)){
+		if (!(args.get(0) instanceof RubyString)){
 			return ObjectFactory.nilValue;
 		}
-		RubyString value2 = (RubyString)args.get(0).getValue();
+		
+		RubyString value1 = (RubyString)receiver;
+		RubyString value2 = (RubyString)args.get(0);
 		int compare = value1.toString().compareTo(value2.toString());
 		if (compare > 0){
 			compare = 1;
@@ -323,6 +330,7 @@ public class StringClassBuilder {
 		c.defineMethod("gsub!", new String_gsub_danger());
 		c.defineMethod("split", new String_split());
 		c.defineMethod("<=>", new String_operator_compare());
+		c.defineAllocMethod(new String_new());
 		return c;
 	}
 }

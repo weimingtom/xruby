@@ -14,18 +14,17 @@ class IO_write extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString value;
-		if (RubyRuntime.StringClass == args.get(0).getRubyClass()) {
-			value = (RubyString)args.get(0).getValue();
+		if (args.get(0) instanceof RubyString) {
+			value = (RubyString)args.get(0);
 		} else {
 			RubyValue str = RubyAPI.callPublicMethod(args.get(0), null, "to_s");
-			value = (RubyString) str.getValue();
+			value = (RubyString) str;
 		}
 		
-		RubyIO io = (RubyIO)receiver.getValue();
-		if (null == io) {
-			System.out.print(value.toString());
+		if (receiver instanceof RubyIO) {
+			((RubyIO)receiver).print(value.toString());
 		} else {
-			io.print(value.toString());
+			System.out.print(value.toString());//TODO this is a hack, better create a new class to represent STDOUT
 		}
 		return ObjectFactory.createFixnum(value.length());
 	}
@@ -46,10 +45,9 @@ class IO_close extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyIO io = (RubyIO)receiver.getValue();
-		if (null != io) {
+		if (receiver instanceof RubyIO) {
 			//not stdout, stderr, stdin
-			io.close();
+			((RubyIO)receiver).close();
 		}
 		return ObjectFactory.nilValue;
 	}
@@ -61,10 +59,9 @@ class IO_gets extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyIO io = (RubyIO)receiver.getValue();
-		if (null != io) {
+		if (receiver instanceof RubyIO) {
 			RubyValue seperator = (null == args) ?  GlobalVariables.INPUT_RECORD_SEPARATOR : args.get(0);
-			GlobalVariables.LAST_READ_LINE = io.gets(seperator);
+			GlobalVariables.LAST_READ_LINE = ((RubyIO)receiver).gets(seperator);
 		} else {
 			//TODO stdout, stderr, stdin
 			GlobalVariables.LAST_READ_LINE = ObjectFactory.nilValue;
@@ -80,7 +77,7 @@ class IO_eof extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyIO io = (RubyIO)receiver.getValue();
+		RubyIO io = (RubyIO)receiver;
 		if (io.eof()) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -95,18 +92,18 @@ class IO_read extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString fileName = (RubyString)args.get(0).getValue();
-		RubyIO io = new RubyIO(fileName.toString(), "r");
+		RubyString fileName = (RubyString)args.get(0);
+		RubyIO io = ObjectFactory.createFile(fileName.toString(), "r");
 		int offset;
 		int length;
 		if (args.size() == 1){
 			return io.read();
 		}else{
-			length = ((RubyFixnum)args.get(1).getValue()).intValue();
+			length = ((RubyFixnum)args.get(1)).intValue();
 			if(args.size() == 2){			
 				return io.read(length);
 			}else{
-				offset = ((RubyFixnum)args.get(2).getValue()).intValue();
+				offset = ((RubyFixnum)args.get(2)).intValue();
 				return io.read(length, offset);
 			}
 		}

@@ -5,7 +5,8 @@
 package com.xruby.runtime.value;
 
 import java.math.BigInteger;
-
+import java.util.Date;
+import java.util.regex.Matcher;
 import com.xruby.runtime.lang.*;
 
 public class ObjectFactory {
@@ -41,28 +42,32 @@ public class ObjectFactory {
 	public static final RubyValue BignumClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.BignumClass);
 	public static final RubyValue DirClassValue = new RubyValue(RubyRuntime.ClassClass, RubyRuntime.DirClass);
 	
-	public static RubyValue createString(String value) {
-		return new RubyValue(RubyRuntime.StringClass, new RubyString(value));
-	}
-
-	public static RubyValue createRegexp(String value) {
-		return new RubyValue(RubyRuntime.RegexpClass, new RubyRegexp(value));
+	public static RubyString createString(String value) {
+		return new RubyString(value);
 	}
 	
-	public static RubyValue createString(RubyString value) {
-		return new RubyValue(RubyRuntime.StringClass, value);
+	public static RubyString createString() {
+		return new RubyString("");
+	}
+
+	public static RubyRegexp createRegexp(String value) {
+		return new RubyRegexp(value);
+	}
+
+	public static RubyRegexp createRegexp() {
+		return new RubyRegexp();
 	}
 	
 	public static RubyValue createSymbol(String value) {
 		return new RubyValue(RubyRuntime.SymbolClass, value.intern());
 	}
 
-	public static RubyValue createFixnum(int value) {
-		return new RubyValue(RubyRuntime.FixnumClass, new RubyFixnum(value));
+	public static RubyFixnum createFixnum(int value) {
+		return new RubyFixnum(value);
 	}
 
-	public static RubyValue createFloat(double value) {
-		return new RubyValue(RubyRuntime.FloatClass, new RubyFloat(value));
+	public static RubyFloat createFloat(double value) {
+		return new RubyFloat(value);
 	}
 	
 	public static RubyValue createClass(RubyClass value) {
@@ -73,62 +78,50 @@ public class ObjectFactory {
 		return new RubyValue(RubyRuntime.ModuleClass, value);
 	}
 
-	public static RubyValue createArray(RubyArray value) {
-		return new RubyValue(RubyRuntime.ArrayClass, value);
+	public static RubyArray createArray(int size, boolean isNotSingleAsterisk) {
+		return new RubyArray(size, isNotSingleAsterisk);
 	}
 
-	public static RubyValue createEmptyArray() {
-		return new RubyValue(RubyRuntime.ArrayClass, new RubyArray(0, true));
+	public static RubyHash createHash() {
+		return new RubyHash();
+	}
+
+	public static RubyIO createFile(String filename, String mode) {
+		return new RubyIO(filename, mode);
 	}
 	
-	public static RubyValue createHash(RubyHash value) {
-		return new RubyValue(RubyRuntime.HashClass, value);
+	public static MethodValue createMethod(RubyValue r, String s, RubyMethod m) {
+		return new MethodValue(r, s, m);
 	}
 
-	public static RubyValue createFile(String filename, String mode) {
-		return new RubyValue(RubyRuntime.FileClass, new RubyIO(filename, mode));
+	public static RubyData<RubyBlock> createProc(RubyBlock block) {
+		return new RubyData<RubyBlock>(RubyRuntime.ProcClass, block);
 	}
 	
-	public static RubyValue createMethod(RubyValue r, String s, RubyMethod m) {
-		return new RubyValue(RubyRuntime.MethodClass, new MethodValue(r, s, m));
+	public static RubyTime createTime(Date v) {
+		return new RubyTime(v);
 	}
 
-	public static RubyValue createProc(RubyBlock block) {
-		return new RubyValue(RubyRuntime.ProcClass, block);
-	}
-	
-	public static RubyValue createTime(RubyTime t) {
-		return new RubyValue(RubyRuntime.TimeClass, t);
-	}
-	
-	public static RubyValue createRange(RubyValue left, RubyValue right, boolean isExclusive) {
-		// test operator <=>
-		RubyMethod m = left.findMethod("<=>");
-		if (m == null){
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
-		}
-		RubyArray args = new RubyArray();
-		args.add(right);
-		try{
-			RubyValue result = m.invoke(left, args, null);
-			if (result == ObjectFactory.nilValue){
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
-			}
-		}catch(RubyException exception){
-			if (exception.getRubyValue().getRubyClass() == RubyRuntime.ArgumentErrorClass){
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
-			}
-			throw exception;
-		}
-		return new RubyValue(RubyRuntime.RangeClass, new RubyRange(left, right, isExclusive));
+	public static RubyTime createTime() {
+		return new RubyTime();
 	}
 
-	public static RubyValue createMatchData(RubyMatchData m) {
-		return new RubyValue(RubyRuntime.MatchDataClass, m);
+	public static RubyRange createRange() {
+		return new RubyRange();
 	}
 
-	public static RubyValue createBignum(BigInteger value) { 
-		return new RubyValue(RubyRuntime.BignumClass, new RubyBignum(value)); 
+	public static RubyRange createRange(RubyValue left, RubyValue right, boolean isExclusive) {
+		RubyRange r = new RubyRange();
+		r.setValue(left, right, isExclusive);
+		return r;
+	}
+
+	public static RubyMatchData createMatchData(Matcher m) {
+		return new RubyMatchData(m);
+	}
+
+	public static RubyBignum createBignum(BigInteger value) { 
+		return new RubyBignum(value); 
 	}
 	
 	public static RubyValue createInteger(String value, int radix) {

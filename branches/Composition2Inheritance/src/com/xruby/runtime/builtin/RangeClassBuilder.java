@@ -10,7 +10,7 @@ class Range_begin extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyRange r = (RubyRange)receiver.getValue();
+		RubyRange r = (RubyRange)receiver;
 		return r.getLeft();
 	}
 }
@@ -21,7 +21,7 @@ class Range_end extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyRange r = (RubyRange)receiver.getValue();
+		RubyRange r = (RubyRange)receiver;
 		return r.getRight();
 	}
 }
@@ -32,7 +32,7 @@ class Range_exclude_end extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyRange r = (RubyRange)receiver.getValue();
+		RubyRange r = (RubyRange)receiver;
 		return ObjectFactory.createBoolean(r.isExcludeEnd());
 	}
 }
@@ -52,8 +52,18 @@ class Range_initialize extends RubyMethod {
 				isExclusive = true;
 			}
 		}
-		receiver.setValue(ObjectFactory.createRange(left, right, isExclusive).getValue());
+		((RubyRange)receiver).setValue(left, right, isExclusive);
 		return receiver;
+	}
+}
+
+class Range_new extends RubyMethod {
+	public Range_new() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		return ObjectFactory.createRange();
 	}
 }
 
@@ -67,6 +77,7 @@ public class RangeClassBuilder {
 		c.defineMethod("end", new Range_end());
 		c.defineMethod("exclude_end?", new Range_exclude_end());
 		c.defineMethod("initialize", new Range_initialize());
+		c.defineAllocMethod(new Range_new());
 		return c;
 	}
 }

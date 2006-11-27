@@ -12,10 +12,23 @@ import com.xruby.runtime.value.*;
 public class RubyClass extends RubyModule {
 	//private Set<RubyObject> instances_ = new HashSet<RubyObject>();
 	private RubyClass superclass_;
-
+	private RubyMethod alloc_method_;
+	
 	public RubyClass(String name, RubyClass superclass) {
 		super(name);
 		superclass_ = superclass;
+	}
+	
+	public void defineAllocMethod(RubyMethod m) {
+		alloc_method_ = m;
+	}
+	
+	public RubyValue invokeAllocMethod(RubyValue reciver) {//TODO reciver can be 'this' in the future
+		if (null != alloc_method_) {
+			return alloc_method_.invoke(reciver, null, null);
+		} else {
+			return superclass_.invokeAllocMethod(reciver);
+		}
 	}
 
 	boolean isMyParent(final RubyClass superclass) {

@@ -3,25 +3,26 @@ package com.xruby.runtime.value;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import com.xruby.runtime.lang.RubyException;
-import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.*;
 
-public class RubyBignum {
+public class RubyBignum extends RubyBasic {
 	private static final BigInteger FIXNUM_MAX = BigInteger.valueOf(Integer.MAX_VALUE);
 	private static final BigInteger FIXNUM_MIN = BigInteger.valueOf(Integer.MIN_VALUE);
 	
 	private BigInteger value_;
 	
-	public RubyBignum(String value, int radix){
+	RubyBignum(String value, int radix){
+		super(RubyRuntime.BignumClass);
 		value_ = new BigInteger(value, radix);
 	}
 	
-	public RubyBignum(String value){
+	RubyBignum(String value){
+		super(RubyRuntime.BignumClass);
 		value_ = new BigInteger(value);
 	}
 	
-	public RubyBignum(BigInteger value){
+	RubyBignum(BigInteger value){
+		super(RubyRuntime.BignumClass);
 		value_ = value;
 	}
 	
@@ -33,7 +34,7 @@ public class RubyBignum {
 		return value_.toString(radix);
 	}
 	
-	public BigInteger getValue(){
+	public BigInteger getInternal() {
 		return value_;
 	}
 	
@@ -41,186 +42,178 @@ public class RubyBignum {
 		value_ = value;
 	}
 	
-	public RubyValue op_mul(RubyValue v) {
-		Object value = v.getValue();
+	public RubyValue op_mul(RubyValue value) {
 		BigInteger result;
 		if (value instanceof RubyBignum){
 			RubyBignum bigValue = (RubyBignum)value;
-			result = getValue().multiply(bigValue.getValue());
+			result = getInternal().multiply(bigValue.getInternal());
 		}
 		else if (value instanceof RubyFixnum){
 			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-			result = getValue().multiply(bigValue);
+			result = getInternal().multiply(bigValue);
 		}
 		else if (value instanceof RubyFloat){
 			RubyFloat floatValue = (RubyFloat)value;
-			double ret = getValue().doubleValue() * floatValue.doubleValue();
+			double ret = getInternal().doubleValue() * floatValue.doubleValue();
 			return ObjectFactory.createFloat(ret);
 		}
 		else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().getName() + " not expected");
+			throw new RubyException(RubyRuntime.TypeErrorClass, value.getRubyClass().getName() + " not expected");
 		}
 		return bignorm(result);
 	}
 	
-	public RubyValue op_div(RubyValue v) {
-		Object value = v.getValue();
+	public RubyValue op_div(RubyValue value) {
 		BigInteger result;
 		if (value instanceof RubyBignum){
 			RubyBignum bigValue = (RubyBignum)value;
-			result = getValue().divide(bigValue.getValue());
+			result = getInternal().divide(bigValue.getInternal());
 		}
-		else if (value instanceof RubyFixnum){
+		else if (value instanceof RubyFixnum) {
 			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-			result = getValue().divide(bigValue);
+			result = getInternal().divide(bigValue);
 		}
-		else if (value instanceof RubyFloat){
+		else if (value instanceof RubyFloat) {
 			RubyFloat floatValue = (RubyFloat)value;
-			double ret = getValue().doubleValue() / floatValue.doubleValue();
+			double ret = getInternal().doubleValue() / floatValue.doubleValue();
 			return ObjectFactory.createFloat(ret);
 		}
 		else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().toString() + " not expected");
+			throw new RubyException(RubyRuntime.TypeErrorClass, value.getRubyClass().toString() + " not expected");
 		}
 		return bignorm(result);
 	}
 	
-	public RubyValue op_add(RubyValue v) {
-		Object value = v.getValue();
+	public RubyValue op_add(RubyValue value) {
 		BigInteger result;
 		if (value instanceof RubyBignum){
 			RubyBignum bigValue = (RubyBignum)value;
-			result = getValue().add(bigValue.getValue());
+			result = getInternal().add(bigValue.getInternal());
 		}
 		else if (value instanceof RubyFixnum){
 			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-			result = getValue().add(bigValue);
+			result = getInternal().add(bigValue);
 		}
 		else if (value instanceof RubyFloat){
 			RubyFloat floatValue = (RubyFloat)value;
-			double ret = getValue().doubleValue() + floatValue.doubleValue();
+			double ret = getInternal().doubleValue() + floatValue.doubleValue();
 			return ObjectFactory.createFloat(ret);
 		}
 		else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().toString() + " not expected");
+			throw new RubyException(RubyRuntime.TypeErrorClass, value.getRubyClass().toString() + " not expected");
 		}
 		return bignorm(result);
 	}
 	
-	public RubyValue op_sub(RubyValue v) {
-		Object value = v.getValue();
+	public RubyValue op_sub(RubyValue value) {
 		BigInteger result;
 		if (value instanceof RubyBignum){
 			RubyBignum bigValue = (RubyBignum)value;
-			result = getValue().subtract(bigValue.getValue());
+			result = getInternal().subtract(bigValue.getInternal());
 		}
 		else if (value instanceof RubyFixnum){
 			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-			result = getValue().subtract(bigValue);
+			result = getInternal().subtract(bigValue);
 		}
 		else if (value instanceof RubyFloat){
 			RubyFloat floatValue = (RubyFloat)value;
-			double ret = getValue().doubleValue() - floatValue.doubleValue();
+			double ret = getInternal().doubleValue() - floatValue.doubleValue();
 			return ObjectFactory.createFloat(ret);
 		}
 		else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().toString() + " not expected");
+			throw new RubyException(RubyRuntime.TypeErrorClass, value.getRubyClass().toString() + " not expected");
 		}
 		return bignorm(result);
 	}
 	
-	public RubyValue op_mod(RubyValue v) {
-		Object value = v.getValue();
+	public RubyValue op_mod(RubyValue value) {
 		BigInteger result;
 		if (value instanceof RubyBignum){
 			RubyBignum bigValue = (RubyBignum)value;
-			result = getValue().mod(bigValue.getValue());
+			result = getInternal().mod(bigValue.getInternal());
 		}
 		else if (value instanceof RubyFixnum){
 			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-			result = getValue().mod(bigValue);
+			result = getInternal().mod(bigValue);
 		}
 		else if (value instanceof RubyFloat){
-			double floatValue1 = getValue().doubleValue();
+			double floatValue1 = getInternal().doubleValue();
 			double floatValue2 = ((RubyFloat)value).doubleValue();
 			return ObjectFactory.createFloat(floatValue1 % floatValue2);
 		}
 		else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().toString() + " not expected");
+			throw new RubyException(RubyRuntime.TypeErrorClass, value.getRubyClass().toString() + " not expected");
 		}
 		return bignorm(result);
 	}
 	
-	public RubyValue op_band(RubyValue v) {
-		Object value = v.getValue();
+	public RubyValue op_band(RubyValue value) {
 		BigInteger result;
 		if (value instanceof RubyBignum){
 			RubyBignum bigValue = (RubyBignum)value;
-			result = getValue().and(bigValue.getValue());
+			result = getInternal().and(bigValue.getInternal());
 		}
 		else if (value instanceof RubyFixnum){
 			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-			result = getValue().and(bigValue);
+			result = getInternal().and(bigValue);
 		}
 		else if (value instanceof RubyFloat){
 			double floatValue = ((RubyFloat)value).doubleValue();
 			BigInteger bigValue = BigDecimal.valueOf(floatValue).toBigInteger();
-			result = getValue().and(bigValue);
+			result = getInternal().and(bigValue);
 		}
 		else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().toString() + " not expected");
+			throw new RubyException(RubyRuntime.TypeErrorClass, value.getRubyClass().toString() + " not expected");
 		}
 		return bignorm(result);
 	}
 	
-	public RubyValue op_bor(RubyValue v) {
-		Object value = v.getValue();
+	public RubyValue op_bor(RubyValue value) {
 		BigInteger result;
 		if (value instanceof RubyBignum){
 			RubyBignum bigValue = (RubyBignum)value;
-			result = getValue().or(bigValue.getValue());
+			result = getInternal().or(bigValue.getInternal());
 		}
 		else if (value instanceof RubyFixnum){
 			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-			result = getValue().or(bigValue);
+			result = getInternal().or(bigValue);
 		}
 		else if (value instanceof RubyFloat){
 			double floatValue = ((RubyFloat)value).doubleValue();
 			BigInteger bigValue = BigDecimal.valueOf(floatValue).toBigInteger();
-			result = getValue().or(bigValue);
+			result = getInternal().or(bigValue);
 		}
 		else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().toString() + " not expected");
+			throw new RubyException(RubyRuntime.TypeErrorClass, value.getRubyClass().toString() + " not expected");
 		}
 		return bignorm(result);
 	}
 	
-	public RubyValue op_bxor(RubyValue v) {
-		Object value = v.getValue();
+	public RubyValue op_bxor(RubyValue value) {
 		BigInteger result;
 		if (value instanceof RubyBignum){
 			RubyBignum bigValue = (RubyBignum)value;
-			result = getValue().xor(bigValue.getValue());
+			result = getInternal().xor(bigValue.getInternal());
 		}
 		else if (value instanceof RubyFixnum){
 			RubyFixnum intValue = (RubyFixnum)value;
 			BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-			result = getValue().xor(bigValue);
+			result = getInternal().xor(bigValue);
 		}
 		else if (value instanceof RubyFloat){
 			double floatValue = ((RubyFloat)value).doubleValue();
 			BigInteger bigValue = BigDecimal.valueOf(floatValue).toBigInteger();
-			result = getValue().xor(bigValue);
+			result = getInternal().xor(bigValue);
 		}
 		else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().toString() + " not expected");
+			throw new RubyException(RubyRuntime.TypeErrorClass, value.getRubyClass().toString() + " not expected");
 		}
 		return bignorm(result);
 	}

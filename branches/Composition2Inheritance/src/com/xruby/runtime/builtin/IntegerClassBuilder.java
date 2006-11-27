@@ -15,11 +15,11 @@ class Integer_get_bit extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block)  {
-		int index = ((RubyFixnum)args.get(0).getValue()).intValue();
+		int index = ((RubyFixnum)args.get(0)).intValue();
 		if (index < 0 || index >= 32){
 			return ObjectFactory.createFixnum(0);
 		}
-		int value = ((RubyFixnum)receiver.getValue()).intValue();
+		int value = ((RubyFixnum)receiver).intValue();
 		if (((1 << index) & value) != 0) {
 			return ObjectFactory.createFixnum(1);
 		}
@@ -33,7 +33,7 @@ class Integer_chr extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		int value = ((RubyFixnum)receiver.getValue()).intValue();
+		int value = ((RubyFixnum)receiver).intValue();
 		if (value < 0 || value > 255){
 			throw new RubyException(RubyRuntime.RangeErrorClass, value + " out of char range");
 		}

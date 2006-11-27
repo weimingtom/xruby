@@ -18,9 +18,7 @@ class Enum_collect extends RubyMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
         RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
-        RubyArray array = repeatableBlock.getRetValue();
-
-        return ObjectFactory.createArray(array);
+        return repeatableBlock.getRetValue();
     }
 }
 

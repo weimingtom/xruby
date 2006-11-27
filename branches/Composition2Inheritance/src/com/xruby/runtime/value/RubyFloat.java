@@ -1,12 +1,15 @@
 package com.xruby.runtime.value;
 
-public class RubyFloat {
+import com.xruby.runtime.lang.*;
+
+public class RubyFloat extends RubyBasic {
 	private double value_;
 	
-	public RubyFloat(double value) {
+	RubyFloat(double value) {
+		super(RubyRuntime.FloatClass);
 		value_ = value;
 	}
-	
+
 	public double doubleValue() {
 		return value_;
 	}

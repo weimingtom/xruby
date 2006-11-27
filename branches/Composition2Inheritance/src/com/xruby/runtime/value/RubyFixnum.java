@@ -1,9 +1,12 @@
 package com.xruby.runtime.value;
 
-public class RubyFixnum {
+import com.xruby.runtime.lang.*;
+
+public class RubyFixnum extends RubyBasic {
 	private int value;
 	
 	public RubyFixnum(int i) {
+		super(RubyRuntime.FixnumClass);
 		value = i;
 	}
 	

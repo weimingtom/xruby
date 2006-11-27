@@ -13,7 +13,7 @@ class Array_length extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray value = (RubyArray)receiver.getValue();
+		RubyArray value = (RubyArray)receiver;
 		return ObjectFactory.createFixnum(value.size());
 	}
 }
@@ -24,7 +24,7 @@ class Array_to_s extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray value = (RubyArray)receiver.getValue();
+		RubyArray value = (RubyArray)receiver;
 		return value.to_s();
 	}
 }
@@ -35,22 +35,21 @@ class Array_array_access extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray value = (RubyArray)receiver.getValue();
+		RubyArray value = (RubyArray)receiver;
 		
 		if (1 == args.size()) {
-			Object argValue = args.get(0).getValue();
+			Object argValue = args.get(0);
 			if (argValue instanceof RubyFixnum) {
 				RubyFixnum index = (RubyFixnum)argValue;
 				return value.get(index.intValue());
-			} else if (argValue instanceof RubyRange) {
-				RubyFixnum begin = (RubyFixnum)((RubyRange)argValue).getLeft().getValue();
-				RubyFixnum end = (RubyFixnum)((RubyRange)argValue).getLeft().getValue();
-				RubyArray resultValue = value.subarray(begin.intValue(), end.intValue());
-				return ObjectFactory.createArray(resultValue);
+			} else if (args.get(0) instanceof RubyRange) {
+				RubyFixnum begin = (RubyFixnum)((RubyRange)args.get(0)).getLeft();
+				RubyFixnum end = (RubyFixnum)((RubyRange)args.get(0)).getLeft();
+				return value.subarray(begin.intValue(), end.intValue());
 			}
 		} else if (2 == args.size()) {
-			Object arg0Value = args.get(0).getValue();
-			Object arg1Value = args.get(1).getValue();
+			Object arg0Value = args.get(0);
+			Object arg1Value = args.get(1);
 			if (arg0Value instanceof RubyFixnum && arg1Value instanceof RubyFixnum) {
 				int begin = ((RubyFixnum)arg0Value).intValue();
 				int length = ((RubyFixnum)arg1Value).intValue();
@@ -59,7 +58,7 @@ class Array_array_access extends RubyMethod {
 					return ObjectFactory.nilValue;
 				}
 				
-				return ObjectFactory.createArray(resultValue);
+				return resultValue;
 			}
 		}
 		
@@ -75,8 +74,8 @@ class Array_array_set extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		//TODO index can be range, -1 etc
-		RubyArray value = (RubyArray)receiver.getValue();
-		RubyFixnum index = (RubyFixnum)args.get(0).getValue();
+		RubyArray value = (RubyArray)receiver;
+		RubyFixnum index = (RubyFixnum)args.get(0);
 		return value.set(index.intValue(), args.get(1));
 	}
 }
@@ -87,8 +86,8 @@ class Array_array_equal extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray left = (RubyArray)receiver.getValue();
-		Object right = args.get(0).getValue();
+		RubyArray left = (RubyArray)receiver;
+		Object right = args.get(0);
 		if (!(right instanceof RubyArray)) {
 			return ObjectFactory.falseValue;
 		}
@@ -102,7 +101,7 @@ class Array_concat extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray left = (RubyArray)receiver.getValue();
+		RubyArray left = (RubyArray)receiver;
 		left.concat(args.get(0));
 		return receiver;
 	}
@@ -114,10 +113,9 @@ class Array_plus extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray left = (RubyArray)receiver.getValue();
-		RubyArray right = (RubyArray)args.get(0).getValue();
-		RubyArray resultArray = left.plus(right);
-		return ObjectFactory.createArray(resultArray);
+		RubyArray left = (RubyArray)receiver;
+		RubyArray right = (RubyArray)args.get(0);
+		return left.plus(right);
 	}
 }
 
@@ -127,11 +125,9 @@ class Array_times extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray array = (RubyArray)receiver.getValue();
-		RubyFixnum times = (RubyFixnum)args.get(0).getValue();
-		RubyArray resultArray = array.times(times.intValue());		
-		
-		return ObjectFactory.createArray(resultArray);
+		RubyArray array = (RubyArray)receiver;
+		RubyFixnum times = (RubyFixnum)args.get(0);
+		return array.times(times.intValue());
 	}
 }
 
@@ -141,7 +137,7 @@ class Array_push extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray array = (RubyArray)receiver.getValue();
+		RubyArray array = (RubyArray)receiver;
 		RubyValue obj = args.get(0);
 		array.add(obj);
 		return receiver;
@@ -154,7 +150,7 @@ class Array_pop extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
-		RubyArray array = (RubyArray)receiver.getValue();		
+		RubyArray array = (RubyArray)receiver;		
 		return array.remove(array.size() - 1);		
 	}
 }
@@ -165,8 +161,8 @@ class Array_delete_at extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray array = (RubyArray)receiver.getValue();
-		RubyFixnum pos = (RubyFixnum)args.get(0).getValue();
+		RubyArray array = (RubyArray)receiver;
+		RubyFixnum pos = (RubyFixnum)args.get(0);
 		return array.remove(pos.intValue());		
 	}
 }
@@ -177,7 +173,7 @@ class Array_include extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray array = (RubyArray)receiver.getValue();
+		RubyArray array = (RubyArray)receiver;
 		if (array.include(args.get(0))) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -192,7 +188,7 @@ class Array_each extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray array = (RubyArray)receiver.getValue();
+		RubyArray array = (RubyArray)receiver;
 		array.rb_iterate(receiver, block);
         
         return receiver;
@@ -205,21 +201,18 @@ class Array_unshift extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray array = (RubyArray)receiver.getValue();
+		RubyArray array = (RubyArray)receiver;
 		return array.unshift(args);
 	}
 }
 
-class Array_initialize extends RubyMethod {
-	public Array_initialize() {
-		super(0);
+class Array_new extends RubyMethod {
+	public Array_new() {
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray array = new RubyArray();
-        receiver.setValue(array);
-
-        return receiver;
+        return new RubyArray();
 	}
 }
 
@@ -240,8 +233,8 @@ public class ArrayClassBuilder {
 		c.defineMethod("delete_at", new Array_delete_at());
 		c.defineMethod("include?", new Array_include());
 		c.defineMethod("unshift", new Array_unshift());
-        c.defineMethod("initialize", new Array_initialize());
         c.defineMethod("each", new Array_each());
+        c.defineAllocMethod(new Array_new());
 
         c.includeModule(EnumerableBuilder.create());
         

@@ -248,18 +248,6 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 	}
 	
-	public void convert_RubyValue_to_RubyModule() {
-		invokeVirtual(Type.getType(Types.RubyValueClass),
-				Method.getMethod("Object getValue()"));
-		checkCast(Type.getType(RubyModule.class));
-	}
-
-	public void convert_RubyValue_to_RubyBlock() {
-		invokeVirtual(Type.getType(Types.RubyValueClass),
-				Method.getMethod("Object getValue()"));
-		checkCast(Type.getType(Types.RubyBlockClass));
-	}
-	
 	public void new_MethodClass(String methodName) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
@@ -289,31 +277,6 @@ class MethodGenerator extends GeneratorAdapter {
 		
 		invokeConstructor(methodNameType,
 				Method.getMethod(ClassGeneratorForRubyBlock.buildContructorSignature(commons.length)));
-	}
-	
-	public void new_RubyArray(int size, boolean notSingleAsterisk) {
-		Type arrayValue = Type.getType(RubyArray.class);
-		newInstance(arrayValue);
-		dup();
-		push(size);
-		push(notSingleAsterisk);
-		invokeConstructor(arrayValue,
-				Method.getMethod("void <init> (int, boolean)"));
-	}
-	
-	public void new_HashValue() {
-		Type t = Type.getType(RubyHash.class);
-		newInstance(t);
-		dup();
-		invokeConstructor(t, Method.getMethod("void <init> ()"));
-		
-	}
-	
-	public void new_RubyString() {
-		Type t = Type.getType(RubyString.class);
-		newInstance(t);
-		dup();
-		invokeConstructor(t, Method.getMethod("void <init> ()"));
 	}
 	
 	public void RubyArray_add(boolean is_method_call) {
@@ -372,7 +335,7 @@ class MethodGenerator extends GeneratorAdapter {
 	public void ObjectFactory_createFloat(double value) {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createFloat(double)"));
+                Method.getMethod("com.xruby.runtime.value.RubyFloat createFloat(double)"));
 	}
 	
 	public void ObjectFactory_createFixnum(int value) {
@@ -391,25 +354,25 @@ class MethodGenerator extends GeneratorAdapter {
 	public void ObjectFactory_createString(String value) {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(String)"));
+                Method.getMethod("com.xruby.runtime.value.RubyString createString(String)"));
 	}
-
+	
 	public void ObjectFactory_createString() {
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createString(com.xruby.runtime.value.RubyString)"));
+                Method.getMethod("com.xruby.runtime.value.RubyString createString()"));
 	}
 	
 	public void ObjectFactory_createRegexp(String value) {
 		push(value);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createRegexp(String)"));
+                Method.getMethod("com.xruby.runtime.value.RubyRegexp createRegexp(String)"));
 	}
 
 	public void ObjectFactory_createRegexp() {
 		invokeVirtual(Type.getType(RubyString.class),
 			Method.getMethod("String toString()"));
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createRegexp(String)"));
+                Method.getMethod("com.xruby.runtime.value.RubyRegexp createRegexp(String)"));
 	}
 	
 	public void ObjectFactory_createSymbol(String value) {
@@ -441,20 +404,22 @@ class MethodGenerator extends GeneratorAdapter {
 				"falseValue",
 				Type.getType(Types.RubyValueClass));
 	}
-	
-	public void ObjectFactory_createArray() {
+
+	public void ObjectFactory_createArray(int size, boolean notSingleAsterisk) {
+		push(size);
+		push(notSingleAsterisk);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createArray(com.xruby.runtime.value.RubyArray)"));
+                Method.getMethod("com.xruby.runtime.value.RubyArray createArray(int, boolean)"));
 	}
 	
 	public void ObjectFactory_createHash() {
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createHash(com.xruby.runtime.value.RubyHash)"));
+                Method.getMethod("com.xruby.runtime.value.RubyHash createHash()"));
 	}
 
 	public void ObjectFactory_createRange() {
 		invokeStatic(Type.getType(ObjectFactory.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue createRange(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, boolean)"));
+				Method.getMethod("com.xruby.runtime.value.RubyRange createRange(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, boolean)"));
 	}
 	
 	public void GlobalVatiables_set(String var) {
@@ -568,6 +533,16 @@ class MethodGenerator extends GeneratorAdapter {
 	public void RubyAPI_convertToArrayIfNotYet() {
 		invokeStatic(Type.getType(RubyAPI.class),
 			Method.getMethod("com.xruby.runtime.value.RubyArray convertToArrayIfNotYet(com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void RubyAPI_convertRubyValue2RubyBlock() {
+		invokeStatic(Type.getType(RubyAPI.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyBlock convertRubyValue2RubyBlock(com.xruby.runtime.lang.RubyValue)"));
+	}
+
+	public void RubyAPI_convertRubyValue2RubyModule() {
+		invokeStatic(Type.getType(RubyAPI.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyModule convertRubyValue2RubyModule(com.xruby.runtime.lang.RubyValue)"));
 	}
 	
 	public void RubyModule_defineClass(boolean isBuiltin) {

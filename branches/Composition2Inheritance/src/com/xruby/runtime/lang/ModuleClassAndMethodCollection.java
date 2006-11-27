@@ -58,7 +58,7 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		if (receiver.getRubyClass() != RubyRuntime.ClassClass &&
 			receiver.getRubyClass() != RubyRuntime.ModuleClass) {
 			RubyValue v = RubyAPI.callPublicMethod(receiver, null, "to_s");
-			String s = ((RubyString)v.getValue()).toString();
+			String s = ((RubyString)v).toString();
 			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
 		}
 	}
@@ -95,12 +95,12 @@ class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	
 	public RubyValue getConstants() {
 		Set<String> keys = constants_.keySet();
-		RubyArray result = new RubyArray(keys.size());
+		RubyArray a = new RubyArray(keys.size());
 		Iterator<String> iterator = keys.iterator();
 		while (iterator.hasNext()){
-			result.add(ObjectFactory.createString(iterator.next()));
+			a.add(ObjectFactory.createString(iterator.next()));
 		}
-		return ObjectFactory.createArray(result);
+		return a;
 	}
 }
 

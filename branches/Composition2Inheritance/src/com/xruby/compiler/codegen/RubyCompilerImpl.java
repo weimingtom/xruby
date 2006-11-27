@@ -100,7 +100,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(className));
 		
 		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().convert_RubyValue_to_RubyModule();
+		cg_.getMethodGenerator().RubyAPI_convertRubyValue2RubyModule();
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
@@ -131,7 +131,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(moduleName));
 
 		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().convert_RubyValue_to_RubyModule();
+		cg_.getMethodGenerator().RubyAPI_convertRubyValue2RubyModule();
 
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
@@ -247,7 +247,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitBlockArgument() {
-		cg_.getMethodGenerator().convert_RubyValue_to_RubyBlock();
+		cg_.getMethodGenerator().RubyAPI_convertRubyValue2RubyBlock();
 	}
 	
 	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {	
@@ -347,7 +347,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitutionBegin() {
-		cg_.getMethodGenerator().new_RubyString();
+		cg_.getMethodGenerator().ObjectFactory_createString();
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitution(String value) {
@@ -359,7 +359,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitStringExpressionWithExpressionSubstitutionEnd() {
-		cg_.getMethodGenerator().ObjectFactory_createString();
 	}
 	
 	public void visitRegexpExpressionWithExpressionSubstitutionEnd() {
@@ -541,11 +540,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitArrayBegin(int size, boolean notSingleAsterisk) {
-		cg_.getMethodGenerator().new_RubyArray(size, notSingleAsterisk);
+		cg_.getMethodGenerator().ObjectFactory_createArray(size, notSingleAsterisk);
 	}
 	
 	public void visitHashBegin() {
-		cg_.getMethodGenerator().new_HashValue();
+		cg_.getMethodGenerator().ObjectFactory_createHash();
 	}
 
 	public void visitArrayElementBegin() {
@@ -569,11 +568,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitArrayEnd() {
-		cg_.getMethodGenerator().ObjectFactory_createArray();
 	}
 	
 	public void visitHashEnd() {
-		cg_.getMethodGenerator().ObjectFactory_createHash();
 	}
 
 	public void visitYieldBegin() {

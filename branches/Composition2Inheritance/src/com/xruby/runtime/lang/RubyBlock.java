@@ -22,7 +22,7 @@ class MethodBlockBase {
 
 	protected RubyValue initializeAsteriskParameter(RubyArray args) {
 		if (null == args) {
-			asterisk_parameter_ = ObjectFactory.createEmptyArray();
+			asterisk_parameter_ = new RubyArray();
 		} else {
 			asterisk_parameter_ = args.collect(argc_);
 		}

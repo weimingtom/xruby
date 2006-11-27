@@ -4,9 +4,7 @@
 
 package com.xruby.runtime.value;
 
-import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.RubyBlock;
-
+import com.xruby.runtime.lang.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
  * @breif Internal representation of a ruby hash
  *
  */
-public class RubyHash {
+public class RubyHash extends RubyBasic {
 	private Map<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
     // To ensure the order
     private List<RubyValue> keys_ = new ArrayList<RubyValue>();
@@ -24,6 +22,10 @@ public class RubyHash {
 	private RubyValue default_value_ = ObjectFactory.nilValue;
     private RubyBlock block = null;
 
+    RubyHash() {
+    	super(RubyRuntime.HashClass);
+    }
+    
     public void add(RubyValue k, RubyValue v) {
 		map_.put(k, v);
         keys_.add(k);
@@ -34,14 +36,14 @@ public class RubyHash {
 	}
 
     public RubyValue to_s() {
-		RubyString r = new RubyString();
+		RubyString r = ObjectFactory.createString();
 
 		for (RubyValue key : map_.keySet()) {
             RubyValue value = map_.get(key);
-            r.appendString((key.getValue()).toString()+(value.getValue()).toString());
+            r.appendString(key.toString()+ value.toString());
 		}
 
-		return ObjectFactory.createString(r);
+		return r;
 	}
 
 
@@ -72,8 +74,7 @@ public class RubyHash {
             RubyArray entry = new RubyArray();
             entry.add(key);
             entry.add(value);
-
-            array.add(ObjectFactory.createArray(entry));
+            array.add(entry);
         }
 
         return array;

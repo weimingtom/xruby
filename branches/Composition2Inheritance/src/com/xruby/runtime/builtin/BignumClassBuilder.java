@@ -21,12 +21,12 @@ class Bignum_to_s extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
+		RubyBignum value = (RubyBignum)receiver;
 		if (args == null || args.size() == 0 || args.get(0) == null){
 			return ObjectFactory.createString(value.to_s());
 		}
 
-		int radix = ((RubyFixnum)args.get(0).getValue()).intValue();
+		int radix = ((RubyFixnum)args.get(0)).intValue();
 		return ObjectFactory.createString(value.to_s(radix));
 	} 
 }
@@ -37,7 +37,7 @@ class Bignum_operator_star extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
+		RubyBignum value = (RubyBignum)receiver;
 		RubyValue arg = args.get(0);
 		return value.op_mul(arg);
 	} 
@@ -49,7 +49,7 @@ class Bignum_operator_divide extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
+		RubyBignum value = (RubyBignum)receiver;
 		RubyValue arg = args.get(0);
 		return value.op_div(arg);
 	} 
@@ -61,7 +61,7 @@ class Bignum_operator_plus extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
+		RubyBignum value = (RubyBignum)receiver;
 		RubyValue arg = args.get(0);
 		return value.op_add(arg);
 	} 
@@ -73,7 +73,7 @@ class Bignum_operator_minus extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
+		RubyBignum value = (RubyBignum)receiver;
 		RubyValue arg = args.get(0);
 		return value.op_sub(arg);
 	} 
@@ -85,7 +85,7 @@ class Bignum_operator_mod extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
+		RubyBignum value = (RubyBignum)receiver;
 		RubyValue arg = args.get(0);
 		return value.op_mod(arg);
 	} 
@@ -97,7 +97,7 @@ class Bignum_operator_bor extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
+		RubyBignum value = (RubyBignum)receiver;
 		RubyValue arg = args.get(0);
 		return value.op_bor(arg);
 	} 
@@ -109,7 +109,7 @@ class Bignum_operator_band extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
+		RubyBignum value = (RubyBignum)receiver;
 		RubyValue arg = args.get(0);
 		return value.op_band(arg);
 	} 
@@ -121,7 +121,7 @@ class Bignum_operator_bxor extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
+		RubyBignum value = (RubyBignum)receiver;
 		RubyValue arg = args.get(0);
 		return value.op_bxor(arg);
 	} 
@@ -133,8 +133,8 @@ class Bignum_operator_bnot extends RubyMethod {
 	}
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value = (RubyBignum)receiver.getValue();
-		return RubyBignum.bignorm(value.getValue().not());
+		RubyBignum value = (RubyBignum)receiver;
+		return RubyBignum.bignorm(value.getInternal().not());
 	} 
 }
 
@@ -144,13 +144,13 @@ class Bignum_operator_right_shift extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value1 = (RubyBignum)receiver.getValue();
-		RubyFixnum value2 = (RubyFixnum)args.get(0).getValue();
+		RubyBignum value1 = (RubyBignum)receiver;
+		RubyFixnum value2 = (RubyFixnum)args.get(0);
 		if (value2.intValue() < 0){
-			BigInteger bigValue1 = value1.getValue().shiftLeft(-value2.intValue());
+			BigInteger bigValue1 = value1.getInternal().shiftLeft(-value2.intValue());
 			return RubyBignum.bignorm(bigValue1);
 		}
-		return RubyBignum.bignorm(value1.getValue().shiftRight(value2.intValue()));
+		return RubyBignum.bignorm(value1.getInternal().shiftRight(value2.intValue()));
 	}
 }
 
@@ -160,12 +160,12 @@ class Bignum_operator_left_shift extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value1 = (RubyBignum)receiver.getValue();
-		RubyFixnum value2 = (RubyFixnum)args.get(0).getValue();
+		RubyBignum value1 = (RubyBignum)receiver;
+		RubyFixnum value2 = (RubyFixnum)args.get(0);
 		if (value2.intValue() <= 0){
-			return RubyBignum.bignorm(value1.getValue().shiftRight(-value2.intValue()));
+			return RubyBignum.bignorm(value1.getInternal().shiftRight(-value2.intValue()));
 		}
-		return RubyBignum.bignorm(value1.getValue().shiftLeft(value2.intValue()));
+		return RubyBignum.bignorm(value1.getInternal().shiftLeft(value2.intValue()));
 	}
 }
 
@@ -175,21 +175,21 @@ class Bignum_operator_compare extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value1 = (RubyBignum)receiver.getValue();
-		Object value2 = args.get(0).getValue();
+		RubyBignum value1 = (RubyBignum)receiver;
+		Object value2 = args.get(0);
 		int result = 0;
 		if (value2 instanceof RubyBignum){
-			BigInteger bigValue2 = ((RubyBignum)value2).getValue();
-			result = value1.getValue().compareTo(bigValue2);
+			BigInteger bigValue2 = ((RubyBignum)value2).getInternal();
+			result = value1.getInternal().compareTo(bigValue2);
 		}
 		else if (value2 instanceof RubyFixnum){
-			if (value1.getValue().signum() < 0){
+			if (value1.getInternal().signum() < 0){
 				result = -1;
 			}
 			result = 1;
 		}
 		else if (value2 instanceof RubyFloat){
-			double floatValue1 = value1.getValue().doubleValue();
+			double floatValue1 = value1.getInternal().doubleValue();
 			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			if (floatValue1 < floatValue2){
 				result = -1;
@@ -210,8 +210,8 @@ class Bignum_to_f extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value1 = (RubyBignum)receiver.getValue();
-		return ObjectFactory.createFloat(value1.getValue().doubleValue());
+		RubyBignum value1 = (RubyBignum)receiver;
+		return ObjectFactory.createFloat(value1.getInternal().doubleValue());
 	}
 }
 
@@ -221,8 +221,8 @@ class Bignum_size extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value1 = (RubyBignum)receiver.getValue();
-		int alignedBytesCount = (((value1.getValue().bitLength() - 1) & -32) >> 3) + 4;
+		RubyBignum value1 = (RubyBignum)receiver;
+		int alignedBytesCount = (((value1.getInternal().bitLength() - 1) & -32) >> 3) + 4;
 		return ObjectFactory.createFixnum(alignedBytesCount);
 	}
 }
@@ -233,9 +233,9 @@ class Bignum_get_bit extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBignum value1 = (RubyBignum)receiver.getValue();
+		RubyBignum value1 = (RubyBignum)receiver;
 		int index = RubyTypesUtil.convertToFixnum(args.get(0)).intValue();
-		boolean flag = value1.getValue().testBit(index);
+		boolean flag = value1.getInternal().testBit(index);
 		if (flag){
 			return ObjectFactory.createFixnum(1);
 		}
@@ -249,15 +249,15 @@ class Bignum_operator_star_star extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		BigInteger value1 = ((RubyBignum)receiver.getValue()).getValue();
-		Object value2 = args.get(0).getValue();
+		BigInteger value1 = ((RubyBignum)receiver).getInternal();
+		Object value2 = args.get(0);
 		double floatValue2 = 0;
 		if (value2 instanceof RubyBignum){
 			// TODO: output wraning: "in a**b, b may be too big"
-			floatValue2 = ((RubyBignum)value2).getValue().doubleValue();
-		}else if(value2 instanceof RubyFloat){
+			floatValue2 = ((RubyBignum)value2).getInternal().doubleValue();
+		}else if (value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
-		}else if(value2 instanceof RubyFixnum){
+		}else if (value2 instanceof RubyFixnum){
 			int intValue2 = ((RubyFixnum)value2).intValue();
 			if (intValue2 == 0){
 				return ObjectFactory.createFixnum(1);
@@ -271,7 +271,7 @@ class Bignum_operator_star_star extends RubyMethod {
 				}
 			}
 			floatValue2 = intValue2;
-		}else{
+		} else {
 			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Bignum");
 		}
 		return ObjectFactory.createFloat(Math.pow(value1.doubleValue(), floatValue2));

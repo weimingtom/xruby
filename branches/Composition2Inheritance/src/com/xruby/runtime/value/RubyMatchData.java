@@ -1,11 +1,13 @@
 package com.xruby.runtime.value;
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import com.xruby.runtime.lang.*;
 
-public class RubyMatchData {
+public class RubyMatchData extends RubyBasic {
 	private Matcher matcher;
 	
-	public RubyMatchData(Matcher m) {
+	RubyMatchData(Matcher m) {
+		super(RubyRuntime.MatchDataClass);
 		matcher = m;
 	}
 	

@@ -8,31 +8,26 @@ import com.xruby.runtime.value.*;
 public class RubyTypesUtil {
 	
 	public static RubyFixnum convertToFixnum(RubyValue arg){
-		return convertTo(RubyFixnum.class, arg);
-	}
-	
-	public static RubyBignum convertToBignum(RubyValue arg){
-		return convertTo(RubyBignum.class, arg);
+		if (arg instanceof RubyFixnum) {
+			return (RubyFixnum)arg;
+		} else {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Fixnum");
+		}
 	}
 	
 	public static RubyString convertToString(RubyValue arg){
-		return convertTo(RubyString.class, arg);
-	}
-	
-	public static RubyFloat convertToFloat(RubyValue arg){
-		return convertTo(RubyFloat.class, arg);
+		if (arg instanceof RubyString) {
+			return (RubyString)arg;
+		} else {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into String");
+		}
 	}
 	
 	public static RubyTime convertToTime(RubyValue arg){
-		return convertTo(RubyTime.class, arg);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static <T> T convertTo(Class<T> klass, RubyValue arg){
-		try{
-			return (T)arg.getValue();
-		}catch(ClassCastException e){
-			throw new RubyException(RubyRuntime.TypeErrorClass, "Can't convert " + arg.getRubyClass().getName() + " into " + klass.getSimpleName());
+		if (arg instanceof RubyTime) {
+			return (RubyTime)arg;
+		} else {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Time");
 		}
 	}
 }

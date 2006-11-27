@@ -2,15 +2,18 @@ package com.xruby.runtime.value;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import com.xruby.runtime.lang.*;
 
-public class RubyTime {
+public class RubyTime extends RubyBasic {
 	private Date date_;
 	
-	public RubyTime(Date date){
+	RubyTime(Date date){
+		super(RubyRuntime.TimeClass);
 		date_ = date;
 	}
 	
-	public RubyTime() {
+	RubyTime() {
+		super(RubyRuntime.TimeClass);
 		date_ = new Date();
 	}
 	

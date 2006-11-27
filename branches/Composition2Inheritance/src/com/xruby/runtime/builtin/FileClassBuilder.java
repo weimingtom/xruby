@@ -5,10 +5,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyBignum;
-import com.xruby.runtime.value.RubyTime;
+import com.xruby.runtime.value.*;
 
 
 
@@ -68,8 +65,8 @@ class File_separator extends RubyMethod {
 	}
 }
 
-class File_file extends RubyMethod {
-	public File_file() {
+class File_file_question extends RubyMethod {
+	public File_file_question() {
 		super(1);
 	}
 
@@ -122,7 +119,7 @@ class File_mtime extends RubyMethod {
 		if (!file.isFile() && !file.isDirectory()){
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such file or directory - " + fileName);
 		}
-		return ObjectFactory.createTime(new RubyTime(new Date(file.lastModified())));
+		return ObjectFactory.createTime(new Date(file.lastModified()));
 	}
 }
 
@@ -182,7 +179,7 @@ public class FileClassBuilder {
 	}
 	
 	public static void initSingletonMethods() {
-		ObjectFactory.FileClassValue.defineMethod("file?", new File_file());
+		ObjectFactory.FileClassValue.defineMethod("file?", new File_file_question());
 		ObjectFactory.FileClassValue.defineMethod("expand_path", new File_expand_path());
 		ObjectFactory.FileClassValue.defineMethod("dirname", new File_dirname());
 		ObjectFactory.FileClassValue.defineMethod("delete", new File_delete());

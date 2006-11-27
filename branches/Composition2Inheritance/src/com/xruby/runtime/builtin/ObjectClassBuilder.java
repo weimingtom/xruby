@@ -21,11 +21,22 @@ class Object_operator_equal extends RubyMethod {
 	}
 }
 
+class Object_alloc extends RubyMethod {
+	public Object_alloc() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		return new RubyValue((RubyClass)receiver.getValue(), null);
+	}
+}
+
 public class ObjectClassBuilder {
 	
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Object", null);
 		c.defineMethod("==", new Object_operator_equal());
+		c.defineAllocMethod(new Object_alloc());
 		return c;
 	}
 }

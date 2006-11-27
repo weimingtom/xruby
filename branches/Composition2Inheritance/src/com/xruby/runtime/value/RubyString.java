@@ -2,23 +2,30 @@ package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
 
-public class RubyString {
+public class RubyString extends RubyBasic {
 	private StringBuilder sb_;
 	
-	public RubyString(String s) {
+	RubyString(String s) {
+		super(RubyRuntime.StringClass);
 		sb_ = new StringBuilder(s);
-	}
-
-	public RubyString(StringBuilder sb) {
-		sb_ = sb;
-	}
-	
-	public RubyString() {
-		sb_ = new StringBuilder();
 	}
 	
 	public String toString() {
 		return sb_.toString();
+	}
+	
+	public boolean equals(Object obj) {
+		if (!(obj instanceof RubyString)) {
+			return false;
+		} else if (sb_.toString().equals(((RubyString)obj).toString())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public int hashCode() {
+		return sb_.toString().hashCode();
 	}
 	
 	public int length() {
@@ -32,7 +39,12 @@ public class RubyString {
 
 	public RubyString appendString(RubyValue v) {
 		RubyValue r = RubyAPI.callPublicMethod(v, null, null, "to_s");
-		return appendString(((RubyString)r.getValue()).toString());
+		return appendString(((RubyString)r).toString());
+	}
+	
+	public RubyString setString(String s) {
+		sb_.replace(0, sb_.length(), s);
+		return this;
 	}
 	
 	//Modifies str by converting the first character to uppercase and the remainder to lowercase.

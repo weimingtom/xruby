@@ -10,14 +10,13 @@ class Regexp_case_equal extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		Object o = args.get(0).getValue();
-		if (!(o instanceof RubyString)) {
+		if (!(args.get(0) instanceof RubyString)) {
 			//not comparable
 			return ObjectFactory.falseValue;
 		}
 
-		RubyRegexp r = (RubyRegexp)receiver.getValue();
-		if (r.caseEqual(((RubyString)o).toString())) {
+		RubyRegexp r = (RubyRegexp)receiver;
+		if (r.caseEqual(((RubyString)args.get(0)).toString())) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -31,18 +30,17 @@ class Regexp_match extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		Object o = args.get(0).getValue();
-		if (!(o instanceof RubyString)) {
+		if (!(args.get(0) instanceof RubyString)) {
 			//not comparable
 			return ObjectFactory.falseValue;
 		}
 
-		RubyRegexp r = (RubyRegexp)receiver.getValue();
-		RubyMatchData m = r.match(((RubyString)o).toString());
+		RubyRegexp r = (RubyRegexp)receiver;
+		RubyMatchData m = r.match(((RubyString)args.get(0)).toString());
 		if (null == m) {
 			return ObjectFactory.nilValue;
 		} else {
-			return ObjectFactory.createMatchData(m);
+			return m;
 		}
 	}
 }
@@ -53,19 +51,28 @@ class Regexp_match_operator extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		Object o = args.get(0).getValue();
-		if (!(o instanceof RubyString)) {
+		if (!(args.get(0) instanceof RubyString)) {
 			//not comparable
 			return ObjectFactory.falseValue;
 		}
 
-		RubyRegexp r = (RubyRegexp)receiver.getValue();
-		int p = r.matchPosition(((RubyString)o).toString());
+		RubyRegexp r = (RubyRegexp)receiver;
+		int p = r.matchPosition(((RubyString)args.get(0)).toString());
 		if (p < 0) {
 			return ObjectFactory.nilValue;
 		} else {
 			return ObjectFactory.createFixnum(p);
 		}
+	}
+}
+
+class Regexp_new extends RubyMethod {
+	public Regexp_new() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		return ObjectFactory.createRegexp();
 	}
 }
 
@@ -75,6 +82,7 @@ public class RegexpClassBuilder {
 		c.defineMethod("===", new Regexp_case_equal());
 		c.defineMethod("match", new Regexp_match());
 		c.defineMethod("=~", new Regexp_match_operator());
+		c.defineAllocMethod(new Regexp_new());
 		return c;
 	}
 }

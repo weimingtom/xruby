@@ -12,19 +12,18 @@ class Class_new extends RubyMethod {
 		super(0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyClass value = (RubyClass)receiver.getValue();		
-		RubyValue clazz = new RubyValue(value, null);
-		callInitializeMethod(clazz, args, block);
-		
-		return clazz;
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
+		RubyClass r = (RubyClass)receiver.getValue();
+		RubyValue v = r.invokeAllocMethod(receiver);
+		callInitializeMethod(v, args, block);
+		return v;
 	}
 
-	private void callInitializeMethod(RubyValue clazz, RubyArray args,
+	private void callInitializeMethod(RubyValue v, RubyArray args,
 			RubyBlock block) {
-		RubyMethod m = clazz.findMethod("initialize");
+		RubyMethod m = v.findMethod("initialize");
 		if (m != null) {
-			m.invoke(clazz, args, block);
+			m.invoke(v, args, block);
 		}
 	}
 }
@@ -42,10 +41,12 @@ class Class_operator_equal extends RubyMethod {
 }
 
 public class ClassClassBuilder {
+
+	static RubyMethod class_new_ = new Class_new();
 	
 	public static RubyClass create() {
 		RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Class", RubyRuntime.ModuleClass);
-		c.defineMethod("new", new Class_new());
+		c.defineMethod("new", class_new_);
 		c.defineMethod("==", new Class_operator_equal());
 		return c;
 	}

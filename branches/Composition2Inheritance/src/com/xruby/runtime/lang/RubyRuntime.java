@@ -72,7 +72,7 @@ public class RubyRuntime {
 			}
 		}
 
-		RubyValue.setTopLevelConstant(ObjectFactory.createArray(argv), "ARGV");
+		RubyValue.setTopLevelConstant(argv, "ARGV");
 
 		TopLevelSelfInitializer.initSingletonMethods();
 		TimeClassBuilder.initSingletonMethods();

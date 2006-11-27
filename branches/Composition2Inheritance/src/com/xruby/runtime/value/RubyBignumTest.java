@@ -45,44 +45,44 @@ public class RubyBignumTest extends TestCase {
 		RubyValue a = ObjectFactory.createFixnum(30);
 		RubyValue result = v.op_mul(a);
 		assertEquals(result.getRubyClass(), RubyRuntime.FixnumClass);
-		RubyFixnum fixnumValue = (RubyFixnum)result.getValue();
+		RubyFixnum fixnumValue = (RubyFixnum)result;
 		assertEquals(fixnumValue.intValue(), 3000);
 		
 		// Bignum * Bignum == Fixnum ( < Integer.MAX_VALUE )
 		a = ObjectFactory.createBignum(BigInteger.valueOf(30));
 		result = v.op_mul(a);
 		assertEquals(result.getRubyClass(), RubyRuntime.FixnumClass);
-		fixnumValue = (RubyFixnum)result.getValue();
+		fixnumValue = (RubyFixnum)result;
 		assertEquals(fixnumValue.intValue(), 3000);
 		
 		// Bignum * Fixnum == Bignum ( > Integer.MAX_VALUE )
 		a = ObjectFactory.createFixnum(0x7fffffff);
 		result = v.op_mul(a);
-		assertEquals(result.getValue().getClass(), RubyBignum.class);
-		RubyBignum bignumValue = (RubyBignum)result.getValue();
-		assertEquals(bignumValue.getValue().compareTo(BigInteger.valueOf(0x7fffffffL * 100)), 0);	
+		assertEquals(result.getClass(), RubyBignum.class);
+		RubyBignum bignumValue = (RubyBignum)result;
+		assertEquals(bignumValue.getInternal().compareTo(BigInteger.valueOf(0x7fffffffL * 100)), 0);	
 		
 		// Bignum * Fixnum == Bignum ( < Integer.MIN_VALUE )
 		v.setValue(BigInteger.valueOf(-100));
 		a = ObjectFactory.createFixnum(0x7fffffff);
 		result = v.op_mul(a);
-		assertEquals(result.getValue().getClass(), RubyBignum.class);
-		bignumValue = (RubyBignum)result.getValue();
-		assertEquals(bignumValue.getValue().compareTo(BigInteger.valueOf(0x7fffffffL * -100)), 0);
+		assertEquals(result.getClass(), RubyBignum.class);
+		bignumValue = (RubyBignum)result;
+		assertEquals(bignumValue.getInternal().compareTo(BigInteger.valueOf(0x7fffffffL * -100)), 0);
 		
 		//  Bignum * Float = Float
 		a = ObjectFactory.createFloat(0.1);
 		result = v.op_mul(a);
-		assertEquals(result.getValue().getClass(), RubyFloat.class);
-		RubyFloat floatValue = (RubyFloat)result.getValue();
+		assertEquals(result.getClass(), RubyFloat.class);
+		RubyFloat floatValue = (RubyFloat)result;
 		assertEquals(floatValue.doubleValue(), -100 * 0.1);
 		
 		// Bignum * Float = Float
 		v.setValue(new BigInteger("100000000000000000000"));
 		a = ObjectFactory.createFloat(0.1);
 		result = v.op_mul(a);
-		assertEquals(result.getValue().getClass(), RubyFloat.class);
-		floatValue = (RubyFloat)result.getValue();
+		assertEquals(result.getClass(), RubyFloat.class);
+		floatValue = (RubyFloat)result;
 		assertEquals(floatValue.doubleValue(), 1.0e19);
 	}
 }

@@ -19,11 +19,12 @@ public class Example {
 			"    end    \n" +
 			"end\n" +
 			"\n" +
-			"pre_time = Time.new.to_f\n" +
-			"puts pre_time\n" +
+			"start_time = Time.new.to_f\n" +
+			"puts start_time\n" +
 			"puts fibonacci(30)\n" +
-			"puts Time.new.to_f\n" +
-			"puts Time.new.to_f - pre_time";
+			"end_time = Time.now.to_f\n" +
+			"puts start_time\n" +
+			"puts end_time - start_time";
 		
 		RubyCompiler compiler = new RubyCompiler();
 		CompilationResults codes = compiler.compile(new StringReader(program_text));

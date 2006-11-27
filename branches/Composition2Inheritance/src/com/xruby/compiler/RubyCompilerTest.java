@@ -32,7 +32,7 @@ public class RubyCompilerTest extends TestCase {
 				assertTrue(null != codes);
 				RubyProgram p = (RubyProgram)codes.getRubyProgram();
 				RubyValue v = p.run();
-				RubyFixnum r = (RubyFixnum)v.getValue();
+				RubyFixnum r = (RubyFixnum)v;
 				assertEquals(results[i], r.intValue());
 			} catch (Exception e) {
 				assertTrue("Error at " + i + ": " + e.toString(), false);
@@ -2414,12 +2414,15 @@ public class RubyCompilerTest extends TestCase {
 				"TestInitialize.new",
 				
 				"print String.new('xxx')",
+				
+				"class TestInitializeString < String; end; print TestInitializeString.new('yyy')",
 		};
 		
 		String[] outputs = {
 				"in initialize",
 				
 				"xxx",
+				"yyy",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -2438,14 +2441,14 @@ public class RubyCompilerTest extends TestCase {
 				"print TestAttrReader.new.a",
 				
 				"class TestAttrReader2\n" +
-				"	attr_reader 'a'\n" +
+				"	attr_reader 'b'\n" +
 				"\n" +
 				"	def initialize\n" +
-				"		@a = 6\n" +
+				"		@b = 6\n" +
 				"	end\n" +
 				"end\n" +
 				"\n" +
-				"print TestAttrReader2.new.a",
+				"print TestAttrReader2.new.b",
 		};
 		
 		String[] outputs = {
@@ -2921,7 +2924,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_IO_gets() {
 		
-		RubyIO out = new RubyIO("test_IO_gets.txt", "w");
+		RubyIO out = ObjectFactory.createFile("test_IO_gets.txt", "w");
 		out.print("line 1\n");
 		out.print("line 2");
 		out.close();
