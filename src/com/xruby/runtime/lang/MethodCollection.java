@@ -47,7 +47,7 @@ abstract class MethodCollection extends ClassVariableCollection {
 	}
 	
 	public void aliasMethod(String newName, String oldName) {
-		RubyMethod m = methods_.get(oldName);
+		RubyMethod m = findOwnMethod(oldName);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + oldName + " for class `Object'");
 		}

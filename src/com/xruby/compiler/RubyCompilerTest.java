@@ -604,6 +604,8 @@ public class RubyCompilerTest extends TestCase {
 				"print nil.class\n",
 				"print String.class",
 				"print 1.class.class",
+				"print Kernel.class",
+				"print Comparable.class",//Comparable is defined in builtin.rb
 		};
 
 		String[] outputs = {
@@ -615,6 +617,8 @@ public class RubyCompilerTest extends TestCase {
 				"NilClass",
 				"Class",
 				"Class",
+				"Module",
+				"Module",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -2246,7 +2250,7 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_top_level_include_module() {
+	public void test_include_module() {
 		String [] program_texts = {
 				"module TestTopLevelIncludeModule\n" +
 				"	def test_top_level_include_module\n" +
@@ -2296,6 +2300,14 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"test_top_level_include_module2",
+				
+				"module TestIncludeM; def f; print 7654; end; end\n" +
+				"class TestIncludeC;  include TestIncludeM;  end\n" +
+				"TestIncludeC.new.f",
+				
+				"module TestIncludeM2; def f; print 1234; end; end\n" +
+				"class TestIncludeC2;  include TestIncludeM2; alias :g :f; end\n" +
+				"TestIncludeC2.new.g",
 		};
 		
 		String[] outputs = {
@@ -2303,6 +2315,8 @@ public class RubyCompilerTest extends TestCase {
 				"100",
 				"B2",
 				"8765",
+				"7654",
+				"1234",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
