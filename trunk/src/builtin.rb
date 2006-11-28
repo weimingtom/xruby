@@ -67,14 +67,12 @@ class Array
 		self
 	end
 
-	# xrub BUG #16
 	def join(sepString="")
 		return to_s if sepString.nil? || sepString == ""
 
-		selfObject = self
 		result = ""
 		(length - 1).times do |index|
-			result += (selfObject[index].to_s) + sepString
+			result += (self[index].to_s) + sepString
 		end
 		result += self[length - 1].to_s if length != 0
 		result

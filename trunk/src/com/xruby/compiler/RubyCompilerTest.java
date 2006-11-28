@@ -267,6 +267,20 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_array_join() {
+		String[] program_texts = {				
+				"print [ 'a', 'b', 'c'].join",
+				"print [ 'a', 'b', 'c'].join('-')",
+		};
+
+		String[] outputs = {
+				"abc",
+				"a-b-c",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_UNARY_PLUS_MINUS_METHOD_NAME() {
 		String[] program_texts = {
 				"print 1.-@",
