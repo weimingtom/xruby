@@ -15,11 +15,11 @@ abstract class MethodCollection extends ClassVariableCollection {
 		super(c);
 	}
 
-	protected RubyMethod findOwnMethod(String method_name) {
+	RubyMethod findOwnMethod(String method_name) {
 		return methods_.get(method_name);
 	}
 
-	protected RubyMethod findOwnPublicMethod(String method_name) {
+	RubyMethod findOwnPublicMethod(String method_name) {
 		RubyMethod m = methods_.get(method_name);
 		if (null != m && m.isPublic()) {
 			return m;

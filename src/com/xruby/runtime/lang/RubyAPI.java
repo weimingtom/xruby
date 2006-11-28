@@ -70,7 +70,7 @@ public class RubyAPI {
 	}
 
 	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
-		RubyMethod m = receiver.getRubyClass().findClassSuperMethod(method_name);
+		RubyMethod m = receiver.getRubyClass().findSuperMethod(method_name);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "super method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}

@@ -50,35 +50,35 @@ public class RubyClass extends RubyModule {
 		}
 	}
 
-	RubyMethod findClassSuperMethod(String method_name) {
+	RubyMethod findSuperMethod(String method_name) {
 		if (null != superclass_){
-			return superclass_.findClassMethod(method_name);
+			return superclass_.findOwnMethod(method_name);
 		}
 		
 		return null;
 	}
 	
-	RubyMethod findClassMethod(String method_name) {
+	RubyMethod findOwnMethod(String method_name) {
 		RubyMethod m = super.findOwnMethod(method_name);
 		if (null != m) {
 			return m;
 		} 
 		
 		if (null != superclass_){
-			return superclass_.findClassMethod(method_name);
+			return superclass_.findOwnMethod(method_name);
 		}
 		
 		return null;
 	}
 	
-	RubyMethod findClassPublicMethod(String method_name) {
+	RubyMethod findOwnPublicMethod(String method_name) {
 		RubyMethod m = super.findOwnPublicMethod(method_name);
 		if (null != m) {
 			return m;
 		}
 		
 		if (null != superclass_){
-			return superclass_.findClassPublicMethod(method_name);
+			return superclass_.findOwnPublicMethod(method_name);
 		}
 		
 		return null;

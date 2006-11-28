@@ -1323,6 +1323,10 @@ public class RubyCompilerTest extends TestCase {
 				"	alias g f\n" +
 				"end\n" +
 				"TestAliasMethod2.new.g",
+				
+				"class Alias0;  def foo;  print \"foo\" end;  end\n" +
+				"class Alias1<Alias0;  alias bar foo;  end\n" +
+				"Alias1.new.foo",
 		};
 
 		String[] outputs = {
@@ -1331,6 +1335,7 @@ public class RubyCompilerTest extends TestCase {
 				"bbb",
 				"~~~~",
 				"3333",
+				"foo",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
