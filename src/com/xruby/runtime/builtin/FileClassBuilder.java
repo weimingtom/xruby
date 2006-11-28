@@ -104,7 +104,10 @@ class File_dirname extends RubyMethod {
 		if (parent == null){
 			return ObjectFactory.createString(".");
 		}
-		return ObjectFactory.createString(parent);
+		
+		//Java's File.getParent() always converts '/' to '\\' on windows. This is not
+		//what we want, so here we hack the result with replace(). 
+		return ObjectFactory.createString(parent.replace('\\', '/'));
 	}
 }
 

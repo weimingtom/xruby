@@ -2194,6 +2194,18 @@ public class RubyCompilerTest extends TestCase {
 		assertTrue(file.delete());
 	}
 	
+	public void test_File_dirname() {
+		String [] program_texts = {
+				"print File.dirname('/abc/def')",
+		};
+		
+		String[] outputs = {
+				"/abc",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_wrong_number_of_arguments() {
 		String[] program_texts = {
 				"def f(a) end; f",
@@ -3057,4 +3069,5 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
 }
