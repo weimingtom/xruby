@@ -136,37 +136,7 @@ module Comparable
 end
 
 class Numeric
-	# TODO: BUG #18
-	#include Comparable
-
-	def >=(value)
-		compare = (self <=> value)
-		return compare != -1
-	end
-
-	def ==(value)
-		compare = (self <=> value)
-		return compare == 0
-	end
-
-	def <=(value)
-		compare = (self <=> value)
-		return compare != 1
-	end
-
-	def >(value)
-		compare = (self <=> value)
-		return compare == 1
-	end
-
-	def <(value)
-		compare = (self <=> value)
-		return compare == -1
-	end
-
-	def between?(a, b)
-		self >= a && self <= b
-	end
+	include Comparable
 
 	def abs
 		return -self if (self <=> 0) == -1
@@ -408,37 +378,7 @@ class File < IO
 end
 
 class Time
-	# TODO: BUG #18
-	# include Comparable
-	
-	def >=(value)
-		compare = (self <=> value)
-		return compare != -1
-	end
-
-	def ==(value)
-		compare = (self <=> value)
-		return compare == 0
-	end
-
-	def <=(value)
-		compare = (self <=> value)
-		return compare != 1
-	end
-
-	def >(value)
-		compare = (self <=> value)
-		return compare == 1
-	end
-
-	def <(value)
-		compare = (self <=> value)
-		return compare == -1
-	end
-
-	def between?(a, b)
-		self >= a && self <= b
-	end
+	include Comparable
 end
 
 class Dir
