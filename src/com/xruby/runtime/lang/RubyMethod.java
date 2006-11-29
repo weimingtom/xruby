@@ -78,3 +78,30 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 */
 	protected abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block);
 }
+
+/**
+ * Represent a method removed by 'undef'
+ * When a method is 'undef'ed, it can not be simply removed, instead, a UndefMethod::getInstance()
+ * should be inserted to the method table.
+ */
+class UndefMethod extends RubyMethod {
+
+	private static UndefMethod instance_ = new UndefMethod();
+	
+	private UndefMethod() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		throw new Error("should not reach here!");
+	}
+	
+	static RubyMethod getInstance() {
+		return instance_;
+	}
+	
+	static boolean isUndef(RubyMethod m) {
+		return m == instance_;
+	}
+	
+}

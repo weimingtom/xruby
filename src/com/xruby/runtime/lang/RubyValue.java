@@ -43,25 +43,35 @@ public abstract class RubyValue {
 	}
 	
 	public String toString() {
-		return getRubyClass().toString() + super.toString();
+		return getRubyClass().getName() + super.toString();
 	}
 
-	public RubyMethod findPublicMethod(String method_name) {
-		RubyMethod m = getSingletonClass().findOwnMethod(method_name);
+	public RubyMethod findPublicMethod(String name) {
+		RubyMethod m = getSingletonClass().findOwnMethod(name);
 		if (null != m && m.isPublic()) {
 			return m;
-		} else {
-			return getRubyClass().findOwnPublicMethod(method_name);
-		}
-	}
-
-	public RubyMethod findMethod(String method_name) {
-		RubyMethod m = getSingletonClass().findOwnMethod(method_name);
+		} 
+		
+		m = getRubyClass().findOwnPublicMethod(name);
 		if (null != m) {
 			return m;
-		} else {
-			return getRubyClass().findOwnMethod(method_name);
 		}
+		
+		return null;
+	}
+
+	public RubyMethod findMethod(String name) {
+		RubyMethod m = getSingletonClass().findOwnMethod(name);
+		if (null != m) {
+			return m;
+		}
+		
+		m = getRubyClass().findOwnMethod(name);
+		if (null != m) {
+			return m;
+		}
+
+		return null;
 	}
 
 	public void collectMethodNames(RubyArray a) {

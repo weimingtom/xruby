@@ -41,9 +41,11 @@ abstract class MethodCollection extends ClassVariableCollection {
 	}
 	
 	public void undefMethod(String name) {
-		if (methods_.remove(name) == null) {
+		if (findOwnMethod(name) == null) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + name +  " for class `Object'");
 		}
+		
+		methods_.put(name, UndefMethod.getInstance());
 	}
 	
 	public void aliasMethod(String newName, String oldName) {
