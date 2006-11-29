@@ -1,6 +1,6 @@
 $:.unshift(File.dirname(__FILE__))
 
-#require 'test_alias'
+require 'test_alias'
 #require 'test_array'
 #require 'test_assignment_1'
 require 'test_assignment'
