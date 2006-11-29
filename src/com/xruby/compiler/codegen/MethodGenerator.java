@@ -539,9 +539,17 @@ class MethodGenerator extends GeneratorAdapter {
 			Method.getMethod("com.xruby.runtime.lang.RubyValue convertRubyException2RubyValue(com.xruby.runtime.lang.RubyException)"));
 	}
 	
-	public void RubyAPI_isDefined() {
+	public void RubyAPI_isDefined(String name) {
+		push(name);
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefined(com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
+	public void RubyAPI_isDefinedSuper(String name) {
+		push(name);
+		loadThis();
+		invokeStatic(Type.getType(RubyAPI.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefinedSuper(com.xruby.runtime.lang.RubyValue, String, com.xruby.runtime.lang.RubyMethod)"));
 	}
 	
 	public void RubyModule_defineClass(boolean isBuiltin) {

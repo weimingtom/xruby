@@ -1680,6 +1680,17 @@ public class RubyCompilerTest extends TestCase {
 				"print defined? to_s",
 				"def f(x); 'xxx'; end;  print defined? f(1)",
 				"def test_defined; end;    undef test_defined;   print defined? test_defined",
+				
+				"print defined? super",
+				"class C; print defined? super; end",
+				
+				"class TestDefined0; end\n" +
+				"class TestDefined2 < TestDefined0; def test_define; print defined? super end; end\n" +
+				"TestDefined2.new.test_define",
+				
+				"class TestDefined0; def test_define; end;  end\n" +
+				"class TestDefined2 < TestDefined0; def test_define; print defined? super end; end\n" +
+				"TestDefined2.new.test_define",
 		};
 
 		String[] outputs = {
@@ -1690,6 +1701,13 @@ public class RubyCompilerTest extends TestCase {
 				"method",
 				"method",
 				"nil",
+				
+				"nil",
+				"nil",
+				
+				"nil",
+				
+				"super",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
