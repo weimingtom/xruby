@@ -44,6 +44,15 @@ public class RubyAPI {
 	public static boolean isInstanceOf(RubyValue class_to_compare, RubyValue value) {
 		return (value.getRubyClass() == class_to_compare);
 	}
+	
+	public static RubyValue isDefined(RubyValue receiver, String method_name) {
+		RubyMethod m = receiver.findMethod(method_name);
+		if (null == m || UndefMethod.isUndef(m)) {
+			return ObjectFactory.nilValue;
+		}
+		
+		return ObjectFactory.createString("method");
+	}
 
 	//receiver is implicit self
 	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {

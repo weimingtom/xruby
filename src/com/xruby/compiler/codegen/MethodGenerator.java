@@ -539,6 +539,11 @@ class MethodGenerator extends GeneratorAdapter {
 			Method.getMethod("com.xruby.runtime.lang.RubyValue convertRubyException2RubyValue(com.xruby.runtime.lang.RubyException)"));
 	}
 	
+	public void RubyAPI_isDefined() {
+		invokeStatic(Type.getType(RubyAPI.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefined(com.xruby.runtime.lang.RubyValue, String)"));
+	}
+	
 	public void RubyModule_defineClass(boolean isBuiltin) {
 		if (isBuiltin) {
 			invokeVirtual(Type.getType(RubyModule.class),

@@ -20,7 +20,7 @@ public class DefinedExpression extends Expression {
 		expression_ = arguments.getFirstExpression();
 	}
 	
-	// defined? expression is compile time computable
+	// defined? expression is compile time computable in some cases
 	public void accept(CodeVisitor visitor) {
 		if (expression_ instanceof NilExpression) {
 			visitor.visitStringExpression("nil");
@@ -28,6 +28,10 @@ public class DefinedExpression extends Expression {
 			visitor.visitStringExpression("true");
 		} else if (expression_ instanceof FalseExpression) {
 			visitor.visitStringExpression("falses");
+		} else if (expression_ instanceof MethodCallExpression) {
+			visitor.visitDefinedExpression(((MethodCallExpression)expression_).getName());
+		} else if (expression_ instanceof SuperExpression) {
+			visitor.visitDefinedExpression("super");
 		} else {
 			visitor.visitStringExpression("expression");
 		}

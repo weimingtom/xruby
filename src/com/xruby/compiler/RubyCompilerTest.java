@@ -1675,11 +1675,21 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"print defined? nil",
 				"print defined? 123",
+				"print defined? no_such_method",
+				"print defined? no_such_method(1, 2, 3)",
+				"print defined? to_s",
+				"def f(x); 'xxx'; end;  print defined? f(1)",
+				"def test_defined; end;    undef test_defined;   print defined? test_defined",
 		};
 
 		String[] outputs = {
 				"nil",
 				"expression",
+				"nil",
+				"nil",
+				"method",
+				"method",
+				"nil",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
