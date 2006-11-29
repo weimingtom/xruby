@@ -12,6 +12,12 @@ public class CodePrinter implements CodeVisitor {
 	public String toString() {
 		return result_.toString();
 	}
+
+	public void visitDefinedExpression(String name) {
+		result_.append("defined? ");
+		result_.append(name);
+		result_.append("\n");
+	}
 	
 	public void visitBinaryOperator(String operator) {
 		result_.append(operator);

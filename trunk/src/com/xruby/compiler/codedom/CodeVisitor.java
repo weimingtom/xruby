@@ -17,6 +17,7 @@ public interface CodeVisitor {
 	public void visitConstant(String name);
 	public void visitCurrentNamespaceConstant(String name);
 	public void visitTopLevelConstant(String name);
+	public void visitDefinedExpression(String name);
 
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call);
 	public void visitInstanceVariableAssignmentOperator(String var, boolean rhs_is_method_call);

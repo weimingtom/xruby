@@ -785,4 +785,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 		//TODO handle rhs_is_method_call and is_multiple_assignment
 		cg_.getMethodGenerator().RubyModule_setTopLevelConstant(name);
 	}
+
+	public void visitDefinedExpression(String name) {
+		visitSelfExpression();
+		cg_.getMethodGenerator().push(name);
+		cg_.getMethodGenerator().RubyAPI_isDefined();
+	}
 }
