@@ -48,7 +48,7 @@ public class RubyAPI {
 	//receiver is implicit self
 	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findMethod(method_name);
-		if (null == m) {
+		if (null == m || UndefMethod.isUndef(m)) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "method '" +  method_name + "' can not be found in 'Object'");
 		}
 	
@@ -62,7 +62,7 @@ public class RubyAPI {
 
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findPublicMethod(method_name);
-		if (null == m) {
+		if (null == m || UndefMethod.isUndef(m)) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}
 	
