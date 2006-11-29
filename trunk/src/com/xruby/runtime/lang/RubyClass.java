@@ -36,6 +36,11 @@ public class RubyClass extends RubyModule {
 		}
 	}
 
+	public RubyValue defineMethod(String name, RubyMethod m) {
+		m.setOwner(this);
+		return super.defineMethod(name, m);
+	}
+	
 	boolean isMyParent(final RubyClass superclass) {
 		return superclass_ == superclass;
 	}
@@ -50,9 +55,9 @@ public class RubyClass extends RubyModule {
 		}
 	}
 
-	RubyMethod findSuperMethod(String method_name) {
+	RubyMethod findSuperMethod(String name) {
 		if (null != superclass_){
-			return superclass_.findOwnMethod(method_name);
+			return superclass_.findOwnMethod(name);
 		}
 		
 		return null;

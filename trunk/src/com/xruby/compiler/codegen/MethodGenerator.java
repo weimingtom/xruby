@@ -476,8 +476,9 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void RubyAPI_callSuperMethod(String methodName) {
 		push(methodName);
+		loadThis();
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String, com.xruby.runtime.lang.RubyMethod)"));
 	}
 
 	public void RubyAPI_operatorNot() {

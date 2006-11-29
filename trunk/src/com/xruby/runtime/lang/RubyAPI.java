@@ -69,10 +69,11 @@ public class RubyAPI {
 		return m.invoke(receiver, args, block);
 	}
 
-	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
-		RubyMethod m = receiver.getRubyClass().findSuperMethod(method_name);
+	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name, RubyMethod current_method) {
+		RubyClass c = current_method.getOwner();
+		RubyMethod m = c.findSuperMethod(method_name);
 		if (null == m) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "super method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
+			throw new RubyException(RubyRuntime.NameErrorClass, "super method '" +  method_name + "' can not be found in '" + c.getName() + "'");
 		}
 	
 		return m.invoke(receiver, args, block);
