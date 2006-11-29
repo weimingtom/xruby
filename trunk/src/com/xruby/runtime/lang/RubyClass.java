@@ -6,9 +6,6 @@ package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.*;
 
-/**
- * Hold all instances of the class
- */
 public class RubyClass extends RubyModule {
 	//private Set<RubyObject> instances_ = new HashSet<RubyObject>();
 	private RubyClass superclass_;
