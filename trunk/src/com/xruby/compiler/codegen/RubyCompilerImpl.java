@@ -630,8 +630,13 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitClassVariableExpression(String name) {
-		visitSelfExpression();
-		cg_.getMethodGenerator().RubyValue_getRubyClass();
+		if (cg_.isInClassBuilder()) {
+			cg_.getMethodGenerator().loadCurrentClass();
+		} else {
+			visitSelfExpression();
+			cg_.getMethodGenerator().RubyValue_getRubyClass();
+		}
+		
 		cg_.getMethodGenerator().RubyModule_getClassVariable(name);
 	}
 
