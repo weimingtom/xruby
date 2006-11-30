@@ -1829,19 +1829,30 @@ public class RubyCompilerTest extends TestCase {
 				"\n" +
 				"print TestClassVariable0.new.f",
 				
-				"class TestClassVariable5\n" +
+				"class TestClassVariable4\n" +
 				"	@@test_class_variable = \"000\"\n" +
 				"	print @@test_class_variable\n" +
 				"end\n",
 				
-				/*"class TestClassVariable5\n" +
+				"class TestClassVariable5\n" +
 				"	@@test_class_variable = \"zzz\"\n" +
-				"	def TestClassVariable4.f\n" +
+				"	def TestClassVariable5.f\n" +
 				"		@@test_class_variable\n" +
 				"	end\n" +
 				"end\n" +
 				"\n" +
-				"print TestClassVariable5.f",*/
+				"print TestClassVariable5.f",
+				
+				"class TestClassVariable6\n" +
+				"	@@test_class_variable = \"ppp\"\n" +
+				"	class <<self\n" +
+				"		def f\n" +
+				"			@@test_class_variable\n" +
+				"		end\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"print TestClassVariable6.f",
 		};
 
 		String[] outputs = {
@@ -1852,7 +1863,8 @@ public class RubyCompilerTest extends TestCase {
 				
 				"yyy",
 				"000",
-				//"zzz",
+				"zzz",
+				"ppp",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

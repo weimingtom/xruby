@@ -4,7 +4,7 @@
 
 package com.xruby.compiler.codegen;
 
-import org.objectweb.asm.Label;
+import org.objectweb.asm.*;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 import java.util.*;
@@ -29,6 +29,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	private boolean isInBlock() {
 		return (cg_ instanceof ClassGeneratorForRubyBlock);
+	}
+	
+	private boolean isInSingletonMethod() {
+		if (cg_ instanceof ClassGeneratorForRubyMethod) {
+			return ((ClassGeneratorForRubyMethod)cg_).isSingletonMethod();
+		}
+		
+		return false;
 	}
 	
 	private static boolean isBuiltin(String name) {
@@ -103,7 +111,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().dup();
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
-		cg_.startClassBuilderMethod(method_name_for_class_builder);
+		cg_.startClassBuilderMethod(method_name_for_class_builder, false);
 	}
 
 	public void visitSingletonClassDefination1() {
@@ -116,7 +124,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder("SIGLETON");
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
-		cg_.startClassBuilderMethod(method_name_for_class_builder);
+		cg_.startClassBuilderMethod(method_name_for_class_builder, true);
 	}
 
 	public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
@@ -133,7 +141,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().dup();
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
-		cg_.startClassBuilderMethod(method_name_for_class_builder);
+		cg_.startClassBuilderMethod(method_name_for_class_builder, false);
 	}
 
 	public void visitModuleDefinationEnd(boolean last_statement_has_return_value) {
@@ -148,7 +156,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
-		cg_ = new ClassGeneratorForRubyMethod(methodName, uniqueMethodName, num_of_args, has_asterisk_parameter, num_of_default_args);
+		cg_ = new ClassGeneratorForRubyMethod(methodName,
+								uniqueMethodName,
+								num_of_args,
+								has_asterisk_parameter,
+								num_of_default_args,
+								is_singleton_method || (cg_.isInClassBuilder() && ((MethodGeneratorForClassBuilder)cg_.getMethodGenerator()).isSingleton()));
 	}
 
 	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
@@ -632,6 +645,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitClassVariableExpression(String name) {
 		if (cg_.isInClassBuilder()) {
 			cg_.getMethodGenerator().loadCurrentClass();
+		} else if (isInSingletonMethod()) {
+			visitSelfExpression();
+			cg_.getMethodGenerator().checkCast(Type.getType(Types.RubyClassClass));
 		} else {
 			visitSelfExpression();
 			cg_.getMethodGenerator().RubyValue_getRubyClass();

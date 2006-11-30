@@ -8,16 +8,22 @@ import org.objectweb.asm.commons.Method;
 
 class ClassGeneratorForRubyMethod extends ClassGenerator {
 
-	private String methodName_;//this name is saved for 'super'
+	private String method_name_;//this name is saved for 'super'
+	private boolean is_singleton_method_;
 	
-	public ClassGeneratorForRubyMethod(String methodName, String name, int argc, boolean has_asterisk_parameter, int default_argc) {
+	public ClassGeneratorForRubyMethod(String method_name, String name, int argc, boolean has_asterisk_parameter, int default_argc, boolean is_singleton_method) {
 		super(name);
-		methodName_ = methodName;
+		method_name_ = method_name;
+		is_singleton_method_ = is_singleton_method;
 		mg_for_run_method_ = visitRubyMethod(argc, has_asterisk_parameter, default_argc);
 	}
 
 	String getMethodName() {
-		return methodName_;
+		return method_name_;
+	}
+
+	boolean isSingletonMethod() {
+		return is_singleton_method_;
 	}
 	
 	protected Class getType() {

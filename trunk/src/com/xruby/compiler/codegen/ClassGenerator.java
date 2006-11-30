@@ -36,7 +36,7 @@ abstract class ClassGenerator {
 		getMethodGenerator().storeVariable(name);
 	}
 
-	public void startClassBuilderMethod(String name) {
+	public void startClassBuilderMethod(String name, boolean is_singleton) {
 		if (null != current_mg_for_class_builder_method_) {
 			suspended_mgs_for_class_builder_method_.push(current_mg_for_class_builder_method_);
 		}
@@ -46,7 +46,8 @@ abstract class ClassGenerator {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule)"),
 				null,
 				null,
-				cw_);
+				cw_,
+				is_singleton);
 	}
 
 	public void endClassBuilderMethod(boolean last_statement_has_return_value) {
