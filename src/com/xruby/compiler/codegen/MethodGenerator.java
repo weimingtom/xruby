@@ -685,8 +685,15 @@ class MethodGenerator extends GeneratorAdapter {
 }
 
 class MethodGeneratorForClassBuilder extends MethodGenerator {
-	public MethodGeneratorForClassBuilder(int arg0, Method arg1, String arg2, Type[] arg3, ClassVisitor arg4) {
+	private boolean is_singleton_;
+	
+	public MethodGeneratorForClassBuilder(int arg0, Method arg1, String arg2, Type[] arg3, ClassVisitor arg4, boolean is_singleton) {
 		super(arg0, arg1, arg2, arg3, arg4);
+		is_singleton_ = is_singleton;
+	}
+
+	boolean isSingleton() {
+		return is_singleton_;
 	}
 
 	public boolean loadCurrentClass() {
