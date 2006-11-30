@@ -55,7 +55,7 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 		}
 	}
 
-	public RubyValue getClassVariable(String name) {
+	protected RubyValue findClassVariable(String name) {
 		RubyValue v = super.findClassVariable(name);
 		if (null != v) {
 			return v;
@@ -68,7 +68,6 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 			}
 		}
 
-		throw new RubyException(RubyRuntime.NameErrorClass,
-					"uninitialized class variable " + name + " in " +  getName());
+		return null;
 	}
 }

@@ -1771,6 +1771,17 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_class_variable() {
 		String[] program_texts = {
+				"class TestClassVariable2\n" +
+				"	@@test_class_variable = \"xxx\"\n" +
+				"	def test_class_variable1\n" +
+				"		@@test_class_variable\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"class TestClassVariable3 < TestClassVariable2\n" +
+				"end\n" +
+				"\n" +
+				"print TestClassVariable3.new.test_class_variable1",
 
 				"@@a= 567; print @@a",
 				
@@ -1804,12 +1815,28 @@ public class RubyCompilerTest extends TestCase {
 				" instanceOne.add_one\n" +
 				" print instanceOne.value\n" +
 				" print instanceTwo.value",
+						
+				"class TestClassVariable0\n" +
+				"	@@test_class_variable = \"xxx\"\n" +
+				"	def f\n" +
+				"		@@test_class_variable\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"class TestClassVariable1 < TestClassVariable0\n" +
+				"	@@test_class_variable = \"yyy\"\n" +
+				"end\n" +
+				"\n" +
+				"print TestClassVariable0.new.f",
 		};
 
 		String[] outputs = {
+				"xxx",
 				"567",
 				"123",
 				"122",
+				
+				"yyy",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

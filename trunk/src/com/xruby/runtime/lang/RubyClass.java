@@ -92,4 +92,45 @@ public class RubyClass extends RubyModule {
 			superclass_.collectClassMethodNames(a);
 		}
 	}
+
+	protected RubyValue findClassVariable(String name) {
+		RubyValue v = super.findClassVariable(name);
+		if (null != v) {
+			return v;
+		}
+		
+		if (null != superclass_){
+			return superclass_.findClassVariable(name);
+		}
+		
+		return null;
+	}
+
+	private RubyClass findWhereIsClassVariableDefined(String name) {
+		RubyValue v = super.findClassVariable(name);
+		if (null != v) {
+			return this;
+		}
+		
+		if (null != superclass_){
+			return superclass_.findWhereIsClassVariableDefined(name);
+		}
+		
+		return null;
+	}
+
+	private void setOwnClassVariable(RubyValue value, String name) {
+		super.setClassVariable(value, name);
+	}
+
+	public RubyValue setClassVariable(RubyValue value, String name) {
+		RubyClass c = findWhereIsClassVariableDefined(name);
+		if (null == c) {
+			setOwnClassVariable(value, name);
+		} else {
+			c.setOwnClassVariable(value, name);
+		}
+		
+		return value;
+	}
 }
