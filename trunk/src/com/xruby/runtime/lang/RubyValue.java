@@ -45,9 +45,17 @@ public abstract class RubyValue {
 	public String toString() {
 		return getRubyClass().getName() + super.toString();
 	}
+	
+	protected RubyMethod findSingletonMethod(String name) {
+		return getSingletonClass().findOwnMethod(name);
+	}
+	
+	protected RubyMethod findSingletonPublicMethod(String name) {
+		return getSingletonClass().findOwnPublicMethod(name);
+	}
 
 	public RubyMethod findPublicMethod(String name) {
-		RubyMethod m = getSingletonClass().findOwnMethod(name);
+		RubyMethod m = findSingletonPublicMethod(name);
 		if (null != m && m.isPublic()) {
 			return m;
 		} 
@@ -61,7 +69,7 @@ public abstract class RubyValue {
 	}
 
 	public RubyMethod findMethod(String name) {
-		RubyMethod m = getSingletonClass().findOwnMethod(name);
+		RubyMethod m = findSingletonMethod(name);
 		if (null != m) {
 			return m;
 		}
