@@ -120,16 +120,16 @@ public class RubyClass extends RubyModule {
 	}
 
 	protected RubyValue findClassVariable(String name) {
-		RubyValue v = super.findClassVariable(name);
+		RubyValue v = null;
+		if (null != superclass_){
+			v = superclass_.findClassVariable(name);
+		}
+
 		if (null != v) {
 			return v;
 		}
 		
-		if (null != superclass_){
-			return superclass_.findClassVariable(name);
-		}
-		
-		return null;
+		return super.findClassVariable(name);
 	}
 
 	private RubyClass findWhereIsClassVariableDefined(String name) {
