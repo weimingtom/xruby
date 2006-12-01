@@ -70,7 +70,7 @@ public class RubyAPI {
 	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "method '" +  method_name + "' can not be found in 'Object'");
+			throw new RubyException(RubyRuntime.NoMethodErrorClass, "method '" +  method_name + "' can not be found in 'Object'");
 		}
 	
 		return m.invoke(receiver, args, block);
@@ -84,7 +84,7 @@ public class RubyAPI {
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findPublicMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
+			throw new RubyException(RubyRuntime.NoMethodErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}
 	
 		return m.invoke(receiver, args, block);
@@ -94,7 +94,7 @@ public class RubyAPI {
 		RubyClass c = current_method.getOwner();
 		RubyMethod m = c.findSuperMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "super method '" +  method_name + "' can not be found in '" + c.getName() + "'");
+			throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" +  method_name + "' can not be found in '" + c.getName() + "'");
 		}
 	
 		return m.invoke(receiver, args, block);
