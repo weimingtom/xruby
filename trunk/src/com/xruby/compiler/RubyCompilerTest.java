@@ -1851,6 +1851,37 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"print TestClassVariable6.f",
+				
+				"module TestClassVariableM\n" +
+				"	@@var = 999\n" +
+				"end\n" +
+				"\n" +
+				"class TestClassVariableC\n" +
+				"	include TestClassVariableM\n" +
+				"	def f\n" +
+				"		@@var\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"print TestClassVariableC.new.f",
+				
+				"class TestClassVariableB1\n" +
+				"	@@var = 777\n" +
+				"	def TestClassVariableB1.f\n" +
+				"		@@var\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"module TestClassVariableM1\n" +
+				"	@@var = 666\n" +
+				"end\n" +
+				"\n" +
+				"class TestClassVariableC1 < TestClassVariableB1\n" +
+				"	include TestClassVariableM1\n" +
+				"	\n" +
+				"end\n" +
+				"\n" +
+				"print TestClassVariableC1.f",
 		};
 
 		String[] outputs = {
@@ -1863,6 +1894,8 @@ public class RubyCompilerTest extends TestCase {
 				"000",
 				"zzz",
 				"ppp",
+				"999",
+				"777",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
