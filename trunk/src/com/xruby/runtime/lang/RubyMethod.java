@@ -7,7 +7,7 @@ package com.xruby.runtime.lang;
 import com.xruby.runtime.value.*;
 
 public abstract class RubyMethod extends MethodBlockBase {
-	private RubyClass owner_;//save a reference of the class/module to implement 'super'
+	private RubyModule owner_;//save a reference of the class/module to implement 'super' and class variable
 	private int access_;
 	
 	public static final int PUBLIC = 0;
@@ -22,11 +22,11 @@ public abstract class RubyMethod extends MethodBlockBase {
 		access_ = access;
 	}
 	
-	protected void setOwner(RubyClass c) {
+	protected void setOwner(RubyModule c) {
 		owner_ = c;
 	}
 	
-	protected RubyClass getOwner() {
+	protected RubyModule getOwner() {
 		return owner_;
 	}
 	

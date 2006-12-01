@@ -47,7 +47,7 @@ public class RubyAPI {
 	
 	//e.g. defined? super
 	public static RubyValue isDefinedSuper(RubyValue receiver, String method_name, RubyMethod current_method) {
-		RubyClass c = current_method.getOwner();
+		RubyClass c = (RubyClass)current_method.getOwner();
 		RubyMethod m = c.findSuperMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
 			return ObjectFactory.nilValue;
@@ -91,7 +91,7 @@ public class RubyAPI {
 	}
 
 	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name, RubyMethod current_method) {
-		RubyClass c = current_method.getOwner();
+		RubyClass c = (RubyClass)current_method.getOwner();
 		RubyMethod m = c.findSuperMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
 			throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" +  method_name + "' can not be found in '" + c.getName() + "'");

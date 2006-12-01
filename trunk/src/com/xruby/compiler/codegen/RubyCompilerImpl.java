@@ -648,9 +648,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 		} else if (isInSingletonMethod()) {
 			visitSelfExpression();
 			cg_.getMethodGenerator().checkCast(Type.getType(Types.RubyClassClass));
-		} else {
+		} else if (isInGlobalScope()) {
 			visitSelfExpression();
 			cg_.getMethodGenerator().RubyValue_getRubyClass();
+		} else {
+			cg_.getMethodGenerator().loadThis();
+			cg_.getMethodGenerator().RubyMethod_getOwner();
 		}
 		
 		cg_.getMethodGenerator().RubyModule_getClassVariable(name);
@@ -664,9 +667,15 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		if (cg_.isInClassBuilder()) {
 			cg_.getMethodGenerator().loadCurrentClass();
-		} else {
+		} else if (isInSingletonMethod()) {
+			visitSelfExpression();
+			cg_.getMethodGenerator().checkCast(Type.getType(Types.RubyClassClass));
+		} else if (isInGlobalScope()) {
 			visitSelfExpression();
 			cg_.getMethodGenerator().RubyValue_getRubyClass();
+		} else {
+			cg_.getMethodGenerator().loadThis();
+			cg_.getMethodGenerator().RubyMethod_getOwner();
 		}
 		
 		cg_.getMethodGenerator().loadLocal(value);
