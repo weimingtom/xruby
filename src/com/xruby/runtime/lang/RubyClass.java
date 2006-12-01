@@ -51,8 +51,34 @@ public class RubyClass extends RubyModule {
 			return false;
 		}
 	}
+	
+	protected RubyMethod findSingletonMethod(String name) {
+		RubyMethod m = super.findSingletonMethod(name);
+		if (null != m) {
+			return m;
+		}
+		
+		if (null != superclass_) {
+			return superclass_.findSingletonMethod(name);
+		}
+		
+		return null;
+	}
+	
+	protected RubyMethod findSingletonPublicMethod(String name) {
+		RubyMethod m = super.findSingletonPublicMethod(name);
+		if (null != m) {
+			return m;
+		}
+		
+		if (null != superclass_) {
+			return superclass_.findSingletonPublicMethod(name);
+		}
+		
+		return null;
+	}
 
-	RubyMethod findSuperMethod(String name) {
+	protected RubyMethod findSuperMethod(String name) {
 		if (null != superclass_){
 			return superclass_.findOwnMethod(name);
 		}
@@ -60,7 +86,7 @@ public class RubyClass extends RubyModule {
 		return null;
 	}
 	
-	RubyMethod findOwnMethod(String name) {
+	protected RubyMethod findOwnMethod(String name) {
 		RubyMethod m = super.findOwnMethod(name);
 		if (null != m) {
 			return m;
@@ -73,7 +99,7 @@ public class RubyClass extends RubyModule {
 		return null;
 	}
 	
-	RubyMethod findOwnPublicMethod(String name) {
+	protected RubyMethod findOwnPublicMethod(String name) {
 		RubyMethod m = super.findOwnPublicMethod(name);
 		if (null != m) {
 			return m;
@@ -86,7 +112,7 @@ public class RubyClass extends RubyModule {
 		return null;
 	}
 
-	void collectClassMethodNames(RubyArray a) {
+	protected void collectClassMethodNames(RubyArray a) {
 		super.collectOwnMethodNames(a);
 		if (null != superclass_){
 			superclass_.collectClassMethodNames(a);
