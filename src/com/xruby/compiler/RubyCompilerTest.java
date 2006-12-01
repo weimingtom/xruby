@@ -54,10 +54,10 @@ public class RubyCompilerTest extends TestCase {
 				p.run();
 				assertTrue("Error at " + i + ": should throw RubyException", false);
 			} catch (RubyException e) {
-				assertEquals("Exception type mismatch at " + i, exceptions[i].getRubyValue().getRubyClass().getName(), e.getRubyValue().getRubyClass().getName());
 				if (exceptions[i].getRubyValue().toString() != null) {
 					assertEquals("Exception message mismatch at " + i, exceptions[i].getRubyValue().toString(), e.getRubyValue().toString());
 				}
+				assertEquals("Exception type mismatch at " + i, exceptions[i].getRubyValue().getRubyClass().getName(), e.getRubyValue().getRubyClass().getName());
 				continue;
 			} catch (Exception e) {
 				assertTrue("Error at " + i + ": should throw RubyException, not exception", false);
@@ -1377,14 +1377,12 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.NameErrorClass, "method 'a' can not be found in 'Object'"),
-			new RubyException(RubyRuntime.NameErrorClass, "method 'b' can not be found in 'Object'"),
+			//TODO exception type is not correct
+			new RubyException(RubyRuntime.NoMethodErrorClass, "method 'a' can not be found in 'Object'"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "method 'b' can not be found in 'Object'"),
 			
-			//TODO exception type is wrong!
-			new RubyException(RubyRuntime.NameErrorClass, null),
-			new RubyException(RubyRuntime.NameErrorClass, null),
-			//new RubyException(RubyRuntime.NoMethodErrorClass, null),
-			//new RubyException(RubyRuntime.NoMethodErrorClass, null),
+			new RubyException(RubyRuntime.NoMethodErrorClass, null),
+			new RubyException(RubyRuntime.NoMethodErrorClass, null),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -1661,11 +1659,11 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.NameErrorClass, "public method 'pf' can not be found in 'TestPrivateProtected1'"),
-			new RubyException(RubyRuntime.NameErrorClass, "public method 'test_private_protected2' can not be found in 'TestPrivateProtected2'"),
-			new RubyException(RubyRuntime.NameErrorClass, "public method 'tpp1' can not be found in 'TestPrivateProtected3'"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'pf' can not be found in 'TestPrivateProtected1'"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'test_private_protected2' can not be found in 'TestPrivateProtected2'"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'tpp1' can not be found in 'TestPrivateProtected3'"),
 			new RubyException(RubyRuntime.NameErrorClass, "undefined method `no_such_method` for class `TestPrivateProtected4`"),
-			new RubyException(RubyRuntime.NameErrorClass, "public method 'test_private_protected5' can not be found in 'Object'"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'test_private_protected5' can not be found in 'Object'"),
 		};
 
 		compile_run_and_catch_exception(bad_program_texts, exceptions);
@@ -2780,6 +2778,24 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_singleton_method_exception() {
+		String [] program_texts = {
+				"class TestSingleton2; end\n" +
+				"class TestSingleton3 < TestSingleton2;\n" +
+				"	def TestSingleton3.f;  123;  end\n" +
+				"end\n" +
+				"\n" +
+				"print TestSingleton2.f",
+		};
+		
+		RubyException[] exceptions = {
+				//TODO message should be "undefined method `f' for TestSingleton2:Class"
+				new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'f' can not be found in 'Class'"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 	
 	public void test_if_unless_modifier() {
