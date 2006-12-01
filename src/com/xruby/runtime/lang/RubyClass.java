@@ -32,11 +32,6 @@ public class RubyClass extends RubyModule {
 			return superclass_.invokeAllocMethod(reciver);
 		}
 	}
-
-	public RubyValue defineMethod(String name, RubyMethod m) {
-		m.setOwner(this);
-		return super.defineMethod(name, m);
-	}
 	
 	boolean isMyParent(final RubyClass superclass) {
 		return superclass_ == superclass;

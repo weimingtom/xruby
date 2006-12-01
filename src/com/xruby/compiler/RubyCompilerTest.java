@@ -98,7 +98,11 @@ public class RubyCompilerTest extends TestCase {
 				assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
 			} catch (IllegalAccessException e) {
 				assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
-			}
+			} catch (VerifyError e) {
+				assertTrue("VerifyError at " + i + ": " + e.toString(), false);
+			} catch (NullPointerException e) {
+				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
+			} 
 		}
 	}
 
@@ -1882,6 +1886,28 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"\n" +
 				"print TestClassVariableC1.f",
+				
+				"class TestClassVariableB2\n" +
+				"	@@var = 777\n" +
+				"	def g1\n" +
+				"		@@var\n" +
+				"	end\n" +
+				"	\n" +
+				"end\n" +
+				"\n" +
+				"module TestClassVariableM2\n" +
+				"	@@var = 999\n" +
+				"	def g2\n" +
+				"		@@var\n" +
+				"	end\n" +
+				"end\n" +
+				"\n" +
+				"class TestClassVariableC2 < TestClassVariableB2\n" +
+				"	include TestClassVariableM2\n" +
+				"end\n" +
+				"\n" +
+				"a = TestClassVariableC2.new\n" +
+				"print a.g1, a.g2 ",
 		};
 
 		String[] outputs = {
@@ -1896,6 +1922,8 @@ public class RubyCompilerTest extends TestCase {
 				"ppp",
 				"999",
 				"777",
+				
+				"777999",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
