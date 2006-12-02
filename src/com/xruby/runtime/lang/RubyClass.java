@@ -154,4 +154,9 @@ public class RubyClass extends RubyModule {
 		
 		return value;
 	}
+	
+	public RubyValue defineMethod(String name, RubyMethod m) {
+		m.setOwner(this);
+		return super.addMethod(name, m);
+	}
 }
