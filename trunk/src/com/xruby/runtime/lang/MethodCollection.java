@@ -34,7 +34,7 @@ abstract class MethodCollection extends ClassVariableCollection {
 		}
 	}
 
-	public RubyValue defineMethod(String name, RubyMethod m) {
+	protected RubyValue addMethod(String name, RubyMethod m) {
 		m.setAccess(current_access_mode_);
 		methods_.put(name, m);
 		return null;//FIXME return something real!

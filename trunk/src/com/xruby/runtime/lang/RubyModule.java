@@ -18,6 +18,7 @@ public class RubyModule extends ModuleClassAndMethodCollection {
 
 	public RubyValue defineMethod(String name, RubyMethod m) {
 		m.setOwner(this);
-		return super.defineMethod(name, m);
+		getSingletonClass().addMethod(name, m);
+		return super.addMethod(name, m);
 	}
 }
