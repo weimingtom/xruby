@@ -76,9 +76,23 @@ public class GlobalVariables {
 		}
 	}
 	
+	public static boolean isReadOnly(String name) {
+		if (name.equals("$$")) {
+			return true;
+		}
+		
+		//TODO more
+		
+		return false;
+	}
+	
+	public static void throwNameError(String name) {
+		throw new RubyException(RubyRuntime.NameErrorClass, name + " is a read-only variable");
+	}
+	
 	public static RubyValue set(RubyValue value, String name) {
 		assert('$' == name.charAt(0));
-
+		
 		values_.put(name, value);
 		return value;
 	}

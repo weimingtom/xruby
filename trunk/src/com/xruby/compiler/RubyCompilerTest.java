@@ -1011,6 +1011,18 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_assign_read_only_global_variable() {
+		String[] program_texts = {
+				"$$ = 1",
+		};
+
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.NameErrorClass, "$$ is a read-only variable"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
 
 	public void test_command_output() {
 		String[] program_texts = {
