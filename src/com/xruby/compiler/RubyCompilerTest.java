@@ -1956,6 +1956,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_multiple_assignment_no_asterisk() {
 		String[] program_texts = {
+				"a, = 1,2; print a",
+				
 				"a, b = 3, 4; print a, b",
 				"a = 1; b = 2;   a, b = b, a; print a, b",
 				"a = 1; b = 2; c = 3;   a, b, c = b, a; print a, b, c",
@@ -1966,6 +1968,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"1",
 				"34",
 				"21",
 				"21nil",

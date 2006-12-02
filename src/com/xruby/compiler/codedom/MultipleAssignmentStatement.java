@@ -13,6 +13,11 @@ public class MultipleAssignmentStatement extends Statement {
 	private VariableExpression asterisk_lhs_ = null;
 	private Expression asterisk_rhs_ = null;
 	private boolean handle_special_case_ = false;
+	private boolean has_extra_comma_ = false; //e.g. "a, = 1, 2"
+
+	public MultipleAssignmentStatement(boolean has_extra_comma) {
+		has_extra_comma_ = has_extra_comma;
+	}
 	
 	public void addLhs(Expression e) throws RecognitionException {
 		if (handle_special_case_) {
@@ -49,7 +54,7 @@ public class MultipleAssignmentStatement extends Statement {
 		assert(null == asterisk_rhs_);
 		asterisk_rhs_ = e;
 	}
-	
+
 	public void setAsteriskLhs(Expression e)throws RecognitionException {
 		assert(null == asterisk_lhs_);
 		if (e instanceof VariableExpression) {
@@ -69,7 +74,7 @@ public class MultipleAssignmentStatement extends Statement {
 		
 		boolean single_mrhs = mrhs_.size() == 1 && null == asterisk_rhs_ && mlhs_.size() > 0;
 		
-		if (mlhs_.size() == 1 && null == asterisk_lhs_) {
+		if (mlhs_.size() == 1 && null == asterisk_lhs_ && !has_extra_comma_) {
 			//a = 1, 2 is as same as a = [1, 2]
 			visitor.visitMultipleAssignmentBegin(true, single_mrhs);
 			mlhs_.get(0).acceptAsAssignment(visitor, false, true);

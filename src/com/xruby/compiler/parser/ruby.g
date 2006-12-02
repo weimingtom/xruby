@@ -30,6 +30,7 @@ tokens {
 	SYMBOL;
 	BLOCK;
 	MULTIPLE_ASSIGN;
+	MULTIPLE_ASSIGN_WITH_EXTRA_COMMA;
 	MRHS;
 	NESTED_LHS;
 	SINGLETON_METHOD;
@@ -122,7 +123,10 @@ statement
 		;
 
 statementWithoutModifier
-{boolean is_parallel_assignment = false;}
+{
+	boolean is_parallel_assignment = false;
+	boolean has_extra_comma = false;
+}
 		:	(aliasStatement
 			|	undefStatement
 			|	keyword_BEGIN 	LCURLY_BLOCK (compoundStatement)? RCURLY
@@ -130,7 +134,7 @@ statementWithoutModifier
 			|	expression
 				(options{greedy=true;}:
 					COMMA!
-					{if (ASSIGN == LA(1) || ASSIGN_WITH_NO_LEADING_SPACE == LA(1)) break;}
+					{if (ASSIGN == LA(1) || ASSIGN_WITH_NO_LEADING_SPACE == LA(1)) {has_extra_comma=true;break;}}
 					(seen_star:REST_ARG_PREFIX)?
 					(mlhs_item)?	{if (null != seen_star) break;}
 					{is_parallel_assignment = true;}
@@ -147,7 +151,13 @@ statementWithoutModifier
 				mrhs
 				{is_parallel_assignment = true;}
 			)
-			{if (is_parallel_assignment) {#statementWithoutModifier = #(#[MULTIPLE_ASSIGN, "MULTIPLE_ASSIGN"], #statementWithoutModifier);}}
+			{	
+				if (is_parallel_assignment && !has_extra_comma) {
+					#statementWithoutModifier = #(#[MULTIPLE_ASSIGN, "MULTIPLE_ASSIGN"], #statementWithoutModifier);
+				} else if (is_parallel_assignment && has_extra_comma) {
+					#statementWithoutModifier = #(#[MULTIPLE_ASSIGN_WITH_EXTRA_COMMA, "MULTIPLE_ASSIGN_WITH_EXTRA_COMMA"], #statementWithoutModifier);
+				}
+			}
 		;
 
 //LPAREN can start primaryExpression, have to use syntactic predicate here.

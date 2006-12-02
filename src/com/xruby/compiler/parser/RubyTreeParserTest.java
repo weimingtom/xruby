@@ -23,6 +23,8 @@ public class RubyTreeParserTest extends TestCase {
 				"4.div 2",
 				"\"abc#{}opq#{   }xyz\"",
 				"(1)",
+				
+				"a, = 1,2",
 				"b, (c, d), e = 1,2,3,4",
 				"a,=*[1]",
 				"a,b,*c = nil",
@@ -105,8 +107,10 @@ public class RubyTreeParserTest extends TestCase {
 				" ( COMPSTMT ( CALL ( . 4 div ) ( ARG 2 ) ) )",
 				" ( COMPSTMT ( abc opq xyz ) )",
 				" ( COMPSTMT ( ( ( COMPSTMT 1 ) ) )",
+				
+				" ( COMPSTMT ( MULTIPLE_ASSIGN_WITH_EXTRA_COMMA ( CALL a ) ( MRHS 1 2 ) ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN ( CALL b ) ( NESTED_LHS c d ) e ( MRHS 1 2 3 4 ) ) )",
-				" ( COMPSTMT ( MULTIPLE_ASSIGN ( CALL a ) ( MRHS * ( [ 1 ) ) ) )",
+				" ( COMPSTMT ( MULTIPLE_ASSIGN_WITH_EXTRA_COMMA ( CALL a ) ( MRHS * ( [ 1 ) ) ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN ( CALL a ) b * c ( MRHS nil ) ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN ( CALL a ) b ( MRHS 1 ) ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN * a ( MRHS nil ) ) )",
