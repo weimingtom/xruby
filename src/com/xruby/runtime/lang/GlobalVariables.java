@@ -45,6 +45,7 @@ public class GlobalVariables {
 	public static RubyValue OUTPUT_FIELD_SEPARATOR = ObjectFactory.nilValue;
 	public static RubyValue OUTPUT_RECORD_SEPARATOR = ObjectFactory.nilValue;
 	public static RubyValue INPUT_RECORD_SEPARATOR = ObjectFactory.createString("\n");
+	public static RubyValue PROCESS_ID = ObjectFactory.createFixnum(0);//no way to get pid in java
 	
 	public static String translatePredefined(final String name) {
 		if (name.equals("$stdout")) {
@@ -57,6 +58,8 @@ public class GlobalVariables {
 			return "OUTPUT_RECORD_SEPARATOR";
 		} else if (name.equals("$/")) {
 			return "INPUT_RECORD_SEPARATOR";
+		} else if (name.equals("$$")) {
+			return "PROCESS_ID";
 		} else {
 			return null;
 		}
