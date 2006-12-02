@@ -995,6 +995,8 @@ public class RubyCompilerTest extends TestCase {
 				"	$F0 = 123\n" +
 				"end\n" +
 				"print $F0",
+				
+				"print $$.instance_of?(Fixnum)",
 		};
 
 		String[] outputs = {
@@ -1004,6 +1006,7 @@ public class RubyCompilerTest extends TestCase {
 				"xxx",
 				"123",
 				"nil",
+				"true",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
