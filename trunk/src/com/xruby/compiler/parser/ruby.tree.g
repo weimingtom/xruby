@@ -116,16 +116,27 @@ returns[MultipleAssignmentStatement s]
 {
 	Expression e = null;
 }
-		:	#(	MULTIPLE_ASSIGN	{s = new MultipleAssignmentStatement();}
-				(e=lhs	{((MultipleAssignmentStatement)s).addLhs(e);})*
-				(REST_ARG_PREFIX	e=expression	{s.setAsteriskLhs(e);})?
-				(
-					#(MRHS	
-					(e=expression	{((MultipleAssignmentStatement)s).addRhs(e);})*
-					(REST_ARG_PREFIX	e=expression	{s.setAsteriskRhs(e);})?
-					)
-				)?
+		:	#(	MULTIPLE_ASSIGN	{s = new MultipleAssignmentStatement(false);}
+				multipleAssignmentBody[s]
 			)
+		|	#(	MULTIPLE_ASSIGN_WITH_EXTRA_COMMA	{s = new MultipleAssignmentStatement(true);}
+				multipleAssignmentBody[s]
+			)
+		;
+
+protected
+multipleAssignmentBody[MultipleAssignmentStatement s]
+{
+	Expression e = null;
+}
+		:	(e=lhs	{s.addLhs(e);})*
+			(REST_ARG_PREFIX	e=expression	{s.setAsteriskLhs(e);})?
+			(
+				#(MRHS
+				(e=expression	{s.addRhs(e);})*
+				(REST_ARG_PREFIX	e=expression	{s.setAsteriskRhs(e);})?
+				)
+			)?
 		;
 
 lhs
