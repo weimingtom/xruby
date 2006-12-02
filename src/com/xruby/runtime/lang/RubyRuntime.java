@@ -17,6 +17,7 @@ public class RubyRuntime {
 	public static RubyClass ClassClass = GlobalScope.defineNewClass("Class", RubyRuntime.ModuleClass);
 	public static RubyModule KernelModule = GlobalScope.defineNewModule("Kernel");
 	public static RubyModule EnumModule = GlobalScope.defineNewModule("Enumerable");
+	public static RubyModule MathModule = GlobalScope.defineNewModule("Math");
 	public static RubyClass NilClassClass = GlobalScope.defineNewClass("NilClass", RubyRuntime.ObjectClass);
 	public static RubyClass TrueClassClass = GlobalScope.defineNewClass("TrueClass", RubyRuntime.ObjectClass);
 	public static RubyClass FalseClassClass = GlobalScope.defineNewClass("FalseClass", RubyRuntime.ObjectClass);
@@ -59,6 +60,7 @@ public class RubyRuntime {
 		ClassClassBuilder.initialize();
 		KernelModuleBuilder.initialize();
 		EnumerableBuilder.initialize();
+		MathModuleBuilder.initialize();
 		NumericClassBuilder.initialize();
 		IntegerClassBuilder.initialize();
 		FixnumClassBuilder.initialize();

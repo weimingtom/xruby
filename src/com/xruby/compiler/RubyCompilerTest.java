@@ -3322,4 +3322,18 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Math() {
+		String [] program_texts = {
+				"print Math.sqrt(4)",
+				"include Math; print sqrt(9)",
+		};
+		
+		String[] outputs = {
+				"2.0",
+				"3.0",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 }
