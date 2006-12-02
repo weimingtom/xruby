@@ -416,6 +416,13 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 	
 	public void GlobalVatiables_set(String var) {
+		if (GlobalVariables.isReadOnly(var)) {
+			push(var);
+			invokeStatic(Type.getType(GlobalVariables.class),
+				Method.getMethod("void throwNameError(String)"));
+			return;
+		}
+		
 		String name = GlobalVariables.translatePredefined(var);
 		if (null != name) {
 			putStatic(Type.getType(GlobalVariables.class), name, Type.getType(Types.RubyValueClass));
