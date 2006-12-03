@@ -1693,6 +1693,7 @@ public class RubyCompilerTest extends TestCase {
 				"$x=1; print defined?($x)",
 				"print defined?(Array)",
 				"print defined?(::Kernel)",
+				"print defined?(1 == 2)",
 				
 				"print defined? nil",
 				"print defined? 123",
@@ -1718,6 +1719,8 @@ public class RubyCompilerTest extends TestCase {
 				"global-variable",
 				"constant",
 				"constant",
+				"method",
+				
 				"nil",
 				"expression",
 				"nil",

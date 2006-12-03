@@ -37,6 +37,8 @@ public class DefinedExpression extends Expression {
 			visitor.visitDefinedExpression(((MethodCallExpression)expression_).getName());
 		} else if (expression_ instanceof SuperExpression) {
 			visitor.visitDefinedExpression("super");
+		} else if (expression_ instanceof BinaryOperatorExpression) {
+			visitor.visitDefinedExpression("method");
 		} else {
 			visitor.visitStringExpression("expression");
 		}
