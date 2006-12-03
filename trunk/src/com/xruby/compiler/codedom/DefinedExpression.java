@@ -46,6 +46,8 @@ public class DefinedExpression extends Expression {
 			visitor.visitDefinedSuperMethod();
 		} else if (expression_ instanceof BinaryOperatorExpression) {
 			visitor.visitStringExpression("method");
+		} else if (expression_ instanceof YieldExpression) {
+			visitor.visitDefinedYield();
 		} else {
 			visitor.visitStringExpression("expression");
 		}

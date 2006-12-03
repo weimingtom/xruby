@@ -808,4 +808,13 @@ public class RubyCompilerImpl implements CodeVisitor {
 			visitStringExpression("nil");
 		}
 	}
+
+	public void visitDefinedYield() {
+		if (cg_ instanceof ClassGeneratorForRubyMethod) {
+			cg_.getMethodGenerator().loadArg(2);
+			cg_.getMethodGenerator().RubyAPI_isDefinedYield();
+		} else {
+			visitStringExpression("nil");
+		}
+	}
 }

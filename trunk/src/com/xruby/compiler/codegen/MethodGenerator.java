@@ -580,6 +580,11 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefinedSuperMethod(com.xruby.runtime.lang.RubyValue, String, com.xruby.runtime.lang.RubyMethod)"));
 	}
+
+	public void RubyAPI_isDefinedYield() {
+			invokeStatic(Type.getType(RubyAPI.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefinedYield(com.xruby.runtime.lang.RubyBlock)"));
+	}
 	
 	public void RubyModule_defineClass(String className) {
 		if (RubyRuntime.isBuiltinClass(className)) {

@@ -1690,6 +1690,15 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_defined() {
 		String[] program_texts = {
+				"def defined_test\n" +
+				"  print defined?(yield)\n" +
+				"end\n" +
+				"\n" +
+				"defined_test\n" +
+				"defined_test {print 333}",
+				
+				"print defined? yield",
+				
 				"class C; def C.g; print 456; end; end\n" +
 				"def f; print 123;   C;   end\n" +
 				"print defined?(f().g)",
@@ -1720,6 +1729,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"nilyield",
+				"nil",
+				
 				"123method",
 				
 				"global-variable",

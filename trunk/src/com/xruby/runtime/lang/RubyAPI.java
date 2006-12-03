@@ -66,6 +66,14 @@ public class RubyAPI {
 		return ObjectFactory.createString("method");
 	}
 
+	public static RubyValue isDefinedYield(RubyBlock block) {
+		if (null == block) {
+			return ObjectFactory.createString("nil");
+		} else {
+			return ObjectFactory.createString("yield");
+		}
+	}
+
 	//e.g. defined? f
 	public static RubyValue isDefinedMethod(RubyValue receiver, String method_name) {
 		RubyMethod m = receiver.findMethod(method_name);
