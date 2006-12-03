@@ -68,7 +68,7 @@ public class RubyAPI {
 
 	public static RubyValue isDefinedYield(RubyBlock block) {
 		if (null == block) {
-			return ObjectFactory.createString("nil");
+			return ObjectFactory.nilValue;
 		} else {
 			return ObjectFactory.createString("yield");
 		}
