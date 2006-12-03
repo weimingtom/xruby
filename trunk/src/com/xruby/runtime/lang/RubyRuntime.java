@@ -92,16 +92,8 @@ public class RubyRuntime {
 		DirClassBuilder.initialize();
 		ExceptionClassBuilder.initialize();
 	}
-	
-	public static void initBuiltin(){
-		initBuiltin(null);
-	}
 
-	public static void initBuiltin(String[] args) {
-		if (builtin_initialized_) {
-			return;
-		}
-		
+	private static void initARGV(String[] args) {
 		RubyArray argv = new RubyArray();
 		if (args != null){
 			for (String arg: args){
@@ -110,6 +102,14 @@ public class RubyRuntime {
 		}
 
 		RubyModule.setTopLevelConstant(argv, "ARGV");
+	}
+	
+	public static void initBuiltin(String[] args) {
+		if (builtin_initialized_) {
+			return;
+		}
+		
+		initARGV(args);
 		
 		TopLevelSelfInitializer.initialize();
 

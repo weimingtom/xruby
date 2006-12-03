@@ -17,7 +17,7 @@ import com.xruby.compiler.codegen.*;
 public class RubyCompilerTest extends TestCase {
 
 	public void setUp() {
-		RubyRuntime.initBuiltin();
+		RubyRuntime.initBuiltin(new String[] {"my_arg"});
 	}
 	
 	private void compile_run_and_compare_result(String[] program_texts, int[] results) {
@@ -3339,4 +3339,15 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_ARGV() {
+		String [] program_texts = {
+				"print ARGV[0], ARGV[1]",
+		};
+		
+		String[] outputs = {
+				"my_argnil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
