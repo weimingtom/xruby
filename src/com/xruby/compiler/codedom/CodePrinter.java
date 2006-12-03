@@ -28,6 +28,10 @@ public class CodePrinter implements CodeVisitor {
 	public void visitDefinedSuperMethod() {
 		result_.append("defined? super\n");
 	}
+
+	public void visitDefinedYield() {
+		result_.append("defined? yield\n");
+	}
 	
 	public void visitBinaryOperator(String operator) {
 		result_.append(operator);

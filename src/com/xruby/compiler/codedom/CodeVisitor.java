@@ -21,6 +21,7 @@ public interface CodeVisitor {
 	public void visitDefinedPublicMethod(String name);
 	public void visitDefinedMethod(String name);
 	public void visitDefinedSuperMethod();
+	public void visitDefinedYield();
 
 	public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call);
 	public void visitInstanceVariableAssignmentOperator(String var, boolean rhs_is_method_call);
