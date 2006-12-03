@@ -37,6 +37,10 @@ public class MethodCallExpression extends Expression {
 		return r;
 	}
 
+	Expression getReceiver() {
+		return receiver_;
+	}
+
 	public final String getName() {
 		return methodName_;
 	}

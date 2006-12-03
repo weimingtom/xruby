@@ -46,7 +46,7 @@ public class RubyAPI {
 	}
 	
 	//e.g. defined? super
-	public static RubyValue isDefinedSuper(RubyValue receiver, String method_name, RubyMethod current_method) {
+	public static RubyValue isDefinedSuperMethod(RubyValue receiver, String method_name, RubyMethod current_method) {
 		RubyClass c = (RubyClass)current_method.getOwner();
 		RubyMethod m = c.findSuperMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
@@ -56,8 +56,18 @@ public class RubyAPI {
 		return ObjectFactory.createString("super");
 	}
 	
+	//e.g. defined? a.f
+	public static RubyValue isDefinedPublicMethod(RubyValue receiver, String method_name) {
+		RubyMethod m = receiver.findPublicMethod(method_name);
+		if (null == m || UndefMethod.isUndef(m)) {
+			return ObjectFactory.nilValue;
+		}
+		
+		return ObjectFactory.createString("method");
+	}
+
 	//e.g. defined? f
-	public static RubyValue isDefined(RubyValue receiver, String method_name) {
+	public static RubyValue isDefinedMethod(RubyValue receiver, String method_name) {
 		RubyMethod m = receiver.findMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
 			return ObjectFactory.nilValue;

@@ -792,17 +792,20 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().RubyModule_setTopLevelConstant(name);
 	}
 
-	public void visitDefinedExpression(String name) {
-		if (name.equals("super")) {
-			if (cg_ instanceof ClassGeneratorForRubyMethod) {
-				visitSelfExpression();
-				cg_.getMethodGenerator().RubyAPI_isDefinedSuper(((ClassGeneratorForRubyMethod)cg_).getMethodName());
-			} else {
-				visitStringExpression("nil");
-			}
-		} else {
+	public void visitDefinedPublicMethod(String name) {
+		cg_.getMethodGenerator().RubyAPI_isDefinedPublicMethod(name);
+	}
+
+	public void visitDefinedMethod(String name) {
+		cg_.getMethodGenerator().RubyAPI_isDefinedMethod(name);
+	}
+
+	public void visitDefinedSuperMethod() {	
+		if (cg_ instanceof ClassGeneratorForRubyMethod) {
 			visitSelfExpression();
-			cg_.getMethodGenerator().RubyAPI_isDefined(name);
+			cg_.getMethodGenerator().RubyAPI_isDefinedSuperMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
+		} else {
+			visitStringExpression("nil");
 		}
 	}
 }
