@@ -64,9 +64,9 @@ class Enum_any extends RubyMethod {
     }
 }
 
-public class EnumerableBuilder {
+public class EnumerableModuleBuilder {
 	public static void initialize() {
-		RubyModule m = RubyRuntime.EnumModule;
+		RubyModule m = RubyRuntime.EnumerableModule;
 		RubyMethod enum_collect = new Enum_collect();
 		m.defineMethod("collect", enum_collect);
 		m.defineMethod("map", enum_collect);

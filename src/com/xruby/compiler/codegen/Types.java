@@ -10,6 +10,7 @@ public class Types {
 	public static Class RubyBlockClass = RubyBlock.class;
 	public static Class RubyValueClass = RubyValue.class;
 	public static Class RubyClassClass = RubyClass.class;
+	public static Class RubyModuleClass = RubyModule.class;
 	public static Class RubyDataClass = RubyData.class;
 	public static Class RubyMethodClass = RubyMethod.class;
 	public static Class RubyRuntimeClass = RubyRuntime.class;

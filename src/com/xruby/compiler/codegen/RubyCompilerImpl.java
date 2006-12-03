@@ -39,38 +39,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return false;
 	}
 	
-	private static boolean isBuiltin(String name) {
-		if (name.equals("Object") ||
-				name.equals("NilClass") ||
-				name.equals("TrueClass") ||
-				name.equals("FalseClass") ||
-				name.equals("Numeric") ||
-				name.equals("Integer") ||
-				name.equals("Fixnum") ||
-				name.equals("Float") ||
-				name.equals("String") ||
-				name.equals("Exception") ||
-				name.equals("RuntimeError") ||
-				name.equals("Array") ||
-				name.equals("Hash") ||
-				name.equals("Class") ||
-				name.equals("Module") ||
-				name.equals("IO") ||
-				name.equals("Proc") ||
-				name.equals("Range") ||
-				name.equals("Regexp") ||
-				name.equals("File") ||
-				name.equals("Method") ||
-				name.equals("Time") ||
-				name.equals("MatchDate") ||
-				name.equals("Bignum") ||
-				name.equals("Dir")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public CompilationResults compile(Program program)
 			throws CompilerException {
 
@@ -93,16 +61,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().loadArg(1);
 		}
 
-		if (isBuiltin(className)) {
-			cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(className);
-		} else {
+		if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(className)) {
 			cg_.getMethodGenerator().push(className);
 		}
 		//super class will be pushed next, then visitSuperClass() will be called
 	}
 
 	public void visitClassDefination2(String className) {
-		cg_.getMethodGenerator().RubyModule_defineClass(isBuiltin(className));
+		cg_.getMethodGenerator().RubyModule_defineClass(className);
 
 		//The class body may refer the constant, so save it before class builder starts.
 		cg_.getMethodGenerator().dup();
@@ -132,9 +98,18 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitModuleDefination(String moduleName) {
-		visitClassDefination1(moduleName);
-		cg_.getMethodGenerator().RubyModule_defineModule();
+		cg_.getMethodGenerator().loadThis();
 
+		if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(moduleName)) {
+			if (isInGlobalScope()) {
+				cg_.getMethodGenerator().RubyRuntime_GlobalScope();
+			} else {
+				cg_.getMethodGenerator().loadArg(1);
+			}
+
+			cg_.getMethodGenerator().RubyModule_defineModule(moduleName);
+		}
+		
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(moduleName));
 
@@ -788,12 +763,13 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitTopLevelConstant(String name) {
 		//quick access for builtin
-		if (isBuiltin(name)) {
-			cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(name);
+		if (cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(name)) {
 			return;
+		} else if (cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(name)) {
+			return;
+		} else {
+			cg_.getMethodGenerator().RubyModule_getTopLevelConstant(name);
 		}
-
-		cg_.getMethodGenerator().RubyModule_getTopLevelConstant(name);
 	}
 
 	public void visitCurrentNamespaceConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assign) {

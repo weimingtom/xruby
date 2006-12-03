@@ -60,10 +60,8 @@ abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 		return defineClass(name, null == parent ? null : (RubyClass)parent);
 	}
 
-	/// For compile-time recognizable builtin class
-	public RubyClass defineBuiltInClass(RubyValue v, RubyValue parent) {
-		RubyClass c = (RubyClass)v;
-
+	/// For compile-time recognizable builtin class, just do sanity checks...
+	public RubyClass defineBuiltInClass(RubyClass c, RubyValue parent) {
 		if (null != parent) {
 			if (!(parent instanceof RubyClass)) {
 				throw new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (" + parent.getRubyClass().getName() + " given)");

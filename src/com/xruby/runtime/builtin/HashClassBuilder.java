@@ -131,6 +131,6 @@ public class HashClassBuilder {
 		c.defineMethod("initialize", new Hash_initialize());
 		c.defineAllocMethod(new Hash_new());
 
-		c.includeModule(RubyRuntime.EnumModule);
+		c.includeModule(RubyRuntime.EnumerableModule);
 	}
 }
