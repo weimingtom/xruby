@@ -236,7 +236,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("each", new Array_each());
 		c.defineAllocMethod(new Array_new());
 
-		c.includeModule(RubyRuntime.EnumModule);
+		c.includeModule(RubyRuntime.EnumerableModule);
 	}
 }
 

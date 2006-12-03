@@ -34,7 +34,7 @@ public class JavaUtil {
         RubyClass clazz = value.getRubyClass();
         String className = clazz.getName();
 
-        if(isBuiltin(className)) {
+        if(RubyRuntime.isBuiltinClass(className)) {
             return convertToJavaValue(className, value);   
         }
         else {
@@ -56,34 +56,6 @@ public class JavaUtil {
         }
 
         return retValues;
-    }
-
-    private static boolean isBuiltin(String name) {
-        return name.equals("Object") ||
-                name.equals("NilClass") ||
-                name.equals("TrueClass") ||
-                name.equals("FalseClass") ||
-                name.equals("Numeric") ||
-                name.equals("Integer") ||
-                name.equals("Fixnum") ||
-                name.equals("Float") ||
-                name.equals("String") ||
-                name.equals("Exception") ||
-                name.equals("RuntimeError") ||
-                name.equals("Array") ||
-                name.equals("Hash") ||
-                name.equals("Class") ||
-                name.equals("Module") ||
-                name.equals("IO") ||
-                name.equals("Proc") ||
-                name.equals("Range") ||
-                name.equals("Regexp") ||
-                name.equals("File") ||
-                name.equals("Method") ||
-                name.equals("Time") ||
-                name.equals("MatchDate") ||
-                name.equals("Bignum") ||
-                name.equals("Dir");
     }
 
     @SuppressWarnings("unchecked")

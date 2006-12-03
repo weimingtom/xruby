@@ -319,10 +319,26 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 	}
 
-	public void RubyRuntime_getBuiltinClass(String className) {
-		getStatic(Type.getType(RubyRuntime.class),
+	public boolean RubyRuntime_getBuiltinClass(String className) {
+		if (RubyRuntime.isBuiltinClass(className)) {
+			getStatic(Type.getType(RubyRuntime.class),
 					className + "Class",
 					Type.getType(Types.RubyClassClass));
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean RubyRuntime_getBuiltinModule(String name) {
+		if (RubyRuntime.isBuiltinModule(name)) {
+			getStatic(Type.getType(RubyRuntime.class),
+					name + "Module",
+					Type.getType(Types.RubyModuleClass));
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public void ObjectFactory_createFloat(double value) {
@@ -559,19 +575,20 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefinedSuper(com.xruby.runtime.lang.RubyValue, String, com.xruby.runtime.lang.RubyMethod)"));
 	}
 	
-	public void RubyModule_defineClass(boolean isBuiltin) {
-		if (isBuiltin) {
+	public void RubyModule_defineClass(String className) {
+		if (RubyRuntime.isBuiltinClass(className)) {
 			invokeVirtual(Type.getType(RubyModule.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyClass defineBuiltInClass(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyClass defineBuiltInClass(com.xruby.runtime.lang.RubyClass, com.xruby.runtime.lang.RubyValue)"));
 		} else {
 			invokeVirtual(Type.getType(RubyModule.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyClass defineClass(String, com.xruby.runtime.lang.RubyValue)"));
 		}
 	}
 
-	public void RubyModule_defineModule() {
+	public void RubyModule_defineModule(String name) {
+		push(name);
 		invokeVirtual(Type.getType(RubyModule.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyModule defineModule(String)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyModule defineModule(String)"));
 	}
 
 	public void RubyModule_getCurrentNamespaceConstant(String name) {

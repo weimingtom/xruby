@@ -16,8 +16,16 @@ public class RubyRuntime {
 	public static RubyClass ModuleClass = GlobalScope.defineNewClass("Module", RubyRuntime.ObjectClass);
 	public static RubyClass ClassClass = GlobalScope.defineNewClass("Class", RubyRuntime.ModuleClass);
 	public static RubyModule KernelModule = GlobalScope.defineNewModule("Kernel");
-	public static RubyModule EnumModule = GlobalScope.defineNewModule("Enumerable");
+	public static RubyModule ComparableModule = GlobalScope.defineNewModule("Comparable");
+	public static RubyModule EnumerableModule = GlobalScope.defineNewModule("Enumerable");
+	public static RubyModule ErrnoModule = GlobalScope.defineNewModule("Errno");
+	public static RubyModule FileTestModule = GlobalScope.defineNewModule("FileTest");
+	public static RubyModule GCModule = GlobalScope.defineNewModule("GC");
+	public static RubyModule MarshalModule = GlobalScope.defineNewModule("Marshal");
 	public static RubyModule MathModule = GlobalScope.defineNewModule("Math");
+	public static RubyModule ObjectSpaceModule = GlobalScope.defineNewModule("ObjectSpace");
+	public static RubyModule ProcessModule = GlobalScope.defineNewModule("Process");
+	public static RubyClass BingingClass = GlobalScope.defineNewClass("Binding", RubyRuntime.ObjectClass);
 	public static RubyClass NilClassClass = GlobalScope.defineNewClass("NilClass", RubyRuntime.ObjectClass);
 	public static RubyClass TrueClassClass = GlobalScope.defineNewClass("TrueClass", RubyRuntime.ObjectClass);
 	public static RubyClass FalseClassClass = GlobalScope.defineNewClass("FalseClass", RubyRuntime.ObjectClass);
@@ -39,6 +47,9 @@ public class RubyRuntime {
 	public static RubyClass TimeClass = GlobalScope.defineNewClass("Time", RubyRuntime.ObjectClass);
 	public static RubyClass MatchDataClass = GlobalScope.defineNewClass("MatchData", RubyRuntime.ObjectClass);
 	public static RubyClass DirClass = GlobalScope.defineNewClass("Dir", RubyRuntime.ObjectClass);
+	public static RubyClass StructClass = GlobalScope.defineNewClass("Struct", RubyRuntime.ObjectClass);
+	public static RubyClass ThreadGroupClass = GlobalScope.defineNewClass("ThreadGroup", RubyRuntime.ObjectClass);
+	public static RubyClass ThreadClass = GlobalScope.defineNewClass("Thread", RubyRuntime.ObjectClass);
 	
 	public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", RubyRuntime.ObjectClass);
 	public static RubyClass StandardErrorClass = GlobalScope.defineNewClass("StandardError", ExceptionClass);
@@ -59,7 +70,7 @@ public class RubyRuntime {
 		ModuleClassBuilder.initialize();
 		ClassClassBuilder.initialize();
 		KernelModuleBuilder.initialize();
-		EnumerableBuilder.initialize();
+		EnumerableModuleBuilder.initialize();
 		MathModuleBuilder.initialize();
 		NumericClassBuilder.initialize();
 		IntegerClassBuilder.initialize();
@@ -117,4 +128,48 @@ public class RubyRuntime {
 		}
 	}
 
+	public static boolean isBuiltinClass(String name) {
+		final String [] builtin_classes = {
+				"Array", "Bignum", "Binding", "Class",
+				//"Continuation",
+				"Dir", "Exception",
+				//"File::Stat",
+				"File", "Fixnum", "Float", "Hash", "Integer", "IO", "MatchData", "Method",
+				"Module", "NilClass", "Numeric", "Object", "Proc", "Range", "Regexp", "String", "Struct",
+				//"Struct::Tms"
+				"Symbol", "ThreadGroup", "Thread",
+				"Time", "TrueClass"
+		};
+
+		for (String s : builtin_classes) {
+			if (s.equals(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	public static boolean isBuiltinModule(String name) {
+		final String [] builtin_classes = {
+				"Comparable",
+				"Enumerable",
+				"Errno",
+				"FileTest",
+				"GC",
+				"Kernel",
+				"Marshal",
+				"Math",
+				"ObjectSpace",
+				"Process ",
+		};
+
+		for (String s : builtin_classes) {
+			if (s.equals(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
