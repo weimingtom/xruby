@@ -1690,6 +1690,10 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_defined() {
 		String[] program_texts = {
+				"class C; def C.g; print 456; end; end\n" +
+				"def f; print 123;   C;   end\n" +
+				"print defined?(f().g)",
+				
 				"$x=1; print defined?($x)",
 				"print defined?(Array)",
 				"print defined?(::Kernel)",
@@ -1700,7 +1704,7 @@ public class RubyCompilerTest extends TestCase {
 				"print defined? no_such_method",
 				"print defined? no_such_method(1, 2, 3)",
 				"print defined? to_s",
-				"def f(x); 'xxx'; end;  print defined? f(1)",
+				"def test_defined1(x); 'xxx'; end;  print defined? test_defined1(1, 2)",
 				"def test_defined; end;    undef test_defined;   print defined? test_defined",
 				
 				"print defined? super",
@@ -1716,6 +1720,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"123method",
+				
 				"global-variable",
 				"constant",
 				"constant",

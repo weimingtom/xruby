@@ -13,10 +13,20 @@ public class CodePrinter implements CodeVisitor {
 		return result_.toString();
 	}
 
-	public void visitDefinedExpression(String name) {
+	public void visitDefinedPublicMethod(String name) {
+		result_.append("defined?(public) ");
+		result_.append(name);
+		result_.append("\n");
+	}
+
+	public void visitDefinedMethod(String name) {
 		result_.append("defined? ");
 		result_.append(name);
 		result_.append("\n");
+	}
+
+	public void visitDefinedSuperMethod() {
+		result_.append("defined? super\n");
 	}
 	
 	public void visitBinaryOperator(String operator) {

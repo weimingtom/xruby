@@ -34,11 +34,18 @@ public class DefinedExpression extends Expression {
 		} else if (expression_ instanceof FalseExpression) {
 			visitor.visitStringExpression("falses");
 		} else if (expression_ instanceof MethodCallExpression) {
-			visitor.visitDefinedExpression(((MethodCallExpression)expression_).getName());
+			MethodCallExpression call = (MethodCallExpression)expression_;
+			if (null != call.getReceiver()) {
+				call.getReceiver().accept(visitor);
+				visitor.visitDefinedPublicMethod(call.getName());
+			} else {
+				visitor.visitSelfExpression();
+				visitor.visitDefinedMethod(call.getName());
+			}
 		} else if (expression_ instanceof SuperExpression) {
-			visitor.visitDefinedExpression("super");
+			visitor.visitDefinedSuperMethod();
 		} else if (expression_ instanceof BinaryOperatorExpression) {
-			visitor.visitDefinedExpression("method");
+			visitor.visitStringExpression("method");
 		} else {
 			visitor.visitStringExpression("expression");
 		}
