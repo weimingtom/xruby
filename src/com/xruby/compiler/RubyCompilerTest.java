@@ -1690,6 +1690,7 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_defined() {
 		String[] program_texts = {
+				"$x=1; print defined?($x)",
 				"print defined? nil",
 				"print defined? 123",
 				"print defined? no_such_method",
@@ -1711,6 +1712,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"global-variable",
 				"nil",
 				"expression",
 				"nil",

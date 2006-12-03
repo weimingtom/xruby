@@ -24,6 +24,8 @@ public class DefinedExpression extends Expression {
 	public void accept(CodeVisitor visitor) {
 		if (expression_ instanceof NilExpression) {
 			visitor.visitStringExpression("nil");
+		} else if (expression_ instanceof GlobalVariableExpression) {
+			visitor.visitStringExpression("global-variable");
 		} else if (expression_ instanceof TrueExpression) {
 			visitor.visitStringExpression("true");
 		} else if (expression_ instanceof FalseExpression) {
