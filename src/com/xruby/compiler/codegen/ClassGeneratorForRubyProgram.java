@@ -43,8 +43,9 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				null,
 				cw);
 
+		mg.loadArg(0);
 		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),
-				Method.getMethod("void initBuiltin()"));
+				Method.getMethod("void initBuiltin(String[])"));
 
 		Type program = Type.getType("L" + name_ + ";");
 		mg.newInstance(program);

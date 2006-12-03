@@ -30,7 +30,7 @@ public class Example {
 		CompilationResults codes = compiler.compile(new StringReader(program_text));
 		RubyProgram p = (RubyProgram)codes.getRubyProgram();
 
-		RubyRuntime.initBuiltin();
+		RubyRuntime.initBuiltin(args);
 		p.run();
 		AtExitBlocks.invokeAll();
 	}
