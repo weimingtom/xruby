@@ -4,13 +4,8 @@
 
 package com.xruby.runtime.lang;
 
-import java.util.HashMap;
-import java.util.Map;
-
-abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
-	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
-
-	ClassAndMethodCollection(RubyClass c) {
+abstract class ClassAndModuleCollection extends ConstantCollection {
+	protected ClassAndModuleCollection(RubyClass c) {
 		super(c);
 	}
 
@@ -74,6 +69,25 @@ abstract class ClassAndMethodCollection extends MethodCollectionWithMixin {
 
 		c.setAccessPublic();
 		return c;
+	}
+	
+	public RubyModule defineNewModule(String name) {
+		RubyModule m = new RubyModule(name);
+		constants_.put(name, m);//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
+		return m;
+	}
+
+	public RubyModule defineModule(String name) {
+		RubyValue v = constants_.get(name);
+		if (null == v) {
+			return defineNewModule(name);
+		}
+		
+		if (!(v instanceof RubyModule) || (v instanceof RubyClass)) {
+			throw new RubyException(RubyRuntime.TypeErrorClass, name + " is not a module");
+		}
+		
+		return (RubyModule)v;
 	}
 	
 }

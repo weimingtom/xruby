@@ -1,44 +1,21 @@
-/** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
- */
-
 package com.xruby.runtime.lang;
 
-import java.util.Iterator;
-import java.util.Set;
-
+import java.util.*;
 import com.xruby.runtime.value.*;
 
-abstract class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
-	ModuleClassAndMethodCollection(RubyClass c) {
+public class ConstantCollection extends MethodCollectionWithMixin {
+	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
+
+	ConstantCollection(RubyClass c) {
 		super(c);
 	}
 
-	public RubyModule defineNewModule(String name) {
-		RubyModule m = new RubyModule(name);
-		constants_.put(name, m);//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
-		return m;
-	}
-
-	public RubyModule defineModule(String name) {
-		RubyValue v = constants_.get(name);
-		if (null == v) {
-			return defineNewModule(name);
-		}
-		
-		if (!(v instanceof RubyModule) || (v instanceof RubyClass)) {
-			throw new RubyException(RubyRuntime.TypeErrorClass, name + " is not a module");
-		}
-		
-		return (RubyModule)v;
-	}
-
 	/// e.g. A::B
-	RubyValue getConstant(String name) {
+	protected RubyValue getConstant(String name) {
 		return constants_.get(name);
 	}
 
-	RubyValue setConstant(String name, RubyValue value) {
+	protected RubyValue setConstant(String name, RubyValue value) {
 		constants_.put(name, value);
 		return value;
 	}
@@ -68,9 +45,9 @@ abstract class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	public static RubyValue getConstant(RubyValue receiver, String name) {
 		throw_type_error_if_not_class_module(receiver);
 		
-		RubyValue v = ((ModuleClassAndMethodCollection)receiver).getConstant(name);
+		RubyValue v = ((RubyModule)receiver).getConstant(name);
 		if (null == v) {
-			String module_name = ((ModuleClassAndMethodCollection)receiver).getName();
+			String module_name = ((RubyModule)receiver).getName();
 			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + module_name + "::" + name);
 		}
 		
@@ -80,7 +57,7 @@ abstract class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 	public static RubyValue setConstant(RubyValue value, RubyValue receiver, String name) {
 		throw_type_error_if_not_class_module(receiver);
 
-		return ((ModuleClassAndMethodCollection)receiver).setConstant(name, value);
+		return ((RubyModule)receiver).setConstant(name, value);
 	}
 
 	public static RubyValue getTopLevelConstant(String name) {
@@ -105,4 +82,3 @@ abstract class ModuleClassAndMethodCollection extends ClassAndMethodCollection {
 		return a;
 	}
 }
-
