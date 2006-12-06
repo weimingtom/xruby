@@ -133,6 +133,13 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_result(program_texts, results);
 	}
 	
+	public void test_ascii_value() {
+		String[] program_texts = { "?a", "?A"};
+		int[] results = {97, 65};
+
+		compile_run_and_compare_result(program_texts, results);
+	}
+	
 	public void test_fixnum_to_f() {
 		String[] program_texts = {
 				//"print 1.to_f",
