@@ -71,6 +71,7 @@ public class RubyRuntime {
 		ClassClassBuilder.initialize();
 		KernelModuleBuilder.initialize();
 		EnumerableModuleBuilder.initialize();
+		GCModuleBuilder.initialize();
 		MathModuleBuilder.initialize();
 		NumericClassBuilder.initialize();
 		IntegerClassBuilder.initialize();
