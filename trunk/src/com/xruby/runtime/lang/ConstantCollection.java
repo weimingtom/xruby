@@ -2,7 +2,7 @@ package com.xruby.runtime.lang;
 
 import java.util.*;
 
-abstract class ConstantCollection extends MethodCollectionWithMixin {
+abstract class ConstantCollection extends ClassVariableCollection {
 	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
 
 	ConstantCollection(RubyClass c) {
@@ -18,18 +18,4 @@ abstract class ConstantCollection extends MethodCollectionWithMixin {
 		constants_.put(name, value);
 		return value;
 	}
-
-	public RubyValue getCurrentNamespaceConstant(String name) {
-		RubyValue v = getConstant(name);
-		if (null != v) {
-			return v;
-		}
-
-		v = RubyRuntime.GlobalScope.getConstant(name);
-		if (null == v) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + name_ + "::" + name);
-		}
-		return v;
-	}
-
 }

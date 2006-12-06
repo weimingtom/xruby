@@ -2482,11 +2482,9 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_include_module() {
 		String [] program_texts = {
-				/*TODO
 				"module TEST_CONSTANT_M; TEST_CONSTANT = 5; end\n" +
 				"include TEST_CONSTANT_M\n" +
 				"print TEST_CONSTANT",
-				*/
 				
 				"module TestTopLevelIncludeModule\n" +
 				"	def test_top_level_include_module\n" +
@@ -2547,7 +2545,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
-				//"5",
+				"5",
 				"77777",
 				"100",
 				"B2",

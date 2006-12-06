@@ -202,11 +202,7 @@ public class RubyAPI {
 	}
 
 	public static RubyValue getTopLevelConstant(String name) {
-		RubyValue v = RubyRuntime.GlobalScope.getConstant(name);
-		if (null == v) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + name);
-		}
-		return v;
+		return RubyRuntime.GlobalScope.getCurrentNamespaceConstant(name);
 	}
 
 	public static RubyValue getConstant(RubyValue receiver, String name) {
