@@ -3383,4 +3383,24 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_Module_compare() {
+		String [] program_texts = {
+				"print String <=> 123",
+				"print String <=> String",
+				"print String <=> Object",
+				"print Object <=> String",
+				"print Array <=> String",
+		};
+		
+		String[] outputs = {
+				"nil",
+				"0",
+				"-1",
+				"1",
+				"nil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

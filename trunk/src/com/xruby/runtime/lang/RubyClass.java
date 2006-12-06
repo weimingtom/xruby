@@ -37,7 +37,7 @@ public class RubyClass extends RubyModule {
 		return superclass_ == superclass;
 	}
 
-	boolean isKindOf(RubyClass value) {
+	public boolean isKindOf(RubyClass value) {
 		if (value == this) {
 			return true;
 		} else if (null != superclass_) {
