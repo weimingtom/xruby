@@ -71,14 +71,4 @@ abstract class ConstantCollection extends MethodCollectionWithMixin {
 	public static RubyValue setTopLevelConstant(RubyValue value, String name) {
 		return RubyRuntime.GlobalScope.setConstant(name, value);
 	}
-	
-	public RubyValue getConstants() {
-		Set<String> keys = constants_.keySet();
-		RubyArray a = new RubyArray(keys.size());
-		Iterator<String> iterator = keys.iterator();
-		while (iterator.hasNext()){
-			a.add(ObjectFactory.createString(iterator.next()));
-		}
-		return a;
-	}
 }
