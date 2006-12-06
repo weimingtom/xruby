@@ -3,7 +3,7 @@ package com.xruby.runtime.lang;
 import java.util.*;
 import com.xruby.runtime.value.*;
 
-public class ConstantCollection extends MethodCollectionWithMixin {
+abstract class ConstantCollection extends MethodCollectionWithMixin {
 	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
 
 	ConstantCollection(RubyClass c) {
