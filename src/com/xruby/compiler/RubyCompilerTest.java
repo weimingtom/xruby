@@ -3410,4 +3410,20 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_string_match() {
+		String [] program_texts = {
+				"print '123' =~ 123",
+				"print \"cat o' 9 tails\" =~ /\\d/",
+				"print \"cat o' 9 tails\" =~ /abc/",
+		};
+		
+		String[] outputs = {
+				"false",
+				"7",
+				"nil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
