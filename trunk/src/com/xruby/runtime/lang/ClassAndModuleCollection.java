@@ -9,10 +9,6 @@ abstract class ClassAndModuleCollection extends ConstantCollection {
 		super(c);
 	}
 
-	public void addNewClass(String name, RubyClass c) {
-		constants_.put(name, c);
-	}
-
 	/// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
 	/// It has less overhead than 'defineClass' (no hash table lookup).
 	/// This method is NOT used by classes compiled from ruby script.
