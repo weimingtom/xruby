@@ -187,6 +187,36 @@ class Module_include_module extends RubyMethod {
 	}
 }
 
+class Module_operator_compare extends RubyMethod {
+	public Module_operator_compare () {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyModule module = (RubyModule)receiver;
+		if (!(args.get(0) instanceof RubyModule)) {
+			return ObjectFactory.nilValue;
+		}
+		
+		RubyModule other_module = (RubyModule)args.get(0);
+		if (module == other_module) {
+			return ObjectFactory.createFixnum(0);
+		}
+		
+		if (module instanceof RubyClass || other_module instanceof RubyClass) {
+			RubyClass c1 = (RubyClass)module;
+			RubyClass c2 = (RubyClass)other_module;
+			if (c1.isKindOf(c2)) {
+				return ObjectFactory.createFixnum(-1);
+			} else if (c2.isKindOf(c1)) {
+				return ObjectFactory.createFixnum(1);
+			}
+		}
+		
+		return ObjectFactory.nilValue;
+	}
+}
+
 public class ModuleClassBuilder {
 	
 	public static void initialize() {
@@ -197,6 +227,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("to_s", new Module_to_s());
 		c.defineMethod("inspect", new Module_inspect());
 		c.defineMethod("include", new Module_include_module());
+		c.defineMethod("<=>", new Module_operator_compare());
 
 		c.setAccessPrivate();
 		c.defineMethod("attr_reader", new Module_attr_reader());
