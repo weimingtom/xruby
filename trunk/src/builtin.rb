@@ -60,6 +60,10 @@ class Object
 	def nil?
 		false
 	end
+	
+	def =~
+		return false
+	end
 end
 
 class Array

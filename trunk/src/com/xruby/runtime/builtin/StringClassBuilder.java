@@ -297,6 +297,25 @@ class String_operator_compare extends RubyMethod {
 	}
 }
 
+class String_operator_match extends RubyMethod {
+	public String_operator_match() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (args.get(0) instanceof RubyRegexp) {
+			RubyRegexp reg = (RubyRegexp)args.get(0);
+			int p = reg.matchPosition(((RubyString)receiver).toString()); 
+			if (p >= 0) {
+				return ObjectFactory.createFixnum(p);
+			} else {
+				return ObjectFactory.nilValue;
+			}
+		} else {
+			return RubyAPI.callPublicMethod(args.get(0), receiver, "=~");
+		}
+	}
+}
 
 public class StringClassBuilder {
 	public static void initialize() {
@@ -319,6 +338,7 @@ public class StringClassBuilder {
 		c.defineMethod("gsub!", new String_gsub_danger());
 		c.defineMethod("split", new String_split());
 		c.defineMethod("<=>", new String_operator_compare());
+		c.defineMethod("=~", new String_operator_match());
 		c.defineAllocMethod(new String_new());
 	}
 }
