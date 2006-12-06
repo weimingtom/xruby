@@ -70,4 +70,24 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 
 		return null;
 	}
+	
+	public RubyValue getCurrentNamespaceConstant(String name) {
+		RubyValue v = getConstant(name);
+		if (null != v) {
+			return v;
+		}
+		
+		for (RubyModule module : mixins_) {
+			v = module.getConstant(name);
+			if (null != v) {
+				return v;
+			}
+		}
+
+		v = RubyRuntime.GlobalScope.getConstant(name);
+		if (null == v) {
+			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + ((null == name_) ? "" : (name_ + "::")) + name);
+		}
+		return v;
+	}
 }

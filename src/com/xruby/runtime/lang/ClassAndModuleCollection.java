@@ -4,8 +4,8 @@
 
 package com.xruby.runtime.lang;
 
-abstract class ClassAndModuleCollection extends ConstantCollection {
-	protected ClassAndModuleCollection(RubyClass c) {
+abstract class ClassAndModuleCollection extends MethodCollectionWithMixin {
+	ClassAndModuleCollection(RubyClass c) {
 		super(c);
 	}
 
