@@ -196,4 +196,43 @@ public class RubyAPI {
 	public static RubyValue convertRubyException2RubyValue(RubyException e) {
 		return e.getRubyValue();
 	}
+
+	public static RubyValue setTopLevelConstant(RubyValue value, String name) {
+		return RubyRuntime.GlobalScope.setConstant(name, value);
+	}
+
+	public static RubyValue getTopLevelConstant(String name) {
+		RubyValue v = RubyRuntime.GlobalScope.getConstant(name);
+		if (null == v) {
+			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + name);
+		}
+		return v;
+	}
+
+	public static RubyValue getConstant(RubyValue receiver, String name) {
+		throwTypeErrorIfNotClassModule(receiver);
+		
+		RubyValue v = ((RubyModule)receiver).getConstant(name);
+		if (null == v) {
+			String module_name = ((RubyModule)receiver).getName();
+			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + module_name + "::" + name);
+		}
+		
+		return v;
+	}
+
+	public static RubyValue setConstant(RubyValue value, RubyValue receiver, String name) {
+		throwTypeErrorIfNotClassModule(receiver);
+
+		return ((RubyModule)receiver).setConstant(name, value);
+	}
+
+	private static void throwTypeErrorIfNotClassModule(RubyValue receiver) {
+		if (!(receiver instanceof RubyClass) &&
+				!(receiver instanceof RubyModule)) {
+			RubyValue v = RubyAPI.callPublicMethod(receiver, null, "to_s");
+			String s = ((RubyString)v).toString();
+			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
+		}
+	}
 }
