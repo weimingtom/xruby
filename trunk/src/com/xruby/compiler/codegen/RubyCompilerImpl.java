@@ -758,7 +758,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitConstant(String name) {
-		cg_.getMethodGenerator().RubyModule_getConstant(name);
+		cg_.getMethodGenerator().RubyAPI_getConstant(name);
 	}
 
 	public void visitTopLevelConstant(String name) {
@@ -768,7 +768,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		} else if (cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(name)) {
 			return;
 		} else {
-			cg_.getMethodGenerator().RubyModule_getTopLevelConstant(name);
+			cg_.getMethodGenerator().RubyAPI_getTopLevelConstant(name);
 		}
 	}
 
@@ -784,12 +784,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assignment) {
 		//TODO handle rhs_is_method_call and is_multiple_assignment
-		cg_.getMethodGenerator().RubyModule_setConstant(name);
+		cg_.getMethodGenerator().RubyAPI_setConstant(name);
 	}
 
 	public void visitTopLevelConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assignment) {
 		//TODO handle rhs_is_method_call and is_multiple_assignment
-		cg_.getMethodGenerator().RubyModule_setTopLevelConstant(name);
+		cg_.getMethodGenerator().RubyAPI_setTopLevelConstant(name);
 	}
 
 	public void visitDefinedPublicMethod(String name) {

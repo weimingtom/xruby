@@ -298,8 +298,8 @@ class Kernel_require_java extends RubyMethod {
             JavaClass jClazz = new JavaClass(clazz);
 
             //TODO: The naming mechanism is not quite appropriate
-            RubyModule.setTopLevelConstant(jClazz, name);
-            RubyModule.setTopLevelConstant(jClazz, className.toString());
+            RubyAPI.setTopLevelConstant(jClazz, name);
+            RubyAPI.setTopLevelConstant(jClazz, className.toString());
             
         } catch (ClassNotFoundException e) {
             throw new RubyException("Couldn't find class " + className.toString());

@@ -585,6 +585,30 @@ class MethodGenerator extends GeneratorAdapter {
 			invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefinedYield(com.xruby.runtime.lang.RubyBlock)"));
 	}
+
+	public void RubyAPI_setTopLevelConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyAPI.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue setTopLevelConstant(com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
+	public void RubyAPI_getTopLevelConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyAPI.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getTopLevelConstant(String)"));
+	}
+
+	public void RubyAPI_getConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyAPI.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getConstant(com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
+	public void RubyAPI_setConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyAPI.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue setConstant(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
+	}
 	
 	public void RubyModule_defineClass(String className) {
 		if (RubyRuntime.isBuiltinClass(className)) {
@@ -606,30 +630,6 @@ class MethodGenerator extends GeneratorAdapter {
 		push(name);
 		invokeVirtual(Type.getType(RubyModule.class),
 			Method.getMethod("com.xruby.runtime.lang.RubyValue getCurrentNamespaceConstant(String)"));
-	}
-
-	public void RubyModule_getTopLevelConstant(String name) {
-		push(name);
-		invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue getTopLevelConstant(String)"));
-	}
-
-	public void RubyModule_getConstant(String name) {
-		push(name);
-		invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue getConstant(com.xruby.runtime.lang.RubyValue, String)"));
-	}
-
-	public void RubyModule_setConstant(String name) {
-		push(name);
-		invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue setConstant(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
-	}
-
-	public void RubyModule_setTopLevelConstant(String name) {
-		push(name);
-		invokeStatic(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue setTopLevelConstant(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
 	public void RubyModule_getClassVariable(String name) {

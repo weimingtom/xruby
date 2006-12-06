@@ -101,7 +101,7 @@ public class RubyRuntime {
 			}
 		}
 
-		RubyModule.setTopLevelConstant(argv, "ARGV");
+		RubyAPI.setTopLevelConstant(argv, "ARGV");
 	}
 	
 	public static void initBuiltin(String[] args) {
