@@ -25,7 +25,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"prepare rescue end\n" +
 			"[:1\n" +
 			"[\n" +
-			"::RuntimeError\n" +
+			"RuntimeError\n" +
 			"]\n" +
 			"=>null\n" +
 			"self\n" +
@@ -61,7 +61,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"prepare rescue end\n" +
 			"[:1\n" +
 			"[\n" +
-			"::M\n" +
+			"M\n" +
 			"::RuntimeError\n" +
 			"]\n" +
 			"=>e\n" +

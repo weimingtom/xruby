@@ -76,7 +76,8 @@ public class CodePrinter implements CodeVisitor {
 	}
 
 	public void visitCurrentNamespaceConstant(String name) {
-		visitConstant(name);
+		result_.append(name);
+		result_.append("\n");
 	}
 
 	public void visitTopLevelConstant(String name) {
