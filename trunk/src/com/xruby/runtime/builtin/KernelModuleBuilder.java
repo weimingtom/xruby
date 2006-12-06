@@ -171,7 +171,7 @@ class Kernel_operator_case_equal extends RubyMethod {
 		if (receiver == args.get(0)) {
 			return ObjectFactory.trueValue;
 		} else {
-			return ObjectFactory.falseValue;
+			return RubyAPI.callPublicMethod(receiver, args, block, "==");
 		}
 	}
 }

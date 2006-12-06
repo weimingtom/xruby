@@ -2292,6 +2292,7 @@ public class RubyCompilerTest extends TestCase {
 				"a = 1...3; print a === 3",
 				
 				"a = 1...3; print a === 'x'",
+				"print 'abcd' === 'abcd'",
 				
 		};
 		
@@ -2305,6 +2306,7 @@ public class RubyCompilerTest extends TestCase {
 				"false",
 				
 				"false",
+				"true",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
