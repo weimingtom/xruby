@@ -350,7 +350,7 @@ returns [Expression e]
 		|	binary:BINARY								{e = new IntegerExpression(binary.getText(), 2);}
 		|	octal:OCTAL								{e = new IntegerExpression(octal.getText(), 8);}
 		|	float_:FLOAT								{e = new FloatExpression(float_.getText());}
-		//|	ASCII_VALUE	!!!!!!!!!!!!!!
+		|	ascii:ASCII_VALUE							{e = new AsciiValueExpression(ascii.getText());}
 		|	double_quote_string:DOUBLE_QUOTE_STRING	{e = new StringExpression(double_quote_string.getText(), true);}
 		|	single_quote_string:SINGLE_QUOTE_STRING	{e = new StringExpression(single_quote_string.getText(), false);}
 		|	command_output:COMMAND_OUTPUT			{e = new CommandOutputExpression(command_output.getText());}
