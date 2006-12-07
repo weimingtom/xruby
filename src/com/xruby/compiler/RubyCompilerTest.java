@@ -3419,12 +3419,14 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_string_match() {
 		String [] program_texts = {
+				"print '123' !~ 123",
 				"print '123' =~ 123",
 				"print \"cat o' 9 tails\" =~ /\\d/",
 				"print \"cat o' 9 tails\" =~ /abc/",
 		};
 		
 		String[] outputs = {
+				"true",
 				"false",
 				"7",
 				"nil",

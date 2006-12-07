@@ -259,6 +259,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (operator.equals("!=")) {
 			cg_.getMethodGenerator().RubyAPI_callPublicMethod_OneArgNoBlcok("==");
 			cg_.getMethodGenerator().RubyAPI_operatorNot();
+		} else if (operator.equals("!~")) {
+			cg_.getMethodGenerator().RubyAPI_callPublicMethod_OneArgNoBlcok("=~");
+			cg_.getMethodGenerator().RubyAPI_operatorNot();
 		} else {
 			//operator as method call
 			cg_.getMethodGenerator().RubyAPI_callPublicMethod_OneArgNoBlcok(operator);
