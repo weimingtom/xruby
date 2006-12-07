@@ -34,6 +34,7 @@ tokens {
 	MRHS;
 	NESTED_LHS;
 	SINGLETON_METHOD;
+	STRING;
 }
 
 {
@@ -569,8 +570,8 @@ predefinedValue
 		;
 
 string
-		:	double_quote_string_value:DOUBLE_QUOTE_STRING
-		|	single_quote_string_value:SINGLE_QUOTE_STRING
+		:	DOUBLE_QUOTE_STRING
+		|	SINGLE_QUOTE_STRING
 		|	STRING_BEFORE_EXPRESSION_SUBSTITUTION^
 			expression_substituation
 			(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation)*
@@ -604,7 +605,7 @@ command_output
 
 literal
 		:	regex
-		|	(options{greedy=true;/*caused by command*/}:string)+
+		|	(options{greedy=true;/*caused by command*/}:string)+{ #literal = #([STRING, "STRING"], #literal); }
 		|	HERE_DOC_BEGIN
 		|	command_output
 		|	symbol

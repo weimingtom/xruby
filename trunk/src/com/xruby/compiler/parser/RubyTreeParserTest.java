@@ -105,7 +105,7 @@ public class RubyTreeParserTest extends TestCase {
 				" ( COMPSTMT :: B )",
 				
 				" ( COMPSTMT ( CALL ( . 4 div ) ( ARG 2 ) ) )",
-				" ( COMPSTMT ( abc opq xyz ) )",
+				" ( COMPSTMT ( STRING ( abc opq xyz ) ) )",
 				" ( COMPSTMT ( ( ( COMPSTMT 1 ) ) )",
 				
 				" ( COMPSTMT ( MULTIPLE_ASSIGN_WITH_EXTRA_COMMA ( CALL a ) ( MRHS 1 2 ) ) )",
@@ -126,7 +126,7 @@ public class RubyTreeParserTest extends TestCase {
 
 				" ( COMPSTMT ( = a 2 ) ( while ( > a 1 ) ( COMPSTMT true ) ) )",
 				" ( COMPSTMT ( while false ( COMPSTMT true ) ) )",
-				" ( COMPSTMT ( def f2 ( BODY ( COMPSTMT ( return ( ARG xxx ) ) ) ) ) )",
+				" ( COMPSTMT ( def f2 ( BODY ( COMPSTMT ( return ( ARG ( STRING xxx ) ) ) ) ) ) )",
 				
 				" ( COMPSTMT ( = a ( = b 1 ) ) ( CALL puts ( ARG b ) ) )",
 				" ( COMPSTMT [] )",
@@ -139,12 +139,12 @@ public class RubyTreeParserTest extends TestCase {
 				" ( COMPSTMT ( case 1 when ( MRHS 1 ) ( COMPSTMT 1 ) else ( COMPSTMT 2 ) ) )",
 				" ( COMPSTMT ( if true elsif false else ) )",
 				" ( COMPSTMT true false nil )",
-				" ( COMPSTMT ( class C ( BODY ( COMPSTMT ( def f ( BODY ( COMPSTMT ( CALL puts ( ARG ~~~~ ) ) ) ) ) ) ) ) ( . ( . C new ) f ) )",
+				" ( COMPSTMT ( class C ( BODY ( COMPSTMT ( def f ( BODY ( COMPSTMT ( CALL puts ( ARG ( STRING ~~~~ ) ) ) ) ) ) ) ) ) ( . ( . C new ) f ) )",
 				" ( COMPSTMT ( class MyClass ) )",
 				" ( COMPSTMT ( def my_methods ) )",
 				" ( COMPSTMT ( CALL puts ( ARG ( . 1 ( CALL class ) ) ) ) )",
-				" ( COMPSTMT ( CALL puts ( ARG 1 hello ) ) )",
-				" ( COMPSTMT ( CALL puts ( ARG 1234 ) ) )",
+				" ( COMPSTMT ( CALL puts ( ARG 1 ( STRING hello ) ) ) )",
+				" ( COMPSTMT ( CALL puts ( ARG ( STRING 1234 ) ) ) )",
 				" ( COMPSTMT ( - ( + 1 2 ) 3 ) )",
 				" ( COMPSTMT ( + 1 ( * 2 3 ) ) )",
 				" ( COMPSTMT ( = a 1 ) )",

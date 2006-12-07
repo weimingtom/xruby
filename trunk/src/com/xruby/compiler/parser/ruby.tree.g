@@ -351,8 +351,6 @@ returns [Expression e]
 		|	octal:OCTAL								{e = new IntegerExpression(octal.getText(), 8);}
 		|	float_:FLOAT								{e = new FloatExpression(float_.getText());}
 		|	ascii:ASCII_VALUE							{e = new AsciiValueExpression(ascii.getText());}
-		|	double_quote_string:DOUBLE_QUOTE_STRING	{e = new StringExpression(double_quote_string.getText(), true);}
-		|	single_quote_string:SINGLE_QUOTE_STRING	{e = new StringExpression(single_quote_string.getText(), false);}
 		|	command_output:COMMAND_OUTPUT			{e = new CommandOutputExpression(command_output.getText());}
 		|	HERE_DOC_BEGIN							{e = new StringExpression(heredocs_.remove(), true);}
 		|	regex:REGEX								{e = new RegexpExpression(regex.getText());}
@@ -368,11 +366,30 @@ returns [Expression e]
 		|	instance_variable:INSTANCE_VARIABLE		{e = new InstanceVariableExpression(instance_variable.getText());}
 		|	"__FILE__"								{e = new StringExpression((null != filename_) ? filename_ : "-", false);}
 		|	line:"__LINE__"							{e = new IntegerExpression(line.getLine());}
-		|	e=stringWithExpressionSubstituation
+		|	e=string
 		|	e=regexWithExpressionSubstituation
 		|	e=commandOutputWithExpressionSubstituation
 		;
 
+string
+returns[Expression e]
+		:	#(STRING
+				(e=normalString|e=stringWithExpressionSubstituation)
+			)
+		;
+
+protected
+normalString
+returns[StringExpression e]
+{
+	e = new StringExpression("", false);
+}
+		:	(double_quote_string:DOUBLE_QUOTE_STRING	{e.appendString(double_quote_string.getText(), true);}
+			|single_quote_string:SINGLE_QUOTE_STRING	{e.appendString(single_quote_string.getText(), false);}
+			)+
+		;
+
+protected
 stringWithExpressionSubstituation
 returns [StringExpressionWithExpressionSubstitution e]
 		:	#(	b:STRING_BEFORE_EXPRESSION_SUBSTITUTION	{e = new StringExpressionWithExpressionSubstitution(b.getText());}
