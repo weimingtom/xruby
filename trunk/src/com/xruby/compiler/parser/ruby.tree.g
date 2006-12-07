@@ -372,21 +372,17 @@ returns [Expression e]
 		;
 
 string
-returns[Expression e]
-		:	#(STRING
-				(e=normalString|e=stringWithExpressionSubstituation)
-			)
-		;
-
-protected
-normalString
-returns[StringExpression e]
+returns[StringGroupExpression e]
 {
-	e = new StringExpression("", false);
+	e = new StringGroupExpression();
+	StringExpressionWithExpressionSubstitution s = null;
 }
-		:	(double_quote_string:DOUBLE_QUOTE_STRING	{e.appendString(double_quote_string.getText(), true);}
-			|single_quote_string:SINGLE_QUOTE_STRING	{e.appendString(single_quote_string.getText(), false);}
-			)+
+		:	#(STRING
+				(double_quote_string:DOUBLE_QUOTE_STRING	{e.appendString(double_quote_string.getText(), true);}
+				|single_quote_string:SINGLE_QUOTE_STRING	{e.appendString(single_quote_string.getText(), false);}
+				|s=stringWithExpressionSubstituation			{e.addStringWithExpressionSubstituation(s);}
+				)+
+			)
 		;
 
 protected

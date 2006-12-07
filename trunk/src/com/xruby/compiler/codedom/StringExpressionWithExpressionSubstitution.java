@@ -5,6 +5,10 @@ public class StringExpressionWithExpressionSubstitution extends ExpressionWithEx
 	public StringExpressionWithExpressionSubstitution(String s) {
 		addString(s);
 	}
+	
+	void merge(StringExpressionWithExpressionSubstitution another) {
+		stmts_.addAll(another.stmts_);
+	}
 
 	public void accept(CodeVisitor visitor) {
 		
