@@ -3419,6 +3419,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_string_match() {
 		String [] program_texts = {
+				"print $&; \"abcabc\" =~ /.*a/; print $&, $&.class",
 				"print \"\" =~ /^$/",
 				"print \"a\\n\\n\" =~ /^$/",
 				"print '123' !~ 123",
@@ -3428,6 +3429,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"nilabcaString",
 				"0",
 				"2",
 				"true",

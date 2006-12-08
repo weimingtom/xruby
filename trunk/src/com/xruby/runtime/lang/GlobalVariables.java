@@ -41,6 +41,7 @@ public class GlobalVariables {
 	private static ConcurrentHashMap<String, RubyValue> values_ = new ConcurrentHashMap<String, RubyValue>();
 	
 	public static RubyValue STDOUT = new RubyObject(RubyRuntime.IOClass);
+	public static RubyValue MATCH = ObjectFactory.nilValue;
 	public static RubyValue LAST_READ_LINE = ObjectFactory.nilValue;
 	public static RubyValue OUTPUT_FIELD_SEPARATOR = ObjectFactory.nilValue;
 	public static RubyValue OUTPUT_RECORD_SEPARATOR = ObjectFactory.nilValue;
@@ -50,6 +51,8 @@ public class GlobalVariables {
 	public static String translatePredefined(final String name) {
 		if (name.equals("$stdout")) {
 			return "STDOUT";
+		} else if (name.equals("$&")) {
+			return "MATCH";
 		} else if (name.equals("$_")) {
 			return "LAST_READ_LINE";
 		} else if (name.equals("$,")) {
