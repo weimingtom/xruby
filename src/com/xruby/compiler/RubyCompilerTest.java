@@ -3419,6 +3419,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_string_match() {
 		String [] program_texts = {
+				"print \"\" =~ /^$/",
 				"print \"a\\n\\n\" =~ /^$/",
 				"print '123' !~ 123",
 				"print '123' =~ 123",
@@ -3427,6 +3428,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"0",
 				"2",
 				"true",
 				"false",

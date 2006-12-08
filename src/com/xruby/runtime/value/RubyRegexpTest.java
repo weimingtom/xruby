@@ -10,5 +10,6 @@ public class RubyRegexpTest extends TestCase {
 		assertTrue((new RubyRegexp("(.)(.)(\\d+)(\\d)")).caseEqual("THX1138."));
 		assertEquals(1, (new RubyRegexp("(.)(.)(\\d+)(\\d)")).matchPosition("THX1138."));
 		assertEquals(-1, (new RubyRegexp("(.)(.)(\\d+)(\\d)")).matchPosition("THX1."));
+		assertEquals(0, (new RubyRegexp("^$")).matchPosition(""));
 	}
 }
