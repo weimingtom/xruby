@@ -139,7 +139,7 @@ public class RubyLexer extends RubyLexerBase
 				switch(last_token_.getType())
 				{
 					case LINE_BREAK:
-						while (heredoc_delimiters_.size() > 0)
+						while (expect_heredoc_content())
 						{
 							//expect here doc
 							//match it but skip the content, so that parser does not have to parse it (but we'd better save it to symbol table).
