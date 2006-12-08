@@ -334,7 +334,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(SEMI, ";"),
 							new TestingCommonToken(IDENTIFIER, "a"),
 							//new TestingCommonToken(LINE_BREAK, "\n"),
-							new TestingCommonToken(SEMI, "\n", 1),
+							new TestingCommonToken(LINE_BREAK, "\n", 1),
 		};
 
 		assert_type(program_text, token_types);
@@ -958,9 +958,22 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 	public void test_SEMI()
 	{
 		String[] program_texts = {
-			"\n  \n\t\n\n;\n;",
 			";",
 			";;;",
+		};
+
+		String[] expected_texts = {
+			";",
+			";",
+		};
+
+		assert_type(program_texts, SEMI, expected_texts);
+	}
+	
+	public void test_SEMI_as_LINEBREAK()
+	{
+		String[] program_texts = {
+			"\n  \n\t\n\n;\n;",
 			";\n\n\n",
 			";;  ;;\n;;\n\n;;",
 		};
@@ -969,11 +982,9 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 			"\n",
 			";",
 			";",
-			";",
-			";",
 		};
 
-		assert_type(program_texts, SEMI, expected_texts);
+		assert_type(program_texts, LINE_BREAK, expected_texts);
 	}
 
 	public void test_ASSOC()

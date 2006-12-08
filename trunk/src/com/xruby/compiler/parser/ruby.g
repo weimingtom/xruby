@@ -1161,19 +1161,24 @@ UNARY_PLUS_MINUS_METHOD_NAME
 		;
 
 SEMI
-		:	';'	(WHITE_SPACE_CAHR!		|	LINE_FEED!	|	';'!)*
+{
+	boolean seen_line_feed = false;
+}
+		:	';'	(WHITE_SPACE_CAHR!		|	LINE_FEED!{seen_line_feed = true;}	|	';'!)*
 			{
 				if (last_token_is_semi())
 				{
 					$setType(Token.SKIP);
+				} else if (seen_line_feed) {
+					$setType(LINE_BREAK);
 				}
 			}
 		;
 
-//treat "\n\n\n\n;" as SEMI
+//treat "\n\n\n\n;" as one LINE_BREAK
 LINE_BREAK
 		:	{expect_heredoc_content()}?	LINE_FEED
-		|	PURE_LINE_BREAK	(SEMI!	{$setType(SEMI);})?
+		|	PURE_LINE_BREAK	(SEMI!)?
 			{
 				if ((LINE_BREAK == _ttype) && should_ignore_linebreak())
 				{
