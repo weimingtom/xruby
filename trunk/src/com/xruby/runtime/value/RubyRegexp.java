@@ -35,6 +35,10 @@ public class RubyRegexp extends RubyBasic {
 	}
 	
 	public int matchPosition(String v) {
+		if (v.length() == 0) {
+			v = "\n"; //TODO a hack to handle "" =~ /^$/, need a better solution
+		}
+		
 		Matcher m = regex.matcher(v);
 		if (m.find()) {
 			return m.start();
