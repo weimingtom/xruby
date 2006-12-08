@@ -9,7 +9,7 @@ public class RubyRegexp extends RubyBasic {
 	
 	RubyRegexp(String v) {
 		super(RubyRuntime.RegexpClass);
-		regex = Pattern.compile(v);
+		regex = Pattern.compile(v, Pattern.MULTILINE);
 	}
 
 	RubyRegexp() {
