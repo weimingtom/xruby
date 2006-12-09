@@ -112,6 +112,10 @@ public class RubyRuntime {
 		
 		initARGV(args);
 		
+		RubyAPI.setTopLevelConstant(ObjectFactory.trueValue, "TRUE");
+		RubyAPI.setTopLevelConstant(ObjectFactory.falseValue, "FALSE");
+		RubyAPI.setTopLevelConstant(ObjectFactory.nilValue, "NIL");
+		
 		TopLevelSelfInitializer.initialize();
 
 		try {

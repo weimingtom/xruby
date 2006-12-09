@@ -3506,4 +3506,16 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
+	
+	public void test_TRUE_FALSE_NIL() {
+		String [] program_texts = {
+				"print TRUE, FALSE, NIL",
+		};
+		
+		String[] outputs = {
+				"truefalsenil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
