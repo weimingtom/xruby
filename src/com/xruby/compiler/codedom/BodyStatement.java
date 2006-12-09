@@ -65,7 +65,14 @@ public class BodyStatement implements Visitable {
 			start_label = visitor.visitPrepareRescueBegin();
 		}
 
-		compoundStatement_.accept(visitor);
+		if (null != compoundStatement_) {
+			compoundStatement_.accept(visitor);
+		}
+		
+		Object ensure_label = null;
+		if (null != ensure_) {
+			ensure_label = visitor.visitPrepareEnsure();
+		}
 		
 		if (!rescues_.isEmpty()) {
 			Object exception_var = visitor.visitPrepareRescueEnd(start_label);
@@ -75,6 +82,11 @@ public class BodyStatement implements Visitable {
 			}
 			
 			visitor.visitRescueEnd(exception_var, last_label);
+		}
+		
+		if (null != ensure_) {
+			visitor.visitEnsureBody(ensure_label);
+			ensure_.accept(visitor);
 		}
 	}
 }

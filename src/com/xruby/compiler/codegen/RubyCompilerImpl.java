@@ -481,6 +481,16 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public Object visitAfterUnlessBody(Object next_label, Object end_label) {
 		return visitAfterIfBody(next_label, end_label);
 	}
+	
+	public Object visitPrepareEnsure() {
+		Label l = new Label();
+		cg_.getMethodGenerator().goTo(l);
+		return l;
+	}
+	
+	public void visitEnsureBody(Object label) {
+		cg_.getMethodGenerator().mark((Label)label);
+	}
 
 	public Object visitPrepareRescueBegin() {
 		return cg_.getMethodGenerator().mark();
