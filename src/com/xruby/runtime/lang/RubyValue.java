@@ -7,7 +7,7 @@ package com.xruby.runtime.lang;
 import java.util.*;
 import com.xruby.runtime.value.*;
 
-public abstract class RubyValue {
+public abstract class RubyValue implements Cloneable {
 
 	private RubyClass class_;
 	private RubySingletonClass singleton_class_ = null;
@@ -15,6 +15,20 @@ public abstract class RubyValue {
 
 	public RubyValue(RubyClass c) {
 		class_ = c;
+	}
+	
+	public RubyValue clone() {
+		RubyValue v;
+		try {
+			v = (RubyValue)super.clone();
+			if (null != singleton_class_) {
+				v.singleton_class_ = new RubySingletonClass();
+				v.singleton_class_.copyMethods(singleton_class_);
+			}
+		} catch (CloneNotSupportedException e) {
+			throw new RubyException(RubyRuntime.ExceptionClass, e.toString());
+		}
+		return v;
 	}
 	
 	public RubyValue getInstanceVariable(String name) {

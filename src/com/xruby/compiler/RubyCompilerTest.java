@@ -3452,4 +3452,38 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_clone() {
+		String [] program_texts = {
+				"a = Object.new\n" +
+				"def a.test_clone\n" +
+				"	print \"clone\"\n" +
+				"end\n" +
+				"b = a.clone\n" +
+				"b.test_clone",
+		};
+		
+		String[] outputs = {
+				"clone",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_clone_exception() {
+		String [] program_texts = {
+				"a = Object.new\n" +
+				"b = a.clone\n" +
+				"def b.test_clone_exception\n" +
+				"	print \"clone\"\n" +
+				"end\n" +
+				"a.test_clone_exception",
+		};
+		
+		RubyException[] exceptions = {
+				new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'test_clone_exception' can not be found in 'Object'"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
 }
