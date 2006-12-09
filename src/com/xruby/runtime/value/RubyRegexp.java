@@ -54,6 +54,18 @@ public class RubyRegexp extends RubyBasic {
 	public String gsub(RubyString str, RubyString repl) {
 		return regex.matcher(str.toString()).replaceAll(repl.toString());
 	}
+
+	public RubyValue gsub(RubyString s, RubyBlock block) {
+		Matcher m = regex.matcher(s.toString());
+		RubyString r = new RubyString("");
+		while (m.find()) {
+			RubyString match = new RubyString(m.group());
+			RubyValue v = block.invoke(this, new RubyArray(match));
+			r.appendString(v);	
+		}
+		
+		return r;
+	}
 	
 	public Pattern getPattern() {
 		return regex;

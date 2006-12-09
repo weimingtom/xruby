@@ -208,8 +208,8 @@ class String_gsub extends RubyMethod {
 		super(-1);
 	}
 
-	protected void checkParameters(RubyArray args) {
-		if (args.size() < 2) {
+	protected void checkParameters1(RubyArray args) {
+		if (args.size() != 2) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for 2)");
 		}
 		
@@ -222,30 +222,56 @@ class String_gsub extends RubyMethod {
 		}
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		checkParameters(args);
+	protected void checkParameters2(RubyArray args) {
+		if (args.size() != 1) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for 2)");
+		}
 		
-		RubyString g = (RubyString)receiver;
-		RubyRegexp r = (RubyRegexp)args.get(0);
-		RubyString s = (RubyString)args.get(1);
+		if (!(args.get(0) instanceof RubyRegexp)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
+		}
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (null == block) {
+			checkParameters1(args);
+			
+			RubyString g = (RubyString)receiver;
+			RubyRegexp r = (RubyRegexp)args.get(0);
+			RubyString s = (RubyString)args.get(1);
 
-		return ObjectFactory.createString(r.gsub(g, s));
+			return ObjectFactory.createString(r.gsub(g, s));
+		} else {
+			checkParameters2(args);
+
+			RubyString g = (RubyString)receiver;
+			RubyRegexp r = (RubyRegexp)args.get(0);
+			return r.gsub(g, block);
+		}
 	}
 }
 
 class String_gsub_danger extends String_gsub {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		checkParameters(args);
+		if (null == block) {
+			checkParameters1(args);
 
-		RubyString g = (RubyString)receiver;
-		RubyRegexp r = (RubyRegexp)args.get(0);
-		RubyString s = (RubyString)args.get(1);
+			RubyString g = (RubyString)receiver;
+			RubyRegexp r = (RubyRegexp)args.get(0);
+			RubyString s = (RubyString)args.get(1);
 
-		String result = r.gsub(g, s);
-		if (g.toString().equals(result)) {
-			return ObjectFactory.nilValue;
+			String result = r.gsub(g, s);
+			if (g.toString().equals(result)) {
+				return ObjectFactory.nilValue;
+			} else {
+				return ObjectFactory.createString(result);
+			}
 		} else {
-			return ObjectFactory.createString(result);
+			checkParameters2(args);
+
+			RubyString g = (RubyString)receiver;
+			RubyRegexp r = (RubyRegexp)args.get(0);
+			return r.gsub(g, block);
 		}
 	}
 }
