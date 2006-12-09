@@ -14,6 +14,10 @@ abstract class MethodCollection extends ConstantCollection {
 	MethodCollection(RubyClass c) {
 		super(c);
 	}
+	
+	protected void copyMethods(MethodCollection other) {
+		methods_.putAll(other.methods_);
+	}
 
 	protected RubyMethod findOwnMethod(String method_name) {
 		return methods_.get(method_name);

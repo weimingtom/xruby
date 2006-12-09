@@ -21,6 +21,16 @@ class Object_operator_equal extends RubyMethod {
 	}
 }
 
+class Object_clone extends RubyMethod {
+	public Object_clone() {
+		super(0);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		return (RubyValue)receiver.clone();
+	}
+}
+
 class Object_alloc extends RubyMethod {
 	public Object_alloc() {
 		super(-1);
@@ -36,6 +46,7 @@ public class ObjectClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ObjectClass;
 		c.defineMethod("==", new Object_operator_equal());
+		c.defineMethod("clone", new Object_clone());
 		c.defineAllocMethod(new Object_alloc());
 	}
 }
