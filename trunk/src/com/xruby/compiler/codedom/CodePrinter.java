@@ -318,6 +318,15 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
+	public Object visitPrepareEnsure() {
+		result_.append("PrepareEnsure");
+		return null;
+	}
+	
+	public void visitEnsureBody(Object label) {
+		result_.append("EnsureBody");
+	}
+	
 	public Object visitAfterRescueBody(Object next_label, Object end_label) {
 		result_.append("end rescue\n");
 		return null;

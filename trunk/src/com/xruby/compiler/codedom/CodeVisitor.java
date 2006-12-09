@@ -87,6 +87,8 @@ public interface CodeVisitor {
 	
 	public Object visitPrepareRescueBegin();
 	public Object visitPrepareRescueEnd(Object start);
+	public Object visitPrepareEnsure();
+	public void visitEnsureBody(Object label);
 	public Object visitRescueVariable(String name, Object exception_var);
 	public Object visitAfterRescueBody(Object next_label, Object end_label);
 	public void visitRescueEnd(Object exception_var, Object end_label);
