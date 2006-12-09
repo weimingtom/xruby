@@ -55,6 +55,13 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 		}
 	}
 
+	public final void collectIncludedModuleNames(RubyArray a) {
+		a.add(ObjectFactory.createString(name_));
+		for (RubyModule module : mixins_) {
+			module.collectIncludedModuleNames(a);
+		}
+	}
+
 	protected RubyValue findClassVariable(String name) {
 		RubyValue v = super.findClassVariable(name);
 		if (null != v) {
