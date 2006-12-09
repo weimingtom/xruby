@@ -372,7 +372,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitEof(boolean last_statement_has_return_value) {
 		if (!last_statement_has_return_value) {
-			cg_.getMethodGenerator().pushNull();
+			cg_.getMethodGenerator().ObjectFactory_nilValue();
 		}
 		cg_.getMethodGenerator().returnValue();
 	}
