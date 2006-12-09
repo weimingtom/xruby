@@ -3432,13 +3432,15 @@ public class RubyCompilerTest extends TestCase {
 	public void test_Module_ancestors() {
 		String [] program_texts = {
 				"module Testancestors; end; print Testancestors.ancestors",
-				"module Testancestors; end; module Testancestors2; include Testancestors; end; print Testancestors2.ancestors",
+				"module Testancestors0; end; print Testancestors0.ancestors[0].class",
+				"module Testancestors1; end; module Testancestors2; include Testancestors1; end; print Testancestors2.ancestors",
 				"module TA1; end; module TA2; include TA1; end; module TA3; include TA2; end; print TA3.ancestors",
 		};
 		
 		String[] outputs = {
 				"Testancestors",
-				"Testancestors2Testancestors",
+				"Module",
+				"Testancestors2Testancestors1",
 				"TA3TA2TA1",
 		};
 		

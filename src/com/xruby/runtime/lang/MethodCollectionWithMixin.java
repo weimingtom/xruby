@@ -56,7 +56,7 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 	}
 
 	public final void collectIncludedModuleNames(RubyArray a) {
-		a.add(ObjectFactory.createString(name_));
+		a.add(this);
 		for (RubyModule module : mixins_) {
 			module.collectIncludedModuleNames(a);
 		}
