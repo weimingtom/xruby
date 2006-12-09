@@ -3323,6 +3323,9 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_gsub() {
 		String [] program_texts = {
+				"'hello'.gsub(/./) {|s| print s + ','}",
+				"print 'hello'.gsub(/./) {|s| s + ' '}",
+				
 				"$_ = 'quick brown fox'; gsub /[aeiou]/, '*'; print $_",
 				"$_ = 'quick brown fox'; print gsub /[aeiou]/, '&'",
 				"$_ = 'quick brown fox'; print $_.gsub /[aeiou]/, '-'",
@@ -3332,6 +3335,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"h,e,l,l,o,",
+				"h e l l o ",
+				
 				"q**ck br*wn f*x",
 				"q&&ck br&wn f&x",
 				"q--ck br-wn f-x",
