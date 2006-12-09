@@ -866,10 +866,12 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_eval() {
 		String[] program_texts = {
+				"print eval('')",
 				"eval('print 54321')",	
 		};
 
 		String[] outputs = {
+				"nil",
 				"54321",
 		};
 
