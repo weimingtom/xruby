@@ -171,8 +171,8 @@ class Module_attr_accessor extends RubyMethod {
 	}
 }
 
-class Module_include_module extends RubyMethod {
-	public Module_include_module () {
+class Module_include extends RubyMethod {
+	public Module_include() {
 		super(-1);
 	}
 	
@@ -184,6 +184,19 @@ class Module_include_module extends RubyMethod {
 			}
 		}
 		return ObjectFactory.nilValue;
+	}
+}
+
+class Module_ancestors extends RubyMethod {
+	public Module_ancestors() {
+		super(0);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyModule module = (RubyModule)receiver;
+		RubyArray r = new RubyArray();
+		module.collectIncludedModuleNames(r);
+		return r;
 	}
 }
 
@@ -226,8 +239,9 @@ public class ModuleClassBuilder {
 		c.defineMethod("private", new Module_private());
 		c.defineMethod("to_s", new Module_to_s());
 		c.defineMethod("inspect", new Module_inspect());
-		c.defineMethod("include", new Module_include_module());
+		c.defineMethod("include", new Module_include());
 		c.defineMethod("<=>", new Module_operator_compare());
+		c.defineMethod("ancestors", new Module_ancestors());
 
 		c.setAccessPrivate();
 		c.defineMethod("attr_reader", new Module_attr_reader());

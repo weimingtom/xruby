@@ -3429,6 +3429,22 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Module_ancestors() {
+		String [] program_texts = {
+				"module Testancestors; end; print Testancestors.ancestors",
+				"module Testancestors; end; module Testancestors2; include Testancestors; end; print Testancestors2.ancestors",
+				"module TA1; end; module TA2; include TA1; end; module TA3; include TA2; end; print TA3.ancestors",
+		};
+		
+		String[] outputs = {
+				"Testancestors",
+				"Testancestors2Testancestors",
+				"TA3TA2TA1",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_string_match() {
 		String [] program_texts = {
 				"print $&; \"abcabc\" =~ /.*a/; print $&, $&.class",
