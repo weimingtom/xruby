@@ -73,6 +73,9 @@ public class BodyStatement implements Visitable {
 		}
 		
 		if (null != ensure_) {
+			if (null != else_) {
+				visitor.visitTerminal();
+			}
 			ensure_.accept(visitor);
 		} 
 		
@@ -118,6 +121,7 @@ public class BodyStatement implements Visitable {
 		if (null != ensure_) {
 			visitor.visitEnsure(ensure_label, exception_var);
 			int var = visitor.visitEnsureBodyBegin(ensure_label);
+			visitor.visitTerminal();
 			ensure_.accept(visitor);
 			visitor.visitEnsureBodyEnd(var);
 		}
