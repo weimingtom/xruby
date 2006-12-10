@@ -23,7 +23,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"]\n" +
 			"raise:false\n" +
 			"body end\n" +
-			"visitPrepareEnsure2\n" +
+			"visitPrepareEnsure\n" +
 			"visitRescueBegin\n" +
 			"[:1\n" +
 			"[\n" +
@@ -62,7 +62,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"]\n" +
 			"raise:false\n" +
 			"body end\n" +
-			"visitPrepareEnsure2\n" +
+			"visitPrepareEnsure\n" +
 			"visitRescueBegin\n" +
 			"[:1\n" +
 			"[\n" +

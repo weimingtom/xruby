@@ -804,6 +804,14 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_ensure() {
 		String[] program_texts = {
+				"while true\n" +
+				"  begin\n" +
+				"    break\n" +
+				"  ensure\n" +
+				"    print \"break\"\n" +
+				"  end\n" +
+				"end",
+				
 				"print begin;  end",
 				"begin; print 'xxx'; ensure; print 'ensure'; end",
 				"begin; ensure; print 'ensure'; end",
@@ -866,6 +874,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"break",
 				"nil",
 				"xxxensure",
 				"ensure",

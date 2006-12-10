@@ -15,7 +15,7 @@ class Rescue {
 		body_ = body;
 	}
 
-	public Object accept(CodeVisitor visitor, Object last_label, int excepton_var, Object ensure_label) {
+	public Object accept(CodeVisitor visitor, Object last_label, int excepton_var, boolean has_ensure) {
 		
 		Object next_label = condition_.accept(visitor, excepton_var);
 		
@@ -23,8 +23,8 @@ class Rescue {
 			body_.accept(visitor);
 		}
 
-		if (null != ensure_label) {
-			visitor.visitEnsure(ensure_label, -1);
+		if (has_ensure) {
+			visitor.visitEnsure(-1);
 		}
 
 		return visitor.visitAfterRescueBody(next_label, last_label);
@@ -105,7 +105,7 @@ public class BodyStatement implements Visitable {
 			return;
 		}
 		
-		Object begin_label = visitor.visitBodyBegin();
+		Object begin_label = visitor.visitBodyBegin(null != ensure_);
 		compoundStatement_.accept(visitor);
 		Object end_label = visitor.visitBodyEnd();
 		
@@ -116,23 +116,22 @@ public class BodyStatement implements Visitable {
 			else_.accept(visitor);
 		}
 		
-		Object ensure_label = null;
 		Object after_label = null;
 		if (null != ensure_) {
-			ensure_label = visitor.visitPrepareEnsure1();
+			visitor.visitEnsure(-1);
 		}
 		
-		after_label = visitor.visitPrepareEnsure2();
+		after_label = visitor.visitPrepareEnsure();
 		
 		int exception_var = visitor.visitRescueBegin(begin_label, end_label);
 		Object last_label = null;
 		for (Rescue rescue : rescues_) {
-			last_label = rescue.accept(visitor, last_label, exception_var, ensure_label);
+			last_label = rescue.accept(visitor, last_label, exception_var, null != ensure_);
 		}
 
 		if (null != ensure_) {
-			visitor.visitEnsure(ensure_label, exception_var);
-			int var = visitor.visitEnsureBodyBegin(ensure_label);
+			visitor.visitEnsure(exception_var);
+			int var = visitor.visitEnsureBodyBegin();
 			visitor.visitTerminal();
 			ensure_.accept(visitor);
 			visitor.visitEnsureBodyEnd(var);
