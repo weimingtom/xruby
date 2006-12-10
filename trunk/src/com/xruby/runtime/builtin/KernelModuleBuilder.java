@@ -418,9 +418,7 @@ class Kernel_respond_to extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (args.size() < 1) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
-		}
+		assertArgNumberAtLeast(args, 1);
 
 		boolean include_private = (ObjectFactory.trueValue == args.get(1));
 		if (hasMethod(receiver, convertToString(args.get(0)), include_private)) {
@@ -523,6 +521,24 @@ class Kernel_gsub_danger extends String_gsub_danger {
 	}
 }
 
+class Kernel_throw extends RubyMethod {
+	public Kernel_throw() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		assertArgNumberAtLeast(args, 1);
+		
+		if (!(args.get(0) instanceof RubySymbol)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
+		}
+		
+		RubySymbol s = (RubySymbol)args.get(0);
+		RubyExceptionValueForThrow e = new RubyExceptionValueForThrow(s, args.get(1));
+		throw new RubyException(e);
+	}
+}
+
 public class KernelModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.KernelModule;
@@ -540,6 +556,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("__send__", send);
 		m.defineMethod("method", new Kernel_method());
 		m.defineMethod("methods", new Kernel_methods());
+		m.defineMethod("throw", new Kernel_throw());
 		
 		m.setAccessPrivate();
 		m.defineMethod("puts", new Kernel_puts());

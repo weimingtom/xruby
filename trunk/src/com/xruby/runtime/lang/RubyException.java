@@ -23,6 +23,10 @@ public class RubyException extends RuntimeException {
 		value_ = new RubyExceptionValue(exception_class, message);
 	}
 
+	public RubyException(RubyExceptionValue e) {
+		value_ = e;
+	}
+	
 	public RubyExceptionValue getRubyValue() {
 		return value_;
 	}
