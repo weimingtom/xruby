@@ -539,6 +539,33 @@ class Kernel_throw extends RubyMethod {
 	}
 }
 
+class Kernel_catch extends RubyMethod {
+	public Kernel_catch() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (!(args.get(0) instanceof RubySymbol)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
+		}
+		
+		try {
+			block.invoke(receiver, null);
+		} catch (RubyException e) {
+			Object ev = e.getRubyValue();
+			if (ev instanceof RubyExceptionValueForThrow) {
+				RubyExceptionValueForThrow v = (RubyExceptionValueForThrow)ev;
+				if (v.isSameSymbol((RubySymbol)args.get(0))) {
+					return v.getReturnValue();
+				}
+			}
+			throw e;
+		}
+		
+		return ObjectFactory.nilValue;
+	}
+}
+
 public class KernelModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.KernelModule;
@@ -557,6 +584,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("method", new Kernel_method());
 		m.defineMethod("methods", new Kernel_methods());
 		m.defineMethod("throw", new Kernel_throw());
+		m.defineMethod("catch", new Kernel_catch());
 		
 		m.setAccessPrivate();
 		m.defineMethod("puts", new Kernel_puts());
