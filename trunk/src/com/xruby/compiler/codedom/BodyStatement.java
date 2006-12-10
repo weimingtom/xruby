@@ -68,9 +68,15 @@ public class BodyStatement implements Visitable {
 
 	private void acceptNoBody(CodeVisitor visitor) {
 		//Optimazation: because there is no code to throw any exception, we only need to execute 'ensure'
+		if (null != else_) {
+			else_.accept(visitor);
+		}
+		
 		if (null != ensure_) {
 			ensure_.accept(visitor);
-		} else {
+		} 
+		
+		if (null == else_ && null == ensure_) {
 			visitor.visitNilExpression();
 		}
 	}
@@ -87,6 +93,13 @@ public class BodyStatement implements Visitable {
 		Object begin_label = visitor.visitBodyBegin();
 		compoundStatement_.accept(visitor);
 		Object end_label = visitor.visitBodyEnd();
+		
+		//The body of an else clause is executed only if no 
+		//exceptions are raised by the main body of code
+		if (null != else_) {
+			visitor.visitTerminal();
+			else_.accept(visitor);
+		}
 		
 		Object ensure_label = null;
 		Object after_label = null;

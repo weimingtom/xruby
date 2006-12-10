@@ -816,6 +816,35 @@ public class RubyCompilerTest extends TestCase {
 				"	print \"yyy\"\n" +
 				"end",
 				
+				"begin\n" +
+				"rescue NoMethodError\n" +
+				"	print \"xxx\"\n" +
+				"else\n" +
+				"	print \"zzz\"\n" +
+				"ensure\n" +
+				"	print \"yyy\"\n" +
+				"end",
+				
+				"begin\n" +
+				" 1\n" +
+				"rescue NoMethodError\n" +
+				"	print \"333\"\n" +
+				"else\n" +
+				"	print \"444\"\n" +
+				"ensure\n" +
+				"	print \"555\"\n" +
+				"end",
+				
+				"begin\n" +
+				"	raise \"!!!\"\n" +
+				"rescue RuntimeError\n" +
+				"	print \"333\"\n" +
+				"else\n" +
+				"	print \"444\"\n" +
+				"ensure\n" +
+				"	print \"555\"\n" +
+				"end",
+				
 				/*
 				"begin\n" +
 				"  begin\n" +
@@ -834,6 +863,9 @@ public class RubyCompilerTest extends TestCase {
 				"xxxensure",
 				"ensure",
 				"xxxyyy",
+				"zzzyyy",
+				"444555",
+				"333555",
 				//"okcatch",
 		};
 
