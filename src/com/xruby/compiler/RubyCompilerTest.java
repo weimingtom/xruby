@@ -854,6 +854,15 @@ public class RubyCompilerTest extends TestCase {
 				"rescue\n" +
 				"  print \"catch\"\n" +
 				"end",
+				
+				"begin\n" +
+				"  begin\n" +
+				"    raise \"this must be handled\"\n" +
+				"  ensure\n" +
+				"    print \"ok\"\n" +
+				"  end\n" +
+				"rescue\n" +
+				"end",
 		};
 		
 		String[] outputs = {
@@ -865,6 +874,7 @@ public class RubyCompilerTest extends TestCase {
 				"444555",
 				"333555",
 				"okcatch",
+				"ok",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

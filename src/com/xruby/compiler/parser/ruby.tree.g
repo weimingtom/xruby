@@ -744,12 +744,15 @@ returns [BodyStatement bs]
 {
 	ExceptionList el;
 	CompoundStatement cs = null;
+	CompoundStatement rescue_cs = null;
+	CompoundStatement else_cs = null;
+	CompoundStatement ensure_cs = null;
 }
 		:	#(	BODY
-				(cs=compoundStatement)?			{bs = new BodyStatement(cs);cs=null;}
-				("rescue" el=exceptionList	(cs=compoundStatement	{bs.addRescue(el, cs);cs=null;})?)*
-				("else" 	(cs=compoundStatement	{bs.addElse(cs);cs=null;})?)?
-				("ensure"	(cs=compoundStatement	{bs.addEnsure(cs);})?)?
+				(cs=compoundStatement)?			{bs = new BodyStatement(cs);}
+				("rescue" el=exceptionList	(rescue_cs=compoundStatement)?	{bs.addRescue(el, rescue_cs);})*
+				("else" 	(else_cs=compoundStatement)?		{bs.addElse(else_cs);})?
+				("ensure"	(ensure_cs=compoundStatement)?	{bs.addEnsure(ensure_cs);})?
 			)
 		;
 
