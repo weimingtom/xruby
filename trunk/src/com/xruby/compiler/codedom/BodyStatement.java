@@ -51,14 +51,26 @@ public class BodyStatement implements Visitable {
 	}
 
 	public void addRescue(ExceptionList el, CompoundStatement compoundStatement) {
+		if (null == compoundStatement) {
+			compoundStatement = new CompoundStatement();
+			compoundStatement.addStatement(new ExpressionStatement(new NilExpression()));
+		}
 		rescues_.add(new Rescue(el, compoundStatement));
 	}
 
 	public void addElse(CompoundStatement compoundStatement) {
+		if (null == compoundStatement) {
+			compoundStatement = new CompoundStatement();
+			compoundStatement.addStatement(new ExpressionStatement(new NilExpression()));
+		}
 		else_ = compoundStatement;
 	}
 
 	public void addEnsure(CompoundStatement compoundStatement) {
+		if (null == compoundStatement) {
+			compoundStatement = new CompoundStatement();
+			compoundStatement.addStatement(new ExpressionStatement(new NilExpression()));
+		}
 		ensure_ = compoundStatement;
 	}
 	
