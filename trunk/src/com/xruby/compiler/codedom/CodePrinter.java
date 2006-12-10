@@ -323,8 +323,13 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 	
-	public void visitEnsureBody(Object label) {
-		result_.append("EnsureBody");
+	public int visitEnsureBodyBegin(Object labels) {
+		result_.append("EnsureBodyBegin");
+		return 0;
+	}
+
+	public void visitEnsureBodyEnd(Object labels, int var) {
+		result_.append("EnsureBodyEnd");
 	}
 	
 	public Object visitAfterRescueBody(Object next_label, Object end_label) {
