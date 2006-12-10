@@ -93,7 +93,7 @@ class Hash_initialize extends RubyMethod {
 		RubyHash hash = (RubyHash)receiver;
 
 		if (null != block && null != args) { // validation
-			throw new RubyException("Hash: in `initialize': wrong number of arguments");
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
 		}
 
 		if (null != args) {
