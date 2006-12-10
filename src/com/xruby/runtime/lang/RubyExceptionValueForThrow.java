@@ -12,6 +12,10 @@ public class RubyExceptionValueForThrow extends RubyExceptionValue {
 		symbol_= symbol;
 		returnValue_ = returnValue;
 	}
+	
+	public boolean isSameSymbol(RubySymbol another) {
+		return symbol_.toString() == another.toString();
+	}
 
 	public RubyValue getReturnValue() {
 		return returnValue_;

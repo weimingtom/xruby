@@ -3623,14 +3623,35 @@ public class RubyCompilerTest extends TestCase {
 				"throw\n",
 				"throw 123\n",
 				"throw :test_throw",
+				
+				"print catch(:test_cacth) {throw :xxx, 5; print 2}",
 		};
 		
 		RubyException[] exceptions = {
 				new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
 				new RubyException(RubyRuntime.ArgumentErrorClass, "123 is not a symbol"),
 				new RubyException(RubyRuntime.NameErrorClass, "uncaught throw `test_throw'"),
+				new RubyException(RubyRuntime.NameErrorClass, "uncaught throw `xxx'"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
+	}
+	
+	public void test_Kernel_catch() {
+		String [] program_texts = {
+				"print catch(:test_cacth) {}",
+				"print catch(:test_cacth) {print 2}",
+				"print catch(:test_cacth) {throw :test_cacth; print 2}",
+				"print catch(:test_cacth) {throw :test_cacth, 5; print 2}",
+		};
+		
+		String[] outputs = {
+				"nil",
+				"2nil",
+				"nil",
+				"5",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
 	}
 }
