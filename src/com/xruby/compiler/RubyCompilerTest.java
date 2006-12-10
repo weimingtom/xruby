@@ -60,7 +60,7 @@ public class RubyCompilerTest extends TestCase {
 				assertEquals("Exception type mismatch at " + i, exceptions[i].getRubyValue().getRubyClass().getName(), e.getRubyValue().getRubyClass().getName());
 				continue;
 			} catch (Exception e) {
-				assertTrue("Error at " + i + ": should throw RubyException, not exception", false);
+				assertTrue("Error at " + i + ": should throw RubyException, not exception: " + e.toString(), false);
 			}
 		}
 	}
@@ -100,9 +100,9 @@ public class RubyCompilerTest extends TestCase {
 				assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
 			} catch (VerifyError e) {
 				assertTrue("VerifyError at " + i + ": " + e.toString(), false);
-			} /*catch (NullPointerException e) {
+			} catch (NullPointerException e) {
 				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-			} */
+			} 
 		}
 	}
 
@@ -3616,5 +3616,21 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_Kernel_throw() {
+		String [] program_texts = {
+				"throw\n",
+				"throw 123\n",
+				"throw :test_throw",
+		};
+		
+		RubyException[] exceptions = {
+				new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
+				new RubyException(RubyRuntime.ArgumentErrorClass, "123 is not a symbol"),
+				new RubyException(RubyRuntime.NameErrorClass, "uncaught throw `test_throw'"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 }
