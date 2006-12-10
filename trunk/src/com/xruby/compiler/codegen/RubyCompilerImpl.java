@@ -392,16 +392,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return label;
 	}
 
-	private class Pair<T1, T2> {
-		T1 first;
-		T2 second;
-
-		Pair(T1 first, T2 second) {
-			this.first = first;
-			this.second = second;
-		}
-	}
-
 	public void visitWhileConditionBegin() {
 		labelManager_.openNewScope();
 		cg_.getMethodGenerator().mark(labelManager_.getCurrentNext());
@@ -481,60 +471,69 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public Object visitAfterUnlessBody(Object next_label, Object end_label) {
 		return visitAfterIfBody(next_label, end_label);
 	}
-	
-	public Object visitPrepareEnsure() {
-		Label before_ensure = new Label();
-		cg_.getMethodGenerator().visitJumpInsn(Opcodes.JSR, before_ensure);
-		Label after_ensure = new Label();
-		cg_.getMethodGenerator().goTo(after_ensure);
-		return new Pair<Label, Label>(before_ensure, after_ensure);
+
+	public Object visitBodyBegin() {
+		return cg_.getMethodGenerator().mark();
 	}
-	
-	@SuppressWarnings("unchecked")
-	public int visitEnsureBodyBegin(Object labels) {
-		cg_.getMethodGenerator().mark(((Pair<Label, Label>)labels).first);
+
+	public Object visitBodyEnd() {
+		return cg_.getMethodGenerator().mark();
+	}
+
+	public void visitBodyAfter(Object label) {
+		cg_.getMethodGenerator().mark((Label)label);
+	}
+
+	public int visitEnsureBodyBegin(Object label) {
+		cg_.getMethodGenerator().mark((Label)label);
 		int var = cg_.getMethodGenerator().newLocal(Type.getType(Object.class));
 		cg_.getMethodGenerator().storeLocal(var);
 		return var;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void visitEnsureBodyEnd(Object labels, int var) {
+	public void visitEnsureBodyEnd(int var) {
 		cg_.getMethodGenerator().ret(var);
-		cg_.getMethodGenerator().mark(((Pair<Label, Label>)labels).second);
+		
+	}
+		
+	public Object visitPrepareEnsure1() {
+		Label before_ensure = new Label();
+		cg_.getMethodGenerator().visitJumpInsn(Opcodes.JSR, before_ensure);
+		return before_ensure;
 	}
 
-	public Object visitPrepareRescueBegin() {
-		return cg_.getMethodGenerator().mark();
+	public void visitEnsure(Object label, int exception_var) {
+		cg_.getMethodGenerator().visitJumpInsn(Opcodes.JSR, (Label)label);
+
+		if (exception_var >= 0) {
+			cg_.getMethodGenerator().loadLocal(exception_var);
+			cg_.getMethodGenerator().throwException();
+		}
 	}
-
-	public Object visitPrepareRescueEnd(Object start) {
-		Label end = cg_.getMethodGenerator().mark();
-
+	
+	public Object visitPrepareEnsure2() {
 		Label after_exception = new Label();
 		cg_.getMethodGenerator().goTo(after_exception);
+		return after_exception;
+	}
+
+	public int visitRescueBegin(Object begin, Object end) {
 		
-		cg_.getMethodGenerator().catchRubyException((Label)start, end);
+		cg_.getMethodGenerator().catchRubyException((Label)begin, (Label)end);
 
 		int exception_variable = cg_.getAnonymousLocalVariable();
 		cg_.getMethodGenerator().storeLocal(exception_variable);
 
 		cg_.getMethodGenerator().pushNull();//hack???
 		
-		return new Pair<Integer, Label>(exception_variable, after_exception);
+		return exception_variable;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void visitRescueEnd(Object var, Object end_label) {
-		cg_.getMethodGenerator().mark((Label)end_label);
-		Label after_exception = ((Pair<Integer, Label>)var).second;
-		cg_.getMethodGenerator().mark(after_exception);
+	public void visitRescueEnd(Object last_label) {
+		cg_.getMethodGenerator().mark((Label)last_label);
 	}
 
-	@SuppressWarnings("unchecked")
-	public Object visitRescueVariable(String name, Object var) {
-		int exception_variable = ((Pair<Integer, Label>)var).first;
-		
+	public Object visitRescueVariable(String name, int exception_variable) {
 		cg_.getMethodGenerator().loadLocal(exception_variable);
 		cg_.getMethodGenerator().RubyAPI_testExceptionType();
 		Label label = new Label();

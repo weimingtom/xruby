@@ -308,19 +308,37 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public Object visitPrepareRescueBegin() {
-		result_.append("prepare rescue begin\n");
+	public Object visitBodyBegin() {
+		result_.append("body begin\n");
 		return null;
 	}
 
-	public Object visitPrepareRescueEnd(Object start) {
-		result_.append("prepare rescue end\n");
+	public Object visitBodyEnd() {
+		result_.append("body end\n");
 		return null;
 	}
 
-	public Object visitPrepareEnsure() {
-		result_.append("PrepareEnsure");
+	public void visitBodyAfter(Object label) {
+		result_.append("body after\n");
+	}
+
+	public Object visitPrepareEnsure1() {
+		result_.append("PrepareEnsure1");
 		return null;
+	}
+	
+	public Object visitPrepareEnsure2() {
+		result_.append("visitPrepareEnsure2\n");
+		return null;
+	}
+
+	public int visitRescueBegin(Object begin, Object end) {
+		result_.append("visitRescueBegin\n");
+		return 0;
+	}
+	
+	public void visitEnsure(Object label, int var) {
+		result_.append("nsure");
 	}
 	
 	public int visitEnsureBodyBegin(Object labels) {
@@ -328,7 +346,7 @@ public class CodePrinter implements CodeVisitor {
 		return 0;
 	}
 
-	public void visitEnsureBodyEnd(Object labels, int var) {
+	public void visitEnsureBodyEnd(int var) {
 		result_.append("EnsureBodyEnd");
 	}
 	
@@ -337,11 +355,11 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public void visitRescueEnd(Object exception_var, Object end_label) {
+	public void visitRescueEnd(Object last_label) {
 		result_.append("end rescue!\n");
 	}
 	
-	public Object visitRescueVariable(String name, Object exception_var) {
+	public Object visitRescueVariable(String name, int exception_var) {
 		result_.append("=>");
 		result_.append(name);
 		result_.append("\n");

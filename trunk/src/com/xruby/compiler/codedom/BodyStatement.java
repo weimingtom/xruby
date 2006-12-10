@@ -15,12 +15,16 @@ class Rescue {
 		body_ = body;
 	}
 
-	public Object accept(CodeVisitor visitor, Object start_label, Object last_label, Object excepton_var) {
+	public Object accept(CodeVisitor visitor, Object last_label, int excepton_var, Object ensure_label) {
 		
 		Object next_label = condition_.accept(visitor, excepton_var);
 		
 		if (null != body_) {
 			body_.accept(visitor);
+		}
+
+		if (null != ensure_label) {
+			visitor.visitEnsure(ensure_label, -1);
 		}
 
 		return visitor.visitAfterRescueBody(next_label, last_label);
@@ -57,37 +61,58 @@ public class BodyStatement implements Visitable {
 	public void addEnsure(CompoundStatement compoundStatement) {
 		ensure_ = compoundStatement;
 	}
+	
+	private boolean needCatch() {
+		return !rescues_.isEmpty() || null != ensure_;
+	}
+
+	private void acceptNoBody(CodeVisitor visitor) {
+		//Optimazation: because there is no code to throw any exception, we only need to execute 'ensure'
+		if (null != ensure_) {
+			ensure_.accept(visitor);
+		} else {
+			visitor.visitNilExpression();
+		}
+	}
 
 	public void accept(CodeVisitor visitor) {
-		Object start_label = null;
+		if (null == compoundStatement_) {
+			acceptNoBody(visitor);
+			return;
+		} else if (!needCatch()) {
+			compoundStatement_.accept(visitor);
+			return;
+		}
 		
-		if (!rescues_.isEmpty()) {
-			start_label = visitor.visitPrepareRescueBegin();
+		Object begin_label = visitor.visitBodyBegin();
+		compoundStatement_.accept(visitor);
+		Object end_label = visitor.visitBodyEnd();
+		
+		Object ensure_label = null;
+		Object after_label = null;
+		if (null != ensure_) {
+			ensure_label = visitor.visitPrepareEnsure1();
+		}
+		
+		after_label = visitor.visitPrepareEnsure2();
+		
+		int exception_var = visitor.visitRescueBegin(begin_label, end_label);
+		Object last_label = null;
+		for (Rescue rescue : rescues_) {
+			last_label = rescue.accept(visitor, last_label, exception_var, ensure_label);
 		}
 
-		if (null != compoundStatement_) {
-			compoundStatement_.accept(visitor);
-		}
-		
-		Object ensure_labels = null;
 		if (null != ensure_) {
-			ensure_labels = visitor.visitPrepareEnsure();
-		}
-		
-		if (!rescues_.isEmpty()) {
-			Object exception_var = visitor.visitPrepareRescueEnd(start_label);
-			Object last_label = null;
-			for (Rescue rescue : rescues_) {
-				last_label = rescue.accept(visitor, start_label, last_label, exception_var);
-			}
-			
-			visitor.visitRescueEnd(exception_var, last_label);
-		}
-		
-		if (null != ensure_) {
-			int var = visitor.visitEnsureBodyBegin(ensure_labels);
+			visitor.visitEnsure(ensure_label, exception_var);
+			int var = visitor.visitEnsureBodyBegin(ensure_label);
 			ensure_.accept(visitor);
-			visitor.visitEnsureBodyEnd(ensure_labels, var);
+			visitor.visitEnsureBodyEnd(var);
 		}
+
+		if (!rescues_.isEmpty()) {
+			visitor.visitRescueEnd(last_label);
+		}
+		
+		visitor.visitBodyAfter(after_label);
 	}
 }
