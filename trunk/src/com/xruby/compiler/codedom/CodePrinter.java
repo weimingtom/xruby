@@ -308,7 +308,7 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public Object visitBodyBegin() {
+	public Object visitBodyBegin(boolean has_ensure) {
 		result_.append("body begin\n");
 		return null;
 	}
@@ -321,14 +321,9 @@ public class CodePrinter implements CodeVisitor {
 	public void visitBodyAfter(Object label) {
 		result_.append("body after\n");
 	}
-
-	public Object visitPrepareEnsure1() {
-		result_.append("PrepareEnsure1");
-		return null;
-	}
 	
-	public Object visitPrepareEnsure2() {
-		result_.append("visitPrepareEnsure2\n");
+	public Object visitPrepareEnsure() {
+		result_.append("visitPrepareEnsure\n");
 		return null;
 	}
 
@@ -337,11 +332,11 @@ public class CodePrinter implements CodeVisitor {
 		return 0;
 	}
 	
-	public void visitEnsure(Object label, int var) {
-		result_.append("nsure");
+	public void visitEnsure(int var) {
+		result_.append("ensure\n");
 	}
 	
-	public int visitEnsureBodyBegin(Object labels) {
+	public int visitEnsureBodyBegin() {
 		result_.append("EnsureBodyBegin");
 		return 0;
 	}

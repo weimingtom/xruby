@@ -38,3 +38,31 @@ class LabelManager {
 		labels_.pop();
 	}
 }
+
+class EnsureLabelManager {
+	private class LabelGroup {
+		public Label finally_ = null;
+	}
+	
+	private Stack<LabelGroup> labels_ = new Stack<LabelGroup>();
+
+	public Label getCurrentFinally() {
+		if (labels_.empty()) {
+			return null;//top scope
+		}
+		return labels_.peek().finally_;
+	}
+
+	public void setCurrentFinally(Label l) {
+		labels_.peek().finally_ = l;
+	}
+
+	public void openNewScope() {
+		labels_.push(new LabelGroup());
+	}
+	
+	public void closeCurrentScope() {
+		labels_.pop();
+	}
+}
+
