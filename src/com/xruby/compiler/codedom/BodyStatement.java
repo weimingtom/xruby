@@ -69,9 +69,9 @@ public class BodyStatement implements Visitable {
 			compoundStatement_.accept(visitor);
 		}
 		
-		Object ensure_label = null;
+		Object ensure_labels = null;
 		if (null != ensure_) {
-			ensure_label = visitor.visitPrepareEnsure();
+			ensure_labels = visitor.visitPrepareEnsure();
 		}
 		
 		if (!rescues_.isEmpty()) {
@@ -85,8 +85,9 @@ public class BodyStatement implements Visitable {
 		}
 		
 		if (null != ensure_) {
-			visitor.visitEnsureBody(ensure_label);
+			int var = visitor.visitEnsureBodyBegin(ensure_labels);
 			ensure_.accept(visitor);
+			visitor.visitEnsureBodyEnd(ensure_labels, var);
 		}
 	}
 }

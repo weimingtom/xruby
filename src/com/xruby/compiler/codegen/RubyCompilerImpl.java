@@ -392,7 +392,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return label;
 	}
 
-	class Pair<T1, T2> {
+	private class Pair<T1, T2> {
 		T1 first;
 		T2 second;
 
@@ -483,13 +483,25 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public Object visitPrepareEnsure() {
-		Label l = new Label();
-		cg_.getMethodGenerator().goTo(l);
-		return l;
+		Label before_ensure = new Label();
+		cg_.getMethodGenerator().visitJumpInsn(Opcodes.JSR, before_ensure);
+		Label after_ensure = new Label();
+		cg_.getMethodGenerator().goTo(after_ensure);
+		return new Pair<Label, Label>(before_ensure, after_ensure);
 	}
 	
-	public void visitEnsureBody(Object label) {
-		cg_.getMethodGenerator().mark((Label)label);
+	@SuppressWarnings("unchecked")
+	public int visitEnsureBodyBegin(Object labels) {
+		cg_.getMethodGenerator().mark(((Pair<Label, Label>)labels).first);
+		int var = cg_.getMethodGenerator().newLocal(Type.getType(Object.class));
+		cg_.getMethodGenerator().storeLocal(var);
+		return var;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void visitEnsureBodyEnd(Object labels, int var) {
+		cg_.getMethodGenerator().ret(var);
+		cg_.getMethodGenerator().mark(((Pair<Label, Label>)labels).second);
 	}
 
 	public Object visitPrepareRescueBegin() {
