@@ -41,6 +41,20 @@ public abstract class RubyMethod extends MethodBlockBase {
 		access_ = PUBLIC;
 	}
 	
+	protected void assertArgNumberAtLeast(RubyArray args, int expected) {
+		assert(expected > 0);
+		if (null == args || args.size() < expected) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for " + expected);
+		}
+	}
+	
+	protected void assertArgNumberEqual(RubyArray args, int expected) {
+		assert(expected > 0);
+		if (null == args || args.size() != expected) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for " + expected);
+		}
+	}
+	
 	protected static String convertToString(RubyValue v) {
 		if (v instanceof RubyString) {
 			return ((RubyString)v).toString();

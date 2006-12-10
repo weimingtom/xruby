@@ -209,9 +209,7 @@ class String_gsub extends RubyMethod {
 	}
 
 	protected void checkParameters1(RubyArray args) {
-		if (args.size() != 2) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for 2)");
-		}
+		assertArgNumberEqual(args, 2);
 		
 		if (!(args.get(0) instanceof RubyRegexp)) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
@@ -223,9 +221,7 @@ class String_gsub extends RubyMethod {
 	}
 	
 	protected void checkParameters2(RubyArray args) {
-		if (args.size() != 1) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for 2)");
-		}
+		assertArgNumberEqual(args, 1);
 		
 		if (!(args.get(0) instanceof RubyRegexp)) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
