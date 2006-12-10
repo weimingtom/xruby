@@ -15,14 +15,16 @@ public class BodyStatementTest extends TestingAstTestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 		String expected_result = 
-			"prepare rescue begin\n" +
+			"body begin\n" +
 			"self\n" +
 			"[:1\n" +
 			"[\n" +
 			"!!!!\n" +
 			"]\n" +
 			"raise:false\n" +
-			"prepare rescue end\n" +
+			"body end\n" +
+			"visitPrepareEnsure2\n" +
+			"visitRescueBegin\n" +
 			"[:1\n" +
 			"[\n" +
 			"RuntimeError\n" +
@@ -36,6 +38,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +
+			"body after\n" +
 			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}
@@ -51,14 +54,16 @@ public class BodyStatementTest extends TestingAstTestCase {
 		p.accept(cp);
 		String expected_result = 
 			//TODO seems e is not handled correctly
-			"prepare rescue begin\n" +
+			"body begin\n" +
 			"self\n" +
 			"[:1\n" +
 			"[\n" +
 			"!!!!\n" +
 			"]\n" +
 			"raise:false\n" +
-			"prepare rescue end\n" +
+			"body end\n" +
+			"visitPrepareEnsure2\n" +
+			"visitRescueBegin\n" +
 			"[:1\n" +
 			"[\n" +
 			"M\n" +
@@ -73,6 +78,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +
+			"body after\n" +
 			"EOF";
 		assertEquals(expected_result, cp.toString());
 	}

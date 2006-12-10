@@ -85,14 +85,18 @@ public interface CodeVisitor {
 	public Object visitAfterUnlessCondition();
 	public Object visitAfterUnlessBody(Object next_label, Object end_label);
 	
-	public Object visitPrepareRescueBegin();
-	public Object visitPrepareRescueEnd(Object start);
-	public Object visitPrepareEnsure();
-	public int visitEnsureBodyBegin(Object labels);
-	public void visitEnsureBodyEnd(Object labels, int var);
-	public Object visitRescueVariable(String name, Object exception_var);
+	public Object visitBodyBegin();
+	public Object visitBodyEnd();
+	public void visitBodyAfter(Object label);
+	public int visitRescueBegin(Object begin, Object end);
+	public Object visitPrepareEnsure1();
+	public Object visitPrepareEnsure2();
+	public int visitEnsureBodyBegin(Object label);
+	public void visitEnsure(Object label, int var);
+	public void visitEnsureBodyEnd(int var);
+	public Object visitRescueVariable(String name, int exception_var);
 	public Object visitAfterRescueBody(Object next_label, Object end_label);
-	public void visitRescueEnd(Object exception_var, Object end_label);
+	public void visitRescueEnd(Object last_label);
 
 	public void visitArrayBegin(int size, boolean notSingleAsterisk);
 	public void visitArrayEnd();

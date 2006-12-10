@@ -100,9 +100,9 @@ public class RubyCompilerTest extends TestCase {
 				assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
 			} catch (VerifyError e) {
 				assertTrue("VerifyError at " + i + ": " + e.toString(), false);
-			} catch (NullPointerException e) {
+			} /*catch (NullPointerException e) {
 				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-			} 
+			} */
 		}
 	}
 
@@ -804,8 +804,17 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_ensure() {
 		String[] program_texts = {
+				"print begin;  end",
 				"begin; print 'xxx'; ensure; print 'ensure'; end",
 				"begin; ensure; print 'ensure'; end",
+				
+				"begin\n" +
+				"	raise \"!!!!\"\n" +
+				"rescue RuntimeError\n" +
+				"	print \"xxx\"\n" +
+				"ensure\n" +
+				"	print \"yyy\"\n" +
+				"end",
 				
 				/*
 				"begin\n" +
@@ -821,8 +830,10 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"nil",
 				"xxxensure",
 				"ensure",
+				"xxxyyy",
 				//"okcatch",
 		};
 
@@ -832,13 +843,6 @@ public class RubyCompilerTest extends TestCase {
 	public void test_exception() {
 		String[] program_texts = {
 
-				"begin\n" +
-				"  begin\n" +
-				"    raise \"this must be handled no.5\"\n" +
-				"  end\n" +
-				"rescue\n" +
-				"  print \"catch\"\n" +
-				"end",
 				
 				"begin\n" +
 				"	raise \"!!!!\"\n" +
@@ -885,10 +889,18 @@ public class RubyCompilerTest extends TestCase {
 				"rescue => e\n" +
 				"  print e\n" +
 				"end",
+				
+				"begin\n" +
+				"  begin\n" +
+				"    raise \"this must be handled no.5\"\n" +
+				"  end\n" +
+				"rescue\n" +
+				"  print \"catch\"\n" +
+				"end",
+				
 		};
 
 		String[] outputs = {
-				"catch",
 				"xxx",
 				"yyy",
 				"aaabbb",
@@ -896,6 +908,7 @@ public class RubyCompilerTest extends TestCase {
 				"111",
 				"!!!!",
 				"test",
+				"catch",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

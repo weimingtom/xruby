@@ -19,7 +19,7 @@ public class ExceptionList {
 		var_ = v;
 	}
 	
-	public Object accept(CodeVisitor visitor, Object excepton_var) {
+	public Object accept(CodeVisitor visitor, int excepton_var) {
 
 		if (arguments_.isEmpty()) {
 			arguments_.add(new Colon2Expression(null, "RuntimeError"));
