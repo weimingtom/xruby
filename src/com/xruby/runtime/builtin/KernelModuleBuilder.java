@@ -566,6 +566,58 @@ class Kernel_catch extends RubyMethod {
 	}
 }
 
+class Kernel_untrace_var extends RubyMethod {
+	public Kernel_untrace_var() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		assertArgNumberAtLeast(args, 1);
+		
+		if (!(args.get(0) instanceof RubySymbol)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
+		}
+		
+		String name = ((RubySymbol)args.get(0)).toString();
+		
+		RubyValue v = args.get(1);
+		if (v == ObjectFactory.nilValue) {
+			GlobalVariables.removeAllTraceProc(name);
+		} else if (v instanceof RubyProc) {
+			GlobalVariables.removeTraceProc(name, (RubyProc)v);
+		}
+		
+		return ObjectFactory.nilValue;
+	}
+}
+
+class Kernel_trace_var extends RubyMethod {
+	public Kernel_trace_var() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		assertArgNumberAtLeast(args, 1);
+		
+		if (!(args.get(0) instanceof RubySymbol)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
+		}
+		
+		String name = ((RubySymbol)args.get(0)).toString();
+		
+		RubyValue v = args.get(1);
+		if (v instanceof RubyProc) {
+			GlobalVariables.addTraceProc(name, (RubyProc)v);
+		} else if (null != block) {
+			GlobalVariables.addTraceProc(name, ObjectFactory.createProc(block));
+		} else {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "tried to create Proc object without a block");
+		}
+		
+		return ObjectFactory.nilValue;
+	}
+}
+
 public class KernelModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.KernelModule;
@@ -585,6 +637,8 @@ public class KernelModuleBuilder {
 		m.defineMethod("methods", new Kernel_methods());
 		m.defineMethod("throw", new Kernel_throw());
 		m.defineMethod("catch", new Kernel_catch());
+		m.defineMethod("untrace_var", new Kernel_untrace_var());
+		m.defineMethod("trace_var", new Kernel_trace_var());
 		
 		m.setAccessPrivate();
 		m.defineMethod("puts", new Kernel_puts());

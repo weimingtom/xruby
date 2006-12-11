@@ -188,9 +188,8 @@ public class RubyAPI {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static RubyBlock convertRubyValue2RubyBlock(RubyValue v) {
-		return ((RubyData<RubyBlock>)v).getData();
+		return ((RubyProc)v).getValue();
 	}
 
 	public static RubyValue convertRubyException2RubyValue(RubyException e) {

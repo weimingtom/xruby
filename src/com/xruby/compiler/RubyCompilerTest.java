@@ -3654,4 +3654,38 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_trace_var_exception() {
+		String [] program_texts = {
+				"untrace_var\n",
+				"untrace_var 123\n",
+				"untrace_var :test_untrace_var",
+				"untrace_var :$test_untrace_var",
+				
+				"trace_var :$test_untrace_var",
+		};
+		
+		RubyException[] exceptions = {
+				new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
+				new RubyException(RubyRuntime.ArgumentErrorClass, "123 is not a symbol"),
+				new RubyException(RubyRuntime.NameErrorClass, "undefined global variable test_untrace_var"),
+				new RubyException(RubyRuntime.NameErrorClass, "undefined global variable $test_untrace_var"),
+				
+				new RubyException(RubyRuntime.ArgumentErrorClass, "tried to create Proc object without a block"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}
+	
+	public void test_trace_var() {
+		String [] program_texts = {
+				"trace_var (:$test_trace_var1) {print $test_trace_var1;}; $test_trace_var1 = 5",
+		};
+		
+		String[] outputs = {
+				"5",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

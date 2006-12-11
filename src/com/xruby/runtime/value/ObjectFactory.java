@@ -60,8 +60,8 @@ public class ObjectFactory {
 		return new MethodValue(r, s, m);
 	}
 
-	public static RubyData<RubyBlock> createProc(RubyBlock block) {
-		return new RubyData<RubyBlock>(RubyRuntime.ProcClass, block);
+	public static RubyProc createProc(RubyBlock block) {
+		return new RubyProc(block);
 	}
 	
 	public static RubyTime createTime(Date v) {
