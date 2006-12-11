@@ -28,10 +28,10 @@ public class RubyRegexp extends RubyBasic {
 	public RubyMatchData match(String v) {
 		Matcher m = regex.matcher(v);
 		if (m.find()) {
-			GlobalVariables.MATCH = ObjectFactory.createString(m.toString());
+			GlobalVariables.set(ObjectFactory.createString(m.toString()), "$&");
 			return ObjectFactory.createMatchData(m);
 		} else {
-			GlobalVariables.MATCH = ObjectFactory.nilValue;
+			GlobalVariables.set(ObjectFactory.nilValue, "$&");
 			return null;
 		}
 	}
@@ -43,10 +43,10 @@ public class RubyRegexp extends RubyBasic {
 		
 		Matcher m = regex.matcher(v);
 		if (m.find()) {
-			GlobalVariables.MATCH = ObjectFactory.createString(m.group());
+			GlobalVariables.set(ObjectFactory.createString(m.group()), "$&");
 			return m.start();
 		} else {
-			GlobalVariables.MATCH = ObjectFactory.nilValue;
+			GlobalVariables.set(ObjectFactory.nilValue, "$&");
 			return -1;
 		}
 	}

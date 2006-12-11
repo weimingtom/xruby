@@ -75,19 +75,19 @@ class Kernel_print extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return _run(GlobalVariables.STDOUT, args, block);
+		return _run(GlobalVariables.get("$stdout"), args, block);
 	}
 	
 	protected RubyValue _run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		// if no argument given, print `$_'
 		if (null == args) {
-			args = new RubyArray(GlobalVariables.LAST_READ_LINE);
+			args = new RubyArray(GlobalVariables.get("$_"));
 		}
 		
 		for (int i = 0; i < args.size(); ++i) {
 			// insert the output field separator($,) if not nil
-			if (i > 0 && GlobalVariables.OUTPUT_FIELD_SEPARATOR != ObjectFactory.nilValue) {
-				RubyAPI.callPublicMethod(receiver, GlobalVariables.OUTPUT_FIELD_SEPARATOR, "write");
+			if (i > 0 && GlobalVariables.get("$,") != ObjectFactory.nilValue) {
+				RubyAPI.callPublicMethod(receiver, GlobalVariables.get("$,"), "write");
 			}
 			
 			if (args.get(i) == ObjectFactory.nilValue) {
@@ -98,8 +98,8 @@ class Kernel_print extends RubyMethod {
 		}
 		
 		// if the output record separator($\) is not nil, it will be appended to the output.
-		if ( GlobalVariables.OUTPUT_RECORD_SEPARATOR != ObjectFactory.nilValue) {
-			RubyAPI.callPublicMethod(receiver, GlobalVariables.OUTPUT_RECORD_SEPARATOR, "write");
+		if ( GlobalVariables.get("$\\") != ObjectFactory.nilValue) {
+			RubyAPI.callPublicMethod(receiver, GlobalVariables.get("$\\"), "write");
 		}
 
 		return ObjectFactory.nilValue;
@@ -497,25 +497,25 @@ class Kernel_at_exit extends RubyMethod {
 class Kernel_gsub extends String_gsub {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (!(GlobalVariables.LAST_READ_LINE instanceof RubyString)) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.LAST_READ_LINE.getRubyClass().getName() + " given)");
+		if (!(GlobalVariables.get("$_") instanceof RubyString)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.get("$LAST_READ_LINE").getRubyClass().getName() + " given)");
 		}
 
-		GlobalVariables.LAST_READ_LINE = super.run(GlobalVariables.LAST_READ_LINE, args, block);
-		return GlobalVariables.LAST_READ_LINE;
+		GlobalVariables.set(super.run(GlobalVariables.get("$_"), args, block), "$_");
+		return GlobalVariables.get("$_");
 	}
 }
 
 class Kernel_gsub_danger extends String_gsub_danger {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (!(GlobalVariables.LAST_READ_LINE instanceof RubyString)) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.LAST_READ_LINE.getRubyClass().getName() + " given)");
+		if (!(GlobalVariables.get("$_") instanceof RubyString)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.get("$_").getRubyClass().getName() + " given)");
 		}
 
-		RubyValue r = super.run(GlobalVariables.LAST_READ_LINE, args, block);
+		RubyValue r = super.run(GlobalVariables.get("$_"), args, block);
 		if (r != ObjectFactory.nilValue) {
-			GlobalVariables.LAST_READ_LINE = r;
+			GlobalVariables.set(r, "$_");
 		}
 		return r;
 	}

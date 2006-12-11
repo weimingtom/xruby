@@ -73,35 +73,12 @@ $_ $LAST_READ_LINE
 public class GlobalVariables {
 	
 	private static ConcurrentHashMap<String, RubyValue> values_ = new ConcurrentHashMap<String, RubyValue>();
-	
-	public static RubyValue STDOUT = new RubyObject(RubyRuntime.IOClass);
-	public static RubyValue MATCH = ObjectFactory.nilValue;
-	public static RubyValue LAST_READ_LINE = ObjectFactory.nilValue;
-	public static RubyValue OUTPUT_FIELD_SEPARATOR = ObjectFactory.nilValue;
-	public static RubyValue OUTPUT_RECORD_SEPARATOR = ObjectFactory.nilValue;
-	public static RubyValue INPUT_RECORD_SEPARATOR = ObjectFactory.createString("\n");
-	public static RubyValue PROCESS_ID = ObjectFactory.createFixnum(0);//no way to get pid in java
-	
 	private static MultipleMap<RubyProc> traces_procs_ = new MultipleMap<RubyProc>();
-	
-	public static String translatePredefined(final String name) {
-		if (name.equals("$stdout")) {
-			return "STDOUT";
-		} else if (name.equals("$&")) {
-			return "MATCH";
-		} else if (name.equals("$_")) {
-			return "LAST_READ_LINE";
-		} else if (name.equals("$,")) {
-			return "OUTPUT_FIELD_SEPARATOR";
-		} else if (name.equals("$\\")) {
-			return "OUTPUT_RECORD_SEPARATOR";
-		} else if (name.equals("$/")) {
-			return "INPUT_RECORD_SEPARATOR";
-		} else if (name.equals("$$")) {
-			return "PROCESS_ID";
-		} else {
-			return null;
-		}
+
+	static {
+		values_.put("$stdout", new RubyObject(RubyRuntime.IOClass));
+		values_.put("$/", ObjectFactory.createString("\n"));
+		values_.put("$$",ObjectFactory.createFixnum(0));//no way to get pid in java
 	}
 	
 	public static RubyValue get(String name) {
@@ -136,7 +113,7 @@ public class GlobalVariables {
 		Set<RubyProc> set = traces_procs_.get(name);
 		if (null != set) {
 			for (RubyProc p : set) {
-				p.getValue().invoke(null, new RubyArray(value));//TODO receiver should not be null
+				p.getValue().invoke(value, new RubyArray(value));//TODO What the receiver should be?
 			}
 		}
 		
@@ -154,10 +131,6 @@ public class GlobalVariables {
 	}
 
 	private static boolean isDefined(String name) {
-		if (translatePredefined(name) != null) {
-			return true;
-		}
-
 		return (values_.get(name) != null);
 	}
 

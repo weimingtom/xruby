@@ -60,14 +60,14 @@ class IO_gets extends RubyMethod {
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (receiver instanceof RubyIO) {
-			RubyValue seperator = (null == args) ?  GlobalVariables.INPUT_RECORD_SEPARATOR : args.get(0);
-			GlobalVariables.LAST_READ_LINE = ((RubyIO)receiver).gets(seperator);
+			RubyValue seperator = (null == args) ?  GlobalVariables.get("$/") : args.get(0);
+			GlobalVariables.set(((RubyIO)receiver).gets(seperator), "$_");
 		} else {
 			//TODO stdout, stderr, stdin
-			GlobalVariables.LAST_READ_LINE = ObjectFactory.nilValue;
+			GlobalVariables.set(ObjectFactory.nilValue, "$_");
 		}
 
-		return GlobalVariables.LAST_READ_LINE;
+		return GlobalVariables.get("$_");
 	}
 }
 
