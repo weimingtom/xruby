@@ -439,26 +439,15 @@ class MethodGenerator extends GeneratorAdapter {
 			return;
 		}
 		
-		String name = GlobalVariables.translatePredefined(var);
-		if (null != name) {
-			putStatic(Type.getType(GlobalVariables.class), name, Type.getType(Types.RubyValueClass));
-			getStatic(Type.getType(GlobalVariables.class), name, Type.getType(Types.RubyValueClass));
-		} else {
-			push(var);
-			invokeStatic(Type.getType(GlobalVariables.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue set(com.xruby.runtime.lang.RubyValue, String)"));
-		}
+		push(var);
+		invokeStatic(Type.getType(GlobalVariables.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue set(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
 	public void GlobalVatiables_get(String var) {
-		String name = GlobalVariables.translatePredefined(var);
-		if (null != name) {
-			getStatic(Type.getType(GlobalVariables.class), name, Type.getType(Types.RubyValueClass));
-		} else {
-			push(var);
-			invokeStatic(Type.getType(GlobalVariables.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue get(String)"));
-		}
+		push(var);
+		invokeStatic(Type.getType(GlobalVariables.class),
+			Method.getMethod("com.xruby.runtime.lang.RubyValue get(String)"));
 	}
 	
 	public void GlobalVariables_alias(String newName, String oldName) {
