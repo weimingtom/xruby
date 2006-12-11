@@ -3682,12 +3682,14 @@ public class RubyCompilerTest extends TestCase {
 				"trace_var (:$test_trace_var1) {print $test_trace_var1;}; $test_trace_var1 = 5",
 				"trace_var (:$test_untrace_var2) {print $test_untrace_var2;}; trace_var (:$test_untrace_var2) {print 2;};$test_untrace_var2 = 5",
 				"trace_var (:$test_untrace_var3) {|x| print x}; $test_untrace_var3 = 6; untrace_var :$test_untrace_var3; $test_untrace_var3 = 7",
+				"trace_var(:$test_trace_var4) {$test_trace_var4 = 9}; $test_trace_var4 = 8;  print $test_trace_var4",
 		};
 		
 		String[] outputs = {
 				"5",
 				"25",
 				"6",
+				"9",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

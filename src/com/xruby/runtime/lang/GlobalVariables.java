@@ -75,6 +75,8 @@ public class GlobalVariables {
 	private static ConcurrentHashMap<String, RubyValue> values_ = new ConcurrentHashMap<String, RubyValue>();
 	private static MultipleMap<RubyProc> traces_procs_ = new MultipleMap<RubyProc>();
 
+	private static boolean in_tracing_ = false;//TODO should this be global or per variable?
+
 	static {
 		values_.put("$stdout", new RubyObject(RubyRuntime.IOClass));
 		values_.put("$/", ObjectFactory.createString("\n"));
@@ -110,10 +112,18 @@ public class GlobalVariables {
 		assert('$' == name.charAt(0));
 		values_.put(name, value);
 
-		List<RubyProc> set = traces_procs_.get(name);
-		if (null != set) {
-			for (RubyProc p : set) {
-				p.getValue().invoke(value, new RubyArray(value));//TODO What the receiver should be?
+		if (!in_tracing_) {
+			in_tracing_ = true;
+
+			try {
+				List<RubyProc> set = traces_procs_.get(name);
+				if (null != set) {
+					for (RubyProc p : set) {
+						p.getValue().invoke(value, new RubyArray(value));//TODO What the receiver should be?
+					}
+				}
+			} finally {
+				in_tracing_ = false;
 			}
 		}
 		
