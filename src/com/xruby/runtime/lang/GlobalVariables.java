@@ -9,23 +9,23 @@ import java.util.*;
 import com.xruby.runtime.value.*;
 
 class MultipleMap<T> {
-	private ConcurrentMap<String, HashSet<T>> values_ = new ConcurrentHashMap<String, HashSet<T>>();
+	private ConcurrentMap<String, Vector<T>> values_ = new ConcurrentHashMap<String, Vector<T>>();
 
 	public void put(String s, T proc) {
 		if (!values_.containsKey(s)) {
-			values_.put(s, new HashSet<T>());
+			values_.put(s, new Vector<T>());
 		}
 		
-		HashSet<T> set = values_.get(s);
-		set.add(proc);
+		Vector<T> set = values_.get(s);
+		set.add(0, proc);
 	}
 
-	public Set<T> get(String name) {
+	public List<T> get(String name) {
 		return values_.get(name);
 	}
 	
 	public void remove(String s, T proc) {
-		HashSet<T> set = values_.get(s);
+		Vector<T> set = values_.get(s);
 		if (null == set) {
 			return;
 		}
@@ -34,7 +34,7 @@ class MultipleMap<T> {
 	}
 	
 	public void removeAll(String s) {
-		HashSet<T> set = values_.get(s);
+		Vector<T> set = values_.get(s);
 		if (null != set) {
 			set.clear();
 		}
@@ -110,7 +110,7 @@ public class GlobalVariables {
 		assert('$' == name.charAt(0));
 		values_.put(name, value);
 
-		Set<RubyProc> set = traces_procs_.get(name);
+		List<RubyProc> set = traces_procs_.get(name);
 		if (null != set) {
 			for (RubyProc p : set) {
 				p.getValue().invoke(value, new RubyArray(value));//TODO What the receiver should be?
