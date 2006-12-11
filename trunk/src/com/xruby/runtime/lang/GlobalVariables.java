@@ -5,7 +5,41 @@
 package com.xruby.runtime.lang;
 
 import java.util.concurrent.*;
+import java.util.*;
 import com.xruby.runtime.value.*;
+
+class MultipleMap<T> {
+	private ConcurrentMap<String, HashSet<T>> values_ = new ConcurrentHashMap<String, HashSet<T>>();
+
+	public void put(String s, T proc) {
+		if (!values_.containsKey(s)) {
+			values_.put(s, new HashSet<T>());
+		}
+		
+		HashSet<T> set = values_.get(s);
+		set.add(proc);
+	}
+
+	public Set<T> get(String name) {
+		return values_.get(name);
+	}
+	
+	public void remove(String s, T proc) {
+		HashSet<T> set = values_.get(s);
+		if (null == set) {
+			return;
+		}
+		
+		set.remove(proc);
+	}
+	
+	public void removeAll(String s) {
+		HashSet<T> set = values_.get(s);
+		if (null != set) {
+			set.clear();
+		}
+	}
+}
 
 /*
 $* $ARGV
@@ -47,6 +81,8 @@ public class GlobalVariables {
 	public static RubyValue OUTPUT_RECORD_SEPARATOR = ObjectFactory.nilValue;
 	public static RubyValue INPUT_RECORD_SEPARATOR = ObjectFactory.createString("\n");
 	public static RubyValue PROCESS_ID = ObjectFactory.createFixnum(0);//no way to get pid in java
+	
+	private static MultipleMap<RubyProc> traces_procs_ = new MultipleMap<RubyProc>();
 	
 	public static String translatePredefined(final String name) {
 		if (name.equals("$stdout")) {
@@ -95,8 +131,15 @@ public class GlobalVariables {
 	
 	public static RubyValue set(RubyValue value, String name) {
 		assert('$' == name.charAt(0));
-		
 		values_.put(name, value);
+
+		Set<RubyProc> set = traces_procs_.get(name);
+		if (null != set) {
+			for (RubyProc p : set) {
+				p.getValue().invoke(null, new RubyArray(value));//TODO receiver should not be null
+			}
+		}
+		
 		return value;
 	}
 	
@@ -109,4 +152,33 @@ public class GlobalVariables {
 			values_.put(newName, v);
 		}
 	}
+
+	private static boolean isDefined(String name) {
+		if (translatePredefined(name) != null) {
+			return true;
+		}
+
+		return (values_.get(name) != null);
+	}
+
+	public static void addTraceProc(String name, RubyProc proc) {
+		traces_procs_.put(name, proc);
+	}
+
+	public static void removeTraceProc(String name, RubyProc proc) {
+		if (!isDefined(name)) {
+			throw new RubyException(RubyRuntime.NameErrorClass, "undefined global variable " + name);
+		}
+		
+		traces_procs_.remove(name, proc);
+	}
+	
+	public static void removeAllTraceProc(String name) {
+		if (!isDefined(name)) {
+			throw new RubyException(RubyRuntime.NameErrorClass, "undefined global variable " + name);
+		}
+		
+		traces_procs_.removeAll(name);
+	}
 }
+
