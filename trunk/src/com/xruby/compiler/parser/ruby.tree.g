@@ -234,7 +234,7 @@ returns [Expression e]
 		|	e=classDefination
 		|	e=ifExpression
 		|	e=whileExpression
-		|	e=forExpression
+		|	e=forInExpression
 		|	e=unlessExpression
 		|	e=caseExpression
 		|	e=exceptionHandlingExpression
@@ -614,8 +614,8 @@ returns [MethodDefinationExpression e]
 			)
 		;
 
-forExpression
-returns [MethodCallExpression e]
+forInExpression
+returns [ForInExpression e]
 {
 	Expression exp = null;
 	Block b = null;
@@ -626,7 +626,7 @@ returns [MethodCallExpression e]
 				"in"
 				exp=expression
 				(cs=compoundStatement	{b.setBody(cs);})?
-				{e = new MethodCallExpression(exp, "each", null, b);}
+				{e = new ForInExpression(exp, b);}
 			)
 		;
 

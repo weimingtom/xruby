@@ -3479,10 +3479,12 @@ public class RubyCompilerTest extends TestCase {
 	public void test_for_in() {
 		String [] program_texts = {
 				"for i in 1..5 do print i end",
+				"for i in 1..5 do print i end; print i",
 		};
 		
 		String[] outputs = {
 				"12345",
+				"123455",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
