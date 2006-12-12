@@ -849,7 +849,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			visitSelfExpression();
 			cg_.getMethodGenerator().RubyAPI_isDefinedSuperMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
 		} else {
-			visitStringExpression("nil");
+			visitNilExpression();
 		}
 	}
 
@@ -858,7 +858,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().loadArg(2);
 			cg_.getMethodGenerator().RubyAPI_isDefinedYield();
 		} else {
-			visitStringExpression("nil");
+			visitNilExpression();
 		}
 	}
 }
