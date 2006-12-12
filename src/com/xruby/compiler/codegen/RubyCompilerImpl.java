@@ -223,7 +223,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitNoBlock(boolean is_in_super) {
 		if (is_in_super) {
-			cg_.getMethodGenerator().loadArg(2);
+			if (isInGlobalScope()) {
+				cg_.getMethodGenerator().pushNull();
+			} else {
+				cg_.getMethodGenerator().loadArg(2);
+			}
 		} else {
 			cg_.getMethodGenerator().pushNull();
 		}

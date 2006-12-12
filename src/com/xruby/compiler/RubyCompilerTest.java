@@ -3694,4 +3694,28 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_block_given() {
+		String [] program_texts = {
+				"def try\n" +
+				"	if block_given?\n" +
+				"		print true\n" +
+				"	else\n" +
+				"		print false\n" +
+				"	end\n" +
+				"end\n" +
+				"try\n" +
+				"try { \"hello\" }\n" +
+				"try do \"hello\" end",
+				
+				"print iterator?",
+		};
+		
+		String[] outputs = {
+				"falsetruetrue",
+				"false",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

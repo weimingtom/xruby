@@ -80,7 +80,16 @@ public class MethodCallExpression extends Expression {
 			arguments_.getBlockArgument().accept(visitor);
 			visitor.visitBlockArgument();
 		} else {
-			visitor.visitNoBlock(false);
+			//TODO Give block_given?/iterator? a special treatment
+			//This is a hack, and break the alias to those functions. In the future we need to add
+			//another parameter to RubyMethod#run()
+			boolean is_block_given_call = false;
+			if (null == receiver_ && 
+				(methodName_.equals("block_given?") || methodName_.equals("iterator?"))) {
+				is_block_given_call = true;
+			}
+			
+			visitor.visitNoBlock(is_block_given_call);
 		}
 
 		visitor.visitMethodCall(methodName_,
