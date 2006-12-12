@@ -618,6 +618,20 @@ class Kernel_trace_var extends RubyMethod {
 	}
 }
 
+class Kernel_block_given extends RubyMethod {
+	public Kernel_block_given() {
+		super(0);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (null == block) {
+			return ObjectFactory.falseValue;
+		} else {
+			return ObjectFactory.trueValue;
+		}
+	}
+}
+
 public class KernelModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.KernelModule;
@@ -639,6 +653,9 @@ public class KernelModuleBuilder {
 		m.defineMethod("catch", new Kernel_catch());
 		m.defineMethod("untrace_var", new Kernel_untrace_var());
 		m.defineMethod("trace_var", new Kernel_trace_var());
+		RubyMethod block_given = new Kernel_block_given();
+		m.defineMethod("iterator?", block_given);
+		m.defineMethod("block_given?", block_given);
 		
 		m.setAccessPrivate();
 		m.defineMethod("puts", new Kernel_puts());
