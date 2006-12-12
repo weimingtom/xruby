@@ -1800,6 +1800,8 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_defined() {
 		String[] program_texts = {
+				"print defined?(yield)",
+				
 				"def defined_test\n" +
 				"  print defined?(yield)\n" +
 				"end\n" +
@@ -1839,6 +1841,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"nil",
+				
 				"nilyield",
 				"nil",
 				
