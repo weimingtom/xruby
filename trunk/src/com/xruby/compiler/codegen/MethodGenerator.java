@@ -664,14 +664,14 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
 	}
 	
-	public void RubyBlock_invoke() {
+	public void RubyBlock_invoke(boolean is_in_block) {
 		invokeVirtual(Type.getType(Types.RubyBlockClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"));
 
-		checkBreaked();
+		checkBreaked(is_in_block);
 	}
 
-	private void checkBreaked() {
+	private void checkBreaked(boolean is_in_block) {
 		int value = newLocal(Type.getType(Types.RubyValueClass));
 		storeLocal(value);
 
@@ -679,6 +679,11 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("boolean breaked()"));
 		Label after_return = new Label();
 		ifZCmp(GeneratorAdapter.EQ, after_return);
+		if (is_in_block) {
+			loadThis();
+			push(true);
+			putField(Type.getType(Types.RubyBlockClass), "__breaked__", Type.getType(boolean.class));
+		}
 		loadLocal(value);
 		returnValue();//TODO more error checking, may not in the method context
 		mark(after_return);

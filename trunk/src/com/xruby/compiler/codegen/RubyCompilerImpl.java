@@ -607,7 +607,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitYieldEnd() {
-		cg_.getMethodGenerator().RubyBlock_invoke();
+		cg_.getMethodGenerator().RubyBlock_invoke(isInBlock());
 	}
 
 	public void visitSuperBegin() {
