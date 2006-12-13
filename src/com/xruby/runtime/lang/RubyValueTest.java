@@ -9,7 +9,7 @@ import com.xruby.runtime.value.*;
 
 public class RubyValueTest extends TestCase {
 	public void test_equals() {
-		assertFalse(ObjectFactory.createFixnum(1).equals(ObjectFactory.nilValue));
-		assertFalse(ObjectFactory.nilValue.equals(ObjectFactory.createFixnum(1)));
+		assertFalse(ObjectFactory.fixnum1.equals(ObjectFactory.nilValue));
+		assertFalse(ObjectFactory.nilValue.equals(ObjectFactory.fixnum1));
 	}
 }

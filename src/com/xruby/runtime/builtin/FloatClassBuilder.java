@@ -67,9 +67,9 @@ class Float_operator_compare extends RubyMethod {
 		if (floatValue1 < floatValue2){
 			return ObjectFactory.createFixnum(-1);
 		}else if(floatValue1 > floatValue2){
-			return ObjectFactory.createFixnum(1);
+			return ObjectFactory.fixnum1;
 		}else{
-			return ObjectFactory.createFixnum(0);
+			return ObjectFactory.fixnum0;
 		}
 	}
 }
@@ -255,7 +255,7 @@ class Float_infinite extends RubyMethod {
 		if (value == Double.NEGATIVE_INFINITY){
 			return ObjectFactory.createFixnum(-1);
 		}else if(value == Double.POSITIVE_INFINITY){
-			return ObjectFactory.createFixnum(1);
+			return ObjectFactory.fixnum1;
 		}else{
 			return ObjectFactory.nilValue;
 		}

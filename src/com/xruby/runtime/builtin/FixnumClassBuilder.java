@@ -383,14 +383,14 @@ class Fixnum_operator_star_star extends RubyMethod {
 			assert (bigValue2.signum() != 0);
 			if (value1 == 1){
 				if (bigValue2.signum() > 0){
-					return ObjectFactory.createFixnum(1);
+					return ObjectFactory.fixnum1;
 				}else{
 					// TODO: return Rational
 					throw new RubyException("return Rational value not implemented");
 				}
 			}else if (value1 == 0){
 				if (bigValue2.signum() > 0){
-					return ObjectFactory.createFixnum(0);
+					return ObjectFactory.fixnum0;
 				}else{
 					// TODO: return Rational
 					throw new RubyException("return Rational value not implemented");
@@ -398,7 +398,7 @@ class Fixnum_operator_star_star extends RubyMethod {
 			}else if (value1 == -1){
 				if (bigValue2.signum() > 0){
 					if (bigValue2.intValue() % 2 == 0){
-						return ObjectFactory.createFixnum(1);
+						return ObjectFactory.fixnum1;
 					}else{
 						return ObjectFactory.createFixnum(-1);
 					}

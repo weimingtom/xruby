@@ -116,9 +116,9 @@ class Time_operator_compare extends RubyMethod {
 		if (time1 < time2){
 			return ObjectFactory.createFixnum(-1);
 		}else if (time1 > time2) {
-			return ObjectFactory.createFixnum(1);
+			return ObjectFactory.fixnum1;
 		}
-		return ObjectFactory.createFixnum(0);
+		return ObjectFactory.fixnum0;
 	}
 }
 

@@ -347,17 +347,23 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.value.RubyFloat createFloat(double)"));
 	}
 	
-	public void ObjectFactory_createFixnum(int value) {
-		push(value);
-		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createFixnum(int)"));
-	}
-	
 	public void ObjectFactory_createInteger(String value, int radix) {
-		push(value);
-		push(radix);
-		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue createInteger(String,int)"));
+		if (10 == radix && 
+				(value.equals("0") ||
+				value.equals("1") ||
+				value.equals("2") ||
+				value.equals("3") ||
+				value.equals("4") ||
+				value.equals("5"))) {
+			getStatic(Type.getType(ObjectFactory.class),
+				"fixnum" + value,
+				Type.getType(RubyFixnum.class));
+		} else {
+			push(value);
+			push(radix);
+			invokeStatic(Type.getType(ObjectFactory.class),
+	                Method.getMethod("com.xruby.runtime.lang.RubyValue createInteger(String,int)"));
+		}
 	}
 
 	public void ObjectFactory_createString(String value) {

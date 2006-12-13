@@ -80,7 +80,7 @@ public class GlobalVariables {
 	static {
 		values_.put("$stdout", new RubyObject(RubyRuntime.IOClass));
 		values_.put("$/", ObjectFactory.createString("\n"));
-		values_.put("$$",ObjectFactory.createFixnum(0));//no way to get pid in java
+		values_.put("$$",ObjectFactory.fixnum0);//no way to get pid in java
 	}
 	
 	public static RubyValue get(String name) {

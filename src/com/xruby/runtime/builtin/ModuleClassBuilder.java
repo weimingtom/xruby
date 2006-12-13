@@ -213,7 +213,7 @@ class Module_operator_compare extends RubyMethod {
 		
 		RubyModule other_module = (RubyModule)args.get(0);
 		if (module == other_module) {
-			return ObjectFactory.createFixnum(0);
+			return ObjectFactory.fixnum0;
 		}
 		
 		if (module instanceof RubyClass || other_module instanceof RubyClass) {
@@ -222,7 +222,7 @@ class Module_operator_compare extends RubyMethod {
 			if (c1.isKindOf(c2)) {
 				return ObjectFactory.createFixnum(-1);
 			} else if (c2.isKindOf(c1)) {
-				return ObjectFactory.createFixnum(1);
+				return ObjectFactory.fixnum1;
 			}
 		}
 		

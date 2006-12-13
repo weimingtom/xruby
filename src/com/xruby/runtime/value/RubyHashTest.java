@@ -16,7 +16,7 @@ public class RubyHashTest extends TestCase {
 	
 	public void test_simple_add() {
 		RubyHash h = new RubyHash();
-		RubyValue k1 = ObjectFactory.createFixnum(1);
+		RubyValue k1 = ObjectFactory.fixnum1;
 		RubyValue v1 = ObjectFactory.createString("xxx");
 		h.add(k1, v1);
 		RubyValue r1 = h.get(k1);
@@ -28,9 +28,9 @@ public class RubyHashTest extends TestCase {
 		assertEquals(0, h.size());
 		
 		RubyValue v1 = ObjectFactory.createString("xxx");
-		h.add(ObjectFactory.createFixnum(1), v1);
+		h.add(ObjectFactory.fixnum1, v1);
 		assertEquals(1, h.size());
-		RubyValue r1 = h.get(ObjectFactory.createFixnum(1));
+		RubyValue r1 = h.get(ObjectFactory.fixnum1);
 		assertEquals(v1, r1);
 		
 		RubyValue v2 = ObjectFactory.createString("yyy");

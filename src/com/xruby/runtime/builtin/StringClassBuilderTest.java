@@ -167,19 +167,19 @@ public class StringClassBuilderTest extends TestCase {
 		args = new RubyArray();
 		args.add(str2);
 		result = m.invoke(str1, args, null);
-		assertEquals(result, ObjectFactory.createFixnum(1));
+		assertEquals(result, ObjectFactory.fixnum1);
 		
 		str2 = ObjectFactory.createString("abc");
 		args = new RubyArray();
 		args.add(str2);
 		result = m.invoke(str1, args, null);
-		assertEquals(result, ObjectFactory.createFixnum(0));
+		assertEquals(result, ObjectFactory.fixnum0);
 		
 		str2 = ObjectFactory.createString("a");
 		args = new RubyArray();
 		args.add(str2);
 		result = m.invoke(str1, args, null);
-		assertEquals(result, ObjectFactory.createFixnum(1));
+		assertEquals(result, ObjectFactory.fixnum1);
 		
 		str2 = ObjectFactory.createString("b");
 		args = new RubyArray();
@@ -188,7 +188,7 @@ public class StringClassBuilderTest extends TestCase {
 		assertEquals(result, ObjectFactory.createFixnum(-1));
 		
 		args = new RubyArray();
-		args.add(ObjectFactory.createFixnum(1));
+		args.add(ObjectFactory.fixnum1);
 		result = m.invoke(str1, args, null);
 		assertTrue(result == ObjectFactory.nilValue);
 	}
