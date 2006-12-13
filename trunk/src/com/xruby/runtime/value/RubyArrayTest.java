@@ -63,7 +63,7 @@ public class RubyArrayTest extends TestCase {
 	
 	public void test_expand() {
 		RubyArray a = new RubyArray(1, true);
-		a.add(ObjectFactory.createFixnum(1));
+		a.add(ObjectFactory.fixnum1);
 		
 		RubyArray b = new RubyArray(2, true);
 		b.add(ObjectFactory.createFixnum(2));
@@ -76,7 +76,7 @@ public class RubyArrayTest extends TestCase {
 	public void test_subarray() {
 		// a = [1, 2, 3]
 		RubyArray a = new RubyArray();
-		a.add(ObjectFactory.createFixnum(1));
+		a.add(ObjectFactory.fixnum1);
 		a.add(ObjectFactory.createFixnum(2));
 		a.add(ObjectFactory.createFixnum(3));
 		
@@ -103,7 +103,7 @@ public class RubyArrayTest extends TestCase {
 	public void test_plus() {
 		// a = [1, 2]
 		RubyArray a = new RubyArray();
-		a.add(ObjectFactory.createFixnum(1));
+		a.add(ObjectFactory.fixnum1);
 		a.add(ObjectFactory.createFixnum(2));
 		
 		// b = [3, 4]
@@ -123,7 +123,7 @@ public class RubyArrayTest extends TestCase {
 	public void test_times() {
 		// a = [1, 2]
 		RubyArray a = new RubyArray();
-		a.add(ObjectFactory.createFixnum(1));
+		a.add(ObjectFactory.fixnum1);
 		a.add(ObjectFactory.createFixnum(2));
 		
 		// [1, 2, 1, 2]
@@ -148,7 +148,7 @@ public class RubyArrayTest extends TestCase {
 	public void test_remove() {
 		// a = [1, 2]
 		RubyArray a = new RubyArray();
-		a.add(ObjectFactory.createFixnum(1));
+		a.add(ObjectFactory.fixnum1);
 		a.add(ObjectFactory.createFixnum(2));
 		
 		RubyValue v = a.remove(0);
@@ -168,7 +168,7 @@ public class RubyArrayTest extends TestCase {
 
 	public void test_includes() {
 		RubyArray a = new RubyArray();
-		RubyValue i1 = ObjectFactory.createFixnum(1);
+		RubyValue i1 = ObjectFactory.fixnum1;
 		RubyValue i2 = ObjectFactory.createFixnum(2);
 		RubyValue i3 = ObjectFactory.createFixnum(2);
 		RubyValue i4 = ObjectFactory.createFixnum(4);

@@ -23,7 +23,7 @@ class Numeric_unary_minus extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return RubyAPI.callPublicMethod(ObjectFactory.createFixnum(0), receiver, "-");
+		return RubyAPI.callPublicMethod(ObjectFactory.fixnum0, receiver, "-");
 	}
 }
 

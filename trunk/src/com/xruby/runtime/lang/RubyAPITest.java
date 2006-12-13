@@ -12,8 +12,8 @@ public class RubyAPITest extends TestCase {
 		assertTrue(RubyAPI.testTrueFalse(ObjectFactory.trueValue));
 		assertFalse(RubyAPI.testTrueFalse(ObjectFactory.falseValue));
 		assertFalse(RubyAPI.testTrueFalse(ObjectFactory.nilValue));
-		assertTrue(RubyAPI.testTrueFalse(ObjectFactory.createFixnum(0)));
-		assertTrue(RubyAPI.testTrueFalse(ObjectFactory.createFixnum(1)));
+		assertTrue(RubyAPI.testTrueFalse(ObjectFactory.fixnum0));
+		assertTrue(RubyAPI.testTrueFalse(ObjectFactory.fixnum1));
 		assertTrue(RubyAPI.testTrueFalse(ObjectFactory.createString("")));
 		assertTrue(RubyAPI.testTrueFalse(ObjectFactory.createString("XXX")));
 	}

@@ -17,13 +17,13 @@ class Integer_get_bit extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block)  {
 		int index = ((RubyFixnum)args.get(0)).intValue();
 		if (index < 0 || index >= 32){
-			return ObjectFactory.createFixnum(0);
+			return ObjectFactory.fixnum0;
 		}
 		int value = ((RubyFixnum)receiver).intValue();
 		if (((1 << index) & value) != 0) {
-			return ObjectFactory.createFixnum(1);
+			return ObjectFactory.fixnum1;
 		}
-		return ObjectFactory.createFixnum(0);
+		return ObjectFactory.fixnum0;
 	}
 }
 

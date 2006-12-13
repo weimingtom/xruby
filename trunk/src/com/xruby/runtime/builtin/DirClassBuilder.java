@@ -23,7 +23,7 @@ class Dir_chdir extends RubyMethod {
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, "No a directory - " + dir);
 		}
 		System.setProperty("user.dir", file.getAbsolutePath());
-		return ObjectFactory.createFixnum(0);		
+		return ObjectFactory.fixnum0;		
 	}
 }
 
@@ -46,7 +46,7 @@ class Dir_mkdir extends RubyMethod {
 		String dir = RubyTypesUtil.convertToString(args.get(0)).toString();
 		File file = new File(dir);
 		if (file.mkdir()){
-			return ObjectFactory.createFixnum(0);
+			return ObjectFactory.fixnum0;
 		}
 		throw new RubyException(RubyRuntime.RuntimeErrorClass, "Can't create directory - " + dir);
 	}
@@ -64,7 +64,7 @@ class Dir_rmdir extends RubyMethod {
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, "Not a directory - " + dir);
 		}
 		if (file.delete()){
-			return ObjectFactory.createFixnum(0);
+			return ObjectFactory.fixnum0;
 		}
 		throw new RubyException(RubyRuntime.RuntimeErrorClass, "Can't delete directory - " + dir);
 	}

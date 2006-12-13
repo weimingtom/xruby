@@ -16,6 +16,14 @@ public class ObjectFactory {
 	public static final RubyValue nilValue = new RubyObject(RubyRuntime.NilClassClass);
 	public static final RubyValue topLevelSelfValue = new RubyObject(RubyRuntime.ObjectClass);
 
+	//For preformance reason, some frequently used numbers are predefined here.
+	public static final RubyFixnum fixnum0 = new RubyFixnum(0);
+	public static final RubyFixnum fixnum1 = new RubyFixnum(1);
+	public static final RubyFixnum fixnum2 = new RubyFixnum(2);
+	public static final RubyFixnum fixnum3 = new RubyFixnum(3);
+	public static final RubyFixnum fixnum4 = new RubyFixnum(4);
+	public static final RubyFixnum fixnum5 = new RubyFixnum(5);
+
 	public static RubyString createString(String value) {
 		return new RubyString(value);
 	}

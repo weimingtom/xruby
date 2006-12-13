@@ -237,9 +237,9 @@ class Bignum_get_bit extends RubyMethod {
 		int index = RubyTypesUtil.convertToFixnum(args.get(0)).intValue();
 		boolean flag = value1.getInternal().testBit(index);
 		if (flag){
-			return ObjectFactory.createFixnum(1);
+			return ObjectFactory.fixnum1;
 		}
-		return ObjectFactory.createFixnum(0);
+		return ObjectFactory.fixnum0;
 	}
 }
 
@@ -260,7 +260,7 @@ class Bignum_operator_star_star extends RubyMethod {
 		}else if (value2 instanceof RubyFixnum){
 			int intValue2 = ((RubyFixnum)value2).intValue();
 			if (intValue2 == 0){
-				return ObjectFactory.createFixnum(1);
+				return ObjectFactory.fixnum1;
 			}
 			if (intValue2 > 0){
 				if (value1.bitLength() * intValue2 > 1024 * 1024){
