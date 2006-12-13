@@ -1,5 +1,6 @@
 $:.unshift(File.dirname(__FILE__))
 
+if ARGV.empty?
 require 'test_alias'
 #require 'test_array'
 require 'test_assignment_1'
@@ -36,3 +37,8 @@ require 'test_time'
 require 'test_trace'
 require 'test_variable'
 require 'test_while_until'
+else
+  for arg in ARGV
+    require "test_#{arg}"
+  end
+end

@@ -85,6 +85,10 @@ class Array
 	#alias join to_s
 	alias to_ary to_a
 	alias size length
+
+	def empty?
+		length == 0
+	end
 end
 
 class Symbol
