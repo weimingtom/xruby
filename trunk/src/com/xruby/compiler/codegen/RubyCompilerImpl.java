@@ -249,7 +249,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 
 		if (null != assignedCommons && assignedCommons.length > 0) {
-			cg_.getMethodGenerator().dup();
 			for (String name : assignedCommons) {
 				cg_.getMethodGenerator().restoreLocalVariableFromBlock(blockName, name);
 			}
