@@ -354,7 +354,13 @@ class MethodGenerator extends GeneratorAdapter {
 				value.equals("2") ||
 				value.equals("3") ||
 				value.equals("4") ||
-				value.equals("5"))) {
+				value.equals("5") ||
+				value.equals("6") ||
+				value.equals("7") ||
+				value.equals("8") ||
+				value.equals("9") ||
+				value.equals("10"))
+			) {
 			getStatic(Type.getType(ObjectFactory.class),
 				"fixnum" + value,
 				Type.getType(RubyFixnum.class));

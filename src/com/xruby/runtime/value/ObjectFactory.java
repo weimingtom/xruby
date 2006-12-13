@@ -23,6 +23,11 @@ public class ObjectFactory {
 	public static final RubyFixnum fixnum3 = new RubyFixnum(3);
 	public static final RubyFixnum fixnum4 = new RubyFixnum(4);
 	public static final RubyFixnum fixnum5 = new RubyFixnum(5);
+	public static final RubyFixnum fixnum6 = new RubyFixnum(6);
+	public static final RubyFixnum fixnum7 = new RubyFixnum(7);
+	public static final RubyFixnum fixnum8 = new RubyFixnum(8);
+	public static final RubyFixnum fixnum9 = new RubyFixnum(9);
+	public static final RubyFixnum fixnum10 = new RubyFixnum(10);
 
 	public static RubyString createString(String value) {
 		return new RubyString(value);
