@@ -4,6 +4,8 @@
 
 package com.xruby.runtime.builtin;
 
+import java.util.regex.Matcher;
+
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
@@ -339,6 +341,75 @@ class String_operator_match extends RubyMethod {
 	}
 }
 
+class String_access extends RubyMethod {
+	public String_access() {
+		super(2, false, 1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		String string = ((RubyString)receiver).toString();
+		if (args.size() == 1){
+			RubyValue arg = args.get(0);
+			if (arg instanceof RubyFixnum || arg instanceof RubyBignum || arg instanceof RubyFloat){
+				int index = RubyTypesUtil.convertToJavaInt(arg);
+				
+				String str = string;
+				if (str.length() == 0){
+					return ObjectFactory.nilValue;
+				}else{
+					index %= str.length();
+					return ObjectFactory.createFixnum((int)str.charAt(index));
+				}
+			}else if (arg instanceof RubyString){
+				String str = ((RubyString)arg).toString();
+				if (string.indexOf(str) >= 0){
+					return ObjectFactory.createString(str);
+				}else{
+					return ObjectFactory.nilValue;
+				}
+			}else if(arg instanceof RubyRange){
+				RubyRange range = (RubyRange)arg;
+				int start = RubyTypesUtil.convertToJavaInt(range.getLeft());
+				int end = RubyTypesUtil.convertToJavaInt(range.getRight());
+				
+				return ObjectFactory.createString(substring(string, start, end));
+			}else if(arg instanceof RubyRegexp){
+				RubyRegexp regexp = (RubyRegexp)arg;
+				RubyMatchData match = regexp.match(string);
+				if (match != null){
+					return ObjectFactory.createString(match.to_s());
+				}else{
+					return ObjectFactory.nilValue;
+				}				
+			}else{
+				throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
+			}
+		}else{
+			int start = RubyTypesUtil.convertToJavaInt(args.get(0));
+			int end = RubyTypesUtil.convertToJavaInt(args.get(1));
+			
+			return ObjectFactory.createString(substring(string, start, end));
+		}
+	}
+	
+	private String substring(String string, int begin, int end){
+
+		if (begin < 0){
+			begin = 0;
+		}else if(begin > string.length()){
+			begin = string.length();
+		}
+		
+		if (end < begin){
+			end = begin;
+		}else if (end > string.length()){
+			end = string.length();
+		}
+		
+		return string.substring(begin, end);
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -361,6 +432,7 @@ public class StringClassBuilder {
 		c.defineMethod("split", new String_split());
 		c.defineMethod("<=>", new String_operator_compare());
 		c.defineMethod("=~", new String_operator_match());
+		c.defineMethod("[]", new String_access());
 		c.defineAllocMethod(new String_new());
 	}
 }
