@@ -1587,6 +1587,26 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_break_in_block() {
+		String[] program_texts = {
+				"i =0\n" +
+				"def f\n" +
+				"  1.upto(10) {|i|\n" +
+				"    yield i\n" +
+				"  }\n" +
+				"end\n" +
+				"f{|i| break if i == 5}\n" +
+				"\n" +
+				"print i",
+		};
+		
+		String[] outputs = {
+				"5",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 
 	public void test_next_in_while() {
 		String[] program_texts = {
