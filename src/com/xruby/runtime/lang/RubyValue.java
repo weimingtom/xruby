@@ -11,7 +11,7 @@ public abstract class RubyValue implements Cloneable {
 
 	private RubyClass class_;
 	private RubySingletonClass singleton_class_ = null;
-	private Map<String, RubyValue> instance_varibles_ = new HashMap<String, RubyValue>();
+	private Map<String, RubyValue> instance_varibles_ = null;
 
 	public RubyValue(RubyClass c) {
 		class_ = c;
@@ -32,6 +32,10 @@ public abstract class RubyValue implements Cloneable {
 	}
 	
 	public RubyValue getInstanceVariable(String name) {
+		if (null == instance_varibles_) {
+			return ObjectFactory.nilValue;
+		}
+		
 		RubyValue v = instance_varibles_.get(name);
 		if (null != v) {
 			return v;
@@ -41,6 +45,10 @@ public abstract class RubyValue implements Cloneable {
 	}
 	
 	public RubyValue setInstanceVariable(RubyValue value, String name) {
+		if (null == instance_varibles_) {
+			instance_varibles_ = new HashMap<String, RubyValue>();
+		}
+		
 		instance_varibles_.put(name, value);
 		return value;
 	}
