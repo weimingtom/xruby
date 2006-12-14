@@ -7,7 +7,7 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
-
+import java.math.BigInteger;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
@@ -346,30 +346,23 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeStatic(Type.getType(ObjectFactory.class),
                 Method.getMethod("com.xruby.runtime.value.RubyFloat createFloat(double)"));
 	}
-	
-	public void ObjectFactory_createInteger(String value, int radix) {
-		if (10 == radix && 
-				(value.equals("0") ||
-				value.equals("1") ||
-				value.equals("2") ||
-				value.equals("3") ||
-				value.equals("4") ||
-				value.equals("5") ||
-				value.equals("6") ||
-				value.equals("7") ||
-				value.equals("8") ||
-				value.equals("9") ||
-				value.equals("10"))
-			) {
+
+	public void ObjectFactory_createFixnum(int value) {
+		if (value >=0 && value <= 10) {
 			getStatic(Type.getType(ObjectFactory.class),
 				"fixnum" + value,
 				Type.getType(RubyFixnum.class));
 		} else {
 			push(value);
-			push(radix);
 			invokeStatic(Type.getType(ObjectFactory.class),
-	                Method.getMethod("com.xruby.runtime.lang.RubyValue createInteger(String,int)"));
+	                Method.getMethod("com.xruby.runtime.value.RubyFixnum createFixnum(int)"));
 		}
+	}
+	
+	public void ObjectFactory_createBignum(BigInteger value) {
+		push(value.toString());
+		invokeStatic(Type.getType(ObjectFactory.class),
+	                Method.getMethod("com.xruby.runtime.value.RubyBignum createBignum(String)"));
 	}
 
 	public void ObjectFactory_createString(String value) {

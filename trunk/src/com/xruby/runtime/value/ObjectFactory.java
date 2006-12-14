@@ -102,9 +102,9 @@ public class ObjectFactory {
 	public static RubyBignum createBignum(BigInteger value) { 
 		return new RubyBignum(value); 
 	}
-	
-	public static RubyValue createInteger(String value, int radix) {
-		return RubyBignum.bignorm(new BigInteger(value, radix));
+
+	public static RubyBignum createBignum(String value) {
+		return new RubyBignum(new BigInteger(value));
 	}
 	
 	public static RubyValue createBoolean(boolean value) {

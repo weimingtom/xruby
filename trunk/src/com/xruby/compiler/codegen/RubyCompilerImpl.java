@@ -6,9 +6,8 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.GeneratorAdapter;
-
+import java.math.BigInteger;
 import java.util.*;
-
 import com.xruby.compiler.codedom.*;
 
 public class RubyCompilerImpl implements CodeVisitor {
@@ -331,8 +330,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().ObjectFactory_createFloat(value);
 	}
 
-	public void visitIntegerExpression(String value, int radix) {
-		cg_.getMethodGenerator().ObjectFactory_createInteger(value, radix);
+	public void visitFixnumExpression(int value) {
+		cg_.getMethodGenerator().ObjectFactory_createFixnum(value);
+	}
+
+	public void visitBignumExpression(BigInteger value) {
+		cg_.getMethodGenerator().ObjectFactory_createBignum(value);
 	}
 
 	public void visitStringExpression(String value) {

@@ -149,8 +149,13 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public void visitIntegerExpression(String value, int radix) {
-		result_.append(new BigInteger(value, radix).toString());
+	public void visitFixnumExpression(int value) {
+		result_.append(value);
+		result_.append("\n");
+	}
+
+	public void visitBignumExpression(BigInteger value) {
+		result_.append(value);
 		result_.append("\n");
 	}
 
