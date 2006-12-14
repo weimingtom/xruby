@@ -563,12 +563,22 @@ class Fixnum_to_f extends RubyMethod {
 
 class Fixnum_to_s extends RubyMethod {
 	public Fixnum_to_s() {
-		super(0);
+		super(1, false, 1);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyFixnum value = (RubyFixnum)receiver;
-		return ObjectFactory.createString(value.toString());
+		RubyValue radixValue = args.get(0);
+		int radix = 10;
+		
+		if (radixValue != null && radixValue != ObjectFactory.nilValue){
+			radix = RubyTypesUtil.convertToJavaInt(radixValue);
+			if (radix < 2 || radix > 36){
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
+			}
+		}
+		
+		return ObjectFactory.createString(value.toString(radix));
 	}
 }
 

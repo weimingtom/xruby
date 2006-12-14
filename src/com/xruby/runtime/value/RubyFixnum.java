@@ -31,4 +31,11 @@ public class RubyFixnum extends RubyBasic {
 	public String toString() {
 		return Integer.toString(value);
 	}
+	
+	public String toString(int radix) {
+		if (value < 0){
+			return "-" + Integer.toString(-value, radix);
+		}
+		return Integer.toString(value, radix);
+	}
 }
