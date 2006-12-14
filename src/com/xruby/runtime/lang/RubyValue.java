@@ -69,10 +69,17 @@ public abstract class RubyValue implements Cloneable {
 	}
 	
 	protected RubyMethod findSingletonMethod(String name) {
+		if (null == this.singleton_class_) {
+			return null;
+		}
 		return getSingletonClass().findOwnMethod(name);
 	}
 	
 	protected RubyMethod findSingletonPublicMethod(String name) {
+		if (null == this.singleton_class_) {
+			return null;
+		}
+		
 		return getSingletonClass().findOwnPublicMethod(name);
 	}
 
