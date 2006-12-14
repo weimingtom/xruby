@@ -1619,6 +1619,24 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_redo_in_block() {
+		String[] program_texts = {
+				"done = false\n" +
+				"loop {\n" +
+				"  print \"in loop\"\n" +
+				"  break if done\n" +
+				"  done = true\n" +
+				"  redo\n" +
+				"}",
+		};
+		
+		String[] outputs = {
+				"in loopin loop",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 
 	public void test_next_in_while() {
 		String[] program_texts = {
