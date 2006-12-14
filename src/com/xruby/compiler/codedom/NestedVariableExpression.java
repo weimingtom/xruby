@@ -41,8 +41,6 @@ public class NestedVariableExpression extends VariableExpression{
 		assert(is_multiple_assign);
 		Collections.reverse(mlhs_);
 		
-		boolean single_mrhs = true;
-		
 		if (mlhs_.size() == 1 && null == asterisk_lhs_) {
 			//a = 1, 2 is as same as a = [1, 2]
 			visitor.visitNestedVariableBegin(true);
