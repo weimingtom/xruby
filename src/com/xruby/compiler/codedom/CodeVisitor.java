@@ -4,6 +4,8 @@
 
 package com.xruby.compiler.codedom;
 
+import java.math.BigInteger;
+
 public interface CodeVisitor {
 	public void visitBinaryOperator(String operator);
 	public Object visitAndBinaryOperatorLeft();
@@ -38,7 +40,8 @@ public interface CodeVisitor {
 	public void visitNoSuperClass();
 	
 	public void visitFloatExpression(double value);
-	public void visitIntegerExpression(String value, int radix);
+	public void visitFixnumExpression(int value);
+	public void visitBignumExpression(BigInteger value);
 	public void visitLocalVariableExpression(String value); 
 	public void visitTrueExpression();
 	public void visitFalseExpression();
