@@ -50,7 +50,32 @@ public class ObjectFactory {
 	}
 
 	public static RubyFixnum createFixnum(int value) {
-		return new RubyFixnum(value);
+		switch (value) {
+		case 0:
+			return fixnum0;
+		case 1:
+			return fixnum1;
+		case 2:
+			return fixnum2;
+		case 3:
+			return fixnum3;
+		case 4:
+			return fixnum4;
+		case 5:
+			return fixnum5;
+		case 6:
+			return fixnum6;
+		case 7:
+			return fixnum7;
+		case 8:
+			return fixnum8;
+		case 9:
+			return fixnum9;
+		case 10:
+			return fixnum10;
+		default:
+			return new RubyFixnum(value);
+		}
 	}
 
 	public static RubyFloat createFloat(double value) {
