@@ -216,6 +216,17 @@ class Array_new extends RubyMethod {
 	}
 }
 
+class Array_shift extends RubyMethod {
+	public Array_shift() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver;
+		return array.remove(0);
+	}
+}
+
 class Array_pack extends RubyMethod {
 	private final boolean NATINT_PACK = true;
 	
@@ -596,6 +607,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("unshift", new Array_unshift());
 		c.defineMethod("each", new Array_each());
 		c.defineMethod("pack", new Array_pack());
+		c.defineMethod("shift", new Array_shift());
 		c.defineAllocMethod(new Array_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);

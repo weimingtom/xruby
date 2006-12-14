@@ -110,6 +110,7 @@ class String
 	
 	alias to_str to_s
 	alias inspect to_s
+	alias size length
 end
 
 module Comparable

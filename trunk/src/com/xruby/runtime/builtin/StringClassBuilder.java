@@ -4,7 +4,7 @@
 
 package com.xruby.runtime.builtin;
 
-import java.util.regex.Matcher;
+import java.math.BigInteger;
 
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
@@ -133,13 +133,38 @@ class String_to_i extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString value = (RubyString)receiver;
+		String value = ((RubyString)receiver).toString();
+		
+		value = value.replaceAll("[^+\\-a-zA-Z0-9]", "");
+		int end = value.indexOf('+', 1);
+		int end1 = value.indexOf('-', 1);
+
+		if (end < 0){
+			if (end1 < 0){
+				end = value.length();
+			}else{
+				end = end1;
+			}
+		}else{
+			if (end1 >= 0){
+				end = Math.min(end, end1);
+			}
+		}
+
+		value = value.substring(0, end);
+
 		if (args == null || args.size() == 0){
 			return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
 		}else{
 			int radix = ((RubyFixnum)args.get(0)).intValue();
 			if (radix >= 2 && radix <= 36){
-				return ObjectFactory.createFixnum(Integer.valueOf(value.toString(), radix));
+				BigInteger bigint;
+				try{
+					bigint = new BigInteger(value, radix);
+				}catch(NumberFormatException e){
+					return ObjectFactory.fixnum0;
+				}
+				return RubyBignum.bignorm(bigint);
 			}
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
 		}
@@ -350,17 +375,7 @@ class String_access extends RubyMethod {
 		String string = ((RubyString)receiver).toString();
 		if (args.size() == 1){
 			RubyValue arg = args.get(0);
-			if (arg instanceof RubyFixnum || arg instanceof RubyBignum || arg instanceof RubyFloat){
-				int index = RubyTypesUtil.convertToJavaInt(arg);
-				
-				String str = string;
-				if (str.length() == 0){
-					return ObjectFactory.nilValue;
-				}else{
-					index %= str.length();
-					return ObjectFactory.createFixnum((int)str.charAt(index));
-				}
-			}else if (arg instanceof RubyString){
+			if (arg instanceof RubyString){
 				String str = ((RubyString)arg).toString();
 				if (string.indexOf(str) >= 0){
 					return ObjectFactory.createString(str);
@@ -371,6 +386,9 @@ class String_access extends RubyMethod {
 				RubyRange range = (RubyRange)arg;
 				int start = RubyTypesUtil.convertToJavaInt(range.getLeft());
 				int end = RubyTypesUtil.convertToJavaInt(range.getRight());
+				if (!range.isExcludeEnd()){
+					end += 1;
+				}
 				
 				return ObjectFactory.createString(substring(string, start, end));
 			}else if(arg instanceof RubyRegexp){
@@ -382,7 +400,15 @@ class String_access extends RubyMethod {
 					return ObjectFactory.nilValue;
 				}				
 			}else{
-				throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
+				int index = RubyTypesUtil.convertToJavaInt(arg);
+				
+				String str = string;
+				if (str.length() == 0){
+					return ObjectFactory.nilValue;
+				}else{
+					index %= str.length();
+					return ObjectFactory.createFixnum((int)str.charAt(index));
+				}
 			}
 		}else{
 			int start = RubyTypesUtil.convertToJavaInt(args.get(0));
@@ -410,6 +436,122 @@ class String_access extends RubyMethod {
 	}
 }
 
+class String_access_set extends RubyMethod {
+	public String_access_set() {
+		super(3, false, 2);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		String string = ((RubyString)receiver).toString();
+		String replacement;
+		
+		int start, end;
+		
+		if (args.size() == 2){
+			RubyValue arg = args.get(0);
+			replacement = ((RubyString)args.get(1)).toString();
+			
+			if (arg instanceof RubyString){
+				String str = ((RubyString)arg).toString();
+				start = string.indexOf(str);
+				if (start >= 0){
+					end = start + str.length();
+				}else{
+					throw new RubyException(RubyRuntime.IndexErrorClass, "string not matched");
+				}
+			}else if(arg instanceof RubyRange){
+				RubyRange range = (RubyRange)arg;
+				start = RubyTypesUtil.convertToJavaInt(range.getLeft());
+				end = RubyTypesUtil.convertToJavaInt(range.getRight());
+				if (start >= string.length()){
+					throw new RubyException(RubyRuntime.RangeClass, range.toString() + " out of range");
+				}
+			}else if(arg instanceof RubyRegexp){
+				RubyRegexp regexp = (RubyRegexp)arg;
+				RubyMatchData match = regexp.match(string);
+				if (match != null){
+					String matched = match.to_s();
+					start = string.indexOf(matched);
+					end = matched.length() + start;
+				}else{
+					throw new RubyException(RubyRuntime.IndexErrorClass, "regexp not matched");
+				}				
+			}else{
+				start = RubyTypesUtil.convertToJavaInt(arg);
+				end = start + 1;
+			}
+		}else{
+			replacement = ((RubyString)args.get(2)).toString();
+			
+			start = RubyTypesUtil.convertToJavaInt(args.get(1));
+			end = RubyTypesUtil.convertToJavaInt(args.get(2));
+			if (start >= string.length()){
+				throw new RubyException(RubyRuntime.RangeClass, String.format("index %d out of string", start));
+			}
+		}
+		((RubyString)receiver).setString(replace(string, start, end, replacement));
+		return ObjectFactory.createString(replacement);
+	}
+	
+	private String replace(String source, int start, int end, String replacement) {
+		assert(start <= source.length() - 1);
+
+		if (end <= start){
+			end = start + 1;
+		}
+		
+		StringBuffer result = new StringBuffer(source.substring(0, start));
+		result.append(replacement);
+		result.append(source.substring(end));
+		return result.toString();
+	}
+}
+
+class String_operator_star extends RubyMethod {
+	String_operator_star() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		String string = ((RubyString)receiver).toString();
+		int count = RubyTypesUtil.convertToJavaInt(args.get(0));
+		if (count < 0){
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
+		}
+		StringBuffer result = new StringBuffer();
+		for (int i=0; i<count; ++i){
+			result.append(string);
+		}
+		return ObjectFactory.createString(result.toString());
+	}
+}
+
+class String_each extends RubyMethod {
+	String_each() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		block.invoke(receiver, new RubyArray(receiver));
+		return receiver;
+	}
+}
+
+class String_each_byte extends RubyMethod {
+	String_each_byte() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		String string = ((RubyString)receiver).toString();
+		for (int i=0; i<string.length(); ++i){
+			char c = string.charAt(i);
+			block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum((int)c)));
+		}
+		return receiver;
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -433,6 +575,10 @@ public class StringClassBuilder {
 		c.defineMethod("<=>", new String_operator_compare());
 		c.defineMethod("=~", new String_operator_match());
 		c.defineMethod("[]", new String_access());
+		c.defineMethod("[]=", new String_access_set());
+		c.defineMethod("*", new String_operator_star());
+		c.defineMethod("each", new String_each());
+		c.defineMethod("each_byte", new String_each_byte());
 		c.defineAllocMethod(new String_new());
 	}
 }
