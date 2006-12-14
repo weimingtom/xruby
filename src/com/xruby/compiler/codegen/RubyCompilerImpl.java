@@ -774,7 +774,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitRedo() {
-		cg_.getMethodGenerator().goTo(labelManager_.getCurrentRedo());
+		if (isInBlock()) {
+			cg_.getMethodGenerator().pushNull();
+			cg_.getMethodGenerator().returnValue();
+		} else {
+			cg_.getMethodGenerator().goTo(labelManager_.getCurrentRedo());
+		}
 	}
 
 	public void visitExclusiveRangeOperator() {
