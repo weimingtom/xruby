@@ -14,6 +14,9 @@ import junit.framework.TestCase;
 public class RubyTreeParserTest extends TestCase {
 	public void test_ast() throws RecognitionException, TokenStreamException {
 		String[] program_texts = {
+				
+				"-1",
+				
 				"print <<END;\n" +
 				"ABCD\n" +
 				"END\n",
@@ -102,6 +105,8 @@ public class RubyTreeParserTest extends TestCase {
 				};
 
 		String[] expected_texts = {
+				" ( COMPSTMT ( - 1 ) )",
+				
 				" ( COMPSTMT ( CALL print ( ARG END ) ) )",
 				" ( COMPSTMT ( if true ( COMPSTMT ( CALL print ( ARG 1 ) ) ) ) )",
 				" ( COMPSTMT ( if true ( COMPSTMT ( CALL print ( ARG 1 ) ) ) ) )",
