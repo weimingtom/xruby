@@ -562,16 +562,21 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "powerExpression");
 	}
 	
-
-	public void test_unaryExpression()
-	{
+	public void test_bnotExpression() {
 		String[] program_texts = {
-			"!!true",
+				"!!true",
+				"~123",
+				"!123",
+			};
+
+			parse(program_texts, "bnotExpression");
+	}
+	
+	public void test_unaryExpression() {
+		String[] program_texts = {
 			"123",
 			"+123",
 			"-123",
-			"~123",
-			"!123",
 		};
 
 		parse(program_texts, "unaryExpression");

@@ -1058,11 +1058,13 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"print !true",
 				"print !false",
+				"def f; false; end; print 33 if !f",
 		};
 
 		String[] outputs = {
 				"false",
 				"true",
+				"33",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

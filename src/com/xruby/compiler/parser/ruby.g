@@ -449,11 +449,19 @@ multiplicativeExpression
 
 //**
 powerExpression
-		:	command
+		:	bnotExpression
 			(options{greedy=true;/*caused by command*/}:
 				POWER^			(options{greedy=true;}:LINE_BREAK!)?
-				command
+				bnotExpression
 			)*
+		;
+
+//!  ~
+bnotExpression
+		:	(	BNOT^			(options{greedy=true;}:LINE_BREAK!)?
+			|	NOT^			(options{greedy=true;}:LINE_BREAK!)?
+			)*
+			command
 		;
 
 command
@@ -492,12 +500,10 @@ dotColonOrArrayAccess
 			)*
 		;
 
-//-(unary)  +(unary)  !  ~
+//-(unary)  +(unary)
 unaryExpression
 		:	(	UNARY_PLUS^	(options{greedy=true;}:LINE_BREAK!)?
 			|	UNARY_MINUS^	(options{greedy=true;}:LINE_BREAK!)?
-			|	BNOT^			(options{greedy=true;}:LINE_BREAK!)?
-			|	NOT^			(options{greedy=true;}:LINE_BREAK!)?
 			)*
 			(methodCall
 			|primaryExpressionThatCanNotBeMethodName	{can_be_command_ = 0;}
