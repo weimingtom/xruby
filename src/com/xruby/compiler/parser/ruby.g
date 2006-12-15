@@ -449,22 +449,11 @@ multiplicativeExpression
 
 //**
 powerExpression
-		:	unaryExpression
+		:	command
 			(options{greedy=true;/*caused by command*/}:
 				POWER^			(options{greedy=true;}:LINE_BREAK!)?
-				unaryExpression
+				command
 			)*
-		;
-
-
-//-(unary)  +(unary)  !  ~
-unaryExpression
-		:	(	UNARY_PLUS^	(options{greedy=true;}:LINE_BREAK!)?
-			|	UNARY_MINUS^	(options{greedy=true;}:LINE_BREAK!)?
-			|	BNOT^			(options{greedy=true;}:LINE_BREAK!)?
-			|	NOT^			(options{greedy=true;}:LINE_BREAK!)?
-			)*
-			command
 		;
 
 command
@@ -490,9 +479,7 @@ command
 
 
 dotColonOrArrayAccess
-		:	(methodCall
-			|primaryExpressionThatCanNotBeMethodName	{can_be_command_ = 0;}
-			)
+		:	unaryExpression
 			(options{greedy=true;/*caused by command*/}:
 				(DOT^		methodCall
 				|COLON2^	methodCall
@@ -503,6 +490,18 @@ dotColonOrArrayAccess
 				)
 				{can_be_command_ = 1;}
 			)*
+		;
+
+//-(unary)  +(unary)  !  ~
+unaryExpression
+		:	(	UNARY_PLUS^	(options{greedy=true;}:LINE_BREAK!)?
+			|	UNARY_MINUS^	(options{greedy=true;}:LINE_BREAK!)?
+			|	BNOT^			(options{greedy=true;}:LINE_BREAK!)?
+			|	NOT^			(options{greedy=true;}:LINE_BREAK!)?
+			)*
+			(methodCall
+			|primaryExpressionThatCanNotBeMethodName	{can_be_command_ = 0;}
+			)
 		;
 
 methodCall

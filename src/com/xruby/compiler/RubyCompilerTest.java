@@ -298,11 +298,13 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"print 1.-@",
 				"print 2.-@ {}",
+				"print -3.to_s",
 		};
 		
 		String[] outputs = {
 				"-1",
 				"-2",
+				"-3",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

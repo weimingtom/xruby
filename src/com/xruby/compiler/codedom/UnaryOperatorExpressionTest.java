@@ -15,4 +15,10 @@ public class UnaryOperatorExpressionTest extends TestingAstTestCase {
 		assertAstOutput(program_text, expected_result);
 	}
 
+	public void test_precedence() {
+		String program_text1 = "-1.to_s";
+		String program_text2 = "(-1).to_s";
+		assertAstEquals(program_text1, program_text2);
+	}
+
 }
