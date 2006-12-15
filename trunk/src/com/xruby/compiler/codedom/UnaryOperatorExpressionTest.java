@@ -6,14 +6,13 @@ package com.xruby.compiler.codedom;
 
 public class UnaryOperatorExpressionTest extends TestingAstTestCase {
 	public void test_negative_one() {
-		Program p = getProgram("-1");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "-1";
+		
 		String expected_result = 
 			"1\n" +
 			"-@\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 
 }

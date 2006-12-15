@@ -6,14 +6,13 @@ package com.xruby.compiler.codedom;
 
 public class BodyStatementTest extends TestingAstTestCase {
 	public void test() {
-		Program p = getProgram(
+		String program_text = 
 				"begin\n" +
 				"	raise \"!!!!\"\n" +
 				"	rescue RuntimeError\n" +
 				"		print \"xxx\"\n" +
-				"end");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+				"end";
+		
 		String expected_result = 
 			"body begin\n" +
 			"self\n" +
@@ -40,18 +39,17 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"end rescue!\n" +
 			"body after\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test2() {
-		Program p = getProgram(
+		String program_text = 
 				"begin\n" +
 				"	raise \"!!!!\"\n" +
 				"	rescue M::RuntimeError => e\n" +
 				"		print e\n" +
-				"end");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+				"end";
+				
 		String expected_result = 
 			//TODO seems e is not handled correctly
 			"body begin\n" +
@@ -80,6 +78,6 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"end rescue!\n" +
 			"body after\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 }

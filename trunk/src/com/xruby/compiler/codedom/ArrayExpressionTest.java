@@ -6,9 +6,8 @@ package com.xruby.compiler.codedom;
 
 public class ArrayExpressionTest extends TestingAstTestCase {
 	public void test_array() {
-		Program p = getProgram("[1, 'xxx', 1.2]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "[1, 'xxx', 1.2]";
+		
 		String expected_result = 
 "[:3\n" +
 "[\n1\n]\n" +
@@ -16,33 +15,28 @@ public class ArrayExpressionTest extends TestingAstTestCase {
 "[\n1.2\n]\n" +
 "]!\n" +
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_empty() {
-		Program p = getProgram("[ ]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "[ ]";
 		String expected_result = 
 "[:0\n]!\n" +
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_empty2() {
-		Program p = getProgram("[]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "[]";
 		String expected_result = 
 "[:0\n]!\n" +
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_asterisk() {
-		Program p = getProgram("[*[1, 2]]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "[*[1, 2]]";
+		
 		String expected_result = 
 			"[:0\n" +
 			"[\n" +
@@ -57,6 +51,6 @@ public class ArrayExpressionTest extends TestingAstTestCase {
 			"]*\n" +
 			"]!\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 }

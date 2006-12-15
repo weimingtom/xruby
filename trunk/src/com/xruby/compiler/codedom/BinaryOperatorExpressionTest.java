@@ -6,33 +6,30 @@ package com.xruby.compiler.codedom;
 
 public class BinaryOperatorExpressionTest extends TestingAstTestCase {
 	public void test() {
-		Program p = getProgram("2+4.5");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "2+4.5";
+		
 		String expected_result = 
 "2\n"	+
 "4.5\n"	+
 "+\n"	+
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 
 	public void test1() {
-		Program p = getProgram("2<4.5");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "2<4.5";
+		
 		String expected_result = 
 "2\n"	+
 "4.5\n"	+
 "<\n"	+
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test2() {
-		Program p = getProgram("2+4-3");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "2+4-3";
+		
 		String expected_result = 
 			"2\n" +
 			"4\n" +
@@ -40,42 +37,27 @@ public class BinaryOperatorExpressionTest extends TestingAstTestCase {
 			"3\n" +
 			"-\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_operator_assign() {
-		Program p1 = getProgram("a=0; a+=4");
-		CodePrinter cp1 = new CodePrinter();
-		p1.accept(cp1);
-		
-		Program p2 = getProgram("a=0; a=a+4");
-		CodePrinter cp2 = new CodePrinter();
-		p2.accept(cp2);
+		String program_text1 = "a=0; a+=4";
+		String program_text2 = "a=0; a=a+4";
 
-		assertEquals(cp1.toString(), cp2.toString());
+		assertAstEquals(program_text1, program_text2);
 	}
 
 	public void test_operator_assign_2() {
-		Program p1 = getProgram("a+=4");
-		CodePrinter cp1 = new CodePrinter();
-		p1.accept(cp1);
-		
-		Program p2 = getProgram("a=a+4");
-		CodePrinter cp2 = new CodePrinter();
-		p2.accept(cp2);
+		String program_text1 = "a+=4";
+		String program_text2 = "a=a+4";
 
-		assertEquals(cp1.toString(), cp2.toString());
+		assertAstEquals(program_text1, program_text2);
 	}
 	
 	public void test_operator_assign_3() {
-		Program p1 = getProgram("bb = bb || 25");
-		CodePrinter cp1 = new CodePrinter();
-		p1.accept(cp1);
-		
-		Program p2 = getProgram("bb ||= 25");
-		CodePrinter cp2 = new CodePrinter();
-		p2.accept(cp2);
+		String program_text1 = "bb = bb || 25";
+		String program_text2 = "bb ||= 25";
 
-		assertEquals(cp1.toString(), cp2.toString());
+		assertAstEquals(program_text1, program_text2);
 	}
 }

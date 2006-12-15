@@ -2,9 +2,8 @@ package com.xruby.compiler.codedom;
 
 public class RegexpExpressionWithExpressionSubstitutionTest extends TestingAstTestCase {
 	public void test() {
-		Program p = getProgram("/^f#{}.*r#{   }$/");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "/^f#{}.*r#{   }$/";
+		
 		String expected_result = 
 			"visitStringExpressionWithExpressionSubstitutionBegin\n" +
 			"^f\n" +
@@ -12,6 +11,7 @@ public class RegexpExpressionWithExpressionSubstitutionTest extends TestingAstTe
 			"$\n" +
 			"RegexExpressionWithExpressionSubstitutionEnd\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		
+		assertAstOutput(program_text, expected_result);
 	}
 }

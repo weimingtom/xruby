@@ -7,9 +7,8 @@ package com.xruby.compiler.codedom;
 public class MethodCallExpressionTest extends TestingAstTestCase {
 
 	public void test_dot() {
-		Program p = getProgram("4.div 2");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "4.div 2";
+		
 		String expected_result = 
 			"4\n" +
 			"[:1\n" +
@@ -18,13 +17,12 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"div:true\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test3() {
-		Program p = getProgram("puts 2.class");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "puts 2.class";
+		
 		String expected_result = 
 			"self\n" +
 			"[:1\n" +
@@ -34,13 +32,12 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]()\n" +
 			"puts:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 
 	public void test4() {
-		Program p = getProgram("puts(1.class())");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "puts(1.class())";
+		
 		String expected_result = 
 			"self\n" +
 			"[:1\n" +
@@ -50,24 +47,22 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]()\n" +
 			"puts:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test5() {
-		Program p = getProgram("puts");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "puts";
+		
 		String expected_result = 
 			"self\n" +
 			"puts:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 
 	public void test6() {
-		Program p = getProgram("puts 1, 2");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "puts 1, 2";
+		
 		String expected_result = 
 			"self\n" +
 			"[:2\n" +
@@ -79,13 +74,12 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"puts:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_array_access() {
-		Program p = getProgram("a[1]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "a[1]";
+		
 		String expected_result = 
 			"self\n" +
 			"a:false\n" +
@@ -95,13 +89,12 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"[]:true\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_array_access_2() {
-		Program p = getProgram("a=1; a[1]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "a=1; a[1]";
+	
 		String expected_result = 
 			"1\n" +
 			"a =\n" +
@@ -113,13 +106,12 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"[]:true\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_more_array_access() {
-		Program p = getProgram("a[-1]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "a[-1]";
+		
 		String expected_result = 
 			"self\n" +
 			"a:false\n" +
@@ -130,13 +122,12 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"[]:true\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_self_array_access() {
-		Program p = getProgram("self[0]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "self[0]";
+		
 		String expected_result = 
 			"self\n" +
 			"[:1\n" +
@@ -145,14 +136,13 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"[]:true\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 
 	
 	public void test_command() {
-		Program p = getProgram("puts `java -x`");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "puts `java -x`";
+		
 		String expected_result =
 			"self\n" +
 			"[:1\n" +
@@ -161,24 +151,22 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"puts:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_UNARY_PLUS_MINUS_METHOD_NAME() {
-		Program p = getProgram("1.-@");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "1.-@";
+		
 		String expected_result =
 			"1\n" +
 			"-@:true\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_command_and_operator() {
-		Program p = getProgram("print /hello/ === 'xxxhello123'");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "print /hello/ === 'xxxhello123'";
+		
 		String expected_result =
 			"self\n" +
 			"[:1\n" +
@@ -189,27 +177,23 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"]\n" +
 			"print:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 
 	}
 	
 	public void test_implicit_hash() {
-		Program p1 = getProgram("f('a' => 1, 'b' => 2)");
-		CodePrinter cp1 = new CodePrinter();
-		p1.accept(cp1);
+		String program_text1 = "f('a' => 1, 'b' => 2)";
 		
-		Program p2 = getProgram("f({'a' => 1, 'b' => 2})");
-		CodePrinter cp2 = new CodePrinter();
-		p2.accept(cp2);
+		String program_text2 = "f({'a' => 1, 'b' => 2})";
 		
-		assertEquals(cp1.toString(), cp2.toString());
+		assertAstEquals(program_text1, program_text2);
 	}
 	
 	/*FIXME
 	public void test_command_and_operator() {
-		Program p = getProgram("print (1..3) === 0");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "print (1..3) === 0");
+		
+		
 		String expected_result =
 			"self\n" +
 			"1\n" +
@@ -219,6 +203,6 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"===\n" +
 			"print\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}*/
 }

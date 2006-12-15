@@ -6,13 +6,12 @@ package com.xruby.compiler.codedom;
 
 public class UnlessExpressionTest extends TestingAstTestCase {
 	public void test() {
-		Program p = getProgram("unless true\n" +
+		String program_text = "unless true\n" +
 				"	111\n" +
 				"else\n" +
 				"	222\n" +
-				"end");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+				"end";
+		
 		String expected_result = 
 "true\n" +
 "unless\n" +
@@ -21,20 +20,19 @@ public class UnlessExpressionTest extends TestingAstTestCase {
 "222\n" +
 "end unless\n" +
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_optimazation() {
-		Program p = getProgram("unless false\n" +
+		String program_text = "unless false\n" +
 				"	111\n" +
 				"else\n" +
 				"	222\n" +
-				"end");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+				"end";	
+		
 		String expected_result = 
 "111\n" +
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 }

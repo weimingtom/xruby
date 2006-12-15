@@ -8,9 +8,8 @@ package com.xruby.compiler.codedom;
 public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 
 	public void test_no_asterisk() {
-		Program p = getProgram("a = 1; b = 2;   a, b = 1, 2");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "a = 1; b = 2;   a, b = 1, 2";
+		
 		String expected_result = 
 			"1\n" +
 			"a =\n" +
@@ -32,13 +31,12 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"a //=\n" +
 			"end MultipleAssignment\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_asterisk() {
-		Program p = getProgram("a, *b = 1, *[2, 3]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "a, *b = 1, *[2, 3]";
+		
 		String expected_result = 
 			"[:1\n" +
 			"[\n" +
@@ -62,13 +60,12 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"end MultipleAssignment\n" +
 			"EOF";
 		
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_nested() {
-		Program p = getProgram("b, (c, d), e = 1,2,3,4;b;c;d;e");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "b, (c, d), e = 1,2,3,4;b;c;d;e";
+		
 		String expected_result = 
 			"[:4\n" +
 			"[\n" +
@@ -102,6 +99,6 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"e\n" +
 			"EOF";
 		
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 }

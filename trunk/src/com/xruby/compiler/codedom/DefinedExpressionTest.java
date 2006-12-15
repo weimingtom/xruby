@@ -6,12 +6,11 @@ package com.xruby.compiler.codedom;
 
 public class DefinedExpressionTest extends TestingAstTestCase {
 	public void test() {
-		Program p = getProgram("defined? nil");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "defined? nil";
+		
 		String expected_result = 
 			"nil\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 }
