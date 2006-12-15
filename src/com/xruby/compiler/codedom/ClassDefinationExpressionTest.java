@@ -6,15 +6,14 @@ package com.xruby.compiler.codedom;
 
 public class ClassDefinationExpressionTest extends TestingAstTestCase {
 	public void test_class_defination() {
-		Program p = getProgram(
+		String program_text = 
 				"class C\n" +
 				"	def f\n" +
 				"		puts \"~~~~\"\n" +
 				"	end\n" +
 				"end\n" +
-				"C.new.f");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+				"C.new.f";
+		
 		String expected_result = 
 			"class C\n" +
 			"ClassDefination2\n" +
@@ -32,22 +31,21 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 			"new:true\n" +
 			"f:true\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_class_defination2() {
-		Program p = getProgram(
+		String program_text = 
 				"class C < Integer\n" +
-				"end");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+				"end";
+		
 		String expected_result = 
 			"class C\n" +
 			"Integer\n" +
 			"ClassDefination2\n" +
 			"end:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 }

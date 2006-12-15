@@ -7,9 +7,8 @@ package com.xruby.compiler.codedom;
 
 public class BlockTest extends TestingAstTestCase {
 	public void test_parameter() {
-		Program p = getProgram("f {|a, b, c|   puts a  }");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "f {|a, b, c|   puts a  }";
+		
 		String expected_result = 
 			"self\n" +
 			"block:3:false:0\n" +
@@ -25,13 +24,12 @@ public class BlockTest extends TestingAstTestCase {
 			"end block:true\n" +
 			"f:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_dot_time() {
-		Program p = getProgram("3.times {print 'Ho!'}");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "3.times {print 'Ho!'}";
+		
 		String expected_result = 
 			"3\n" +
 			"block:0:false:0\n" +
@@ -44,13 +42,12 @@ public class BlockTest extends TestingAstTestCase {
 			"end block:true\n" +
 			"times:true\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_asterisk_parameter() {
-		Program p = getProgram("f {|a, b, *c|   puts c  }");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "f {|a, b, *c|   puts c  }";
+		
 		String expected_result = 
 			"self\n" +
 			"block:2:true:0\n" +
@@ -66,13 +63,12 @@ public class BlockTest extends TestingAstTestCase {
 			"end block:true\n" +
 			"f:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_asterisk_parameter_no_name() {
-		Program p = getProgram("f {|a, *|   puts a  }");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "f {|a, *|   puts a  }";
+		
 		String expected_result = 
 			"self\n" +
 			"block:1:false:0\n" +
@@ -86,13 +82,12 @@ public class BlockTest extends TestingAstTestCase {
 			"end block:true\n" +
 			"f:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_break_in_block() {
-		Program p = getProgram("loop do break; end");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "loop do break; end";
+		
 		String expected_result = 
 			"self\n" +
 			"block:0:false:0\n" +
@@ -101,19 +96,15 @@ public class BlockTest extends TestingAstTestCase {
 			"end block:false\n" +
 			"loop:false\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_do_end_is_same_as_curly_braces() {
-		Program p1 = getProgram("f {|a, b, *c|   puts c  }");
-		CodePrinter cp1 = new CodePrinter();
-		p1.accept(cp1);
+		String program_text1 = "f {|a, b, *c|   puts c  }";
 		
-		Program p2 = getProgram("f do |a, b, *c|   puts c  end");
-		CodePrinter cp2 = new CodePrinter();
-		p2.accept(cp2);
+		String program_text2 = "f do |a, b, *c|   puts c  end";
 		
-		assertEquals(cp1.toString(), cp2.toString());
+		assertAstEquals(program_text1, program_text2);
 	}
 	
 	

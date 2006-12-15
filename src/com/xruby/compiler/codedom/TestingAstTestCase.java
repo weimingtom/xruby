@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 
 class TestingAstTestCase extends TestCase {
 
-	protected Program getProgram(String program_text) {
+	private Program getProgram(String program_text) {
 		assertTrue(null != program_text);
 
 		RubyParser parser = new RubyParser(new StringReader(program_text));
@@ -31,6 +31,26 @@ class TestingAstTestCase extends TestCase {
 		}
 
 		return p;
+	}
+
+	protected void assertAstOutput(String program_text, String expected_result) {
+		Program p = getProgram(program_text);
+		CodePrinter cp = new CodePrinter();
+		p.accept(cp);
+
+		assertEquals(expected_result, cp.toString());
+	}
+
+	protected void assertAstEquals(String program_text1, String program_text2) {
+		Program p1 = getProgram(program_text1);
+		CodePrinter cp1 = new CodePrinter();
+		p1.accept(cp1);
+		
+		Program p2 = getProgram(program_text2);
+		CodePrinter cp2 = new CodePrinter();
+		p2.accept(cp2);
+		
+		assertEquals(cp1.toString(), cp2.toString());
 	}
 	
 }

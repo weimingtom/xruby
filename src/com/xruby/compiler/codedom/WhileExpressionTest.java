@@ -6,9 +6,8 @@ package com.xruby.compiler.codedom;
 
 public class WhileExpressionTest extends TestingAstTestCase {
 	public void test_while() {
-		Program p = getProgram("while true\n true end");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "while true\n true end";
+		
 		String expected_result = 
 			"while condition\n" +
 			"true\n" +
@@ -16,26 +15,24 @@ public class WhileExpressionTest extends TestingAstTestCase {
 			"true\n" +
 			"end while\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_optimazation() {
-		Program p = getProgram("while false\n true end");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "while false\n true end";
+		
 		String expected_result = 
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_while_more() {
-		Program p = getProgram(
+		String program_text = 
 				"a = 2\n" +
 				"while a > 1\n" +
 				"true\n" +
-				"end");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+				"end";
+		
 		String expected_result = 
 			"2\n" +
 			"a =\n" +
@@ -48,7 +45,7 @@ public class WhileExpressionTest extends TestingAstTestCase {
 			"true\n" +
 			"end while\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 }

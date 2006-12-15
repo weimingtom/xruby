@@ -6,31 +6,28 @@ package com.xruby.compiler.codedom;
 
 public class ReturnExpressionTest extends TestingAstTestCase {
 	public void test_return_1() {
-		Program p = getProgram("return 1");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "return 1";
+		
 		String expected_result = 
 "1\n" +
 "return\n" +
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_return() {
-		Program p = getProgram("return");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "return";
+		
 		String expected_result = 
 "nil\n" +
 "return\n" +
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_return_1_2_3() {
-		Program p = getProgram("return 1, 2, 3");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "return 1, 2, 3";
+		
 		String expected_result = 
 "[:3\n" +
 "[\n1\n]\n" +
@@ -39,13 +36,12 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 "]!\n" +
 "return\n" +
 "EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_return_asterisk_nil() {
-		Program p = getProgram("return *nil");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "return *nil";
+		
 		String expected_result = 
 			"*[:0\n" +
 			"[\n" +
@@ -54,13 +50,12 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 			"]!\n" +
 			"return\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 	
 	public void test_return_asterisk_empty_array() {
-		Program p = getProgram("return *[]");
-		CodePrinter cp = new CodePrinter();
-		p.accept(cp);
+		String program_text = "return *[]";
+		
 		String expected_result = 
 			"*[:0\n" +
 			"[\n" +
@@ -70,6 +65,6 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 			"]!\n" +
 			"return\n" +
 			"EOF";
-		assertEquals(expected_result, cp.toString());
+		assertAstOutput(program_text, expected_result);
 	}
 }
