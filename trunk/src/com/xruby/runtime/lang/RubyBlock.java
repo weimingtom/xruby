@@ -74,6 +74,10 @@ public abstract class RubyBlock extends MethodBlockBase {
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args) {
+		__break__ = false;
+		__return__ = false;
+		__redo__ = false;
+		
 		boolean single_lhs = (1 == argc_) && (!has_asterisk_parameter_);
 		boolean single_rhs = (null != args) && (1 == args.size()) && (args.isNotSingleAsterisk()) && (argc_ > 0);
 		if (single_lhs) {
