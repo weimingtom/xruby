@@ -120,6 +120,7 @@ public interface CodeVisitor {
 	public void visitBreak();
 	public void visitNext();
 	public void visitRedo();
+	public void visitRetry();
 	
 	public void visitAliasGlobalVariable(String newName, String oldName);
 	public void visitAliasMethod(String newName, String oldName);

@@ -781,6 +781,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().goTo(labelManager_.getCurrentRedo());
 		}
 	}
+	
+	public void visitRetry() {
+		//TODO retry is not as same as redo 
+		visitRedo();
+	}
 
 	public void visitExclusiveRangeOperator() {
 		cg_.getMethodGenerator().push(true);

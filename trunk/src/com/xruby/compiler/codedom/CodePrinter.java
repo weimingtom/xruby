@@ -497,6 +497,10 @@ public class CodePrinter implements CodeVisitor {
 	public void visitRedo() {
 		result_.append("redo\n");
 	}
+	
+	public void visitRetry() {
+		result_.append("retry\n");
+	}
 
 	public void visitAliasGlobalVariable(String newName, String oldName) {
 		visitAliasMethod(newName, oldName);
