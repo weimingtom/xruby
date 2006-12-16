@@ -246,6 +246,7 @@ returns [Expression e]
 		|	#("next"		(return_args=return_arguments)?)	{e = new NextExpression(return_args);}
 		|	#(LPAREN	cs=compoundStatement)			{e = new ParenthesisExpression(cs);}
 		|	"redo"										{e = new RedoExpression();}
+		|	"retry"										{e = new RetryExpression();}
 		;
 
 callExpression

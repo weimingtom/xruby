@@ -1651,7 +1651,6 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	/*
 	public void test_retry() {
 		String[] program_texts = {
 				"count = 1;\n" +
@@ -1668,7 +1667,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
-	}*/
+	}
 
 	public void test_next_in_while() {
 		String[] program_texts = {
