@@ -67,6 +67,63 @@ class Range_new extends RubyMethod {
 	}
 }
 
+/*
+		return self if exclude_end? && (self.begin <=> self.end) != -1
+		return self if !exclude_end? && (self.begin <=> self.end) == 1
+		iter = self.begin
+		while (iter <=> self.end) != 0
+			yield(iter)
+			iter = iter.succ
+		end
+		yield(iter) unless exclude_end?
+		self
+*/
+class Range_each extends RubyMethod {
+	public Range_each() {
+		super(0);
+	}
+	
+	private boolean compare(RubyValue value1, RubyValue value2) {
+		RubyValue r = RubyAPI.callPublicMethod(value1, value2, "<=>");
+		return !RubyAPI.testEqual(r, ObjectFactory.fixnum0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyRange r = (RubyRange)receiver;
+		RubyValue ite = r.getLeft();
+
+		while (true) {
+			while (compare(ite, r.getRight())) {
+				RubyValue v = block.invoke(receiver, new RubyArray(ite));
+				if (block.breaked()) {
+					return v;
+				} else if (block.shouldRedo()) {
+					ite = r.getLeft();
+					continue;
+				} else {
+					ite = RubyAPI.callPublicMethod(ite, null, "succ");
+				}
+			}
+			
+			if (!r.isExcludeEnd()) {
+				RubyValue v = block.invoke(receiver, new RubyArray(ite));
+				if (block.breaked()) {
+					return v;
+				} else if (block.shouldRedo()) {
+					ite = r.getLeft();
+					continue;
+				} else {
+					break;
+				}
+			}
+			
+			break;
+		}
+
+		return receiver;
+	}
+}
+
 public class RangeClassBuilder {
 	
 	public static void initialize() {
@@ -77,6 +134,7 @@ public class RangeClassBuilder {
 		c.defineMethod("end", new Range_end());
 		c.defineMethod("exclude_end?", new Range_exclude_end());
 		c.defineMethod("initialize", new Range_initialize());
+		c.defineMethod("each", new Range_each());
 		c.defineAllocMethod(new Range_new());
 	}
 }

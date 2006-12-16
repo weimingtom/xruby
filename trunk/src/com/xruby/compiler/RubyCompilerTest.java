@@ -1633,14 +1633,42 @@ public class RubyCompilerTest extends TestCase {
 				"  done = true\n" +
 				"  redo\n" +
 				"}",
+				
+				"count = 1;\n" +
+				"for i in 1..9\n" +
+				"	print i\n" +
+				"	break if count == 4\n" +
+				"	count = count + 1\n" +
+				"	redo\n" +
+				"end",
 		};
 		
 		String[] outputs = {
 				"in loopin loop",
+				"1111",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	/*
+	public void test_retry() {
+		String[] program_texts = {
+				"count = 1;\n" +
+				"for i in 1..9\n" +
+				"	print i\n" +
+				"	break if count == 4\n" +
+				"	count = count + 1\n" +
+				"	retry\n" +
+				"end",
+		};
+		
+		String[] outputs = {
+				"1111",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}*/
 
 	public void test_next_in_while() {
 		String[] program_texts = {
@@ -2403,11 +2431,20 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"def f; a= yield; print a; end; f {next 1}",
 				"def f; a= yield; print a, a.class; end; f {next *nil}",
+				
+				"count = 1;\n" +
+				"for i in 1..9\n" +
+				"	print i\n" +
+				"	break if count == 4\n" +
+				"	count = count + 1\n" +
+				"	next\n" +
+				"end",
 		};
 		
 		String[] outputs = {
 				"1",
 				"nilNilClass",
+				"1234",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

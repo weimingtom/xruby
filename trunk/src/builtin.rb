@@ -346,18 +346,6 @@ class FalseClass
 end
 
 class Range
-	def each
-		return self if exclude_end? && (self.begin <=> self.end) != -1
-		return self if !exclude_end? && (self.begin <=> self.end) == 1
-		iter = self.begin
-		while (iter <=> self.end) != 0
-			yield(iter)
-			iter = iter.succ
-		end
-		yield(iter) unless exclude_end?
-		self
-	end
-
 	def ===(value)
 		each do |item|
 			return true if value == item

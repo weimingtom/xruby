@@ -135,14 +135,21 @@ class MethodGenerator extends GeneratorAdapter {
 	public void breakFromBlock() {
 		loadThis();
 		push(true);
-		putField(Type.getType(Types.RubyBlockClass), "__breaked__", Type.getType(boolean.class));
+		putField(Type.getType(Types.RubyBlockClass), "__break__", Type.getType(boolean.class));
 		returnValue();
 	}
 
 	public void returnFromBlock() {
 		loadThis();
 		push(true);
-		putField(Type.getType(Types.RubyBlockClass), "__returned__", Type.getType(boolean.class));
+		putField(Type.getType(Types.RubyBlockClass), "__return__", Type.getType(boolean.class));
+		returnValue();
+	}
+
+	public void redoFromBlock() {
+		loadThis();
+		push(true);
+		putField(Type.getType(Types.RubyBlockClass), "__redo__", Type.getType(boolean.class));
 		returnValue();
 	}
 	
@@ -687,7 +694,7 @@ class MethodGenerator extends GeneratorAdapter {
 		if (is_in_block) {
 			loadThis();
 			push(true);
-			putField(Type.getType(Types.RubyBlockClass), "__breaked__", Type.getType(boolean.class));
+			putField(Type.getType(Types.RubyBlockClass), "__break__", Type.getType(boolean.class));
 		}
 		loadLocal(value);
 		returnValue();//TODO more error checking, may not in the method context
