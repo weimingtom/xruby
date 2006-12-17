@@ -27,18 +27,6 @@ class Class_new extends RubyMethod {
 	}
 }
 
-class Class_operator_equal extends RubyMethod {
-	public Class_operator_equal() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyClass value1 = (RubyClass)receiver;
-		RubyClass value2 = (RubyClass)args.get(0);
-		return ObjectFactory.createBoolean(value1 == value2);
-	}
-}
-
 public class ClassClassBuilder {
 
 	static RubyMethod class_new_ = new Class_new();
@@ -46,6 +34,5 @@ public class ClassClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ClassClass;
 		c.defineMethod("new", class_new_);
-		c.defineMethod("==", new Class_operator_equal());
 	}
 }
