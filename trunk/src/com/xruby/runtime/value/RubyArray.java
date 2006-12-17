@@ -262,5 +262,18 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 			}
 		);
 	}
+
+	public void sort(final RubyBlock block) {
+		final RubyArray self = this;
+		Collections.sort(array, new Comparator<RubyValue>() {
+
+				public int compare(RubyValue arg0, RubyValue arg1) {
+					//TODO can not check if block return/break occured.
+					RubyValue v = block.invoke(self, new RubyArray(arg0, arg1));
+					return ((RubyFixnum)v).intValue();
+				}
+			}
+		);
+	}
 }
 

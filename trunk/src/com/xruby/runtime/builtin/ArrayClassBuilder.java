@@ -234,7 +234,11 @@ class Array_sort_dangers extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		array.sort();
+		if (null == block) {
+			array.sort();
+		} else {
+			array.sort(block);
+		}
 		return receiver;
 	}
 }
