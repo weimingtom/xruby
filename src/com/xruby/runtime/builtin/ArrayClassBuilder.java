@@ -239,7 +239,23 @@ class Array_sort_dangers extends RubyMethod {
 		} else {
 			array.sort(block);
 		}
-		return receiver;
+		return array;
+	}
+}
+
+class Array_sort extends RubyMethod {
+	public Array_sort() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = ((RubyArray)receiver).copy();
+		if (null == block) {
+			array.sort();
+		} else {
+			array.sort(block);
+		}
+		return array;
 	}
 }
 
@@ -625,6 +641,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("pack", new Array_pack());
 		c.defineMethod("shift", new Array_shift());
 		c.defineMethod("sort!", new Array_sort_dangers());
+		c.defineMethod("sort", new Array_sort());
 		c.defineAllocMethod(new Array_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);
