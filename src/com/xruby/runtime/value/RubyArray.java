@@ -108,6 +108,24 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return resultArray;
 	}
 	
+	public RubyValue compare(RubyArray other_array) {
+		int length = (size() <= other_array.size()) ? size() : other_array.size();
+		for (int i = 0; i < length; ++i) {
+			RubyValue v = RubyAPI.callPublicMethod(get(i), other_array.get(i), "<=>");
+			if (!RubyAPI.testEqual(v, ObjectFactory.fixnum0)) {
+				return v;
+			}
+		}
+		
+		if (size() == other_array.size()) {
+			return ObjectFactory.fixnum0;
+		} else if (size() > other_array.size()) {
+			return ObjectFactory.fixnum1;
+		} else {
+			return ObjectFactory.createFixnum(-1);
+		}
+	}
+	
 	public RubyArray subarray(int begin, int length) {
 		int arraySize = array.size();
 		if (begin > arraySize) {

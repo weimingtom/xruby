@@ -312,6 +312,24 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Array_compare() {
+		String[] program_texts = {				
+				"print [ 4, 6, 5] <=> [ 4, 6, 5]",
+				"print [ 4, 6, 5] <=> [ 4, 6]",
+				"print [ 4, 6] <=> [ 4, 6, 5]",
+			
+		};
+
+		String[] outputs = {
+				"0",
+				"1",
+				"-1",
+				
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_UNARY_PLUS_MINUS_METHOD_NAME() {
 		String[] program_texts = {
 				"print 1.-@",
