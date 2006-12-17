@@ -95,6 +95,21 @@ class Array_array_equal extends RubyMethod {
 	}
 }
 
+class Array_compare extends RubyMethod {
+	public Array_compare() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray left = (RubyArray)receiver;
+		Object right = args.get(0);
+		if (!(right instanceof RubyArray)) {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "Can't convert " + args.get(0).getRubyClass().getName() + " into Array");
+		}
+		return left.compare((RubyArray)right);
+	}
+}
+
 class Array_concat extends RubyMethod {
 	public Array_concat() {
 		super(1);
@@ -629,6 +644,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("[]", new Array_array_access());
 		c.defineMethod("[]=", new Array_array_set());
 		c.defineMethod("==", new Array_array_equal());
+		c.defineMethod("<=>", new Array_compare());
 		c.defineMethod("concat", new Array_concat());
 		c.defineMethod("+", new Array_plus());
 		c.defineMethod("*", new Array_times());
