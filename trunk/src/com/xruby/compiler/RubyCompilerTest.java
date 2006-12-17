@@ -280,7 +280,7 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_array_join() {
+	public void test_Array_join() {
 		String[] program_texts = {				
 				"print [ 'a', 'b', 'c'].join",
 				"print [ 'a', 'b', 'c'].join('-')",
@@ -289,6 +289,18 @@ public class RubyCompilerTest extends TestCase {
 		String[] outputs = {
 				"abc",
 				"a-b-c",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_Array_sort() {
+		String[] program_texts = {				
+				"print [ 3, 2, 1].sort!",
+		};
+
+		String[] outputs = {
+				"123",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
