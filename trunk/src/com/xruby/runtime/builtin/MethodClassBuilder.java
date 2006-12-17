@@ -25,11 +25,23 @@ class Method_to_s extends RubyMethod {
 	}
 }
 
+class Method_to_proc extends RubyMethod {
+	public Method_to_proc() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		MethodValue m = (MethodValue)receiver;
+		return m.convertToRubyProc();
+	}
+}
+
 public class MethodClassBuilder {
 	
 	public static void initialize() {
 		RubyClass c = RubyRuntime.MethodClass;
 		c.defineMethod("call", new Method_call());
+		c.defineMethod("to_proc", new Method_to_proc());
 		RubyMethod to_s = new Method_to_s();
 		c.defineMethod("to_s", to_s);
 		c.defineMethod("inspect", to_s);
