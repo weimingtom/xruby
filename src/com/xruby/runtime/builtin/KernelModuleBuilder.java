@@ -459,7 +459,7 @@ class Kernel_method extends RubyMethod {
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		String method_name = convertToString(args.get(0));
-		RubyMethod  m = receiver.findPublicMethod(method_name);
+		RubyMethod  m = receiver.findMethod(method_name);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}

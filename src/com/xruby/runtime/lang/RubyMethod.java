@@ -14,6 +14,26 @@ public abstract class RubyMethod extends MethodBlockBase {
 	public static final int PROTECTED = 1;
 	public static final int PRIVATE = 2;
 
+	protected RubyMethod(int argc) {
+		super(argc, false, 0);
+		access_ = PUBLIC;
+	}
+
+	//The compiler always uses this
+	protected RubyMethod(int argc, boolean has_asterisk_parameter, int default_argc)  {
+		super(argc, has_asterisk_parameter, default_argc);
+		access_ = PUBLIC;
+	}
+
+	public RubyBlock convertToRubyBolck(RubyValue self) {
+		final RubyMethod m = this;
+		return new RubyBlock(argc_, has_asterisk_parameter_, default_argc_, null, self) {
+			protected RubyValue run(RubyValue receiver, RubyArray args) {
+				return m.invoke(receiver, args, null);
+			}
+		};
+	}
+
 	boolean isPublic() {
 		return PUBLIC == access_;
 	}
@@ -28,17 +48,6 @@ public abstract class RubyMethod extends MethodBlockBase {
 	
 	protected RubyModule getOwner() {
 		return owner_;
-	}
-	
-	//TODO remove this later(update all ClassBuilder)
-	protected RubyMethod(int argc) {
-		super(argc, false, 0);
-		access_ = PUBLIC;
-	}
-	
-	protected RubyMethod(int argc, boolean has_asterisk_parameter, int default_argc)  {
-		super(argc, has_asterisk_parameter, default_argc);
-		access_ = PUBLIC;
 	}
 	
 	protected void assertArgNumberAtLeast(RubyArray args, int expected_argc) {

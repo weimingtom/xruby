@@ -3838,4 +3838,16 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_Method_to_proc() {
+		String [] program_texts = {
+				"method(:print).to_proc.call(\"xxx\")",
+		};
+		
+		String[] outputs = {
+				"xxx",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

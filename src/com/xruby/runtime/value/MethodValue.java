@@ -18,6 +18,10 @@ public class MethodValue extends RubyBasic {
 	public RubyValue call(RubyArray args, RubyBlock block) {
 		return method_.invoke(receiver_, args, block);
 	}
+
+	public RubyProc convertToRubyProc() {
+		return ObjectFactory.createProc(method_.convertToRubyBolck(receiver_));
+	}
 	
 	public String toString() {
 		StringBuilder s = new StringBuilder("#<Method: ");
