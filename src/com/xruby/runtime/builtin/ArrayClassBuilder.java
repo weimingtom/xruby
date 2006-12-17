@@ -227,6 +227,18 @@ class Array_shift extends RubyMethod {
 	}
 }
 
+class Array_sort_dangers extends RubyMethod {
+	public Array_sort_dangers() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver;
+		array.sort();
+		return receiver;
+	}
+}
+
 class Array_pack extends RubyMethod {
 	private final boolean NATINT_PACK = true;
 	
@@ -608,6 +620,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("each", new Array_each());
 		c.defineMethod("pack", new Array_pack());
 		c.defineMethod("shift", new Array_shift());
+		c.defineMethod("sort!", new Array_sort_dangers());
 		c.defineAllocMethod(new Array_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);

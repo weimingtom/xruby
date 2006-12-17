@@ -5,7 +5,6 @@
 package com.xruby.runtime.value;
 
 import java.util.*;
-
 import com.xruby.runtime.lang.*;
 
 /**
@@ -254,5 +253,14 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return this;
 	}
 
+	public void sort() {
+		Collections.sort(array, new Comparator<RubyValue>() {
+				public int compare(RubyValue arg0, RubyValue arg1) {
+					RubyValue v = RubyAPI.callPublicMethod(arg0, arg1, "<=>");
+					return ((RubyFixnum)v).intValue();
+				}
+			}
+		);
+	}
 }
 
