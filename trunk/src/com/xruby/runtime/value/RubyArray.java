@@ -99,6 +99,15 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		}
 	}
 
+	public RubyArray copy() {
+		RubyArray resultArray = new RubyArray(array.size());
+		for (RubyValue v : array) {
+			resultArray.add(v);
+		}
+
+		return resultArray;
+	}
+	
 	public RubyArray subarray(int begin, int length) {
 		int arraySize = array.size();
 		if (begin > arraySize) {
