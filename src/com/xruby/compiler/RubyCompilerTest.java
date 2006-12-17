@@ -297,10 +297,12 @@ public class RubyCompilerTest extends TestCase {
 	public void test_Array_sort() {
 		String[] program_texts = {				
 				"print [ 3, 2, 1].sort!",
+				"print [ 4, 6, 5].sort! {|x, y| x <=> y}",
 		};
 
 		String[] outputs = {
 				"123",
+				"456",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
