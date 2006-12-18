@@ -3850,4 +3850,24 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_Module_case_equal() {
+		String [] program_texts = {
+				"print NilClass === true",
+				"print NilClass === nil",
+				"print Object === true",
+				//TODO "print Math === nil",
+				//"print Kernel === nil",
+		};
+		
+		String[] outputs = {
+				"false",
+				"true",
+				"true",
+				//"false",
+				//"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
