@@ -230,6 +230,24 @@ class Module_operator_compare extends RubyMethod {
 	}
 }
 
+class Module_case_equal extends RubyMethod {
+	public Module_case_equal () {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (receiver instanceof RubyClass) {
+			return RubyAPI.isKindOf(receiver, args.get(0)) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+		} else {
+			//TODO does not work as expected
+			RubyModule module = (RubyModule)receiver;
+			RubyArray a = new RubyArray();
+			module.collectIncludedModuleNames(a);
+			return a.include(args.get(0).getRubyClass()) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+		}
+	}
+}
+
 public class ModuleClassBuilder {
 	
 	public static void initialize() {
@@ -241,6 +259,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("inspect", new Module_inspect());
 		c.defineMethod("include", new Module_include());
 		c.defineMethod("<=>", new Module_operator_compare());
+		c.defineMethod("===", new Module_case_equal());
 		c.defineMethod("ancestors", new Module_ancestors());
 
 		c.setAccessPrivate();
