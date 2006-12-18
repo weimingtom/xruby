@@ -55,6 +55,12 @@ public abstract class RubyBlock extends MethodBlockBase {
 	protected RubyBlock blockOfCurrentMethod_;
 	protected RubyValue selfOfCurrentMethod_;
 
+	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block, RubyValue self) {
+		super(argc, has_asterisk_parameter, default_argc);
+		blockOfCurrentMethod_ = block;
+		selfOfCurrentMethod_ = self;
+	}
+		
 	public boolean breaked() {
 		return __break__ || __return__;
 	}
@@ -67,17 +73,20 @@ public abstract class RubyBlock extends MethodBlockBase {
 		return __redo__;
 	}
 
-	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block, RubyValue self) {
-		super(argc, has_asterisk_parameter, default_argc);
-		blockOfCurrentMethod_ = block;
-		selfOfCurrentMethod_ = self;
+	public void validateParameterForProcCall(RubyArray args) {
+		//TODO based on my observation, ruby does not throw ArgumentError unless argc_ is 0, it just gives a waring in other case
+		//e.g compare def f(b); b.call(1, 2);end;  f(lambda {|x|})
+		//with def f(b); b.call(1, 2);end;  f(lambda {||})
+		if (0 == argc_ && 0 == default_argc_ && !has_asterisk_parameter_ && null!= args && args.size() != 0) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for " + argc_+ ")");
+		}
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args) {
 		__break__ = false;
 		__return__ = false;
 		__redo__ = false;
-		
+
 		boolean single_lhs = (1 == argc_) && (!has_asterisk_parameter_);
 		boolean single_rhs = (null != args) && (1 == args.size()) && (args.isNotSingleAsterisk()) && (argc_ > 0);
 		if (single_lhs) {
