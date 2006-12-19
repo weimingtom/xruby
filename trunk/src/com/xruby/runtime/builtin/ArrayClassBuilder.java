@@ -539,46 +539,28 @@ class Array_pack extends RubyMethod {
 			case 'c':
 			case 'C':
 				while (len-- > 0){
-					char c;
-					
 					if (items-- > 0)
 						from = array.get(idx ++);
 					else
 						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
 					
-					if (from instanceof RubyFixnum){
-						c = (char)(((RubyFixnum)from).intValue() & 0xff);
-					}else if (from instanceof RubyFloat){
-						c = (char)((int)((RubyFloat)from).doubleValue() & 0xff);
-					}else if (from instanceof RubyBignum){
-						c = (char)(((RubyBignum)from).getInternal().intValue() & 0xff);
-					}else{
-						throw new RubyException(RubyRuntime.RuntimeErrorClass, String.format("can't convert %s into Integer", from.getRubyClass().getName()));
-					}
+					byte c = RubyTypesUtil.convertToJavaByte(from);
 					
-					result.append(c);
+					result.append((char)c);
 				}
 				break;
 				
 			case 's':
 			case 'S':
 				while (len-- > 0){
-					short s;
+					
 					
 					if (items-- > 0)
 						from = array.get(idx ++);
 					else
 						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
 					
-					if (from instanceof RubyFixnum){
-						s = (short)(((RubyFixnum)from).intValue() & 0xffff);
-					}else if (from instanceof RubyFloat){
-						s = (short)((int)((RubyFloat)from).doubleValue() & 0xffff);
-					}else if (from instanceof RubyBignum){
-						s = (short)(((RubyBignum)from).getInternal().intValue() & 0xffff);
-					}else{
-						throw new RubyException(RubyRuntime.RuntimeErrorClass, String.format("can't convert %s into Integer", from.getRubyClass().getName()));
-					}
+					short s = RubyTypesUtil.convertToJavaShort(from);
 
 					result.append((char)(s & 0xff));
 					result.append((char)(s >> 8));
@@ -590,7 +572,51 @@ class Array_pack extends RubyMethod {
 			case 'l':
 			case 'L':
 				while (len-- > 0){
-					int i;
+					if (items-- > 0)
+						from = array.get(idx ++);
+					else
+						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
+					
+					int i = RubyTypesUtil.convertToJavaInt(from);
+
+					for (int j=0; j<Integer.SIZE; ++j){
+						result.append((char)((i >> (j * 8) & 0xff)));
+					}
+				}
+				break;
+				
+			case 'q':
+			case 'Q':
+				while (len-- > 0){					
+					if (items-- > 0)
+						from = array.get(idx ++);
+					else
+						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
+					
+					long l = RubyTypesUtil.convertToJavaLong(from);
+
+					for (int i=0; i<Long.SIZE; ++i){
+						result.append((char)((l >> (i * 8) & 0xff)));
+					}
+				}
+				break;
+				
+			case 'n': // short (network byte-order)
+				break;
+				
+			case 'N': // int (network byte-order)
+				break;
+				
+			case 'v': // short (VAX byte-order)
+				break;
+				
+			case 'V': // long (VAX byte-order)
+				break;
+				
+			case 'f':
+			case 'F':
+				while (len-- > 0){
+					float f;
 					
 					if (items-- > 0)
 						from = array.get(idx ++);
@@ -598,40 +624,162 @@ class Array_pack extends RubyMethod {
 						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
 					
 					if (from instanceof RubyFixnum){
-						i = (int)(((RubyFixnum)from).intValue() & 0xffffffff);
+						f = (long)(((RubyFixnum)from).intValue() & 0xffffffff);
 					}else if (from instanceof RubyFloat){
-						i = (int)((int)((RubyFloat)from).doubleValue() & 0xffffffff);
+						f = ((long)((RubyFloat)from).doubleValue() & 0xffffffffffffffffL);
 					}else if (from instanceof RubyBignum){
-						i = (int)(((RubyBignum)from).getInternal().intValue() & 0xffffffff);
+						f = (((RubyBignum)from).getInternal().longValue() & 0xffffffffffffffffL);
 					}else{
 						throw new RubyException(RubyRuntime.RuntimeErrorClass, String.format("can't convert %s into Integer", from.getRubyClass().getName()));
 					}
 
-					result.append((char)(i & 0xff));
-					result.append((char)(i >> 8));
-					result.append((char)(i >> 16));
-					result.append((char)(i >> 24));
+					int bits = Float.floatToIntBits(f);
+					for (int i=0; i<Integer.SIZE; ++i){
+						result.append((char)((bits >> (i * 8) & 0xff)));
+					}
 				}
 				break;
 				
-			case 'q':
-			case 'Q':
-				// Not implemented
+			case 'e': // single precision float in VAX byte-order
+				break;
+				
+			case 'E': // double precision float in VAX byte-order
+				break;
+				
+			case 'd':
+			case 'D':
 				while (len-- > 0){
+					if (items-- > 0)
+						from = array.get(idx ++);
+					else
+						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
 					
+					double d = RubyTypesUtil.convertToJavaDouble(from);
+
+					long bits = Double.doubleToLongBits(d);
+					
+					for (int i=0; i<Long.SIZE; ++i){
+						result.append((char)((bits >> (i * 8) & 0xff)));
+					}
 				}
 				break;
 				
-			// ... TODO
-			case 'x':
+			case 'g': // single precision float in network byte-order
+				break;
+				
+			case 'G': // double precision float in network byte-order
+				break;
+				
+			case 'x': // null byte
+				while (len-- > 0){
+					result.append('\0');
+				}
+				break;
+				
+			case 'X': // back up byte
+				plen = result.length();
+				if (plen < len){
+					throw new RubyException(RubyRuntime.ArgumentErrorClass, "X outside of string");
+				}
+				result.delete(plen - len, plen);
+				break;
+				
+			case '@':
+				len -= result.length();
+				if (len > 0){
 					while (len-- > 0){
 						result.append('\0');
 					}
+				}
+				
+				len = -len;
+				if (len > 0){
+					plen = result.length();
+					if (plen < len){
+						throw new RubyException(RubyRuntime.ArgumentErrorClass, "X outside of string");
+					}
+					result.delete(plen - len, plen);
+				}
+				break;
+				
+			case '%':
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "% is not supported");
+
+			case 'U':
+				while (len-- > 0){
+					char[] buf = new char[8];
+					
+					from = array.get(idx ++);
+					int l = RubyTypesUtil.convertToJavaInt(from);
+					if (l < 0){
+						throw new RubyException(RubyRuntime.RangeClass, "pack(U): value out of range");
+					}
+					result.append(uv_to_utf8(buf));
+				}
+				break;
+				
+			case 'u': // uuencoded string
+			case 'm': // base64 encoded string
+				from = array.get(idx ++);
+				ptr = from.toString();
+				plen = ptr.length();
+				
+				if (len <= 2){
+					len = 45;
+				}else{
+					len = len / 3 * 3;
+				}
+				
+				while (plen > 0){
+					int todo;
+					if (plen > len){
+						todo = len;
+					}else{
+						todo = plen;
+					}
+					
+					result.append(encodes(ptr, todo, type));
+					plen -= todo;
+					ptr += todo;
+				}
+				break;
+				
+			case 'M': // quoted-printable encoded string
+				{
+					String str = ((RubyString)array.get(idx ++)).toString();
+					if (len <= 1){
+						len = 72;
+					}
+					
+					result.append(qpencode(str, len));
+				}
+				break;
+				
+			case 'P': // pointer to packed byte string
+			case 'p': // pointer to string
+				throw new RubyException("Not implemented");
+				
+			case 'w': // BER compressed integer
+				break;
+				
+			default:
 				break;
 			}
 		}
 
 		return ObjectFactory.createString(result.toString());
+	}
+	
+	private String uv_to_utf8(char[] str){
+		throw new RubyException("Not implemented");
+	}
+	
+	private String qpencode(String str, int len){
+		throw new RubyException("Not implemented");
+	}
+	
+	private String encodes(String str, int todo, char type){
+		throw new RubyException("Not implemented");
 	}
 }
 
