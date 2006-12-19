@@ -25,11 +25,11 @@ public class RubyClass extends RubyModule {
 		alloc_method_ = m;
 	}
 	
-	public RubyValue invokeAllocMethod(RubyValue reciver) {//TODO reciver can be 'this' in the future
+	public RubyValue invokeAllocMethod(RubyValue reciver, RubyArray args, RubyBlock block) {//TODO reciver can be 'this' in the future
 		if (null != alloc_method_) {
-			return alloc_method_.invoke(reciver, null, null);
+			return alloc_method_.invoke(reciver, args, block);
 		} else {
-			return superclass_.invokeAllocMethod(reciver);
+			return superclass_.invokeAllocMethod(reciver, args, block);
 		}
 	}
 	
