@@ -50,4 +50,48 @@ public class RubyTypesUtil {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
 		}
 	}
+	
+	public static long convertToJavaLong(RubyValue arg){
+		if (arg instanceof RubyFixnum){
+			return ((RubyFixnum)arg).intValue();
+		}else if (arg instanceof RubyBignum){
+			return ((RubyBignum)arg).getInternal().longValue();
+		}else if (arg instanceof RubyFloat){
+			return (long)((RubyFloat)arg).doubleValue();
+		}else{
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
+		}
+	}
+	
+	public static double convertToJavaDouble(RubyValue arg){
+		if (arg instanceof RubyFixnum){
+			return ((RubyFixnum)arg).intValue();
+		}else if (arg instanceof RubyBignum){
+			return ((RubyBignum)arg).getInternal().longValue();
+		}else if (arg instanceof RubyFloat){
+			return ((RubyFloat)arg).doubleValue();
+		}else{
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Float");
+		}
+	}
+	
+	public static float convertToJavaFloat(RubyValue arg){
+		if (arg instanceof RubyFixnum){
+			return ((RubyFixnum)arg).intValue();
+		}else if (arg instanceof RubyBignum){
+			return ((RubyBignum)arg).getInternal().longValue();
+		}else if (arg instanceof RubyFloat){
+			return (float)((RubyFloat)arg).doubleValue();
+		}else{
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Float");
+		}
+	}
+	
+	public static short convertToJavaShort(RubyValue arg){
+		return (short)convertToJavaInt(arg);
+	}
+	
+	public static byte convertToJavaByte(RubyValue arg){
+		return (byte)convertToJavaInt(arg);
+	}
 }
