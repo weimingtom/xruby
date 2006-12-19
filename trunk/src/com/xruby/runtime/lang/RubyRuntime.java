@@ -91,6 +91,7 @@ public class RubyRuntime {
 		TimeClassBuilder.initialize();
 		MatchDataClassBuilder.initialize();
 		DirClassBuilder.initialize();
+		StructClassBuilder.initialize();
 		ExceptionClassBuilder.initialize();
 	}
 
