@@ -134,8 +134,8 @@ public class RubyCompilerTest extends TestCase {
 	}
 	
 	public void test_ascii_value() {
-		String[] program_texts = { "?a", "?A"};
-		int[] results = {97, 65};
+		String[] program_texts = { "?a", "?A", "?\\n", "?\\r"};
+		int[] results = {97, 65, 10, 13};
 
 		compile_run_and_compare_result(program_texts, results);
 	}
