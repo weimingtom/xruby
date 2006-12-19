@@ -14,7 +14,7 @@ class Class_new extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
 		RubyClass r = (RubyClass)receiver;
-		RubyValue v = r.invokeAllocMethod(receiver);
+		RubyValue v = r.invokeAllocMethod(receiver, args, block);
 		callInitializeMethod(v, args, block);
 		return v;
 	}
