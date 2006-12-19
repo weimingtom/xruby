@@ -14,7 +14,7 @@ require 'test_condition'
 require 'test_const'
 #require 'test_defined'
 #require 'test_eval'
-require 'test_exception'
+#require 'test_exception'
 require 'test_file'
 require 'test_float'
 #test_gc works, but it requires passing "-Xmx128m" commad line option to java, OutOFMemoryError otherwise.
