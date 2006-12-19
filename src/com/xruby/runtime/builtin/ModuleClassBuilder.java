@@ -77,7 +77,9 @@ class Module_to_s extends RubyMethod {
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule c = (RubyModule)receiver;
-		return ObjectFactory.createString(c.getName());
+		RubyString s = ObjectFactory.createString();
+		c.to_s(s);
+		return s;
 	}
 }
 

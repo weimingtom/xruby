@@ -11,7 +11,7 @@ public class RubyRuntime {
 
 	//For performance reason we provide direct access(static public field) for most builtin types.
 	//Note: order is important: should creare parent classes first!
-	public static RubyModule GlobalScope = new RubyModule(null);
+	public static RubyModule GlobalScope = new RubyModule(null, null);
 	public static RubyClass ObjectClass = GlobalScope.defineNewClass("Object", null);
 	public static RubyClass ModuleClass = GlobalScope.defineNewClass("Module", RubyRuntime.ObjectClass);
 	public static RubyClass ClassClass = GlobalScope.defineNewClass("Class", RubyRuntime.ModuleClass);

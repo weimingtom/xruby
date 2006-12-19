@@ -31,7 +31,7 @@ public class JavaClass extends RubyClass {
             = new HashMap<Constructor, JavaMethod>();
 
     private JavaClass(String name) {
-        super(name, RubyRuntime.ObjectClass);
+        super(name, RubyRuntime.ObjectClass, RubyRuntime.GlobalScope);
     }
 
     public JavaClass(Class clazz) {

@@ -4,11 +4,16 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.value.RubyString;
+
 public class RubyModule extends MethodCollectionWithMixin {
 
-	public RubyModule(String name) {
+	private RubyModule owner_ = null;//owner is where is the module is defined under.
+
+	public RubyModule(String name, RubyModule owner) {
 		super(null);
 		super.name_ = name;
+		owner_ = owner;
 	}
 	
 	//We called super(null) in RubyModule's constructor to avoid initialization pains 
@@ -26,7 +31,7 @@ public class RubyModule extends MethodCollectionWithMixin {
 	/// It has less overhead than 'defineClass' (no hash table lookup).
 	/// This method is NOT used by classes compiled from ruby script.
 	public RubyClass defineNewClass(String name, RubyClass parent) {
-		RubyClass c = new RubyClass(name, parent);
+		RubyClass c = new RubyClass(name, parent, this);
 		constants_.put(name, c);
 		return c;
 	}
@@ -34,9 +39,7 @@ public class RubyModule extends MethodCollectionWithMixin {
 	private RubyClass defineClass(String name, RubyClass parent) {
 		RubyValue v = constants_.get(name);
 		if (null == v) {
-			RubyClass c = new RubyClass(name, (null == parent) ? RubyRuntime.ObjectClass : parent);
-			constants_.put(name, c);
-			return c;
+			return defineNewClass(name, (null == parent) ? RubyRuntime.ObjectClass : parent);
 		}
 
 		if (!(v instanceof RubyClass)) {
@@ -81,7 +84,7 @@ public class RubyModule extends MethodCollectionWithMixin {
 	}
 	
 	public RubyModule defineNewModule(String name) {
-		RubyModule m = new RubyModule(name);
+		RubyModule m = new RubyModule(name, this);
 		constants_.put(name, m);//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
 		return m;
 	}
@@ -97,5 +100,17 @@ public class RubyModule extends MethodCollectionWithMixin {
 		}
 		
 		return (RubyModule)v;
+	}
+	
+	public void to_s(RubyString s) {
+		if (null == owner_) {
+			return;
+		} else {
+			owner_.to_s(s);
+			if (s.length() > 0) {
+				s.appendString("::");
+			}
+			s.appendString(getName());
+		}
 	}
 }
