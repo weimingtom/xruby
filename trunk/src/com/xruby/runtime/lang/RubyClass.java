@@ -11,8 +11,8 @@ public class RubyClass extends RubyModule {
 	private RubyClass superclass_;
 	private RubyMethod alloc_method_;
 	
-	public RubyClass(String name, RubyClass superclass) {
-		super(name);
+	public RubyClass(String name, RubyClass superclass, RubyModule owner) {
+		super(name, owner);
 		superclass_ = superclass;
 	}
 	
