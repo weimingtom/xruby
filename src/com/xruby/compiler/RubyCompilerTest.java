@@ -3877,11 +3877,16 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Struct_new() {
 		String [] program_texts = {
+				"Struct.new('TestStructNew3', :name); a = Struct::TestStructNew3.new('xxx'); print a.class",
+				"Struct.new('TestStructNew2', :name); a = Struct::TestStructNew2.new('xxx'); print a.name",
 				"c= Struct.new('TestStructNew0'); print c.class",
 				"Struct.new('TestStructNew1'); print Struct::TestStructNew1",
+				
 		};
 		
 		String[] outputs = {
+				"Struct::TestStructNew3",
+				"xxx",
 				"Class",
 				"Struct::TestStructNew1",
 		};

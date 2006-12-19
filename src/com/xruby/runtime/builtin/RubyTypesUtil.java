@@ -30,6 +30,14 @@ public class RubyTypesUtil {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Time");
 		}
 	}
+
+	public static RubySymbol convertToSymbol(RubyValue arg){
+		if (arg instanceof RubySymbol) {
+			return (RubySymbol)arg;
+		} else {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Symbol");
+		}
+	}
 	
 	public static int convertToJavaInt(RubyValue arg){
 		if (arg instanceof RubyFixnum){
