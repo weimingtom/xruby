@@ -1567,6 +1567,8 @@ public class RubyCompilerTest extends TestCase {
 				"h5 = {'a' => 'xxxx', 1 => 'yyyy'}; print h5[1]",
 				"h6 = {'a' => 'xxxx', 1 => 'yyyy'}; h6['a'] = 'zzz'; print h6['a']",
 				"h7 = {}; h7['c'] = 1234; print h7['c']",
+				
+				"a = {1, 2}; print a[1]",
 		};
 
 		String[] outputs = {
@@ -1578,6 +1580,8 @@ public class RubyCompilerTest extends TestCase {
 				"yyyy",
 				"zzz",
 				"1234",
+				
+				"2",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
