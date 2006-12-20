@@ -24,17 +24,37 @@ class Struct_new extends RubyMethod {
 			}
 			
 			final RubyArray super_args = args;
+			
 			c.defineAllocMethod(new RubyMethod(args.size() - 1) {
 
-				protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-					RubyValue v = new RubyObject((RubyClass)receiver);
-					for (int i = 0; i < args.size(); ++i) {
-						v.setInstanceVariable(args.get(i), "@" + RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString());
+					protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+						RubyValue v = new RubyObject((RubyClass)receiver);
+						for (int i = 0; i < args.size(); ++i) {
+							v.setInstanceVariable(args.get(i), "@" + RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString());
+						}
+						return v;
 					}
-					return v;
+					
 				}
-				
-			}
+			);
+
+			c.defineMethod("[]", new RubyMethod(1) {
+					protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+						String name;
+						if (args.get(0) instanceof RubyString) {
+							name = ((RubyString)args.get(0)).toString();
+						} else if (args.get(0) instanceof RubySymbol) {
+							name = ((RubySymbol)args.get(0)).toString();
+						} else if (args.get(0) instanceof RubyFixnum) {
+							int i = ((RubyFixnum)args.get(0)).intValue();
+							name = RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString();
+						} else {
+							throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + args.get(0).getRubyClass().getName() + " into Integer");
+						}
+
+						return receiver.getInstanceVariable("@" + name);
+					}
+				}
 			);
 			return c;
 		}
