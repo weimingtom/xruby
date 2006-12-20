@@ -1,35 +1,18 @@
-<h2>XRuby Hacking Guide</h2>
+#XRuby Hacking Guide
 
-<p>
 NOTE: this article is still under development. Last significant update: Oct 29. 2006.
-</p>
 
-<p>Please add your name to the Thanks list if you changed this page. Or add your name to the Authors list if you made significant contribution (e.g. started a new paragraph). Thank you for participating!
-</p>
+Please add your name to the Thanks list if you changed this page. Or add your name to the Authors list if you made significant contribution (e.g. started a new paragraph). Thank you for participating!
 
-<i>
-Authors:
+= Authors =
 Xue Yong Zhi (zhixueyong AT hotmail DOT com)
 Ye Zheng (dreamhead.cn AT gmail DOT com)
 
-Thanks:
-</i>
+= Thanks =
 
-<h3>Table of Contents</h3>
-<p><a href="#intro">Introduction</a></p>
-<p><a href="#howto">How to Compile Ruby?</a></p>
-<p><a href="#example">Example</a></p>
-<p><a href="#code_organization">Code Organization</a></p>
-<p><a href="#builtin">Builtin Libraries</a></p>
-<p><a href="#parser">XRuby's Parser</a></p>
-<p><a href="#trouble_shooting">Trouble Shooting</p>
+= Introduction =
 
-
-<h3><a name="intro">Introduction</a></h3>
-<p>
 The goal of the article is to help users/developers understand XRuby's implementation.
-</p>
-
 
 <h3><a name="howto">How to Compile Ruby?</a></h3>
 <p>
@@ -94,7 +77,7 @@ If you look at the test.jar file, you will find three class files:
 
 Which are equivalent to the following Java program:
 
-<pre>
+{{{
 //test/main.class
 public class main implements RubyProgram
 {
@@ -159,9 +142,7 @@ class BLOCK$2 extends RubyBlock
     }
 }
 
-
-
-</pre>
+}}}
 
 <p>
 Class "main" represents the program: run() contains the code for the top level in the script. MyClass$0() is the "class builder" method, which represents the execution of code in the class body.
@@ -212,7 +193,7 @@ The following code snippet illustrates how Fixnm::+ is implemented:
 </p>
 
 
-<pre>
+{{{
 
 class Fixnum_operator_plus extends RubyMethod {
 	public Fixnum_operator_plus() {
@@ -220,8 +201,8 @@ class Fixnum_operator_plus extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
-		IntegerValue value1 = (IntegerValue)receiver.getValue();
-		IntegerValue value2 = (IntegerValue)args.get(0).getValue();
+		RubyFixnum value1 = (RubyFixnum)receiver;
+		RubyFixnum value2 = (RubyFixnum)args.get(0);
 		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
 	}
 }
@@ -230,7 +211,7 @@ class Fixnum_operator_plus extends RubyMethod {
 RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
 c.defineMethod("+", new Fixnum_operator_plus());
 ...
-</pre>
+}}}
 
 
 <h3><a name="parser">XRuby's Parser</a></h3>
