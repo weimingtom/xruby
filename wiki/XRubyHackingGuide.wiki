@@ -189,4 +189,4 @@ As XRuby developers, our changes may break the compiler and make bad bytecodes g
 
 If the generated  class file is well formed but does not work as expected, we can simply use decompiler to translate bytecodes to very readable Java source code, then spot errors. 
 
-If what you get is a verifier error, then most decompilers do not work (jad may simply crash in this situation). We have to go back to javap and read at bytecode level. Most of the time the message given by the JVM class verifier is not helpful, but we can use ASM to get to the error location quicker (see ASM FAQ: "Why do I get the xxx verifier error?" (http://asm.objectweb.org/doc/faq.html#Q4)). 
+If what you get is a verifier error, then most decompilers do not work (jad may simply crash in this situation). We have to go back to javap and read at bytecode level. Most of the time the message given by the JVM class verifier is not helpful, but we can use ASM to get to the error location quicker (see ASM FAQ: [http://asm.objectweb.org/doc/faq.html#Q4 "Why do I get the xxx verifier error?"]). 
