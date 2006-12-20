@@ -623,7 +623,7 @@ returns [ForInExpression e]
 	CompoundStatement cs = null;
 }
 		:	#(	"for"		{b = new Block();}
-				(id:IDENTIFIER|func:FUNCTION)	{b.addParameter((null != id) ? id.getText() : func.getText(), null);}
+				((id:IDENTIFIER|func:FUNCTION)	{b.addParameter((null != id) ? id.getText() : func.getText(), null);})+
 				"in"
 				exp=expression
 				(cs=compoundStatement	{b.setBody(cs);})?

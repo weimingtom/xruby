@@ -18,8 +18,8 @@ public class Block {
 	private String asterisk_parameter_ = null;
 	private ArrayList<Expression> default_parameters_ = new ArrayList<Expression>();
 	
-	String getFirstParameter() {
-		return parameters_.get(0);
+	ArrayList<String> getParameters() {
+		return parameters_;
 	}
 	
 	public void setBody(CompoundStatement bodyStatement) {
