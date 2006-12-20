@@ -1559,7 +1559,7 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_hash() {
 		String[] program_texts = {
-				//"print {}",
+				//TODO "print {}",
 				//"h1 = {'a' => 'xxxx', 'b' => 'yyyy'}; print h1",
 				"h4 = {'a' => 'xxxx', 'b' => 'yyyy'}; print h4.length",
 				"h3 = {'a' => 'xxxx', 'b' => 'yyyy'}; print h3['NO_SUCH_THING']",
@@ -1583,6 +1583,18 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
+	public void test_Hash_each() {
+		String[] program_texts = {
+				"{1=>2}.each {|x, y| print x, y}",
+		};
+		
+		String[] outputs = {
+				"12",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_while() {
 
 		String[] program_texts = {
@@ -3604,11 +3616,15 @@ public class RubyCompilerTest extends TestCase {
 		String [] program_texts = {
 				"for i in 1..5 do print i end",
 				"for i in 1..5 do print i end; print i",
+				
+				"for x, y in {1=>2} do print x, y end",
 		};
 		
 		String[] outputs = {
 				"12345",
 				"123455",
+				
+				"12",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

@@ -17,19 +17,17 @@ public class ForInExpression extends Expression {
 	}
 
 	public void accept(CodeVisitor visitor) {
-		String var = block_.getFirstParameter();
-		
-		MethodCallExpression e;
-		AssignmentOperatorExpression assign;
 		try {
-			assign = new AssignmentOperatorExpression(new LocalVariableExpression(var, false), new NilExpression());
-			e = new MethodCallExpression(exp_, "each", null, block_);
+			for (String var : block_.getParameters()) {
+				AssignmentOperatorExpression assign = new AssignmentOperatorExpression(new LocalVariableExpression(var, false), new NilExpression());
+				assign.accept(visitor);
+				visitor.visitTerminal();
+			}
+			
+			MethodCallExpression e = new MethodCallExpression(exp_, "each", null, block_);
+			e.accept(visitor);
 		} catch (RecognitionException e1) {
 			throw new Error(e1);
 		}
-		
-		assign.accept(visitor);
-		visitor.visitTerminal();
-		e.accept(visitor);
 	}
 }
