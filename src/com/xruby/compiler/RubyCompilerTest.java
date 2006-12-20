@@ -1905,6 +1905,9 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_defined() {
 		String[] program_texts = {
+				"test_defined_scope1 = 1; print defined?(test_defined_scope1)",
+				//TODO "1.times {test_defined_scope0 = 1}; print defined?(test_defined_scope0)",
+				
 				"print defined?(yield)",
 				
 				"def defined_test\n" +
@@ -1946,6 +1949,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"local-variable",
+				//"nil",
+				
 				"nil",
 				
 				"nilyield",
