@@ -48,6 +48,8 @@ public class DefinedExpression extends Expression {
 			visitor.visitStringExpression("method");
 		} else if (expression_ instanceof YieldExpression) {
 			visitor.visitDefinedYield();
+		} else if (expression_ instanceof LocalVariableExpression) {
+			visitor.visitStringExpression("local-variable");
 		} else {
 			visitor.visitStringExpression("expression");
 		}
