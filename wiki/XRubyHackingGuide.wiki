@@ -59,9 +59,9 @@ hello
 hello
 
 If you look at the test.jar file, you will find three class files:
-* test/BLOCK$2.class
-* test/say_hello_three_times$1.class
-* test/main.class
+# test/BLOCK$2.class
+# test/say_hello_three_times$1.class
+# test/main.class
 
 Which are equivalent to the following Java program:
 
