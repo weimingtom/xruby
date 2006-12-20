@@ -54,9 +54,11 @@ java -jar test.jar
 
 Of course you will see the following output:
 
+{{{
 hello
 hello
 hello
+}}}
 
 If you look at the test.jar file, you will find three class files:
 # test/BLOCK$2.class
