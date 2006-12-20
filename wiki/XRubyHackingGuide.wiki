@@ -179,14 +179,14 @@ c.defineMethod("+", new Fixnum_operator_plus());
 
 
 = XRuby's Parser =
-XRuby's parser used Antlr (http://www.antlr.org) as the parser generator. This is so far the only alternative ruby grammar other than the one in the c ruby.
+XRuby's parser used [http://www.antlr.org Antlr] as the parser generator. This is so far the only alternative ruby grammar other than the one in the c ruby.
 
 For lots of programming languages, lexing and parsing are two seperated steps: first lexer groups input characters into tokens, then parser groups tokens into syntactical units. But in Ruby (and Perl), lexer and parser are more tightly coupled: sometimes the lexer need context information from the passer ( e.g.  expression substitutions in a double quote string)! 
 
 
 = Trouble Shooting =
-As XRuby developers, our changes may break the compiler and make bad bytecodes get generated. When this happens, there are three tools we can rely on: javap, ASM, and your favorite Java decompiler (I recommend jad (http://www.kpdus.com/jad.html)).
+As XRuby developers, our changes may break the compiler and make bad bytecodes get generated. When this happens, there are three tools we can rely on: javap, ASM, and your favorite Java decompiler (I recommend [http://www.kpdus.com/jad.html jad]).
 
 If the generated  class file is well formed but does not work as expected, we can simply use decompiler to translate bytecodes to very readable Java source code, then spot errors. 
 
-If what you get is a verifier error, then most decompilers do not work (jad may simply crash in this situation). We have to go back to javap and read at bytecode level. Most of the time the message given by the JVM class verifier is not helpful, but we can use ASM to get to the error location quicker (see ASM FAQ: "Why do I get the [xxx] verifier error?" (http://asm.objectweb.org/doc/faq.html#Q4)). 
+If what you get is a verifier error, then most decompilers do not work (jad may simply crash in this situation). We have to go back to javap and read at bytecode level. Most of the time the message given by the JVM class verifier is not helpful, but we can use ASM to get to the error location quicker (see ASM FAQ: "Why do I get the xxx verifier error?" (http://asm.objectweb.org/doc/faq.html#Q4)). 
