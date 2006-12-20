@@ -1,8 +1,8 @@
 #XRuby Hacking Guide
 
-_NOTE: this article is still under development. Last significant update: Oct 29. 2006.
+_NOTE: this article is still under development. Last significant update: Dec 20. 2006._
 
-Please add your name to the Thanks list if you changed this page. Or add your name to the Authors list if you made significant contribution (e.g. started a new paragraph). Thank you for participating!_
+_Please add your name to the Thanks list if you changed this page. Or add your name to the Authors list if you made significant contribution (e.g. started a new paragraph). Thank you for participating!_
 
 = Authors =
 Xue Yong Zhi (zhixueyong AT hotmail DOT com)
