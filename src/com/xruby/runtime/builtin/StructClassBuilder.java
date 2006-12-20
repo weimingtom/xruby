@@ -56,6 +56,19 @@ class Struct_new extends RubyMethod {
 					}
 				}
 			);
+
+			c.defineMethod("to_a", new RubyMethod(0) {
+					protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+						RubyArray a = new RubyArray(super_args.size() - 1);
+						for (int i = 1; i < super_args.size(); ++i) {
+							String name = RubyTypesUtil.convertToSymbol(super_args.get(i)).toString();
+							a.add(receiver.getInstanceVariable("@" + name));
+						}
+						return a;
+					}
+				}
+			);
+			
 			return c;
 		}
 	}
