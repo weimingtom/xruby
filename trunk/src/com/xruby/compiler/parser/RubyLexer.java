@@ -587,6 +587,7 @@ public class RubyLexer extends RubyLexerBase
 			case LBRACK_ARRAY_ACCESS:		
 			case LITERAL_return:	//return {'*'=>'id'}
 			case LITERAL_when:
+			case LITERAL_in:
 				return true;
 			default:
 				return is_operator(last_token_.getType());
