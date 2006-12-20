@@ -26,9 +26,21 @@ public class HashExpression extends Expression {
 	}
 	
 	private ArrayList<ExpressionPair> elements_ = new ArrayList<ExpressionPair>();
-	
+	private Expression last_exp_ = null;
+
+	//Hash may look like "{1, 2, 2, 4, 3, 6}", it should be converted to "{1=>2, 2=>4, 3 => 6}"
 	public void addElement(Expression k, Expression v) {
-		elements_.add(new ExpressionPair(k, v));
+		if (null != v) {
+			elements_.add(new ExpressionPair(k, v));
+		} else {
+			if (null == last_exp_) {
+				last_exp_ = k;
+			} else {
+				elements_.add(new ExpressionPair(last_exp_, k));
+				last_exp_ = null;
+			}
+		}
+		//TODO throw exception if "odd number list for Hash"
 	}
 
 	public void accept(CodeVisitor visitor) {
