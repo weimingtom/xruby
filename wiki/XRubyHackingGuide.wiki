@@ -61,9 +61,9 @@ hello
 }}}
 
 If you look at the test.jar file, you will find three class files:
-  * 'test/BLOCK$2.class'
-  * 'test/say_hello_three_times$1.class'
-  * 'test/main.class'
+  * `test/BLOCK$2.class`
+  * `test/say_hello_three_times$1.class`
+  * `test/main.class`
 
 Which are equivalent to the following Java program:
 
@@ -143,8 +143,7 @@ Class BLOCK$2 represents the blocks passed to "3.times", and its body is the imp
 
 = Code Organization =
 
-  * *com.xruby.compiler.parser*
-provides the compiler front end (parser and tree parser). Parser translates ruby scripts into AST (Abstract Syntax Tree), and then, tree parser translates AST into an internal structure. 
+  * *com.xruby.compiler.parser* provides the compiler front end (parser and tree parser). Parser translates ruby scripts into AST (Abstract Syntax Tree), and then, tree parser translates AST into an internal structure. 
 
 The front end uses Antlr as the parser generator. It's a good practice to separate front end into two parts: parser and tree parser: parser parses scripts and tree parser generates internal structure. 
 
