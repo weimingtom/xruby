@@ -91,7 +91,7 @@ class Array_array_equal extends RubyMethod {
 		if (!(right instanceof RubyArray)) {
 			return ObjectFactory.falseValue;
 		}
-		return left.equals((RubyArray)right);
+		return left.equals((RubyArray)right) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
 	}
 }
 
