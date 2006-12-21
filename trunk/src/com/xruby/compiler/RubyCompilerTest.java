@@ -1629,6 +1629,22 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Hash_equal() {
+		String[] program_texts = {
+				"print ({1=> 2, 3 =>4} == {1=> 2, 3 =>4})",
+				"print ({1=> 2, 3 =>4} == {1=> 2})",
+				"print ({1=> 2, 3 =>4} == { 3 =>4, 1=> 2})",
+		};
+		
+		String[] outputs = {
+				"true",
+				"false",
+				"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_while() {
 
 		String[] program_texts = {

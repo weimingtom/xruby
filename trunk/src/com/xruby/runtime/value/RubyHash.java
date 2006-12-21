@@ -118,6 +118,26 @@ public class RubyHash extends RubyBasic {
 		return a;
 	}
 
+	public boolean equals(RubyHash that) {
+		if (this.size() != that.size()) {
+			return false;
+		}
+
+		for (RubyValue key : keys_) {
+			RubyValue v1 = that.get(key);
+			if (null == v1) {
+				return false;
+			}
+			
+			RubyValue v2 = this.get(key);
+			if (!RubyAPI.testEqual(v1, v2)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	// Getter and Setter for default value
 	public RubyValue getDefaultValue() {
 		return default_value_;
