@@ -131,6 +131,17 @@ class Hash_has_value_question extends RubyMethod {
 	}
 }
 
+class Hash_values_at extends RubyMethod {
+	public Hash_values_at() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyHash h = (RubyHash)receiver;
+		return h.values_at(args);
+	}
+}
+
 class Hash_new extends RubyMethod {
 	public Hash_new() {
 		super(-1);
@@ -153,6 +164,7 @@ public class HashClassBuilder {
 		c.defineMethod("initialize", new Hash_initialize());
 		c.defineMethod("has_key?", new Hash_has_key_question());
 		c.defineMethod("has_value?", new Hash_has_value_question());
+		c.defineMethod("values_at", new Hash_values_at());
 		c.defineAllocMethod(new Hash_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);
