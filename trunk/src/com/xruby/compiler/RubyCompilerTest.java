@@ -1599,6 +1599,20 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Hash_hash_key_has_value() {
+		String[] program_texts = {
+				"a = {1=> 2}; print a.has_key?(1), a.has_key?(2)",
+				"a = {1=> 2}; print a.has_value?(1), a.has_value?(2)",
+		};
+		
+		String[] outputs = {
+				"truefalse",
+				"falsetrue",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_while() {
 
 		String[] program_texts = {

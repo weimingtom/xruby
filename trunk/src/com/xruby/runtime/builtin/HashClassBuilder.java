@@ -109,6 +109,28 @@ class Hash_initialize extends RubyMethod {
 	}
 }
 
+class Hash_has_key_question extends RubyMethod {
+	public Hash_has_key_question() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyHash h = (RubyHash)receiver;
+		return h.has_key(args.get(0)) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+	}
+}
+
+class Hash_has_value_question extends RubyMethod {
+	public Hash_has_value_question() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyHash h = (RubyHash)receiver;
+		return h.has_value(args.get(0)) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+	}
+}
+
 class Hash_new extends RubyMethod {
 	public Hash_new() {
 		super(-1);
@@ -129,6 +151,8 @@ public class HashClassBuilder {
 		c.defineMethod("each", new Hash_each());
 		c.defineMethod("to_s", new Hash_to_s());
 		c.defineMethod("initialize", new Hash_initialize());
+		c.defineMethod("has_key?", new Hash_has_key_question());
+		c.defineMethod("has_value?", new Hash_has_value_question());
 		c.defineAllocMethod(new Hash_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);
