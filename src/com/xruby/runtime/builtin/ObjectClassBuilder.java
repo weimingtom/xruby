@@ -45,7 +45,9 @@ public class ObjectClassBuilder {
 	
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ObjectClass;
-		c.defineMethod("==", new Object_operator_equal());
+		RubyMethod equal = new Object_operator_equal();
+		c.defineMethod("==", equal);
+		c.defineMethod("equal?", equal);
 		c.defineMethod("clone", new Object_clone());
 		c.defineAllocMethod(new Object_alloc());
 	}
