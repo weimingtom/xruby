@@ -26,6 +26,23 @@ public class RubyHash extends RubyBasic {
 		super(RubyRuntime.HashClass);
 	}
 
+	// Getter and Setter for default value
+	public RubyValue getDefaultValue() {
+		return default_value_;
+	}
+
+	public void setDefaultValue(RubyValue defaultValue) {
+		this.default_value_ = defaultValue;
+	}
+
+	public RubyBlock getBlock() {
+		return block;
+	}
+
+	public void setBlock(RubyBlock block) {
+		this.block = block;
+	}
+
 	public void add(RubyValue k, RubyValue v) {
 		map_.put(k, v);
 	    keys_.add(k);
@@ -156,20 +173,17 @@ public class RubyHash extends RubyBasic {
 		return a;
 	}
 
-	// Getter and Setter for default value
-	public RubyValue getDefaultValue() {
-		return default_value_;
-	}
+	public RubyValue shift() {
+		if (keys_.isEmpty()) {
+			return default_value_;
+		}
+		
+		RubyValue k = keys_.remove(0);
+		RubyValue v = map_.remove(k);
 
-	public void setDefaultValue(RubyValue defaultValue) {
-		this.default_value_ = defaultValue;
-	}
-
-	public RubyBlock getBlock() {
-		return block;
-	}
-
-	public void setBlock(RubyBlock block) {
-		this.block = block;
+		RubyArray a = new RubyArray(2);
+		a.add(k);
+		a.add(v);
+		return a;
 	}
 }

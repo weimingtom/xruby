@@ -1659,6 +1659,20 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Hash_shift() {
+		String[] program_texts = {
+				"h = {'a' => 100, 'b' => 200, 'c' => 300, 'd' => 400}; print h.shift, h.size",
+				"h = {}; print h.shift, h.size",
+		};
+		
+		String[] outputs = {
+				"a1003",
+				"nil0",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	} 
+	
 	public void test_while() {
 
 		String[] program_texts = {
