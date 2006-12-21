@@ -1,12 +1,12 @@
-#XRuby Hacking Guide
+#summary XRuby Hacking Guide
 
 _NOTE: this article is still under development. Last significant update: Dec 20. 2006._
 
 _Please add your name to the Thanks list if you changed this page. Or add your name to the Authors list if you made significant contribution (e.g. started a new paragraph). Thank you for participating!_
 
 = Authors =
-Xue Yong Zhi (zhixueyong AT hotmail DOT com)
-Ye Zheng (dreamhead.cn AT gmail DOT com)
+  * Xue Yong Zhi (zhixueyong AT hotmail DOT com)
+  * Ye Zheng (dreamhead.cn AT gmail DOT com)
 
 = Thanks =
 
@@ -61,9 +61,9 @@ hello
 }}}
 
 If you look at the test.jar file, you will find three class files:
-# test/BLOCK$2.class
-# test/say_hello_three_times$1.class
-# test/main.class
+  * test/BLOCK$2.class
+  * test/say_hello_three_times$1.class
+  * test/main.class
 
 Which are equivalent to the following Java program:
 
