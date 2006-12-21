@@ -1645,13 +1645,15 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_Hash_keys() {
+	public void test_Hash_keys_values() {
 		String[] program_texts = {
 				"h = {'a' => 100, 'b' => 200, 'c' => 300, 'd' => 400}; print h.keys",
+				"h = {'a' => 100, 'b' => 200, 'c' => 300, 'd' => 400}; print h.values.sort",
 		};
 		
 		String[] outputs = {
 				"abcd",
+				"100200300400",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

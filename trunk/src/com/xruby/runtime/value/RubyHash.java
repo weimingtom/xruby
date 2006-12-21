@@ -140,8 +140,16 @@ public class RubyHash extends RubyBasic {
 	
 	public RubyArray keys() {
 		RubyArray a = new RubyArray();
-		
 		for (RubyValue key : keys_) {
+			a.add(key);
+		}
+		return a;
+	}
+	
+	public RubyArray values() {
+		RubyArray a = new RubyArray();
+		
+		for (RubyValue key : map_.values()) {
 			a.add(key);
 		}
 		

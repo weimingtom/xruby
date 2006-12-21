@@ -168,6 +168,17 @@ class Hash_keys extends RubyMethod {
 	}
 }
 
+class Hash_values extends RubyMethod {
+	public Hash_values() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyHash h = (RubyHash)receiver;
+		return h.values();
+	}
+}
+
 class Hash_new extends RubyMethod {
 	public Hash_new() {
 		super(-1);
@@ -193,6 +204,7 @@ public class HashClassBuilder {
 		c.defineMethod("values_at", new Hash_values_at());
 		c.defineMethod("==", new Hash_equal());
 		c.defineMethod("keys", new Hash_keys());
+		c.defineMethod("values", new Hash_values());
 		c.defineAllocMethod(new Hash_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);
