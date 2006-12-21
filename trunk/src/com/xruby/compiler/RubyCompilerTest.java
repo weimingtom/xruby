@@ -1031,6 +1031,7 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_equal() {
 		String[] program_texts = {
+				"print 1.equal?(1)",
 				"print 'ab' 'cd'=='abcd'",
 				"print 'abc'==123",
 				"print 'abc'=='abc'",
@@ -1047,6 +1048,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"true",
 				"true",
 				"false",
 				"true",
