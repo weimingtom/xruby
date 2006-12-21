@@ -1613,6 +1613,22 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Hash_values_at() {
+		String[] program_texts = {
+				"a = {1=> 2, 3 =>4}; print a.values_at(0)",
+				"a = {1=> 2, 3 =>4}; print a.values_at(1, 3)",
+				"a = {1=> 2, 3 =>4}; print a.values_at()",
+		};
+		
+		String[] outputs = {
+				"",
+				"24",
+				"",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_while() {
 
 		String[] program_texts = {

@@ -101,6 +101,23 @@ public class RubyHash extends RubyBasic {
 		return false;
 	}
 
+	public RubyArray values_at(RubyArray keys) {
+		RubyArray a = new RubyArray();
+
+		if (null == keys) {
+			return a;
+		}
+		
+		for (RubyValue key : keys) {
+			RubyValue v = map_.get(key);
+			if (null != v) {
+				a.add(v);
+			}
+		}
+		
+		return a;
+	}
+
 	// Getter and Setter for default value
 	public RubyValue getDefaultValue() {
 		return default_value_;
