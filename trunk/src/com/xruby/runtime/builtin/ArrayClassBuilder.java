@@ -80,8 +80,8 @@ class Array_array_set extends RubyMethod {
 	}
 }
 
-class Array_array_equal extends RubyMethod {
-	public Array_array_equal() {
+class Array_equal extends RubyMethod {
+	public Array_equal() {
 		super(1);
 	}
 
@@ -791,7 +791,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("to_s", new Array_to_s());
 		c.defineMethod("[]", new Array_array_access());
 		c.defineMethod("[]=", new Array_array_set());
-		c.defineMethod("==", new Array_array_equal());
+		c.defineMethod("==", new Array_equal());
 		c.defineMethod("<=>", new Array_compare());
 		c.defineMethod("concat", new Array_concat());
 		c.defineMethod("+", new Array_plus());
