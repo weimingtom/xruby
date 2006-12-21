@@ -160,18 +160,18 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return resultArray;
 	}
 
-	public RubyValue equals(RubyArray that) {
+	public boolean equals(RubyArray that) {
 		if (array.size() != that.size()) {
-			return ObjectFactory.falseValue;
+			return false;
 		}
 
 		for (int i = 0; i < array.size(); ++i) {
-			if (RubyAPI.callPublicMethod(this.get(i), that.get(i), "==") == ObjectFactory.falseValue) {
-				return ObjectFactory.falseValue;
+			if (!RubyAPI.testEqual(this.get(i), that.get(i))) {
+				return false;
 			}
 		}
 
-		return ObjectFactory.trueValue;
+		return true;
 	}
 
 	public RubyValue to_s() {
