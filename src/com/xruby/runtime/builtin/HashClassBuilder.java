@@ -179,6 +179,17 @@ class Hash_values extends RubyMethod {
 	}
 }
 
+class Hash_shift extends RubyMethod {
+	public Hash_shift() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyHash h = (RubyHash)receiver;
+		return h.shift();
+	}
+}
+
 class Hash_new extends RubyMethod {
 	public Hash_new() {
 		super(-1);
@@ -193,7 +204,9 @@ public class HashClassBuilder {
 
     public static void initialize() {
 		RubyClass c = RubyRuntime.HashClass;
-		c.defineMethod("length", new Hash_length());
+		RubyMethod length = new Hash_length();
+		c.defineMethod("length", length);
+		c.defineMethod("size", length);
 		c.defineMethod("[]", new Hash_hash_access());
 		c.defineMethod("[]=", new Hash_hash_set());
 		c.defineMethod("each", new Hash_each());
@@ -205,6 +218,7 @@ public class HashClassBuilder {
 		c.defineMethod("==", new Hash_equal());
 		c.defineMethod("keys", new Hash_keys());
 		c.defineMethod("values", new Hash_values());
+		c.defineMethod("shift", new Hash_shift());
 		c.defineAllocMethod(new Hash_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);
