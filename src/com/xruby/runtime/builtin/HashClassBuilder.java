@@ -180,7 +180,7 @@ class Hash_shift extends RubyMethod {
 
 class Hash_default extends RubyMethod {
 	public Hash_default() {
-		super(0);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
