@@ -18,6 +18,7 @@ public class RubyHash extends RubyBasic {
 	private Map<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
 	private List<RubyValue> keys_ = new ArrayList<RubyValue>();// To ensure the order, for 'shift' ect
 	private RubyValue default_value_ = ObjectFactory.nilValue;
+	private RubyBlock default_value_as_block_ = null;
 
 	RubyHash() {
 		super(RubyRuntime.HashClass);
@@ -32,6 +33,14 @@ public class RubyHash extends RubyBasic {
 		this.default_value_ = defaultValue;
 	}
 
+	public RubyBlock getDefaultValueAsBlock() {
+		return default_value_as_block_;
+	}
+	
+	public void setDefaultValueAsBlock(RubyBlock b) {
+		default_value_as_block_ = b;
+	}
+	
 	public void add(RubyValue k, RubyValue v) {
 		map_.put(k, v);
 	    keys_.add(k);
@@ -55,10 +64,12 @@ public class RubyHash extends RubyBasic {
 
 	public RubyValue get(RubyValue k) {
 		RubyValue v = map_.get(k);
-		if (null == v) {
-			return default_value_;
-		} else {
+		if (null != v) {
 			return v;
+		} else if (null != default_value_as_block_) {
+			return default_value_as_block_.invoke(this, null);
+		} else {
+			return default_value_;
 		}
 	}
 
