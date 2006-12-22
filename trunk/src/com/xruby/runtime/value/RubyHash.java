@@ -67,7 +67,7 @@ public class RubyHash extends RubyBasic {
 		if (null != v) {
 			return v;
 		} else if (null != default_value_as_block_) {
-			return default_value_as_block_.invoke(this, null);
+			return default_value_as_block_.invoke(this, new RubyArray(this, k));
 		} else {
 			return default_value_;
 		}
