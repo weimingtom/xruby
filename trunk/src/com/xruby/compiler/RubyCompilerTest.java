@@ -1561,12 +1561,14 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_Hash_default() {
 		String[] program_texts = {
+				"h = {}; def h.default(x); print 'x'; x; end; print h[1], h[2]",
 				"h = { 'a' => 100, 'b' => 200 }; print h.default",
 				"h = { 'a' => 100, 'b' => 200 };h.default = 'Go fish'; print h['a'], h['z'] ",
 				"h = Hash.new() {1}; h.default=5; print h[33]",
 		};
 		
 		String[] outputs = {
+				"xx12",
 				"nil",
 				"100Go fish",
 				"5",
