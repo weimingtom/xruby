@@ -30,7 +30,8 @@ public class RubyHash extends RubyBasic {
 	}
 
 	public void setDefaultValue(RubyValue defaultValue) {
-		this.default_value_ = defaultValue;
+		default_value_as_block_ = null;
+		default_value_ = defaultValue;
 	}
 
 	public RubyBlock getDefaultValueAsBlock() {
@@ -43,7 +44,7 @@ public class RubyHash extends RubyBasic {
 	
 	public void add(RubyValue k, RubyValue v) {
 		map_.put(k, v);
-	    keys_.add(k);
+		keys_.add(k);
 	}
 
 	public int size() {

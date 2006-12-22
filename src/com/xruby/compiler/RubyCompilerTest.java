@@ -1559,6 +1559,22 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 
+	public void test_Hash_default() {
+		String[] program_texts = {
+				"h = { 'a' => 100, 'b' => 200 }; print h.default",
+				"h = { 'a' => 100, 'b' => 200 };h.default = 'Go fish'; print h['a'], h['z'] ",
+				"h = Hash.new() {1}; h.default=5; print h[33]",
+		};
+		
+		String[] outputs = {
+				"nil",
+				"100Go fish",
+				"5",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_hash() {
 		String[] program_texts = {
 				//TODO "print {}",
@@ -1580,6 +1596,7 @@ public class RubyCompilerTest extends TestCase {
 		String[] outputs = {
 				//"nil",
 				//"axxxxbyyyy",
+				
 				"9988",
 				"2211",
 				"21",
