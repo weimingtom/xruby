@@ -143,8 +143,10 @@ public class RubyRuntime {
 				"File", "Fixnum", "Float", "Hash", "Integer", "IO", "MatchData", "Method",
 				"Module", "NilClass", "Numeric", "Object", "Proc", "Range", "Regexp", "String", "Struct",
 				//"Struct::Tms"
-				"Symbol", "ThreadGroup", "Thread",
-				"Time", "TrueClass"
+				"Symbol", "ThreadGroup", "Thread", "ArgumentError", 
+				"Time", "TrueClass",
+
+				"Exception", "StandardError", "TypeError", "IndexError", "RangeError", "NameError", "NoMethodError", "IOError", "RuntimeError", "LocalJumpError",
 		};
 
 		for (String s : builtin_classes) {
