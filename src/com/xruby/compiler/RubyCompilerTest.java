@@ -1564,6 +1564,7 @@ public class RubyCompilerTest extends TestCase {
 				//TODO "print {}",
 				//"h1 = {'a' => 'xxxx', 'b' => 'yyyy'}; print h1",
 				
+				"a = Hash.new{|h, k|k}; print a[99], a[88]",
 				"a = Hash.new{print 2; 1}; print a[99], a[88]",
 				"a = Hash.new{print 2; 1}; print a[99]",
 				"h4 = {'a' => 'xxxx', 'b' => 'yyyy'}; print h4.length",
@@ -1579,6 +1580,7 @@ public class RubyCompilerTest extends TestCase {
 		String[] outputs = {
 				//"nil",
 				//"axxxxbyyyy",
+				"9988",
 				"2211",
 				"21",
 				"2",
