@@ -16,11 +16,8 @@ import java.util.ArrayList;
  */
 public class RubyHash extends RubyBasic {
 	private Map<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
-	// To ensure the order
-	private List<RubyValue> keys_ = new ArrayList<RubyValue>();
-
+	private List<RubyValue> keys_ = new ArrayList<RubyValue>();// To ensure the order, for 'shift' ect
 	private RubyValue default_value_ = ObjectFactory.nilValue;
-	private RubyBlock block = null;
 
 	RubyHash() {
 		super(RubyRuntime.HashClass);
@@ -33,14 +30,6 @@ public class RubyHash extends RubyBasic {
 
 	public void setDefaultValue(RubyValue defaultValue) {
 		this.default_value_ = defaultValue;
-	}
-
-	public RubyBlock getBlock() {
-		return block;
-	}
-
-	public void setBlock(RubyBlock block) {
-		this.block = block;
 	}
 
 	public void add(RubyValue k, RubyValue v) {
