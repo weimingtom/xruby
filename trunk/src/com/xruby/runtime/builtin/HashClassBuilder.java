@@ -90,8 +90,7 @@ class Hash_initialize extends RubyMethod {
 		}
 
 		if (null != block) { // Hash.new {...}
-			RubyValue v = block.invoke(receiver, args);//TODO check returned/breaked
-			hash.setDefaultValue(v);
+			hash.setDefaultValueAsBlock(block);
 		}
 
 		return receiver;
