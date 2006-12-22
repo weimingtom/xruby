@@ -178,6 +178,29 @@ class Hash_shift extends RubyMethod {
 	}
 }
 
+class Hash_default extends RubyMethod {
+	public Hash_default() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyHash h = (RubyHash)receiver;
+		return h.getDefaultValue();
+	}
+}
+
+class Hash_default_assign extends RubyMethod {
+	public Hash_default_assign() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyHash h = (RubyHash)receiver;
+		h.setDefaultValue(args.get(0));
+		return h;
+	}
+}
+
 class Hash_new extends RubyMethod {
 	public Hash_new() {
 		super(-1);
@@ -207,6 +230,8 @@ public class HashClassBuilder {
 		c.defineMethod("keys", new Hash_keys());
 		c.defineMethod("values", new Hash_values());
 		c.defineMethod("shift", new Hash_shift());
+		c.defineMethod("default", new Hash_default());
+		c.defineMethod("default=", new Hash_default_assign());
 		c.defineAllocMethod(new Hash_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);
