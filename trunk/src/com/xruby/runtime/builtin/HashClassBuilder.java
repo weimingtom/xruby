@@ -26,20 +26,8 @@ class Hash_hash_access extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyHash value = (RubyHash)receiver;
 		if (1 == args.size()) {
-			RubyValue retValue = value.get(args.get(0));
-            RubyBlock defBlock = value.getBlock();
-
-            // If block was given while being defined, invoke block
-            if(ObjectFactory.nilValue == retValue && null != defBlock) {
-                RubyValue key = args.get(0);
-                args.set(1, key);
-                args.set(0, receiver);
-                defBlock.invoke(receiver, args);
-                retValue = value.get(key);
-            }
-
-            return retValue;
-        }
+			return value.get(args.get(0));
+		}
 
 		//TODO
 		throw new RubyException("not implemented");
@@ -102,7 +90,8 @@ class Hash_initialize extends RubyMethod {
 		}
 
 		if (null != block) { // Hash.new {...}
-			hash.setBlock(block);
+			RubyValue v = block.invoke(receiver, args);//TODO check returned/breaked
+			hash.setDefaultValue(v);
 		}
 
 		return receiver;
