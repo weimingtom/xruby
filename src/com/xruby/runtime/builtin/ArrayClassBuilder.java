@@ -159,7 +159,18 @@ class Array_operator_and extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		return array.intersect((RubyArray)args.get(0));
+		return array.and((RubyArray)args.get(0));
+	}
+}
+
+class Array_operator_or extends RubyMethod {
+	public Array_operator_or() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver;
+		return array.or((RubyArray)args.get(0));
 	}
 }
 
@@ -825,6 +836,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("+", new Array_plus());
 		c.defineMethod("*", new Array_times());
 		c.defineMethod("&", new Array_operator_and());
+		c.defineMethod("|", new Array_operator_or());
 		c.defineMethod("push", new Array_push());
 		c.defineMethod("pop", new Array_pop());
 		c.defineMethod("delete_at", new Array_delete_at());
