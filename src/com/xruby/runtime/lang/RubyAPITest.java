@@ -35,4 +35,9 @@ public class RubyAPITest extends TestCase {
 		assertFalse(RubyAPI.isKindOf(RubyRuntime.FloatClass, ObjectFactory.createFixnum(88)));
 	}
 
+	public void test_testExceptionType() {
+		assertTrue(RubyAPI.testExceptionType(new RubyArray(RubyRuntime.StandardErrorClass), new RubyException(RubyRuntime.ArgumentErrorClass, "")));
+		assertFalse(RubyAPI.testExceptionType(new RubyArray(RubyRuntime.RuntimeErrorClass), new RubyException(RubyRuntime.ArgumentErrorClass, "")));
+	}
+
 }
