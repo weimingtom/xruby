@@ -22,7 +22,7 @@ public class ExceptionList {
 	public Object accept(CodeVisitor visitor, int excepton_var) {
 
 		if (arguments_.isEmpty()) {
-			arguments_.add(new Colon2Expression(null, "RuntimeError"));
+			arguments_.add(new Colon2Expression(null, "StandardError"));
 		}
 		
 		ArrayExpression a = new ArrayExpression(arguments_, null);
