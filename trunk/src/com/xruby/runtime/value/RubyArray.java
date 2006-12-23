@@ -305,5 +305,9 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 			}
 		);
 	}
+
+	public int hash() {
+		return array.hashCode();
+	}
 }
 
