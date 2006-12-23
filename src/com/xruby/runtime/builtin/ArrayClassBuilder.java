@@ -141,8 +141,14 @@ class Array_times extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		RubyFixnum times = (RubyFixnum)args.get(0);
-		return array.times(times.intValue());
+		if (args.get(0) instanceof RubyFixnum) { 
+			RubyFixnum times = (RubyFixnum)args.get(0);
+			return array.times(times.intValue());
+		} else if (args.get(0) instanceof RubyString) {
+			return RubyAPI.callMethod(receiver, args, block, "join");
+		}
+
+		throw new RubyException(RubyRuntime.TypeErrorClass, "no implicit conversion from " + args.get(0) + " to integer");
 	}
 }
 
