@@ -10,9 +10,9 @@ public class ArrayExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 "[:3\n" +
-"[\n1\n]\n" +
-"[\nxxx\n]\n" +
-"[\n1.2\n]\n" +
+"1\n" +
+"xxx\n" +
+"1.2\n" +
 "]!\n" +
 "EOF";
 		assertAstOutput(program_text, expected_result);
@@ -39,16 +39,11 @@ public class ArrayExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 			"[:0\n" +
-			"[\n" +
 			"[:2\n" +
-			"[\n" +
 			"1\n" +
-			"]\n" +
-			"[\n" +
 			"2\n" +
-			"]\n" +
 			"]!\n" +
-			"]*\n" +
+			"[]*\n" +
 			"]!\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);

@@ -17,23 +17,17 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"body begin\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"!!!!\n" +
-			"]\n" +
 			"raise:false\n" +
 			"body end\n" +
 			"visitPrepareEnsure\n" +
 			"visitRescueBegin\n" +
 			"[:1\n" +
-			"[\n" +
 			"RuntimeError\n" +
-			"]\n" +
 			"=>null\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"xxx\n" +
-			"]\n" +
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +
@@ -55,24 +49,18 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"body begin\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"!!!!\n" +
-			"]\n" +
 			"raise:false\n" +
 			"body end\n" +
 			"visitPrepareEnsure\n" +
 			"visitRescueBegin\n" +
 			"[:1\n" +
-			"[\n" +
 			"M\n" +
 			"::RuntimeError\n" +
-			"]\n" +
 			"=>e\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"e\n" +
-			"]\n" +
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +

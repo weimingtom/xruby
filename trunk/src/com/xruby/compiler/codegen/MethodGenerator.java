@@ -285,7 +285,7 @@ class MethodGenerator extends GeneratorAdapter {
 					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 		}
 		invokeVirtual(Type.getType(RubyArray.class),
-				Method.getMethod("void add(com.xruby.runtime.lang.RubyValue)"));
+				Method.getMethod("com.xruby.runtime.value.RubyArray add(com.xruby.runtime.lang.RubyValue)"));
 	}
 
 	public void RubyArray_expand(boolean is_method_call) {
@@ -295,7 +295,7 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 
 		invokeVirtual(Type.getType(RubyArray.class),
-				Method.getMethod("void expand(com.xruby.runtime.lang.RubyValue)"));
+				Method.getMethod("com.xruby.runtime.value.RubyArray expand(com.xruby.runtime.lang.RubyValue)"));
 	}
 	
 	public void RubyArray_get(int index) {
@@ -321,9 +321,9 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.value.RubyString appendString(com.xruby.runtime.lang.RubyValue)"));
 	}
 	
-	public void HashValue_addValue() {
+	public void RubyHash_addValue() {
 		invokeVirtual(Type.getType(RubyHash.class),
-				Method.getMethod("void add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+				Method.getMethod("com.xruby.runtime.value.RubyHash add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 	}
 
 	public boolean RubyRuntime_getBuiltinClass(String className) {

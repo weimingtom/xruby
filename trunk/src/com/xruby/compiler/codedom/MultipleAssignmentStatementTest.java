@@ -18,12 +18,8 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"b =\n" +
 			";\n" +
 			"[:2\n" +
-			"[\n" +
 			"1\n" +
-			"]\n" +
-			"[\n" +
 			"2\n" +
-			"]\n" +
 			"begin MultipleAssignment:false:false\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +
@@ -39,19 +35,12 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		
 		String expected_result = 
 			"[:1\n" +
-			"[\n" +
 			"1\n" +
-			"]\n" +
-			"[\n" +
 			"[:2\n" +
-			"[\n" +
 			"2\n" +
-			"]\n" +
-			"[\n" +
 			"3\n" +
-			"]\n" +
 			"]!\n" +
-			"]*\n" +
+			"[]*\n" +
 			"begin MultipleAssignment:false:false\n" +
 			"mrhs:0\n" +
 			"mrhs:1*\n" +
@@ -68,18 +57,10 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		
 		String expected_result = 
 			"[:4\n" +
-			"[\n" +
 			"1\n" +
-			"]\n" +
-			"[\n" +
 			"2\n" +
-			"]\n" +
-			"[\n" +
 			"3\n" +
-			"]\n" +
-			"[\n" +
 			"4\n" +
-			"]\n" +
 			"begin MultipleAssignment:false:false\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +

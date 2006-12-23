@@ -106,19 +106,7 @@ public class RubyRuntime {
 		RubyAPI.setTopLevelConstant(argv, "ARGV");
 	}
 	
-	public static void initBuiltin(String[] args) {
-		if (builtin_initialized_) {
-			return;
-		}
-		
-		initARGV(args);
-		
-		RubyAPI.setTopLevelConstant(ObjectFactory.trueValue, "TRUE");
-		RubyAPI.setTopLevelConstant(ObjectFactory.falseValue, "FALSE");
-		RubyAPI.setTopLevelConstant(ObjectFactory.nilValue, "NIL");
-		
-		TopLevelSelfInitializer.initialize();
-
+	private static void loadBuildinDotRb() {
 		try {
 			Class c = Class.forName("builtin.main");
 			Object o = c.newInstance();
@@ -132,6 +120,22 @@ public class RubyRuntime {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+	}
+	
+	public static void initBuiltin(String[] args) {
+		if (builtin_initialized_) {
+			return;
+		}
+		
+		initARGV(args);
+		
+		RubyAPI.setTopLevelConstant(ObjectFactory.trueValue, "TRUE");
+		RubyAPI.setTopLevelConstant(ObjectFactory.falseValue, "FALSE");
+		RubyAPI.setTopLevelConstant(ObjectFactory.nilValue, "NIL");
+		
+		TopLevelSelfInitializer.initialize();
+
+		loadBuildinDotRb();
 	}
 
 	public static boolean isBuiltinClass(String name) {

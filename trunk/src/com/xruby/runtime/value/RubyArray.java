@@ -44,8 +44,9 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return this.isNotSingleAsterisk;
 	}
 
-	public void add(RubyValue v) {
+	public RubyArray add(RubyValue v) {
 		array.add(v);
+		return this;
 	}
 
 	public RubyValue remove(int index) {
@@ -234,16 +235,16 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return false;
 	}
 
-    public void rb_iterate(RubyValue receiver, RubyBlock block) {
-        for(RubyValue item: array) {
-            RubyArray args = new RubyArray();
-            args.add(item);
+	public void rb_iterate(RubyValue receiver, RubyBlock block) {
+		for(RubyValue item: array) {
+			RubyArray args = new RubyArray();
+			args.add(item);
 
-            block.invoke(receiver, args);
-        }
-    }
+			block.invoke(receiver, args);
+		}
+	}
 
-    public void expand(RubyValue v) {
+	public RubyArray expand(RubyValue v) {
 		if (v instanceof RubyArray) {
 			//[5,6,*[1, 2]]
 			array.addAll(((RubyArray)v).getInternal());
@@ -251,6 +252,8 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 			//[5,6,*1], [5,6,*nil]
 			array.add(v);
 		}
+
+		return this;
 	}
 
 	//create a new Array containing every element from index to the end

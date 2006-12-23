@@ -61,6 +61,8 @@ public class RubyCompilerTest extends TestCase {
 				continue;
 			} catch (Exception e) {
 				assertTrue("Error at " + i + ": should throw RubyException, not exception: " + e.toString(), false);
+			} catch (VerifyError e) {
+				assertTrue("VerifyError at " + i + ": " + e.toString(), false);
 			}
 		}
 	}
@@ -929,7 +931,9 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_exception() {
 		String[] program_texts = {
-
+				//TODO "print begin; true; rescue; false; end",
+				
+				"def f(a); end; begin; f; rescue; print 55 ; end",
 				
 				"begin\n" +
 				"	raise \"!!!!\"\n" +
@@ -988,6 +992,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				//"true",
+				
+				"55",
 				"xxx",
 				"yyy",
 				"aaabbb",

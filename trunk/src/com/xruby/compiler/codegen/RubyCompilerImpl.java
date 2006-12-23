@@ -213,6 +213,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitMethodDefinationDefaultParameterEnd(Object next_label) {
 		cg_.getMethodGenerator().RubyArray_add(false);
+		cg_.getMethodGenerator().pop();
 		cg_.getMethodGenerator().mark((Label)next_label);
 	}
 
@@ -504,6 +505,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitEnsureBodyEnd(int var) {
+		cg_.getMethodGenerator().pop();
 		cg_.getMethodGenerator().ret(var);
 	}
 		
@@ -514,11 +516,15 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitEnsure(int exception_var) {
-		invokeFinallyIfExist();
-
 		if (exception_var >= 0) {
+			Label l = ensureLabelManager_.getCurrentFinally();
+			if (null != l) {
+				cg_.getMethodGenerator().visitJumpInsn(Opcodes.JSR, l);
+			}
 			cg_.getMethodGenerator().loadLocal(exception_var);
 			cg_.getMethodGenerator().throwException();
+		} else {
+			invokeFinallyIfExist();
 		}
 	}
 	
@@ -534,14 +540,17 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		int exception_variable = cg_.getAnonymousLocalVariable();
 		cg_.getMethodGenerator().storeLocal(exception_variable);
-
-		cg_.getMethodGenerator().pushNull();//hack???
-		
+	
 		return exception_variable;
 	}
 
-	public void visitRescueEnd(Object last_label) {
+	public void visitRescueEnd(int exception_variable, Object last_label, boolean has_ensure) {
 		cg_.getMethodGenerator().mark((Label)last_label);
+
+		if (!has_ensure) {
+			cg_.getMethodGenerator().loadLocal(exception_variable);
+			cg_.getMethodGenerator().throwException();
+		}
 	}
 
 	public Object visitRescueVariable(String name, int exception_variable) {
@@ -549,7 +558,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().RubyAPI_testExceptionType();
 		Label label = new Label();
 		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
-		cg_.getMethodGenerator().pop();//hack???
 
 		if (null != name) {
 			cg_.getMethodGenerator().loadLocal(exception_variable);
@@ -571,16 +579,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitHashBegin() {
 		cg_.getMethodGenerator().ObjectFactory_createHash();
 	}
-
-	public void visitArrayElementBegin() {
-		cg_.getMethodGenerator().dup();
-	}
-
-	public void visitHashElementBegin() {
-		cg_.getMethodGenerator().dup();
-	}
 	
-	public void visitArrayElementEnd(boolean asterisk, boolean is_method_call) {
+	public void visitArrayElement(boolean asterisk, boolean is_method_call) {
 		if (asterisk) {
 			cg_.getMethodGenerator().RubyArray_expand(is_method_call);
 		} else {
@@ -588,8 +588,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 	
-	public void visitHashElementEnd() {
-		cg_.getMethodGenerator().HashValue_addValue();
+	public void visitHashElement() {
+		cg_.getMethodGenerator().RubyHash_addValue();
 	}
 	
 	public void visitArrayEnd() {
@@ -631,7 +631,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 	private void invokeFinallyIfExist() {
 		Label l = ensureLabelManager_.getCurrentFinally();
 		if (null != l) {
+			int tmp = cg_.getAnonymousLocalVariable();
+			cg_.getMethodGenerator().storeLocal(tmp);//store then load to make stack size always equals 1
 			cg_.getMethodGenerator().visitJumpInsn(Opcodes.JSR, l);
+			cg_.getMethodGenerator().loadLocal(tmp);
 		}
 	}
 

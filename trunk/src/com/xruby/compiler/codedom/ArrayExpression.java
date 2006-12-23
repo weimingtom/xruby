@@ -39,15 +39,13 @@ public class ArrayExpression extends Expression {
 		visitor.visitArrayBegin(elements_.size(), notSingleAsterisk_);
 		
 		for (Expression e : elements_) {
-			visitor.visitArrayElementBegin();
 			e.accept(visitor);
-			visitor.visitArrayElementEnd(false, e instanceof MethodCallExpression || e instanceof YieldExpression);
+			visitor.visitArrayElement(false, e instanceof MethodCallExpression || e instanceof YieldExpression);
 		}
 
 		if (null != asterisk_element_) {
-			visitor.visitArrayElementBegin();
 			asterisk_element_.accept(visitor);
-			visitor.visitArrayElementEnd(true, asterisk_element_ instanceof MethodCallExpression || asterisk_element_ instanceof YieldExpression);
+			visitor.visitArrayElement(true, asterisk_element_ instanceof MethodCallExpression || asterisk_element_ instanceof YieldExpression);
 		}
 		
 		if (create_ruby_value) {

@@ -98,12 +98,11 @@ public interface CodeVisitor {
 	public void visitEnsureBodyEnd(int var);
 	public Object visitRescueVariable(String name, int exception_var);
 	public Object visitAfterRescueBody(Object next_label, Object end_label);
-	public void visitRescueEnd(Object last_label);
+	public void visitRescueEnd(int exception_variable, Object last_label, boolean has_ensure);
 
 	public void visitArrayBegin(int size, boolean notSingleAsterisk);
 	public void visitArrayEnd();
-	public void visitArrayElementBegin();
-	public void visitArrayElementEnd(boolean asterisk, boolean is_method_call);
+	public void visitArrayElement(boolean asterisk, boolean is_method_call);
 	
 	public void visitYieldBegin();
 	public void visitYieldEnd();
@@ -128,8 +127,7 @@ public interface CodeVisitor {
 
 	public void visitHashBegin();
 	public void visitHashEnd();
-	public void visitHashElementBegin();
-	public void visitHashElementEnd();
+	public void visitHashElement();
 	
 	public void visitWhileConditionBegin();
 	public void visitWhileConditionEnd(boolean is_until);

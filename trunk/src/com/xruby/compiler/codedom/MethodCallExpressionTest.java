@@ -12,9 +12,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		String expected_result = 
 			"4\n" +
 			"[:1\n" +
-			"[\n" +
 			"2\n" +
-			"]\n" +
 			"div:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -26,10 +24,9 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		String expected_result = 
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"2\n" +
 			"class:true\n" +
-			"]()\n" +
+			"[]()\n" +
 			"puts:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -41,10 +38,9 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		String expected_result = 
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"1\n" +
 			"class:true\n" +
-			"]()\n" +
+			"[]()\n" +
 			"puts:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -66,12 +62,8 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		String expected_result = 
 			"self\n" +
 			"[:2\n" +
-			"[\n" +
 			"1\n" +
-			"]\n" +
-			"[\n" +
 			"2\n" +
-			"]\n" +
 			"puts:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -84,9 +76,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"self\n" +
 			"a:false\n" +
 			"[:1\n" +
-			"[\n" +
 			"1\n" +
-			"]\n" +
 			"[]:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -101,9 +91,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			";\n" +
 			"a\n" +
 			"[:1\n" +
-			"[\n" +
 			"1\n" +
-			"]\n" +
 			"[]:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -116,10 +104,8 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"self\n" +
 			"a:false\n" +
 			"[:1\n" +
-			"[\n" +
 			"1\n" +
 			"-@\n" +
-			"]\n" +
 			"[]:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -131,9 +117,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		String expected_result = 
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"0\n" +
-			"]\n" +
 			"[]:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -146,9 +130,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		String expected_result =
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"`java -x`\n" +
-			"]\n" +
 			"puts:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -170,11 +152,9 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		String expected_result =
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"/hello/\n" +
 			"xxxhello123\n" +
 			"===\n" +
-			"]\n" +
 			"print:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);

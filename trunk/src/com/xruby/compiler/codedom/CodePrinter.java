@@ -355,7 +355,7 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public void visitRescueEnd(Object last_label) {
+	public void visitRescueEnd(int exception_variable, Object last_label, boolean has_ensure) {
 		result_.append("end rescue!\n");
 	}
 	
@@ -379,33 +379,22 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("]!\n");
 	}
 
-	public void visitArrayElementBegin() {
-		result_.append("[\n");
-	}
-
-	public void visitArrayElementEnd(boolean asterisk,boolean is_method_call) {
-		result_.append("]");
+	public void visitArrayElement(boolean asterisk,boolean is_method_call) {
 		if (asterisk) {
-			result_.append("*");
+			result_.append("[]*\n");
 		}
 
 		if (is_method_call)
 		{
-			result_.append("()");
+			result_.append("[]()\n");
 		}
-		result_.append("\n");
 	}
 
 	public void visitHashBegin() {
 		result_.append("{!\n");
 	}
 
-	public void visitHashElementBegin() {
-		result_.append("{\n");
-	}
-
-	public void visitHashElementEnd() {
-		result_.append("}\n");
+	public void visitHashElement() {
 	}
 
 	public void visitHashEnd() {
