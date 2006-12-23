@@ -152,6 +152,17 @@ class Array_times extends RubyMethod {
 	}
 }
 
+class Array_operator_and extends RubyMethod {
+	public Array_operator_and() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver;
+		return array.intersect((RubyArray)args.get(0));
+	}
+}
+
 class Array_push extends RubyMethod {
 	public Array_push() {
 		super(1);
@@ -161,7 +172,7 @@ class Array_push extends RubyMethod {
 		RubyArray array = (RubyArray)receiver;
 		RubyValue obj = args.get(0);
 		array.add(obj);
-		return receiver;
+		return array;
 	}
 }
 
@@ -813,6 +824,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("concat", new Array_concat());
 		c.defineMethod("+", new Array_plus());
 		c.defineMethod("*", new Array_times());
+		c.defineMethod("&", new Array_operator_and());
 		c.defineMethod("push", new Array_push());
 		c.defineMethod("pop", new Array_pop());
 		c.defineMethod("delete_at", new Array_delete_at());

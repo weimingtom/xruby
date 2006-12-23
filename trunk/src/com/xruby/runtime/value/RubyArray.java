@@ -309,5 +309,15 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	public int hash() {
 		return array.hashCode();
 	}
+
+	public RubyArray intersect(RubyArray other) {
+		RubyArray a = new RubyArray();
+		for (RubyValue v : array) {
+			if (other.include(v) && !a.include(v)) {
+				a.add(v);
+			}
+		}
+		return a;
+	}
 }
 

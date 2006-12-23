@@ -314,6 +314,22 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Array_misc() {
+		String[] program_texts = {				
+				"print [ 1, 2, 3 ] * \",\"",
+				"print [1, 2].hash == [1, 2].hash",
+				"print [ 1, 1, 3, 5 ] & [ 1, 2, 3 ]",
+		};
+
+		String[] outputs = {
+				"1,2,3",
+				"true",
+				"13",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_Array_compare() {
 		String[] program_texts = {				
 				"print [ 4, 6, 5] <=> [ 4, 6, 5]",
