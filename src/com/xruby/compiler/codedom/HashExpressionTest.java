@@ -11,8 +11,8 @@ public class HashExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 "{!\n" +
-"{\na\nxxxx\n}\n" +
-"{\nb\nyyyy\n}\n" +
+"a\nxxxx\n" +
+"b\nyyyy\n" +
 "}!\n" +
 "EOF";
 		assertAstOutput(program_text, expected_result);

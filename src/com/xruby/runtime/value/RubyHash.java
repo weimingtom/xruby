@@ -42,9 +42,10 @@ public class RubyHash extends RubyBasic {
 		default_value_as_block_ = b;
 	}
 	
-	public void add(RubyValue k, RubyValue v) {
+	public RubyHash add(RubyValue k, RubyValue v) {
 		map_.put(k, v);
 		keys_.add(k);
+		return this;
 	}
 
 	public int size() {

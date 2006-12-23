@@ -30,9 +30,9 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 "[:3\n" +
-"[\n1\n]\n" +
-"[\n2\n]\n" +
-"[\n3\n]\n" +
+"1\n" +
+"2\n" +
+"3\n" +
 "]!\n" +
 "return\n" +
 "EOF";
@@ -44,9 +44,8 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 			"*[:0\n" +
-			"[\n" +
 			"nil\n" +
-			"]*\n" +
+			"[]*\n" +
 			"]!\n" +
 			"return\n" +
 			"EOF";
@@ -58,10 +57,9 @@ public class ReturnExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 			"*[:0\n" +
-			"[\n" +
 			"[:0\n" +
 			"]!\n" +
-			"]*\n" +
+			"[]*\n" +
 			"]!\n" +
 			"return\n" +
 			"EOF";

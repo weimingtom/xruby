@@ -17,9 +17,7 @@ public class BlockTest extends TestingAstTestCase {
 			"parameter:c\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"a\n" +
-			"]\n" +
 			"puts:false\n" +
 			"end block:true\n" +
 			"f:false\n" +
@@ -35,9 +33,7 @@ public class BlockTest extends TestingAstTestCase {
 			"block:0:false:0\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"Ho!\n" +
-			"]\n" +
 			"print:false\n" +
 			"end block:true\n" +
 			"times:true\n" +
@@ -56,9 +52,7 @@ public class BlockTest extends TestingAstTestCase {
 			"*parameter:c\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"c\n" +
-			"]\n" +
 			"puts:false\n" +
 			"end block:true\n" +
 			"f:false\n" +
@@ -75,9 +69,7 @@ public class BlockTest extends TestingAstTestCase {
 			"parameter:a\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"a\n" +
-			"]\n" +
 			"puts:false\n" +
 			"end block:true\n" +
 			"f:false\n" +

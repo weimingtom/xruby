@@ -20,9 +20,7 @@ public class ClassDefinationExpressionTest extends TestingAstTestCase {
 			"def f:0:false:0:false\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"~~~~\n" +
-			"]\n" +
 			"puts:false\n" +
 			"end def:true\n" +
 			"end:true\n" +

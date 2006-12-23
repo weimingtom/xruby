@@ -116,29 +116,28 @@ public class BodyStatement implements Visitable {
 			else_.accept(visitor);
 		}
 		
-		Object after_label = null;
 		if (null != ensure_) {
+			//do this so that ensure is executed in normal situation
 			visitor.visitEnsure(-1);
 		}
 		
-		after_label = visitor.visitPrepareEnsure();
+		Object after_label = visitor.visitPrepareEnsure();
 		
 		int exception_var = visitor.visitRescueBegin(begin_label, end_label);
 		Object last_label = null;
 		for (Rescue rescue : rescues_) {
-			last_label = rescue.accept(visitor, last_label, exception_var, null != ensure_);
+			last_label = rescue.accept(visitor, after_label, exception_var, null != ensure_);
 		}
 
 		if (null != ensure_) {
 			visitor.visitEnsure(exception_var);
 			int var = visitor.visitEnsureBodyBegin();
-			visitor.visitTerminal();
 			ensure_.accept(visitor);
 			visitor.visitEnsureBodyEnd(var);
 		}
 
 		if (!rescues_.isEmpty()) {
-			visitor.visitRescueEnd(last_label);
+			visitor.visitRescueEnd(exception_var, last_label, null != ensure_);
 		}
 		
 		visitor.visitBodyAfter(after_label);

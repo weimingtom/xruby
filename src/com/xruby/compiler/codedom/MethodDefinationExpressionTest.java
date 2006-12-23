@@ -64,9 +64,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 			"def my_methods:0:false:0:false\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"123\n" +
-			"]\n" +
 			"puts:false\n" +
 			";\n" +
 			"yield\n" +
@@ -89,9 +87,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 			"parameter:c\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"a\n" +
-			"]\n" +
 			"puts:false\n" +
 			"end def:true\n" +
 			"EOF";
@@ -122,9 +118,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 			"*parameter:c\n" +
 			"self\n" +
 			"[:1\n" +
-			"[\n" +
 			"c\n" +
-			"]\n" +
 			"puts:false\n" +
 			"end def:true\n" +
 			"EOF";

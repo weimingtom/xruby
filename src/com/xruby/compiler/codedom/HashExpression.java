@@ -18,10 +18,9 @@ public class HashExpression extends Expression {
 		}
 
 		public void accept(CodeVisitor visitor) {
-			visitor.visitHashElementBegin();
 			key.accept(visitor);
 			value.accept(visitor);
-			visitor.visitHashElementEnd();
+			visitor.visitHashElement();
 		}
 	}
 	
