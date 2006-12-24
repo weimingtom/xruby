@@ -301,23 +301,39 @@ class String_gsub_danger extends String_gsub {
 
 class String_split extends RubyMethod {
 	public String_split() {
-		super(2, false, 1);
+		super(2, false, 2);
+	}
+
+	private String[] split(RubyString s, String delimiter) {
+		return s.toString().split("\\s");//TODO use delimiter
+	}
+
+	private String[] split(RubyString g, RubyRegexp r, RubyArray args) {
+		if (args.size() <= 1){
+			return r.getPattern().split(g.toString());
+		} else {
+			RubyFixnum i = (RubyFixnum)args.get(1);
+			return r.getPattern().split(g.toString(), i.intValue());
+		}
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString g = (RubyString)receiver;
-		RubyRegexp r = (RubyRegexp)args.get(0);
+		RubyValue r = (args.size() == 0) ? GlobalVariables.get("$;") : args.get(0);
+
 		String[] splitResult;
-		
-		if (args.size() == 1){
-			splitResult = r.getPattern().split(g.toString());
-		}else{
-			RubyFixnum i = (RubyFixnum)args.get(1);
-			splitResult = r.getPattern().split(g.toString(), i.intValue());
+		if (r == ObjectFactory.nilValue) {
+			splitResult = split(g, "\\s");
+		} else if (r instanceof RubyRegexp) {
+		 	splitResult = split(g, (RubyRegexp)r, args);
+		} else if (r instanceof RubyString) {
+			splitResult = split(g, ((RubyString)r).toString());
+		} else {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + r.getRubyClass() + " (expected Regexp)");
 		}
 		
 		RubyArray a = new RubyArray(splitResult.length);
-		for(String str : splitResult){
+		for (String str : splitResult) {
 			a.add(ObjectFactory.createString(str));
 		}
 		return a;
