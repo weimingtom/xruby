@@ -62,4 +62,8 @@ public class RubyString extends RubyBasic {
 			return true;
 		}
 	}
+
+	public void reverse() {
+		sb_.reverse();
+	}
 }

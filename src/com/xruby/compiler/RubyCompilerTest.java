@@ -3863,6 +3863,20 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_String_misc() {
+		String [] program_texts = {
+				"print 'stressed'.reverse",
+				"print 'stressed'.reverse!",
+		};
+		
+		String[] outputs = {
+				"desserts",
+				"desserts",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_clone() {
 		String [] program_texts = {
 				"a = Object.new\n" +

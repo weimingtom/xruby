@@ -552,6 +552,30 @@ class String_each_byte extends RubyMethod {
 	}
 }
 
+class String_reverse_danger extends RubyMethod {
+	String_reverse_danger() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString string = (RubyString)receiver;
+		string.reverse();
+		return string;
+	}
+}
+
+class String_reverse extends RubyMethod {
+	String_reverse() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
+		string.reverse();
+		return string;
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -579,6 +603,8 @@ public class StringClassBuilder {
 		c.defineMethod("*", new String_operator_star());
 		c.defineMethod("each", new String_each());
 		c.defineMethod("each_byte", new String_each_byte());
+		c.defineMethod("reverse!", new String_reverse_danger());
+		c.defineMethod("reverse", new String_reverse());
 		c.defineAllocMethod(new String_new());
 	}
 }
