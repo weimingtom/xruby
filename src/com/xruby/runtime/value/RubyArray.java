@@ -209,6 +209,19 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		resultArray.array.addAll(v.array);
 		return resultArray;
 	}
+	
+	private void remove(RubyValue v) {
+		while (array.remove(v)) {
+		}
+	}
+
+	public RubyArray minus(RubyArray other) {
+		RubyArray a = this.copy();
+		for (RubyValue v : other) {
+			a.remove(v);
+		}
+		return a;
+	}
 
 	public RubyArray times(int times) {
 		if (times < 0) {

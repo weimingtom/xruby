@@ -320,6 +320,7 @@ public class RubyCompilerTest extends TestCase {
 				"print [1, 2].hash == [1, 2].hash",
 				"print [ 1, 1, 3, 5 ] & [ 1, 2, 3 ]",
 				"print [ 1, 1, 3, 5 ] | [ 1, 2, 3 ]",
+				"print [ 1, 1, 2, 2, 3, 3, 4, 5 ] - [ 1, 2, 4 ]",
 		};
 
 		String[] outputs = {
@@ -327,6 +328,7 @@ public class RubyCompilerTest extends TestCase {
 				"true",
 				"13",
 				"1352",
+				"335",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);

@@ -134,6 +134,18 @@ class Array_plus extends RubyMethod {
 	}
 }
 
+class Array_minus extends RubyMethod {
+	public Array_minus() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray left = (RubyArray)receiver;
+		RubyArray right = (RubyArray)args.get(0);
+		return left.minus(right);
+	}
+}
+
 class Array_times extends RubyMethod {
 	public Array_times() {
 		super(1);
@@ -834,6 +846,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("<=>", new Array_compare());
 		c.defineMethod("concat", new Array_concat());
 		c.defineMethod("+", new Array_plus());
+		c.defineMethod("-", new Array_minus());
 		c.defineMethod("*", new Array_times());
 		c.defineMethod("&", new Array_operator_and());
 		c.defineMethod("|", new Array_operator_or());
