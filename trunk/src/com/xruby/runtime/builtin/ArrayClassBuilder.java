@@ -344,6 +344,17 @@ class Array_compact_dangerous extends RubyMethod {
 	}
 }
 
+class Array_uniq_dangerous extends RubyMethod {
+	public Array_uniq_dangerous() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver;
+		return array.uniq() ? receiver : ObjectFactory.nilValue;
+	}
+}
+
 class Array_pack extends RubyMethod {
 	private final boolean NATINT_PACK = true;
 	
@@ -881,6 +892,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("sort", new Array_sort());
 		c.defineMethod("hash", new Array_hash());
 		c.defineMethod("compact!", new Array_compact_dangerous());
+		c.defineMethod("uniq!", new Array_uniq_dangerous());
 		c.defineAllocMethod(new Array_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);
