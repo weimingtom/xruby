@@ -344,35 +344,69 @@ class Array_hash extends RubyMethod {
 	}
 }
 
-class Array_compact_dangerous extends RubyMethod {
-	public Array_compact_dangerous() {
+class Array_compact_danger extends RubyMethod {
+	public Array_compact_danger() {
 		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		return array.compact() ? receiver : ObjectFactory.nilValue;
+		return array.compact() ? array : ObjectFactory.nilValue;
 	}
 }
 
-class Array_uniq_dangerous extends RubyMethod {
-	public Array_uniq_dangerous() {
+class Array_compact extends RubyMethod {
+	public Array_compact() {
 		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyArray array = (RubyArray)receiver;
-		return array.uniq() ? receiver : ObjectFactory.nilValue;
+		RubyArray array = ((RubyArray)receiver).copy();
+		return array.compact() ? array : ObjectFactory.nilValue;
 	}
 }
 
-class Array_reverse_dangerous extends RubyMethod {
-	public Array_reverse_dangerous() {
+class Array_uniq_danger extends RubyMethod {
+	public Array_uniq_danger() {
 		super(0);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
+		return array.uniq() ? array : ObjectFactory.nilValue;
+	}
+}
+
+class Array_uniq extends RubyMethod {
+	public Array_uniq() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = ((RubyArray)receiver).copy();
+		return array.uniq() ? array : ObjectFactory.nilValue;
+	}
+}
+
+class Array_reverse_danger extends RubyMethod {
+	public Array_reverse_danger() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver;
+		array.reverse();
+		return receiver;
+	}
+}
+
+class Array_reverse extends RubyMethod {
+	public Array_reverse() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = ((RubyArray)receiver).copy();
 		array.reverse();
 		return receiver;
 	}
@@ -915,9 +949,12 @@ public class ArrayClassBuilder {
 		c.defineMethod("sort!", new Array_sort_dangers());
 		c.defineMethod("sort", new Array_sort());
 		c.defineMethod("hash", new Array_hash());
-		c.defineMethod("compact!", new Array_compact_dangerous());
-		c.defineMethod("uniq!", new Array_uniq_dangerous());
-		c.defineMethod("reverse!", new Array_reverse_dangerous());
+		c.defineMethod("compact!", new Array_compact_danger());
+		c.defineMethod("compact", new Array_compact());
+		c.defineMethod("uniq!", new Array_uniq_danger());
+		c.defineMethod("uniq", new Array_uniq());
+		c.defineMethod("reverse!", new Array_reverse_danger());
+		c.defineMethod("reverse", new Array_reverse());
 		c.defineAllocMethod(new Array_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);
