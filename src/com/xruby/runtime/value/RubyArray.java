@@ -233,9 +233,12 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return resultArray;
 	}
 	
-	private void remove(RubyValue v) {
+	private boolean remove(RubyValue v) {
+		boolean r = false;
 		while (array.remove(v)) {
+			r = true;
 		}
+		return r;
 	}
 
 	public RubyArray minus(RubyArray other) {
@@ -369,6 +372,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 			}
 		}
 		return a;
+	}
+
+	public boolean compact() {
+		return remove(ObjectFactory.nilValue);
 	}
 }
 

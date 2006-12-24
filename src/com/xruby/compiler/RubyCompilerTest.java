@@ -323,6 +323,7 @@ public class RubyCompilerTest extends TestCase {
 				"print [ 1, 1, 2, 2, 3, 3, 4, 5 ] - [ 1, 2, 4 ]",
 				"a = [4,5,6]; a[1,2] = 9; print a",
 				"a = [4,5,6]; a[1,0] = 9; print a",
+				"a = [nil, 4,5, nil, 6]; a.compact!; print a",
 		};
 
 		String[] outputs = {
@@ -333,6 +334,7 @@ public class RubyCompilerTest extends TestCase {
 				"335",
 				"49",
 				"4956",
+				"456",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
