@@ -18,6 +18,17 @@ class Array_length extends RubyMethod {
 	}
 }
 
+class Array_empty_question extends RubyMethod {
+	public Array_empty_question() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray value = (RubyArray)receiver;
+		return (value.size() == 0) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+	}
+}
+
 class Array_to_s extends RubyMethod {
 	public Array_to_s() {
 		super(0);
@@ -869,6 +880,7 @@ public class ArrayClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ArrayClass;
 		c.defineMethod("length", new Array_length());
+		c.defineMethod("empty?", new Array_empty_question());
 		c.defineMethod("to_s", new Array_to_s());
 		c.defineMethod("[]", new Array_array_access());
 		c.defineMethod("[]=", new Array_array_set());
