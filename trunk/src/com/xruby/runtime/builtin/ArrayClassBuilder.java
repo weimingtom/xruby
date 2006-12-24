@@ -366,6 +366,18 @@ class Array_uniq_dangerous extends RubyMethod {
 	}
 }
 
+class Array_reverse_dangerous extends RubyMethod {
+	public Array_reverse_dangerous() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver;
+		array.reverse();
+		return receiver;
+	}
+}
+
 class Array_pack extends RubyMethod {
 	private final boolean NATINT_PACK = true;
 	
@@ -905,6 +917,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("hash", new Array_hash());
 		c.defineMethod("compact!", new Array_compact_dangerous());
 		c.defineMethod("uniq!", new Array_uniq_dangerous());
+		c.defineMethod("reverse!", new Array_reverse_dangerous());
 		c.defineAllocMethod(new Array_new());
 
 		c.includeModule(RubyRuntime.EnumerableModule);
