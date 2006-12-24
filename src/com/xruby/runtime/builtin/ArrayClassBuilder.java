@@ -76,7 +76,15 @@ class Array_array_set extends RubyMethod {
 		//TODO index can be range, -1 etc
 		RubyArray value = (RubyArray)receiver;
 		RubyFixnum index = (RubyFixnum)args.get(0);
-		return value.set(index.intValue(), args.get(1));
+		if (2 == args.size()) {
+			return value.set(index.intValue(), args.get(1));
+		} else if (3 == args.size()) {
+			RubyFixnum length = (RubyFixnum)args.get(1);
+			return value.replace(index.intValue(), length.intValue(), args.get(2));
+		}
+
+		//TODO
+		throw new RubyException("not implemented");
 	}
 }
 

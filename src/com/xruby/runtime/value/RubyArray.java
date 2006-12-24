@@ -65,15 +65,21 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return array.iterator();
 	}
 
-	public RubyValue set(int index, RubyValue value) {
+	private int getRealIndex(int i) {
+		int index = i;
 		if (index < 0) {
 			index = array.size() + index;
 		}
 
 		if (index < 0) {
-			//FIXME throw IndexError
-			throw new RubyException("IndexError");
+			throw new RubyException(RubyRuntime.IndexErrorClass, "index " + i + " out of array");
 		}
+
+		return index;
+	}
+
+	public RubyValue set(int start, RubyValue value) {
+		int index = getRealIndex(start);
 
 		if (index < array.size()) {
 			array.set(index, value);
@@ -85,6 +91,21 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 			array.add(value);
 		}
 
+		return value;
+	}
+
+	public RubyValue replace(int start, int length, RubyValue value) {
+		int index = getRealIndex(start);
+
+		if (length < 0) {
+			throw new RubyException(RubyRuntime.IndexErrorClass, "negative length ("+ length + ")");
+		}
+
+		for (int i = 0; i < length - 1; ++i) {
+			array.remove(index);
+		}
+
+		array.set(index, value);
 		return value;
 	}
 
