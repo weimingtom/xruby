@@ -377,5 +377,20 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	public boolean compact() {
 		return remove(ObjectFactory.nilValue);
 	}
+
+	public boolean uniq() {
+		boolean b = false;
+		for (int i = 0; i < array.size(); ++i) {
+			for (int j = i + 1; j < array.size();) {
+				if (RubyAPI.testEqual(array.get(i), array.get(j))) {
+					array.remove(j);
+					b = true;
+				} else {
+					++j;
+				}
+			}
+		}
+		return b;
+	}
 }
 
