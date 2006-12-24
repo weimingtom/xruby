@@ -44,7 +44,7 @@ class Array_array_access extends RubyMethod {
 				return value.get(index.intValue());
 			} else if (args.get(0) instanceof RubyRange) {
 				RubyFixnum begin = (RubyFixnum)((RubyRange)args.get(0)).getLeft();
-				RubyFixnum end = (RubyFixnum)((RubyRange)args.get(0)).getLeft();
+				RubyFixnum end = (RubyFixnum)((RubyRange)args.get(0)).getRight();
 				return value.subarray(begin.intValue(), end.intValue());
 			}
 		} else if (2 == args.size()) {
