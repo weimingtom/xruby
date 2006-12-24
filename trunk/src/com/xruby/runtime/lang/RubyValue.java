@@ -30,6 +30,12 @@ public abstract class RubyValue implements Cloneable {
 		}
 		return v;
 	}
+
+	//Do not use this method if o is not instanceof RubyValue
+	public boolean equals(Object o) {
+		RubyValue v = RubyAPI.callPublicMethod(this, (RubyValue)o, "==");
+		return RubyAPI.testTrueFalse(v);
+	}
 	
 	public RubyValue getInstanceVariable(String name) {
 		if (null == instance_varibles_) {
