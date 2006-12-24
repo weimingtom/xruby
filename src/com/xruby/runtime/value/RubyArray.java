@@ -99,13 +99,15 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
 		if (length < 0) {
 			throw new RubyException(RubyRuntime.IndexErrorClass, "negative length ("+ length + ")");
+		} else if (0 == length) {
+			array.add(index, value);
+		} else {
+			for (int i = 0; i < length - 1; ++i) {
+				array.remove(index);
+			}
+	
+			array.set(index, value);
 		}
-
-		for (int i = 0; i < length - 1; ++i) {
-			array.remove(index);
-		}
-
-		array.set(index, value);
 		return value;
 	}
 
