@@ -305,7 +305,7 @@ class String_split extends RubyMethod {
 	}
 
 	private String[] split(RubyString s, String delimiter) {
-		return s.toString().split("\\s");//TODO use delimiter
+		return s.toString().split(delimiter);
 	}
 
 	private String[] split(RubyString g, RubyRegexp r, RubyArray args) {
@@ -323,7 +323,7 @@ class String_split extends RubyMethod {
 
 		String[] splitResult;
 		if (r == ObjectFactory.nilValue) {
-			splitResult = split(g, "\\s");
+			splitResult = split(g, "[\\s]+");
 		} else if (r instanceof RubyRegexp) {
 		 	splitResult = split(g, (RubyRegexp)r, args);
 		} else if (r instanceof RubyString) {
@@ -333,8 +333,13 @@ class String_split extends RubyMethod {
 		}
 		
 		RubyArray a = new RubyArray(splitResult.length);
+		int i = 0;
 		for (String str : splitResult) {
-			a.add(ObjectFactory.createString(str));
+			if (0 != i || !str.equals("")) {
+				//To conform ruby's behavior, discard the first empty element
+				a.add(ObjectFactory.createString(str));
+			}
+			++i;
 		}
 		return a;
 	}
