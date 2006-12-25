@@ -68,16 +68,6 @@ public class RubyRegexp extends RubyBasic {
 	}
 	
 	public String[] split(String input, int limit) {
-		String[] s = regex.split(input, limit);
-		if (regex.pattern().equals("")) {
-			//To conform ruby's behavior, discard the first element if regex is //
-			String[] new_s = new String[s.length - 1];
-			for (int i = 1; i < s.length; ++i) {
-				new_s[i - 1] = s[i]; 
-			}
-			return new_s;
-		} else {
-			return s;
-		}
+		return regex.split(input, limit);
 	}
 }
