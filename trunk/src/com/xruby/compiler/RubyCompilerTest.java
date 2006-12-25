@@ -3737,10 +3737,14 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_String_scan() {
 		String [] program_texts = {
+				"print 'cruel world'.scan(/(..)(..)/) == [['cr', 'ue'], ['l ', 'wo']]",
+				"print '1a2b3c'.scan(/(\\d.)/) == [['1a'], ['2b'], ['3c']]",
 				"print 'cruel world'.scan(/\\w+/) ",
 		};
 		
 		String[] outputs = {
+				"true",
+				"true",
 				"cruelworld",
 		};
 		
