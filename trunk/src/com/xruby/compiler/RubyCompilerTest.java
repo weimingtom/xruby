@@ -3735,6 +3735,18 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_String_scan() {
+		String [] program_texts = {
+				"print 'cruel world'.scan(/\\w+/) ",
+		};
+		
+		String[] outputs = {
+				"cruelworld",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_String_chmop() {
 		String [] program_texts = {
 				"print 'hello\n'.chomp",
@@ -3865,7 +3877,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_string_match() {
 		String [] program_texts = {
-				"print $&; \"abcabc\" =~ /.*a/; print $&, $&.class",
+				"\"abcabc\" =~ /.*a/; print $&, $&.class",
 				"print \"\" =~ /^$/",
 				"print \"a\\n\\n\" =~ /^$/",
 				"print '123' !~ 123",
@@ -3875,7 +3887,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
-				"nilabcaString",
+				"abcaString",
 				"0",
 				"2",
 				"true",

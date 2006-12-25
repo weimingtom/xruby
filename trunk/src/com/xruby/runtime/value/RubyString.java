@@ -76,4 +76,13 @@ public class RubyString extends RubyBasic {
 		int end = sb_.length();
 		sb_.delete(start, end);
 	}
+
+	public RubyArray scan(RubyRegexp regex) {
+		RubyMatchData match = regex.match(sb_.toString());
+		if (null != match) {
+			return match.toArray();
+		} else {
+			return new RubyArray();
+		}
+	}
 }

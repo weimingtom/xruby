@@ -630,6 +630,18 @@ class String_chomp_danger extends RubyMethod {
 	}
 }
 
+class String_scan extends RubyMethod {
+	String_scan() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString string = (RubyString)receiver;
+		RubyRegexp regex = (RubyRegexp)args.get(0);
+		return string.scan(regex);
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -661,6 +673,7 @@ public class StringClassBuilder {
 		c.defineMethod("reverse", new String_reverse());
 		c.defineMethod("chomp", new String_chomp());
 		c.defineMethod("chomp!", new String_chomp_danger());
+		c.defineMethod("scan", new String_scan());
 		c.defineAllocMethod(new String_new());
 	}
 }

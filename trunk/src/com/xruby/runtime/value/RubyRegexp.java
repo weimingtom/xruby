@@ -21,8 +21,7 @@ public class RubyRegexp extends RubyBasic {
 	}
 	
 	public boolean caseEqual(String v) {
-		Matcher m = regex.matcher(v);
-		return m.find();
+		return match(v) != null;
 	}
 	
 	public RubyMatchData match(String v) {
