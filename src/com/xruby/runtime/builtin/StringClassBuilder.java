@@ -5,6 +5,7 @@
 package com.xruby.runtime.builtin;
 
 import java.math.BigInteger;
+import java.util.StringTokenizer;
 
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
@@ -305,7 +306,13 @@ class String_split extends RubyMethod {
 	}
 
 	private String[] split(RubyString s, String delimiter) {
-		return s.toString().split(delimiter);
+		StringTokenizer t = new StringTokenizer(s.toString(), delimiter);
+		int total = t.countTokens();
+		String[] r = new String[total];
+		for (int i = 0; i < total; ++i) {
+			r[i] = t.nextToken();
+		}
+		return r;
 	}
 
 	private String[] split(RubyString g, RubyRegexp r, RubyArray args) {
@@ -323,7 +330,7 @@ class String_split extends RubyMethod {
 
 		String[] splitResult;
 		if (r == ObjectFactory.nilValue) {
-			splitResult = split(g, "[\\s]+");
+			splitResult = split(g, " ");
 		} else if (r instanceof RubyRegexp) {
 		 	splitResult = split(g, (RubyRegexp)r, args);
 		} else if (r instanceof RubyString) {
