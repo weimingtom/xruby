@@ -396,7 +396,7 @@ class Array_reverse_danger extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		array.reverse();
-		return receiver;
+		return array;
 	}
 }
 
@@ -408,7 +408,7 @@ class Array_reverse extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = ((RubyArray)receiver).copy();
 		array.reverse();
-		return receiver;
+		return array;
 	}
 }
 
