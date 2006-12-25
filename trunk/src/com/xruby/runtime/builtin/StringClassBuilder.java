@@ -310,10 +310,10 @@ class String_split extends RubyMethod {
 
 	private String[] split(RubyString g, RubyRegexp r, RubyArray args) {
 		if (args.size() <= 1){
-			return r.getPattern().split(g.toString());
+			return r.split(g.toString(), 0);
 		} else {
 			RubyFixnum i = (RubyFixnum)args.get(1);
-			return r.getPattern().split(g.toString(), i.intValue());
+			return r.split(g.toString(), i.intValue());
 		}
 	}
 	
