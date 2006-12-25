@@ -3737,6 +3737,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_split() {
 		String [] program_texts = {
+				"a = ' the time'.split(//); print a, a.size",
 				"print (' the time'.split)",
 			
 				"print ('abc de b,sf cde'.split(/ /).length)",
@@ -3748,6 +3749,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				" the time9",
 				"thetime",
 					
 				"4",
