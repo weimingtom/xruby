@@ -66,4 +66,14 @@ public class RubyString extends RubyBasic {
 	public void reverse() {
 		sb_.reverse();
 	}
+
+	public void chomp(String seperator) {
+		if (!sb_.toString().endsWith(seperator)) {
+			return;
+		}
+		
+		int start = sb_.length() - seperator.length();
+		int end = sb_.length();
+		sb_.delete(start, end);
+	}
 }

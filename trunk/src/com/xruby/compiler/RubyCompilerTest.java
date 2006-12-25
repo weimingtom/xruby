@@ -3735,7 +3735,21 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_split() {
+	public void test_String_chmop() {
+		String [] program_texts = {
+				"print 'hello\n'.chomp",
+				"print 'hello'.chomp!('llo')",
+		};
+		
+		String[] outputs = {
+				"hello",
+				"he",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_String_split() {
 		String [] program_texts = {
 				"a = ' a  b c   '.split(' '); print a, a.size",
 				"a = ' a  b c   d'.split; print a, a.size",

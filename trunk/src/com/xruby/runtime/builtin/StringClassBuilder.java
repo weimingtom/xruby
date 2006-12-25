@@ -604,6 +604,32 @@ class String_reverse extends RubyMethod {
 	}
 }
 
+class String_chomp extends RubyMethod {
+	String_chomp() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
+		RubyValue separator = (null != args) ? args.get(0) : GlobalVariables.get("$/");
+		string.chomp(((RubyString)separator).toString());
+		return string;
+	}
+}
+
+class String_chomp_danger extends RubyMethod {
+	String_chomp_danger() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString string = (RubyString)receiver;
+		RubyValue separator = (args.size() > 0) ? args.get(0) : GlobalVariables.get("$/");
+		string.chomp(((RubyString)separator).toString());
+		return string;
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -633,6 +659,8 @@ public class StringClassBuilder {
 		c.defineMethod("each_byte", new String_each_byte());
 		c.defineMethod("reverse!", new String_reverse_danger());
 		c.defineMethod("reverse", new String_reverse());
+		c.defineMethod("chomp", new String_chomp());
+		c.defineMethod("chomp!", new String_chomp_danger());
 		c.defineAllocMethod(new String_new());
 	}
 }
