@@ -100,12 +100,17 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		if (length < 0) {
 			throw new RubyException(RubyRuntime.IndexErrorClass, "negative length ("+ length + ")");
 		} else if (0 == length) {
-			array.add(index, value);
+			if (value instanceof RubyArray) {
+				array.addAll(index, ((RubyArray)value).getInternal());
+			} else {
+				array.add(index, value);
+			}
 		} else {
 			for (int i = 0; i < length - 1; ++i) {
 				array.remove(index);
 			}
-	
+
+			//TODO should we use addAll if value is RubyArray?
 			array.set(index, value);
 		}
 		return value;
