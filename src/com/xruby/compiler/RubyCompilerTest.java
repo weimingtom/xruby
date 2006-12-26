@@ -2823,8 +2823,14 @@ public class RubyCompilerTest extends TestCase {
 		assertTrue(file.delete());
 	}
 	
-	public void test_File_basename_dirname() {
+	public void test_File_basename_dirname_expand_path() {
 		String [] program_texts = {
+				"print File.expand_path('sub', '//')",
+				"print File.expand_path('/', 'c:/sub')",
+				"print File.expand_path('/dir', '//machine/share/sub')",
+				"print File.expand_path('../../bin', '/tmp/x')",
+				"print File.expand_path('/', '//machine/share/sub')",
+				"print File.expand_path('.', '//')",
 				"print File.dirname('/')",
 				"print File.basename('abc.rb', '.*')",
 				"print File.basename('/')",
@@ -2832,6 +2838,12 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"//sub",
+				"c:/",
+				"//machine/share/dir",
+				"/bin",
+				"//machine/share",
+				"//",
 				"/",
 				"abc",
 				"/",

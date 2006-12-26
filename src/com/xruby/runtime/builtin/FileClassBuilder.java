@@ -93,13 +93,38 @@ class File_file_question extends RubyMethod {
 
 class File_expand_path extends RubyMethod {
 	public File_expand_path() {
-		super(1);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String fileName = RubyTypesUtil.convertToString(args.get(0)).toString();
-		File file = new File(fileName);
-		return ObjectFactory.createString(file.getAbsolutePath());
+		if (null == args) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
+		}
+		
+		String file_name = RubyTypesUtil.convertToString(args.get(0)).toString();
+		if (file_name.equals(".")) {
+			file_name = "";
+		} else if ('/' == file_name.charAt(0)) {
+			file_name = ".." + file_name;
+		}
+
+		if (args.size() == 1) {
+			File file = new File(file_name);
+			return ObjectFactory.createString(file.getAbsolutePath().replace('\\', '/'));
+		} else {
+			StringBuilder dir_string = new StringBuilder(RubyTypesUtil.convertToString(args.get(1)).toString());
+			while (file_name.startsWith("../")) {
+				dir_string.delete(dir_string.lastIndexOf("/"), dir_string.length());
+				file_name = file_name.substring(3, file_name.length());
+			}
+			if (file_name.length() > 0 || dir_string.toString().endsWith(":")) {
+				if (!dir_string.toString().endsWith("/")) {
+					dir_string.append("/");
+				}
+				dir_string.append(file_name);
+			}
+			return ObjectFactory.createString(dir_string.toString().replace('\\', '/'));
+		}
 	}
 }
 
