@@ -2825,11 +2825,15 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_File_basename_dirname() {
 		String [] program_texts = {
+				"print File.dirname('/')",
+				"print File.basename('abc.rb', '.*')",
 				"print File.basename('/')",
 				"print File.dirname('/abc/def')",
 		};
 		
 		String[] outputs = {
+				"/",
+				"abc",
 				"/",
 				"/abc",
 		};

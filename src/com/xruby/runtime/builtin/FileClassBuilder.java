@@ -26,7 +26,14 @@ class File_basename extends RubyMethod {
 		}
 		
 		String suffix = RubyTypesUtil.convertToString(args.get(1)).toString();
-		if (basename.endsWith(suffix)){
+		if (suffix.equals(".*")) {
+			int dot_position = basename.lastIndexOf('.');
+			if (dot_position < 0) {
+				return ObjectFactory.createString(basename);
+			} else {
+				return ObjectFactory.createString(basename.substring(0, dot_position));
+			}
+		} if (basename.endsWith(suffix)){
 			return ObjectFactory.createString(basename.substring(0, basename.length() - suffix.length()));
 		} else {
 			return ObjectFactory.createString(basename);
@@ -105,8 +112,8 @@ class File_dirname extends RubyMethod {
 		String fileName = RubyTypesUtil.convertToString(args.get(0)).toString();
 		File file = new File(fileName);
 		String parent = file.getParent();
-		if (parent == null){
-			return ObjectFactory.createString(".");
+		if (parent == null) {
+			return ObjectFactory.createString(fileName.equals("/") ? "/" : ".");
 		}
 		
 		//Java's File.getParent() always converts '/' to '\\' on windows. This is not
