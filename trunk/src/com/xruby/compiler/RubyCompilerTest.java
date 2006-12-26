@@ -2823,12 +2823,14 @@ public class RubyCompilerTest extends TestCase {
 		assertTrue(file.delete());
 	}
 	
-	public void test_File_dirname() {
+	public void test_File_basename_dirname() {
 		String [] program_texts = {
+				"print File.basename('/')",
 				"print File.dirname('/abc/def')",
 		};
 		
 		String[] outputs = {
+				"/",
 				"/abc",
 		};
 		
