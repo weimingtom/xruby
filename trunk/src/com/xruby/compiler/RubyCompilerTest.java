@@ -315,7 +315,9 @@ public class RubyCompilerTest extends TestCase {
 	}
 	
 	public void test_Array_misc() {
-		String[] program_texts = {				
+		String[] program_texts = {
+				"a = [1,2,3]; a[1,0] = [1,2,3]; print a, a.size",
+				
 				"print [ 1, 2, 3 ] * \",\"",
 				"print [1, 2].hash == [1, 2].hash",
 				"print [ 1, 1, 3, 5 ] & [ 1, 2, 3 ]",
@@ -330,6 +332,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"1123236",
+				
 				"1,2,3",
 				"true",
 				"13",
