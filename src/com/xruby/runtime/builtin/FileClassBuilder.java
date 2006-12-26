@@ -17,6 +17,9 @@ class File_basename extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		String fileName = RubyTypesUtil.convertToString(args.get(0)).toString();
 		String basename = new File(fileName).getName();
+		if (0 == basename.length()) {
+			basename = "/";
+		}
 		
 		if (args.size() == 1){
 			return ObjectFactory.createString(basename);
@@ -25,8 +28,9 @@ class File_basename extends RubyMethod {
 		String suffix = RubyTypesUtil.convertToString(args.get(1)).toString();
 		if (basename.endsWith(suffix)){
 			return ObjectFactory.createString(basename.substring(0, basename.length() - suffix.length()));
+		} else {
+			return ObjectFactory.createString(basename);
 		}
-		return ObjectFactory.createString(basename);
 	}
 }
 
