@@ -46,5 +46,19 @@ public class RubyRange extends RubyBasic {
 	
 	public boolean isExcludeEnd() {
 		return excludeEnd;
-	}	
+	}
+
+	public RubyArray to_a() {
+		RubyArray a = new RubyArray();
+		//TODO may not be RubyFixnum
+		int left = ((RubyFixnum)begin).intValue();
+		int right = ((RubyFixnum)end).intValue();
+		if (!excludeEnd) {
+			++right;
+		}
+		for (int i = left; i < right; ++i) {
+			a.add(ObjectFactory.createFixnum(i));
+		}
+		return a;
+	}
 }

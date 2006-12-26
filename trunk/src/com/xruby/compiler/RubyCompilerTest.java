@@ -2696,6 +2696,18 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Range_to_a() {
+		String[] program_texts = {
+				"print ((1..7).to_a)",
+		};
+		
+		String[] outputs = {
+				"1234567",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_regex_case_equal() {
 		String[] program_texts = {
 				"print /^f.*r$/ === 'foobar'",

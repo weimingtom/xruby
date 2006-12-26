@@ -67,6 +67,17 @@ class Range_new extends RubyMethod {
 	}
 }
 
+class Range_to_a extends RubyMethod {
+	public Range_to_a() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyRange r = (RubyRange)receiver;
+		return r.to_a();
+	}
+}
+
 /*
 		return self if exclude_end? && (self.begin <=> self.end) != -1
 		return self if !exclude_end? && (self.begin <=> self.end) == 1
@@ -135,6 +146,7 @@ public class RangeClassBuilder {
 		c.defineMethod("exclude_end?", new Range_exclude_end());
 		c.defineMethod("initialize", new Range_initialize());
 		c.defineMethod("each", new Range_each());
+		c.defineMethod("to_a", new Range_to_a());
 		c.defineAllocMethod(new Range_new());
 	}
 }
