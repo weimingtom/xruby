@@ -6,7 +6,11 @@ package com.xruby.compiler.codedom;
 
 import java.math.BigInteger;
 
-public interface CodeVisitor {
+interface ISymbolTable {
+	public boolean isDefinedInCurrentScope(String name);
+}
+
+public interface CodeVisitor extends ISymbolTable {
 	public void visitBinaryOperator(String operator);
 	public Object visitAndBinaryOperatorLeft();
 	public void visitAndBinaryOperatorRight(Object label);

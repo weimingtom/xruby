@@ -1961,6 +1961,9 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_scope() {
 		String[] program_texts = {
+				"if false; test_scope_1 = 1; end; print test_scope_1",
+				"case 4; when 1; test_scope_2 = 1; end; print test_scope_2",
+				
 				"a = 5\n" +
 				"class A\n" +
 				"	a=9\n" +
@@ -1971,6 +1974,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"nil",
+				"nil",
+				
 				"95",
 		};
 

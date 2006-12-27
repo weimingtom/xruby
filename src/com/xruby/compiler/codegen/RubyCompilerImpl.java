@@ -876,4 +876,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 			visitNilExpression();
 		}
 	}
+
+	public boolean isDefinedInCurrentScope(String name) {
+		return cg_.getSymbolTable().isDefinedInCurrentScope(name);
+	}
 }

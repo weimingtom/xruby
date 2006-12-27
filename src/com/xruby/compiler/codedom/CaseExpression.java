@@ -9,7 +9,7 @@ import java.util.ArrayList;
 class When {
 	
 	private final Expression condition_;
-	private final CompoundStatement body_;
+	final CompoundStatement body_;
 	
 	When(Expression condition, CompoundStatement body) {
 		condition_ = condition;
@@ -28,7 +28,7 @@ class When {
 
 public class CaseExpression extends Expression {
 	private final Expression condition_;
-	private ArrayList<When> whens = new ArrayList<When>();
+	private ArrayList<When> whens_ = new ArrayList<When>();
 	private CompoundStatement else_body_;
 	
 	public CaseExpression(Expression condition) {
@@ -36,7 +36,7 @@ public class CaseExpression extends Expression {
 	}
 
 	public void addWhen(Expression condition, CompoundStatement body) {
-		whens.add(new When(condition, body));
+		whens_.add(new When(condition, body));
 	}
 
 	public void addElse(CompoundStatement body) {
@@ -52,12 +52,17 @@ public class CaseExpression extends Expression {
 
 	public void accept(CodeVisitor visitor) {
 		ensureElseBodyIsNotEmpty();
+
+		for (When when : whens_) {
+			IfExpression.ensureVariablesAreInitialized(when.body_, visitor);
+		}
+		IfExpression.ensureVariablesAreInitialized(else_body_, visitor);
 		
 		condition_.accept(visitor);
 		Object var = visitor.visitAfterCaseCondition();
 
 		Object end_label = null;
-		for (When when : whens) {
+		for (When when : whens_) {
 			end_label = when.accept(visitor, var, end_label);
 		}
 		
