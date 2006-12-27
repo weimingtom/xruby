@@ -2825,6 +2825,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_File_basename_dirname_expand_path() {
 		String [] program_texts = {
+				//Windows only "print File.expand_path('a', '/')",
 				"print File.expand_path('sub', '//')",
 				"print File.expand_path('/', 'c:/sub')",
 				"print File.expand_path('/dir', '//machine/share/sub')",
@@ -2838,6 +2839,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				//"C:/a",
 				"//sub",
 				"c:/",
 				"//machine/share/dir",
