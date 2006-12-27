@@ -85,6 +85,7 @@ public class IfExpression extends Expression {
 			}
 		}
 		comp.accept(visitor);
+		visitor.visitTerminal();
 	}
 	
 	public void accept(CodeVisitor visitor) {
