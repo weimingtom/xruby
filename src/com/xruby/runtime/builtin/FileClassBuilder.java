@@ -113,6 +113,10 @@ class File_expand_path extends RubyMethod {
 			return ObjectFactory.createString(file.getAbsolutePath().replace('\\', '/'));
 		} else {
 			StringBuilder dir_string = new StringBuilder(RubyTypesUtil.convertToString(args.get(1)).toString());
+			if (dir_string.toString().equals("/")) {
+				dir_string = new StringBuilder((new File("/")).getAbsolutePath().replace('\\', '/'));
+			}
+			
 			while (file_name.startsWith("../")) {
 				dir_string.delete(dir_string.lastIndexOf("/"), dir_string.length());
 				file_name = file_name.substring(3, file_name.length());
