@@ -4,6 +4,8 @@
 
 package com.xruby.compiler.codedom;
 
+import java.util.ArrayList;
+
 public class ExpressionStatement extends Statement {
 	private Expression exp_;
 
@@ -17,5 +19,9 @@ public class ExpressionStatement extends Statement {
 
 	public void accept(CodeVisitor visitor) {
 		exp_.accept(visitor);
+	}
+	
+	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+		exp_.getNewlyAssignedVariables(symboltable, result);
 	}
 }

@@ -6,6 +6,8 @@ package com.xruby.compiler.codedom;
 
 import java.util.*;
 
+import antlr.RecognitionException;
+
 class Elseif {
 	
 	private final Expression condition_;
@@ -65,9 +67,31 @@ public class IfExpression extends Expression {
 			else_body_.addStatement(new ExpressionStatement(new NilExpression()));
 		}
 	}
+
+	static void ensureVariablesAreInitialized(CompoundStatement body, CodeVisitor visitor) {
+		//some vairiables appeare first in if's body, and they may not be excuted.
+		ArrayList<String> vars = new ArrayList<String>();
+		body.getNewlyAssignedVariables(visitor, vars);
+		if (vars.isEmpty()) {
+			return;
+		}
+		
+		CompoundStatement comp = new CompoundStatement();
+		for (String var : vars) {
+			try {
+				comp.addStatement(new ExpressionStatement(new AssignmentOperatorExpression(new LocalVariableExpression(var, false), new NilExpression())));
+			} catch (RecognitionException e) {
+				System.exit(-1);//impossible
+			}
+		}
+		comp.accept(visitor);
+	}
 	
 	public void accept(CodeVisitor visitor) {
 		ensureIfBodyAndElseBodyAreNotEmpty();
+
+		ensureVariablesAreInitialized(if_body_, visitor);
+		ensureVariablesAreInitialized(else_body_, visitor);
 		
 		//optimazation
 		//TODO add more optimazation

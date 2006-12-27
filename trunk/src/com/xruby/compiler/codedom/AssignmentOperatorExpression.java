@@ -4,6 +4,8 @@
 
 package com.xruby.compiler.codedom;
 
+import java.util.ArrayList;
+
 import antlr.RecognitionException;
 
 public class AssignmentOperatorExpression extends Expression {
@@ -48,5 +50,14 @@ public class AssignmentOperatorExpression extends Expression {
 		lhs_.acceptAsAssignment(visitor,
 				rhs_ instanceof MethodCallExpression || rhs_ instanceof YieldExpression,
 				false);
+	}
+	
+	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+		if (lhs_ instanceof LocalVariableExpression) {
+			String name = ((LocalVariableExpression)lhs_).getValue();
+			if (!symboltable.isDefinedInCurrentScope(name)) {
+				result.add(name);
+			}
+		}
 	}
 }

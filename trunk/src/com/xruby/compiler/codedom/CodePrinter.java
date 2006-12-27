@@ -573,4 +573,8 @@ public class CodePrinter implements CodeVisitor {
 	public void visitNestedVariableEnd() {
 		result_.append("end NestedVariable\n");
 	}
+
+	public boolean isDefinedInCurrentScope(String name) {
+		return false;
+	}
 }

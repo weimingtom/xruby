@@ -4,6 +4,8 @@
 
 package com.xruby.compiler.codedom;
 
+import java.util.ArrayList;
+
 public abstract class Expression implements Visitable {
 	protected boolean conditionIsAlwayTrue(Expression e) {
 		if (e instanceof IntegerExpression) {
@@ -32,6 +34,10 @@ public abstract class Expression implements Visitable {
 		}
 		
 		return false;
+	}
+
+	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+		//Default behavior is do nothing
 	}
 	
 }
