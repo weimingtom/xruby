@@ -5,6 +5,7 @@
 package com.xruby.compiler.codedom;
 
 import antlr.RecognitionException;
+import java.util.ArrayList;
 
 public class ForInExpression extends Expression {
 	
@@ -28,6 +29,14 @@ public class ForInExpression extends Expression {
 			e.accept(visitor);
 		} catch (RecognitionException e1) {
 			throw new Error(e1);
+		}
+	}
+
+	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+		for (String name : block_.getParameters()) {
+			if (!symboltable.isDefinedInCurrentScope(name)) {
+				result.add(name);
+			}
 		}
 	}
 }
