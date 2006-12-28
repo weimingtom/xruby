@@ -16,9 +16,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 		String expected_result = 
 			"body begin\n" +
 			"self\n" +
-			"[:1\n" +
 			"!!!!\n" +
-			"]!\n" +
 			"raise:false\n" +
 			"body after\n" +
 			"visitPrepareEnsure\n" +
@@ -28,9 +26,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"]!\n" +
 			"=>null\n" +
 			"self\n" +
-			"[:1\n" +
 			"xxx\n" +
-			"]!\n" +
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +
@@ -51,9 +47,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			//TODO seems e is not handled correctly
 			"body begin\n" +
 			"self\n" +
-			"[:1\n" +
 			"!!!!\n" +
-			"]!\n" +
 			"raise:false\n" +
 			"body after\n" +
 			"visitPrepareEnsure\n" +
@@ -64,9 +58,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"]!\n" +
 			"=>e\n" +
 			"self\n" +
-			"[:1\n" +
 			"e\n" +
-			"]!\n" +
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +

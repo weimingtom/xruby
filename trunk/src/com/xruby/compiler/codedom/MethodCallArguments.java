@@ -19,6 +19,10 @@ public class MethodCallArguments implements Visitable {
 		arguments_.add(argument);
 	}
 
+	Expression getAsteriskArgument() {
+		return asterisk_argument_;
+	}
+
 	Expression getBlockArgument() {
 		return block_argument_;
 	}
