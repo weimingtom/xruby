@@ -27,6 +27,7 @@ public class AssignmentOperatorExpressionTest extends TestingAstTestCase {
 			"[:2\n" +
 			"0\n" +
 			"1\n" +
+			"]!\n" +
 			"[]=:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);

@@ -26,7 +26,7 @@ public class ExceptionList {
 		}
 		
 		ArrayExpression a = new ArrayExpression(arguments_, null);
-		a.accept(visitor, false);
+		a.accept(visitor);
 
 		return visitor.visitRescueVariable((null != var_) ? var_.getValue() : null, excepton_var);
 	}

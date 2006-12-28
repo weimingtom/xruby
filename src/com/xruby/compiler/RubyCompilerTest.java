@@ -965,9 +965,24 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
+	public void test_stack_depth_consistency_in_begin_end() {
+		String[] program_texts = {
+				"begin; true; rescue; false; end; begin; true; rescue; false; end",
+				"a = [ begin; 1; rescue; 2; end]; print a",
+				"print begin; true; rescue; false; end",
+		};
+
+		String[] outputs = {
+				"",
+				"1",
+				"true",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+
 	public void test_exception() {
 		String[] program_texts = {
-				//TODO "print begin; true; rescue; false; end",
 				
 				"def f(a); end; begin; f; rescue; print 55 ; end",
 				
@@ -1028,8 +1043,6 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
-				//"true",
-				
 				"55",
 				"xxx",
 				"yyy",

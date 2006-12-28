@@ -18,20 +18,23 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"self\n" +
 			"[:1\n" +
 			"!!!!\n" +
+			"]!\n" +
 			"raise:false\n" +
-			"body end\n" +
+			"body after\n" +
 			"visitPrepareEnsure\n" +
 			"visitRescueBegin\n" +
 			"[:1\n" +
 			"RuntimeError\n" +
+			"]!\n" +
 			"=>null\n" +
 			"self\n" +
 			"[:1\n" +
 			"xxx\n" +
+			"]!\n" +
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +
-			"body after\n" +
+			"body end\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
 	}
@@ -50,21 +53,24 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"self\n" +
 			"[:1\n" +
 			"!!!!\n" +
+			"]!\n" +
 			"raise:false\n" +
-			"body end\n" +
+			"body after\n" +
 			"visitPrepareEnsure\n" +
 			"visitRescueBegin\n" +
 			"[:1\n" +
 			"M\n" +
 			"::RuntimeError\n" +
+			"]!\n" +
 			"=>e\n" +
 			"self\n" +
 			"[:1\n" +
 			"e\n" +
+			"]!\n" +
 			"print:false\n" +
 			"end rescue\n" +
 			"end rescue!\n" +
-			"body after\n" +
+			"body end\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
 	}

@@ -107,7 +107,7 @@ public class BodyStatement implements Visitable {
 		
 		Object begin_label = visitor.visitBodyBegin(null != ensure_);
 		compoundStatement_.accept(visitor);
-		Object end_label = visitor.visitBodyEnd();
+		Object after_label = visitor.visitBodyAfter();
 		
 		//The body of an else clause is executed only if no 
 		//exceptions are raised by the main body of code
@@ -121,12 +121,12 @@ public class BodyStatement implements Visitable {
 			visitor.visitEnsure(-1);
 		}
 		
-		Object after_label = visitor.visitPrepareEnsure();
+		Object end_label = visitor.visitPrepareEnsure();
 		
-		int exception_var = visitor.visitRescueBegin(begin_label, end_label);
+		int exception_var = visitor.visitRescueBegin(begin_label, after_label);
 		Object last_label = null;
 		for (Rescue rescue : rescues_) {
-			last_label = rescue.accept(visitor, after_label, exception_var, null != ensure_);
+			last_label = rescue.accept(visitor, end_label, exception_var, null != ensure_);
 		}
 
 		if (null != ensure_) {
@@ -140,6 +140,6 @@ public class BodyStatement implements Visitable {
 			visitor.visitRescueEnd(exception_var, last_label, null != ensure_);
 		}
 		
-		visitor.visitBodyAfter(after_label);
+		visitor.visitBodyEnd(end_label);
 	}
 }

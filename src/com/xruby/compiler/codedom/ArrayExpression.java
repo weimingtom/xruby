@@ -35,7 +35,7 @@ public class ArrayExpression extends Expression {
 		return elements_;
 	}
 	
-	void accept(CodeVisitor visitor, boolean create_ruby_value) {
+	public void accept(CodeVisitor visitor) {
 		visitor.visitArrayBegin(elements_.size(), notSingleAsterisk_);
 		
 		for (Expression e : elements_) {
@@ -48,13 +48,7 @@ public class ArrayExpression extends Expression {
 			visitor.visitArrayElement(true, asterisk_element_ instanceof MethodCallExpression || asterisk_element_ instanceof YieldExpression);
 		}
 		
-		if (create_ruby_value) {
-			visitor.visitArrayEnd();
-		}
-	}
-	
-	public void accept(CodeVisitor visitor) {
-		accept(visitor, true);
+		visitor.visitArrayEnd();
 	}
 	
 }

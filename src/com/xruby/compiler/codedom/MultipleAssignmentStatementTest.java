@@ -20,6 +20,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"[:2\n" +
 			"1\n" +
 			"2\n" +
+			"]!\n" +
 			"begin MultipleAssignment:false:false\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +
@@ -41,6 +42,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"3\n" +
 			"]!\n" +
 			"[]*\n" +
+			"]!\n" +
 			"begin MultipleAssignment:false:false\n" +
 			"mrhs:0\n" +
 			"mrhs:1*\n" +
@@ -61,6 +63,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"2\n" +
 			"3\n" +
 			"4\n" +
+			"]!\n" +
 			"begin MultipleAssignment:false:false\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +

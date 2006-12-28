@@ -70,7 +70,7 @@ public class MultipleAssignmentStatement extends Statement {
 		
 		ArrayExpression to_a = new ArrayExpression(mrhs_, asterisk_rhs_);
 		
-		to_a.accept(visitor, false);
+		to_a.accept(visitor);
 		
 		boolean single_mrhs = mrhs_.size() == 1 && null == asterisk_rhs_ && mlhs_.size() > 0;
 		

@@ -13,6 +13,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"4\n" +
 			"[:1\n" +
 			"2\n" +
+			"]!\n" +
 			"div:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -27,6 +28,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"2\n" +
 			"class:true\n" +
 			"[]()\n" +
+			"]!\n" +
 			"puts:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -41,6 +43,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"1\n" +
 			"class:true\n" +
 			"[]()\n" +
+			"]!\n" +
 			"puts:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -64,6 +67,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"[:2\n" +
 			"1\n" +
 			"2\n" +
+			"]!\n" +
 			"puts:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -77,6 +81,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"a:false\n" +
 			"[:1\n" +
 			"1\n" +
+			"]!\n" +
 			"[]:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -92,6 +97,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"a\n" +
 			"[:1\n" +
 			"1\n" +
+			"]!\n" +
 			"[]:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -106,6 +112,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"[:1\n" +
 			"1\n" +
 			"-@\n" +
+			"]!\n" +
 			"[]:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -118,6 +125,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"self\n" +
 			"[:1\n" +
 			"0\n" +
+			"]!\n" +
 			"[]:true\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -131,6 +139,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"self\n" +
 			"[:1\n" +
 			"`java -x`\n" +
+			"]!\n" +
 			"puts:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -155,6 +164,7 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 			"/hello/\n" +
 			"xxxhello123\n" +
 			"===\n" +
+			"]!\n" +
 			"print:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);

@@ -58,6 +58,8 @@ public class MethodCallExpression extends Expression {
 	}
 
 	public void accept(CodeVisitor visitor) {
+		visitor.visitMethodCallBegin();
+		
 		if (null != receiver_) {
 			receiver_.accept(visitor);
 		} else {
@@ -92,7 +94,7 @@ public class MethodCallExpression extends Expression {
 			visitor.visitNoBlock(is_block_given_call);
 		}
 
-		visitor.visitMethodCall(methodName_,
+		visitor.visitMethodCallEnd(methodName_,
 							(null != receiver_),
 							assignedCommons,
 							name);

@@ -15,4 +15,6 @@ public class Types {
 	public static Class RubyMethodClass = RubyMethod.class;
 	public static Class RubyRuntimeClass = RubyRuntime.class;
 	public static Class AtExitBlocksClass = AtExitBlocks.class;
+	public static Class RubyArrayClass = RubyArray.class;
+	public static Class RubyHashClass = RubyHash.class;
 }
