@@ -19,10 +19,12 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitUnaryOperator(String operator);
 	public void visitInclusiveRangeOperator();
 	public void visitExclusiveRangeOperator();
-	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName);
 	public void visitConstant(String name);
 	public void visitCurrentNamespaceConstant(String name);
 	public void visitTopLevelConstant(String name);
+
+	public void visitMethodCallBegin();
+	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName);
 	
 	public void visitDefinedPublicMethod(String name);
 	public void visitDefinedMethod(String name);
@@ -93,8 +95,8 @@ public interface CodeVisitor extends ISymbolTable {
 	public Object visitAfterUnlessBody(Object next_label, Object end_label);
 	
 	public Object visitBodyBegin(boolean has_ensure);
-	public Object visitBodyEnd();
-	public void visitBodyAfter(Object label);
+	public Object visitBodyAfter();
+	public void visitBodyEnd(Object label);
 	public int visitRescueBegin(Object begin, Object end);
 	public Object visitPrepareEnsure();
 	public int visitEnsureBodyBegin();

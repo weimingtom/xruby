@@ -137,7 +137,10 @@ public class CodePrinter implements CodeVisitor {
 	public void visitBlockArgument() {
 	}
 
-	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {
+	public void visitMethodCallBegin() {
+	}
+	
+	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {
 		result_.append(methodName);
 		result_.append(":");
 		result_.append(hasReceiver);
@@ -318,13 +321,13 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public Object visitBodyEnd() {
-		result_.append("body end\n");
+	public Object visitBodyAfter() {
+		result_.append("body after\n");
 		return null;
 	}
 
-	public void visitBodyAfter(Object label) {
-		result_.append("body after\n");
+	public void visitBodyEnd(Object label) {
+		result_.append("body end\n");
 	}
 	
 	public Object visitPrepareEnsure() {

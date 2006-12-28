@@ -12,6 +12,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 			"yield\n" +
 			"[:1\n" +
 			"nil\n" +
+			"]!\n" +
 			"end yield\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -25,6 +26,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 			"*[:0\n" +
 			"nil\n" +
 			"[]*\n" +
+			"]!\n" +
 			"end yield\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);

@@ -240,8 +240,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitBlockArgument() {
 		cg_.getMethodGenerator().RubyAPI_convertRubyValue2RubyBlock();
 	}
+
+	public void visitMethodCallBegin() {
+		cg_.getMethodGenerator().addCurrentVariablesOnStack(Types.RubyValueClass);
+	}
 	
-	public void visitMethodCall(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {	
+	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {	
+		cg_.getMethodGenerator().removeCurrentVariablesOnStack();
+
 		if (hasReceiver) {
 			cg_.getMethodGenerator().RubyAPI_callPublicMethod(methodName);
 		} else {
@@ -481,6 +487,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public Object visitBodyBegin(boolean has_ensure) {
+		//once exceptio is thrown, everything already on the stack will be destoried. so if we have begin..end
+		//in the method parameter. e.g. f(..., begin ..end, ...), the method receiver and parameter is already on the list.
+		cg_.getMethodGenerator().saveCurrentVariablesOnStack();
+		
 		ensureLabelManager_.openNewScope();
 		if (has_ensure) {
 			ensureLabelManager_.setCurrentFinally(new Label());
@@ -488,13 +498,15 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return cg_.getMethodGenerator().mark();
 	}
 
-	public Object visitBodyEnd() {
+	public Object visitBodyAfter() {
 		return cg_.getMethodGenerator().mark();
 	}
 
-	public void visitBodyAfter(Object label) {
+	public void visitBodyEnd(Object label) {
 		cg_.getMethodGenerator().mark((Label)label);
 		ensureLabelManager_.closeCurrentScope();
+
+		cg_.getMethodGenerator().restoreCurrentVariablesOnStack();
 	}
 
 	public int visitEnsureBodyBegin() {
@@ -574,9 +586,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitArrayBegin(int size, boolean notSingleAsterisk) {
 		cg_.getMethodGenerator().ObjectFactory_createArray(size, notSingleAsterisk);
+		cg_.getMethodGenerator().addCurrentVariablesOnStack(Types.RubyArrayClass);
 	}
 	
 	public void visitHashBegin() {
+		//TODO use addCurrentVariablesOnStack/removeCurrentVariablesOnStack
 		cg_.getMethodGenerator().ObjectFactory_createHash();
 	}
 	
@@ -593,6 +607,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitArrayEnd() {
+		cg_.getMethodGenerator().removeCurrentVariablesOnStack();
 	}
 	
 	public void visitHashEnd() {

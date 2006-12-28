@@ -8,6 +8,7 @@ package com.xruby.compiler.codegen;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
 import java.math.BigInteger;
+import java.util.*;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
@@ -15,10 +16,49 @@ class MethodGenerator extends GeneratorAdapter {
 	
 	private SymbolTable symbol_table_ = new SymbolTable();
 
+	private ArrayList<Class> current_types_on_stack_ = new ArrayList<Class>();
+	private ArrayList<Integer> saved_vars_ = new ArrayList<Integer>();//may be have same length of current_types_on_stack_
+
 	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
 		super(arg0, arg1, arg2, arg3, arg4);
 	}
 	
+	public void saveCurrentVariablesOnStack() {
+		Collections.reverse(current_types_on_stack_);
+		for (Class c : current_types_on_stack_) {
+			int v = newLocal(Type.getType(c));
+			saved_vars_.add(v);
+			storeLocal(v);
+		}
+		Collections.reverse(current_types_on_stack_);
+	}
+
+	public void restoreCurrentVariablesOnStack() {
+		if (saved_vars_.isEmpty()) {
+			return;
+		}
+		
+		int i = newLocal(Type.getType(RubyValue.class));
+		storeLocal(i);
+		
+		Collections.reverse(saved_vars_);
+		for (Integer v : saved_vars_) {
+			loadLocal(v);
+		}
+		saved_vars_.clear();
+		
+		loadLocal(i);
+	}
+
+	//Use this method if you are going to stack depth > 1 and exception may throw in the middle
+	public void addCurrentVariablesOnStack(Class c) {
+		current_types_on_stack_.add(c);
+	}
+
+	public void removeCurrentVariablesOnStack() {
+		current_types_on_stack_.remove(current_types_on_stack_.size() - 1);
+	}
+
 	public SymbolTable getSymbolTable() {
 		return symbol_table_;
 	}
@@ -48,7 +88,7 @@ class MethodGenerator extends GeneratorAdapter {
 		loadArg(1);
 		push(index);
 		loadLocal(i);
-		invokeVirtual(Type.getType(RubyArray.class),
+		invokeVirtual(Type.getType(Types.RubyArrayClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue set(int, com.xruby.runtime.lang.RubyValue)"));
 		pop();
 	}
@@ -99,13 +139,13 @@ class MethodGenerator extends GeneratorAdapter {
 		//signatiure run(RubyValue reciever, RubyArray parameters, RubyBlock block)
 		loadArg(1);
 		push(index);
-		invokeVirtual(Type.getType(RubyArray.class),
+		invokeVirtual(Type.getType(Types.RubyArrayClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue get(int)"));
 	}
 
 	public void loadMethodPrameterLength() {
 		loadArg(1);
-		invokeVirtual(Type.getType(RubyArray.class),
+		invokeVirtual(Type.getType(Types.RubyArrayClass),
 				Method.getMethod("int size()"));
 	}
 
@@ -154,7 +194,7 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 	
 	public int saveRubyArrayAsLocalVariable() {
-		int var = newLocal(Type.getType(RubyArray.class));
+		int var = newLocal(Type.getType(Types.RubyArrayClass));
 		storeLocal(var);
 		return var;
 	}
@@ -284,7 +324,7 @@ class MethodGenerator extends GeneratorAdapter {
 			invokeStatic(Type.getType(RubyAPI.class),
 					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 		}
-		invokeVirtual(Type.getType(RubyArray.class),
+		invokeVirtual(Type.getType(Types.RubyArrayClass),
 				Method.getMethod("com.xruby.runtime.value.RubyArray add(com.xruby.runtime.lang.RubyValue)"));
 	}
 
@@ -294,19 +334,19 @@ class MethodGenerator extends GeneratorAdapter {
 					Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
 		}
 
-		invokeVirtual(Type.getType(RubyArray.class),
+		invokeVirtual(Type.getType(Types.RubyArrayClass),
 				Method.getMethod("com.xruby.runtime.value.RubyArray expand(com.xruby.runtime.lang.RubyValue)"));
 	}
 	
 	public void RubyArray_get(int index) {
 		push(index);
-		invokeVirtual(Type.getType(RubyArray.class),
+		invokeVirtual(Type.getType(Types.RubyArrayClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue get(int)"));
 	}
 
 	public void RubyArray_collect(int index) {
 		push(index);
-		invokeVirtual(Type.getType(RubyArray.class),
+		invokeVirtual(Type.getType(Types.RubyArrayClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue collect(int)"));
 	}
 
@@ -322,7 +362,7 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 	
 	public void RubyHash_addValue() {
-		invokeVirtual(Type.getType(RubyHash.class),
+		invokeVirtual(Type.getType(Types.RubyHashClass),
 				Method.getMethod("com.xruby.runtime.value.RubyHash add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
 	}
 

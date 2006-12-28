@@ -55,6 +55,6 @@ public class MethodCallArguments implements Visitable {
 
 	public void accept(CodeVisitor visitor) {
 		ArrayExpression to_a = new ArrayExpression(arguments_, asterisk_argument_);
-		to_a.accept(visitor, false);
+		to_a.accept(visitor);
 	}
 }
