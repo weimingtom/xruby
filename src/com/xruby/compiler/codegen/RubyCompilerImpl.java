@@ -245,13 +245,21 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().addCurrentVariablesOnStack(Types.RubyValueClass);
 	}
 	
-	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName) {	
+	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, boolean single_arg_no_block) {	
 		cg_.getMethodGenerator().removeCurrentVariablesOnStack();
 
 		if (hasReceiver) {
-			cg_.getMethodGenerator().RubyAPI_callPublicMethod(methodName);
+			if (single_arg_no_block) {
+				cg_.getMethodGenerator().RubyAPI_callPublicMethod_OneArgNoBlcok(methodName);
+			} else {
+				cg_.getMethodGenerator().RubyAPI_callPublicMethod(methodName);
+			}
 		} else {
-			cg_.getMethodGenerator().RubyAPI_callMethod(methodName);
+			if (single_arg_no_block) {
+				cg_.getMethodGenerator().RubyAPI_callMethod_OneArgNoBlcok(methodName);
+			} else {
+				cg_.getMethodGenerator().RubyAPI_callMethod(methodName);
+			}
 		}
 
 		if (null != assignedCommons && assignedCommons.length > 0) {

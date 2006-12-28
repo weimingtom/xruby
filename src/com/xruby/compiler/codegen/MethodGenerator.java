@@ -538,6 +538,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
+	public void RubyAPI_callMethod_OneArgNoBlcok(String methodName) {
+		push(methodName);
+		invokeStatic(Type.getType(RubyAPI.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
+	}
+
 	public void RubyAPI_callSuperMethod(String methodName) {
 		push(methodName);
 		loadThis();

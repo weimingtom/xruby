@@ -63,9 +63,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 		String expected_result = 
 			"def my_methods:0:false:0:false\n" +
 			"self\n" +
-			"[:1\n" +
 			"123\n" +
-			"]!\n" +
 			"puts:false\n" +
 			";\n" +
 			"yield\n" +
@@ -87,9 +85,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 			"parameter:b\n" +
 			"parameter:c\n" +
 			"self\n" +
-			"[:1\n" +
 			"a\n" +
-			"]!\n" +
 			"puts:false\n" +
 			"end def:true\n" +
 			"EOF";
@@ -119,9 +115,7 @@ public class MethodDefinationExpressionTest extends TestingAstTestCase {
 			"parameter:b\n" +
 			"*parameter:c\n" +
 			"self\n" +
-			"[:1\n" +
 			"c\n" +
-			"]!\n" +
 			"puts:false\n" +
 			"end def:true\n" +
 			"EOF";
