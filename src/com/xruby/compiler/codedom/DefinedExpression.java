@@ -49,7 +49,7 @@ public class DefinedExpression extends Expression {
 		} else if (expression_ instanceof YieldExpression) {
 			visitor.visitDefinedYield();
 		} else if (expression_ instanceof LocalVariableExpression) {
-			visitor.visitStringExpression("local-variable");
+			visitor.visitDefinedLocalVariable(((LocalVariableExpression)expression_).getValue());
 		} else {
 			visitor.visitStringExpression("expression");
 		}
