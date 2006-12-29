@@ -503,7 +503,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (has_ensure) {
 			ensureLabelManager_.setCurrentFinally(new Label());
 		}
-		return cg_.getMethodGenerator().mark();
+		cg_.getMethodGenerator().mark(ensureLabelManager_.getCurrentRetry());
+		return ensureLabelManager_.getCurrentRetry();
 	}
 
 	public Object visitBodyAfter() {
@@ -809,8 +810,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitRetry() {
-		//TODO retry is not as same as redo 
-		visitRedo();
+		if (isInBlock()) {
+			cg_.getMethodGenerator().pushNull();
+			cg_.getMethodGenerator().redoFromBlock();
+		} else {
+			cg_.getMethodGenerator().goTo(ensureLabelManager_.getCurrentRetry());
+		}
 	}
 
 	public void visitExclusiveRangeOperator() {

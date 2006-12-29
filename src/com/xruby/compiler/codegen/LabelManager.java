@@ -41,10 +41,15 @@ class LabelManager {
 
 class EnsureLabelManager {
 	private class LabelGroup {
+		public Label retry_ = new Label();
 		public Label finally_ = null;
 	}
 	
 	private Stack<LabelGroup> labels_ = new Stack<LabelGroup>();
+
+	public Label getCurrentRetry() {
+		return labels_.peek().retry_;
+	}
 
 	public Label getCurrentFinally() {
 		if (labels_.empty()) {
