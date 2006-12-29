@@ -2684,14 +2684,11 @@ public class RubyCompilerTest extends TestCase {
 		String[] program_texts = {
 				"1 .. 'x'",
 				"'x' ... 3",
-				// TODO: delete this line, new Range class support this
-				//"'x' ... 'y'",
 		};
 
 		RubyException[] exceptions = {
 			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
 			new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
-			//new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -4145,15 +4142,15 @@ public class RubyCompilerTest extends TestCase {
 				"print NilClass === true",
 				"print NilClass === nil",
 				"print Object === true",
-				//TODO "print Math === nil",
-				//"print Kernel === nil",
+				"print Math === nil",
+				//TODO"print Kernel === nil",
 		};
 		
 		String[] outputs = {
 				"false",
 				"true",
 				"true",
-				//"false",
+				"false",
 				//"true",
 		};
 		
