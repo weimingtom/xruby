@@ -32,6 +32,12 @@ public class CodePrinter implements CodeVisitor {
 	public void visitDefinedYield() {
 		result_.append("defined? yield\n");
 	}
+
+	public void visitDefinedLocalVariable(String name) {
+		result_.append("defined? ");
+		result_.append(name);
+		result_.append("\n");
+	}
 	
 	public void visitBinaryOperator(String operator) {
 		result_.append(operator);

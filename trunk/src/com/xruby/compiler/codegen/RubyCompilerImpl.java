@@ -891,6 +891,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 
+	public void visitDefinedLocalVariable(String name) {
+		if (cg_.getSymbolTable().isDefinedInCurrentScope(name)) {
+			visitStringExpression("local-variable");
+		} else {
+			visitNilExpression();
+		}
+	}
+
 	public void visitDefinedYield() {
 		if (cg_ instanceof ClassGeneratorForRubyMethod) {
 			cg_.getMethodGenerator().loadArg(2);
