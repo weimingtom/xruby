@@ -115,4 +115,5 @@ eval "i7=5", p1
 test_ok(p1.call == 5)
 test_ok(i7 == nil)
 
+loop{iii=5; test_ok(eval("defined? iii")); break}
 
