@@ -15,14 +15,7 @@ public class CommandLineOptionsTest extends TestCase {
 	}
 
 	public void test_null_array() {
-		CommandLineOptions options = new CommandLineOptions(new String[] {null});
-		assertTrue(!options.isCompileOnly());
-		assertTrue(!options.isHelp());
-		assertEquals(0, options.getFiles().size());
-	}
-	
-	public void test_empty() {
-		CommandLineOptions options = new CommandLineOptions(new String[] {""});
+		CommandLineOptions options = new CommandLineOptions(new String[] {});
 		assertTrue(!options.isCompileOnly());
 		assertTrue(!options.isHelp());
 		assertEquals(0, options.getFiles().size());
@@ -57,5 +50,17 @@ public class CommandLineOptionsTest extends TestCase {
 		assertEquals(2, options.getFiles().size());
 		assertEquals("c:\\test1", options.getFiles().get(0));
 		assertEquals("test2.rb", options.getFiles().get(1));
+	}
+	
+	public void test_eval_one_line() {
+		CommandLineOptions options = new CommandLineOptions(new String[] {"-e", "'print \"foobar\"'"});
+		assertTrue(options.isEvalOneLine());
+		assertEquals("print \"foobar\"", options.getEvalScript());
+	}
+	
+	public void test_eval_one_line_2() {
+		CommandLineOptions options = new CommandLineOptions(new String[] {"-e", "'print",  "\"foobar\"'"});
+		assertTrue(options.isEvalOneLine());
+		assertEquals("print \"foobar\"", options.getEvalScript());
 	}
 }
