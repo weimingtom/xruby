@@ -132,6 +132,11 @@ public class RubyAPI {
 	}
 
 	public static RubyValue runCommandAndCaptureOutput(String value) {
+		//some commands are builtin within the shell. e,g. echo, copy...
+		if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") >= 0) {
+			value = "cmd /c " + value;
+		}
+		
 		try {
 			Process p = Runtime.getRuntime().exec(value);
 			StringBuilder output = new StringBuilder();

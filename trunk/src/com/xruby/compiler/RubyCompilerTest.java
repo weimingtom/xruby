@@ -1234,11 +1234,13 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_command_output() {
 		String[] program_texts = {
+				"print `echo xxx`",
 				"print `java -x`",
 				"a = 'java -y';print `#{a}`",
 		};
 
 		String[] outputs = {
+				"xxx\n",
 				"Unrecognized option: -x\nCould not create the Java virtual machine.\n",
 				"Unrecognized option: -y\nCould not create the Java virtual machine.\n",
 		};
