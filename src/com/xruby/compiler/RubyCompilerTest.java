@@ -2066,6 +2066,24 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
+	public void test_protected() {
+		String[] program_texts = {
+				"class C\n" +
+				"  def test_protected1; end\n" +
+				"  protected :test_protected1  \n" +
+				"  def test_protected2(x);  defined?(x.test_protected1) ;end\n" +
+				"end\n" +
+				"\n" +
+				"a = C.new; print a.test_protected2(a)",
+		};
+
+		String[] outputs = {
+				"method",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+
 	public void test_private_protected() {
 		String[] bad_program_texts = {
 	
