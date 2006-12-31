@@ -51,7 +51,20 @@ public class RubyRegexp extends RubyBasic {
 	}
 	
 	public String gsub(RubyString str, RubyString repl) {
-		return regex.matcher(str.toString()).replaceAll(repl.toString());
+		String replace_string = repl.toString();
+		Matcher m = regex.matcher(str.toString());
+		
+		//java uses $1, $2, ruby uses \1, \2
+		replace_string = replace_string.replace("\\&", "$0");
+		final int n = m.groupCount();
+		for (int i = 1; i <= n; ++i) {
+			replace_string = replace_string.replace("\\" + i, "$" + i);
+		}
+		for (int i = n + 1; i < 10; ++i) {
+			replace_string = replace_string.replace("\\" + i, "");
+		}
+		
+		return m.replaceAll(replace_string);
 	}
 
 	public RubyValue gsub(RubyString s, RubyBlock block) {

@@ -773,6 +773,8 @@ public class StringClassBuilder {
 		c.defineMethod("+", new String_plus());
 		c.defineMethod("gsub", new String_gsub());
 		c.defineMethod("gsub!", new String_gsub_danger());
+		c.defineMethod("sub", new String_gsub());//TODO sub is not the same as gsub 
+		c.defineMethod("sub!", new String_gsub_danger());
 		c.defineMethod("split", new String_split());
 		c.defineMethod("<=>", new String_operator_compare());
 		c.defineMethod("=~", new String_operator_match());
