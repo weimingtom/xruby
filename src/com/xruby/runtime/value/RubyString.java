@@ -85,4 +85,26 @@ public class RubyString extends RubyBasic {
 			return new RubyArray();
 		}
 	}
+
+	/// @return false if no change made
+	public boolean tr(String from, String to) {
+		if (from.length() == 3 && to.length() == 3 && from.charAt(1) == '-' && to.charAt(1) == '-') {
+			char from_start = from.charAt(0);
+			char from_end = from.charAt(2);
+			char to_start = to.charAt(0);
+			char to_end = to.charAt(2);
+
+			for (int i = 0; i < sb_.length(); ++i) {
+				char current_char = sb_.charAt(i);
+				if (current_char >= from_start && current_char <= from_end) {
+					int replace_char = (current_char - from_start) + to_start;
+					sb_.setCharAt(i, replace_char < to_end ? (char)replace_char : to_end);
+				}
+			}
+			return true;
+		}
+
+		//TODO handle more situations
+		return false;
+	}
 }
