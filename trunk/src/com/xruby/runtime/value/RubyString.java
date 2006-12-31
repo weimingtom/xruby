@@ -119,8 +119,30 @@ public class RubyString extends RubyBasic {
 		return transform(from, to, false);
 	}
 
-	/// @return false if no change made
 	public boolean tr_s(String from, String to) {
 		return transform(from, to, true);
+	}
+
+	public boolean squeeze(String from) {
+		if (null != from && from.length() == 3 && from.charAt(1) == '-' ) {
+			char from_start = from.charAt(0);
+			char from_end = from.charAt(2);
+			char last_char = 0;
+			for (int i = 0; i < sb_.length(); ++i) {
+				char current_char = sb_.charAt(i);
+				if (current_char >= from_start && current_char <= from_end) {
+					if (last_char == current_char) {
+						sb_.deleteCharAt(i);
+						--i;
+					} else {
+						last_char = current_char;
+					}
+				}
+			}
+			return true;
+		}
+
+		//TODO handle more situations
+		return false;
 	}
 }
