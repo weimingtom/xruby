@@ -145,4 +145,14 @@ public class RubyString extends RubyBasic {
 		//TODO handle more situations
 		return false;
 	}
+
+	public boolean delete(String s) {
+		int index = sb_.indexOf(s);
+		if (index < 0) {
+			return false;
+		}
+		
+		sb_.delete(index, index + s.length());
+		return true;
+	}
 }

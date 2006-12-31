@@ -721,6 +721,39 @@ class String_squeeze extends RubyMethod {
 	}
 }
 
+class String_delete_danger extends RubyMethod {
+	String_delete_danger() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (null == args) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
+		}
+		
+		RubyString string = (RubyString)receiver;
+		String arg = ((RubyString)args.get(0)).toString();
+		return string.delete(arg) ? string : ObjectFactory.nilValue;
+	}
+}
+
+class String_delete extends RubyMethod {
+	String_delete() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (null == args) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
+		}
+		
+		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
+		String arg = ((RubyString)args.get(0)).toString();
+		string.delete(arg);
+		return string;
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -759,6 +792,8 @@ public class StringClassBuilder {
 		c.defineMethod("tr_s", new String_tr_s());
 		c.defineMethod("squeeze!", new String_squeeze_danger());
 		c.defineMethod("squeeze", new String_squeeze());
+		c.defineMethod("delete!", new String_delete_danger());
+		c.defineMethod("delete", new String_delete());
 		c.defineAllocMethod(new String_new());
 	}
 }

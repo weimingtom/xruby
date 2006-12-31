@@ -4007,6 +4007,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_String_misc() {
 		String [] program_texts = {
+				"print 'abcd'.delete('bc')",
+				
 				"print 'abcc'.squeeze!('a-z')",
 				
 				"print 'aaaabbcddd'.tr_s!('a-z', 'A-Z')",
@@ -4019,6 +4021,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"ad",
+				
 				"abc",
 				
 				"ABCD",
