@@ -3808,6 +3808,70 @@ public class RubyCompilerTest extends TestCase {
 		
 		assertTrue(f.delete());
 	}
+
+	public void test_string_match() {
+		String [] program_texts = {
+				"\"abcabc\" =~ /.*a/; print $&, $&.class",
+				"print \"\" =~ /^$/",
+				"print \"a\\n\\n\" =~ /^$/",
+				"print '123' !~ 123",
+				"print '123' =~ 123",
+				"print \"cat o' 9 tails\" =~ /\\d/",
+				"print \"cat o' 9 tails\" =~ /abc/",
+		};
+		
+		String[] outputs = {
+				"abcaString",
+				"0",
+				"2",
+				"true",
+				"false",
+				"7",
+				"nil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_String_misc() {
+		String [] program_texts = {
+				"print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '<\\&>')",
+				"print 'a.gif'.sub(/.*\\.([^\\.]+)$/, 'a\\2b')",
+				"print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '\\1')",
+				
+				"print 'abcd'.delete('bc')",
+				
+				"print 'abcc'.squeeze!('a-z')",
+				
+				"print 'aaaabbcddd'.tr_s!('a-z', 'A-Z')",
+				
+				"print 'abc'.tr!('a-z', 'A-Z')",
+				"print 'hello'.tr('a-y', 'b-z')",
+	
+				"print 'stressed'.reverse",
+				"print 'stressed'.reverse!",
+		};
+		
+		String[] outputs = {
+				"<a.gif>",
+				"ab",
+				"gif",
+				
+				"ad",
+				
+				"abc",
+				
+				"ABCD",
+				
+				"ABC",
+				"ifmmp",
+				
+				"desserts",
+				"desserts",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 	
 	public void test_gsub() {
 		String [] program_texts = {
@@ -3976,62 +4040,6 @@ public class RubyCompilerTest extends TestCase {
 				"Module",
 				"Testancestors2Testancestors1",
 				"TA3TA2TA1",
-		};
-		
-		compile_run_and_compare_output(program_texts, outputs);
-	}
-	
-	public void test_string_match() {
-		String [] program_texts = {
-				"\"abcabc\" =~ /.*a/; print $&, $&.class",
-				"print \"\" =~ /^$/",
-				"print \"a\\n\\n\" =~ /^$/",
-				"print '123' !~ 123",
-				"print '123' =~ 123",
-				"print \"cat o' 9 tails\" =~ /\\d/",
-				"print \"cat o' 9 tails\" =~ /abc/",
-		};
-		
-		String[] outputs = {
-				"abcaString",
-				"0",
-				"2",
-				"true",
-				"false",
-				"7",
-				"nil",
-		};
-		
-		compile_run_and_compare_output(program_texts, outputs);
-	}
-	
-	public void test_String_misc() {
-		String [] program_texts = {
-				"print 'abcd'.delete('bc')",
-				
-				"print 'abcc'.squeeze!('a-z')",
-				
-				"print 'aaaabbcddd'.tr_s!('a-z', 'A-Z')",
-				
-				"print 'abc'.tr!('a-z', 'A-Z')",
-				"print 'hello'.tr('a-y', 'b-z')",
-	
-				"print 'stressed'.reverse",
-				"print 'stressed'.reverse!",
-		};
-		
-		String[] outputs = {
-				"ad",
-				
-				"abc",
-				
-				"ABCD",
-				
-				"ABC",
-				"ifmmp",
-				
-				"desserts",
-				"desserts",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
