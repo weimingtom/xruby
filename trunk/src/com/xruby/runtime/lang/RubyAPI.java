@@ -57,8 +57,24 @@ public class RubyAPI {
 	}
 	
 	//e.g. defined? a.f
-	public static RubyValue isDefinedPublicMethod(RubyValue receiver, String method_name) {
+	//TODO bad name, should be isDefinedMethodWithReceiver
+	public static RubyValue isDefinedPublicMethod(RubyValue receiver, RubyModule owner, String method_name) {
+		if (receiver.getRubyClass() == owner) {
+			//TODO do not have to be equal
+			return isDefinedMethod(receiver, method_name);
+		}
+		
 		RubyMethod m = receiver.findPublicMethod(method_name);
+		if (null == m || UndefMethod.isUndef(m)) {
+			return ObjectFactory.nilValue;
+		}
+		
+		return ObjectFactory.createString("method");
+	}
+
+	//e.g. defined? f
+	public static RubyValue isDefinedMethod(RubyValue receiver, String method_name) {
+		RubyMethod m = receiver.findMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
 			return ObjectFactory.nilValue;
 		}
@@ -72,16 +88,6 @@ public class RubyAPI {
 		} else {
 			return ObjectFactory.createString("yield");
 		}
-	}
-
-	//e.g. defined? f
-	public static RubyValue isDefinedMethod(RubyValue receiver, String method_name) {
-		RubyMethod m = receiver.findMethod(method_name);
-		if (null == m || UndefMethod.isUndef(m)) {
-			return ObjectFactory.nilValue;
-		}
-		
-		return ObjectFactory.createString("method");
 	}
 
 	//receiver is implicit self
@@ -104,6 +110,7 @@ public class RubyAPI {
 		return RubyAPI.callPublicMethod(receiver, new RubyArray(arg), null, method_name);
 	}
 
+	//TODO should pass owner to work with protected method
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findPublicMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {

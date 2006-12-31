@@ -612,7 +612,7 @@ class MethodGenerator extends GeneratorAdapter {
 	public void RubyAPI_isDefinedPublicMethod(String name) {
 		push(name);
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefinedPublicMethod(com.xruby.runtime.lang.RubyValue, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefinedPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule, String)"));
 	}
 
 	public void RubyAPI_isDefinedMethod(String name) {

@@ -688,7 +688,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().loadSelf(isInGlobalScope(), isInBlock());
 	}
 
-	public void visitClassVariableExpression(String name) {
+	private void loadCurrentClass() {
 		if (cg_.isInClassBuilder()) {
 			cg_.getMethodGenerator().loadCurrentClass();
 		} else if (isInSingletonMethod()) {
@@ -701,7 +701,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().loadThis();
 			cg_.getMethodGenerator().RubyMethod_getOwner();
 		}
-		
+	}
+
+	public void visitClassVariableExpression(String name) {
+		loadCurrentClass();
 		cg_.getMethodGenerator().RubyModule_getClassVariable(name);
 	}
 
@@ -711,19 +714,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 		int value = cg_.getMethodGenerator().saveRubyValueAsLocalVariable();
 
-		if (cg_.isInClassBuilder()) {
-			cg_.getMethodGenerator().loadCurrentClass();
-		} else if (isInSingletonMethod()) {
-			visitSelfExpression();
-			cg_.getMethodGenerator().checkCast(Type.getType(Types.RubyClassClass));
-		} else if (isInGlobalScope()) {
-			visitSelfExpression();
-			cg_.getMethodGenerator().RubyValue_getRubyClass();
-		} else {
-			cg_.getMethodGenerator().loadThis();
-			cg_.getMethodGenerator().RubyMethod_getOwner();
-		}
-		
+		loadCurrentClass();
 		cg_.getMethodGenerator().loadLocal(value);
 		cg_.getMethodGenerator().RubyModule_setClassVariable(name);
 	}
@@ -880,6 +871,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitDefinedPublicMethod(String name) {
+		loadCurrentClass();
 		cg_.getMethodGenerator().RubyAPI_isDefinedPublicMethod(name);
 	}
 
