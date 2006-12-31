@@ -669,6 +669,33 @@ class String_tr extends RubyMethod {
 	}
 }
 
+class String_tr_s_danger extends RubyMethod {
+	String_tr_s_danger() {
+		super(2);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString string = (RubyString)receiver;
+		RubyString from = (RubyString)args.get(0);
+		RubyString to = (RubyString)args.get(1);
+		return string.tr_s(from.toString(), to.toString()) ? string : ObjectFactory.nilValue;
+	}
+}
+
+class String_tr_s extends RubyMethod {
+	String_tr_s() {
+		super(2);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
+		RubyString from = (RubyString)args.get(0);
+		RubyString to = (RubyString)args.get(1);
+		string.tr_s(from.toString(), to.toString());
+		return string;
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -703,6 +730,8 @@ public class StringClassBuilder {
 		c.defineMethod("scan", new String_scan());
 		c.defineMethod("tr!", new String_tr_danger());
 		c.defineMethod("tr", new String_tr());
+		c.defineMethod("tr_s!", new String_tr_s_danger());
+		c.defineMethod("tr_s", new String_tr_s());
 		c.defineAllocMethod(new String_new());
 	}
 }

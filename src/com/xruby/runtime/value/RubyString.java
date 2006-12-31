@@ -87,18 +87,25 @@ public class RubyString extends RubyBasic {
 	}
 
 	/// @return false if no change made
-	public boolean tr(String from, String to) {
+	private boolean transform(String from, String to, boolean remove_duplicate) {
 		if (from.length() == 3 && to.length() == 3 && from.charAt(1) == '-' && to.charAt(1) == '-') {
 			char from_start = from.charAt(0);
 			char from_end = from.charAt(2);
 			char to_start = to.charAt(0);
 			char to_end = to.charAt(2);
 
+			char last_char = 0;
 			for (int i = 0; i < sb_.length(); ++i) {
 				char current_char = sb_.charAt(i);
 				if (current_char >= from_start && current_char <= from_end) {
-					int replace_char = (current_char - from_start) + to_start;
-					sb_.setCharAt(i, replace_char < to_end ? (char)replace_char : to_end);
+					if (remove_duplicate && last_char == current_char) {
+						sb_.deleteCharAt(i);
+						--i;
+					} else {
+						int replace_char = (current_char - from_start) + to_start;
+						sb_.setCharAt(i, replace_char < to_end ? (char)replace_char : to_end);
+						last_char = current_char;
+					}
 				}
 			}
 			return true;
@@ -106,5 +113,14 @@ public class RubyString extends RubyBasic {
 
 		//TODO handle more situations
 		return false;
+	}
+
+	public boolean tr(String from, String to) {
+		return transform(from, to, false);
+	}
+
+	/// @return false if no change made
+	public boolean tr_s(String from, String to) {
+		return transform(from, to, true);
 	}
 }

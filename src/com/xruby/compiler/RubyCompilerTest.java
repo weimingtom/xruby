@@ -4007,6 +4007,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_String_misc() {
 		String [] program_texts = {
+				"print 'aaaabbcddd'.tr_s!('a-z', 'A-Z')",
 				"print 'abc'.tr!('a-z', 'A-Z')",
 				"print 'hello'.tr('a-y', 'b-z')",
 	
@@ -4015,6 +4016,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"ABCD",
 				"ABC",
 				"ifmmp",
 				
