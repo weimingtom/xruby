@@ -696,6 +696,31 @@ class String_tr_s extends RubyMethod {
 	}
 }
 
+class String_squeeze_danger extends RubyMethod {
+	String_squeeze_danger() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString string = (RubyString)receiver;
+		String arg = (null == args ? null : ((RubyString)args.get(0)).toString());
+		return string.squeeze(arg) ? string : ObjectFactory.nilValue;
+	}
+}
+
+class String_squeeze extends RubyMethod {
+	String_squeeze() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
+		String arg = (null == args ? null : ((RubyString)args.get(0)).toString());
+		string.squeeze(arg);
+		return string;
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -732,6 +757,8 @@ public class StringClassBuilder {
 		c.defineMethod("tr", new String_tr());
 		c.defineMethod("tr_s!", new String_tr_s_danger());
 		c.defineMethod("tr_s", new String_tr_s());
+		c.defineMethod("squeeze!", new String_squeeze_danger());
+		c.defineMethod("squeeze", new String_squeeze());
 		c.defineAllocMethod(new String_new());
 	}
 }
