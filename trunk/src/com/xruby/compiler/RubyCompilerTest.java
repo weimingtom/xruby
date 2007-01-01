@@ -2810,6 +2810,26 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+
+	public void test_Regex_quote() {
+		String[] program_texts = {
+				"print Regexp.quote('ABCD')",
+				"print Regexp.quote('(AB)CD')",
+				"print Regexp.quote('[AB]CD')",
+				"print Regexp.quote('{AB}CD')",
+				"print Regexp.quote('*+?|')",
+		};
+		
+		String[] outputs = {
+				"ABCD",
+				"\\(AB\\)CD",
+				"\\[AB\\]CD",
+				"\\{AB\\}CD",
+				"\\*\\+\\?\\|",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 	
 	public void test_RegexpExpressionSubstitution() {
 		String [] program_texts = {
