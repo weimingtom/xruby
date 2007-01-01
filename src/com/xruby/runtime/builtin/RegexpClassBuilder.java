@@ -76,12 +76,26 @@ class Regexp_new extends RubyMethod {
 	}
 }
 
+class Regexp_quote extends RubyMethod {
+	public Regexp_quote() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString s = (RubyString)args.get(0);
+		return ObjectFactory.createString(RubyRegexp.quote(s.toString()));
+	}
+}
+
 public class RegexpClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.RegexpClass;
 		c.defineMethod("===", new Regexp_case_equal());
 		c.defineMethod("match", new Regexp_match());
 		c.defineMethod("=~", new Regexp_match_operator());
+		RubyMethod quote = new Regexp_quote();
+		c.getSingletonClass().defineMethod("escape", quote);
+		c.getSingletonClass().defineMethod("quote", quote);
 		c.defineAllocMethod(new Regexp_new());
 	}
 }

@@ -9,7 +9,7 @@ public class RubyRegexp extends RubyBasic {
 	
 	RubyRegexp(String v) {
 		super(RubyRuntime.RegexpClass);
-		regex = Pattern.compile(v, Pattern.MULTILINE);
+		setValue(v);
 	}
 
 	RubyRegexp() {
@@ -17,7 +17,22 @@ public class RubyRegexp extends RubyBasic {
 	}
 
 	public void setValue(String v) {
-		regex = Pattern.compile(v);
+		regex = Pattern.compile(v, Pattern.MULTILINE);
+	}
+	
+	public static String quote(String s) {
+		String r = Pattern.quote(s);
+		r = r.replace("(", "\\(");
+		r = r.replace(")", "\\)");
+		r = r.replace("[", "\\[");
+		r = r.replace("]", "\\]");
+		r = r.replace("{", "\\{");
+		r = r.replace("}", "\\}");
+		r = r.replace("+", "\\+");
+		r = r.replace("*", "\\*");
+		r = r.replace("?", "\\?");
+		r = r.replace("|", "\\|");
+		return r.substring(2, r.length() - 2);
 	}
 	
 	public boolean caseEqual(String v) {
