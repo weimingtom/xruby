@@ -2,7 +2,6 @@
  * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
  */
 
-
 package com.xruby.compiler.parser;
 
 import com.xruby.compiler.parser.symboltable.SymbolTableManager;
@@ -15,107 +14,83 @@ import antlr.RecognitionException;
 import antlr.TokenStreamException;
 import antlr.collections.AST;
 
-/**
- * @author sony
- *
- */
-public class RubyParser extends RubyParserBase
-{
+public class RubyParser extends RubyParserBase {
 	private RubyLexer lexer_;
 
-	public RubyParser(RubyLexer lexer)
-	{
+	public RubyParser(RubyLexer lexer) {
 		super(lexer);
 		lexer_ = lexer;
 	}
 
-	public RubyParser(Reader in)
-	{
+	public RubyParser(Reader in) {
 		this(new RubyLexer(in, new SymbolTableManager()));
 	}
 
 	/// @return AST
-	AST createAST() throws RecognitionException, TokenStreamException
-	{
+	AST createAST() throws RecognitionException, TokenStreamException {
 		setASTNodeClass("com.xruby.compiler.parser.ASTWithLineNumber");
 		program();
 		return getAST();
 	}
 
-	public Program parse(String filename) throws RecognitionException, TokenStreamException
-	{
+	public Program parse(String filename) throws RecognitionException, TokenStreamException {
 		RubyTreeParser treeparser = new RubyTreeParser();
 		return treeparser.parse(createAST(), filename, lexer_.getHereDocs());
 	}
 
-	protected void tell_lexer_we_have_finished_parsing_methodparameters()
-	{
-		lexer_.set_last_token_to_be_RPAREN_IN_METHOD_DEFINATION();
+	protected void tellLexerWeHaveFinishedParsingMethodparameters() {
+		lexer_.setLastTokenToBe_RPAREN_IN_METHOD_DEFINATION();
 	}
 
-	protected void tell_lexer_we_have_finished_parsing_symbol()
-	{
-		lexer_.set_just_finished_parsing_symbol();
+	protected void tellLexerWeHaveFinishedParsingSymbol() {
+		lexer_.setJustFinishedParsingSymbol();
 	}
 
-	protected void tell_lexer_we_have_finished_parsing_string_expression_substituation()
-	{
-		lexer_.set_just_finished_parsing_string_expression_substituation();
+	protected void tellLexerWeHaveFinishedParsingStringExpressionSubstituation() {
+		lexer_.setJustFinishedParsingStringExpressionSubstituation();
 	}
 
-	protected void tell_lexer_we_have_finished_parsing_regex_expression_substituation()
-	{
-		lexer_.set_just_finished_parsing_regex_expression_substituation();
+	protected void tellLexerWeHaveFinishedParsingRegexExpressionSubstituation() {
+		lexer_.setJustFinishedParsingRegexExpressionSubstituation();
 	}
 
-	protected void enterClass()
-	{
+	protected void enterClass() {
 		lexer_.getSymbolTableManager().enterClass();
 	}
 
-	protected void enterMethod()
-	{
+	protected void enterMethod() {
 		lexer_.getSymbolTableManager().enterMethod();
 	}
 
-	protected void enterModule()
-	{
+	protected void enterModule() {
 		lexer_.getSymbolTableManager().enterModule();
 	}
 
-	protected void enterBlock()
-	{
+	protected void enterBlock() {
 		lexer_.getSymbolTableManager().enterBlock();
 	}
 
-	protected void leaveClass()
-	{
+	protected void leaveClass() {
 		lexer_.getSymbolTableManager().leaveClass();
 	}
 
-	protected void leaveMethod()
-	{
+	protected void leaveMethod() {
 		lexer_.getSymbolTableManager().leaveMethod();
 	}
 
-	protected void leaveModule()
-	{
+	protected void leaveModule() {
 		lexer_.getSymbolTableManager().leaveModule();
 	}
 
-	protected void leaveBlock()
-	{
+	protected void leaveBlock() {
 		lexer_.getSymbolTableManager().leaveBlock();
 	}
 
-	protected void addMethodParameter(Token id)
-	{
+	protected void addMethodParameter(Token id) {
 		lexer_.getSymbolTableManager().addParameter(id.getText());
 	}
 
-	protected void addLocalVariable(Token id)
-	{
+	protected void addLocalVariable(Token id) {
 		lexer_.getSymbolTableManager().addLocalVarible(id.getText());
 	}
 }
-

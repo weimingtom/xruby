@@ -40,12 +40,9 @@ class StringDelimiter {
 public class RubyLexer extends RubyLexerBase {
 	private SymbolTableManager stm_;
 
-	private Token token_before_last_token_ = new Token();// create a new
-															// toekn with
-															// invalid type
+	private Token token_before_last_token_ = new Token();// create a new toekn with invalid type
 
-	private Token last_token_ = new Token();// create a new toekn with invalid
-											// type
+	private Token last_token_ = new Token();// create a new toekn with invalid type
 
 	private ArrayList<String> heredoc_delimiters_ = new ArrayList<String>();
 
@@ -69,6 +66,8 @@ public class RubyLexer extends RubyLexerBase {
 
 	private Queue<String> heredocs_ = new LinkedList<String>();
 
+	private Queue<Token> token_queue_ = new LinkedList<Token>();//use to reorder tokens, need this to deal with heredoc
+
 	public RubyLexer(Reader in, SymbolTableManager stm) {
 		super(in);
 		stm_ = stm;
@@ -82,44 +81,7 @@ public class RubyLexer extends RubyLexerBase {
 		return heredocs_;
 	}
 
-	protected void set_current_special_string_delimiter(char delimiter,
-			int delimiter_count) {
-		current_special_string_delimiter_.push(new StringDelimiter(delimiter,
-				delimiter_count));
-	}
-
-	protected void update_current_special_string_delimiter_count(
-			int delimiter_count) {
-		StringDelimiter delimiter = current_special_string_delimiter_.peek();
-		delimiter.setCount(delimiter_count);
-	}
-
-	void set_just_finished_parsing_string_expression_substituation() {
-		just_finished_parsing_string_expression_substituation_ = true;
-		just_finished_parsing_regex_expression_substituation_ = false;
-	}
-
-	void set_just_finished_parsing_regex_expression_substituation() {
-		just_finished_parsing_regex_expression_substituation_ = true;
-		just_finished_parsing_string_expression_substituation_ = false;
-	}
-
-	// Parser will call this method to help lexer understand things like "def
-	// f() /regex/ end"
-	void set_last_token_to_be_RPAREN_IN_METHOD_DEFINATION() {
-		assert (RPAREN == last_token_.getType());
-		last_token_.setType(RPAREN_IN_METHOD_DEFINATION);
-	}
-
-	void set_just_finished_parsing_symbol() {
-		just_finished_parsing_symbol_ = true;
-	}
-
-	protected boolean just_seen_whitespace() {
-		return seen_whitespace_;
-	}
-
-	private Token _nextToken() throws TokenStreamException {
+	private Token __nextToken() throws TokenStreamException {
 		try {
 			try {
 				if (just_finished_parsing_string_expression_substituation_
@@ -128,10 +90,8 @@ public class RubyLexer extends RubyLexerBase {
 						throw new TokenStreamException("Delimiter mismatch!");
 					}
 
-					StringDelimiter delimiter = current_special_string_delimiter_
-							.peek();
-					mSTRING_BETWEEN_EXPRESSION_SUBSTITUTION(true, delimiter
-							.getDelimiter(), delimiter.getCount());
+					StringDelimiter delimiter = current_special_string_delimiter_.peek();
+					mSTRING_BETWEEN_EXPRESSION_SUBSTITUTION(true, delimiter.getDelimiter(), delimiter.getCount());
 					Token t = _returnToken;
 					// System.out.println(t.getText());
 					if (STRING_AFTER_EXPRESSION_SUBSTITUTION == t.getType()) {
@@ -147,7 +107,7 @@ public class RubyLexer extends RubyLexerBase {
 
 				switch (last_token_.getType()) {
 				case LINE_BREAK:
-					while (expect_heredoc_content()) {
+					while (expectHeredoc_content()) {
 						// expect here doc
 						// match it but skip the content, so that parser does
 						// not have to parse it (but we'd better save it to
@@ -170,6 +130,175 @@ public class RubyLexer extends RubyLexerBase {
 				throw new TokenStreamException(e.toString());
 			}
 		}
+	}
+
+	public Token nextToken() throws TokenStreamException {
+		if (!token_queue_.isEmpty()) {
+			return token_queue_.remove();
+		} else {
+			return _nextToken();
+		}
+	}
+	
+	private Token _nextToken() throws TokenStreamException {
+
+		Token token = __nextToken();
+
+		// Even if there are rules for the following tokens, they should not
+		// show up here.
+		assert (WHITE_SPACE != token.getType());
+		assert (END_OF_FILE != token.getType());
+		assert (COMMENT != token.getType());
+		assert (RDOC != token.getType());
+		assert (RPAREN_IN_METHOD_DEFINATION != token.getType());
+		assert (Token.SKIP != token.getType());
+
+		// Do not do anything if convertion is done.
+		if (!keywordOrOperatorToMethodName(token)) {
+			changeLexerStateIfNecessary(token);
+		}
+
+		token_before_last_token_ = last_token_;
+		last_token_ = token;
+		seen_whitespace_ = false;
+		just_finished_parsing_symbol_ = false;
+		return token;
+	}
+
+	private void changeLexerStateIfNecessary(Token token) throws TokenStreamException {
+		switch (token.getType()) {
+		/*
+		 * it is OK to do this error checking here, now we leave it to the
+		 * parser. case LPAREN: switch (last_token_.getType()) { case
+		 * INTEGER: case DOUBLE_QUOTE_STRING: case SINGLE_QUOTE_STRING: case
+		 * REGEX: case STRING_AFTER_EXPRESSION_SUBSTITUTION: case FLOAT:
+		 * throw new TokenStreamException("'(' is not expected"); } break;
+		 */
+		case HERE_DOC_BEGIN:
+			heredoc_delimiters_.add(token.getText());
+			break;
+		case SEMI:
+		case LINE_BREAK:
+			allow_asignment_ = true;
+			is_in_condition = false;
+			break;
+		case RPAREN:
+			allow_asignment_ = true;// def asctime() strftime('%c') end
+		case COMMA:
+		case ASSIGN:
+		case ASSIGN_WITH_NO_LEADING_SPACE:
+		case PLUS_ASSIGN:
+		case MINUS_ASSIGN:
+		case STAR_ASSIGN:
+		case DIV_ASSIGN:
+		case MOD_ASSIGN:
+		case POWER_ASSIGN:
+		case BAND_ASSIGN:
+		case BXOR_ASSIGN:
+		case BOR_ASSIGN:
+		case LEFT_SHIFT_ASSIGN:
+		case RIGHT_SHIFT_ASSIGN:
+		case LOGICAL_AND_ASSIGN:
+		case LOGICAL_OR_ASSIGN:
+			// TODO we can not handle assignment in condition right now!
+			// Check if this is an assignment to a varible. If so, add it to
+			// symbole table.
+			// for example:
+			// a = 1;
+			// a=b=1;
+			// a, b, c = 1, 2, 3
+			// b, (c, d), e = 1,2,3,4
+			// Be careful with a.b = 1, A::b = 1 etc
+			if (allow_asignment_
+					&& (DOT != token_before_last_token_.getType())
+					&& (COLON2 != token_before_last_token_.getType())
+					&& (IDENTIFIER == last_token_.getType()
+							|| CONSTANT == last_token_.getType() || FUNCTION == last_token_
+							.getType())) {
+				// System.out.println("Add " + last_token_.getText());
+				stm_.addLocalVarible(last_token_.getText());
+			}
+			break;
+		case IDENTIFIER:
+		case FUNCTION:
+			if (DOT != last_token_.getType()
+					&& COLON2 != last_token_.getType()) {
+				updateSymbolTable(token);
+			}
+			break;
+		case BOR:
+			if (allow_block_parameter_) {
+				allow_block_parameter_ = false;
+			} else if ((last_token_.getType() == LCURLY_BLOCK)
+					|| (last_token_.getType() == LITERAL_do)) {
+				allow_block_parameter_ = true;
+			}
+			break;
+		case LITERAL_if:
+		case LITERAL_unless:
+		case LITERAL_rescue:
+			convertToModifierIfNeeded(token);
+			break;
+		case LITERAL_while:
+		case LITERAL_until:
+			if (!convertToModifierIfNeeded(token)) {
+				is_in_condition = true;
+			}
+			break;
+		case LITERAL_for:
+			is_in_condition = true;
+			allow_for_expression_parameter_ = true;
+			break;
+		case LITERAL_do:
+			if (is_in_condition) {
+				token.setType(DO_IN_CONDITION);
+				is_in_condition = false;
+			}
+			break;
+		case LITERAL_end:
+			allow_asignment_ = true;
+			break;
+		case LITERAL_in:
+			allow_for_expression_parameter_ = false;
+			break;
+		}
+	}
+
+	protected void setCurrentSpecialStringDelimiter(char delimiter,
+			int delimiter_count) {
+		current_special_string_delimiter_.push(new StringDelimiter(delimiter,
+				delimiter_count));
+	}
+
+	protected void updateCurrentSpecialStringDelimiterCount(
+			int delimiter_count) {
+		StringDelimiter delimiter = current_special_string_delimiter_.peek();
+		delimiter.setCount(delimiter_count);
+	}
+
+	void setJustFinishedParsingStringExpressionSubstituation() {
+		just_finished_parsing_string_expression_substituation_ = true;
+		just_finished_parsing_regex_expression_substituation_ = false;
+	}
+
+	void setJustFinishedParsingRegexExpressionSubstituation() {
+		just_finished_parsing_regex_expression_substituation_ = true;
+		just_finished_parsing_string_expression_substituation_ = false;
+	}
+
+	// Parser will call this method to help lexer understand things like "def
+	// f() /regex/ end"
+	void setLastTokenToBe_RPAREN_IN_METHOD_DEFINATION() {
+		assert (RPAREN == last_token_.getType());
+		last_token_.setType(RPAREN_IN_METHOD_DEFINATION);
+	}
+
+	void setJustFinishedParsingSymbol() {
+		just_finished_parsing_symbol_ = true;
+	}
+
+	protected boolean justSeenWhitespace() {
+		return seen_whitespace_;
 	}
 
 	private void updateSymbolTable(Token token) throws TokenStreamException {
@@ -198,11 +327,11 @@ public class RubyLexer extends RubyLexerBase {
 
 	}
 
-	protected boolean expect_heredoc_content() {
+	protected boolean expectHeredoc_content() {
 		return (heredoc_delimiters_.size() > 0);
 	}
 
-	private boolean expect_modifier() {
+	private boolean expectModifier() {
 		switch (last_token_.getType()) {
 		case Token.INVALID_TYPE:
 		case RPAREN_IN_METHOD_DEFINATION:
@@ -223,13 +352,13 @@ public class RubyLexer extends RubyLexerBase {
 		case COLON_WITH_NO_FOLLOWING_SPACE:
 			return false;
 		default:
-			return !is_operator(last_token_.getType())
+			return !isOperator(last_token_.getType())
 					|| just_finished_parsing_symbol_;
 		}
 	}
 
 	private boolean convertToModifierIfNeeded(Token token) {
-		if (expect_modifier()) {
+		if (expectModifier()) {
 			switch (token.getType()) {
 			case LITERAL_if:
 				token.setType(IF_MODIFIER);
@@ -341,131 +470,11 @@ public class RubyLexer extends RubyLexerBase {
 		}
 	}
 
-	public Token nextToken() throws TokenStreamException {
-		Token token = _nextToken();
-
-		// Even if there are rules for the following tokens, they should not
-		// show up here.
-		assert (WHITE_SPACE != token.getType());
-		assert (END_OF_FILE != token.getType());
-		assert (COMMENT != token.getType());
-		assert (RDOC != token.getType());
-		assert (RPAREN_IN_METHOD_DEFINATION != token.getType());
-		assert (Token.SKIP != token.getType());
-
-		if (!keywordOrOperatorToMethodName(token))// Do not do anything if
-													// convertion is done.
-		{
-			switch (token.getType()) {
-			/*
-			 * it is OK to do this error checking here, now we leave it to the
-			 * parser. case LPAREN: switch (last_token_.getType()) { case
-			 * INTEGER: case DOUBLE_QUOTE_STRING: case SINGLE_QUOTE_STRING: case
-			 * REGEX: case STRING_AFTER_EXPRESSION_SUBSTITUTION: case FLOAT:
-			 * throw new TokenStreamException("'(' is not expected"); } break;
-			 */
-			case HERE_DOC_BEGIN:
-				heredoc_delimiters_.add(token.getText());
-				break;
-			case SEMI:
-			case LINE_BREAK:
-				allow_asignment_ = true;
-				is_in_condition = false;
-				break;
-			case RPAREN:
-				allow_asignment_ = true;// def asctime() strftime('%c') end
-			case COMMA:
-			case ASSIGN:
-			case ASSIGN_WITH_NO_LEADING_SPACE:
-			case PLUS_ASSIGN:
-			case MINUS_ASSIGN:
-			case STAR_ASSIGN:
-			case DIV_ASSIGN:
-			case MOD_ASSIGN:
-			case POWER_ASSIGN:
-			case BAND_ASSIGN:
-			case BXOR_ASSIGN:
-			case BOR_ASSIGN:
-			case LEFT_SHIFT_ASSIGN:
-			case RIGHT_SHIFT_ASSIGN:
-			case LOGICAL_AND_ASSIGN:
-			case LOGICAL_OR_ASSIGN:
-				// TODO we can not handle assignment in condition right now!
-				// Check if this is an assignment to a varible. If so, add it to
-				// symbole table.
-				// for example:
-				// a = 1;
-				// a=b=1;
-				// a, b, c = 1, 2, 3
-				// b, (c, d), e = 1,2,3,4
-				// Be careful with a.b = 1, A::b = 1 etc
-				if (allow_asignment_
-						&& (DOT != token_before_last_token_.getType())
-						&& (COLON2 != token_before_last_token_.getType())
-						&& (IDENTIFIER == last_token_.getType()
-								|| CONSTANT == last_token_.getType() || FUNCTION == last_token_
-								.getType())) {
-					// System.out.println("Add " + last_token_.getText());
-					stm_.addLocalVarible(last_token_.getText());
-				}
-				break;
-			case IDENTIFIER:
-			case FUNCTION:
-				if (DOT != last_token_.getType()
-						&& COLON2 != last_token_.getType()) {
-					updateSymbolTable(token);
-				}
-				break;
-			case BOR:
-				if (allow_block_parameter_) {
-					allow_block_parameter_ = false;
-				} else if ((last_token_.getType() == LCURLY_BLOCK)
-						|| (last_token_.getType() == LITERAL_do)) {
-					allow_block_parameter_ = true;
-				}
-				break;
-			case LITERAL_if:
-			case LITERAL_unless:
-			case LITERAL_rescue:
-				convertToModifierIfNeeded(token);
-				break;
-			case LITERAL_while:
-			case LITERAL_until:
-				if (!convertToModifierIfNeeded(token)) {
-					is_in_condition = true;
-				}
-				break;
-			case LITERAL_for:
-				is_in_condition = true;
-				allow_for_expression_parameter_ = true;
-				break;
-			case LITERAL_do:
-				if (is_in_condition) {
-					token.setType(DO_IN_CONDITION);
-					is_in_condition = false;
-				}
-				break;
-			case LITERAL_end:
-				allow_asignment_ = true;
-				break;
-			case LITERAL_in:
-				allow_for_expression_parameter_ = false;
-				break;
-			}
-		}
-
-		token_before_last_token_ = last_token_;
-		last_token_ = token;
-		seen_whitespace_ = false;
-		just_finished_parsing_symbol_ = false;
-		return token;
-	}
-
-	protected void set_seen_whitespace() {
+	protected void setSeenWhitespace() {
 		seen_whitespace_ = true;
 	}
 
-	protected boolean expect_array_access() {
+	protected boolean expectArrayAccess() {
 		switch (last_token_.getType()) {
 		case IDENTIFIER:
 		case CONSTANT:
@@ -495,7 +504,7 @@ public class RubyLexer extends RubyLexerBase {
 		}
 	}
 
-	protected boolean expect_heredoc() {
+	protected boolean expectHeredoc() {
 		// "<<" can be left shift operator or start of heredoc
 		switch (last_token_.getType()) {
 		case Token.INVALID_TYPE:
@@ -529,11 +538,11 @@ public class RubyLexer extends RubyLexerBase {
 		case UNTIL_MODIFIER:
 			return true;
 		default:
-			return is_operator(last_token_.getType());
+			return isOperator(last_token_.getType());
 		}
 	}
 
-	protected boolean expect_hash() {
+	protected boolean expectHash() {
 		// @hash = @p['hash'] || {}
 		// @SYM ||= {}
 		// files << { "html_file_name" => f.path }
@@ -557,11 +566,11 @@ public class RubyLexer extends RubyLexerBase {
 		case LITERAL_in:
 			return true;
 		default:
-			return is_operator(last_token_.getType());
+			return isOperator(last_token_.getType());
 		}
 	}
 
-	protected boolean space_is_next() throws CharStreamException {
+	protected boolean spaceIsNext() throws CharStreamException {
 		switch (LA(1)) {
 		case ' ':
 		case '\t':
@@ -573,7 +582,7 @@ public class RubyLexer extends RubyLexerBase {
 		}
 	}
 
-	protected boolean expression_substitution_is_next()
+	protected boolean expressionSubstitutionIsNext()
 			throws CharStreamException {
 		if (LA(1) != '#') {
 			return false;
@@ -589,7 +598,7 @@ public class RubyLexer extends RubyLexerBase {
 		}
 	}
 
-	private boolean is_operator(int type) {
+	private boolean isOperator(int type) {
 		switch (type) {
 		case LITERAL_and:
 		case LITERAL_or:
@@ -646,7 +655,7 @@ public class RubyLexer extends RubyLexerBase {
 		}
 	}
 
-	protected boolean expect_leading_colon2() {
+	protected boolean expectLeadingColon2() {
 		switch (last_token_.getType()) {
 		case LINE_BREAK:
 		case SEMI:
@@ -658,11 +667,11 @@ public class RubyLexer extends RubyLexerBase {
 		case LCURLY_HASH:
 			return true;
 		default:
-			return seen_whitespace_ || is_operator(last_token_.getType());
+			return seen_whitespace_ || isOperator(last_token_.getType());
 		}
 	}
 
-	protected boolean expect_operator(int k) throws CharStreamException {
+	protected boolean expectOperator(int k) throws CharStreamException {
 		// We consider '/' is divide operator in the following contexts:
 		// varible/2 varible<<2
 		// array[1]/2 array[1]<<2
@@ -709,7 +718,7 @@ public class RubyLexer extends RubyLexerBase {
 		}
 	}
 
-	protected boolean expect_unary() throws CharStreamException {
+	protected boolean expectUnary() throws CharStreamException {
 		// unary plus/minus can only appear as in the following examples:
 		// a = -1;
 		// 2 + (-1)
@@ -761,26 +770,26 @@ public class RubyLexer extends RubyLexerBase {
 				return false;
 			}
 		default:
-			return is_operator(last_token_.getType());
+			return isOperator(last_token_.getType());
 		}
 	}
 
-	protected boolean last_token_is_dot_or_colon2() {
+	protected boolean lastTokenIsDotOrColon2() {
 		return ((DOT == last_token_.getType())
 				|| (COLON2 == last_token_.getType()) || (LEADING_COLON2 == last_token_
 				.getType()));
 	}
 
-	protected boolean last_token_is_semi() {
+	protected boolean lastTokenIsSemi() {
 		return (DOT == last_token_.getType());
 	}
 
-	protected boolean last_token_is_keyword_def_or_colon_with_no_following_space() {
+	protected boolean lastTokenIsKeywordDefOrColonWithNoFollowingSpace() {
 		return (LITERAL_def == last_token_.getType() || COLON_WITH_NO_FOLLOWING_SPACE == last_token_
 				.getType());
 	}
 
-	protected boolean last_token_is_colon_with_no_following_space() {
+	protected boolean lastTokenIsColonWithNoFollowingSpace() {
 		return (COLON_WITH_NO_FOLLOWING_SPACE == last_token_.getType());
 	}
 
@@ -789,7 +798,7 @@ public class RubyLexer extends RubyLexerBase {
 	 * after operators can be ignored, but operators in ruby can be methodname
 	 * sometime for example: "alias equal? =="
 	 */
-	protected boolean should_ignore_linebreak() {
+	protected boolean shouldIgnoreLinebreak() {
 		switch (last_token_.getType()) {
 		case COMMA:
 		case DOT:
@@ -812,7 +821,7 @@ public class RubyLexer extends RubyLexerBase {
 		}
 	}
 
-	protected boolean is_delimiter(String next_line, String delimiter) {
+	protected boolean isDelimiter(String next_line, String delimiter) {
 		boolean r;
 		if ('-' == delimiter.charAt(0)) {
 			// ignore whitespace
@@ -825,7 +834,7 @@ public class RubyLexer extends RubyLexerBase {
 		return r;
 	}
 
-	protected boolean is_ascii_value_terminator(char value) {
+	protected boolean isAsciiValueTerminator(char value) {
 		switch (value) {
 		case '\t':
 		case ' ':
@@ -845,9 +854,8 @@ public class RubyLexer extends RubyLexerBase {
 		}
 	}
 
-	protected int track_delimiter_count(char next_char, char delimeter,
-			int delimeter_count) {
-		if (delimeter == translate_delimiter(delimeter)) {
+	protected int trackDelimiterCount(char next_char, char delimeter, int delimeter_count) {
+		if (delimeter == translateDelimiter(delimeter)) {
 			if (delimeter == next_char) {
 				--delimeter_count;
 				assert (delimeter_count >= 0);
@@ -855,7 +863,7 @@ public class RubyLexer extends RubyLexerBase {
 		} else {
 			if (delimeter == next_char) {
 				++delimeter_count;
-			} else if (next_char == translate_delimiter(delimeter)) {
+			} else if (next_char == translateDelimiter(delimeter)) {
 				--delimeter_count;
 				assert (delimeter_count >= 0);
 			}
@@ -864,7 +872,7 @@ public class RubyLexer extends RubyLexerBase {
 		return delimeter_count;
 	}
 
-	private char translate_delimiter(char in) {
+	private char translateDelimiter(char in) {
 		switch (in) {
 		case '{':
 			return '}';
