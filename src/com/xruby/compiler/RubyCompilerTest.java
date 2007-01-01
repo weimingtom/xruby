@@ -104,7 +104,7 @@ public class RubyCompilerTest extends TestCase {
 				assertTrue("VerifyError at " + i + ": " + e.toString(), false);
 			} /*catch (NullPointerException e) {
 				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-			} */
+			}*/
 		}
 	}
 
@@ -3875,6 +3875,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_gsub() {
 		String [] program_texts = {
+				"print 'ABCD\nABCDE'.gsub!(/((.|\n)*?)B((.|\n)*?)D/){$3}",
+			
 				"'hello'.gsub(/./) {|s| print s + ','}",
 				"print 'hello'.gsub(/./) {|s| s + ' '}",
 				
@@ -3887,6 +3889,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"CCE",
+				
 				"h,e,l,l,o,",
 				"h e l l o ",
 				

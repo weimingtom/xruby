@@ -26,10 +26,14 @@ public class RubyRegexp extends RubyBasic {
 	
 	public RubyMatchData match(String v) {
 		Matcher m = regex.matcher(v);
+		int i = 0;
 		if (m.find()) {
+			++i;
+			GlobalVariables.set(ObjectFactory.createString(m.toString()), "$" + i);
 			GlobalVariables.set(ObjectFactory.createString(m.toString()), "$&");
 			return ObjectFactory.createMatchData(m);
 		} else {
+			GlobalVariables.set(ObjectFactory.createString(m.toString()), "$1");
 			GlobalVariables.set(ObjectFactory.nilValue, "$&");
 			return null;
 		}
@@ -49,11 +53,8 @@ public class RubyRegexp extends RubyBasic {
 			return -1;
 		}
 	}
-	
-	public String gsub(RubyString str, RubyString repl) {
-		String replace_string = repl.toString();
-		Matcher m = regex.matcher(str.toString());
-		
+
+	private String getReplaceString(String replace_string, Matcher m) {
 		//java uses $1, $2, ruby uses \1, \2
 		replace_string = replace_string.replace("\\&", "$0");
 		final int n = m.groupCount();
@@ -63,17 +64,37 @@ public class RubyRegexp extends RubyBasic {
 		for (int i = n + 1; i < 10; ++i) {
 			replace_string = replace_string.replace("\\" + i, "");
 		}
-		
+
+		return replace_string;
+	}
+	
+	public String gsub(RubyString str, RubyString repl) {
+		Matcher m = regex.matcher(str.toString());
+		String replace_string = getReplaceString(repl.toString(), m);
 		return m.replaceAll(replace_string);
 	}
 
-	public RubyValue gsub(RubyString s, RubyBlock block) {
+	public RubyString gsub(RubyString s, RubyBlock block) {
 		Matcher m = regex.matcher(s.toString());
+		final int groupcount = m.groupCount();
 		RubyString r = new RubyString("");
+		int end = -1;
 		while (m.find()) {
-			RubyString match = new RubyString(m.group());
+			for (int i = 1; i <= groupcount; ++i) {
+				String sg = m.group(i);
+				GlobalVariables.set(ObjectFactory.createString(sg), "$" + i);
+			}
+			String g = m.group();
+			end = m.end();
+			GlobalVariables.set(ObjectFactory.createString(g), "$&");
+			RubyString match = new RubyString(g);
 			RubyValue v = block.invoke(this, new RubyArray(match));
-			r.appendString(v);	
+			r.appendString(v);
+		}
+
+		//append unmatched
+		if (end >= 0 && end < s.length()) {
+			r.appendString(s.toString().substring(end, s.length()));
 		}
 		
 		return r;

@@ -277,10 +277,12 @@ class String_gsub extends RubyMethod {
 
 class String_gsub_danger extends String_gsub {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString g = (RubyString)receiver;
+		
 		if (null == block) {
 			checkParameters1(args);
 
-			RubyString g = (RubyString)receiver;
+			
 			RubyRegexp r = (RubyRegexp)args.get(0);
 			RubyString s = (RubyString)args.get(1);
 
@@ -288,14 +290,13 @@ class String_gsub_danger extends String_gsub {
 			if (g.toString().equals(result)) {
 				return ObjectFactory.nilValue;
 			} else {
-				return ObjectFactory.createString(result);
+				return g.setString(result);
 			}
 		} else {
 			checkParameters2(args);
 
-			RubyString g = (RubyString)receiver;
 			RubyRegexp r = (RubyRegexp)args.get(0);
-			return r.gsub(g, block);
+			return g.setString(r.gsub(g, block).toString());
 		}
 	}
 }
