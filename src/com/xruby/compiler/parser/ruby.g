@@ -50,10 +50,10 @@ tokens {
 	protected void leaveBlock()	{assert(false);}
 	protected void addMethodParameter(Token id)	{assert(false);}
 	protected void addLocalVariable(Token id)	{assert(false);}
-	protected void tell_lexer_we_have_finished_parsing_methodparameters()	{assert(false);}
-	protected void tell_lexer_we_have_finished_parsing_symbol()	{assert(false);}
-	protected void tell_lexer_we_have_finished_parsing_string_expression_substituation()	{assert(false);}
-	protected void tell_lexer_we_have_finished_parsing_regex_expression_substituation()	{assert(false);}
+	protected void tellLexerWeHaveFinishedParsingMethodparameters()	{assert(false);}
+	protected void tellLexerWeHaveFinishedParsingSymbol()	{assert(false);}
+	protected void tellLexerWeHaveFinishedParsingStringExpressionSubstituation()	{assert(false);}
+	protected void tellLexerWeHaveFinishedParsingRegexExpressionSubstituation()	{assert(false);}
 
 	boolean isNotAssign(int token_type) {
 		switch (token_type) {
@@ -243,7 +243,7 @@ symbol
 					|operatorAsMethodname
 					|keyword
 					|string)
-			{tell_lexer_we_have_finished_parsing_symbol();}
+			{tellLexerWeHaveFinishedParsingSymbol();}
 			{#symbol = #(#[SYMBOL, "SYMBOL"], #symbol);}
 		;
 
@@ -590,14 +590,14 @@ expression_substituation
 			|	INSTANCE_VARIABLE
 			|	CLASS_VARIABLE
 			)
-			{tell_lexer_we_have_finished_parsing_string_expression_substituation();}
+			{tellLexerWeHaveFinishedParsingStringExpressionSubstituation();}
 		;
 
 regex
 		:	REGEX
 		|	REGEX_BEFORE_EXPRESSION_SUBSTITUTION^
-			expression_substituation	{tell_lexer_we_have_finished_parsing_regex_expression_substituation();}
-			(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation	{tell_lexer_we_have_finished_parsing_regex_expression_substituation();})*
+			expression_substituation	{tellLexerWeHaveFinishedParsingRegexExpressionSubstituation();}
+			(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation	{tellLexerWeHaveFinishedParsingRegexExpressionSubstituation();})*
 			STRING_AFTER_EXPRESSION_SUBSTITUTION
 		;
 
@@ -920,7 +920,7 @@ keywordAsMethodName
 methodDefinationArgument
 		:	LPAREN!
 				(methodDefinationArgumentWithoutParen)?
-			RPAREN!	{tell_lexer_we_have_finished_parsing_methodparameters();}
+			RPAREN!	{tellLexerWeHaveFinishedParsingMethodparameters();}
 			(options {greedy=true;}:terminal)?
 		|	(methodDefinationArgumentWithoutParen)?	terminal
 		;
@@ -1079,53 +1079,53 @@ options {
 	//after the lexer is generated, or simply use assert() to prevent 
 	//these function to run (so you have to overide them). I choosed
 	//the later approach.
-	protected boolean expect_operator(int k) throws CharStreamException		{assert(false);return false;}
-	protected boolean expect_unary()	 throws CharStreamException			{assert(false);return false;}
-	protected boolean expect_hash()					{assert(false);return false;}
-	protected boolean expect_heredoc()				{assert(false);return false;}
-	protected boolean expect_leading_colon2()		{assert(false);return false;}
-	protected boolean expect_heredoc_content()		{assert(false);return false;}
-	protected boolean expect_array_access()				{assert(false);return false;}
-	protected boolean last_token_is_dot_or_colon2()		{assert(false);return false;}
-	protected boolean last_token_is_semi()				{assert(false);return false;}
-	protected boolean last_token_is_keyword_def_or_colon_with_no_following_space()			{assert(false);return false;}
-	protected boolean last_token_is_colon_with_no_following_space()			{assert(false);return false;}
-	protected boolean should_ignore_linebreak()			{assert(false);return false;}
-	protected int track_delimiter_count(char next_char, char delimeter, int delimeter_count)	{assert(false);return 0;}
-	protected boolean is_delimiter(String next_line, String delimiter)	{assert(false);return false;}
-	protected boolean is_ascii_value_terminator(char value)	{assert(false);return false;}
-	protected boolean just_seen_whitespace()	{assert(false);return false;}
-	protected void set_seen_whitespace()			{assert(false);}
-	protected boolean expression_substitution_is_next()	throws CharStreamException	{assert(false);return false;}
-	protected boolean space_is_next()	throws CharStreamException	{assert(false);return false;}
-	protected void set_current_special_string_delimiter(char delimiter, int delimiter_count)	{assert(false);}
-	protected void update_current_special_string_delimiter_count(int delimiter_count)	{assert(false);}
+	protected boolean expectOperator(int k) throws CharStreamException		{assert(false);return false;}
+	protected boolean expectUnary()	 throws CharStreamException			{assert(false);return false;}
+	protected boolean expectHash()					{assert(false);return false;}
+	protected boolean expectHeredoc()				{assert(false);return false;}
+	protected boolean expectLeadingColon2()		{assert(false);return false;}
+	protected boolean expectHeredoc_content()		{assert(false);return false;}
+	protected boolean expectArrayAccess()				{assert(false);return false;}
+	protected boolean lastTokenIsDotOrColon2()		{assert(false);return false;}
+	protected boolean lastTokenIsSemi()				{assert(false);return false;}
+	protected boolean lastTokenIsKeywordDefOrColonWithNoFollowingSpace()			{assert(false);return false;}
+	protected boolean lastTokenIsColonWithNoFollowingSpace()			{assert(false);return false;}
+	protected boolean shouldIgnoreLinebreak()			{assert(false);return false;}
+	protected int trackDelimiterCount(char next_char, char delimeter, int delimeter_count)	{assert(false);return 0;}
+	protected boolean isDelimiter(String next_line, String delimiter)	{assert(false);return false;}
+	protected boolean isAsciiValueTerminator(char value)	{assert(false);return false;}
+	protected boolean justSeenWhitespace()	{assert(false);return false;}
+	protected void setSeenWhitespace()			{assert(false);}
+	protected boolean expressionSubstitutionIsNext()	throws CharStreamException	{assert(false);return false;}
+	protected boolean spaceIsNext()	throws CharStreamException	{assert(false);return false;}
+	protected void setCurrentSpecialStringDelimiter(char delimiter, int delimiter_count)	{assert(false);}
+	protected void updateCurrentSpecialStringDelimiterCount(int delimiter_count)	{assert(false);}
 }
 
 //QUESTION			:	'?'		;
 LPAREN				:	'('		;
 RPAREN				:	')'		;
-LBRACK				:	'['		{if (expect_array_access()) {$setType(LBRACK_ARRAY_ACCESS);}};
+LBRACK				:	'['		{if (expectArrayAccess()) {$setType(LBRACK_ARRAY_ACCESS);}};
 RBRACK				:	']'		;
-EMPTY_ARRAY			:	"[]"		{if (expect_array_access()) {$setType(EMPTY_ARRAY_ACCESS);}};
-LCURLY_HASH			:	'{'		{if (!expect_hash()) {$setType(LCURLY_BLOCK);}};
+EMPTY_ARRAY			:	"[]"		{if (expectArrayAccess()) {$setType(EMPTY_ARRAY_ACCESS);}};
+LCURLY_HASH			:	'{'		{if (!expectHash()) {$setType(LCURLY_BLOCK);}};
 RCURLY				:	'}'		;
 COMMA				:	','		;
-COLON				:	':'		{if (!space_is_next())	{$setType(COLON_WITH_NO_FOLLOWING_SPACE);}};
-COLON2				:	"::"		{if (expect_leading_colon2())	{$setType(LEADING_COLON2);}};
+COLON				:	':'		{if (!spaceIsNext())	{$setType(COLON_WITH_NO_FOLLOWING_SPACE);}};
+COLON2				:	"::"		{if (expectLeadingColon2())	{$setType(LEADING_COLON2);}};
 
 NOT					:	'!'		;
 BNOT				:	'~'		;
 //DIV				:	'/'		;
-PLUS				:	'+'		{if (expect_unary())	{$setType(UNARY_PLUS);}};
-MINUS				:	'-'		{if (expect_unary())	{$setType(UNARY_MINUS);}};
+PLUS				:	'+'		{if (expectUnary())	{$setType(UNARY_PLUS);}};
+MINUS				:	'-'		{if (expectUnary())	{$setType(UNARY_MINUS);}};
 //MOD				:	'%'		;
-STAR				:	'*'		{if (!expect_operator(1)) {$setType(REST_ARG_PREFIX);}};	//'f * g' can parsed as 'f(*g)' or '(f) * (g)'
+STAR				:	'*'		{if (!expectOperator(1)) {$setType(REST_ARG_PREFIX);}};	//'f * g' can parsed as 'f(*g)' or '(f) * (g)'
 LESS_THAN			:	'<'		;
 GREATER_THAN		:	'>'		;
 BXOR				:	'^'		;
 BOR					:	'|'		;
-BAND				:	'&'		{if (!expect_operator(1)) {$setType(BLOCK_ARG_PREFIX);}};
+BAND				:	'&'		{if (!expectOperator(1)) {$setType(BLOCK_ARG_PREFIX);}};
 POWER				:	"**"		;
 COMPARE			:	"<=>"	;
 GREATER_OR_EQUAL	:	">="	;
@@ -1142,7 +1142,7 @@ ASSOC				:	"=>"	;
 LOGICAL_AND		:	"&&"		;
 LOGICAL_OR			:	"||"		;
 
-ASSIGN				:	'='		{if (!just_seen_whitespace()) {$setType(ASSIGN_WITH_NO_LEADING_SPACE);}};
+ASSIGN				:	'='		{if (!justSeenWhitespace()) {$setType(ASSIGN_WITH_NO_LEADING_SPACE);}};
 PLUS_ASSIGN			:	"+="	;
 MINUS_ASSIGN		:	"-="		;
 STAR_ASSIGN		:	"*="		;
@@ -1160,8 +1160,8 @@ LOGICAL_OR_ASSIGN	:	"||="	;
 
 //ANTLR's linear approximate lookahead will cause trouble if you list UNARY_PLUS and UNARY_MINUS as two separated rules.
 UNARY_PLUS_MINUS_METHOD_NAME
-		:	{last_token_is_keyword_def_or_colon_with_no_following_space() ||
-			last_token_is_dot_or_colon2()}?
+		:	{lastTokenIsKeywordDefOrColonWithNoFollowingSpace() ||
+			lastTokenIsDotOrColon2()}?
 			("+@"|"-@")
 		;
 
@@ -1171,7 +1171,7 @@ SEMI
 }
 		:	';'	(WHITE_SPACE_CAHR!		|	LINE_FEED!{seen_line_feed = true;}	|	';'!)*
 			{
-				if (last_token_is_semi())
+				if (lastTokenIsSemi())
 				{
 					$setType(Token.SKIP);
 				} else if (seen_line_feed) {
@@ -1182,10 +1182,10 @@ SEMI
 
 //treat "\n\n\n\n;" as one LINE_BREAK
 LINE_BREAK
-		:	{expect_heredoc_content()}?	LINE_FEED
+		:	{expectHeredoc_content()}?	LINE_FEED
 		|	PURE_LINE_BREAK	(SEMI!)?
 			{
-				if ((LINE_BREAK == _ttype) && should_ignore_linebreak())
+				if ((LINE_BREAK == _ttype) && shouldIgnoreLinebreak())
 				{
 					$setType(Token.SKIP);
 				}
@@ -1213,15 +1213,15 @@ REGEX_MODIFIER
 		;
 
 COMMAND_OUTPUT
-		:	{!last_token_is_keyword_def_or_colon_with_no_following_space()}?
+		:	{!lastTokenIsKeywordDefOrColonWithNoFollowingSpace()}?
 			delimiter:'`'!
-			({LA(1) != delimiter && !expression_substitution_is_next()}?	STRING_CHAR)*
+			({LA(1) != delimiter && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
 			end:.!//skip delimiter
 			{
 				if (end != delimiter)
 				{
 					$setType(COMMAND_OUTPUT_BEFORE_EXPRESSION_SUBSTITUTION);
-					set_current_special_string_delimiter(delimiter, 1);
+					setCurrentSpecialStringDelimiter(delimiter, 1);
 				}
 			}
 		|	'`'	{$setType(SINGLE_QUOTE);}
@@ -1238,15 +1238,15 @@ SINGLE_QUOTE_STRING
 
 //DIVIDE and REGEX both starts with '/', here we use semantic predicate to disambiguate.
 REGEX
-		:	{!expect_operator(2)}?
+		:	{!expectOperator(2)}?
 			delimiter:'/'!
-			({LA(1) != delimiter && !expression_substitution_is_next()}?	STRING_CHAR)*
+			({LA(1) != delimiter && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
 			end:.!//skip delimiter
 			{
 				if (end != delimiter)
 				{
 					$setType(REGEX_BEFORE_EXPRESSION_SUBSTITUTION);
-					set_current_special_string_delimiter(delimiter, 1);
+					setCurrentSpecialStringDelimiter(delimiter, 1);
 				}
 				else
 				{
@@ -1259,20 +1259,20 @@ REGEX
 
 DOUBLE_QUOTE_STRING
 		:	delimiter:'\"'!
-			({LA(1) != delimiter && !expression_substitution_is_next()}?	STRING_CHAR)*
+			({LA(1) != delimiter && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
 			end:.!//skip delimiter
 			{
 				if (end != delimiter)
 				{
 					$setType(STRING_BEFORE_EXPRESSION_SUBSTITUTION);
-					set_current_special_string_delimiter(delimiter, 1);
+					setCurrentSpecialStringDelimiter(delimiter, 1);
 				}
 			}
 		;
 
 protected
 STRING_BETWEEN_EXPRESSION_SUBSTITUTION[char delimiter, int delimiter_count]
-		:	({(delimiter_count > 0) && (delimiter_count = track_delimiter_count(LA(1), delimiter, delimiter_count)) != 0&& !expression_substitution_is_next()}?	STRING_CHAR)*
+		:	({(delimiter_count > 0) && (delimiter_count = trackDelimiterCount(LA(1), delimiter, delimiter_count)) != 0&& !expressionSubstitutionIsNext()}?	STRING_CHAR)*
 			{
 				//match and skip delimiter, there maybe no delimiter, e.g. ':#{cmd_name}'
 				if (LA(1) != EOF_CHAR)
@@ -1288,7 +1288,7 @@ STRING_BETWEEN_EXPRESSION_SUBSTITUTION[char delimiter, int delimiter_count]
 				}
 				else
 				{
-					update_current_special_string_delimiter_count(delimiter_count);
+					updateCurrentSpecialStringDelimiterCount(delimiter_count);
 				}
 			}
 		;
@@ -1298,11 +1298,11 @@ SPECIAL_STRING
 	int delimiter_count = 1;
 }
 		:	'%'!	'q'!	delimiter1:.!
-			({(delimiter_count = track_delimiter_count(LA(1), delimiter1, delimiter_count)) != 0}?	STRING_CHAR)*
+			({(delimiter_count = trackDelimiterCount(LA(1), delimiter1, delimiter_count)) != 0}?	STRING_CHAR)*
 			.!//skip delimiter
 			{$setType(SINGLE_QUOTE_STRING);}
 		|	'%'!	'Q'!	delimiter2:.!
-			({(delimiter_count = track_delimiter_count(LA(1), delimiter2, delimiter_count)) != 0 && !expression_substitution_is_next()}?	STRING_CHAR)*
+			({(delimiter_count = trackDelimiterCount(LA(1), delimiter2, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
 			{
 				//match and skip delimiter
 				_saveIndex=text.length();
@@ -1316,11 +1316,11 @@ SPECIAL_STRING
 				else
 				{
 					$setType(STRING_BEFORE_EXPRESSION_SUBSTITUTION);
-					set_current_special_string_delimiter(delimiter2, delimiter_count);
+					setCurrentSpecialStringDelimiter(delimiter2, delimiter_count);
 				}
 			}
 		|	'%'!	'r'!	delimiter3:.!
-			({(delimiter_count = track_delimiter_count(LA(1), delimiter3, delimiter_count)) != 0 && !expression_substitution_is_next()}?	STRING_CHAR)*
+			({(delimiter_count = trackDelimiterCount(LA(1), delimiter3, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
 			{
 				//match and skip delimiter
 				_saveIndex=text.length();
@@ -1335,11 +1335,11 @@ SPECIAL_STRING
 				else
 				{
 					$setType(REGEX_BEFORE_EXPRESSION_SUBSTITUTION);
-					set_current_special_string_delimiter(delimiter3, delimiter_count);
+					setCurrentSpecialStringDelimiter(delimiter3, delimiter_count);
 				}
 			}
 		|	'%'!	'x'!	delimiter4:.!
-			({(delimiter_count = track_delimiter_count(LA(1), delimiter4, delimiter_count)) != 0 && !expression_substitution_is_next()}?	STRING_CHAR)*
+			({(delimiter_count = trackDelimiterCount(LA(1), delimiter4, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
 			{
 				//match and skip delimiter
 				_saveIndex=text.length();
@@ -1353,18 +1353,18 @@ SPECIAL_STRING
 				else
 				{
 					$setType(COMMAND_OUTPUT_BEFORE_EXPRESSION_SUBSTITUTION);
-					set_current_special_string_delimiter(delimiter4, delimiter_count);
+					setCurrentSpecialStringDelimiter(delimiter4, delimiter_count);
 				}
 			}
 		|	'%'! ('w'!|'W'!)	delimiter5:.!
-			({(delimiter_count = track_delimiter_count(LA(1), delimiter5, delimiter_count)) != 0}?	STRING_CHAR)*
+			({(delimiter_count = trackDelimiterCount(LA(1), delimiter5, delimiter_count)) != 0}?	STRING_CHAR)*
 			.!	//skip delimiter
 			{$setType(W_ARRAY);}
-		|	{!expect_operator(2)}?	'%'!
+		|	{!expectOperator(2)}?	'%'!
 			{_saveIndex=text.length();}					//Ignore delimiter2 (for unknown reason, antlr does not do it for us, even if we specified !)
 			delimiter6:~('=' | 'a'..'z' | 'A'..'Z' | '0'..'9')		//"%=" is always MOD_ASSIGN. English character is not allowed to avoid collison with %q %Q etc.
 			{text.setLength(_saveIndex);}
-			({(delimiter_count = track_delimiter_count(LA(1), delimiter6, delimiter_count)) != 0 && !expression_substitution_is_next()}?	STRING_CHAR)*
+			({(delimiter_count = trackDelimiterCount(LA(1), delimiter6, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
 			{
 				//match and skip delimiter
 				_saveIndex=text.length();
@@ -1378,7 +1378,7 @@ SPECIAL_STRING
 				else
 				{
 					$setType(STRING_BEFORE_EXPRESSION_SUBSTITUTION);
-					set_current_special_string_delimiter(delimiter6, delimiter_count);
+					setCurrentSpecialStringDelimiter(delimiter6, delimiter_count);
 				}
 			}
 		|	"%="	{$setType(MOD_ASSIGN);}
@@ -1395,14 +1395,14 @@ STRING_CHAR
 
 //The first '-' after "<<" is alway interpreted as heredoc's special meaning, so be greedy
 HERE_DOC_BEGIN
-		:	{expect_heredoc()}?	"<<"!	HERE_DOC_DELIMITER
+		:	{expectHeredoc()}?	"<<"!	HERE_DOC_DELIMITER
 		|	"<<="	{$setType(LEFT_SHIFT_ASSIGN);}
 		|	"<<"		{$setType(LEFT_SHIFT);}
 		;
 
 protected
 HERE_DOC_CONTENT[String delimiter]
-		:	(next_line:ANYTHING_OTHER_THAN_LINE_FEED	LINE_FEED	{if (is_delimiter(next_line.getText(), delimiter)) break;})+
+		:	(next_line:ANYTHING_OTHER_THAN_LINE_FEED	LINE_FEED	{if (isDelimiter(next_line.getText(), delimiter)) break;})+
 			{
 				//skip delimiter
 				text.setLength(text.length() - next_line.getText().length() - 1);
@@ -1450,7 +1450,7 @@ ESC
 //of letters, digits, and underscores
 IDENTIFIER
 options{testLiterals=true;}
-		:	('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*		(	{if (last_token_is_dot_or_colon2()) {$setType(FUNCTION);}}
+		:	('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*		(	{if (lastTokenIsDotOrColon2()) {$setType(FUNCTION);}}
 												|'?'	{$setType(FUNCTION);}	//PREDICATE_FUNCTION
 												|'!'	{$setType(FUNCTION);}	//DESTRUCTIVE_FUNCTION
 												)
@@ -1501,7 +1501,7 @@ INTEGER
 		|	".."	{$setType(INCLUSIVE_RANGE);}
 		|	"..."	{$setType(EXCLUSIVE_RANGE);}
 		|	'?'	(
-					{is_ascii_value_terminator(LA(2))}?	(~('\\'|' '|'\n'|'\r'))	{$setType(ASCII_VALUE);}
+					{isAsciiValueTerminator(LA(2))}?	(~('\\'|' '|'\n'|'\r'))	{$setType(ASCII_VALUE);}
 					|'\\'		~('C' | 'M')	{$setType(ASCII_VALUE);}
 					|('\\'	('C'|'M') '-')+	('a'..'z' | '?')	{$setType(ASCII_VALUE);}
 					|{$setType(QUESTION);}	//If it does not "look like"(not depend on context!) integer, then it is QUESTION operator.
@@ -1548,14 +1548,14 @@ EXPONENT
 		;
 
 COMMENT
-		:	{!last_token_is_colon_with_no_following_space()}?	'#'	ANYTHING_OTHER_THAN_LINE_FEED
+		:	{!lastTokenIsColonWithNoFollowingSpace()}?	'#'	ANYTHING_OTHER_THAN_LINE_FEED
 			{
 				$setType(Token.SKIP);
 			}
 		|	'#'!
 			{
 				$setType(STRING_BEFORE_EXPRESSION_SUBSTITUTION);
-				set_current_special_string_delimiter('#'/*useless*/, 0);
+				setCurrentSpecialStringDelimiter('#'/*useless*/, 0);
 			}
 		;
 
@@ -1570,7 +1570,7 @@ WHITE_SPACE_CAHR
 WHITE_SPACE
 		:	(WHITE_SPACE_CAHR)+
 			{
-				set_seen_whitespace();
+				setSeenWhitespace();
 				$setType(Token.SKIP);
 			}
 		;
