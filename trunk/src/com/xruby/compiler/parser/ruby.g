@@ -1084,7 +1084,6 @@ options {
 	protected boolean expectHash()					{assert(false);return false;}
 	protected boolean expectHeredoc()				{assert(false);return false;}
 	protected boolean expectLeadingColon2()		{assert(false);return false;}
-	protected boolean expectHeredocContent()		{assert(false);return false;}
 	protected boolean expectArrayAccess()				{assert(false);return false;}
 	protected boolean lastTokenIsDotOrColon2()		{assert(false);return false;}
 	protected boolean lastTokenIsSemi()				{assert(false);return false;}
@@ -1182,8 +1181,7 @@ SEMI
 
 //treat "\n\n\n\n;" as one LINE_BREAK
 LINE_BREAK
-		:	{expectHeredocContent()}?	LINE_FEED
-		|	PURE_LINE_BREAK	(SEMI!)?
+		:	PURE_LINE_BREAK	(SEMI!)?
 			{
 				if ((LINE_BREAK == _ttype) && shouldIgnoreLinebreak())
 				{

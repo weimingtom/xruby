@@ -39,31 +39,17 @@ class StringDelimiter {
  */
 public class RubyLexer extends RubyLexerBase {
 	private SymbolTableManager stm_;
-
 	private Token token_before_last_token_ = new Token();// create a new toekn with invalid type
-
 	private Token last_token_ = new Token();// create a new toekn with invalid type
-
-	private ArrayList<String> heredoc_delimiters_ = new ArrayList<String>();
-
 	private boolean allow_asignment_ = true;
-
 	private boolean allow_block_parameter_ = false;
-
 	private boolean allow_for_expression_parameter_ = false;
-
 	private boolean seen_whitespace_ = true;
-
 	private boolean is_in_condition = false;
-
 	private boolean just_finished_parsing_regex_expression_substituation_ = false;
-
 	private boolean just_finished_parsing_string_expression_substituation_ = false;
-
 	private boolean just_finished_parsing_symbol_ = false;
-
 	private Stack<StringDelimiter> current_special_string_delimiter_ = new Stack<StringDelimiter>();
-
 	private InputBufferWithHereDocSupport input_;
 	
 	public RubyLexer(Reader in, SymbolTableManager stm) {
@@ -101,15 +87,12 @@ public class RubyLexer extends RubyLexerBase {
 				}
 
 				if (HERE_DOC_BEGIN == last_token_.getType()) {
-					while (expectHeredocContent()) {
-						// expect here doc
-						// match it but skip the content, so that parser does
-						// not have to parse it (but we'd better save it to
-						// symbol table).
-						mHERE_DOC_CONTENT(true, heredoc_delimiters_.get(0));
-						input_.finishedHereDoc();
-						heredoc_delimiters_.remove(0);
-					}
+					// expect here doc
+					// match it but skip the content, so that parser does
+					// not have to parse it (but we'd better save it to
+					// symbol table).
+					mHERE_DOC_CONTENT(true, last_token_.getText());
+					input_.finishedHereDoc();					
 					return _returnToken;
 				}
 				
@@ -161,7 +144,6 @@ public class RubyLexer extends RubyLexerBase {
 		 * throw new TokenStreamException("'(' is not expected"); } break;
 		 */
 		case HERE_DOC_BEGIN:
-			heredoc_delimiters_.add(token.getText());
 			input_.skipToLineBreak();
 			break;
 		case SEMI:
@@ -312,10 +294,6 @@ public class RubyLexer extends RubyLexerBase {
 			token.setType(FUNCTION);
 		}
 
-	}
-
-	protected boolean expectHeredocContent() {
-		return (heredoc_delimiters_.size() > 0);
 	}
 
 	private boolean expectModifier() {
