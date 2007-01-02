@@ -2,7 +2,6 @@ header {
 package com.xruby.compiler.parser;
 
 import com.xruby.compiler.codedom.*;
-import java.util.Queue;
 }
 
 /** 
@@ -18,11 +17,9 @@ options {
 
 {
 	private String filename_ = null;
-	private Queue<String> heredocs_= null;
 
-	public Program parse(AST t, String filename, Queue<String> heredocs) throws RecognitionException {
+	public Program parse(AST t, String filename) throws RecognitionException {
 		filename_ = filename;
-		heredocs_ = heredocs;
 
 		Program p = program(t);
 		if (null == p) {
@@ -353,7 +350,7 @@ returns [Expression e]
 		|	float_:FLOAT								{e = new FloatExpression(float_.getText());}
 		|	ascii:ASCII_VALUE							{e = new AsciiValueExpression(ascii.getText());}
 		|	command_output:COMMAND_OUTPUT			{e = new CommandOutputExpression(command_output.getText());}
-		|	HERE_DOC_BEGIN							{e = new StringExpression(heredocs_.remove(), true);}
+		|	heredoc:HERE_DOC_CONTENT				{e = new StringExpression(heredoc.getText(), true);}
 		|	regex:REGEX								{e = new RegexpExpression(regex.getText());}
 		|	e=local_variable
 		|	constant:CONSTANT						{e = new CurrentNamespaceConstantExpression(constant.getText());}

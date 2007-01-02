@@ -611,7 +611,7 @@ command_output
 literal
 		:	regex
 		|	(options{greedy=true;/*caused by command*/}:string)+{ #literal = #([STRING, "STRING"], #literal); }
-		|	HERE_DOC_BEGIN
+		|	HERE_DOC_BEGIN!	HERE_DOC_CONTENT
 		|	command_output
 		|	symbol
 		|	W_ARRAY
@@ -1084,7 +1084,7 @@ options {
 	protected boolean expectHash()					{assert(false);return false;}
 	protected boolean expectHeredoc()				{assert(false);return false;}
 	protected boolean expectLeadingColon2()		{assert(false);return false;}
-	protected boolean expectHeredoc_content()		{assert(false);return false;}
+	protected boolean expectHeredocContent()		{assert(false);return false;}
 	protected boolean expectArrayAccess()				{assert(false);return false;}
 	protected boolean lastTokenIsDotOrColon2()		{assert(false);return false;}
 	protected boolean lastTokenIsSemi()				{assert(false);return false;}
@@ -1182,7 +1182,7 @@ SEMI
 
 //treat "\n\n\n\n;" as one LINE_BREAK
 LINE_BREAK
-		:	{expectHeredoc_content()}?	LINE_FEED
+		:	{expectHeredocContent()}?	LINE_FEED
 		|	PURE_LINE_BREAK	(SEMI!)?
 			{
 				if ((LINE_BREAK == _ttype) && shouldIgnoreLinebreak())

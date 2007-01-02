@@ -107,7 +107,7 @@ public class RubyTreeParserTest extends TestCase {
 		String[] expected_texts = {
 				" ( COMPSTMT ( - 1 ) )",
 				
-				" ( COMPSTMT ( CALL print ( ARG END ) ) )",
+				" ( COMPSTMT ( CALL print ( ARG ABCD\n ) ) )",
 				" ( COMPSTMT ( if true ( COMPSTMT ( CALL print ( ARG 1 ) ) ) ) )",
 				" ( COMPSTMT ( if true ( COMPSTMT ( CALL print ( ARG 1 ) ) ) ) )",
 				
