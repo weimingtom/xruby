@@ -64,21 +64,16 @@ public class RubyLexer extends RubyLexerBase {
 
 	private Stack<StringDelimiter> current_special_string_delimiter_ = new Stack<StringDelimiter>();
 
-	private Queue<String> heredocs_ = new LinkedList<String>();
-
-	private Queue<Token> token_queue_ = new LinkedList<Token>();//use to reorder tokens, need this to deal with heredoc
-
+	private InputBufferWithHereDocSupport input_;
+	
 	public RubyLexer(Reader in, SymbolTableManager stm) {
-		super(in);
+		super(new InputBufferWithHereDocSupport(in));
+		input_ = (InputBufferWithHereDocSupport)super.inputState.getInput();
 		stm_ = stm;
 	}
 
 	SymbolTableManager getSymbolTableManager() {
 		return stm_;
-	}
-
-	Queue<String> getHereDocs() {
-		return heredocs_;
 	}
 
 	private Token __nextToken() throws TokenStreamException {
@@ -105,21 +100,20 @@ public class RubyLexer extends RubyLexerBase {
 					return t;
 				}
 
-				switch (last_token_.getType()) {
-				case LINE_BREAK:
-					while (expectHeredoc_content()) {
+				if (HERE_DOC_BEGIN == last_token_.getType()) {
+					while (expectHeredocContent()) {
 						// expect here doc
 						// match it but skip the content, so that parser does
 						// not have to parse it (but we'd better save it to
 						// symbol table).
 						mHERE_DOC_CONTENT(true, heredoc_delimiters_.get(0));
-						heredocs_.add(_returnToken.getText());
+						input_.finishedHereDoc();
 						heredoc_delimiters_.remove(0);
 					}
-					return super.nextToken();
-				default:
-					return super.nextToken();
+					return _returnToken;
 				}
+				
+				return super.nextToken();
 			} catch (RecognitionException e) {
 				throw new TokenStreamRecognitionException(e);
 			}
@@ -131,16 +125,8 @@ public class RubyLexer extends RubyLexerBase {
 			}
 		}
 	}
-
-	public Token nextToken() throws TokenStreamException {
-		if (!token_queue_.isEmpty()) {
-			return token_queue_.remove();
-		} else {
-			return _nextToken();
-		}
-	}
 	
-	private Token _nextToken() throws TokenStreamException {
+	public Token nextToken() throws TokenStreamException {
 
 		Token token = __nextToken();
 
@@ -176,6 +162,7 @@ public class RubyLexer extends RubyLexerBase {
 		 */
 		case HERE_DOC_BEGIN:
 			heredoc_delimiters_.add(token.getText());
+			input_.skipToLineBreak();
 			break;
 		case SEMI:
 		case LINE_BREAK:
@@ -327,7 +314,7 @@ public class RubyLexer extends RubyLexerBase {
 
 	}
 
-	protected boolean expectHeredoc_content() {
+	protected boolean expectHeredocContent() {
 		return (heredoc_delimiters_.size() > 0);
 	}
 

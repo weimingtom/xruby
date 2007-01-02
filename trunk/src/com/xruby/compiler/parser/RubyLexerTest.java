@@ -182,18 +182,16 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 
 	public void test_token_stream6()
 	{
-		String program_text = "$stderr.puts <<EOS\n" +
+		String program_text = "puts <<EOS\n" +
 "Usage: #{myname} [--key keypair_file] name\n"	+
 "  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n" +
 "EOS\n";
 		TestingCommonToken[] token_types =  {
-							new TestingCommonToken(GLOBAL_VARIABLE , "$stderr"),
-							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "puts"),
 							new TestingCommonToken(HERE_DOC_BEGIN, "EOS"),
-							new TestingCommonToken(LINE_BREAK, "\n"),
-							//new TestingCommonToken(HERE_DOC_CONTENT, "Usage: #{myname} [--key keypair_file] name\n" +
-//"  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n"),
+							new TestingCommonToken(HERE_DOC_CONTENT, "Usage: #{myname} [--key keypair_file] name\n" +
+							"  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n"),
+							new TestingCommonToken(LINE_BREAK, "\n", 4),
 		};
 
 		assert_type(program_text, token_types);
@@ -212,8 +210,8 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "body"),
 							new TestingCommonToken(ASSIGN, "="),
 							new TestingCommonToken(HERE_DOC_BEGIN, "-_end_of_html_"),
-							new TestingCommonToken(LINE_BREAK, "\n"),
-							//new TestingCommonToken(HERE_DOC_CONTENT, "      <HTML/>\n"),
+							new TestingCommonToken(HERE_DOC_CONTENT, "      <HTML/>\n"),
+							new TestingCommonToken(LINE_BREAK, "\n", 3),
 		};
 
 		assert_type(program_text, token_types);
@@ -232,8 +230,8 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "body", 2),
 							new TestingCommonToken(ASSIGN, "=", 2),
 							new TestingCommonToken(HERE_DOC_BEGIN, "-_end_of_html_", 2),
-							new TestingCommonToken(LINE_BREAK, "\n", 2),
-							//new TestingCommonToken(HERE_DOC_CONTENT, "", 2),
+							new TestingCommonToken(HERE_DOC_CONTENT, "", 2),
+							new TestingCommonToken(LINE_BREAK, "\n", 3),
 		};
 
 		assert_type(program_text, token_types);
@@ -290,9 +288,10 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(COLON2, "::", 2),
 							new TestingCommonToken(FUNCTION, "puts", 2),
 							new TestingCommonToken(HERE_DOC_BEGIN, "EOM", 2),
-							new TestingCommonToken(COMMA, ",", 2),
-							new TestingCommonToken(IDENTIFIER, "src", 2),
-							new TestingCommonToken(LINE_BREAK, "\n", 2),
+							new TestingCommonToken(HERE_DOC_CONTENT, "checked program was:\n/* begin */\n%s/* end */\n\n", 2),
+							new TestingCommonToken(COMMA, ",", 7),
+							new TestingCommonToken(IDENTIFIER, "src", 7),
+							new TestingCommonToken(LINE_BREAK, "\n", 7),
 							new TestingCommonToken(LITERAL_end, "end", 8),
 		};
 
@@ -557,12 +556,13 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "module_eval", 2),
 							new TestingCommonToken(LPAREN, "(", 2),
 							new TestingCommonToken(HERE_DOC_BEGIN, "-EOC", 2),
-							new TestingCommonToken(COMMA, ",", 2),
-							new TestingCommonToken(LITERAL___FILE__, "__FILE__", 2),
-							new TestingCommonToken(COMMA, ",", 2),
-							new TestingCommonToken(LITERAL___LINE__, "__LINE__", 2),
-							new TestingCommonToken(RPAREN, ")", 2),
-							new TestingCommonToken(LINE_BREAK, "\n", 2),
+							new TestingCommonToken(HERE_DOC_CONTENT, "", 2),
+							new TestingCommonToken(COMMA, ",", 3),
+							new TestingCommonToken(LITERAL___FILE__, "__FILE__", 3),
+							new TestingCommonToken(COMMA, ",", 3),
+							new TestingCommonToken(LITERAL___LINE__, "__LINE__", 3),
+							new TestingCommonToken(RPAREN, ")", 3),
+							new TestingCommonToken(LINE_BREAK, "\n", 3),
 							new TestingCommonToken(LITERAL_end, "end", 4),
 							new TestingCommonToken(LINE_BREAK, "\n", 4),
 							new TestingCommonToken(LITERAL_end, "end", 5),
@@ -594,7 +594,8 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(FUNCTION, "module_eval"),
 							new TestingCommonToken(HERE_DOC_BEGIN, "-end_eval"),
-							new TestingCommonToken(LINE_BREAK, "\n"),
+							new TestingCommonToken(HERE_DOC_CONTENT, ""),
+							new TestingCommonToken(LINE_BREAK, "\n", 2),
 		};
 
 		assert_type(program_text, token_types);
@@ -639,7 +640,53 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 
 		assert_type(program_text, token_types);
 	}
+	
+	public void test_token_stream31() {
+		String program_text = "print 1, <<EOF1, 2, <<EOF2, 3\n" +
+		"EOF1\n" +
+		"EOF2\n";
 
+		TestingCommonToken[] token_types =  {
+							new TestingCommonToken(FUNCTION, "print"),
+							new TestingCommonToken(INTEGER, "1"),
+							new TestingCommonToken(COMMA, ","),
+							new TestingCommonToken(HERE_DOC_BEGIN, "EOF1"),
+							new TestingCommonToken(HERE_DOC_CONTENT, ""),
+							new TestingCommonToken(COMMA, ",", 2),
+							new TestingCommonToken(INTEGER, "2", 2),
+							new TestingCommonToken(COMMA, ",", 2),
+							new TestingCommonToken(HERE_DOC_BEGIN, "EOF2", 2),
+							new TestingCommonToken(HERE_DOC_CONTENT, "", 2),
+							new TestingCommonToken(COMMA, ",", 3),
+							new TestingCommonToken(INTEGER, "3", 3),
+							new TestingCommonToken(LINE_BREAK, "\n", 3),
+		};
+
+		assert_type(program_text, token_types);
+	}
+
+	/*
+	public void test_token_stream32() {
+		String program_text = "print <<-EOF + \"#{'yyy'}\"\n" +
+							"  hey\n" +
+							" EOF\n";
+
+		TestingCommonToken[] token_types =  {
+							new TestingCommonToken(FUNCTION, "print"),
+							new TestingCommonToken(HERE_DOC_BEGIN, "-EOF"),
+							new TestingCommonToken(HERE_DOC_CONTENT, "  hey\n"),
+							new TestingCommonToken(PLUS, "+", 3),
+							new TestingCommonToken(STRING_BEFORE_EXPRESSION_SUBSTITUTION, "", 3),
+							new TestingCommonToken(LCURLY_BLOCK, "{", 3),
+							new TestingCommonToken(SINGLE_QUOTE_STRING, "yyy", 3),
+							new TestingCommonToken(RCURLY, "}", 3),
+							new TestingCommonToken(STRING_BEFORE_EXPRESSION_SUBSTITUTION, "", 3),
+							new TestingCommonToken(LINE_BREAK, "\n", 3),
+		};
+
+		assert_type(program_text, token_types);
+	}*/
+	
 	/*
 	public void test_defined_question_mark()
 	{

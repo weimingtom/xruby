@@ -35,7 +35,7 @@ public class RubyParser extends RubyParserBase {
 
 	public Program parse(String filename) throws RecognitionException, TokenStreamException {
 		RubyTreeParser treeparser = new RubyTreeParser();
-		return treeparser.parse(createAST(), filename, lexer_.getHereDocs());
+		return treeparser.parse(createAST(), filename);
 	}
 
 	protected void tellLexerWeHaveFinishedParsingMethodparameters() {
