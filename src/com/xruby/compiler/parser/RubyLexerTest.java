@@ -180,22 +180,27 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
+	/*need parser
 	public void test_token_stream6()
 	{
 		String program_text = "puts <<EOS\n" +
-"Usage: #{myname} [--key keypair_file] name\n"	+
+"Usage: #{123} [--key keypair_file] name\n"	+
 "  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n" +
 "EOS\n";
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(FUNCTION, "puts"),
 							new TestingCommonToken(HERE_DOC_BEGIN, "EOS"),
-							new TestingCommonToken(HERE_DOC_CONTENT, "Usage: #{myname} [--key keypair_file] name\n" +
+							new TestingCommonToken(HERE_DOC_BEFORE_EXPRESSION_SUBSTITUTION, "Usage: "),
+							new TestingCommonToken(LCURLY_BLOCK, "{"),
+							new TestingCommonToken(INTEGER, "123"),
+							new TestingCommonToken(RCURLY, "}"),
+							new TestingCommonToken(HERE_DOC_AFTER_EXPRESSION_SUBSTITUTION, " [--key keypair_file] name\n" +
 							"  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n"),
 							new TestingCommonToken(LINE_BREAK, "\n", 4),
 		};
 
 		assert_type(program_text, token_types);
-	}
+	}*/
 
 	public void test_token_stream7()
 	{
@@ -665,7 +670,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	/*
+	/*need parser
 	public void test_token_stream32() {
 		String program_text = "print <<-EOF + \"#{'yyy'}\"\n" +
 							"  hey\n" +

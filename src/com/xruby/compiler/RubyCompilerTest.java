@@ -3643,6 +3643,41 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_heredoc_expression_substitution() {
+		String [] program_texts = {
+				"print <<EOF\n" +
+				"x#{456}y\n" +
+				"EOF\n",
+				
+				"print <<EOF, 9\n" +
+				"x#{456}y\n" +
+				"EOF\n",
+				
+				"print <<EOF, 9\n" +
+				"x#{456}y\n" +
+				"EOF\n" +
+				"print 8\n",
+				
+				/*TODO
+				"print 1, <<EOF1, 2, <<EOF2, 3\n" +
+				"#{print 2}\n" +
+				"EOF1\n" +
+				"#{print 5}\n" +
+				"EOF2\n",
+				*/
+		};
+		
+		String[] outputs = {
+				"x456y\n",
+				"x456y\n9",
+				"x456y\n98",
+				
+				//"251\n2\n3\n",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_heredoc() {
 		String [] program_texts = {
 				"print <<END;\n" +
