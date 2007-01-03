@@ -4311,4 +4311,17 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_Proc_new() {
+		String [] program_texts = {
+				"print Proc.new{|a,| a}.call(1,2,3)",
+		};
+		
+		String[] outputs = {
+				"1",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 }
