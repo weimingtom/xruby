@@ -384,3 +384,9 @@ end
 class ThreadError < StandardError
 end
 
+class Proc
+  def to_proc
+    self
+  end
+end
+
