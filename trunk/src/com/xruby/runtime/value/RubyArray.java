@@ -399,13 +399,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	}
 
 	public void reverse() {
-		int total = array.size();
-		int half = total / 2;
-		for (int i = 0; i < half; ++i) {
-			RubyValue tmp = array.get(i);
-			array.set(i, array.get(total - i - 1));
-			array.set(total -i - 1, tmp);
-		}
+		Collections.reverse(array);
 	}
 }
 
