@@ -74,11 +74,12 @@ public abstract class RubyBlock extends MethodBlockBase {
 	}
 
 	public void validateParameterForProcCall(RubyArray args) {
-		//TODO based on my observation, ruby does not throw ArgumentError unless argc_ is 0, it just gives a waring in other case
-		//e.g compare def f(b); b.call(1, 2);end;  f(lambda {|x|})
-		//with def f(b); b.call(1, 2);end;  f(lambda {||})
-		if (0 == argc_ && 0 == default_argc_ && !has_asterisk_parameter_ && null!= args && args.size() != 0) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for " + argc_+ ")");
+		if (argc_ >= 0) {
+			int actual_args_length = (null == args) ? 0 : args.size();
+			int required_args_length = argc_ - default_argc_;
+			if (actual_args_length != required_args_length) {
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + actual_args_length + " for " + required_args_length + ")");
+			}
 		}
 	}
 
