@@ -2948,6 +2948,8 @@ public class RubyCompilerTest extends TestCase {
 				"def f(a, b, c=2) end; f(1)",
 				
 				"def f(b); b.call(1);end;  f(lambda {||})",
+				"def f(b); b.call(1, 2);end;  f(lambda {|x, y, z|})",
+				"def f(b); b.call(1, 2);end;  f(lambda {|x, |})",
 		};
 
 		RubyException[] exceptions = {
@@ -2956,6 +2958,8 @@ public class RubyCompilerTest extends TestCase {
 			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 2)"),
 			
 			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 0)"),
+			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 3)"),
+			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 1)"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
