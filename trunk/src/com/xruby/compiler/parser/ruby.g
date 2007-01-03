@@ -54,6 +54,7 @@ tokens {
 	protected void tellLexerWeHaveFinishedParsingSymbol()	{assert(false);}
 	protected void tellLexerWeHaveFinishedParsingStringExpressionSubstituation()	{assert(false);}
 	protected void tellLexerWeHaveFinishedParsingRegexExpressionSubstituation()	{assert(false);}
+	protected void tellLexerWeHaveFinishedParsingHeredocExpressionSubstituation()	{assert(false);}
 
 	boolean isNotAssign(int token_type) {
 		switch (token_type) {
@@ -578,8 +579,8 @@ string
 		:	DOUBLE_QUOTE_STRING
 		|	SINGLE_QUOTE_STRING
 		|	STRING_BEFORE_EXPRESSION_SUBSTITUTION^
-			expression_substituation
-			(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation)*
+			expression_substituation	{tellLexerWeHaveFinishedParsingStringExpressionSubstituation();}
+			(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation	{tellLexerWeHaveFinishedParsingStringExpressionSubstituation();})*
 			STRING_AFTER_EXPRESSION_SUBSTITUTION
 		;
 
@@ -590,7 +591,6 @@ expression_substituation
 			|	INSTANCE_VARIABLE
 			|	CLASS_VARIABLE
 			)
-			{tellLexerWeHaveFinishedParsingStringExpressionSubstituation();}
 		;
 
 regex
@@ -604,14 +604,25 @@ regex
 command_output
 		:	COMMAND_OUTPUT
 		|	COMMAND_OUTPUT_BEFORE_EXPRESSION_SUBSTITUTION^
-			expression_substituation	(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation)*
+			expression_substituation	{tellLexerWeHaveFinishedParsingStringExpressionSubstituation();}
+			(STRING_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation	{tellLexerWeHaveFinishedParsingStringExpressionSubstituation();})*
 			STRING_AFTER_EXPRESSION_SUBSTITUTION
+		;
+
+heredoc
+		:	HERE_DOC_BEGIN!
+			(HERE_DOC_CONTENT
+			|HERE_DOC_BEFORE_EXPRESSION_SUBSTITUTION^
+			expression_substituation	{tellLexerWeHaveFinishedParsingHeredocExpressionSubstituation();}
+			(HERE_DOC_BETWEEN_EXPRESSION_SUBSTITUTION	expression_substituation	{tellLexerWeHaveFinishedParsingHeredocExpressionSubstituation();})*
+			HERE_DOC_AFTER_EXPRESSION_SUBSTITUTION
+			)
 		;
 
 literal
 		:	regex
 		|	(options{greedy=true;/*caused by command*/}:string)+{ #literal = #([STRING, "STRING"], #literal); }
-		|	HERE_DOC_BEGIN!	HERE_DOC_CONTENT
+		|	heredoc
 		|	command_output
 		|	symbol
 		|	W_ARRAY
@@ -1399,12 +1410,31 @@ HERE_DOC_BEGIN
 		;
 
 protected
-HERE_DOC_CONTENT[String delimiter]
-		:	(next_line:ANYTHING_OTHER_THAN_LINE_FEED	LINE_FEED	{if (isDelimiter(next_line.getText(), delimiter)) break;})+
+HERE_DOC_CONTENT[String delimiter, int type1, int type2]
+		:	(next_line:ANYTHING_OTHER_THAN_LINE_FEED_AND_POUND	{if (expressionSubstitutionIsNext()) break;}
+			LINE_FEED	{if (isDelimiter(next_line.getText(), delimiter)) break;}
+			)+
 			{
-				//skip delimiter
-				text.setLength(text.length() - next_line.getText().length() - 1);
+				if (expressionSubstitutionIsNext())
+				{
+					//eat '#'
+					_saveIndex=text.length();
+					matchNot(EOF_CHAR);
+					text.setLength(_saveIndex);
+					$setType(type1);					
+				}
+				else
+				{
+					//skip delimiter
+					text.setLength(text.length() - next_line.getText().length() - 1);
+					$setType(type2);
+				}
 			}
+		;
+
+protected
+ANYTHING_OTHER_THAN_LINE_FEED_AND_POUND
+		:	({!expressionSubstitutionIsNext()}?	~('\r'|'\n'))*
 		;
 
 protected

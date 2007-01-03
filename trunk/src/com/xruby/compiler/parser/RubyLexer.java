@@ -7,6 +7,7 @@ package com.xruby.compiler.parser;
 import java.util.*;
 import java.io.Reader;
 import antlr.*;
+
 import com.xruby.compiler.parser.symboltable.SymbolTableManager;
 
 class StringDelimiter {
@@ -48,55 +49,22 @@ public class RubyLexer extends RubyLexerBase {
 	private boolean is_in_condition = false;
 	private boolean just_finished_parsing_regex_expression_substituation_ = false;
 	private boolean just_finished_parsing_string_expression_substituation_ = false;
+	private boolean just_finished_parsing_heredoc_expression_substituation_ = false;
 	private boolean just_finished_parsing_symbol_ = false;
 	private Stack<StringDelimiter> current_special_string_delimiter_ = new Stack<StringDelimiter>();
 	private InputBufferWithHereDocSupport input_;
+	private String current_heredoc_delimiter_ = null;
 	
 	public RubyLexer(Reader in, SymbolTableManager stm) {
 		super(new InputBufferWithHereDocSupport(in));
 		input_ = (InputBufferWithHereDocSupport)super.inputState.getInput();
 		stm_ = stm;
 	}
-
-	SymbolTableManager getSymbolTableManager() {
-		return stm_;
-	}
-
-	private Token __nextToken() throws TokenStreamException {
+	
+	public Token nextToken() throws TokenStreamException {
 		try {
 			try {
-				if (just_finished_parsing_string_expression_substituation_
-						|| just_finished_parsing_regex_expression_substituation_) {
-					if (current_special_string_delimiter_.empty()) {
-						throw new TokenStreamException("Delimiter mismatch!");
-					}
-
-					StringDelimiter delimiter = current_special_string_delimiter_.peek();
-					mSTRING_BETWEEN_EXPRESSION_SUBSTITUTION(true, delimiter.getDelimiter(), delimiter.getCount());
-					Token t = _returnToken;
-					// System.out.println(t.getText());
-					if (STRING_AFTER_EXPRESSION_SUBSTITUTION == t.getType()) {
-						current_special_string_delimiter_.pop();
-						if (just_finished_parsing_regex_expression_substituation_) {
-							mREGEX_MODIFIER(false);
-						}
-					}
-					just_finished_parsing_string_expression_substituation_ = false;
-					just_finished_parsing_regex_expression_substituation_ = false;
-					return t;
-				}
-
-				if (HERE_DOC_BEGIN == last_token_.getType()) {
-					// expect here doc
-					// match it but skip the content, so that parser does
-					// not have to parse it (but we'd better save it to
-					// symbol table).
-					mHERE_DOC_CONTENT(true, last_token_.getText());
-					input_.finishedHereDoc();					
-					return _returnToken;
-				}
-				
-				return super.nextToken();
+				return _nextToken();
 			} catch (RecognitionException e) {
 				throw new TokenStreamRecognitionException(e);
 			}
@@ -108,10 +76,61 @@ public class RubyLexer extends RubyLexerBase {
 			}
 		}
 	}
-	
-	public Token nextToken() throws TokenStreamException {
 
-		Token token = __nextToken();
+	SymbolTableManager getSymbolTableManager() {
+		return stm_;
+	}
+	
+	private Token getNextTokenFromStream() throws TokenStreamException, RecognitionException, CharStreamException {
+		if (just_finished_parsing_string_expression_substituation_
+				|| just_finished_parsing_regex_expression_substituation_) {
+			if (current_special_string_delimiter_.empty()) {
+				throw new TokenStreamException("Delimiter mismatch!");
+			}
+
+			StringDelimiter delimiter = current_special_string_delimiter_.peek();
+			mSTRING_BETWEEN_EXPRESSION_SUBSTITUTION(true, delimiter.getDelimiter(), delimiter.getCount());
+			Token t = _returnToken;
+			// System.out.println(t.getText());
+			if (STRING_AFTER_EXPRESSION_SUBSTITUTION == t.getType()) {
+				current_special_string_delimiter_.pop();
+				if (just_finished_parsing_regex_expression_substituation_) {
+					mREGEX_MODIFIER(false);
+				}
+			}
+			just_finished_parsing_string_expression_substituation_ = false;
+			just_finished_parsing_regex_expression_substituation_ = false;
+			return t;
+		} else if (just_finished_parsing_heredoc_expression_substituation_) {
+			mHERE_DOC_CONTENT(true, current_heredoc_delimiter_,
+								HERE_DOC_BETWEEN_EXPRESSION_SUBSTITUTION,
+								HERE_DOC_AFTER_EXPRESSION_SUBSTITUTION);
+			just_finished_parsing_heredoc_expression_substituation_ = false;
+			if (HERE_DOC_AFTER_EXPRESSION_SUBSTITUTION == _returnToken.getType()) {
+				input_.finishedHereDoc();	
+			}
+			return _returnToken;
+		} else if (HERE_DOC_BEGIN == last_token_.getType()) {
+			// expect here doc
+			// match it but skip the content, so that parser does
+			// not have to parse it (but we'd better save it to
+			// symbol table).
+			current_heredoc_delimiter_ = last_token_.getText();
+			mHERE_DOC_CONTENT(true, current_heredoc_delimiter_,
+								HERE_DOC_BEFORE_EXPRESSION_SUBSTITUTION,
+								HERE_DOC_CONTENT);
+			if (HERE_DOC_CONTENT == _returnToken.getType()) {
+				input_.finishedHereDoc();	
+			}
+			return _returnToken;
+		} else {
+			return super.nextToken();
+		}
+	}
+	
+	private Token _nextToken() throws TokenStreamException, RecognitionException, CharStreamException {
+
+		Token token = getNextTokenFromStream();
 
 		// Even if there are rules for the following tokens, they should not
 		// show up here.
@@ -253,6 +272,10 @@ public class RubyLexer extends RubyLexerBase {
 	void setJustFinishedParsingRegexExpressionSubstituation() {
 		just_finished_parsing_regex_expression_substituation_ = true;
 		just_finished_parsing_string_expression_substituation_ = false;
+	}
+
+	void setJustFinishedParsingHeredocExpressionSubstituation() {
+		just_finished_parsing_heredoc_expression_substituation_ = true;
 	}
 
 	// Parser will call this method to help lexer understand things like "def

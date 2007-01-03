@@ -54,6 +54,10 @@ public class RubyParser extends RubyParserBase {
 		lexer_.setJustFinishedParsingRegexExpressionSubstituation();
 	}
 
+	protected void tellLexerWeHaveFinishedParsingHeredocExpressionSubstituation() {
+		lexer_.setJustFinishedParsingHeredocExpressionSubstituation();
+	}
+	
 	protected void enterClass() {
 		lexer_.getSymbolTableManager().enterClass();
 	}

@@ -367,6 +367,7 @@ returns [Expression e]
 		|	e=string
 		|	e=regexWithExpressionSubstituation
 		|	e=commandOutputWithExpressionSubstituation
+		|	e=heredocWithExpressionSubstituation
 		;
 
 string
@@ -392,6 +393,18 @@ returns [StringExpressionWithExpressionSubstitution e]
 				(expression_substituation[e])?
 				)*
 				a:STRING_AFTER_EXPRESSION_SUBSTITUTION		{e.addString(a.getText());}
+			)
+		;
+
+protected
+heredocWithExpressionSubstituation
+returns [StringExpressionWithExpressionSubstitution e]
+		:	#(	b:HERE_DOC_BEFORE_EXPRESSION_SUBSTITUTION	{e = new StringExpressionWithExpressionSubstitution(b.getText());}
+				(expression_substituation[e])?
+				(m:HERE_DOC_BETWEEN_EXPRESSION_SUBSTITUTION	{e.addString(m.getText());}
+				(expression_substituation[e])?
+				)*
+				a:HERE_DOC_AFTER_EXPRESSION_SUBSTITUTION		{e.addString(a.getText());}
 			)
 		;
 

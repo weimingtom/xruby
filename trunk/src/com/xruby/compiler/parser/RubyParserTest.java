@@ -364,11 +364,16 @@ public class RubyParserTest extends TestCase
 	public void test_compoundStatement2()
 	{
 		String[] program_texts = {
+				
 				"   methods += <<-BEGIN + nn_element_def(element) + <<-END\n" +
 				"          def #{element.downcase}(attributes = {})\n" +
 				"        BEGIN\n" +
 				"          end\n" +
 				"        END\n",
+				
+				"print <<EOF, 9\n" +
+				"x#{456}y\n" +
+				"EOF\n",
 		};
 		
 		parse(program_texts, "compoundStatement");
