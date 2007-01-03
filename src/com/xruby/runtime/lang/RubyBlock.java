@@ -55,6 +55,9 @@ public abstract class RubyBlock extends MethodBlockBase {
 	protected RubyBlock blockOfCurrentMethod_;
 	protected RubyValue selfOfCurrentMethod_;
 
+	//only check the number of parameters for Proc objects created by lambda/proc
+	private boolean shouldCheckArgc_ = false;
+
 	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block, RubyValue self) {
 		super(argc, has_asterisk_parameter, default_argc);
 		blockOfCurrentMethod_ = block;
@@ -73,7 +76,11 @@ public abstract class RubyBlock extends MethodBlockBase {
 		return __redo__;
 	}
 
-	public void validateParameterForProcCall(RubyArray args) {
+	public void setShouldCheckArgc() {
+		shouldCheckArgc_ = true;
+	}
+
+	private void validateParameterForProcCall(RubyArray args) {
 		if (argc_ >= 0) {
 			int actual_args_length = (null == args) ? 0 : args.size();
 			int required_args_length = argc_ - default_argc_;
@@ -84,6 +91,10 @@ public abstract class RubyBlock extends MethodBlockBase {
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args) {
+		if (shouldCheckArgc_) {
+			validateParameterForProcCall(args);
+		}
+		
 		__break__ = false;
 		__return__ = false;
 		__redo__ = false;

@@ -10,7 +10,6 @@ class Proc_call extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyBlock b = ((RubyProc)receiver).getValue();
-		b.validateParameterForProcCall(args);
 		return b.invoke(receiver, args);
 	}
 }
