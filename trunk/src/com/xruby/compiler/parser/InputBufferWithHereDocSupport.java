@@ -58,7 +58,7 @@ public class InputBufferWithHereDocSupport extends InputBuffer {
 	}
 	
 	void finishedHereDoc() {
-		buffer_.append(backup_);
+		buffer_.insert(0, backup_);
 		backup_.setLength(0);
 	}
 	
