@@ -4314,14 +4314,55 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Proc_new() {
 		String [] program_texts = {
-				"print Proc.new{|a,| a}.call(1,2,3)",
+				"def f\n" +
+				"  Proc.new{return 1}.call()\n" +
+				"  print 2\n" +
+				"end\n" +
+				"\n" +
+				"print f",
+				
+				"def f\n" +
+				"  lambda{return 1}.call()\n" +
+				"  print 2\n" +
+				"end\n" +
+				"\n" +
+				"print f",
+				
+				"print Proc.new{|a,| a}.call(4,5,6)",
+
+				"class Proc\n" +
+				"  alias :callxxx :call\n" +
+				"end\n" +
+				"\n" +
+				"def f\n" +
+				"  Proc.new{return 5}.callxxx\n" +
+				"  print 2\n" +
+				"end\n" +
+				"\n" +
+				"print f",
 		};
 		
 		String[] outputs = {
 				"1",
+				"2nil",
+				"4",
+				"5",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
+	public void test_return_value_of_def() {
+		String [] program_texts = {
+				"a = def f; end; print a",
+				"print eval('def f; end')",
+		};
+		
+		String[] outputs = {
+				"nil",
+				"nil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }

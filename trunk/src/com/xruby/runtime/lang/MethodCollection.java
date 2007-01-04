@@ -41,7 +41,7 @@ abstract class MethodCollection extends ConstantCollection {
 	protected RubyValue addMethod(String name, RubyMethod m) {
 		m.setAccess(current_access_mode_);
 		methods_.put(name, m);
-		return null;//FIXME return something real!
+		return ObjectFactory.nilValue;
 	}
 	
 	public void undefMethod(String name) {
