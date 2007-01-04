@@ -119,7 +119,7 @@ public class GlobalVariables {
 				List<RubyProc> set = traces_procs_.get(name);
 				if (null != set) {
 					for (RubyProc p : set) {
-						p.getValue().invoke(value, null);//TODO What the receiver should be?
+						p.getValue().invoke(value, new RubyArray(value));//TODO What the receiver should be?
 					}
 				}
 			} finally {

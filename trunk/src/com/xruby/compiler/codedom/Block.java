@@ -17,6 +17,7 @@ public class Block {
 	private ArrayList<String> parameters_ = new ArrayList<String>();
 	private String asterisk_parameter_ = null;
 	private ArrayList<Expression> default_parameters_ = new ArrayList<Expression>();
+	private boolean should_validate_argument_length_ = false;
 	
 	ArrayList<String> getParameters() {
 		return parameters_;
@@ -33,13 +34,21 @@ public class Block {
 		}
 	}
 
+	//{||} -> true
+	//{|x,...|} -> true
+	//{} -> false
+	public void setShouldValidateArgumentLength() {
+		should_validate_argument_length_ = true;
+	}
+
 	public void setAsteriskParameter(String name) {
 		assert(null == asterisk_parameter_);
 		asterisk_parameter_ = name;
 	}
 
 	public Pair accept(CodeVisitor visitor) {
-		String name = visitor.visitBlock(parameters_.size(), (null != asterisk_parameter_), default_parameters_.size());
+		String name = visitor.visitBlock((should_validate_argument_length_ ? parameters_.size() : -1),
+									(null != asterisk_parameter_), default_parameters_.size());
 		
 		for (String p : parameters_) {
 			visitor.visitMethodDefinationParameter(p);
