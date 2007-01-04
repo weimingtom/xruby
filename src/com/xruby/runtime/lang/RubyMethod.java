@@ -88,7 +88,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @return
 	 * @throws RubyException
 	 */
-	public final RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
+	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (argc_ > 0) {
 			int args_length = (null == args) ? 0 : args.size();
 			if (args_length < (argc_ - default_argc_)) {
@@ -100,7 +100,13 @@ public abstract class RubyMethod extends MethodBlockBase {
 			}
 		}
 
-		return run(receiver, args, block);
+		RubyValue v = run(receiver, args, block);
+		if (null != block && block.returned()) {
+			v.setReturnedInBlock(true);
+		} else {
+			v.setReturnedInBlock(false);
+		}
+		return v;
 	}
 	
 	/**

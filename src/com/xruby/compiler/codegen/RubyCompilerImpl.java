@@ -263,14 +263,17 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 
 		if (null != assignedCommons && assignedCommons.length > 0) {
+			int i = cg_.getMethodGenerator().newLocal(Type.getType(Types.RubyValueClass));
+			cg_.getMethodGenerator().storeLocal(i);
+			
 			for (String name : assignedCommons) {
 				cg_.getMethodGenerator().restoreLocalVariableFromBlock(blockName, name);
 			}
+
+			cg_.getMethodGenerator().loadLocal(i);
 		}
 
-		if (null != blockName) {
-			cg_.getMethodGenerator().returnIfBlockReturned();
-		}
+		cg_.getMethodGenerator().returnIfBlockReturned();
 	}
 
 	public void visitBinaryOperator(String operator) {

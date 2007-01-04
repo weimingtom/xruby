@@ -69,7 +69,11 @@ public abstract class RubyBlock extends MethodBlockBase {
 	}
 
 	public boolean returned() {
-		return __return__;
+		if (createdByLambda_) {
+			return false;
+		} else {
+			return __return__;
+		}
 	}
 
 	public boolean shouldRedo() {

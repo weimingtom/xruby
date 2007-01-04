@@ -13,8 +13,30 @@ public abstract class RubyValue implements Cloneable {
 	private RubySingletonClass singleton_class_ = null;
 	private Map<String, RubyValue> instance_varibles_ = null;
 
+	/*'return' inside a block will cause return in the method, for example:
+		def f
+			1.times {return 1}
+		end
+	Or worse (compile-time undetectable):
+		def f
+			Proc.new{return 1}.call()
+		end
+	so we need to check if this happend after each function call.
+	As java does not support multiple return value, we use this returned_in_block_ flag.
+	Should be replaced with a 'Context' object in the future.
+	*/
+	private boolean returned_in_block_ = false;
+
 	public RubyValue(RubyClass c) {
 		class_ = c;
+	}
+
+	public void setReturnedInBlock(boolean b) {
+		returned_in_block_ = b;
+	}
+
+	public boolean returnedInBlock() {
+		return returned_in_block_;
 	}
 	
 	public RubyValue clone() {

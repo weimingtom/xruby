@@ -12,6 +12,17 @@ class Proc_call extends RubyMethod {
 		RubyBlock b = ((RubyProc)receiver).getValue();
 		return b.invoke(receiver, args, false);
 	}
+
+	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyValue v = run(receiver, args, block);
+		block = ((RubyProc)receiver).getValue();
+		if (null != block && block.returned()) {
+			v.setReturnedInBlock(true);
+		} else {
+			v.setReturnedInBlock(false);
+		}
+		return v;
+	}
 }
 
 class Proc_alloc extends RubyMethod {

@@ -110,19 +110,13 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 
 	public void returnIfBlockReturned() {
-		int value = newLocal(Type.getType(Types.RubyValueClass));
-		storeLocal(value);
-
-		loadLocal(getSymbolTable().getLocalVariable("block$"));
-	
-		invokeVirtual(Type.getType(Types.RubyBlockClass),
-				Method.getMethod("boolean returned()"));
+		dup();	
+		invokeVirtual(Type.getType(Types.RubyValueClass),
+				Method.getMethod("boolean returnedInBlock()"));
 		Label after_return = new Label();
 		ifZCmp(GeneratorAdapter.EQ, after_return);
-		loadLocal(value);
 		returnValue();//TODO more error checking, may not in the method context
 		mark(after_return);
-		loadLocal(value);
 	}
 	
 	public void load_asterisk_parameter_(Class c) {
