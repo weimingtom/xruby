@@ -85,7 +85,7 @@ public abstract class RubyBlock extends MethodBlockBase {
 	}
 
 	private void validateParameterForProcCall(RubyArray args) {
-		if (argc_ >= 0) {
+		if (argc_ >= 0 && !has_asterisk_parameter_) {
 			int actual_args_length = (null == args) ? 0 : args.size();
 			int required_args_length = argc_ - default_argc_;
 			if (actual_args_length != required_args_length) {
