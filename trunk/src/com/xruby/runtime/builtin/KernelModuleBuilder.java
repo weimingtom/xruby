@@ -345,7 +345,7 @@ class Kernel_lambda extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		block.setShouldCheckArgc();
+		block.setCreatedByLambda();
 		return ObjectFactory.createProc(block);
 	}
 }
