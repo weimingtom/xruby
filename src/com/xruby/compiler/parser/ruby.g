@@ -227,8 +227,8 @@ codeBlock
 
 protected
 blockContent
-		:	(BOR!	(block_vars)?	BOR!
-			|LOGICAL_OR!
+		:	(BOR	(block_vars)?	BOR!
+			|LOGICAL_OR
 			)?	(compoundStatement)?
 		;
 

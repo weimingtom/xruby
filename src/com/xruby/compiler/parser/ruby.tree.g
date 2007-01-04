@@ -648,6 +648,7 @@ returns [Block b]
 	Expression default_value = null;
 }
 		:	#(	BLOCK					{b = new Block();}
+				((BOR|LOGICAL_OR)		{b.setShouldValidateArgumentLength();})?
 				(	(id:IDENTIFIER|func:FUNCTION)
 					((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	default_value=expression)?
 					{b.addParameter((null != id) ? id.getText() : func.getText(), default_value);}
