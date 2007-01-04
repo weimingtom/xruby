@@ -10,7 +10,7 @@ import java.util.*;
 
 abstract class ClassGenerator {
 	
-	protected final ClassWriter cw_ = new ClassWriter(true);
+	protected final ClassWriter cw_ = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 	protected final String name_;
 	protected MethodGenerator mg_for_run_method_ = null;
 	private Stack<MethodGenerator> suspended_mgs_for_class_builder_method_ = new Stack<MethodGenerator>();
