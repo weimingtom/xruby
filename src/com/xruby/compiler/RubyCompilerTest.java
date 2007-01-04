@@ -877,7 +877,8 @@ public class RubyCompilerTest extends TestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
+	/*
 	public void test_ensure() {
 		String[] program_texts = {
 				"while true\n" +
@@ -963,7 +964,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
-	}
+	}*/
 
 	public void test_stack_depth_consistency_in_begin_end() {
 		String[] program_texts = {
