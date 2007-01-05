@@ -24,8 +24,18 @@ public class NameFactory {
 		if (null == method_name) {
 			return getNameWithoutSufix(script_name) + "/" + DefaultName;
 		} else {
-			return getNameWithoutSufix(script_name) + "/" + method_name + "$" + count_.getAndIncrement();
+			return getNameWithoutSufix(script_name) + "/" + removeInvalidIdentifierPart(method_name) + "$" + count_.getAndIncrement();
 		}
+	}
+
+	public static String removeInvalidIdentifierPart(String method_name) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < method_name.length(); ++i) {
+			if (Character.isJavaIdentifierPart(method_name.charAt(i))) {
+				sb.append(method_name.charAt(i));
+			}
+		}
+		return sb.toString();
 	}
 
 	public static String createClassNameForBlock(String script_name) {
@@ -37,7 +47,7 @@ public class NameFactory {
 	}
 
 	public static String createMethodnameForClassBuilder(String class_name) {
-		return class_name.replace("?", "$1").replace("!", "$2") + "$" + count_.getAndIncrement();
+		return class_name + "$" + count_.getAndIncrement();
 	}
 
 	public static String createMainClass(String script_name) {
