@@ -1,8 +1,6 @@
 package com.xruby.compiler.codegen;
 
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
+import org.objectweb.asm.*;
 import org.objectweb.asm.commons.Method;
 
 class ClassGeneratorForRubyProgram extends ClassGenerator {
@@ -17,7 +15,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 	}
 
 	private MethodGenerator visitRubyProgram() {
-		cw_.visit(Opcodes.V1_5,
+		cv_.visit(Opcodes.V1_5,
 				Opcodes.ACC_PUBLIC,
 				name_,
 				null,										// signature
@@ -25,23 +23,23 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				new String[] { "com/xruby/runtime/lang/RubyProgram" }	// interface
 				);
 
-		createImplicitConstructor(cw_);
-		createStaticVoidMain(cw_);
+		createImplicitConstructor(cv_);
+		createStaticVoidMain(cv_);
 		
 		//Implement RubyProgram
 		return new MethodGenerator(Opcodes.ACC_PUBLIC,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"),
 				null,
 				null,
-				cw_);
+				cv_);
 	}
 
-	private void createStaticVoidMain(ClassWriter cw) {
+	private void createStaticVoidMain(ClassVisitor cv) {
 		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
 				Method.getMethod("void main (String[])"),
 				null,
 				null,
-				cw);
+				cv);
 
 		mg.loadArg(0);
 		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),

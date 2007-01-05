@@ -21,6 +21,7 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
 		super(arg0, arg1, arg2, arg3, arg4);
+		visitCode();
 	}
 	
 	public void saveCurrentVariablesOnStack() {
