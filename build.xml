@@ -16,8 +16,7 @@
 	<property name="rubycode.dir" location="c:\\ruby"/>
 	<property name="antlr.jar" location="${lib.dir}/antlr/antlr-2.7.6.jar"/>
 	<property name="jarjar.jar" location="${lib.dir}/jarjar/jarjar-0.7.jar"/>
-	<property name="asm.jar" location="${lib.dir}/asm/asm-3.0.jar"/>
-	<property name="asm-commons.jar" location="${lib.dir}/asm/asm-commons-3.0.jar"/>
+	<property name="asm.jar" location="${lib.dir}/asm/asm-all-3.0.jar"/>
 	<property name="commons-cli.jar" location="${lib.dir}/commons-cli/commons-cli-1.0.jar"/>
 	<property name="xruby.jar"  location="${name}-${version}.jar"/>
 	<property name="main-class"  value="com.xruby.Main"/>
@@ -59,7 +58,6 @@
 		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="on">
 			<classpath path="${antlr.jar}" />
 			<classpath path="${asm.jar}" />
-			<classpath path="${asm-commons.jar}" />
 			<classpath path="${commons-cli.jar}" />
 			 <!--compilerarg value="-Xlint:unchecked"/-->
 		</javac>
@@ -70,7 +68,6 @@
 			<classpath>
 				<pathelement location="${antlr.jar}" />
 				<pathelement location="${asm.jar}" />
-				<pathelement location="${asm-commons.jar}" />
 				<pathelement location="${commons-cli.jar}" />
 				<pathelement location="${build.dir}" />
 			</classpath>
@@ -87,7 +84,6 @@
 			<fileset dir="${build.dir}" excludes="**/*Test*.class"/>
 			<zipfileset src="${antlr.jar}"/>
 			<zipfileset src="${asm.jar}"/>
-			<zipfileset src="${asm-commons.jar}"/>
 			<zipfileset src="${commons-cli.jar}"/>
 			<zipfileset src="builtin.jar"/>
 			<manifest>
@@ -102,7 +98,7 @@
 			<classpath>
 				<pathelement location="${antlr.jar}" />
 				<pathelement location="${asm.jar}" />
-				<pathelement location="${asm-commons.jar}" />
+				<pathelement location="${commons-cli.jar}" />
 				<pathelement location="${build.dir}" />
 				<pathelement location="builtin.jar" />
 			</classpath>
