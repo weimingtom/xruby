@@ -25,6 +25,18 @@ class Proc_call extends RubyMethod {
 	}
 }
 
+class Proc_arity extends RubyMethod {
+	public Proc_arity() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyBlock b = ((RubyProc)receiver).getValue();
+		return ObjectFactory.createFixnum(b.arity());
+	}
+
+}
+
 class Proc_alloc extends RubyMethod {
 	public Proc_alloc() {
 		super(-1);
@@ -40,6 +52,7 @@ public class ProcClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ProcClass;
 		c.defineMethod("call", new Proc_call());
+		c.defineMethod("arity", new Proc_arity());
 		c.defineAllocMethod(new Proc_alloc());
 	}
 }

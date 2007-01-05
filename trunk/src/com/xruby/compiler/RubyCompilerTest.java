@@ -220,6 +220,26 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_result(program_texts, results);
 	}
 
+	public void test_Proc_arity() {
+		String[] program_texts = {
+				"Proc.new {||}.arity",
+				"Proc.new {|a|}.arity",
+				"Proc.new {|a,b|}.arity",
+				"Proc.new {|*a|}.arity",
+				"Proc.new {|a,*b|}.arity",
+		};
+		
+		int[] results = {
+				0,
+				1,
+				2,
+				-1,
+				-2,
+		};
+
+		compile_run_and_compare_result(program_texts, results);
+	}
+	
 	public void test_array() {
 		String[] program_texts = { "[1, 'xxx', 1.2].length", "[].length",};
 		int[] results = { 3, 0,};
