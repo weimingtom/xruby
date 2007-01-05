@@ -10,7 +10,8 @@ import java.util.*;
 
 abstract class ClassGenerator {
 	
-	protected final ClassWriter cw_ = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+	private final ClassWriter cw_ = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+	protected final ClassVisitor cv_ = cw_;
 	protected final String name_;
 	protected MethodGenerator mg_for_run_method_ = null;
 	private Stack<MethodGenerator> suspended_mgs_for_class_builder_method_ = new Stack<MethodGenerator>();
@@ -46,7 +47,7 @@ abstract class ClassGenerator {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule)"),
 				null,
 				null,
-				cw_,
+				cv_,
 				is_singleton);
 	}
 
@@ -84,7 +85,7 @@ abstract class ClassGenerator {
 	}
 	
 	public void visitEnd() {
-		cw_.visitEnd();
+		cv_.visitEnd();
 	}
 
 	public int getAnonymousLocalVariable() {
@@ -109,9 +110,9 @@ abstract class ClassGenerator {
 		return new CompilationResult(name_, cw_.toByteArray());
 	}
 
-	protected void createImplicitConstructor(ClassWriter cw) {
+	protected void createImplicitConstructor(ClassVisitor cw) {
 		Method m = Method.getMethod("void <init> ()");
-		GeneratorAdapter mg = new GeneratorAdapter(Opcodes.ACC_PUBLIC,
+		GeneratorAdapter mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
 				m,
 				null,
 				null,

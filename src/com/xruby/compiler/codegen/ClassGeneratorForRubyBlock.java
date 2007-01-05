@@ -88,7 +88,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	private MethodGenerator visitRubyBlock() {
-		cw_.visit(Opcodes.V1_5,
+		cv_.visit(Opcodes.V1_5,
 				0,		//No modifier
 				name_,	
 				null,								// signature
@@ -100,7 +100,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"),
 				null,
 				null,
-				cw_);
+				cv_);
 	}
 
 	static String buildContructorSignature(int size) {
@@ -126,7 +126,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
 	private void createFields(final String[] commons) {
 		for (String name : commons) {
-			FieldVisitor fv = cw_.visitField(assigned_fields_.contains(name) ? Opcodes.ACC_PUBLIC : Opcodes.ACC_PRIVATE,
+			FieldVisitor fv = cv_.visitField(assigned_fields_.contains(name) ? Opcodes.ACC_PUBLIC : Opcodes.ACC_PRIVATE,
 					name,
 					Type.getDescriptor(Types.RubyValueClass),
 					null,
@@ -142,7 +142,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 				Method.getMethod(buildContructorSignature(commons.length)),
 				null,
 				null,
-				cw_);
+				cv_);
 		
 		mg.loadThis();
 		mg.push(argc_);

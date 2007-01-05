@@ -31,7 +31,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 	}
 
 	private MethodGenerator visitRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
-		cw_.visit(Opcodes.V1_5,
+		cv_.visit(Opcodes.V1_5,
 				0,		//No modifier
 				name_,	
 				null,								// signature
@@ -45,7 +45,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock)"),
 				null,
 				null,
-				cw_);
+				cv_);
 	}
 
 	private void createConstructorOfRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
@@ -53,7 +53,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				Method.getMethod("void <init> ()"),
 				null,
 				null,
-				cw_);
+				cv_);
 		mg.loadThis();
 		mg.push(argc);
 		mg.push(has_asterisk_parameter);
