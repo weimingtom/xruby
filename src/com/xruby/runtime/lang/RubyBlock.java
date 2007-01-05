@@ -20,6 +20,14 @@ class MethodBlockBase {
 		default_argc_ = default_argc;
 	}
 
+	public int arity() {
+		if (has_asterisk_parameter_) {
+			return -argc_ - 1;
+		} else {
+			return argc_;
+		}
+	}
+
 	protected RubyValue initializeAsteriskParameter(RubyArray args) {
 		if (null == args) {
 			asterisk_parameter_ = new RubyArray();
