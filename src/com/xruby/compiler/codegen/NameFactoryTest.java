@@ -57,4 +57,9 @@ public class NameFactoryTest extends TestCase {
 	public void test_filename2classname() {
 		assertEquals("test.main", NameFactory.filename2classname("test/main.class"));
 	}
+
+	public void test_Character_isJavaIdentifierPart() {
+		assertFalse(Character.isJavaIdentifierPart('?'));
+		assertFalse(Character.isJavaIdentifierPart('!'));
+	}
 }

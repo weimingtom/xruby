@@ -37,7 +37,7 @@ public class NameFactory {
 	}
 
 	public static String createMethodnameForClassBuilder(String class_name) {
-		return class_name + "$" + count_.getAndIncrement();
+		return class_name.replace("?", "$1").replace("!", "$2") + "$" + count_.getAndIncrement();
 	}
 
 	public static String createMainClass(String script_name) {
