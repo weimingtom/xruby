@@ -159,11 +159,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		cg_.getMethodGenerator().returnValue();
 		cg_.getMethodGenerator().endMethod();
-		cg_.visitEnd();
-
+		
 		String[] commons = ((ClassGeneratorForRubyBlock)cg_).createFieldsAndConstructorOfRubyBlock();
 		String[] assigned_commons = ((ClassGeneratorForRubyBlock)cg_).getAssignedFields();
 		
+		cg_.visitEnd();
 		compilation_results_.add(cg_.getCompilationResult());
 		cg_ = suspended_cgs_.pop();
 		
