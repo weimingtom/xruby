@@ -15,7 +15,7 @@ class Rescue {
 		body_ = body;
 	}
 
-	public Object accept(CodeVisitor visitor, Object last_label, int excepton_var, boolean has_ensure) {
+	public void accept(CodeVisitor visitor, Object end_label, int excepton_var, boolean has_ensure) {
 		
 		Object next_label = condition_.accept(visitor, excepton_var);
 		
@@ -27,7 +27,7 @@ class Rescue {
 			visitor.visitEnsure(-1);
 		}
 
-		return visitor.visitAfterRescueBody(next_label, last_label);
+		visitor.visitAfterRescueBody(next_label, end_label);
 	}
 }
 
@@ -107,9 +107,9 @@ public class BodyStatement implements Visitable {
 
 		IfExpression.ensureVariablesAreInitialized(compoundStatement_, visitor);
 		
-		Object begin_label = visitor.visitBodyBegin(null != ensure_);
+		final Object begin_label = visitor.visitBodyBegin(null != ensure_);
 		compoundStatement_.accept(visitor);
-		Object after_label = visitor.visitBodyAfter();
+		final Object after_label = visitor.visitBodyAfter();
 		
 		//The body of an else clause is executed only if no 
 		//exceptions are raised by the main body of code
@@ -122,13 +122,12 @@ public class BodyStatement implements Visitable {
 			//do this so that ensure is executed in normal situation
 			visitor.visitEnsure(-1);
 		}
+
+		final Object end_label = visitor.visitPrepareEnsure();
 		
-		Object end_label = visitor.visitPrepareEnsure();
-		
-		int exception_var = visitor.visitRescueBegin(begin_label, after_label);
-		Object last_label = null;
+		final int exception_var = visitor.visitRescueBegin(begin_label, after_label);
 		for (Rescue rescue : rescues_) {
-			last_label = rescue.accept(visitor, end_label, exception_var, null != ensure_);
+			rescue.accept(visitor, end_label, exception_var, null != ensure_);
 		}
 
 		if (null != ensure_) {
@@ -139,7 +138,7 @@ public class BodyStatement implements Visitable {
 		}
 
 		if (!rescues_.isEmpty()) {
-			visitor.visitRescueEnd(exception_var, last_label, null != ensure_);
+			visitor.visitRescueEnd(exception_var, null != ensure_);
 		}
 		
 		visitor.visitBodyEnd(end_label);
