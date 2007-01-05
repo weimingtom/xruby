@@ -568,9 +568,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return exception_variable;
 	}
 
-	public void visitRescueEnd(int exception_variable, Object last_label, boolean has_ensure) {
-		cg_.getMethodGenerator().mark((Label)last_label);
-
+	public void visitRescueEnd(int exception_variable, boolean has_ensure) {
 		if (!has_ensure) {
 			cg_.getMethodGenerator().loadLocal(exception_variable);
 			cg_.getMethodGenerator().throwException();
@@ -592,8 +590,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return label;
 	}
 	
-	public Object visitAfterRescueBody(Object next_label, Object end_label) {
-		return visitAfterIfBody(next_label, end_label);
+	public void visitAfterRescueBody(Object next_label, Object end_label) {
+		cg_.getMethodGenerator().goTo((Label)end_label);
+		cg_.getMethodGenerator().mark((Label)next_label);
 	}
 	
 	public void visitArrayBegin(int size, boolean notSingleAsterisk) {

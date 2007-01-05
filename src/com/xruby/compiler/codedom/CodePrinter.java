@@ -359,12 +359,11 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("EnsureBodyEnd");
 	}
 	
-	public Object visitAfterRescueBody(Object next_label, Object end_label) {
+	public void visitAfterRescueBody(Object next_label, Object end_label) {
 		result_.append("end rescue\n");
-		return null;
 	}
 
-	public void visitRescueEnd(int exception_variable, Object last_label, boolean has_ensure) {
+	public void visitRescueEnd(int exception_variable, boolean has_ensure) {
 		result_.append("end rescue!\n");
 	}
 	

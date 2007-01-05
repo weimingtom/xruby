@@ -6,12 +6,17 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
+import org.objectweb.asm.util.CheckClassAdapter;
 import java.util.*;
 
 abstract class ClassGenerator {
 	
 	private final ClassWriter cw_ = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-	protected final ClassVisitor cv_ = cw_;
+	
+	//can simply use 'cv_ = cw_'. CheckClassAdapter make compilation slower,
+	//but it does lots of verification one the bytecode
+	protected final ClassVisitor cv_ = new CheckClassAdapter(cw_);
+	
 	protected final String name_;
 	protected MethodGenerator mg_for_run_method_ = null;
 	private Stack<MethodGenerator> suspended_mgs_for_class_builder_method_ = new Stack<MethodGenerator>();

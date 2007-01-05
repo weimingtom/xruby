@@ -104,8 +104,8 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitEnsure(int var);
 	public void visitEnsureBodyEnd(int var);
 	public Object visitRescueVariable(String name, int exception_var);
-	public Object visitAfterRescueBody(Object next_label, Object end_label);
-	public void visitRescueEnd(int exception_variable, Object last_label, boolean has_ensure);
+	public void visitAfterRescueBody(Object next_label, Object end_label);
+	public void visitRescueEnd(int exception_variable, boolean has_ensure);
 
 	public void visitArrayBegin(int size, boolean notSingleAsterisk);
 	public void visitArrayEnd();
