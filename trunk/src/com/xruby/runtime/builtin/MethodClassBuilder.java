@@ -36,6 +36,18 @@ class Method_to_proc extends RubyMethod {
 	}
 }
 
+class Method_arity extends RubyMethod {
+	public Method_arity() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		MethodValue m = (MethodValue)receiver;
+		return ObjectFactory.createFixnum(m.arity());
+	}
+
+}
+
 public class MethodClassBuilder {
 	
 	public static void initialize() {
@@ -45,6 +57,6 @@ public class MethodClassBuilder {
 		RubyMethod to_s = new Method_to_s();
 		c.defineMethod("to_s", to_s);
 		c.defineMethod("inspect", to_s);
-		
+		c.defineMethod("arity", new Method_arity());
 	}
 }

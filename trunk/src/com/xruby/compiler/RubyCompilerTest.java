@@ -220,8 +220,10 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_result(program_texts, results);
 	}
 
-	public void test_Proc_arity() {
+	public void test_Method_Proc_arity() {
 		String[] program_texts = {
+				"def f(a,b,c); end; method(:f).arity",
+				
 				"Proc.new {||}.arity",
 				"Proc.new {|a|}.arity",
 				"Proc.new {|a,b|}.arity",
@@ -230,6 +232,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		int[] results = {
+				3,
 				0,
 				1,
 				2,
