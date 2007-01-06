@@ -4267,6 +4267,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_block_given() {
 		String [] program_texts = {
+				"def f; print block_given?; end; f &nil",
+				
 				"def try\n" +
 				"	if block_given?\n" +
 				"		print true\n" +
@@ -4282,6 +4284,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"false",
 				"falsetruetrue",
 				"false",
 		};
