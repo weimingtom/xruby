@@ -18,7 +18,7 @@ public class SuperExpression extends Expression {
 		visitor.visitSuperBegin();
 
 		if (null == arguments_) {
-			visitor.visitNoParameter();
+			visitor.visitNoParameterForSuper();
 		} else {
 			arguments_.accept(visitor);
 		}
