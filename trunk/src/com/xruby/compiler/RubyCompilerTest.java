@@ -3589,6 +3589,14 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_super() {
 		String [] program_texts = {
+				"class TestSuperImplicitParameter\n" +
+				"  def print x\n" +
+				"    super\n" +
+				"  end\n" +
+				"end\n" +
+				"\n" +
+				"TestSuperImplicitParameter.new.print 333",
+				
 				"class TestSuper8\n" +
 				"	def test_super\n" +
 				"		print 123\n" +
@@ -3662,6 +3670,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"333",
 				"123",
 				"xxx",
 				"yyy",
