@@ -206,6 +206,9 @@ public class RubyAPI {
 	}
 	
 	public static RubyBlock convertRubyValue2RubyBlock(RubyValue v) {
+		if (v instanceof MethodValue) {
+			return ((MethodValue)v).convertToRubyProc().getValue();
+		}
 		return ((RubyProc)v).getValue();
 	}
 

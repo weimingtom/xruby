@@ -2626,6 +2626,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_lamda_proc() {
 		String[] program_texts = {
+				"def f; print 1; end; lambda(&method(:f)).call",
 				"a = lambda {print 'xxx'}; a.call",
 				"a = lambda {|x| print x}; a.call('yyy')",
 				"a = proc {|x, y| print x, y}; a.call(1, 2)",
@@ -2635,6 +2636,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"1",
 				"xxx",
 				"yyy",
 				"12",
