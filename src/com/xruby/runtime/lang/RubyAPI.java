@@ -206,10 +206,15 @@ public class RubyAPI {
 	}
 	
 	public static RubyBlock convertRubyValue2RubyBlock(RubyValue v) {
-		if (v instanceof MethodValue) {
+		if (ObjectFactory.nilValue == v) {
+			return null;
+		} else if (v instanceof MethodValue) {
 			return ((MethodValue)v).convertToRubyProc().getValue();
+		} else if (v instanceof RubyProc) {
+			return ((RubyProc)v).getValue();
+		} else {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type " + v.getRubyClass().getName() + " (expected Proc) ");
 		}
-		return ((RubyProc)v).getValue();
 	}
 
 	public static RubyValue convertRubyException2RubyValue(RubyException e) {
