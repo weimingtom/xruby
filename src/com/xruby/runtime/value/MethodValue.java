@@ -22,6 +22,10 @@ public class MethodValue extends RubyBasic {
 	public RubyProc convertToRubyProc() {
 		return ObjectFactory.createProc(method_.convertToRubyBolck(receiver_));
 	}
+
+	public int arity() {
+		return method_.arity();
+	}
 	
 	public String toString() {
 		StringBuilder s = new StringBuilder("#<Method: ");
