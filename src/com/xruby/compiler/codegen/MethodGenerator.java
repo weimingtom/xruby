@@ -721,15 +721,15 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(Types.RubyBlockClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"));
 
-		checkBreaked(is_in_block);
+		checkBreakedOrReturned(is_in_block);
 	}
 
-	private void checkBreaked(boolean is_in_block) {
+	private void checkBreakedOrReturned(boolean is_in_block) {
 		int value = newLocal(Type.getType(Types.RubyValueClass));
 		storeLocal(value);
 
 		invokeVirtual(Type.getType(Types.RubyBlockClass),
-				Method.getMethod("boolean breaked()"));
+				Method.getMethod("boolean breakedOrReturned()"));
 		Label after_return = new Label();
 		ifZCmp(GeneratorAdapter.EQ, after_return);
 		if (is_in_block) {

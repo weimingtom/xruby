@@ -345,8 +345,7 @@ class Kernel_lambda extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		block.setCreatedByLambda();
-		return ObjectFactory.createProc(block);
+		return ObjectFactory.createProc(block, true);
 	}
 }
 
@@ -362,7 +361,7 @@ class Kernel_loop extends RubyMethod {
 
 		for (;;) {
 			RubyValue v = block.invoke(receiver, args);
-			if (block.breaked()) {
+			if (block.breakedOrReturned()) {
 				return v;
 			}
 		}
@@ -491,7 +490,7 @@ class Kernel_at_exit extends RubyMethod {
 		}
 		
 		AtExitBlocks.registerBlock(block);
-		return ObjectFactory.createProc(block);
+		return ObjectFactory.createProc(block, false);
 	}
 }
 
@@ -610,7 +609,7 @@ class Kernel_trace_var extends RubyMethod {
 		if (v instanceof RubyProc) {
 			GlobalVariables.addTraceProc(name, (RubyProc)v);
 		} else if (null != block) {
-			GlobalVariables.addTraceProc(name, ObjectFactory.createProc(block));
+			GlobalVariables.addTraceProc(name, ObjectFactory.createProc(block, false));
 		} else {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "tried to create Proc object without a block");
 		}

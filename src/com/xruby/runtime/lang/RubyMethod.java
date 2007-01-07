@@ -101,10 +101,10 @@ public abstract class RubyMethod extends MethodBlockBase {
 		}
 
 		RubyValue v = run(receiver, args, block);
-		if (null != block && block.returned()) {
-			v.setReturnedInBlock(true);
+		if (null != block) {
+			v.setReturnedInBlock(block.returned(), block.breakedOrReturned(), false);
 		} else {
-			v.setReturnedInBlock(false);
+			v.setReturnedInBlock(false, false, false);
 		}
 		return v;
 	}

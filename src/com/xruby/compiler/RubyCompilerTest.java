@@ -3109,9 +3109,10 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	/*TODO
 	public void test_break_LocalJumpError() {
 		String[] program_texts = {
+				"a = Proc.new {break}; a.call",
+				
 				"def getblock(&b); b; end\n" +
 				"res = getblock { break }\n" +
 				"res.call",
@@ -3119,10 +3120,11 @@ public class RubyCompilerTest extends TestCase {
 
 		RubyException[] exceptions = {
 			new RubyException(RubyRuntime.LocalJumpErrorClass, "break from proc-closure"),
+			new RubyException(RubyRuntime.LocalJumpErrorClass, "break from proc-closure"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
-	}*/
+	}
 	
 	public void test_include_wrong_type() {
 		String[] program_texts = {

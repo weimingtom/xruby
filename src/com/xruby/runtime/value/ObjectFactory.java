@@ -90,8 +90,8 @@ public class ObjectFactory {
 		return new MethodValue(r, s, m);
 	}
 
-	public static RubyProc createProc(RubyBlock block) {
-		return new RubyProc(block);
+	public static RubyProc createProc(RubyBlock block, boolean created_by_lambda) {
+		return new RubyProc(block, created_by_lambda);
 	}
 	
 	public static RubyTime createTime(Date v) {

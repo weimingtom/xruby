@@ -106,7 +106,7 @@ class Range_each extends RubyMethod {
 		while (true) {
 			while (compare(ite, r.getRight())) {
 				RubyValue v = block.invoke(receiver, new RubyArray(ite));
-				if (block.breaked()) {
+				if (block.breakedOrReturned()) {
 					return v;
 				} else if (block.shouldRedo()) {
 					ite = r.getLeft();
@@ -118,7 +118,7 @@ class Range_each extends RubyMethod {
 			
 			if (!r.isExcludeEnd()) {
 				RubyValue v = block.invoke(receiver, new RubyArray(ite));
-				if (block.breaked()) {
+				if (block.breakedOrReturned()) {
 					return v;
 				} else if (block.shouldRedo()) {
 					ite = r.getLeft();
