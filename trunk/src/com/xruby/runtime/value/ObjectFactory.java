@@ -37,6 +37,10 @@ public class ObjectFactory {
 		return new RubyString("");
 	}
 
+	public static RubyString createString(StringBuilder value) {
+		return new RubyString(value);
+	}
+
 	public static RubyRegexp createRegexp(String value) {
 		return new RubyRegexp(value);
 	}
