@@ -41,7 +41,7 @@ public class WhileExpression extends Expression {
 			body_.accept(visitor);
 		}
 		
-		visitor.visitWhileBodyEnd();
+		visitor.visitWhileBodyEnd(null != body_);
 	}
 
 }
