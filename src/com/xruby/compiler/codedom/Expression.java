@@ -22,7 +22,7 @@ public abstract class Expression implements Visitable {
 	}
 	
 	/// Used for optimazation, so we will not compile dead code
-	public boolean will_not_be_executed() {
+	boolean willNotBeExecuted() {
 		return false;
 	}
 	

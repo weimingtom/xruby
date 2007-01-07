@@ -13,7 +13,7 @@ public class CompoundStatement implements Visitable {
 		if (null != statement) {
 			//optimazation: remove dead code
 			if (statement instanceof ExpressionStatement) {
-				if (!((ExpressionStatement)statement).getExpression().will_not_be_executed()) {
+				if (!((ExpressionStatement)statement).getExpression().willNotBeExecuted()) {
 					statements_.add(statement);
 				}
 			} else {
@@ -26,7 +26,7 @@ public class CompoundStatement implements Visitable {
 		return statements_.size();
 	}
 	
-	boolean last_statement_has_return_value() {
+	boolean lastStatementHasReturnValue() {
 		if (statements_.isEmpty()) {
 			return false;
 		}

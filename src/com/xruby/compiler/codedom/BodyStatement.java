@@ -46,8 +46,8 @@ public class BodyStatement implements Visitable {
 		compoundStatement_ = compoundStatement;
 	}
 
-	boolean last_statement_has_return_value() {
-		return compoundStatement_.last_statement_has_return_value();
+	boolean lastStatementHasReturnValue() {
+		return compoundStatement_.lastStatementHasReturnValue();
 	}
 
 	public void addRescue(ExceptionList el, CompoundStatement compoundStatement) {

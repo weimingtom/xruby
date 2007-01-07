@@ -19,6 +19,6 @@ public class Program implements Visitable {
 		}
 
 		compoundStatement_.accept(visitor);
-		visitor.visitEof(compoundStatement_.last_statement_has_return_value());
+		visitor.visitEof(compoundStatement_.lastStatementHasReturnValue());
 	}
 }
