@@ -62,6 +62,13 @@ public class StringExpression extends Expression {
 				value_.append('\'');
 				++i;
 				break;
+			case 'x':
+				//e.g. "\x63"
+				String hex = value.substring(i + 2, i + 4);
+				char c = (char)Integer.parseInt(hex, 16);
+				value_.append(c);
+				i += 3;
+				break;
 			default:
 				value_.append('\\');
 			}
