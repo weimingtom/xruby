@@ -16,7 +16,7 @@ public class WhileExpression extends Expression {
 		is_until_ = is_until;
 	}
 	
-	public boolean will_not_be_executed() {
+	boolean willNotBeExecuted() {
 		if (!is_until_ && conditionIsAlwayFalse(condition_)) {
 			//while (false)
 			return true;

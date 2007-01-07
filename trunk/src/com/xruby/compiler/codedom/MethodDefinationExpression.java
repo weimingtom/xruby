@@ -83,7 +83,7 @@ public class MethodDefinationExpression extends Expression {
 		}
 	
 		visitor.visitMethodDefinationEnd((null != bodyStatement_) ?
-										bodyStatement_.last_statement_has_return_value() : false);
+										bodyStatement_.lastStatementHasReturnValue() : false);
 	}
 
 }

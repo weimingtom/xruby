@@ -44,7 +44,7 @@ public class ClassDefinationExpression extends Expression {
 			bodyStatement_.accept(visitor);
 		}
 		
-		visitor.visitClassDefinationEnd((null == bodyStatement_) ? false : bodyStatement_.last_statement_has_return_value());
+		visitor.visitClassDefinationEnd((null == bodyStatement_) ? false : bodyStatement_.lastStatementHasReturnValue());
 	}
 
 }

@@ -67,7 +67,7 @@ public class Block {
 		Pair p = new Pair();
 		p.name = name;
 		p.value = visitor.visitBlockEnd(name, (null != bodyStatement_) ?
-										bodyStatement_.last_statement_has_return_value() : false);
+										bodyStatement_.lastStatementHasReturnValue() : false);
 		return p;
 	}
 }

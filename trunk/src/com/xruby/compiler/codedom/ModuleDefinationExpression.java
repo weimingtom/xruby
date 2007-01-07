@@ -21,7 +21,7 @@ public class ModuleDefinationExpression extends Expression {
 			bodyStatement_.accept(visitor);
 		}
 		
-		visitor.visitModuleDefinationEnd((null == bodyStatement_) ? false : bodyStatement_.last_statement_has_return_value());
+		visitor.visitModuleDefinationEnd((null == bodyStatement_) ? false : bodyStatement_.lastStatementHasReturnValue());
 	}
 
 }
