@@ -9,6 +9,11 @@ public class RubyString extends RubyBasic {
 		super(RubyRuntime.StringClass);
 		sb_ = new StringBuilder(s);
 	}
+
+	RubyString(StringBuilder sb) {
+		super(RubyRuntime.StringClass);
+		sb_ = sb;
+	}
 	
 	public String toString() {
 		return sb_.toString();

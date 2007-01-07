@@ -905,7 +905,7 @@ class Array_pack extends RubyMethod {
 			}
 		}
 
-		return ObjectFactory.createString(result.toString());
+		return ObjectFactory.createString(result);
 	}
 	
 	private String uv_to_utf8(char[] str){

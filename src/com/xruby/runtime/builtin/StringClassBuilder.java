@@ -547,11 +547,11 @@ class String_operator_star extends RubyMethod {
 		if (count < 0){
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
 		}
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		for (int i=0; i<count; ++i){
 			result.append(string);
 		}
-		return ObjectFactory.createString(result.toString());
+		return ObjectFactory.createString(result);
 	}
 }
 

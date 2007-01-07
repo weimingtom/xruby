@@ -163,7 +163,7 @@ public class RubyAPI {
 			}
 			stdout.close();
 	
-			return ObjectFactory.createString(output.toString());
+			return ObjectFactory.createString(output);
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.ExceptionClass, e.toString());
 		}

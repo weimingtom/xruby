@@ -4116,6 +4116,24 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Marshal() {
+		String [] program_texts = {
+				"str = Marshal.dump('thing'); print str.class",
+				"str = Marshal.dump('thing'); print str[0], str[1]",
+				"str = Marshal.dump(0); print str.length, str[3]",
+				"str = Marshal.dump(5); print str.length, str[3]",
+		};
+		
+		String[] outputs = {
+				"String",
+				"48",
+				"40",
+				"410",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);	
+	}
+	
 	public void test_Math() {
 		String [] program_texts = {
 				"print Math.sqrt(4)",
