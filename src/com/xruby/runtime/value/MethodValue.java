@@ -20,7 +20,7 @@ public class MethodValue extends RubyBasic {
 	}
 
 	public RubyProc convertToRubyProc() {
-		return ObjectFactory.createProc(method_.convertToRubyBolck(receiver_), false);
+		return ObjectFactory.createProc(method_.convertToRubyBolck(receiver_));
 	}
 
 	public int arity() {
