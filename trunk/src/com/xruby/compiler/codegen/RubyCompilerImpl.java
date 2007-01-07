@@ -637,7 +637,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		} else {
 			cg_.getMethodGenerator().loadArg(2);//TODO error checking: make sure yield is called in the right context
 		}
-		cg_.getMethodGenerator().dup();//will be used to call breaked().
+		cg_.getMethodGenerator().dup();//will be used to call breakOrReturned().
 		visitSelfExpression();
 	}
 

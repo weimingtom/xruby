@@ -9,17 +9,19 @@ class Proc_call extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBlock b = ((RubyProc)receiver).getValue();
-		return b.invoke(receiver, args, false);
+		RubyProc p = (RubyProc)receiver;
+		RubyBlock b = p.getValue();
+		return b.invoke(receiver, args, false, p.createdByLambda());
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyValue v = run(receiver, args, block);
-		block = ((RubyProc)receiver).getValue();
-		if (null != block && block.returned()) {
-			v.setReturnedInBlock(true);
+		RubyProc p = (RubyProc)receiver;
+		block = p.getValue();
+		if (null != block) {
+			v.setReturnedInBlock(p.createdByLambda() ? false : block.returned(), block.breakedOrReturned(), !p.createdByLambda());
 		} else {
-			v.setReturnedInBlock(false);
+			v.setReturnedInBlock(false, false, false);
 		}
 		return v;
 	}
@@ -43,7 +45,7 @@ class Proc_alloc extends RubyMethod {
 	}
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return ObjectFactory.createProc(block);
+		return ObjectFactory.createProc(block, false);
 	}
 }
 
