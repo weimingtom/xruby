@@ -65,12 +65,20 @@ public class StringExpression extends Expression {
 			case 'x':
 				//e.g. "\x63"
 				String hex = value.substring(i + 2, i + 4);
-				char c = (char)Integer.parseInt(hex, 16);
-				value_.append(c);
+				char h = (char)Integer.parseInt(hex, 16);
+				value_.append(h);
 				i += 3;
 				break;
 			default:
-				value_.append('\\');
+				if (Character.isDigit(next_char)) {
+					//e,g. "\142"
+					String oct = value.substring(i + 1, i + 4);
+					char o = (char)Integer.parseInt(oct, 8);
+					value_.append(o);
+					i += 3;
+				} else {
+					value_.append('\\');
+				}
 			}
 		}
 	}

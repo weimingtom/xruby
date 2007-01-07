@@ -222,10 +222,14 @@ public class RubyCompilerTest extends TestCase {
 	public void test_double_quote_string() {
 		String[] program_texts = {				
 				"print \"\\x63\"",
+				"print \"\\142\"",
+				"print \"\\142\\102\"",
 		};
 
 		String[] outputs = {
 				"c",
+				"b",
+				"bB",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
