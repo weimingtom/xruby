@@ -42,7 +42,7 @@ class MethodBlockBase {
 		if (null == block) {
 			block_parameter_ = ObjectFactory.nilValue;
 		} else {
-			block_parameter_ = ObjectFactory.createProc(block, false);
+			block_parameter_ = ObjectFactory.createProc(block);
 		}
 
 		return block_parameter_;
@@ -63,6 +63,8 @@ public abstract class RubyBlock extends MethodBlockBase {
 	protected RubyBlock blockOfCurrentMethod_;
 	protected RubyValue selfOfCurrentMethod_;
 
+	private boolean created_by_lambda_ = false;
+
 	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block, RubyValue self) {
 		super(argc, has_asterisk_parameter, default_argc);
 		blockOfCurrentMethod_ = block;
@@ -81,6 +83,14 @@ public abstract class RubyBlock extends MethodBlockBase {
 		return __redo__;
 	}
 
+	public void setCreatedByLambda() {
+		created_by_lambda_ = true;
+	}
+
+	public boolean createdByLambda() {
+		return created_by_lambda_;
+	}
+	
 	private void validateParameterForProcCall(RubyArray args) {
 		if (argc_ >= 0 && !has_asterisk_parameter_) {
 			int actual_args_length = (null == args) ? 0 : args.size();
@@ -92,11 +102,11 @@ public abstract class RubyBlock extends MethodBlockBase {
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args) {
-		return invoke(receiver, args, true, false);
+		return invoke(receiver, args, true);
 	}
 
-	public RubyValue invoke(RubyValue receiver, RubyArray args, boolean emulate_multiple_assignment_behavior, boolean created_by_lambda) {
-		if (created_by_lambda) {
+	public RubyValue invoke(RubyValue receiver, RubyArray args, boolean emulate_multiple_assignment_behavior) {
+		if (created_by_lambda_) {
 			validateParameterForProcCall(args);
 		}
 		

@@ -209,9 +209,9 @@ public class RubyAPI {
 		if (ObjectFactory.nilValue == v) {
 			return null;
 		} else if (v instanceof MethodValue) {
-			return ((MethodValue)v).convertToRubyProc().getValue();
+			return ((MethodValue)v).convertToRubyProc().getBlock();
 		} else if (v instanceof RubyProc) {
-			return ((RubyProc)v).getValue();
+			return ((RubyProc)v).getBlock();
 		} else {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type " + v.getRubyClass().getName() + " (expected Proc) ");
 		}

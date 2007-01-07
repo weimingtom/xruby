@@ -4,20 +4,13 @@ import com.xruby.runtime.lang.*;
 
 public class RubyProc extends RubyBasic {
 	private RubyBlock value_;
-	private boolean created_by_lambda_;
 	
-	RubyProc(RubyBlock v, boolean created_by_lambda) {
+	RubyProc(RubyBlock v) {
 		super(RubyRuntime.ProcClass);
 		value_ = v;
-		created_by_lambda_ = created_by_lambda;
 	}
 	
-	public RubyBlock getValue() {
+	public RubyBlock getBlock() {
 		return value_;
 	}
-
-	public boolean createdByLambda() {
-		return created_by_lambda_;
-	}
-	
 }
