@@ -126,7 +126,6 @@ test_ok([257].pack('q')[6] == 0)
 test_ok([257].pack('q')[7] == 0)
 
 
-=begin
 test_ok([1].pack('c') == "\001")
 test_ok([2].pack('c') == "\002")
 test_ok([256].pack('c') == "\000")
@@ -147,7 +146,7 @@ test_ok([1].pack('S') == "\001\000")
 test_ok([2].pack('S') == "\002\000")
 test_ok([256].pack('S') == "\000\001")
 test_ok([257].pack('S') == "\001\001")
-
+=begin
 test_ok([1].pack('i') == "\001\000\000\000")
 test_ok([2].pack('i') == "\002\000\000\000")
 test_ok([256].pack('i') == "\000\001\000\000")
