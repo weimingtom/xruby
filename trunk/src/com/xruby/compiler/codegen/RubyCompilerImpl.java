@@ -437,8 +437,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().mark(labelManager_.getCurrentRedo());
 	}
 
-	public void visitWhileBodyEnd() {
-		cg_.getMethodGenerator().pop();
+	public void visitWhileBodyEnd(boolean has_body) {
+		if (has_body) {
+			cg_.getMethodGenerator().pop();
+		}
+		
 		cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
 
 		cg_.getMethodGenerator().mark(labelManager_.getCurrentX());

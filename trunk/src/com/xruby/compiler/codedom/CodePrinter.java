@@ -520,7 +520,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public void visitWhileBodyEnd() {
+	public void visitWhileBodyEnd(boolean has_body) {
 		result_.append("end while\n");
 	}
 

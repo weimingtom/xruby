@@ -1785,6 +1785,7 @@ public class RubyCompilerTest extends TestCase {
 	public void test_while() {
 
 		String[] program_texts = {
+				"i = 1 ;while i < 1 ; end; print i",
 				"while false; print 'xxx'; end",
 				"until true; print 'xxx'; end",
 
@@ -1802,6 +1803,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"1",
 				"",
 				"",
 				"",
@@ -3106,6 +3108,21 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	/*TODO
+	public void test_break_LocalJumpError() {
+		String[] program_texts = {
+				"def getblock(&b); b; end\n" +
+				"res = getblock { break }\n" +
+				"res.call",
+		};
+
+		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.LocalJumpErrorClass, "break from proc-closure"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);
+	}*/
 	
 	public void test_include_wrong_type() {
 		String[] program_texts = {
