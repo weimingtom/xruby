@@ -717,7 +717,7 @@ class Array_pack extends RubyMethod {
 					
 					int i = RubyTypesUtil.convertToJavaInt(from);
 
-					for (int j=0; j<Integer.SIZE; ++j){
+					for (int j=0; j<Integer.SIZE/Byte.SIZE; ++j){
 						result.append((char)((i >> (j * 8) & 0xff)));
 					}
 				}
