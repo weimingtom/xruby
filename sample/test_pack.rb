@@ -146,7 +146,7 @@ test_ok([1].pack('S') == "\001\000")
 test_ok([2].pack('S') == "\002\000")
 test_ok([256].pack('S') == "\000\001")
 test_ok([257].pack('S') == "\001\001")
-=begin
+
 test_ok([1].pack('i') == "\001\000\000\000")
 test_ok([2].pack('i') == "\002\000\000\000")
 test_ok([256].pack('i') == "\000\001\000\000")
@@ -168,7 +168,7 @@ test_ok([2].pack('L') == "\002\000\000\000")
 test_ok([256].pack('L') == "\000\001\000\000")
 test_ok([257].pack('L') == "\001\001\000\000")
 
-
+=begin
 $format = "c2x5CCxsdils_l_a6";
 # Need the expression in here to force ary[5] to be numeric.  This avoids
 # test2 failing because ary2 goes str->numeric->str and ary does not.
