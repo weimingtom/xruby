@@ -27,13 +27,15 @@ class Marshal_dump extends RubyMethod {
 		sb.append(v);
 	}
 	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		StringBuilder sb = new StringBuilder();
-		//version
-		sb.append((char)4);
-		sb.append((char)8);
-		
-		RubyValue v = args.get(0);
+	private void packArray(RubyArray v, StringBuilder sb) {
+		sb.append('[');
+		packInteger(v.size(), sb);
+		for (RubyValue a : v) {
+			packValue(a, sb);
+		}
+	}
+	
+	private void packValue(RubyValue v, StringBuilder sb) {
 		if (v == ObjectFactory.nilValue) {
 			sb.append((char)0);
 		} else if (v == ObjectFactory.trueValue) {
@@ -44,9 +46,22 @@ class Marshal_dump extends RubyMethod {
 			packString((RubyString)v, sb);
 		} else if (v instanceof RubyFixnum) {
 			packInteger((RubyFixnum)v, sb);
+		} else if (v instanceof RubyArray) {
+			packArray((RubyArray)v, sb);
 		} else {
 			throw new RubyException("is not implemented");
 		}
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		StringBuilder sb = new StringBuilder();
+		
+		//version
+		sb.append((char)4);
+		sb.append((char)8);
+		
+		RubyValue v = args.get(0);
+		packValue(v, sb);
 		
 		return ObjectFactory.createString(sb);
 	}
