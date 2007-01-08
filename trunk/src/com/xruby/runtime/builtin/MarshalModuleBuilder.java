@@ -40,6 +40,13 @@ class MarshalDumper {
 			packValue(v.get(a), sb);
 		}
 	}
+
+	private static void packFloat(RubyFloat v, StringBuilder sb) {
+		sb.append('f');
+		String s = Double.toString(v.doubleValue());
+		packInteger(s.length(), sb);
+		sb.append(s);
+	}
 	
 	private static void packValue(RubyValue v, StringBuilder sb) {
 		if (v == ObjectFactory.nilValue) {
@@ -56,6 +63,8 @@ class MarshalDumper {
 			packArray((RubyArray)v, sb);
 		} else if (v instanceof RubyHash) {
 			packHash((RubyHash)v, sb);
+		} else if (v instanceof RubyFloat) {
+			packFloat((RubyFloat)v, sb);
 		} else {
 			throw new RubyException("is not implemented");
 		}
@@ -85,6 +94,13 @@ class MarshalLoader {
 		} else {
 			return c - 5;
 		}
+	}
+
+	private RubyFloat loadFloat(String v) {
+		int length = loadInteger(v);
+		String s = v.substring(current_index_, current_index_ + length);
+		double d = Double.parseDouble(s);
+		return ObjectFactory.createFloat(d);
 	}
 	
 	private RubyString loadString(String v) {
@@ -133,6 +149,8 @@ class MarshalLoader {
 			return loadArray(v);
 		case '{':
 			return loadHash(v);
+		case 'f':
+			return loadFloat(v);
 		default:
 			throw new RubyException("not implemented");	
 		}
