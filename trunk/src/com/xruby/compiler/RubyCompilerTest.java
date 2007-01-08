@@ -4125,6 +4125,13 @@ public class RubyCompilerTest extends TestCase {
 				"str = Marshal.dump('thing'); print str == \"\\x04\\x08\\\"\\nthing\"",
 				"str = Marshal.dump([1, 3]); print str == \"\\x04\\x08[\\x07i\\x06i\\x08\"",
 				"str = Marshal.dump({1 => 3}); print str == \"\\x04\\x08{\\x06i\\x06i\\x08\"",
+				
+				"print Marshal.load(Marshal.dump(nil))",
+				"print Marshal.load(Marshal.dump(true))",
+				"print Marshal.load(Marshal.dump(false))",
+				"print Marshal.load(Marshal.dump(0))",
+				"print Marshal.load(Marshal.dump(1))",
+				"print Marshal.load(Marshal.dump('hello'))",
 		};
 		
 		String[] outputs = {
@@ -4135,6 +4142,13 @@ public class RubyCompilerTest extends TestCase {
 				"true",
 				"true",
 				"true",
+				
+				"nil",
+				"true",
+				"false",
+				"0",
+				"1",
+				"hello",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);	
