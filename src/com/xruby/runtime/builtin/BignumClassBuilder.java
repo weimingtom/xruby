@@ -222,8 +222,7 @@ class Bignum_size extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyBignum value1 = (RubyBignum)receiver;
-		int alignedBytesCount = (((value1.getInternal().bitLength() - 1) & -32) >> 3) + 4;
-		return ObjectFactory.createFixnum(alignedBytesCount);
+		return ObjectFactory.createFixnum(value1.size());
 	}
 }
 

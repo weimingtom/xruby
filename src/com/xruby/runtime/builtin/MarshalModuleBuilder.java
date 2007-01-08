@@ -2,7 +2,11 @@ package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
+import java.math.BigInteger;
 
+/*
+ * @see http://headius.com/rubyspec/index.php/Marshaling
+ */
 class MarshalDumper {
 	private static void packInteger(RubyFixnum v, StringBuilder sb) {
 		sb.append('i');
@@ -48,6 +52,26 @@ class MarshalDumper {
 		sb.append(s);
 	}
 	
+	private static void packBignum(RubyBignum v, StringBuilder sb) {
+		sb.append('l');
+		BigInteger biginteger = v.getInternal();
+		
+		if (biginteger.compareTo(BigInteger.ZERO) > 0) {
+			sb.append('+');
+		} else {
+			sb.append('-');
+		}
+		
+		sb.append((char)v.size());
+		
+		//TODO
+		throw new RubyException("implement me!!!!");
+		/*byte[] b = biginteger.toByteArray();
+		for (int i = 0; i < b.length; ++i) {
+			sb.append(b[i]);
+		}*/
+	}
+	
 	private static void packValue(RubyValue v, StringBuilder sb) {
 		if (v == ObjectFactory.nilValue) {
 			sb.append((char)0);
@@ -65,6 +89,8 @@ class MarshalDumper {
 			packHash((RubyHash)v, sb);
 		} else if (v instanceof RubyFloat) {
 			packFloat((RubyFloat)v, sb);
+		} else if (v instanceof RubyBignum) {
+			packBignum((RubyBignum)v, sb);
 		} else {
 			throw new RubyException("is not implemented");
 		}
@@ -131,6 +157,14 @@ class MarshalLoader {
 		return h;
 	}
 	
+	private RubyBignum loadBignum(String v) {
+		char sign = v.charAt(current_index_);
+		char length = v.charAt(current_index_ + 1);
+		
+		//TODO
+		throw new RubyException("implement me!!!!");
+	}
+	
 	private RubyValue loadValue(String v) {
 		char c = v.charAt(current_index_); 
 		++current_index_;
@@ -151,6 +185,8 @@ class MarshalLoader {
 			return loadHash(v);
 		case 'f':
 			return loadFloat(v);
+		case 'l':
+			return loadBignum(v);
 		default:
 			throw new RubyException("not implemented");	
 		}

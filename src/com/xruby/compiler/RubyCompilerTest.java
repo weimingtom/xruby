@@ -161,6 +161,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_big_integer() {
 		String[] program_texts = {
+				//TODO"print 1234567890.class",
 				"print 0x123456789abcdef0",
 				"print (1 << 40)",
 				"print ((1 << 40) >> 30)",
@@ -169,6 +170,7 @@ public class RubyCompilerTest extends TestCase {
 				"print (0xabcdef0123456789 * 0x123456789abcdef0)"
 		};
 		String[] outputs = {
+				//"Bignum",
 				"1311768467463790320",
 				"1099511627776",
 				"1024",
@@ -4125,6 +4127,7 @@ public class RubyCompilerTest extends TestCase {
 				"str = Marshal.dump('thing'); print str == \"\\x04\\x08\\\"\\nthing\"",
 				"str = Marshal.dump([1, 3]); print str == \"\\x04\\x08[\\x07i\\x06i\\x08\"",
 				"str = Marshal.dump({1 => 3}); print str == \"\\x04\\x08{\\x06i\\x06i\\x08\"",
+				//TODO "str = Marshal.dump(0x99_99_99_99_99_99); print str[2], '|', str[3], '|', str[4]",
 				
 				"print Marshal.load(Marshal.dump(nil))",
 				"print Marshal.load(Marshal.dump(true))",
@@ -4135,6 +4138,7 @@ public class RubyCompilerTest extends TestCase {
 				"print Marshal.load(Marshal.dump([0, 1, 2]))",
 				"print Marshal.load(Marshal.dump({4 => 5}))",
 				"print Marshal.load(Marshal.dump(2.5))",
+				//TODO "print Marshal.load(Marshal.dump(12345678900))",
 		};
 		
 		String[] outputs = {
@@ -4145,6 +4149,7 @@ public class RubyCompilerTest extends TestCase {
 				"true",
 				"true",
 				"true",
+				//"108|43|8",
 				
 				"nil",
 				"true",
@@ -4155,6 +4160,7 @@ public class RubyCompilerTest extends TestCase {
 				"012",
 				"45",
 				"2.5",
+				//"12345678900",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);	

@@ -41,6 +41,11 @@ public class RubyBignum extends RubyBasic {
 	public void setValue(BigInteger value){
 		value_ = value;
 	}
+
+	public int size() {
+		int alignedBytesCount = (((value_.bitLength() - 1) & -32) >> 3) + 4;
+		return alignedBytesCount; 
+	}
 	
 	public RubyValue op_mul(RubyValue value) {
 		BigInteger result;
