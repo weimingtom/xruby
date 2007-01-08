@@ -4132,6 +4132,8 @@ public class RubyCompilerTest extends TestCase {
 				"print Marshal.load(Marshal.dump(0))",
 				"print Marshal.load(Marshal.dump(1))",
 				"print Marshal.load(Marshal.dump('hello'))",
+				"print Marshal.load(Marshal.dump([0, 1, 2]))",
+				"print Marshal.load(Marshal.dump({4 => 5}))",
 		};
 		
 		String[] outputs = {
@@ -4149,6 +4151,8 @@ public class RubyCompilerTest extends TestCase {
 				"0",
 				"1",
 				"hello",
+				"012",
+				"45",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);	
