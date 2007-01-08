@@ -4124,6 +4124,7 @@ public class RubyCompilerTest extends TestCase {
 				"str = Marshal.dump(5); print str.length, str[3]",
 				"str = Marshal.dump('thing'); print str == \"\\x04\\x08\\\"\\nthing\"",
 				"str = Marshal.dump([1, 3]); print str == \"\\x04\\x08[\\x07i\\x06i\\x08\"",
+				"str = Marshal.dump({1 => 3}); print str == \"\\x04\\x08{\\x06i\\x06i\\x08\"",
 		};
 		
 		String[] outputs = {
@@ -4131,6 +4132,7 @@ public class RubyCompilerTest extends TestCase {
 				"48",
 				"40",
 				"410",
+				"true",
 				"true",
 				"true",
 		};
