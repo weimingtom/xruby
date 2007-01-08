@@ -79,9 +79,62 @@ class Marshal_dump extends RubyMethod {
 	}
 }
 
+class Marshal_load extends RubyMethod {
+	public Marshal_load() {
+		super(1);
+	}
+	
+	private int loadInteger(String v, int start) {
+		char c = v.charAt(start);
+		if (0 == c) {
+			return c;
+		} else {
+			return c - 5;
+		}
+	}
+	
+	private RubyString loadString(String v, int start) {
+		int length = loadInteger(v, start);
+		String s = v.substring(start + 1, start + 1 + length);
+		return ObjectFactory.createString(s);
+	}
+	
+	private RubyValue loadValue(String v, int start) {
+		switch (v.charAt(start)) {
+		case '\0':
+			return ObjectFactory.nilValue;
+		case 'T':
+			return ObjectFactory.trueValue;
+		case 'F':
+			return ObjectFactory.falseValue;
+		case 'i':
+			return ObjectFactory.createFixnum(loadInteger(v, start + 1));
+		case '"':
+			return loadString(v, start + 1);
+		default:
+			throw new RubyException("not implemented");	
+		}
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString s = (RubyString)args.get(0);
+		String v = s.toString();
+		if (v.length() <= 2) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "marshal data too short");
+		} else if (v.charAt(0) != 4 && v.charAt(1) != 8) {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "incompatible marshal file format (can't be read)");
+		} else {
+			return loadValue(v, 2);
+		}
+	}
+}
+
 public class MarshalModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.MarshalModule;
 		m.defineMethod("dump", new Marshal_dump());
+		RubyMethod load = new Marshal_load();
+		m.defineMethod("load", load);
+		m.defineMethod("restore", load);
 	}
 }
