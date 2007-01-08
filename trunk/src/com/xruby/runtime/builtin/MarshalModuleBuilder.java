@@ -35,6 +35,16 @@ class Marshal_dump extends RubyMethod {
 		}
 	}
 	
+	private void packHash(RubyHash v, StringBuilder sb) {
+		sb.append('{');
+		packInteger(v.size(), sb);
+		RubyArray keys = v.keys();
+		for (RubyValue a : keys) {
+			packValue(a, sb);
+			packValue(v.get(a), sb);
+		}
+	}
+	
 	private void packValue(RubyValue v, StringBuilder sb) {
 		if (v == ObjectFactory.nilValue) {
 			sb.append((char)0);
@@ -48,6 +58,8 @@ class Marshal_dump extends RubyMethod {
 			packInteger((RubyFixnum)v, sb);
 		} else if (v instanceof RubyArray) {
 			packArray((RubyArray)v, sb);
+		} else if (v instanceof RubyHash) {
+			packHash((RubyHash)v, sb);
 		} else {
 			throw new RubyException("is not implemented");
 		}
