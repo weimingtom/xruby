@@ -215,7 +215,7 @@ class String_new extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return ObjectFactory.createString();
+		return new RubyString((RubyClass)receiver, "");
 	}
 }
 
