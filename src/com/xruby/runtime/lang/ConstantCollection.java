@@ -16,6 +16,9 @@ abstract class ConstantCollection extends ClassVariableCollection {
 
 	RubyValue setConstant(String name, RubyValue value) {
 		constants_.put(name, value);
+		if (value instanceof RubyModule) {
+			((RubyModule)value).setName(name);
+		}
 		return value;
 	}
 }

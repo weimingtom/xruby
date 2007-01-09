@@ -4232,6 +4232,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_clone() {
 		String [] program_texts = {
+				"StrClone=String.clone; print StrClone.class, StrClone == String, StrClone.new('abc').class",
+				
 				"a = Object.new\n" +
 				"def a.test_clone\n" +
 				"	print \"clone\"\n" +
@@ -4241,6 +4243,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"ClassfalseStrClone",
 				"clone",
 		};
 		

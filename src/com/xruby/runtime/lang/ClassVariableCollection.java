@@ -14,6 +14,10 @@ abstract class ClassVariableCollection extends RubyValue {
 		return name_;
 	}
 
+	public void setName(String name) {
+		name_ = name;
+	}
+
 	protected RubyValue findClassVariable(String name) {
 		return class_varibles_.get(name);
 	}

@@ -4,6 +4,11 @@ import com.xruby.runtime.lang.*;
 
 public class RubyString extends RubyBasic {
 	private StringBuilder sb_;
+
+	public RubyString(RubyClass c, String s) {
+		super(c);
+		sb_ = new StringBuilder(s);
+	}
 	
 	RubyString(String s) {
 		super(RubyRuntime.StringClass);
