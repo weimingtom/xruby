@@ -20,8 +20,17 @@ class Math_exp extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum v = (RubyFixnum)args.get(0);
-		return ObjectFactory.createFloat(Math.exp(v.intValue()));
+		RubyValue v = args.get(0);
+		double d;
+		if (v instanceof RubyFixnum) {
+			d = ((RubyFixnum)v).intValue();
+		} else if (v instanceof RubyFloat) {
+			d = ((RubyFloat)v).doubleValue();
+		} else {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "invalid value for Float(): " + v);
+		}
+
+		return ObjectFactory.createFloat(Math.exp(d));
 	}
 }
 
