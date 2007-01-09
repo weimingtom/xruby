@@ -14,9 +14,21 @@ class Math_sqrt extends RubyMethod {
 	}
 }
 
+class Math_exp extends RubyMethod {
+	public Math_exp() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum v = (RubyFixnum)args.get(0);
+		return ObjectFactory.createFloat(Math.exp(v.intValue()));
+	}
+}
+
 public class MathModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.MathModule;
 		m.defineMethod("sqrt", new Math_sqrt());
+		m.defineMethod("exp", new Math_exp());
 	}
 }

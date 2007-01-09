@@ -4168,11 +4168,13 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Math() {
 		String [] program_texts = {
+				"print Math.exp(1).class",
 				"print Math.sqrt(4)",
 				"include Math; print sqrt(9)",
 		};
 		
 		String[] outputs = {
+				"Float",
 				"2.0",
 				"3.0",
 		};
