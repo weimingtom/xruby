@@ -23,7 +23,11 @@ public class RubyParser extends RubyParserBase {
 	}
 
 	public RubyParser(Reader in) {
-		this(new RubyLexer(in, new SymbolTableManager()));
+		this(in, null);
+	}
+	
+	public RubyParser(Reader in, String[] pre_defined) {
+		this(new RubyLexer(in, new SymbolTableManager(pre_defined)));
 	}
 
 	/// @return AST

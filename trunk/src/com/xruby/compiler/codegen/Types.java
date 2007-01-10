@@ -7,6 +7,7 @@ import com.xruby.runtime.value.*;
  * This class is created to control the dependency between "compiler" and "runtime" package
  * */
 public class Types {
+	public static Class RubyProgramClass = RubyProgram.class;
 	public static Class RubyBlockClass = RubyBlock.class;
 	public static Class RubyValueClass = RubyValue.class;
 	public static Class RubyClassClass = RubyClass.class;
@@ -17,4 +18,5 @@ public class Types {
 	public static Class AtExitBlocksClass = AtExitBlocks.class;
 	public static Class RubyArrayClass = RubyArray.class;
 	public static Class RubyHashClass = RubyHash.class;
+	public static Class RubyBindingClass = RubyBinding.class;
 }

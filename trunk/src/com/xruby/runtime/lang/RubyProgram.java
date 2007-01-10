@@ -4,7 +4,13 @@
 
 package com.xruby.runtime.lang;
 
-public interface RubyProgram {
+import com.xruby.runtime.value.*;
+
+public abstract class RubyProgram {
+
+	public RubyValue run() {
+		return run(ObjectFactory.topLevelSelfValue, null, null);
+	}
 	
-	public RubyValue run();
+	public abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block);
 }

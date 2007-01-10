@@ -14,14 +14,51 @@ import com.xruby.runtime.value.*;
 
 class MethodGenerator extends GeneratorAdapter {
 	
-	private SymbolTable symbol_table_ = new SymbolTable();
+	private SymbolTable symbol_table_;
 
 	private ArrayList<Class> current_types_on_stack_ = new ArrayList<Class>();
 	private ArrayList<Integer> saved_vars_ = new ArrayList<Integer>();//may be have same length of current_types_on_stack_
 
 	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4) {
+		this(arg0, arg1, arg2, arg3, arg4, null);
+	}
+
+	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4, RubyBinding binging) {
 		super(arg0, arg1, arg2, arg3, arg4);
+		symbol_table_ = new SymbolTable(binging);
 		visitCode();
+	}
+
+	public void createBinding(boolean is_in_block) {
+		Type type = Type.getType(Types.RubyBindingClass);
+		newInstance(type);
+		dup();
+		invokeConstructor(type,
+				Method.getMethod("void <init> ()"));
+
+		loadSelf(is_in_block);
+		invokeVirtual(type,
+			Method.getMethod("com.xruby.runtime.lang.RubyBinding setSelf(com.xruby.runtime.lang.RubyValue)"));
+
+		loadBlock(is_in_block);
+		invokeVirtual(type,
+			Method.getMethod("com.xruby.runtime.lang.RubyBinding setBlock(com.xruby.runtime.lang.RubyBlock)"));
+
+		Collection<String> vars = symbol_table_.getLocalVariables();
+		for (String s : vars) {
+			push(s);
+			loadLocal(symbol_table_.getLocalVariable(s));
+			invokeVirtual(type,
+				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+		}
+		
+		Collection<String> params = symbol_table_.getParameters();
+		for (String s : params) {
+			push(s);
+			loadMethodPrameter(symbol_table_.getMethodParameter(s));
+			invokeVirtual(type,
+				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+		}
 	}
 	
 	public void saveCurrentVariablesOnStack() {
@@ -128,6 +165,14 @@ class MethodGenerator extends GeneratorAdapter {
 	public void load_block_parameter_(Class c) {
 		loadThis();
 		getField(Type.getType(c), "block_parameter_", Type.getType(Types.RubyValueClass));
+	}
+
+	public void loadBlock(boolean is_in_block) {
+		if (is_in_block) {
+			loadBlockOfCurrentMethod();
+		} else {
+			loadArg(2);
+		}
 	}
 
 	public void loadMethodPrameter(int index) {
@@ -273,10 +318,8 @@ class MethodGenerator extends GeneratorAdapter {
 		ObjectFactory_nilValue();
 	}
 
-	public void loadSelf(boolean is_in_global_scope, boolean is_in_block) {
-		if (is_in_global_scope) {
-			ObjectFactory_topLevelSelfValue();
-		} else if (is_in_block) {
+	public void loadSelf(boolean is_in_block) {
+		if (is_in_block) {
 			loadSelfOfCurrentMethod();
 		} else {
 			loadArg(0);
@@ -304,7 +347,7 @@ class MethodGenerator extends GeneratorAdapter {
 			loadArg(2);
 		}
 
-		loadSelf(is_in_global_scope, is_in_block);
+		loadSelf(is_in_block);
 		
 		for (String name : commons) {
 			loadVariable(c, name);
@@ -440,12 +483,6 @@ class MethodGenerator extends GeneratorAdapter {
 	public void ObjectFactory_nilValue() {
 		getStatic(Type.getType(ObjectFactory.class),
 				"nilValue",
-				Type.getType(Types.RubyValueClass));
-	}
-
-	public void ObjectFactory_topLevelSelfValue() {
-		getStatic(Type.getType(ObjectFactory.class),
-				"topLevelSelfValue",
 				Type.getType(Types.RubyValueClass));
 	}
 	

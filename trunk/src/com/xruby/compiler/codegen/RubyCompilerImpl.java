@@ -9,6 +9,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import java.math.BigInteger;
 import java.util.*;
 import com.xruby.compiler.codedom.*;
+import com.xruby.runtime.lang.RubyBinding;
 
 public class RubyCompilerImpl implements CodeVisitor {
 	
@@ -39,10 +40,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return false;
 	}
 	
-	public CompilationResults compile(Program program)
+	public CompilationResults compile(Program program, RubyBinding binding)
 			throws CompilerException {
 
-		cg_ = new ClassGeneratorForRubyProgram(NameFactory.createClassName(script_name_, null));
+		cg_ = new ClassGeneratorForRubyProgram(NameFactory.createClassName(script_name_, null), binding);
 		program.accept(this);
 
 		cg_.getMethodGenerator().endMethod();
@@ -619,6 +620,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().RubyArray_add(is_method_call);
 		}
 	}
+
+	public void visitImplicitBinding() {
+		cg_.getMethodGenerator().createBinding(isInBlock());
+		cg_.getMethodGenerator().RubyArray_add(false);
+	}
 	
 	public void visitHashElement() {
 		cg_.getMethodGenerator().RubyHash_addValue();
@@ -632,11 +638,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitYieldBegin() {
-		if (isInBlock()) {
-			cg_.getMethodGenerator().loadBlockOfCurrentMethod();
-		} else {
-			cg_.getMethodGenerator().loadArg(2);//TODO error checking: make sure yield is called in the right context
-		}
+		cg_.getMethodGenerator().loadBlock(isInBlock());
 		cg_.getMethodGenerator().dup();//will be used to call breakOrReturned().
 		visitSelfExpression();
 	}
@@ -694,7 +696,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public void visitSelfExpression() {
-		cg_.getMethodGenerator().loadSelf(isInGlobalScope(), isInBlock());
+		cg_.getMethodGenerator().loadSelf(isInBlock());
 	}
 
 	private void loadCurrentClass() {

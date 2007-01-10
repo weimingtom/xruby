@@ -2,11 +2,12 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.Method;
+import com.xruby.runtime.lang.RubyBinding;
 
 class ClassGeneratorForRubyProgram extends ClassGenerator {
-	public ClassGeneratorForRubyProgram(String name) {
+	public ClassGeneratorForRubyProgram(String name, RubyBinding binding) {
 		super(name);
-		mg_for_run_method_ = visitRubyProgram();
+		mg_for_run_method_ = visitRubyProgram(binding);
 	}
 	
 	protected Class getType() {
@@ -14,13 +15,13 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		return null;
 	}
 
-	private MethodGenerator visitRubyProgram() {
+	private MethodGenerator visitRubyProgram(RubyBinding binding) {
 		cv_.visit(Opcodes.V1_5,
 				Opcodes.ACC_PUBLIC,
 				name_,
 				null,										// signature
-				"java/lang/Object",							// superName
-				new String[] { "com/xruby/runtime/lang/RubyProgram" }	// interface
+				"com/xruby/runtime/lang/RubyProgram",		// superName
+				null										// interface
 				);
 
 		createImplicitConstructor(cv_);
@@ -28,10 +29,24 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		
 		//Implement RubyProgram
 		return new MethodGenerator(Opcodes.ACC_PUBLIC,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock)"),
 				null,
 				null,
-				cv_);
+				cv_,
+				binding);
+	}
+
+	private void createImplicitConstructor(ClassVisitor cw) {
+		Method m = Method.getMethod("void <init> ()");
+		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
+				m,
+				null,
+				null,
+				cw);
+		mg.loadThis();
+		mg.invokeConstructor(Type.getType(Types.RubyProgramClass), m);
+		mg.returnValue();
+		mg.endMethod();
 	}
 
 	private void createStaticVoidMain(ClassVisitor cv) {

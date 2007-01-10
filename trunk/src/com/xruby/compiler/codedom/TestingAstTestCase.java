@@ -18,7 +18,7 @@ class TestingAstTestCase extends TestCase {
 	private Program getProgram(String program_text) {
 		assertTrue(null != program_text);
 
-		RubyParser parser = new RubyParser(new StringReader(program_text));
+		RubyParser parser = new RubyParser(new StringReader(program_text), null);
 
 		Program p = null;
 		try {
