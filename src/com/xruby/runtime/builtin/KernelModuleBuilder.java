@@ -26,13 +26,16 @@ class Kernel_eval extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyCompiler compiler = new RubyCompiler();
+		
 		RubyString program_text = (RubyString)args.get(0);
 
+		RubyBinding binding = (args.size() >= 2) ? (RubyBinding)args.get(1) : null;
+		
+		RubyCompiler compiler = new RubyCompiler(binding);
 		try {
 			CompilationResults codes = compiler.compile(new StringReader(program_text.toString()));
 			RubyProgram p = (RubyProgram)codes.getRubyProgram();
-			return p.run();
+			return p.run(binding.getSelf(), binding.getVariables(), binding.getBlock());
 		} catch (RecognitionException e) {
 			throw new RubyException(e.toString());
 		} catch (TokenStreamException e) {

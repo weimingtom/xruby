@@ -1,14 +1,36 @@
 package com.xruby.compiler.codegen;
 
 import java.util.*;
+import com.xruby.runtime.lang.RubyBinding;
 
 class SymbolTable {
 	private final Map<String, Integer> local_variables_ = new HashMap<String, Integer>();
-	private final ArrayList<String> method_parameters_ = new ArrayList<String>();
+	private final ArrayList<String> method_parameters_;
 	private String asterisk_parameters_ = null;
 	private String block_parameters_ = null;
 	private int asterisk_parameters_access_counter_ = 0;
 	private int block_parameters_access_counter_ = 0;
+
+	public SymbolTable() {
+		this(null);
+	}
+	
+	// SymbolTable may have preloaded values (eval, commandline etc)
+	public SymbolTable(RubyBinding binging) {
+		if (null == binging) {
+			method_parameters_ = new ArrayList<String>();
+		} else {
+			method_parameters_ = binging.getVariableNames();
+		}
+	}
+
+	Collection<String> getLocalVariables() {
+		return local_variables_.keySet();
+	}
+
+	Collection<String> getParameters() {
+		return method_parameters_;
+	}
 	
 	public void addLocalVariable(String name, int i) {
 		local_variables_.put(name, i);

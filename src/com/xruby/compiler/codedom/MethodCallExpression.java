@@ -58,6 +58,12 @@ public class MethodCallExpression extends Expression {
 	}
 
 	public void accept(CodeVisitor visitor) {
+
+		boolean is_eval = false;
+		if (null == receiver_ && methodName_.equals("eval")) {
+			is_eval = true;
+		}
+		
 		visitor.visitMethodCallBegin();
 		
 		if (null != receiver_) {
@@ -70,12 +76,16 @@ public class MethodCallExpression extends Expression {
 									(null != arguments_) && 
 									(arguments_.size() == 1) &&
 									(null == arguments_.getAsteriskArgument()) &&
-									(null == arguments_.getBlockArgument());
+									(null == arguments_.getBlockArgument() &&
+									!is_eval);
 
 		if (single_arg_no_block) {
 			arguments_.getFirstExpression().accept(visitor);
 		} else if (null != arguments_) {
 			arguments_.accept(visitor);
+			if (is_eval && arguments_.size() == 1) {
+				visitor.visitImplicitBinding();
+			}
 		} else {
 			visitor.visitNoParameter();
 		}

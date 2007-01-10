@@ -115,17 +115,5 @@ abstract class ClassGenerator {
 		return new CompilationResult(name_, cw_.toByteArray());
 	}
 
-	protected void createImplicitConstructor(ClassVisitor cw) {
-		Method m = Method.getMethod("void <init> ()");
-		GeneratorAdapter mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
-				m,
-				null,
-				null,
-				cw);
-		mg.loadThis();
-		mg.invokeConstructor(Type.getType(Object.class), m);
-		mg.returnValue();
-		mg.endMethod();
-	}
 }
 

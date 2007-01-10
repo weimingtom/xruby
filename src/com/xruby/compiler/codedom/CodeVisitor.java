@@ -44,6 +44,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitNoParameterForSuper();
 	public void visitNoBlock(boolean is_in_super);
 	public void visitBlockArgument();
+	public void visitImplicitBinding();
 
 	public void visitNoSuperClass();
 	

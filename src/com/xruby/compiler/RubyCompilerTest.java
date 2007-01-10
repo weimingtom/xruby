@@ -1099,11 +1099,13 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_eval() {
 		String[] program_texts = {
+				"a = 1; eval('print a')",
 				"print eval('')",
 				"eval('print 54321')",	
 		};
 
 		String[] outputs = {
+				"1",
 				"nil",
 				"54321",
 		};

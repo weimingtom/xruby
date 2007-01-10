@@ -9,7 +9,7 @@ import com.xruby.runtime.value.*;
 import java.io.*;
 import junit.framework.TestCase;
 
-class TestingProgram implements RubyProgram {
+class TestingProgram extends RubyProgram {
 	
 	public static void main(String[] args) {
 		try {
@@ -19,15 +19,15 @@ class TestingProgram implements RubyProgram {
 		}
 	}
 	
-	public RubyValue run() {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		
 		//puts nil, "abC", "5432"
-		RubyArray args = new RubyArray(3, true);
-		args.add(ObjectFactory.nilValue);
-		args.add(ObjectFactory.createString("ABCD"));
-		args.add(ObjectFactory.createFixnum(5432));
+		RubyArray a = new RubyArray(3, true);
+		a.add(ObjectFactory.nilValue);
+		a.add(ObjectFactory.createString("ABCD"));
+		a.add(ObjectFactory.createFixnum(5432));
 		RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
-								args,
+								a,
 								null,
 								"print");
 

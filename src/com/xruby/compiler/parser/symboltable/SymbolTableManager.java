@@ -12,24 +12,19 @@ public class SymbolTableManager
 	protected RubyMethod current_method_ = null;
 	protected RubyBlock current_block_ = null;
 
-	public SymbolTableManager(){
-		//Add builtin types to symbol table
-		addLocalVarible("Object");
-		addLocalVarible("NilClass");
-		addLocalVarible("TrueClass");
-		addLocalVarible("FalseClass");
-		addLocalVarible("Numeric");
-		addLocalVarible("Integer");
-		addLocalVarible("Fixnum");
-		addLocalVarible("Float");
-		addLocalVarible("String");
-		addLocalVarible("Exception");
-		addLocalVarible("RuntimeError");
-		addLocalVarible("Array");
-		addLocalVarible("Hash");
-		addLocalVarible("Class");
+	public SymbolTableManager () {	
 	}
 	
+	public SymbolTableManager(String[] pre_defined) {
+		if (null == pre_defined) {
+			return;
+		}
+
+		for (String s : pre_defined) {
+			addLocalVarible(s);
+		}
+	}
+
 	public RubyModule enterModule()
 	{
 		current_module_ = symbol_table_.addModule();
