@@ -1097,6 +1097,25 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
+	public void test_binding() {
+		String[] program_texts = {
+				"def getBinding(param); return binding; end\n" +
+				"b = getBinding(\"hello\")\n" +
+				"print eval(\"param\", b) ",
+				
+				"def getBinding(param); x = 5; return binding; end\n" +
+				"b = getBinding(\"hello\")\n" +
+				"print eval(\"x\", b) ",
+		};
+
+		String[] outputs = {
+				"hello",
+				"5",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_eval() {
 		String[] program_texts = {
 				"a = 1; eval('print a')",
