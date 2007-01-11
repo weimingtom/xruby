@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 //TODO imcomplete
 class Kernel_eval extends RubyMethod {
 
-    public Kernel_eval() {
+	public Kernel_eval() {
 		super(-1);
 	}
 
@@ -47,6 +47,18 @@ class Kernel_eval extends RubyMethod {
 		} catch (IllegalAccessException e) {
 			throw new RubyException(e.toString());
 		}
+	}
+}
+
+class Kernel_binding extends RubyMethod {
+
+	public Kernel_binding() {
+		super(-1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		//compiler will do the magic and insert Binding object
+		return args.get(0);
 	}
 }
 
@@ -662,6 +674,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("block_given?", block_given);
 		
 		m.setAccessPrivate();
+		m.defineMethod("binding", new Kernel_binding());
 		m.defineMethod("puts", new Kernel_puts());
 		m.defineMethod("print", new Kernel_print());
 		m.defineMethod("printf", new Kernel_printf());

@@ -137,7 +137,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitNoParameterForSuper() {
 	}
 
-	public void visitImplicitBinding() {
+	public void visitBinding() {
 	}
 
 	public void visitNoBlock(boolean is_in_super) {

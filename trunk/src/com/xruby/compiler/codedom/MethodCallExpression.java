@@ -58,10 +58,12 @@ public class MethodCallExpression extends Expression {
 	}
 
 	public void accept(CodeVisitor visitor) {
-
 		boolean is_eval = false;
-		if (null == receiver_ && methodName_.equals("eval")) {
+		if (null == receiver_ && (methodName_.equals("eval") || methodName_.equals("binding"))) {
 			is_eval = true;
+			if (null == arguments_) {
+				arguments_ = new MethodCallArguments();
+			}
 		}
 		
 		visitor.visitMethodCallBegin();
@@ -83,8 +85,8 @@ public class MethodCallExpression extends Expression {
 			arguments_.getFirstExpression().accept(visitor);
 		} else if (null != arguments_) {
 			arguments_.accept(visitor);
-			if (is_eval && arguments_.size() == 1) {
-				visitor.visitImplicitBinding();
+			if (is_eval && arguments_.size() <= 1) {
+				visitor.visitBinding();
 			}
 		} else {
 			visitor.visitNoParameter();
