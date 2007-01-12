@@ -1099,6 +1099,10 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_binding() {
 		String[] program_texts = {
+				"def getBinding(x); lambda {return binding}.call; end\n" +
+				"b = getBinding(666)\n" +
+				"print eval(\"x\", b)",
+				
 				"def getBinding(param); return binding; end\n" +
 				"b = getBinding(\"hello\")\n" +
 				"print eval(\"param\", b) ",
@@ -1109,6 +1113,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"666",
 				"hello",
 				"5",
 		};
