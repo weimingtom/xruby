@@ -110,6 +110,38 @@ abstract class ClassGenerator {
 			return mg_for_run_method_;
 		}
 	}
+
+	public void createBinding(boolean is_in_block) {
+		Type type = Type.getType(Types.RubyBindingClass);
+		getMethodGenerator().newInstance(type);
+		getMethodGenerator().dup();
+		getMethodGenerator().invokeConstructor(type,
+				Method.getMethod("void <init> ()"));
+
+		getMethodGenerator().loadSelf(is_in_block);
+		getMethodGenerator().invokeVirtual(type,
+			Method.getMethod("com.xruby.runtime.lang.RubyBinding setSelf(com.xruby.runtime.lang.RubyValue)"));
+
+		getMethodGenerator().loadBlock(is_in_block);
+		getMethodGenerator().invokeVirtual(type,
+			Method.getMethod("com.xruby.runtime.lang.RubyBinding setBlock(com.xruby.runtime.lang.RubyBlock)"));
+
+		Collection<String> vars = getSymbolTable().getLocalVariables();
+		for (String s : vars) {
+			getMethodGenerator().push(s);
+			getMethodGenerator().loadLocal(getSymbolTable().getLocalVariable(s));
+			getMethodGenerator().invokeVirtual(type,
+				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+		}
+		
+		Collection<String> params = getSymbolTable().getParameters();
+		for (String s : params) {
+			getMethodGenerator().push(s);
+			getMethodGenerator().loadMethodPrameter(getSymbolTable().getMethodParameter(s));
+			getMethodGenerator().invokeVirtual(type,
+				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+		}
+	}
 	
 	public CompilationResult getCompilationResult() {
 		return new CompilationResult(name_, cw_.toByteArray());

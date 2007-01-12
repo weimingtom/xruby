@@ -622,7 +622,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitBinding() {
-		cg_.getMethodGenerator().createBinding(isInBlock());
+		cg_.createBinding(isInBlock());
 		cg_.getMethodGenerator().RubyArray_add(false);
 	}
 	
