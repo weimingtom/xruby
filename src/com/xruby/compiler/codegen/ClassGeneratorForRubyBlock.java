@@ -162,5 +162,28 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.returnValue();
 		mg.endMethod();
 	}
+
+	public void createBinding(boolean is_in_block) {
+		super.createBinding(is_in_block);
+
+		Collection<String> vars = symbol_table_of_the_current_scope_.getLocalVariables();
+		for (String s : vars) {
+			getMethodGenerator().push(s);
+			fields_.add(s);
+			loadField(s);
+			getMethodGenerator().invokeVirtual(Type.getType(Types.RubyBindingClass),
+				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+		}
+		
+		Collection<String> params = symbol_table_of_the_current_scope_.getParameters();
+		for (String s : params) {
+			getMethodGenerator().push(s);
+			fields_.add(s);
+			loadField(s);
+			getMethodGenerator().invokeVirtual(Type.getType(Types.RubyBindingClass),
+				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+		}
+
+	}
 }
 
