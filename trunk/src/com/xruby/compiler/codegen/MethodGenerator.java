@@ -28,38 +28,6 @@ class MethodGenerator extends GeneratorAdapter {
 		symbol_table_ = new SymbolTable(binging);
 		visitCode();
 	}
-
-	public void createBinding(boolean is_in_block) {
-		Type type = Type.getType(Types.RubyBindingClass);
-		newInstance(type);
-		dup();
-		invokeConstructor(type,
-				Method.getMethod("void <init> ()"));
-
-		loadSelf(is_in_block);
-		invokeVirtual(type,
-			Method.getMethod("com.xruby.runtime.lang.RubyBinding setSelf(com.xruby.runtime.lang.RubyValue)"));
-
-		loadBlock(is_in_block);
-		invokeVirtual(type,
-			Method.getMethod("com.xruby.runtime.lang.RubyBinding setBlock(com.xruby.runtime.lang.RubyBlock)"));
-
-		Collection<String> vars = symbol_table_.getLocalVariables();
-		for (String s : vars) {
-			push(s);
-			loadLocal(symbol_table_.getLocalVariable(s));
-			invokeVirtual(type,
-				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
-		}
-		
-		Collection<String> params = symbol_table_.getParameters();
-		for (String s : params) {
-			push(s);
-			loadMethodPrameter(symbol_table_.getMethodParameter(s));
-			invokeVirtual(type,
-				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
-		}
-	}
 	
 	public void saveCurrentVariablesOnStack() {
 		Collections.reverse(current_types_on_stack_);
