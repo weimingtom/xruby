@@ -122,7 +122,11 @@ abstract class ClassGenerator {
 		getMethodGenerator().invokeVirtual(type,
 			Method.getMethod("com.xruby.runtime.lang.RubyBinding setSelf(com.xruby.runtime.lang.RubyValue)"));
 
-		getMethodGenerator().loadBlock(is_in_block);
+		if (isInClassBuilder()) {
+			getMethodGenerator().pushNull();
+		} else {
+			getMethodGenerator().loadBlock(is_in_block);
+		}
 		getMethodGenerator().invokeVirtual(type,
 			Method.getMethod("com.xruby.runtime.lang.RubyBinding setBlock(com.xruby.runtime.lang.RubyBlock)"));
 

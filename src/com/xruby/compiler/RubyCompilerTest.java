@@ -1099,6 +1099,13 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_binding() {
 		String[] program_texts = {
+				"module TestBinding\n" +
+				"  A = 6\n" +
+				"  $x = binding\n" +
+				"end\n" +
+				"\n" +
+				"print eval(\"A\", $x)",
+				
 				"def getBinding(x); lambda {return binding}.call; end\n" +
 				"b = getBinding(666)\n" +
 				"print eval(\"x\", b)",
@@ -1113,6 +1120,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"6",
 				"666",
 				"hello",
 				"5",
@@ -1123,12 +1131,14 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_eval() {
 		String[] program_texts = {
+				"TestEval = 5; print eval('TestEval')",
 				"a = 1; eval('print a')",
 				"print eval('')",
 				"eval('print 54321')",	
 		};
 
 		String[] outputs = {
+				"5",
 				"1",
 				"nil",
 				"54321",
