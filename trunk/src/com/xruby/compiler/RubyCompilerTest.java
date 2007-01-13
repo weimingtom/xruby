@@ -1099,14 +1099,12 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_binding() {
 		String[] program_texts = {
-				/*TODO
 				"module TestBinding\n" +
 				"  A = 6\n" +
 				"  $x = binding\n" +
 				"end\n" +
 				"\n" +
 				"print eval(\"A\", $x)",
-				*/
 				
 				"def getBinding(x); lambda {return binding}.call; end\n" +
 				"b = getBinding(666)\n" +
@@ -1122,7 +1120,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
-				//"6",
+				"6",
 				"666",
 				"hello",
 				"5",

@@ -14,7 +14,7 @@ abstract class ClassGenerator {
 	private final ClassWriter cw_ = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 	
 	//can simply use 'cv_ = cw_'. CheckClassAdapter make compilation slower,
-	//but it does lots of verification one the bytecode
+	//but it does lots of verification on the bytecode
 	protected final ClassVisitor cv_ = new CheckClassAdapter(cw_);
 	
 	protected final String name_;
@@ -111,7 +111,7 @@ abstract class ClassGenerator {
 		}
 	}
 
-	public void createBinding(boolean is_in_block) {
+	public void createBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
 		Type type = Type.getType(Types.RubyBindingClass);
 		getMethodGenerator().newInstance(type);
 		getMethodGenerator().dup();
@@ -129,6 +129,14 @@ abstract class ClassGenerator {
 		}
 		getMethodGenerator().invokeVirtual(type,
 			Method.getMethod("com.xruby.runtime.lang.RubyBinding setBlock(com.xruby.runtime.lang.RubyBlock)"));
+
+		if (!is_in_block) {
+			getMethodGenerator().loadCurrentClass(isInClassBuilder(), isInSingletonMethod, isInGlobalScope, is_in_block);
+		} else {
+			getMethodGenerator().pushNull();//TODO fix this and loadCurrentClass
+		}
+		getMethodGenerator().invokeVirtual(type,
+			Method.getMethod("com.xruby.runtime.lang.RubyBinding setScope(com.xruby.runtime.lang.RubyModule)"));
 
 		Collection<String> vars = getSymbolTable().getLocalVariables();
 		for (String s : vars) {

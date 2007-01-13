@@ -225,8 +225,8 @@ public class RubyAPI {
 		return RubyRuntime.GlobalScope.setConstant(name, value);
 	}
 
-	public static RubyValue getTopLevelConstant(String name) {
-		return RubyRuntime.GlobalScope.getCurrentNamespaceConstant(name);
+	public static RubyValue getCurrentNamespaceConstant(RubyModule receiver, String name) {
+		return receiver.getCurrentNamespaceConstant(name);
 	}
 
 	public static RubyValue getConstant(RubyValue receiver, String name) {

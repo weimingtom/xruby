@@ -4,7 +4,7 @@ import com.xruby.runtime.value.*;
 import java.util.*;
 
 public class RubyBinding extends RubyValue {
-
+	private RubyModule scope_;
 	private RubyValue self_;
 	private RubyBlock block_;
 	private RubyArray variables_ = new RubyArray();
@@ -12,6 +12,11 @@ public class RubyBinding extends RubyValue {
 	
 	public RubyBinding() {
 		super(RubyRuntime.BingingClass);
+	}
+
+	public RubyBinding setScope(RubyModule scope) {
+		scope_ = scope;
+		return this;
 	}
 
 	public RubyBinding setSelf(RubyValue self) {
@@ -30,6 +35,10 @@ public class RubyBinding extends RubyValue {
 
 	public RubyBlock getBlock() {
 		return block_;
+	}
+
+	public RubyModule getScope() {
+		return scope_;
 	}
 
 	public RubyBinding addVariable(String name, RubyValue value) {

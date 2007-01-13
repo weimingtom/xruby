@@ -163,8 +163,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.endMethod();
 	}
 
-	public void createBinding(boolean is_in_block) {
-		super.createBinding(is_in_block);
+	public void createBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
+		super.createBinding(isInSingletonMethod, isInGlobalScope, is_in_block);
 
 		Collection<String> vars = symbol_table_of_the_current_scope_.getLocalVariables();
 		for (String s : vars) {
