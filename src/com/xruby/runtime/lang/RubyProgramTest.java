@@ -19,7 +19,7 @@ class TestingProgram extends RubyProgram {
 		}
 	}
 	
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope) {
 		
 		//puts nil, "abC", "5432"
 		RubyArray a = new RubyArray(3, true);

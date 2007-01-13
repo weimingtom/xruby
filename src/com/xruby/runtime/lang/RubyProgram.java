@@ -9,8 +9,8 @@ import com.xruby.runtime.value.*;
 public abstract class RubyProgram {
 
 	public RubyValue run() {
-		return run(ObjectFactory.topLevelSelfValue, null, null);
+		return run(ObjectFactory.topLevelSelfValue, null, null, RubyRuntime.GlobalScope);
 	}
 	
-	public abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block);
+	public abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope);
 }

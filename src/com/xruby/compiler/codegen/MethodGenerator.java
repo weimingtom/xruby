@@ -157,6 +157,21 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("int size()"));
 	}
 
+	public void loadCurrentClass(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {
+		if (isInClassBuilder) {
+			loadCurrentClass();
+		} else if (isInSingletonMethod) {
+			loadSelf(isInBlock);
+			checkCast(Type.getType(Types.RubyClassClass));
+		} else if (isInGlobalScope) {
+			loadSelf(isInBlock);
+			RubyValue_getRubyClass();
+		} else {
+			loadThis();
+			RubyMethod_getOwner();
+		}
+	}
+
 	/// @return true if in global scope
 	public boolean loadCurrentClass() {
 		getStatic(Type.getType(RubyRuntime.class),
@@ -639,10 +654,10 @@ class MethodGenerator extends GeneratorAdapter {
 			Method.getMethod("com.xruby.runtime.lang.RubyValue setTopLevelConstant(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
-	public void RubyAPI_getTopLevelConstant(String name) {
+	public void RubyAPI_getCurrentNamespaceConstant(String name) {
 		push(name);
 		invokeStatic(Type.getType(RubyAPI.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue getTopLevelConstant(String)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyValue getCurrentNamespaceConstant(com.xruby.runtime.lang.RubyModule, String)"));
 	}
 
 	public void RubyAPI_getConstant(String name) {
