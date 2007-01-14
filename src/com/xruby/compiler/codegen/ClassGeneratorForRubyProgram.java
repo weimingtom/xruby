@@ -5,9 +5,12 @@ import org.objectweb.asm.commons.Method;
 import com.xruby.runtime.lang.RubyBinding;
 
 class ClassGeneratorForRubyProgram extends ClassGenerator {
+	private RubyBinding binding_;
+	
 	public ClassGeneratorForRubyProgram(String name, RubyBinding binding) {
 		super(name);
 		mg_for_run_method_ = visitRubyProgram(binding);
+		binding_ = binding;
 	}
 	
 	protected Class getType() {
@@ -74,6 +77,22 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		
 		mg.returnValue();
 		mg.endMethod();
+	}
+
+	public void storeVariable(String name) {
+		if (null != binding_ && !binding_.hasName(name)) {
+			
+			binding_.addVariableName(name);
+
+			mg_for_run_method_.dup();
+			mg_for_run_method_.loadArg(1);
+			mg_for_run_method_.swap();
+			mg_for_run_method_.invokeVirtual(Type.getType(Types.RubyArrayClass),
+				Method.getMethod("com.xruby.runtime.value.RubyArray add(com.xruby.runtime.lang.RubyValue)"));
+			mg_for_run_method_.pop();
+		}
+		
+		super.storeVariable(name);
 	}
 	
 }
