@@ -10,8 +10,16 @@ public class RubyBinding extends RubyValue {
 	private RubyArray variables_ = new RubyArray();
 	private ArrayList<String> names_ = new ArrayList<String>();
 	
+	public RubyBinding(RubyClass c) {
+		super(c);
+	}
+	
 	public RubyBinding() {
 		super(RubyRuntime.BingingClass);
+	}
+
+	public boolean hasName(String name) {
+		return names_.indexOf(name) >= 0;
 	}
 
 	public RubyBinding setScope(RubyModule scope) {
@@ -39,6 +47,10 @@ public class RubyBinding extends RubyValue {
 
 	public RubyModule getScope() {
 		return scope_;
+	}
+
+	public void addVariableName(String name) {
+		names_.add(name);
 	}
 
 	public RubyBinding addVariable(String name, RubyValue value) {

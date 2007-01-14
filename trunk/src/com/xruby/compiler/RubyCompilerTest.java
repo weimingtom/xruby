@@ -1131,6 +1131,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_eval() {
 		String[] program_texts = {
+				"x = proc{}; eval('test_eval = 2', x); print eval('test_eval', x);",
 				"TestEval = 5; print eval('TestEval')",
 				"a = 1; eval('print a')",
 				"print eval('')",
@@ -1138,6 +1139,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"2",
 				"5",
 				"1",
 				"nil",

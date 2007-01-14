@@ -29,7 +29,7 @@ class Kernel_eval extends RubyMethod {
 		
 		RubyString program_text = (RubyString)args.get(0);
 
-		RubyBinding binding = (args.size() >= 2) ? (RubyBinding)args.get(1) : null;
+		RubyBinding binding = (RubyBinding)args.get(1);
 		
 		RubyCompiler compiler = new RubyCompiler(binding);
 		try {
