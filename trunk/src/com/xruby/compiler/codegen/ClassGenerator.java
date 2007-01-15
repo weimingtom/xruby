@@ -26,6 +26,10 @@ abstract class ClassGenerator {
 		name_ = name;
 	}
 
+	public CompilationResult getCompilationResult() {
+		return new CompilationResult(name_, cw_.toByteArray());
+	}
+
 	SymbolTable getSymbolTable() {
 		return getMethodGenerator().getSymbolTable();
 	}
@@ -155,8 +159,8 @@ abstract class ClassGenerator {
 		}
 	}
 	
-	public CompilationResult getCompilationResult() {
-		return new CompilationResult(name_, cw_.toByteArray());
+	public boolean isDefinedInCurrentScope(String name) {
+		return getSymbolTable().isDefinedInCurrentScope(name);
 	}
 
 }

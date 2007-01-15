@@ -40,16 +40,10 @@ tokens {
 {
 	private int can_be_command_ = 0;
 
-	protected void enterClass()	{assert(false);}
-	protected void enterMethod(){assert(false);}
-	protected void enterModule()	{assert(false);}
-	protected void enterBlock()	{assert(false);}
-	protected void leaveClass()	{assert(false);}
-	protected void leaveMethod(){assert(false);}
-	protected void leaveModule()	{assert(false);}
-	protected void leaveBlock()	{assert(false);}
-	protected void addMethodParameter(Token id)	{assert(false);}
-	protected void addLocalVariable(Token id)	{assert(false);}
+	protected void enterScope()	{assert(false);}
+	protected void enterBlockScope()	{assert(false);}
+	protected void leaveScope()	{assert(false);}
+	protected void addVariable(Token id)	{assert(false);}
 	protected void tellLexerWeHaveFinishedParsingMethodparameters()	{assert(false);}
 	protected void tellLexerWeHaveFinishedParsingSymbol()	{assert(false);}
 	protected void tellLexerWeHaveFinishedParsingStringExpressionSubstituation()	{assert(false);}
@@ -215,12 +209,12 @@ block_vars
 		;
 
 codeBlock
-		:	("do"!	(options{greedy=true;}:LINE_BREAK!)?		{enterBlock();}
+		:	("do"!	(options{greedy=true;}:LINE_BREAK!)?		{enterBlockScope();}
 				blockContent
-				"end"!			{leaveBlock();}
-			|	LCURLY_BLOCK!	{enterBlock();}
+				"end"!			{leaveScope();}
+			|	LCURLY_BLOCK!	{enterBlockScope();}
 				blockContent
-				RCURLY!			{leaveBlock();}
+				RCURLY!			{leaveScope();}
 			)
 			{#codeBlock = #(#[BLOCK, "BLOCK"], #codeBlock);}
 		;
@@ -728,7 +722,7 @@ exceptionHandlingExpression
 		;
 
 exceptionList
-		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	(IDENTIFIER|func:FUNCTION{addLocalVariable(func);}))?
+		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	(IDENTIFIER|func:FUNCTION{addVariable(func);}))?
 		;
 
 ifExpression
@@ -778,9 +772,9 @@ untilExpression
 
 moduleDefination
 		:	"module"^	(LINE_BREAK!)?
-			moduleName (options {greedy=true;}:terminal)?	{enterModule();}
+			moduleName (options {greedy=true;}:terminal)?	{enterScope();}
 			(bodyStatement)?
-			"end"!			{leaveModule();}
+			"end"!			{leaveScope();}
 		;
 
 moduleName
@@ -792,9 +786,9 @@ classDefination
 			(	className	(LESS_THAN expression)?
 			|	LEFT_SHIFT	expression
 			)
-			terminal			{enterClass();}
+			terminal			{enterScope();}
 			(bodyStatement)?
-			"end"!			{leaveClass();}
+			"end"!			{leaveScope();}
 		;
 
 /*
@@ -815,10 +809,10 @@ className
 
 methodDefination
 		:	"def"^		(options{greedy=true;}:LINE_BREAK!)?
-			methodName	{enterMethod();}
+			methodName	{enterScope();}
 			methodDefinationArgument
 			(bodyStatement)?
-			"end"!		{leaveMethod();}
+			"end"!		{leaveScope();}
 		;
 
 protected
@@ -948,15 +942,15 @@ methodDefinationArgumentWithoutParen
 		;
 
 normalMethodDefinationArgument
-		:	(id1:IDENTIFIER{addMethodParameter(id1);}|id2:FUNCTION{addMethodParameter(id2);})	((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	expression)?
+		:	(id1:IDENTIFIER{addVariable(id1);}|id2:FUNCTION{addVariable(id2);})	((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	expression)?
 		;
 
 restMethodDefinationArgument
-		:	REST_ARG_PREFIX	((id1:IDENTIFIER{addMethodParameter(id1);}|id2:FUNCTION{addMethodParameter(id2);})	(COMMA!	blockMethodDefinationArgument)?)?
+		:	REST_ARG_PREFIX	((id1:IDENTIFIER{addVariable(id1);}|id2:FUNCTION{addVariable(id2);})	(COMMA!	blockMethodDefinationArgument)?)?
 		;
 
 blockMethodDefinationArgument
-		:	BLOCK_ARG_PREFIX	(id1:IDENTIFIER{addMethodParameter(id1);}|id2:FUNCTION{addMethodParameter(id2);})
+		:	BLOCK_ARG_PREFIX	(id1:IDENTIFIER{addVariable(id1);}|id2:FUNCTION{addVariable(id2);})
 		;
 
 

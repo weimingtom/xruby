@@ -4,7 +4,6 @@
 
 package com.xruby.compiler.parser;
 
-import com.xruby.compiler.parser.symboltable.SymbolTableManager;
 import com.xruby.compiler.codedom.Program;
 
 import java.io.Reader;
@@ -62,43 +61,19 @@ public class RubyParser extends RubyParserBase {
 		lexer_.setJustFinishedParsingHeredocExpressionSubstituation();
 	}
 	
-	protected void enterClass() {
-		lexer_.getSymbolTableManager().enterClass();
+	protected void enterScope() {
+		lexer_.getSymbolTableManager().enterScope();
 	}
 
-	protected void enterMethod() {
-		lexer_.getSymbolTableManager().enterMethod();
+	protected void enterBlockScope() {
+		lexer_.getSymbolTableManager().enterBlockScope();
 	}
 
-	protected void enterModule() {
-		lexer_.getSymbolTableManager().enterModule();
+	protected void leaveScope() {
+		lexer_.getSymbolTableManager().leaveScope();
 	}
 
-	protected void enterBlock() {
-		lexer_.getSymbolTableManager().enterBlock();
-	}
-
-	protected void leaveClass() {
-		lexer_.getSymbolTableManager().leaveClass();
-	}
-
-	protected void leaveMethod() {
-		lexer_.getSymbolTableManager().leaveMethod();
-	}
-
-	protected void leaveModule() {
-		lexer_.getSymbolTableManager().leaveModule();
-	}
-
-	protected void leaveBlock() {
-		lexer_.getSymbolTableManager().leaveBlock();
-	}
-
-	protected void addMethodParameter(Token id) {
-		lexer_.getSymbolTableManager().addParameter(id.getText());
-	}
-
-	protected void addLocalVariable(Token id) {
-		lexer_.getSymbolTableManager().addLocalVarible(id.getText());
+	protected void addVariable(Token id) {
+		lexer_.getSymbolTableManager().addVariable(id.getText());
 	}
 }

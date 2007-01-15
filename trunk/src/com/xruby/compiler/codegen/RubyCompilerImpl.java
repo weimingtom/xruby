@@ -906,6 +906,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public boolean isDefinedInCurrentScope(String name) {
-		return cg_.getSymbolTable().isDefinedInCurrentScope(name);
+		return cg_.isDefinedInCurrentScope(name);
 	}
 }
