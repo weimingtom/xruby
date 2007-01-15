@@ -5,9 +5,6 @@
 package com.xruby.compiler.parser;
 
 import java.io.*;
-
-import com.xruby.compiler.parser.symboltable.SymbolTableManager;
-
 import junit.framework.*;
 import antlr.Token;
 import antlr.TokenStreamException;
@@ -38,7 +35,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		{
 			try
 			{
-				SymbolTableManager stm = new SymbolTableManager();
+				SymbolTableManager stm = new SymbolTableManager(null);
 				RubyLexer lexter = new RubyLexer(new StringReader(program_texts[i]), stm);
 				Token token = lexter.nextToken();
 				assertEquals(program_texts[i], expected_type, token.getType());
@@ -73,7 +70,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 	{
 		try
 		{
-			SymbolTableManager stm = new SymbolTableManager();
+			SymbolTableManager stm = new SymbolTableManager(null);
 			RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm);
 			Token token = lexter.nextToken();
 			assertEquals(program_text, expected_type, token.getType());
@@ -90,7 +87,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 	{
 		try
 		{
-			SymbolTableManager stm = new SymbolTableManager();
+			SymbolTableManager stm = new SymbolTableManager(null);
 			RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm);
 
 			for (int i = 0; i < tokens.length; ++i)
@@ -158,7 +155,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(LITERAL_def, "def"),
 							new TestingCommonToken(DIV, "/"),
 							new TestingCommonToken(LPAREN, "("),
-							new TestingCommonToken(FUNCTION, "item"),
+							new TestingCommonToken(IDENTIFIER, "item"),
 							new TestingCommonToken(RPAREN, ")"),
 		};
 
@@ -286,7 +283,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(LITERAL_def, "def"),
 							new TestingCommonToken(FUNCTION, "log_src"),
 							new TestingCommonToken(LPAREN, "("),
-							new TestingCommonToken(FUNCTION, "src"),
+							new TestingCommonToken(IDENTIFIER, "src"),
 							new TestingCommonToken(RPAREN, ")"),
 							new TestingCommonToken(LINE_BREAK, "\n"),
 							new TestingCommonToken(CONSTANT, "Logging", 2),
@@ -332,7 +329,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		String program_text = "a =1;a\n\n\n;;;;";
 
 		TestingCommonToken[] token_types =  {
-							new TestingCommonToken(FUNCTION, "a"),
+							new TestingCommonToken(IDENTIFIER, "a"),
 							new TestingCommonToken(ASSIGN, "="),
 							new TestingCommonToken(INTEGER, "1"),
 							new TestingCommonToken(SEMI, ";"),
@@ -411,7 +408,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "new!"),
 							new TestingCommonToken(LPAREN, "("),
-							new TestingCommonToken(FUNCTION, "a"),
+							new TestingCommonToken(IDENTIFIER, "a"),
 							new TestingCommonToken(COMMA, ","),
 							new TestingCommonToken(INTEGER, "1"),
 							new TestingCommonToken(RPAREN, ")"),
@@ -470,7 +467,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(LITERAL_def, "def"),
 							new TestingCommonToken(FUNCTION, "check_response_auth"),
 							new TestingCommonToken(LPAREN, "("),
-							new TestingCommonToken(FUNCTION, "res"),
+							new TestingCommonToken(IDENTIFIER, "res"),
 							new TestingCommonToken(RPAREN, ")"),
 							new TestingCommonToken(LINE_BREAK, "\n"),
 							new TestingCommonToken(FUNCTION, "raise", 2),
@@ -517,7 +514,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 							new TestingCommonToken(FUNCTION, "f"), 
 							new TestingCommonToken(LPAREN, "("),
 							new TestingCommonToken(REST_ARG_PREFIX, "*"),
-							new TestingCommonToken(FUNCTION, "a"),
+							new TestingCommonToken(IDENTIFIER, "a"),
 							new TestingCommonToken(RPAREN, ")"), 
 		};
 
@@ -530,7 +527,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(FUNCTION, "puts"), 
-							new TestingCommonToken(FUNCTION, "puts"),
+							new TestingCommonToken(IDENTIFIER, "puts"),
 							new TestingCommonToken(ASSIGN, "="),
 							new TestingCommonToken(INTEGER, "1"),
 		};

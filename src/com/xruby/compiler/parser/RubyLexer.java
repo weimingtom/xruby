@@ -8,8 +8,6 @@ import java.util.*;
 import java.io.Reader;
 import antlr.*;
 
-import com.xruby.compiler.parser.symboltable.SymbolTableManager;
-
 class StringDelimiter {
 	private char delimiter_;
 
@@ -40,7 +38,6 @@ class StringDelimiter {
  */
 public class RubyLexer extends RubyLexerBase {
 	private SymbolTableManager stm_;
-	private Token token_before_last_token_ = new Token();// create a new toekn with invalid type
 	private Token last_token_ = new Token();// create a new toekn with invalid type
 	private boolean allow_asignment_ = true;
 	private boolean allow_block_parameter_ = false;
@@ -61,7 +58,7 @@ public class RubyLexer extends RubyLexerBase {
 		stm_ = stm;
 	}
 	
-	public Token nextToken() throws TokenStreamException {
+	public Token nextToken() throws TokenStreamException {	
 		try {
 			try {
 				return _nextToken();
@@ -134,26 +131,25 @@ public class RubyLexer extends RubyLexerBase {
 
 		// Even if there are rules for the following tokens, they should not
 		// show up here.
-		assert (WHITE_SPACE != token.getType());
-		assert (END_OF_FILE != token.getType());
-		assert (COMMENT != token.getType());
-		assert (RDOC != token.getType());
-		assert (RPAREN_IN_METHOD_DEFINATION != token.getType());
-		assert (Token.SKIP != token.getType());
+		assert(WHITE_SPACE != token.getType());
+		assert(END_OF_FILE != token.getType());
+		assert(COMMENT != token.getType());
+		assert(RDOC != token.getType());
+		assert(RPAREN_IN_METHOD_DEFINATION != token.getType());
+		assert(Token.SKIP != token.getType());
 
 		// Do not do anything if convertion is done.
 		if (!keywordOrOperatorToMethodName(token)) {
 			changeLexerStateIfNecessary(token);
 		}
 
-		token_before_last_token_ = last_token_;
 		last_token_ = token;
 		seen_whitespace_ = false;
 		just_finished_parsing_symbol_ = false;
 		return token;
 	}
 
-	private void changeLexerStateIfNecessary(Token token) throws TokenStreamException {
+	private void changeLexerStateIfNecessary(Token token) throws TokenStreamException, CharStreamException {
 		switch (token.getType()) {
 		/*
 		 * it is OK to do this error checking here, now we leave it to the
@@ -172,40 +168,6 @@ public class RubyLexer extends RubyLexerBase {
 			break;
 		case RPAREN:
 			allow_asignment_ = true;// def asctime() strftime('%c') end
-		case COMMA:
-		case ASSIGN:
-		case ASSIGN_WITH_NO_LEADING_SPACE:
-		case PLUS_ASSIGN:
-		case MINUS_ASSIGN:
-		case STAR_ASSIGN:
-		case DIV_ASSIGN:
-		case MOD_ASSIGN:
-		case POWER_ASSIGN:
-		case BAND_ASSIGN:
-		case BXOR_ASSIGN:
-		case BOR_ASSIGN:
-		case LEFT_SHIFT_ASSIGN:
-		case RIGHT_SHIFT_ASSIGN:
-		case LOGICAL_AND_ASSIGN:
-		case LOGICAL_OR_ASSIGN:
-			// TODO we can not handle assignment in condition right now!
-			// Check if this is an assignment to a varible. If so, add it to
-			// symbole table.
-			// for example:
-			// a = 1;
-			// a=b=1;
-			// a, b, c = 1, 2, 3
-			// b, (c, d), e = 1,2,3,4
-			// Be careful with a.b = 1, A::b = 1 etc
-			if (allow_asignment_
-					&& (DOT != token_before_last_token_.getType())
-					&& (COLON2 != token_before_last_token_.getType())
-					&& (IDENTIFIER == last_token_.getType()
-							|| CONSTANT == last_token_.getType() || FUNCTION == last_token_
-							.getType())) {
-				// System.out.println("Add " + last_token_.getText());
-				stm_.addLocalVarible(last_token_.getText());
-			}
 			break;
 		case IDENTIFIER:
 		case FUNCTION:
@@ -293,28 +255,79 @@ public class RubyLexer extends RubyLexerBase {
 		return seen_whitespace_;
 	}
 
-	private void updateSymbolTable(Token token) throws TokenStreamException {
+	private boolean followedByAssign() throws CharStreamException {
+		int i = 0;
+		while (true) {
+			++i;
+			char c = LA(i);
+
+			switch (c) {
+			case ' ':
+			case '\t':
+				continue;
+			case ',':	//a, (b, c), d = ... TODO false positive?
+			case ')':
+			case '=':
+				return true;
+			case '+':
+			case '-':
+			case '*':
+			case '/':
+			case '^':
+			case '%':
+				if (LA(i + 1) == '=') {
+					return true;
+				}
+				break;
+			case '&':
+			case '|':
+				if (LA(i + 1) == '=') {
+					return true;
+				} else if ('&' == c && '&' == LA(i + 1) && '=' == LA(i + 2)) {
+					return true;
+				} else if ('|' == c && '|' == LA(i + 1) && '=' == LA(i + 2)) {
+					return true;
+				}
+				break;
+			case '<':
+			case '>':
+				if ('<' == c && '<' == LA(i + 1) && '=' == LA(i + 2)) {
+					return true;
+				} else if ('>' == c && '>' == LA(i + 1) && '=' == LA(i + 2)) {
+					return true;
+				}
+				break;
+			default:
+				return false;
+			}
+		}
+	}
+
+	private void updateSymbolTable(Token token) throws TokenStreamException, CharStreamException {
 		if (LITERAL_module == last_token_.getType()
 				|| LITERAL_class == last_token_.getType()) {
-			stm_.addLocalVarible(token.getText());
+			stm_.addVariable(token.getText());
 			return;
 		}
 
 		if (allow_for_expression_parameter_) {
-			stm_.addLocalVarible(token.getText());
+			stm_.addVariable(token.getText());
 			return;
 		}
 
 		if (allow_block_parameter_) {
-			stm_.addBlockParameter(token.getText());
+			stm_.addVariable(token.getText());
 			return;
 		}
 
 		// If not in symbol table yet (not assigned or being a parameter), set
 		// the type to FUNCTION
-		if (null == stm_.getVariable(token.getText())) {
-			// System.out.println("Can not find " + token.getText());
-			token.setType(FUNCTION);
+		if (!stm_.isDefinedInCurrentScope(token.getText())) {
+			if (allow_asignment_ && followedByAssign()) {
+				stm_.addVariable(token.getText());
+			} else {
+				token.setType(FUNCTION);
+			}
 		}
 
 	}
@@ -385,7 +398,7 @@ public class RubyLexer extends RubyLexerBase {
 		case LITERAL_unless:
 		case LITERAL___LINE__:
 		case LITERAL_begin:
-			// case LITERAL_defined?:
+		// case LITERAL_defined?:
 		case LITERAL_ensure:
 		case LITERAL_module:
 		case LITERAL_redo:

@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 public class RubyTreeParserTest extends TestCase {
 	public void test_ast() throws RecognitionException, TokenStreamException {
 		String[] program_texts = {
+				"def f a,b,c; print c; end",
 				
 				"-1",
 				
@@ -105,6 +106,8 @@ public class RubyTreeParserTest extends TestCase {
 				};
 
 		String[] expected_texts = {
+				" ( COMPSTMT ( def f a b c ( BODY ( COMPSTMT ( CALL print ( ARG c ) ) ) ) ) )",
+				
 				" ( COMPSTMT ( - 1 ) )",
 				
 				" ( COMPSTMT ( CALL print ( ARG ABCD\n ) ) )",
@@ -118,11 +121,11 @@ public class RubyTreeParserTest extends TestCase {
 				" ( COMPSTMT ( STRING ( abc opq xyz ) ) )",
 				" ( COMPSTMT ( ( ( COMPSTMT 1 ) ) )",
 				
-				" ( COMPSTMT ( MULTIPLE_ASSIGN_WITH_EXTRA_COMMA ( CALL a ) ( MRHS 1 2 ) ) )",
-				" ( COMPSTMT ( MULTIPLE_ASSIGN ( CALL b ) ( NESTED_LHS c d ) e ( MRHS 1 2 3 4 ) ) )",
-				" ( COMPSTMT ( MULTIPLE_ASSIGN_WITH_EXTRA_COMMA ( CALL a ) ( MRHS * ( [ 1 ) ) ) )",
-				" ( COMPSTMT ( MULTIPLE_ASSIGN ( CALL a ) b * c ( MRHS nil ) ) )",
-				" ( COMPSTMT ( MULTIPLE_ASSIGN ( CALL a ) b ( MRHS 1 ) ) )",
+				" ( COMPSTMT ( MULTIPLE_ASSIGN_WITH_EXTRA_COMMA a ( MRHS 1 2 ) ) )",
+				" ( COMPSTMT ( MULTIPLE_ASSIGN b ( NESTED_LHS c d ) e ( MRHS 1 2 3 4 ) ) )",
+				" ( COMPSTMT ( MULTIPLE_ASSIGN_WITH_EXTRA_COMMA a ( MRHS * ( [ 1 ) ) ) )",
+				" ( COMPSTMT ( MULTIPLE_ASSIGN a b * c ( MRHS nil ) ) )",
+				" ( COMPSTMT ( MULTIPLE_ASSIGN a b ( MRHS 1 ) ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN * a ( MRHS nil ) ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN a ( MRHS * ( [ * ( [ 1 2 ) ) ) ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN ( = a 1 ) 2 3 ) )",

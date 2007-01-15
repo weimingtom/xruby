@@ -23,9 +23,9 @@ class MethodGenerator extends GeneratorAdapter {
 		this(arg0, arg1, arg2, arg3, arg4, null);
 	}
 
-	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4, RubyBinding binging) {
+	public MethodGenerator(final int arg0, final Method arg1, final String arg2, final Type[] arg3, final ClassVisitor arg4, RubyBinding binding) {
 		super(arg0, arg1, arg2, arg3, arg4);
-		symbol_table_ = new SymbolTable(binging);
+		symbol_table_ = new SymbolTable(null == binding ? null : binding.getVariableNames());
 		visitCode();
 	}
 	

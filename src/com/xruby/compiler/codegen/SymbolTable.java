@@ -1,7 +1,6 @@
 package com.xruby.compiler.codegen;
 
 import java.util.*;
-import com.xruby.runtime.lang.RubyBinding;
 
 class SymbolTable {
 	private final Map<String, Integer> local_variables_ = new HashMap<String, Integer>();
@@ -16,11 +15,11 @@ class SymbolTable {
 	}
 	
 	// SymbolTable may have preloaded values (eval, commandline etc)
-	public SymbolTable(RubyBinding binging) {
+	public SymbolTable(ArrayList<String> binging) {
 		if (null == binging) {
 			method_parameters_ = new ArrayList<String>();
 		} else {
-			method_parameters_ = binging.getVariableNames();
+			method_parameters_ = binging;
 		}
 	}
 

@@ -10,7 +10,6 @@ import junit.framework.*;
 import antlr.Token;
 import antlr.TokenStreamException;
 import antlr.RecognitionException;
-import com.xruby.compiler.parser.symboltable.SymbolTableManager;
 
 public class RubyParserTest extends TestCase
 {
@@ -30,7 +29,7 @@ public class RubyParserTest extends TestCase
 		}
 
 		//Dump token streams;
-		SymbolTableManager stm = new SymbolTableManager();
+		SymbolTableManager stm = new SymbolTableManager(null);
 		RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm);
 		debug_message.append("\nToken stream is:");
 		try

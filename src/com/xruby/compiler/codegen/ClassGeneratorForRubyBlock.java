@@ -185,5 +185,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		}
 
 	}
+
+	public boolean isDefinedInCurrentScope(String name) {
+		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
+			return true;
+		} else {
+			return super.isDefinedInCurrentScope(name);
+		}
+	}
 }
 

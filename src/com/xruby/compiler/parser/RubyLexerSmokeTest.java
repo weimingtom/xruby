@@ -7,7 +7,6 @@ package com.xruby.compiler.parser;
 import java.io.*;
 import antlr.Token;
 import antlr.TokenStreamException;
-import com.xruby.compiler.parser.symboltable.SymbolTableManager;
 
 public class RubyLexerSmokeTest {
 	private int numberOfFiles = 0;
@@ -64,7 +63,7 @@ public class RubyLexerSmokeTest {
 	}
 
 	private void lexFile(BufferedReader reader, String filename) {
-		SymbolTableManager stm = new SymbolTableManager();
+		SymbolTableManager stm = new SymbolTableManager(null);
 		StringBuilder debug_message = new StringBuilder();
 		RubyLexer lexer = new RubyLexer(reader, stm);
 

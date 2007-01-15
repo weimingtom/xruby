@@ -34,9 +34,23 @@ public class RubyCompilerTest extends TestCase {
 				RubyValue v = p.run();
 				RubyFixnum r = (RubyFixnum)v;
 				assertEquals(results[i], r.intValue());
-			} catch (Exception e) {
-				assertTrue("Error at " + i + ": " + e.toString(), false);
-			}
+			} catch (RubyException e) {
+				assertTrue("RubyException at " + i + ": " + e.toString(), false);
+			} catch (RecognitionException e) {
+				assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
+			} catch (TokenStreamException e) {
+				assertTrue("TokenStreamException at " + i + ": " + e.toString(), false);
+			} catch (CompilerException e) {
+				assertTrue("CompilerException at " + i + ": " + e.toString(), false);
+			} catch (InstantiationException e) {
+				assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
+			} catch (IllegalAccessException e) {
+				assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
+			} catch (VerifyError e) {
+				assertTrue("VerifyError at " + i + ": " + e.toString(), false);
+			} /*catch (NullPointerException e) {
+				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
+			}*/
 		}
 	}
 
@@ -561,6 +575,12 @@ public class RubyCompilerTest extends TestCase {
 	public void test_method_run() {
 		String[] program_texts = {
 
+				"def my_print(a, b, c)\n" +
+				"	print c\n" +
+				"	print a\n" +
+				"end\n" +
+				"my_print ':)', 5634 , 888",
+				
 				"def f\n" +
 				"	print 123\n" +
 				"end\n" +
@@ -571,20 +591,14 @@ public class RubyCompilerTest extends TestCase {
 				"end\n" +
 				"my_print ':)'",
 
-				"def my_print(a, b, c)\n" +
-				"	print c\n" +
-				"	print a\n" +
-				"end\n" +
-				"my_print ':)', 5634 , 888",
-
 				"def f(a); a = 1; end;  x = 100; f(x); print x",
 				"def f(x); x= 5; print x; end; f(4)",
 		};
 
 		String[] outputs = {
+				"888:)",
 				"123",
 				":)",
-				"888:)",
 				"100",
 				"5",
 		};
@@ -4484,6 +4498,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Proc_new() {
 		String [] program_texts = {
+				"x = []; (0..9).each{|i5| x[i5] = proc{i5*2}}; print x[4].call",
+				
 				"def f\n" +
 				"  Proc.new{return 1}.call()\n" +
 				"  print 2\n" +
@@ -4513,6 +4529,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"8",
 				"1",
 				"2nil",
 				"4",

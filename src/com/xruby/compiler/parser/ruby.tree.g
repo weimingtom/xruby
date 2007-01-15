@@ -68,12 +68,6 @@ returns[ExpressionStatement s]
 }
 		:	e=expression
 			{
-				if (e instanceof LocalVariableExpression) {
-					LocalVariableExpression var = (LocalVariableExpression)e;
-					if (var.isFunction()) {
-						e = new MethodCallExpression(null, var.getValue(), null, null);
-					}
-				}
 				s = new ExpressionStatement(e);
 			}
 		;
@@ -105,6 +99,7 @@ undefParameter
 returns[String s]
 {SymbolExpression sym = null;}
 		:	func:FUNCTION		{s = func.getText();}
+		|	id:IDENTIFIER			{s = id.getText();}
 		|	sym=symbol			{s = sym.getValue();}
 		;
 
@@ -609,7 +604,8 @@ returns [MethodDefinationExpression e]
 				(name=methodName	{e = new MethodDefinationExpression(name);}
 				|#(SINGLETON_METHOD exp=expression DOT	name=methodName	{e = new MethodDefinationExpression(name, exp);})
 				)
-				(	(id:IDENTIFIER|func:FUNCTION)
+				(	{id=null;func=null;}
+					(id:IDENTIFIER|func:FUNCTION)
 					((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	exp=expression)?
 					{e.addParameter((null != id) ? id.getText() : func.getText(), exp);}
 				)*
@@ -680,8 +676,8 @@ returns [String s]
 
 methodName
 returns [String s]
-		:	id:IDENTIFIER			{s = id.getText();}
-		|	function:FUNCTION	(assign:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = function.getText(); if (null != assign) {s += "=";}}
+		:	id:IDENTIFIER			(assign1:ASSIGN_WITH_NO_LEADING_SPACE)	{s = id.getText(); if (null != assign1) {s += "=";}}
+		|	function:FUNCTION	(assign2:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = function.getText(); if (null != assign2) {s += "=";}}
 		|	constant:CONSTANT	{s = constant.getText();}
 		|	s=keyword
 		|	s=operator
