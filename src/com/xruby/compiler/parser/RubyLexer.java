@@ -267,8 +267,9 @@ public class RubyLexer extends RubyLexerBase {
 				continue;
 			case ',':	//a, (b, c), d = ... TODO false positive?
 			case ')':
-			case '=':
 				return true;
+			case '=':
+				return (LA(i + 1) != '=');
 			case '+':
 			case '-':
 			case '*':
