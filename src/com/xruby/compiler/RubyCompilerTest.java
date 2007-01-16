@@ -370,6 +370,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Array_misc() {
 		String[] program_texts = {
+				"print [].empty?",
 				"a = [1,2,3]; a[1,0] = [1,2,3]; print a, a.size",
 				
 				"print [ 1, 2, 3 ] * \",\"",
@@ -386,6 +387,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"true",
 				"1123236",
 				
 				"1,2,3",
