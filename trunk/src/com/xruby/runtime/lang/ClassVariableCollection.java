@@ -28,7 +28,7 @@ abstract class ClassVariableCollection extends RubyValue {
 			return v;
 		} else {
 			throw new RubyException(RubyRuntime.NameErrorClass,
-					"uninitialized class variable " + name + " in " + name_);
+					"uninitialized class variable " + name + " in " + (null == name_ ? "Object" : name_));
 		}
 	}
 	

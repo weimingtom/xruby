@@ -77,9 +77,9 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 
 		return null;
 	}
-	
-	public RubyValue getCurrentNamespaceConstant(String name) {
-		RubyValue v = getConstant(name);
+
+	RubyValue getConstant(String name) {
+		RubyValue v = super.getConstant(name);
 		if (null != v) {
 			return v;
 		}
@@ -89,6 +89,15 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 			if (null != v) {
 				return v;
 			}
+		}
+
+		return null;
+	}
+	
+	public RubyValue getCurrentNamespaceConstant(String name) {
+		RubyValue v = getConstant(name);
+		if (null != v) {
+			return v;
 		}
 
 		v = RubyRuntime.GlobalScope.getConstant(name);
