@@ -164,8 +164,7 @@ class MethodGenerator extends GeneratorAdapter {
 			loadSelf(isInBlock);
 			checkCast(Type.getType(Types.RubyClassClass));
 		} else if (isInGlobalScope) {
-			loadSelf(isInBlock);
-			RubyValue_getRubyClass();
+			loadArg(3);
 		} else {
 			loadThis();
 			RubyMethod_getOwner();
