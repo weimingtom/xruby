@@ -676,7 +676,7 @@ returns [String s]
 
 methodName
 returns [String s]
-		:	id:IDENTIFIER			(assign1:ASSIGN_WITH_NO_LEADING_SPACE)	{s = id.getText(); if (null != assign1) {s += "=";}}
+		:	id:IDENTIFIER			(assign1:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = id.getText(); if (null != assign1) {s += "=";}}
 		|	function:FUNCTION	(assign2:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = function.getText(); if (null != assign2) {s += "=";}}
 		|	constant:CONSTANT	{s = constant.getText();}
 		|	s=keyword

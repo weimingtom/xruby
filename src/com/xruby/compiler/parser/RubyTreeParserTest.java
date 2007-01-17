@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 public class RubyTreeParserTest extends TestCase {
 	public void test_ast() throws RecognitionException, TokenStreamException {
 		String[] program_texts = {
+				"xxx = 5;  def xxx; 6; end",
 				"def f a,b,c; print c; end",
 				
 				"-1",
@@ -106,6 +107,7 @@ public class RubyTreeParserTest extends TestCase {
 				};
 
 		String[] expected_texts = {
+				" ( COMPSTMT ( = xxx 5 ) ( def xxx ( BODY ( COMPSTMT 6 ) ) ) )",
 				" ( COMPSTMT ( def f a b c ( BODY ( COMPSTMT ( CALL print ( ARG c ) ) ) ) ) )",
 				
 				" ( COMPSTMT ( - 1 ) )",
