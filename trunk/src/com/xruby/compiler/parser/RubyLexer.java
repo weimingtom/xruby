@@ -48,6 +48,7 @@ public class RubyLexer extends RubyLexerBase {
 	private boolean just_finished_parsing_string_expression_substituation_ = false;
 	private boolean just_finished_parsing_heredoc_expression_substituation_ = false;
 	private boolean just_finished_parsing_symbol_ = false;
+	private boolean is_in_nested_multiple_assign_ = false;
 	private Stack<StringDelimiter> current_special_string_delimiter_ = new Stack<StringDelimiter>();
 	private InputBufferWithHereDocSupport input_;
 	private String current_heredoc_delimiter_ = null;
@@ -226,6 +227,10 @@ public class RubyLexer extends RubyLexerBase {
 		delimiter.setCount(delimiter_count);
 	}
 
+	void setIsInNestedMultipleAssign(boolean v) {
+		is_in_nested_multiple_assign_ = v;
+	}
+
 	void setJustFinishedParsingStringExpressionSubstituation() {
 		just_finished_parsing_string_expression_substituation_ = true;
 		just_finished_parsing_regex_expression_substituation_ = false;
@@ -265,9 +270,10 @@ public class RubyLexer extends RubyLexerBase {
 			case ' ':
 			case '\t':
 				continue;
-			case ',':	//a, (b, c), d = ... TODO false positive?
-			case ')':
+			case ',':
 				return true;
+			case ')'://a, (b, c), d = ...
+				return is_in_nested_multiple_assign_;
 			case '=':
 				return (LA(i + 1) != '=');
 			case '+':

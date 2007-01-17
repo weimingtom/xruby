@@ -41,6 +41,10 @@ public class RubyParser extends RubyParserBase {
 		return treeparser.parse(createAST(), filename);
 	}
 
+	protected void setIsInNestedMultipleAssign(boolean v) {
+		lexer_.setIsInNestedMultipleAssign(v);
+	}
+
 	protected void tellLexerWeHaveFinishedParsingMethodparameters() {
 		lexer_.setLastTokenToBe_RPAREN_IN_METHOD_DEFINATION();
 	}
