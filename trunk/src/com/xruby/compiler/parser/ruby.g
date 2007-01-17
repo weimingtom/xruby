@@ -722,7 +722,7 @@ exceptionHandlingExpression
 		;
 
 exceptionList
-		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	(IDENTIFIER|func:FUNCTION{addVariable(func);}))?
+		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	variable)?
 		;
 
 ifExpression
@@ -942,15 +942,20 @@ methodDefinationArgumentWithoutParen
 		;
 
 normalMethodDefinationArgument
-		:	(id1:IDENTIFIER{addVariable(id1);}|id2:FUNCTION{addVariable(id2);})	((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	expression)?
+		:	variable	((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	expression)?
+		;
+
+variable
+		:	id1:IDENTIFIER	{addVariable(id1);}
+		|	id2:FUNCTION		{addVariable(id2);}
 		;
 
 restMethodDefinationArgument
-		:	REST_ARG_PREFIX	((id1:IDENTIFIER{addVariable(id1);}|id2:FUNCTION{addVariable(id2);})	(COMMA!	blockMethodDefinationArgument)?)?
+		:	REST_ARG_PREFIX	(variable	(COMMA!	blockMethodDefinationArgument)?)?
 		;
 
 blockMethodDefinationArgument
-		:	BLOCK_ARG_PREFIX	(id1:IDENTIFIER{addVariable(id1);}|id2:FUNCTION{addVariable(id2);})
+		:	BLOCK_ARG_PREFIX	variable
 		;
 
 
