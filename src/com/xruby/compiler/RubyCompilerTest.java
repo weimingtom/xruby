@@ -229,8 +229,12 @@ public class RubyCompilerTest extends TestCase {
 	}
 
 	public void test_simple_methodcall() {
-		String[] program_texts = { "1.to_i", "0.to_int", "123.to_i.to_int.to_i",  "\"500\".to_i"};
-		int[] results = { 1, 0, 123, 500};
+		String[] program_texts = {
+				"1.to_i",
+				"0.to_int",
+				"123.to_i.to_int.to_i",
+				"\"500\".to_i"};
+		int[] results = {1, 0, 123, 500};
 
 		compile_run_and_compare_result(program_texts, results);
 	}
@@ -576,7 +580,9 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_method_run() {
 		String[] program_texts = {
-
+				"def a; 6; end; print(a)",
+				"a = 5;  def a; 6; end;  print(a)",
+				
 				"def my_print(a, b, c)\n" +
 				"	print c\n" +
 				"	print a\n" +
@@ -598,6 +604,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"6",
+				"5",
 				"888:)",
 				"123",
 				":)",

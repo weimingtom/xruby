@@ -44,6 +44,7 @@ tokens {
 	protected void enterBlockScope()	{assert(false);}
 	protected void leaveScope()	{assert(false);}
 	protected void addVariable(Token id)	{assert(false);}
+	protected void setIsInNestedMultipleAssign(boolean v)	{assert(false);}
 	protected void tellLexerWeHaveFinishedParsingMethodparameters()	{assert(false);}
 	protected void tellLexerWeHaveFinishedParsingSymbol()	{assert(false);}
 	protected void tellLexerWeHaveFinishedParsingStringExpressionSubstituation()	{assert(false);}
@@ -159,10 +160,10 @@ statementWithoutModifier
 //LPAREN can start primaryExpression, have to use syntactic predicate here.
 mlhs_item
 		:	(LPAREN!	dotColonOrArrayAccess	COMMA)=>
-			LPAREN!
+			LPAREN!	{setIsInNestedMultipleAssign(true);}
 			dotColonOrArrayAccess
 			(COMMA!	(seen_star:REST_ARG_PREFIX)?	dotColonOrArrayAccess	{if (null != seen_star) break;})+
-			RPAREN!
+			RPAREN!	{setIsInNestedMultipleAssign(false);}
 			{#mlhs_item = #(#[NESTED_LHS, "NESTED_LHS"], #mlhs_item);}
 		|	dotColonOrArrayAccess
 		;
