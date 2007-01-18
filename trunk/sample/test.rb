@@ -19,7 +19,7 @@ require 'test_file'
 require 'test_float'
 #test_gc works, but it requires passing "-Xmx128m" commad line option to java, OutOFMemoryError otherwise.
 #require 'test_gc'
-#require 'test_hash'
+require 'test_hash'
 require 'test_if_unless'
 require 'test_integer'
 require 'test_iterator'
