@@ -1155,6 +1155,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_eval() {
 		String[] program_texts = {
+				"eval('print 123', nil)",
 				"x = proc{}; eval('test_eval = 2', x); print eval('test_eval', x);",
 				"TestEval = 5; print eval('TestEval')",
 				"a = 1; eval('print a')",
@@ -1163,6 +1164,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"123",
 				"2",
 				"5",
 				"1",
@@ -1742,6 +1744,7 @@ public class RubyCompilerTest extends TestCase {
 				//TODO "print {}",
 				//"h1 = {'a' => 'xxxx', 'b' => 'yyyy'}; print h1",
 				
+				"h1 = Hash.new { |hash1, key1| hash1[key1] = 'xx' }; print h1[123]",
 				"a = Hash.new{|h, k|k}; print a[99], a[88]",
 				"a = Hash.new{print 2; 1}; print a[99], a[88]",
 				"a = Hash.new{print 2; 1}; print a[99]",
@@ -1759,6 +1762,7 @@ public class RubyCompilerTest extends TestCase {
 				//"nil",
 				//"axxxxbyyyy",
 				
+				"xx",
 				"9988",
 				"2211",
 				"21",
