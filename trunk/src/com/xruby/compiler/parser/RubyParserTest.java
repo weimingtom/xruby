@@ -1646,6 +1646,16 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "block_vars");
 	}
 	*/
+	
+	public void test_block_vars()
+	{
+		String[] program_texts = {
+			"(orig, new)",
+			"(name, )",
+		};
+
+		parse(program_texts, "block_vars");
+	}
 
 	public void test_codeBlock()
 	{
@@ -1719,16 +1729,6 @@ public class RubyParserTest extends TestCase
 		};
 
 		parse(program_texts, "command");
-	}
-
-	public void test_block_var()
-	{
-		String[] program_texts = {
-			"(orig, new)",
-			"(name, )",
-		};
-
-		parse(program_texts, "block_var");
 	}
 
 	public void test_methodCall()
