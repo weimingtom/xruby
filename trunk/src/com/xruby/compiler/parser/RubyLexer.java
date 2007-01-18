@@ -284,8 +284,9 @@ public class RubyLexer extends RubyLexerBase {
 			case '%':
 				if (LA(i + 1) == '=') {
 					return true;
+				} else {
+					return false;
 				}
-				break;
 			case '&':
 			case '|':
 				if (LA(i + 1) == '=') {
@@ -294,16 +295,19 @@ public class RubyLexer extends RubyLexerBase {
 					return true;
 				} else if ('|' == c && '|' == LA(i + 1) && '=' == LA(i + 2)) {
 					return true;
+				} else {
+					//block {|x, y|}
+					return is_in_nested_multiple_assign_;
 				}
-				break;
 			case '<':
 			case '>':
 				if ('<' == c && '<' == LA(i + 1) && '=' == LA(i + 2)) {
 					return true;
 				} else if ('>' == c && '>' == LA(i + 1) && '=' == LA(i + 2)) {
 					return true;
+				} else {
+					return false;
 				}
-				break;
 			default:
 				return false;
 			}
