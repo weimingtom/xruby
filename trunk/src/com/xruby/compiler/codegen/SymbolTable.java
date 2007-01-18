@@ -10,6 +10,8 @@ class SymbolTable {
 	private int asterisk_parameters_access_counter_ = 0;
 	private int block_parameters_access_counter_ = 0;
 
+	private static final String NAME_FOR_INTERNAL_BLOCK_VAR = "block$";
+
 	public SymbolTable() {
 		this(null);
 	}
@@ -23,11 +25,21 @@ class SymbolTable {
 		}
 	}
 
-	Collection<String> getLocalVariables() {
-		return local_variables_.keySet();
+	public void setInternalBlockVar(int i) {
+		addLocalVariable(NAME_FOR_INTERNAL_BLOCK_VAR, i);
 	}
 
-	Collection<String> getParameters() {
+	public int getInternalBlockVar() {
+		return getLocalVariable(NAME_FOR_INTERNAL_BLOCK_VAR);
+	}
+
+	public Collection<String> getLocalVariables() {
+		Collection<String> r = local_variables_.keySet();
+		r.remove(NAME_FOR_INTERNAL_BLOCK_VAR);
+		return r;
+	}
+
+	public Collection<String> getParameters() {
 		return method_parameters_;
 	}
 	

@@ -101,16 +101,16 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void storeBlockForFutureRestoreAndCheckReturned() {
 		dup();
-		int i = symbol_table_.getLocalVariable("block$");
+		int i = symbol_table_.getInternalBlockVar();
 		if (i < 0) {
 			i = newLocal(Type.getType(Types.RubyBlockClass));
-			symbol_table_.addLocalVariable("block$", i);
+			symbol_table_.setInternalBlockVar(i);
 		}
 		storeLocal(i);
 	}
 	
 	public void restoreLocalVariableFromBlock(String blockName, String name) {
-		loadLocal(getSymbolTable().getLocalVariable("block$"));
+		loadLocal(getSymbolTable().getInternalBlockVar());
 		getField(Type.getType("L" + blockName + ";"), name, Type.getType(Types.RubyValueClass));
 		storeLocal(getLocalVariable(name));
 	}

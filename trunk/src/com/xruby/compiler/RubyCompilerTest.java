@@ -1123,6 +1123,10 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_binding() {
 		String[] program_texts = {
+				"x = proc{}; x = binding; print x.class",
+				
+				"x = binding; eval 'i = 1', x;  print(eval('i', x))",
+				
 				"module TestBinding\n" +
 				"  A = 6\n" +
 				"  $x = binding\n" +
@@ -1144,6 +1148,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"Binding",
+				"1",
 				"6",
 				"666",
 				"hello",
