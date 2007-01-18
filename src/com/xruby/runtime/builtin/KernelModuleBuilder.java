@@ -29,13 +29,20 @@ class Kernel_eval extends RubyMethod {
 		
 		RubyString program_text = (RubyString)args.get(0);
 
-		RubyBinding binding = (RubyBinding)args.get(1);
+		RubyBinding binding = null;
+		if (args.get(1) instanceof RubyBinding) {
+			binding = (RubyBinding)args.get(1);
+		}
 		
 		RubyCompiler compiler = new RubyCompiler(binding);
 		try {
 			CompilationResults codes = compiler.compile(new StringReader(program_text.toString()));
 			RubyProgram p = (RubyProgram)codes.getRubyProgram();
-			return p.run(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
+			if (null != binding) {
+				return p.run(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
+			} else {
+				return p.run();
+			}
 		} catch (RecognitionException e) {
 			throw new RubyException(e.toString());
 		} catch (TokenStreamException e) {
