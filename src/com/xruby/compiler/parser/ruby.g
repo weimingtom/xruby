@@ -162,7 +162,9 @@ mlhs_item
 		:	(LPAREN!	dotColonOrArrayAccess	COMMA)=>
 			LPAREN!	{setIsInNestedMultipleAssign(true);}
 			dotColonOrArrayAccess
-			(COMMA!	(seen_star:REST_ARG_PREFIX)?	dotColonOrArrayAccess	{if (null != seen_star) break;})+
+			(COMMA!	{if (RPAREN == LA(1)) break;}
+			(seen_star:REST_ARG_PREFIX)?	dotColonOrArrayAccess	{if (null != seen_star) break;}
+			)+
 			RPAREN!	{setIsInNestedMultipleAssign(false);}
 			{#mlhs_item = #(#[NESTED_LHS, "NESTED_LHS"], #mlhs_item);}
 		|	dotColonOrArrayAccess
@@ -197,16 +199,10 @@ aliasStatement
 			)
 		;
 
-//LPAREN can start primaryExpression, have to use syntactic predicate here.
-block_var
-		:	(LPAREN!	dotColonOrArrayAccess	COMMA!)=>	LPAREN	dotColonOrArrayAccess	(COMMA!	{if (RPAREN == LA(1)) break;}	(seen_star:REST_ARG_PREFIX)?	dotColonOrArrayAccess	{if (null != seen_star) break;})*		RPAREN!
-		|	REST_ARG_PREFIX	(dotColonOrArrayAccess)?
-		|	dotColonOrArrayAccess
-		;
-
 //TODO should be mlhs
 block_vars
-		:	block_var		(COMMA!	{if (BOR == LA(1) || LITERAL_in == LA(1)) break;}	block_var	)*
+		:	mlhs_item		(COMMA!	{if (BOR == LA(1) || LITERAL_in == LA(1)) break;}	(seen_star:REST_ARG_PREFIX)?	(mlhs_item)?	{if (null != seen_star) break;})*
+		|	REST_ARG_PREFIX	(dotColonOrArrayAccess)?
 		;
 
 codeBlock
