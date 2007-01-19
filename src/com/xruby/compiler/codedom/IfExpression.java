@@ -81,7 +81,7 @@ public class IfExpression extends Expression {
 			try {
 				comp.addStatement(new ExpressionStatement(new AssignmentOperatorExpression(new LocalVariableExpression(var, false), new NilExpression())));
 			} catch (RecognitionException e) {
-				System.exit(-1);//impossible
+				throw new Error(e);
 			}
 		}
 		comp.accept(visitor);

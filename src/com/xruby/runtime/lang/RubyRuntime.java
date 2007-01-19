@@ -117,9 +117,7 @@ public class RubyRuntime {
 		} catch (ClassNotFoundException e) {
 		} catch (InstantiationException e) {
 		} catch (IllegalAccessException e) {
-		} catch (RubyException e) {
-			e.printStackTrace();
-			System.exit(-1);
+			throw new Error(e);
 		}
 	}
 	
