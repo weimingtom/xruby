@@ -18,6 +18,7 @@ public class Block {
 	private String asterisk_parameter_ = null;
 	private ArrayList<Expression> default_parameters_ = new ArrayList<Expression>();
 	private boolean should_validate_argument_length_ = false;
+	private boolean is_for_in_expression_ = false;
 	
 	ArrayList<String> getParameters() {
 		return parameters_;
@@ -34,6 +35,10 @@ public class Block {
 		}
 	}
 
+	void setIsForInExpression() {
+		is_for_in_expression_ = true;
+	}
+
 	//{||} -> true
 	//{|x,...|} -> true
 	//{} -> false
@@ -48,7 +53,9 @@ public class Block {
 
 	public Pair accept(CodeVisitor visitor) {
 		String name = visitor.visitBlock((should_validate_argument_length_ ? parameters_.size() : -1),
-									(null != asterisk_parameter_), default_parameters_.size());
+									(null != asterisk_parameter_),
+									default_parameters_.size(),
+									is_for_in_expression_);
 		
 		for (String p : parameters_) {
 			visitor.visitMethodDefinationParameter(p);

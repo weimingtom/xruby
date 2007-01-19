@@ -139,7 +139,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 								is_singleton_method || (cg_.isInClassBuilder() && ((MethodGeneratorForClassBuilder)cg_.getMethodGenerator()).isSingleton()));
 	}
 
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression) {
 		String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_);
 		
 		//Save the current state and sart a new class file to write.
@@ -148,7 +148,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 					num_of_args,
 					has_asterisk_parameter,
 					num_of_default_args,
-					cg_.getSymbolTable());
+					cg_.getSymbolTable(),
+					is_for_in_expression);
 		return uniqueBlockName;
 	}
 

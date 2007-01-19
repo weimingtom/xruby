@@ -142,7 +142,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitWhileConditionEnd(boolean is_until);
 	public void visitWhileBodyEnd(boolean has_body);
 	
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args);
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression);
 	public String[] visitBlockEnd(String name, boolean last_statement_has_return_value);
 	
 	public void visitMrhs(int var, int index, boolean asterisk);

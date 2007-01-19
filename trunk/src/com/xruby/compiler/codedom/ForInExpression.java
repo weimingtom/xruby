@@ -15,6 +15,7 @@ public class ForInExpression extends Expression {
 	public ForInExpression(Expression exp, Block block) {
 		exp_ = exp;
 		block_= block;
+		block_.setIsForInExpression();
 	}
 
 	public void accept(CodeVisitor visitor) {

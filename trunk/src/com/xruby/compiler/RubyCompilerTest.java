@@ -4174,6 +4174,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_for_in() {
 		String [] program_texts = {
+				"for i_test_for_in in 1..1; j_test_for_in=3; end; print i_test_for_in, j_test_for_in",
+				
 				"for i in 1..5 do print i end",
 				"for i in 1..5 do print i end; print i",
 				
@@ -4181,6 +4183,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"13",
+				
 				"12345",
 				"123455",
 				
