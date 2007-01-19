@@ -19,6 +19,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	private String script_name_;
 	private LabelManager labelManager_ = new LabelManager();
 	private EnsureLabelManager ensureLabelManager_ = new EnsureLabelManager();
+	private RubyBinding binding_;
 	
 	public RubyCompilerImpl(String script_name) {
 		script_name_ = script_name;
@@ -41,7 +42,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 	
 	public CompilationResults compile(Program program, RubyBinding binding) throws CompilerException {
-
+		binding_ = binding;
+		
 		cg_ = new ClassGeneratorForRubyProgram(NameFactory.createClassName(script_name_, null), binding);
 		program.accept(this);
 
@@ -149,7 +151,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 					has_asterisk_parameter,
 					num_of_default_args,
 					cg_.getSymbolTable(),
-					is_for_in_expression);
+					is_for_in_expression,
+					binding_);
 		return uniqueBlockName;
 	}
 

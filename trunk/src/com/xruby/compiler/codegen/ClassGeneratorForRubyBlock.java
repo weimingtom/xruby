@@ -2,6 +2,7 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
+import com.xruby.runtime.lang.RubyBinding;
 import java.util.*;
 
 class ClassGeneratorForRubyBlock extends ClassGenerator {
@@ -13,13 +14,15 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	private Set<String> fields_ = new HashSet<String>();//assigned fields are fields as well
 	private Set<String> assigned_fields_ = new HashSet<String>();
 	private boolean is_for_in_expression_;//for..in expression does not introduce new scope
+	private RubyBinding binding_;
 
 	public ClassGeneratorForRubyBlock(String name,
 			int argc,
 			boolean has_asterisk_parameter,
 			int default_argc,
 			SymbolTable symbol_table_of_the_current_scope,
-			boolean is_for_in_expression) {
+			boolean is_for_in_expression,
+			RubyBinding binding) {
 		super(name);
 		mg_for_run_method_ = visitRubyBlock();
 		symbol_table_of_the_current_scope_ = symbol_table_of_the_current_scope;
@@ -27,6 +30,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		has_asterisk_parameter_ = has_asterisk_parameter;
 		default_argc_ = default_argc;
 		is_for_in_expression_ = is_for_in_expression;
+		binding_ = binding;
 	}
 	
 	protected Class getType() {
@@ -60,6 +64,9 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			fields_.add(name);
 			assigned_fields_.add(name);
 			storeField(name);
+			if (is_for_in_expression_) {
+				updateBinding(binding_, name);
+			}
 		} else {
 			super.storeVariable(name);
 		}
