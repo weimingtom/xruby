@@ -50,12 +50,19 @@ public class RubyBinding extends RubyValue {
 	}
 
 	public void addVariableName(String name) {
-		names_.add(name);
+		if (names_.indexOf(name) < 0) {
+			names_.add(name);
+		}
 	}
 
 	public RubyBinding addVariable(String name, RubyValue value) {
-		names_.add(name);
-		variables_.add(value);
+		int i = names_.indexOf(name);
+		if (i < 0) {
+			names_.add(name);
+			variables_.add(value);
+		} else {
+			variables_.set(i, value);
+		}
 		return this;
 	}
 

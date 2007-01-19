@@ -11,6 +11,7 @@ class SymbolTable {
 	private int block_parameters_access_counter_ = 0;
 
 	private static final String NAME_FOR_INTERNAL_BLOCK_VAR = "block$";
+	private static final String NAME_FOR_INTERNAL_BINDING_VAR = "binding$";
 
 	public SymbolTable() {
 		this(null);
@@ -31,6 +32,14 @@ class SymbolTable {
 
 	public int getInternalBlockVar() {
 		return getLocalVariable(NAME_FOR_INTERNAL_BLOCK_VAR);
+	}
+
+	public void setInternalBindingVar(int i) {
+		addLocalVariable(NAME_FOR_INTERNAL_BINDING_VAR, i);
+	}
+
+	public int getInternalBindingVar() {
+		return getLocalVariable(NAME_FOR_INTERNAL_BINDING_VAR);
 	}
 
 	public Collection<String> getLocalVariables() {

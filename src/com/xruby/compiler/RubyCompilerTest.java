@@ -1123,6 +1123,7 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_binding() {
 		String[] program_texts = {
+				"p = binding; eval 'foo11 = 1', p; print eval('foo11')",
 				"x = binding; eval('for i6 in 1..1; j6=3; end', x); eval('print defined?(j6)', x)",
 				"x = proc{}; x = binding; print x.class",
 				
@@ -1149,6 +1150,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"1",
 				"local-variable",
 				"Binding",
 				"1",
@@ -1163,6 +1165,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_eval() {
 		String[] program_texts = {
+				"eval('print nil'); test_eval1 = 5; eval('print test_eval1')",
 				"eval('print 123', nil)",
 				"x = proc{}; eval('test_eval = 2', x); print eval('test_eval', x);",
 				"TestEval = 5; print eval('TestEval')",
@@ -1172,6 +1175,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"nil5",
 				"123",
 				"2",
 				"5",
