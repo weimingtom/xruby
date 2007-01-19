@@ -166,27 +166,26 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.endMethod();
 	}
 
+	private void addVariableToBinding(String s) {
+		getMethodGenerator().push(s);
+		fields_.add(s);
+		loadField(s);
+		getMethodGenerator().invokeVirtual(Type.getType(Types.RubyBindingClass),
+				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+	}
+
 	public void createBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
 		super.createBinding(isInSingletonMethod, isInGlobalScope, is_in_block);
 
 		Collection<String> vars = symbol_table_of_the_current_scope_.getLocalVariables();
 		for (String s : vars) {
-			getMethodGenerator().push(s);
-			fields_.add(s);
-			loadField(s);
-			getMethodGenerator().invokeVirtual(Type.getType(Types.RubyBindingClass),
-				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+			addVariableToBinding(s);
 		}
 		
 		Collection<String> params = symbol_table_of_the_current_scope_.getParameters();
 		for (String s : params) {
-			getMethodGenerator().push(s);
-			fields_.add(s);
-			loadField(s);
-			getMethodGenerator().invokeVirtual(Type.getType(Types.RubyBindingClass),
-				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+			addVariableToBinding(s);
 		}
-
 	}
 
 	public boolean isDefinedInCurrentScope(String name) {
