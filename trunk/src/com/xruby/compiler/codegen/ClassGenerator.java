@@ -117,11 +117,32 @@ abstract class ClassGenerator {
 	}
 
 	public void createBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
+		int i = getSymbolTable().getInternalBindingVar();
+		if (i >= 0) {
+			getMethodGenerator().loadLocal(i);
+			updateBinding(isInSingletonMethod, isInGlobalScope, is_in_block);
+			return;
+		}
+
+		newBinding();
+		updateBinding(isInSingletonMethod, isInGlobalScope, is_in_block);
+		
+		getMethodGenerator().dup();
+		i = getMethodGenerator().newLocal(Type.getType(Types.RubyBindingClass));
+		getMethodGenerator().storeLocal(i);
+		getSymbolTable().setInternalBindingVar(i);
+	}
+
+	private void newBinding() {
 		Type type = Type.getType(Types.RubyBindingClass);
 		getMethodGenerator().newInstance(type);
 		getMethodGenerator().dup();
 		getMethodGenerator().invokeConstructor(type,
 				Method.getMethod("void <init> ()"));
+	}
+
+	private void updateBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
+		Type type = Type.getType(Types.RubyBindingClass);
 
 		getMethodGenerator().loadSelf(is_in_block);
 		getMethodGenerator().invokeVirtual(type,
