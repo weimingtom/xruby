@@ -539,7 +539,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("self\n");
 	}
 
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args) {
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression) {
 		result_.append("block:");
 		result_.append(num_of_args);
 		result_.append(":");
