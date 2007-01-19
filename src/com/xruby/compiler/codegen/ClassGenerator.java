@@ -7,6 +7,7 @@ package com.xruby.compiler.codegen;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
 import org.objectweb.asm.util.CheckClassAdapter;
+import com.xruby.runtime.lang.RubyBinding;
 import java.util.*;
 
 abstract class ClassGenerator {
@@ -163,5 +164,18 @@ abstract class ClassGenerator {
 		return getSymbolTable().isDefinedInCurrentScope(name);
 	}
 
+	protected void updateBinding(RubyBinding binding, String name) {
+		if (null != binding && !binding.hasName(name)) {
+			
+			binding.addVariableName(name);
+
+			mg_for_run_method_.dup();
+			mg_for_run_method_.loadArg(1);
+			mg_for_run_method_.swap();
+			mg_for_run_method_.invokeVirtual(Type.getType(Types.RubyArrayClass),
+				Method.getMethod("com.xruby.runtime.value.RubyArray add(com.xruby.runtime.lang.RubyValue)"));
+			mg_for_run_method_.pop();
+		}
+	}
 }
 
