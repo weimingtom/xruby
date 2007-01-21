@@ -1165,7 +1165,9 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_eval() {
 		String[] program_texts = {
+				"b = binding; eval('test_eval2 = 6', b); eval('print test_eval2')",
 				"eval('print nil'); test_eval1 = 5; eval('print test_eval1')",
+				
 				"eval('print 123', nil)",
 				"x = proc{}; eval('test_eval = 2', x); print eval('test_eval', x);",
 				"TestEval = 5; print eval('TestEval')",
@@ -1175,7 +1177,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 
 		String[] outputs = {
+				"6",
 				"nil5",
+				
 				"123",
 				"2",
 				"5",
@@ -4528,6 +4532,9 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Proc_new() {
 		String [] program_texts = {
+				"test_proc2 = 6; proc{test_proc2=55}.call; print test_proc2",
+				"p = proc{test_proc2=55}; test_proc2 = 6;  p.call; print test_proc2",
+				
 				"x = []; (0..9).each{|i5| x[i5] = proc{i5*2}}; print x[4].call",
 				
 				"def f\n" +
@@ -4559,6 +4566,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"55",
+				"6",
 				"8",
 				"1",
 				"2nil",

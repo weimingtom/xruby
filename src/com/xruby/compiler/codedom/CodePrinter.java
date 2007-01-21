@@ -591,4 +591,10 @@ public class CodePrinter implements CodeVisitor {
 	public boolean isDefinedInCurrentScope(String name) {
 		return false;
 	}
+
+	public void visitSpecialLambdaCallBegin() {
+	}
+
+	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons) {
+	}
 }

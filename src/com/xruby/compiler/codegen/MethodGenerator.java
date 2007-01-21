@@ -739,11 +739,9 @@ class MethodGenerator extends GeneratorAdapter {
 	public void RubyBlock_invoke(boolean is_in_block) {
 		invokeVirtual(Type.getType(Types.RubyBlockClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"));
-
-		checkBreakedOrReturned(is_in_block);
 	}
 
-	private void checkBreakedOrReturned(boolean is_in_block) {
+	public void checkBreakedOrReturned(boolean is_in_block) {
 		int value = newLocal(Type.getType(Types.RubyValueClass));
 		storeLocal(value);
 
