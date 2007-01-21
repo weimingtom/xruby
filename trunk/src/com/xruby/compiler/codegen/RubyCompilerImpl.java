@@ -252,6 +252,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitMethodCallBegin() {
 		cg_.getMethodGenerator().addCurrentVariablesOnStack(Types.RubyValueClass);
 	}
+
+	private void transferValueFromBlock(String blockName, String[] assignedCommons) {
+		if (null != assignedCommons) {
+			for (String name : assignedCommons) {
+				cg_.getMethodGenerator().restoreLocalVariableFromBlock(blockName, name);
+			}
+		}
+	}
 	
 	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, boolean single_arg_no_block) {	
 		cg_.getMethodGenerator().removeCurrentVariablesOnStack();
@@ -270,11 +278,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			}
 		}
 
-		if (null != assignedCommons) {
-			for (String name : assignedCommons) {
-				cg_.getMethodGenerator().restoreLocalVariableFromBlock(blockName, name);
-			}
-		}
+		transferValueFromBlock(blockName, assignedCommons);
 
 		cg_.getMethodGenerator().returnIfBlockReturned();
 	}
@@ -643,6 +647,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitYieldEnd() {
 		cg_.getMethodGenerator().RubyBlock_invoke(isInBlock());
+		cg_.getMethodGenerator().checkBreakedOrReturned(isInBlock());
 	}
 
 	public void visitSuperBegin() {
@@ -907,4 +912,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public boolean isDefinedInCurrentScope(String name) {
 		return cg_.isDefinedInCurrentScope(name);
 	}
+
+	public void visitSpecialLambdaCallBegin() {
+		visitSelfExpression();
+	}
+
+	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons) {
+		cg_.getMethodGenerator().RubyBlock_invoke(isInBlock());
+		transferValueFromBlock(blockName, assignedCommons);
+	}
+	
 }

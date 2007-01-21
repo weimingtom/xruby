@@ -151,4 +151,7 @@ public interface CodeVisitor extends ISymbolTable {
 	
 	public int visitNestedVariableBegin(boolean single_lhs);
 	public void visitNestedVariableEnd();
+
+	public void visitSpecialLambdaCallBegin();
+	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons);
 }

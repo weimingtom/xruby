@@ -57,7 +57,52 @@ public class MethodCallExpression extends Expression {
 		return (null != receiver_);
 	}
 
+	//Optimization for "lambda {...}.call"
+	//TODO, handle "x = lambda {...}; x.call"
+	private boolean isLambdaCall() {
+		if (null == receiver_) {
+			return false;
+		}
+
+		if (!methodName_.equals("call")) {
+			return false;
+		}
+
+		if (!(receiver_ instanceof MethodCallExpression)) {
+			return false;
+		}
+
+		MethodCallExpression m = (MethodCallExpression)receiver_;
+		if (null == m.block_) {
+			return false;
+		}
+
+		return m.methodName_.equals("lambda") || m.methodName_.equals("proc");
+	}
+
+	public void acceptAsLambdaCall(CodeVisitor visitor) {
+		MethodCallExpression m = (MethodCallExpression)receiver_;
+		Pair p = m.block_.accept(visitor);
+		String name = p.name;
+		String[] assignedCommons = p.value;
+
+		visitor.visitSpecialLambdaCallBegin();
+
+		if (null == arguments_) {
+			visitor.visitNoParameter();
+		} else {
+			arguments_.accept(visitor);
+		}
+
+		visitor.visitSpecialLambdaCallEnd(name, assignedCommons);
+	}
+	
 	public void accept(CodeVisitor visitor) {
+		if (isLambdaCall()) {
+			acceptAsLambdaCall(visitor);
+			return;
+		}
+		
 		boolean is_eval = false;
 		if (null == receiver_ && (methodName_.equals("eval") || methodName_.equals("binding"))) {
 			is_eval = true;
