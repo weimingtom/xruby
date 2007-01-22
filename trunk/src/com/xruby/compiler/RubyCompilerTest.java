@@ -4532,7 +4532,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Proc_new() {
 		String [] program_texts = {
-				"test_proc2 = 6; proc{test_proc2=55}.call; print test_proc2",
+				"test_proc4 = 0; p = proc{test_proc4}; test_proc4=7; print p.call",
+				"test_proc3 = 6; proc{test_proc3=55}.call; print test_proc3",
 				"p = proc{test_proc2=55}; test_proc2 = 6;  p.call; print test_proc2",
 				
 				"x = []; (0..9).each{|i5| x[i5] = proc{i5*2}}; print x[4].call",
@@ -4566,6 +4567,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"7",
 				"55",
 				"6",
 				"8",

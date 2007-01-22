@@ -19,4 +19,5 @@ public class Types {
 	public static Class RubyArrayClass = RubyArray.class;
 	public static Class RubyHashClass = RubyHash.class;
 	public static Class RubyBindingClass = RubyBinding.class;
+	public static Class RubyProcClass = RubyProc.class;
 }

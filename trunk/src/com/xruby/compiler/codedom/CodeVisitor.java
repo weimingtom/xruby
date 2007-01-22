@@ -154,4 +154,6 @@ public interface CodeVisitor extends ISymbolTable {
 
 	public void visitSpecialLambdaCallBegin();
 	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons);
+
+	public void visitPotentialProcCall();
 }

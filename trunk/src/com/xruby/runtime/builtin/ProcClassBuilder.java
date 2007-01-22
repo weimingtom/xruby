@@ -9,12 +9,11 @@ class Proc_call extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyBlock b = ((RubyProc)receiver).getBlock();
-		return b.invoke(receiver, args, false);
+		throw new Error("we overided invoke, so this method should never be called");
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyValue v = run(receiver, args, block);
+		RubyValue v = ((RubyProc)receiver).call(receiver, args);
 		block = ((RubyProc)receiver).getBlock();
 		if (null != block) {
 			v.setReturnedInBlock(block.createdByLambda() ? false : block.returned(), block.breakedOrReturned(), !block.createdByLambda());

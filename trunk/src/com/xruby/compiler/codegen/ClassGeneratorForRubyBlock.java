@@ -99,7 +99,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
 	private MethodGenerator visitRubyBlock() {
 		cv_.visit(Opcodes.V1_5,
-				0,		//No modifier
+				Opcodes.ACC_PUBLIC,		//need to modify fields when doing Proc#call, see RubyProc.java
 				name_,	
 				null,								// signature
 				"com/xruby/runtime/lang/RubyBlock",	// superName
@@ -136,7 +136,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
 	private void createFields(final String[] commons) {
 		for (String name : commons) {
-			FieldVisitor fv = cv_.visitField(assigned_fields_.contains(name) ? Opcodes.ACC_PUBLIC : Opcodes.ACC_PRIVATE,
+			FieldVisitor fv = cv_.visitField(Opcodes.ACC_PUBLIC,
 					name,
 					Type.getDescriptor(Types.RubyValueClass),
 					null,

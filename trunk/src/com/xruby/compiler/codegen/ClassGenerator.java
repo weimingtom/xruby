@@ -164,6 +164,12 @@ abstract class ClassGenerator {
 		getMethodGenerator().invokeVirtual(type,
 			Method.getMethod("com.xruby.runtime.lang.RubyBinding setScope(com.xruby.runtime.lang.RubyModule)"));
 
+		addVariableToBinding();
+	}
+
+	public void addVariableToBinding() {
+		Type type = Type.getType(Types.RubyBindingClass);
+		
 		Collection<String> vars = getSymbolTable().getLocalVariables();
 		for (String s : vars) {
 			getMethodGenerator().push(s);

@@ -115,6 +115,10 @@ public class MethodCallExpression extends Expression {
 		
 		if (null != receiver_) {
 			receiver_.accept(visitor);
+			if (methodName_.equals("call")) {
+				//maybe this is Proc#call, need to setup context information
+				visitor.visitPotentialProcCall();
+			}
 		} else {
 			visitor.visitSelfExpression();
 		}

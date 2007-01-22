@@ -597,4 +597,7 @@ public class CodePrinter implements CodeVisitor {
 
 	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons) {
 	}
+
+	public void visitPotentialProcCall() {
+	}
 }
