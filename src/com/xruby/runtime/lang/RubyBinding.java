@@ -73,4 +73,14 @@ public class RubyBinding extends RubyValue {
 	public ArrayList<String> getVariableNames() {
 		return names_;
 	}
+	
+	protected RubyValue getVariable(String name) {
+		int i = names_.indexOf(name);
+		if (i < 0) {
+			return null;
+		} else {
+			return variables_.get(i);
+		}
+		
+	}
 }
