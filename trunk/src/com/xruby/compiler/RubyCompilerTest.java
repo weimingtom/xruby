@@ -1564,6 +1564,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_block_binding_scope() {
 		String[] program_texts = {
+				//TODO"a = 1; print self, a; 1.times {print self, a; 1.times {print self, a}}",
+				
 				"a=1;   4.times {print a}",
 				"def f(a); 1.times {print a} end; f 101",
 				"a = 1; 5.times {|a| print a;}; print a",
@@ -1608,6 +1610,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				//"main1main1main1",
+				
 				"1111",
 				"101",
 				"012344",
@@ -4532,7 +4536,9 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Proc_new() {
 		String [] program_texts = {
+				"p = proc{test_proc = 0; proc{test_proc}}.call; test_proc=7; print p.call",
 				"test_proc4 = 0; p = proc{test_proc4}; test_proc4=7; print p.call",
+				
 				"test_proc3 = 6; proc{test_proc3=55}.call; print test_proc3",
 				"p = proc{test_proc2=55}; test_proc2 = 6;  p.call; print test_proc2",
 				
@@ -4567,7 +4573,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"0",
 				"7",
+				
 				"55",
 				"6",
 				"8",

@@ -330,6 +330,12 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 
 		loadSelf(is_in_block);
+
+		if (is_in_block) {
+			loadThis();
+		} else {
+			pushNull();
+		}
 		
 		for (String name : commons) {
 			loadVariable(c, name);
@@ -785,6 +791,11 @@ class MethodGenerator extends GeneratorAdapter {
 	public void RubyMethod_getOwner() {
 		invokeVirtual(Type.getType(Types.RubyMethodClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyModule getOwner()"));
+	}
+
+	public void RubyProc_isDefinedInAnotherBlock() {
+		invokeVirtual(Type.getType(Types.RubyProcClass),
+				Method.getMethod("boolean isDefinedInAnotherBlock()"));
 	}
 }
 
