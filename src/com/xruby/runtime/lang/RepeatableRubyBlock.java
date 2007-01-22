@@ -9,7 +9,7 @@ public class RepeatableRubyBlock extends RubyBlock {
     private RubyArray array;
 
     public RepeatableRubyBlock(RubyBlock block, RubyValue self) {
-        super(block.argc_, block.has_asterisk_parameter_, block.default_argc_, block, self);
+        super(block.argc_, block.has_asterisk_parameter_, block.default_argc_, block, self, null);
 
         array = new RubyArray();
     }

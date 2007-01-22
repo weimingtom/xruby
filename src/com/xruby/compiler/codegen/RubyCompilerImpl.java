@@ -926,15 +926,24 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().instanceOf(Type.getType(Types.RubyProcClass));
 
-		Label label = new Label();
-		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
+		Label label1 = new Label();
+		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label1);
 		
 		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().checkCast(Type.getType(Types.RubyProcClass));
+
+		//check if in the right context
+		//TODO have not considered all the situations
+		cg_.getMethodGenerator().dup();
+		cg_.getMethodGenerator().RubyProc_isDefinedInAnotherBlock();
+		Label label2 = new Label();
+		cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, label2);
+		
 		cg_.addVariableToBinding();//TODO should we use updateBinding()?
+		cg_.getMethodGenerator().mark(label2);
 		cg_.getMethodGenerator().pop();
 
-		cg_.getMethodGenerator().mark(label);
+		cg_.getMethodGenerator().mark(label1);
 	}
 	
 }

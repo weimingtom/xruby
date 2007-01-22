@@ -16,6 +16,10 @@ public class RubyProc extends RubyBinding {
 	public RubyBlock getBlock() {
 		return value_;
 	}
+
+	public boolean isDefinedInAnotherBlock() {
+		return value_.isDefinedInAnotherBlock();
+	}
 	
 	private void setUpCallContext() {
 		Field[] fields = value_.getClass().getFields();

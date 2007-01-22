@@ -114,7 +114,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	static String buildContructorSignature(int size) {
-		StringBuilder method_name = new StringBuilder("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue");
+		StringBuilder method_name = new StringBuilder("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock");
 		for (int i = 0; i < size; ++i) {
 			method_name.append(", ");
 			method_name.append("com.xruby.runtime.lang.RubyValue");
@@ -160,12 +160,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.push(default_argc_);
 		mg.loadArg(0);
 		mg.loadArg(1);
+		mg.loadArg(2);
 		mg.invokeConstructor(Type.getType(Types.RubyBlockClass),
-						Method.getMethod("void <init> (int, boolean, int, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue)"));
+						Method.getMethod("void <init> (int, boolean, int, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock)"));
 		
 		for (int i = 0; i < commons.length; ++i) {
 			mg.loadThis();
-			mg.loadArg(i + 2);
+			mg.loadArg(i + 3);
 			mg.putField(Type.getType("L" + name_ + ";"), commons[i], Type.getType(Types.RubyValueClass));
 		}
 		

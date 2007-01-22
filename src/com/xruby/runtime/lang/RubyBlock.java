@@ -62,13 +62,19 @@ public abstract class RubyBlock extends MethodBlockBase {
 	protected boolean __redo__ = false;
 	protected RubyBlock blockOfCurrentMethod_;
 	protected RubyValue selfOfCurrentMethod_;
+	private RubyBlock owner_;//not null if defined in another block
 
 	private boolean created_by_lambda_ = false;
 
-	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block, RubyValue self) {
+	public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block, RubyValue self, RubyBlock owner) {
 		super(argc, has_asterisk_parameter, default_argc);
 		blockOfCurrentMethod_ = block;
 		selfOfCurrentMethod_ = self;
+		owner_ = owner;
+	}
+
+	public boolean isDefinedInAnotherBlock() {
+		return null != owner_;
 	}
 		
 	public boolean breakedOrReturned() {
