@@ -12,6 +12,7 @@ class CommandLineOptions {
 	private boolean compileOnly_ = false;
 	private boolean help_ = false;
 	private boolean eval_one_line_ = false;
+	private boolean verbose_ = false;
 	private String eval_script_ = "";
 	private ArrayList<String> files_ = new ArrayList<String>();
 	private ArrayList<String> vars_ = new ArrayList<String>();
@@ -27,6 +28,10 @@ class CommandLineOptions {
 	public boolean isEvalOneLine() {
 		return eval_one_line_;
 	}
+	
+	public boolean isVerbose() {
+		return verbose_;
+	}
 
 	public String getEvalScript() {
 		return eval_script_;
@@ -36,8 +41,8 @@ class CommandLineOptions {
 		return files_;
 	}
 	
-	public ArrayList<String> getVars() {
-		return vars_;
+	public String[] getVars() {
+		return vars_.toArray(new String[]{});
 	}
 	
 	private String getRidOfQuote(String s) {
@@ -115,6 +120,7 @@ class CommandLineOptions {
 		options.addOption("h", false, "display help");
 		options.addOption("c", false, "compiler only");
 		options.addOption("e", true, "eval one line");
+		options.addOption("v", false, "print version number, then turn on verbose mode");
 		options.addOption("s", false, "enable some switch parsing for switches after script name");
 		
 		CommandLine line;
@@ -128,6 +134,8 @@ class CommandLineOptions {
 			compileOnly_ = true;
 		} else if (line.hasOption("h")) {
 			help_ = true;
+		} else if (line.hasOption("v")) {
+			verbose_ = true;
 		} else if (line.hasOption("e")) {
 			eval_one_line_ = true;
 			eval_script_ = line.getOptionValue("e");

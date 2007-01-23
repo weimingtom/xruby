@@ -83,6 +83,24 @@ public class GlobalVariables {
 		values_.put("$$",ObjectFactory.fixnum0);//no way to get pid in java
 	}
 	
+	//e.g. 'ruby -s filename -xxx -yyy=555'
+	//dash has been removed
+	public static void importValuesFromCommandLine(String[] values) {
+		for (String s : values) {
+			int i = s.indexOf('=');
+			if (0 == i) {
+				throw new Error("bad format!");
+			} else if (i < 0) {
+				//'-xxx'
+				values_.put("$" + s, ObjectFactory.trueValue);
+			} else {
+				String name = "$" + s.substring(0, i);
+				String value = s.substring(i + 1);
+				values_.put(name, ObjectFactory.createString(value));
+			}
+		}
+	}
+	
 	public static RubyValue get(String name) {
 		assert('$' == name.charAt(0));
 
