@@ -65,10 +65,11 @@ public class CommandLineOptionsTest extends TestCase {
 	}
 	
 	public void test_dash_s() {
-		CommandLineOptions options = new CommandLineOptions(new String[] {"-s", "filename", "-zzz"});
+		CommandLineOptions options = new CommandLineOptions(new String[] {"-s", "filename", "-zzz", "-yyy=555"});
 		assertEquals(1, options.getFiles().size());
 		assertEquals("filename", options.getFiles().get(0));
-		assertEquals(1, options.getVars().size());
-		assertEquals("zzz", options.getVars().get(0));
+		assertEquals(2, options.getVars().length);
+		assertEquals("zzz", options.getVars()[0]);
+		assertEquals("yyy=555", options.getVars()[1]);
 	}
 }
