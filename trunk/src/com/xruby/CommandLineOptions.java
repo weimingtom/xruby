@@ -82,18 +82,16 @@ class CommandLineOptions {
 	private String[] preProcessDashS(String[] args) {
 		ArrayList<String> a = new ArrayList<String>();
 		
-		int position_after_dash_s = -1;
+		boolean seen_dash_s = false;
 		for (String s : args) {
-			if (0 == position_after_dash_s) {
-				//this is filename
-				position_after_dash_s++;
-				a.add(s);
-			} else if (position_after_dash_s > 0) {
+			if (seen_dash_s) {
 				if (s.charAt(0) == '-') {
 					vars_.add(s.substring(1));
+				} else {
+					a.add(s);
 				}
 			} else if (s.equals("-s")) {
-				position_after_dash_s = 0;
+				seen_dash_s = true;
 			} else {
 				//has not seen '-s'
 				a.add(s);
