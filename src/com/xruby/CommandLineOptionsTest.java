@@ -59,8 +59,16 @@ public class CommandLineOptionsTest extends TestCase {
 	}
 	
 	public void test_eval_one_line_2() {
-		CommandLineOptions options = new CommandLineOptions(new String[] {"-e", "'print",  "\"foobar\"'"});
+		CommandLineOptions options = new CommandLineOptions(new String[] {"-e", "'print", "\"foobar\"'"});
 		assertTrue(options.isEvalOneLine());
 		assertEquals("print \"foobar\"", options.getEvalScript());
+	}
+	
+	public void test_dash_s() {
+		CommandLineOptions options = new CommandLineOptions(new String[] {"-s", "filename", "-zzz"});
+		assertEquals(1, options.getFiles().size());
+		assertEquals("filename", options.getFiles().get(0));
+		assertEquals(1, options.getVars().size());
+		assertEquals("zzz", options.getVars().get(0));
 	}
 }
