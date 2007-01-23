@@ -31,11 +31,8 @@ public class Main {
 					compile(filename, options.isCompileOnly(), null);
 				}
 			} else {
-				String filename = args[0];
-				String[] newArgs = new String[args.length - 1];
-				for (int i=1; i<args.length; ++i) {
-					newArgs[i - 1] = args[i];
-				}
+				String filename = options.getFiles().remove(0);
+				String[] newArgs = options.getFiles().toArray(new String[] {});
 				compile(filename, false, newArgs);
 			}
 		}
