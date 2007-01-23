@@ -14,6 +14,7 @@ class CommandLineOptions {
 	private boolean eval_one_line_ = false;
 	private String eval_script_ = "";
 	private ArrayList<String> files_ = new ArrayList<String>();
+	private ArrayList<String> vars_ = new ArrayList<String>();
 
 	public boolean isCompileOnly() {
 		return compileOnly_;
@@ -35,6 +36,10 @@ class CommandLineOptions {
 		return files_;
 	}
 	
+	public ArrayList<String> getVars() {
+		return vars_;
+	}
+	
 	private String getRidOfQuote(String s) {
 		if (s.charAt(0) == '\"' || s.charAt(0) == '\'') {
 			return s.substring(1, s.length() - 1);
@@ -47,6 +52,7 @@ class CommandLineOptions {
 	//e.g. ruby -e 'print "hello"'
 	private String[] preProcessSingleQuote(String[] args) {
 		ArrayList<String> a = new ArrayList<String>();
+
 		boolean find_single_quote = false;
 		String temp = null;
 		for (String s : args) {
@@ -68,6 +74,32 @@ class CommandLineOptions {
 				a.add(s);
 			}
 		}
+		
+		return a.toArray(new String[] {});
+	}
+	
+	//e.g. ruby -s filenams -zzz
+	private String[] preProcessDashS(String[] args) {
+		ArrayList<String> a = new ArrayList<String>();
+		
+		int position_after_dash_s = -1;
+		for (String s : args) {
+			if (0 == position_after_dash_s) {
+				//this is filename
+				position_after_dash_s++;
+				a.add(s);
+			} else if (position_after_dash_s > 0) {
+				if (s.charAt(0) == '-') {
+					vars_.add(s.substring(1));
+				}
+			} else if (s.equals("-s")) {
+				position_after_dash_s = 0;
+			} else {
+				//has not seen '-s'
+				a.add(s);
+			}
+		}
+		
 		return a.toArray(new String[] {});
 	}
 	
@@ -76,16 +108,20 @@ class CommandLineOptions {
 		if (null == args) {
 			return;
 		}
+		
+		args = preProcessDashS(args);
+		args = preProcessSingleQuote(args);
 
 		CommandLineParser parser = new PosixParser();
 		Options options = new Options();
 		options.addOption("h", false, "display help");
 		options.addOption("c", false, "compiler only");
 		options.addOption("e", true, "eval one line");
+		options.addOption("s", false, "enable some switch parsing for switches after script name");
 		
 		CommandLine line;
 		try {
-			line = parser.parse(options, preProcessSingleQuote(args));
+			line = parser.parse(options, args);
 		} catch (ParseException e) {
 			throw new Error(e.toString());
 		}
