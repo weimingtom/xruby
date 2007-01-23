@@ -149,17 +149,19 @@ public class RubyAPI {
 			StringBuilder output = new StringBuilder();
 	
 			BufferedReader stderr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-			String line;
-			while ((line = stderr.readLine()) != null) {
-				output.append(line);
-				output.append("\n");
+			int c;
+			while ((c = stderr.read()) != -1) {
+				if (c != '\r') {
+					output.append((char)c);
+				}
 			}
 			stderr.close();
 	
 			BufferedReader stdout = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			while ((line = stdout.readLine()) != null) {
-				output.append(line);
-				output.append("\n");
+			while ((c = stdout.read()) != -1) {
+				if (c != '\r') {
+					output.append((char)c);
+				}
 			}
 			stdout.close();
 	
