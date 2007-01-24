@@ -338,19 +338,18 @@ public class RubyParserTest extends TestCase
 	}
 	*/
 
-	public void test_program()
-	{
+	public void test_program() {
 		String[] program_texts = {
-			"if $0==__FILE__	\n	end\n",
-			"#nothing but comment",
-			"#nothing but comment\n",
+				"print 5\n__END__\nwhatever",
+				"if $0==__FILE__	\n	end\n",
+				"#nothing but comment",
+				"#nothing but comment\n",
 		};
 
 		parse(program_texts, "program");
 	}
 
-	public void test_className()
-	{
+	public void test_className() {
 		String[] program_texts = {
 			"XMLRetry",
 			"XML::Parser ",
@@ -360,8 +359,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "className");
 	}
 
-	public void test_compoundStatement2()
-	{
+	public void test_compoundStatement2() {
 		String[] program_texts = {
 				
 				"   methods += <<-BEGIN + nn_element_def(element) + <<-END\n" +
