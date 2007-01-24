@@ -17,13 +17,11 @@ public class RubyCompiler {
 	public static final String VERSION = "0.1.0";
 
 	private RubyBinding binding_;
+	private boolean strip_;
 
-	public RubyCompiler() {
-		binding_ = null;
-	}
-
-	public RubyCompiler(RubyBinding binding) {
+	public RubyCompiler(RubyBinding binding, boolean strip) {
 		binding_ = binding;
+		strip_ = strip;
 	}
 
 	public CompilationResults compile(String filename) throws FileNotFoundException,
@@ -48,7 +46,7 @@ public class RubyCompiler {
 		throws RecognitionException, TokenStreamException,
 		CompilerException {
 		String [] pre_defined = (null == binding_) ? null : binding_.getVariableNames().toArray(new String[] {});
-		RubyParser parser = new RubyParser(reader, pre_defined);
+		RubyParser parser = new RubyParser(reader, pre_defined, strip_);
 		RubyCompilerImpl compiler = new RubyCompilerImpl(filename);
 		return compiler.compile(parser.parse(filename), binding_);
 	}

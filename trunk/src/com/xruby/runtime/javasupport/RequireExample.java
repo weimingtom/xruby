@@ -24,7 +24,7 @@ public class RequireExample {
                 "r = Random.new 259" + "\n" +
                 "puts r.nextInt";
 
-		RubyCompiler compiler = new RubyCompiler();
+		RubyCompiler compiler = new RubyCompiler(null, false);
 		CompilationResults codes = compiler.compile(new StringReader(program_text));
 		RubyProgram p = (RubyProgram)codes.getRubyProgram();
 
