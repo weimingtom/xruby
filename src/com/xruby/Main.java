@@ -33,6 +33,7 @@ public class Main {
 		} else {
 			String filename = options.getFilename();
 			CompilationResults results = compile(filename, options.isVerbose());
+			options.parseOptionsFromFile(filename);
 			GlobalVariables.importValuesFromCommandLine(options.getVars());
 			run(results, options.getArgs());
 		}

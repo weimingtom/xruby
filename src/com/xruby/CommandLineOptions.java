@@ -128,27 +128,54 @@ class CommandLineOptions {
 		
 		if (line.getArgList().size() > 0) {
 			file_ = (String)line.getArgList().remove(0);
-			
+			args_.addAll(line.getArgList());
 			if (switch_) {
-				for (String s : (List<String>)line.getArgList()) {
-					if (s.charAt(0) == '-') {
-						vars_.add(s.substring(1));
-					} else {
-						args_.add(s);
-					}
-				}
-			} else {
-				args_.addAll(line.getArgList());
+				moveArgsToVars();
 			}
 		}
 	}
 	
-	/*
-	private String readOptionsFromFile(String filename) throws Exception {
+	public void parseOptionsFromFile(String filename) {
+		String s = readOptionsFromFile(filename);
+		if (null == s) {
+			return;
+		}
+		
+		if (s.equals("-s")) {
+			moveArgsToVars();
+		}
+	}
+	
+	private void moveArgsToVars() {
+		for (int i = 0; i < args_.size();) {
+			String s = args_.get(i);
+			if (s.charAt(0) == '-') {
+				vars_.add(s.substring(1));
+				args_.remove(i);
+			} else {
+				++i;
+			}
+		}
+	}
+	
+	private String readOptionsFromFile(String filename) {
 		//e.g. #! /usr/local/bin/ruby -s\n
-		BufferedReader reader = new BufferedReader(new FileReader(filename));
+		
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+		
 		String s;
-		if ((s = reader.readLine()) != null) {
+		try {
+			s = reader.readLine();
+		} catch (IOException e) {
+			return null;
+		}
+		
+		if (s != null) {
 			if (s.charAt(0) == '#' && s.charAt(1) == '!') {
 				int i = s.indexOf("ruby");
 				if (i > 0) {
@@ -158,5 +185,5 @@ class CommandLineOptions {
 		}
 		
 		return null;
-	}*/
+	}
 }
