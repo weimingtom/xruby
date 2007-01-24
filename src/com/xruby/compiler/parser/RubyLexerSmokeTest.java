@@ -65,7 +65,7 @@ public class RubyLexerSmokeTest {
 	private void lexFile(BufferedReader reader, String filename) {
 		SymbolTableManager stm = new SymbolTableManager(null);
 		StringBuilder debug_message = new StringBuilder();
-		RubyLexer lexer = new RubyLexer(reader, stm);
+		RubyLexer lexer = new RubyLexer(reader, stm, false);
 
 		try {
 			Token token;

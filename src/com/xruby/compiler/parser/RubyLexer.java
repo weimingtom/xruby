@@ -52,11 +52,14 @@ public class RubyLexer extends RubyLexerBase {
 	private Stack<StringDelimiter> current_special_string_delimiter_ = new Stack<StringDelimiter>();
 	private InputBufferWithHereDocSupport input_;
 	private String current_heredoc_delimiter_ = null;
-	
-	public RubyLexer(Reader in, SymbolTableManager stm) {
+	private boolean strip_;
+
+	/// @strip boolean strip
+	public RubyLexer(Reader in, SymbolTableManager stm, boolean strip) {
 		super(new InputBufferWithHereDocSupport(in));
 		input_ = (InputBufferWithHereDocSupport)super.inputState.getInput();
 		stm_ = stm;
+		strip_ = strip;
 	}
 	
 	public Token nextToken() throws TokenStreamException {	

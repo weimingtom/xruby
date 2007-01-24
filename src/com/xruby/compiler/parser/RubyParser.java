@@ -16,17 +16,14 @@ import antlr.collections.AST;
 public class RubyParser extends RubyParserBase {
 	private RubyLexer lexer_;
 
-	public RubyParser(RubyLexer lexer) {
+	private RubyParser(RubyLexer lexer) {
 		super(lexer);
 		lexer_ = lexer;
 	}
 
-	public RubyParser(Reader in) {
-		this(in, null);
-	}
-	
-	public RubyParser(Reader in, String[] pre_defined) {
-		this(new RubyLexer(in, new SymbolTableManager(pre_defined)));
+	/// pre_defined can be empty
+	public RubyParser(Reader in, String[] pre_defined, boolean strip) {
+		this(new RubyLexer(in, new SymbolTableManager(pre_defined), strip));
 	}
 
 	/// @return AST

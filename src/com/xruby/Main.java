@@ -22,17 +22,23 @@ public class Main {
 		}
 		
 		if (options.isEvalOneLine()) {
-			eval(options.getEvalScript());
+			//eval string
+			RubyCompiler compiler = new RubyCompiler(null, options.isStrip());
+			CompilationResults results = compiler.compile(new StringReader(options.getEvalScript()));
+			run(results, null);
 		} else if (options.getFilename() == null) {
-			CompilationResults results = compile(null, options.isVerbose());
+			//eval STDIN 
+			CompilationResults results = compile(null, options.isStrip(), options.isVerbose());
 			run(results, null);
 		} else if (options.isCompileOnly()){
+			//compile and just save the result
 			String filename = options.getFilename();
-			CompilationResults results = compile(filename, options.isVerbose());
+			CompilationResults results = compile(filename, options.isStrip(), options.isVerbose());
 			results.save(filename);
 		} else {
+			//eval file
 			String filename = options.getFilename();
-			CompilationResults results = compile(filename, options.isVerbose());
+			CompilationResults results = compile(filename, options.isStrip(), options.isVerbose());
 			options.parseOptionsFromFile(filename);
 			GlobalVariables.importValuesFromCommandLine(options.getVars());
 			run(results, options.getArgs());
@@ -43,12 +49,12 @@ public class Main {
 		System.out.println("Usage: xruby [-c] filename1, filename2, ...");
 	}
 
-	private static CompilationResults compile(String filename, boolean verbose) throws Exception {
+	private static CompilationResults compile(String filename, boolean strip, boolean verbose) throws Exception {
 		if (verbose) {
 			System.out.println("Compilation of " + filename + " strarted");
 		}
 		
-		RubyCompiler compiler = new RubyCompiler();
+		RubyCompiler compiler = new RubyCompiler(null, strip);
 		CompilationResults results = compiler.compile(filename);
 		
 		if (verbose) {
@@ -65,9 +71,4 @@ public class Main {
 		AtExitBlocks.invokeAll();
 	}
 
-	private static void eval(String script) throws Exception {
-		RubyCompiler compiler = new RubyCompiler();
-		CompilationResults results = compiler.compile(new StringReader(script));
-		run(results, null);
-	}
 }

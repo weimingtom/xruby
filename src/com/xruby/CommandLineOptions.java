@@ -15,6 +15,7 @@ class CommandLineOptions {
 	private boolean eval_one_line_ = false;
 	private boolean verbose_ = false;
 	private boolean switch_ = false;
+	private boolean strip_ = false;
 	private String eval_script_ = "";
 	private String file_ = null;
 	private ArrayList<String> vars_ = new ArrayList<String>();
@@ -34,6 +35,10 @@ class CommandLineOptions {
 	
 	public boolean isVerbose() {
 		return verbose_;
+	}
+
+	public boolean isStrip() {
+		return strip_;
 	}
 	
 	public String getEvalScript() {
@@ -105,6 +110,7 @@ class CommandLineOptions {
 		options.addOption("e", true, "eval one line");
 		options.addOption("v", false, "print version number, then turn on verbose mode");
 		options.addOption("s", false, "enable some switch parsing for switches after script name");
+		options.addOption("x", false, "strip off text before #!ruby line");
 		
 		CommandLine line;
 		try {
@@ -124,6 +130,8 @@ class CommandLineOptions {
 			eval_script_ = line.getOptionValue("e");
 		} else if (line.hasOption("s")) {
 			switch_ = true;
+		} else if (line.hasOption("x")) {
+			strip_ = true;
 		}
 		
 		if (line.getArgList().size() > 0) {

@@ -173,7 +173,7 @@ public class RubyTreeParserTest extends TestCase {
 		assertEquals(expected_texts.length, program_texts.length);
 		
 		for (int i = 0; i < program_texts.length; ++i) {
-			RubyParser parser = new RubyParser(new StringReader(program_texts[i]));
+			RubyParser parser = new RubyParser(new StringReader(program_texts[i]), null, false);
 			parser.createAST();
 			AST ast = parser.getAST();
 			String result = ast.toStringList();

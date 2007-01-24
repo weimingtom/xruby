@@ -30,7 +30,7 @@ public class RubyParserTest extends TestCase
 
 		//Dump token streams;
 		SymbolTableManager stm = new SymbolTableManager(null);
-		RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm);
+		RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm, false);
 		debug_message.append("\nToken stream is:");
 		try
 		{
@@ -58,7 +58,7 @@ public class RubyParserTest extends TestCase
 		assert(null != program_text);
 		assert(null != method_name);
 
-		RubyParser parser = new RubyParser(new StringReader(program_text));
+		RubyParser parser = new RubyParser(new StringReader(program_text), null, false);
 		Class c = parser.getClass();
 		
 		Method method = null;
@@ -160,7 +160,7 @@ public class RubyParserTest extends TestCase
 		};
 
 		for (String program_text : program_texts) {
-			RubyParser parser = new RubyParser(new StringReader(program_text));
+			RubyParser parser = new RubyParser(new StringReader(program_text), null, false);
 			try {
 				parser.createAST();
 				assertTrue(program_text + " should fail", false);//should not reach here
@@ -177,7 +177,7 @@ public class RubyParserTest extends TestCase
 		};
 
 		for (String program_text : program_texts) {
-			RubyParser parser = new RubyParser(new StringReader(program_text));
+			RubyParser parser = new RubyParser(new StringReader(program_text), null, false);
 			try {
 				parser.createAST();
 				assertTrue(program_text + " should fail", false);//should not reach here

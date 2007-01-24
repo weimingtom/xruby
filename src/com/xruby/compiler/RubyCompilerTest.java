@@ -25,7 +25,7 @@ public class RubyCompilerTest extends TestCase {
 				program_texts.length, results.length);
 
 		for (int i = 0; i < program_texts.length; ++i) {
-			RubyCompiler compiler = new RubyCompiler();
+			RubyCompiler compiler = new RubyCompiler(null, false);
 
 			try {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
@@ -59,7 +59,7 @@ public class RubyCompilerTest extends TestCase {
 				program_texts.length, exceptions.length);
 
 		for (int i = 0; i < program_texts.length; ++i) {
-			RubyCompiler compiler = new RubyCompiler();
+			RubyCompiler compiler = new RubyCompiler(null, false);
 
 			try {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
@@ -86,7 +86,7 @@ public class RubyCompilerTest extends TestCase {
 				program_texts.length, outputs.length);
 
 		for (int i = 0; i < program_texts.length; ++i) {
-			RubyCompiler compiler = new RubyCompiler();
+			RubyCompiler compiler = new RubyCompiler(null, false);
 
 			try {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
@@ -124,7 +124,7 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_raise() throws RecognitionException, TokenStreamException, CompilerException, InstantiationException, IllegalAccessException {
 		String program_texts = "raise 'test'";
-		RubyCompiler compiler = new RubyCompiler();
+		RubyCompiler compiler = new RubyCompiler(null, false);
 		CompilationResults codes = compiler.compile(new StringReader(program_texts));
 		assertTrue(null != codes);
 		RubyProgram p = (RubyProgram)codes.getRubyProgram();
@@ -484,7 +484,7 @@ public class RubyCompilerTest extends TestCase {
 			"	print 123\n" +
 			"end\n" +
 			"f";
-		RubyCompiler compiler = new RubyCompiler();
+		RubyCompiler compiler = new RubyCompiler(null, false);
 
 		try {
 			CompilationResults codes = compiler.compile(new StringReader(program_texts));
@@ -1370,7 +1370,7 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_require() throws RecognitionException, TokenStreamException, CompilerException, FileNotFoundException, IOException {
 		String program_text = "print 'xxxxx'";
-		RubyCompiler compiler = new RubyCompiler();
+		RubyCompiler compiler = new RubyCompiler(null, false);
 		CompilationResults codes = compiler.compile(new StringReader(program_text));
 		File file = new File("test_require.jar");
 		assertFalse(file.exists());
@@ -1394,7 +1394,7 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_require_2_files() throws RecognitionException, TokenStreamException, CompilerException, FileNotFoundException, IOException {
 		String program_text1 = "print 'xxxxx'; REQUIRE_2_FILES = 1";
-		RubyCompiler compiler1 = new RubyCompiler();
+		RubyCompiler compiler1 = new RubyCompiler(null, false);
 		CompilationResults codes1 = compiler1.compile(new StringReader(program_text1));
 		File file1 = new File("test_require1.jar");
 		assertFalse(file1.exists());
@@ -1402,7 +1402,7 @@ public class RubyCompilerTest extends TestCase {
 		assertTrue(file1.exists());
 
 		String program_text2 = "print 'yyyyy', REQUIRE_2_FILES";
-		RubyCompiler compiler2 = new RubyCompiler();
+		RubyCompiler compiler2 = new RubyCompiler(null, false);
 		CompilationResults codes2 = compiler2.compile(new StringReader(program_text2));
 		File file2 = new File("test_require2.jar");
 		assertFalse(file2.exists());
@@ -1427,7 +1427,7 @@ public class RubyCompilerTest extends TestCase {
 
 	public void test_require_2_files_with_global() throws RecognitionException, TokenStreamException, CompilerException, FileNotFoundException, IOException {
 		String program_text1 = "$G010 = 'cccc'";
-		RubyCompiler compiler1 = new RubyCompiler();
+		RubyCompiler compiler1 = new RubyCompiler(null, false);
 		CompilationResults codes1 = compiler1.compile(new StringReader(program_text1));
 		File file1 = new File("test_require1.jar");
 		assertFalse(file1.exists());
@@ -1435,7 +1435,7 @@ public class RubyCompilerTest extends TestCase {
 		assertTrue(file1.exists());
 
 		String program_text2 = "print $G010";
-		RubyCompiler compiler2 = new RubyCompiler();
+		RubyCompiler compiler2 = new RubyCompiler(null, false);
 		CompilationResults codes2 = compiler2.compile(new StringReader(program_text2));
 		File file2 = new File("test_require2.jar");
 		assertFalse(file2.exists());
