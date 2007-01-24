@@ -5,7 +5,8 @@
 
 package com.xruby;
 
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 import org.apache.commons.cli.*;
 
 class CommandLineOptions {
@@ -13,9 +14,11 @@ class CommandLineOptions {
 	private boolean help_ = false;
 	private boolean eval_one_line_ = false;
 	private boolean verbose_ = false;
+	private boolean switch_ = false;
 	private String eval_script_ = "";
-	private ArrayList<String> files_ = new ArrayList<String>();
+	private String file_ = null;
 	private ArrayList<String> vars_ = new ArrayList<String>();
+	private ArrayList<String> args_ = new ArrayList<String>();
 
 	public boolean isCompileOnly() {
 		return compileOnly_;
@@ -32,17 +35,21 @@ class CommandLineOptions {
 	public boolean isVerbose() {
 		return verbose_;
 	}
-
+	
 	public String getEvalScript() {
 		return eval_script_;
 	}
 
-	public ArrayList<String> getFiles() {
-		return files_;
+	public String getFilename() {
+		return file_;
 	}
 	
 	public String[] getVars() {
 		return vars_.toArray(new String[]{});
+	}
+	
+	public String[] getArgs() {
+		return args_.toArray(new String[]{});
 	}
 	
 	private String getRidOfQuote(String s) {
@@ -82,37 +89,13 @@ class CommandLineOptions {
 		
 		return a.toArray(new String[] {});
 	}
-	
-	//e.g. ruby -s filenams -zzz
-	private String[] preProcessDashS(String[] args) {
-		ArrayList<String> a = new ArrayList<String>();
 		
-		boolean seen_dash_s = false;
-		for (String s : args) {
-			if (seen_dash_s) {
-				if (s.charAt(0) == '-') {
-					vars_.add(s.substring(1));
-				} else {
-					a.add(s);
-				}
-			} else if (s.equals("-s")) {
-				seen_dash_s = true;
-			} else {
-				//has not seen '-s'
-				a.add(s);
-			}
-		}
-		
-		return a.toArray(new String[] {});
-	}
-	
 	@SuppressWarnings("unchecked")
 	public CommandLineOptions(String[] args) {
 		if (null == args) {
 			return;
 		}
 		
-		args = preProcessDashS(args);
 		args = preProcessSingleQuote(args);
 
 		CommandLineParser parser = new PosixParser();
@@ -125,7 +108,7 @@ class CommandLineOptions {
 		
 		CommandLine line;
 		try {
-			line = parser.parse(options, args);
+			line = parser.parse(options, args, true);
 		} catch (ParseException e) {
 			throw new Error(e.toString());
 		}
@@ -139,8 +122,41 @@ class CommandLineOptions {
 		} else if (line.hasOption("e")) {
 			eval_one_line_ = true;
 			eval_script_ = line.getOptionValue("e");
+		} else if (line.hasOption("s")) {
+			switch_ = true;
 		}
 		
-		files_.addAll(line.getArgList());
+		if (line.getArgList().size() > 0) {
+			file_ = (String)line.getArgList().remove(0);
+			
+			if (switch_) {
+				for (String s : (List<String>)line.getArgList()) {
+					if (s.charAt(0) == '-') {
+						vars_.add(s.substring(1));
+					} else {
+						args_.add(s);
+					}
+				}
+			} else {
+				args_.addAll(line.getArgList());
+			}
+		}
 	}
+	
+	/*
+	private String readOptionsFromFile(String filename) throws Exception {
+		//e.g. #! /usr/local/bin/ruby -s\n
+		BufferedReader reader = new BufferedReader(new FileReader(filename));
+		String s;
+		if ((s = reader.readLine()) != null) {
+			if (s.charAt(0) == '#' && s.charAt(1) == '!') {
+				int i = s.indexOf("ruby");
+				if (i > 0) {
+					return s.substring(i + 4).trim();
+				}
+			}
+		}
+		
+		return null;
+	}*/
 }

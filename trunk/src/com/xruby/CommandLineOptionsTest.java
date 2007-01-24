@@ -11,45 +11,45 @@ public class CommandLineOptionsTest extends TestCase {
 		CommandLineOptions options = new CommandLineOptions(null);
 		assertTrue(!options.isCompileOnly());
 		assertTrue(!options.isHelp());
-		assertEquals(0, options.getFiles().size());
+		assertEquals(null, options.getFilename());
 	}
 
 	public void test_null_array() {
 		CommandLineOptions options = new CommandLineOptions(new String[] {});
 		assertTrue(!options.isCompileOnly());
 		assertTrue(!options.isHelp());
-		assertEquals(0, options.getFiles().size());
+		assertEquals(null, options.getFilename());
 	}
 
 	public void test_compile_onlu() {
 		CommandLineOptions options = new CommandLineOptions(new String[] {"-c"});
 		assertTrue(options.isCompileOnly());
 		assertTrue(!options.isHelp());
-		assertEquals(0, options.getFiles().size());
+		assertEquals(null, options.getFilename());
 	}
 	
 	public void test_help() {
 		CommandLineOptions options = new CommandLineOptions(new String[] {"-h"});
 		assertTrue(!options.isCompileOnly());
 		assertTrue(options.isHelp());
-		assertEquals(0, options.getFiles().size());
+		assertEquals(null, options.getFilename());
 	}
 
 	public void test_one_file() {
 		CommandLineOptions options = new CommandLineOptions(new String[] {"test2.rb"});
 		assertTrue(!options.isCompileOnly());
 		assertTrue(!options.isHelp());
-		assertEquals(1, options.getFiles().size());
-		assertEquals("test2.rb", options.getFiles().get(0));
+		assertEquals("test2.rb", options.getFilename());
+		assertEquals(0, options.getArgs().length);
 	}
 	
 	public void test_more_than_one() {
-		CommandLineOptions options = new CommandLineOptions(new String[] {"-c", "c:\\test1", "test2.rb"});
+		CommandLineOptions options = new CommandLineOptions(new String[] {"-c", "c:\\test1", "xxx"});
 		assertTrue(options.isCompileOnly());
 		assertTrue(!options.isHelp());
-		assertEquals(2, options.getFiles().size());
-		assertEquals("c:\\test1", options.getFiles().get(0));
-		assertEquals("test2.rb", options.getFiles().get(1));
+		assertEquals("c:\\test1", options.getFilename());
+		assertEquals(1, options.getArgs().length);
+		assertEquals("xxx", options.getArgs()[0]);
 	}
 	
 	public void test_eval_one_line() {
@@ -66,10 +66,19 @@ public class CommandLineOptionsTest extends TestCase {
 	
 	public void test_dash_s() {
 		CommandLineOptions options = new CommandLineOptions(new String[] {"-s", "filename", "-zzz", "-yyy=555"});
-		assertEquals(1, options.getFiles().size());
-		assertEquals("filename", options.getFiles().get(0));
+		assertEquals("filename", options.getFilename());
 		assertEquals(2, options.getVars().length);
 		assertEquals("zzz", options.getVars()[0]);
 		assertEquals("yyy=555", options.getVars()[1]);
+		assertEquals(0, options.getArgs().length);
+	}
+	
+	public void test_dash_s_2() {
+		CommandLineOptions options = new CommandLineOptions(new String[] {"-s", "filename", "zzz", "-yyy=555"});
+		assertEquals("filename", options.getFilename());
+		assertEquals(1, options.getVars().length);
+		assertEquals("yyy=555", options.getVars()[0]);
+		assertEquals(1, options.getArgs().length);
+		assertEquals("zzz", options.getArgs()[0]);
 	}
 }

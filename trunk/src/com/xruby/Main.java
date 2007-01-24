@@ -4,7 +4,7 @@
 
 package com.xruby;
 
-import java.io.StringReader;
+import java.io.*;
 import com.xruby.compiler.*;
 import com.xruby.compiler.codegen.*;
 import com.xruby.runtime.lang.*;
@@ -23,25 +23,21 @@ public class Main {
 		
 		if (options.isEvalOneLine()) {
 			eval(options.getEvalScript());
-		} else if (options.getFiles().size() == 0) {
+		} else if (options.getFilename() == null) {
 			CompilationResults results = compile(null, options.isVerbose());
 			run(results, null);
+		} else if (options.isCompileOnly()){
+			String filename = options.getFilename();
+			CompilationResults results = compile(filename, options.isVerbose());
+			results.save(filename);
 		} else {
-			if (options.isCompileOnly()){
-				for (String filename : options.getFiles()) {
-					CompilationResults results = compile(filename, options.isVerbose());
-					results.save(filename);
-				}
-			} else {
-				String filename = options.getFiles().remove(0);
-				String[] newArgs = options.getFiles().toArray(new String[] {});
-				CompilationResults results = compile(filename, options.isVerbose());
-				GlobalVariables.importValuesFromCommandLine(options.getVars());
-				run(results, newArgs);
-			}
+			String filename = options.getFilename();
+			CompilationResults results = compile(filename, options.isVerbose());
+			GlobalVariables.importValuesFromCommandLine(options.getVars());
+			run(results, options.getArgs());
 		}
 	}
-
+	
 	private static void help() {
 		System.out.println("Usage: xruby [-c] filename1, filename2, ...");
 	}
