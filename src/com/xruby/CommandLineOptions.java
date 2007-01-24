@@ -175,7 +175,7 @@ class CommandLineOptions {
 			return null;
 		}
 		
-		if (s != null) {
+		if (s != null && s.length() > "#! ruby".length()) {
 			if (s.charAt(0) == '#' && s.charAt(1) == '!') {
 				int i = s.indexOf("ruby");
 				if (i > 0) {
