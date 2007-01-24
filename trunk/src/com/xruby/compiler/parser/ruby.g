@@ -1175,7 +1175,7 @@ SEMI
 {
 	boolean seen_line_feed = false;
 }
-		:	';'	(WHITE_SPACE_CAHR!		|	LINE_FEED!{seen_line_feed = true;}	|	';'!)*
+		:	';'	(options{greedy=true;}:(WHITE_SPACE_CAHR!	|	LINE_FEED!{seen_line_feed = true;}	|	';'!))*
 			{
 				if (lastTokenIsSemi())
 				{
@@ -1188,7 +1188,7 @@ SEMI
 
 //treat "\n\n\n\n;" as one LINE_BREAK
 LINE_BREAK
-		:	PURE_LINE_BREAK	(SEMI!)?
+		:	PURE_LINE_BREAK	(options{greedy=true;}:SEMI!)?
 			{
 				if ((LINE_BREAK == _ttype) && shouldIgnoreLinebreak())
 				{
@@ -1200,7 +1200,7 @@ LINE_BREAK
 //If we use "ignore=WHITE_SPACE_CAHR", can not shutdown the warnings.
 protected
 PURE_LINE_BREAK
-		:	LINE_FEED	(LINE_FEED!|WHITE_SPACE_CAHR!)*
+		:	LINE_FEED	(options{greedy=true;}:(LINE_FEED!|WHITE_SPACE_CAHR!))*
 		;
 
 //'\r' is no longer used as line break since Mac OSX, but still in use in  C:\ruby\samples\hello.rb
@@ -1474,12 +1474,12 @@ ESC
 //of letters, digits, and underscores
 IDENTIFIER
 options{testLiterals=true;}
-		:	('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*		(	{if (lastTokenIsDotOrColon2()) {$setType(FUNCTION);}}
+		:	{getColumn() == 1}?	"__END__"	((WHITE_SPACE_CAHR)*	LINE_BREAK	(.)*	{$setType(Token.EOF_TYPE);})?
+		|	('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*		(	{if (lastTokenIsDotOrColon2()) {$setType(FUNCTION);}}
 												|'?'	{$setType(FUNCTION);}	//PREDICATE_FUNCTION
 												|'!'	{$setType(FUNCTION);}	//DESTRUCTIVE_FUNCTION
 												)
 		;
-
 
 GLOBAL_VARIABLE 
 		:	'$'	('-')?	IDENTIFIER_CONSTANT_AND_KEYWORD
