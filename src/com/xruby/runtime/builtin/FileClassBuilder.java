@@ -222,7 +222,9 @@ public class FileClassBuilder {
 		c.getSingletonClass().defineMethod("file?", new File_file_question());
 		c.getSingletonClass().defineMethod("expand_path", new File_expand_path());
 		c.getSingletonClass().defineMethod("dirname", new File_dirname());
-		c.getSingletonClass().defineMethod("delete", new File_delete());
+		RubyMethod delete = new File_delete();
+		c.getSingletonClass().defineMethod("delete", delete);
+		c.getSingletonClass().defineMethod("unlink", delete);
 		c.getSingletonClass().defineMethod("basename", new File_basename());
 		c.getSingletonClass().defineMethod("separator", new File_separator());
 		c.getSingletonClass().defineMethod("mtime", new File_mtime());
