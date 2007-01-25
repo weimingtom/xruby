@@ -181,5 +181,9 @@ public class GlobalVariables {
 		
 		traces_procs_.removeAll(name);
 	}
+
+	public static void setProgramName(String filename) {
+		set(ObjectFactory.createString(filename), "$0");
+	}
 }
 

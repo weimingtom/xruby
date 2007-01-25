@@ -40,6 +40,7 @@ public class Main {
 			String filename = options.getFilename();
 			CompilationResults results = compile(filename, options.isStrip(), options.isVerbose());
 			options.parseOptionsFromFile(filename);
+			GlobalVariables.setProgramName(filename);
 			GlobalVariables.importValuesFromCommandLine(options.getVars());
 			run(results, options.getArgs());
 		}
