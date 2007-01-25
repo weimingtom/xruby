@@ -209,17 +209,24 @@ returns [Expression e]
 		|	#(BNOT					left=expression)					{e = new UnaryOperatorExpression("~", left);}
 		|	#(NOT					left=expression)					{e = new UnaryOperatorExpression("!", left);}
 		|	#(DOT					left=expression	(right=callExpression|method_name=methodCallName))
-																	{
-																		if (right != null) {
-																			MethodCallExpression mc = (MethodCallExpression)right;
-																			e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
-																		} else {
-																			e = new MethodCallExpression(left, method_name, null, null);
-																		}
-																	}
+									{
+										if (right != null) {
+											MethodCallExpression mc = (MethodCallExpression)right;
+											e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
+										} else {
+											e = new MethodCallExpression(left, method_name, null, null);
+										}
+									}
 		|	e=callExpression
 		|	#(LBRACK_ARRAY_ACCESS	left=expression	args=elements_as_arguments)	{e = new MethodCallExpression(left, "[]", args, null);}
-		|	#(COLON2				left=expression	(constant:CONSTANT|function:FUNCTION))	{e = new Colon2Expression(left, (null != constant) ? constant.getText() : function.getText());}
+		|	#(COLON2				left=expression	(right=callExpression|constant:CONSTANT|function:FUNCTION))	
+									{	if (null != right) {
+											MethodCallExpression mc = (MethodCallExpression)right;
+											e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
+										} else {
+											e = new Colon2Expression(left, (null != constant) ? constant.getText() : function.getText());
+										}
+									}
 		|	e=primaryExpression
 		|	e=methodDefination
 		|	e=moduleDefination
