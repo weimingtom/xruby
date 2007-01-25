@@ -176,21 +176,23 @@ class CommandLineOptions {
 			return null;
 		}
 		
-		String s;
 		try {
-			s = reader.readLine();
+			do {
+				String s = reader.readLine();
+				if (s != null && s.length() > "#! ruby".length()) {
+					if (s.charAt(0) == '#' && s.charAt(1) == '!') {
+						int i = s.indexOf("ruby");
+						if (i > 0) {
+							return s.substring(i + 4).trim();
+						}
+					}
+				}
+			} while (strip_);
 		} catch (IOException e) {
 			return null;
 		}
 		
-		if (s != null && s.length() > "#! ruby".length()) {
-			if (s.charAt(0) == '#' && s.charAt(1) == '!') {
-				int i = s.indexOf("ruby");
-				if (i > 0) {
-					return s.substring(i + 4).trim();
-				}
-			}
-		}
+		
 		
 		return null;
 	}
