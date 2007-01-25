@@ -18,6 +18,7 @@
 	<property name="jarjar.jar" location="${lib.dir}/jarjar/jarjar-0.7.jar"/>
 	<property name="asm.jar" location="${lib.dir}/asm/asm-all-3.0.jar"/>
 	<property name="commons-cli.jar" location="${lib.dir}/commons-cli/commons-cli-1.0.jar"/>
+	<property name="jakarta-oro.jar" location="${lib.dir}/jakarta-oro/jakarta-oro-2.0.8.jar"/>
 	<property name="xruby.jar"  location="${name}-${version}.jar"/>
 	<property name="main-class"  value="com.xruby.Main"/>
 
@@ -59,6 +60,7 @@
 			<classpath path="${antlr.jar}" />
 			<classpath path="${asm.jar}" />
 			<classpath path="${commons-cli.jar}" />
+			<classpath path="${jakarta-oro.jar}" />
 			 <!--compilerarg value="-Xlint:unchecked"/-->
 		</javac>
 	</target>
@@ -69,6 +71,7 @@
 				<pathelement location="${antlr.jar}" />
 				<pathelement location="${asm.jar}" />
 				<pathelement location="${commons-cli.jar}" />
+				<pathelement location="${jakarta-oro.jar}" />
 				<pathelement location="${build.dir}" />
 			</classpath>
 
@@ -85,6 +88,7 @@
 			<zipfileset src="${antlr.jar}"/>
 			<zipfileset src="${asm.jar}"/>
 			<zipfileset src="${commons-cli.jar}"/>
+			<zipfileset src="${jakarta-oro.jar}"/>
 			<zipfileset src="builtin.jar"/>
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}"/>
@@ -99,6 +103,7 @@
 				<pathelement location="${antlr.jar}" />
 				<pathelement location="${asm.jar}" />
 				<pathelement location="${commons-cli.jar}" />
+				<pathelement location="${jakarta-oro.jar}" />
 				<pathelement location="${build.dir}" />
 				<pathelement location="builtin.jar" />
 			</classpath>
