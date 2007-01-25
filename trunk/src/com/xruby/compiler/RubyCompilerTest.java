@@ -3544,6 +3544,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_singleton_method() {
 		String [] program_texts = {
+				"module M; def M.f x; print x; end end; M::f(77)",
+				
 				"class TestSingleton0;\n" +
 				"	def TestSingleton0.test_singleton;  123;  end\n" +
 				"end\n" +
@@ -3568,6 +3570,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"77",
 				"123",
 				"9521",
 				"4321",
