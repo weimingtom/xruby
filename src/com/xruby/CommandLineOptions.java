@@ -42,10 +42,14 @@ class CommandLineOptions {
 	public boolean isStrip() {
 		return strip_;
 	}
+
+	public boolean isPe() {
+		return is_pe_;
+	}
 	
 	public String getEvalScript() {
 		if (is_pe_) {
-			//TODO
+			return "while gets();" + eval_script_ + ";end";
 		}
 		return eval_script_;
 	}

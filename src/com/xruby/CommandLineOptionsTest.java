@@ -83,7 +83,9 @@ public class CommandLineOptionsTest extends TestCase {
 	}
 	
 	public void test_dash_i() {
-		CommandLineOptions options = new CommandLineOptions(new String[] {"-i.bak", "-pe", "\"print 1\"", "filename"});
+		CommandLineOptions options = new CommandLineOptions(new String[] {"-i.bak", "-pe", "print 1", "filename"});
 		assertEquals(".bak", options.getBackupExtension());
+		assertEquals("filename", options.getFilename());
+		assertEquals("while gets();print 1;end", options.getEvalScript());
 	}
 }

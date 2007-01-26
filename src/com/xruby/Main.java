@@ -29,6 +29,10 @@ public class Main {
 			}
 			RubyCompiler compiler = new RubyCompiler(null, options.isStrip());
 			CompilationResults results = compiler.compile(new StringReader(options.getEvalScript()));
+			if (options.isPe()) {
+				redirectStdinout(options.getFilename());
+			}
+			
 			run(results, null);
 		} else if (options.getFilename() == null) {
 			//eval STDIN 
@@ -50,6 +54,28 @@ public class Main {
 		}
 	}
 	
+	private static void redirectStdinout(String filename) throws IOException {
+		//count line number
+		BufferedReader r = new BufferedReader(new FileReader(filename));
+		int line = 0;
+		StringBuilder sb = new StringBuilder();
+		while (r.readLine()!= null) {
+			++line;
+			sb.append(line);
+			sb.append("\n");
+		}
+		r.close();
+		
+		//redirect stdin
+		InputStream s = new ByteArrayInputStream(sb.toString().getBytes());
+		System.setIn(s);
+		
+		//redirect stdout
+		//TODO how does ruby do it?
+		OutputStream output = new FileOutputStream(filename);
+		System.setOut(new PrintStream(output));
+	}
+
 	private static void help() {
 		System.out.println("Usage: xruby [-c] filename1, filename2, ...");
 	}
