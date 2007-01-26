@@ -16,8 +16,10 @@ class CommandLineOptions {
 	private boolean verbose_ = false;
 	private boolean switch_ = false;
 	private boolean strip_ = false;
+	private boolean is_pe_ = false;
 	private String eval_script_ = "";
 	private String file_ = null;
+	String backupExtension_ = null;
 	private ArrayList<String> vars_ = new ArrayList<String>();
 	private ArrayList<String> args_ = new ArrayList<String>();
 
@@ -42,11 +44,18 @@ class CommandLineOptions {
 	}
 	
 	public String getEvalScript() {
+		if (is_pe_) {
+			//TODO
+		}
 		return eval_script_;
 	}
 
 	public String getFilename() {
 		return file_;
+	}
+	
+	public String getBackupExtension() {
+		return backupExtension_;
 	}
 	
 	public String[] getVars() {
@@ -94,7 +103,73 @@ class CommandLineOptions {
 		
 		return a.toArray(new String[] {});
 	}
+	
+	public void parseOptionsFromFile(String filename) {
+		String s = readOptionsFromFile(filename);
+		if (null == s) {
+			return;
+		}
 		
+		if (s.equals("-s")) {
+			moveArgsToVars();
+		}
+	}
+	
+	private void moveArgsToVars() {
+		for (int i = 0; i < args_.size();) {
+			String s = args_.get(i);
+			if (s.charAt(0) == '-') {
+				vars_.add(s.substring(1));
+				args_.remove(i);
+			} else {
+				++i;
+			}
+		}
+	}
+	
+	private String readOptionsFromFile(String filename) {
+		//e.g. #! /usr/local/bin/ruby -s\n
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(filename));
+			
+			do {
+				String s = reader.readLine();
+				if (s != null && s.length() > "#! ruby".length()) {
+					if (s.charAt(0) == '#' && s.charAt(1) == '!') {
+						int i = s.indexOf("ruby");
+						if (i > 0) {
+							return s.substring(i + 4).trim();
+						}
+					}
+				}
+			} while (strip_);
+			
+			reader.close();
+			return null;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
+	private String[] preProcess_pe_i(String[] args) {
+		ArrayList<String> a = new ArrayList<String>();
+
+		for (String s : args) {
+			if (s.equals("-pe")) {
+				is_pe_ = true;
+				a.add("-e");
+			} else if (s.startsWith("-i")) {
+				if (!s.equals("-i")) {
+					backupExtension_ = s.substring(2);
+				}
+			} else {
+				a.add(s);
+			}
+		}
+		
+		return a.toArray(new String[] {});
+	}
+	
 	@SuppressWarnings("unchecked")
 	public CommandLineOptions(String[] args) {
 		if (null == args) {
@@ -102,7 +177,8 @@ class CommandLineOptions {
 		}
 		
 		args = preProcessSingleQuote(args);
-
+		args = preProcess_pe_i(args);
+		
 		CommandLineParser parser = new PosixParser();
 		Options options = new Options();
 		options.addOption("h", false, "display help");
@@ -143,57 +219,4 @@ class CommandLineOptions {
 		}
 	}
 	
-	public void parseOptionsFromFile(String filename) {
-		String s = readOptionsFromFile(filename);
-		if (null == s) {
-			return;
-		}
-		
-		if (s.equals("-s")) {
-			moveArgsToVars();
-		}
-	}
-	
-	private void moveArgsToVars() {
-		for (int i = 0; i < args_.size();) {
-			String s = args_.get(i);
-			if (s.charAt(0) == '-') {
-				vars_.add(s.substring(1));
-				args_.remove(i);
-			} else {
-				++i;
-			}
-		}
-	}
-	
-	private String readOptionsFromFile(String filename) {
-		//e.g. #! /usr/local/bin/ruby -s\n
-		
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader(filename));
-		} catch (FileNotFoundException e) {
-			return null;
-		}
-		
-		try {
-			do {
-				String s = reader.readLine();
-				if (s != null && s.length() > "#! ruby".length()) {
-					if (s.charAt(0) == '#' && s.charAt(1) == '!') {
-						int i = s.indexOf("ruby");
-						if (i > 0) {
-							return s.substring(i + 4).trim();
-						}
-					}
-				}
-			} while (strip_);
-		} catch (IOException e) {
-			return null;
-		}
-		
-		
-		
-		return null;
-	}
 }

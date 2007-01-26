@@ -81,4 +81,9 @@ public class CommandLineOptionsTest extends TestCase {
 		assertEquals(1, options.getArgs().length);
 		assertEquals("zzz", options.getArgs()[0]);
 	}
+	
+	public void test_dash_i() {
+		CommandLineOptions options = new CommandLineOptions(new String[] {"-i.bak", "-pe", "\"print 1\"", "filename"});
+		assertEquals(".bak", options.getBackupExtension());
+	}
 }
