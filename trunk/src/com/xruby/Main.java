@@ -71,7 +71,7 @@ public class Main {
 		System.setIn(s);
 		
 		//redirect stdout
-		//TODO how does ruby do it?
+		//TODO how does ruby do it? only with "-i" option?
 		OutputStream output = new FileOutputStream(filename);
 		System.setOut(new PrintStream(output));
 	}
