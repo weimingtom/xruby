@@ -655,6 +655,23 @@ class Kernel_block_given extends RubyMethod {
 	}
 }
 
+class Kernel_gets extends RubyMethod {
+	public Kernel_gets() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		String s = null;
+		try {
+			s = in.readLine();
+		} catch (IOException e) {
+		}
+		GlobalVariables.set((null == s ? ObjectFactory.nilValue : ObjectFactory.createString(s)), "$_");
+		return GlobalVariables.get("$_");
+	}
+}
+
 public class KernelModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.KernelModule;
@@ -697,6 +714,8 @@ public class KernelModuleBuilder {
 		m.defineMethod("at_exit", new Kernel_at_exit());
 		m.defineMethod("gsub", new Kernel_gsub());
 		m.defineMethod("gsub!", new Kernel_gsub_danger());
+		m.defineMethod("sub", new Kernel_gsub());//TODO sub != gsub
+		m.defineMethod("gets", new Kernel_gets());//TODO sub != gsub
 		m.setAccessPublic();
 
 		RubyRuntime.ObjectClass.includeModule(m);
