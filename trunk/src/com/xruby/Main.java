@@ -5,6 +5,7 @@
 package com.xruby;
 
 import java.io.*;
+import java.nio.channels.FileChannel;
 import com.xruby.compiler.*;
 import com.xruby.compiler.codegen.*;
 import com.xruby.runtime.lang.*;
@@ -23,6 +24,9 @@ public class Main {
 		
 		if (options.isEvalOneLine()) {
 			//eval string
+			if (options.getBackupExtension() != null && options.getFilename() != null) {
+				copyFile(options.getFilename(), options.getFilename() + options.getBackupExtension());
+			}
 			RubyCompiler compiler = new RubyCompiler(null, options.isStrip());
 			CompilationResults results = compiler.compile(new StringReader(options.getEvalScript()));
 			run(results, null);
@@ -72,4 +76,18 @@ public class Main {
 		AtExitBlocks.invokeAll();
 	}
 
+	//TODO move to a separated class
+	private static void copyFile(String from, String to) {
+		try {
+			FileChannel srcChannel = new FileInputStream(from).getChannel();
+			FileChannel dstChannel = new FileOutputStream(to).getChannel();
+			
+			dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
+			
+			srcChannel.close();
+			dstChannel.close();
+		} catch (IOException e) {
+			throw new Error(e);
+		}
+	}
 }
