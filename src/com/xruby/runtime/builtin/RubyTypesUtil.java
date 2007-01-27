@@ -92,6 +92,10 @@ public class RubyTypesUtil {
 	}
 	
 	public static char convertToJavaChar(RubyValue arg){
-		return (char)convertToJavaInt(arg);
+		int i = convertToJavaInt(arg);
+		if (i < 0) {
+			i = 256 + i;
+		}
+		return (char)i;
 	}
 }

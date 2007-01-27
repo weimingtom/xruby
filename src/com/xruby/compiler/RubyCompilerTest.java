@@ -4605,8 +4605,9 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_pack() {
+	public void test_pack() {	
 		String [] program_texts = {
+				"print [-100].pack('c')[0]",
 				"print [128].pack('C')[0]",
 				"print ['abcdef'].pack('a6')",
 				"print [127,128].pack('CC') == \"\177\200\"",
@@ -4614,6 +4615,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"156",
 				"128",
 				"abcdef",
 				"true",
