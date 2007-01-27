@@ -51,7 +51,7 @@ class ArrayPacker {
 		StringBuilder result = new StringBuilder();
 		
 		int pos = 0;
-		while (pos < format.length()){
+		while (pos < format.length()) {
 			char type = format.charAt(pos ++);
 			if (NATINT_PACK) natint = 0;
 			
@@ -70,34 +70,27 @@ class ArrayPacker {
 			else
 				t = format.charAt(pos);
 			
-			if (t == '_' || t == '!'){
+			if (t == '_' || t == '!') {
 				final String natstr = "sSiIlL";
-				if (natstr.indexOf(t) >= 0){
+				if (natstr.indexOf(type) >= 0){
 					if (NATINT_PACK) natint = 1;
 					pos ++;
-				}else{
+				} else {
 					throw new RubyException(RubyRuntime.ArgumentErrorClass, String.format("'%c' allowed only after types %s", type, natstr));
 				}
-			}
-			
-			if (pos >= format.length())
-				t = 0;
-			else
-				t = format.charAt(pos);
-			
-			if (format.indexOf(pos) == '*') {
+			} else if (t == '*') {
 				len = "@Xxu".indexOf(t) >= 0 ? 0 : items;
 				pos ++;
-			}else if(Character.isDigit(t)){
+			} else if(Character.isDigit(t)) {
 				int end = pos;
-				while (end < format.length() - 1 && Character.isDigit(format.indexOf(end + 1))){
+				while (end < format.length() - 1 && Character.isDigit(format.indexOf(end + 1))) {
 					end ++;
 				}
 				len = Integer.parseInt(format.substring(pos, end + 1), 10);
-			}else{
+			} else {
 				len = 1;
 			}
-			
+
 			switch (type){
 			case 'A': case 'a': case 'Z':
 			case 'B': case 'b':
@@ -105,34 +98,33 @@ class ArrayPacker {
 				if (items-- > 0)
 					from = array.get(idx ++);
 				else
-					throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
+					throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 				
 				if (from == ObjectFactory.nilValue){
 					ptr = "";
 					plen = 0;
-				}else{
+				} else {
 					ptr = ((RubyString)from).toString();
 					plen = ptr.length();
-					result.append(ptr);
 				}
 				
 				if (format.charAt(pos - 1) == '*'){
 					len = plen;
 				}
 				
-				switch (type){
+				switch (type) {
 				case 'a':
 				case 'A':
 				case 'Z':
 					{
-						if (plen >= len){
+						if (plen >= len) {
 							result.append(ptr.substring(0, len));
 							if (format.charAt(pos - 1) == '*' && type == 'Z')
 								result.append('\0');
-						}else{
+						} else {
 							result.append(ptr.substring(0, plen));
 							len -= plen;
-							while (len -- > 0){
+							while (len -- > 0) {
 								result.append(' ');
 							}
 						}
@@ -170,7 +162,7 @@ class ArrayPacker {
 								result.append(c);
 							}
 							len = j;
-							while (len-- > 0){
+							while (len-- > 0) {
 								result.append('\0');
 							}
 						}
@@ -207,7 +199,7 @@ class ArrayPacker {
 						}
 						
 						len = j;
-						while (len-- > 0){
+						while (len-- > 0) {
 							result.append('\0');
 						}
 					}
@@ -245,7 +237,7 @@ class ArrayPacker {
 						}
 						
 						len = j;
-						while (len-- > 0){
+						while (len-- > 0) {
 							result.append('\0');
 						}
 					}
@@ -284,20 +276,21 @@ class ArrayPacker {
 						}
 						
 						len = j;
-						while (len-- > 0){
+						while (len-- > 0) {
 							result.append('\0');
 						}
 					}
 					break;
 				}
+				break;
 					
 			case 'c':
 			case 'C':
-				while (len-- > 0){
+				while (len-- > 0) {
 					if (items-- > 0)
 						from = array.get(idx ++);
 					else
-						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
+						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 					
 					byte c = RubyTypesUtil.convertToJavaByte(from);
 					
@@ -307,13 +300,13 @@ class ArrayPacker {
 				
 			case 's':
 			case 'S':
-				while (len-- > 0){
+				while (len-- > 0) {
 					
 					
 					if (items-- > 0)
 						from = array.get(idx ++);
 					else
-						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
+						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 					
 					short s = RubyTypesUtil.convertToJavaShort(from);
 
@@ -326,11 +319,11 @@ class ArrayPacker {
 			case 'I':
 			case 'l':
 			case 'L':
-				while (len-- > 0){
+				while (len-- > 0) {
 					if (items-- > 0)
 						from = array.get(idx ++);
 					else
-						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
+						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 					
 					int i = RubyTypesUtil.convertToJavaInt(from);
 
@@ -342,11 +335,11 @@ class ArrayPacker {
 				
 			case 'q':
 			case 'Q':
-				while (len-- > 0){					
+				while (len-- > 0) {					
 					if (items-- > 0)
 						from = array.get(idx ++);
 					else
-						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
+						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 					
 					long l = RubyTypesUtil.convertToJavaLong(from);
 
@@ -370,13 +363,13 @@ class ArrayPacker {
 				
 			case 'f':
 			case 'F':
-				while (len-- > 0){
+				while (len-- > 0) {
 					float f;
 					
 					if (items-- > 0)
 						from = array.get(idx ++);
 					else
-						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
+						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 					
 					if (from instanceof RubyFixnum){
 						f = (long)(((RubyFixnum)from).intValue() & 0xffffffff);
@@ -403,11 +396,11 @@ class ArrayPacker {
 				
 			case 'd':
 			case 'D':
-				while (len-- > 0){
+				while (len-- > 0) {
 					if (items-- > 0)
 						from = array.get(idx ++);
 					else
-						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few"); // #TODO: message
+						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 					
 					double d = RubyTypesUtil.convertToJavaDouble(from);
 
@@ -426,7 +419,7 @@ class ArrayPacker {
 				break;
 				
 			case 'x': // null byte
-				while (len-- > 0){
+				while (len-- > 0) {
 					result.append('\0');
 				}
 				break;
@@ -442,7 +435,7 @@ class ArrayPacker {
 			case '@':
 				len -= result.length();
 				if (len > 0){
-					while (len-- > 0){
+					while (len-- > 0) {
 						result.append('\0');
 					}
 				}
@@ -461,7 +454,7 @@ class ArrayPacker {
 				throw new RubyException(RubyRuntime.ArgumentErrorClass, "% is not supported");
 
 			case 'U':
-				while (len-- > 0){
+				while (len-- > 0) {
 					char[] buf = new char[8];
 					
 					from = array.get(idx ++);
