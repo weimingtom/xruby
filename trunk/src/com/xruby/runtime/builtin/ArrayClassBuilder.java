@@ -410,7 +410,7 @@ class Array_pack extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		String format = ((RubyString)args.get(0)).toString();
-		return ArrayPacker.pack(array, format);	
+		return ObjectFactory.createString(ArrayPacker.pack(array, format));	
 	}
 }
 

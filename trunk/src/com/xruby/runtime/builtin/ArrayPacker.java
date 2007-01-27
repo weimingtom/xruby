@@ -19,11 +19,18 @@ class ArrayPacker {
 	}
 	
 	public static RubyArray unpack(RubyString s, String format) {
-		//TODO implement me!
-		return new RubyArray();
+		char type = format.charAt(0);
+
+		RubyArray a = new RubyArray();
+		switch (type) {
+		case 'q':
+			break;
+		}
+		
+		return a;	
 	}
 	
-	public static RubyString pack(RubyArray array, String format) {
+	public static StringBuilder pack(RubyArray array, String format) {
 		int natint = 0;
 		int len = 0;
 		int items = array.size();
@@ -334,7 +341,7 @@ class ArrayPacker {
 					
 					long l = RubyTypesUtil.convertToJavaLong(from);
 
-					for (int i=0; i<Long.SIZE; ++i){
+					for (int i=0; i<Long.SIZE/Byte.SIZE; ++i){
 						result.append((char)((l >> (i * 8) & 0xff)));
 					}
 				}
@@ -373,7 +380,7 @@ class ArrayPacker {
 					}
 
 					int bits = Float.floatToIntBits(f);
-					for (int i=0; i<Integer.SIZE; ++i){
+					for (int i=0; i<Integer.SIZE/Byte.SIZE; ++i){
 						result.append((char)((bits >> (i * 8) & 0xff)));
 					}
 				}
@@ -397,7 +404,7 @@ class ArrayPacker {
 
 					long bits = Double.doubleToLongBits(d);
 					
-					for (int i=0; i<Long.SIZE; ++i){
+					for (int i=0; i<Long.SIZE/Byte.SIZE; ++i){
 						result.append((char)((bits >> (i * 8) & 0xff)));
 					}
 				}
@@ -506,6 +513,6 @@ class ArrayPacker {
 			}
 		}
 
-		return ObjectFactory.createString(result);
+		return result;
 	}
 }
