@@ -91,7 +91,7 @@ public class RubyTypesUtil {
 		return (short)convertToJavaInt(arg);
 	}
 	
-	public static byte convertToJavaByte(RubyValue arg){
-		return (byte)convertToJavaInt(arg);
+	public static char convertToJavaChar(RubyValue arg){
+		return (char)convertToJavaInt(arg);
 	}
 }
