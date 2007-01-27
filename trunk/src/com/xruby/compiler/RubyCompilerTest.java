@@ -4604,4 +4604,16 @@ public class RubyCompilerTest extends TestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_pack() {
+		String [] program_texts = {
+				"print ['abcdef'].pack('a6')",
+		};
+		
+		String[] outputs = {
+				"abcdef",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
