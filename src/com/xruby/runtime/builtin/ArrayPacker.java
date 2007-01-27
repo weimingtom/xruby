@@ -292,9 +292,9 @@ class ArrayPacker {
 					else
 						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 					
-					byte c = RubyTypesUtil.convertToJavaByte(from);
+					char c = RubyTypesUtil.convertToJavaChar(from);
 					
-					result.append((char)c);
+					result.append(c);
 				}
 				break;
 				
