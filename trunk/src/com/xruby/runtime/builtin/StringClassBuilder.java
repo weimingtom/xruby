@@ -755,6 +755,18 @@ class String_delete extends RubyMethod {
 	}
 }
 
+class String_unpack extends RubyMethod {
+	public String_unpack() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString s = (RubyString)receiver;
+		RubyString format = ((RubyString)args.get(0));
+		return ArrayPacker.unpack(s.toString(), format.toString());
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -797,6 +809,7 @@ public class StringClassBuilder {
 		c.defineMethod("squeeze", new String_squeeze());
 		c.defineMethod("delete!", new String_delete_danger());
 		c.defineMethod("delete", new String_delete());
+		c.defineMethod("unpack", new String_unpack());
 		c.defineAllocMethod(new String_new());
 	}
 }

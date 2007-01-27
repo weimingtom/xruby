@@ -18,12 +18,21 @@ class ArrayPacker {
 		throw new RubyException("Not implemented");
 	}
 	
-	public static RubyArray unpack(RubyString s, String format) {
+	public static RubyArray unpack(String s, String format) {
 		char type = format.charAt(0);
 
 		RubyArray a = new RubyArray();
 		switch (type) {
 		case 'q':
+			if (s.length() < Long.SIZE/Byte.SIZE) {
+				a.add(ObjectFactory.nilValue);
+			} else {
+				long l = 0;
+				for (int i = 0; i < Long.SIZE/Byte.SIZE; ++i) {
+					l += (((long)s.charAt(i)) << i * 8);
+				}
+				a.add(ObjectFactory.createFixnum((int)l));
+			}
 			break;
 		}
 		
