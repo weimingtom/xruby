@@ -129,7 +129,7 @@ class ArrayPacker {
 				} else {
 					long l = 0;
 					for (int j = 0; j < Long.SIZE/Byte.SIZE; ++j) {
-						char c = str.charAt(s++);
+						long c = str.charAt(s++);
 						l += (c << (j * 8));
 					}
 					ary.add(ObjectFactory.createFixnum((int)l));
