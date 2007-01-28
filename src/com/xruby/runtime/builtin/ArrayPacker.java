@@ -110,6 +110,7 @@ class ArrayPacker {
 				
 				break;
 				
+			case 'i':
 			case 'l':
 				while (len-- > 0) {
 					int tmp = 0;
