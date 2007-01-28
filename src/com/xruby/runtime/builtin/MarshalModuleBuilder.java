@@ -166,8 +166,9 @@ class MarshalLoader {
 	
 		BigInteger biginteger = BigInteger.valueOf(0);
 		for (int i = 0; i < length; ++i) {
-			long c = v.charAt(current_index_ + i);
-			biginteger = biginteger.add(BigInteger.valueOf(c << (i * 8)));
+			BigInteger tmp = BigInteger.valueOf(v.charAt(current_index_ + i));
+			tmp = tmp.shiftLeft(i * 8);
+			biginteger = biginteger.add(tmp);
 		}
 	
 		current_index_ += length;
