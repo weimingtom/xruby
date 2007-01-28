@@ -4637,6 +4637,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_unpack() {
 		String [] program_texts = {
+				"print \"90\000\000\".unpack('i')",
+				"print \"@\342\001\000\".unpack('l')",
 				"print \"\001\200\".unpack('s_')",
 				"print \"\300\035\376\377\".unpack('l_')",
 				"print \"abcdef\".unpack('a6')",
@@ -4646,6 +4648,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"12345",
+				"123456",
 				"-32767",
 				"-123456",
 				"abcdef",
