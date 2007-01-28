@@ -144,12 +144,14 @@ class ArrayPacker {
 				
 			case 'D':
 			case 'd':
-				long tmp = 0;
-				for (int j = 0; j < Long.SIZE/Byte.SIZE; ++j) {
-					char c = str.charAt(s++);
-					tmp += (c << (j * 8));
+				while (len-- > 0) {
+					long tmp = 0;
+					for (int j = 0; j < Long.SIZE/Byte.SIZE; ++j) {
+						long c = str.charAt(s++);
+						tmp += (c << (j * 8));
+					}
+					ary.add(ObjectFactory.createFloat(Double.longBitsToDouble(tmp)));
 				}
-				ary.add(ObjectFactory.createFloat(Double.longBitsToDouble(tmp)));
 				break;
 				
 			default:

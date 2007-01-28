@@ -4057,6 +4057,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_String_misc() {
 		String [] program_texts = {
+				"print \"\\#\".length",
 				"print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '<\\&>')",
 				"print 'a.gif'.sub(/.*\\.([^\\.]+)$/, 'a\\2b')",
 				"print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '\\1')",
@@ -4075,6 +4076,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"1",
 				"<a.gif>",
 				"ab",
 				"gif",
@@ -4639,6 +4641,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_unpack() {
 		String [] program_texts = {
+				"print \">a\221E\312\300\\#@\".unpack('d')",
 				"print \"\000\000\000abcd\".unpack('x3a4')",
 				"print \"90\000\000\".unpack('i')",
 				"print \"@\342\001\000\".unpack('l')",
@@ -4651,6 +4654,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"9.87654321098",
 				"abcd",
 				"12345",
 				"123456",
