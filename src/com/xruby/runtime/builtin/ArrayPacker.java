@@ -293,10 +293,9 @@ class ArrayPacker {
 						from = array.get(idx ++);
 					else
 						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
-					
-					char c = RubyTypesUtil.convertToJavaChar(from);
-					
-					result.append(c);
+
+					int i = RubyTypesUtil.convertToJavaInt(from);
+					result.append((char)(i & 0xff));
 				}
 				break;
 				
@@ -310,10 +309,10 @@ class ArrayPacker {
 					else
 						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 					
-					short s = RubyTypesUtil.convertToJavaShort(from);
-
-					result.append((char)(s & 0xff));
-					result.append((char)(s >> 8));
+					int i = RubyTypesUtil.convertToJavaInt(from);
+					for (int j=0; j<Short.SIZE/Byte.SIZE; ++j) {
+						result.append((char)((i >> (j * 8) & 0xff)));
+					}
 				}
 				break;
 				
@@ -328,8 +327,7 @@ class ArrayPacker {
 						throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 					
 					int i = RubyTypesUtil.convertToJavaInt(from);
-
-					for (int j=0; j<Integer.SIZE/Byte.SIZE; ++j){
+					for (int j=0; j<Integer.SIZE/Byte.SIZE; ++j) {
 						result.append((char)((i >> (j * 8) & 0xff)));
 					}
 				}
