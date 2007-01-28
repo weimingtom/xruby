@@ -75,20 +75,8 @@ class ArrayPacker {
 			switch (type) {
 			case '%':
 			    throw new RubyException(RubyRuntime.ArgumentErrorClass, "%% is not supported");
-			
-			case 'q':
-				if (str.length() < Long.SIZE/Byte.SIZE) {
-					ary.add(ObjectFactory.nilValue);
-				} else {
-					long l = 0;
-					for (int i = 0; i < Long.SIZE/Byte.SIZE; ++i) {
-						l += (((long)str.charAt(i)) << i * 8);
-					}
-					ary.add(ObjectFactory.createFixnum((int)l));
-				}
-				break;
-			
-		  case 'a':
+					
+			case 'a':
 			    if (len > send - s) len = send - s;
 			    ary.add(ObjectFactory.createString(str.substring(s, len)));
 			    s += len;
@@ -109,6 +97,18 @@ class ArrayPacker {
 					ary.add(ObjectFactory.createFixnum(c));
 				}
 				break;
+			
+			case 's':
+				while (len-- > 0) {
+					short tmp = 0;
+					for (int j = 0; j < Short.SIZE/Byte.SIZE; ++j) {
+						char c = str.charAt(s++);
+						tmp += (c << (j * 8));
+					}
+					ary.add(ObjectFactory.createFixnum(tmp));
+				}
+				
+				break;
 				
 			case 'l':
 				while (len-- > 0) {
@@ -120,6 +120,18 @@ class ArrayPacker {
 					ary.add(ObjectFactory.createFixnum(tmp));
 				}
 				
+				break;
+				
+			case 'q':
+				if (str.length() < Long.SIZE/Byte.SIZE) {
+					ary.add(ObjectFactory.nilValue);
+				} else {
+					long l = 0;
+					for (int i = 0; i < Long.SIZE/Byte.SIZE; ++i) {
+						l += (((long)str.charAt(i)) << i * 8);
+					}
+					ary.add(ObjectFactory.createFixnum((int)l));
+				}
 				break;
 
 			case 'x':
