@@ -74,6 +74,19 @@ class MarshalDumper {
 		}
 	}
 	
+	private static void packObject(RubyValue v, StringBuilder sb) {
+		sb.append("C:");
+		String s = v.getRubyClass().getName();
+		packInteger(s.length(), sb);
+		sb.append(s);
+
+		if (v instanceof RubyString) {
+			packString((RubyString)v, sb);
+		} else {
+			throw new RubyException("not implemented");
+		}
+	}
+	
 	private static void packValue(RubyValue v, StringBuilder sb) {
 		if (v == ObjectFactory.nilValue) {
 			sb.append((char)0);
@@ -81,20 +94,20 @@ class MarshalDumper {
 			sb.append('T');
 		} else if (v == ObjectFactory.falseValue) {
 			sb.append('F');
-		} else if (v instanceof RubyString) {
+		} else if (v.getRubyClass() == RubyRuntime.StringClass) {
 			packString((RubyString)v, sb);
-		} else if (v instanceof RubyFixnum) {
+		} else if (v.getRubyClass() == RubyRuntime.FixnumClass) {
 			packInteger((RubyFixnum)v, sb);
-		} else if (v instanceof RubyArray) {
+		} else if (v.getRubyClass() == RubyRuntime.ArrayClass) {
 			packArray((RubyArray)v, sb);
-		} else if (v instanceof RubyHash) {
+		} else if (v.getRubyClass() == RubyRuntime.HashClass) {
 			packHash((RubyHash)v, sb);
-		} else if (v instanceof RubyFloat) {
+		} else if (v.getRubyClass() == RubyRuntime.FloatClass) {
 			packFloat((RubyFloat)v, sb);
-		} else if (v instanceof RubyBignum) {
+		} else if (v.getRubyClass() == RubyRuntime.BignumClass) {
 			packBignum((RubyBignum)v, sb);
 		} else {
-			throw new RubyException("is not implemented");
+			packObject(v, sb);
 		}
 	}
 	
