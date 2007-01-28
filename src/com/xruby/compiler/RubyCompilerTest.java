@@ -4637,11 +4637,13 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_unpack() {
 		String [] program_texts = {
-				"print  \"\001\234\".unpack('c2')",
-				"print  \"\200\".unpack('C')",
+				"print \"\000\000\000\000\000\".unpack('x5')",
+				"print \"\001\234\".unpack('c2')",
+				"print \"\200\".unpack('C')",
 		};
 		
 		String[] outputs = {
+				"",
 				"1-100",
 				"128",
 		};

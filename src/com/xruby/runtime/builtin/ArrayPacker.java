@@ -86,6 +86,7 @@ class ArrayPacker {
 					ary.add(ObjectFactory.createFixnum((int)l));
 				}
 				break;
+				
 			case 'c':
 				while (len-- > 0) {
 					int c = str.charAt(s++);
@@ -93,12 +94,19 @@ class ArrayPacker {
 					ary.add(ObjectFactory.createFixnum(c));
 				}
 				break;
+				
 			case 'C':
 				while (len-- > 0) {
 					char c = str.charAt(s++);
 					ary.add(ObjectFactory.createFixnum(c));
 				}
 				break;
+				
+		  case 'x':
+			    if (len > str.length() - s)
+			    	throw new RubyException(RubyRuntime.ArgumentErrorClass, "x outside of string");
+			    s += len;
+			    break;
 				
 			default:
 				break;
