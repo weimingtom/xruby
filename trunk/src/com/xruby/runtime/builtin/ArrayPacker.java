@@ -18,16 +18,17 @@ class ArrayPacker {
 		throw new RubyException("Not implemented");
 	}
 	
-	public static RubyArray unpack(String s, String format) {
+	public static RubyArray unpack(String str, String format) {
 		int len;
 		int star;
-		char type = format.charAt(0);
+		int s = 0;
+		char type;
 
 		RubyArray ary = new RubyArray();
 		
 		int p = 0;
 		while (p < format.length()) {
-			type = format.charAt(p);
+			type = format.charAt(p++);
 			
 			if (type == ' ') continue;
 			
@@ -58,9 +59,9 @@ class ArrayPacker {
 				len = 1;
 			} else if (t == '*') {
 				star = 1;
-			    len = s.length();
+			    len = str.length() - s;
 				p ++;
-			} else if(Character.isDigit(t)) {
+			} else if (Character.isDigit(t)) {
 				int end = p;
 				while (end < format.length() - 1 && Character.isDigit(format.indexOf(end + 1))) {
 					end ++;
@@ -71,17 +72,34 @@ class ArrayPacker {
 			}
 			
 			switch (type) {
+			case '%':
+			    throw new RubyException(RubyRuntime.ArgumentErrorClass, "%% is not supported");
+			
 			case 'q':
-				if (s.length() < Long.SIZE/Byte.SIZE) {
+				if (str.length() < Long.SIZE/Byte.SIZE) {
 					ary.add(ObjectFactory.nilValue);
 				} else {
 					long l = 0;
 					for (int i = 0; i < Long.SIZE/Byte.SIZE; ++i) {
-						l += (((long)s.charAt(i)) << i * 8);
+						l += (((long)str.charAt(i)) << i * 8);
 					}
 					ary.add(ObjectFactory.createFixnum((int)l));
 				}
 				break;
+			case 'c':
+				while (len-- > 0) {
+					int c = str.charAt(s++);
+					if (c > 127) c -= 256;
+					ary.add(ObjectFactory.createFixnum(c));
+				}
+				break;
+			case 'C':
+				while (len-- > 0) {
+					char c = str.charAt(s++);
+					ary.add(ObjectFactory.createFixnum(c));
+				}
+				break;
+				
 			default:
 				break;
 			}
@@ -131,7 +149,7 @@ class ArrayPacker {
 			if (t == '*') {
 				len = "@Xxu".indexOf(t) >= 0 ? 0 : items;
 				p ++;
-			} else if(Character.isDigit(t)) {
+			} else if (Character.isDigit(t)) {
 				int end = p;
 				while (end < format.length() - 1 && Character.isDigit(format.indexOf(end + 1))) {
 					end ++;
