@@ -4607,6 +4607,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_pack() {	
 		String [] program_texts = {
+				"print [-1].pack('s_')[0]",
+				"print [-32767].pack('s_')[1]",
 				"print [-123456].pack('l_')[0]",
 				"print [987.654321098 / 100.0].pack('i1')[0]",
 				"print [987].pack('d')[5]",
@@ -4619,6 +4621,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"255",
+				"128",
 				"192",
 				"9",
 				"216",

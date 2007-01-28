@@ -86,16 +86,4 @@ public class RubyTypesUtil {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Float");
 		}
 	}
-	
-	public static short convertToJavaShort(RubyValue arg){
-		return (short)convertToJavaInt(arg);
-	}
-	
-	public static char convertToJavaChar(RubyValue arg){
-		int i = convertToJavaInt(arg);
-		if (i < 0) {
-			i = 256 + i;
-		}
-		return (char)i;
-	}
 }
