@@ -125,6 +125,7 @@ class MarshalLoader {
 		int length = loadInteger(v);
 		String s = v.substring(current_index_, current_index_ + length);
 		double d = Double.parseDouble(s);
+		current_index_ += length;
 		return ObjectFactory.createFloat(d);
 	}
 	
@@ -160,13 +161,14 @@ class MarshalLoader {
 		char sign = v.charAt(current_index_++);
 		char length = v.charAt(current_index_++);
 	
-		long l = 0;
+		long l = 0;//TODO long is not big enough, use byte array
 		for (int i = 0; i < length; ++i) {
 			long c = v.charAt(current_index_ + i);
 			l += (c << (i * 8));
 		}
 	
 		current_index_ += length;
+		System.out.println(l);
 		return ObjectFactory.createBignum(BigInteger.valueOf(l));
 	}
 	
@@ -193,7 +195,7 @@ class MarshalLoader {
 		case 'l':
 			return loadBignum(v);
 		default:
-			throw new RubyException("not implemented");	
+			throw new RubyException("not implemented " + c);	
 		}
 	}
 	
