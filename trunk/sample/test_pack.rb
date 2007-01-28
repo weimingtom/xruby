@@ -169,6 +169,19 @@ test_ok([256].pack('L') == "\000\001\000\000")
 test_ok([257].pack('L') == "\001\001\000\000")
 
 =begin
+1,-100,   c2   \001\234
+          x5   \000\000\000\000\000
+127,      C    \177
+128,      C    \200
+          x    \000
+32767     s    \377\177
+987.654321098 / 100.0,  d   >a\221E\312\300\#@
+12345     i    90\000\000
+123456    l    @\342\001\000
+-32767    s_   \001\200
+-123456   l_   \300\035\376\377
+"abcdef"  a6   abcdef
+=end
 $format = "c2x5CCxsdils_l_a6";
 # Need the expression in here to force ary[5] to be numeric.  This avoids
 # test2 failing because ary2 goes str->numeric->str and ary does not.
@@ -179,8 +192,7 @@ ary2 = $x.unpack($format)
 test_ok(ary.length == ary2.length)
 test_ok(ary.join(':') == ary2.join(':'))
 test_ok($x =~ /def/)
-
 $x = [-1073741825]
 test_ok($x.pack("q").unpack("q") == $x)
 
-=end
+
