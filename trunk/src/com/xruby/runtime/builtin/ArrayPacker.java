@@ -109,6 +109,18 @@ class ArrayPacker {
 					ary.add(ObjectFactory.createFixnum(c));
 				}
 				break;
+				
+			case 'l':
+				while (len-- > 0) {
+					int tmp = 0;
+					for (int j = 0; j < Integer.SIZE/Byte.SIZE; ++j) {
+						char c = str.charAt(s++);
+						tmp += (c << (j * 8));
+					}
+					ary.add(ObjectFactory.createFixnum(tmp));
+				}
+				
+				break;
 
 			case 'x':
 				if (len > send - s)
