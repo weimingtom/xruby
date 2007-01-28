@@ -4607,6 +4607,10 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_pack() {	
 		String [] program_texts = {
+				"print [-123456].pack('l_')[0]",
+				"print [987.654321098 / 100.0].pack('i1')[0]",
+				"print [987].pack('d')[5]",
+				"print [32767].pack('s')[0]",
 				"print [-100].pack('c')[0]",
 				"print [128].pack('C')[0]",
 				"print ['abcdef'].pack('a6')",
@@ -4615,6 +4619,10 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"192",
+				"9",
+				"216",
+				"255",
 				"156",
 				"128",
 				"abcdef",
