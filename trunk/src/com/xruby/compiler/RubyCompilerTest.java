@@ -4215,6 +4215,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Marshal() {
 		String [] program_texts = {
+				"print Marshal.load(Marshal.dump(12345678900))",
+				
 				"str = Marshal.dump('thing'); print str.class",
 				"str = Marshal.dump('thing'); print str[0], str[1]",
 				"str = Marshal.dump(0); print str.length, str[3]",
@@ -4233,10 +4235,11 @@ public class RubyCompilerTest extends TestCase {
 				"print Marshal.load(Marshal.dump([0, 1, 2]))",
 				"print Marshal.load(Marshal.dump({4 => 5}))",
 				"print Marshal.load(Marshal.dump(2.5))",
-				//TODO "print Marshal.load(Marshal.dump(12345678900))",
 		};
 		
 		String[] outputs = {
+				"12345678900",
+					
 				"String",
 				"48",
 				"40",
@@ -4255,7 +4258,6 @@ public class RubyCompilerTest extends TestCase {
 				"012",
 				"45",
 				"2.5",
-				//"12345678900",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);	

@@ -62,14 +62,13 @@ class MarshalDumper {
 			sb.append('-');
 		}
 		
-		sb.append((char)v.size());
+		int size = v.size();
+		sb.append((char)size);
 		
-		//TODO
-		throw new RubyException("implement me!!!!");
-		/*byte[] b = biginteger.toByteArray();
-		for (int i = 0; i < b.length; ++i) {
-			sb.append(b[i]);
-		}*/
+		long l = biginteger.longValue();
+		for (int i = 0; i < size; ++i) {
+			sb.append((char)(l >> (i * 8) & 0xff));
+		}
 	}
 	
 	private static void packValue(RubyValue v, StringBuilder sb) {
@@ -158,11 +157,17 @@ class MarshalLoader {
 	}
 	
 	private RubyBignum loadBignum(String v) {
-		char sign = v.charAt(current_index_);
-		char length = v.charAt(current_index_ + 1);
-		
-		//TODO
-		throw new RubyException("implement me!!!!");
+		char sign = v.charAt(current_index_++);
+		char length = v.charAt(current_index_++);
+	
+		long l = 0;
+		for (int i = 0; i < length; ++i) {
+			long c = v.charAt(current_index_ + i);
+			l += (c << (i * 8));
+		}
+	
+		current_index_ += length;
+		return ObjectFactory.createBignum(BigInteger.valueOf(l));
 	}
 	
 	private RubyValue loadValue(String v) {
