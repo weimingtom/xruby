@@ -402,16 +402,16 @@ class String_access extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		String string = ((RubyString)receiver).toString();
-		if (args.size() == 1){
+		if (args.size() == 1) {
 			RubyValue arg = args.get(0);
-			if (arg instanceof RubyString){
+			if (arg instanceof RubyString) {
 				String str = ((RubyString)arg).toString();
 				if (string.indexOf(str) >= 0){
 					return ObjectFactory.createString(str);
 				}else{
 					return ObjectFactory.nilValue;
 				}
-			}else if(arg instanceof RubyRange){
+			} else if(arg instanceof RubyRange) {
 				RubyRange range = (RubyRange)arg;
 				int start = RubyTypesUtil.convertToJavaInt(range.getLeft());
 				int end = RubyTypesUtil.convertToJavaInt(range.getRight());
@@ -420,26 +420,27 @@ class String_access extends RubyMethod {
 				}
 				
 				return ObjectFactory.createString(substring(string, start, end));
-			}else if(arg instanceof RubyRegexp){
+			} else if(arg instanceof RubyRegexp) {
 				RubyRegexp regexp = (RubyRegexp)arg;
 				RubyMatchData match = regexp.match(string);
-				if (match != null){
+				if (match != null) {
 					return ObjectFactory.createString(match.to_s());
-				}else{
+				} else {
 					return ObjectFactory.nilValue;
 				}				
-			}else{
+			} else {
 				int index = RubyTypesUtil.convertToJavaInt(arg);
-				
-				String str = string;
-				if (str.length() == 0){
+				if (index < 0) {
+					index = string.length() + index;
+				}
+
+				if (index < 0 || index >= string.length()) {
 					return ObjectFactory.nilValue;
-				}else{
-					index %= str.length();
-					return ObjectFactory.createFixnum((int)str.charAt(index));
+				} else {
+					return ObjectFactory.createFixnum(string.charAt(index));
 				}
 			}
-		}else{
+		} else {
 			int start = RubyTypesUtil.convertToJavaInt(args.get(0));
 			int end = RubyTypesUtil.convertToJavaInt(args.get(1));
 			

@@ -4057,6 +4057,8 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_String_misc() {
 		String [] program_texts = {
+				"print 'x'[-1]",
+				"print 'x'[2]",
 				"print \"\\#\".length",
 				"print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '<\\&>')",
 				"print 'a.gif'.sub(/.*\\.([^\\.]+)$/, 'a\\2b')",
@@ -4076,6 +4078,8 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"120",
+				"nil",
 				"1",
 				"<a.gif>",
 				"ab",
@@ -4215,6 +4219,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Marshal() {
 		String [] program_texts = {
+				//"print Marshal.load(Marshal.dump(265252859812191058636308480000000))",
 				"print Marshal.load(Marshal.dump(12345678900))",
 				
 				"str = Marshal.dump('thing'); print str.class",
@@ -4224,7 +4229,7 @@ public class RubyCompilerTest extends TestCase {
 				"str = Marshal.dump('thing'); print str == \"\\x04\\x08\\\"\\nthing\"",
 				"str = Marshal.dump([1, 3]); print str == \"\\x04\\x08[\\x07i\\x06i\\x08\"",
 				"str = Marshal.dump({1 => 3}); print str == \"\\x04\\x08{\\x06i\\x06i\\x08\"",
-				//TODO "str = Marshal.dump(0x99_99_99_99_99_99); print str[2], '|', str[3], '|', str[4]",
+				"str = Marshal.dump(0x99_99_99_99_99_99); print str[2], '|', str[3], '|', str[4]",
 				
 				"print Marshal.load(Marshal.dump(nil))",
 				"print Marshal.load(Marshal.dump(true))",
@@ -4238,6 +4243,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				//"265252859812191058636308480000000",
 				"12345678900",
 					
 				"String",
@@ -4247,7 +4253,7 @@ public class RubyCompilerTest extends TestCase {
 				"true",
 				"true",
 				"true",
-				//"108|43|8",
+				"108|43|8",
 				
 				"nil",
 				"true",
