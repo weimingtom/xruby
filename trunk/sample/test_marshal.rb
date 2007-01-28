@@ -1,5 +1,15 @@
 require 'common'
 
+def fact(n)
+  return 1 if n == 0
+  f = 1
+  while n>0
+    f *= n
+    n -= 1
+  end
+  return f
+end
+
 test_check "marshal"
 $x = [1,2,3,[4,5,"foo"],{1=>"bar"},2.5,fact(30)]
 $y = Marshal.dump($x)
