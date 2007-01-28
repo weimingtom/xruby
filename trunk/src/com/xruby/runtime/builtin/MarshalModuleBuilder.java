@@ -65,9 +65,12 @@ class MarshalDumper {
 		int size = v.size();
 		sb.append((char)size);
 		
-		long l = biginteger.longValue();
-		for (int i = 0; i < size; ++i) {
-			sb.append((char)(l >> (i * 8) & 0xff));
+		byte[] bytes = new byte[size];
+		byte[] orig = biginteger.toByteArray();
+		System.arraycopy(orig, 0, bytes, size - orig.length, orig.length);
+		for (int i = size - 1; i >= 0; --i) {
+			int c = bytes[i];
+			sb.append((char)(c & 0xff));
 		}
 	}
 	
@@ -161,15 +164,14 @@ class MarshalLoader {
 		char sign = v.charAt(current_index_++);
 		char length = v.charAt(current_index_++);
 	
-		long l = 0;//TODO long is not big enough, use byte array
+		BigInteger biginteger = BigInteger.valueOf(0);
 		for (int i = 0; i < length; ++i) {
 			long c = v.charAt(current_index_ + i);
-			l += (c << (i * 8));
+			biginteger = biginteger.add(BigInteger.valueOf(c << (i * 8)));
 		}
 	
 		current_index_ += length;
-		System.out.println(l);
-		return ObjectFactory.createBignum(BigInteger.valueOf(l));
+		return ObjectFactory.createBignum(biginteger);
 	}
 	
 	private RubyValue loadValue(String v) {
