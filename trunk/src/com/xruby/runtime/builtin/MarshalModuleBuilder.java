@@ -205,9 +205,11 @@ class MarshalLoader {
 	}
 
 	private RubyValue loadObject(String v) {
+		++current_index_;//ignore ':'
 		String class_name = _loadString(v);
-
-		throw new RubyException("not implemented!");
+		RubyValue r = loadValue(v);
+		r.setRubyClass((RubyClass)RubyAPI.getConstant(RubyRuntime.GlobalScope, class_name));
+		return r;
 	}
 	
 	private RubyValue loadValue(String v) {

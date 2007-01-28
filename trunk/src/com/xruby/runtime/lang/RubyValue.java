@@ -94,6 +94,10 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 		return value;
 	}
 
+	public void setRubyClass(RubyClass c) {
+		class_ = c;
+	}
+
 	public RubyClass getRubyClass() {
 		return class_;
 	}
