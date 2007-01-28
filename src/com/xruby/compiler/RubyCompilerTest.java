@@ -4219,7 +4219,9 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Marshal() {
 		String [] program_texts = {
+				//"StrClone=String.clone; print Marshal.load(Marshal.dump(StrClone.new('abc'))).class",
 				"StrClone=String.clone; print Marshal.dump(StrClone.new('abc')) == \"\004\\bC:\\rStrClone\\\"\\babc\"",
+				"print Marshal.load(Marshal.dump(:hello))",
 				"print Marshal.load(Marshal.dump(265252859812191058636308480000000))",
 				"print Marshal.load(Marshal.dump(12345678900))",
 				
@@ -4244,7 +4246,9 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				//"StrClone",
 				"true",
+				"hello",
 				"265252859812191058636308480000000",
 				"12345678900",
 					

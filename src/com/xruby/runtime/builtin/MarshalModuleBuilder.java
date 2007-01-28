@@ -26,6 +26,12 @@ class MarshalDumper {
 		packInteger(v.length(), sb);
 		sb.append(v);
 	}
+
+	private static void packSymbol(RubySymbol v, StringBuilder sb) {
+		sb.append(':');
+		packInteger(v.toString().length(), sb);
+		sb.append(v.toString());
+	}
 	
 	private static void packArray(RubyArray v, StringBuilder sb) {
 		sb.append('[');
@@ -96,6 +102,8 @@ class MarshalDumper {
 			sb.append('F');
 		} else if (v.getRubyClass() == RubyRuntime.StringClass) {
 			packString((RubyString)v, sb);
+		} else if (v.getRubyClass() == RubyRuntime.SymbolClass) {
+			packSymbol((RubySymbol)v, sb);
 		} else if (v.getRubyClass() == RubyRuntime.FixnumClass) {
 			packInteger((RubyFixnum)v, sb);
 		} else if (v.getRubyClass() == RubyRuntime.ArrayClass) {
@@ -144,12 +152,20 @@ class MarshalLoader {
 		current_index_ += length;
 		return ObjectFactory.createFloat(d);
 	}
+
+	private RubySymbol loadSymbol(String v) {
+		return ObjectFactory.createSymbol(_loadString(v));
+	}
 	
 	private RubyString loadString(String v) {
+		return ObjectFactory.createString(_loadString(v));
+	}
+
+	private String _loadString(String v) {
 		int length = loadInteger(v);
 		String s = v.substring(current_index_, current_index_ + length);
 		current_index_ += length;
-		return ObjectFactory.createString(s);
+		return s;
 	}
 	
 	private RubyArray loadArray(String v) {
@@ -187,6 +203,12 @@ class MarshalLoader {
 		current_index_ += length;
 		return ObjectFactory.createBignum(biginteger);
 	}
+
+	private RubyValue loadObject(String v) {
+		String class_name = _loadString(v);
+
+		throw new RubyException("not implemented!");
+	}
 	
 	private RubyValue loadValue(String v) {
 		char c = v.charAt(current_index_); 
@@ -202,6 +224,8 @@ class MarshalLoader {
 			return ObjectFactory.createFixnum(loadInteger(v));
 		case '"':
 			return loadString(v);
+		case ':':
+			return loadSymbol(v);
 		case '[':
 			return loadArray(v);
 		case '{':
@@ -210,6 +234,8 @@ class MarshalLoader {
 			return loadFloat(v);
 		case 'l':
 			return loadBignum(v);
+		case 'C':
+			return loadObject(v);
 		default:
 			throw new RubyException("not implemented " + c);	
 		}
