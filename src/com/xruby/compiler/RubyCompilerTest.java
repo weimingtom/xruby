@@ -4617,7 +4617,6 @@ public class RubyCompilerTest extends TestCase {
 				"print [128].pack('C')[0]",
 				"print ['abcdef'].pack('a6')",
 				"print [127,128].pack('CC') == \"\177\200\"",
-				//"[1,-100,127,128,32767,987.654321098 / 100.0,12345,123456,-32767,-123456,'abcdef'].pack('c2x5CCxsdils_l_a6')",
 		};
 		
 		String[] outputs = {
@@ -4631,7 +4630,20 @@ public class RubyCompilerTest extends TestCase {
 				"128",
 				"abcdef",
 				"true",
-				//"nil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_unpack() {
+		String [] program_texts = {
+				"print  \"\001\234\".unpack('c2')",
+				"print  \"\200\".unpack('C')",
+		};
+		
+		String[] outputs = {
+				"1-100",
+				"128",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
