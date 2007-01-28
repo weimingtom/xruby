@@ -128,8 +128,9 @@ class ArrayPacker {
 					ary.add(ObjectFactory.nilValue);
 				} else {
 					long l = 0;
-					for (int i = 0; i < Long.SIZE/Byte.SIZE; ++i) {
-						l += (((long)str.charAt(i)) << i * 8);
+					for (int j = 0; j < Long.SIZE/Byte.SIZE; ++j) {
+						char c = str.charAt(s++);
+						l += (c << (j * 8));
 					}
 					ary.add(ObjectFactory.createFixnum((int)l));
 				}
@@ -139,6 +140,16 @@ class ArrayPacker {
 				if (len > send - s)
 					throw new RubyException(RubyRuntime.ArgumentErrorClass, "x outside of string");
 				s += len;
+				break;
+				
+			case 'D':
+			case 'd':
+				long tmp = 0;
+				for (int j = 0; j < Long.SIZE/Byte.SIZE; ++j) {
+					char c = str.charAt(s++);
+					tmp += (c << (j * 8));
+				}
+				ary.add(ObjectFactory.createFloat(Double.longBitsToDouble(tmp)));
 				break;
 				
 			default:
