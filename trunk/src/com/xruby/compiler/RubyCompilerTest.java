@@ -4219,7 +4219,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_Marshal() {
 		String [] program_texts = {
-				//"print Marshal.load(Marshal.dump(265252859812191058636308480000000))",
+				"print Marshal.load(Marshal.dump(265252859812191058636308480000000))",
 				"print Marshal.load(Marshal.dump(12345678900))",
 				
 				"str = Marshal.dump('thing'); print str.class",
@@ -4243,7 +4243,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
-				//"265252859812191058636308480000000",
+				"265252859812191058636308480000000",
 				"12345678900",
 					
 				"String",
