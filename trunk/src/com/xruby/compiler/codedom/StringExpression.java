@@ -62,6 +62,10 @@ public class StringExpression extends Expression {
 				value_.append('\'');
 				++i;
 				break;
+			case '#':
+				value_.append('#');
+				++i;
+				break;
 			case 'x':
 				//e.g. "\x63"
 				String hex = value.substring(i + 2, i + 4);
