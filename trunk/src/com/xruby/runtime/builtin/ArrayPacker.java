@@ -78,7 +78,7 @@ class ArrayPacker {
 					
 			case 'a':
 			    if (len > send - s) len = send - s;
-			    ary.add(ObjectFactory.createString(str.substring(s, len)));
+			    ary.add(ObjectFactory.createString(str.substring(s, s + len)));
 			    s += len;
 			    break;
 				

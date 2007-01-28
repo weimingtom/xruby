@@ -4607,6 +4607,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_pack() {	
 		String [] program_texts = {
+				"print [\"abcd\"].pack('x3a4').length",
 				"print [-1].pack('s_')[0]",
 				"print [-32767].pack('s_')[1]",
 				"print [-123456].pack('l_')[0]",
@@ -4620,6 +4621,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"7",
 				"255",
 				"128",
 				"192",
@@ -4637,6 +4639,7 @@ public class RubyCompilerTest extends TestCase {
 	
 	public void test_unpack() {
 		String [] program_texts = {
+				"print \"\000\000\000abcd\".unpack('x3a4')",
 				"print \"90\000\000\".unpack('i')",
 				"print \"@\342\001\000\".unpack('l')",
 				"print \"\001\200\".unpack('s_')",
@@ -4648,6 +4651,7 @@ public class RubyCompilerTest extends TestCase {
 		};
 		
 		String[] outputs = {
+				"abcd",
 				"12345",
 				"123456",
 				"-32767",
