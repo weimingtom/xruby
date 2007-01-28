@@ -78,7 +78,9 @@ class ArrayPacker {
 				} else {
 					throw new RubyException(RubyRuntime.ArgumentErrorClass, String.format("'%c' allowed only after types %s", type, natstr));
 				}
-			} else if (t == '*') {
+			}
+			
+			if (t == '*') {
 				len = "@Xxu".indexOf(t) >= 0 ? 0 : items;
 				pos ++;
 			} else if(Character.isDigit(t)) {
