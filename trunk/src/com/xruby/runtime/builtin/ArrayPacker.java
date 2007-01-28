@@ -19,28 +19,78 @@ class ArrayPacker {
 	}
 	
 	public static RubyArray unpack(String s, String format) {
+		int len;
+		int star;
 		char type = format.charAt(0);
 
-		RubyArray a = new RubyArray();
-		switch (type) {
-		case 'q':
-			if (s.length() < Long.SIZE/Byte.SIZE) {
-				a.add(ObjectFactory.nilValue);
-			} else {
-				long l = 0;
-				for (int i = 0; i < Long.SIZE/Byte.SIZE; ++i) {
-					l += (((long)s.charAt(i)) << i * 8);
+		RubyArray ary = new RubyArray();
+		
+		int p = 0;
+		while (p < format.length()) {
+			type = format.charAt(p);
+			
+			if (type == ' ') continue;
+			
+			if (format.indexOf(p) == '#') {
+				while (p < format.length() && format.charAt(p) != '\n'){
+					p ++;
 				}
-				a.add(ObjectFactory.createFixnum((int)l));
+				continue;
 			}
-			break;
+			
+			char t;
+			if (p >= format.length())
+				t = 0;
+			else
+				t = format.charAt(p);
+			
+			star = 0;
+			if (t == '_' || t == '!') {
+				final String natstr = "sSiIlL";
+				if (natstr.indexOf(type) >= 0){
+					p ++;
+				} else {
+					throw new RubyException(RubyRuntime.ArgumentErrorClass, String.format("'%c' allowed only after types %s", type, natstr));
+				}
+			}
+			
+			if (p > format.length()) {
+				len = 1;
+			} else if (t == '*') {
+				star = 1;
+			    len = s.length();
+				p ++;
+			} else if(Character.isDigit(t)) {
+				int end = p;
+				while (end < format.length() - 1 && Character.isDigit(format.indexOf(end + 1))) {
+					end ++;
+				}
+				len = Integer.parseInt(format.substring(p, end + 1), 10);
+			} else {
+				len = (type != '@') ? 1 : 0;
+			}
+			
+			switch (type) {
+			case 'q':
+				if (s.length() < Long.SIZE/Byte.SIZE) {
+					ary.add(ObjectFactory.nilValue);
+				} else {
+					long l = 0;
+					for (int i = 0; i < Long.SIZE/Byte.SIZE; ++i) {
+						l += (((long)s.charAt(i)) << i * 8);
+					}
+					ary.add(ObjectFactory.createFixnum((int)l));
+				}
+				break;
+			default:
+				break;
+			}
 		}
 		
-		return a;	
+		return ary;	
 	}
 	
 	public static StringBuilder pack(RubyArray array, String format) {
-		int natint = 0;
 		int len = 0;
 		int items = array.size();
 		int idx = 0;
@@ -50,31 +100,29 @@ class ArrayPacker {
 		
 		StringBuilder result = new StringBuilder();
 		
-		int pos = 0;
-		while (pos < format.length()) {
-			char type = format.charAt(pos ++);
-			if (NATINT_PACK) natint = 0;
-			
+		int p = 0;
+		while (p < format.length()) {
+			char type = format.charAt(p ++);
+	
 			if (type == ' ') continue;
 			
-			if (format.indexOf(pos) == '#') {
-				while (pos < format.length() && format.charAt(pos) != '\n'){
-					pos ++;
+			if (format.indexOf(p) == '#') {
+				while (p < format.length() && format.charAt(p) != '\n'){
+					p ++;
 				}
 				continue;
 			}
 			
 			char t;
-			if (pos >= format.length())
+			if (p >= format.length())
 				t = 0;
 			else
-				t = format.charAt(pos);
+				t = format.charAt(p);
 			
 			if (t == '_' || t == '!') {
 				final String natstr = "sSiIlL";
 				if (natstr.indexOf(type) >= 0){
-					if (NATINT_PACK) natint = 1;
-					pos ++;
+					p ++;
 				} else {
 					throw new RubyException(RubyRuntime.ArgumentErrorClass, String.format("'%c' allowed only after types %s", type, natstr));
 				}
@@ -82,13 +130,13 @@ class ArrayPacker {
 			
 			if (t == '*') {
 				len = "@Xxu".indexOf(t) >= 0 ? 0 : items;
-				pos ++;
+				p ++;
 			} else if(Character.isDigit(t)) {
-				int end = pos;
+				int end = p;
 				while (end < format.length() - 1 && Character.isDigit(format.indexOf(end + 1))) {
 					end ++;
 				}
-				len = Integer.parseInt(format.substring(pos, end + 1), 10);
+				len = Integer.parseInt(format.substring(p, end + 1), 10);
 			} else {
 				len = 1;
 			}
@@ -110,7 +158,7 @@ class ArrayPacker {
 					plen = ptr.length();
 				}
 				
-				if (format.charAt(pos - 1) == '*'){
+				if (format.charAt(p - 1) == '*'){
 					len = plen;
 				}
 				
@@ -121,7 +169,7 @@ class ArrayPacker {
 					{
 						if (plen >= len) {
 							result.append(ptr.substring(0, len));
-							if (format.charAt(pos - 1) == '*' && type == 'Z')
+							if (format.charAt(p - 1) == '*' && type == 'Z')
 								result.append('\0');
 						} else {
 							result.append(ptr.substring(0, plen));
