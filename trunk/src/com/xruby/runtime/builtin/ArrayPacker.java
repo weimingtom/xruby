@@ -3,9 +3,7 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class ArrayPacker {
-	private static final boolean NATINT_PACK = true;
-	
+class ArrayPacker {	
 	private static String uv_to_utf8(char[] str){
 		throw new RubyException("Not implemented");
 	}
