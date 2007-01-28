@@ -23,6 +23,7 @@ class ArrayPacker {
 		int star;
 		int s = 0;
 		char type;
+		final int send = str.length();
 
 		RubyArray ary = new RubyArray();
 		
@@ -59,7 +60,7 @@ class ArrayPacker {
 				len = 1;
 			} else if (t == '*') {
 				star = 1;
-			    len = str.length() - s;
+			    len = send - s;
 				p ++;
 			} else if (Character.isDigit(t)) {
 				int end = p;
@@ -86,27 +87,34 @@ class ArrayPacker {
 					ary.add(ObjectFactory.createFixnum((int)l));
 				}
 				break;
+			
+		  case 'a':
+			    if (len > send - s) len = send - s;
+			    ary.add(ObjectFactory.createString(str.substring(s, len)));
+			    s += len;
+			    break;
 				
 			case 'c':
 				while (len-- > 0) {
 					int c = str.charAt(s++);
-					if (c > 127) c -= 256;
+					if (c > 127)
+						c -= 256;
 					ary.add(ObjectFactory.createFixnum(c));
 				}
 				break;
-				
+
 			case 'C':
 				while (len-- > 0) {
 					char c = str.charAt(s++);
 					ary.add(ObjectFactory.createFixnum(c));
 				}
 				break;
-				
-		  case 'x':
-			    if (len > str.length() - s)
-			    	throw new RubyException(RubyRuntime.ArgumentErrorClass, "x outside of string");
-			    s += len;
-			    break;
+
+			case 'x':
+				if (len > send - s)
+					throw new RubyException(RubyRuntime.ArgumentErrorClass, "x outside of string");
+				s += len;
+				break;
 				
 			default:
 				break;
