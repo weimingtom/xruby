@@ -1,12 +1,17 @@
+/** 
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
 
 
 public class RubyRange extends RubyBasic {
-	private RubyValue begin;
-	private RubyValue end;
-	private boolean excludeEnd;
+	private RubyValue begin_;
+	private RubyValue end_;
+	private boolean exclude_end_;
 
 	RubyRange() {
 		super(RubyRuntime.RangeClass);
@@ -31,29 +36,29 @@ public class RubyRange extends RubyBasic {
 			throw exception;
 		}
 
-		begin = left;
-		end = right;
-		excludeEnd = isExclusive;
+		begin_ = left;
+		end_ = right;
+		exclude_end_ = isExclusive;
 	}
 	
 	public RubyValue getLeft() {
-		return begin;
+		return begin_;
 	}
 	
 	public RubyValue getRight() {
-		return end;
+		return end_;
 	}
 	
 	public boolean isExcludeEnd() {
-		return excludeEnd;
+		return exclude_end_;
 	}
 
 	public RubyArray to_a() {
 		RubyArray a = new RubyArray();
 		//TODO may not be RubyFixnum
-		int left = ((RubyFixnum)begin).intValue();
-		int right = ((RubyFixnum)end).intValue();
-		if (!excludeEnd) {
+		int left = ((RubyFixnum)begin_).intValue();
+		int right = ((RubyFixnum)end_).intValue();
+		if (!exclude_end_) {
 			++right;
 		}
 		for (int i = left; i < right; ++i) {

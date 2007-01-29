@@ -1,3 +1,8 @@
+/** 
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
