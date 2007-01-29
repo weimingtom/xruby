@@ -1,4 +1,4 @@
-<project name="xruby" default="test" basedir=".">
+<project name="xruby" default="dist" basedir=".">
 
 	<!-- Give user a chance to override without editing this file or typing -D -->
 	<property file="build.properties"/>
