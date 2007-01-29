@@ -1,3 +1,8 @@
+/** 
+ * Copyright 2006-2007 Jie Li
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.RubyException;
