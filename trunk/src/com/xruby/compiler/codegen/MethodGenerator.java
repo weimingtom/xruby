@@ -1,9 +1,9 @@
 /** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.codegen;
-
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
@@ -15,7 +15,6 @@ import com.xruby.runtime.value.*;
 class MethodGenerator extends GeneratorAdapter {
 	
 	private SymbolTable symbol_table_;
-
 	private ArrayList<Class> current_types_on_stack_ = new ArrayList<Class>();
 	private ArrayList<Integer> saved_vars_ = new ArrayList<Integer>();//may be have same length of current_types_on_stack_
 

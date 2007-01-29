@@ -1,5 +1,6 @@
 /** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.parser;
@@ -10,88 +11,66 @@ import antlr.Token;
 import antlr.TokenStreamException;
 import antlr.CommonToken;
 
-class TestingCommonToken extends CommonToken
-{
-	public TestingCommonToken(int t, String txt)
-	{
+class TestingCommonToken extends CommonToken {
+	public TestingCommonToken(int t, String txt) {
 		super(t, txt);
 		setLine(1);
 	}
 
-	public TestingCommonToken(int t, String txt, int line)
-	{
+	public TestingCommonToken(int t, String txt, int line) {
 		super(t, txt);
 		setLine(line);
 	}
 }
 
-public class RubyLexerTest extends TestCase implements RubyTokenTypes
-{
-	private void assert_type(String[] program_texts, int expected_type, String[] expected_texts)
-	{
+public class RubyLexerTest extends TestCase implements RubyTokenTypes {
+	
+	private void assert_type(String[] program_texts, int expected_type, String[] expected_texts) {
 		assertEquals("Length mismatch, setup expected_texts properly!", program_texts.length, expected_texts.length);
 
-		for (int i = 0; i < program_texts.length; ++i)
-		{
-			try
-			{
+		for (int i = 0; i < program_texts.length; ++i) {
+			try {
 				SymbolTableManager stm = new SymbolTableManager(null);
 				RubyLexer lexter = new RubyLexer(new StringReader(program_texts[i]), stm, false);
 				Token token = lexter.nextToken();
 				assertEquals(program_texts[i], expected_type, token.getType());
 
-				/*if (expected_texts[i] != token.getText())
-				{
-					System.out.println(expected_texts[i]);
-					System.out.println(token.getText());
-				}*/
 				assertEquals(program_texts[i], expected_texts[i], token.getText());
 
 				// should contain only one token
-				if (Token.EOF_TYPE == token.getType())
-				{
+				if (Token.EOF_TYPE == token.getType()) {
 					Token next_token = lexter.nextToken();
 					assertEquals(program_texts[i] + "contains multiple tokens!", Token.EOF_TYPE, next_token.getType());
 				}
-			}
-			catch (TokenStreamException e)
-			{
+			} catch (TokenStreamException e) {
 				assertTrue(program_texts[i]+ e.toString(), false);
 			}
 		}
 	}
 
-	private void assert_type(String[] program_texts, int expected_type)
-	{
+	private void assert_type(String[] program_texts, int expected_type) {
 		assert_type(program_texts, expected_type, program_texts);
 	}
 
-	private void assert_type(String program_text, int expected_type, String expected_text)
-	{
-		try
-		{
+	private void assert_type(String program_text, int expected_type, String expected_text) {
+		try {
 			SymbolTableManager stm = new SymbolTableManager(null);
 			RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm, false);
 			Token token = lexter.nextToken();
 			assertEquals(program_text, expected_type, token.getType());
 			assertEquals(program_text, expected_text, token.getText());
-		}
-		catch (TokenStreamException e)
-		{
+		} catch (TokenStreamException e) {
 			assertTrue(program_text + e.toString(), false);
 		}
 		
 	}
 
-	private void assert_type(String program_text, TestingCommonToken[] tokens)
-	{
-		try
-		{
+	private void assert_type(String program_text, TestingCommonToken[] tokens) {
+		try {
 			SymbolTableManager stm = new SymbolTableManager(null);
 			RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm, false);
 
-			for (int i = 0; i < tokens.length; ++i)
-			{
+			for (int i = 0; i < tokens.length; ++i) {
 				Token token = lexter.nextToken();
 				assertEquals(i + " " + token.getText() + " has wrong type!", tokens[i].getType(), token.getType());
 				assertEquals(i + " " + token.getText() + " has wrong text!", tokens[i].getText(), token.getText());
@@ -100,20 +79,16 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 
 			Token token = lexter.nextToken();
 			assertEquals("should have no token left!", token.getType(), Token.EOF_TYPE);
-		}
-		catch (TokenStreamException e)
-		{
+		} catch (TokenStreamException e) {
 			assertTrue(program_text + e.toString(), false);
 		}
 	}
 
-	private void assert_type(String program_text, int expected_type)
-	{
+	private void assert_type(String program_text, int expected_type) {
 		assert_type(program_text, expected_type, program_text);
 	}
 
-	public void test_token_stream1()
-	{
+	public void test_token_stream1() {
 		String program_text = "puts \"hello\";";
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(FUNCTION, "puts"),
@@ -124,8 +99,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream2()
-	{
+	public void test_token_stream2() {
 		String program_text = "0.step";
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(INTEGER, "0"),
@@ -136,8 +110,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream3()
-	{
+	public void test_token_stream3() {
 		String program_text = "$?/256";
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(GLOBAL_VARIABLE , "$?"),
@@ -148,8 +121,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream4()
-	{
+	public void test_token_stream4() {
 		String program_text = " def /(item)";
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(LITERAL_def, "def"),
@@ -162,8 +134,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream5()
-	{
+	public void test_token_stream5() {
 		String program_text = "def -@(); end";
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(LITERAL_def, "def"),
@@ -178,8 +149,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 	}
 
 	/*need parser
-	public void test_token_stream6()
-	{
+	public void test_token_stream6() {
 		String program_text = "puts <<EOS\n" +
 "Usage: #{123} [--key keypair_file] name\n"	+
 "  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n" +
@@ -199,8 +169,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}*/
 
-	public void test_token_stream7()
-	{
+	public void test_token_stream7() {
 		String program_text = 
 "    res.body =<<-_end_of_html_\r\n"	+
 "      <HTML/>\n"	+
@@ -219,8 +188,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream8()
-	{
+	public void test_token_stream8() {
 		String program_text = 
 "\r\nres.body = <<-_end_of_html_\n"	+
 "    _end_of_html_\n";
@@ -239,8 +207,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream9()
-	{
+	public void test_token_stream9() {
 		String program_text = "\n\n\nunless /{$1}\\z/o =~ s";
 
 		TestingCommonToken[] token_types =  {
@@ -254,8 +221,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream10()
-	{
+	public void test_token_stream10() {
 		String program_text = "  when /^#/" +
 "    raise \"unknown node type: '{ntype}'\"";
 
@@ -269,8 +235,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream11()
-	{
+	public void test_token_stream11() {
 		String program_text = "def log_src(src)\n"	+
 "  Logging::puts <<\"EOM\", src\n"	+
 "checked program was:\n"	+
@@ -300,8 +265,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream12()
-	{
+	public void test_token_stream12() {
 		String program_text = "1%200";
 
 		TestingCommonToken[] token_types =  {
@@ -313,8 +277,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream13()
-	{
+	public void test_token_stream13() {
 		String program_text = "; ;\t   ;";
 
 		TestingCommonToken[] token_types =  {
@@ -324,8 +287,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream14()
-	{
+	public void test_token_stream14() {
 		String program_text = "a =1;a\n\n\n;;;;";
 
 		TestingCommonToken[] token_types =  {
@@ -341,8 +303,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream15()
-	{
+	public void test_token_stream15() {
 		String program_text = "@numerator.to_f/@denominator.to_f";
 
 		TestingCommonToken[] token_types =  {
@@ -358,8 +319,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream16()
-	{
+	public void test_token_stream16() {
 		String program_text = "sprintf(\"Rational(%s, %s)\", @numerator.inspect, @denominator.inspect)";
 
 		TestingCommonToken[] token_types =  {
@@ -380,8 +340,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream17()
-	{
+	public void test_token_stream17() {
 		String program_text = "subj.gsub! /\\n/, \"\"\n";
 
 		TestingCommonToken[] token_types =  {
@@ -397,8 +356,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream18()
-	{
+	public void test_token_stream18() {
 		String program_text = "self / Rational.new!(a, 1)";
 
 		TestingCommonToken[] token_types =  {
@@ -417,8 +375,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream19()
-	{
+	public void test_token_stream19() {
 		String program_text = "session['key'].class";
 
 		TestingCommonToken[] token_types =  {
@@ -433,8 +390,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream20()
-	{
+	public void test_token_stream20() {
 		String program_text = "$4.to_i.to_r / (10**$4.size)";
 
 		TestingCommonToken[] token_types =  {
@@ -456,8 +412,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream21()
-	{
+	public void test_token_stream21() {
 		String program_text = "def check_response_auth( res )\n" +
 "raise POPAuthenticationError, res unless /\\A\\+OK/i === res\n" +
 "res\n" +
@@ -487,8 +442,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream22()
-	{
+	public void test_token_stream22() {
 		String program_text = "res.split(/ /)[1]";
 
 		TestingCommonToken[] token_types =  {
@@ -506,8 +460,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream23()
-	{
+	public void test_token_stream23() {
 		String program_text = "f(*a)";
 
 		TestingCommonToken[] token_types =  {
@@ -521,8 +474,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream24()
-	{
+	public void test_token_stream24() {
 		String program_text = "puts puts = 1";
 
 		TestingCommonToken[] token_types =  {
@@ -535,8 +487,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream25()
-	{
+	public void test_token_stream25() {
 		String program_text = "def a; f do |element|\n"	+
 "          klass.module_eval(<<-EOC, __FILE__, __LINE__)\n"	+
 "          EOC\n"	+
@@ -574,8 +525,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 	}
 	
 
-	public void test_token_stream26()
-	{
+	public void test_token_stream26() {
 		String program_text = ";if true then end";
 
 		TestingCommonToken[] token_types =  {
@@ -589,8 +539,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream27()
-	{
+	public void test_token_stream27() {
 		String program_text = "module_eval <<-\"end_eval\"\n		end_eval\n";
 
 		TestingCommonToken[] token_types =  {
@@ -603,8 +552,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream28()
-	{
+	public void test_token_stream28() {
 		String program_text = "1...3";
 
 		TestingCommonToken[] token_types =  {
@@ -616,8 +564,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream29()
-	{
+	public void test_token_stream29() {
 		String program_text = "puts 1 rescue true";
 
 		TestingCommonToken[] token_types =  {
@@ -630,8 +577,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_text, token_types);
 	}
 
-	public void test_token_stream30()
-	{
+	public void test_token_stream30() {
 		String program_text = "alias quo /";
 
 		TestingCommonToken[] token_types =  {
@@ -690,21 +636,18 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 	}*/
 	
 	/*
-	public void test_defined_question_mark()
-	{
+	public void test_defined_question_mark() {
 		String program_text = "defined?";
 		assert_type(program_text, 89);
 	}
 	*/
 
-	public void test_EmptyString()
-	{
+	public void test_EmptyString() {
 		String program_text = "";
 		assert_type(program_text, Token.EOF_TYPE, null);
 	}
 
-	public void test_REGEX()
-	{
+	public void test_REGEX() {
 		String[] program_texts = {
 			"/\\r\\n\\r\\n/s",
 			"/^#/",
@@ -726,8 +669,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, REGEX, expected_texts);
 	}
 
-	public void test_R_REGEX()
-	{
+	public void test_R_REGEX() {
 		String[] program_texts = {
 			"%r{([^ \\t\\r\\n\\[\\{\\(])\\'}",
 			"%r{test|test}",
@@ -757,62 +699,52 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, REGEX, expected_texts);
 	}
 	/*
-	public void test_SINGLE_QUOTA()
-	{
+	public void test_SINGLE_QUOTA() {
 		String program_text = "`";
 		assert_type(program_text, SINGLE_QUOTA);
 	}*/
 
-	public void test_QUESTION()
-	{
+	public void test_QUESTION() {
 		String program_text = "?";
 		assert_type(program_text, QUESTION);
 	}
 
-	public void test_LPAREN()
-	{
+	public void test_LPAREN() {
 		String program_text = "(";
 		assert_type(program_text, LPAREN);
 	}
 
-	public void test_RPAREN()
-	{
+	public void test_RPAREN() {
 		String program_text = ")";
 		assert_type(program_text, RPAREN);
 	}
 
-	public void test_LBRACK()
-	{
+	public void test_LBRACK() {
 		String program_text = "[";
 		assert_type(program_text, LBRACK);
 	}
 
-	public void test_RBRACK()
-	{
+	public void test_RBRACK() {
 		String program_text = "]";
 		assert_type(program_text, RBRACK);
 	}
 
-	public void test_LCURLY()
-	{
+	public void test_LCURLY() {
 		String program_text = "{";
 		assert_type(program_text, LCURLY_HASH);
 	}
 
-	public void test_RCURLY()
-	{
+	public void test_RCURLY() {
 		String program_text = "}";
 		assert_type(program_text, RCURLY);
 	}
 
-	public void test_COLON()
-	{
+	public void test_COLON() {
 		String program_text = ":";
 		assert_type(program_text, COLON_WITH_NO_FOLLOWING_SPACE);
 	}
 
-	public void test_COMMA()
-	{
+	public void test_COMMA() {
 		String[] program_texts = {
 			",",
 			", ",
@@ -830,182 +762,153 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, COMMA, expected_texts);
 	}
 
-	public void test_ASSIGN()
-	{
+	public void test_ASSIGN() {
 		String program_text = "=";
 		assert_type(program_text, ASSIGN);
 	}
 
-	public void test_PLUS_ASSIGN()
-	{
+	public void test_PLUS_ASSIGN() {
 		String program_text = "+=";
 		assert_type(program_text, PLUS_ASSIGN);
 	}
 	
-	public void test_MINUS_ASSIGN()
-	{
+	public void test_MINUS_ASSIGN() {
 		String program_text = "-=";
 		assert_type(program_text, MINUS_ASSIGN);
 	}
 
-	public void test_STAR_ASSIGN()
-	{
+	public void test_STAR_ASSIGN() {
 		String program_text = "*=";
 		assert_type(program_text, STAR_ASSIGN);
 	}
 
 	/*
-	public void test_DIV_ASSIGN()
-	{
+	public void test_DIV_ASSIGN() {
 		String program_text = "/=";
 		assert_type(program_text, DIV_ASSIGN);
 	}
 	*/
 
-	public void test_MOD_ASSIGN()
-	{
+	public void test_MOD_ASSIGN() {
 		String program_text = "%=";
 		assert_type(program_text, MOD_ASSIGN);
 	}
 
-	public void test_POWER_ASSIGN()
-	{
+	public void test_POWER_ASSIGN() {
 		String program_text = "**=";
 		assert_type(program_text, POWER_ASSIGN);
 	}
 
-	public void test_BAND_ASSIGN()
-	{
+	public void test_BAND_ASSIGN() {
 		String program_text = "&=";
 		assert_type(program_text, BAND_ASSIGN);
 	}
 
-	public void test_BXOR_ASSIGNN()
-	{
+	public void test_BXOR_ASSIGNN() {
 		String program_text = "^=";
 		assert_type(program_text, BXOR_ASSIGN);
 	}
 
-	public void test_BOR_ASSIGNN()
-	{
+	public void test_BOR_ASSIGNN() {
 		String program_text = "|=";
 		assert_type(program_text, BOR_ASSIGN);
 	}
 
 	/*
-	public void test_LEFT_SHIFT_ASSIGN()
-	{
+	public void test_LEFT_SHIFT_ASSIGN() {
 		String program_text = "<<=";
 		assert_type(program_text, LEFT_SHIFT_ASSIGN);
 	}
 	*/
 
-	public void test_RIGHT_SHIFT_ASSIGN()
-	{
+	public void test_RIGHT_SHIFT_ASSIGN() {
 		String program_text = ">>=";
 		assert_type(program_text, RIGHT_SHIFT_ASSIGN);
 	}
 
-	public void test_LOGICAL_AND_ASSIGN()
-	{
+	public void test_LOGICAL_AND_ASSIGN() {
 		String program_text = "&&=";
 		assert_type(program_text, LOGICAL_AND_ASSIGN);
 	}
 
-	public void test_LOGICAL_OR_ASSIGN()
-	{
+	public void test_LOGICAL_OR_ASSIGN() {
 		String program_text = "||=";
 		assert_type(program_text, LOGICAL_OR_ASSIGN);
 	}
 
-	public void test_NOT()
-	{
+	public void test_NOT() {
 		String program_text = "!";
 		assert_type(program_text, NOT);
 	}
 
-	public void test_BNOT()
-	{
+	public void test_BNOT() {
 		String program_text = "~";
 		assert_type(program_text, BNOT);
 	}
 
-	public void test_DIV()
-	{
+	public void test_DIV() {
 		String program_text = "/";
 		assert_type(program_text, DIV);
 	}
 
-	public void test_PLUS()
-	{
+	public void test_PLUS() {
 		String program_text = "+";
 		assert_type(program_text, UNARY_PLUS);
 	}
 
 	/*
-	public void test_MOD()
-	{
+	public void test_MOD() {
 		String program_text = "%";
 		assert_type(program_text, MOD);
 	}
 	*/
 
-	public void test_MINUS()
-	{
+	public void test_MINUS() {
 		String program_text = "-";
 		assert_type(program_text, UNARY_MINUS);
 	}
 
-	public void test_STAR()
-	{
+	public void test_STAR() {
 		String program_text = "*";
 		assert_type(program_text, REST_ARG_PREFIX);
 	}
 
-	public void test_LESS_THAN()
-	{
+	public void test_LESS_THAN() {
 		String program_text = "<";
 		assert_type(program_text, LESS_THAN);
 	}
 
-	public void test_GREATER_THAN()
-	{
+	public void test_GREATER_THAN() {
 		String program_text = ">";
 		assert_type(program_text, GREATER_THAN);
 	}
 
-	public void test_BXOR()
-	{
+	public void test_BXOR() {
 		String program_text = "^";
 		assert_type(program_text, BXOR);
 	}
 
-	public void test_BOR()
-	{
+	public void test_BOR() {
 		String program_text = "|";
 		assert_type(program_text, BOR);
 	}
 
-	public void test_LOGICAL_OR()
-	{
+	public void test_LOGICAL_OR() {
 		String program_text = "||";
 		assert_type(program_text, LOGICAL_OR);
 	}
 
-	public void test_LOGICAL_AND()
-	{
+	public void test_LOGICAL_AND() {
 		String program_text = "&&";
 		assert_type(program_text, LOGICAL_AND);
 	}
 
-	public void test_BAND()
-	{
+	public void test_BAND() {
 		String program_text = "&";
 		assert_type(program_text, BLOCK_ARG_PREFIX);
 	}
 
-	public void test_SEMI()
-	{
+	public void test_SEMI() {
 		String[] program_texts = {
 			";",
 			";;;",
@@ -1019,8 +922,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, SEMI, expected_texts);
 	}
 	
-	public void test_SEMI_as_LINEBREAK()
-	{
+	public void test_SEMI_as_LINEBREAK() {
 		String[] program_texts = {
 			"\n  \n\t\n\n;\n;",
 			";\n\n\n",
@@ -1036,98 +938,82 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, LINE_BREAK, expected_texts);
 	}
 
-	public void test_ASSOC()
-	{
+	public void test_ASSOC() {
 		String program_text = "=>";
 		assert_type(program_text, ASSOC);
 	}
 
-	public void test_INCLUSIVE_RANGE()
-	{
+	public void test_INCLUSIVE_RANGE() {
 		String program_text = "..";
 		assert_type(program_text, INCLUSIVE_RANGE);
 	}
 
-	public void test_EXCLUSIVE_RANGE()
-	{
+	public void test_EXCLUSIVE_RANGE() {
 		String program_text = "...";
 		assert_type(program_text, EXCLUSIVE_RANGE);
 	}
 
-	public void test_POWER()
-	{
+	public void test_POWER() {
 		String program_text = "**";
 		assert_type(program_text, POWER);
 	}
 
-	public void test_COMPARE()
-	{
+	public void test_COMPARE() {
 		String program_text = "<=>";
 		assert_type(program_text, COMPARE);
 	}
 
-	public void test_GREATER_OR_EQUAL()
-	{
+	public void test_GREATER_OR_EQUAL() {
 		String program_text = ">=";
 		assert_type(program_text, GREATER_OR_EQUAL);
 	}
 
-	public void test_LESS_OR_EQUAL()
-	{
+	public void test_LESS_OR_EQUAL() {
 		String program_text = "<=";
 		assert_type(program_text, LESS_OR_EQUAL);
 	}
 
-	public void test_EQUAL()
-	{
+	public void test_EQUAL() {
 		String program_text = "==";	
 		assert_type(program_text, EQUAL);
 	}
 
-	public void test_CASE_EQUAL()
-	{
+	public void test_CASE_EQUAL() {
 		String program_text = "===";
 		assert_type(program_text, CASE_EQUAL);
 	}
 
-	public void test_NOT_EQUAL()
-	{
+	public void test_NOT_EQUAL() {
 		String program_text = "!=";
 		assert_type(program_text, NOT_EQUAL);
 	}
 
-	public void test_MATCH()
-	{
+	public void test_MATCH() {
 		String program_text = "=~";
 		assert_type(program_text, MATCH);
 	}
 
-	public void test_NOT_MATCH()
-	{
+	public void test_NOT_MATCH() {
 		String program_text = "!~";
 		assert_type(program_text, NOT_MATCH);
 	}
 
-	public void test_LEFT_SHIFT()
-	{
+	public void test_LEFT_SHIFT() {
 		String program_text = "<<";
 		assert_type(program_text, LEFT_SHIFT);
 	}
 
-	public void test_RIGHT_SHIFT()
-	{
+	public void test_RIGHT_SHIFT() {
 		String program_text = ">>";
 		assert_type(program_text, RIGHT_SHIFT);
 	}
 
-	public void test_COLON2()
-	{
+	public void test_COLON2() {
 		String program_text = "::";
 		assert_type(program_text, LEADING_COLON2);
 	}
 
-	public void test_LINE_BREAK()
-	{
+	public void test_LINE_BREAK() {
 		String[] program_texts = {
 			"\r",
 			"\n",
@@ -1147,8 +1033,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, LINE_BREAK, expected_texts);
 	}
 
-	public void test_FUNCTION()
-	{
+	public void test_FUNCTION() {
 		String[] program_texts = {
 			"puts",
 			"print",
@@ -1157,8 +1042,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, FUNCTION);
 	}
 
-	public void test_IDENTIFIER  ()
-	{
+	public void test_IDENTIFIER  () {
 		String[] program_texts = {
 			"hey",
 			"_",
@@ -1172,8 +1056,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, FUNCTION);
 	}
 
-	public void test_PREDICATE_FUNCTION()
-	{
+	public void test_PREDICATE_FUNCTION() {
 		String[] program_texts = {
 			"hey?",
 			"_?",
@@ -1186,8 +1069,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, FUNCTION);
 	}
 
-	public void test_DESTRUCTIVE_FUNCTION()
-	{
+	public void test_DESTRUCTIVE_FUNCTION() {
 		String[] program_texts = {
 			"hey!",
 			"_!",
@@ -1200,8 +1082,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, FUNCTION);
 	}
 
-	public void test_GLOBAL_VARIABLE ()
-	{
+	public void test_GLOBAL_VARIABLE () {
 		String[] program_texts = {
 			"$-K",
 			"$A",
@@ -1231,8 +1112,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, GLOBAL_VARIABLE );
 	}
 
-	public void test_INSTANCE_VARIABLE()
-	{
+	public void test_INSTANCE_VARIABLE() {
 		String[] program_texts = {
 			"@A",
 			"@a",
@@ -1243,8 +1123,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, INSTANCE_VARIABLE);
 	}
 
-	public void test_CLASS_VARIABLE()
-	{
+	public void test_CLASS_VARIABLE() {
 		String[] program_texts = {
 			"@@A",
 			"@@a",
@@ -1255,8 +1134,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, CLASS_VARIABLE);
 	}
 	
-	public void test_CONSTANT()
-	{
+	public void test_CONSTANT() {
 		String[] program_texts = {
 			"A",
 			"Z",
@@ -1270,8 +1148,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, CONSTANT);
 	}
 
-	public void test_INTEGER()
-	{
+	public void test_INTEGER() {
 		String[] program_texts = {
 			"123456",
 			"1",
@@ -1293,8 +1170,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, INTEGER, expected_texts);
 	}
 
-	public void test_HEX()
-	{
+	public void test_HEX() {
 		String[] program_texts = {
 			"0xaabbC",
 			"0X0abb1",
@@ -1308,8 +1184,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, HEX, expected_texts);
 	}
 
-	public void test_OCTAL()
-	{
+	public void test_OCTAL() {
 		String[] program_texts = {
 			"0377",
 		};
@@ -1321,8 +1196,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, OCTAL, expected_texts);
 	}
 
-	public void test_BINARY()
-	{
+	public void test_BINARY() {
 		String[] program_texts = {
 			"0b1010",
 			"0B0100",
@@ -1338,8 +1212,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, BINARY, expected_texts);
 	}
 	
-	public void test_ASCII_VALUE()
-	{
+	public void test_ASCII_VALUE() {
 		String[] program_texts = {
 				"?&",
 				"?a",
@@ -1355,8 +1228,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 			assert_type(program_texts, ASCII_VALUE);
 	}
 
-	public void test_FLOAT()
-	{
+	public void test_FLOAT() {
 		String[] program_texts = {
 			".1",
 			".00",
@@ -1377,15 +1249,13 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, FLOAT);
 	}
 
-	public void test_DOT()
-	{
+	public void test_DOT() {
 		String program_texts = ".";
 
 		assert_type(program_texts, DOT);
 	}
 
-	public void test_DOUBLE_QUOTE_STRING_LITERAL()
-	{
+	public void test_DOUBLE_QUOTE_STRING_LITERAL() {
 		
 		String[] program_texts = {
 			"\"Rational(%s, %s)\"",
@@ -1422,8 +1292,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, DOUBLE_QUOTE_STRING, expected_texts);
 	}
 
-	public void test_COMMAND_OUTPUT()
-	{
+	public void test_COMMAND_OUTPUT() {
 		
 		String[] program_texts = {
 			"``",
@@ -1448,8 +1317,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, COMMAND_OUTPUT, expected_texts);
 	}
 
-	public void test_X_COMMAND_OUTPUT()
-	{
+	public void test_X_COMMAND_OUTPUT() {
 		String[] program_texts = {
 			"%x/^Ruby the OOPL/",
 			"%x|ruby|",
@@ -1472,8 +1340,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 	}
 
 
-	public void test_SINGLE_QUOTE_STRING_LITERAL()
-	{
+	public void test_SINGLE_QUOTE_STRING_LITERAL() {
 		
 		String[] program_texts = {
 			"\'\'",
@@ -1500,8 +1367,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, SINGLE_QUOTE_STRING, expected_texts);
 	}
 
-	public void test_q_STRING()
-	{
+	public void test_q_STRING() {
 		String[] program_texts = {
 			"%q!test string!",
 			"%q//",
@@ -1520,8 +1386,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 
 		assert_type(program_texts, SINGLE_QUOTE_STRING, expected_texts);
 	}
-	public void test_Q_STRING()
-	{
+	public void test_Q_STRING() {
 		String[] program_texts = {
 			"%/test string/",
 			"%Q/test string/",
@@ -1553,8 +1418,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, DOUBLE_QUOTE_STRING, expected_texts);
 	}
 
-	public void test_COMMENT()
-	{
+	public void test_COMMENT() {
 		String[] program_texts = {
 			"#",
 			"# ",
@@ -1576,8 +1440,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, Token.EOF_TYPE, expected_texts);
 	}
 
-	public void test_WHITE_SPACE()
-	{
+	public void test_WHITE_SPACE() {
 		String[] program_texts = {
 			" ",
 			"\t",
@@ -1597,8 +1460,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, Token.EOF_TYPE, expected_texts);
 	}
 
-	public void test_LINE_CONTINUATION()
-	{
+	public void test_LINE_CONTINUATION() {
 		String[] program_texts = {
 			"\\\n",
 		};
@@ -1610,8 +1472,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, Token.EOF_TYPE, expected_texts);
 	}
 
-	/*public void test_HERE_DOC_BEGIN()
-	{
+	/*public void test_HERE_DOC_BEGIN() {
 		String[] program_texts = {
 			"<<EOF\nThe price is #{$Price}.\nEOF\n",
 			"-<<123456\nThe\n price\n is #{$Price}.\n123456\n",
@@ -1627,8 +1488,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, HERE_DOC_BEGIN, expected_texts);
 	}*/
 
-	public void test_RDOC()
-	{
+	public void test_RDOC() {
 		String[] program_texts = {
 			"=begin\n=end",
 			"=begin\nwhatever\n=end",
@@ -1644,8 +1504,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, Token.EOF_TYPE, expected_texts);
 	}
 
-	public void test_W_ARRAY()
-	{
+	public void test_W_ARRAY() {
 		String[] program_texts = {
 			"%w(folder openfold)",
 			"%w/test string/",
@@ -1691,8 +1550,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, W_ARRAY, expected_texts);
 	}
 
-	public void test_END_OF_FILE()
-	{
+	public void test_END_OF_FILE() {
 		String[] program_texts = {
 			"\0",
 			"\004",
@@ -1702,8 +1560,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes
 		assert_type(program_texts, Token.EOF_TYPE);
 	}
 
-	public void test_EMPTY_ARRAY()
-	{
+	public void test_EMPTY_ARRAY() {
 		String[] program_texts = {
 			"[]",
 		};

@@ -1,10 +1,13 @@
+/** 
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.Method;
-
-//import com.xruby.runtime.lang.RubyMethod;
 
 class ClassGeneratorForRubyMethod extends ClassGenerator {
 

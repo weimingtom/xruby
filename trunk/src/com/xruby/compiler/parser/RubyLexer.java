@@ -1,5 +1,6 @@
 /** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.parser;
@@ -10,7 +11,6 @@ import antlr.*;
 
 class StringDelimiter {
 	private char delimiter_;
-
 	private int count_;
 
 	public StringDelimiter(char delimiter, int count) {

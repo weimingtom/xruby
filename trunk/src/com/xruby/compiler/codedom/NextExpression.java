@@ -1,10 +1,15 @@
+/** 
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.compiler.codedom;
 
 public class NextExpression extends Expression {
 
 	private ReturnArguments arguments_;
 	
-	public NextExpression(ReturnArguments arguments){
+	public NextExpression(ReturnArguments arguments) {
 		arguments_ = arguments;
 	}
 	

@@ -1,5 +1,6 @@
 /** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.codegen;
@@ -10,10 +11,8 @@ import java.util.jar.*;
 
 import com.xruby.compiler.*;
 
-class CompilationResultLoader extends ClassLoader
-{
-	public Class load(String name, byte[] b)
-	{
+class CompilationResultLoader extends ClassLoader {
+	public Class load(String name, byte[] b) {
 		return defineClass(NameFactory.convertSlashToDot(name), b, 0, b.length);
 	}
 }

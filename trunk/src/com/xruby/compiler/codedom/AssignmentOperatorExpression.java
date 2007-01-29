@@ -1,5 +1,6 @@
 /** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.codedom;
@@ -13,6 +14,16 @@ public class AssignmentOperatorExpression extends Expression {
 	private VariableExpression lhs_;
 	private Expression rhs_;
 
+	public AssignmentOperatorExpression(Expression left, Expression right) throws RecognitionException {
+		if (left instanceof VariableExpression) {
+			lhs_ = (VariableExpression)left;
+		} else {
+			throw new RecognitionException("Only variable can be assigned");
+		}
+		
+		rhs_ = right;
+	}
+	
 	VariableExpression getLhs() {
 		return lhs_;
 	}
@@ -33,16 +44,6 @@ public class AssignmentOperatorExpression extends Expression {
 		} else {
 			return new AssignmentOperatorExpression(left, right);
 		}
-	}
-
-	public AssignmentOperatorExpression(Expression left, Expression right) throws RecognitionException {
-		if (left instanceof VariableExpression) {
-			lhs_ = (VariableExpression)left;
-		} else {
-			throw new RecognitionException("Only variable can be assigned");
-		}
-		
-		rhs_ = right;
 	}
 
 	public void accept(CodeVisitor visitor) {
