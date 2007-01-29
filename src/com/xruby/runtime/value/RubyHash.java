@@ -1,14 +1,12 @@
-/**
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+/** 
+ * Copyright 2005-2007 Xue Yong Zhi, Yu Su
+ * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * @breif Internal representation of a ruby hash

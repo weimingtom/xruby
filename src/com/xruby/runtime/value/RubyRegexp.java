@@ -1,3 +1,8 @@
+/** 
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.value;
 
 import java.util.regex.*;
@@ -5,7 +10,7 @@ import com.xruby.runtime.lang.*;
 
 public class RubyRegexp extends RubyBasic {
 
-	private Pattern regex;
+	private Pattern regex_;
 	
 	RubyRegexp(String v) {
 		super(RubyRuntime.RegexpClass);
@@ -17,7 +22,7 @@ public class RubyRegexp extends RubyBasic {
 	}
 
 	public void setValue(String v) {
-		regex = Pattern.compile(v, Pattern.MULTILINE);
+		regex_ = Pattern.compile(v, Pattern.MULTILINE);
 	}
 	
 	public static String quote(String s) {
@@ -40,7 +45,7 @@ public class RubyRegexp extends RubyBasic {
 	}
 	
 	public RubyMatchData match(String v) {
-		Matcher m = regex.matcher(v);
+		Matcher m = regex_.matcher(v);
 		int i = 0;
 		if (m.find()) {
 			++i;
@@ -59,7 +64,7 @@ public class RubyRegexp extends RubyBasic {
 			v = "\n"; //TODO a hack to handle "" =~ /^$/, need a better solution
 		}
 		
-		Matcher m = regex.matcher(v);
+		Matcher m = regex_.matcher(v);
 		if (m.find()) {
 			GlobalVariables.set(ObjectFactory.createString(m.group()), "$&");
 			return m.start();
@@ -84,13 +89,13 @@ public class RubyRegexp extends RubyBasic {
 	}
 	
 	public String gsub(RubyString str, RubyString repl) {
-		Matcher m = regex.matcher(str.toString());
+		Matcher m = regex_.matcher(str.toString());
 		String replace_string = getReplaceString(repl.toString(), m);
 		return m.replaceAll(replace_string);
 	}
 
 	public RubyString gsub(RubyString s, RubyBlock block) {
-		Matcher m = regex.matcher(s.toString());
+		Matcher m = regex_.matcher(s.toString());
 		final int groupcount = m.groupCount();
 		RubyString r = new RubyString("");
 		int end = -1;
@@ -116,6 +121,6 @@ public class RubyRegexp extends RubyBasic {
 	}
 	
 	public String[] split(String input, int limit) {
-		return regex.split(input, limit);
+		return regex_.split(input, limit);
 	}
 }

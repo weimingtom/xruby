@@ -1,10 +1,15 @@
+/** 
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.value;
 
 import java.io.*;
 import com.xruby.runtime.lang.*;
 
 public class RubyIO extends RubyBasic {
-	private RandomAccessFile file = null;
+	private RandomAccessFile file_ = null;
 
 	RubyIO(String filename, String mode) {
 		super(RubyRuntime.FileClass);//FIXME create a new class for file
@@ -21,34 +26,34 @@ public class RubyIO extends RubyBasic {
 	}
 	
 	private boolean open(String filename, String mode) {
-		assert(null == file);
+		assert(null == file_);
 		try {
-			file = new RandomAccessFile(filename, translateMode(mode));
+			file_ = new RandomAccessFile(filename, translateMode(mode));
 			if (mode.equals("w")) {
-				file.setLength(0);
+				file_.setLength(0);
 			}
 			return true;
 		} catch (FileNotFoundException e) {
 			return false;
 		} catch (IOException e) {
-			file = null;
+			file_ = null;
 			return false;
 		}
 	}
 	
 	public boolean eof() {
 		try {
-			return file.length() == file.getFilePointer();
+			return file_.length() == file_.getFilePointer();
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
 		}
 	}
 	
 	public void close() {
-		if (null != file) {
+		if (null != file_) {
 			try {
-				file.close();
-				file = null;
+				file_.close();
+				file_ = null;
 			} catch (IOException e) {
 				//Do not care
 			}
@@ -56,12 +61,12 @@ public class RubyIO extends RubyBasic {
 	}
 	
 	public boolean print(String s) {
-		if (null == file) {
+		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 		
 		try {
-			file.writeBytes(s);
+			file_.writeBytes(s);
 			return true;
 		} catch (IOException e) {
 			return false;
@@ -69,15 +74,15 @@ public class RubyIO extends RubyBasic {
 	}
 
 	private RubyValue readsTheEntireContents() throws IOException {
-		int size = (int)file.length();//TODO converted long to int
+		int size = (int)file_.length();//TODO converted long to int
 		byte[] buffer = new byte[size];
-		file.read(buffer);
+		file_.read(buffer);
 		return ObjectFactory.createString(new String(buffer));
 	}
 
 	private RubyValue readUntilSeperator(String separator) throws IOException {
 		//FIXME This is cheating, should read until separator
-		String s = file.readLine();
+		String s = file_.readLine();
 		if (null == s) {
 			return ObjectFactory.nilValue;
 		} else {
@@ -86,7 +91,7 @@ public class RubyIO extends RubyBasic {
 	}
 	
 	public RubyValue gets(RubyValue separator) {
-		if (null == file) {
+		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 
@@ -108,7 +113,7 @@ public class RubyIO extends RubyBasic {
 	}
 	
 	public RubyValue read() {
-		if (null == file) {
+		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 		
@@ -120,15 +125,15 @@ public class RubyIO extends RubyBasic {
 	}
 	
 	public RubyValue read(long length) {
-		if (null == file) {
+		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 		
 		try{
-			long size = file.length();
+			long size = file_.length();
 			size = Math.min(length, size);
 			byte[] buffer = new byte[(int)size];
-			file.read(buffer);
+			file_.read(buffer);
 			return ObjectFactory.createString(new String(buffer));
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
@@ -136,12 +141,12 @@ public class RubyIO extends RubyBasic {
 	}
 	
 	public RubyValue read(int length, int offset) {
-		if (null == file) {
+		if (null == file_) {
 			throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
 		}
 		
 		try{
-			file.seek(offset);
+			file_.seek(offset);
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
 		}
