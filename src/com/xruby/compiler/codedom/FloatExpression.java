@@ -1,12 +1,11 @@
 /** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
  */
-
 
 package com.xruby.compiler.codedom;
 
-public class FloatExpression extends Expression
-{
+public class FloatExpression extends Expression {
 	private double value_;
 
 	public FloatExpression(String value) {

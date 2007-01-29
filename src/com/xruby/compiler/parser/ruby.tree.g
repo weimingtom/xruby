@@ -5,7 +5,8 @@ import com.xruby.compiler.codedom.*;
 }
 
 /** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
  */
 
 class RubyTreeParser extends TreeParser;

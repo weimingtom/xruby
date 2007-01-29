@@ -1,5 +1,6 @@
 /** 
- * Copyright (c) 2005-2006 Xue Yong Zhi. All rights reserved.
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.parser;
@@ -11,11 +12,9 @@ import antlr.Token;
 import antlr.TokenStreamException;
 import antlr.RecognitionException;
 
-public class RubyParserTest extends TestCase
-{
+public class RubyParserTest extends TestCase {
 	/// @param[in]e	Can be null
-	private String build_error_string(String program_text, Exception exception)
-	{
+	private String build_error_string(String program_text, Exception exception) {
 		assert(null != program_text);
 
 		//Dump text and exception(if any)
@@ -23,8 +22,7 @@ public class RubyParserTest extends TestCase
 		debug_message.append("\"");
 		debug_message.append(program_text);
 		debug_message.append("\" ");
-		if (null != exception)
-		{
+		if (null != exception) {
 			debug_message.append(exception.toString());
 		}
 
@@ -32,11 +30,9 @@ public class RubyParserTest extends TestCase
 		SymbolTableManager stm = new SymbolTableManager(null);
 		RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm, false);
 		debug_message.append("\nToken stream is:");
-		try
-		{
+		try {
 			Token token = lexter.nextToken();
-			while (Token.EOF_TYPE != token.getType())
-			{
+			while (Token.EOF_TYPE != token.getType()) {
 				debug_message.append(token.getText());
 				debug_message.append("(");
 				debug_message.append(token.getType());
@@ -44,17 +40,14 @@ public class RubyParserTest extends TestCase
 
 				token = lexter.nextToken();
 			}
-		}
-		catch (TokenStreamException e)
-		{
+		} catch (TokenStreamException e) {
 		}
 		debug_message.append("\n");
 
 		return debug_message.toString(); 
 	}
 
-	private void invoke_method_with_reflection(String program_text, String method_name) throws RecognitionException, TokenStreamException
-	{
+	private void invoke_method_with_reflection(String program_text, String method_name) throws RecognitionException, TokenStreamException {
 		assert(null != program_text);
 		assert(null != method_name);
 
@@ -62,40 +55,25 @@ public class RubyParserTest extends TestCase
 		Class c = parser.getClass();
 		
 		Method method = null;
-		try 
-		{
+		try {
 			method = c.getMethod(method_name);
-		}
-		catch (NoSuchMethodException e)
-		{
+		} catch (NoSuchMethodException e) {
 			assertTrue("No such method: " + method_name, false);
 		}
 		
-		try
-		{
+		try {
 			method.invoke(parser);
-		}
-		catch (IllegalAccessException e)
-		{
+		} catch (IllegalAccessException e) {
 			assertTrue(false);
-		}
-		catch (IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			assertTrue(false);
-		}
-		catch (InvocationTargetException e)
-		{
+		} catch (InvocationTargetException e) {
 			Throwable cause = e.getCause();
-			if (cause instanceof RecognitionException)
-			{
+			if (cause instanceof RecognitionException) {
 				throw (RecognitionException)cause;
-			}
-			else if (cause instanceof TokenStreamException)
-			{
+			} else if (cause instanceof TokenStreamException) {
 				throw (TokenStreamException)cause;
-			}
-			else
-			{
+			} else {
 				cause.printStackTrace();
 				assertTrue(cause.toString(), false);
 			}
@@ -106,27 +84,19 @@ public class RubyParserTest extends TestCase
 					Token.EOF_TYPE, parser.LT(1).getType());
 	}
 	
-	private void parse(String[] program_texts, String method_name)
-	{
-		for (int i = 0; i < program_texts.length; ++i)
-		{
-			try
-			{
+	private void parse(String[] program_texts, String method_name) {
+		for (int i = 0; i < program_texts.length; ++i) {
+			try {
 				invoke_method_with_reflection(program_texts[i], method_name);
-			}
-			catch (RecognitionException e)
-			{
+			} catch (RecognitionException e) {
 				assertTrue(build_error_string(program_texts[i], e), false);
-			}
-			catch (TokenStreamException e)
-			{
+			} catch (TokenStreamException e) {
 				assertTrue(build_error_string(program_texts[i], e), false);
 			}
 		}
 	}
 
-	public void test_terminal()
-	{
+	public void test_terminal() {
 		String[] program_texts = {
 			";",
 			";;;;;;;;;;;",
@@ -189,8 +159,7 @@ public class RubyParserTest extends TestCase
 		}
 	}
 
-	public void test_command_output()
-	{
+	public void test_command_output() {
 		String[] program_texts = {
 				"%x/hey there #{myname}/",
 		};
@@ -198,8 +167,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "command_output");
 	}
 
-	public void test_string()
-	{
+	public void test_string() {
 		String[] program_texts = {
 				"\"abc#{}opq#{   }xyz\"",
 				
@@ -261,8 +229,7 @@ public class RubyParserTest extends TestCase
 	}
 
 	/*
-	public void test_operatorAsMethodName()
-	{
+	public void test_operatorAsMethodName() {
 		String[] program_texts = {
 			"^",
 			"|",
@@ -287,8 +254,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "operatorAsMethodName");
 	}*/
 
-	public void test_literal()
-	{
+	public void test_literal() {
 		String[] program_texts = {
 			"%w(folder openfold)",
 		};
@@ -296,8 +262,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "literal");
 	}
 
-	public void test_numeric()
-	{
+	public void test_numeric() {
 		String[] program_texts = {
 			"0",
 			"2",
@@ -317,8 +282,7 @@ public class RubyParserTest extends TestCase
 	}
 
 	/*
-	public void test_variable()
-	{
+	public void test_variable() {
 		String[] program_texts = {
 			"a",
 			"abc",
@@ -376,8 +340,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "compoundStatement");
 	}
 	
-	public void test_compoundStatement()
-	{
+	public void test_compoundStatement() {
 		String[] program_texts = {
 
 " alias eql? ==\n" +
@@ -428,8 +391,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "compoundStatement");
 	}
 
-	public void test_alias()
-	{
+	public void test_alias() {
 		String[] program_texts = {
 			"alias / quo",
 			"alias quo /",
@@ -453,8 +415,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "statement");
 	}
 
-	public void test_undef()
-	{
+	public void test_undef() {
 		String[] program_texts = {
 			"   undef :default=",
 			"undef a while false",
@@ -465,8 +426,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "statement");
 	}
 
-	public void test_statementWithoutModifier()
-	{
+	public void test_statementWithoutModifier() {
 		String[] program_texts = {
 			"marshal_equal(:`)   #`",
 			"a,=*[1]",
@@ -488,8 +448,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "statementWithoutModifier");
 	}
 
-	public void test_statement()
-	{
+	public void test_statement() {
 		String[] program_texts = {
 			"alias_method :regular_writer, :[]= unless method_defined?(:regular_writer)",
 			"return (method.cast_returns(return_value.dup) rescue return_value) if ok",
@@ -529,8 +488,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "statement");
 	}
 
-	public void test_primaryExpression()
-	{
+	public void test_primaryExpression() {
 		String[] program_texts = {
 			"(method.cast_returns(return_value.dup) rescue return_value)",
 			"::TypeError",
@@ -552,8 +510,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "primaryExpression");
 	}
 
-	public void test_powerExpression()
-	{
+	public void test_powerExpression() {
 		String[] program_texts = {
 			"@denominator ** -other",
 			"123",
@@ -585,8 +542,7 @@ public class RubyParserTest extends TestCase
 	}
 
 	
-	public void test_multiplicativeExpression()
-	{
+	public void test_multiplicativeExpression() {
 		String[] program_texts = {
 			"1 / 2",
 			"123",
@@ -602,8 +558,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "multiplicativeExpression");
 	}
 
-	public void test_additiveExpression()
-	{
+	public void test_additiveExpression() {
 		String[] program_texts = {
 			"2 + -1",
 			"1 + 2",
@@ -623,8 +578,7 @@ public class RubyParserTest extends TestCase
 	}
 
 	
-	public void test_shiftExpression()
-	{
+	public void test_shiftExpression() {
 		String[] program_texts = {
 			"@plugin.log_debug << \"#{self.class.to_s} component created for #{@base_slot.name}\"",
 			"$stdout << 99 << \" red balloons\" << endl",
@@ -647,8 +601,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "shiftExpression");
 	}
 
-	public void test_andExpression()
-	{
+	public void test_andExpression() {
 		String[] program_texts = {
 			"in_assigned.map{|i| i.name} & out_vars.map{|i| i.name}",
 			"/b/&/c/",
@@ -673,8 +626,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "andExpression");
 	}
 
-	public void test_orExpression()
-	{
+	public void test_orExpression() {
 		String[] program_texts = {
 			"1 | 2",
 			"1 ^ 2",
@@ -700,8 +652,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "orExpression");
 	}
 
-	public void test_relationalExpression()
-	{
+	public void test_relationalExpression() {
 		String[] program_texts = {
 			"xl < -hdw",
 			"1 < 2",
@@ -734,8 +685,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "relationalExpression");
 	}
 
-	public void test_equalityExpression()
-	{
+	public void test_equalityExpression() {
 		String[] program_texts = {
 			"a.nodeType == XML::DOM::Node::ELEMENT_NODE",
 			"1 <=> 2",
@@ -775,8 +725,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "equalityExpression");
 	}
 
-	public void test_logicalAndExpression()
-	{
+	public void test_logicalAndExpression() {
 		String[] program_texts = {
 			"@pat[1].ipv6? && ipaddr.ipv4?",
 			"1 && 2",
@@ -818,8 +767,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "logicalAndExpression");
 	}
 
-	public void test_logicalOrExpression()
-	{
+	public void test_logicalOrExpression() {
 		String[] program_texts = {
 			"1 || 2",
 			"1+2 || 2 && 3 || 4",
@@ -862,8 +810,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "logicalOrExpression");
 	}
 
-	public void test_rangeExpression()
-	{
+	public void test_rangeExpression() {
 		String[] program_texts = {
 			"1...3",
 			"1..param_size",
@@ -911,8 +858,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "rangeExpression");
 	}
 
-	public void test_ternaryIfThenElseExpression()
-	{
+	public void test_ternaryIfThenElseExpression() {
 		String[] program_texts = {
 			"id ? \":in `#{id.id2name}'\":\"\"",
 			"@pubid.include?('\"')?\"'\":'\"'",
@@ -925,8 +871,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "ternaryIfThenElseExpression");
 	}
 
-	public void test_assignmentExpression()
-	{
+	public void test_assignmentExpression() {
 		String[] program_texts = {
 			"a = yield()",
 			"a=b=1",
@@ -998,8 +943,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "assignmentExpression");
 	}
 
-	public void test_notExpression()
-	{
+	public void test_notExpression() {
 		String[] program_texts = {
 			"not 1",
 			"not not not 1",
@@ -1060,8 +1004,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "notExpression");
 	}
 
-	public void test_expression()
-	{
+	public void test_expression() {
 		String[] program_texts = {
 			" /A *z/ =~ (@last = @file.gets)",
 			"class XMLRetry<Exception; end",
@@ -1075,8 +1018,7 @@ public class RubyParserTest extends TestCase
 	}
 
 
-	public void test_andorExpression()
-	{
+	public void test_andorExpression() {
 		String[] program_texts = {
 			"have_library(\"gdbm\") or return false",
 			":msg",
@@ -1142,8 +1084,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "andorExpression");
 	}
 
-	public void test_ifExpression()
-	{
+	public void test_ifExpression() {
 		String[] program_texts = {
 "if arg.kind_of? String\n" +
 "	@string = arg.clone\n" +
@@ -1179,8 +1120,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "ifExpression");
 	}
 
-	public void test_unlessExpression()
-	{
+	public void test_unlessExpression() {
 		String[] program_texts = {
 			"unless defined? Thread\n  fail \"Thread not available for this ruby interpreter\"		\n	end",
 			"unless %w(i4 int boolean string double dateTime.iso8601 base64).include? node.nodeName		\n	end",
@@ -1197,8 +1137,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "unlessExpression");
 	}
 
-	public void test_caseExpression()
-	{
+	public void test_caseExpression() {
 		String[] program_texts = {
 "   case\n" +
 "    when true\n" +
@@ -1230,8 +1169,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "caseExpression");
 	}
 
-	public void test_forExpression()
-	{
+	public void test_forExpression() {
 		String[] program_texts = {
 "    for i in 0...5 do\n" +
 "      for j in 0...i do\n" +
@@ -1250,8 +1188,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "forExpression");
 	}
 
-	public void test_whileExpression()
-	{
+	public void test_whileExpression() {
 		String[] program_texts = {
 
 "    while r.hitem do\n" +
@@ -1271,8 +1208,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "whileExpression");
 	}
 
-	public void test_untilExpression()
-	{
+	public void test_untilExpression() {
 		String[] program_texts = {
 			"until 1==2 do 1+1;;end",
 			"until 1==2 \n 1+1\n\nend",
@@ -1284,8 +1220,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "untilExpression");
 	}
 
-	public void test_moduleDefination()
-	{
+	public void test_moduleDefination() {
 		String[] program_texts = {
 			"module Tk::Tcllib	\n	end",
 			"module FreeIDE \n module GUI  \n  end   \n end # module FreeRIDE",
@@ -1297,8 +1232,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "moduleDefination");
 	}
 
-	public void test_classDefination()
-	{
+	public void test_classDefination() {
 		String[] program_texts = {
 
 
@@ -1334,8 +1268,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "classDefination");
 	}
 
-	public void test_methodDefination()
-	{
+	public void test_methodDefination() {
 		String[] program_texts = {
 
 "def tt4 &block\n" +
@@ -1544,8 +1477,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "methodDefination");
 	}
 
-	public void test_exceptionHandlingExpression()
-	{
+	public void test_exceptionHandlingExpression() {
 		String[] program_texts = {
 
 "begin\n" +
@@ -1578,8 +1510,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "exceptionHandlingExpression");
 	}
 	
-	public void test_arrayExpression()
-	{
+	public void test_arrayExpression() {
 		String[] program_texts = {
 "[\n" +
 "      SCOPE_ONE = 'one',\n" +
@@ -1601,8 +1532,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "arrayExpression");
 	}
 
-	public void test_hashExpression()
-	{
+	public void test_hashExpression() {
 		String[] program_texts = {
 			"{{}=>\"\"}",
 "{\n" +
@@ -1625,8 +1555,7 @@ public class RubyParserTest extends TestCase
 	}
 
 	/*
-	public void test_block_var()
-	{
+	public void test_block_var() {
 		String[] program_texts = {
 			"(orig, new)",
 			"dir",
@@ -1635,8 +1564,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "block_var");
 	}
 
-	public void test_block_vars()
-	{
+	public void test_block_vars() {
 		String[] program_texts = {
 			"dir, (orig, new)",
 		};
@@ -1645,8 +1573,7 @@ public class RubyParserTest extends TestCase
 	}
 	*/
 	
-	public void test_block_vars()
-	{
+	public void test_block_vars() {
 		String[] program_texts = {
 			"(orig, new)",
 			"(name, )",
@@ -1655,8 +1582,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "block_vars");
 	}
 
-	public void test_codeBlock()
-	{
+	public void test_codeBlock() {
 		String[] program_texts = {
 			"do |dir, (orig, new)|  end",
 			"do |(a_name, a_inf), (b_name, b_inf)|  \n    a_inf <=> b_inf	\nend",
@@ -1703,8 +1629,7 @@ public class RubyParserTest extends TestCase
 		
 	}
 
-	public void test_command()
-	{
+	public void test_command() {
 		String[] program_texts = {
 			"yield 5",
 			"printf 1+1",
@@ -1729,8 +1654,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "command");
 	}
 
-	public void test_methodCall()
-	{
+	public void test_methodCall() {
 		String[] program_texts = {
 			"yield(5)",
 			"yield()",
@@ -1755,8 +1679,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "methodCall");
 	}
 
-	public void test_dotColonOrArrayAccess()
-	{
+	public void test_dotColonOrArrayAccess() {
 		String[] program_texts = {
 			"1.-@",
 			"yield[2]",
@@ -1833,8 +1756,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "dotColonOrArrayAccess");
 	}
 
-	public void test_symbol()
-	{
+	public void test_symbol() {
 		String[] program_texts = {
 			":[]=",
 			":#{cmd_name}",
@@ -1877,8 +1799,7 @@ public class RubyParserTest extends TestCase
 		parse(program_texts, "symbol");
 	}
 
-	public void test_regex()
-	{
+	public void test_regex() {
 		String[] program_texts = {
 			"/#{$/}\\z/o",
 			"/\\A\\s*#{START}\\s/um",

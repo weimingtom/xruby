@@ -1,9 +1,14 @@
+/** 
+ * Copyright 2005-2007 Xue Yong Zhi
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.compiler.codedom;
 
 import java.util.*;
 import antlr.RecognitionException;
 
-public class NestedVariableExpression extends VariableExpression{
+public class NestedVariableExpression extends VariableExpression {
 	private ArrayList<VariableExpression> mlhs_ = new ArrayList<VariableExpression>();
 	private VariableExpression asterisk_lhs_ = null;
 
