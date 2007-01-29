@@ -1,11 +1,13 @@
+/** 
+ * Copyright 2006-2007 Yu Su
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.javasupport;
 
 import com.xruby.compiler.RubyCompiler;
 import com.xruby.compiler.codegen.CompilationResults;
-import com.xruby.runtime.lang.RubyProgram;
-import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.AtExitBlocks;
-
+import com.xruby.runtime.lang.*;
 import java.io.StringReader;
 
 /**
