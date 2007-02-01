@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2006-2007 Yu Su
  * Distributed under the GNU General Public License 2.0
  */
@@ -17,15 +17,20 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- *  Wrapper for Java Class
+ * Wrapper for Java Class
  *
- *  @author Yu Su (beanworms@gmail.com)
+ * @author Yu Su (beanworms@gmail.com)
  */
 public class JavaClass extends RubyClass {
 
+    // --------- Const fields ---------
+    
     private static final String INIT_METHOD = "initialize";
-    private static final String NEW_METHOD  = "new";
+    private static final String NEW_METHOD = "new";
 
+    // ----- end of const fields ------
+
+    // ----- Cache of methods (and constructors) --------
     private Map<String, List<Method>> methodMap
             = new HashMap<String, List<Method>>();
 
@@ -37,18 +42,28 @@ public class JavaClass extends RubyClass {
 
     private Map<Constructor, JavaMethod> initMethods
             = new HashMap<Constructor, JavaMethod>();
+    // --------- End of cache ---------
 
+    
+    // Actual constructor
     private JavaClass(String name) {
         super(name, RubyRuntime.ObjectClass, RubyRuntime.GlobalScope);
     }
 
+    /**
+     * Constructor
+     *
+     * @param clazz Class instance
+     */
     public JavaClass(Class clazz) {
         this(clazz.getName());
 
+        // Initialize public constructors and methods
         initConstructors(clazz);
         initMethods(clazz);
     }
 
+    // Collect public methods of given class
     private void initMethods(Class clazz) {
         Method[] methods = clazz.getDeclaredMethods();
 
@@ -60,10 +75,11 @@ public class JavaClass extends RubyClass {
         }
     }
 
+    // Collect public constructors of given class
     private void initConstructors(Class clazz) {
         Constructor[] constructors = clazz.getConstructors();
 
-        for(Constructor constructor: constructors) {
+        for (Constructor constructor : constructors) {
             int modifiers = constructor.getModifiers();
             if (Modifier.isPublic(modifiers)) {
                 categoryByParams(constructor);
@@ -71,6 +87,7 @@ public class JavaClass extends RubyClass {
         }
     }
 
+    // Helper class, catalogue the method
     private void categoryByName(Method method) {
         String name = method.getName();
 
@@ -89,41 +106,51 @@ public class JavaClass extends RubyClass {
         int size = types.length;
         List<Constructor> list = initMap.get(size);
 
-        if(null == list) {
+        if (null == list) {
             list = new ArrayList<Constructor>();
             list.add(constructor);
             initMap.put(size, list);
-        }
-        else {
+        } else {
             list.add(constructor);
         }
 
     }
 
+    /**
+     * Find method according to given method, if it's "new"
+     * return an "init" fake method
+     *
+     * @param methodName Name of the method
+     * @return wrapper of the method, otherwise null
+     */
     public RubyMethod findPublicMethod(String methodName) {
-        if(methodName.equals(NEW_METHOD)) {
-            return findMethod(INIT_METHOD);
-        }
-
-        if ( methodMap.containsKey(methodName) ) {
-            return new FakeMethod(methodName);
-        }
-
-        return null;
-    }
-
-    public RubyMethod findMethod(String methodName) {
-         if ( methodMap.containsKey(methodName) ) {
-            return new FakeMethod(methodName);
-        }
-        
-        if(methodName.equals(INIT_METHOD)) {
+        if (methodName.equals(NEW_METHOD)) {
             return new FakeInitMethod();
         }
 
+        if (methodMap.containsKey(methodName)) {
+            return new FakeMethod(methodName);
+        }
+
         return null;
     }
 
+    /**
+     * In JavaClass, it's just an alias for findPublicMethod
+     *
+     * @param methodName method's name
+     * @return Method instance
+     */
+    public RubyMethod findMethod(String methodName) {
+        return findPublicMethod(methodName);
+    }
+
+    /**
+     * This is the actual method which will be invoked
+     *
+     * @param name method's name
+     * @return method instance
+     */
     protected RubyMethod findOwnPublicMethod(String name) {
         return findPublicMethod(name);
     }
@@ -131,7 +158,7 @@ public class JavaClass extends RubyClass {
     JavaMethod getJavaMethod(Method method) {
         JavaMethod jMethod = javaMethods.get(method);
 
-        if(null == jMethod) {
+        if (null == jMethod) {
             jMethod = new JavaMethod(method);
             javaMethods.put(method, jMethod);
         }
@@ -144,10 +171,10 @@ public class JavaClass extends RubyClass {
     JavaMethod findJavaMethod(String methodName, RubyArray args) {
         int size = args == null ? 0 : args.size();
         List<Method> list = methodMap.get(methodName);
-        if(null == list) {
+        if (null == list) {
             return null;
         }
-        
+
         if (list.size() == 1) {
             Method method = list.get(0);
             Class[] params = method.getParameterTypes();
@@ -156,18 +183,16 @@ public class JavaClass extends RubyClass {
             }
 
             return getJavaMethod(method);
-        }
-        else {
+        } else {
             List<Method> tmpList = new ArrayList<Method>();
-            for(Method method: list) {
-                if(method.getParameterTypes().length == size) {
+            for (Method method : list) {
+                if (method.getParameterTypes().length == size) {
                     tmpList.add(method);
                 }
             }
-            if(tmpList.size() == 1) {
+            if (tmpList.size() == 1) {
                 return getJavaMethod(tmpList.get(0));
-            }
-            else {
+            } else {
                 // Go on Analyzing args
                 return null;
             }
@@ -177,7 +202,7 @@ public class JavaClass extends RubyClass {
     JavaMethod getJavaConstructor(Constructor constructor) {
         JavaMethod jMethod = initMethods.get(constructor);
 
-        if(null == jMethod) {
+        if (null == jMethod) {
             jMethod = new JavaMethod(constructor);
             initMethods.put(constructor, jMethod);
         }
@@ -190,15 +215,14 @@ public class JavaClass extends RubyClass {
         int size = args == null ? 0 : args.size();
         List<Constructor> list = initMap.get(size);
 
-        if(null == list) {
+        if (null == list) {
             return null;
         }
 
-        if(list.size() == 1) {
+        if (list.size() == 1) {
             Constructor constructor = list.get(0);
             return getJavaConstructor(constructor);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -216,7 +240,7 @@ public class JavaClass extends RubyClass {
             JavaClass clazz = (JavaClass) receiver.getRubyClass();
             JavaMethod method = clazz.findJavaMethod(methodName, args);
 
-            if(null == method) {
+            if (null == method) {
                 throw new RubyException("Signature of method " + methodName + " is illegal");
             }
 
@@ -234,7 +258,7 @@ public class JavaClass extends RubyClass {
             JavaClass clazz = (JavaClass) receiver;
             JavaMethod method = clazz.findInitMethod(args);
 
-            if(null == method) {
+            if (null == method) {
                 throw new RubyException("Signature is illegal");
             }
 

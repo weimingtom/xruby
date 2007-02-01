@@ -23,8 +23,10 @@ public class RequireExample {
                 "t = Talker.new\n" +
                 "t.talk \"XRuby\"\n" +
                 "t.talk \"Mr.\", \"XRuby\"" + "\n" +
+                "t.talk \"XRuby\"\n" +
                 "r = Random.new 259" + "\n" +
-                "puts r.nextInt";
+                "puts r.nextInt\n" +
+                "puts r.nextInt(20)";
 
 		RubyCompiler compiler = new RubyCompiler(null, false);
 		CompilationResults codes = compiler.compile(new StringReader(program_text));
