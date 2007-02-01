@@ -41,7 +41,7 @@ module Kernel
 		require__(path)	
 	end
 
-	#private
+	private
 	def load_once(file_name)
 		absolute_path = ::File.expand_path(file_name)
 		return false if $__loaded_libraries.include?(absolute_path)
@@ -49,7 +49,7 @@ module Kernel
 		result
 	end
 
-	#private
+	private
 	def load_file(file_name)
 		# TODO: delete the DEBUG info
 		puts "[DEBUG] Loading library: #{file_name}"
