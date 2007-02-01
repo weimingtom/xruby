@@ -23,6 +23,9 @@ import java.util.HashMap;
  */
 public class JavaClass extends RubyClass {
 
+    private static final String INIT_METHOD = "initialize";
+    private static final String NEW_METHOD  = "new";
+
     private Map<String, List<Method>> methodMap
             = new HashMap<String, List<Method>>();
 
@@ -98,6 +101,10 @@ public class JavaClass extends RubyClass {
     }
 
     public RubyMethod findPublicMethod(String methodName) {
+        if(methodName.equals(NEW_METHOD)) {
+            return findMethod(INIT_METHOD);
+        }
+
         if ( methodMap.containsKey(methodName) ) {
             return new FakeMethod(methodName);
         }
@@ -110,11 +117,15 @@ public class JavaClass extends RubyClass {
             return new FakeMethod(methodName);
         }
         
-        if(methodName.equals("initialize")) {
+        if(methodName.equals(INIT_METHOD)) {
             return new FakeInitMethod();
         }
 
         return null;
+    }
+
+    protected RubyMethod findOwnPublicMethod(String name) {
+        return findPublicMethod(name);
     }
 
     JavaMethod getJavaMethod(Method method) {
@@ -220,7 +231,7 @@ public class JavaClass extends RubyClass {
         }
 
         protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-            JavaClass clazz = (JavaClass) receiver.getRubyClass();
+            JavaClass clazz = (JavaClass) receiver;
             JavaMethod method = clazz.findInitMethod(args);
 
             if(null == method) {
