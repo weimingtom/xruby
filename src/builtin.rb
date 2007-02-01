@@ -51,8 +51,7 @@ module Kernel
 
 	private
 	def load_file(file_name)
-		# TODO: delete the DEBUG info
-		puts "[DEBUG] Loading library: #{file_name}"
+		#puts "[DEBUG] Loading library: #{file_name}"
 
 		content = ::IO.read(file_name)
 		eval(content, nil)
