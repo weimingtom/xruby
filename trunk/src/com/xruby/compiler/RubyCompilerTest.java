@@ -617,6 +617,22 @@ public class RubyCompilerTest extends TestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
+	public void test_Class_superclass() {
+		String[] program_texts = {
+				"print String.superclass",
+				"print Class.superclass",
+				"print Object.superclass",
+		};
+
+		String[] outputs = {
+				"Object",
+				"Module",
+				"nil",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+
 	public void test_class() {
 		String[] program_texts = {
 				"class C\n" +

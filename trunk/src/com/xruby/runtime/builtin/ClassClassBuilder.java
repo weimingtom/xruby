@@ -28,6 +28,22 @@ class Class_new extends RubyMethod {
 	}
 }
 
+class Class_superclass extends RubyMethod {
+	public Class_superclass() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyClass r = (RubyClass)receiver;
+		RubyClass c = r.getSuperClass();
+		if (null == c) {
+			return ObjectFactory.nilValue;
+		} else {
+			return c;
+		}
+	}
+}
+
 public class ClassClassBuilder {
 
 	static RubyMethod class_new_ = new Class_new();
@@ -35,5 +51,6 @@ public class ClassClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ClassClass;
 		c.defineMethod("new", class_new_);
+		c.defineMethod("superclass", new Class_superclass());
 	}
 }

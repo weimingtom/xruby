@@ -21,6 +21,10 @@ public class RubyClass extends RubyModule {
 	public RubyClass getRubyClass() {
 		return RubyRuntime.ClassClass;
 	}
+
+	public RubyClass getSuperClass() {
+		return superclass_;
+	}
 	
 	public void defineAllocMethod(RubyMethod m) {
 		alloc_method_ = m;
