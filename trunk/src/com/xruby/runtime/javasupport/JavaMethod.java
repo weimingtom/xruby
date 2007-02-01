@@ -45,23 +45,22 @@ public class JavaMethod extends RubyMethod {
 
     @SuppressWarnings("unchecked")
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        Object object = ((RubyData<Object>)receiver).getData();
         Object[] arguments = JavaUtil.convertToJavaValues(args);
 
         try {
             if(!isConstructor) {
+                Object object = ((RubyData<Object>)receiver).getData();
                 Object retValue = method.invoke(object, arguments);
 
                 return JavaUtil.convertToRubyValue(retValue);
             }
             else {
                 Object instance = constructor.newInstance(arguments);
-                ((RubyData<Object>)receiver).setData(instance);
+                RubyData<Object> value = new RubyJavaObject<Object>((JavaClass) receiver, instance);
+                return value;
             }
         } catch (Exception e) {          // IllegalAccessException and InvocationTargetException
             throw new RubyException(e.getMessage());
         }
-
-        return null;
     }
 }

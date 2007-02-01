@@ -16,7 +16,7 @@ public class RubyData<T> extends RubyBasic {
 	
 	private T value_;
 	
-	RubyData(RubyClass c, T v) {
+	protected RubyData(RubyClass c, T v) {
 		super(c);
 		value_ = v;
 	}
