@@ -5,16 +5,21 @@
 
 package com.xruby.runtime.javasupport;
 
-import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.RubyArray;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Wrapper for Java Class
@@ -194,6 +199,7 @@ public class JavaClass extends RubyClass {
                 return getJavaMethod(tmpList.get(0));
             } else {
                 // Go on Analyzing args
+
                 return null;
             }
         }

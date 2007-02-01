@@ -5,11 +5,15 @@
 
 package com.xruby.runtime.javasupport;
 
-import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.*;
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyData;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 /**
  * Java Method Wrapper for both public method and constructor
