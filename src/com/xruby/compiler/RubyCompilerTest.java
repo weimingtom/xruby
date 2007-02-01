@@ -15,13 +15,8 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 import com.xruby.compiler.codegen.*;
 
-public class RubyCompilerTest extends TestCase {
-
-	public void setUp() {
-		RubyRuntime.initBuiltin(new String[] {"my_arg"});
-	}
-	
-	private void compile_run_and_compare_result(String[] program_texts, int[] results) {
+class CompilerTestCase extends TestCase {
+	protected void compile_run_and_compare_result(String[] program_texts, int[] results) {
 		assertEquals("the number of 'results' should match 'program_texts'",
 				program_texts.length, results.length);
 
@@ -55,7 +50,7 @@ public class RubyCompilerTest extends TestCase {
 		}
 	}
 
-	private void compile_run_and_catch_exception(String[] program_texts, RubyException[] exceptions) {
+	protected void compile_run_and_catch_exception(String[] program_texts, RubyException[] exceptions) {
 		assertEquals("the number of 'exception' should match 'program_texts'",
 				program_texts.length, exceptions.length);
 
@@ -82,7 +77,7 @@ public class RubyCompilerTest extends TestCase {
 		}
 	}
 
-	private void compile_run_and_compare_output(String[] program_texts, String[] outputs) {
+	protected void compile_run_and_compare_output(String[] program_texts, String[] outputs) {
 		assertEquals("the number of 'outputs' should match 'program_texts'",
 				program_texts.length, outputs.length);
 
@@ -123,6 +118,14 @@ public class RubyCompilerTest extends TestCase {
 		}
 	}
 
+};
+
+public class RubyCompilerTest extends CompilerTestCase {
+
+	public void setUp() {
+		RubyRuntime.initBuiltin(new String[] {"my_arg"});
+	}
+	
 	public void test_raise() throws RecognitionException, TokenStreamException, CompilerException, InstantiationException, IllegalAccessException {
 		String program_texts = "raise 'test'";
 		RubyCompiler compiler = new RubyCompiler(null, false);
