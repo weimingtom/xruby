@@ -8,7 +8,7 @@
 #Some built-in functions can be implemented in pure ruby, so they are implemented here.
 #
 
-$: = ["./stdlib", "."]
+$: = ["./lib/ruby/1.8", "."]
 $__loaded_libraries = []
 
 $* = ARGV
