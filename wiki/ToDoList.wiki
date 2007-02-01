@@ -5,24 +5,23 @@
 Here is a list of things we are going to do
 
 = XRuby 0.2.0 =
-
+  * Make test::unit work under xruby (Milestone)
   * Merge newruntime
   * Implement more builtin libraries
-  * Make test::unit work under xruby
   * Support scripting API
   * Adjust generated code structure based on runtime.
   * Complete Java Support
+  * Refactoring is always welcome
 
 = Long Term Goal =
 
-  * Make Ruby on Rails works
-  * Use Antlr 3.0
+  * Make Ruby on Rails work
+  * Upgrade Antlr to 3.0
 
 = Thought =
 
-  * Make C extension works
+  * Make C extension work
   * Simplify builtin library code
-
 
 
 
