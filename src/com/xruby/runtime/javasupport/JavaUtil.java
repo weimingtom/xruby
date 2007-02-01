@@ -22,7 +22,7 @@ import com.xruby.runtime.value.RubyString;
  * @author yu su (beanworms@gmail.com)
  */
 public class JavaUtil {
-    public static final String RCLASS_STRING = "String";
+    private static final String RCLASS_STRING = "String";
     private static final String RCLASS_FIXNUM = "Fixnum";
     private static final String RCLASS_BIGNUM = "Bignum";
 
@@ -33,11 +33,6 @@ public class JavaUtil {
 
         if (value.getClass().equals(Integer.class)) {
             return ObjectFactory.createFixnum((Integer) value);
-        }
-
-        // TODO: Maybe we should modify createFixnum to make support this data type
-        if (value.getClass().equals(Long.class)) {
-            return ObjectFactory.createFloat((Long) value);
         }
         
         if (value.getClass().equals(Double.class)) {
