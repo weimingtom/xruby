@@ -9,14 +9,15 @@ Here is a list of things we are going to do
   * Merge newruntime
   * Implement more builtin libraries
   * Support scripting API
-  * Adjust generated code structure based on runtime.
-  * Complete Java Support
+  * Adjust generated code structure based on runtime
+  * Complete Java support
   * Refactoring is always welcome
 
 = Long Term Goal =
 
   * Make Ruby on Rails work
   * Upgrade Antlr to 3.0
+  * Support YARV instruction
 
 = Thought =
 
