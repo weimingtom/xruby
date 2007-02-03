@@ -99,7 +99,7 @@ public class RubyAPI {
 	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
-			throw new RubyException(RubyRuntime.NoMethodErrorClass, "method '" +  method_name + "' can not be found in 'Object'");
+			throw new RubyException(RubyRuntime.NoMethodErrorClass, "method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}
 	
 		return m.invoke(receiver, args, block);
