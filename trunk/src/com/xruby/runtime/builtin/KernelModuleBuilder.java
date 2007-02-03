@@ -161,14 +161,14 @@ class Kernel_p extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		for (RubyValue arg : args) {
 			if (ObjectFactory.nilValue == arg) {
-				System.out.println("nil");
+				System.out.print("nil");
 			} else if (arg instanceof RubyString){
 				RubyString value = (RubyString)arg;
-				System.out.println(value.toString());
+				System.out.print(value.toString());
 			} else {
 				RubyValue str = RubyAPI.callPublicMethod(arg, null, null, "inspect");
 				RubyString value = (RubyString)str;
-				System.out.println(value.toString());
+				System.out.print(value.toString());
 			}
 		}
 		return ObjectFactory.nilValue;

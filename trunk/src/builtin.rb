@@ -93,6 +93,21 @@ class Array
 	def empty?
 		length == 0
 	end
+  
+  def inspect
+    str = "["
+    is_first = true;
+    self.each() { |x|
+      if (!is_first)
+        str += ", "
+      end
+      is_first = false;
+      str += x.inspect
+    }
+    str += "]";
+    return str
+  end
+  
 end
 
 class Symbol
