@@ -19,6 +19,16 @@ public class RubyTypesUtil {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Fixnum");
 		}
 	}
+
+	public static RubyFloat convertToFloat(RubyValue arg){
+		if (arg instanceof RubyFloat) {
+			return (RubyFloat)arg;
+		} else if (arg instanceof RubyFixnum) {
+			return ObjectFactory.createFloat(((RubyFixnum)arg).intValue());
+		} else {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Fixnum");
+		}
+	}
 	
 	public static RubyString convertToString(RubyValue arg){
 		if (arg instanceof RubyString) {

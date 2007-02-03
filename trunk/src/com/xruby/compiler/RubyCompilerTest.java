@@ -176,10 +176,25 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"3.0",
 				//"0.333333333333333"
 		};
+		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_big_integer() {
+	public void test_Float() {
+		String[] program_texts = {
+				"print Float(2)",
+				"print Integer(2)",
+		};
+		
+		String[] outputs = {
+				"2.0",
+				"2",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_Bignum() {
 		String[] program_texts = {
 				//TODO"print 1234567890.class",
 				"print 0x123456789abcdef0",
@@ -189,6 +204,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"print ((1 << 600) <=> ((1 << 600) + 1))",
 				"print (0xabcdef0123456789 * 0x123456789abcdef0)"
 		};
+		
 		String[] outputs = {
 				//"Bignum",
 				"1311768467463790320",
@@ -198,6 +214,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"-1",
 				"16239449295734013608292442272905420400"
 		};
+		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
