@@ -15,4 +15,14 @@ public class AliasStatementTest extends TestingAstTestCase {
 		
 		assertAstOutput(program_text, expected_result);
 	}
+	
+	public void test_operator() {
+		String program_text = "alias ** rpower";
+		
+		String expected_result = 
+"alias ** rpower\n" +
+"EOF";
+		
+		assertAstOutput(program_text, expected_result);
+	}
 }

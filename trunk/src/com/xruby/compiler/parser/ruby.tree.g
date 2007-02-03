@@ -88,6 +88,7 @@ returns[String s]
 		:	gvar:GLOBAL_VARIABLE {s = gvar.getText();}
 		|	func:FUNCTION		{s = func.getText();}
 		|	sym=symbol			{s = sym.getValue();}
+		|	s=operator
 		;
 		
 undef
