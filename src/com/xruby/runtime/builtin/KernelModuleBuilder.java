@@ -673,6 +673,26 @@ class Kernel_gets extends RubyMethod {
 	}
 }
 
+class Kernel_Float extends RubyMethod {
+	public Kernel_Float() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		return RubyTypesUtil.convertToFloat(args.get(0));
+	}
+}
+
+class Kernel_Integer extends RubyMethod {
+	public Kernel_Integer() {
+		super(1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		return RubyTypesUtil.convertToFixnum(args.get(0));
+	}
+}
+
 public class KernelModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.KernelModule;
@@ -697,6 +717,9 @@ public class KernelModuleBuilder {
 		RubyMethod block_given = new Kernel_block_given();
 		m.defineMethod("iterator?", block_given);
 		m.defineMethod("block_given?", block_given);
+
+		m.defineMethod("Float", new Kernel_Float());
+		m.defineMethod("Integer", new Kernel_Integer());
 		
 		m.setAccessPrivate();
 		m.defineMethod("binding", new Kernel_binding());
