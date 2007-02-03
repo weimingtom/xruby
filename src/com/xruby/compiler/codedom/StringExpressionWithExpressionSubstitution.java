@@ -8,7 +8,11 @@ package com.xruby.compiler.codedom;
 public class StringExpressionWithExpressionSubstitution extends ExpressionWithExpressionSubstitution {
 	
 	public StringExpressionWithExpressionSubstitution(String s) {
-		addString(s);
+		super.addString(StringExpression.convertDoubleQuoteString(s));
+	}
+
+	public void addString(String s) {
+		super.addString(StringExpression.convertDoubleQuoteString(s));
 	}
 	
 	void merge(StringExpressionWithExpressionSubstitution another) {
