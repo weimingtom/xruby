@@ -46,4 +46,18 @@ public class StdlibTest extends CompilerTestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_Rational() {
+		String[] program_texts = {
+				"require 'rational'",
+				"print Rational(3,4).to_s",
+		};
+		
+		String[] outputs = {
+				"",
+				"3/4",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
