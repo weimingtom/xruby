@@ -30,8 +30,7 @@ public class CompoundStatement implements Visitable {
 	boolean lastStatementHasReturnValue() {
 		if (statements_.isEmpty()) {
 			return false;
-		}
-		else if (statements_.get(statements_.size() - 1) instanceof ExpressionStatement) {
+		} else if (statements_.get(statements_.size() - 1) instanceof ExpressionStatement) {
 			ExpressionStatement e = (ExpressionStatement)statements_.get(statements_.size() - 1);
 			if (e.getExpression() instanceof ReturnExpression ||
 				e.getExpression() instanceof BreakExpression ||
@@ -41,8 +40,7 @@ public class CompoundStatement implements Visitable {
 			} else {
 				return true;
 			}
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
