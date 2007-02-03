@@ -10,13 +10,10 @@ import com.xruby.runtime.value.*;
 
 class Module_AccessControl {
 
-	static RubyValue run(int access, RubyValue receiver, RubyArray args, RubyBlock block) {
-
-		RubyModule c = (RubyModule)receiver;
-
+	static void run(int access, RubyModule c, RubyArray args, RubyBlock block) {
 		if (null == args) {
 			c.setAccessMode(access);
-			return receiver;
+			return;
 		}
 		
 		for (RubyValue arg : args) {
@@ -33,8 +30,6 @@ class Module_AccessControl {
 				throw new RubyException(RubyRuntime.NameErrorClass, "undefined method `"+ method_name + "` for class `" + c.getName() + "`");
 			}
 		}
-		
-		return receiver;
 	}
 }
 
@@ -45,7 +40,8 @@ class Module_public extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return Module_AccessControl.run(PUBLIC, receiver, args, block);
+		Module_AccessControl.run(PUBLIC, (RubyModule)receiver, args, block);
+		return receiver;
 	}
 }
 
@@ -56,7 +52,8 @@ class Module_protected extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return Module_AccessControl.run(PROTECTED, receiver, args, block);
+		Module_AccessControl.run(PROTECTED, (RubyModule)receiver, args, block);
+		return receiver;
 	}
 }
 
@@ -67,7 +64,20 @@ class Module_private extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return Module_AccessControl.run(PRIVATE, receiver, args, block);
+		Module_AccessControl.run(PRIVATE, (RubyModule)receiver, args, block);
+		return receiver;
+	}
+}
+
+class Module_private_class_method extends RubyMethod {
+	public Module_private_class_method() {
+		super(-1);
+		setAccess(PRIVATE);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		Module_AccessControl.run(PRIVATE, receiver.getRubyClass(), args, block);
+		return receiver;
 	}
 }
 
@@ -258,6 +268,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("public", new Module_public());
 		c.defineMethod("protected", new Module_protected());
 		c.defineMethod("private", new Module_private());
+		c.defineMethod("private_class_method", new Module_private_class_method());
 		c.defineMethod("to_s", new Module_to_s());
 		c.defineMethod("inspect", new Module_inspect());
 		c.defineMethod("include", new Module_include());
