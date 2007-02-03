@@ -450,6 +450,18 @@ public class RubyCompilerTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
+	public void test_p() {
+		String[] program_texts = {
+				"p [1, [3,4], 2]",	
+		};
+		
+		String[] outputs = {
+				"[1, [3, 4], 2]",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_print() {
 		String[] program_texts = {
 				"print \"hello, world!\"",
