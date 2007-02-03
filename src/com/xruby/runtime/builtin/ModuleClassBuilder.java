@@ -184,6 +184,25 @@ class Module_attr_accessor extends RubyMethod {
 	}
 }
 
+class Module_attr extends RubyMethod {
+	public Module_attr() {
+		super(-1);
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyModule m = (RubyModule)receiver;
+
+		String s = convertToString(args.get(0));
+		m.defineMethod(s, new AttrReader(s));
+
+		if (args.get(1) == ObjectFactory.trueValue) {
+			m.defineMethod(s + "=", new AttrWriter(s));
+		}
+
+		return ObjectFactory.nilValue;
+	}
+}
+
 class Module_include extends RubyMethod {
 	public Module_include() {
 		super(-1);
@@ -280,6 +299,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("attr_reader", new Module_attr_reader());
 		c.defineMethod("attr_writer", new Module_attr_writer());
 		c.defineMethod("attr_accessor", new Module_attr_accessor());
+		c.defineMethod("attr", new Module_attr());
 		c.setAccessPublic();
 	}
 }
