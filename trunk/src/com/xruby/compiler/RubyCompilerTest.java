@@ -3022,6 +3022,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_StringExpressionSubstitution() {
 		String [] program_texts = {
+				"print \"\\n#{1}\\n\"",
 				"print \"#{1}\" \"3\" \"#{2}\" ",
 				"print \"abc#{}opq#{   }xyz\"",
 				"$a=1;$b= 2;print \"abc#$a opq#$b xyz\"",
@@ -3030,6 +3031,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"\n1\n",
 				"132",
 				"abcopqxyz",
 				"abc1 opq2 xyz",
