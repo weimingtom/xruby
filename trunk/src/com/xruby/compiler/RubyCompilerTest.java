@@ -3395,6 +3395,18 @@ public class RubyCompilerTest extends CompilerTestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+
+	public void test_attr() {
+		String [] program_texts = {
+				"class TestAttr; attr  :size, true; end; c = TestAttr.new; c.size= 5; print c.size",
+		};
+		
+		String[] outputs = {
+				"5",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 	
 	public void test_attr_reader() {
 		String [] program_texts = {
