@@ -31,6 +31,8 @@ public class StdlibTest extends CompilerTestCase {
 				"print Test::Unit::Failure.new('x', 'y', 'z').single_character_display",
 				"print Test::Unit::Failure.new('x', 'y', 'z').short_display",
 				"print Test::Unit::Failure.new('x1', [1, 2], 'z1').long_display",
+				"print Test::Unit::Failure.new('x1', ['y'], 'z1').long_display",
+				"print Test::Unit::Failure.new('x1', ['y'], 'z1').to_s",
 		};
 		
 		String[] outputs = {
@@ -38,6 +40,8 @@ public class StdlibTest extends CompilerTestCase {
 				"F",
 				"x: z",
 				"Failure:\nx1\n    [1\n     2]:\nz1",
+				"Failure:\nx1y:\nz1",
+				"Failure:\nx1y:\nz1",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
