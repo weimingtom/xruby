@@ -561,6 +561,17 @@ class Fixnum_to_f extends RubyMethod {
 	}
 }
 
+class Fixnum_operator_quo extends RubyMethod {
+	public Fixnum_operator_quo() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver;
+		RubyFixnum value2 = (RubyFixnum)args.get(0);
+		return ObjectFactory.createFloat(value1.intValue() / value2.intValue());
+	}
+}
 
 class Fixnum_to_s extends RubyMethod {
 	public Fixnum_to_s() {
@@ -608,5 +619,6 @@ public class FixnumClassBuilder {
 		c.defineMethod("to_f", new Fixnum_to_f());
 		c.defineMethod("**", new Fixnum_operator_star_star());
 		c.defineMethod("~", new Fixnum_operator_bnot());
+		c.defineMethod("quo", new Fixnum_operator_quo());
 	}
 }

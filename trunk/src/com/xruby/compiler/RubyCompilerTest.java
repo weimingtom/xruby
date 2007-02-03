@@ -160,18 +160,20 @@ public class RubyCompilerTest extends CompilerTestCase {
 		compile_run_and_compare_result(program_texts, results);
 	}
 	
-	public void test_fixnum_to_f() {
+	public void test_Fixnum_misc() {
 		String[] program_texts = {
-				//"print 1.to_f",
-				//"print 2.to_f",
-				//"print 3.to_f",
+				"print 4.quo(2)",
+				
+				"print 1.to_f",
+				"print 3.to_f",
 				//"print 1.to_f / 3"
 		};
 		
 		String[] outputs = {
-				//"1.0",
-				//"2.0",
-				//"3.0",
+				"2.0",
+				
+				"1.0",
+				"3.0",
 				//"0.333333333333333"
 		};
 		compile_run_and_compare_output(program_texts, outputs);
