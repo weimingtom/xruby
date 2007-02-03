@@ -561,8 +561,8 @@ class Fixnum_to_f extends RubyMethod {
 	}
 }
 
-class Fixnum_operator_quo extends RubyMethod {
-	public Fixnum_operator_quo() {
+class Fixnum_quo extends RubyMethod {
+	public Fixnum_quo() {
 		super(1);
 	}
 
@@ -619,6 +619,6 @@ public class FixnumClassBuilder {
 		c.defineMethod("to_f", new Fixnum_to_f());
 		c.defineMethod("**", new Fixnum_operator_star_star());
 		c.defineMethod("~", new Fixnum_operator_bnot());
-		c.defineMethod("quo", new Fixnum_operator_quo());
+		c.defineMethod("quo", new Fixnum_quo());
 	}
 }
