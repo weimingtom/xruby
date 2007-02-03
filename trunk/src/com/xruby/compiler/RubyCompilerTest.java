@@ -123,7 +123,7 @@ class CompilerTestCase extends TestCase {
 public class RubyCompilerTest extends CompilerTestCase {
 
 	public void setUp() {
-		RubyRuntime.initBuiltin(new String[] {"my_arg"});
+		RubyRuntime.init(new String[] {"my_arg"});
 	}
 	
 	public void test_raise() throws RecognitionException, TokenStreamException, CompilerException, InstantiationException, IllegalAccessException {
