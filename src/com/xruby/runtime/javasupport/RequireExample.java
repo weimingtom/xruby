@@ -43,9 +43,9 @@ public class RequireExample {
 		CompilationResults codes = compiler.compile(new StringReader(program_text));
 		RubyProgram p = (RubyProgram)codes.getRubyProgram();
 
-		RubyRuntime.initBuiltin(args);
+		RubyRuntime.init(args);
 		p.run();
-		AtExitBlocks.invokeAll();
+		RubyRuntime.fini();
 	}
 }
 

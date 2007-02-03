@@ -64,7 +64,7 @@ public class RubyRuntime {
 	public static RubyClass RuntimeErrorClass = GlobalScope.defineNewClass("RuntimeError", StandardErrorClass);
 	public static RubyClass LocalJumpErrorClass = GlobalScope.defineNewClass("LocalJumpError", StandardErrorClass);
 
-	private static boolean builtin_initialized_ = false;
+	private static boolean initialized_ = false;
 
 	static {
 		ObjectClassBuilder.initialize();
@@ -114,7 +114,6 @@ public class RubyRuntime {
 			Object o = c.newInstance();
 			RubyProgram p = (RubyProgram)o;
 			p.run();
-			builtin_initialized_ = true;
 		} catch (ClassNotFoundException e) {
 		} catch (InstantiationException e) {
 		} catch (IllegalAccessException e) {
@@ -122,8 +121,8 @@ public class RubyRuntime {
 		}
 	}
 	
-	public static void initBuiltin(String[] args) {
-		if (builtin_initialized_) {
+	public static void init(String[] args) {
+		if (initialized_) {
 			return;
 		}
 		
@@ -136,6 +135,11 @@ public class RubyRuntime {
 		TopLevelSelfInitializer.initialize();
 
 		loadBuildinDotRb();
+		initialized_ = true;
+	}
+
+	public static void fini() {
+		AtExitBlocks.invokeAll();
 	}
 
 	public static boolean isBuiltinClass(String name) {

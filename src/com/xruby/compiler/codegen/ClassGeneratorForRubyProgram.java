@@ -66,7 +66,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 
 		mg.loadArg(0);
 		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),
-				Method.getMethod("void initBuiltin(String[])"));
+				Method.getMethod("void init(String[])"));
 
 		Type program = Type.getType("L" + name_ + ";");
 		mg.newInstance(program);
@@ -77,8 +77,8 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"));
 		mg.pop();
 
-		mg.invokeStatic(Type.getType(Types.AtExitBlocksClass),
-				Method.getMethod("void invokeAll()"));
+		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),
+				Method.getMethod("void fini()"));
 		
 		mg.returnValue();
 		mg.endMethod();

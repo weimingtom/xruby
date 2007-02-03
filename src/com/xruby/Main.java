@@ -98,9 +98,9 @@ public class Main {
 	
 	private static void run(CompilationResults results, String[] args) throws Exception {		
 		RubyProgram p = (RubyProgram)results.getRubyProgram();
-		RubyRuntime.initBuiltin(args);
+		RubyRuntime.init(args);
 		p.run();
-		AtExitBlocks.invokeAll();
+		RubyRuntime.fini();
 	}
 
 	//TODO move to a separated class

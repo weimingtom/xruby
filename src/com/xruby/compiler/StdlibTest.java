@@ -8,7 +8,7 @@ import com.xruby.runtime.lang.RubyRuntime;
 public class StdlibTest extends CompilerTestCase {
 	
 	public void setUp() {
-		RubyRuntime.initBuiltin(null);
+		RubyRuntime.init(null);
 	}
 	
 	public void test_test_unit_StandardError() {
