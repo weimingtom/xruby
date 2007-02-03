@@ -1679,6 +1679,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_alias_method() {
 		String[] program_texts = {
+				"print(if true; alias :b :print; end)",
+				
 				"def a; print 'qqq'; end; alias b a ; a",
 				"def c; print 'aaa'; end; alias d c ; d",
 				"def e; print 'bbb'; end; alias :f :e ; f",
@@ -1705,6 +1707,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"nil",
+				
 				"qqq",
 				"aaa",
 				"bbb",

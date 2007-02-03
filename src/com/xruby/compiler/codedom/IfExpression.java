@@ -100,6 +100,9 @@ public class IfExpression extends Expression {
 		//TODO maybe we should do this in treewalker?
 		if (conditionIsAlwayTrue(if_condition_)) {
 			if_body_.accept(visitor);
+			if (!if_body_.lastStatementHasReturnValue()) {
+				visitor.visitNilExpression();
+			}
 			return;
 		}
 		
@@ -111,6 +114,10 @@ public class IfExpression extends Expression {
 		Object next_label = visitor.visitAfterIfCondition();
 
 		if_body_.accept(visitor);
+		if (!if_body_.lastStatementHasReturnValue()) {
+			visitor.visitNilExpression();
+		}
+		
 		final Object end_label = visitor.visitAfterIfBody(next_label, null);
 
 		for (Elseif elsif : elsifs) {
