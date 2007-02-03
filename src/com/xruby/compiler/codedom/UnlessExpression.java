@@ -37,6 +37,9 @@ public class UnlessExpression extends Expression {
 		//TODO maybe we should do this in treewalker?
 		if (conditionIsAlwayFalse(unless_condition_)) {
 			unless_body_.accept(visitor);
+			if (!unless_body_.lastStatementHasReturnValue()) {
+				visitor.visitNilExpression();
+			}
 			return;
 		}
 		
@@ -48,6 +51,10 @@ public class UnlessExpression extends Expression {
 		Object next_label = visitor.visitAfterUnlessCondition();
 		
 		unless_body_.accept(visitor);
+		if (!unless_body_.lastStatementHasReturnValue()) {
+			visitor.visitNilExpression();
+		}
+		
 		final Object end_label = visitor.visitAfterUnlessBody(next_label, null);
 		
 		else_body_.accept(visitor);
