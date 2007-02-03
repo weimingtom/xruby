@@ -33,7 +33,7 @@ public class Example {
 		
 		RubyCompiler compiler = new RubyCompiler(null, false);
 		CompilationResults codes = compiler.compile(new StringReader(program_text));
-		RubyProgram p = (RubyProgram)codes.getRubyProgram();
+		RubyProgram p = codes.getRubyProgram();
 
 		RubyRuntime.init(args);
 		p.run();

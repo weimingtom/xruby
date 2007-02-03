@@ -38,7 +38,7 @@ class Kernel_eval extends RubyMethod {
 		RubyCompiler compiler = new RubyCompiler(binding, false);
 		try {
 			CompilationResults codes = compiler.compile(new StringReader(program_text.toString()));
-			RubyProgram p = (RubyProgram)codes.getRubyProgram();
+			RubyProgram p = codes.getRubyProgram();
 			if (null != binding) {
 				return p.run(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
 			} else {
