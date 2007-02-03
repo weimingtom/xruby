@@ -60,6 +60,18 @@ class Bignum_operator_divide extends RubyMethod {
 	} 
 }
 
+class Bignum_quo extends RubyMethod {
+	public Bignum_quo() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyBignum value = (RubyBignum)receiver;
+		RubyValue arg = args.get(0);
+		return value.op_div(arg);//TODO quo is not as same as '/'
+	}
+}
+
 class Bignum_operator_plus extends RubyMethod { 
 	public Bignum_operator_plus() {
 		super(1);
@@ -288,6 +300,7 @@ public class BignumClassBuilder {
 		c.defineMethod("to_s", new Bignum_to_s());
 		c.defineMethod("*", new Bignum_operator_star());
 		c.defineMethod("/", new Bignum_operator_divide());
+		c.defineMethod("quo", new Bignum_quo());
 		c.defineMethod("+", new Bignum_operator_plus());
 		c.defineMethod("-", new Bignum_operator_minus());
 		c.defineMethod("%", new Bignum_operator_mod());
