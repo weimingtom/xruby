@@ -158,10 +158,16 @@ statementWithoutModifier
 			}
 		;
 
+protected
+lparen
+		:	LPAREN_WITH_NO_LEADING_SPACE!
+		|	LPAREN!
+		;
+
 //LPAREN can start primaryExpression, have to use syntactic predicate here.
 mlhs_item
-		:	(LPAREN!	dotColonOrArrayAccess	COMMA)=>
-			LPAREN!	{setIsInNestedMultipleAssign(true);}
+		:	(lparen	dotColonOrArrayAccess	COMMA)=>
+			lparen	{setIsInNestedMultipleAssign(true);}
 			dotColonOrArrayAccess
 			(COMMA!	{if (RPAREN == LA(1)) break;}
 			(seen_star:REST_ARG_PREFIX)?	dotColonOrArrayAccess	{if (null != seen_star) break;}
@@ -468,7 +474,10 @@ command
 				{can_be_command_ > 0}?
 				methodInvocationArgumentWithoutParen[false]	{seen_arguments = true;}
 			)?
-			(options{greedy=true;/*caused by command*/}:codeBlock	{seen_block = true;})?
+			(
+				{is_function}?
+				codeBlock	{seen_block = true;}
+			)?
 			{
 				if (seen_arguments || seen_block || (is_function && isNotAssign(LA(1))))
 				{
@@ -510,7 +519,8 @@ methodCall
 	boolean seen_block = false;
 	boolean is_function = false;
 }
-		:	name:primaryExpressionThatCanBeMethodName	{is_function = (2 == can_be_command_);}
+		:	name:primaryExpressionThatCanBeMethodName
+			{is_function = (2 == can_be_command_);}
 			(options{greedy=true;/*caused by command*/}:arg:methodInvocationArgumentWithParen	{seen_arguments = true;})?
 			(options{greedy=true;/*caused by command*/}:codeBlock	{seen_block = true;})?
 			{
@@ -522,8 +532,10 @@ methodCall
 			}
 		;
 
+//cruby can accept LPAREN in some situation but gives a warning:
+//"don't put space before argument parentheses"
 methodInvocationArgumentWithParen
-		:	LPAREN!
+		:	LPAREN_WITH_NO_LEADING_SPACE!
 				(methodInvocationArgumentWithoutParen[true])?
 				(LINE_BREAK!)?
 			RPAREN!
@@ -654,7 +666,8 @@ primaryExpressionThatCanNotBeMethodName
 		|	literal
 		|	arrayExpression
 		|	hashExpression
-		|	LPAREN^ compoundStatement RPAREN!
+		|	LPAREN^	compoundStatement RPAREN!
+		|	LPAREN_WITH_NO_LEADING_SPACE^ compoundStatement RPAREN!
 		|	ifExpression
 		|	unlessExpression
 		|	whileExpression			
@@ -833,7 +846,7 @@ methodName
 				|constant:CONSTANT	
 				)
 				(methodNameSupplement{is_singleton_method = true;}|ASSIGN_WITH_NO_LEADING_SPACE)?
-			|	LPAREN
+			|	(LPAREN|LPAREN_WITH_NO_LEADING_SPACE)
 				expression	(LINE_BREAK!)?
 				RPAREN
 				methodNameSupplement{is_singleton_method = true;}
@@ -921,7 +934,7 @@ keywordAsMethodName
 		;
 
 methodDefinationArgument
-		:	LPAREN!
+		:	lparen
 				(methodDefinationArgumentWithoutParen)?
 			RPAREN!	{tellLexerWeHaveFinishedParsingMethodparameters();}
 			(options {greedy=true;}:terminal)?
@@ -970,52 +983,6 @@ doOrTermialOrColon
 		;
 
 operator_ASSIGN				:	(ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)				(options{greedy=true;}:LINE_BREAK!)?;
-/*
-operator_QUESTION			:	QUESTION			(options{greedy=true;}:LINE_BREAK!)?;
-operator_COLON				:	(COLON|COLON_WITH_NO_FOLLOWING_SPACE)			(options{greedy=true;}:LINE_BREAK!)?;
-operator_PLUS_ASSIGN			:	PLUS_ASSIGN			(options{greedy=true;}:LINE_BREAK!)?;
-operator_MINUS_ASSIGN		:	MINUS_ASSIGN		(options{greedy=true;}:LINE_BREAK!)?;
-operator_STAR_ASSIGN		:	STAR_ASSIGN		(options{greedy=true;}:LINE_BREAK!)?;
-operator_DIV_ASSIGN			:	DIV_ASSIGN			(options{greedy=true;}:LINE_BREAK!)?;
-operator_MOD_ASSIGN			:	MOD_ASSIGN			(options{greedy=true;}:LINE_BREAK!)?;
-operator_POWER_ASSIGN		:	POWER_ASSIGN		(options{greedy=true;}:LINE_BREAK!)?;
-operator_BAND_ASSIGN		:	BAND_ASSIGN		(options{greedy=true;}:LINE_BREAK!)?;
-operator_BXOR_ASSIGN		:	BXOR_ASSIGN		(options{greedy=true;}:LINE_BREAK!)?;
-operator_BOR_ASSIGN			:	BOR_ASSIGN			(options{greedy=true;}:LINE_BREAK!)?;
-operator_LEFT_SHIFT_ASSIGN	:	LEFT_SHIFT_ASSIGN	(options{greedy=true;}:LINE_BREAK!)?;
-operator_RIGHT_SHIFT_ASSIGN	:	RIGHT_SHIFT_ASSIGN	(options{greedy=true;}:LINE_BREAK!)?;
-operator_LOGICAL_AND_ASSIGN	:	LOGICAL_AND_ASSIGN	(options{greedy=true;}:LINE_BREAK!)?;
-operator_LOGICAL_OR_ASSIGN	:	LOGICAL_OR_ASSIGN	(options{greedy=true;}:LINE_BREAK!)?;
-operator_INCLUSIVE_RANGE		:	INCLUSIVE_RANGE		(options{greedy=true;}:LINE_BREAK!)?;
-operator_EXCLUSIVE_RANGE	:	EXCLUSIVE_RANGE	(options{greedy=true;}:LINE_BREAK!)?;
-operator_LOGICAL_OR			:	LOGICAL_OR			(options{greedy=true;}:LINE_BREAK!)?;
-operator_LOGICAL_AND		:	LOGICAL_AND		(options{greedy=true;}:LINE_BREAK!)?;
-operator_COMPARE			:	COMPARE			(options{greedy=true;}:LINE_BREAK!)?;
-operator_EQUAL				:	EQUAL				(options{greedy=true;}:LINE_BREAK!)?;
-operator_CASE_EQUAL			:	CASE_EQUAL			(options{greedy=true;}:LINE_BREAK!)?;
-operator_NOT_EQUAL			:	NOT_EQUAL			(options{greedy=true;}:LINE_BREAK!)?;
-operator_MATCH				:	MATCH				(options{greedy=true;}:LINE_BREAK!)?;
-operator_NOT_MATCH			:	NOT_MATCH			(options{greedy=true;}:LINE_BREAK!)?;
-operator_LESS_THAN			:	LESS_THAN			(options{greedy=true;}:LINE_BREAK!)?;
-operator_GREATER_THAN		:	GREATER_THAN		(options{greedy=true;}:LINE_BREAK!)?;
-operator_LESS_OR_EQUAL		:	LESS_OR_EQUAL		(options{greedy=true;}:LINE_BREAK!)?;
-operator_GREATER_OR_EQUAL	:	GREATER_OR_EQUAL	(options{greedy=true;}:LINE_BREAK!)?;
-operator_BXOR				:	BXOR				(options{greedy=true;}:LINE_BREAK!)?};
-operator_BOR					:	BOR					(options{greedy=true;}:LINE_BREAK!)?;
-operator_BAND				:	BAND				(options{greedy=true;}:LINE_BREAK!)?;
-operator_LEFT_SHIFT			:	LEFT_SHIFT			(options{greedy=true;}:LINE_BREAK!)?;
-operator_RIGHT_SHIFT			:	RIGHT_SHIFT			(options{greedy=true;}:LINE_BREAK!)?;
-operator_PLUS				:	PLUS				(options{greedy=true;}:LINE_BREAK!)?;
-operator_MINUS				:	MINUS				(options{greedy=true;}:LINE_BREAK!)?;
-operator_STAR				:	STAR				(options{greedy=true;}:LINE_BREAK!)?;
-operator_DIV					:	DIV					(options{greedy=true;}:LINE_BREAK!)?;
-operator_MOD					:	MOD					(options{greedy=true;}:LINE_BREAK!)?;
-operator_POWER				:	POWER				(options{greedy=true;}:LINE_BREAK!)?;
-operator_UNARY_PLUS			:	UNARY_PLUS			(options{greedy=true;}:LINE_BREAK!)?;
-operator_UNARY_MINUS		:	UNARY_MINUS		(options{greedy=true;}:LINE_BREAK!)?;
-operator_BNOT				:	BNOT				(options{greedy=true;}:LINE_BREAK!)?;
-operator_NOT					:	NOT					(options{greedy=true;}:LINE_BREAK!)?;
-*/
 
 //LINE_BREAK is preserved after keyword, we have to do that because keyword can be used as function name.
 //for example:
@@ -1110,11 +1077,11 @@ options {
 }
 
 //QUESTION			:	'?'		;
-LPAREN				:	'('		;
+LPAREN				:	'('		{if (!justSeenWhitespace()) {$setType(LPAREN_WITH_NO_LEADING_SPACE);}};
 RPAREN				:	')'		;
 LBRACK				:	'['		{if (expectArrayAccess()) {$setType(LBRACK_ARRAY_ACCESS);}};
 RBRACK				:	']'		;
-EMPTY_ARRAY			:	"[]"		{if (expectArrayAccess()) {$setType(EMPTY_ARRAY_ACCESS);}};
+EMPTY_ARRAY		:	"[]"		{if (expectArrayAccess()) {$setType(EMPTY_ARRAY_ACCESS);}};
 LCURLY_HASH			:	'{'		{if (!expectHash()) {$setType(LCURLY_BLOCK);}};
 RCURLY				:	'}'		;
 COMMA				:	','		;
@@ -1134,30 +1101,30 @@ BXOR				:	'^'		;
 BOR					:	'|'		;
 BAND				:	'&'		{if (!expectOperator(1)) {$setType(BLOCK_ARG_PREFIX);}};
 POWER				:	"**"		;
-COMPARE			:	"<=>"	;
-GREATER_OR_EQUAL	:	">="	;
-LESS_OR_EQUAL		:	"<="	;
-EQUAL				:	"=="	;
+COMPARE				:	"<=>"	;
+GREATER_OR_EQUAL	:	">="		;
+LESS_OR_EQUAL		:	"<="		;
+EQUAL				:	"=="		;
 CASE_EQUAL			:	"==="	;
 NOT_EQUAL			:	"!="		;
-MATCH				:	"=~"	;
+MATCH				:	"=~"		;
 NOT_MATCH			:	"!~"		;
-//LEFT_SHIFT			:	"<<"	;
-RIGHT_SHIFT			:	">>"	;
+//LEFT_SHIFT		:	"<<"		;
+RIGHT_SHIFT			:	">>"		;
 
-ASSOC				:	"=>"	;
-LOGICAL_AND		:	"&&"		;
+ASSOC				:	"=>"		;
+LOGICAL_AND			:	"&&"		;
 LOGICAL_OR			:	"||"		;
 
 ASSIGN				:	'='		{if (!justSeenWhitespace()) {$setType(ASSIGN_WITH_NO_LEADING_SPACE);}};
 PLUS_ASSIGN			:	"+="	;
 MINUS_ASSIGN		:	"-="		;
-STAR_ASSIGN		:	"*="		;
+STAR_ASSIGN			:	"*="		;
 //DIV_ASSIGN		:	"/="		;
 //MOD_ASSIGN		:	"%="	;
 POWER_ASSIGN		:	"**="	;
-BAND_ASSIGN		:	"&="		;
-BXOR_ASSIGN		:	"^="	;
+BAND_ASSIGN			:	"&="		;
+BXOR_ASSIGN			:	"^="		;
 BOR_ASSIGN			:	"|="		;
 //LEFT_SHIFT_ASSIGN	:	"<<="	;
 RIGHT_SHIFT_ASSIGN	:	">>="	;

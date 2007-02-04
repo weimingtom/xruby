@@ -126,7 +126,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(LITERAL_def, "def"),
 							new TestingCommonToken(DIV, "/"),
-							new TestingCommonToken(LPAREN, "("),
+							new TestingCommonToken(LPAREN_WITH_NO_LEADING_SPACE, "("),
 							new TestingCommonToken(FUNCTION, "item"),
 							new TestingCommonToken(RPAREN, ")"),
 		};
@@ -139,7 +139,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(LITERAL_def, "def"),
 							new TestingCommonToken(UNARY_PLUS_MINUS_METHOD_NAME, "-@"),
-							new TestingCommonToken(LPAREN, "("),
+							new TestingCommonToken(LPAREN_WITH_NO_LEADING_SPACE, "("),
 							new TestingCommonToken(RPAREN, ")"),
 							new TestingCommonToken(SEMI, ";"),
 							new TestingCommonToken(LITERAL_end, "end"),
@@ -247,7 +247,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(LITERAL_def, "def"),
 							new TestingCommonToken(FUNCTION, "log_src"),
-							new TestingCommonToken(LPAREN, "("),
+							new TestingCommonToken(LPAREN_WITH_NO_LEADING_SPACE, "("),
 							new TestingCommonToken(FUNCTION, "src"),
 							new TestingCommonToken(RPAREN, ")"),
 							new TestingCommonToken(LINE_BREAK, "\n"),
@@ -324,7 +324,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(FUNCTION, "sprintf"),
-							new TestingCommonToken(LPAREN, "("),
+							new TestingCommonToken(LPAREN_WITH_NO_LEADING_SPACE, "("),
 							new TestingCommonToken(DOUBLE_QUOTE_STRING, "Rational(%s, %s)"),
 							new TestingCommonToken(COMMA, ","),
 							new TestingCommonToken(INSTANCE_VARIABLE, "@numerator"),
@@ -365,7 +365,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 							new TestingCommonToken(CONSTANT, "Rational"),
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "new!"),
-							new TestingCommonToken(LPAREN, "("),
+							new TestingCommonToken(LPAREN_WITH_NO_LEADING_SPACE, "("),
 							new TestingCommonToken(IDENTIFIER, "a"),
 							new TestingCommonToken(COMMA, ","),
 							new TestingCommonToken(INTEGER, "1"),
@@ -421,7 +421,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(LITERAL_def, "def"),
 							new TestingCommonToken(FUNCTION, "check_response_auth"),
-							new TestingCommonToken(LPAREN, "("),
+							new TestingCommonToken(LPAREN_WITH_NO_LEADING_SPACE, "("),
 							new TestingCommonToken(FUNCTION, "res"),
 							new TestingCommonToken(RPAREN, ")"),
 							new TestingCommonToken(LINE_BREAK, "\n"),
@@ -449,7 +449,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 							new TestingCommonToken(FUNCTION, "res"),
 							new TestingCommonToken(DOT, "."),
 							new TestingCommonToken(FUNCTION, "split"),
-							new TestingCommonToken(LPAREN, "("),
+							new TestingCommonToken(LPAREN_WITH_NO_LEADING_SPACE, "("),
 							new TestingCommonToken(REGEX, " "),
 							new TestingCommonToken(RPAREN, ")"),
 							new TestingCommonToken(LBRACK_ARRAY_ACCESS, "["),
@@ -465,7 +465,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 
 		TestingCommonToken[] token_types =  {
 							new TestingCommonToken(FUNCTION, "f"), 
-							new TestingCommonToken(LPAREN, "("),
+							new TestingCommonToken(LPAREN_WITH_NO_LEADING_SPACE, "("),
 							new TestingCommonToken(REST_ARG_PREFIX, "*"),
 							new TestingCommonToken(FUNCTION, "a"),
 							new TestingCommonToken(RPAREN, ")"), 
@@ -507,7 +507,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 							new TestingCommonToken(FUNCTION, "klass", 2),
 							new TestingCommonToken(DOT, ".", 2), 
 							new TestingCommonToken(FUNCTION, "module_eval", 2),
-							new TestingCommonToken(LPAREN, "(", 2),
+							new TestingCommonToken(LPAREN_WITH_NO_LEADING_SPACE, "(", 2),
 							new TestingCommonToken(HERE_DOC_BEGIN, "-EOC", 2),
 							new TestingCommonToken(HERE_DOC_CONTENT, "", 2),
 							new TestingCommonToken(COMMA, ",", 3),

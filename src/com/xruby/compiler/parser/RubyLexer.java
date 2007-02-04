@@ -170,10 +170,7 @@ public class RubyLexer extends RubyLexerBase {
 		switch (token.getType()) {
 		/*
 		 * it is OK to do this error checking here, now we leave it to the
-		 * parser. case LPAREN: switch (last_token_.getType()) { case
-		 * INTEGER: case DOUBLE_QUOTE_STRING: case SINGLE_QUOTE_STRING: case
-		 * REGEX: case STRING_AFTER_EXPRESSION_SUBSTITUTION: case FLOAT:
-		 * throw new TokenStreamException("'(' is not expected"); } break;
+		 * parser.
 		 */
 		case HERE_DOC_BEGIN:
 			input_.skipToLineBreak();
@@ -367,6 +364,7 @@ public class RubyLexer extends RubyLexerBase {
 		case LINE_BREAK:
 		case COMMA:
 		case LPAREN: // OPTION = (if ...
+		case LPAREN_WITH_NO_LEADING_SPACE:
 		case LCURLY_BLOCK: // proc { if ...
 		case LCURLY_HASH:
 		case LBRACK:
@@ -538,6 +536,7 @@ public class RubyLexer extends RubyLexerBase {
 		case Token.INVALID_TYPE:
 		case FUNCTION: // defines? <<EOF
 		case LPAREN: // puts(<<EOF
+		case LPAREN_WITH_NO_LEADING_SPACE:
 		case ASSOC: // :text=><<EOL).pack(:side=>:top)
 		case COMMA: // insert('0.0', <<EOT)
 		case SEMI:
@@ -587,6 +586,7 @@ public class RubyLexer extends RubyLexerBase {
 		case LCURLY_HASH: // {{}=>""}
 		case ASSOC: // {section=>{}}
 		case LPAREN: // waitfor({"Prompt" => match, "Timeout" => time_out})
+		case LPAREN_WITH_NO_LEADING_SPACE:
 		case LBRACK: // @ns_stack = [{}]
 		case LBRACK_ARRAY_ACCESS:
 		case LITERAL_return: // return {'*'=>'id'}
@@ -689,6 +689,7 @@ public class RubyLexer extends RubyLexerBase {
 		case SEMI:
 		case COMMA:
 		case LPAREN:
+		case LPAREN_WITH_NO_LEADING_SPACE:
 		case LBRACK:
 		case LBRACK_ARRAY_ACCESS:
 		case LCURLY_BLOCK:
@@ -774,8 +775,9 @@ public class RubyLexer extends RubyLexerBase {
 		case LCURLY_BLOCK:
 		case LCURLY_HASH:
 		case LPAREN:
+		case LPAREN_WITH_NO_LEADING_SPACE:
 
-			// TODO add more keywords
+		// TODO add more keywords
 		case LITERAL_when: // when -1, Range, Array
 		case LITERAL_then:
 		case LITERAL_if:
@@ -835,6 +837,7 @@ public class RubyLexer extends RubyLexerBase {
 		case LCURLY_BLOCK:
 		case LCURLY_HASH:
 		case LPAREN:
+		case LPAREN_WITH_NO_LEADING_SPACE:
 		case SEMI:
 		case LINE_BREAK: // \n #comment \n
 		case IF_MODIFIER:
