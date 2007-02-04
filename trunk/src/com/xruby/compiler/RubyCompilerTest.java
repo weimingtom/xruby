@@ -162,6 +162,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Fixnum_misc() {
 		String[] program_texts = {
+				"print (-7).div(4)",
 				"print 4.quo(2)",
 				
 				"print 1.to_f",
@@ -170,6 +171,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"-2",
 				"2.0",
 				
 				"1.0",
