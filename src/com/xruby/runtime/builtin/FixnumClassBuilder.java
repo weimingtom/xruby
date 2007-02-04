@@ -331,12 +331,16 @@ class Fixnum_operator_div extends RubyMethod {
 			BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
 			BigInteger bigValue2 = ((RubyBignum)value2).getInternal();
 			return RubyBignum.bignorm(bigValue1.divide(bigValue2));
-		}
-		else if (value2 instanceof RubyFixnum){
+		} else if (value2 instanceof RubyFixnum){
+			int intValue1 = ((RubyFixnum)value1).intValue();
 			int intValue2 = ((RubyFixnum)value2).intValue();
-			return RubyBignum.bignorm((long)value1.intValue() / (long)(intValue2));
-		}
-		else if (value2 instanceof RubyFloat){
+			int div = intValue1 / intValue2;
+			int mod = intValue1 - div * intValue2;
+			if (mod != 0 && div < 0) {
+				--div;
+			}
+			return RubyBignum.bignorm(div);
+		} else if (value2 instanceof RubyFloat){
 			double floatValue1 = value1.intValue();
 			double floatValue2 = ((RubyFloat)value2).doubleValue();
 			return ObjectFactory.createFloat(floatValue1 / floatValue2);
