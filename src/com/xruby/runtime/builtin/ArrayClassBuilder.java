@@ -44,9 +44,13 @@ class Array_array_access extends RubyMethod {
 				RubyFixnum index = (RubyFixnum)argValue;
 				return value.get(index.intValue());
 			} else if (args.get(0) instanceof RubyRange) {
-				RubyFixnum begin = (RubyFixnum)((RubyRange)args.get(0)).getLeft();
-				RubyFixnum end = (RubyFixnum)((RubyRange)args.get(0)).getRight();
-				return value.subarray(begin.intValue(), end.intValue());
+				int begin = ((RubyFixnum)((RubyRange)args.get(0)).getLeft()).intValue();
+				int end = ((RubyFixnum)((RubyRange)args.get(0)).getRight()).intValue();
+				if (!((RubyRange)args.get(0)).isExcludeEnd()) {
+					++end;
+				}
+				RubyArray resultValue = value.subarray(begin, end - begin);
+				return (null == resultValue ? ObjectFactory.nilValue : resultValue);
 			}
 		} else if (2 == args.size()) {
 			Object arg0Value = args.get(0);
@@ -55,11 +59,7 @@ class Array_array_access extends RubyMethod {
 				int begin = ((RubyFixnum)arg0Value).intValue();
 				int length = ((RubyFixnum)arg1Value).intValue();
 				RubyArray resultValue = value.subarray(begin, length);
-				if (resultValue == null) {
-					return ObjectFactory.nilValue;
-				}
-				
-				return resultValue;
+				return (null == resultValue ? ObjectFactory.nilValue : resultValue);
 			}
 		}
 		
