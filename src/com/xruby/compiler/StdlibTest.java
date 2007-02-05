@@ -62,10 +62,9 @@ public class StdlibTest extends CompilerTestCase {
 				
 				"print Rational(3,4) * 2",
 				
-				//"print Rational(7,4) % Rational(1,2)",
-				//"print Rational(3,4) % 1",
-				//"print Rational(3,4) % Rational(1,7)",
-				//"print Rational(3,4) % 0.26 ",
+				"print Rational(7,4) % Rational(1,2)",
+				"print Rational(3,4) % 1",
+				"print Rational(3,4) % Rational(1,7)",
 		};
 		
 		String[] outputs = {
@@ -82,10 +81,9 @@ public class StdlibTest extends CompilerTestCase {
 				
 				"3/2",
 				
-				//"1/4",
-				//"3/4",
-				//"1/28",
-				//"0.23",
+				"1/4",
+				"3/4",
+				"1/28",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
