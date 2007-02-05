@@ -705,7 +705,7 @@ returns [String s]
 		|	LESS_OR_EQUAL		{s = "<=";}
 		|	PLUS				{s = "+";}
 		|	MINUS				{s = "-";}
-		|	STAR				{s = "_";}
+		|	STAR				{s = "*";}
 		|	DIV					{s = "/";}
 		|	MOD					{s = "%";}
 		|	POWER				{s = "**";}

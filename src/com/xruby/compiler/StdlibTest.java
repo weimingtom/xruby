@@ -60,6 +60,8 @@ public class StdlibTest extends CompilerTestCase {
 				"print Rational(3,4) / 2",
 				"print Rational(3,4) / 2.0",
 				
+				"print Rational(3,4) * 2",
+				
 				//"print Rational(7,4) % Rational(1,2)",
 				//"print Rational(3,4) % 1",
 				//"print Rational(3,4) % Rational(1,7)",
@@ -77,6 +79,8 @@ public class StdlibTest extends CompilerTestCase {
 				
 				"3/8",
 				"0.375",
+				
+				"3/2",
 				
 				//"1/4",
 				//"3/4",
