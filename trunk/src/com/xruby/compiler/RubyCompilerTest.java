@@ -401,6 +401,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Array_misc() {
 		String[] program_texts = {
+				"p [1, 2, 3][1..2]",
+				"p [1, 2, 3][1...2]",
 				"print [].empty?",
 				"a = [1,2,3]; a[1,0] = [1,2,3]; print a, a.size",
 				
@@ -418,6 +420,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"[2, 3]",
+				"[2]",
 				"true",
 				"1123236",
 				
