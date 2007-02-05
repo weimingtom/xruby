@@ -1,13 +1,11 @@
 /** 
- * Copyright 2006-2007 Jie Li
+ * Copyright 2006-2007 Jie Li, Xue Yong Zhi
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.runtime.builtin;
 
-import com.xruby.runtime.lang.RubyException;
-import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
 public class RubyTypesUtil {
@@ -26,7 +24,8 @@ public class RubyTypesUtil {
 		} else if (arg instanceof RubyFixnum) {
 			return ObjectFactory.createFloat(((RubyFixnum)arg).intValue());
 		} else {
-			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Fixnum");
+			RubyValue v = RubyAPI.callPublicMethod(arg, null, "to_f");
+			return (RubyFloat)v;
 		}
 	}
 	
