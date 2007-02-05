@@ -182,15 +182,17 @@ public class RubyCompilerTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-	public void test_Float() {
+	public void test_Float_Integer() {
 		String[] program_texts = {
 				"print Float(2)",
 				"print Integer(2)",
+				"print Float(4.2).to_i",
 		};
 		
 		String[] outputs = {
 				"2.0",
 				"2",
+				"4",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
