@@ -274,6 +274,17 @@ class Float_nan extends RubyMethod {
 	}
 }
 
+class Float_to_i extends RubyMethod {
+	public Float_to_i() {
+		super(0);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		double value = ((RubyFloat)receiver).doubleValue();
+		return ObjectFactory.createFixnum((int)value);
+	}
+}
+
 public class FloatClassBuilder {
 	
 	public static void initialize() {
@@ -293,5 +304,6 @@ public class FloatClassBuilder {
 		c.defineMethod("finite?", new Float_finite());
 		c.defineMethod("infinite?", new Float_infinite());
 		c.defineMethod("nan?", new Float_nan());
+		c.defineMethod("to_i", new Float_to_i());
 	}
 }
