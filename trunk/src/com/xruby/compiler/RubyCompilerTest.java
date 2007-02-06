@@ -401,6 +401,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Array_misc() {
 		String[] program_texts = {
+				"p [2, 3].insert(0, 1)",
 				"p [1, 2, 3][1..2]",
 				"p [1, 2, 3][1...2]",
 				"print [].empty?",
@@ -420,6 +421,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"[1, 2, 3]",
 				"[2, 3]",
 				"[2]",
 				"true",
