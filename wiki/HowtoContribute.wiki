@@ -22,7 +22,7 @@ Contributors own the copyright of their contributions. If you made significant c
 
 By contributing your work to XRuby project, you agreed to release the source code as GPL v2 license.
 
-= GetStarted = 
+= GetStarted =
 
 Please read XRubyHackingGuide first, it gives you an overview of the implementation.
 
