@@ -8,23 +8,15 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Array_length extends RubyMethod {
-	public Array_length() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_length extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray value = (RubyArray)receiver;
 		return ObjectFactory.createFixnum(value.size());
 	}
 }
 
-class Array_to_s extends RubyMethod {
-	public Array_to_s() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_to_s extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray value = (RubyArray)receiver;
 		return value.to_s();
 	}
@@ -89,14 +81,10 @@ class Array_array_set extends RubyMethod {
 	}
 }
 
-class Array_equal extends RubyMethod {
-	public Array_equal() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_equal extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray left = (RubyArray)receiver;
-		Object right = args.get(0);
+		Object right = arg;
 		if (!(right instanceof RubyArray)) {
 			return ObjectFactory.falseValue;
 		}
@@ -104,105 +92,73 @@ class Array_equal extends RubyMethod {
 	}
 }
 
-class Array_compare extends RubyMethod {
-	public Array_compare() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_compare extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray left = (RubyArray)receiver;
-		Object right = args.get(0);
+		Object right = arg;
 		if (!(right instanceof RubyArray)) {
-			throw new RubyException(RubyRuntime.TypeErrorClass, "Can't convert " + args.get(0).getRubyClass().getName() + " into Array");
+			throw new RubyException(RubyRuntime.TypeErrorClass, "Can't convert " + arg.getRubyClass().getName() + " into Array");
 		}
 		return left.compare((RubyArray)right);
 	}
 }
 
-class Array_concat extends RubyMethod {
-	public Array_concat() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_concat extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray left = (RubyArray)receiver;
-		left.concat(args.get(0));
+		left.concat(arg);
 		return receiver;
 	}
 }
 
-class Array_plus extends RubyMethod {
-	public Array_plus() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_plus extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray left = (RubyArray)receiver;
-		RubyArray right = (RubyArray)args.get(0);
+		RubyArray right = (RubyArray)arg;
 		return left.plus(right);
 	}
 }
 
-class Array_minus extends RubyMethod {
-	public Array_minus() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_minus extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray left = (RubyArray)receiver;
-		RubyArray right = (RubyArray)args.get(0);
+		RubyArray right = (RubyArray)arg;
 		return left.minus(right);
 	}
 }
 
-class Array_times extends RubyMethod {
-	public Array_times() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_times extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		if (args.get(0) instanceof RubyFixnum) { 
-			RubyFixnum times = (RubyFixnum)args.get(0);
+		if (arg instanceof RubyFixnum) { 
+			RubyFixnum times = (RubyFixnum)arg;
 			return array.times(times.intValue());
-		} else if (args.get(0) instanceof RubyString) {
-			return RubyAPI.callMethod(receiver, args, block, "join");
+		} else if (arg instanceof RubyString) {
+			return RubyAPI.callMethod(receiver, new RubyArray(arg), block, "join");
 		}
 
-		throw new RubyException(RubyRuntime.TypeErrorClass, "no implicit conversion from " + args.get(0) + " to integer");
+		throw new RubyException(RubyRuntime.TypeErrorClass, "no implicit conversion from " + arg + " to integer");
 	}
 }
 
-class Array_operator_and extends RubyMethod {
-	public Array_operator_and() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_operator_and extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		return array.and((RubyArray)args.get(0));
+		return array.and((RubyArray)arg);
 	}
 }
 
-class Array_operator_or extends RubyMethod {
-	public Array_operator_or() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_operator_or extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		return array.or((RubyArray)args.get(0));
+		return array.or((RubyArray)arg);
 	}
 }
 
-class Array_push extends RubyMethod {
-	public Array_push() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_push extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		RubyValue obj = args.get(0);
+		RubyValue obj = arg;
 		return array.add(obj);
 	}
 }
@@ -231,26 +187,18 @@ class Array_pop extends RubyMethod {
 	}
 }
 
-class Array_delete_at extends RubyMethod {
-	public Array_delete_at() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_delete_at extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		RubyFixnum pos = (RubyFixnum)args.get(0);
+		RubyFixnum pos = (RubyFixnum)arg;
 		return array.remove(pos.intValue());		
 	}
 }
 
-class Array_include extends RubyMethod {
-	public Array_include() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_include extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		if (array.include(args.get(0))) {
+		if (array.include(arg)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -258,12 +206,8 @@ class Array_include extends RubyMethod {
 	}
 }
 
-class Array_each extends RubyMethod {
-	public Array_each() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_each extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		array.rb_iterate(receiver, block);
         
@@ -292,23 +236,15 @@ class Array_new extends RubyMethod {
 	}
 }
 
-class Array_shift extends RubyMethod {
-	public Array_shift() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_shift extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		return array.remove(0);
 	}
 }
 
-class Array_sort_dangers extends RubyMethod {
-	public Array_sort_dangers() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_sort_dangers extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		if (null == block) {
 			array.sort();
@@ -319,12 +255,8 @@ class Array_sort_dangers extends RubyMethod {
 	}
 }
 
-class Array_sort extends RubyMethod {
-	public Array_sort() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_sort extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = ((RubyArray)receiver).copy();
 		if (null == block) {
 			array.sort();
@@ -335,100 +267,66 @@ class Array_sort extends RubyMethod {
 	}
 }
 
-class Array_hash extends RubyMethod {
-	public Array_hash() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_hash extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		return ObjectFactory.createFixnum(array.hash());
 	}
 }
 
-class Array_compact_danger extends RubyMethod {
-	public Array_compact_danger() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_compact_danger extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		return array.compact() ? array : ObjectFactory.nilValue;
 	}
 }
 
-class Array_compact extends RubyMethod {
-	public Array_compact() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_compact extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = ((RubyArray)receiver).copy();
 		return array.compact() ? array : ObjectFactory.nilValue;
 	}
 }
 
-class Array_uniq_danger extends RubyMethod {
-	public Array_uniq_danger() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_uniq_danger extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		return array.uniq() ? array : ObjectFactory.nilValue;
 	}
 }
 
-class Array_uniq extends RubyMethod {
-	public Array_uniq() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_uniq extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = ((RubyArray)receiver).copy();
 		return array.uniq() ? array : ObjectFactory.nilValue;
 	}
 }
 
-class Array_reverse_danger extends RubyMethod {
-	public Array_reverse_danger() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_reverse_danger extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		array.reverse();
 		return array;
 	}
 }
 
-class Array_reverse extends RubyMethod {
-	public Array_reverse() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_reverse extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyArray array = ((RubyArray)receiver).copy();
 		array.reverse();
 		return array;
 	}
 }
 
-class Array_pack extends RubyMethod {
-	
-	public Array_pack() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_pack extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		String format = ((RubyString)args.get(0)).toString();
+		String format = ((RubyString)arg).toString();
 		return ObjectFactory.createString(ArrayPacker.pack(array, format));	
 	}
 }
 
-public class ArrayClassBuilder {
-	
+public class ArrayClassBuilder {	
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ArrayClass;
 		c.defineMethod("length", new Array_length());

@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Jie Li
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -71,23 +71,15 @@ class File_delete extends RubyMethod {
 	}
 }
 
-class File_separator extends RubyMethod {
-	public File_separator() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class File_separator extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return ObjectFactory.createString(File.separator);
 	}
 }
 
-class File_file_question extends RubyMethod {
-	public File_file_question() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String fileName = RubyTypesUtil.convertToString(args.get(0)).toString();
+class File_file_question extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String fileName = RubyTypesUtil.convertToString(arg).toString();
 		File file = new File(fileName);
 		if (file.isFile()){
 			return ObjectFactory.trueValue;
@@ -137,13 +129,9 @@ class File_expand_path extends RubyMethod {
 	}
 }
 
-class File_dirname extends RubyMethod {
-	public File_dirname() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String fileName = RubyTypesUtil.convertToString(args.get(0)).toString();
+class File_dirname extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String fileName = RubyTypesUtil.convertToString(arg).toString();
 		File file = new File(fileName);
 		String parent = file.getParent();
 		if (parent == null) {
@@ -156,13 +144,9 @@ class File_dirname extends RubyMethod {
 	}
 }
 
-class File_mtime extends RubyMethod {
-	public File_mtime() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String fileName = RubyTypesUtil.convertToString(args.get(0)).toString();
+class File_mtime extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String fileName = RubyTypesUtil.convertToString(arg).toString();
 		File file = new File(fileName);
 		if (!file.isFile() && !file.isDirectory()){
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such file or directory - " + fileName);
@@ -171,13 +155,9 @@ class File_mtime extends RubyMethod {
 	}
 }
 
-class File_size extends RubyMethod {
-	public File_size() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String fileName = RubyTypesUtil.convertToString(args.get(0)).toString();
+class File_size extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String fileName = RubyTypesUtil.convertToString(arg).toString();
 		File file = new File(fileName);
 		if (!file.isFile() && !file.isDirectory()){
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such file or directory - " + fileName);

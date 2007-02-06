@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -8,12 +8,8 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class GC_start extends RubyMethod {
-	public GC_start() {
-		super(0);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class GC_start extends RubyNoArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		System.gc();
 		return ObjectFactory.nilValue;
 	}

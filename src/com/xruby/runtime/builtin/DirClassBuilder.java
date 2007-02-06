@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Jie Li
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -10,13 +10,9 @@ import org.apache.oro.io.GlobFilenameFilter;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Dir_chdir extends RubyMethod {
-	public Dir_chdir() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String dir = RubyTypesUtil.convertToString(args.get(0)).toString();
+class Dir_chdir extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String dir = RubyTypesUtil.convertToString(arg).toString();
 		File file = new File(dir);
 		if (!file.isDirectory()){
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, "No a directory - " + dir);
@@ -26,23 +22,15 @@ class Dir_chdir extends RubyMethod {
 	}
 }
 
-class Dir_getwd extends RubyMethod {
-	public Dir_getwd() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Dir_getwd extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return ObjectFactory.createString(System.getProperty("user.dir"));	
 	}
 }
 
-class Dir_mkdir extends RubyMethod {
-	public Dir_mkdir() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String dir = RubyTypesUtil.convertToString(args.get(0)).toString();
+class Dir_mkdir extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String dir = RubyTypesUtil.convertToString(arg).toString();
 		File file = new File(dir);
 		if (file.mkdir()){
 			return ObjectFactory.fixnum0;
@@ -51,13 +39,9 @@ class Dir_mkdir extends RubyMethod {
 	}
 }
 
-class Dir_rmdir extends RubyMethod {
-	public Dir_rmdir() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String dir = RubyTypesUtil.convertToString(args.get(0)).toString();
+class Dir_rmdir extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String dir = RubyTypesUtil.convertToString(arg).toString();
 		File file = new File(dir);
 		if (!file.isDirectory()){
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, "Not a directory - " + dir);
@@ -69,13 +53,9 @@ class Dir_rmdir extends RubyMethod {
 	}
 }
 
-class Dir_entries extends RubyMethod {
-	public Dir_entries() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String dir = RubyTypesUtil.convertToString(args.get(0)).toString();
+class Dir_entries extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String dir = RubyTypesUtil.convertToString(arg).toString();
 		File file = new File(dir);
 		if (!file.isDirectory()){
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, "Not a directory - " + dir);
@@ -90,14 +70,10 @@ class Dir_entries extends RubyMethod {
 	}
 }
 
-class Dir_array_access extends RubyMethod {
-	public Dir_array_access() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Dir_array_access extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		File file = new File(".");
-		String pattern = RubyTypesUtil.convertToString(args.get(0)).toString();
+		String pattern = RubyTypesUtil.convertToString(arg).toString();
 		RubyArray files = new RubyArray();
 		for (String f: file.list(new GlobFilenameFilter(pattern))){
 			files.add(ObjectFactory.createString(f));
@@ -121,8 +97,6 @@ public class DirClassBuilder {
 		c.getSingletonClass().defineMethod("delete", rmdir);
 		c.getSingletonClass().defineMethod("unlink", rmdir);
 		c.getSingletonClass().defineMethod("entries", new Dir_entries());
-		c.getSingletonClass().defineMethod("[]", new Dir_array_access());
-	
-	}
-	
+		c.getSingletonClass().defineMethod("[]", new Dir_array_access());	
+	}	
 }

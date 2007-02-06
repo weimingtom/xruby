@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -10,7 +10,7 @@ import com.xruby.runtime.value.*;
 
 class Class_new extends RubyMethod {
 	public Class_new() {
-		super(0);
+		super(-1);
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
@@ -28,12 +28,8 @@ class Class_new extends RubyMethod {
 	}
 }
 
-class Class_superclass extends RubyMethod {
-	public Class_superclass() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Class_superclass extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyClass r = (RubyClass)receiver;
 		RubyClass c = r.getSuperClass();
 		if (null == c) {
@@ -45,7 +41,6 @@ class Class_superclass extends RubyMethod {
 }
 
 public class ClassClassBuilder {
-
 	static RubyMethod class_new_ = new Class_new();
 	
 	public static void initialize() {

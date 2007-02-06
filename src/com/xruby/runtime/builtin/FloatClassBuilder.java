@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Jie Li
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -10,25 +10,17 @@ import java.math.BigDecimal;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Float_to_s extends RubyMethod {
-	public Float_to_s() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_to_s extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyFloat value = (RubyFloat)receiver;
 		return ObjectFactory.createString(Double.toString(value.doubleValue()));
 	}
 }
 
-class Float_operator_minus extends RubyMethod {
-	public Float_operator_minus() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_operator_minus extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		double floatValue1 = ((RubyFloat)receiver).doubleValue();
-		Object value2 = args.get(0);
+		Object value2 = arg;
 		double floatValue2 = 0;
 		if (value2 instanceof RubyBignum){
 			floatValue2 = ((RubyBignum)value2).getInternal().doubleValue();
@@ -37,20 +29,16 @@ class Float_operator_minus extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
+			throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
 		}
 		return ObjectFactory.createFloat(floatValue1 - floatValue2);
 	}
 }
 
-class Float_operator_compare extends RubyMethod {
-	public Float_operator_compare() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_operator_compare extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyFloat value1 = (RubyFloat)receiver;
-		Object value2 = args.get(0);
+		Object value2 = arg;
 		double floatValue2 = 0;
 		if (value2 instanceof RubyBignum){
 			floatValue2 = ((RubyBignum)value2).getInternal().doubleValue();
@@ -75,12 +63,8 @@ class Float_operator_compare extends RubyMethod {
 	}
 }
 
-class Float_floor extends RubyMethod {
-	public Float_floor() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_floor extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		double value = ((RubyFloat)receiver).doubleValue();
 		value = Math.floor(value);
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
@@ -90,12 +74,8 @@ class Float_floor extends RubyMethod {
 	}
 }
 
-class Float_ceil extends RubyMethod {
-	public Float_ceil() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_ceil extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		double value = ((RubyFloat)receiver).doubleValue();
 		value = Math.ceil(value);
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
@@ -105,12 +85,8 @@ class Float_ceil extends RubyMethod {
 	}
 }
 
-class Float_truncate extends RubyMethod {
-	public Float_truncate() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_truncate extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		double value = ((RubyFloat)receiver).doubleValue();
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
 			return ObjectFactory.createFixnum((int)value);
@@ -119,12 +95,8 @@ class Float_truncate extends RubyMethod {
 	}
 }
 
-class Float_round extends RubyMethod {
-	public Float_round() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_round extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		double value = ((RubyFloat)receiver).doubleValue();
 		value = Math.round(value);
 		if (value <= Integer.MAX_VALUE && value >= Integer.MIN_VALUE){
@@ -134,14 +106,10 @@ class Float_round extends RubyMethod {
 	}
 }
 
-class Float_operator_mod extends RubyMethod {
-	public Float_operator_mod() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_operator_mod extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		double floatValue1 = ((RubyFloat)receiver).doubleValue();
-		Object value2 = args.get(0);
+		Object value2 = arg;
 		double floatValue2 = 0;
 		if (value2 instanceof RubyBignum){
 			floatValue2 = ((RubyBignum)value2).getInternal().doubleValue();
@@ -150,7 +118,7 @@ class Float_operator_mod extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
+			throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
 		}
 		double value3 = floatValue1 / floatValue2;
 		double result = floatValue1 - Math.floor(floatValue2 * value3);
@@ -158,14 +126,10 @@ class Float_operator_mod extends RubyMethod {
 	}
 }
 
-class Float_operator_plus extends RubyMethod {
-	public Float_operator_plus() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_operator_plus extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		double floatValue1 = ((RubyFloat)receiver).doubleValue();
-		Object value2 = args.get(0);
+		Object value2 = arg;
 		double floatValue2 = 0;
 		if (value2 instanceof RubyBignum){
 			floatValue2 = ((RubyBignum)value2).getInternal().doubleValue();
@@ -174,20 +138,16 @@ class Float_operator_plus extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
+			throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
 		}
 		return ObjectFactory.createFloat(floatValue1 + floatValue2);
 	}
 }
 
-class Float_operator_star extends RubyMethod {
-	public Float_operator_star() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_operator_star extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		double floatValue1 = ((RubyFloat)receiver).doubleValue();
-		Object value2 = args.get(0);
+		Object value2 = arg;
 		double floatValue2 = 0;
 		if (value2 instanceof RubyBignum){
 			floatValue2 = ((RubyBignum)value2).getInternal().doubleValue();
@@ -196,20 +156,16 @@ class Float_operator_star extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
+			throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
 		}
 		return ObjectFactory.createFloat(floatValue1 * floatValue2);
 	}
 }
 
-class Float_operator_div extends RubyMethod {
-	public Float_operator_div() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_operator_div extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		double floatValue1 = ((RubyFloat)receiver).doubleValue();
-		Object value2 = args.get(0);
+		Object value2 = arg;
 		double floatValue2 = 0;
 		if (value2 instanceof RubyBignum){
 			floatValue2 = ((RubyBignum)value2).getInternal().doubleValue();
@@ -218,40 +174,28 @@ class Float_operator_div extends RubyMethod {
 		}else if(value2 instanceof RubyFloat){
 			floatValue2 = ((RubyFloat)value2).doubleValue();
 		}else{
-			throw new RubyException(RubyRuntime.TypeErrorClass, args.get(0).getRubyClass().getName() + " can't be coersed into Float");
+			throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
 		}
 		return ObjectFactory.createFloat(floatValue1 / floatValue2);
 	}
 }
 
-class Float_abs extends RubyMethod {
-	public Float_abs() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_abs extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		double value = ((RubyFloat)receiver).doubleValue();
 		return ObjectFactory.createFloat(Math.abs(value));
 	}
 }
 
-class Float_finite extends RubyMethod {
-	public Float_finite() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_finite extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		double value = ((RubyFloat)receiver).doubleValue();
 		return ObjectFactory.createBoolean(!Double.isInfinite(value));
 	}
 }
 
-class Float_infinite extends RubyMethod {
-	public Float_infinite() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_infinite extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		double value = ((RubyFloat)receiver).doubleValue();
 		if (value == Double.NEGATIVE_INFINITY){
 			return ObjectFactory.createFixnum(-1);
@@ -263,23 +207,15 @@ class Float_infinite extends RubyMethod {
 	}
 }
 
-class Float_nan extends RubyMethod {
-	public Float_nan() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_nan extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		double value = ((RubyFloat)receiver).doubleValue();
 		return ObjectFactory.createBoolean(Double.isNaN(value));
 	}
 }
 
-class Float_to_i extends RubyMethod {
-	public Float_to_i() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Float_to_i extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		double value = ((RubyFloat)receiver).doubleValue();
 		return ObjectFactory.createFixnum((int)value);
 	}

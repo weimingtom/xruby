@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -8,12 +8,8 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Exception_to_s extends RubyMethod {
-	public Exception_to_s() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Exception_to_s extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		String value = receiver.toString();
 		return ObjectFactory.createString(value);
 	}
