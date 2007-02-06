@@ -49,6 +49,11 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		array_.add(v);
 		return this;
 	}
+	
+	public RubyArray insert(int index, RubyValue v) {
+		array_.add(index, v);
+		return this;
+	}
 
 	public RubyValue remove(int index) {
 		if (index < 0 || index > size()) {

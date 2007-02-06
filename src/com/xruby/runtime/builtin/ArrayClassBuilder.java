@@ -203,8 +203,20 @@ class Array_push extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		RubyValue obj = args.get(0);
-		array.add(obj);
-		return array;
+		return array.add(obj);
+	}
+}
+
+class Array_insert extends RubyMethod {
+	public Array_insert() {
+		super(2);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver;
+		RubyFixnum index = (RubyFixnum)args.get(0);
+		RubyValue value = args.get(1);
+		return array.insert(index.intValue(), value);
 	}
 }
 
@@ -432,6 +444,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("&", new Array_operator_and());
 		c.defineMethod("|", new Array_operator_or());
 		c.defineMethod("push", new Array_push());
+		c.defineMethod("insert", new Array_insert());
 		c.defineMethod("pop", new Array_pop());
 		c.defineMethod("delete_at", new Array_delete_at());
 		c.defineMethod("include?", new Array_include());
