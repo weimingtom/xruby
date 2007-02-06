@@ -100,6 +100,8 @@ public abstract class RubyMethod extends MethodBlockBase {
 				args = new RubyArray();
 			}
 		}
+		
+		// TODO: verrify argc == 0
 
 		RubyValue v = run(receiver, args, block);
 		if (null != block) {

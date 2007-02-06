@@ -15,7 +15,6 @@ import com.xruby.runtime.value.ObjectFactory;
  */
 
 class Enum_collect extends RubyMethod {
-
     public Enum_collect() {
         super(0);
     }
@@ -28,7 +27,6 @@ class Enum_collect extends RubyMethod {
 }
 
 class Enum_all extends RubyMethod {
-
     public Enum_all() {
         super(0);
     }
@@ -77,6 +75,5 @@ public class EnumerableModuleBuilder {
 		m.defineMethod("map", enum_collect);
 		m.defineMethod("all?", new Enum_all());
 		m.defineMethod("any?", new Enum_any());
-
 	}
 }

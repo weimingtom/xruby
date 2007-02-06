@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Yu Su
+ * Copyright 2005-2007 Xue Yong Zhi, Yu Su, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -8,12 +8,8 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Hash_length extends RubyMethod {
-	public Hash_length() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_length extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyHash value = (RubyHash)receiver;
 		return ObjectFactory.createFixnum(value.size());
 	}
@@ -47,25 +43,15 @@ class Hash_hash_set extends RubyMethod {
 	}
 }
 
-class Hash_to_s extends RubyMethod {
-
-    public Hash_to_s() {
-        super(0);
-    }
-
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_to_s extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyHash value = (RubyHash)receiver;
 		return value.to_s();
     }
 }
 
-class Hash_each extends RubyMethod {
-
-    public Hash_each() {
-        super(0);
-    }
-
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_each extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyHash hash = (RubyHash)receiver;
         hash.rb_iterate(receiver, block);
 
@@ -98,25 +84,17 @@ class Hash_initialize extends RubyMethod {
 	}
 }
 
-class Hash_has_key_question extends RubyMethod {
-	public Hash_has_key_question() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_has_key_question extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyHash h = (RubyHash)receiver;
-		return h.has_key(args.get(0)) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+		return h.has_key(arg) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
 	}
 }
 
-class Hash_has_value_question extends RubyMethod {
-	public Hash_has_value_question() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_has_value_question extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyHash h = (RubyHash)receiver;
-		return h.has_value(args.get(0)) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+		return h.has_value(arg) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
 	}
 }
 
@@ -131,14 +109,10 @@ class Hash_values_at extends RubyMethod {
 	}
 }
 
-class Hash_equal extends RubyMethod {
-	public Hash_equal() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_equal extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyHash left = (RubyHash)receiver;
-		Object right = args.get(0);
+		Object right = arg;
 		if (!(right instanceof RubyHash)) {
 			return ObjectFactory.falseValue;
 		}
@@ -146,34 +120,22 @@ class Hash_equal extends RubyMethod {
 	}
 }
 
-class Hash_keys extends RubyMethod {
-	public Hash_keys() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_keys extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyHash h = (RubyHash)receiver;
 		return h.keys();
 	}
 }
 
-class Hash_values extends RubyMethod {
-	public Hash_values() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_values extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyHash h = (RubyHash)receiver;
 		return h.values();
 	}
 }
 
-class Hash_shift extends RubyMethod {
-	public Hash_shift() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_shift extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyHash h = (RubyHash)receiver;
 		return h.shift();
 	}
@@ -190,14 +152,10 @@ class Hash_default extends RubyMethod {
 	}
 }
 
-class Hash_default_assign extends RubyMethod {
-	public Hash_default_assign() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_default_assign extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyHash h = (RubyHash)receiver;
-		h.setDefaultValue(args.get(0));
+		h.setDefaultValue(arg);
 		return h;
 	}
 }
