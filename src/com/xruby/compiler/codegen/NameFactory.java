@@ -75,7 +75,7 @@ public class NameFactory {
 			name = name.substring(0, position_of_first_dot);
 		}
 		
-		return name;
+		return name.replace('-', '$');//'-' is not allowed for java
 	}
 	
 	static File change_filename_suffix_to_jar(String filename) {
