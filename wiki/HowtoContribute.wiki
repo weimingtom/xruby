@@ -29,10 +29,12 @@ Please read [XRubyHackingGuide] first, it gives you an overview of the implement
 
 The easier way to jump start is to implement a few builtin libraries. And almost all of our members started this way. By implementing builtin libraries, it helps you understand how the runtime/compiler works. And it does not require too much knowledge of compiler to get started.
 
-= ATypicalDay =
-
 As our current focus is to get major Ruby libraries work under XRuby, a typical day may look like this:
 
   # Find a Ruby libraies that is not known to be working. For example: rational.rb.
   # Open src/com/xruby/compiler/StdlibTest.java, start to write a test case (using mighty print).
   # If it failes, fix it (right now the most likly reason is some builtin are either not implemented or not correctly implemented), then move on to the next target.
+
+= Note =
+
+Please just choose an area that you are interested in most. Enjoy!
