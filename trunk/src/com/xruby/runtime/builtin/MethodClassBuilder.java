@@ -8,11 +8,7 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Method_call extends RubyMethod {
-	public Method_call() {
-		super(-1);
-	}
-
+class Method_call extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		MethodValue m = (MethodValue)receiver;
 		return m.call(args, block);

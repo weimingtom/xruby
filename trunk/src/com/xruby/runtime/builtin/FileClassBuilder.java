@@ -46,11 +46,7 @@ class File_basename extends RubyMethod {
 	}
 }
 
-class File_delete extends RubyMethod {
-	public File_delete() {
-		super(-1);
-	}
-
+class File_delete extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		int deleted = 0;
 		if (args!= null){
@@ -88,11 +84,7 @@ class File_file_question extends RubyOneArgMethod {
 	}
 }
 
-class File_expand_path extends RubyMethod {
-	public File_expand_path() {
-		super(-1);
-	}
-
+class File_expand_path extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (null == args) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");

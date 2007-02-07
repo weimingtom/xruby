@@ -24,11 +24,7 @@ class Object_clone extends RubyNoArgMethod {
 	}
 }
 
-class Object_alloc extends RubyMethod {
-	public Object_alloc() {
-		super(-1);
-	}
-	
+class Object_alloc extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return new RubyObject((RubyClass)receiver);
 	}

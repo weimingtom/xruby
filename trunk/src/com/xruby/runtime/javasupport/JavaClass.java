@@ -1,5 +1,5 @@
 /**
- * Copyright 2006-2007 Yu Su
+ * Copyright 2006-2007 Yu Su, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -11,6 +11,7 @@ import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyVarArgMethod;
 import com.xruby.runtime.value.RubyArray;
 
 import java.lang.reflect.Constructor;
@@ -233,12 +234,10 @@ public class JavaClass extends RubyClass {
         }
     }
 
-    private class FakeMethod extends RubyMethod {
+    private class FakeMethod extends RubyVarArgMethod {
         private String methodName;
 
         public FakeMethod(String methodName) {
-            super(-1);
-
             this.methodName = methodName;
         }
 
@@ -254,12 +253,7 @@ public class JavaClass extends RubyClass {
         }
     }
 
-    private class FakeInitMethod extends RubyMethod {
-
-        public FakeInitMethod() {
-            super(-1);
-        }
-
+    private class FakeInitMethod extends RubyVarArgMethod {
         protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
             JavaClass clazz = (JavaClass) receiver;
             JavaMethod method = clazz.findInitMethod(args);

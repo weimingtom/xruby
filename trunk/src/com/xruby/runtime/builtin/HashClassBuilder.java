@@ -15,11 +15,7 @@ class Hash_length extends RubyNoArgMethod {
 	}
 }
 
-class Hash_hash_access extends RubyMethod {
-	public Hash_hash_access() {
-		super(-1);
-	}
-
+class Hash_hash_access extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyHash value = (RubyHash)receiver;
 		if (1 == args.size()) {
@@ -31,11 +27,7 @@ class Hash_hash_access extends RubyMethod {
 	}
 }
 
-class Hash_hash_set extends RubyMethod {
-	public Hash_hash_set() {
-		super(-1);
-	}
-
+class Hash_hash_set extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyHash value = (RubyHash)receiver;
 		value.add(args.get(0), args.get(1));
@@ -98,11 +90,7 @@ class Hash_has_value_question extends RubyOneArgMethod {
 	}
 }
 
-class Hash_values_at extends RubyMethod {
-	public Hash_values_at() {
-		super(-1);
-	}
-
+class Hash_values_at extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyHash h = (RubyHash)receiver;
 		return h.values_at(args);
@@ -141,11 +129,7 @@ class Hash_shift extends RubyNoArgMethod {
 	}
 }
 
-class Hash_default extends RubyMethod {
-	public Hash_default() {
-		super(-1);
-	}
-
+class Hash_default extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyHash h = (RubyHash)receiver;
 		return h.getDefaultValue();
@@ -160,11 +144,7 @@ class Hash_default_assign extends RubyOneArgMethod {
 	}
 }
 
-class Hash_new extends RubyMethod {
-	public Hash_new() {
-		super(-1);
-	}
-
+class Hash_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return ObjectFactory.createHash();
 	}

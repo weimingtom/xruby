@@ -22,11 +22,7 @@ class Array_to_s extends RubyNoArgMethod {
 	}
 }
 
-class Array_array_access extends RubyMethod {
-	public Array_array_access() {
-		super(-1);
-	}
-
+class Array_array_access extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray value = (RubyArray)receiver;
 		
@@ -60,11 +56,7 @@ class Array_array_access extends RubyMethod {
 	}
 }
 
-class Array_array_set extends RubyMethod {
-	public Array_array_set() {
-		super(-1);
-	}
-
+class Array_array_set extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		//TODO index can be range, -1 etc
 		RubyArray value = (RubyArray)receiver;
@@ -176,11 +168,7 @@ class Array_insert extends RubyMethod {
 	}
 }
 
-class Array_pop extends RubyMethod {
-	public Array_pop() {
-		super(-1);
-	}
-
+class Array_pop extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
 		RubyArray array = (RubyArray)receiver;		
 		return array.remove(array.size() - 1);		
@@ -215,22 +203,14 @@ class Array_each extends RubyNoArgMethod {
 	}
 }
 
-class Array_unshift extends RubyMethod {
-	public Array_unshift() {
-		super(-1);
-	}
-
+class Array_unshift extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		return array.unshift(args);
 	}
 }
 
-class Array_new extends RubyMethod {
-	public Array_new() {
-		super(-1);
-	}
-
+class Array_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         return new RubyArray();
 	}

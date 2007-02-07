@@ -8,11 +8,7 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class TopLevelSelf_include extends RubyMethod {
-	public TopLevelSelf_include() {
-		super(-1);
-	}
-	
+class TopLevelSelf_include extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		assert(ObjectFactory.topLevelSelfValue == receiver);
 

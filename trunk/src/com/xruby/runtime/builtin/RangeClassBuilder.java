@@ -50,11 +50,7 @@ class Range_initialize extends RubyMethod {
 	}
 }
 
-class Range_new extends RubyMethod {
-	public Range_new() {
-		super(-1);
-	}
-
+class Range_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return ObjectFactory.createRange();
 	}
