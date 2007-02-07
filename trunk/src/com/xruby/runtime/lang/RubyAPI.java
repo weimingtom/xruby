@@ -95,14 +95,28 @@ public class RubyAPI {
 		}
 	}
 
+	private static RubyValue callMethodMissing(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
+		RubyMethod m = receiver.findMethod("method_missing");
+		if (null != m && !UndefMethod.isUndef(m)) {
+			if (null == args) {
+				args = new RubyArray(ObjectFactory.createSymbol(method_name));
+			} else {
+				args.insert(0, ObjectFactory.createSymbol(method_name));
+			}
+			return m.invoke(receiver, args, block);
+		}
+		
+		throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + receiver.getRubyClass().getName());
+	}
+
 	//receiver is implicit self
 	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findMethod(method_name);
-		if (null == m || UndefMethod.isUndef(m)) {
-			throw new RubyException(RubyRuntime.NoMethodErrorClass, "method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
+		if (null != m && !UndefMethod.isUndef(m)) {
+			return m.invoke(receiver, args, block);
 		}
 	
-		return m.invoke(receiver, args, block);
+		return callMethodMissing(receiver, args, block, method_name);
 	}
 
 	//method call with one argument and no block
@@ -118,11 +132,11 @@ public class RubyAPI {
 	//TODO should pass owner to work with protected method
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findPublicMethod(method_name);
-		if (null == m || UndefMethod.isUndef(m)) {
-			throw new RubyException(RubyRuntime.NoMethodErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
+		if (null != m && !UndefMethod.isUndef(m)) {
+			return m.invoke(receiver, args, block);
 		}
 	
-		return m.invoke(receiver, args, block);
+		return  callMethodMissing(receiver, args, block, method_name);
 	}
 
 	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name, RubyMethod current_method) {

@@ -1798,8 +1798,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 		RubyException[] exceptions = {
 			//TODO exception type is not correct
-			new RubyException(RubyRuntime.NoMethodErrorClass, "method 'a' can not be found in 'Object'"),
-			new RubyException(RubyRuntime.NoMethodErrorClass, "method 'b' can not be found in 'Object'"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'a' for Object"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'b' for Object"),
 			
 			new RubyException(RubyRuntime.NoMethodErrorClass, null),
 			new RubyException(RubyRuntime.NoMethodErrorClass, null),
@@ -2318,11 +2318,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'pf' can not be found in 'TestPrivateProtected1'"),
-			new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'test_private_protected2' can not be found in 'TestPrivateProtected2'"),
-			new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'tpp1' can not be found in 'TestPrivateProtected3'"),
-			new RubyException(RubyRuntime.NameErrorClass, "undefined method `no_such_method` for class `TestPrivateProtected4`"),
-			new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'test_private_protected5' can not be found in 'Object'"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'pf' for TestPrivateProtected1"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'test_private_protected2' for TestPrivateProtected2"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'tpp1' for TestPrivateProtected3"),
+			new RubyException(RubyRuntime.NameErrorClass, "undefined method 'no_such_method' for TestPrivateProtected4"),
+			new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'test_private_protected5' for Object"),
 		};
 
 		compile_run_and_catch_exception(bad_program_texts, exceptions);
@@ -3673,7 +3673,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		
 		RubyException[] exceptions = {
 				//TODO message should be "undefined method `f' for TestSingleton2:Class"
-				new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'f' can not be found in 'Class'"),
+				new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'f' for Class"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -4455,7 +4455,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		RubyException[] exceptions = {
-				new RubyException(RubyRuntime.NoMethodErrorClass, "public method 'test_clone_exception' can not be found in 'Object'"),
+				new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'test_clone_exception' for Object"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -4759,6 +4759,27 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"",
 				"1-100",
 				"128",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+
+	public void test_method_missing() {
+		String[] program_texts = {
+				"alias old_method_missing method_missing\n" +
+				"def method_missing a, *arg; print a; end\n" +
+				"no_such_method_xxx\n" +
+				"alias method_missing old_method_missing",
+				
+				"alias old_method_missing method_missing\n" +
+				"def method_missing a, *arg; print a.class, arg; end\n" +
+				"no_such_method_xxx 1, 2\n" +
+				"alias method_missing old_method_missing",
+		};
+		
+		String[] outputs = {
+				"no_such_method_xxx",
+				"Symbol12",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

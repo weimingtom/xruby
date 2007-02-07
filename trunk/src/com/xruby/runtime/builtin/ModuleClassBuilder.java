@@ -26,7 +26,7 @@ class Module_AccessControl {
 			}
 			
 			if (c.setAccess(method_name, access) == null) {
-				throw new RubyException(RubyRuntime.NameErrorClass, "undefined method `"+ method_name + "` for class `" + c.getName() + "`");
+				throw new RubyException(RubyRuntime.NameErrorClass, "undefined method '"+ method_name + "' for " + c.getName());
 			}
 		}
 	}
