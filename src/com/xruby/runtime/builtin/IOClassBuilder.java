@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Jie Li
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -8,17 +8,13 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class IO_write extends RubyMethod {
-	public IO_write() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class IO_write extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyString value;
-		if (args.get(0) instanceof RubyString) {
-			value = (RubyString)args.get(0);
+		if (arg instanceof RubyString) {
+			value = (RubyString)arg;
 		} else {
-			RubyValue str = RubyAPI.callPublicMethod(args.get(0), null, "to_s");
+			RubyValue str = RubyAPI.callPublicMethod(arg, null, "to_s");
 			value = (RubyString) str;
 		}
 		
@@ -40,12 +36,8 @@ class IO_print extends Kernel_print {
 	}
 }
 
-class IO_close extends RubyMethod {
-	public IO_close() {
-		super(0);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class IO_close extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		if (receiver instanceof RubyIO) {
 			//not stdout, stderr, stdin
 			((RubyIO)receiver).close();
@@ -72,12 +64,8 @@ class IO_gets extends RubyMethod {
 	}
 }
 
-class IO_eof extends RubyMethod {
-	public IO_eof() {
-		super(0);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class IO_eof extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyIO io = (RubyIO)receiver;
 		if (io.eof()) {
 			return ObjectFactory.trueValue;
@@ -112,7 +100,6 @@ class IO_read extends RubyMethod {
 }
 
 public class IOClassBuilder {
-
 	public static void initialize() {
 		RubyClass c = RubyRuntime.IOClass;
 		c.defineMethod("write", new IO_write());

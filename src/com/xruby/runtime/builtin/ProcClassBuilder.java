@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -29,12 +29,8 @@ class Proc_call extends RubyMethod {
 	}
 }
 
-class Proc_arity extends RubyMethod {
-	public Proc_arity() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Proc_arity extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyBlock b = ((RubyProc)receiver).getBlock();
 		return ObjectFactory.createFixnum(b.arity());
 	}
@@ -51,8 +47,7 @@ class Proc_alloc extends RubyMethod {
 	}
 }
 
-public class ProcClassBuilder {
-	
+public class ProcClassBuilder {	
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ProcClass;
 		c.defineMethod("call", new Proc_call());

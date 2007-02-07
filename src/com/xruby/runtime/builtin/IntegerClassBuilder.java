@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Jie Li
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -8,15 +8,10 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.RubyFixnum;
 import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
 
-class Integer_get_bit extends RubyMethod {
-	public Integer_get_bit() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block)  {
-		int index = ((RubyFixnum)args.get(0)).intValue();
+class Integer_get_bit extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block)  {
+		int index = ((RubyFixnum)arg).intValue();
 		if (index < 0 || index >= 32){
 			return ObjectFactory.fixnum0;
 		}
@@ -28,12 +23,8 @@ class Integer_get_bit extends RubyMethod {
 	}
 }
 
-class Integer_chr extends RubyMethod {
-	public Integer_chr() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Integer_chr extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		int value = ((RubyFixnum)receiver).intValue();
 		if (value < 0 || value > 255){
 			throw new RubyException(RubyRuntime.RangeErrorClass, value + " out of char range");

@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Jie Li
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -11,12 +11,8 @@ import java.util.StringTokenizer;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class String_capitalize extends RubyMethod {
-	public String_capitalize() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_capitalize extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		RubyString new_value = ObjectFactory.createString(value.toString());
 		new_value.capitalize();
@@ -24,18 +20,14 @@ class String_capitalize extends RubyMethod {
 	}
 }
 
-class String_operator_equal extends RubyMethod {
-	public String_operator_equal() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (!(args.get(0) instanceof RubyString)) {
+class String_operator_equal extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (!(arg instanceof RubyString)) {
 			return ObjectFactory.falseValue;
 		}
 
 		RubyString a = (RubyString)receiver;
-		RubyString b = (RubyString)args.get(0);
+		RubyString b = (RubyString)arg;
 		if (a.toString().equals(b.toString())) {
 			return ObjectFactory.trueValue;
 		} else {
@@ -45,12 +37,8 @@ class String_operator_equal extends RubyMethod {
 }
 
 /// Upcases the contents of str, returning nil if no changes were made
-class String_upcase_danger extends RubyMethod {
-	public String_upcase_danger() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_upcase_danger extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		String new_value = value.toString().toUpperCase();
 		if (new_value.equals(value.toString())) {
@@ -63,12 +51,8 @@ class String_upcase_danger extends RubyMethod {
 }
 
 ///Modifies str by converting the first character to uppercase and the remainder to lowercase. Returns nil if no changes are made.
-class String_capitalize_danger extends RubyMethod {
-	public String_capitalize_danger() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_capitalize_danger extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		boolean changed = value.capitalize();
 		if (changed) {
@@ -79,35 +63,23 @@ class String_capitalize_danger extends RubyMethod {
 	}
 }
 
-class String_upcase extends RubyMethod {
-	public String_upcase() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_upcase extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createString(value.toString().toUpperCase());
 	}
 }
 
-class String_downcase extends RubyMethod {
-	public String_downcase() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_downcase extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createString(value.toString().toLowerCase());
 	}
 }
 
 /// Downcases the contents of str, returning nil if no changes were made. 
-class String_downcase_danger extends RubyMethod {
-	public String_downcase_danger() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_downcase_danger extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		String new_value = value.toString().toLowerCase();
 		if (new_value.equals(value.toString())) {
@@ -118,12 +90,8 @@ class String_downcase_danger extends RubyMethod {
 	}
 }
 
-class String_to_f extends RubyMethod {
-	public String_to_f() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_to_f extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createFloat(Double.valueOf(value.toString()));
 	}
@@ -173,23 +141,15 @@ class String_to_i extends RubyMethod {
 	}
 }
 
-class String_to_s extends RubyMethod {
-	public String_to_s() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_to_s extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createString(value.toString());
 	}
 }
 
-class String_length extends RubyMethod {
-	public String_length() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_length extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		return ObjectFactory.createFixnum(value.length());
 	}
@@ -220,14 +180,10 @@ class String_new extends RubyMethod {
 	}
 }
 
-class String_plus extends RubyMethod {
-	public String_plus() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_plus extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyString v1 = (RubyString)receiver;
-		RubyString v2 = (RubyString)args.get(0);
+		RubyString v2 = (RubyString)arg;
 		return ObjectFactory.createString(v1.toString() + v2.toString());
 	}
 }
@@ -354,18 +310,14 @@ class String_split extends RubyMethod {
 	}
 }
 
-class String_operator_compare extends RubyMethod {
-	public String_operator_compare() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (!(args.get(0) instanceof RubyString)){
+class String_operator_compare extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (!(arg instanceof RubyString)){
 			return ObjectFactory.nilValue;
 		}
 		
 		RubyString value1 = (RubyString)receiver;
-		RubyString value2 = (RubyString)args.get(0);
+		RubyString value2 = (RubyString)arg;
 		int compare = value1.toString().compareTo(value2.toString());
 		if (compare > 0){
 			compare = 1;
@@ -538,14 +490,10 @@ class String_access_set extends RubyMethod {
 	}
 }
 
-class String_operator_star extends RubyMethod {
-	String_operator_star() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_operator_star extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		String string = ((RubyString)receiver).toString();
-		int count = RubyTypesUtil.convertToJavaInt(args.get(0));
+		int count = RubyTypesUtil.convertToJavaInt(arg);
 		if (count < 0){
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
 		}
@@ -557,23 +505,15 @@ class String_operator_star extends RubyMethod {
 	}
 }
 
-class String_each extends RubyMethod {
-	String_each() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_each extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		block.invoke(receiver, new RubyArray(receiver));
 		return receiver;
 	}
 }
 
-class String_each_byte extends RubyMethod {
-	String_each_byte() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_each_byte extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		String string = ((RubyString)receiver).toString();
 		for (int i=0; i<string.length(); ++i){
 			char c = string.charAt(i);
@@ -583,24 +523,16 @@ class String_each_byte extends RubyMethod {
 	}
 }
 
-class String_reverse_danger extends RubyMethod {
-	String_reverse_danger() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_reverse_danger extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString string = (RubyString)receiver;
 		string.reverse();
 		return string;
 	}
 }
 
-class String_reverse extends RubyMethod {
-	String_reverse() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_reverse extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
 		string.reverse();
 		return string;
@@ -633,14 +565,10 @@ class String_chomp_danger extends RubyMethod {
 	}
 }
 
-class String_scan extends RubyMethod {
-	String_scan() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_scan extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyString string = (RubyString)receiver;
-		RubyRegexp regex = (RubyRegexp)args.get(0);
+		RubyRegexp regex = (RubyRegexp)arg;
 		return string.scan(regex);
 	}
 }
@@ -757,14 +685,10 @@ class String_delete extends RubyMethod {
 	}
 }
 
-class String_unpack extends RubyMethod {
-	public String_unpack() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_unpack extends RubyOneArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyString s = (RubyString)receiver;
-		RubyString format = ((RubyString)args.get(0));
+		RubyString format = ((RubyString)arg);
 		return ArrayPacker.unpack(s.toString(), format.toString());
 	}
 }

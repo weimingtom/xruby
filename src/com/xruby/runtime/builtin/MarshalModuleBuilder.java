@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -261,25 +261,16 @@ class MarshalLoader {
 	}
 }
 
-class Marshal_dump extends RubyMethod {
-	public Marshal_dump() {
-		super(1);
-	}
-		
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return MarshalDumper.dump(args.get(0));
+class Marshal_dump extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return MarshalDumper.dump(arg);
 	}
 }
 
-class Marshal_load extends RubyMethod {
-	
-	public Marshal_load() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Marshal_load extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		MarshalLoader loader = new MarshalLoader(); 
-		return loader.load((RubyString)args.get(0));
+		return loader.load((RubyString)arg);
 	}
 }
 
