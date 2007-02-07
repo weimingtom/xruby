@@ -160,14 +160,10 @@ The following code snippet illustrates how Fixnm::+ is implemented:
 
 {{{
 
-class Fixnum_operator_plus extends RubyMethod {
-	public Fixnum_operator_plus() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, ArrayValue args, RubyBlock block) throws RubyException {
+class Fixnum_operator_plus extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyFixnum value1 = (RubyFixnum)receiver;
-		RubyFixnum value2 = (RubyFixnum)args.get(0);
+		RubyFixnum value2 = (RubyFixnum)arg;
 		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
 	}
 }
