@@ -185,16 +185,12 @@ class Kernel_class extends RubyMethod {
 	}
 }
 
-class Kernel_operator_case_equal extends RubyMethod {
-	public Kernel_operator_case_equal() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (receiver == args.get(0)) {
+class Kernel_operator_case_equal extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (receiver == arg) {
 			return ObjectFactory.trueValue;
 		} else {
-			return RubyAPI.callPublicMethod(receiver, args, block, "==");
+			return RubyAPI.callPublicMethod(receiver, new RubyArray(arg), block, "==");
 		}
 	}
 }
@@ -280,13 +276,9 @@ class JarLoader extends ClassLoader
 	}
 }
 
-class Kernel_require extends RubyMethod {
-	public Kernel_require() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString required_file = (RubyString)args.get(0);
+class Kernel_require extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyString required_file = (RubyString)arg;
 		File filename = NameFactory.find_corresponding_jar_file(required_file.toString(), null);//TODO search $:
 		if (null == filename) {
 			return ObjectFactory.falseValue;
@@ -303,15 +295,11 @@ class Kernel_require extends RubyMethod {
 	}
 }
 
-class Kernel_require_java extends RubyMethod {
+class Kernel_require_java extends RubyOneArgMethod {
     private static Pattern packagePattern = Pattern.compile("\\.");
 
-    public Kernel_require_java() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString className = (RubyString)args.get(0);
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyString className = (RubyString)arg;
 
         try {
             Class clazz = Class.forName(className.toString());
@@ -362,12 +350,8 @@ class Kernel_to_s extends RubyMethod {
 	}
 }
 
-class Kernel_lambda extends RubyMethod {
-	public Kernel_lambda() {
-		super(0);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Kernel_lambda extends RubyNoArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		block.setCreatedByLambda();
 		return ObjectFactory.createProc(block);
 	}
@@ -408,13 +392,9 @@ class Kernel_open extends RubyMethod {
 	}
 }
 
-class Kernel_kind_of extends RubyMethod {
-	public Kernel_kind_of() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (RubyAPI.isKindOf(args.get(0), receiver)) {
+class Kernel_kind_of extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (RubyAPI.isKindOf(arg, receiver)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -422,13 +402,9 @@ class Kernel_kind_of extends RubyMethod {
 	}
 }
 
-class Kernel_instance_of extends RubyMethod {
-	public Kernel_instance_of() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (RubyAPI.isInstanceOf(args.get(0), receiver)) {
+class Kernel_instance_of extends RubyOneArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (RubyAPI.isInstanceOf(arg, receiver)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -476,13 +452,9 @@ class Kernel_send extends RubyMethod {
 	}
 }
 
-class Kernel_method extends RubyMethod {
-	public Kernel_method() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String method_name = convertToString(args.get(0));
+class Kernel_method extends RubyOneArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String method_name = convertToString(arg);
 		RubyMethod  m = receiver.findMethod(method_name);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
@@ -503,12 +475,8 @@ class Kernel_methods extends RubyMethod {
 	}
 }
 
-class Kernel_at_exit extends RubyMethod {
-	public Kernel_at_exit() {
-		super(0);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Kernel_at_exit extends RubyNoArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		if (null == block) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "called without a block");
 		}
@@ -563,14 +531,10 @@ class Kernel_throw extends RubyMethod {
 	}
 }
 
-class Kernel_catch extends RubyMethod {
-	public Kernel_catch() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (!(args.get(0) instanceof RubySymbol)) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
+class Kernel_catch extends RubyOneArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (!(arg instanceof RubySymbol)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, arg.toString() + " is not a symbol");
 		}
 		
 		try {
@@ -579,7 +543,7 @@ class Kernel_catch extends RubyMethod {
 			Object ev = e.getRubyValue();
 			if (ev instanceof RubyExceptionValueForThrow) {
 				RubyExceptionValueForThrow v = (RubyExceptionValueForThrow)ev;
-				if (v.isSameSymbol((RubySymbol)args.get(0))) {
+				if (v.isSameSymbol((RubySymbol)arg)) {
 					return v.getReturnValue();
 				}
 			}
@@ -642,12 +606,8 @@ class Kernel_trace_var extends RubyMethod {
 	}
 }
 
-class Kernel_block_given extends RubyMethod {
-	public Kernel_block_given() {
-		super(0);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Kernel_block_given extends RubyNoArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		if (null == block) {
 			return ObjectFactory.falseValue;
 		} else {
@@ -673,23 +633,15 @@ class Kernel_gets extends RubyMethod {
 	}
 }
 
-class Kernel_Float extends RubyMethod {
-	public Kernel_Float() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return RubyTypesUtil.convertToFloat(args.get(0));
+class Kernel_Float extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return RubyTypesUtil.convertToFloat(arg);
 	}
 }
 
-class Kernel_Integer extends RubyMethod {
-	public Kernel_Integer() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return RubyTypesUtil.convertToFixnum(args.get(0));
+class Kernel_Integer extends RubyOneArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return RubyTypesUtil.convertToFixnum(arg);
 	}
 }
 

@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -19,42 +19,28 @@ class Method_call extends RubyMethod {
 	}
 }
 
-class Method_to_s extends RubyMethod {
-	public Method_to_s() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Method_to_s extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		MethodValue m = (MethodValue)receiver;
 		return ObjectFactory.createString(m.toString());
 	}
 }
 
-class Method_to_proc extends RubyMethod {
-	public Method_to_proc() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Method_to_proc extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		MethodValue m = (MethodValue)receiver;
 		return m.convertToRubyProc();
 	}
 }
 
-class Method_arity extends RubyMethod {
-	public Method_arity() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Method_arity extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		MethodValue m = (MethodValue)receiver;
 		return ObjectFactory.createFixnum(m.arity());
 	}
-
 }
 
-public class MethodClassBuilder {
-	
+public class MethodClassBuilder {	
 	public static void initialize() {
 		RubyClass c = RubyRuntime.MethodClass;
 		c.defineMethod("call", new Method_call());

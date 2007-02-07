@@ -9,7 +9,6 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
 class Module_AccessControl {
-
 	static void run(int access, RubyModule c, RubyArray args, RubyBlock block) {
 		if (null == args) {
 			c.setAccessMode(access);
@@ -104,16 +103,14 @@ class Module_inspect extends RubyMethod {
 	}
 }
 
-class AttrReader extends RubyMethod {
-
+class AttrReader extends RubyNoArgMethod {
 	private String methodName_;
 
 	public AttrReader(String methodName) {
-		super(0);
 		methodName_ = "@" + methodName;
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return receiver.getInstanceVariable(methodName_);
 	}
 }
@@ -135,17 +132,15 @@ class Module_attr_reader extends RubyMethod {
 	}
 }
 
-class AttrWriter extends RubyMethod {
-
+class AttrWriter extends RubyOneArgMethod {
 	private String methodName_;
 
 	public AttrWriter(String methodName) {
-		super(1);
 		methodName_ = "@" + methodName;
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		return receiver.setInstanceVariable(args.get(0), methodName_);
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return receiver.setInstanceVariable(arg, methodName_);
 	}
 }
 
@@ -219,12 +214,8 @@ class Module_include extends RubyMethod {
 	}
 }
 
-class Module_ancestors extends RubyMethod {
-	public Module_ancestors() {
-		super(0);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Module_ancestors extends RubyNoArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyModule module = (RubyModule)receiver;
 		RubyArray r = new RubyArray();
 		module.collectIncludedModuleNames(r);
@@ -232,18 +223,14 @@ class Module_ancestors extends RubyMethod {
 	}
 }
 
-class Module_operator_compare extends RubyMethod {
-	public Module_operator_compare () {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Module_operator_compare extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyModule module = (RubyModule)receiver;
-		if (!(args.get(0) instanceof RubyModule)) {
+		if (!(arg instanceof RubyModule)) {
 			return ObjectFactory.nilValue;
 		}
 		
-		RubyModule other_module = (RubyModule)args.get(0);
+		RubyModule other_module = (RubyModule)arg;
 		if (module == other_module) {
 			return ObjectFactory.fixnum0;
 		}
@@ -262,20 +249,16 @@ class Module_operator_compare extends RubyMethod {
 	}
 }
 
-class Module_case_equal extends RubyMethod {
-	public Module_case_equal () {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Module_case_equal extends RubyOneArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		if (receiver instanceof RubyClass) {
-			return RubyAPI.isKindOf(receiver, args.get(0)) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+			return RubyAPI.isKindOf(receiver, arg) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
 		} else {
 			//TODO does not work as expected
 			RubyModule module = (RubyModule)receiver;
 			RubyArray a = new RubyArray();
 			module.collectIncludedModuleNames(a);
-			return a.include(args.get(0).getRubyClass()) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+			return a.include(arg.getRubyClass()) ? ObjectFactory.trueValue : ObjectFactory.falseValue;
 		}
 	}
 }

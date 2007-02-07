@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -9,19 +9,15 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
 
-class Regexp_case_equal extends RubyMethod {
-	public Regexp_case_equal() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (!(args.get(0) instanceof RubyString)) {
+class Regexp_case_equal extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (!(arg instanceof RubyString)) {
 			//not comparable
 			return ObjectFactory.falseValue;
 		}
 
 		RubyRegexp r = (RubyRegexp)receiver;
-		if (r.caseEqual(((RubyString)args.get(0)).toString())) {
+		if (r.caseEqual(((RubyString)arg).toString())) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
@@ -29,19 +25,15 @@ class Regexp_case_equal extends RubyMethod {
 	}
 }
 
-class Regexp_match extends RubyMethod {
-	public Regexp_match() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (!(args.get(0) instanceof RubyString)) {
+class Regexp_match extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (!(arg instanceof RubyString)) {
 			//not comparable
 			return ObjectFactory.falseValue;
 		}
 
 		RubyRegexp r = (RubyRegexp)receiver;
-		RubyMatchData m = r.match(((RubyString)args.get(0)).toString());
+		RubyMatchData m = r.match(((RubyString)arg).toString());
 		if (null == m) {
 			return ObjectFactory.nilValue;
 		} else {
@@ -50,19 +42,15 @@ class Regexp_match extends RubyMethod {
 	}
 }
 
-class Regexp_match_operator extends RubyMethod {
-	public Regexp_match_operator() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (!(args.get(0) instanceof RubyString)) {
+class Regexp_match_operator extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (!(arg instanceof RubyString)) {
 			//not comparable
 			return ObjectFactory.falseValue;
 		}
 
 		RubyRegexp r = (RubyRegexp)receiver;
-		int p = r.matchPosition(((RubyString)args.get(0)).toString());
+		int p = r.matchPosition(((RubyString)arg).toString());
 		if (p < 0) {
 			return ObjectFactory.nilValue;
 		} else {
@@ -81,13 +69,9 @@ class Regexp_new extends RubyMethod {
 	}
 }
 
-class Regexp_quote extends RubyMethod {
-	public Regexp_quote() {
-		super(1);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyString s = (RubyString)args.get(0);
+class Regexp_quote extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyString s = (RubyString)arg;
 		return ObjectFactory.createString(RubyRegexp.quote(s.toString()));
 	}
 }

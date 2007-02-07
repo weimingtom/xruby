@@ -9,34 +9,22 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
 
-class Range_begin extends RubyMethod {
-	public Range_begin() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Range_begin extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyRange r = (RubyRange)receiver;
 		return r.getLeft();
 	}
 }
 
-class Range_end extends RubyMethod {
-	public Range_end() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Range_end extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyRange r = (RubyRange)receiver;
 		return r.getRight();
 	}
 }
 
-class Range_exclude_end extends RubyMethod {
-	public Range_exclude_end() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Range_exclude_end extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyRange r = (RubyRange)receiver;
 		return ObjectFactory.createBoolean(r.isExcludeEnd());
 	}
@@ -72,12 +60,8 @@ class Range_new extends RubyMethod {
 	}
 }
 
-class Range_to_a extends RubyMethod {
-	public Range_to_a() {
-		super(0);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Range_to_a extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyRange r = (RubyRange)receiver;
 		return r.to_a();
 	}
@@ -94,17 +78,13 @@ class Range_to_a extends RubyMethod {
 		yield(iter) unless exclude_end?
 		self
 */
-class Range_each extends RubyMethod {
-	public Range_each() {
-		super(0);
-	}
-	
+class Range_each extends RubyNoArgMethod {
 	private boolean compare(RubyValue value1, RubyValue value2) {
 		RubyValue r = RubyAPI.callPublicMethod(value1, value2, "<=>");
 		return !RubyAPI.testEqual(r, ObjectFactory.fixnum0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyRange r = (RubyRange)receiver;
 		RubyValue ite = r.getLeft();
 
@@ -141,7 +121,6 @@ class Range_each extends RubyMethod {
 }
 
 public class RangeClassBuilder {
-	
 	public static void initialize() {
 		RubyClass c = RubyRuntime.RangeClass;
 		//c.defineMethod("===", new Range_case_equal());
