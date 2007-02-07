@@ -20,12 +20,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 //TODO imcomplete
-class Kernel_eval extends RubyMethod {
-
-	public Kernel_eval() {
-		super(-1);
-	}
-
+class Kernel_eval extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		
 		RubyString program_text = (RubyString)args.get(0);
@@ -58,23 +53,14 @@ class Kernel_eval extends RubyMethod {
 	}
 }
 
-class Kernel_binding extends RubyMethod {
-
-	public Kernel_binding() {
-		super(-1);
-	}
-
+class Kernel_binding extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		//compiler will do the magic and insert Binding object
 		return args.get(0);
 	}
 }
 
-class Kernel_puts extends RubyMethod {
-	public Kernel_puts() {
-		super(-1);
-	}
-
+class Kernel_puts extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		for (RubyValue arg : args) {
 			if (ObjectFactory.nilValue == arg) {
@@ -92,11 +78,7 @@ class Kernel_puts extends RubyMethod {
 	}
 }
 
-class Kernel_print extends RubyMethod {
-	public Kernel_print() {
-		super(-1);
-	}
-
+class Kernel_print extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return _run(GlobalVariables.get("$stdout"), args, block);
 	}
@@ -129,11 +111,7 @@ class Kernel_print extends RubyMethod {
 	}
 }
 
-class Kernel_printf extends RubyMethod {
-	public Kernel_printf() {
-		super(-1);
-	}
-
+class Kernel_printf extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		Object[] raw_args = new Object[args.size() - 1];
 		for (int i = 1; i < args.size(); ++i) {
@@ -153,11 +131,7 @@ class Kernel_printf extends RubyMethod {
 	}
 }
 
-class Kernel_p extends RubyMethod {
-	public Kernel_p() {
-		super(-1);
-	}
-
+class Kernel_p extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		for (RubyValue arg : args) {
 			if (ObjectFactory.nilValue == arg) {
@@ -175,11 +149,7 @@ class Kernel_p extends RubyMethod {
 	}
 }
 
-class Kernel_class extends RubyMethod {
-	public Kernel_class() {
-		super(-1);
-	}
-
+class Kernel_class extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return receiver.getRubyClass();
 	}
@@ -195,22 +165,14 @@ class Kernel_operator_case_equal extends RubyOneArgMethod {
 	}
 }
 
-class Kernel_method_missing extends RubyMethod {
-	public Kernel_method_missing() {
-		super(-1);
-	}
-
+class Kernel_method_missing extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubySymbol method_name = (RubySymbol)args.get(0);
 		throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name.toString()+ "' for " + receiver.getRubyClass().getName());
 	}
 }
 
-class Kernel_raise extends RubyMethod {
-	public Kernel_raise() {
-		super(-1);
-	}
-
+class Kernel_raise extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (null == args) {
 			//TODO With no arguments, raises the exception in $! or raises a RuntimeError if $! is nil.
@@ -321,11 +283,7 @@ class Kernel_require_java extends RubyOneArgMethod {
 	}
 }
 
-class Kernel_load extends RubyMethod {
-	public Kernel_load() {
-		super(-1);
-	}
-
+class Kernel_load extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		throw new RubyException("not implemented!");
 		/*
@@ -340,11 +298,7 @@ class Kernel_load extends RubyMethod {
 	}
 }
 
-class Kernel_to_s extends RubyMethod {
-	public Kernel_to_s() {
-		super(-1);
-	}
-	
+class Kernel_to_s extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		String className = receiver.getRubyClass().getName();
 		return ObjectFactory.createString("#<" + className + ":0x" + Integer.toHexString(receiver.hashCode()) + "x>");
@@ -377,11 +331,7 @@ class Kernel_loop extends RubyMethod {
 	}
 }
 
-class Kernel_open extends RubyMethod {
-	public Kernel_open() {
-		super(-1);
-	}
-	
+class Kernel_open extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString filename = (RubyString)args.get(0);
 		if (args.size() <= 1) {
@@ -413,11 +363,7 @@ class Kernel_instance_of extends RubyOneArgMethod {
 	}
 }
 
-class Kernel_respond_to extends RubyMethod {
-	public Kernel_respond_to() {
-		super(-1);
-	}
-	
+class Kernel_respond_to extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		assertArgNumberAtLeast(args, 1);
 
@@ -438,11 +384,7 @@ class Kernel_respond_to extends RubyMethod {
 	}
 }
 
-class Kernel_send extends RubyMethod {
-	public Kernel_send() {
-		super(-1);
-	}
-	
+class Kernel_send extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (args.size() < 1) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "no method name given");
@@ -464,11 +406,7 @@ class Kernel_method extends RubyOneArgMethod {
 	}
 }
 
-class Kernel_methods extends RubyMethod {
-	public Kernel_methods() {
-		super(-1);
-	}
-	
+class Kernel_methods extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray a = new RubyArray();
 		receiver.collectMethodNames(a);
@@ -514,11 +452,7 @@ class Kernel_gsub_danger extends String_gsub_danger {
 	}
 }
 
-class Kernel_throw extends RubyMethod {
-	public Kernel_throw() {
-		super(-1);
-	}
-	
+class Kernel_throw extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		assertArgNumberAtLeast(args, 1);
 		
@@ -555,11 +489,7 @@ class Kernel_catch extends RubyOneArgMethod {
 	}
 }
 
-class Kernel_untrace_var extends RubyMethod {
-	public Kernel_untrace_var() {
-		super(-1);
-	}
-	
+class Kernel_untrace_var extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		assertArgNumberAtLeast(args, 1);
 		
@@ -580,11 +510,7 @@ class Kernel_untrace_var extends RubyMethod {
 	}
 }
 
-class Kernel_trace_var extends RubyMethod {
-	public Kernel_trace_var() {
-		super(-1);
-	}
-	
+class Kernel_trace_var extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		assertArgNumberAtLeast(args, 1);
 		
@@ -617,11 +543,7 @@ class Kernel_block_given extends RubyNoArgMethod {
 	}
 }
 
-class Kernel_gets extends RubyMethod {
-	public Kernel_gets() {
-		super(-1);
-	}
-	
+class Kernel_gets extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String s = null;

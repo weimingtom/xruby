@@ -1,5 +1,5 @@
 /** 
- * Copyright 2006-2007 Yu Su
+ * Copyright 2006-2007 Yu Su, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -7,8 +7,8 @@ package com.xruby.runtime.javasupport;
 
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyException;
-import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyVarArgMethod;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyData;
 
@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
  *
  * @author yu su (beanworms@gmail.com)
  */
-public class JavaMethod extends RubyMethod {
+public class JavaMethod extends RubyVarArgMethod {
     private Method method;
     private Constructor constructor;
     private boolean isConstructor;
@@ -31,8 +31,6 @@ public class JavaMethod extends RubyMethod {
      *  @param method method instance
      */
     public JavaMethod(Method method) {
-        super(-1);
-
         this.method = method;
     }
 
@@ -41,8 +39,6 @@ public class JavaMethod extends RubyMethod {
      *  @param constructor Constructor instance
      */
     public JavaMethod(Constructor constructor) {
-        super(-1);
-
         this.constructor = constructor;
         this.isConstructor = true;
     }

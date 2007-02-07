@@ -8,11 +8,7 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Class_new extends RubyMethod {
-	public Class_new() {
-		super(-1);
-	}
-
+class Class_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
 		RubyClass r = (RubyClass)receiver;
 		RubyValue v = r.invokeAllocMethod(receiver, args, block);

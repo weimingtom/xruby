@@ -8,11 +8,7 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Proc_call extends RubyMethod {
-	public Proc_call() {
-		super(-1);
-	}
-
+class Proc_call extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		throw new Error("we overided invoke, so this method should never be called");
 	}
@@ -37,11 +33,7 @@ class Proc_arity extends RubyNoArgMethod {
 
 }
 
-class Proc_alloc extends RubyMethod {
-	public Proc_alloc() {
-		super(-1);
-	}
-	
+class Proc_alloc extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return ObjectFactory.createProc(block);
 	}

@@ -46,11 +46,7 @@ class IO_close extends RubyNoArgMethod {
 	}
 }
 
-class IO_gets extends RubyMethod {
-	public IO_gets() {
-		super(-1);
-	}
-	
+class IO_gets extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (receiver instanceof RubyIO) {
 			RubyValue seperator = (null == args) ?  GlobalVariables.get("$/") : args.get(0);

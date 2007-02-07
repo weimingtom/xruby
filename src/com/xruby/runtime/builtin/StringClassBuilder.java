@@ -155,11 +155,7 @@ class String_length extends RubyNoArgMethod {
 	}
 }
 
-class String_initialize extends RubyMethod {
-	public String_initialize() {
-		super(-1);
-	}
-
+class String_initialize extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (args != null) {
 			String new_value = RubyTypesUtil.convertToString(args.get(0)).toString();
@@ -170,11 +166,7 @@ class String_initialize extends RubyMethod {
 	}
 }
 
-class String_new extends RubyMethod {
-	public String_new() {
-		super(-1);
-	}
-
+class String_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return new RubyString((RubyClass)receiver, "");
 	}
@@ -188,11 +180,7 @@ class String_plus extends RubyOneArgMethod {
 	}
 }
 
-class String_gsub extends RubyMethod {
-	public String_gsub() {
-		super(-1);
-	}
-
+class String_gsub extends RubyVarArgMethod {
 	protected void checkParameters1(RubyArray args) {
 		assertArgNumberEqual(args, 2);
 		
@@ -539,11 +527,7 @@ class String_reverse extends RubyNoArgMethod {
 	}
 }
 
-class String_chomp extends RubyMethod {
-	String_chomp() {
-		super(-1);
-	}
-
+class String_chomp extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
 		RubyValue separator = (null != args) ? args.get(0) : GlobalVariables.get("$/");
@@ -552,11 +536,7 @@ class String_chomp extends RubyMethod {
 	}
 }
 
-class String_chomp_danger extends RubyMethod {
-	String_chomp_danger() {
-		super(-1);
-	}
-
+class String_chomp_danger extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString string = (RubyString)receiver;
 		RubyValue separator = (args.size() > 0) ? args.get(0) : GlobalVariables.get("$/");
@@ -627,11 +607,7 @@ class String_tr_s extends RubyMethod {
 	}
 }
 
-class String_squeeze_danger extends RubyMethod {
-	String_squeeze_danger() {
-		super(-1);
-	}
-
+class String_squeeze_danger extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString string = (RubyString)receiver;
 		String arg = (null == args ? null : ((RubyString)args.get(0)).toString());
@@ -639,11 +615,7 @@ class String_squeeze_danger extends RubyMethod {
 	}
 }
 
-class String_squeeze extends RubyMethod {
-	String_squeeze() {
-		super(-1);
-	}
-
+class String_squeeze extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
 		String arg = (null == args ? null : ((RubyString)args.get(0)).toString());
@@ -652,11 +624,7 @@ class String_squeeze extends RubyMethod {
 	}
 }
 
-class String_delete_danger extends RubyMethod {
-	String_delete_danger() {
-		super(-1);
-	}
-
+class String_delete_danger extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (null == args) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
@@ -668,11 +636,7 @@ class String_delete_danger extends RubyMethod {
 	}
 }
 
-class String_delete extends RubyMethod {
-	String_delete() {
-		super(-1);
-	}
-
+class String_delete extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (null == args) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");

@@ -59,11 +59,7 @@ class Regexp_match_operator extends RubyOneArgMethod {
 	}
 }
 
-class Regexp_new extends RubyMethod {
-	public Regexp_new() {
-		super(-1);
-	}
-
+class Regexp_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return ObjectFactory.createRegexp();
 	}

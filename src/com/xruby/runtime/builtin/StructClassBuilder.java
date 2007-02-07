@@ -8,11 +8,7 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Struct_new extends RubyMethod {
-	public Struct_new() {
-		super(-1);
-	}
-
+class Struct_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (!(args.get(0) instanceof RubyString)) {
 			//TODO It is almost impossible to implement this:

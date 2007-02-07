@@ -32,9 +32,8 @@ class Module_AccessControl {
 	}
 }
 
-class Module_public extends RubyMethod {
+class Module_public extends RubyVarArgMethod {
 	public Module_public() {
-		super(-1);
 		setAccess(PRIVATE);
 	}
 
@@ -44,9 +43,8 @@ class Module_public extends RubyMethod {
 	}
 }
 
-class Module_protected extends RubyMethod {
+class Module_protected extends RubyVarArgMethod {
 	public Module_protected() {
-		super(-1);
 		setAccess(PRIVATE);
 	}
 
@@ -56,9 +54,8 @@ class Module_protected extends RubyMethod {
 	}
 }
 
-class Module_private extends RubyMethod {
+class Module_private extends RubyVarArgMethod {
 	public Module_private() {
-		super(-1);
 		setAccess(PRIVATE);
 	}
 
@@ -68,9 +65,8 @@ class Module_private extends RubyMethod {
 	}
 }
 
-class Module_private_class_method extends RubyMethod {
+class Module_private_class_method extends RubyVarArgMethod {
 	public Module_private_class_method() {
-		super(-1);
 		setAccess(PRIVATE);
 	}
 
@@ -80,11 +76,7 @@ class Module_private_class_method extends RubyMethod {
 	}
 }
 
-class Module_to_s extends RubyMethod {
-	public Module_to_s() {
-		super(-1);
-	}
-	
+class Module_to_s extends RubyVarArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule c = (RubyModule)receiver;
 		RubyString s = ObjectFactory.createString();
@@ -93,11 +85,7 @@ class Module_to_s extends RubyMethod {
 	}
 }
 
-class Module_inspect extends RubyMethod {
-	public Module_inspect() {
-		super(-1);
-	}
-	
+class Module_inspect extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return RubyAPI.callPublicMethod(receiver, args, block, "to_s");
 	}
@@ -115,11 +103,7 @@ class AttrReader extends RubyNoArgMethod {
 	}
 }
 
-class Module_attr_reader extends RubyMethod {
-	public Module_attr_reader() {
-		super(-1);
-	}
-	
+class Module_attr_reader extends RubyVarArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule m = (RubyModule)receiver;
 
@@ -144,11 +128,7 @@ class AttrWriter extends RubyOneArgMethod {
 	}
 }
 
-class Module_attr_writer extends RubyMethod {
-	public Module_attr_writer() {
-		super(-1);
-	}
-	
+class Module_attr_writer extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule m = (RubyModule)receiver;
 
@@ -161,11 +141,7 @@ class Module_attr_writer extends RubyMethod {
 	}
 }
 
-class Module_attr_accessor extends RubyMethod {
-	public Module_attr_accessor() {
-		super(-1);
-	}
-	
+class Module_attr_accessor extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule m = (RubyModule)receiver;
 
@@ -179,11 +155,7 @@ class Module_attr_accessor extends RubyMethod {
 	}
 }
 
-class Module_attr extends RubyMethod {
-	public Module_attr() {
-		super(-1);
-	}
-	
+class Module_attr extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule m = (RubyModule)receiver;
 
@@ -198,11 +170,7 @@ class Module_attr extends RubyMethod {
 	}
 }
 
-class Module_include extends RubyMethod {
-	public Module_include() {
-		super(-1);
-	}
-	
+class Module_include extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule module = (RubyModule)receiver;
 		if (args != null) {
