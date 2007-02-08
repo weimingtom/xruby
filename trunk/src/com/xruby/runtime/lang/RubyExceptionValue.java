@@ -12,8 +12,16 @@ public class RubyExceptionValue extends RubyValue {
 
 	private String message_;
 	
+	public RubyExceptionValue(RubyClass c) {
+		super(c);
+	}
+	
 	public RubyExceptionValue(RubyClass c, String message) {
 		super(c);
+		message_ = message;
+	}
+	
+	public void setMessage(String message) {
 		message_ = message;
 	}
 	
