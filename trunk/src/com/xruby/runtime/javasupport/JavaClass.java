@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Wrapper for Java Class
  *
- * @author Yu Su (beanworms@gmail.com)
+ * @author Yu Su (beanworms@gmail.com), Ye Zheng(dreamhead.cn@gmail.com)
  */
 public class JavaClass extends RubyClass {
 
