@@ -51,11 +51,7 @@ class Hash_each extends RubyNoArgMethod {
     }
 }
 
-class Hash_initialize extends RubyMethod {
-	public Hash_initialize() {
-		super(0);
-	}
-
+class Hash_initialize extends RubyVarMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyHash hash = (RubyHash)receiver;
 
