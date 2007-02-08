@@ -166,8 +166,8 @@ class String_initialize extends RubyVarArgMethod {
 	}
 }
 
-class String_new extends RubyVarArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_new extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return new RubyString((RubyClass)receiver, "");
 	}
 }

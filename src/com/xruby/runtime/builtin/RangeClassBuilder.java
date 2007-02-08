@@ -50,8 +50,8 @@ class Range_initialize extends RubyMethod {
 	}
 }
 
-class Range_new extends RubyVarArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Range_new extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return ObjectFactory.createRange();
 	}
 }

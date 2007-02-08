@@ -140,8 +140,8 @@ class Hash_default_assign extends RubyOneArgMethod {
 	}
 }
 
-class Hash_new extends RubyVarArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Hash_new extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return ObjectFactory.createHash();
 	}
 }

@@ -59,8 +59,8 @@ class Regexp_match_operator extends RubyOneArgMethod {
 	}
 }
 
-class Regexp_new extends RubyVarArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Regexp_new extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return ObjectFactory.createRegexp();
 	}
 }
