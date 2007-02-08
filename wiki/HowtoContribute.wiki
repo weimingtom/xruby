@@ -39,11 +39,11 @@ As our current focus is to get major Ruby libraries work under XRuby, a typical 
 If you want to develope ruby with eclipse, please do the following:
 
   # Run 'build' in the command line, this will generate parser with ANTLR and compile builtin written in ruby
-  # Bring up eclipse, open 'File->New->Project...' from the menu, select 'Java Project from Existing Ant Buildfile', click 'Next'
-  # Click 'browse...', find xruby's build.xml file, then click 'Finish'
-  # Right click the project, choose 'Properties', go to 'Java Build Path'
-  # In 'libraries' tab, click 'Add JARs...', add 'builtin.jar', 'lib/junit/junit-3.8.1.jar'
+  # Bring up eclipse, open 'File->New->Project...' from the menu, select 'Java Project from Existing Ant Buildfile', click 'Next', click 'Browse...', find xruby's build.xml file, then click 'Finish'
+  # Right click the project, choose 'Properties'
+  # Go to 'Java Build Path' option, In 'libraries' tab, click 'Add JARs...', add 'builtin.jar', 'lib/junit/junit-3.8.1.jar'
   # Go to 'Java Compiler' option, make sure the 'Compiler Compliance Level' is 5.0.
+  # Click 'Finish', that is it!
 
 = Note =
 
