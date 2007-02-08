@@ -832,7 +832,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().RubyValue_getRubyClass();
 		}
 
-		cg_.getMethodGenerator().RubyModule_getCurrentNamespaceConstant(name);
+		cg_.getMethodGenerator().RubyAPI_getCurrentNamespaceConstant(name);
 	}
 
 	public void visitConstant(String name) {

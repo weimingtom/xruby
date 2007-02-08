@@ -692,12 +692,6 @@ class MethodGenerator extends GeneratorAdapter {
 			Method.getMethod("com.xruby.runtime.lang.RubyModule defineModule(String)"));
 	}
 
-	public void RubyModule_getCurrentNamespaceConstant(String name) {
-		push(name);
-		invokeVirtual(Type.getType(RubyModule.class),
-			Method.getMethod("com.xruby.runtime.lang.RubyValue getCurrentNamespaceConstant(String)"));
-	}
-
 	public void RubyModule_getClassVariable(String name) {
 		push(name);
 		invokeVirtual(Type.getType(RubyModule.class),
