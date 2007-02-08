@@ -35,6 +35,16 @@ As our current focus is to get major Ruby libraries work under XRuby, a typical 
   # Open src/com/xruby/compiler/StdlibTest.java, start to write a test case (using mighty print).
   # If it failes, fix it (right now the most likly reason is some builtin are either not implemented or not correctly implemented), then move on to the next target.
 
+=Eclipse=
+If you want to develope ruby with eclipse, please to the following:
+
+  # Run 'build' in the command line, this will generate parser with ANTLR and compile builtin written in ruby
+  # Bring up eclipse, open 'File->New->Project...' from the menu, select 'Java Project from Existing Ant Buildfile', click 'Next'
+  # Click 'browse...', find xruby's build.xml file, then click 'Finish'
+  # Right click the project, choose 'Properties', go to 'Java Build Path'
+  # In 'libraries' tab, click 'Add JARs...', add 'builtin.jar', 'lib/junit/junit-3.8.1.jar'
+  # Go to 'Java Compiler' option, make sure the 'Compiler Compliance Level' is 5.0.
+
 = Note =
 
 Please just choose an area that you are interested in most. Enjoy!
