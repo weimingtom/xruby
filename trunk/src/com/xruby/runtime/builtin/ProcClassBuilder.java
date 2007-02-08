@@ -33,8 +33,8 @@ class Proc_arity extends RubyNoArgMethod {
 
 }
 
-class Proc_alloc extends RubyVarArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Proc_alloc extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return ObjectFactory.createProc(block);
 	}
 }

@@ -15,8 +15,8 @@ class Exception_to_s extends RubyNoArgMethod {
 	}
 }
 
-class Exception_new extends RubyVarArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Exception_new extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return new RubyExceptionValue((RubyClass)receiver);
 	}
 }
