@@ -3349,11 +3349,35 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"end\n" +
 				"\n" +
 				"ConstantInModule2::C.new.f",
+				
+				"TestM0 = 0\n" +
+				"\n" +
+				"module TestM1\n" +
+				"  module TestM2\n" +
+				"    module TestM3\n" +
+				"     TestM4 = 1\n" +
+				"     print TestM0,TestM1, TestM2, TestM3, TestM4\n" +
+				"    end\n" +
+				"  end\n" +
+				"end",
+				
+				"module TestConst1\n" +
+				"  module TestConst2\n" +
+				"  end\n" +
+				"end\n" +
+				"\n" +
+				"module TestConst1\n" +
+				"  class TestConst3\n" +
+				"    print TestConst2\n" +
+				"  end\n" +
+				"end",
 		};
 		
 		String[] outputs = {
 				"MCf",
 				"MCf2",
+				"0TestM1TestM1::TestM2TestM1::TestM2::TestM31",
+				"TestConst1::TestConst2",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -3397,14 +3421,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 	public void test_constant_in_module_exception() {
 		String[] program_texts = {
 				"CONSTANT_IN_MODULE_EXCEPTION_XXX",
-				"module ConstantInModuleException; end; ConstantInModuleException::B",
+				"module ConstantInModuleException; end; ConstantInModuleException::NO_SUCH_CONST_XXX",
 				"a=1; a::B",
 				"ConstantInModuleException2=9; ConstantInModuleException2::B",
 		};
 
 		RubyException[] exceptions = {
 			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant CONSTANT_IN_MODULE_EXCEPTION_XXX"),
-			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant ConstantInModuleException::B"),
+			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant ConstantInModuleException::NO_SUCH_CONST_XXX"),
 			new RubyException(RubyRuntime.TypeErrorClass, "1 is not a class/module"),
 			new RubyException(RubyRuntime.TypeErrorClass, "9 is not a class/module"),
 		};

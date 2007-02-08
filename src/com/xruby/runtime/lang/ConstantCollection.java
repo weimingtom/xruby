@@ -15,7 +15,7 @@ abstract class ConstantCollection extends ClassVariableCollection {
 	}
 
 	/// e.g. A::B
-	RubyValue getConstant(String name) {
+	RubyValue getOwnConstant(String name) {
 		return constants_.get(name);
 	}
 

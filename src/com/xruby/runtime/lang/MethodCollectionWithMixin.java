@@ -84,13 +84,13 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 	}
 
 	RubyValue getConstant(String name) {
-		RubyValue v = super.getConstant(name);
+		RubyValue v = super.getOwnConstant(name);
 		if (null != v) {
 			return v;
 		}
 		
 		for (RubyModule module : mixins_) {
-			v = module.getConstant(name);
+			v = module.getOwnConstant(name);
 			if (null != v) {
 				return v;
 			}
