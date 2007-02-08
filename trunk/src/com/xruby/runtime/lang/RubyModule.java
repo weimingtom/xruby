@@ -102,6 +102,19 @@ public class RubyModule extends MethodCollectionWithMixin {
 		
 		return (RubyModule)v;
 	}
+
+	RubyValue getConstant(String name) {
+		RubyValue v = super.getConstant(name);
+		if (null != v) {
+			return v;
+		}
+		
+		if (null == owner_) {
+			return null;
+		}
+
+		return owner_.getConstant(name);
+	}
 	
 	public void to_s(RubyString s) {
 		if (null == owner_) {

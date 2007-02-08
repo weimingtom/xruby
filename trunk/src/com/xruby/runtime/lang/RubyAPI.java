@@ -246,28 +246,34 @@ public class RubyAPI {
 		return RubyRuntime.GlobalScope.setConstant(name, value);
 	}
 
-	//TODO fix issue 7!
 	public static RubyValue getCurrentNamespaceConstant(RubyModule receiver, String name) {
 		RubyValue v = receiver.getConstant(name);
-		if (null != v) {
-			return v;
-		}
-
-		v = RubyRuntime.GlobalScope.getConstant(name);
 		if (null == v) {
-			String modulename = receiver.getName();
-			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + ((null == modulename) ? "" : (modulename + "::")) + name);
+			RubyString str = ObjectFactory.createString();
+			receiver.to_s(str);
+			if (str.length() > 0) {
+				str.appendString("::");
+			}
+			str.appendString(name);
+			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + str.toString());
 		}
+		
 		return v;
 	}
 
 	public static RubyValue getConstant(RubyValue receiver, String name) {
 		throwTypeErrorIfNotClassModule(receiver);
 		
-		RubyValue v = ((RubyModule)receiver).getConstant(name);
+		RubyModule m = (RubyModule)receiver;
+		RubyValue v = m.getConstant(name);
 		if (null == v) {
-			String module_name = ((RubyModule)receiver).getName();
-			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + module_name + "::" + name);
+			RubyString str = ObjectFactory.createString();
+			m.to_s(str);
+			if (str.length() > 0) {
+				str.appendString("::");
+			}
+			str.appendString(name);
+			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + str.toString());
 		}
 		
 		return v;
