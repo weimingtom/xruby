@@ -65,11 +65,13 @@ public class StdlibTest extends CompilerTestCase {
 		String[] program_texts = {
 				"print(require('test/unit/error'))",
 				"print Test::Unit::Error.new('name', 'excepton').single_character_display",
+				"print Test::Unit::Error.new('excepton', NameError.new('message')).message",
 		};
 		
 		String[] outputs = {
 				"true",
 				"E",
+				"NameError: message",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
