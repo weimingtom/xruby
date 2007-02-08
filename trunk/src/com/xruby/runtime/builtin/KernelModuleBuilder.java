@@ -190,10 +190,8 @@ class Kernel_raise extends RubyVarArgMethod {
 	}
 }
 
-class JarLoader extends ClassLoader
-{
-	public RubyProgram load(File filename)
-	{
+class JarLoader extends ClassLoader {
+	public RubyProgram load(File filename) {
 		JarFile jar = null;
 
 		try {
@@ -215,8 +213,7 @@ class JarLoader extends ClassLoader
 		}
 	}
 
-	private RubyProgram _load(JarFile jar) throws IOException, InstantiationException, IllegalAccessException
-	{
+	private RubyProgram _load(JarFile jar) throws IOException, InstantiationException, IllegalAccessException {
 		RubyProgram p = null;
 
 		for (Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements();) {
