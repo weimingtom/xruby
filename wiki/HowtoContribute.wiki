@@ -14,14 +14,14 @@ The other set of tests are written in Ruby, and you run them by doing:
 
 >java -jar xruby-0.1.0.jar sample\test.rb
 
-While it is impossible to implement something perfectly at the first attempt, refactoring becomes very improtant. If the change may affect the work if other contributors, just send a email to xruby-devel malilist.
+While it is impossible to implement something perfectly at the first attempt, we encourage refactoring. If the change may affect the work of other contributors, an email to xruby-devel malilist would be great.
 
 Other than the above gernal guidelines, feel free to make changes. The most important thing is members should be able to learn and have fun.
 
 = License =
 Contributors own the copyright of their contributions. If you made significant contributions in a source file, please add your name to the Copyright block.
 
-By contributing your work to XRuby project, you must agree to release the source code under GPL v2 license.
+By contributing your work to XRuby project, you agreed to release the source code under GPL v2 license.
 
 = GetStarted =
 
@@ -32,10 +32,10 @@ The easier way to jump start is to implement a few builtin libraries. And almost
 As our current focus is to get major Ruby libraries work under XRuby, a typical day may look like this:
 
   # Find a Ruby libraies that is not known to be working. For example: rational.rb.
-  # Open src/com/xruby/compiler/StdlibTest.java, start to write a test case (using mighty print).
+  # Open src/com/xruby/compiler/StdlibTest.java, start to write a test case for it (using mighty print).
   # If it failes, fix it (right now the most likly reason is some builtin are either not implemented or not correctly implemented), then move on to the next target.
 
-=Eclipse=
+= Eclipse =
 If you want to develope ruby with eclipse, please do the following:
 
   # Run 'build' in the command line, this will generate parser with ANTLR and compile builtin written in ruby
