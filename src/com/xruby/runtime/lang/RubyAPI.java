@@ -246,8 +246,19 @@ public class RubyAPI {
 		return RubyRuntime.GlobalScope.setConstant(name, value);
 	}
 
+	//TODO fix issue 7!
 	public static RubyValue getCurrentNamespaceConstant(RubyModule receiver, String name) {
-		return receiver.getCurrentNamespaceConstant(name);
+		RubyValue v = receiver.getConstant(name);
+		if (null != v) {
+			return v;
+		}
+
+		v = RubyRuntime.GlobalScope.getConstant(name);
+		if (null == v) {
+			String modulename = receiver.getName();
+			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + ((null == modulename) ? "" : (modulename + "::")) + name);
+		}
+		return v;
 	}
 
 	public static RubyValue getConstant(RubyValue receiver, String name) {
