@@ -212,7 +212,7 @@ class Array_unshift extends RubyVarArgMethod {
 
 class Array_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        return new RubyArray();
+		return new RubyArray();
 	}
 }
 
