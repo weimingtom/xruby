@@ -36,7 +36,7 @@ public class RequireExample {
                 "    puts array.get(i)\n" +
                 "end";
 
-        // TODO: Is it necessary to make java's container classes support each method?
+        // TODO: Is it necessary to make java's container classes support "each" method?
 
 
         RubyCompiler compiler = new RubyCompiler(null, false);
@@ -46,7 +46,8 @@ public class RequireExample {
 		RubyRuntime.init(args);
 		p.run();
 		RubyRuntime.fini();
-	}
+
+    }
 }
 
 
