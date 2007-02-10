@@ -113,7 +113,7 @@ public class RubyAPI {
 	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findMethod(method_name);
 		if (null != m && !UndefMethod.isUndef(m)) {
-			return m.invoke(receiver, args, block);
+			return invokeMethod(m, method_name, receiver, args, block);
 		}
 	
 		return callMethodMissing(receiver, args, block, method_name);
@@ -133,7 +133,7 @@ public class RubyAPI {
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
 		RubyMethod m = receiver.findPublicMethod(method_name);
 		if (null != m && !UndefMethod.isUndef(m)) {
-			return m.invoke(receiver, args, block);
+			return invokeMethod(m, method_name, receiver, args, block);
 		}
 	
 		return  callMethodMissing(receiver, args, block, method_name);
@@ -146,9 +146,16 @@ public class RubyAPI {
 			throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" +  method_name + "' can not be found in '" + c.getName() + "'");
 		}
 	
-		return m.invoke(receiver, args, block);
+		return invokeMethod(m, method_name, receiver, args, block);
 	}
 
+	private static RubyValue invokeMethod(RubyMethod m, String method_name, RubyValue receiver, RubyArray args, RubyBlock block) {
+		FrameManager.pushRecord(method_name);
+		RubyValue v = m.invoke(receiver, args, block);
+		FrameManager.popRecord();
+		return v;
+	}
+	
 	public static RubyValue operatorNot(RubyValue value) {
 		if (testTrueFalse(value)) {
 			return ObjectFactory.falseValue;

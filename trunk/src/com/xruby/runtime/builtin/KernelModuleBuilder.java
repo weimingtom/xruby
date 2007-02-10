@@ -411,6 +411,17 @@ class Kernel_methods extends RubyVarArgMethod {
 	}
 }
 
+class Kernel_caller extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		int skip = 1;
+		if (null != args) {
+			skip = ((RubyFixnum)args.get(0)).intValue();
+		}
+		
+		return FrameManager.caller(skip);
+	}
+}
+
 class Kernel_at_exit extends RubyNoArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		if (null == block) {
@@ -582,6 +593,7 @@ public class KernelModuleBuilder {
 		m.defineMethod("__send__", send);
 		m.defineMethod("method", new Kernel_method());
 		m.defineMethod("methods", new Kernel_methods());
+		m.defineMethod("caller", new Kernel_caller());
 		m.defineMethod("throw", new Kernel_throw());
 		m.defineMethod("catch", new Kernel_catch());
 		m.defineMethod("untrace_var", new Kernel_untrace_var());
