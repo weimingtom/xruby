@@ -123,9 +123,9 @@ class String_to_i extends RubyMethod {
 
 		value = value.substring(0, end);
 
-		if (args == null || args.size() == 0){
+		if (args == null || args.size() == 0) {
 			return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
-		}else{
+		} else {
 			int radix = ((RubyFixnum)args.get(0)).intValue();
 			if (radix >= 2 && radix <= 36){
 				BigInteger bigint;
