@@ -2466,6 +2466,20 @@ public class RubyCompilerTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 
+	public void test_Class_name() {
+		String[] program_texts = {
+				"class TestClassName2; attr_reader :name, :tests; print name; end",
+				"class TestClassName; print name; end",
+		};
+		
+		String[] outputs = {
+				"TestClassName2",
+				"TestClassName",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_class_variable() {
 		String[] program_texts = {
 				"class TestClassVariable2\n" +
