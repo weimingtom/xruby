@@ -88,10 +88,18 @@ public class StdlibTest extends CompilerTestCase {
 	public void test_test_unit_testresult() {
 		String[] program_texts = {
 				"print(require('test/unit/testresult'))",
+				"print Test::Unit::TestResult.new.to_s",
+				"print Test::Unit::TestResult.new.passed?",
+				"print Test::Unit::TestResult.new.failure_count",
+				"print Test::Unit::TestResult.new.error_count",
 		};
 		
 		String[] outputs = {
 				"true",
+				"0 tests, 0 assertions, 0 failures, 0 errors",
+				"true",
+				"0",
+				"0",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
