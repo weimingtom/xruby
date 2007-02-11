@@ -92,6 +92,10 @@ public class StdlibTest extends CompilerTestCase {
 				"print Test::Unit::TestResult.new.passed?",
 				"print Test::Unit::TestResult.new.failure_count",
 				"print Test::Unit::TestResult.new.error_count",
+				"print Test::Unit::TestResult.new.add_run",
+				"a=Test::Unit::TestResult.new; print a.add_failure('xxx'), a.failure_count",
+				"a=Test::Unit::TestResult.new; print a.add_error('xxx'), a.add_error('yyy'), a.error_count",
+				"a=Test::Unit::TestResult.new; print a.add_assertion",
 		};
 		
 		String[] outputs = {
@@ -99,6 +103,10 @@ public class StdlibTest extends CompilerTestCase {
 				"0 tests, 0 assertions, 0 failures, 0 errors",
 				"true",
 				"0",
+				"0",
+				"0",
+				"01",
+				"002",
 				"0",
 		};
 		
