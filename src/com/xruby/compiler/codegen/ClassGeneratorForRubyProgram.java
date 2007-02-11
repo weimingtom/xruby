@@ -19,8 +19,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 	}
 	
 	protected Class getType() {
-		assert(false);
-		return null;
+		return Types.RubyProgramClass;
 	}
 
 	private MethodGenerator visitRubyProgram(RubyBinding binding) {
