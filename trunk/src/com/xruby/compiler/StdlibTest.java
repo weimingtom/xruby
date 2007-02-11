@@ -169,6 +169,18 @@ public class StdlibTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_test_unit_ui_testrunnerutilities() {
+		String[] program_texts = {
+				"print(require('test/unit/ui/testrunnerutilities'))",
+		};
+		
+		String[] outputs = {
+				"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_rational() {
 		String[] program_texts = {
 				"require 'rational'",
