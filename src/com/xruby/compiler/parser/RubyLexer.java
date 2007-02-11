@@ -185,8 +185,9 @@ public class RubyLexer extends RubyLexerBase {
 			break;
 		case IDENTIFIER:
 		case FUNCTION:
-			if (DOT != last_token_.getType()
-					&& COLON2 != last_token_.getType()) {
+			if (DOT != last_token_.getType() &&
+					COLON2 != last_token_.getType() &&
+					COLON_WITH_NO_FOLLOWING_SPACE != last_token_.getType()) {
 				updateSymbolTable(token);
 			}
 			break;
