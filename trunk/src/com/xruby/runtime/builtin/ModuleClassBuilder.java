@@ -76,19 +76,12 @@ class Module_private_class_method extends RubyVarArgMethod {
 	}
 }
 
-class Module_to_s extends RubyVarArgMethod {	
+class Module_name extends RubyVarArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyModule m = (RubyModule)receiver;
 		RubyString s = ObjectFactory.createString();
 		m.to_s(s);
 		return s;
-	}
-}
-
-class Module_name extends RubyVarArgMethod {	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyModule m = (RubyModule)receiver;
-		return  ObjectFactory.createString(m.getName());
 	}
 }
 
@@ -246,8 +239,9 @@ public class ModuleClassBuilder {
 		c.defineMethod("protected", new Module_protected());
 		c.defineMethod("private", new Module_private());
 		c.defineMethod("private_class_method", new Module_private_class_method());
-		c.defineMethod("to_s", new Module_to_s());
-		c.defineMethod("name", new Module_name());
+		RubyMethod name = new Module_name();
+		c.defineMethod("to_s", name);
+		c.defineMethod("name", name);
 		c.defineMethod("inspect", new Module_inspect());
 		c.defineMethod("include", new Module_include());
 		c.defineMethod("<=>", new Module_operator_compare());

@@ -2474,11 +2474,13 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_Class_name() {
 		String[] program_texts = {
+				"module TestClassName3; class TestClassName4; print name; end; end",
 				"class TestClassName2; attr_reader :name, :tests; print name; end",
 				"class TestClassName; print name; end",
 		};
 		
 		String[] outputs = {
+				"TestClassName3::TestClassName4",
 				"TestClassName2",
 				"TestClassName",
 		};
