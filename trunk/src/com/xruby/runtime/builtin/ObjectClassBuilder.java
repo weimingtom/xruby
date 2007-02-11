@@ -24,6 +24,20 @@ class Object_clone extends RubyNoArgMethod {
 	}
 }
 
+class Object_extend extends RubyVarArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (null == args) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
+		}
+		
+		for (RubyValue v : args) {
+			RubyAPI.callPublicMethod(v, receiver, "extend_object");
+		}
+		
+		return receiver;
+	}
+}
+
 class Object_alloc extends RubyNoArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		return new RubyObject((RubyClass)receiver);
@@ -47,6 +61,7 @@ public class ObjectClassBuilder {
 		c.defineMethod("==", equal);
 		c.defineMethod("equal?", equal);
 		c.defineMethod("clone", new Object_clone());
+		c.defineMethod("extend", new Object_extend());
 		RubyMethod object_id = new Object_object_id();
 		c.defineMethod("object_id", object_id);
 		c.defineMethod("__id__", object_id);
