@@ -77,5 +77,61 @@ public class StdlibTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
-
+	public void test_rational() {
+		String[] program_texts = {
+				"require 'rational'",
+				"print Rational(3,4).to_s",
+				
+				"print Rational(+7,4).to_i",
+				"print Rational(-7,4).to_i",
+				
+				"print Rational(+7,4).to_f",
+				
+				"print Rational(3,4) / 2",
+				"print Rational(3,4) / 2.0",
+				
+				"print Rational(3,4) * 2",
+				
+				"print Rational(7,4) % Rational(1,2)",
+				"print Rational(3,4) % 1",
+				"print Rational(3,4) % Rational(1,7)",
+				
+				"print Rational(3,4) ** 2",
+				
+				"print Rational(-3,5).abs",
+				
+				"print Rational(-3,2) == Rational(-3,2) ",
+				
+				"print Rational(-3,2) <=> Rational(-3,2) ",
+		};
+		
+		String[] outputs = {
+				"",
+				"3/4",
+				
+				"1",
+				"-2",
+				
+				"1.75",
+				
+				"3/8",
+				"0.375",
+				
+				"3/2",
+				
+				"1/4",
+				"3/4",
+				"1/28",
+				
+				"9/16",
+				
+				"3/5",
+				
+				"true",
+				
+				"0",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 }
