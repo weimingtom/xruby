@@ -187,11 +187,19 @@ class Array_pop extends RubyVarArgMethod {
 	}
 }
 
+//TODO array.delete(obj) { block }
 class Array_delete_at extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		RubyFixnum pos = (RubyFixnum)arg;
 		return array.remove(pos.intValue());		
+	}
+}
+
+class Array_delete extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyArray array = (RubyArray)receiver;
+		return array.delete(arg);
 	}
 }
 
@@ -337,6 +345,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("push", new Array_push());
 		c.defineMethod("insert", new Array_insert());
 		c.defineMethod("pop", new Array_pop());
+		c.defineMethod("delete", new Array_delete());
 		c.defineMethod("delete_at", new Array_delete_at());
 		c.defineMethod("include?", new Array_include());
 		c.defineMethod("unshift", new Array_unshift());

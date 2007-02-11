@@ -401,6 +401,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Array_misc() {
 		String[] program_texts = {
+				"print [1, 3].delete(2)",
+				"print [1, 2, 3].delete(2)",
+				"a = [1, 2, 3, 2]; a.delete(2); p a",
 				"p [] << 1",
 				"p [] << [1, 2]",
 				"p [].push(1, 2)",
@@ -424,6 +427,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"nil",
+				"2",
+				"[1, 3]",
 				"[1]",
 				"[[1, 2]]",
 				"[1, 2]",
