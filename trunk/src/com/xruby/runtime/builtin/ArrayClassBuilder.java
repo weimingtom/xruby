@@ -103,6 +103,14 @@ class Array_concat extends RubyOneArgMethod {
 	}
 }
 
+class Array_left_shift_operator extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyArray left = (RubyArray)receiver;
+		left.add(arg);
+		return receiver;
+	}
+}
+
 class Array_plus extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray left = (RubyArray)receiver;
@@ -147,11 +155,15 @@ class Array_operator_or extends RubyOneArgMethod {
 	}
 }
 
-class Array_push extends RubyOneArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+class Array_push extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		RubyValue obj = arg;
-		return array.add(obj);
+		if (null != args) {
+			for (RubyValue v : args) {
+				array.add(v);
+			}
+		}
+		return array;
 	}
 }
 
@@ -315,6 +327,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("[]=", new Array_array_set());
 		c.defineMethod("==", new Array_equal());
 		c.defineMethod("<=>", new Array_compare());
+		c.defineMethod("<<", new Array_left_shift_operator());
 		c.defineMethod("concat", new Array_concat());
 		c.defineMethod("+", new Array_plus());
 		c.defineMethod("-", new Array_minus());
