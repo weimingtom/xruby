@@ -182,6 +182,13 @@ class Module_include extends RubyVarArgMethod {
 	}
 }
 
+class Module_extend_object extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		arg.getSingletonClass().includeModule((RubyModule)receiver);
+		return arg;
+	}
+}
+
 class Module_ancestors extends RubyNoArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyModule module = (RubyModule)receiver;
@@ -244,6 +251,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("name", name);
 		c.defineMethod("inspect", new Module_inspect());
 		c.defineMethod("include", new Module_include());
+		c.defineMethod("extend_object", new Module_extend_object());
 		c.defineMethod("<=>", new Module_operator_compare());
 		c.defineMethod("===", new Module_case_equal());
 		c.defineMethod("ancestors", new Module_ancestors());

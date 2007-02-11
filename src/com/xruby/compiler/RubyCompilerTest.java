@@ -2488,6 +2488,20 @@ public class RubyCompilerTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Object_extend() {
+		String[] program_texts = {
+				"module Mod; def hello; \"Mod\"; end; end\n" +
+				"class Klass; def hello; \"Klass\"; end; end\n" +
+				"k = Klass.new; print k.hello; k.extend(Mod);print k.hello",
+		};
+		
+		String[] outputs = {
+				"KlassMod",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_class_variable() {
 		String[] program_texts = {
 				"class TestClassVariable2\n" +
