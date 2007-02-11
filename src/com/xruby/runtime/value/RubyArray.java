@@ -67,6 +67,15 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return array_.size();
 	}
 
+	public RubyValue delete(RubyValue arg) {
+		boolean found = false;
+		while (array_.remove(arg)) {
+			found = true;
+		}
+
+		return found ? arg : ObjectFactory.nilValue;
+	}
+
 	public Iterator<RubyValue> iterator() {
 		return array_.iterator();
 	}
