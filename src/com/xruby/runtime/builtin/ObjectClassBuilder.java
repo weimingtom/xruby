@@ -30,6 +30,15 @@ class Object_alloc extends RubyNoArgMethod {
 	}
 }
 
+class Object_object_id extends RubyNoArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		//Object.hashCode() javadoc:
+		//As much as is reasonably practical, the hashCode method defined
+		//by class Object does return distinct integers for distinct objects.
+		return ObjectFactory.createFixnum(receiver.hashCode());
+	}
+}
+
 public class ObjectClassBuilder {
 	
 	public static void initialize() {
@@ -38,6 +47,9 @@ public class ObjectClassBuilder {
 		c.defineMethod("==", equal);
 		c.defineMethod("equal?", equal);
 		c.defineMethod("clone", new Object_clone());
+		RubyMethod object_id = new Object_object_id();
+		c.defineMethod("object_id", object_id);
+		c.defineMethod("__id__", object_id);
 		c.defineAllocMethod(new Object_alloc());
 	}
 }
