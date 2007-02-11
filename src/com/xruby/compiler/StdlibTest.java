@@ -129,6 +129,34 @@ public class StdlibTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_test_unit_testsuite() {
+		String[] program_texts = {
+				"print(require('test/unit/testsuite'))",
+				"print Test::Unit::TestSuite.new.to_s",
+				"print Test::Unit::TestSuite.new('name').to_s",
+				"print Test::Unit::TestSuite.new.empty?",
+				"a = Test::Unit::TestSuite.new; a << 1; print a.empty?; a.delete 1; print a.empty?",
+				"a = Test::Unit::TestSuite.new; a << 'x'; print a.size",
+				"a = Test::Unit::TestSuite.new; b = Test::Unit::TestSuite.new; a << 1; print a == b",
+				"a = Test::Unit::TestSuite.new; b = Test::Unit::TestSuite.new; print a == b",
+				"Test::Unit::TestSuite.new('x').run('z') {|x, y| print x, y}",
+		};
+		
+		String[] outputs = {
+				"true",
+				"Unnamed TestSuite",
+				"name",
+				"true",
+				"falsetrue",
+				"1",
+				"false",
+				"true",
+				"Test::Unit::TestSuite::STARTEDxTest::Unit::TestSuite::FINISHEDx",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_rational() {
 		String[] program_texts = {
 				"require 'rational'",
