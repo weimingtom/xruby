@@ -61,6 +61,42 @@ public class StdlibTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_test_unit_util_procwrapper() {
+		String[] program_texts = {
+				"print(require('test/unit/util/procwrapper'))",
+		};
+		
+		String[] outputs = {
+				"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_test_unit_util_observable() {
+		String[] program_texts = {
+				"print(require('test/unit/util/observable'))",
+		};
+		
+		String[] outputs = {
+				"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_test_unit_testresult() {
+		String[] program_texts = {
+				"print(require('test/unit/testresult'))",
+		};
+		
+		String[] outputs = {
+				"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_test_unit_error() {
 		String[] program_texts = {
 				"print(require('test/unit/error'))",
