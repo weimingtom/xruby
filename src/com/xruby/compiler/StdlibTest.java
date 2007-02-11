@@ -157,6 +157,18 @@ public class StdlibTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_test_unit_collector() {
+		String[] program_texts = {
+				"print(require('test/unit/collector'))",
+		};
+		
+		String[] outputs = {
+				"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_rational() {
 		String[] program_texts = {
 				"require 'rational'",
