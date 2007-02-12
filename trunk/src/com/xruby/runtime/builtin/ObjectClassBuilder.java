@@ -60,7 +60,9 @@ public class ObjectClassBuilder {
 		RubyMethod equal = new Object_operator_equal();
 		c.defineMethod("==", equal);
 		c.defineMethod("equal?", equal);
-		c.defineMethod("clone", new Object_clone());
+		RubyMethod clone = new Object_clone();
+		c.defineMethod("clone", clone);
+		c.defineMethod("dup", clone);
 		c.defineMethod("extend", new Object_extend());
 		RubyMethod object_id = new Object_object_id();
 		c.defineMethod("object_id", object_id);
