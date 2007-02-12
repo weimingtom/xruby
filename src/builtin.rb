@@ -368,6 +368,8 @@ class FalseClass
 end
 
 class Range
+  include Enumerable
+  
 	def ===(value)
 		each do |item|
 			return true if value == item
@@ -412,3 +414,16 @@ class Proc
   end
 end
 
+module Enumerable
+  def find_all
+    a = []
+    each {|x|
+      if yield x
+        a.push(x)
+      end
+    }
+    return a
+  end
+  
+  alias :select :find_all
+end

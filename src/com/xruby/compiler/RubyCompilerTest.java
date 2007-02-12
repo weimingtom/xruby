@@ -1816,6 +1816,20 @@ public class RubyCompilerTest extends CompilerTestCase {
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 
+	public void test_Enumerable_find_all() {
+		String[] program_texts = {
+				"p (1..10).find_all {|i|  i % 3 == 0 }",
+				"p [1, 2, 3, 4].find_all {|i|  i % 3 == 0 }",
+		};
+		
+		String[] outputs = {
+				"[3, 6, 9]",
+				"[3]",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_Hash_default() {
 		String[] program_texts = {
 				"h = {}; def h.default(x); print 'x'; x; end; print h[1], h[2]",
