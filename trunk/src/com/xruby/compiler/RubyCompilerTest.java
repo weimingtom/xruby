@@ -4200,6 +4200,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_String_misc() {
 		String [] program_texts = {
+				"print ''.empty?, 'x'.empty?",
 				"print 'x'[-1]",
 				"print 'x'[2]",
 				"print \"\\#\".length",
@@ -4221,6 +4222,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"truefalse",
 				"120",
 				"nil",
 				"1",
