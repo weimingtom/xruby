@@ -43,7 +43,7 @@ public interface CodeVisitor extends ISymbolTable {
 
 	public void visitNoParameter();
 	public void visitNoParameterForSuper();
-	public void visitNoBlock(boolean is_in_super);
+	public void visitNoBlock(boolean is_super_or_block_given_call);
 	public void visitBlockArgument();
 	public void visitBinding();
 
