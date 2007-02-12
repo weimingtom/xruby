@@ -4865,4 +4865,25 @@ public class RubyCompilerTest extends CompilerTestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	/*
+	TODO does not work with exception
+	TODO wrong format, should fix the implementation
+	public void test_Kernel_caller() {
+		String[] program_texts = {
+				"def f;	p caller(); end; def g;	f; end;  g",
+				"def f;	p caller(0); end; def g;	f; end;  g",
+				"def f;	p caller(2); end; def g;	f; end;  g",
+				
+		};
+		
+		String[] outputs = {
+				"[g]",	//TODO should be: ["test.rb:1:in `g'", "test.rb:1"]
+				"[f, g]",
+				"[]",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}*/
+	
 }
