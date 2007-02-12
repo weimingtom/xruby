@@ -20,7 +20,7 @@ class TopLevelSelf_include extends RubyVarArgMethod {
 			RubyRuntime.GlobalScope.includeModule((RubyModule)v);
 		}
 		
-		return receiver;
+		return RubyRuntime.ObjectClass;
 	}
 }
 
