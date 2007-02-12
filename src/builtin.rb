@@ -124,8 +124,11 @@ class String
 	end
 
 	def succ
-
 	end
+  
+  def empty?
+    length == 0
+  end
 	
 	alias to_str to_s
 	alias inspect to_s
