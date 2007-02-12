@@ -178,7 +178,8 @@ class Module_include extends RubyVarArgMethod {
 				module.includeModule((RubyModule)m);
 			}
 		}
-		return ObjectFactory.nilValue;
+
+		return receiver;
 	}
 }
 
