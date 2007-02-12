@@ -169,6 +169,22 @@ public class StdlibTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_test_unit_assertions() {
+		String[] program_texts = {
+				"print(require('test/unit/assertions'))",
+				"print (include Test::Unit::Assertions)",
+				"print(build_message('xxx'))",
+		};
+		
+		String[] outputs = {
+				"true",
+				"Object",
+				"xxx.",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_test_unit_ui_testrunnerutilities() {
 		String[] program_texts = {
 				"print(require('test/unit/ui/testrunnerutilities'))",
@@ -180,6 +196,31 @@ public class StdlibTest extends CompilerTestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	/*
+	public void test_test_unit_ui_testrunnermediator() {
+		String[] program_texts = {
+				"print(require('test/unit/ui/testrunnermediator'))",
+		};
+		
+		String[] outputs = {
+				"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_test_unit_ui_console_testrunner() {
+		String[] program_texts = {
+				"print(require('test/unit/ui/console/testrunner'))",
+		};
+		
+		String[] outputs = {
+				"true",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}*/
 	
 	public void test_rational() {
 		String[] program_texts = {
