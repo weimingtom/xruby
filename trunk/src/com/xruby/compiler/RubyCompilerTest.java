@@ -4614,6 +4614,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_block_given() {
 		String [] program_texts = {
+				"def f; 1.times {print block_given?}; end; f {}",
+				
 				"def f; print block_given?; end; f &nil",
 				
 				"def try\n" +
@@ -4631,6 +4633,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"true",
 				"false",
 				"falsetruetrue",
 				"false",
