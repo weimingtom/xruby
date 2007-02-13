@@ -357,6 +357,7 @@ returns [Expression e]
 		|	command_output:COMMAND_OUTPUT			{e = new CommandOutputExpression(command_output.getText());}
 		|	heredoc:HERE_DOC_CONTENT				{e = new StringExpression(heredoc.getText(), true);}
 		|	regex:REGEX								{e = new RegexpExpression(regex.getText());}
+		|	warray:W_ARRAY							{e = new WArrayExpression(warray.getText());}
 		|	e=local_variable
 		|	constant:CONSTANT						{e = new CurrentNamespaceConstantExpression(constant.getText());}
 		|	LEADING_COLON2	constant2:CONSTANT		{e = new Colon2Expression(null, constant2.getText());}
