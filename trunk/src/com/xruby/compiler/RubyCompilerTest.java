@@ -4212,6 +4212,18 @@ public class RubyCompilerTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_W_ARRAY() {
+		String [] program_texts = {
+				"p %w$a b c$",
+		};
+		
+		String[] outputs = {
+				"[\"a\", \"b\", \"c\"]",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_String_misc() {
 		String [] program_texts = {
 				"print 'yyy'.inspect",
