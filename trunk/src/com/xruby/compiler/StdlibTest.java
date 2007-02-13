@@ -174,12 +174,14 @@ public class StdlibTest extends CompilerTestCase {
 				"print(require('test/unit/assertions'))",
 				"print (include Test::Unit::Assertions)",
 				"print(build_message('xxx'))",
+				"print(build_message('xxx', 'yyy'))",
 		};
 		
 		String[] outputs = {
 				"true",
 				"Object",
 				"xxx.",
+				"xxx.\nyyy",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
