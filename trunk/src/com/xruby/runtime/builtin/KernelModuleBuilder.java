@@ -133,13 +133,8 @@ class Kernel_printf extends RubyVarArgMethod {
 
 class Kernel_p extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		for (RubyValue arg : args) {
-			if (ObjectFactory.nilValue == arg) {
-				System.out.print("nil");
-			} else if (arg instanceof RubyString){
-				RubyString value = (RubyString)arg;
-				System.out.print(value.toString());
-			} else {
+		if (null != args) {
+			for (RubyValue arg : args) {
 				RubyValue str = RubyAPI.callPublicMethod(arg, null, null, "inspect");
 				RubyString value = (RubyString)str;
 				System.out.print(value.toString());
