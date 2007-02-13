@@ -4214,6 +4214,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_String_misc() {
 		String [] program_texts = {
+				"print 'yyy'.inspect",
+				"p 'xxx'",
+				
 				"print ''.empty?, 'x'.empty?",
 				"print 'x'[-1]",
 				"print 'x'[2]",
@@ -4236,6 +4239,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"\"yyy\"",
+				"\"xxx\"",
+				
 				"truefalse",
 				"120",
 				"nil",

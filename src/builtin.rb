@@ -130,8 +130,11 @@ class String
     length == 0
   end
 	
+  def inspect
+    '"' + to_s + '"'
+  end
+  
 	alias to_str to_s
-	alias inspect to_s
 	alias size length
 end
 
