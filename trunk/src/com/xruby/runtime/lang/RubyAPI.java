@@ -14,7 +14,7 @@ public class RubyAPI {
 		//only 'nil' and 'false' is false.
 		if (value == ObjectFactory.falseValue) {
 			return false;
-		}  else if (value == ObjectFactory.nilValue) {
+		} else if (value == ObjectFactory.nilValue) {
 			return false;
 		} else {
 			return true;
