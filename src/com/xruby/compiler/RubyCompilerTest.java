@@ -3262,6 +3262,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_include_module() {
 		String [] program_texts = {
+				"module Test1; module Test2; def test_include_3; print Test2; end; end; end\n" +
+				"include Test1::Test2; test_include_3",
+				
 				"module TEST_CONSTANT_M; TEST_CONSTANT = 5; end\n" +
 				"print(include(TEST_CONSTANT_M))\n" +
 				"print TEST_CONSTANT",
@@ -3325,6 +3328,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"Test1::Test2",
 				"Object5",
 				"77777",
 				"100",
