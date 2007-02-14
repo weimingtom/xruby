@@ -18,6 +18,7 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 	public void includeModule(RubyModule m) {
 		if (!mixins_.contains(m)) {
 			mixins_.add(0, m);
+			constants_.put(m.getName(), m);
 		}
 	}
 
