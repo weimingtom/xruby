@@ -1581,6 +1581,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_block() {
 		String[] program_texts = {
+				"module TestPrintModuleInBlock; 1.times {print TestPrintModuleInBlock}; end",
+				
 				"def a\n" +
 				"	yield(\"haha\")\n" +
 				"end\n" +
@@ -1606,6 +1608,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"TestPrintModuleInBlock",
 				"haha",
 				"Ho!Ho!Ho!",
 				"01234",

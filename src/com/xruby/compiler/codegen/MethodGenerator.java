@@ -315,6 +315,10 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void <init> ()"));
 	}
 
+	void loadCurrentBlock() {
+		loadArg(2);
+	}
+
 	public void new_BlockClass(Class c, String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
@@ -325,7 +329,7 @@ class MethodGenerator extends GeneratorAdapter {
 		} else if (is_in_block) {
 			loadBlockOfCurrentMethod();
 		} else {
-			loadArg(2);
+			loadCurrentBlock();
 		}
 
 		loadSelf(is_in_block);
@@ -807,6 +811,10 @@ class MethodGeneratorForClassBuilder extends MethodGenerator {
 	public boolean loadCurrentClass() {
 		loadArg(1);
 		return true;
+	}
+
+	void loadCurrentBlock() {
+		pushNull();
 	}
 }
 
