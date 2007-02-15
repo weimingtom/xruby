@@ -175,6 +175,7 @@ public class StdlibTest extends CompilerTestCase {
 				"print (include Test::Unit::Assertions)",
 				"print(build_message('xxx'))",
 				"print(build_message('xxx', 'yyy'))",
+				"assert_block {true}",
 		};
 		
 		String[] outputs = {
@@ -182,6 +183,7 @@ public class StdlibTest extends CompilerTestCase {
 				"Object",
 				"xxx.",
 				"xxx.\nyyy",
+				"",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
