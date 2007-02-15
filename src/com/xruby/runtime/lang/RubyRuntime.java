@@ -64,6 +64,11 @@ public class RubyRuntime {
 	public static RubyClass RuntimeErrorClass = GlobalScope.defineNewClass("RuntimeError", StandardErrorClass);
 	public static RubyClass LocalJumpErrorClass = GlobalScope.defineNewClass("LocalJumpError", StandardErrorClass);
 
+	public static RubyClass ScriptErrorClass = GlobalScope.defineNewClass("ScriptError", ExceptionClass);
+	public static RubyClass SyntaxErrorClass = GlobalScope.defineNewClass("SyntaxError", ScriptErrorClass);
+	public static RubyClass LoadErrorClass = GlobalScope.defineNewClass("LoadError", ScriptErrorClass);
+	public static RubyClass NotImplementedErrorClass = GlobalScope.defineNewClass("NotImplementedError", ScriptErrorClass);
+	
 	private static boolean initialized_ = false;
 
 	static {
@@ -155,6 +160,7 @@ public class RubyRuntime {
 				"Time", "TrueClass",
 
 				"Exception", "StandardError", "TypeError", "IndexError", "RangeError", "NameError", "NoMethodError", "IOError", "RuntimeError", "LocalJumpError",
+				"ScriptError", "SyntaxError", "LoadError", "NotImplementedError",
 		};
 
 		for (String s : builtin_classes) {

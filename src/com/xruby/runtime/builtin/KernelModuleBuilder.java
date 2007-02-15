@@ -236,13 +236,13 @@ class Kernel_require extends RubyOneArgMethod {
 		RubyString required_file = (RubyString)arg;
 		File filename = NameFactory.find_corresponding_jar_file(required_file.toString(), null);//TODO search $:
 		if (null == filename) {
-			return ObjectFactory.falseValue;
+			throw new RubyException(RubyRuntime.LoadErrorClass, "no such file to load -- " + required_file);
 		}
 		
 		JarLoader jarloader = new JarLoader();
 		RubyProgram p = jarloader.load(filename);
 		if (null == p) {
-			return ObjectFactory.falseValue;
+			throw new RubyException(RubyRuntime.LoadErrorClass, "no such file to load -- " + required_file);
 		}
 	
 		p.run();
