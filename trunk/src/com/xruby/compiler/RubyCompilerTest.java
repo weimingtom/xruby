@@ -4528,6 +4528,22 @@ public class RubyCompilerTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	public void test_Module_module_function() {
+		String [] program_texts = {
+				"module TestModuleFunction\n" +
+				"  def test_module_function; print 123; end\n" +
+				"  module_function :test_module_function\n" +
+				"end\n" +
+				"TestModuleFunction.test_module_function",
+		};
+		
+		String[] outputs = {
+				"123",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_Module_ancestors() {
 		String [] program_texts = {
 				"module Testancestors; end; print Testancestors.ancestors",

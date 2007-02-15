@@ -127,4 +127,12 @@ public class RubyModule extends MethodCollectionWithMixin {
 			s.appendString(getName());
 		}
 	}
+
+	public void module_function(String method_name) {
+		RubyMethod m = findMethod(method_name);
+		if (null == m || UndefMethod.isUndef(m)) {
+			throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
+		}
+		getSingletonClass().defineMethod(method_name, m);
+	}
 }
