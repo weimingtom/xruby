@@ -34,7 +34,10 @@ module Kernel
 	#private
 	def load(path)
 		$:.length.times do |index|
-			file_name = $:[index] + "/" + path + ".rb"
+			file_name = $:[index] + "/" + path
+      if path[-3..-1] != ".rb"
+        file_name << ".rb"
+      end
 			next unless ::File.file?(file_name)
 			return load_file(file_name)
 		end
