@@ -1436,6 +1436,18 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	public void test_require_exception() {
+		String[] program_texts = {
+				"require 'no_such_file_xxx'",
+		};
+
+		RubyException[] exceptions = {
+				new RubyException(RubyRuntime.LoadErrorClass, "no such file to load -- no_such_file_xxx"),
+		};
+
+		compile_run_and_catch_exception(program_texts, exceptions);;
+	}
 
 	public void test_require() throws RecognitionException, TokenStreamException, CompilerException, FileNotFoundException, IOException {
 		String program_text = "print 'xxxxx'";
