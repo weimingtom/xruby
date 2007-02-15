@@ -3634,6 +3634,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_attr_accessor() {
 		String [] program_texts = {
+				" class TestSingletonAttrAccessor\n" +
+				"	@use_pp = true\n" +
+				"	class << self; attr_accessor :use_pp; end\n" +
+				"end\n" +
+				"print TestSingletonAttrAccessor.use_pp",
+				
 				"class TestAttrAccessor\n" +
 				"	attr_accessor :a\n" +
 				"end\n" +
@@ -3642,6 +3648,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"true",
 				"5",
 		};
 		

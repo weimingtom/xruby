@@ -88,8 +88,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitSingletonClassDefination2() {
-		cg_.getMethodGenerator().dup();
 		cg_.getMethodGenerator().RubyValue_getSingletonClass();
+		cg_.getMethodGenerator().dup();
 		
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder("SIGLETON");
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
