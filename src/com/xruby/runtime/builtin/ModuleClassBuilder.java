@@ -239,6 +239,20 @@ class Module_case_equal extends RubyOneArgMethod {
 	}
 }
 
+class Module_module_function extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyModule module = (RubyModule)receiver;
+		if (args != null) {
+			for(RubyValue v: args){
+				RubySymbol s = (RubySymbol)v;
+				module.module_function(s.toString());
+			}
+		}
+
+		return receiver;
+	}
+}
+
 public class ModuleClassBuilder {
 	
 	public static void initialize() {
@@ -256,6 +270,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("<=>", new Module_operator_compare());
 		c.defineMethod("===", new Module_case_equal());
 		c.defineMethod("ancestors", new Module_ancestors());
+		c.defineMethod("module_function", new Module_module_function());
 
 		c.setAccessPrivate();
 		c.defineMethod("attr_reader", new Module_attr_reader());
