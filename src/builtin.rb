@@ -121,6 +121,10 @@ def self.to_s
 	return "main"
 end
 
+def ENV.to_s
+  return "ENV"
+end
+
 class String
 	def to_s
 		return self
