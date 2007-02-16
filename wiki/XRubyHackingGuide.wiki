@@ -78,9 +78,9 @@ public class main implements RubyProgram
 
     public static void main(String args[]) throws RubyException
     {
-        RubyRuntime.initBuiltin();
+        RubyRuntime.init(args);
         (new main()).run();
-        AtExitBlocks.invokeAll();
+        RubyRuntime.fini();
     }
 
     public RubyValue run() throws RubyException
