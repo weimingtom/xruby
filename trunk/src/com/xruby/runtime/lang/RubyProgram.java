@@ -14,7 +14,7 @@ public abstract class RubyProgram {
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope) {
-		RubyRuntime.ObjectClass.setAccessPrivate();/*so that top level method are parive method of Object by default*/
+		RubyRuntime.ObjectClass.setAccessPrivate();/*so that top level methods are private methods of Object by default*/
 		return run(receiver, args, block, scope);
 	}
 	
