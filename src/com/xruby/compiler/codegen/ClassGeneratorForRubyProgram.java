@@ -35,7 +35,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		createStaticVoidMain(cv_);
 		
 		//Implement RubyProgram
-		return new MethodGenerator(Opcodes.ACC_PUBLIC,
+		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
 				null,
 				null,
@@ -73,7 +73,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		mg.invokeConstructor(program,
 				Method.getMethod("void <init> ()"));
 		mg.invokeVirtual(program,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue run()"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke()"));
 		mg.pop();
 
 		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),

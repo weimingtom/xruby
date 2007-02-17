@@ -21,23 +21,16 @@ import java.util.regex.Pattern;
 
 //TODO imcomplete
 class Kernel_eval extends RubyVarArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		
-		RubyString program_text = (RubyString)args.get(0);
 
-		RubyBinding binding = null;
-		if (args.get(1) instanceof RubyBinding) {
-			binding = (RubyBinding)args.get(1);
-		}
-		
+	static RubyValue eval(RubyString program_text, RubyBinding binding) {
 		RubyCompiler compiler = new RubyCompiler(binding, false);
 		try {
 			CompilationResults codes = compiler.compile(new StringReader(program_text.toString()));
 			RubyProgram p = codes.getRubyProgram();
 			if (null != binding) {
-				return p.run(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
+				return p.invoke(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
 			} else {
-				return p.run();
+				return p.invoke();
 			}
 		} catch (RecognitionException e) {
 			throw new RubyException(e.toString());
@@ -50,6 +43,18 @@ class Kernel_eval extends RubyVarArgMethod {
 		} catch (IllegalAccessException e) {
 			throw new RubyException(e.toString());
 		}
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		
+		RubyString program_text = (RubyString)args.get(0);
+
+		RubyBinding binding = null;
+		if (args.get(1) instanceof RubyBinding) {
+			binding = (RubyBinding)args.get(1);
+		}
+		
+		return eval(program_text, binding);
 	}
 }
 
@@ -245,7 +250,7 @@ class Kernel_require extends RubyOneArgMethod {
 			throw new RubyException(RubyRuntime.LoadErrorClass, "no such file to load -- " + required_file);
 		}
 	
-		p.run();
+		p.invoke();
 		return ObjectFactory.trueValue;
 	}
 }

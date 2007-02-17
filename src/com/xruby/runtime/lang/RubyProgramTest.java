@@ -14,7 +14,7 @@ class TestingProgram extends RubyProgram {
 	
 	public static void main(String[] args) {
 		try {
-			new TestingProgram().run(); 
+			new TestingProgram().invoke(); 
 		} catch (RubyException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +66,7 @@ public class RubyProgramTest extends TestCase {
 		System.setOut(new PrintStream(output));
 		
 		RubyProgram p = new TestingProgram();
-		RubyValue r = p.run();
+		RubyValue r = p.invoke();
 		
 		System.setOut(original);
 		

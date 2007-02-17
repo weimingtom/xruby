@@ -118,7 +118,7 @@ public class RubyRuntime {
 			Class c = Class.forName("builtin.main");
 			Object o = c.newInstance();
 			RubyProgram p = (RubyProgram)o;
-			p.run();
+			p.invoke();
 		} catch (ClassNotFoundException e) {
 		} catch (InstantiationException e) {
 		} catch (IllegalAccessException e) {

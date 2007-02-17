@@ -9,9 +9,14 @@ import com.xruby.runtime.value.*;
 
 public abstract class RubyProgram {
 
-	public RubyValue run() {
-		return run(ObjectFactory.topLevelSelfValue, null, null, RubyRuntime.GlobalScope);
+	public RubyValue invoke() {
+		return invoke(ObjectFactory.topLevelSelfValue, null, null, RubyRuntime.GlobalScope);
+	}
+
+	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope) {
+		RubyRuntime.ObjectClass.setAccessPrivate();/*so that top level method are parive method of Object by default*/
+		return run(receiver, args, block, scope);
 	}
 	
-	public abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope);
+	protected abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope);
 }
