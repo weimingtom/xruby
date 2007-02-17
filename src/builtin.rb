@@ -121,6 +121,18 @@ def self.to_s
 	return "main"
 end
 
+def self.public
+  Object.public
+end
+
+def self.private
+  Object.private
+end
+
+def self.protected
+  Object.protected
+end
+
 def ENV.to_s
   return "ENV"
 end
