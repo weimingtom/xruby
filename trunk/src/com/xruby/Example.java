@@ -36,7 +36,7 @@ public class Example {
 		RubyProgram p = codes.getRubyProgram();
 
 		RubyRuntime.init(args);
-		p.run();
+		p.invoke();
 		RubyRuntime.fini();
 	}
 

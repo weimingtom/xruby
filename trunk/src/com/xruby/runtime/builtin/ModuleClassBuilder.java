@@ -253,6 +253,20 @@ class Module_module_function extends RubyVarArgMethod {
 	}
 }
 
+class Module_module_eval extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (null == args) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "block not supplied");
+		}
+		
+		RubyString program_text = (RubyString)args.get(0);
+		RubyBinding binding = new RubyBinding();
+		binding.setScope((RubyModule)receiver);
+		binding.setSelf(receiver);
+		return Kernel_eval.eval(program_text, binding);
+	}
+}
+
 public class ModuleClassBuilder {
 	
 	public static void initialize() {
@@ -271,6 +285,7 @@ public class ModuleClassBuilder {
 		c.defineMethod("===", new Module_case_equal());
 		c.defineMethod("ancestors", new Module_ancestors());
 		c.defineMethod("module_function", new Module_module_function());
+		c.defineMethod("module_eval", new Module_module_eval());
 
 		c.setAccessPrivate();
 		c.defineMethod("attr_reader", new Module_attr_reader());

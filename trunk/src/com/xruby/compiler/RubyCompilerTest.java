@@ -27,7 +27,7 @@ class CompilerTestCase extends TestCase {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
 				assertTrue(null != codes);
 				RubyProgram p = codes.getRubyProgram();
-				RubyValue v = p.run();
+				RubyValue v = p.invoke();
 				RubyFixnum r = (RubyFixnum)v;
 				assertEquals(results[i], r.intValue());
 			} catch (RubyException e) {
@@ -61,7 +61,7 @@ class CompilerTestCase extends TestCase {
 				CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
 				assertTrue(null != codes);
 				RubyProgram p = codes.getRubyProgram();
-				p.run();
+				p.invoke();
 				assertTrue("Error at " + i + ": should throw RubyException", false);
 			} catch (RubyException e) {
 				if (exceptions[i].getRubyValue().toString() != null) {
@@ -93,7 +93,7 @@ class CompilerTestCase extends TestCase {
 				PrintStream original = System.out;
 				System.setOut(new PrintStream(output));
 
-				p.run();
+				p.invoke();
 				
 				System.setOut(original);
 
@@ -133,7 +133,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		assertTrue(null != codes);
 		RubyProgram p = codes.getRubyProgram();
 		try {
-			p.run();
+			p.invoke();
 		} catch (RubyException e) {
 			RubyValue v = e.getRubyValue();
 			assertEquals(v.getRubyClass(), RubyRuntime.RuntimeErrorClass);
@@ -4523,6 +4523,26 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"-1",
 				"1",
 				"nil",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_Module_module_eval() {
+		String [] program_texts = {
+				"class TestModuleEval2; end\n" +
+				"TestModuleEval2.module_eval('print self')",
+				
+				/*TODO
+				"class TestModuleEval; end\n" +
+				"TestModuleEval.module_eval(%q{def test_module_eval() 123 end})\n" +
+				"print TestModuleEval.new.test_module_eval",
+				*/
+		};
+		
+		String[] outputs = {
+				"TestModuleEval2",
+				//"123",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

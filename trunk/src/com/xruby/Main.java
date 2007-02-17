@@ -99,7 +99,7 @@ public class Main {
 	private static void run(CompilationResults results, String[] args) throws Exception {		
 		RubyProgram p = (RubyProgram)results.getRubyProgram();
 		RubyRuntime.init(args);
-		p.run();
+		p.invoke();
 		RubyRuntime.fini();
 	}
 

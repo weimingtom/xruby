@@ -725,10 +725,7 @@ class MethodGenerator extends GeneratorAdapter {
 	
 	public void RubyModule_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
 		if (!is_singleton_method) {
-			if (!loadCurrentClass()) {
-				dup();				
-				invokeVirtual(Type.getType(RubyClass.class), Method.getMethod("void setAccessPrivate()"));
-			}
+			loadCurrentClass();
 		} else {
 			RubyValue_getSingletonClass();
 		}
