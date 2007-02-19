@@ -93,7 +93,7 @@ class Range_each extends RubyNoArgMethod {
 					ite = r.getLeft();
 					continue;
 				} else {
-					ite = RubyAPI.callPublicMethod(ite, null, "succ");
+					ite = RubyAPI.callPublicMethod(ite, null, null, "succ");
 				}
 			}
 			
