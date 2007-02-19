@@ -222,7 +222,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		RubyString r = ObjectFactory.createString();
 
 		for (RubyValue v : array_) {
-			RubyValue s = RubyAPI.callPublicMethod(v, null, "to_s");
+			RubyValue s = RubyAPI.callPublicMethod(v, null, null, "to_s");
 			r.appendString(s.toString());
 			
             // TODO: The output of to_s is not as the same as cruby, we should solve this issue
