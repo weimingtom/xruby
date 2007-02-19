@@ -24,7 +24,7 @@ public class RubyTypesUtil {
 		} else if (arg instanceof RubyFixnum) {
 			return ObjectFactory.createFloat(((RubyFixnum)arg).intValue());
 		} else {
-			RubyValue v = RubyAPI.callPublicMethod(arg, null, "to_f");
+			RubyValue v = RubyAPI.callPublicMethod(arg, null, null, "to_f");
 			return (RubyFloat)v;
 		}
 	}
