@@ -14,7 +14,7 @@ class IO_write extends RubyOneArgMethod {
 		if (arg instanceof RubyString) {
 			value = (RubyString)arg;
 		} else {
-			RubyValue str = RubyAPI.callPublicMethod(arg, null, "to_s");
+			RubyValue str = RubyAPI.callPublicMethod(arg, null, null, "to_s");
 			value = (RubyString) str;
 		}
 		
