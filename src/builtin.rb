@@ -17,6 +17,10 @@ module Kernel
 	def to_a
 		[self]
 	end
+  
+	def =~ x
+		return false
+	end
 
 	alias require__ require
 	alias load__    load
@@ -66,10 +70,6 @@ end
 class Object
 	def nil?
 		false
-	end
-	
-	def =~
-		return false
 	end
 end
 
