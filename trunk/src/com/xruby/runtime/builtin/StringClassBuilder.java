@@ -109,13 +109,13 @@ class String_to_i extends RubyMethod {
 		int end = value.indexOf('+', 1);
 		int end1 = value.indexOf('-', 1);
 
-		if (end < 0){
-			if (end1 < 0){
+		if (end < 0) {
+			if (end1 < 0) {
 				end = value.length();
-			}else{
+			} else {
 				end = end1;
 			}
-		}else{
+		} else {
 			if (end1 >= 0){
 				end = Math.min(end, end1);
 			}
@@ -123,15 +123,15 @@ class String_to_i extends RubyMethod {
 
 		value = value.substring(0, end);
 
-		if (args == null || args.size() == 0) {
+		if (args.size() == 0) {
 			return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
 		} else {
 			int radix = ((RubyFixnum)args.get(0)).intValue();
 			if (radix >= 2 && radix <= 36){
 				BigInteger bigint;
-				try{
+				try {
 					bigint = new BigInteger(value, radix);
-				}catch(NumberFormatException e){
+				} catch(NumberFormatException e) {
 					return ObjectFactory.fixnum0;
 				}
 				return RubyBignum.bignorm(bigint);
@@ -316,14 +316,10 @@ class String_operator_compare extends RubyOneArgMethod {
 	}
 }
 
-class String_operator_match extends RubyMethod {
-	public String_operator_match() {
-		super(1);
-	}
-	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (args.get(0) instanceof RubyRegexp) {
-			RubyRegexp reg = (RubyRegexp)args.get(0);
+class String_operator_match extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (arg instanceof RubyRegexp) {
+			RubyRegexp reg = (RubyRegexp)arg;
 			int p = reg.matchPosition(((RubyString)receiver).toString()); 
 			if (p >= 0) {
 				return ObjectFactory.createFixnum(p);
@@ -331,7 +327,7 @@ class String_operator_match extends RubyMethod {
 				return ObjectFactory.nilValue;
 			}
 		} else {
-			return RubyAPI.callPublicMethod(args.get(0), receiver, "=~");
+			return RubyAPI.callPublicMethod(arg, receiver, "=~");
 		}
 	}
 }
@@ -610,7 +606,7 @@ class String_tr_s extends RubyMethod {
 class String_squeeze_danger extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString string = (RubyString)receiver;
-		String arg = (null == args ? null : ((RubyString)args.get(0)).toString());
+		String arg = ((args.size() == 0) ? null : ((RubyString)args.get(0)).toString());
 		return string.squeeze(arg) ? string : ObjectFactory.nilValue;
 	}
 }
@@ -618,7 +614,7 @@ class String_squeeze_danger extends RubyVarArgMethod {
 class String_squeeze extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
-		String arg = (null == args ? null : ((RubyString)args.get(0)).toString());
+		String arg = ((args.size() == 0) ? null : ((RubyString)args.get(0)).toString());
 		string.squeeze(arg);
 		return string;
 	}
@@ -626,7 +622,7 @@ class String_squeeze extends RubyVarArgMethod {
 
 class String_delete_danger extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (null == args) {
+		if (args.size() == 0) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
 		}
 		
@@ -638,7 +634,7 @@ class String_delete_danger extends RubyVarArgMethod {
 
 class String_delete extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (null == args) {
+		if (args.size() == 0) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
 		}
 		
