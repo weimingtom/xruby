@@ -119,13 +119,17 @@ public class RubyAPI {
 		return callMethodMissing(receiver, args, block, method_name);
 	}
 
-	//method call with one argument and no block
+	//method call with *one* argument and no block (use the other one if no arg (arg == null)!)
+	//This make code (especially reverse engineered ones) more readable.
 	public static RubyValue callMethod(RubyValue receiver, RubyValue arg, String method_name) {
+		assert(null != arg);
 		return RubyAPI.callMethod(receiver, new RubyArray(arg), null, method_name);
 	}
 
-	//method call with one argument and no block
+	//method call with *one* argument and no block (use the other one if no arg (arg == null)!)
+	//This make code (especially reverse engineered ones) more readable.
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyValue arg, String method_name) {
+		assert(null != arg);
 		return RubyAPI.callPublicMethod(receiver, new RubyArray(arg), null, method_name);
 	}
 
@@ -295,7 +299,7 @@ public class RubyAPI {
 	private static void throwTypeErrorIfNotClassModule(RubyValue receiver) {
 		if (!(receiver instanceof RubyClass) &&
 				!(receiver instanceof RubyModule)) {
-			RubyValue v = RubyAPI.callPublicMethod(receiver, null, "to_s");
+			RubyValue v = RubyAPI.callPublicMethod(receiver, null, null, "to_s");
 			String s = ((RubyString)v).toString();
 			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
 		}
