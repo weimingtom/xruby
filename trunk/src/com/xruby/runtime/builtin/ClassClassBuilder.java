@@ -11,7 +11,7 @@ import com.xruby.runtime.value.*;
 class Class_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
 		RubyClass r = (RubyClass)receiver;
-		RubyValue v = r.invokeAllocMethod(receiver, args, block);
+		RubyValue v = r.invokeAllocMethod(receiver, block);
 		callInitializeMethod(v, args, block);
 		return v;
 	}
