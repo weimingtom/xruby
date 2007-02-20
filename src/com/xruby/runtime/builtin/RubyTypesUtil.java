@@ -54,49 +54,49 @@ public class RubyTypesUtil {
 	}
 	
 	public static int convertToJavaInt(RubyValue arg){
-		if (arg instanceof RubyFixnum){
+		if (arg instanceof RubyFixnum) {
 			return ((RubyFixnum)arg).intValue();
-		}else if (arg instanceof RubyBignum){
+		} else if (arg instanceof RubyBignum) {
 			return ((RubyBignum)arg).getInternal().intValue();
-		}else if (arg instanceof RubyFloat){
+		} else if (arg instanceof RubyFloat) {
 			return (int)((RubyFloat)arg).doubleValue();
-		}else{
+		} else {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
 		}
 	}
 	
 	public static long convertToJavaLong(RubyValue arg){
-		if (arg instanceof RubyFixnum){
+		if (arg instanceof RubyFixnum) {
 			return ((RubyFixnum)arg).intValue();
-		}else if (arg instanceof RubyBignum){
+		} else if (arg instanceof RubyBignum) {
 			return ((RubyBignum)arg).getInternal().longValue();
-		}else if (arg instanceof RubyFloat){
+		} else if (arg instanceof RubyFloat) {
 			return (long)((RubyFloat)arg).doubleValue();
-		}else{
+		} else {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
 		}
 	}
 	
 	public static double convertToJavaDouble(RubyValue arg){
-		if (arg instanceof RubyFixnum){
+		if (arg instanceof RubyFixnum) {
 			return ((RubyFixnum)arg).intValue();
-		}else if (arg instanceof RubyBignum){
+		} else if (arg instanceof RubyBignum) {
 			return ((RubyBignum)arg).getInternal().longValue();
-		}else if (arg instanceof RubyFloat){
+		} else if (arg instanceof RubyFloat) {
 			return ((RubyFloat)arg).doubleValue();
-		}else{
+		} else {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Float");
 		}
 	}
 	
 	public static float convertToJavaFloat(RubyValue arg){
-		if (arg instanceof RubyFixnum){
+		if (arg instanceof RubyFixnum) {
 			return ((RubyFixnum)arg).intValue();
-		}else if (arg instanceof RubyBignum){
+		} else if (arg instanceof RubyBignum) {
 			return ((RubyBignum)arg).getInternal().longValue();
-		}else if (arg instanceof RubyFloat){
+		} else if (arg instanceof RubyFloat) {
 			return (float)((RubyFloat)arg).doubleValue();
-		}else{
+		} else {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Float");
 		}
 	}
