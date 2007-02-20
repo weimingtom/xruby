@@ -503,17 +503,15 @@ class Fixnum_to_s extends RubyMethod {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyFixnum value = (RubyFixnum)receiver;
-		RubyValue radixValue = args.get(0);
 		int radix = 10;
-		
-		if (radixValue != null && radixValue != ObjectFactory.nilValue){
-			radix = RubyTypesUtil.convertToJavaInt(radixValue);
+		if (args.size() == 1) {
+			radix = RubyTypesUtil.convertToJavaInt(args.get(0));
 			if (radix < 2 || radix > 36){
 				throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
 			}
 		}
 		
+		RubyFixnum value = (RubyFixnum)receiver;
 		return ObjectFactory.createString(value.toString(radix));
 	}
 }
