@@ -175,6 +175,12 @@ public class StdlibTest extends CompilerTestCase {
 				"print (include Test::Unit::Assertions)",
 				"print(build_message('xxx'))",
 				"print(build_message('xxx', 'yyy'))",
+				"print AssertionMessage::Template.new(['?']).count",
+				"print AssertionMessage::Template.new(['?']).result([2])",
+				"print AssertionMessage::Template.create('<?>').result([3])",
+				"print AssertionMessage.new('x', '<?>', [1]).add_period('y')",
+				//TODO"print AssertionMessage.new('x', '<?>', [1])",
+				//"print(build_message('xxx', '<?> is not true.', false))",
 				"assert_block {true}",
 		};
 		
@@ -183,6 +189,12 @@ public class StdlibTest extends CompilerTestCase {
 				"Object",
 				"xxx.",
 				"xxx.\nyyy",
+				"1",
+				"2",
+				"<3>",
+				"y.",
+				//"x.\n<1>",
+				//"xxx.\n<false> is not true.",
 				"",
 		};
 		
