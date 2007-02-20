@@ -330,7 +330,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().RubyAPI_operatorNot();
 		} else {
 			cg_.getMethodGenerator().pushNull();
-			cg_.getMethodGenerator().RubyAPI_callPublicMethod_OneArgNoBlcok(operator);
+			cg_.getMethodGenerator().pushNull();
+			cg_.getMethodGenerator().RubyAPI_callPublicMethod(operator);
 		}
 	}
 	
