@@ -78,7 +78,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	}
 	
 	private static String inspect(RubyValue value) {
-		RubyValue v = RubyAPI.callPublicMethod(value, null, "inspect");
+		RubyValue v = RubyAPI.callPublicMethod(value, null, null, "inspect");
 		return ((RubyString)v).toString();
 	}
 	
@@ -90,19 +90,22 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @throws RubyException
 	 */
 	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (argc_ > 0) {
-			int args_length = (null == args) ? 0 : args.size();
-			if (args_length < (argc_ - default_argc_)) {
+		assert(args.size() != 0);//use null if no arg
+
+		//TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect
+		if (argc_ >= 0) {
+			final int args_length = (null == args) ? 0 : args.size();
+			if (0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) {
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args_length + " for " + argc_ + ")");
+			} else if (args_length < (argc_ - default_argc_)) {
 				//number of arguments falls short anyway
 				throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
-			} else if (args_length < argc_ && null == args) {
+			} else if (0 != default_argc_ && null == args) {
 				//need default parameter, allocate one to avoid null reference
 				args = new RubyArray();
 			}
 		}
 		
-		// TODO: verrify argc == 0
-
 		RubyValue v = run(receiver, args, block);
 		if (null != block) {
 			v.setReturnedInBlock(block.returned(), block.breakedOrReturned(), false);

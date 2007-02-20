@@ -69,11 +69,21 @@ class CompilerTestCase extends TestCase {
 				}
 				assertEquals("Exception type mismatch at " + i, exceptions[i].getRubyValue().getRubyClass().getName(), e.getRubyValue().getRubyClass().getName());
 				continue;
-			} catch (Exception e) {
-				assertTrue("Error at " + i + ": should throw RubyException, not exception: " + e.toString(), false);
+			} catch (RecognitionException e) {
+				assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
+			} catch (TokenStreamException e) {
+				assertTrue("TokenStreamException at " + i + ": " + e.toString(), false);
+			} catch (CompilerException e) {
+				assertTrue("CompilerException at " + i + ": " + e.toString(), false);
+			} catch (InstantiationException e) {
+				assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
+			} catch (IllegalAccessException e) {
+				assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
 			} catch (VerifyError e) {
 				assertTrue("VerifyError at " + i + ": " + e.toString(), false);
-			}
+			} /*catch (NullPointerException e) {
+				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
+			}*/
 		}
 	}
 
@@ -260,8 +270,15 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"1.to_i",
 				"0.to_int",
 				"123.to_i.to_int.to_i",
-				"\"500\".to_i"};
-		int[] results = {1, 0, 123, 500};
+				"\"500\".to_i",
+		};
+		
+		int[] results = {
+				1,
+				0,
+				123,
+				500,
+		};
 
 		compile_run_and_compare_result(program_texts, results);
 	}
@@ -3209,6 +3226,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_wrong_number_of_arguments() {
 		String[] program_texts = {
+				"def f(a) end; f 1, 2",
+				"def f() end; f 1",
 				"def f(a) end; f",
 				"def f(a, b, c) end; f(1)",
 				"def f(a, b, c=2) end; f(1)",
@@ -3221,6 +3240,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		RubyException[] exceptions = {
+			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 1)"),
+			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 0)"),
 			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
 			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 3)"),
 			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 2)"),
