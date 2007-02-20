@@ -30,7 +30,7 @@ class Struct_new extends RubyVarArgMethod {
 			c.defineMethod(s + "=", new AttrWriter(s));
 		}
 		
-		c.defineAllocMethod(new RubyMethod(super_args.size() - 1) {
+		c.getSingletonClass().defineMethod("new", new RubyMethod(super_args.size() - 1) {
 				protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 					RubyValue v = new RubyObject((RubyClass)receiver);
 					for (int i = 0; i < args.size(); ++i) {
@@ -97,7 +97,7 @@ class Struct_new extends RubyVarArgMethod {
 public class StructClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StructClass;
-		c.defineAllocMethod(new Struct_new());
+		c.getSingletonClass().defineMethod("new", new Struct_new());
 		//c.defineMethod("to_s", new Struct_to_s());
 	}
 }
