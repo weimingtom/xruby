@@ -28,9 +28,6 @@ class IO_write extends RubyOneArgMethod {
 }
 
 class IO_print extends Kernel_print {
-	public IO_print() {
-	}
-	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		return _run(receiver, args, block);
 	}
