@@ -22,9 +22,14 @@ public class RubyModule extends MethodCollectionWithMixin {
 		return RubyRuntime.ModuleClass;
 	}
 
-	public RubyValue defineMethod(String name, RubyMethod m) {
+	public RubyValue defineModuleMethod(String name, RubyMethod m) {
 		m.setOwner(this);
 		getSingletonClass().addMethod(name, m);
+		return super.addMethod(name, m);
+	}
+
+	public RubyValue defineMethod(String name, RubyMethod m) {
+		m.setOwner(this);
 		return super.addMethod(name, m);
 	}
 
@@ -129,7 +134,7 @@ public class RubyModule extends MethodCollectionWithMixin {
 	}
 
 	public void module_function(String method_name) {
-		RubyMethod m = findMethod(method_name);
+		RubyMethod m = findOwnMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {
 			throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
 		}

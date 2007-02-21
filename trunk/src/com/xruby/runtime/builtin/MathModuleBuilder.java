@@ -33,7 +33,7 @@ class Math_exp extends RubyOneArgMethod {
 public class MathModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.MathModule;
-		m.defineMethod("sqrt", new Math_sqrt());
-		m.defineMethod("exp", new Math_exp());
+		m.defineModuleMethod("sqrt", new Math_sqrt());
+		m.defineModuleMethod("exp", new Math_exp());
 	}
 }
