@@ -277,9 +277,9 @@ class Marshal_load extends RubyOneArgMethod {
 public class MarshalModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.MarshalModule;
-		m.defineMethod("dump", new Marshal_dump());
+		m.defineModuleMethod("dump", new Marshal_dump());
 		RubyMethod load = new Marshal_load();
-		m.defineMethod("load", load);
-		m.defineMethod("restore", load);
+		m.defineModuleMethod("load", load);
+		m.defineModuleMethod("restore", load);
 	}
 }

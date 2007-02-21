@@ -532,6 +532,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"print [5,6,7]",
 				"print [ nil ]",
 				"print [ nil ][0];",
+				
+				"Kernel.print 123",
 		};
 
 		String[] outputs = {
@@ -547,6 +549,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"567",
 				"",
 				"nil",
+				
+				"123",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -3477,7 +3481,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_constant_in_class_module() {
 		String [] program_texts = {
-				//"print Object::Kernel",
+				"print Object::Kernel",
 				"TestConstant = 1999; print ::TestConstant",
 				"::TestConstant0 = 9991; print ::TestConstant0",
 				"module ConstantInModule; ABC = 123; end; print ConstantInModule::ABC",
@@ -3497,7 +3501,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
-				//"Kernel",
+				"Kernel",
 				"1999",
 				"9991",
 				"123",

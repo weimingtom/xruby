@@ -601,16 +601,17 @@ public class KernelModuleBuilder {
 		RubyMethod block_given = new Kernel_block_given();
 		m.defineMethod("iterator?", block_given);
 		m.defineMethod("block_given?", block_given);
-
 		m.defineMethod("Float", new Kernel_Float());
 		m.defineMethod("Integer", new Kernel_Integer());
+
+		m.defineModuleMethod("puts", new Kernel_puts());
+		m.defineModuleMethod("print", new Kernel_print());
+		m.defineModuleMethod("printf", new Kernel_printf());
+		m.defineModuleMethod("p", new Kernel_p());
+		m.defineModuleMethod("gets", new Kernel_gets());
 		
 		m.setAccessPrivate();
 		m.defineMethod("binding", new Kernel_binding());
-		m.defineMethod("puts", new Kernel_puts());
-		m.defineMethod("print", new Kernel_print());
-		m.defineMethod("printf", new Kernel_printf());
-		m.defineMethod("p", new Kernel_p());
 		m.defineMethod("method_missing", new Kernel_method_missing());
 		m.defineMethod("eval", new Kernel_eval());
 		m.defineMethod("require", new Kernel_require());
@@ -623,7 +624,6 @@ public class KernelModuleBuilder {
 		m.defineMethod("gsub", new Kernel_gsub());
 		m.defineMethod("gsub!", new Kernel_gsub_danger());
 		m.defineMethod("sub", new Kernel_gsub());//TODO sub != gsub
-		m.defineMethod("gets", new Kernel_gets());//TODO sub != gsub
 		m.setAccessPublic();
 
 		RubyRuntime.ObjectClass.includeModule(m);
