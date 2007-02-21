@@ -76,8 +76,8 @@ class Module_private_class_method extends RubyVarArgMethod {
 	}
 }
 
-class Module_name extends RubyVarArgMethod {	
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Module_name extends RubyNoArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyModule m = (RubyModule)receiver;
 		RubyString s = ObjectFactory.createString();
 		m.to_s(s);
