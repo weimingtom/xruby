@@ -230,6 +230,15 @@ class Numeric
 		return self % value if self_sign == value_sign
 		self % (-value)
 	end
+  
+  def step(limit, step)
+    i = self
+    while i < limit
+      yield i
+      i += step
+    end
+  end
+  
 end
 
 class Integer < Numeric
