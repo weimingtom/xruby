@@ -171,7 +171,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	}
 	
 	public RubyArray subarray(int begin, int length) {
-		int arraySize = array_.size();
+		final int arraySize = array_.size();
 		if (begin > arraySize) {
 			return null;
 		}
@@ -181,7 +181,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		}
 
 		if (begin < 0) {
-			begin += array_.size();
+			begin += arraySize;
 		}
 
 		if (begin + length > arraySize) {
