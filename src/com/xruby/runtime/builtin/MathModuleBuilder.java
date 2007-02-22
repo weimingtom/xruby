@@ -10,101 +10,114 @@ import com.xruby.runtime.value.*;
 
 class Math_sqrt extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.sqrt(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.sqrt(x));
 	}
 }
 
 class Math_log extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.log(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.log(x));
 	}
 }
 
 class Math_log10 extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.log10(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.log10(x));
 	}
 }
 
 
 class Math_exp extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.exp(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.exp(x));
 	}
 }
 
 class Math_cos extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.cos(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.cos(x));
 	}
 }
 
 class Math_sin extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.sin(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.sin(x));
 	}
 }
 
 class Math_tan extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.tan(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.tan(x));
 	}
 }
 
 class Math_cosh extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.cosh(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.cosh(x));
 	}
 }
 
 class Math_sinh extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.sinh(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.sinh(x));
 	}
 }
 
 class Math_tanh extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.tanh(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.tanh(x));
 	}
 }
 
 class Math_acos extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.acos(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.acos(x));
 	}
 }
 
-/*
 class Math_acosh extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.acosh(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.log(x + Math.sqrt(x * x - 1.0)));
 	}
-}*/
+}
 
 class Math_asin extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.asin(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.asin(x));
+	}
+}
+
+class Math_asinh extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.log(x + Math.sqrt(x * x + 1.0)));
 	}
 }
 
 class Math_atan extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		double d = RubyTypesUtil.convertToJavaDouble(arg);
-		return ObjectFactory.createFloat(Math.atan(d));
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.atan(x));
+	}
+}
+
+class Math_atanh extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		double x = RubyTypesUtil.convertToJavaDouble(arg);
+		return ObjectFactory.createFloat(Math.log((1.0 + x) / (1.0 - x)) / 2.0);
 	}
 }
 
@@ -133,9 +146,11 @@ public class MathModuleBuilder {
 		m.defineModuleMethod("sinh", new Math_sinh());
 		m.defineModuleMethod("tanh", new Math_tanh());
 		m.defineModuleMethod("acos", new Math_acos());
-		//m.defineModuleMethod("acosh", new Math_acosh());
+		m.defineModuleMethod("acosh", new Math_acosh());
 		m.defineModuleMethod("asin", new Math_asin());
+		m.defineModuleMethod("asinh", new Math_asinh());
 		m.defineModuleMethod("atan", new Math_atan());
+		m.defineModuleMethod("atanh", new Math_atanh());
 		m.defineModuleMethod("atan2", new Math_atan2());
 	}
 }
