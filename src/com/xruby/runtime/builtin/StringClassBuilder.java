@@ -352,11 +352,7 @@ class String_access extends RubyMethod {
 				RubyRange range = (RubyRange)arg;
 				int start = RubyTypesUtil.convertToJavaInt(range.getLeft());
 				int end = RubyTypesUtil.convertToJavaInt(range.getRight());
-				if (!range.isExcludeEnd()){
-					end += 1;
-				}
-				
-				return ObjectFactory.createString(substring(string, start, end));
+				return substring(string, start, end, range.isExcludeEnd());
 			} else if(arg instanceof RubyRegexp) {
 				RubyRegexp regexp = (RubyRegexp)arg;
 				RubyMatchData match = regexp.match(string);
@@ -379,27 +375,31 @@ class String_access extends RubyMethod {
 			}
 		} else {
 			int start = RubyTypesUtil.convertToJavaInt(args.get(0));
-			int end = RubyTypesUtil.convertToJavaInt(args.get(1));
+			int length = RubyTypesUtil.convertToJavaInt(args.get(1));
 			
-			return ObjectFactory.createString(substring(string, start, end));
+			return substring(string, start, start + length, false);
 		}
 	}
 	
-	private String substring(String string, int begin, int end){
+	private RubyValue substring(String string, int begin, int end, boolean isExcludeEnd){
 
-		if (begin < 0){
-			begin = 0;
-		}else if(begin > string.length()){
-			begin = string.length();
+		if (begin < 0) {
+			begin = string.length() + begin;
 		}
 		
-		if (end < begin){
-			end = begin;
-		}else if (end > string.length()){
-			end = string.length();
+		if (end < 0) {
+			end = string.length() + end;
+		}
+
+		if (!isExcludeEnd){
+			++end;
 		}
 		
-		return string.substring(begin, end);
+		if (begin >= end || begin > string.length() || end > string.length()) {
+			return ObjectFactory.nilValue;
+		}
+		
+		return ObjectFactory.createString(string.substring(begin, end));
 	}
 }
 
@@ -423,7 +423,7 @@ class String_access_set extends RubyMethod {
 				start = string.indexOf(str);
 				if (start >= 0){
 					end = start + str.length();
-				}else{
+				} else {
 					throw new RubyException(RubyRuntime.IndexErrorClass, "string not matched");
 				}
 			}else if(arg instanceof RubyRange){
@@ -440,19 +440,19 @@ class String_access_set extends RubyMethod {
 					String matched = match.to_s();
 					start = string.indexOf(matched);
 					end = matched.length() + start;
-				}else{
+				} else {
 					throw new RubyException(RubyRuntime.IndexErrorClass, "regexp not matched");
 				}				
-			}else{
+			} else {
 				start = RubyTypesUtil.convertToJavaInt(arg);
 				end = start + 1;
 			}
-		}else{
+		} else {
 			replacement = ((RubyString)args.get(2)).toString();
 			
 			start = RubyTypesUtil.convertToJavaInt(args.get(1));
 			end = RubyTypesUtil.convertToJavaInt(args.get(2));
-			if (start >= string.length()){
+			if (start >= string.length()) {
 				throw new RubyException(RubyRuntime.RangeClass, String.format("index %d out of string", start));
 			}
 		}
