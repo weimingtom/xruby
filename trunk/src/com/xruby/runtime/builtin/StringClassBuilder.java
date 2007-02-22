@@ -653,6 +653,13 @@ class String_unpack extends RubyOneArgMethod {
 	}
 }
 
+class String_concat extends RubyOneArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyString s = (RubyString)receiver;
+		return s.appendString(arg);
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
@@ -696,6 +703,9 @@ public class StringClassBuilder {
 		c.defineMethod("delete!", new String_delete_danger());
 		c.defineMethod("delete", new String_delete());
 		c.defineMethod("unpack", new String_unpack());
+		RubyMethod concat = new String_concat();
+		c.defineMethod("concat", concat);
+		c.defineMethod("<<", concat);
 		c.defineAllocMethod(new String_new());
 	}
 }

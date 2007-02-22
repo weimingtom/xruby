@@ -4279,6 +4279,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_String_misc() {
 		String [] program_texts = {
+				"a = 'a'; print a << 'b', a",
 				"print 'complex.rb'[-3..-1]",
 				"print 'complex.rb'[-3, -1]",
 				"print 'yyy'.inspect",
@@ -4306,6 +4307,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"abab",
 				".rb",
 				"nil",
 				"\"yyy\"",
