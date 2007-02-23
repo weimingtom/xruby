@@ -175,8 +175,13 @@ class Kernel_method_missing extends RubyVarArgMethod {
 class Kernel_raise extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (null == args) {
-			//TODO With no arguments, raises the exception in $! or raises a RuntimeError if $! is nil.
-			throw new RubyException("not implemented!");
+			//With no arguments, raises the exception in $! or raises a RuntimeError if $! is nil.
+			RubyValue v = GlobalVariables.get("$!");
+			if (ObjectFactory.nilValue != v) {
+				throw new RubyException((RubyClass)v, ""); 
+			} else {
+				throw new RubyException(RubyRuntime.RuntimeErrorClass, "");
+			}
 		} else if (1 == args.size() && (args.get(0) instanceof RubyString)) {
 			//With a single String argument, raises a RuntimeError with the string as a message.
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, ((RubyString)args.get(0)).toString());
