@@ -238,6 +238,24 @@ public class StdlibTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}*/
 	
+	public void test_complex() {
+		String[] program_texts = {
+				"require 'complex.rb'",
+				"print Complex.generic?(1)",
+				"print Complex.new(0,2)",
+				"print Complex::I",
+		};
+		
+		String[] outputs = {
+				"",
+				"true",
+				"2i",
+				"1i",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
 	public void test_rational() {
 		String[] program_texts = {
 				"require 'rational'",
