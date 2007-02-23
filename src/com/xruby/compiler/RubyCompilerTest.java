@@ -873,6 +873,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_assign() {
 		String[] program_texts = {
+				"a = true ? 1 : 2; print a",
 				"a = b = 12\n" +
 				"print a\n",
 
@@ -899,6 +900,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"1",
 				"12",
 				//"xxx",
 				"999",
@@ -2250,6 +2252,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_scope() {
 		String[] program_texts = {
+				//"a = 5; 1.times {print a; 1.times {print a}}",
+				
 				"begin   \n" +
 				"     for k,v in true\n" +
 				"     end\n" +
@@ -2271,6 +2275,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				//"55",
+				
 				"nil",
 				"nil",
 				"nil",
