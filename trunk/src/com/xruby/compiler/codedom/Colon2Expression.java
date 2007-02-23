@@ -37,4 +37,13 @@ public class Colon2Expression extends VariableExpression {
 		}
 	}
 
+	public void acceptAsDefined(CodeVisitor visitor) {
+		if (null != left_) {
+			left_.accept(visitor);
+			visitor.visitDefinedConstant(name_);
+		} else {
+			visitor.visitDefinedTopLevelConstant(name_);
+		}
+	}
+
 }

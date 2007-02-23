@@ -644,6 +644,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefinedMethod(com.xruby.runtime.lang.RubyValue, String)"));
 	}
 
+	public void RubyAPI_isDefinedCurrentNamespaceConstant(String name) {
+		push(name);
+		invokeStatic(Type.getType(RubyAPI.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue isDefinedCurrentNamespaceConstant(com.xruby.runtime.lang.RubyModule, String)"));
+	}
+
 	public void RubyAPI_isDefinedSuperMethod(String name) {
 		push(name);
 		loadThis();

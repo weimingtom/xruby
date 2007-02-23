@@ -27,9 +27,10 @@ public class DefinedExpression extends Expression {
 			visitor.visitStringExpression("nil");
 		} else if (expression_ instanceof GlobalVariableExpression) {
 			visitor.visitStringExpression("global-variable");
-		} else if (expression_ instanceof CurrentNamespaceConstantExpression ||
-				(expression_ instanceof Colon2Expression)) {
-			visitor.visitStringExpression("constant");
+		} else if (expression_ instanceof CurrentNamespaceConstantExpression) {
+			((CurrentNamespaceConstantExpression)expression_).acceptAsDefined(visitor);
+		} else if (expression_ instanceof Colon2Expression) {
+			((Colon2Expression)expression_).acceptAsDefined(visitor);
 		} else if (expression_ instanceof TrueExpression) {
 			visitor.visitStringExpression("true");
 		} else if (expression_ instanceof FalseExpression) {

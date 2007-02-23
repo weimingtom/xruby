@@ -11,6 +11,7 @@ import java.math.BigInteger;
 import java.util.*;
 import com.xruby.compiler.codedom.*;
 import com.xruby.runtime.lang.RubyBinding;
+import com.xruby.runtime.lang.RubyRuntime;
 
 public class RubyCompilerImpl implements CodeVisitor {
 	
@@ -826,13 +827,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			return;
 		}
 
-		if (cg_.isInClassBuilder()) {
-			cg_.getMethodGenerator().loadCurrentClass();
-		} else {
-			visitSelfExpression();
-			cg_.getMethodGenerator().RubyValue_getRubyClass();
-		}
-
+		loadCurrentScope();
 		cg_.getMethodGenerator().RubyAPI_getCurrentNamespaceConstant(name);
 	}
 
@@ -846,15 +841,29 @@ public class RubyCompilerImpl implements CodeVisitor {
 			return;
 		} else if (cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(name)) {
 			return;
-		} else if (isInGlobalScope()) {
+		} 
+
+		loadTopScope();
+		cg_.getMethodGenerator().RubyAPI_getCurrentNamespaceConstant(name);
+	}
+
+	private void loadTopScope() {
+		if (isInGlobalScope()) {
 			cg_.getMethodGenerator().loadArg(3);
-			cg_.getMethodGenerator().RubyAPI_getCurrentNamespaceConstant(name);
 		} else {
 			cg_.getMethodGenerator().RubyRuntime_GlobalScope();
-			cg_.getMethodGenerator().RubyAPI_getCurrentNamespaceConstant(name);
 		}
 	}
 
+	private void loadCurrentScope() {
+		if (cg_.isInClassBuilder()) {
+			cg_.getMethodGenerator().loadCurrentClass();
+		} else {
+			visitSelfExpression();
+			cg_.getMethodGenerator().RubyValue_getRubyClass();
+		}
+	}
+		
 	public void visitCurrentNamespaceConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assign) {
 		if (isInGlobalScope()) {
 			visitTopLevelConstantAssignmentOperator(name, rhs_is_method_call, is_multiple_assign);
@@ -881,6 +890,30 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().RubyAPI_isDefinedPublicMethod(name);
 	}
 
+	public void visitDefinedCurrentNamespaceConstant(String name) {
+		if (RubyRuntime.isBuiltinClass(name) || RubyRuntime.isBuiltinModule(name)) {
+			visitStringExpression("constant");
+			return;
+		}
+		
+		loadCurrentScope();
+		cg_.getMethodGenerator().RubyAPI_isDefinedCurrentNamespaceConstant(name);
+	}
+
+	public void visitDefinedTopLevelConstant(String name) {
+		if (RubyRuntime.isBuiltinClass(name) || RubyRuntime.isBuiltinModule(name)) {
+			visitStringExpression("constant");
+			return;
+		}
+		
+		loadTopScope();
+		cg_.getMethodGenerator().RubyAPI_isDefinedCurrentNamespaceConstant(name);
+	}
+	
+	public void visitDefinedConstant(String name) {
+		cg_.getMethodGenerator().RubyAPI_isDefinedCurrentNamespaceConstant(name);
+	}
+		
 	public void visitDefinedMethod(String name) {
 		cg_.getMethodGenerator().RubyAPI_isDefinedMethod(name);
 	}
