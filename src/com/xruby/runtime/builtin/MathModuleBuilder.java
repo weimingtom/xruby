@@ -132,6 +132,17 @@ class Math_atan2 extends RubyMethod {
 	}
 }
 
+class Math_hypot extends RubyMethod {
+	public Math_hypot() {
+		super(2);
+	}
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		double y = RubyTypesUtil.convertToJavaDouble(args.get(0));
+		double x = RubyTypesUtil.convertToJavaDouble(args.get(1));
+		return ObjectFactory.createFloat(Math.hypot(y, x));
+	}
+}
+
 public class MathModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.MathModule;
@@ -152,5 +163,6 @@ public class MathModuleBuilder {
 		m.defineModuleMethod("atan", new Math_atan());
 		m.defineModuleMethod("atanh", new Math_atanh());
 		m.defineModuleMethod("atan2", new Math_atan2());
+		m.defineModuleMethod("hypot", new Math_hypot());
 	}
 }
