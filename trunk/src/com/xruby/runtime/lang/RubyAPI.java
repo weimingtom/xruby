@@ -272,8 +272,8 @@ public class RubyAPI {
 		return v;
 	}
 
-	public static RubyValue isDefinedCurrentNamespaceConstant(RubyModule receiver, String name) {
-		RubyValue v = receiver.getConstant(name);
+	public static RubyValue isDefinedCurrentNamespaceConstant(RubyValue receiver, String name) {
+		RubyValue v = ((RubyModule)receiver).getConstant(name);
 		if (null == v) {
 			return ObjectFactory.nilValue;
 		}
