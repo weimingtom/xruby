@@ -126,7 +126,8 @@ public class GlobalVariables {
 	public static void throwNameError(String name) {
 		throw new RubyException(RubyRuntime.NameErrorClass, name + " is a read-only variable");
 	}
-	
+
+	//TODO '$! = 2'  should raise exception: assigning non-exception to $! (TypeError)
 	public static RubyValue set(RubyValue value, String name) {
 		assert('$' == name.charAt(0));
 		values_.put(name, value);
