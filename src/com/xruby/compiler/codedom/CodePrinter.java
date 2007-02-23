@@ -19,7 +19,21 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(name);
 		result_.append("\n");
 	}
+	
+	public void visitDefinedConstant(String name) {
+		result_.append("defined? ");
+		result_.append(name);
+		result_.append("\n");
+	}
 
+	public void visitDefinedCurrentNamespaceConstant(String name) {
+		visitDefinedConstant(name);
+	}
+
+	public void visitDefinedTopLevelConstant(String name) {
+		visitDefinedConstant(name);
+	}
+	
 	public void visitDefinedMethod(String name) {
 		result_.append("defined? ");
 		result_.append(name);

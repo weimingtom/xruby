@@ -29,6 +29,9 @@ public interface CodeVisitor extends ISymbolTable {
 	
 	public void visitDefinedPublicMethod(String name);
 	public void visitDefinedMethod(String name);
+	public void visitDefinedConstant(String name);
+	public void visitDefinedCurrentNamespaceConstant(String name);
+	public void visitDefinedTopLevelConstant(String name);
 	public void visitDefinedSuperMethod();
 	public void visitDefinedYield();
 	public void visitDefinedLocalVariable(String name);

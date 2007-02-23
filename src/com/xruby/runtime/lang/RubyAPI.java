@@ -86,7 +86,7 @@ public class RubyAPI {
 		
 		return ObjectFactory.createString("method");
 	}
-
+	
 	public static RubyValue isDefinedYield(RubyBlock block) {
 		if (null == block) {
 			return ObjectFactory.nilValue;
@@ -270,6 +270,15 @@ public class RubyAPI {
 		}
 		
 		return v;
+	}
+
+	public static RubyValue isDefinedCurrentNamespaceConstant(RubyModule receiver, String name) {
+		RubyValue v = receiver.getConstant(name);
+		if (null == v) {
+			return ObjectFactory.nilValue;
+		}
+		
+		return ObjectFactory.createString("constant");
 	}
 
 	public static RubyValue getConstant(RubyValue receiver, String name) {

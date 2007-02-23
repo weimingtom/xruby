@@ -2409,6 +2409,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"$x=1; print defined?($x)",
 				"print defined?(Array)",
 				"print defined?(::Kernel)",
+				"print defined?(NO_SUCH_CONSTANT_XXX)",
+				"print defined?(Kernel::NO_SUCH_CONSTANT_XXX)",
 				"print defined?(1 == 2)",
 				
 				"print defined? nil",
@@ -2445,6 +2447,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"global-variable",
 				"constant",
 				"constant",
+				"nil",
+				"nil",
 				"method",
 				
 				"nil",
