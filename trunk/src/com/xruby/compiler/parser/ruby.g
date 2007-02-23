@@ -247,8 +247,8 @@ symbol
 		;
 
 /*
- *Operator expressions
- *lowest->
+ * operator expression precedence
+ * lowest->
  *		and or
  *		not
  *		? :
@@ -267,7 +267,7 @@ symbol
  *		**
  *		[]
  *		::
- *highest<-
+ * highest<-
  */
 
 expression
@@ -324,7 +324,7 @@ assignmentExpression
 				|	LOGICAL_AND_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
 				|	LOGICAL_OR_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
 				)
-				assignmentExpression
+				ternaryIfThenElseExpression
 			)*
 		;
 
