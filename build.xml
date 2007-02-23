@@ -98,7 +98,7 @@
 	</target>
 
 	<target name="test" depends="dist" description="test" >
-		<junit printsummary="yes" haltonfailure="no">
+		<junit haltonfailure="no">
 			<classpath>
 				<pathelement location="${antlr.jar}" />
 				<pathelement location="${asm.jar}" />
