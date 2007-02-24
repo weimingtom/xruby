@@ -1200,6 +1200,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"  print \"catch\"\n" +
 				"end",
 				
+				"begin raise Exception.new, 'zzz'\n" +
+				"rescue Exception=> e; print e; end",
+				
 		};
 
 		String[] outputs = {
@@ -1212,6 +1215,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"!!!!",
 				"test",
 				"catch",
+				"zzz",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
