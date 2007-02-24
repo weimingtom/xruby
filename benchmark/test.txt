@@ -1,0 +1,54 @@
+ Volume in drive C has no label.
+ Volume Serial Number is 9AC7-2E86
+
+ Directory of C:\Users\yong\workspace\xruby\benchmark
+
+02/23/2007  07:46 AM    <DIR>          .
+02/23/2007  07:46 AM    <DIR>          ..
+02/20/2007  05:04 PM               310 bm_app_answer.rb          --fail StackOverflowError
+02/20/2007  05:04 PM                89 bm_app_factorial.rb       --fail StackOverflowError
+02/20/2007  05:04 PM                78 bm_app_fib.rb             --ok
+02/20/2007  05:04 PM               276 bm_app_mandelbrot.rb       ?
+02/20/2007  05:04 PM             4,044 bm_app_pentomino.rb        ?
+02/20/2007  05:04 PM                63 bm_app_raise.rb             --ok
+02/20/2007  05:04 PM                55 bm_app_strconcat.rb        --ok
+02/20/2007  05:04 PM               146 bm_app_tak.rb        --ok
+02/20/2007  05:04 PM               162 bm_app_tarai.rb        --ok
+02/20/2007  05:04 PM                20 bm_loop_times.rb       --ok
+02/20/2007  05:04 PM                53 bm_loop_whileloop.rb  --ok
+02/20/2007  05:04 PM                51 bm_loop_whileloop2.rb  --ok
+02/20/2007  05:04 PM               315 bm_so_ackermann.rb      --fail StackOverflowError
+02/20/2007  05:04 PM               409 bm_so_array.rb         --ok
+02/20/2007  05:04 PM               330 bm_so_concatenate.rb        --ok
+02/20/2007  05:04 PM               488 bm_so_count_words.rb   --fail 
+02/20/2007  05:04 PM               872 bm_so_exception.rb     --ok
+02/20/2007  05:04 PM               999 bm_so_lists.rb         --fail  VerifyError
+02/20/2007  05:04 PM             1,010 bm_so_matrix.rb        --fail
+02/20/2007  05:04 PM               457 bm_so_nested_loop.rb   --fail
+02/20/2007  05:04 PM               992 bm_so_object.rb       --ok
+02/20/2007  05:04 PM               284 bm_so_random.rb       --ok
+02/20/2007  05:04 PM               394 bm_so_sieve.rb       --ok
+02/20/2007  05:04 PM                74 bm_vm1_block.rb      --ok
+02/20/2007  05:04 PM                85 bm_vm1_const.rb      --ok
+02/20/2007  05:04 PM               104 bm_vm1_ensure.rb     --ok
+02/20/2007  05:04 PM                94 bm_vm1_length.rb     --ok
+02/20/2007  05:04 PM                70 bm_vm1_rescue.rb     --ok
+02/20/2007  05:04 PM                73 bm_vm1_simplereturn.rb     --ok
+02/20/2007  05:04 PM                74 bm_vm1_swap.rb   --fail  VerifyError
+02/20/2007  05:04 PM                79 bm_vm2_array.rb    --ok
+02/20/2007  05:04 PM                93 bm_vm2_method.rb    --ok
+02/20/2007  05:04 PM               212 bm_vm2_poly_method.rb       --ok
+02/20/2007  05:04 PM               213 bm_vm2_poly_method_ov.rb    --ok
+02/20/2007  05:04 PM                98 bm_vm2_proc.rb             --ok
+02/20/2007  05:04 PM                85 bm_vm2_regexp.rb           --ok
+02/20/2007  05:04 PM               104 bm_vm2_send.rb            --ok
+02/20/2007  05:04 PM               152 bm_vm2_super.rb            --ok
+02/20/2007  05:04 PM                81 bm_vm2_unif1.rb            --ok
+02/20/2007  05:04 PM               157 bm_vm2_zsuper.rb            --ok
+02/20/2007  05:04 PM                70 bm_vm3_thread_create_join.rb   --fail
+02/20/2007  05:04 PM             1,329 report.rb
+02/20/2007  05:04 PM             2,321 run.rb
+02/20/2007  05:04 PM               465 runc.rb
+02/23/2007  07:46 AM                 0 test.txt
+              45 File(s)         17,930 bytes
+               2 Dir(s)  91,898,576,896 bytes free
