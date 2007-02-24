@@ -186,11 +186,13 @@ class Kernel_raise extends RubyVarArgMethod {
 			//With a single String argument, raises a RuntimeError with the string as a message.
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, ((RubyString)args.get(0)).toString());
 		} else {
-			//TODO Otherwise, the first parameter should be the name of an Exception class
+			//Otherwise, the first parameter should be the name of an Exception class
 			//(or an object that returns an Exception when sent exception). The optional second
 			//parameter sets the message associated with the exception, and the third parameter
 			//is an array of callback information.
-			throw new RubyException("not implemented!");
+			RubyExceptionValue v = (RubyExceptionValue)args.get(0);
+			v.setMessage(1 == args.size() ? "" : ((RubyString)args.get(1)).toString());
+			throw new RubyException(v);
 		}
 	}
 }
