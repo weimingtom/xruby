@@ -30,6 +30,28 @@ public class ObjectFactory {
 	public static final RubyFixnum fixnum9 = new RubyFixnum(9);
 	public static final RubyFixnum fixnum10 = new RubyFixnum(10);
 
+	private static final int CACHE_SIZE = 1024;/*cache 0...CACHE_SIZE*/
+
+	private static class FixnumCache {
+		private FixnumCache(){}
+		
+		static final RubyFixnum cache[] = new RubyFixnum[CACHE_SIZE];
+		
+		static {
+			for (int i = 0; i < CACHE_SIZE; i++) {
+				cache[i] = new RubyFixnum(i);
+			}
+		}
+	}
+
+	public static RubyFixnum createFixnum(int value) {
+		if (value >= 0 && value < CACHE_SIZE) {
+		    return FixnumCache.cache[value];
+		}
+		
+		return new RubyFixnum(value);
+	}
+	
 	public static RubyString createString(String value) {
 		return new RubyString(value);
 	}
@@ -52,27 +74,6 @@ public class ObjectFactory {
 	
 	public static RubySymbol createSymbol(String value) {
 		return new RubySymbol(value);
-	}
-	
-	private static class FixnumCache {
-		private FixnumCache(){}
-		
-		static final RubyFixnum cache[] = new RubyFixnum[-(-128) + 127 + 1];
-		
-		static {
-			for(int i = 0; i < cache.length; i++) {
-				cache[i] = new RubyFixnum(i - 128);
-			}
-		}
-	}
-
-	public static RubyFixnum createFixnum(int value) {		
-		final int offset = 128;
-		if (value >= -128 && value <= 127) { // must cache 
-		    return FixnumCache.cache[value + offset];
-		}
-		
-		return new RubyFixnum(value);
 	}
 
 	public static RubyFloat createFloat(double value) {
