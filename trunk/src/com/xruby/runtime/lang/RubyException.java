@@ -9,9 +9,7 @@ package com.xruby.runtime.lang;
  * Anything that goes wrong at runtime.
  */
 public class RubyException extends RuntimeException {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	private RubyExceptionValue value_ = null;
@@ -19,7 +17,7 @@ public class RubyException extends RuntimeException {
 	public RubyException(String message) {
 		this(RubyRuntime.ExceptionClass, message);
 	}
-	
+
 	public RubyException(RubyClass exception_class, String message) {
 		value_ = new RubyExceptionValue(exception_class, message);
 	}
