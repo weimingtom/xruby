@@ -446,13 +446,13 @@ public class RubyCompilerTest extends CompilerTestCase {
 		String[] outputs = {
 				"nil",
 				"2",
-				"[1, 3]",
-				"[1]",
-				"[[1, 2]]",
-				"[1, 2]",
-				"[1, 2, 3]",
-				"[2, 3]",
-				"[2]",
+				"[1, 3]\n",
+				"[1]\n",
+				"[[1, 2]]\n",
+				"[1, 2]\n",
+				"[1, 2, 3]\n",
+				"[2, 3]\n",
+				"[2]\n",
 				"true",
 				"1123236",
 				
@@ -512,7 +512,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
-				"[1, [3, 4], 2]",
+				"[1, [3, 4], 2]\n",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -1868,8 +1868,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
-				"[3, 6, 9]",
-				"[3]",
+				"[3, 6, 9]\n",
+				"[3]\n",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -2758,7 +2758,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
-				"[1, 2]",
+				"[1, 2]\n",
 				"1",
 				"34",
 				"21",
@@ -4296,7 +4296,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
-				"[\"a\", \"b\", \"c\"]",
+				"[\"a\", \"b\", \"c\"]\n",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -4336,7 +4336,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				".rb",
 				"nil",
 				"\"yyy\"",
-				"\"xxx\"",
+				"\"xxx\"\n",
 				
 				"truefalse",
 				"120",

@@ -72,10 +72,12 @@ class Kernel_puts extends RubyVarArgMethod {
 				System.out.println("nil");
 			} else if (arg instanceof RubyString){
 				RubyString value = (RubyString)arg;
+				value.appendString("\n");
 				System.out.println(value.toString());
 			} else {
 				RubyValue str = RubyAPI.callPublicMethod(arg, null, null, "to_s");
 				RubyString value = (RubyString)str;
+				value.appendString("\n");
 				System.out.println(value.toString());
 			}
 		}
@@ -142,6 +144,7 @@ class Kernel_p extends RubyVarArgMethod {
 			for (RubyValue arg : args) {
 				RubyValue str = RubyAPI.callPublicMethod(arg, null, null, "inspect");
 				RubyString value = (RubyString)str;
+				value.appendString("\n");
 				System.out.print(value.toString());
 			}
 		}
