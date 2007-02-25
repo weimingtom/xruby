@@ -13,13 +13,21 @@ import java.util.*;
  *
  */
 public class RubyHash extends RubyBasic {
-	private Map<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
-	private List<RubyValue> keys_ = new ArrayList<RubyValue>();// To ensure the order, for 'shift' ect
+	private HashMap<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
+	private ArrayList<RubyValue> keys_ = new ArrayList<RubyValue>();// To ensure the order, for 'shift' ect
 	private RubyValue default_value_ = ObjectFactory.nilValue;
 	private RubyBlock default_value_as_block_ = null;
 
 	RubyHash() {
 		super(RubyRuntime.HashClass);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public RubyHash clone() {
+		RubyHash h = (RubyHash)super.clone();
+		h.map_ = (HashMap<RubyValue, RubyValue>)map_.clone();
+		h.keys_ = (ArrayList<RubyValue>)keys_.clone();
+		return h;
 	}
 
 	// Getter and Setter for default value
