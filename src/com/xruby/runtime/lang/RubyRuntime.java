@@ -137,6 +137,7 @@ public class RubyRuntime {
 		RubyAPI.setTopLevelConstant(ObjectFactory.falseValue, "FALSE");
 		RubyAPI.setTopLevelConstant(ObjectFactory.nilValue, "NIL");
 		RubyAPI.setTopLevelConstant(new RubyObject(RubyRuntime.ObjectClass), "ENV");
+		RubyAPI.setTopLevelConstant(ObjectFactory.createString("1.8.5"), "RUBY_VERSION");
 		
 		TopLevelSelfInitializer.initialize();
 
