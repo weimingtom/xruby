@@ -418,6 +418,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Array_misc() {
 		String[] program_texts = {
+				"a = [1, 2]; b = a.dup; b.shift; p a, b",
 				"print [1, 3].delete(2)",
 				"print [1, 2, 3].delete(2)",
 				"a = [1, 2, 3, 2]; a.delete(2); p a",
@@ -444,6 +445,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"[1, 2]\n[2]\n",
 				"nil",
 				"2",
 				"[1, 3]\n",
@@ -1895,8 +1897,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_hash() {
 		String[] program_texts = {
-				//TODO "print {}",
-				//"h1 = {'a' => 'xxxx', 'b' => 'yyyy'}; print h1",
+				"a = {1, 2}; b = a.dup; b.shift; print a, b",
+				
+				"print {}",
+				"h1 = {'a' => 'xxxx', 'b' => 'yyyy'}; print h1",
 				
 				"h1 = Hash.new { |hash1, key1| hash1[key1] = 'xx' }; print h1[123]",
 				"a = Hash.new{|h, k|k}; print a[99], a[88]",
@@ -1913,8 +1917,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
-				//"nil",
-				//"axxxxbyyyy",
+				"12",
+				
+				"nil",
+				"axxxxbyyyy",
 				
 				"xx",
 				"9988",

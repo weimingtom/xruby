@@ -41,6 +41,13 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		this.is_not_single_asterisk_ = isNotSingleAsterisk;
 	}
 
+	@SuppressWarnings("unchecked")
+	public RubyArray clone() {
+		RubyArray v = (RubyArray)super.clone();
+		v.array_ = (ArrayList<RubyValue>)array_.clone();
+		return v;
+	}
+
 	public boolean isNotSingleAsterisk() {
 		return this.is_not_single_asterisk_;
 	}
