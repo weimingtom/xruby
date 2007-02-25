@@ -613,7 +613,7 @@ returns [MethodDefinationExpression e]
 }
 		:	#("def"
 				(name=methodName	{e = new MethodDefinationExpression(name);}
-				|#(SINGLETON_METHOD exp=expression DOT	name=methodName	{e = new MethodDefinationExpression(name, exp);})
+				|#(SINGLETON_METHOD exp=expression (DOT|COLON2)	name=methodName	{e = new MethodDefinationExpression(name, exp);})
 				)
 				(	{id=null;func=null;}
 					(id:IDENTIFIER|func:FUNCTION)
