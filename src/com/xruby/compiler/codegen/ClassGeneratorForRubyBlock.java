@@ -113,9 +113,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"),
-				null,
-				null,
-				cv_);
+				cv_,
+				null);
 	}
 
 	static String buildContructorSignature(int size) {
@@ -155,9 +154,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		
 		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
 				Method.getMethod(buildContructorSignature(commons.length)),
-				null,
-				null,
-				cv_);
+				cv_,
+				null);
 		
 		mg.loadThis();
 		mg.push(argc_);

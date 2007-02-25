@@ -56,8 +56,6 @@ abstract class ClassGenerator {
 		current_mg_for_class_builder_method_ = new MethodGeneratorForClassBuilder(
 				Opcodes.ACC_PRIVATE,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule)"),
-				null,
-				null,
 				cv_,
 				is_singleton);
 	}
