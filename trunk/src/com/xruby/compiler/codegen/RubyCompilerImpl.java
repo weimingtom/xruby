@@ -746,6 +746,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs) {
+		cg_.getMethodGenerator().dup();
+		
 		if (single_lhs) {
 			cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue2();
 			return 0;
