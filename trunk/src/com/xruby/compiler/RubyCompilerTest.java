@@ -1900,7 +1900,6 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"a = {1, 2}; b = a.dup; b.shift; print a, b",
 				
 				"print {}",
-				"h1 = {'a' => 'xxxx', 'b' => 'yyyy'}; print h1",
 				
 				"h1 = Hash.new { |hash1, key1| hash1[key1] = 'xx' }; print h1[123]",
 				"a = Hash.new{|h, k|k}; print a[99], a[88]",
@@ -1920,7 +1919,6 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"12",
 				
 				"nil",
-				"axxxxbyyyy",
 				
 				"xx",
 				"9988",
@@ -3785,6 +3783,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_singleton_method() {
 		String [] program_texts = {
+				"module M; def M::colon2_singleton; print 'ppp'; end; end\n" +
+				"M.colon2_singleton",
+				
 				"module M; def M.f x; print x; end end; M::f(77)",
 				
 				"class TestSingleton0;\n" +
@@ -3811,6 +3812,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"ppp",
 				"77",
 				"123",
 				"9521",
