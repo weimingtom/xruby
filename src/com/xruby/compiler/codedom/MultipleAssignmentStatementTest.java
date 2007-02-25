@@ -78,6 +78,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"end NestedVariable\n" +
 			"b //=\n" +
 			"end MultipleAssignment\n" +
+			";\n" +
 			"b\n;\n" +
 			"c\n;\n" +
 			"d\n;\n" +

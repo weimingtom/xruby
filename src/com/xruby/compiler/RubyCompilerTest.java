@@ -1203,6 +1203,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"begin raise Exception.new, 'zzz'\n" +
 				"rescue Exception=> e; print e; end",
 				
+				"begin raise Exception, 'ooo'\n" +
+				"rescue Exception=> e; print e; end",
 		};
 
 		String[] outputs = {
@@ -1216,6 +1218,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"test",
 				"catch",
 				"zzz",
+				"ooo",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
@@ -2736,6 +2739,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_multiple_assignment_no_asterisk() {
 		String[] program_texts = {
+				"c = (a,b=1,2); p c",
+				
 				"a, = 1,2; print a",
 				
 				"a, b = 3, 4; print a, b",
@@ -2748,6 +2753,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"[1, 2]",
 				"1",
 				"34",
 				"21",

@@ -58,7 +58,7 @@ public class CompoundStatement implements Visitable {
 			++i;
 			statement.accept(visitor);
 
-			if (statement instanceof ExpressionStatement && (i != statements_.size())) {
+			if ((statement instanceof ExpressionStatement || statement instanceof MultipleAssignmentStatement) && (i != statements_.size())) {
 				visitor.visitTerminal();
 			}
 		}
