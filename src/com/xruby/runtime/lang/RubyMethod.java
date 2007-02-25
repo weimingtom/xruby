@@ -90,7 +90,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @throws RubyException
 	 */
 	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
-		assert(args.size() != 0);//use null if no arg
+		assert(null == args || args.size() != 0);//use null if no arg
 
 		//TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect
 		if (argc_ >= 0) {
