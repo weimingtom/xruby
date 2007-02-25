@@ -106,7 +106,7 @@ public class BodyStatement implements Visitable {
 			return;
 		}
 
-		IfExpression.ensureVariablesAreInitialized(compoundStatement_, visitor);
+		compoundStatement_.ensureVariablesAreInitialized(visitor);
 		
 		final Object begin_label = visitor.visitBodyBegin(null != ensure_);
 		compoundStatement_.accept(visitor);

@@ -55,9 +55,10 @@ public class CaseExpression extends Expression {
 		ensureElseBodyIsNotEmpty();
 
 		for (When when : whens_) {
-			IfExpression.ensureVariablesAreInitialized(when.body_, visitor);
+			when.body_.ensureVariablesAreInitialized(visitor);
 		}
-		IfExpression.ensureVariablesAreInitialized(else_body_, visitor);
+		
+		else_body_.ensureVariablesAreInitialized(visitor);
 		
 		condition_.accept(visitor);
 		Object var = visitor.visitAfterCaseCondition();

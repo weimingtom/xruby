@@ -2022,6 +2022,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 	public void test_while() {
 
 		String[] program_texts = {
+				"i = 0\n" +
+				"while i<3; i+=1; result = i; end\n" +
+				"print result",
+
 				"i = 1 ;while i < 1 ; end; print i",
 				"while false; print 'xxx'; end",
 				"until true; print 'xxx'; end",
@@ -2040,6 +2044,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"3",
 				"1",
 				"",
 				"",

@@ -34,6 +34,10 @@ public class WhileExpression extends Expression {
 		//But later we changed it back, because local variable may be first assigned in while expression's condition,  and we are replying
 		//codegen backend to to maintain a symbol table -- so we should not change the consequence of visiting.
 
+		if (null != body_) {
+			body_.ensureVariablesAreInitialized(visitor);
+		}
+
 		visitor.visitWhileConditionBegin();
 		condition_.accept(visitor);
 		visitor.visitWhileConditionEnd(is_until_);
