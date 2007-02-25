@@ -6,6 +6,7 @@
 package com.xruby.compiler.codedom;
 
 import java.util.ArrayList;
+import antlr.RecognitionException;
 
 public class CompoundStatement implements Visitable {
 	protected ArrayList<Statement> statements_ = new ArrayList<Statement>();
@@ -45,10 +46,30 @@ public class CompoundStatement implements Visitable {
 		}
 	}
 
-	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+	private void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		for (Statement s : statements_) {
 			s.getNewlyAssignedVariables(symboltable, result);
 		}
+	}
+
+	void ensureVariablesAreInitialized(CodeVisitor visitor) {
+		//some vairiables appeare first in if's body, and they may not be excuted.
+		ArrayList<String> vars = new ArrayList<String>();
+		getNewlyAssignedVariables(visitor, vars);
+		if (vars.isEmpty()) {
+			return;
+		}
+		
+		CompoundStatement comp = new CompoundStatement();
+		for (String var : vars) {
+			try {
+				comp.addStatement(new ExpressionStatement(new AssignmentOperatorExpression(new LocalVariableExpression(var, false), new NilExpression())));
+			} catch (RecognitionException e) {
+				throw new Error(e);
+			}
+		}
+		comp.accept(visitor);
+		visitor.visitTerminal();
 	}
 
 	public void accept(CodeVisitor visitor) {
