@@ -52,23 +52,25 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	private final int default_argc_;
 	private final boolean is_for_in_expression_;//for..in expression does not introduce new scope
 	private final RubyBinding binding_;
-	private final FieldManager field_manager_ = new FieldManager(null);
+	private final FieldManager field_manager_;
 
 	public ClassGeneratorForRubyBlock(String name,
 			int argc,
 			boolean has_asterisk_parameter,
 			int default_argc,
-			SymbolTable symbol_table_of_the_current_scope,
+			ClassGenerator owner,
 			boolean is_for_in_expression,
 			RubyBinding binding) {
 		super(name);
-		symbol_table_of_the_current_scope_ = symbol_table_of_the_current_scope;
+		symbol_table_of_the_current_scope_ = owner.getSymbolTable();
 		mg_for_run_method_ = visitRubyBlock();
 		argc_ = argc;
 		has_asterisk_parameter_ = has_asterisk_parameter;
 		default_argc_ = default_argc;
 		is_for_in_expression_ = is_for_in_expression;
 		binding_ = binding;
+		field_manager_ = new FieldManager(
+			(owner instanceof ClassGeneratorForRubyBlock) ? ((ClassGeneratorForRubyBlock)owner).field_manager_ : null);
 	}
 	
 	protected Class getType() {
