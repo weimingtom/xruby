@@ -38,7 +38,8 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
 				cv_,
-				binding);
+				binding,
+				null);
 	}
 
 	private void createImplicitConstructor(ClassVisitor cw) {
@@ -46,6 +47,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
 				m,
 				cw,
+				null,
 				null);
 		mg.loadThis();
 		mg.invokeConstructor(Type.getType(Types.RubyProgramClass), m);
@@ -57,6 +59,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
 				Method.getMethod("void main (String[])"),
 				cv,
+				null,
 				null);
 
 		mg.loadArg(0);
