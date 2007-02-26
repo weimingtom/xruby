@@ -17,12 +17,12 @@ Here is a list of things we are going to do
 
   * Make Ruby on Rails work
   * Upgrade Antlr to 3.0
+  * Support JSR 223: https://scripting.dev.java.net/
   * Support YARV instruction
 
 = Thought =
 
   * Make C extension work
   * Simplify builtin library code
-
 
 
