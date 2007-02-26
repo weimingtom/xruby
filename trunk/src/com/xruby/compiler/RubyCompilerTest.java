@@ -2268,7 +2268,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_scope() {
 		String[] program_texts = {
-				//"a = 5; 1.times {print a; 1.times {print a}}",
+				"a = 5; 1.times {1.times {print a}}",
 				
 				"begin   \n" +
 				"     for k,v in true\n" +
@@ -2291,7 +2291,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
-				//"55",
+				"5",
 				
 				"nil",
 				"nil",

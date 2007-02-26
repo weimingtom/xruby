@@ -319,7 +319,7 @@ class MethodGenerator extends GeneratorAdapter {
 		loadArg(2);
 	}
 
-	public void new_BlockClass(Class c, String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
+	public void new_BlockClass(ClassGenerator cg, String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
 		dup();
@@ -341,7 +341,7 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 		
 		for (String name : commons) {
-			loadVariable(c, name);
+			cg.loadVariable(name);
 		}
 		
 		invokeConstructor(methodNameType,

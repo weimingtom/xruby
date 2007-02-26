@@ -152,7 +152,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 					num_of_args,
 					has_asterisk_parameter,
 					num_of_default_args,
-					cg_.getSymbolTable(),
+					cg_,
 					is_for_in_expression,
 					binding_);
 		return uniqueBlockName;
@@ -173,7 +173,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		compilation_results_.add(cg_.getCompilationResult());
 		cg_ = suspended_cgs_.pop();
 		
-		cg_.getMethodGenerator().new_BlockClass(cg_.getType(), uniqueBlockName, commons, isInGlobalScope(), isInBlock());
+		cg_.getMethodGenerator().new_BlockClass(cg_, uniqueBlockName, commons, isInGlobalScope(), isInBlock());
 
 		cg_.getMethodGenerator().storeBlockForFutureRestoreAndCheckReturned();
 
