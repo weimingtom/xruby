@@ -18,9 +18,13 @@ class MethodGenerator extends GeneratorAdapter {
 	private ArrayList<Class> current_types_on_stack_ = new ArrayList<Class>();
 	private ArrayList<Integer> saved_vars_ = new ArrayList<Integer>();//may be have same length of current_types_on_stack_
 
-	public MethodGenerator(final int arg0, final Method arg1, final ClassVisitor cv, RubyBinding binding) {
+	public MethodGenerator(final int arg0, final Method arg1, final ClassVisitor cv, RubyBinding binding, SymbolTable st) {
 		super(arg0, arg1, null, null, cv);
-		symbol_table_ = new SymbolTable(null == binding ? null : binding.getVariableNames());
+		if (null == st) { 
+			symbol_table_ = new SymbolTable(null == binding ? null : binding.getVariableNames());
+		} else {
+			symbol_table_ = new SymbolTableForBlock(null == binding ? null : binding.getVariableNames(), st);
+		}
 		visitCode();
 	}
 	
@@ -799,7 +803,7 @@ class MethodGeneratorForClassBuilder extends MethodGenerator {
 	private boolean is_singleton_;
 	
 	public MethodGeneratorForClassBuilder(int arg0, Method arg1, ClassVisitor cv, boolean is_singleton) {
-		super(arg0, arg1, cv, null);
+		super(arg0, arg1, cv, null, null);
 		is_singleton_ = is_singleton;
 	}
 

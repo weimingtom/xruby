@@ -47,6 +47,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock)"),
 				cv_,
+				null,
 				null);
 	}
 
@@ -54,6 +55,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
 				Method.getMethod("void <init> ()"),
 				cv_,
+				null,
 				null);
 		mg.loadThis();
 		mg.push(argc);

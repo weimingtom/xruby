@@ -10,16 +10,49 @@ import org.objectweb.asm.commons.*;
 import com.xruby.runtime.lang.RubyBinding;
 import java.util.*;
 
-class ClassGeneratorForRubyBlock extends ClassGenerator {
+class FieldManager {
+	private final FieldManager parent_;
+	private final Set<String> fields_ = new HashSet<String>();//assigned fields are fields as well
+	private final Set<String> assigned_fields_ = new HashSet<String>();
+	
+	public FieldManager(FieldManager parent) {
+		parent_ = parent;
+	}
+ 
+	public void addField(String s) {
+		fields_.add(s);
+		if (null != parent_) {
+			parent_.addField(s);
+		}
+	}
+	
+	public void addAssignedField(String s) {
+		fields_.add(s);
+		assigned_fields_.add(s);
+		if (null != parent_) {
+			parent_.addField(s);
+			parent_.addAssignedField(s);
+		}
+	}
+	
+	public String[] getFields() {
+		return fields_.toArray(new String[fields_.size()]);
+	}
+	
+	public String[] getAssignedFields() {
+		return assigned_fields_.toArray(new String[assigned_fields_.size()]);
+	}
 
+}
+
+class ClassGeneratorForRubyBlock extends ClassGenerator {
 	private final SymbolTable symbol_table_of_the_current_scope_;
 	private final int argc_;
 	private final boolean has_asterisk_parameter_;
 	private final int default_argc_;
-	private Set<String> fields_ = new HashSet<String>();//assigned fields are fields as well
-	private Set<String> assigned_fields_ = new HashSet<String>();
-	private boolean is_for_in_expression_;//for..in expression does not introduce new scope
-	private RubyBinding binding_;
+	private final boolean is_for_in_expression_;//for..in expression does not introduce new scope
+	private final RubyBinding binding_;
+	private final FieldManager field_manager_ = new FieldManager(null);
 
 	public ClassGeneratorForRubyBlock(String name,
 			int argc,
@@ -29,8 +62,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			boolean is_for_in_expression,
 			RubyBinding binding) {
 		super(name);
-		mg_for_run_method_ = visitRubyBlock();
 		symbol_table_of_the_current_scope_ = symbol_table_of_the_current_scope;
+		mg_for_run_method_ = visitRubyBlock();
 		argc_ = argc;
 		has_asterisk_parameter_ = has_asterisk_parameter;
 		default_argc_ = default_argc;
@@ -46,10 +79,14 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg_for_run_method_.loadThis();
 		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
 	}
+	
+	public String[] getAssignedFields() {
+		return field_manager_.getAssignedFields();
+	}
 
 	public void loadVariable(String name) {
-		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
-			fields_.add(name);
+		if (isDefinedInOwnerScope(name)) {
+			field_manager_.addField(name);
 			loadField(name);
 		} else {
 			super.loadVariable(name);
@@ -65,9 +102,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	public void storeVariable(String name) {
-		if (is_for_in_expression_ || symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
-			fields_.add(name);
-			assigned_fields_.add(name);
+		if (is_for_in_expression_ || isDefinedInOwnerScope(name)) {
+			field_manager_.addAssignedField(name);
 			storeField(name);
 			if (is_for_in_expression_) {
 				updateBinding(binding_, name);
@@ -78,9 +114,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	private void initialFiledUsingBlockParameter(String name) {
-		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
-			fields_.add(name);
-			assigned_fields_.add(name);
+		if (isDefinedInOwnerScope(name)) {
+			field_manager_.addAssignedField(name);
 			getMethodGenerator().loadThis();
 			super.loadVariable(name);
 			getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
@@ -114,7 +149,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"),
 				cv_,
-				null);
+				null,
+				symbol_table_of_the_current_scope_);
 	}
 
 	static String buildContructorSignature(int size) {
@@ -128,14 +164,10 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 	
 	public String[] createFieldsAndConstructorOfRubyBlock() {
-		String[] commons = fields_.toArray(new String[fields_.size()]);
+		String[] commons = field_manager_.getFields();
 		createConstructorOfRubyBlock(commons);
 		createFields(commons);
 		return commons;
-	}
-
-	public String[] getAssignedFields() {
-		return assigned_fields_.toArray(new String[assigned_fields_.size()]);
 	}
 
 	private void createFields(final String[] commons) {
@@ -155,7 +187,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
 				Method.getMethod(buildContructorSignature(commons.length)),
 				cv_,
-				null);
+				null,
+				symbol_table_of_the_current_scope_);
 		
 		mg.loadThis();
 		mg.push(argc_);
@@ -179,7 +212,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
 	private void addVariableToBinding(String s) {
 		getMethodGenerator().push(s);
-		fields_.add(s);
+		field_manager_.addField(s);
 		loadField(s);
 		getMethodGenerator().invokeVirtual(Type.getType(Types.RubyBindingClass),
 				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
@@ -188,6 +221,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	public void createBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
 		super.createBinding(isInSingletonMethod, isInGlobalScope, is_in_block);
 
+		//TODO one level look up is not enough 
 		Collection<String> vars = symbol_table_of_the_current_scope_.getLocalVariables();
 		for (String s : vars) {
 			addVariableToBinding(s);
@@ -198,9 +232,14 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			addVariableToBinding(s);
 		}
 	}
+	
+	private boolean isDefinedInOwnerScope(String name) {
+		SymbolTableForBlock st = (SymbolTableForBlock)getSymbolTable();
+		return st.isDefinedInOwnerScope(name);
+	}
 
 	public boolean isDefinedInCurrentScope(String name) {
-		if (symbol_table_of_the_current_scope_.isDefinedInCurrentScope(name)) {
+		if (isDefinedInOwnerScope(name)) {
 			return true;
 		} else {
 			return super.isDefinedInCurrentScope(name);

@@ -18,10 +18,6 @@ class SymbolTable {
 	private static final String NAME_FOR_INTERNAL_BLOCK_VAR = "block$";
 	private static final String NAME_FOR_INTERNAL_BINDING_VAR = "binding$";
 
-	public SymbolTable() {
-		this(null);
-	}
-	
 	// SymbolTable may have preloaded values (eval, commandline etc)
 	public SymbolTable(ArrayList<String> binging) {
 		if (null == binging) {
@@ -123,3 +119,26 @@ class SymbolTable {
 	}
 
 }
+
+
+class SymbolTableForBlock extends SymbolTable {
+	private SymbolTable owner_;
+	
+	public SymbolTableForBlock(ArrayList<String> binging, SymbolTable owner) {
+		super(binging);
+		owner_ = owner;
+	}
+	
+	public boolean isDefinedInCurrentScope(String s) {
+		if (super.isDefinedInCurrentScope(s)) {
+			return true;
+		} else {
+			return owner_.isDefinedInCurrentScope(s);
+		}
+	}
+
+	public boolean isDefinedInOwnerScope(String s) {
+		return owner_.isDefinedInCurrentScope(s);
+	}
+}
+
