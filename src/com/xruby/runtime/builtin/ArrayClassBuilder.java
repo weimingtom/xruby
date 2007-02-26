@@ -56,6 +56,14 @@ class Array_array_access extends RubyVarArgMethod {
 	}
 }
 
+class Array_array_at extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyArray value = (RubyArray)receiver;
+		RubyFixnum index = (RubyFixnum)arg;
+		return value.get(index.intValue());
+	}
+}
+
 class Array_array_set extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		//TODO index can be range, -1 etc
@@ -332,6 +340,7 @@ public class ArrayClassBuilder {
 		c.defineMethod("length", new Array_length());
 		c.defineMethod("to_s", new Array_to_s());
 		c.defineMethod("[]", new Array_array_access());
+		c.defineMethod("at", new Array_array_at());
 		c.defineMethod("[]=", new Array_array_set());
 		c.defineMethod("==", new Array_equal());
 		c.defineMethod("<=>", new Array_compare());
