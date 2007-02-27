@@ -78,8 +78,11 @@ public class RubyIO extends RubyBasic {
 	private RubyValue readsTheEntireContents() throws IOException {
 		int size = (int)file_.length();//TODO converted long to int
 		byte[] buffer = new byte[size];
-		file_.read(buffer);
-		return ObjectFactory.createString(new String(buffer));
+		if (file_.read(buffer) < 0) {
+			return ObjectFactory.createString("");
+		} else {
+			return ObjectFactory.createString(new String(buffer));
+		}
 	}
 
 	private RubyValue readUntilSeperator(String separator) throws IOException {
@@ -135,8 +138,11 @@ public class RubyIO extends RubyBasic {
 			long size = file_.length();
 			size = Math.min(length, size);
 			byte[] buffer = new byte[(int)size];
-			file_.read(buffer);
-			return ObjectFactory.createString(new String(buffer));
+			if (file_.read(buffer) < 0) {
+				return ObjectFactory.nilValue;
+			} else {
+				return ObjectFactory.createString(new String(buffer));
+			}
 		} catch (IOException e) {
 			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
 		}
