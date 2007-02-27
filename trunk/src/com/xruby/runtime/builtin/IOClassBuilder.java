@@ -68,8 +68,19 @@ class IO_eof extends RubyNoArgMethod {
 	}
 }
 
-class IO_read extends RubyMethod {
-	public IO_read() {
+class IO_read extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyIO io = (RubyIO)receiver;
+		if (null == args) {
+			return io.read();
+		} else {
+			return io.read(((RubyFixnum)args.get(0)).intValue());
+		}
+	}
+}
+
+class IO_read_singleton extends RubyMethod {
+	public IO_read_singleton() {
 		super(3, false, 2);
 	}
 
@@ -78,13 +89,13 @@ class IO_read extends RubyMethod {
 		RubyIO io = ObjectFactory.createFile(fileName.toString(), "r");
 		int offset;
 		int length;
-		if (args.size() == 1){
+		if (args.size() == 1) {
 			return io.read();
-		}else{
+		} else {
 			length = ((RubyFixnum)args.get(1)).intValue();
-			if(args.size() == 2){			
+			if (args.size() == 2) {			
 				return io.read(length);
-			}else{
+			} else {
 				offset = ((RubyFixnum)args.get(2)).intValue();
 				return io.read(length, offset);
 			}
@@ -102,8 +113,9 @@ public class IOClassBuilder {
 		RubyMethod eof = new IO_eof();
 		c.defineMethod("eof", eof);
 		c.defineMethod("eof?", eof);
+		c.defineMethod("read", new IO_read());
 		
-		c.getSingletonClass().defineMethod("read", new IO_read());
+		c.getSingletonClass().defineMethod("read", new IO_read_singleton());
 		
 	}
 }
