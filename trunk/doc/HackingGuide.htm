@@ -75,7 +75,7 @@ say_hello_three_times
 we save the above code as test.rb, and then compile it using XRuby:
 
 <pre>
-java -jar xruby-0.1.0.jar -c test.rb
+java -jar xruby-0.1.1.jar -c test.rb
 </pre>
 
 Then we get test.jar file, we can run the program with the following command:
@@ -113,12 +113,13 @@ public class main
 
     public static void main(String args[])
     {
+    	RubyRuntime.init(args);
         (new main()).run();
+        RubyRuntime.fini();
     }
 
     public RubyValue run()
     {
-        RubyRuntime.ObjectClass.setAccessPrivate();
         RubyRuntime.ObjectClass.defineMethod("say_hello_three_times", new say_hello_three_times._cls0());
         return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue, null, null, "say_hello_three_times");
     }
