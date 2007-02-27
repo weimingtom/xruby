@@ -20,6 +20,8 @@ public class RubyIO extends RubyBasic {
 		//TODO mode of RandomAccessFile is not as same as fopen()
 		if (mode.equals("w")) {
 			return "rw";
+		} else if (mode.equals("rb")) {
+			return "r";
 		} else {
 			return mode;
 		}
