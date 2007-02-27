@@ -100,6 +100,7 @@ public class RubyRuntime {
 		DirClassBuilder.initialize();
 		StructClassBuilder.initialize();
 		ExceptionClassBuilder.initialize();
+		ThreadClassBuilder.initialize();
 	}
 
 	private static void initARGV(String[] args) {
