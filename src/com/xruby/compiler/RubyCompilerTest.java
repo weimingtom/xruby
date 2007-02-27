@@ -2270,6 +2270,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_scope() {
 		String[] program_texts = {
+				"b = 1; 1.times {1.times {b=6}}; print b",
 				"a = 5; 1.times {1.times {print a}}",
 				
 				"begin   \n" +
@@ -2293,6 +2294,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"6",
 				"5",
 				
 				"nil",

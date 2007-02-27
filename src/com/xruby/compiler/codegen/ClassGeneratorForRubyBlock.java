@@ -124,6 +124,22 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		}
 	}
 
+	public void restoreLocalVariableFromBlock(String blockName, String name) {
+		int i = getSymbolTable().getLocalVariable(name);
+		if (i < 0) {
+			getMethodGenerator().loadThis();
+		}
+		
+		getMethodGenerator().loadLocal(getSymbolTable().getInternalBlockVar());
+		getMethodGenerator().getField(Type.getType("L" + blockName + ";"), name, Type.getType(Types.RubyValueClass));
+		
+		if (i < 0) {
+			getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
+		} else {
+			getMethodGenerator().storeLocal(i);
+		}
+	}
+
 	public void addParameter(String name) {
 		super.addParameter(name);
 		initialFiledUsingBlockParameter(name);

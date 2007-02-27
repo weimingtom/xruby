@@ -258,7 +258,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	private void transferValueFromBlock(String blockName, String[] assignedCommons) {
 		if (null != assignedCommons) {
 			for (String name : assignedCommons) {
-				cg_.getMethodGenerator().restoreLocalVariableFromBlock(blockName, name);
+				cg_.restoreLocalVariableFromBlock(blockName, name);
 			}
 		}
 	}

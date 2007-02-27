@@ -48,6 +48,12 @@ abstract class ClassGenerator {
 		getMethodGenerator().storeVariable(name);
 	}
 
+	public void restoreLocalVariableFromBlock(String blockName, String name) {	
+		getMethodGenerator().loadLocal(getSymbolTable().getInternalBlockVar());		
+		getMethodGenerator().getField(Type.getType("L" + blockName + ";"), name, Type.getType(Types.RubyValueClass));		
+		getMethodGenerator().storeLocal(getMethodGenerator().getLocalVariable(name));
+	}
+
 	public void startClassBuilderMethod(String name, boolean is_singleton) {
 		if (null != current_mg_for_class_builder_method_) {
 			suspended_mgs_for_class_builder_method_.push(current_mg_for_class_builder_method_);
