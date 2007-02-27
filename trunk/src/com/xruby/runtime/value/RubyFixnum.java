@@ -8,7 +8,7 @@ package com.xruby.runtime.value;
 import com.xruby.runtime.lang.*;
 
 public class RubyFixnum extends RubyBasic {
-	private int value_;
+	private final int value_;
 	
 	public RubyFixnum(int i) {
 		super(RubyRuntime.FixnumClass);
