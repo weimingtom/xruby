@@ -4314,6 +4314,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_String_misc() {
 		String [] program_texts = {
+				"print 'hello  world'.count('lo')",
+				"print 'abaca'.tr('a', 'z')",
+				"print \"\\na\\nb\\n\".tr(\"\\n\", ' ')",
+				"print 'xxx'.strip, 'xxx'.strip!, ' xxx '.strip, 'yyy '.strip!",
 				"a = 'a'; print a << 'b', a",
 				"print 'complex.rb'[-3..-1]",
 				"print 'complex.rb'[-3, -1]",
@@ -4342,6 +4346,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"5",
+				"zbzcz",
+				" a b ",
+				"xxxnilxxxyyy",
 				"abab",
 				".rb",
 				"nil",
@@ -5033,6 +5041,18 @@ public class RubyCompilerTest extends CompilerTestCase {
 		
 		String[] outputs = {
 				"13579",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_Thread() {
+		String[] program_texts = {
+				"a = Thread.new {print 33}; a.join",
+		};
+		
+		String[] outputs = {
+				"33",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

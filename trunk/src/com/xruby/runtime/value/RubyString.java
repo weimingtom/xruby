@@ -78,6 +78,18 @@ public class RubyString extends RubyBasic {
 		}
 	}
 
+	public boolean strip() {
+		String new_str = sb_.toString().trim();
+
+		if (new_str.equals(sb_.toString())) {
+			new_str = null;
+			return false;
+		} else {
+			sb_ = new StringBuilder(new_str);
+			return true;
+		}
+	}
+
 	public void reverse() {
 		sb_.reverse();
 	}
@@ -102,7 +114,10 @@ public class RubyString extends RubyBasic {
 	}
 
 	/// @return false if no change made
+	// TODO handle more situations
 	private boolean transform(String from, String to, boolean remove_duplicate) {
+		String oldString = sb_.toString();
+		
 		if (from.length() == 3 && to.length() == 3 && from.charAt(1) == '-' && to.charAt(1) == '-') {
 			char from_start = from.charAt(0);
 			char from_end = from.charAt(2);
@@ -123,11 +138,25 @@ public class RubyString extends RubyBasic {
 					}
 				}
 			}
-			return true;
+		}else {
+			char last_char = 0;
+			for (int i = 0; i < sb_.length(); ++i) {
+				char current_char = sb_.charAt(i);
+				int index = from.indexOf(current_char);
+				if (index >= 0) {
+					if (remove_duplicate && last_char == current_char) {
+							sb_.deleteCharAt(i);
+							--i;
+						} else {
+							char replace_char = to.charAt(index < to.length() ? index : to.length());
+							sb_.setCharAt(i, replace_char);
+							last_char = current_char;
+						}
+				}
+			}
 		}
 
-		//TODO handle more situations
-		return false;
+		return !oldString.equals(sb_.toString());
 	}
 
 	public boolean tr(String from, String to) {
@@ -169,5 +198,15 @@ public class RubyString extends RubyBasic {
 		
 		sb_.delete(index, index + s.length());
 		return true;
+	}
+
+	public int count(String s) {
+		int n = 0;
+		for (int i = 0; i < sb_.length(); ++i) {
+			if (s.indexOf(sb_.charAt(i)) >= 0) {
+				++n;
+			}
+		}
+		return n;
 	}
 }

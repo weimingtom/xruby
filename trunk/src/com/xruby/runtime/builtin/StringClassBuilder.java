@@ -20,6 +20,15 @@ class String_capitalize extends RubyNoArgMethod {
 	}
 }
 
+class String_strip extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		RubyString value = (RubyString)receiver;
+		RubyString new_value = ObjectFactory.createString(value.toString());
+		new_value.strip();
+		return new_value;
+	}
+}
+
 class String_operator_equal extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		if (!(arg instanceof RubyString)) {
@@ -55,6 +64,18 @@ class String_capitalize_danger extends RubyNoArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString value = (RubyString)receiver;
 		boolean changed = value.capitalize();
+		if (changed) {
+			return receiver;
+		} else {
+			return ObjectFactory.nilValue;
+		}
+	}
+}
+
+class String_strip_danger extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		RubyString value = (RubyString)receiver;
+		boolean changed = value.strip();
 		if (changed) {
 			return receiver;
 		} else {
@@ -606,7 +627,7 @@ class String_tr_s extends RubyMethod {
 class String_squeeze_danger extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString string = (RubyString)receiver;
-		String arg = ((args.size() == 0) ? null : ((RubyString)args.get(0)).toString());
+		String arg = ((null == args) ? null : ((RubyString)args.get(0)).toString());
 		return string.squeeze(arg) ? string : ObjectFactory.nilValue;
 	}
 }
@@ -614,7 +635,7 @@ class String_squeeze_danger extends RubyVarArgMethod {
 class String_squeeze extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
-		String arg = ((args.size() == 0) ? null : ((RubyString)args.get(0)).toString());
+		String arg = ((null == args) ? null : ((RubyString)args.get(0)).toString());
 		string.squeeze(arg);
 		return string;
 	}
@@ -622,7 +643,7 @@ class String_squeeze extends RubyVarArgMethod {
 
 class String_delete_danger extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (args.size() == 0) {
+		if (null == args) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
 		}
 		
@@ -634,7 +655,7 @@ class String_delete_danger extends RubyVarArgMethod {
 
 class String_delete extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (args.size() == 0) {
+		if (null == args) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
 		}
 		
@@ -660,9 +681,28 @@ class String_concat extends RubyOneArgMethod {
 	}
 }
 
+class String_count extends RubyVarArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString s = (RubyString)receiver;
+		if (null == args) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
+		}
+
+		//TODO incomplete
+		int n = 0;
+		for (RubyValue v : args) {
+			RubyString other_str = (RubyString)v;
+			n += s.count(other_str.toString());
+		}
+		return ObjectFactory.createFixnum(n);
+	}
+}
+
 public class StringClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StringClass;
+		c.defineMethod("strip", new String_strip());
+		c.defineMethod("strip!", new String_strip_danger());
 		c.defineMethod("capitalize", new String_capitalize());
 		c.defineMethod("==", new String_operator_equal());
 		c.defineMethod("upcase!", new String_upcase_danger());
@@ -706,6 +746,7 @@ public class StringClassBuilder {
 		RubyMethod concat = new String_concat();
 		c.defineMethod("concat", concat);
 		c.defineMethod("<<", concat);
+		c.defineMethod("count", new String_count());
 		c.defineAllocMethod(new String_new());
 	}
 }
