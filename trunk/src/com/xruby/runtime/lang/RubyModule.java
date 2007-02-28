@@ -22,12 +22,6 @@ public class RubyModule extends MethodCollectionWithMixin {
 		return RubyRuntime.ModuleClass;
 	}
 
-	public RubyValue defineModuleMethod(String name, RubyMethod m) {
-		m.setOwner(this);
-		getSingletonClass().addMethod(name, m);
-		return super.addMethod(name, m);
-	}
-
 	public RubyValue defineMethod(String name, RubyMethod m) {
 		m.setOwner(this);
 		return super.addMethod(name, m);

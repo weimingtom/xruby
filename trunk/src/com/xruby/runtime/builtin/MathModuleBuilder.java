@@ -146,23 +146,46 @@ class Math_hypot extends RubyMethod {
 public class MathModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.MathModule;
-		m.defineModuleMethod("sqrt", new Math_sqrt());
-		m.defineModuleMethod("exp", new Math_exp());
-		m.defineModuleMethod("log", new Math_log());
-		m.defineModuleMethod("log10", new Math_log10());
-		m.defineModuleMethod("cos", new Math_cos());
-		m.defineModuleMethod("sin", new Math_sin());
-		m.defineModuleMethod("tan", new Math_tan());
-		m.defineModuleMethod("cosh", new Math_cosh());
-		m.defineModuleMethod("sinh", new Math_sinh());
-		m.defineModuleMethod("tanh", new Math_tanh());
-		m.defineModuleMethod("acos", new Math_acos());
-		m.defineModuleMethod("acosh", new Math_acosh());
-		m.defineModuleMethod("asin", new Math_asin());
-		m.defineModuleMethod("asinh", new Math_asinh());
-		m.defineModuleMethod("atan", new Math_atan());
-		m.defineModuleMethod("atanh", new Math_atanh());
-		m.defineModuleMethod("atan2", new Math_atan2());
-		m.defineModuleMethod("hypot", new Math_hypot());
+		
+		//TODO Create a method wrapper so that following methods can be instantiated only once
+		m.getSingletonClass().defineMethod("sqrt", new Math_sqrt());
+		m.getSingletonClass().defineMethod("exp", new Math_exp());
+		m.getSingletonClass().defineMethod("log", new Math_log());
+		m.getSingletonClass().defineMethod("log10", new Math_log10());
+		m.getSingletonClass().defineMethod("cos", new Math_cos());
+		m.getSingletonClass().defineMethod("sin", new Math_sin());
+		m.getSingletonClass().defineMethod("tan", new Math_tan());
+		m.getSingletonClass().defineMethod("cosh", new Math_cosh());
+		m.getSingletonClass().defineMethod("sinh", new Math_sinh());
+		m.getSingletonClass().defineMethod("tanh", new Math_tanh());
+		m.getSingletonClass().defineMethod("acos", new Math_acos());
+		m.getSingletonClass().defineMethod("acosh", new Math_acosh());
+		m.getSingletonClass().defineMethod("asin", new Math_asin());
+		m.getSingletonClass().defineMethod("asinh", new Math_asinh());
+		m.getSingletonClass().defineMethod("atan", new Math_atan());
+		m.getSingletonClass().defineMethod("atanh", new Math_atanh());
+		m.getSingletonClass().defineMethod("atan2", new Math_atan2());
+		m.getSingletonClass().defineMethod("hypot", new Math_hypot());
+		
+		m.setAccessPrivate();
+		m.defineMethod("sqrt", new Math_sqrt());
+		m.defineMethod("exp", new Math_exp());
+		m.defineMethod("log", new Math_log());
+		m.defineMethod("log10", new Math_log10());
+		m.defineMethod("cos", new Math_cos());
+		m.defineMethod("sin", new Math_sin());
+		m.defineMethod("tan", new Math_tan());
+		m.defineMethod("cosh", new Math_cosh());
+		m.defineMethod("sinh", new Math_sinh());
+		m.defineMethod("tanh", new Math_tanh());
+		m.defineMethod("acos", new Math_acos());
+		m.defineMethod("acosh", new Math_acosh());
+		m.defineMethod("asin", new Math_asin());
+		m.defineMethod("asinh", new Math_asinh());
+		m.defineMethod("atan", new Math_atan());
+		m.defineMethod("atanh", new Math_atanh());
+		m.defineMethod("atan2", new Math_atan2());
+		m.defineMethod("hypot", new Math_hypot());
+		m.setAccessPublic();
 	}
 }

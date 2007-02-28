@@ -626,13 +626,21 @@ public class KernelModuleBuilder {
 		m.defineMethod("Float", new Kernel_Float());
 		m.defineMethod("Integer", new Kernel_Integer());
 
-		m.defineModuleMethod("puts", new Kernel_puts());
-		m.defineModuleMethod("print", new Kernel_print());
-		m.defineModuleMethod("printf", new Kernel_printf());
-		m.defineModuleMethod("p", new Kernel_p());
-		m.defineModuleMethod("gets", new Kernel_gets());
+		//TODO Create a method wrapper so that following methods can be instantiated only once
+		m.getSingletonClass().defineMethod("puts", new Kernel_puts());
+		m.getSingletonClass().defineMethod("print", new Kernel_print());
+		m.getSingletonClass().defineMethod("printf", new Kernel_printf());
+		m.getSingletonClass().defineMethod("p", new Kernel_p());
+		m.getSingletonClass().defineMethod("gets", new Kernel_gets());
 		
 		m.setAccessPrivate();
+		
+		m.defineMethod("puts", new Kernel_puts());
+		m.defineMethod("print", new Kernel_print());
+		m.defineMethod("printf", new Kernel_printf());
+		m.defineMethod("p", new Kernel_p());
+		m.defineMethod("gets", new Kernel_gets());
+		
 		m.defineMethod("binding", new Kernel_binding());
 		m.defineMethod("method_missing", new Kernel_method_missing());
 		m.defineMethod("eval", new Kernel_eval());
