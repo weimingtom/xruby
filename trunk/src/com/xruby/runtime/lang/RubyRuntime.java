@@ -101,6 +101,7 @@ public class RubyRuntime {
 		StructClassBuilder.initialize();
 		ExceptionClassBuilder.initialize();
 		ThreadClassBuilder.initialize();
+		FileTestModuleBuilder.initialize();
 	}
 
 	private static void initARGV(String[] args) {
