@@ -31,6 +31,6 @@ If xruby.jar and test.jar are not in the same folder, then should be:
 
 Some ruby scripts require large amount of memory, if you see OutOfMemoryError,
 try to increase the maximum heap size with -Xmx parameter:
->java -Xmx256m -jar xruby-0.1.1.jar test.rb
+>java -Xmx512m -jar xruby-0.1.1.jar test.rb
 
 
