@@ -42,6 +42,8 @@ def bm file
   end
 end
 
+puts "Test\t\tRuby\t\tXRuby"
+
 #bm_app_answer.rb, bm_app_factorial.rb, , bm_so_ackermann.rb will cause stack overflow
   if ARGV.empty?
     Dir.glob(File.dirname(__FILE__) + '/bm_*.rb').sort.each{|file|
