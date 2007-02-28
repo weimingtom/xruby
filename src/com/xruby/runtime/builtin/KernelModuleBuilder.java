@@ -69,16 +69,16 @@ class Kernel_puts extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		for (RubyValue arg : args) {
 			if (ObjectFactory.nilValue == arg) {
-				System.out.println("nil");
+				System.out.print("nil\n");
 			} else if (arg instanceof RubyString){
 				RubyString value = (RubyString)arg;
 				value.appendString("\n");
-				System.out.println(value.toString());
+				System.out.print(value.toString());
 			} else {
 				RubyValue str = RubyAPI.callPublicMethod(arg, null, null, "to_s");
 				RubyString value = (RubyString)str;
 				value.appendString("\n");
-				System.out.println(value.toString());
+				System.out.print(value.toString());
 			}
 		}
 		return ObjectFactory.nilValue;
