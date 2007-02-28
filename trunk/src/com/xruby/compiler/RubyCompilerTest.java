@@ -3239,9 +3239,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 		assertTrue(file.delete());
 	}
 	
-	public void test_File_basename_dirname_expand_path() {
+	public void test_File_misc() {
 		String [] program_texts = {
-				//Windows only "print File.expand_path('a', '/')",
+				"print File::SEPARATOR",
+				"print File.join('usr', 'mail', 'gumby')",
+				
 				"print File.expand_path('sub', '//')",
 				"print File.expand_path('/', 'c:/sub')",
 				"print File.expand_path('/dir', '//machine/share/sub')",
@@ -3252,10 +3254,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"print File.basename('abc.rb', '.*')",
 				"print File.basename('/')",
 				"print File.dirname('/abc/def')",
+				//Windows only "print File.expand_path('a', '/')",
 		};
 		
 		String[] outputs = {
-				//"C:/a",
+				"/",
+				"usr/mail/gumby",
 				"//sub",
 				"c:/",
 				"//machine/share/dir",
@@ -3266,6 +3270,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"abc",
 				"/",
 				"/abc",
+				//"C:/a",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
