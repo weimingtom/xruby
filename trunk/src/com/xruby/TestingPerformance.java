@@ -36,7 +36,7 @@ public class TestingPerformance {
 	private static long test_createArray() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			new RubyArray();
+			new RubyArray(ObjectFactory.fixnum1);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
@@ -53,10 +53,11 @@ public class TestingPerformance {
 	
 	private static long test_invokeMethod() {
 		RubyMethod m = ObjectFactory.fixnum1.findMethod("+");
+		RubyArray args = new RubyArray(ObjectFactory.fixnum1);
 		
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			m.invoke(ObjectFactory.fixnum1, new RubyArray(ObjectFactory.fixnum1), null);
+			m.invoke(ObjectFactory.fixnum1, args, null);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
@@ -72,12 +73,12 @@ public class TestingPerformance {
 	}
 	
 	/* Sample result:
-	Fixnum Creation: 897
-	String Creation: 3211
-	Array Creation: 2003
-	Method Finding: 3987
-	Method Invoking: 4066
-	Method Calling: 12585
+	Fixnum Creation: 975
+	String Creation: 3471
+	Array Creation: 2605
+	Method Finding: 3989
+	Method Invoking: 1683
+	Method Calling: 10296
 	*/
 	public static void main(String[] args) {
 		System.out.println("Fixnum Creation: " + test_createFixnum());
