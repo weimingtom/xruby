@@ -99,13 +99,15 @@ class Dir_glob extends RubyOneArgMethod {
 			pattern = s.substring(index + 1);
 		}
 		
-		RubyArray files = new RubyArray();
+		RubyArray a = new RubyArray();
 		File file = new File(dir);
-		for (String f: file.list(new GlobFilenameFilter(pattern))){
-			files.add(ObjectFactory.createString(dir + "/" + f));
+		String[] files = file.list(new GlobFilenameFilter(pattern));
+		if (null != files) {
+			for (String f : files){
+				a.add(ObjectFactory.createString(dir + "/" + f));
+			}
 		}
-		
-		return files;
+		return a;
 	}
 
 	static RubyValue glob(RubyValue receiver, RubyValue arg, RubyBlock block) {
@@ -123,10 +125,12 @@ class Dir_glob extends RubyOneArgMethod {
 		}
 		
 		File file = new File(dir);
-		for (String f: file.list(new GlobFilenameFilter(pattern))){
-			block.invoke(receiver, new RubyArray(ObjectFactory.createString(dir + "/" + f)));
+		String[] files = file.list(new GlobFilenameFilter(pattern));
+		if (null != files) {
+			for (String f : f){
+				block.invoke(receiver, new RubyArray(ObjectFactory.createString(dir + "/" + f)));
+			}
 		}
-
 		return ObjectFactory.nilValue;
 	}
 }
