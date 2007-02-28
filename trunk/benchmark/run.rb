@@ -1,3 +1,22 @@
+
+#This file is taken from ruby 1.9, but modified to fit XRuby
+#NOTE: use '-Xmx512m' to avoid OutOfMemoryError!
+
+# prepare 'wc.input'
+def prepare_wc_input
+  wcinput = File.join(File.dirname($0), 'wc.input')
+  wcbase  = File.join(File.dirname($0), 'wc.input.base')
+  unless FileTest.exist?(wcinput)
+    data = File.read(wcbase)
+    13.times{
+      data << data
+    }
+    open(wcinput, 'w'){|f| f.write data}
+  end
+end
+
+prepare_wc_input
+
 def run_command command
   begin
     start_time = Time.new.to_f
