@@ -2039,9 +2039,13 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 		String[] program_texts = {
 				"i = 0\n" +
-				"while i<3; i+=1; result = i; end\n" +
+				"while i<20; i+=1; result = i; end\n" +
 				"print result",
 
+				"i = 0\n" +
+				"while i<3; i+=1; result = i; end\n" +
+				"print result",
+				
 				"i = 1 ;while i < 1 ; end; print i",
 				"while false; print 'xxx'; end",
 				"until true; print 'xxx'; end",
@@ -2060,6 +2064,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"20",
 				"3",
 				"1",
 				"",
@@ -2424,6 +2429,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_defined() {
 		String[] program_texts = {
+				"print defined?(Kernel.print), defined?(Object.print)",
 				"test_defined_scope1 = 1; print defined?(test_defined_scope1)",
 				"1.times {test_defined_scope0 = 1}; print defined?(test_defined_scope0)",
 				
@@ -2470,6 +2476,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"methodnil",
 				"local-variable",
 				"nil",
 				
