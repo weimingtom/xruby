@@ -70,16 +70,64 @@ class Dir_entries extends RubyOneArgMethod {
 	}
 }
 
+class Dir_array_access extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return Dir_glob.glob(receiver, arg);
+	}
+}
+
 class Dir_glob extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		File file = new File(".");
-		String pattern = RubyTypesUtil.convertToString(arg).toString();
+		if (null == block) {
+			return glob(receiver, arg);
+		} else {
+			return glob(receiver, arg, block);
+		}
+	}
+
+	static RubyValue glob(RubyValue receiver, RubyValue arg) {
+		String s = RubyTypesUtil.convertToString(arg).toString();
+		String dir;
+		String pattern;
+		int index = s.lastIndexOf('/');
+		if (index < 0) {
+			dir = ".";
+			pattern = s;
+			
+		} else {
+			dir = s.substring(0, index);
+			pattern = s.substring(index + 1);
+		}
+		
 		RubyArray files = new RubyArray();
+		File file = new File(dir);
 		for (String f: file.list(new GlobFilenameFilter(pattern))){
-			files.add(ObjectFactory.createString(f));
+			files.add(ObjectFactory.createString(dir + "/" + f));
 		}
 		
 		return files;
+	}
+
+	static RubyValue glob(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		String s = RubyTypesUtil.convertToString(arg).toString();
+		String dir;
+		String pattern;
+		int index = s.lastIndexOf('/');
+		if (index < 0) {
+			dir = ".";
+			pattern = s;
+			
+		} else {
+			dir = s.substring(0, index);
+			pattern = s.substring(index + 1);
+		}
+		
+		File file = new File(dir);
+		for (String f: file.list(new GlobFilenameFilter(pattern))){
+			block.invoke(receiver, new RubyArray(ObjectFactory.createString(dir + "/" + f)));
+		}
+
+		return ObjectFactory.nilValue;
 	}
 }
 
@@ -97,8 +145,7 @@ public class DirClassBuilder {
 		c.getSingletonClass().defineMethod("delete", rmdir);
 		c.getSingletonClass().defineMethod("unlink", rmdir);
 		c.getSingletonClass().defineMethod("entries", new Dir_entries());
-		RubyMethod glob = new Dir_glob();
-		c.getSingletonClass().defineMethod("[]", glob);	
-		c.getSingletonClass().defineMethod("glob", glob);	
+		c.getSingletonClass().defineMethod("[]", new Dir_array_access());	
+		c.getSingletonClass().defineMethod("glob", new Dir_glob());	
 	}	
 }
