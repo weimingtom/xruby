@@ -344,11 +344,20 @@ class Kernel_loop extends RubyMethod {
 class Kernel_open extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString filename = (RubyString)args.get(0);
+		RubyIO io;
 		if (args.size() <= 1) {
-			return ObjectFactory.createFile(filename.toString(), "r");
+			io = ObjectFactory.createFile(filename.toString(), "r");
 		} else {
 			RubyString mode = (RubyString)args.get(1);
-			return ObjectFactory.createFile(filename.toString(), mode.toString());
+			io = ObjectFactory.createFile(filename.toString(), mode.toString());
+		}
+
+		if (null == block) {
+			return io;
+		} else {
+			RubyValue v = block.invoke(receiver, new RubyArray(io));
+			io.close();
+			return v;
 		}
 	}
 }
