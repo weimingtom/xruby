@@ -154,9 +154,9 @@ public class RubyAPI {
 	}
 
 	private static RubyValue invokeMethod(RubyMethod m, String method_name, RubyValue receiver, RubyArray args, RubyBlock block) {
-		FrameManager.pushRecord(method_name);
+		//FrameManager.pushRecord(method_name);
 		RubyValue v = m.invoke(receiver, args, block);
-		FrameManager.popRecord();
+		//FrameManager.popRecord();
 		return v;
 	}
 	
