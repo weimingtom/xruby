@@ -3,16 +3,16 @@ require 'common'
 test_check "system"
 test_ok(`echo foobar` == "foobar\n")
 #java will remove double quote automatically from command line, so we have to change the test
-#test_ok(`java -jar xruby-0.1.1.jar -e 'print "foobar"'` == 'foobar')
-test_ok(`java -jar xruby-0.1.1.jar -e 'print 'foobar''` == 'foobar')
+#test_ok(`java -jar xruby-0.1.2.jar -e 'print "foobar"'` == 'foobar')
+test_ok(`java -jar xruby-0.1.2.jar -e 'print 'foobar''` == 'foobar')
 tmp = open("script_tmp", "w")
 tmp.print "print $zzz\n";
 tmp.close
 
-test_ok(`java -jar xruby-0.1.1.jar -s script_tmp -zzz` == 'true')
+test_ok(`java -jar xruby-0.1.2.jar -s script_tmp -zzz` == 'true')
 #java will remove '=' automatically from command line, so we have to change the test
-#test_ok(`java -jar xruby-0.1.1.jar -s script_tmp -zzz=555` == '555')
-test_ok(`java -jar xruby-0.1.1.jar -s script_tmp "-zzz=555"` == '555')
+#test_ok(`java -jar xruby-0.1.2.jar -s script_tmp -zzz=555` == '555')
+test_ok(`java -jar xruby-0.1.2.jar -s script_tmp "-zzz=555"` == '555')
 
 tmp = open("script_tmp", "w")
 tmp.print "#! /usr/local/bin/ruby -s\n";
@@ -20,8 +20,8 @@ tmp.print "print $zzz\n";
 tmp.close
 
 #java will remove '=' automatically from command line, so we have to change the test
-#test_ok(`java -jar xruby-0.1.1.jar script_tmp -zzz=678` == '678')
-test_ok(`java -jar xruby-0.1.1.jar script_tmp "-zzz=678"` == '678')
+#test_ok(`java -jar xruby-0.1.2.jar script_tmp -zzz=678` == '678')
+test_ok(`java -jar xruby-0.1.2.jar script_tmp "-zzz=678"` == '678')
 
 tmp = open("script_tmp", "w")
 tmp.print "this is a leading junk\n";
@@ -31,10 +31,10 @@ tmp.print "__END__\n";
 tmp.print "this is a trailing junk\n";
 tmp.close
 
-test_ok(`java -jar xruby-0.1.1.jar -x script_tmp` == 'nil')
+test_ok(`java -jar xruby-0.1.2.jar -x script_tmp` == 'nil')
 #java will remove '=' automatically from command line, so we have to change the test
-#test_ok(`java -jar xruby-0.1.1.jar -x script_tmp -zzz=555` == '555')
-test_ok(`java -jar xruby-0.1.1.jar -x script_tmp "-zzz=555"` == '555')
+#test_ok(`java -jar xruby-0.1.2.jar -x script_tmp -zzz=555` == '555')
+test_ok(`java -jar xruby-0.1.2.jar -x script_tmp "-zzz=555"` == '555')
 
 tmp = open("script_tmp", "w")
 for i in 1..5
@@ -42,8 +42,8 @@ for i in 1..5
 end
 tmp.close
 
-#`java -jar xruby-0.1.1.jar -i.bak -pe 'sub(/^[0-9]+$/){$&.to_i * 5}' script_tmp`
-`java -jar xruby-0.1.1.jar -i.bak -pe "sub(/^[0-9]+$/){$&.to_i * 5}" script_tmp`
+#`java -jar xruby-0.1.2.jar -i.bak -pe 'sub(/^[0-9]+$/){$&.to_i * 5}' script_tmp`
+`java -jar xruby-0.1.2.jar -i.bak -pe "sub(/^[0-9]+$/){$&.to_i * 5}" script_tmp`
 done = true
 tmp = open("script_tmp", "r")
 while tmp.gets

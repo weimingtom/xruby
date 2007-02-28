@@ -20,17 +20,17 @@ On Unix:
 Usage
 =====================
 * Compile a ruby script then run:
->java -jar xruby-0.1.1.jar -c test.rb
+>java -jar xruby-0.1.2.jar -c test.rb
 >java -jar test.jar
 
 If xruby.jar and test.jar are not in the same folder, then should be:
->java -cp xruby-0.1.1.jar;test.jar test.main
+>java -cp xruby-0.1.2.jar;test.jar test.main
 
 * Run script directly (compile behind the scene):
->java -jar xruby-0.1.1.jar test.rb
+>java -jar xruby-0.1.2.jar test.rb
 
 Some ruby scripts require large amount of memory, if you see OutOfMemoryError,
 try to increase the maximum heap size with -Xmx parameter:
->java -Xmx512m -jar xruby-0.1.1.jar test.rb
+>java -Xmx512m -jar xruby-0.1.2.jar test.rb
 
 
