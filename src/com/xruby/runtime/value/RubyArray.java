@@ -35,6 +35,13 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		add(value2);
 	}
 
+	public RubyArray(int size, RubyValue default_value) {
+		this(size, true);
+		for (int i = 0; i < size; ++i) {
+			array_.add(default_value);
+		}
+	}
+
 	public RubyArray(int size, boolean isNotSingleAsterisk) {
 		super(RubyRuntime.ArrayClass);
 		array_ = new ArrayList<RubyValue>(size);
