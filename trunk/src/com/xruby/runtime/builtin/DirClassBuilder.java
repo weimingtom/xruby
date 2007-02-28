@@ -70,7 +70,7 @@ class Dir_entries extends RubyOneArgMethod {
 	}
 }
 
-class Dir_array_access extends RubyOneArgMethod {
+class Dir_glob extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		File file = new File(".");
 		String pattern = RubyTypesUtil.convertToString(arg).toString();
@@ -97,6 +97,8 @@ public class DirClassBuilder {
 		c.getSingletonClass().defineMethod("delete", rmdir);
 		c.getSingletonClass().defineMethod("unlink", rmdir);
 		c.getSingletonClass().defineMethod("entries", new Dir_entries());
-		c.getSingletonClass().defineMethod("[]", new Dir_array_access());	
+		RubyMethod glob = new Dir_glob();
+		c.getSingletonClass().defineMethod("[]", glob);	
+		c.getSingletonClass().defineMethod("glob", glob);	
 	}	
 }
