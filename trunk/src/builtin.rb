@@ -235,10 +235,18 @@ class Numeric
 	end
   
   def step(limit, step)
-    i = self
-    while i < limit
-      yield i
-      i += step
+    if step > 0
+      i = self
+      while i < limit
+        yield i
+        i += step
+      end
+    elsif step < 0
+       i = self
+      while i >= limit
+        yield i
+        i += step
+      end
     end
   end
   

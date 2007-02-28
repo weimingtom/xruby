@@ -418,6 +418,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Array_misc() {
 		String[] program_texts = {
+				"p Array.new(3, 0)",
+				"p Array.new(3)",
+				
+				"print [3, 4].first, [].first, [5, 6, 7].first(2)",
+				"print [3, 4].last, [].last, [5, 6, 7].last(2)",
 				"print [1, 3].at(1)",
 				"a = [1, 2]; b = a.dup; b.shift; p a, b",
 				"print [1, 3].delete(2)",
@@ -446,6 +451,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"[0, 0, 0]\n",
+				"[nil, nil, nil]\n",
+				
+				"3nil56",
+				"4nil67",
 				"3",
 				"[1, 2]\n[2]\n",
 				"nil",
@@ -5039,10 +5049,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 	public void test_Numeric_step() {
 		String[] program_texts = {
 				"1.step(10, 2) { |i| print i }",
+				"4.step(0,-1) {|x| print x}",
 		};
 		
 		String[] outputs = {
 				"13579",
+				"43210",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
