@@ -10,6 +10,7 @@ import com.xruby.runtime.value.*;
 
 /**
  * Provides caller
+ * TODO Does not work with exception
  * TODO Does not support thread now
  * TODO wrong format, should be ["test.rb:6:in `g'", "test.rb:9"]
  */
