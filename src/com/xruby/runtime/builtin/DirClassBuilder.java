@@ -127,7 +127,7 @@ class Dir_glob extends RubyOneArgMethod {
 		File file = new File(dir);
 		String[] files = file.list(new GlobFilenameFilter(pattern));
 		if (null != files) {
-			for (String f : f){
+			for (String f : files){
 				block.invoke(receiver, new RubyArray(ObjectFactory.createString(dir + "/" + f)));
 			}
 		}
