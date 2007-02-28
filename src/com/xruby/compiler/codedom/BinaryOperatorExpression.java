@@ -5,6 +5,8 @@
 
 package com.xruby.compiler.codedom;
 
+import java.util.ArrayList;
+
 public class BinaryOperatorExpression extends Expression {
 
 	protected String operator_;
@@ -21,5 +23,10 @@ public class BinaryOperatorExpression extends Expression {
 		left_.accept(visitor);
 		right_.accept(visitor);
 		visitor.visitBinaryOperator(operator_);
+	}
+
+	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
+		left_.getFrequentlyUsedIntegers(result);
+		right_.getFrequentlyUsedIntegers(result);
 	}
 }

@@ -6,6 +6,7 @@
 package com.xruby.compiler.codedom;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import antlr.RecognitionException;
 
 public class IntegerExpression extends Expression {
@@ -30,10 +31,16 @@ public class IntegerExpression extends Expression {
 	}
 
 	public void accept(CodeVisitor visitor) {
-		if (value_.compareTo(FIXNUM_MAX) > 0 || value_.compareTo(FIXNUM_MIN) < 0) {
-			visitor.visitBignumExpression(value_);
-		} else {
+		if (value_.compareTo(FIXNUM_MIN) >= 0 && value_.compareTo(FIXNUM_MAX) <= 0) {
 			visitor.visitFixnumExpression(value_.intValue());
+		} else {
+			visitor.visitBignumExpression(value_);
+		}
+	}
+
+	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
+		if (value_.compareTo(FIXNUM_MIN) >= 0 && value_.compareTo(FIXNUM_MAX) <= 0) {
+			result.add(value_.intValue());
 		}
 	}
 }

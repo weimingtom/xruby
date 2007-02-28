@@ -5,6 +5,8 @@
 
 package com.xruby.compiler.codedom;
 
+import java.util.ArrayList;
+
 public class UnaryOperatorExpression extends Expression {
 	private String operator_;
 	private Expression left_;
@@ -17,5 +19,9 @@ public class UnaryOperatorExpression extends Expression {
 	public void accept(CodeVisitor visitor) {
 		left_.accept(visitor);
 		visitor.visitUnaryOperator(operator_);
+	}
+
+	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
+		left_.getFrequentlyUsedIntegers(result);
 	}
 }

@@ -427,6 +427,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 		return label;
 	}
 
+	public void visitFrequentlyUsedInteger(int i) {
+		cg_.getMethodGenerator().createFrequentlyUsedInteger(i);
+	}
+
 	public void visitWhileConditionBegin() {
 		labelManager_.openNewScope();
 		cg_.getMethodGenerator().mark(labelManager_.getCurrentNext());

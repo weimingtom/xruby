@@ -61,4 +61,8 @@ public class AssignmentOperatorExpression extends Expression {
 			}
 		}
 	}
+
+	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
+		rhs_.getFrequentlyUsedIntegers(result);
+	}
 }

@@ -141,7 +141,8 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitHashBegin();
 	public void visitHashEnd();
 	public void visitHashElement();
-	
+
+	public void visitFrequentlyUsedInteger(int i);
 	public void visitWhileConditionBegin();
 	public void visitWhileConditionEnd(boolean is_until);
 	public void visitWhileBodyEnd(boolean has_body);
