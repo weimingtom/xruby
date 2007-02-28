@@ -5,6 +5,8 @@
 
 package com.xruby.compiler.codedom;
 
+import java.util.ArrayList;
+
 public class WhileExpression extends Expression {
 	private final Expression condition_;
 	private final CompoundStatement body_;
@@ -38,6 +40,16 @@ public class WhileExpression extends Expression {
 			body_.ensureVariablesAreInitialized(visitor);
 		}
 
+		//TODO apply this optimization to other places
+		//If we have a  program like this:
+		// i = 0; while i < 3000; i +=1; end
+		//Without this optimization ObjectFactorycreateFixnum(3000) will be called 3000 times.
+		ArrayList<Integer> integers = new ArrayList<Integer>();
+		condition_.getFrequentlyUsedIntegers(integers);
+		for (Integer i : integers) {
+			visitor.visitFrequentlyUsedInteger(i);
+		}
+		
 		visitor.visitWhileConditionBegin();
 		condition_.accept(visitor);
 		visitor.visitWhileConditionEnd(is_until_);

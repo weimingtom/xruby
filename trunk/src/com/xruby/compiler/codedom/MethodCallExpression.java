@@ -6,6 +6,7 @@
 package com.xruby.compiler.codedom;
 
 import antlr.RecognitionException;
+import java.util.ArrayList;
 
 public class MethodCallExpression extends Expression {
 
@@ -169,5 +170,14 @@ public class MethodCallExpression extends Expression {
 							assignedCommons,
 							name,
 							single_arg_no_block);
+	}
+
+	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
+		if (null != receiver_) {
+			receiver_.getFrequentlyUsedIntegers(result);
+		}
+		if (null != arguments_) {
+			arguments_.getFrequentlyUsedIntegers(result);
+		}
 	}
 }

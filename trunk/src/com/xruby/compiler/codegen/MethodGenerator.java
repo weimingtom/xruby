@@ -15,6 +15,7 @@ import com.xruby.runtime.value.*;
 class MethodGenerator extends GeneratorAdapter {
 	
 	private SymbolTable symbol_table_;
+	private IntegerTable integer_table_ = new IntegerTable();
 	private ArrayList<Class> current_types_on_stack_ = new ArrayList<Class>();
 	private ArrayList<Integer> saved_vars_ = new ArrayList<Integer>();//may be have same length of current_types_on_stack_
 
@@ -411,10 +412,20 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 	}
 	
-	public void ObjectFactory_createFloat(double value) {
-		push(value);
-		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.value.RubyFloat createFloat(double)"));
+	public void createFrequentlyUsedInteger(int value) {
+		if (value >=0 && value <= 10) {
+			return;
+		}
+
+		Integer i = integer_table_.getInteger(value);
+		if (null != i) {
+			return;
+		}
+
+		ObjectFactory_createFixnum(value);
+		int var = newLocal(Type.getType(Types.RubyValueClass));
+		storeLocal(var);
+		integer_table_.addInteger(value, var);
 	}
 
 	public void ObjectFactory_createFixnum(int value) {
@@ -422,11 +433,24 @@ class MethodGenerator extends GeneratorAdapter {
 			getStatic(Type.getType(ObjectFactory.class),
 				"fixnum" + value,
 				Type.getType(RubyFixnum.class));
-		} else {
-			push(value);
-			invokeStatic(Type.getType(ObjectFactory.class),
-	                Method.getMethod("com.xruby.runtime.value.RubyFixnum createFixnum(int)"));
+			return;
 		}
+		
+		Integer i = integer_table_.getInteger(value);
+		if (null != i) {
+			loadLocal(i);
+			return;
+		}
+		
+		push(value);
+		invokeStatic(Type.getType(ObjectFactory.class),
+	                Method.getMethod("com.xruby.runtime.value.RubyFixnum createFixnum(int)"));
+	}
+
+	public void ObjectFactory_createFloat(double value) {
+		push(value);
+		invokeStatic(Type.getType(ObjectFactory.class),
+                Method.getMethod("com.xruby.runtime.value.RubyFloat createFloat(double)"));
 	}
 	
 	public void ObjectFactory_createBignum(BigInteger value) {

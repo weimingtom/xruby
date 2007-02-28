@@ -40,5 +40,9 @@ public abstract class Expression implements Visitable {
 	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		//Default behavior is do nothing
 	}
+
+	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
+		//Default behavior is do nothing
+	}
 	
 }
