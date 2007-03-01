@@ -37,7 +37,7 @@ def bm file
     print file, "\t"
     run_command "ruby #{file}"
     print "\t"
-    run_command "java -jar xruby-0.1.1.jar #{file}"
+    run_command "java -jar xruby-0.1.2.jar #{file}"
     print "\n"
   end
 end
