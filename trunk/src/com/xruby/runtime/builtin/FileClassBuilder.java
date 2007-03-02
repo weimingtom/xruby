@@ -49,16 +49,16 @@ class File_basename extends RubyMethod {
 class File_delete extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		int deleted = 0;
-		if (args!= null){
-			for (int i=0; i<args.size(); ++i){
+		if (args!= null) {
+			for (int i = 0; i < args.size(); ++i) {
 				String fileName = RubyTypesUtil.convertToString(args.get(i)).toString();
 				File file = new File(fileName);
-				if (file.isDirectory()){
+				if (file.isDirectory()) {
 					throw new RubyException(RubyRuntime.RuntimeErrorClass, "Is a directory - " + fileName);
-				}else if(file.isFile()){
+				} else if(file.isFile()) {
 					file.delete();
 					++ deleted;
-				}else{
+				} else {
 					throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such file or directory - " + fileName);
 				}
 			}
