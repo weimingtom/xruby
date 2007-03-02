@@ -72,11 +72,15 @@ public class MethodDefinationExpression extends Expression {
 		}
 
 		int i = parameters_.size() - default_parameters_.size();
-		for (Expression e : default_parameters_) {
-			Object next_label = visitor.visitMethodDefinationDefaultParameterBegin(i);
-			e.accept(visitor);
-			visitor.visitMethodDefinationDefaultParameterEnd(next_label);
-			++i;
+		if (!default_parameters_.isEmpty()) {
+			visitor.visitMethodDefinationDefaultParameters(default_parameters_.size());
+
+			for (Expression e : default_parameters_) {
+				Object next_label = visitor.visitMethodDefinationDefaultParameterBegin(i);
+				e.accept(visitor);
+				visitor.visitMethodDefinationDefaultParameterEnd(next_label);
+				++i;
+			}
 		}
 		
 		if (null != bodyStatement_) {

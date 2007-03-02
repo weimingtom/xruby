@@ -27,7 +27,7 @@ class Bignum_to_s extends RubyMethod {
 
 	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyBignum value = (RubyBignum)receiver;
-		if (args.size() == 0){
+		if (null == args){
 			return ObjectFactory.createString(value.to_s());
 		}
 

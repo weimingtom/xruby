@@ -504,7 +504,7 @@ class Fixnum_to_s extends RubyMethod {
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		int radix = 10;
-		if (args.size() == 1) {
+		if (null != args && args.size() == 1) {
 			radix = RubyTypesUtil.convertToJavaInt(args.get(0));
 			if (radix < 2 || radix > 36){
 				throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);

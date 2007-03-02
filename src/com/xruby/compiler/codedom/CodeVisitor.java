@@ -76,6 +76,8 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitMethodDefinationAsteriskParameter(String name);
 	public void visitMethodDefinationBlockParameter(String name);
 	public void visitMethodDefinationEnd(boolean last_statement_has_return_value);
+
+	public void visitMethodDefinationDefaultParameters(int size);
 	public Object visitMethodDefinationDefaultParameterBegin(int index);
 	public void visitMethodDefinationDefaultParameterEnd(Object next_label);
 	

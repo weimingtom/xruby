@@ -205,6 +205,17 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_ = suspended_cgs_.pop();
 	}
 
+	public void visitMethodDefinationDefaultParameters(int size) {
+		assert(size > 0);
+		//create a empty array if arg is null (avoid null reference)
+		cg_.getMethodGenerator().loadArg(1);
+		Label label = new Label();
+		cg_.getMethodGenerator().ifNonNull(label);
+		cg_.getMethodGenerator().ObjectFactory_createArray(size, true);
+		cg_.getMethodGenerator().storeArg(1);
+		cg_.getMethodGenerator().mark(label);
+	}
+
 	public Object visitMethodDefinationDefaultParameterBegin(int index) {
 		Label next_label = new Label();
 
