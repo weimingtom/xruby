@@ -42,6 +42,26 @@ public class TestingPerformance {
 		return end - start;
 	}
 	
+	private static long test_cast() {
+		RubyValue v = new RubyArray(ObjectFactory.fixnum1);
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			@SuppressWarnings("unused")
+			RubyArray a = (RubyArray)v;
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_nothing() {
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			//Do nothing
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
 	private static long test_findMethod() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
@@ -73,17 +93,21 @@ public class TestingPerformance {
 	}
 	
 	/* Sample result:
-	Fixnum Creation: 975
-	String Creation: 3471
-	Array Creation: 2605
-	Method Finding: 3989
-	Method Invoking: 1683
-	Method Calling: 10296
+	Fixnum Creation: 895
+	String Creation: 3273
+	Array Creation: 2556
+	Type Casting: 93
+	Do nothing: 27
+	Method Finding: 3979
+	Method Invoking: 1675
+	Method Calling: 10250
 	*/
 	public static void main(String[] args) {
 		System.out.println("Fixnum Creation: " + test_createFixnum());
 		System.out.println("String Creation: " + test_createString());
 		System.out.println("Array Creation: " + test_createArray());
+		System.out.println("Type Casting: " + test_cast());
+		System.out.println("Do nothing: " + test_nothing());
 		System.out.println("Method Finding: " + test_findMethod());
 		System.out.println("Method Invoking: " + test_invokeMethod());
 		System.out.println("Method Calling: " + test_callMethod());
