@@ -199,16 +199,11 @@ class Array_push extends RubyVarArgMethod {
 	}
 }
 
-class Array_insert extends RubyMethod {
-	public Array_insert() {
-		super(2);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class Array_insert extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
-		RubyFixnum index = (RubyFixnum)args.get(0);
-		RubyValue value = args.get(1);
-		return array.insert(index.intValue(), value);
+		RubyFixnum index = (RubyFixnum)arg1;
+		return array.insert(index.intValue(), arg2);
 	}
 }
 

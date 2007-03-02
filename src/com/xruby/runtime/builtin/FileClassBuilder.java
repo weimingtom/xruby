@@ -158,14 +158,10 @@ class File_size extends RubyOneArgMethod {
 	}
 }
 
-class File_rename extends RubyMethod {
-	public File_rename() {
-		super(2);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		String file1 = RubyTypesUtil.convertToString(args.get(0)).toString();
-		String file2 = RubyTypesUtil.convertToString(args.get(1)).toString();
+class File_rename extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
+		String file1 = RubyTypesUtil.convertToString(arg1).toString();
+		String file2 = RubyTypesUtil.convertToString(arg2).toString();
 		File file = new File(file1);
 		if (!file.isFile() && !file.isDirectory()){
 			throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such file or directory - " + file1);

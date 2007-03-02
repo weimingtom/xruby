@@ -121,24 +121,18 @@ class Math_atanh extends RubyOneArgMethod {
 	}
 }
 
-class Math_atan2 extends RubyMethod {
-	public Math_atan2() {
-		super(2);
-	}
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double y = RubyTypesUtil.convertToJavaDouble(args.get(0));
-		double x = RubyTypesUtil.convertToJavaDouble(args.get(1));
+class Math_atan2 extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
+		double y = RubyTypesUtil.convertToJavaDouble(arg1);
+		double x = RubyTypesUtil.convertToJavaDouble(arg2);
 		return ObjectFactory.createFloat(Math.atan2(y, x));
 	}
 }
 
-class Math_hypot extends RubyMethod {
-	public Math_hypot() {
-		super(2);
-	}
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		double y = RubyTypesUtil.convertToJavaDouble(args.get(0));
-		double x = RubyTypesUtil.convertToJavaDouble(args.get(1));
+class Math_hypot extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
+		double y = RubyTypesUtil.convertToJavaDouble(arg1);
+		double x = RubyTypesUtil.convertToJavaDouble(arg2);
 		return ObjectFactory.createFloat(Math.hypot(y, x));
 	}
 }
