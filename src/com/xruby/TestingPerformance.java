@@ -42,6 +42,37 @@ public class TestingPerformance {
 		return end - start;
 	}
 	
+	private static long test_arrayAccess() {
+		RubyArray a = new RubyArray(ObjectFactory.fixnum1);
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			a.get(0);
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_javaArrayAccess() {
+		RubyValue[] a = new RubyValue[]{ObjectFactory.fixnum1};
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			@SuppressWarnings("unused")
+			RubyValue b = a[0];
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_createJavaArray() {
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			@SuppressWarnings("unused")
+			RubyValue[] a = new RubyValue[]{ObjectFactory.fixnum1};
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
 	private static long test_cast() {
 		RubyValue v = new RubyArray(ObjectFactory.fixnum1);
 		long start = System.currentTimeMillis();
@@ -93,19 +124,25 @@ public class TestingPerformance {
 	}
 	
 	/* Sample result:
-	Fixnum Creation: 895
-	String Creation: 3273
-	Array Creation: 2556
-	Type Casting: 93
+	Fixnum Creation: 846
+	String Creation: 3193
+	Array Creation: 2440
+	Array access: 613
+	Java Array Creation: 781
+	Java Array access: 59
+	Type Casting: 96
 	Do nothing: 27
-	Method Finding: 3979
-	Method Invoking: 1675
-	Method Calling: 10250
+	Method Finding: 4097
+	Method Invoking: 1637
+	Method Calling: 10231
 	*/
 	public static void main(String[] args) {
 		System.out.println("Fixnum Creation: " + test_createFixnum());
 		System.out.println("String Creation: " + test_createString());
 		System.out.println("Array Creation: " + test_createArray());
+		System.out.println("Array access: " + test_arrayAccess());
+		System.out.println("Java Array Creation: " + test_createJavaArray());
+		System.out.println("Java Array access: " + test_javaArrayAccess());
 		System.out.println("Type Casting: " + test_cast());
 		System.out.println("Do nothing: " + test_nothing());
 		System.out.println("Method Finding: " + test_findMethod());
