@@ -117,7 +117,7 @@ public class TestingPerformance {
 	private static long test_callMethod() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 30000000; ++i) {
-			RubyAPI.callMethod(ObjectFactory.fixnum1, ObjectFactory.fixnum1, "+");
+			RubyAPI.callPublicOneArgMethod(ObjectFactory.fixnum1, ObjectFactory.fixnum1, null, "+");
 		}
 		long end = System.currentTimeMillis();
 		return end - start;

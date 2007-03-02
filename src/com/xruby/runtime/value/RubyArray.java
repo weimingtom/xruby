@@ -169,7 +169,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	public RubyValue compare(RubyArray other_array) {
 		int length = (size() <= other_array.size()) ? size() : other_array.size();
 		for (int i = 0; i < length; ++i) {
-			RubyValue v = RubyAPI.callPublicMethod(get(i), other_array.get(i), "<=>");
+			RubyValue v = RubyAPI.callPublicOneArgMethod(get(i), other_array.get(i), null, "<=>");
 			if (!RubyAPI.testEqual(v, ObjectFactory.fixnum0)) {
 				return v;
 			}
@@ -359,7 +359,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	public void sort() {
 		Collections.sort(array_, new Comparator<RubyValue>() {
 				public int compare(RubyValue arg0, RubyValue arg1) {
-					RubyValue v = RubyAPI.callPublicMethod(arg0, arg1, "<=>");
+					RubyValue v = RubyAPI.callPublicOneArgMethod(arg0, arg1, null, "<=>");
 					return ((RubyFixnum)v).intValue();
 				}
 			}

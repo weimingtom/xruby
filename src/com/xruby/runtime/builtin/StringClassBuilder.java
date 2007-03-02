@@ -348,7 +348,7 @@ class String_operator_match extends RubyOneArgMethod {
 				return ObjectFactory.nilValue;
 			}
 		} else {
-			return RubyAPI.callPublicMethod(arg, receiver, "=~");
+			return RubyAPI.callPublicOneArgMethod(arg, receiver, null, "=~");
 		}
 	}
 }
