@@ -274,18 +274,18 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 	
-	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, boolean single_arg_no_block) {	
+	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, boolean single_arg) {	
 		cg_.getMethodGenerator().removeCurrentVariablesOnStack();
 
 		if (hasReceiver) {
-			if (single_arg_no_block) {
-				cg_.getMethodGenerator().RubyAPI_callPublicMethod_OneArgNoBlcok(methodName);
+			if (single_arg) {
+				cg_.getMethodGenerator().RubyAPI_callPublicOneArgMethod(methodName);
 			} else {
 				cg_.getMethodGenerator().RubyAPI_callPublicMethod(methodName);
 			}
 		} else {
-			if (single_arg_no_block) {
-				cg_.getMethodGenerator().RubyAPI_callMethod_OneArgNoBlcok(methodName);
+			if (single_arg) {
+				cg_.getMethodGenerator().RubyAPI_callOneArgMethod(methodName);
 			} else {
 				cg_.getMethodGenerator().RubyAPI_callMethod(methodName);
 			}
@@ -298,14 +298,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitBinaryOperator(String operator) {
 		if (operator.equals("!=")) {
-			cg_.getMethodGenerator().RubyAPI_callPublicMethod_OneArgNoBlcok("==");
+			cg_.getMethodGenerator().RubyAPI_callPublicOneArgMethod("==");
 			cg_.getMethodGenerator().RubyAPI_operatorNot();
 		} else if (operator.equals("!~")) {
-			cg_.getMethodGenerator().RubyAPI_callPublicMethod_OneArgNoBlcok("=~");
+			cg_.getMethodGenerator().RubyAPI_callPublicOneArgMethod("=~");
 			cg_.getMethodGenerator().RubyAPI_operatorNot();
 		} else {
 			//operator as method call
-			cg_.getMethodGenerator().RubyAPI_callPublicMethod_OneArgNoBlcok(operator);
+			cg_.getMethodGenerator().RubyAPI_callPublicOneArgMethod(operator);
 		}
 	}
 	

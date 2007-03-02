@@ -167,7 +167,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitMethodCallBegin() {
 	}
 	
-	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, boolean single_arg_no_block) {
+	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, boolean single_arg) {
 		result_.append(methodName);
 		result_.append(":");
 		result_.append(hasReceiver);

@@ -76,7 +76,7 @@ class Range_to_a extends RubyNoArgMethod {
 */
 class Range_each extends RubyNoArgMethod {
 	private boolean compare(RubyValue value1, RubyValue value2) {
-		RubyValue r = RubyAPI.callPublicMethod(value1, value2, "<=>");
+		RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, "<=>");
 		return !RubyAPI.testEqual(r, ObjectFactory.fixnum0);
 	}
 

@@ -99,19 +99,19 @@ class Kernel_print extends RubyVarArgMethod {
 		for (int i = 0; i < args.size(); ++i) {
 			// insert the output field separator($,) if not nil
 			if (i > 0 && GlobalVariables.get("$,") != ObjectFactory.nilValue) {
-				RubyAPI.callPublicMethod(receiver, GlobalVariables.get("$,"), "write");
+				RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$,"), null, "write");
 			}
 			
 			if (args.get(i) == ObjectFactory.nilValue) {
-				RubyAPI.callPublicMethod(receiver, ObjectFactory.createString("nil"), "write");
+				RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("nil"), null, "write");
 			} else {
-				RubyAPI.callPublicMethod(receiver, args.get(i), "write");
+				RubyAPI.callPublicOneArgMethod(receiver, args.get(i), null, "write");
 			}
 		}
 		
 		// if the output record separator($\) is not nil, it will be appended to the output.
 		if ( GlobalVariables.get("$\\") != ObjectFactory.nilValue) {
-			RubyAPI.callPublicMethod(receiver, GlobalVariables.get("$\\"), "write");
+			RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$\\"), null, "write");
 		}
 
 		return ObjectFactory.nilValue;

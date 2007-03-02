@@ -22,12 +22,12 @@ public class RubyAPI {
 	}
 
 	public static boolean testCaseEqual(RubyValue value1, RubyValue value2) {
-		RubyValue r = RubyAPI.callPublicMethod(value1, value2, "===");
+		RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, "===");
 		return testTrueFalse(r);
 	}
 
 	public static boolean testEqual(RubyValue value1, RubyValue value2) {
-		RubyValue r = RubyAPI.callPublicMethod(value1, value2, "==");
+		RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, "==");
 		return testTrueFalse(r);
 	}
 
@@ -111,6 +111,7 @@ public class RubyAPI {
 
 	//receiver is implicit self
 	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
+		assert(null == args || args.size() > 1);//use callOneArgMethod if has only one arg
 		RubyMethod m = receiver.findMethod(method_name);
 		if (null != m && !UndefMethod.isUndef(m)) {
 			return invokeMethod(m, method_name, receiver, args, block);
@@ -121,20 +122,21 @@ public class RubyAPI {
 
 	//method call with *one* argument and no block (use the other one if no arg (arg == null)!)
 	//This make code (especially reverse engineered ones) more readable.
-	public static RubyValue callMethod(RubyValue receiver, RubyValue arg, String method_name) {
+	public static RubyValue callOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name) {
 		assert(null != arg);
-		return RubyAPI.callMethod(receiver, new RubyArray(arg), null, method_name);
+		return RubyAPI.callMethod(receiver, new RubyArray(arg), block, method_name);
 	}
 
 	//method call with *one* argument and no block (use the other one if no arg (arg == null)!)
 	//This make code (especially reverse engineered ones) more readable.
-	public static RubyValue callPublicMethod(RubyValue receiver, RubyValue arg, String method_name) {
+	public static RubyValue callPublicOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name) {
 		assert(null != arg);
-		return RubyAPI.callPublicMethod(receiver, new RubyArray(arg), null, method_name);
+		return RubyAPI.callPublicMethod(receiver, new RubyArray(arg), block, method_name);
 	}
 
 	//TODO should pass owner to work with protected method
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
+		assert(null == args || args.size() > 1);//use callPublicOneArgMethod if has only one arg
 		RubyMethod m = receiver.findPublicMethod(method_name);
 		if (null != m && !UndefMethod.isUndef(m)) {
 			return invokeMethod(m, method_name, receiver, args, block);

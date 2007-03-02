@@ -69,7 +69,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 
 	//Do not use this method if o is not instanceof RubyValue
 	public boolean equals(Object o) {
-		RubyValue v = RubyAPI.callPublicMethod(this, (RubyValue)o, "==");
+		RubyValue v = RubyAPI.callPublicOneArgMethod(this, (RubyValue)o, null, "==");
 		return RubyAPI.testTrueFalse(v);
 	}
 	

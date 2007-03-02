@@ -567,10 +567,11 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
-	public void RubyAPI_callPublicMethod_OneArgNoBlcok(String methodName) {
+	public void RubyAPI_callPublicOneArgMethod(String methodName) {
+		pushNull();
 		push(methodName);
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));	
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, String)"));	
 	}
 
 	public void RubyAPI_callMethod(String methodName) {
@@ -579,10 +580,11 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
-	public void RubyAPI_callMethod_OneArgNoBlcok(String methodName) {
+	public void RubyAPI_callOneArgMethod(String methodName) {
+		pushNull();
 		push(methodName);
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, String)"));
 	}
 
 	public void RubyAPI_callSuperMethod(String methodName) {
