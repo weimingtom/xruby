@@ -14,57 +14,44 @@ import com.xruby.runtime.value.ObjectFactory;
  * TODO: the implementation of Enumerable has a drawback, please take care if you wanna use it
  */
 
-class Enum_collect extends RubyMethod {
-    public Enum_collect() {
-        super(0);
-    }
-
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
-        RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
-        return repeatableBlock.getRetValue();
-    }
+class Enum_collect extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
+		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
+		return repeatableBlock.getRetValue();
+	}
 }
 
-class Enum_all extends RubyMethod {
-    public Enum_all() {
-        super(0);
-    }
+class Enum_all extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
+		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
+		RubyArray array = repeatableBlock.getRetValue();
 
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
-        RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
-        RubyArray array = repeatableBlock.getRetValue();
-
-        for (RubyValue value : array) {
-            // TODO: We should add RubyBoolean and its to_s
-            if (value.equals(ObjectFactory.falseValue)) {
-                return ObjectFactory.falseValue;
-            }
-        }
-        return ObjectFactory.trueValue;
-    }
+		for (RubyValue value : array) {
+			// TODO: We should add RubyBoolean and its to_s
+			if (value == ObjectFactory.falseValue) {
+				return ObjectFactory.falseValue;
+			}
+		}
+		return ObjectFactory.trueValue;
+	}
 }
 
-class Enum_any extends RubyMethod {
+class Enum_any extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
+		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
+		RubyArray array = repeatableBlock.getRetValue();
 
-    public Enum_any() {
-        super(0);
-    }
-
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
-        RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
-        RubyArray array = repeatableBlock.getRetValue();
-
-        for (RubyValue value : array) {
-            // TODO: We should add RubyBoolean and its to_s
-            if (value.equals(ObjectFactory.trueValue)) {
-                return ObjectFactory.trueValue;
-            }
-        }
-        return ObjectFactory.falseValue;
-    }
+		for (RubyValue value : array) {
+			// TODO: We should add RubyBoolean and its to_s
+			if (value == ObjectFactory.trueValue) {
+				return ObjectFactory.trueValue;
+			}
+		}
+		return ObjectFactory.falseValue;
+	}
 }
 
 public class EnumerableModuleBuilder {
