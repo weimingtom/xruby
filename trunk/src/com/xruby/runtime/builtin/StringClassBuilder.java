@@ -144,7 +144,7 @@ class String_to_i extends RubyMethod {
 
 		value = value.substring(0, end);
 
-		if (args.size() == 0) {
+		if (null == args) {
 			return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
 		} else {
 			int radix = ((RubyFixnum)args.get(0)).intValue();
@@ -293,7 +293,7 @@ class String_split extends RubyMethod {
 	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString g = (RubyString)receiver;
-		RubyValue r = (args.size() == 0) ? GlobalVariables.get("$;") : args.get(0);
+		RubyValue r = (null == args) ? GlobalVariables.get("$;") : args.get(0);
 
 		String[] splitResult;
 		if (r == ObjectFactory.nilValue) {
@@ -556,7 +556,7 @@ class String_chomp extends RubyVarArgMethod {
 class String_chomp_danger extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyString string = (RubyString)receiver;
-		RubyValue separator = (args.size() > 0) ? args.get(0) : GlobalVariables.get("$/");
+		RubyValue separator = (null == args) ? GlobalVariables.get("$/") : args.get(0);
 		string.chomp(((RubyString)separator).toString());
 		return string;
 	}
@@ -570,55 +570,39 @@ class String_scan extends RubyOneArgMethod {
 	}
 }
 
-class String_tr_danger extends RubyMethod {
-	String_tr_danger() {
-		super(2);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_tr_danger extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
 		RubyString string = (RubyString)receiver;
-		RubyString from = (RubyString)args.get(0);
-		RubyString to = (RubyString)args.get(1);
+		RubyString from = (RubyString)arg1;
+		RubyString to = (RubyString)arg2;
 		return string.tr(from.toString(), to.toString()) ? string : ObjectFactory.nilValue;
 	}
 }
 
-class String_tr extends RubyMethod {
-	String_tr() {
-		super(2);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_tr extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
 		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
-		RubyString from = (RubyString)args.get(0);
-		RubyString to = (RubyString)args.get(1);
+		RubyString from = (RubyString)arg1;
+		RubyString to = (RubyString)arg2;
 		string.tr(from.toString(), to.toString());
 		return string;
 	}
 }
 
-class String_tr_s_danger extends RubyMethod {
-	String_tr_s_danger() {
-		super(2);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_tr_s_danger extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
 		RubyString string = (RubyString)receiver;
-		RubyString from = (RubyString)args.get(0);
-		RubyString to = (RubyString)args.get(1);
+		RubyString from = (RubyString)arg1;
+		RubyString to = (RubyString)arg2;
 		return string.tr_s(from.toString(), to.toString()) ? string : ObjectFactory.nilValue;
 	}
 }
 
-class String_tr_s extends RubyMethod {
-	String_tr_s() {
-		super(2);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+class String_tr_s extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
 		RubyString string = ObjectFactory.createString(((RubyString)receiver).toString());
-		RubyString from = (RubyString)args.get(0);
-		RubyString to = (RubyString)args.get(1);
+		RubyString from = (RubyString)arg1;
+		RubyString to = (RubyString)arg2;
 		string.tr_s(from.toString(), to.toString());
 		return string;
 	}

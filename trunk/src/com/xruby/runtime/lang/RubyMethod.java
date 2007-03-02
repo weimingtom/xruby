@@ -100,9 +100,6 @@ public abstract class RubyMethod extends MethodBlockBase {
 			} else if (args_length < (argc_ - default_argc_)) {
 				//number of arguments falls short anyway
 				throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
-			} else if (0 != default_argc_ && null == args) {
-				//need default parameter, allocate one to avoid null reference
-				args = new RubyArray();
 			}
 		}
 		

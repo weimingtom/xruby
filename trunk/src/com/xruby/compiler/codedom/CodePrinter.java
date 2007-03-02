@@ -489,6 +489,9 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
+	public void visitMethodDefinationDefaultParameters(int size) {
+	}
+
 	public Object visitMethodDefinationDefaultParameterBegin(int index) {
 		result_.append("DefaultParameterBegin:");
 		result_.append(index);
