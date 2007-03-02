@@ -6,6 +6,7 @@ Here is a list of things we are going to do
 
 = XRuby 0.2.0 =
   * Make test::unit work under xruby (Milestone)
+  * Change compiler's command line interface to compile multiple ruby scripts into one jar
   * Merge newruntime
   * Implement more builtin libraries
   * Support scripting API
@@ -25,4 +26,3 @@ Here is a list of things we are going to do
 
   * Make C extension work
   * Simplify builtin library code
-
