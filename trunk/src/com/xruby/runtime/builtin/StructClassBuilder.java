@@ -30,7 +30,7 @@ class Struct_new extends RubyVarArgMethod {
 			c.defineMethod(s + "=", new AttrWriter(s));
 		}
 		
-		c.getSingletonClass().defineMethod("new", new RubyMethod(super_args.size() - 1) {
+		c.getSingletonClass().defineMethod("new", new RubyMethod(super_args.size() - 1, false, 0) {
 				protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 					RubyValue v = new RubyObject((RubyClass)receiver);
 					for (int i = 0; i < args.size(); ++i) {
@@ -42,18 +42,18 @@ class Struct_new extends RubyVarArgMethod {
 			}
 		);
 
-		c.defineMethod("[]", new RubyMethod(1) {
-				protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		c.defineMethod("[]", new RubyOneArgMethod() {
+				protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 					String name;
-					if (args.get(0) instanceof RubyString) {
-						name = ((RubyString)args.get(0)).toString();
-					} else if (args.get(0) instanceof RubySymbol) {
-						name = ((RubySymbol)args.get(0)).toString();
-					} else if (args.get(0) instanceof RubyFixnum) {
-						int i = ((RubyFixnum)args.get(0)).intValue();
+					if (arg instanceof RubyString) {
+						name = ((RubyString)arg).toString();
+					} else if (arg instanceof RubySymbol) {
+						name = ((RubySymbol)arg).toString();
+					} else if (arg instanceof RubyFixnum) {
+						int i = ((RubyFixnum)arg).intValue();
 						name = RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString();
 					} else {
-						throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + args.get(0).getRubyClass().getName() + " into Integer");
+						throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
 					}
 
 					return receiver.getInstanceVariable("@" + name);
@@ -61,27 +61,27 @@ class Struct_new extends RubyVarArgMethod {
 			}
 		);
 
-		c.defineMethod("[]=", new RubyMethod(2) {
-				protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		c.defineMethod("[]=", new RubyTwoArgMethod() {
+				protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
 					String name;
-					if (args.get(0) instanceof RubyString) {
-						name = ((RubyString)args.get(0)).toString();
-					} else if (args.get(0) instanceof RubySymbol) {
-						name = ((RubySymbol)args.get(0)).toString();
-					} else if (args.get(0) instanceof RubyFixnum) {
-						int i = ((RubyFixnum)args.get(0)).intValue();
+					if (arg1 instanceof RubyString) {
+						name = ((RubyString)arg1).toString();
+					} else if (arg1 instanceof RubySymbol) {
+						name = ((RubySymbol)arg1).toString();
+					} else if (arg1 instanceof RubyFixnum) {
+						int i = ((RubyFixnum)arg1).intValue();
 						name = RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString();
 					} else {
-						throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + args.get(0).getRubyClass().getName() + " into Integer");
+						throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg1.getRubyClass().getName() + " into Integer");
 					}
 
-					return receiver.setInstanceVariable(args.get(1), "@" + name);
+					return receiver.setInstanceVariable(arg2, "@" + name);
 				}
 			}
 		);
 
-		c.defineMethod("to_a", new RubyMethod(0) {
-				protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		c.defineMethod("to_a", new RubyNoArgMethod() {
+				protected RubyValue run(RubyValue receiver, RubyBlock block) {
 					RubyArray a = new RubyArray(super_args.size() - 1);
 					for (int i = 1; i < super_args.size(); ++i) {
 						String name = RubyTypesUtil.convertToSymbol(super_args.get(i)).toString();
