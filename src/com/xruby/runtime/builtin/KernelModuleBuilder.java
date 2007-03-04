@@ -322,11 +322,7 @@ class Kernel_lambda extends RubyNoArgMethod {
 	}
 }
 
-class Kernel_loop extends RubyMethod {
-	public Kernel_loop() {
-		super(0);
-	}
-	
+class Kernel_loop extends RubyVarArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		if (null == block) {
 			throw new RubyException(RubyRuntime.LocalJumpErrorClass, "in `loop': no block given");
