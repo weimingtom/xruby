@@ -297,6 +297,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitBinaryOperator(String operator) {
+		cg_.getMethodGenerator().pushNull();
 		if (operator.equals("!=")) {
 			cg_.getMethodGenerator().RubyAPI_callPublicOneArgMethod("==");
 			cg_.getMethodGenerator().RubyAPI_operatorNot();
@@ -612,7 +613,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (null != name) {
 			cg_.getMethodGenerator().loadLocal(exception_variable);
 			cg_.getMethodGenerator().RubyAPI_convertRubyException2RubyValue();
-			cg_.getMethodGenerator().storeVariable(name);
+			cg_.storeVariable(name);
 		}
 
 		return label;
@@ -672,8 +673,16 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().loadArg(0);//TODO error checking: super called outside of method (NoMethodError)
 	}
 
-	public void visitSuperEnd() {
-		cg_.getMethodGenerator().RubyAPI_callSuperMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
+	public void visitSuperEnd(boolean has_no_arg, boolean has_one_arg) {
+		if (has_no_arg &&
+			cg_ instanceof ClassGeneratorForRubyMethod &&
+			((ClassGeneratorForRubyMethod)cg_).hasOnlyOneArg()) {
+			cg_.getMethodGenerator().RubyAPI_callSuperOneArgMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
+		} else if (has_one_arg) {
+			cg_.getMethodGenerator().RubyAPI_callSuperOneArgMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
+		} else {
+			cg_.getMethodGenerator().RubyAPI_callSuperMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
+		}
 	}
 
 	public void visitGlobalVariableExpression(String value) {

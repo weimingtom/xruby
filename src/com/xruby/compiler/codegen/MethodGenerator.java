@@ -88,17 +88,6 @@ class MethodGenerator extends GeneratorAdapter {
 		return i;
 	}
 
-	public void storeParameter(int index) {
-		int i = newLocal(Type.getType(Types.RubyValueClass));
-		storeLocal(i);
-		loadArg(1);
-		push(index);
-		loadLocal(i);
-		invokeVirtual(Type.getType(Types.RubyArrayClass),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue set(int, com.xruby.runtime.lang.RubyValue)"));
-		pop();
-	}
-
 	public void storeBlockForFutureRestoreAndCheckReturned() {
 		dup();
 		int i = symbol_table_.getInternalBlockVar();
@@ -137,15 +126,8 @@ class MethodGenerator extends GeneratorAdapter {
 		}
 	}
 
-	public void loadMethodPrameter(int index) {
-		//signatiure run(RubyValue reciever, RubyArray parameters, RubyBlock block)
-		loadArg(1);
-		push(index);
-		invokeVirtual(Type.getType(Types.RubyArrayClass),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue get(int)"));
-	}
-
 	public void loadMethodPrameterLength() {
+		//This is only called for methods with default args
 		loadArg(1);
 		invokeVirtual(Type.getType(Types.RubyArrayClass),
 				Method.getMethod("int size()"));
@@ -235,65 +217,8 @@ class MethodGenerator extends GeneratorAdapter {
 	public void loadSelfOfCurrentMethod() {
 		loadThis();
 		getField(Type.getType(Types.RubyBlockClass), "selfOfCurrentMethod_", Type.getType(Types.RubyValueClass));
-	}
-
-	public void storeVariable(String name) {
-		int i = getSymbolTable().getLocalVariable(name);
-		if (i >= 0) {
-			storeLocal(i);
-			return;
-		} 
-
-		int index = getSymbolTable().getMethodParameter(name);
-		if (index >= 0) {
-			storeParameter(index);
-			return;
-		}
-
-		storeLocal(getNewLocalVariable(name));
-	}
+	} 
 	
-	public void loadVariable(Class c, String name) {
-		//check if this is local variable
-		if (getSymbolTable().getLocalVariable(name) >= 0) {
-			loadLocal(getLocalVariable(name));
-			return;
-		}
-		
-		// check if this is asterisk method parameter
-		// Actually we do not have to have the following code block: we can move initializeAsteriskParameter
-		// to the RubyMethod.initializeAsteriskParameter method so that it is always called. And may be we should
-		// -- this will make code generation simpler. But doing it here has a little advantage (optimazation): if the
-		//asterisk parameter is not used, we can avoid calling initializeAsteriskParameter().
-		int asterisk_parameter_access_counter = getSymbolTable().getMethodAsteriskParameter(name);
-		if (0 == asterisk_parameter_access_counter) {
-			call_initializeAsteriskParameter(c);
-			return;
-		} else if (asterisk_parameter_access_counter > 0) {
-			load_asterisk_parameter_(c);
-			return;
-		}
-
-		int block_parameter_access_counter = getSymbolTable().getMethodBlockParameter(name);
-		if (0 == block_parameter_access_counter) {
-			call_initializeBlockParameter(c);
-			return;
-		} else if (block_parameter_access_counter > 0) {
-			load_block_parameter_(c);
-			return;
-		}
-		
-		//check if this is normal method parameter
-		int index = getSymbolTable().getMethodParameter(name);
-		if (index >= 0) {
-			loadMethodPrameter(index);
-			return;
-		}
-		
-		// never used, for example a = a + 1
-		ObjectFactory_nilValue();
-	}
-
 	public void loadSelf(boolean is_in_block) {
 		if (is_in_block) {
 			loadSelfOfCurrentMethod();
@@ -568,7 +493,6 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 
 	public void RubyAPI_callPublicOneArgMethod(String methodName) {
-		pushNull();
 		push(methodName);
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, String)"));	
@@ -581,7 +505,6 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 
 	public void RubyAPI_callOneArgMethod(String methodName) {
-		pushNull();
 		push(methodName);
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, String)"));
@@ -592,6 +515,13 @@ class MethodGenerator extends GeneratorAdapter {
 		loadThis();
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String, com.xruby.runtime.lang.RubyMethod)"));
+	}
+
+	public void RubyAPI_callSuperOneArgMethod(String methodName) {
+		push(methodName);
+		loadThis();
+		invokeStatic(Type.getType(RubyAPI.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, String, com.xruby.runtime.lang.RubyMethod)"));
 	}
 
 	public void RubyAPI_operatorNot() {
