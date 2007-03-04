@@ -44,10 +44,6 @@ abstract class ClassGenerator {
 		}
 	}
 
-	public void storeVariable(String name) {
-		getMethodGenerator().storeVariable(name);
-	}
-
 	public void restoreLocalVariableFromBlock(String blockName, String name) {	
 		getMethodGenerator().loadLocal(getSymbolTable().getInternalBlockVar());		
 		getMethodGenerator().getField(Type.getType("L" + blockName + ";"), name, Type.getType(Types.RubyValueClass));		
@@ -107,10 +103,84 @@ abstract class ClassGenerator {
 		return getMethodGenerator().newLocal(Type.getType(Types.RubyValueClass));
 	}
 	
-	abstract protected Class getType();
-	
+	abstract protected Class getCurrentType();
+
+	public void storeVariable(String name) {
+		int i = getSymbolTable().getLocalVariable(name);
+		if (i >= 0) {
+			getMethodGenerator().storeLocal(i);
+			return;
+		} 
+
+		int index = getSymbolTable().getMethodParameter(name);
+		if (index >= 0) {
+			storeMethodParameter(index);
+			return;
+		}
+
+		getMethodGenerator().storeLocal(getMethodGenerator().getNewLocalVariable(name));
+	}
+		
 	public void loadVariable(String name) {
-		getMethodGenerator().loadVariable(getType(), name);
+		//check if this is local variable
+		if (getSymbolTable().getLocalVariable(name) >= 0) {
+			getMethodGenerator().loadLocal(getMethodGenerator().getLocalVariable(name));
+			return;
+		}
+		
+		// check if this is asterisk method parameter
+		// Actually we do not have to have the following code block: we can move initializeAsteriskParameter
+		// to the RubyMethod.initializeAsteriskParameter method so that it is always called. And may be we should
+		// -- this will make code generation simpler. But doing it here has a little advantage (optimazation): if the
+		//asterisk parameter is not used, we can avoid calling initializeAsteriskParameter().
+		Class c = getCurrentType();
+		int asterisk_parameter_access_counter = getSymbolTable().getMethodAsteriskParameter(name);
+		if (0 == asterisk_parameter_access_counter) {
+			getMethodGenerator().call_initializeAsteriskParameter(c);
+			return;
+		} else if (asterisk_parameter_access_counter > 0) {
+			getMethodGenerator().load_asterisk_parameter_(c);
+			return;
+		}
+
+		int block_parameter_access_counter = getSymbolTable().getMethodBlockParameter(name);
+		if (0 == block_parameter_access_counter) {
+			getMethodGenerator().call_initializeBlockParameter(c);
+			return;
+		} else if (block_parameter_access_counter > 0) {
+			getMethodGenerator().load_block_parameter_(c);
+			return;
+		}
+		
+		//check if this is normal method parameter
+		int index = getSymbolTable().getMethodParameter(name);
+		if (index >= 0) {
+			loadMethodPrameter(index);
+			return;
+		}
+		
+		// never used, for example a = a + 1
+		getMethodGenerator().ObjectFactory_nilValue();
+	}
+
+	public void loadMethodPrameter(int index) {
+		//signatiure:
+		//run(RubyValue reciever, RubyArray args, RubyBlock block)
+		getMethodGenerator().loadArg(1);
+		getMethodGenerator().push(index);
+		getMethodGenerator().invokeVirtual(Type.getType(Types.RubyArrayClass),
+					Method.getMethod("com.xruby.runtime.lang.RubyValue get(int)"));
+	}
+
+	public void storeMethodParameter(int index) {
+		int i = getMethodGenerator().newLocal(Type.getType(Types.RubyValueClass));
+		getMethodGenerator().storeLocal(i);
+		getMethodGenerator().loadArg(1);
+		getMethodGenerator().push(index);
+		getMethodGenerator().loadLocal(i);
+		getMethodGenerator().invokeVirtual(Type.getType(Types.RubyArrayClass),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue set(int, com.xruby.runtime.lang.RubyValue)"));
+		getMethodGenerator().pop();
 	}
 	
 	public MethodGenerator getMethodGenerator() {
@@ -186,7 +256,7 @@ abstract class ClassGenerator {
 		Collection<String> params = getSymbolTable().getParameters();
 		for (String s : params) {
 			getMethodGenerator().push(s);
-			getMethodGenerator().loadMethodPrameter(getSymbolTable().getMethodParameter(s));
+			loadMethodPrameter(getSymbolTable().getMethodParameter(s));
 			getMethodGenerator().invokeVirtual(type,
 				Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
 		}

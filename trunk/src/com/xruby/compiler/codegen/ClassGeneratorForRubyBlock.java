@@ -73,7 +73,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			(owner instanceof ClassGeneratorForRubyBlock) ? ((ClassGeneratorForRubyBlock)owner).field_manager_ : null);
 	}
 	
-	protected Class getType() {
+	protected Class getCurrentType() {
 		return Types.RubyBlockClass;
 	}
 

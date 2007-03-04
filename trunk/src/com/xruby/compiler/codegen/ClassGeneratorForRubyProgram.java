@@ -18,7 +18,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		binding_ = binding;
 	}
 	
-	protected Class getType() {
+	protected Class getCurrentType() {
 		return Types.RubyProgramClass;
 	}
 

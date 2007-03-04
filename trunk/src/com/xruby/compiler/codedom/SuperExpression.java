@@ -18,8 +18,15 @@ public class SuperExpression extends Expression {
 	public void accept(CodeVisitor visitor) {
 		visitor.visitSuperBegin();
 
+		final boolean single_arg = (null != arguments_) && 
+									(arguments_.size() == 1) &&
+									(null == arguments_.getAsteriskArgument()) &&
+									(null == arguments_.getBlockArgument());
+
 		if (null == arguments_) {
 			visitor.visitNoParameterForSuper();
+		} else if (single_arg) {
+			arguments_.getFirstExpression().accept(visitor);
 		} else {
 			arguments_.accept(visitor);
 		}
@@ -33,7 +40,7 @@ public class SuperExpression extends Expression {
 			visitor.visitNoBlock(true);
 		}
 
-		visitor.visitSuperEnd();
+		visitor.visitSuperEnd(null == arguments_, single_arg);
 	}
 
 }

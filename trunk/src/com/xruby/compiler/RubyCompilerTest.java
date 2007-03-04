@@ -179,7 +179,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"print 3.to_f",
 				//"print 1.to_f / 3"
 		};
-		
+	
 		String[] outputs = {
 				"-2",
 				"2.0",
@@ -3895,6 +3895,20 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 		String[] outputs = {
 				"2",
+				"3",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+	
+	public void test_method_parameter_assignment() {
+		String [] program_texts = {
+				"def f x=1; x = 4; print x;end; f",
+				"def f x; x = 3; print x;end; f 1",
+		};
+
+		String[] outputs = {
+				"4",
 				"3",
 		};
 		

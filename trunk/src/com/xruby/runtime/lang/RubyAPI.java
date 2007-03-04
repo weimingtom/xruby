@@ -145,7 +145,13 @@ public class RubyAPI {
 		return  callMethodMissing(receiver, args, block, method_name);
 	}
 
+	public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name, RubyMethod current_method) {
+		assert(null != arg);
+		return RubyAPI.callSuperMethod(receiver, new RubyArray(arg), block, method_name, current_method);
+	}
+
 	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name, RubyMethod current_method) {
+		assert(null == args || args.size() > 1);//use callSuperOneArgMethod if has only one arg
 		RubyClass c = (RubyClass)current_method.getOwner();
 		RubyMethod m = c.findSuperMethod(method_name);
 		if (null == m || UndefMethod.isUndef(m)) {

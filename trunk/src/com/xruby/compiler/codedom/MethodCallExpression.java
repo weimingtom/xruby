@@ -125,22 +125,21 @@ public class MethodCallExpression extends Expression {
 			visitor.visitSelfExpression();
 		}
 
-		boolean single_arg_no_block = (null == block_) && 
-									(null != arguments_) && 
+		final boolean single_arg = (null != arguments_) && 
 									(arguments_.size() == 1) &&
 									(null == arguments_.getAsteriskArgument()) &&
 									(null == arguments_.getBlockArgument() &&
 									!is_eval);
 
-		if (single_arg_no_block) {
+		if (null == arguments_) {
+			visitor.visitNoParameter();
+		} else if (single_arg) {
 			arguments_.getFirstExpression().accept(visitor);
-		} else if (null != arguments_) {
+		} else {
 			arguments_.accept(visitor);
 			if (is_eval && arguments_.size() <= 1) {
 				visitor.visitBinding();
 			}
-		} else {
-			visitor.visitNoParameter();
 		}
 
 		String name = null;
@@ -152,7 +151,7 @@ public class MethodCallExpression extends Expression {
 		} else if (null != arguments_ && null != arguments_.getBlockArgument()) {
 			arguments_.getBlockArgument().accept(visitor);
 			visitor.visitBlockArgument();
-		} else if (!single_arg_no_block) {
+		} else {
 			//TODO Give block_given?/iterator? a special treatment
 			//This is a hack, and break the alias to those functions. In the future we need to add
 			//another parameter to RubyMethod#run()
@@ -169,7 +168,7 @@ public class MethodCallExpression extends Expression {
 							(null != receiver_),
 							assignedCommons,
 							name,
-							single_arg_no_block);
+							single_arg);
 	}
 
 	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
