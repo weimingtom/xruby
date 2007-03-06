@@ -108,9 +108,6 @@ public class MethodCallExpression extends Expression {
 		boolean is_eval = false;
 		if (null == receiver_ && (methodName_.equals("eval") || methodName_.equals("binding"))) {
 			is_eval = true;
-			if (null == arguments_) {
-				arguments_ = new MethodCallArguments();
-			}
 		}
 		
 		visitor.visitMethodCallBegin();
@@ -125,20 +122,24 @@ public class MethodCallExpression extends Expression {
 			visitor.visitSelfExpression();
 		}
 
-		final boolean single_arg = (null != arguments_) && 
+		boolean single_arg = (null != arguments_) && 
 									(arguments_.size() == 1) &&
 									(null == arguments_.getAsteriskArgument()) &&
-									(null == arguments_.getBlockArgument() &&
-									!is_eval);
+									!is_eval;
 
 		if (null == arguments_) {
-			visitor.visitNoParameter();
+			if (is_eval) {
+				visitor.visitBinding(true);
+				single_arg = true;
+			} else {
+				visitor.visitNoParameter();
+			}
 		} else if (single_arg) {
 			arguments_.getFirstExpression().accept(visitor);
 		} else {
 			arguments_.accept(visitor);
 			if (is_eval && arguments_.size() <= 1) {
-				visitor.visitBinding();
+				visitor.visitBinding(false);
 			}
 		}
 

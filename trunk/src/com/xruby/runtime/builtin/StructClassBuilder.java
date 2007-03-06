@@ -30,7 +30,7 @@ class Struct_new extends RubyVarArgMethod {
 			c.defineMethod(s + "=", new AttrWriter(s));
 		}
 		
-		c.getSingletonClass().defineMethod("new", new RubyMethod(super_args.size() - 1, false, 0) {
+		c.getSingletonClass().defineMethod("new", new RubyVarArgMethod(super_args.size() - 1, false, 0) {
 				protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 					RubyValue v = new RubyObject((RubyClass)receiver);
 					for (int i = 0; i < args.size(); ++i) {

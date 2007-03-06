@@ -20,8 +20,7 @@ public class SuperExpression extends Expression {
 
 		final boolean single_arg = (null != arguments_) && 
 									(arguments_.size() == 1) &&
-									(null == arguments_.getAsteriskArgument()) &&
-									(null == arguments_.getBlockArgument());
+									(null == arguments_.getAsteriskArgument());
 
 		if (null == arguments_) {
 			visitor.visitNoParameterForSuper();

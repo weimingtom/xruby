@@ -10,7 +10,7 @@ import java.math.BigInteger;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Bignum_initialize extends RubyMethod {
+class Bignum_initialize extends RubyVarArgMethod {
 	public Bignum_initialize() {
 		super(0, false, 2);
 	}
@@ -20,7 +20,7 @@ class Bignum_initialize extends RubyMethod {
 	}
 }
 
-class Bignum_to_s extends RubyMethod { 
+class Bignum_to_s extends RubyVarArgMethod { 
 	public Bignum_to_s() {
 		super(0, false, 1); 
 	}

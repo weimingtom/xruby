@@ -59,8 +59,12 @@ public class MethodCallArguments implements Visitable {
 	}
 
 	public void accept(CodeVisitor visitor) {
-		ArrayExpression to_a = new ArrayExpression(arguments_, asterisk_argument_);
-		to_a.accept(visitor);
+		if (arguments_.isEmpty() && null == asterisk_argument_) {
+			visitor.visitNoParameter();
+		} else {
+			ArrayExpression to_a = new ArrayExpression(arguments_, asterisk_argument_);
+			to_a.accept(visitor);
+		}
 	}
 
 	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {

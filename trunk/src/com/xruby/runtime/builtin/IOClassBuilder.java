@@ -79,7 +79,7 @@ class IO_read extends RubyVarArgMethod {
 	}
 }
 
-class IO_read_singleton extends RubyMethod {
+class IO_read_singleton extends RubyVarArgMethod {
 	public IO_read_singleton() {
 		super(3, false, 2);
 	}

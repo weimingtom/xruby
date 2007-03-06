@@ -12,14 +12,18 @@ class Class_new extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
 		RubyClass r = (RubyClass)receiver;
 		RubyValue v = r.invokeAllocMethod(receiver, block);
-		callInitializeMethod(v, args, block);
+		if (null != args && args.size() == 1) {
+			callInitializeMethod(v, args.get(0), null, block);
+		} else {
+			callInitializeMethod(v, null, args, block);
+		}
 		return v;
 	}
 
-	private void callInitializeMethod(RubyValue v, RubyArray args, RubyBlock block) {
+	private void callInitializeMethod(RubyValue v, RubyValue arg, RubyArray args, RubyBlock block) {
 		RubyMethod m = v.findMethod("initialize");
 		if (m != null) {
-			m.invoke(v, args, block);
+			m.invoke(v, arg, args, block);
 		}
 	}
 }

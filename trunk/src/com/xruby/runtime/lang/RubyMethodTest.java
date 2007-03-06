@@ -15,13 +15,12 @@ import junit.framework.TestCase;
 
 class f extends RubyNoArgMethod {
     public RubyValue run(RubyValue receiver, RubyBlock block) {
-        return RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
-        					new RubyArray(ObjectFactory.createString("hello")),
+        return RubyAPI.callOneArgMethod(ObjectFactory.topLevelSelfValue,
+        					ObjectFactory.createString("hello"),
         					block,
         					"print");
     }
 }
-
 
 public class RubyMethodTest extends TestCase {
 	public void test() {
@@ -31,7 +30,7 @@ public class RubyMethodTest extends TestCase {
 		System.setOut(new PrintStream(output));
 
 		f m = new f();
-		m.invoke(null, null, null);
+		m.invoke(null, null, null, null);
 		
 		System.setOut(original);
 		

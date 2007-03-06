@@ -21,7 +21,11 @@ public class MethodValue extends RubyBasic {
 	}
 
 	public RubyValue call(RubyArray args, RubyBlock block) {
-		return method_.invoke(receiver_, args, block);
+		if (null != args && args.size() == 1) {
+			return method_.invoke(receiver_, args.get(0), null, block);
+		} else {
+			return method_.invoke(receiver_, null, args, block);
+		}
 	}
 
 	public RubyProc convertToRubyProc() {

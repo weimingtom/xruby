@@ -15,13 +15,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	public static final int PROTECTED = 1;
 	public static final int PRIVATE = 2;
 
-	protected RubyMethod(int argc) {
-		super(argc, false, 0);
-		access_ = PUBLIC;
-	}
-
-	//The compiler always uses this
-	protected RubyMethod(int argc, boolean has_asterisk_parameter, int default_argc)  {
+	protected RubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
 		super(argc, has_asterisk_parameter, default_argc);
 		access_ = PUBLIC;
 	}
@@ -30,7 +24,13 @@ public abstract class RubyMethod extends MethodBlockBase {
 		final RubyMethod m = this;
 		return new RubyBlock(argc_, has_asterisk_parameter_, default_argc_, null, self, null) {
 			protected RubyValue run(RubyValue receiver, RubyArray args) {
-				return m.invoke(receiver, args, null);
+				if (null != args && args.size() == 1) {
+					return m.invoke(receiver, args.get(0), null, null);
+				} else if (args.size() == 0) {
+					return m.invoke(receiver, null, null, null);
+				} else {
+					return m.invoke(receiver, null, args, null);
+				}
 			}
 		};
 	}
@@ -89,12 +89,12 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @return
 	 * @throws RubyException
 	 */
-	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
+	public RubyValue invoke(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block) {
 		assert(null == args || args.size() != 0);//use null if no arg
 
 		//TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect
 		if (argc_ >= 0) {
-			final int args_length = (null == args) ? 0 : args.size();
+			final int args_length = (null != args) ? args.size() : ((null != arg)? 1 : 0);
 			if (0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) {
 				throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args_length + " for " + argc_ + ")");
 			} else if (args_length < (argc_ - default_argc_)) {
@@ -103,7 +103,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 			}
 		}
 		
-		RubyValue v = run(receiver, args, block);
+		RubyValue v = run(receiver, arg, args, block);
 		if (null != block) {
 			v.setReturnedInBlock(block.returned(), block.breakedOrReturned(), false);
 		} else {
@@ -115,11 +115,12 @@ public abstract class RubyMethod extends MethodBlockBase {
 	/**
 	 * Template method
 	 * @param receiver
-	 * @param args
+	 * @param arg used if has only one arg
+	 * @param args used for other kind of arg (0, 2, 3 etc)
 	 * @return
 	 * @throws RubyException
 	 */
-	protected abstract RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block);
+	protected abstract RubyValue run(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block);	
 }
 
 /**

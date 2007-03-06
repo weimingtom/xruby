@@ -13,13 +13,13 @@ import com.xruby.runtime.value.RubyArray;
  *
  */
 public abstract class RubyNoArgMethod extends RubyMethod {
-	protected abstract RubyValue run(RubyValue receiver, RubyBlock block);
-	
 	public RubyNoArgMethod() {
-		super(0);
+		super(0, false, 0);
 	}
 
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+	protected abstract RubyValue run(RubyValue receiver, RubyBlock block);
+	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block) {
 		return this.run(receiver, block);
 	}
 }

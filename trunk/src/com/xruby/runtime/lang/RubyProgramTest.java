@@ -33,26 +33,26 @@ class TestingProgram extends RubyProgram {
 								"print");
 
 		//puts "hello world"
-		RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
-								new RubyArray(ObjectFactory.createString("hello, world!")),
+		RubyAPI.callOneArgMethod(ObjectFactory.topLevelSelfValue,
+								ObjectFactory.createString("hello, world!"),
 								null,
 								"print");
 
 		//puts 123
-		RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
-								new RubyArray(ObjectFactory.createFixnum(123)),
+		RubyAPI.callOneArgMethod(ObjectFactory.topLevelSelfValue,
+								ObjectFactory.createFixnum(123),
 								null,
 								"print");
 
 		//puts 1.2
-		RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
-								new RubyArray(ObjectFactory.createFloat(1.2)),
+		RubyAPI.callOneArgMethod(ObjectFactory.topLevelSelfValue,
+								ObjectFactory.createFloat(1.2),
 								null,
 								"print");
 
 		//return 123 + 456
-		return RubyAPI.callPublicMethod(ObjectFactory.createFixnum(123),
-								new RubyArray(ObjectFactory.createFixnum(456)),
+		return RubyAPI.callPublicOneArgMethod(ObjectFactory.createFixnum(123),
+								ObjectFactory.createFixnum(456),
 								null,
 								"+");
 	}
