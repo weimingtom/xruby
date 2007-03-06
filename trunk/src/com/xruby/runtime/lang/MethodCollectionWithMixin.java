@@ -28,10 +28,12 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 			return m;
 		}
 		
-		for (RubyModule module : mixins_) {
-			m = module.findOwnMethod(method_name);
-			if (null != m) {
-				return m;
+		if (!mixins_.isEmpty()) {
+			for (RubyModule module : mixins_) {
+				m = module.findOwnMethod(method_name);
+				if (null != m) {
+					return m;
+				}
 			}
 		}
 		
