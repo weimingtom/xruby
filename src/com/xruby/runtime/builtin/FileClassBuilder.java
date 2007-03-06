@@ -14,7 +14,7 @@ import com.xruby.runtime.value.*;
 
 
 
-class File_basename extends RubyMethod {
+class File_basename extends RubyVarArgMethod {
 	public File_basename() {
 		super(2, false, 1);
 	}
@@ -170,7 +170,7 @@ class File_rename extends RubyTwoArgMethod {
 	}
 }
 
-class File_open extends RubyMethod {
+class File_open extends RubyVarArgMethod {
 	public File_open() {
 		super(3, false, 2);
 	}

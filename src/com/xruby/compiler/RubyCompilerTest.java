@@ -3956,6 +3956,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_block_arg() {
 		String [] program_texts = {
+				"def f(x); x; end;  print f(33, &nil)",
+				
 				"def f; yield; end\n" +
 				"def g1 &arg; f &arg; end\n" +
 				"g1 {print 321}",
@@ -3979,6 +3981,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"33",
+				
 				"321",
 				"222333",
 				

@@ -152,7 +152,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitNoParameterForSuper() {
 	}
 
-	public void visitBinding() {
+	public void visitBinding(boolean single_arg) {
 	}
 
 	public void visitNoBlock(boolean is_super_or_block_given_call) {

@@ -150,38 +150,26 @@ public class StringClassBuilderTest extends TestCase {
 	public void test_operator_compare() {
 		RubyValue str1 = ObjectFactory.createString("abc");
 		RubyValue str2 = ObjectFactory.createString("abd");
-		RubyArray args = new RubyArray();
-		args.add(str2);
-		RubyValue result = RubyAPI.callMethod(str1, args, null, "<=>");
+		RubyValue result = RubyAPI.callOneArgMethod(str1, str2, null, "<=>");
 		assertEquals(result, ObjectFactory.createFixnum(-1));
 		
 		str2 = ObjectFactory.createString("abb");
-		args = new RubyArray();
-		args.add(str2);
-		result = RubyAPI.callMethod(str1, args, null, "<=>");
+		result = RubyAPI.callOneArgMethod(str1, str2, null, "<=>");
 		assertEquals(result, ObjectFactory.fixnum1);
 		
 		str2 = ObjectFactory.createString("abc");
-		args = new RubyArray();
-		args.add(str2);
-		result = RubyAPI.callMethod(str1, args, null, "<=>");
+		result = RubyAPI.callOneArgMethod(str1, str2, null, "<=>");
 		assertEquals(result, ObjectFactory.fixnum0);
 		
 		str2 = ObjectFactory.createString("a");
-		args = new RubyArray();
-		args.add(str2);
-		result = RubyAPI.callMethod(str1, args, null, "<=>");
+		result = RubyAPI.callOneArgMethod(str1, str2, null, "<=>");
 		assertEquals(result, ObjectFactory.fixnum1);
 		
 		str2 = ObjectFactory.createString("b");
-		args = new RubyArray();
-		args.add(str2);
-		result = RubyAPI.callMethod(str1, args, null, "<=>");
+		result = RubyAPI.callOneArgMethod(str1, str2, null, "<=>");
 		assertEquals(result, ObjectFactory.createFixnum(-1));
 		
-		args = new RubyArray();
-		args.add(ObjectFactory.fixnum1);
-		result = RubyAPI.callMethod(str1, args, null, "<=>");
+		result = RubyAPI.callOneArgMethod(str1, ObjectFactory.fixnum1, null, "<=>");
 		assertTrue(result == ObjectFactory.nilValue);
 	}
 }

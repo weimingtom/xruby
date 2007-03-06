@@ -163,7 +163,7 @@ class Kernel_operator_case_equal extends RubyOneArgMethod {
 		if (receiver == arg) {
 			return ObjectFactory.trueValue;
 		} else {
-			return RubyAPI.callPublicMethod(receiver, new RubyArray(arg), block, "==");
+			return RubyAPI.callPublicOneArgMethod(receiver, arg, block, "==");
 		}
 	}
 }
@@ -406,7 +406,14 @@ class Kernel_send extends RubyVarArgMethod {
 		}
 
 		RubyValue method_name = args.remove(0);
-		return RubyAPI.callMethod(receiver, args, block, convertToString(method_name));
+		if (args.size() == 0) {
+			return RubyAPI.callMethod(receiver, null, block, convertToString(method_name));
+		} else if (args.size() == 1) {
+			return RubyAPI.callOneArgMethod(receiver, args.get(0), block, convertToString(method_name));
+		} else {
+			return RubyAPI.callMethod(receiver, args, block, convertToString(method_name));
+		}
+		
 	}
 }
 

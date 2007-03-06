@@ -118,7 +118,7 @@ class String_to_f extends RubyNoArgMethod {
 	}
 }
 
-class String_to_i extends RubyMethod {
+class String_to_i extends RubyVarArgMethod {
 	public String_to_i() {
 		super(1, false, 1);
 	}
@@ -267,7 +267,7 @@ class String_gsub_danger extends String_gsub {
 	}
 }
 
-class String_split extends RubyMethod {
+class String_split extends RubyVarArgMethod {
 	public String_split() {
 		super(2, false, 2);
 	}
@@ -353,7 +353,7 @@ class String_operator_match extends RubyOneArgMethod {
 	}
 }
 
-class String_access extends RubyMethod {
+class String_access extends RubyVarArgMethod {
 	public String_access() {
 		super(2, false, 1);
 	}
@@ -424,7 +424,7 @@ class String_access extends RubyMethod {
 	}
 }
 
-class String_access_set extends RubyMethod {
+class String_access_set extends RubyVarArgMethod {
 	public String_access_set() {
 		super(3, false, 2);
 	}

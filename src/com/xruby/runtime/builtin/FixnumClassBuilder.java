@@ -497,7 +497,7 @@ class Fixnum_quo extends RubyOneArgMethod {
 	}
 }
 
-class Fixnum_to_s extends RubyMethod {
+class Fixnum_to_s extends RubyVarArgMethod {
 	public Fixnum_to_s() {
 		super(1, false, 1);
 	}

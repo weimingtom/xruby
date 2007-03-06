@@ -23,7 +23,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 		if (has_only_one_arg_) {
 			mg_for_run_method_ = visitRubyOneArgMethod();
 		} else {
-			mg_for_run_method_ = visitRubyMethod(argc, has_asterisk_parameter, default_argc);
+			mg_for_run_method_ = visitRubyVarArgMethod(argc, has_asterisk_parameter, default_argc);
 		}
 	}
 
@@ -65,16 +65,16 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 		return Types.RubyMethodClass;
 	}
 
-	private MethodGenerator visitRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
+	private MethodGenerator visitRubyVarArgMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
 		cv_.visit(Opcodes.V1_5,
 				0,		//No modifier
 				name_,	
 				null,								// signature
-				"com/xruby/runtime/lang/RubyMethod",	// superName
+				"com/xruby/runtime/lang/RubyVarArgMethod",	// superName
 				null								// interface
 				);
 		
-		createConstructorOfRubyMethod(argc, has_asterisk_parameter, default_argc);
+		createConstructorOfRubyVarArgMethod(argc, has_asterisk_parameter, default_argc);
 		
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock)"),
@@ -101,7 +101,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				null);
 	}
 
-	private void createConstructorOfRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
+	private void createConstructorOfRubyVarArgMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
 		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
 				Method.getMethod("void <init> ()"),
 				cv_,
@@ -111,7 +111,7 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 		mg.push(argc);
 		mg.push(has_asterisk_parameter);
 		mg.push(default_argc);
-		mg.invokeConstructor(Type.getType(Types.RubyMethodClass),
+		mg.invokeConstructor(Type.getType(Types.RubyVarArgMethodClass),
 						Method.getMethod("void <init> (int, boolean, int)"));
 		mg.returnValue();
 		mg.endMethod();

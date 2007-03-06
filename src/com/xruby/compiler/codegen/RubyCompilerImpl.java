@@ -642,9 +642,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 
-	public void visitBinding() {
+	public void visitBinding(boolean single_arg) {
 		cg_.createBinding(isInSingletonMethod(), isInGlobalScope(), isInBlock());
-		cg_.getMethodGenerator().RubyArray_add(false);
+		if (!single_arg) {
+			cg_.getMethodGenerator().RubyArray_add(false);
+		}
 	}
 	
 	public void visitHashElement() {

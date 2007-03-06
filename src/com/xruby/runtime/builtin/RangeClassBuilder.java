@@ -30,7 +30,7 @@ class Range_exclude_end extends RubyNoArgMethod {
 	}
 }
 
-class Range_initialize extends RubyMethod {
+class Range_initialize extends RubyVarArgMethod {
 	public Range_initialize() {
 		super(3, false, 1);
 	}
