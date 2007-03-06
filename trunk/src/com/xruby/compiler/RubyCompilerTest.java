@@ -2940,9 +2940,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"a = lambda {print 'xxx'}; a.call",
 				"a = lambda {|x| print x}; a.call('yyy')",
 				"a = proc {|x, y| print x, y}; a.call(1, 2)",
-				
-				//FIXME "a = lambda {print self}; a.call",
-				
+				"a = lambda {print self}; a.call",
 		};
 
 		String[] outputs = {
@@ -2950,9 +2948,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"xxx",
 				"yyy",
 				"12",
-				
-				//FIXME "self",
-				
+				"main",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
@@ -3960,40 +3956,36 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_block_arg() {
 		String [] program_texts = {
-				"def f &arg; print arg.class; end;   f {}",
-				"def f &arg; print arg.class; end;   f",
-				"def f(&arg); arg.call; end;   f {print 123}",
-				"def f(&arg); arg.call(345); end;   f {|x| print x}",
-				
-				"def f\n" +
-				"	yield\n" +
-				"end\n" +
-				"\n" +
-				"def g &arg\n" +
-				"	f &arg\n" +
-				"end\n" +
-				"\n" +
-				"g {print 321}",
+				"def f; yield; end\n" +
+				"def g1 &arg; f &arg; end\n" +
+				"g1 {print 321}",
 				
 				"def f\n" +
 				"	yield 222, 333\n" +
 				"end\n" +
 				"\n" +
-				"def g &arg\n" +
+				"def g2 &arg\n" +
 				"	f &arg\n" +
 				"end\n" +
 				"\n" +
-				"g {|x, y| print x, y}",
+				"g2 {|x, y| print x, y}",
+				
+				"def f &arg; print arg.class; end;   f {}",
+				"def f &arg; print arg.class; end;   f",
+				"def f(&arg); arg.call; end;   f {print 123}",
+				"def f(&arg); arg.call(345); end;   f {|x| print x}",
+				
+				
 		};
 
 		String[] outputs = {
+				"321",
+				"222333",
+				
 				"Proc",
 				"NilClass",
 				"123",
 				"345",
-				
-				"321",
-				"222333",
 		};
 
 		compile_run_and_compare_output(program_texts, outputs);
