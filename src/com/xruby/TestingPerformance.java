@@ -137,11 +137,33 @@ public class TestingPerformance {
 		return end - start;
 	}
 	
+	private static long test_StringBuilder_append1() {
+		StringBuilder s1 = new StringBuilder();
+		StringBuilder s2 = new StringBuilder('x');
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			s1.append(s2);
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
 	private static long test_ArrayList_isEmpty() {
 		ArrayList<RubyModule> a = new ArrayList<RubyModule>();
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
 			a.isEmpty();
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_StringBuilder_append2() {
+		StringBuilder s1 = new StringBuilder();
+		StringBuilder s2 = new StringBuilder('x');
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			s1.append(s2.toString());
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
@@ -187,10 +209,20 @@ public class TestingPerformance {
 		return end - start;
 	}
 	
-	private static long test_callMethod() {
+	private static long test_callMethodForFixnum() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 30000000; ++i) {
 			RubyAPI.callPublicOneArgMethod(ObjectFactory.fixnum1, ObjectFactory.fixnum1, null, "+");
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_callMethodForString() {
+		RubyString s = ObjectFactory.createString("");
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < 30000000; ++i) {
+			RubyAPI.callPublicMethod(s, null, null, "length");
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
@@ -230,11 +262,14 @@ public class TestingPerformance {
 		System.out.println("Iterating Empty ArrayList: " + test_iteratingEmptyArrayList());
 		System.out.println("Iterator Creation: " + test_iteratorCreation());
 		System.out.println("ArrayList.isEmpty: " + test_ArrayList_isEmpty());
+		System.out.println("StringBuilder append StringBuilder: " + test_StringBuilder_append1());
+		System.out.println("StringBuilder append String: " + test_StringBuilder_append2());
 		System.out.println("Search Empty SingletonClass: " + test_searchEmptySingletonClass());
 		System.out.println("Method Finding for Fixnum: " + test_findMethodForFixnum());
 		System.out.println("Method Finding for String: " + test_findMethodForString());
 		System.out.println("Method Invoking: " + test_invokeMethod());
-		System.out.println("Method Calling: " + test_callMethod());
+		System.out.println("Method Calling for Fixnum: " + test_callMethodForFixnum());
+		System.out.println("Method Calling for String: " + test_callMethodForString());
 	}
 
 }

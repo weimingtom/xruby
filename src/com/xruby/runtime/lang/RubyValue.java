@@ -115,11 +115,17 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 	}
 	
 	protected RubyMethod findSingletonMethod(String name) {
-		return getSingletonClass().findOwnMethod(name);
+		if (null == singleton_class_) {
+			return null;
+		}
+		return singleton_class_.findOwnMethod(name);
 	}
 	
 	protected RubyMethod findSingletonPublicMethod(String name) {	
-		return getSingletonClass().findOwnPublicMethod(name);
+		if (null == singleton_class_) {
+			return null;
+		}
+		return singleton_class_.findOwnPublicMethod(name);
 	}
 
 	public RubyMethod findPublicMethod(String name) {
