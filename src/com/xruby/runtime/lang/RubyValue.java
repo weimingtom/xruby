@@ -128,12 +128,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 			return m;
 		} 
 		
-		m = getRubyClass().findOwnPublicMethod(name);
-		if (null != m) {
-			return m;
-		}
-		
-		return null;
+		return getRubyClass().findOwnPublicMethod(name);
 	}
 
 	public RubyMethod findMethod(String name) {
@@ -142,12 +137,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 			return m;
 		}
 		
-		m = getRubyClass().findOwnMethod(name);
-		if (null != m) {
-			return m;
-		}
-
-		return null;
+		return getRubyClass().findOwnMethod(name);
 	}
 
 	public void collectMethodNames(RubyArray a) {
