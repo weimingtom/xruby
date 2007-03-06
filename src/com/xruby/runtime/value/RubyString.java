@@ -52,9 +52,18 @@ public class RubyString extends RubyBasic {
 		return this;
 	}
 
+	private RubyString appendString(RubyString v) {
+		sb_.append(v.sb_);
+		return this;
+	}
+
 	public RubyString appendString(RubyValue v) {
-		RubyValue r = RubyAPI.callPublicMethod(v, null, null, "to_s");
-		return appendString(((RubyString)r).toString());
+		if (v instanceof RubyString) {
+			return appendString((RubyString)v);
+		} else {
+			RubyValue r = RubyAPI.callPublicMethod(v, null, null, "to_s");
+			return appendString((RubyString)r);
+		}
 	}
 	
 	public RubyString setString(String s) {
