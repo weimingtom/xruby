@@ -18,10 +18,8 @@ public class RubyRange extends RubyBasic {
 	}
 
 	public void setValue(RubyValue left, RubyValue right, boolean isExclusive) {
-		RubyArray args = new RubyArray();
-		args.add(right);
 		try {
-			RubyValue result = RubyAPI.callMethod(left, args, null, "<=>");
+			RubyValue result = RubyAPI.callOneArgMethod(left, right, null, "<=>");
 			if (result == ObjectFactory.nilValue){
 				throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
 			}
