@@ -110,6 +110,8 @@
 
 			<formatter type="brief" usefile="false"/>
 
+			<assertions><enable/></assertions>
+
 			<batchtest fork="yes">
 				<fileset dir="${build.dir}" includes="**/*Test.class" excludes="**/*SmokeTest.class"/>
 			</batchtest>
