@@ -86,7 +86,7 @@ public class RubyClass extends RubyModule {
 		return null;
 	}
 	
-	protected RubyMethod findOwnMethod(String name) {
+	public RubyMethod findOwnMethod(String name) {
 		RubyMethod m = super.findOwnMethod(name);
 		if (null != m) {
 			return m;
@@ -99,7 +99,7 @@ public class RubyClass extends RubyModule {
 		return null;
 	}
 	
-	protected RubyMethod findOwnPublicMethod(String name) {
+	public RubyMethod findOwnPublicMethod(String name) {
 		RubyMethod m = super.findOwnPublicMethod(name);
 		if (null != m) {
 			return m;

@@ -157,7 +157,7 @@ public class JavaClass extends RubyClass {
      * @param name method's name
      * @return method instance
      */
-    protected RubyMethod findOwnPublicMethod(String name) {
+    public RubyMethod findOwnPublicMethod(String name) {
         return findPublicMethod(name);
     }
 
