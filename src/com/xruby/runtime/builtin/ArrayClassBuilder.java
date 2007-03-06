@@ -166,7 +166,7 @@ class Array_times extends RubyOneArgMethod {
 			RubyFixnum times = (RubyFixnum)arg;
 			return array.times(times.intValue());
 		} else if (arg instanceof RubyString) {
-			return RubyAPI.callMethod(receiver, new RubyArray(arg), block, "join");
+			return RubyAPI.callOneArgMethod(receiver, arg, block, "join");
 		}
 
 		throw new RubyException(RubyRuntime.TypeErrorClass, "no implicit conversion from " + arg + " to integer");
