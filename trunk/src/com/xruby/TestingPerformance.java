@@ -5,6 +5,7 @@
 
 package com.xruby;
 
+import java.util.*;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
@@ -84,6 +85,16 @@ public class TestingPerformance {
 		return end - start;
 	}
 	
+	private static long test_instanceof() {
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			@SuppressWarnings("unused")
+			boolean b = (ObjectFactory.fixnum1 instanceof RubyFixnum);
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
 	private static long test_nothing() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
@@ -93,7 +104,60 @@ public class TestingPerformance {
 		return end - start;
 	}
 	
-	private static long test_findMethod() {
+	private static long test_hashMapLookup() {
+		Map<String, RubyMethod> m = new HashMap<String, RubyMethod>();
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			m.get("+");//will return null (find nothing)
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_iteratingEmptyArrayList() {
+		ArrayList<RubyModule> a = new ArrayList<RubyModule>();
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			for (@SuppressWarnings("unused")
+			RubyModule module : a) {
+				//DO nothing
+			}
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_iteratorCreation() {
+		ArrayList<RubyModule> a = new ArrayList<RubyModule>();
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			a.iterator();
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_ArrayList_isEmpty() {
+		ArrayList<RubyModule> a = new ArrayList<RubyModule>();
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			a.isEmpty();
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_searchEmptySingletonClass() {
+		RubySingletonClass c = new RubySingletonClass();
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			c.findOwnMethod("+");//will return null (find nothing)
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_findMethodForFixnum() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
 			ObjectFactory.fixnum1.findMethod("+");
@@ -102,13 +166,22 @@ public class TestingPerformance {
 		return end - start;
 	}
 	
+	private static long test_findMethodForString() {
+		RubyString s = ObjectFactory.createString("xxx");
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			s.findMethod("+");
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
 	private static long test_invokeMethod() {
 		RubyMethod m = ObjectFactory.fixnum1.findMethod("+");
-		RubyArray args = new RubyArray(ObjectFactory.fixnum1);
 		
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			m.invoke(ObjectFactory.fixnum1, args, null);
+			m.invoke(ObjectFactory.fixnum1, ObjectFactory.fixnum1, null, null);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
@@ -124,28 +197,42 @@ public class TestingPerformance {
 	}
 	
 	/* Sample result:
-	Fixnum Creation: 846
-	String Creation: 3193
-	Array Creation: 2440
-	Array access: 613
-	Java Array Creation: 781
-	Java Array access: 59
-	Type Casting: 96
-	Do nothing: 27
-	Method Finding: 4097
-	Method Invoking: 1637
-	Method Calling: 10231
+	Fixnum Creation: 1036
+	String Creation: 3737
+	Array Creation: 3122
+	Array Access: 682
+	Java Array Creation: 971
+	Java Array Access: 61
+	Type Casting: 94
+	instanceof: 113
+	Do Nothing: 27
+	HashMap Lookup: 870
+	Iterating Empty ArrayList: 2272
+	Iterator Creation: 1145
+	ArrayList.isEmpty: 59
+	Search Empty SingletonClass: 1012
+	Method Finding for Fixnum: 1020
+	Method Finding for String: 2619
+	Method Invoking: 1176
+	Method Calling: 2605
 	*/
 	public static void main(String[] args) {
 		System.out.println("Fixnum Creation: " + test_createFixnum());
 		System.out.println("String Creation: " + test_createString());
 		System.out.println("Array Creation: " + test_createArray());
-		System.out.println("Array access: " + test_arrayAccess());
+		System.out.println("Array Access: " + test_arrayAccess());
 		System.out.println("Java Array Creation: " + test_createJavaArray());
-		System.out.println("Java Array access: " + test_javaArrayAccess());
+		System.out.println("Java Array Access: " + test_javaArrayAccess());
 		System.out.println("Type Casting: " + test_cast());
-		System.out.println("Do nothing: " + test_nothing());
-		System.out.println("Method Finding: " + test_findMethod());
+		System.out.println("instanceof: " + test_instanceof());
+		System.out.println("Do Nothing: " + test_nothing());
+		System.out.println("HashMap Lookup: " + test_hashMapLookup());
+		System.out.println("Iterating Empty ArrayList: " + test_iteratingEmptyArrayList());
+		System.out.println("Iterator Creation: " + test_iteratorCreation());
+		System.out.println("ArrayList.isEmpty: " + test_ArrayList_isEmpty());
+		System.out.println("Search Empty SingletonClass: " + test_searchEmptySingletonClass());
+		System.out.println("Method Finding for Fixnum: " + test_findMethodForFixnum());
+		System.out.println("Method Finding for String: " + test_findMethodForString());
 		System.out.println("Method Invoking: " + test_invokeMethod());
 		System.out.println("Method Calling: " + test_callMethod());
 	}
