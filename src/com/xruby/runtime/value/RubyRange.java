@@ -48,13 +48,14 @@ public class RubyRange extends RubyBasic {
 	}
 
 	public RubyArray to_a() {
-		RubyArray a = new RubyArray();
 		//TODO may not be RubyFixnum
 		int left = ((RubyFixnum)begin_).intValue();
 		int right = ((RubyFixnum)end_).intValue();
 		if (!exclude_end_) {
 			++right;
 		}
+
+		RubyArray a = new RubyArray(right - left);
 		for (int i = left; i < right; ++i) {
 			a.add(ObjectFactory.createFixnum(i));
 		}
