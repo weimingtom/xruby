@@ -236,8 +236,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		RubyString r = ObjectFactory.createString();
 
 		for (RubyValue v : array_) {
-			RubyValue s = RubyAPI.callPublicMethod(v, null, null, "to_s");
-			r.appendString(s.toString());
+			r.appendString(v);
 			
             // TODO: The output of to_s is not as the same as cruby, we should solve this issue
             // TODO: and change the corresponding testcases in RubyCompilerTest, such as test_array_expand.
