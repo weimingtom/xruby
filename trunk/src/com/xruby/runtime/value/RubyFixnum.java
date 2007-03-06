@@ -43,4 +43,12 @@ public class RubyFixnum extends RubyBasic {
 		}
 		return Integer.toString(value_, radix);
 	}
+
+	public RubyMethod findPublicMethod(String name) {
+		return getRubyClass().findOwnPublicMethod(name);
+	}
+
+	public RubyMethod findMethod(String name) {
+		return getRubyClass().findOwnMethod(name);
+	}
 }
