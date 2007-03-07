@@ -118,7 +118,7 @@ public class TestingPerformance {
 		ArrayList<RubyModule> a = new ArrayList<RubyModule>();
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			for (@SuppressWarnings("unused")
+			for (//@SuppressWarnings("unused") java Bug ID: 	6294589
 			RubyModule module : a) {
 				//DO nothing
 			}
