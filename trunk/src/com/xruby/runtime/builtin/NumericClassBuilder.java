@@ -20,11 +20,60 @@ class Numeric_unary_minus extends RubyNoArgMethod {
 	}
 }
 
+/*
+def step(limit, step)
+   if step > 0
+	 i = self
+	 while i < limit
+	   yield i
+	   i += step
+	 end
+   elsif step < 0
+	  i = self
+	 while i >= limit
+	   yield i
+	   i += step
+	 end
+   end
+ end
+*/
+class Numeric_step extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
+		if (receiver instanceof RubyFixnum &&
+			arg1 instanceof RubyFixnum &&
+			arg2 instanceof RubyFixnum) {
+			int from = ((RubyFixnum)receiver).intValue();
+			int to = ((RubyFixnum)arg1).intValue();
+			int step = ((RubyFixnum)arg2).intValue();
+			if (step > 0) {
+				for (int i = from; i < to; i += step) {
+					RubyValue v = block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum(i)));
+					if (block.breakedOrReturned()) {
+						return v;
+					}
+				}
+			} else {
+				for (int i = from; i >= to; i += step) {
+					RubyValue v = block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum(i)));
+					if (block.breakedOrReturned()) {
+						return v;
+					}
+				}
+			}
+		} else {
+			throw new RubyException("not implemented!");
+		}
+		
+		return receiver;
+	}
+}
+
 public class NumericClassBuilder {
 	
 	public static void initialize() {
 		RubyClass c = RubyRuntime.NumericClass;
 		c.defineMethod("+@", new Numeric_unary_plus());
 		c.defineMethod("-@", new Numeric_unary_minus());
+		c.defineMethod("step", new Numeric_step());
 	}
 }

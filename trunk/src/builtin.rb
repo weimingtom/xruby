@@ -233,23 +233,7 @@ class Numeric
 		return self % value if self_sign == value_sign
 		self % (-value)
 	end
-  
-  def step(limit, step)
-    if step > 0
-      i = self
-      while i < limit
-        yield i
-        i += step
-      end
-    elsif step < 0
-       i = self
-      while i >= limit
-        yield i
-        i += step
-      end
-    end
-  end
-  
+
 end
 
 class Integer < Numeric
@@ -259,15 +243,7 @@ class Integer < Numeric
 	end
 	
 	alias to_int to_i
-	
-	def times
-		a = 0
-		while a < self
-			yield a
-			a += 1;
-		end
-	end
-
+  
 	#Returns the Integer equal to int + 1
 	def next
 		self + 1
