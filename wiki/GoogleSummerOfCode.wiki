@@ -7,7 +7,7 @@ Want to do innovative work on compiling dynamic language? We have some ideas!
 
 = Write a Ruby parser in ANTLR 3.0 =
 
-ANTLR is a very popular parser generator, and its 3.0 version is about to come out with big changes. It is very challenging job to wrote a parser for ruby, but we have a solid one in ANTLR 2.7.6 to help you get started.
+ANTLR is a very popular parser generator, and its 3.0 version is about to come out with big changes. It is very challenging job to write a parser for Ruby, but we have a solid one in ANTLR 2.7.6 to help you get started.
 
 = Write Ruby builtin in Pure Ruby =
 
@@ -15,7 +15,7 @@ Isn't it clean to write most Ruby builtin libraries in pure Ruby? It is possible
 
 = Make the compiled code debuggable =
 
-Xruby does an excellent job to compile Ruby scripts to high performance Java bytecode, but the drawback is the compiled code is not currently debuggable (no line number, variable information etc). Is it possible to debug the code in a Java debugger? We do not know the answer, but you can help!
+Xruby does an excellent job to compile Ruby script to high performance Java bytecode, but the drawback is the compiled code is not currently debuggable (no line number, variable information etc). Is it possible to debug the code in a Java debugger? We do not know the answer, but you can help.
 
 = More? =
 
