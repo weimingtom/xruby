@@ -460,5 +460,10 @@ module Enumerable
     return a
   end
   
+  def inject(memo = 0)
+    each {|obj| memo = yield(memo, obj)}
+    memo
+  end
+  
   alias :select :find_all
 end

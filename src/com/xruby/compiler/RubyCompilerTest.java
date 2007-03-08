@@ -1875,15 +1875,21 @@ public class RubyCompilerTest extends CompilerTestCase {
 		compile_run_and_catch_exception(program_texts, exceptions);
 	}
 
-	public void test_Enumerable_find_all() {
+	public void test_Enumerable() {
 		String[] program_texts = {
 				"p (1..10).find_all {|i|  i % 3 == 0 }",
 				"p [1, 2, 3, 4].find_all {|i|  i % 3 == 0 }",
+				
+				"print (5..10).inject {|sum, n| sum + n }",
+				"print (5..10).inject(1) {|product, n| product * n }",
 		};
 		
 		String[] outputs = {
 				"[3, 6, 9]\n",
 				"[3]\n",
+				
+				"45",
+				"151200",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
