@@ -19,6 +19,10 @@ public class MultipleAssignmentStatement extends Statement {
 	public MultipleAssignmentStatement(boolean has_extra_comma) {
 		has_extra_comma_ = has_extra_comma;
 	}
+
+	public void setHasExtraComma() {
+		has_extra_comma_ = true;
+	}
 	
 	public void addLhs(Expression e) throws RecognitionException {
 		if (handle_special_case_) {

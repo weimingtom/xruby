@@ -2804,26 +2804,28 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_multiple_assignment_asterisk_only_on_the_left() {
 		String[] program_texts = {
-			"*a = nil; print a.class, a.length, a[0]",
-			"a, b, *c = 1, 2, 3, 4, 5; print a, b, c.class, c",
-			"a,b,*c = nil; print a, b, c, c.class, c.length",
-			"*a = 1, 2, 3, 4, 5; print a",
-			"a, *b = 88, 99; print a, b, b.class",
-			
-			"a,b,*c = []; print a, '|', b, '|', c",
-			"a,b,*c = [1, 2, 3]; print a, '|', b, '|', c",
-			"*a = []; print a[0].class",
+				"a, b, * = [1, 2, 3]; print a, b",
+				"*a = nil; print a.class, a.length, a[0]",
+				"a, b, *c = 1, 2, 3, 4, 5; print a, b, c.class, c",
+				"a,b,*c = nil; print a, b, c, c.class, c.length",
+				"*a = 1, 2, 3, 4, 5; print a",
+				"a, *b = 88, 99; print a, b, b.class",
+				
+				"a,b,*c = []; print a, '|', b, '|', c",
+				"a,b,*c = [1, 2, 3]; print a, '|', b, '|', c",
+				"*a = []; print a[0].class",
 		};
 		
 		String[] outputs = {
-			"Array1nil",
-			"12Array345",
-			"nilnilArray0",
-			"12345",
-			"8899Array",
-			"nil|nil|",
-			"1|2|3",
-			"Array",
+				"12",
+				"Array1nil",
+				"12Array345",
+				"nilnilArray0",
+				"12345",
+				"8899Array",
+				"nil|nil|",
+				"1|2|3",
+				"Array",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
