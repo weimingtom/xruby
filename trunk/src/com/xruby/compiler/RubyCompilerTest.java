@@ -645,6 +645,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_asterisk_parameter() {
 		String[] program_texts = {
+				"def a *; print 'ok'; end; a 1, 2, 3",
+				
 				"def my_print(*a)\n" +
 				"	print a\n" +
 				"end\n" +
@@ -662,6 +664,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"ok",
 				":)5634888",
 				"5634888:)",
 				":)5634888:)5634888",

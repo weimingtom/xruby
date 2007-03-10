@@ -39,8 +39,11 @@ public class MethodDefinationExpression extends Expression {
 	}
 
 	public void setAsteriskParameter(String name) {
-		assert(null == asterisk_parameter_);
-		asterisk_parameter_ = name;
+		if (null == name) {
+			asterisk_parameter_ = "$unused";
+		} else {
+			asterisk_parameter_ = name;
+		}
 	}
 
 	public void setBlockParameter(String name) {

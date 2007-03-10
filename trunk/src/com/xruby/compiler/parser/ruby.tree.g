@@ -621,8 +621,8 @@ returns [MethodDefinationExpression e]
 					{e.addParameter((null != id) ? id.getText() : func.getText(), exp);}
 				)*
 				(
-					REST_ARG_PREFIX	(id2:IDENTIFIER|func2:FUNCTION)
-					{e.setAsteriskParameter((null != id2) ? id2.getText() : func2.getText());}
+					REST_ARG_PREFIX	(id2:IDENTIFIER|func2:FUNCTION)?
+					{e.setAsteriskParameter((null != id2) ? id2.getText() : ((null != func2) ? func2.getText() : null));}
 				)?
 				(
 					BLOCK_ARG_PREFIX (id3:IDENTIFIER|func3:FUNCTION)
