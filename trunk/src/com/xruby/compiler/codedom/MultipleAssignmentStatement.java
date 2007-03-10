@@ -19,10 +19,6 @@ public class MultipleAssignmentStatement extends Statement {
 	public MultipleAssignmentStatement(boolean has_extra_comma) {
 		has_extra_comma_ = has_extra_comma;
 	}
-
-	public void setHasExtraComma() {
-		has_extra_comma_ = true;
-	}
 	
 	public void addLhs(Expression e) throws RecognitionException {
 		if (handle_special_case_) {
@@ -62,7 +58,9 @@ public class MultipleAssignmentStatement extends Statement {
 
 	public void setAsteriskLhs(Expression e)throws RecognitionException {
 		assert(null == asterisk_lhs_);
-		if (e instanceof VariableExpression) {
+		if (null == e) {
+			has_extra_comma_ = true;	
+		} else if (e instanceof VariableExpression) {
 			asterisk_lhs_ = (VariableExpression)e;
 		} else {
 			throw new RecognitionException("Only variable can be parallel assigned");

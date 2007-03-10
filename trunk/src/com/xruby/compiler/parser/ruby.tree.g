@@ -123,8 +123,8 @@ multipleAssignmentBody[MultipleAssignmentStatement s]
 {
 	Expression e = null;
 }
-		:	(e=lhs	{s.addLhs(e);})*
-			(REST_ARG_PREFIX	{e=null;}	(e=expression	{s.setAsteriskLhs(e);})?  {if(null!=e) s.setHasExtraComma();})?
+		:	(e=lhs	{s.addLhs(e);e=null;})*
+			(REST_ARG_PREFIX	(e=expression)? {s.setAsteriskLhs(e);} )?
 			(
 				#(MRHS
 				(e=expression	{s.addRhs(e);})*
