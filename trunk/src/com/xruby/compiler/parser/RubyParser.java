@@ -29,6 +29,7 @@ public class RubyParser extends RubyParserBase {
 
 	/// @return AST
 	AST createAST() throws RecognitionException, TokenStreamException {
+		ASTWithLineNumber.resetLineNumber();
 		setASTNodeClass("com.xruby.compiler.parser.ASTWithLineNumber");
 		program();
 		return getAST();

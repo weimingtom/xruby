@@ -16,17 +16,29 @@ public class ASTWithLineNumber extends CommonAST {
 
 	private static final long serialVersionUID = 1L;
 	private int line_ = 0;
+	private static int last_line_ = 0;
 
+	public static void resetLineNumber() {
+		last_line_ = 0;
+	}
+	
 	public void initialize(Token tok) {
 		super.initialize(tok);
 		line_ = tok.getLine();
+		last_line_ = line_;
 	}
 
 	public void initialize (AST ast) {
+		assert(false);//I have not see this one being used
 		super.initialize(ast);
 		if (ast instanceof ASTWithLineNumber){
 			line_ = ((ASTWithLineNumber)ast).getLine();
 		}
+	}
+	
+	public void initialize(int t, String txt) {
+		super.initialize(t, txt);
+		line_ = last_line_;
 	}
 
 	public int getLine() {
