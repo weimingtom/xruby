@@ -86,7 +86,8 @@ aliasParameter
 returns[String s]
 {SymbolExpression sym = null;}
 		:	gvar:GLOBAL_VARIABLE {s = gvar.getText();}
-		|	func:FUNCTION		{s = func.getText();}
+		|	id:IDENTIFIER			(assign1:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = id.getText(); if (null != assign1) {s += "=";}}
+		|	function:FUNCTION	(assign2:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = function.getText(); if (null != assign2) {s += "=";}}
 		|	sym=symbol			{s = sym.getValue();}
 		|	s=operator
 		;

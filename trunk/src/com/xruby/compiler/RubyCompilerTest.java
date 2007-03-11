@@ -1790,6 +1790,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_alias_method() {
 		String[] program_texts = {
+				"def f= x; print x;end; alias test_alias f=; test_alias 5",
+				
 				"unless 1 == 1; alias :b :print; end",
 				"print(if true; alias :b :print; end)",
 				
@@ -1819,6 +1821,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"5",
 				"",
 				"nil",
 				
@@ -3303,6 +3306,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"def f(b); b.call(1, 2);end;  f(lambda {|x, |})",
 
 				"def getblock(&b); b; end;  res = getblock(&lambda{||});  res.call(1, 2)",
+				
+				"def f= x; print x;end;  alias test_wrong_number_of_arguments f=\n" +
+				"module M; def test_wrong_number_of_arguments; end;end;  include M\n" +
+				"test_wrong_number_of_arguments",
 		};
 
 		RubyException[] exceptions = {
@@ -3317,6 +3324,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 1)"),
 
 			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 0)"),
+			
+			new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);

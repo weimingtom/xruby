@@ -25,4 +25,14 @@ public class AliasStatementTest extends TestingAstTestCase {
 		
 		assertAstOutput(program_text, expected_result);
 	}
+	
+	public void test_assignment() {
+		String program_text = "alias g f=";
+		
+		String expected_result = 
+"alias g f=\n" +
+"EOF";
+		
+		assertAstOutput(program_text, expected_result);
+	}
 }
