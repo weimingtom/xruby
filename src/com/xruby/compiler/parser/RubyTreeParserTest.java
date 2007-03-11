@@ -15,6 +15,7 @@ import junit.framework.TestCase;
 public class RubyTreeParserTest extends TestCase {
 	public void test_ast() throws RecognitionException, TokenStreamException {
 		String[] program_texts = {
+				"alias g f=",
 				"a, b, * = [1, 2, 3]",
 				"%w$-------$",
 				
@@ -116,6 +117,7 @@ public class RubyTreeParserTest extends TestCase {
 				};
 
 		String[] expected_texts = {
+				" ( COMPSTMT ( alias g f = ) )",
 				" ( COMPSTMT ( MULTIPLE_ASSIGN a b * ( MRHS ( [ 1 2 3 ) ) ) )",
 				" ( COMPSTMT ------- )",
 				
