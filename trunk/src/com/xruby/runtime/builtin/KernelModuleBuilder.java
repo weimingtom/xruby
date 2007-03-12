@@ -383,18 +383,19 @@ class Kernel_respond_to extends RubyVarArgMethod {
 		assertArgNumberAtLeast(args, 1);
 
 		boolean include_private = (ObjectFactory.trueValue == args.get(1));
-		if (hasMethod(receiver, convertToString(args.get(0)), include_private)) {
+		RubyID mid = StringMap.intern(convertToString(args.get(0)));
+		if (hasMethod(receiver, mid, include_private)) {
 			return ObjectFactory.trueValue;
 		} else {
 			return ObjectFactory.falseValue;
 		}
 	}
 
-	private boolean hasMethod(RubyValue receiver, String method_name, boolean include_private) {
+	private boolean hasMethod(RubyValue receiver, RubyID mid, boolean include_private) {
 		if (include_private) {
-			return (null != receiver.findMethod(method_name));
+			return (null != receiver.findMethod(mid));
 		} else {
-			return (null != receiver.findPublicMethod(method_name));
+			return (null != receiver.findPublicMethod(mid));
 		}
 	}
 }
@@ -420,7 +421,8 @@ class Kernel_send extends RubyVarArgMethod {
 class Kernel_method extends RubyOneArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		String method_name = convertToString(arg);
-		RubyMethod  m = receiver.findMethod(method_name);
+		RubyID mid = StringMap.intern(method_name);
+		RubyMethod  m = receiver.findMethod(mid);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "public method '" +  method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");
 		}

@@ -19,9 +19,11 @@ class Class_new extends RubyVarArgMethod {
 		}
 		return v;
 	}
+	
+	private static RubyID initializeId = StringMap.intern("initialize");
 
 	private void callInitializeMethod(RubyValue v, RubyValue arg, RubyArray args, RubyBlock block) {
-		RubyMethod m = v.findMethod("initialize");
+		RubyMethod m = v.findMethod(initializeId);
 		if (m != null) {
 			m.invoke(v, arg, args, block);
 		}

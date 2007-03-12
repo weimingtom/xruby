@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -169,11 +169,14 @@ public class TestingPerformance {
 		return end - start;
 	}
 	
+	private static RubyID plusId = StringMap.intern("+");
+	
 	private static long test_searchEmptySingletonClass() {
 		RubySingletonClass c = new RubySingletonClass();
+		
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			c.findOwnMethod("+");//will return null (find nothing)
+			c.findOwnMethod(plusId);//will return null (find nothing)
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
@@ -182,7 +185,7 @@ public class TestingPerformance {
 	private static long test_findMethodForFixnum() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			ObjectFactory.fixnum1.findMethod("+");
+			ObjectFactory.fixnum1.findMethod(plusId);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
@@ -192,14 +195,14 @@ public class TestingPerformance {
 		RubyString s = ObjectFactory.createString("xxx");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			s.findMethod("+");
+			s.findMethod(plusId);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
 	}
 	
 	private static long test_invokeMethod() {
-		RubyMethod m = ObjectFactory.fixnum1.findMethod("+");
+		RubyMethod m = ObjectFactory.fixnum1.findMethod(plusId);
 		
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
@@ -212,17 +215,19 @@ public class TestingPerformance {
 	private static long test_callMethodForFixnum() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 30000000; ++i) {
-			RubyAPI.callPublicOneArgMethod(ObjectFactory.fixnum1, ObjectFactory.fixnum1, null, "+");
+			RubyAPI.callPublicOneArgMethod(ObjectFactory.fixnum1, ObjectFactory.fixnum1, null, plusId);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
 	}
 	
+	private static RubyID lengthId = StringMap.intern("length");
+	
 	private static long test_callMethodForString() {
 		RubyString s = ObjectFactory.createString("");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 30000000; ++i) {
-			RubyAPI.callPublicMethod(s, null, null, "length");
+			RubyAPI.callPublicMethod(s, null, null, lengthId);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;

@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -62,7 +62,7 @@ class CompilerTestCase extends TestCase {
 				assertTrue(null != codes);
 				RubyProgram p = codes.getRubyProgram();
 				p.invoke();
-				assertTrue("Error at " + i + ": should throw RubyException", false);
+				fail("Error at " + i + ": should throw RubyException");
 			} catch (RubyException e) {
 				if (exceptions[i].getRubyValue().toString() != null) {
 					assertEquals("Exception message mismatch at " + i, exceptions[i].getRubyValue().toString(), e.getRubyValue().toString());
@@ -92,6 +92,9 @@ class CompilerTestCase extends TestCase {
 				program_texts.length, outputs.length);
 
 		for (int i = 0; i < program_texts.length; ++i) {
+			// FIXME: temp code here
+			RubyClass.resetCache();
+			
 			RubyCompiler compiler = new RubyCompiler(null, false);
 
 			try {

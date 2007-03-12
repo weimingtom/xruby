@@ -25,7 +25,9 @@ class Module_AccessControl {
 				throw new RubyException(RubyRuntime.TypeErrorClass, arg.toString() + " is not a symbol");
 			}
 			
-			if (c.setAccess(method_name, access) == null) {
+			RubyID mid = StringMap.intern(method_name);
+			
+			if (c.setAccess(mid, access) == null) {
 				throw new RubyException(RubyRuntime.NameErrorClass, "undefined method '"+ method_name + "' for " + c.getName());
 			}
 		}
