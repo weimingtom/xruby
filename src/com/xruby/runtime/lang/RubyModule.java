@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -24,7 +24,8 @@ public class RubyModule extends MethodCollectionWithMixin {
 
 	public RubyValue defineMethod(String name, RubyMethod m) {
 		m.setOwner(this);
-		return super.addMethod(name, m);
+		RubyID mid = StringMap.intern(name);
+		return addMethod(mid, m);
 	}
 
 	/// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
@@ -128,7 +129,8 @@ public class RubyModule extends MethodCollectionWithMixin {
 	}
 
 	public void module_function(String method_name) {
-		RubyMethod m = findOwnMethod(method_name);
+		RubyID mid = StringMap.intern(method_name);
+		RubyMethod m = findOwnMethod(mid);
 		if (null == m || UndefMethod.isUndef(m)) {
 			throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
 		}

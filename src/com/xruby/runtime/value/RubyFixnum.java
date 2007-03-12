@@ -44,11 +44,11 @@ public class RubyFixnum extends RubyBasic {
 		return Integer.toString(value_, radix);
 	}
 
-	public RubyMethod findPublicMethod(String name) {
-		return getRubyClass().findOwnPublicMethod(name);
+	public RubyMethod findPublicMethod(RubyID mid) {
+		return getRubyClass().findOwnPublicMethod(mid);
 	}
 
-	public RubyMethod findMethod(String name) {
-		return getRubyClass().findOwnMethod(name);
+	public RubyMethod findMethod(RubyID mid) {
+		return getRubyClass().findOwnMethod(mid);
 	}
 }

@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -9,7 +9,7 @@ import java.util.*;
 import com.xruby.runtime.value.*;
 
 abstract class MethodCollection extends ConstantCollection {
-	private Map<String, RubyMethod> methods_ = new HashMap<String, RubyMethod>();
+	private Map<RubyID, RubyMethod> methods_ = new HashMap<RubyID, RubyMethod>();
 	private int current_access_mode_ = RubyMethod.PUBLIC;
 	
 	MethodCollection(RubyClass c) {
@@ -20,12 +20,12 @@ abstract class MethodCollection extends ConstantCollection {
 		methods_.putAll(other.methods_);
 	}
 
-	protected RubyMethod findOwnMethod(String method_name) {
-		return methods_.get(method_name);
+	protected RubyMethod findOwnMethod(RubyID mid) {
+		return methods_.get(mid);
 	}
 
-	protected RubyMethod findOwnPublicMethod(String method_name) {
-		RubyMethod m = methods_.get(method_name);
+	protected RubyMethod findOwnPublicMethod(RubyID mid) {
+		RubyMethod m = methods_.get(mid);
 		if (null != m && m.isPublic()) {
 			return m;
 		}
@@ -34,32 +34,35 @@ abstract class MethodCollection extends ConstantCollection {
 	}
 
 	void collectOwnMethodNames(RubyArray a) {
-		for (String s : methods_.keySet()) {
-			a.add(ObjectFactory.createString(s));
+		for (RubyID id : methods_.keySet()) {
+			a.add(ObjectFactory.createString(StringMap.id2name(id)));
 		}
 	}
 
-	protected RubyValue addMethod(String name, RubyMethod m) {
+	protected RubyValue addMethod(RubyID id, RubyMethod m) {
 		m.setAccess(current_access_mode_);
-		methods_.put(name, m);
+		methods_.put(id, m);
 		return ObjectFactory.nilValue;
 	}
 	
-	public void undefMethod(String name) {
-		if (findOwnMethod(name) == null) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + name +  " for class `Object'");
+	public void undefMethod(String method_name) {
+		RubyID mid = StringMap.intern(method_name);
+		if (findOwnMethod(mid) == null) {
+			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + StringMap.id2name(mid) +  " for class `Object'");
 		}
 		
-		methods_.put(name, UndefMethod.getInstance());
+		addMethod(mid, UndefMethod.getInstance());
 	}
 	
 	public void aliasMethod(String newName, String oldName) {
-		RubyMethod m = findOwnMethod(oldName);
+		RubyID oldId = StringMap.intern(oldName);
+		RubyMethod m = findOwnMethod(oldId);
 		if (null == m) {
 			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + oldName + " for class `Object'");
 		}
 		
-		methods_.put(newName, m);
+		RubyID newId = StringMap.intern(newName);
+		addMethod(newId, m);
 	}
 
 	public void setAccessPublic() {
@@ -74,8 +77,8 @@ abstract class MethodCollection extends ConstantCollection {
 		current_access_mode_ = access;
 	}
 
-	public RubyMethod setAccess(String method_name, int access) {
-		RubyMethod m = findOwnMethod(method_name);
+	public RubyMethod setAccess(RubyID mid, int access) {
+		RubyMethod m = findOwnMethod(mid);
 		if (null != m) {
 			m.setAccess(access);
 		} 

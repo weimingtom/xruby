@@ -53,7 +53,8 @@ public class RubyAPI {
 	//e.g. defined? super
 	public static RubyValue isDefinedSuperMethod(RubyValue receiver, String method_name, RubyMethod current_method) {
 		RubyClass c = (RubyClass)current_method.getOwner();
-		RubyMethod m = c.findSuperMethod(method_name);
+		RubyID mid = StringMap.intern(method_name);
+		RubyMethod m = c.findSuperMethod(mid);
 		if (null == m || UndefMethod.isUndef(m)) {
 			return ObjectFactory.nilValue;
 		}
@@ -69,7 +70,8 @@ public class RubyAPI {
 			return isDefinedMethod(receiver, method_name);
 		}
 		
-		RubyMethod m = receiver.findPublicMethod(method_name);
+		RubyID mid = StringMap.intern(method_name);
+		RubyMethod m = receiver.findPublicMethod(mid);
 		if (null == m || UndefMethod.isUndef(m)) {
 			return ObjectFactory.nilValue;
 		}
@@ -79,7 +81,8 @@ public class RubyAPI {
 
 	//e.g. defined? f
 	public static RubyValue isDefinedMethod(RubyValue receiver, String method_name) {
-		RubyMethod m = receiver.findMethod(method_name);
+		RubyID mid = StringMap.intern(method_name);
+		RubyMethod m = receiver.findMethod(mid);
 		if (null == m || UndefMethod.isUndef(m)) {
 			return ObjectFactory.nilValue;
 		}
@@ -94,90 +97,114 @@ public class RubyAPI {
 			return ObjectFactory.createString("yield");
 		}
 	}
-
+	
+	private static RubyID methodMissingId = StringMap.intern("method_missing");
+	
 	private static RubyValue callMethodMissing(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
-		RubyMethod m = receiver.findMethod("method_missing");
+		return callMethodMissing(receiver, args, block, StringMap.intern(method_name));
+	}
+
+	private static RubyValue callMethodMissing(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid) {
+		RubyMethod m = receiver.findMethod(methodMissingId);
 		if (null != m && !UndefMethod.isUndef(m)) {
 			if (null == args) {
-				args = new RubyArray(ObjectFactory.createSymbol(method_name));
+				args = new RubyArray(ObjectFactory.createSymbol(StringMap.id2name(mid)));
 			} else {
-				args.insert(0, ObjectFactory.createSymbol(method_name));
+				args.insert(0, ObjectFactory.createSymbol(StringMap.id2name(mid)));
 			}
 			return m.invoke(receiver, null, args, block);
 		}
 		
-		throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + receiver.getRubyClass().getName());
+		throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  StringMap.id2name(mid) + "' for " + receiver.getRubyClass().getName());
+	}
+	
+	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
+		return callMethod(receiver, args, block, StringMap.intern(method_name));
 	}
 
 	//receiver is implicit self
-	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
+	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid) {
 		assert(null == args || args.size() > 1);//use callOneArgMethod if has only one arg
-		RubyMethod m = receiver.findMethod(method_name);
+		RubyMethod m = receiver.findMethod(mid);
 		if (null != m && !UndefMethod.isUndef(m)) {
-			return invokeMethod(m, method_name, receiver, null, args, block);
+			return invokeMethod(m, mid, receiver, null, args, block);
 		}
 	
-		return callMethodMissing(receiver, args, block, method_name);
+		return callMethodMissing(receiver, args, block, mid);
 	}
 
 	//method call with *one* argument and no block (use the other one if no arg (arg == null)!)
 	//This make code (especially reverse engineered ones) more readable.
 	public static RubyValue callOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name) {
 		assert(null != arg);
-		RubyMethod m = receiver.findMethod(method_name);
+		RubyID mid = StringMap.intern(method_name);
+		RubyMethod m = receiver.findMethod(mid);
 		if (null != m && !UndefMethod.isUndef(m)) {
-			return invokeMethod(m, method_name, receiver, arg, null, block);
+			return invokeMethod(m, mid, receiver, arg, null, block);
 		}
 	
 		return callMethodMissing(receiver, new RubyArray(arg), block, method_name);
 	}
+	
+	public static RubyValue callPublicOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name) {
+		return callPublicOneArgMethod(receiver, arg, block, StringMap.intern(method_name));
+	}
 
 	//method call with *one* argument and no block (use the other one if no arg (arg == null)!)
 	//This make code (especially reverse engineered ones) more readable.
-	public static RubyValue callPublicOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name) {
+	public static RubyValue callPublicOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid) {
 		assert(null != arg);
-		RubyMethod m = receiver.findPublicMethod(method_name);
+		RubyMethod m = receiver.findPublicMethod(mid);
 		if (null != m && !UndefMethod.isUndef(m)) {
-			return invokeMethod(m, method_name, receiver, arg, null, block);
+			return invokeMethod(m, mid, receiver, arg, null, block);
 		}
 	
-		return  callMethodMissing(receiver, new RubyArray(arg), block, method_name);
+		return  callMethodMissing(receiver, new RubyArray(arg), block, mid);
+	}
+	
+	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
+		return callPublicMethod(receiver, args, block, StringMap.intern(method_name));
 	}
 
 	//TODO should pass owner to work with protected method
-	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
+	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid) {
 		assert(null == args || args.size() > 1);//use callPublicOneArgMethod if has only one arg
-		RubyMethod m = receiver.findPublicMethod(method_name);
+		RubyMethod m = receiver.findPublicMethod(mid);
 		if (null != m && !UndefMethod.isUndef(m)) {
-			return invokeMethod(m, method_name, receiver, null, args, block);
+			return invokeMethod(m, mid, receiver, null, args, block);
 		}
 	
-		return  callMethodMissing(receiver, args, block, method_name);
+		return  callMethodMissing(receiver, args, block, mid);
+	}
+	
+	public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name, RubyMethod current_method) {
+		return callSuperOneArgMethod(receiver, arg, block, StringMap.intern(method_name), current_method);
 	}
 
-	public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name, RubyMethod current_method) {
+	public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid, RubyMethod current_method) {
 		assert(null != arg);
 		RubyClass c = (RubyClass)current_method.getOwner();
-		RubyMethod m = c.findSuperMethod(method_name);
+		RubyMethod m = c.findSuperMethod(mid);
 		if (null == m || UndefMethod.isUndef(m)) {
-			throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" +  method_name + "' can not be found in '" + c.getName() + "'");
+			throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" +  StringMap.id2name(mid) + "' can not be found in '" + c.getName() + "'");
 		}
 	
-		return invokeMethod(m, method_name, receiver, arg, null, block);
+		return invokeMethod(m, mid, receiver, arg, null, block);
 	}
 
 	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name, RubyMethod current_method) {
 		assert(null == args || args.size() > 1);//use callSuperOneArgMethod if has only one arg
 		RubyClass c = (RubyClass)current_method.getOwner();
-		RubyMethod m = c.findSuperMethod(method_name);
+		RubyID mid = StringMap.intern(method_name);
+		RubyMethod m = c.findSuperMethod(mid);
 		if (null == m || UndefMethod.isUndef(m)) {
-			throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" +  method_name + "' can not be found in '" + c.getName() + "'");
+			throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" +  StringMap.id2name(mid) + "' can not be found in '" + c.getName() + "'");
 		}
 	
-		return invokeMethod(m, method_name, receiver, null, args, block);
+		return invokeMethod(m, mid, receiver, null, args, block);
 	}
 
-	private static RubyValue invokeMethod(RubyMethod m, String method_name, RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block) {
+	private static RubyValue invokeMethod(RubyMethod m, RubyID mid, RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block) {
 		//FrameManager.pushRecord(method_name);
 		RubyValue v = m.invoke(receiver, arg, args, block);
 		//FrameManager.popRecord();

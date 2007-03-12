@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -44,13 +44,20 @@ abstract class BlockCallStatus {
 }
 
 public abstract class RubyValue extends BlockCallStatus implements Cloneable {
-
 	private RubyClass class_;
-	private RubySingletonClass singleton_class_ = null;
+	protected RubySingletonClass singleton_class_ = null;
 	private Map<String, RubyValue> instance_varibles_ = null;
 
 	public RubyValue(RubyClass c) {
 		class_ = c;
+	}
+	
+	public RubyValue callMethod(RubyID id, RubyArray args, RubyBlock block) {
+		RubyClass klass = this.getRubyClass();
+		return null;
+		/* FIXME: 
+		return klass.callMethod(this, id, args, block);
+		*/
 	}
 
 	public RubyValue clone() {
@@ -114,36 +121,36 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 		return getRubyClass().getName() + super.toString();
 	}
 	
-	protected RubyMethod findSingletonMethod(String name) {
+	protected RubyMethod findSingletonMethod(RubyID mid) {
 		if (null == singleton_class_) {
 			return null;
 		}
-		return singleton_class_.findOwnMethod(name);
+		return singleton_class_.findOwnMethod(mid);
 	}
 	
-	protected RubyMethod findSingletonPublicMethod(String name) {	
+	protected RubyMethod findSingletonPublicMethod(RubyID mid) {	
 		if (null == singleton_class_) {
 			return null;
 		}
-		return singleton_class_.findOwnPublicMethod(name);
+		return singleton_class_.findOwnPublicMethod(mid);
 	}
 
-	public RubyMethod findPublicMethod(String name) {
-		RubyMethod m = findSingletonPublicMethod(name);
+	public RubyMethod findPublicMethod(RubyID mid) {
+		RubyMethod m = findSingletonPublicMethod(mid);
 		if (null != m && m.isPublic()) {
 			return m;
 		} 
 		
-		return getRubyClass().findOwnPublicMethod(name);
+		return getRubyClass().findOwnPublicMethod(mid);
 	}
 
-	public RubyMethod findMethod(String name) {
-		RubyMethod m = findSingletonMethod(name);
+	public RubyMethod findMethod(RubyID mid) {
+		RubyMethod m = findSingletonMethod(mid);
 		if (null != m) {
 			return m;
 		}
 		
-		return getRubyClass().findOwnMethod(name);
+		return getRubyClass().findOwnMethod(mid);
 	}
 
 	public void collectMethodNames(RubyArray a) {

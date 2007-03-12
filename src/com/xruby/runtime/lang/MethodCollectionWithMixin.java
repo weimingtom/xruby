@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -22,15 +22,15 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 		}
 	}
 
-	protected RubyMethod findOwnMethod(String method_name) {
-		RubyMethod m = super.findOwnMethod(method_name);
+	protected RubyMethod findOwnMethod(RubyID mid) {
+		RubyMethod m = super.findOwnMethod(mid);
 		if (null != m) {
 			return m;
 		}
 		
 		if (!mixins_.isEmpty()) {
 			for (RubyModule module : mixins_) {
-				m = module.findOwnMethod(method_name);
+				m = module.findOwnMethod(mid);
 				if (null != m) {
 					return m;
 				}
@@ -40,14 +40,14 @@ abstract class MethodCollectionWithMixin extends MethodCollection {
 		return null;
 	}
 
-	protected RubyMethod findOwnPublicMethod(String method_name) {
-		RubyMethod m = super.findOwnMethod(method_name);
+	protected RubyMethod findOwnPublicMethod(RubyID mid) {
+		RubyMethod m = super.findOwnMethod(mid);
 		if (null != m && m.isPublic()) {
 			return m;
 		}
 		
 		for (RubyModule module : mixins_) {
-			m = module.findOwnMethod(method_name);
+			m = module.findOwnMethod(mid);
 			if (null != m && m.isPublic()) {
 				return m;
 			}
