@@ -51,14 +51,6 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 	public RubyValue(RubyClass c) {
 		class_ = c;
 	}
-	
-	public RubyValue callMethod(RubyID id, RubyArray args, RubyBlock block) {
-		RubyClass klass = this.getRubyClass();
-		return null;
-		/* FIXME: 
-		return klass.callMethod(this, id, args, block);
-		*/
-	}
 
 	public RubyValue clone() {
 		RubyValue v;
