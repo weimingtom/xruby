@@ -35,10 +35,7 @@ public class RequireExample {
                 "for i in 1 ... 3\n" +
                 "    puts array.get(i)\n" +
                 "end";
-
-        // TODO: Is it necessary to make java's container classes support "each" method?
-
-
+        
         RubyCompiler compiler = new RubyCompiler(null, false);
 		CompilationResults codes = compiler.compile(new StringReader(program_text));
 		RubyProgram p = codes.getRubyProgram();

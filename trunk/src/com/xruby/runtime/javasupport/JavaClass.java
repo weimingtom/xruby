@@ -12,6 +12,8 @@ import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
+import com.xruby.runtime.lang.RubyID;
+import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.RubyArray;
 
 import java.lang.reflect.Constructor;
@@ -29,14 +31,16 @@ import java.util.Map;
  */
 public class JavaClass extends RubyClass {
 
-    // --------- Const fields ---------
+    // ----------------------
+    //      Const fields
+    // ----------------------
     
     private static final String INIT_METHOD = "initialize";
     private static final String NEW_METHOD = "new";
 
-    // ----- end of const fields ------
-
-    // ----- Cache of methods (and constructors) --------
+    // ---------------------------------------
+    //   Cache of methods (and constructors)
+    // ---------------------------------------
     private Map<String, List<Method>> methodMap
             = new HashMap<String, List<Method>>();
 
@@ -48,8 +52,6 @@ public class JavaClass extends RubyClass {
 
     private Map<Constructor, JavaMethod> initMethods
             = new HashMap<Constructor, JavaMethod>();
-    // --------- End of cache ---------
-
     
     // Actual constructor
     private JavaClass(String name) {
@@ -126,10 +128,16 @@ public class JavaClass extends RubyClass {
      * Find method according to given method, if it's "new"
      * return an "init" fake method
      *
-     * @param methodName Name of the method
+     * @param mid method's RubyID
      * @return wrapper of the method, otherwise null
      */
-    public RubyMethod findPublicMethod(String methodName) {
+    @Override
+    public RubyMethod findPublicMethod(RubyID mid) {
+        String methodName = StringMap.id2name(mid);
+        if(methodName == null) {
+            return null;
+        }
+
         if (methodName.equals(NEW_METHOD)) {
             return new FakeInitMethod();
         }
@@ -144,21 +152,23 @@ public class JavaClass extends RubyClass {
     /**
      * In JavaClass, it's just an alias for findPublicMethod
      *
-     * @param methodName method's name
+     * @param mid method's RubyID
      * @return Method instance
      */
-    public RubyMethod findMethod(String methodName) {
-        return findPublicMethod(methodName);
+    @Override
+    public RubyMethod findMethod(RubyID mid) {
+        return findPublicMethod(mid);
     }
 
     /**
      * This is the actual method which will be invoked
      *
-     * @param name method's name
+     * @param mid method's RubyID
      * @return method instance
      */
-    public RubyMethod findOwnPublicMethod(String name) {
-        return findPublicMethod(name);
+    @Override
+    public RubyMethod findOwnPublicMethod(RubyID mid) {
+        return findPublicMethod(mid);
     }
 
     JavaMethod getJavaMethod(Method method) {
