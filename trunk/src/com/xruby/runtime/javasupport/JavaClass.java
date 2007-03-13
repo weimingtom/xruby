@@ -34,8 +34,6 @@ public class JavaClass extends RubyClass {
     // ----------------------
     //      Const fields
     // ----------------------
-    
-    private static final String INIT_METHOD = "initialize";
     private static final String NEW_METHOD = "new";
 
     // ---------------------------------------
