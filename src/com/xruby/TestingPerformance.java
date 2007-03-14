@@ -113,6 +113,25 @@ public class TestingPerformance {
 		long end = System.currentTimeMillis();
 		return end - start;
 	}
+
+	private static long test_javaString_intern() {
+		String s = "+";
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			s.intern();
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
+	
+	private static long test_StringMap_intern() {
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < LOOP; ++i) {
+			StringMap.intern("+");
+		}
+		long end = System.currentTimeMillis();
+		return end - start;
+	}
 	
 	private static long test_iteratingEmptyArrayList() {
 		ArrayList<RubyModule> a = new ArrayList<RubyModule>();
@@ -234,24 +253,29 @@ public class TestingPerformance {
 	}
 	
 	/* Sample result:
-	Fixnum Creation: 1036
-	String Creation: 3737
-	Array Creation: 3122
-	Array Access: 682
-	Java Array Creation: 971
-	Java Array Access: 61
-	Type Casting: 94
-	instanceof: 113
-	Do Nothing: 27
-	HashMap Lookup: 870
-	Iterating Empty ArrayList: 2272
-	Iterator Creation: 1145
-	ArrayList.isEmpty: 59
-	Search Empty SingletonClass: 1012
-	Method Finding for Fixnum: 1020
-	Method Finding for String: 2619
-	Method Invoking: 1176
-	Method Calling: 2605
+	Fixnum Creation: 872
+	String Creation: 3246
+	Array Creation: 2424
+	Array Access: 648
+	Java Array Creation: 768
+	Java Array Access: 60
+	Type Casting: 115
+	instanceof: 116
+	Do Nothing: 25
+	HashMap Lookup: 751
+	Java String.intern: 6363
+	StringMap.intern: 1360
+	Iterating Empty ArrayList: 1591
+	Iterator Creation: 903
+	ArrayList.isEmpty: 39
+	StringBuilder append StringBuilder: 1099
+	StringBuilder append String: 2343
+	Search Empty SingletonClass: 713
+	Method Finding for Fixnum: 705
+	Method Finding for String: 1298
+	Method Invoking: 1170
+	Method Calling for Fixnum: 2371
+	Method Calling for String: 3566
 	*/
 	public static void main(String[] args) {
 		System.out.println("Fixnum Creation: " + test_createFixnum());
@@ -264,6 +288,8 @@ public class TestingPerformance {
 		System.out.println("instanceof: " + test_instanceof());
 		System.out.println("Do Nothing: " + test_nothing());
 		System.out.println("HashMap Lookup: " + test_hashMapLookup());
+		System.out.println("Java String.intern: " + test_javaString_intern());
+		System.out.println("StringMap.intern: " + test_StringMap_intern());
 		System.out.println("Iterating Empty ArrayList: " + test_iteratingEmptyArrayList());
 		System.out.println("Iterator Creation: " + test_iteratorCreation());
 		System.out.println("ArrayList.isEmpty: " + test_ArrayList_isEmpty());
