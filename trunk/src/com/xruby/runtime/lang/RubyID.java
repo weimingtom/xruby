@@ -5,17 +5,19 @@
 
 package com.xruby.runtime.lang;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 class RubyIDGenerator {
 	// ID_ALLOCATOR = 1
 	
-	private static long lastId = 2;
+	private static AtomicLong lastId = new AtomicLong(2);
 	
 	public static void reset(long seed) {
-		lastId = seed;
+		lastId.set(seed);
 	}
 	
-	public static synchronized RubyID nextId() {
-		return new RubyID(lastId++);
+	public static RubyID nextId() {
+		return new RubyID(lastId.getAndIncrement());
 	}
 }
 
