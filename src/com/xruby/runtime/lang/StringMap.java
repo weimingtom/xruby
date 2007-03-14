@@ -5,12 +5,12 @@
 
 package com.xruby.runtime.lang;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.*;
 
 public class StringMap {
-	private static Map<String, RubyID> symbolMap = new HashMap<String, RubyID>();
-	private static Map<RubyID, String> symbolReceiverMap = new HashMap<RubyID, String>();
+	private static Map<String, RubyID> symbolMap = new ConcurrentHashMap<String, RubyID>();
+	private static Map<RubyID, String> symbolReceiverMap = new ConcurrentHashMap<RubyID, String>();
 	
 	public static RubyID intern(String name) {
 		RubyID id = symbolMap.get(name);
