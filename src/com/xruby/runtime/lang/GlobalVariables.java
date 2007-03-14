@@ -10,7 +10,7 @@ import java.util.*;
 import com.xruby.runtime.value.*;
 
 class MultipleMap<T> {
-	private ConcurrentMap<String, Vector<T>> values_ = new ConcurrentHashMap<String, Vector<T>>();
+	private Map<String, Vector<T>> values_ = new ConcurrentHashMap<String, Vector<T>>();
 
 	public void put(String s, T proc) {
 		if (!values_.containsKey(s)) {
