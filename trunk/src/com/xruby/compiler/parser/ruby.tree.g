@@ -639,9 +639,16 @@ returns [ForInExpression e]
 	Expression exp = null;
 	Block b = null;
 	CompoundStatement cs = null;
+	ParameterVariableExpression var = null;
 }
-		:	#(	"for"		{b = new Block();}
-				((id:IDENTIFIER|func:FUNCTION)	{b.addParameter((null != id) ? id.getText() : func.getText(), null);})+
+		:	#(	"for"	{b = new Block();}
+				(	#(BLOCK_ARG
+						((var=local_variable|var=nestedLhs)	{b.addParameter(var, null);})+
+					)
+				|	#(BLOCK_ARG_WITH_EXTRA_COMMA	{{b.setHasExtraComma();}}
+						((var=local_variable|var=nestedLhs)	{b.addParameter(var, null);})+
+					)
+				)
 				"in"
 				exp=expression
 				(cs=compoundStatement	{b.setBody(cs);})?
@@ -654,19 +661,33 @@ returns [Block b]
 {
 	CompoundStatement cs = null;
 	Expression default_value = null;
+	ParameterVariableExpression var = null;
 }
 		:	#(	BLOCK					{b = new Block();}
 				((BOR|LOGICAL_OR)		{b.setShouldValidateArgumentLength();})?
-				(	(id:IDENTIFIER|func:FUNCTION)
-					((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	default_value=expression)?
-					{b.addParameter((null != id) ? id.getText() : func.getText(), default_value);}
-				)*
-				(
-					REST_ARG_PREFIX
-					(
-					(id2:IDENTIFIER|func2:FUNCTION)
-					{b.setAsteriskParameter((null != id2) ? id2.getText() : func2.getText());}
-					)?
+				(	
+					#(BLOCK_ARG
+						(	(var=local_variable|var=nestedLhs)
+							((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	default_value=expression)?
+							{b.addParameter(var, default_value);}
+						)*
+						(	REST_ARG_PREFIX
+							(
+								var=local_variable	{b.setAsteriskParameter(var);}
+							)?
+						)?
+					)
+				|	#(BLOCK_ARG_WITH_EXTRA_COMMA	{{b.setHasExtraComma();}}
+						(	(var=local_variable|var=nestedLhs)
+							((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	default_value=expression)?
+							{b.addParameter(var, default_value);}
+						)*
+						(	REST_ARG_PREFIX
+							(
+								var=local_variable	{b.setAsteriskParameter(var);}
+							)?
+						)?
+					)
 				)?
 				(cs=compoundStatement	{b.setBody(cs);})?
 			)

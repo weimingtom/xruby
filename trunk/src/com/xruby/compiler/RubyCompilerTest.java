@@ -1591,6 +1591,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_yield() {
 		String[] program_texts = {
+				"def f; yield [1,2,3,4] end;f {|w,x,y,z| print w,9,x,9,y,9,z}",
+				"def f; yield [1, 2], 3; end; f {|(x, y), z| print x, y, z}",
+				
 				"def f; yield *[[]]; end; f {|a| print a.class, a.length}",//a == []
 				"def f; yield [[]]; end; f {|a| print a.class, a.length}",
 				"def f; yield [[]]; end; f {|a,b,*c| print a,'!',b,'!',c}",
@@ -1615,6 +1618,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"1929394",
+				"123",
+				
 				"Array0",
 				"Array1",
 				"!nil!",
@@ -2784,6 +2790,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_multiple_assignment_no_asterisk() {
 		String[] program_texts = {
+				"w,x,y,z = [1,2,3,4];print w,9,x,9,y,9,z",
 				"c = (a,b=1,2); p c",
 				
 				"a, = 1,2; print a",
@@ -2798,6 +2805,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"1929394",
 				"[1, 2]\n",
 				"1",
 				"34",
@@ -2889,10 +2897,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"a, b, *c = 1, *[2, 3]; print a, '|', b, '|', c",
 				"a, b, *c = 1, *[2, 3, 4]; print a, '|', b, '|', c",
 				
-				"a,b,*c = *[[]]; print a, b, c",
-				
-				
-				
+				"a,b,*c = *[[]]; print a, b, c",	
 		};
 
 		String[] outputs = {
@@ -4533,6 +4538,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_for_in() {
 		String [] program_texts = {
+				"for x, (y, z) in [1, [2, [3, 4]]]; print x,y,z; end",
+				
 				"for i_test_for_in in 1..1; j_test_for_in=3; end; print i_test_for_in, j_test_for_in",
 				
 				"for i in 1..5 do print i end",
@@ -4542,6 +4549,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"1nilnil234",
+				
 				"13",
 				
 				"12345",

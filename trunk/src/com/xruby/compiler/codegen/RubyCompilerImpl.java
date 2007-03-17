@@ -155,6 +155,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 					cg_,
 					is_for_in_expression,
 					binding_);
+		cg_.getMethodGenerator().loadArg(1);
 		return uniqueBlockName;
 	}
 
@@ -765,31 +766,32 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitMrhs(int var, int index, boolean asterisk) {
 		cg_.getMethodGenerator().loadLocal(var);
 		if (asterisk) {
-			cg_.getMethodGenerator().RubyArray_collect(index);
+			//if (0 == index) {
+				//only asterisk lhs
+			//	cg_.getMethodGenerator().ObjectFactory_createArray();
+			//} else {
+				cg_.getMethodGenerator().RubyArray_collect(index);
+			//}
 		} else {
 			cg_.getMethodGenerator().RubyArray_get(index);
 		}
 	}
-
-	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs) {
+	
+	public int visitMultipleAssignment(boolean single_lhs, boolean has_lhs_and_asterisk_lhs) {
 		cg_.getMethodGenerator().dup();
 		
 		if (single_lhs) {
 			cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue2();
 			return 0;
+		} else if (has_lhs_and_asterisk_lhs) {
+			cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsOnlyOneRubyArray();
+			return cg_.getMethodGenerator().saveRubyArrayAsLocalVariable();
 		} else {
-			if (single_rhs) {
-				cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsOnlyOneRubyArray();
-			}
 			return cg_.getMethodGenerator().saveRubyArrayAsLocalVariable();
 		}
 	}
 
-	public void visitMultipleAssignmentEnd() {
-		//do nothing
-	}
-	
-	public int visitNestedVariableBegin(boolean single_lhs) {
+	public int visitNestedVariable(boolean single_lhs) {
 		if (single_lhs) {
 			return 0;
 		} else {
@@ -798,10 +800,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 	
-	public void visitNestedVariableEnd() {
-		//do nothing
-	}
-
 	public void visitBreak() {
 		if (isInBlock()) {
 			invokeFinallyIfExist();

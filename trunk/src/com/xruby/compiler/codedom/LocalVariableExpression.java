@@ -5,9 +5,11 @@
 
 package com.xruby.compiler.codedom;
 
+import java.util.ArrayList;
+
 import antlr.RecognitionException;
 
-public class LocalVariableExpression extends VariableExpression {
+public class LocalVariableExpression extends ParameterVariableExpression {
 	private final String value_;
 	private final boolean isFunction_;
 
@@ -26,6 +28,17 @@ public class LocalVariableExpression extends VariableExpression {
 		} else {
 			return isFunction_;
 		}
+	}
+	
+	public void acceptAsInitializeToNil(CodeVisitor visitor) {
+		AssignmentOperatorExpression assign;
+		try {
+			assign = new AssignmentOperatorExpression(new LocalVariableExpression(value_, false), new NilExpression());
+		} catch (RecognitionException e) {
+			throw new Error(e);
+		}
+		assign.accept(visitor);
+		visitor.visitTerminal();
 	}
 
 	public void accept(CodeVisitor visitor) {
@@ -46,5 +59,11 @@ public class LocalVariableExpression extends VariableExpression {
 
 	public void acceptAsAssignment(CodeVisitor visitor, boolean rhs_is_method_call, boolean is_multiple_assign) {
 		visitor.visitLocalVariableAssignmentOperator(value_, rhs_is_method_call, is_multiple_assign);
+	}
+
+	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+		if (!symboltable.isDefinedInCurrentScope(value_)) {
+			result.add(value_);
+		}
 	}
 }

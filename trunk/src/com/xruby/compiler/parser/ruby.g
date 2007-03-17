@@ -32,6 +32,8 @@ tokens {
 	BLOCK;
 	MULTIPLE_ASSIGN;
 	MULTIPLE_ASSIGN_WITH_EXTRA_COMMA;
+	BLOCK_ARG;
+	BLOCK_ARG_WITH_EXTRA_COMMA;
 	MRHS;
 	NESTED_LHS;
 	SINGLETON_METHOD;
@@ -208,8 +210,18 @@ aliasStatement
 
 //TODO should be mlhs
 block_vars
-		:	mlhs_item		(COMMA!	{if (BOR == LA(1) || LITERAL_in == LA(1)) break;}	(seen_star:REST_ARG_PREFIX)?	(mlhs_item)?	{if (null != seen_star) break;})*
-		|	REST_ARG_PREFIX	(dotColonOrArrayAccess)?
+{
+	boolean has_extra_comma = false;
+}
+		:	(mlhs_item		(COMMA!	{if (BOR == LA(1) || LITERAL_in == LA(1)) {has_extra_comma = true; break;}}	(seen_star:REST_ARG_PREFIX)?	(mlhs_item)?	{if (null != seen_star) break;})*
+			|	REST_ARG_PREFIX	(dotColonOrArrayAccess)?
+			)
+			{	if (has_extra_comma) {
+					#block_vars = #(#[BLOCK_ARG_WITH_EXTRA_COMMA, "BLOCK_ARG_WITH_EXTRA_COMMA"], #block_vars);
+				} else {
+					#block_vars = #(#[BLOCK_ARG, "BLOCK_ARG"], #block_vars);
+				}
+			}
 		;
 
 codeBlock

@@ -273,6 +273,7 @@ public class RubyAPI {
 
 	public static RubyArray expandArrayIfThereIsOnlyOneRubyArray(RubyArray a) {
 		if (a.size() == 1 &&
+				a.isNotSingleAsterisk() &&
 				a.get(0) instanceof RubyArray) {
 			return (RubyArray)a.get(0);
 		} else {

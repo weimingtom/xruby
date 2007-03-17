@@ -109,10 +109,6 @@ public abstract class RubyBlock extends MethodBlockBase {
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args) {
-		return invoke(receiver, args, true);
-	}
-
-	public RubyValue invoke(RubyValue receiver, RubyArray args, boolean emulate_multiple_assignment_behavior) {
 		if (created_by_lambda_) {
 			validateParameterForProcCall(args);
 		}
@@ -121,20 +117,7 @@ public abstract class RubyBlock extends MethodBlockBase {
 		__return__ = false;
 		__redo__ = false;
 
-		if (!emulate_multiple_assignment_behavior) {
-			return run(receiver, null != args ? args : new RubyArray(0, true));
-		}
-		
-		boolean single_lhs = (1 == argc_) && (!has_asterisk_parameter_);
-		boolean single_rhs = (null != args) && (1 == args.size()) && (args.isNotSingleAsterisk()) && (argc_ > 0);
-		if (single_lhs) {
-			return run(receiver, new RubyArray(RubyAPI.expandArrayIfThereIsZeroOrOneValue(args)));
-		} else if (single_rhs) {
-			return run(receiver, RubyAPI.expandArrayIfThereIsOnlyOneRubyArray(args));
-		} else {
-			return run(receiver, null != args ? args : new RubyArray(0, true));
-		}
-	
+		return run(receiver, null != args ? args : new RubyArray(0, true));
 	}
 
 	protected abstract RubyValue run(RubyValue receiver, RubyArray args);
