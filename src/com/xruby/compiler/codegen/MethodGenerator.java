@@ -106,6 +106,14 @@ class MethodGenerator extends GeneratorAdapter {
 		ifZCmp(GeneratorAdapter.EQ, after_return);
 		returnValue();//TODO more error checking, may not in the method context
 		mark(after_return);
+		/*TODO if it is going to return any way, should not not check.
+		Right now the code may look like:
+			if(!rubyvalue5.returnedInBlock()) goto _L2; else goto _L1
+			_L1:
+			        return;
+			_L2:
+			        return;
+		*/
 	}
 	
 	public void load_asterisk_parameter_(Class c) {
