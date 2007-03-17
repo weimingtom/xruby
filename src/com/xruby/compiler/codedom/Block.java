@@ -15,21 +15,42 @@ class Pair {
 public class Block {
 
 	private CompoundStatement bodyStatement_ = null;
-	private ArrayList<String> parameters_ = new ArrayList<String>();
-	private String asterisk_parameter_ = null;
+	private ArrayList<ParameterVariableExpression> parameters_ = new ArrayList<ParameterVariableExpression>();
+	private ParameterVariableExpression asterisk_parameter_ = null;
 	private ArrayList<Expression> default_parameters_ = new ArrayList<Expression>();
 	private boolean should_validate_argument_length_ = false;
 	private boolean is_for_in_expression_ = false;
+	private boolean has_extra_comma_ = false;
 	
-	ArrayList<String> getParameters() {
-		return parameters_;
+	public void setHasExtraComma() {
+		has_extra_comma_ = true;
+	}
+	
+	public void initAllParametersToNil(CodeVisitor visitor) {
+		for (ParameterVariableExpression var : parameters_) {
+			var.acceptAsInitializeToNil(visitor);
+		}
+		
+		if (null != asterisk_parameter_) {
+			asterisk_parameter_.acceptAsInitializeToNil(visitor);
+		}
+	}
+	
+	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+		for (ParameterVariableExpression var : parameters_) {
+			var.getNewlyAssignedVariables(symboltable, result);
+		}
+		
+		if (null != asterisk_parameter_) {
+			asterisk_parameter_.getNewlyAssignedVariables(symboltable, result);
+		}
 	}
 	
 	public void setBody(CompoundStatement bodyStatement) {
 		bodyStatement_ = bodyStatement;
 	}
 	
-	public void addParameter(String name, Expression default_value) {
+	public void addParameter(ParameterVariableExpression name, Expression default_value) {
 		parameters_.add(name);
 		if (null != default_value) {
 			default_parameters_.add(default_value);
@@ -47,9 +68,17 @@ public class Block {
 		should_validate_argument_length_ = true;
 	}
 
-	public void setAsteriskParameter(String name) {
+	public void setAsteriskParameter(ParameterVariableExpression name) {
 		assert(null == asterisk_parameter_);
 		asterisk_parameter_ = name;
+	}
+
+	private ArrayList<VariableExpression> buildLhs() {
+		ArrayList<VariableExpression> mlhs = new ArrayList<VariableExpression>();
+		for (ParameterVariableExpression var : parameters_) {
+			mlhs.add(var);
+		}
+		return mlhs;
 	}
 
 	public Pair accept(CodeVisitor visitor) {
@@ -57,17 +86,11 @@ public class Block {
 									(null != asterisk_parameter_),
 									default_parameters_.size(),
 									is_for_in_expression_);
-		
-		for (String p : parameters_) {
-			visitor.visitMethodDefinationParameter(p);
-		}
+
+		MultipleAssignmentStatement.acceptMLhs(visitor, buildLhs(), asterisk_parameter_, has_extra_comma_);
 		
 		//TODO support default_value
 
-		if (null != asterisk_parameter_) {
-			visitor.visitMethodDefinationAsteriskParameter(asterisk_parameter_);
-		}
-		
 		if (null != bodyStatement_) {
 			bodyStatement_.accept(visitor);
 		}

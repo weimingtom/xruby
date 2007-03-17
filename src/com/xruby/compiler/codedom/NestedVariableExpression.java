@@ -6,15 +6,16 @@
 package com.xruby.compiler.codedom;
 
 import java.util.*;
+
 import antlr.RecognitionException;
 
-public class NestedVariableExpression extends VariableExpression {
-	private ArrayList<VariableExpression> mlhs_ = new ArrayList<VariableExpression>();
-	private VariableExpression asterisk_lhs_ = null;
+public class NestedVariableExpression extends ParameterVariableExpression {
+	private ArrayList<ParameterVariableExpression> mlhs_ = new ArrayList<ParameterVariableExpression>();
+	private ParameterVariableExpression asterisk_lhs_ = null;
 
 	public void addLhs(Expression e) throws RecognitionException {
-		if (e instanceof VariableExpression) {
-			mlhs_.add((VariableExpression)e);
+		if (e instanceof ParameterVariableExpression) {
+			mlhs_.add((ParameterVariableExpression)e);
 		} else if (e instanceof MethodCallExpression) {
 			//For inputs like 'a, b = 1', a will be recognized as MethodCall
 			MethodCallExpression m = (MethodCallExpression)e;
@@ -30,8 +31,8 @@ public class NestedVariableExpression extends VariableExpression {
 	
 	public void setAsteriskLhs(Expression e)throws RecognitionException {
 		assert(null == asterisk_lhs_);
-		if (e instanceof VariableExpression) {
-			asterisk_lhs_ = (VariableExpression)e;
+		if (e instanceof ParameterVariableExpression) {
+			asterisk_lhs_ = (ParameterVariableExpression)e;
 		} else {
 			throw new RecognitionException("Only variable can be parallel assigned");
 		}
@@ -39,6 +40,16 @@ public class NestedVariableExpression extends VariableExpression {
 	
 	public void accept(CodeVisitor visitor) {
 		throw new Error("Nested variable should not appear in thie context");
+	}
+	
+	public void acceptAsInitializeToNil(CodeVisitor visitor) {
+		for (ParameterVariableExpression var : mlhs_) {
+			var.acceptAsInitializeToNil(visitor);
+		}
+		
+		if (null != asterisk_lhs_) {
+			asterisk_lhs_.acceptAsInitializeToNil(visitor);
+		}
 	}
 
 	//TODO duplicated code from MultipleAssignmentStatement
@@ -48,10 +59,10 @@ public class NestedVariableExpression extends VariableExpression {
 		
 		if (mlhs_.size() == 1 && null == asterisk_lhs_) {
 			//a = 1, 2 is as same as a = [1, 2]
-			visitor.visitNestedVariableBegin(true);
-			mlhs_.get(0).acceptAsAssignment(visitor, false, true);
+			visitor.visitNestedVariable(true);
+			mlhs_.get(0).acceptAsAssignment(visitor, true, true);
 		} else {
-			int var = visitor.visitNestedVariableBegin(false);
+			int var = visitor.visitNestedVariable(false);
 			
 			for (int i = 0; i < mlhs_.size(); ++i) {
 				visitor.visitMrhs(var, i, false);
@@ -62,12 +73,20 @@ public class NestedVariableExpression extends VariableExpression {
 				asterisk_lhs_.acceptAsAssignment(visitor, false, true);
 			}
 			
-			for (VariableExpression lhs : mlhs_) {
+			for (ParameterVariableExpression lhs : mlhs_) {
 				lhs.acceptAsAssignment(visitor, false, true);
 			}
 		}
+	}
 
-		visitor.visitNestedVariableEnd();
+	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+		for (ParameterVariableExpression var : mlhs_) {
+			var.getNewlyAssignedVariables(symboltable, result);
+		}
+		
+		if (null != asterisk_lhs_) {
+			asterisk_lhs_.getNewlyAssignedVariables(symboltable, result);
+		}
 	}
 	
 }

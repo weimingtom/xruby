@@ -590,26 +590,20 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs) {
-		result_.append("begin MultipleAssignment:");
+	public int visitMultipleAssignment(boolean single_lhs, boolean has_lhs_and_asterisk_lhs) {
+		result_.append("MultipleAssignment:");
 		result_.append(single_lhs);
 		result_.append(":");
-		result_.append(single_rhs);
+		result_.append(has_lhs_and_asterisk_lhs);
 		result_.append("\n");
 		return 0;
 	}
 
-	public void visitMultipleAssignmentEnd() {
-		result_.append("end MultipleAssignment\n");
-	}
-
-	public int visitNestedVariableBegin(boolean single_lhs) {
-		result_.append("begin NestedVariable\n");
+	public int visitNestedVariable(boolean single_lhs) {
+		result_.append("NestedVariable:");
+		result_.append(single_lhs);
+		result_.append("\n");
 		return 0;
-	}
-	
-	public void visitNestedVariableEnd() {
-		result_.append("end NestedVariable\n");
 	}
 
 	public boolean isDefinedInCurrentScope(String name) {
@@ -624,4 +618,5 @@ public class CodePrinter implements CodeVisitor {
 
 	public void visitPotentialProcCall() {
 	}
+
 }

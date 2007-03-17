@@ -20,25 +20,17 @@ public class ForInExpression extends Expression {
 	}
 
 	public void accept(CodeVisitor visitor) {
+		block_.initAllParametersToNil(visitor);
+		MethodCallExpression e;
 		try {
-			for (String var : block_.getParameters()) {
-				AssignmentOperatorExpression assign = new AssignmentOperatorExpression(new LocalVariableExpression(var, false), new NilExpression());
-				assign.accept(visitor);
-				visitor.visitTerminal();
-			}
-			
-			MethodCallExpression e = new MethodCallExpression(exp_, "each", null, block_);
-			e.accept(visitor);
+			e = new MethodCallExpression(exp_, "each", null, block_);
 		} catch (RecognitionException e1) {
 			throw new Error(e1);
 		}
+		e.accept(visitor);
 	}
 
 	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
-		for (String name : block_.getParameters()) {
-			if (!symboltable.isDefinedInCurrentScope(name)) {
-				result.add(name);
-			}
-		}
+		block_.getNewlyAssignedVariables(symboltable, result);
 	}
 }

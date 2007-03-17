@@ -153,11 +153,9 @@ public interface CodeVisitor extends ISymbolTable {
 	public String[] visitBlockEnd(String name, boolean last_statement_has_return_value);
 	
 	public void visitMrhs(int var, int index, boolean asterisk);
-	public int visitMultipleAssignmentBegin(boolean single_lhs, boolean single_rhs);
-	public void visitMultipleAssignmentEnd();
+	public int visitMultipleAssignment(boolean single_lhs, boolean has_lhs_and_asterisk_lhs);
 	
-	public int visitNestedVariableBegin(boolean single_lhs);
-	public void visitNestedVariableEnd();
+	public int visitNestedVariable(boolean single_lhs);
 
 	public void visitSpecialLambdaCallBegin();
 	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons);

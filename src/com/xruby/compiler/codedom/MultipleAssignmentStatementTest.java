@@ -22,12 +22,11 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"1\n" +
 			"2\n" +
 			"]!\n" +
-			"begin MultipleAssignment:false:false\n" +
+			"MultipleAssignment:false:true\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +
 			"b //=\n" +
 			"a //=\n" +
-			"end MultipleAssignment\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
 	}
@@ -44,12 +43,11 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"]!\n" +
 			"[]*\n" +
 			"]!\n" +
-			"begin MultipleAssignment:false:false\n" +
+			"MultipleAssignment:false:true\n" +
 			"mrhs:0\n" +
 			"mrhs:1*\n" +
 			"b //=\n" +
 			"a //=\n" +
-			"end MultipleAssignment\n" +
 			"EOF";
 		
 		assertAstOutput(program_text, expected_result);
@@ -65,19 +63,17 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"3\n" +
 			"4\n" +
 			"]!\n" +
-			"begin MultipleAssignment:false:false\n" +
+			"MultipleAssignment:false:true\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +
 			"mrhs:2\n" +
 			"e //=\n" +
-			"begin NestedVariable\n" +
+			"NestedVariable:false\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +
 			"d //=\n" +
 			"c //=\n" +
-			"end NestedVariable\n" +
 			"b //=\n" +
-			"end MultipleAssignment\n" +
 			";\n" +
 			"b\n;\n" +
 			"c\n;\n" +

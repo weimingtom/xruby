@@ -14,7 +14,7 @@ public class MultipleAssignmentStatement extends Statement {
 	private VariableExpression asterisk_lhs_ = null;
 	private Expression asterisk_rhs_ = null;
 	private boolean handle_special_case_ = false;
-	private boolean has_extra_comma_ = false; //e.g. "a, = 1, 2"
+	private boolean has_extra_comma_; //e.g. "a, = 1, 2"
 
 	public MultipleAssignmentStatement(boolean has_extra_comma) {
 		has_extra_comma_ = has_extra_comma;
@@ -59,7 +59,7 @@ public class MultipleAssignmentStatement extends Statement {
 	public void setAsteriskLhs(Expression e)throws RecognitionException {
 		assert(null == asterisk_lhs_);
 		if (null == e) {
-			has_extra_comma_ = true;	
+			asterisk_lhs_ = new LocalVariableExpression("anonymous_asterisk$", false);
 		} else if (e instanceof VariableExpression) {
 			asterisk_lhs_ = (VariableExpression)e;
 		} else {
@@ -68,37 +68,43 @@ public class MultipleAssignmentStatement extends Statement {
 	}
 	
 	public void accept(CodeVisitor visitor) {
-		
-		Collections.reverse(mlhs_);
-		
-		ArrayExpression to_a = new ArrayExpression(mrhs_, asterisk_rhs_);
-		
+		acceptMrhs(visitor, mrhs_, asterisk_rhs_);
+		acceptMLhs(visitor, mlhs_, asterisk_lhs_, has_extra_comma_);
+	}
+
+	/*
+	a, b, *c = [1, 2, 3]; p a, b
+	a, b, *c = 1, 2, 3; p a, b #<= same
+
+	*a = 1, 2, 3; p a
+	*a = [1, 2, 3]; p a #<= NOT same
+	*/
+	private static void acceptMrhs(CodeVisitor visitor, ArrayList<Expression> mrhs, Expression asterisk_rhs) {
+		Expression to_a = new ArrayExpression(mrhs, asterisk_rhs);
 		to_a.accept(visitor);
-		
-		boolean single_mrhs = mrhs_.size() == 1 && null == asterisk_rhs_ && mlhs_.size() > 0;
-		
-		if (mlhs_.size() == 1 && null == asterisk_lhs_ && !has_extra_comma_) {
-			//a = 1, 2 is as same as a = [1, 2]
-			visitor.visitMultipleAssignmentBegin(true, single_mrhs);
-			mlhs_.get(0).acceptAsAssignment(visitor, false, true);
+	}
+
+	static void acceptMLhs(CodeVisitor visitor, ArrayList<VariableExpression> mlhs, VariableExpression asterisk_lhs, boolean has_extra_comma) {
+		Collections.reverse(mlhs);
+
+		if (mlhs.size() == 1 && null == asterisk_lhs && !has_extra_comma) {
+			visitor.visitMultipleAssignment(true, false);
+			mlhs.get(0).acceptAsAssignment(visitor, true, true);
 		} else {
-			int var = visitor.visitMultipleAssignmentBegin(false, single_mrhs);
-			
-			for (int i = 0; i < mlhs_.size(); ++i) {
+			int var = visitor.visitMultipleAssignment(false, mlhs.size() != 0);
+		
+			for (int i = 0; i < mlhs.size(); ++i) {
 				visitor.visitMrhs(var, i, false);
 			}
 			
-			if (null != asterisk_lhs_) {
-				visitor.visitMrhs(var, mlhs_.size(), true);
-				asterisk_lhs_.acceptAsAssignment(visitor, false, true);
+			if (null != asterisk_lhs) {
+				visitor.visitMrhs(var, mlhs.size(), true);
+				asterisk_lhs.acceptAsAssignment(visitor, false, true);
 			}
 			
-			for (VariableExpression lhs : mlhs_) {
+			for (VariableExpression lhs : mlhs) {
 				lhs.acceptAsAssignment(visitor, false, true);
 			}
 		}
-		
-		visitor.visitMultipleAssignmentEnd();
 	}
-	
 }
