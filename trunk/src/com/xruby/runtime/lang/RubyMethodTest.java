@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -14,11 +14,13 @@ import junit.framework.TestCase;
 
 
 class f extends RubyNoArgMethod {
+	private RubyID printID = StringMap.intern("print");
+	
     public RubyValue run(RubyValue receiver, RubyBlock block) {
         return RubyAPI.callOneArgMethod(ObjectFactory.topLevelSelfValue,
         					ObjectFactory.createString("hello"),
         					block,
-        					"print");
+        					printID);
     }
 }
 

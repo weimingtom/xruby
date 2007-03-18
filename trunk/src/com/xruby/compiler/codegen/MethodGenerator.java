@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -496,40 +496,52 @@ class MethodGenerator extends GeneratorAdapter {
 
 	public void RubyAPI_callPublicMethod(String methodName) {
 		push(methodName);
+		invokeStatic(Type.getType(StringMap.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
 	}
 
 	public void RubyAPI_callPublicOneArgMethod(String methodName) {
 		push(methodName);
+		invokeStatic(Type.getType(StringMap.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, String)"));	
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));	
 	}
 
 	public void RubyAPI_callMethod(String methodName) {
 		push(methodName);
+		invokeStatic(Type.getType(StringMap.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
 	}
 
 	public void RubyAPI_callOneArgMethod(String methodName) {
 		push(methodName);
+		invokeStatic(Type.getType(StringMap.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, String)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
 	}
 
 	public void RubyAPI_callSuperMethod(String methodName) {
 		push(methodName);
+		invokeStatic(Type.getType(StringMap.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
 		loadThis();
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, String, com.xruby.runtime.lang.RubyMethod)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.RubyMethod)"));
 	}
 
 	public void RubyAPI_callSuperOneArgMethod(String methodName) {
 		push(methodName);
+		invokeStatic(Type.getType(StringMap.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
 		loadThis();
 		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, String, com.xruby.runtime.lang.RubyMethod)"));
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.RubyMethod)"));
 	}
 
 	public void RubyAPI_operatorNot() {

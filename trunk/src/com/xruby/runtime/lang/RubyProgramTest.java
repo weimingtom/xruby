@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -20,9 +20,10 @@ class TestingProgram extends RubyProgram {
 		}
 	}
 	
-	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope) {
-		
+	public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope) {		
 		//puts nil, "abC", "5432"
+		RubyID printID = StringMap.intern("print");
+		
 		RubyArray a = new RubyArray(3, true);
 		a.add(ObjectFactory.nilValue);
 		a.add(ObjectFactory.createString("ABCD"));
@@ -30,31 +31,31 @@ class TestingProgram extends RubyProgram {
 		RubyAPI.callMethod(ObjectFactory.topLevelSelfValue,
 								a,
 								null,
-								"print");
+								printID);
 
 		//puts "hello world"
 		RubyAPI.callOneArgMethod(ObjectFactory.topLevelSelfValue,
 								ObjectFactory.createString("hello, world!"),
 								null,
-								"print");
+								printID);
 
 		//puts 123
 		RubyAPI.callOneArgMethod(ObjectFactory.topLevelSelfValue,
 								ObjectFactory.createFixnum(123),
 								null,
-								"print");
+								printID);
 
 		//puts 1.2
 		RubyAPI.callOneArgMethod(ObjectFactory.topLevelSelfValue,
 								ObjectFactory.createFloat(1.2),
 								null,
-								"print");
+								printID);
 
 		//return 123 + 456
 		return RubyAPI.callPublicOneArgMethod(ObjectFactory.createFixnum(123),
 								ObjectFactory.createFixnum(456),
 								null,
-								"+");
+								CommonRubyID.plusID);
 	}
 }
 

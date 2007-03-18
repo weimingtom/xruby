@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Yu Su
+ * Copyright 2005-2007 Xue Yong Zhi, Yu Su, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -69,6 +69,7 @@ public class RubyHash extends RubyBasic {
 		return r;
 	}
 
+	private RubyID defaultID = StringMap.intern("default");
 
 	public RubyValue get(RubyValue k) {
 		RubyValue v = map_.get(k);
@@ -77,7 +78,7 @@ public class RubyHash extends RubyBasic {
 		} else if (null != default_value_as_block_) {
 			return default_value_as_block_.invoke(this, new RubyArray(this, k));
 		} else {
-			return RubyAPI.callOneArgMethod(this, k, null, "default");
+			return RubyAPI.callOneArgMethod(this, k, null, defaultID);
 		}
 	}
 

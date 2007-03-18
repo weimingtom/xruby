@@ -188,14 +188,12 @@ public class TestingPerformance {
 		return end - start;
 	}
 	
-	private static RubyID plusId = StringMap.intern("+");
-	
 	private static long test_searchEmptySingletonClass() {
 		RubySingletonClass c = new RubySingletonClass();
 		
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			c.findOwnMethod(plusId);//will return null (find nothing)
+			c.findOwnMethod(CommonRubyID.plusID);//will return null (find nothing)
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
@@ -204,7 +202,7 @@ public class TestingPerformance {
 	private static long test_findMethodForFixnum() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			ObjectFactory.fixnum1.findMethod(plusId);
+			ObjectFactory.fixnum1.findMethod(CommonRubyID.plusID);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
@@ -214,14 +212,14 @@ public class TestingPerformance {
 		RubyString s = ObjectFactory.createString("xxx");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
-			s.findMethod(plusId);
+			s.findMethod(CommonRubyID.plusID);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
 	}
 	
 	private static long test_invokeMethod() {
-		RubyMethod m = ObjectFactory.fixnum1.findMethod(plusId);
+		RubyMethod m = ObjectFactory.fixnum1.findMethod(CommonRubyID.plusID);
 		
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < LOOP; ++i) {
@@ -234,19 +232,17 @@ public class TestingPerformance {
 	private static long test_callMethodForFixnum() {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 30000000; ++i) {
-			RubyAPI.callPublicOneArgMethod(ObjectFactory.fixnum1, ObjectFactory.fixnum1, null, plusId);
+			RubyAPI.callPublicOneArgMethod(ObjectFactory.fixnum1, ObjectFactory.fixnum1, null, CommonRubyID.plusID);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;
 	}
 	
-	private static RubyID lengthId = StringMap.intern("length");
-	
 	private static long test_callMethodForString() {
 		RubyString s = ObjectFactory.createString("");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 30000000; ++i) {
-			RubyAPI.callPublicMethod(s, null, null, lengthId);
+			RubyAPI.callPublicMethod(s, null, null, CommonRubyID.lengthID);
 		}
 		long end = System.currentTimeMillis();
 		return end - start;

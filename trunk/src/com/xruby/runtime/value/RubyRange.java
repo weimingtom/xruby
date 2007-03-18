@@ -19,7 +19,7 @@ public class RubyRange extends RubyBasic {
 
 	public void setValue(RubyValue left, RubyValue right, boolean isExclusive) {
 		try {
-			RubyValue result = RubyAPI.callOneArgMethod(left, right, null, "<=>");
+			RubyValue result = RubyAPI.callOneArgMethod(left, right, null, CommonRubyID.unequalID);
 			if (result == ObjectFactory.nilValue){
 				throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
 			}

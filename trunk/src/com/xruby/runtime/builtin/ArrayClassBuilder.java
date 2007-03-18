@@ -160,13 +160,16 @@ class Array_minus extends RubyOneArgMethod {
 }
 
 class Array_times extends RubyOneArgMethod {
+	private RubyID joinID = StringMap.intern("join");
+	
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyArray array = (RubyArray)receiver;
 		if (arg instanceof RubyFixnum) { 
 			RubyFixnum times = (RubyFixnum)arg;
 			return array.times(times.intValue());
 		} else if (arg instanceof RubyString) {
-			return RubyAPI.callOneArgMethod(receiver, arg, block, "join");
+			
+			return RubyAPI.callOneArgMethod(receiver, arg, block, joinID);
 		}
 
 		throw new RubyException(RubyRuntime.TypeErrorClass, "no implicit conversion from " + arg + " to integer");

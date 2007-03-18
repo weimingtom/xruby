@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -78,7 +78,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	}
 	
 	private static String inspect(RubyValue value) {
-		RubyValue v = RubyAPI.callPublicMethod(value, null, null, "inspect");
+		RubyValue v = RubyAPI.callPublicMethod(value, null, null, CommonRubyID.inspectID);
 		return ((RubyString)v).toString();
 	}
 	
