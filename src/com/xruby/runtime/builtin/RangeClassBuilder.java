@@ -8,7 +8,6 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-
 class Range_begin extends RubyNoArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyRange r = (RubyRange)receiver;
@@ -75,6 +74,8 @@ class Range_to_a extends RubyNoArgMethod {
 		self
 */
 class Range_each extends RubyNoArgMethod {
+	private RubyID succID = StringMap.intern("succ");
+	
 	private boolean compare(RubyValue value1, RubyValue value2) {
 		RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, "<=>");
 		return !RubyAPI.testEqual(r, ObjectFactory.fixnum0);
@@ -93,7 +94,7 @@ class Range_each extends RubyNoArgMethod {
 					ite = r.getLeft();
 					continue;
 				} else {
-					ite = RubyAPI.callPublicMethod(ite, null, null, "succ");
+					ite = RubyAPI.callPublicMethod(ite, null, null, succID);
 				}
 			}
 			

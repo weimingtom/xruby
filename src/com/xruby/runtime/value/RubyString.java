@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -61,7 +61,7 @@ public class RubyString extends RubyBasic {
 		if (v instanceof RubyString) {
 			return appendString((RubyString)v);
 		} else {
-			RubyValue r = RubyAPI.callPublicMethod(v, null, null, "to_s");
+			RubyValue r = RubyAPI.callPublicMethod(v, null, null, CommonRubyID.toSID);
 			return appendString((RubyString)r);
 		}
 	}

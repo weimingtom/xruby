@@ -8,13 +8,13 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class IO_write extends RubyOneArgMethod {
+class IO_write extends RubyOneArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		RubyString value;
 		if (arg instanceof RubyString) {
 			value = (RubyString)arg;
 		} else {
-			RubyValue str = RubyAPI.callPublicMethod(arg, null, null, "to_s");
+			RubyValue str = RubyAPI.callPublicMethod(arg, null, null, CommonRubyID.toSID);
 			value = (RubyString) str;
 		}
 		

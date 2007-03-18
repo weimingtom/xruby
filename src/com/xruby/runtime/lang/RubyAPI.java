@@ -99,10 +99,6 @@ public class RubyAPI {
 	}
 	
 	private static RubyID methodMissingId = StringMap.intern("method_missing");
-	
-	private static RubyValue callMethodMissing(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
-		return callMethodMissing(receiver, args, block, StringMap.intern(method_name));
-	}
 
 	private static RubyValue callMethodMissing(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid) {
 		RubyMethod m = receiver.findMethod(methodMissingId);
@@ -116,10 +112,6 @@ public class RubyAPI {
 		}
 		
 		throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  StringMap.id2name(mid) + "' for " + receiver.getRubyClass().getName());
-	}
-	
-	public static RubyValue callMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
-		return callMethod(receiver, args, block, StringMap.intern(method_name));
 	}
 
 	//receiver is implicit self
@@ -135,15 +127,14 @@ public class RubyAPI {
 
 	//method call with *one* argument and no block (use the other one if no arg (arg == null)!)
 	//This make code (especially reverse engineered ones) more readable.
-	public static RubyValue callOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name) {
+	public static RubyValue callOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid) {
 		assert(null != arg);
-		RubyID mid = StringMap.intern(method_name);
 		RubyMethod m = receiver.findMethod(mid);
 		if (null != m && !UndefMethod.isUndef(m)) {
 			return invokeMethod(m, mid, receiver, arg, null, block);
 		}
 	
-		return callMethodMissing(receiver, new RubyArray(arg), block, method_name);
+		return callMethodMissing(receiver, new RubyArray(arg), block, mid);
 	}
 	
 	public static RubyValue callPublicOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name) {
@@ -161,10 +152,6 @@ public class RubyAPI {
 	
 		return  callMethodMissing(receiver, new RubyArray(arg), block, mid);
 	}
-	
-	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name) {
-		return callPublicMethod(receiver, args, block, StringMap.intern(method_name));
-	}
 
 	//TODO should pass owner to work with protected method
 	public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid) {
@@ -177,10 +164,6 @@ public class RubyAPI {
 		return  callMethodMissing(receiver, args, block, mid);
 	}
 	
-	public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name, RubyMethod current_method) {
-		return callSuperOneArgMethod(receiver, arg, block, StringMap.intern(method_name), current_method);
-	}
-
 	public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid, RubyMethod current_method) {
 		assert(null != arg);
 		RubyClass c = (RubyClass)current_method.getOwner();
@@ -192,10 +175,9 @@ public class RubyAPI {
 		return invokeMethod(m, mid, receiver, arg, null, block);
 	}
 
-	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, String method_name, RubyMethod current_method) {
+	public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid, RubyMethod current_method) {
 		assert(null == args || args.size() > 1);//use callSuperOneArgMethod if has only one arg
 		RubyClass c = (RubyClass)current_method.getOwner();
-		RubyID mid = StringMap.intern(method_name);
 		RubyMethod m = c.findSuperMethod(mid);
 		if (null == m || UndefMethod.isUndef(m)) {
 			throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" +  StringMap.id2name(mid) + "' can not be found in '" + c.getName() + "'");
@@ -356,11 +338,13 @@ public class RubyAPI {
 
 		return ((RubyModule)receiver).setConstant(name, value);
 	}
+	
+	private static RubyID toSID = StringMap.intern("to_s");
 
 	private static void throwTypeErrorIfNotClassModule(RubyValue receiver) {
 		if (!(receiver instanceof RubyClass) &&
 				!(receiver instanceof RubyModule)) {
-			RubyValue v = RubyAPI.callPublicMethod(receiver, null, null, "to_s");
+			RubyValue v = RubyAPI.callPublicMethod(receiver, null, null, toSID);
 			String s = ((RubyString)v).toString();
 			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
 		}

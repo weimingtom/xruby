@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Yu Su
+ * Copyright 2005-2007 Xue Yong Zhi, Yu Su, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -14,18 +14,18 @@ import com.xruby.runtime.value.ObjectFactory;
  * TODO: the implementation of Enumerable has a drawback, please take care if you wanna use it
  */
 
-class Enum_collect extends RubyVarArgMethod {
+class Enum_collect extends RubyVarArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
-		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
+		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, CommonRubyID.eachID);
 		return repeatableBlock.getRetValue();
 	}
 }
 
-class Enum_all extends RubyVarArgMethod {
+class Enum_all extends RubyVarArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
-		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
+		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, CommonRubyID.eachID);
 		RubyArray array = repeatableBlock.getRetValue();
 
 		for (RubyValue value : array) {
@@ -41,7 +41,7 @@ class Enum_all extends RubyVarArgMethod {
 class Enum_any extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
-		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, "each");
+		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, CommonRubyID.eachID);
 		RubyArray array = repeatableBlock.getRetValue();
 
 		for (RubyValue value : array) {

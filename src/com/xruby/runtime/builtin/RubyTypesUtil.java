@@ -8,8 +8,7 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-public class RubyTypesUtil {
-	
+public class RubyTypesUtil {	
 	public static RubyFixnum convertToFixnum(RubyValue arg){
 		if (arg instanceof RubyFixnum) {
 			return (RubyFixnum)arg;
@@ -24,7 +23,7 @@ public class RubyTypesUtil {
 		} else if (arg instanceof RubyFixnum) {
 			return ObjectFactory.createFloat(((RubyFixnum)arg).intValue());
 		} else {
-			RubyValue v = RubyAPI.callPublicMethod(arg, null, null, "to_f");
+			RubyValue v = RubyAPI.callPublicMethod(arg, null, null, CommonRubyID.toFID);
 			return (RubyFloat)v;
 		}
 	}
