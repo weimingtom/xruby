@@ -1,0 +1,33 @@
+== Introduction ==
+TODO-LIST
+
+
+=== Details ===
+1. Add line number and local variable info to the bytecode
+  * How to deal with the loop structure
+  * Modify corresponding codegen classes
+
+2. How to connect the bytecode (the classes, blocks, variables) with souce code.
+  * Maybe we need slightly modify the way we compile code, e.g. block naming mechanism
+
+3. Implement the debug command: n(next), b(breakpoit), r(run), c(continue), l(list),   w(where) etc.
+   * The commands of rdebug is a good example
+   * Rough mannual, definition
+
+4. (Optional) A gui tools or a plug-in for a IDE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
