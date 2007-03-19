@@ -1,3 +1,5 @@
+#summary Debugger for XRuby
+
 == Introduction ==
 TODO-LIST
 
@@ -15,7 +17,6 @@ TODO-LIST
    * Rough mannual, definition
 
 4. (Optional) A gui tools or a plug-in for a IDE
-
 
 
 
