@@ -97,11 +97,9 @@ public class RubyAPI {
 			return ObjectFactory.createString("yield");
 		}
 	}
-	
-	private static RubyID methodMissingId = StringMap.intern("method_missing");
 
 	private static RubyValue callMethodMissing(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid) {
-		RubyMethod m = receiver.findMethod(methodMissingId);
+		RubyMethod m = receiver.findMethod(CommonRubyID.methodMissingId);
 		if (null != m && !UndefMethod.isUndef(m)) {
 			if (null == args) {
 				args = new RubyArray(ObjectFactory.createSymbol(StringMap.id2name(mid)));
@@ -338,13 +336,11 @@ public class RubyAPI {
 
 		return ((RubyModule)receiver).setConstant(name, value);
 	}
-	
-	private static RubyID toSID = StringMap.intern("to_s");
 
 	private static void throwTypeErrorIfNotClassModule(RubyValue receiver) {
 		if (!(receiver instanceof RubyClass) &&
 				!(receiver instanceof RubyModule)) {
-			RubyValue v = RubyAPI.callPublicMethod(receiver, null, null, toSID);
+			RubyValue v = RubyAPI.callPublicMethod(receiver, null, null, CommonRubyID.toSID);
 			String s = ((RubyString)v).toString();
 			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
 		}

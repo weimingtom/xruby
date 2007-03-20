@@ -16,6 +16,8 @@ public class CommonRubyID {
 	public static RubyID plusID = StringMap.intern("+");
 	
 	public static RubyID unequalID = StringMap.intern("<=>");	
+
+	public static RubyID methodMissingId = StringMap.intern("method_missing");
 	
 	private CommonRubyID() {
 	}
