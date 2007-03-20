@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 public class RubyArrayTest extends TestCase {
 	public void test() {
-		RubyArray a = new RubyArray(0, true);
+		RubyArray a = new RubyArray(0);
 		assertEquals(0, a.size());
 		assertEquals(ObjectFactory.nilValue, a.get(-1));
 		assertEquals(ObjectFactory.nilValue, a.get(0));
@@ -45,7 +45,7 @@ public class RubyArrayTest extends TestCase {
 	}
 	
 	public void test_collect() {
-		RubyArray a = new RubyArray(1, true);
+		RubyArray a = new RubyArray(1);
 		a.add(ObjectFactory.nilValue);
 		
 		RubyValue v = a.collect(0);
@@ -55,7 +55,7 @@ public class RubyArrayTest extends TestCase {
 	}
 	
 	public void test_collect_empty() {
-		RubyArray a = new RubyArray(0, true);
+		RubyArray a = new RubyArray(0);
 		
 		RubyValue v = a.collect(0);
 		RubyArray r = (RubyArray)v;
@@ -63,10 +63,10 @@ public class RubyArrayTest extends TestCase {
 	}
 	
 	public void test_expand() {
-		RubyArray a = new RubyArray(1, true);
+		RubyArray a = new RubyArray(1);
 		a.add(ObjectFactory.fixnum1);
 		
-		RubyArray b = new RubyArray(2, true);
+		RubyArray b = new RubyArray(2);
 		b.add(ObjectFactory.createFixnum(2));
 		b.add(ObjectFactory.createFixnum(3));
 		
