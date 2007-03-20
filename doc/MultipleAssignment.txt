@@ -43,8 +43,14 @@ by these rules.
 
 It is very hard to remember, right? But here is the worse: it is still not complete. During the 
 implementation we have found a few corner cases which can not be explained using the above 
-rules. TODO examples.
+rules. For example:
 
+a,b,*c = *[[]];	# [a, b, c] = [[], nil, []]
+a,b,*c = []		# [a, b, c] = [nil, nil, []]
+
+a = *nil		# a = nil
+a = *[1]		# a = 1
+a = *[1, 2]		# a = [1, 2]
 
 Implementation in Detail
 ==================
