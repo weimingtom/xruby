@@ -117,7 +117,7 @@ public abstract class RubyBlock extends MethodBlockBase {
 		__return__ = false;
 		__redo__ = false;
 
-		return run(receiver, null != args ? args : new RubyArray(0, true));
+		return run(receiver, null != args ? args : new RubyArray(0));
 	}
 
 	protected abstract RubyValue run(RubyValue receiver, RubyArray args);

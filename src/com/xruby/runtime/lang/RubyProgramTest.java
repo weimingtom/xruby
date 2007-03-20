@@ -24,7 +24,7 @@ class TestingProgram extends RubyProgram {
 		//puts nil, "abC", "5432"
 		RubyID printID = StringMap.intern("print");
 		
-		RubyArray a = new RubyArray(3, true);
+		RubyArray a = new RubyArray(3);
 		a.add(ObjectFactory.nilValue);
 		a.add(ObjectFactory.createString("ABCD"));
 		a.add(ObjectFactory.createFixnum(5432));
