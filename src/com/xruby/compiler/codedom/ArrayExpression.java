@@ -10,18 +10,24 @@ import java.util.*;
 public class ArrayExpression extends Expression {
 	private ArrayList<Expression> elements_;
 	private Expression asterisk_element_;
-	private boolean notSingleAsterisk_;
+
+	int rhs_size_;
+	boolean has_single_asterisk_;
 	
 	public ArrayExpression() {
 		elements_ = new ArrayList<Expression>();
 		asterisk_element_ = null;
-		notSingleAsterisk_ = true;
+
+		rhs_size_ = 0;
+		has_single_asterisk_ = false;
 	}
 
 	ArrayExpression(ArrayList<Expression> elements, Expression asterisk_element) {
 		elements_ = elements;
 		asterisk_element_ = asterisk_element;
-		notSingleAsterisk_ = elements.size() > 0;
+
+		rhs_size_ = elements.size();
+		has_single_asterisk_ = (null != asterisk_element);
 	}
 	
 	public void addElement(Expression e) {
@@ -37,7 +43,7 @@ public class ArrayExpression extends Expression {
 	}
 	
 	public void accept(CodeVisitor visitor) {
-		visitor.visitArrayBegin(elements_.size(), notSingleAsterisk_);
+		visitor.visitArrayBegin(elements_.size(), rhs_size_, has_single_asterisk_);
 		
 		for (Expression e : elements_) {
 			e.accept(visitor);

@@ -22,7 +22,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"body after\n" +
 			"visitPrepareEnsure\n" +
 			"visitRescueBegin\n" +
-			"[:1\n" +
+			"[:1:1:false\n" +
 			"RuntimeError\n" +
 			"]!\n" +
 			"=>null\n" +
@@ -53,7 +53,7 @@ public class BodyStatementTest extends TestingAstTestCase {
 			"body after\n" +
 			"visitPrepareEnsure\n" +
 			"visitRescueBegin\n" +
-			"[:1\n" +
+			"[:1:1:false\n" +
 			"M\n" +
 			"::RuntimeError\n" +
 			"]!\n" +

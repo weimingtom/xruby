@@ -59,10 +59,10 @@ public class NestedVariableExpression extends ParameterVariableExpression {
 		
 		if (mlhs_.size() == 1 && null == asterisk_lhs_) {
 			//a = 1, 2 is as same as a = [1, 2]
-			visitor.visitNestedVariable(true);
-			mlhs_.get(0).acceptAsAssignment(visitor, true, true);
+			visitor.visitNestedVariable(true, true);
+			mlhs_.get(0).acceptAsAssignment(visitor, false, true);
 		} else {
-			int var = visitor.visitNestedVariable(false);
+			int var = visitor.visitNestedVariable(false, mlhs_.size() > 0);
 			
 			for (int i = 0; i < mlhs_.size(); ++i) {
 				visitor.visitMrhs(var, i, false);

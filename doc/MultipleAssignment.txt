@@ -142,6 +142,27 @@ end
 
 h {|a, b, *c|}
 
+Special flags in RubyArray
+======================
+MRHS will be converted to a RubyArray, but its original form need to be saved to handle cases like this:
+
+a, = [], *[]
+p a     #[]
+
+tmp = [], *[]
+a, = tmp
+p a     #nil
+
+def f
+  yield [], *[]
+end
+f {|a, | p a} #[]
+
+def f
+  return [], *[]
+end
+a, = f
+p a     #[]
 
 
 

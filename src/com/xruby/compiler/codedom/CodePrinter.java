@@ -395,12 +395,13 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public void visitArrayBegin(int size,boolean notSingleAsterisk) {
-		if (!notSingleAsterisk) {
-			result_.append("*");
-		}
+	public void visitArrayBegin(int size, int rhs_size, boolean has_single_asterisk) {
 		result_.append("[:");
 		result_.append(size);
+		result_.append(":");
+		result_.append(rhs_size);
+		result_.append(":");
+		result_.append(has_single_asterisk);
 		result_.append("\n");
 	}
 	
@@ -590,18 +591,20 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public int visitMultipleAssignment(boolean single_lhs, boolean has_lhs_and_asterisk_lhs) {
+	public int visitMultipleAssignment(boolean single_lhs, boolean has_mlhs) {
 		result_.append("MultipleAssignment:");
 		result_.append(single_lhs);
 		result_.append(":");
-		result_.append(has_lhs_and_asterisk_lhs);
+		result_.append(has_mlhs);
 		result_.append("\n");
 		return 0;
 	}
 
-	public int visitNestedVariable(boolean single_lhs) {
+	public int visitNestedVariable(boolean single_lhs, boolean has_mlhs) {
 		result_.append("NestedVariable:");
 		result_.append(single_lhs);
+		result_.append(":");
+		result_.append(has_mlhs);
 		result_.append("\n");
 		return 0;
 	}

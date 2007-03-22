@@ -11,7 +11,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 			"yield\n" +
-			"[:1\n" +
+			"[:1:1:false\n" +
 			"nil\n" +
 			"]!\n" +
 			"end yield\n" +
@@ -24,7 +24,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 			"yield\n" +
-			"*[:0\n" +
+			"[:0:0:true\n" +
 			"nil\n" +
 			"[]*\n" +
 			"]!\n" +

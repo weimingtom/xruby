@@ -440,11 +440,12 @@ class MethodGenerator extends GeneratorAdapter {
 				Type.getType(Types.RubyValueClass));
 	}
 
-	public void ObjectFactory_createArray(int size, boolean notSingleAsterisk) {
+	public void ObjectFactory_createArray(int size, int rhs_size, boolean has_single_asterisk) {
 		push(size);
-		push(notSingleAsterisk);
+		push(rhs_size);
+		push(has_single_asterisk);
 		invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.value.RubyArray createArray(int, boolean)"));
+                Method.getMethod("com.xruby.runtime.value.RubyArray createArray(int, int, boolean)"));
 	}
 	
 	public void ObjectFactory_createHash() {

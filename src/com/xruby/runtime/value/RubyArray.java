@@ -14,38 +14,44 @@ import com.xruby.runtime.lang.*;
  */
 public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	private ArrayList<RubyValue> array_;
-	private boolean is_not_single_asterisk_; //e.g. does not look like yield *[[]]
 
+	//MRHS will be converted to a RubyArray, but its original form need to be saved
+	//to handle multiple assignment
+	private final int rhs_size_;
+	private final boolean has_single_asterisk_or_call_;
+	
 	public RubyArray() {
-		this(1, true);
+		this(0);
 	}
 
 	public RubyArray(int size) {
-		this(size, true);
+		this(size, 0, false);
 	}
 
 	public RubyArray(RubyValue v) {
-		this(1, true);
+		this(1);
 		add(v);
 	}
 
 	public RubyArray(RubyValue value1, RubyValue value2) {
-		this(2, true);
+		this(2);
 		add(value1);
 		add(value2);
 	}
 
 	public RubyArray(int size, RubyValue default_value) {
-		this(size, true);
+		this(size);
 		for (int i = 0; i < size; ++i) {
 			array_.add(default_value);
 		}
 	}
 
-	public RubyArray(int size, boolean isNotSingleAsterisk) {
+	public RubyArray(int size, int rhs_size, boolean has_single_asterisk_or_call) {
 		super(RubyRuntime.ArrayClass);
 		array_ = new ArrayList<RubyValue>(size);
-		this.is_not_single_asterisk_ = isNotSingleAsterisk;
+
+		rhs_size_ = rhs_size;
+		has_single_asterisk_or_call_ = has_single_asterisk_or_call;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -55,8 +61,12 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 		return v;
 	}
 
-	public boolean isNotSingleAsterisk() {
-		return this.is_not_single_asterisk_;
+	public boolean isSingleAsterisk() {
+		return (0 == rhs_size_) && has_single_asterisk_or_call_;
+	}
+
+	public boolean isSingleRhs() {
+		return (rhs_size_ <= 1) && !has_single_asterisk_or_call_;
 	}
 
 	public RubyArray add(RubyValue v) {
@@ -337,7 +347,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 			return new RubyArray();
 		}
 
-		RubyArray a = new RubyArray(size, true);
+		RubyArray a = new RubyArray(size);
 		for (int i = index; i < array_.size(); ++i) {
 			a.add(array_.get(i));
 		}

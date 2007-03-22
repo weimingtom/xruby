@@ -10,7 +10,7 @@ public class ArrayExpressionTest extends TestingAstTestCase {
 		String program_text = "[1, 'xxx', 1.2]";
 		
 		String expected_result = 
-"[:3\n" +
+"[:3:0:false\n" +
 "1\n" +
 "xxx\n" +
 "1.2\n" +
@@ -22,7 +22,7 @@ public class ArrayExpressionTest extends TestingAstTestCase {
 	public void test_empty() {
 		String program_text = "[ ]";
 		String expected_result = 
-"[:0\n]!\n" +
+"[:0:0:false\n]!\n" +
 "EOF";
 		assertAstOutput(program_text, expected_result);
 	}
@@ -30,7 +30,7 @@ public class ArrayExpressionTest extends TestingAstTestCase {
 	public void test_empty2() {
 		String program_text = "[]";
 		String expected_result = 
-"[:0\n]!\n" +
+"[:0:0:false\n]!\n" +
 "EOF";
 		assertAstOutput(program_text, expected_result);
 	}
@@ -39,8 +39,8 @@ public class ArrayExpressionTest extends TestingAstTestCase {
 		String program_text = "[*[1, 2]]";
 		
 		String expected_result = 
-			"[:0\n" +
-			"[:2\n" +
+			"[:0:0:false\n" +
+			"[:2:0:false\n" +
 			"1\n" +
 			"2\n" +
 			"]!\n" +

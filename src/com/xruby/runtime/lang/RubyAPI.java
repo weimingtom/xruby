@@ -235,15 +235,15 @@ public class RubyAPI {
 	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyArray a) {
 		if (a.size() <= 1) {
 			return a.get(0);
-		} else {
-			return a;
 		}
+
+		return a;
 	}
 
 	public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyValue v) {
 		if (v instanceof RubyArray) {
 			RubyArray a = (RubyArray)v;
-			if (!a.isNotSingleAsterisk()) {
+			if (a.isSingleAsterisk()) {
 				return expandArrayIfThereIsZeroOrOneValue(a);
 			}
 		}
@@ -253,20 +253,20 @@ public class RubyAPI {
 
 	public static RubyArray expandArrayIfThereIsOnlyOneRubyArray(RubyArray a) {
 		if (a.size() == 1 &&
-				a.isNotSingleAsterisk() &&
+				a.isSingleRhs() &&
 				a.get(0) instanceof RubyArray) {
 			return (RubyArray)a.get(0);
-		} else {
-			return a;
 		}
+
+		return a;
 	}
 	
 	public static RubyArray convertToArrayIfNotYet(RubyValue v) {
 		if (v instanceof RubyArray) {
 			return (RubyArray)v;
-		} else {
-			return new RubyArray(v);
 		}
+
+		return new RubyArray(v);
 	}
 	
 	public static RubyBlock convertRubyValue2RubyBlock(RubyValue v) {
