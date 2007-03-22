@@ -18,7 +18,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"2\n" +
 			"b =\n" +
 			";\n" +
-			"[:2\n" +
+			"[:2:2:false\n" +
 			"1\n" +
 			"2\n" +
 			"]!\n" +
@@ -35,9 +35,9 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		String program_text = "a, *b = 1, *[2, 3]";
 		
 		String expected_result = 
-			"[:1\n" +
+			"[:1:1:true\n" +
 			"1\n" +
-			"[:2\n" +
+			"[:2:0:false\n" +
 			"2\n" +
 			"3\n" +
 			"]!\n" +
@@ -57,7 +57,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 		String program_text = "b, (c, d), e = 1,2,3,4;b;c;d;e";
 		
 		String expected_result = 
-			"[:4\n" +
+			"[:4:4:false\n" +
 			"1\n" +
 			"2\n" +
 			"3\n" +
@@ -68,7 +68,7 @@ public class MultipleAssignmentStatementTest extends TestingAstTestCase {
 			"mrhs:1\n" +
 			"mrhs:2\n" +
 			"e //=\n" +
-			"NestedVariable:false\n" +
+			"NestedVariable:false:true\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +
 			"d //=\n" +

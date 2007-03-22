@@ -20,12 +20,12 @@ public class AssignmentOperatorExpressionTest extends TestingAstTestCase {
 		String program_text = "a=[]; a[0] = 1";
 		
 		String expected_result = 
-			"[:0\n" +
+			"[:0:0:false\n" +
 			"]!\n" +
 			"a =\n" +
 			";\n" +
 			"a\n" +
-			"[:2\n" +
+			"[:2:2:false\n" +
 			"0\n" +
 			"1\n" +
 			"]!\n" +

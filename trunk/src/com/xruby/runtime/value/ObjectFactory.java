@@ -80,8 +80,8 @@ public class ObjectFactory {
 		return new RubyFloat(value);
 	}
 
-	public static RubyArray createArray(int size, boolean isNotSingleAsterisk) {
-		return new RubyArray(size, isNotSingleAsterisk);
+	public static RubyArray createArray(int size, int rhs_size, boolean has_single_asteriskor_or_call) {
+		return new RubyArray(size, rhs_size, has_single_asteriskor_or_call);
 	}
 
 	public static RubyHash createHash() {

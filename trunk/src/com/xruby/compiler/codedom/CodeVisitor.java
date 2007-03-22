@@ -115,7 +115,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitAfterRescueBody(Object next_label, Object end_label);
 	public void visitRescueEnd(int exception_variable, boolean has_ensure);
 
-	public void visitArrayBegin(int size, boolean notSingleAsterisk);
+	public void visitArrayBegin(int size, int rhs_size, boolean has_single_asterisk);
 	public void visitArrayEnd();
 	public void visitArrayElement(boolean asterisk, boolean is_method_call);
 	
@@ -153,9 +153,9 @@ public interface CodeVisitor extends ISymbolTable {
 	public String[] visitBlockEnd(String name, boolean last_statement_has_return_value);
 	
 	public void visitMrhs(int var, int index, boolean asterisk);
-	public int visitMultipleAssignment(boolean single_lhs, boolean has_lhs_and_asterisk_lhs);
+	public int visitMultipleAssignment(boolean single_lhs, boolean has_mlhs);
 	
-	public int visitNestedVariable(boolean single_lhs);
+	public int visitNestedVariable(boolean single_lhs, boolean has_mlhs);
 
 	public void visitSpecialLambdaCallBegin();
 	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons);

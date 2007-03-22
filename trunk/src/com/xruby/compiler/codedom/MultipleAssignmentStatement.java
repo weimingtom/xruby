@@ -84,14 +84,17 @@ public class MultipleAssignmentStatement extends Statement {
 		to_a.accept(visitor);
 	}
 
-	static void acceptMLhs(CodeVisitor visitor, ArrayList<VariableExpression> mlhs, VariableExpression asterisk_lhs, boolean has_extra_comma) {
+	static void acceptMLhs(CodeVisitor visitor, 
+								ArrayList<VariableExpression> mlhs,
+								VariableExpression asterisk_lhs,
+								boolean has_extra_comma) {
 		Collections.reverse(mlhs);
 
 		if (mlhs.size() == 1 && null == asterisk_lhs && !has_extra_comma) {
-			visitor.visitMultipleAssignment(true, false);
-			mlhs.get(0).acceptAsAssignment(visitor, true, true);
+			visitor.visitMultipleAssignment(true, true);
+			mlhs.get(0).acceptAsAssignment(visitor, false, true);
 		} else {
-			int var = visitor.visitMultipleAssignment(false, mlhs.size() != 0);
+			int var = visitor.visitMultipleAssignment(false, mlhs.size() > 0);
 		
 			for (int i = 0; i < mlhs.size(); ++i) {
 				visitor.visitMrhs(var, i, false);

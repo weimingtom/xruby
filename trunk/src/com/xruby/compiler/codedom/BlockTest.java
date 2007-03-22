@@ -73,8 +73,8 @@ public class BlockTest extends TestingAstTestCase {
 		String expected_result = 
 			"self\n" +
 			"block:1:false:0\n" +
-			"MultipleAssignment:true:false\n" +
-			"a *//=\n" +
+			"MultipleAssignment:true:true\n" +
+			"a //=\n" +
 			"self\n" +
 			"a\n" +
 			"puts:false\n" +

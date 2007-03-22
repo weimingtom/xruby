@@ -1591,6 +1591,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_yield() {
 		String[] program_texts = {
+				"def f; yield [], *[]; end; f {|x, | p x}",
+				
 				"def f; yield [1,2,3,4] end;f {|w,x,y,z| print w,9,x,9,y,9,z}",
 				"def f; yield [1, 2], 3; end; f {|(x, y), z| print x, y, z}",
 				
@@ -1618,6 +1620,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"[]\n",
+				
 				"1929394",
 				"123",
 				
@@ -2958,6 +2962,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_lamda_proc() {
 		String[] program_texts = {
+				"f = lambda{|x,| x}; p f.call([42])",
 				"def f; print 1; end; lambda(&method(:f)).call",
 				"a = lambda {print 'xxx'}; a.call",
 				"a = lambda {|x| print x}; a.call('yyy')",
@@ -2966,6 +2971,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"[42]\n",
 				"1",
 				"xxx",
 				"yyy",
