@@ -494,52 +494,63 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("boolean testTrueFalse(com.xruby.runtime.lang.RubyValue)"));
 	}
-
-	public void RubyAPI_callPublicMethod(String methodName) {
-		push(methodName);
+	
+	private void loadRubyID(String s) {
+		RubyIDClassGenerator.getField(this, s);
+		/*
+		push(s);
 		invokeStatic(Type.getType(StringMap.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
-		invokeStatic(Type.getType(RubyAPI.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
+				*/
+		/*
+		if (this.idMap.containsKey(s)) {
+			int index = this.idMap.get(s);
+			this.loadLocal(index);
+		} else {
+			push(s);
+			invokeStatic(Type.getType(StringMap.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
+			int index = this.newLocal(Type.getType(RubyID.class));
+			this.storeLocal(index);
+			this.idMap.put(s, index);
+			this.loadLocal(index);
+		}
+		*/		
 	}
 
+	public void RubyAPI_callPublicMethod(String methodName) {
+		loadRubyID(methodName);
+		invokeStatic(Type.getType(RubyAPI.class),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
+	}	
+
 	public void RubyAPI_callPublicOneArgMethod(String methodName) {
-		push(methodName);
-		invokeStatic(Type.getType(StringMap.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
+		loadRubyID(methodName);
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));	
 	}
 
 	public void RubyAPI_callMethod(String methodName) {
-		push(methodName);
-		invokeStatic(Type.getType(StringMap.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
+		loadRubyID(methodName);
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
 	}
 
 	public void RubyAPI_callOneArgMethod(String methodName) {
-		push(methodName);
-		invokeStatic(Type.getType(StringMap.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
+		loadRubyID(methodName);
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
 	}
 
 	public void RubyAPI_callSuperMethod(String methodName) {
-		push(methodName);
-		invokeStatic(Type.getType(StringMap.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
+		loadRubyID(methodName);
 		loadThis();
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.RubyMethod)"));
 	}
 
 	public void RubyAPI_callSuperOneArgMethod(String methodName) {
-		push(methodName);
-		invokeStatic(Type.getType(StringMap.class),
-				Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
+		loadRubyID(methodName);
 		loadThis();
 		invokeStatic(Type.getType(RubyAPI.class),
 				Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.RubyMethod)"));

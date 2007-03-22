@@ -583,7 +583,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 		try {
 			CompilationResults codes = compiler.compile(new StringReader(program_texts));
-			assertEquals(2, codes.size());
+			assertEquals(3, codes.size());
 		} catch (Exception e) {
 			assertTrue("Error : " + e.toString(), false);
 		}
