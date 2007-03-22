@@ -45,12 +45,14 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public CompilationResults compile(Program program, RubyBinding binding) throws CompilerException {
 		binding_ = binding;
-		
+		RubyIDClassGenerator.initScript(script_name_);
 		cg_ = new ClassGeneratorForRubyProgram(NameFactory.createClassName(script_name_, null), binding);
 		program.accept(this);
 
 		cg_.getMethodGenerator().endMethod();
 		cg_.visitEnd();
+		compilation_results_.add(RubyIDClassGenerator.getCompilationResult());
+//		RubyIDClassGenerator.clear();
 		compilation_results_.add(cg_.getCompilationResult());
 		return compilation_results_;
 	}
