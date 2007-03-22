@@ -1803,6 +1803,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_alias_method() {
 		String[] program_texts = {
+				"def F_alias; print 22 ; end;alias G_alias F_alias; G_alias()",
+				
 				"def f= x; print x;end; alias test_alias f=; test_alias 5",
 				
 				"unless 1 == 1; alias :b :print; end",
@@ -1834,6 +1836,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"22",
+				
 				"5",
 				"",
 				"nil",
@@ -4678,19 +4682,17 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Module_module_eval() {
 		String [] program_texts = {
-				"class TestModuleEval2; end\n" +
-				"TestModuleEval2.module_eval('print self')",
-				
-				/*TODO
 				"class TestModuleEval; end\n" +
 				"TestModuleEval.module_eval(%q{def test_module_eval() 123 end})\n" +
 				"print TestModuleEval.new.test_module_eval",
-				*/
+				
+				"class TestModuleEval2; end\n" +
+				"TestModuleEval2.module_eval('print self')",
 		};
 		
 		String[] outputs = {
+				"123",
 				"TestModuleEval2",
-				//"123",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
