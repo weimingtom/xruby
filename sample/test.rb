@@ -17,7 +17,6 @@ require 'test_eval'
 require 'test_exception'
 require 'test_file'
 require 'test_float'
-require 'test_gc'
 require 'test_hash'
 require 'test_if_unless'
 require 'test_integer'
@@ -37,6 +36,7 @@ require 'test_time'
 require 'test_trace'
 require 'test_variable'
 require 'test_while_until'
+require 'test_gc'
 else
   for arg in ARGV
     require "test_#{arg}"
