@@ -88,6 +88,7 @@ returns[String s]
 		:	gvar:GLOBAL_VARIABLE {s = gvar.getText();}
 		|	id:IDENTIFIER			(assign1:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = id.getText(); if (null != assign1) {s += "=";}}
 		|	function:FUNCTION	(assign2:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = function.getText(); if (null != assign2) {s += "=";}}
+		|	constant:CONSTANT	(assign3:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = constant.getText(); if (null != assign3) {s += "=";}}
 		|	sym=symbol			{s = sym.getValue();}
 		|	s=operator
 		;
