@@ -318,7 +318,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 	}
 
 	public void rb_iterate(RubyValue receiver, RubyBlock block) {
-		for(RubyValue item: array_) {
+		for (RubyValue item: array_) {
 			RubyArray args = new RubyArray();
 			args.add(item);
 
