@@ -287,8 +287,9 @@ public class ModuleClassBuilder {
 		c.defineMethod("===", new Module_case_equal());
 		c.defineMethod("ancestors", new Module_ancestors());
 		c.defineMethod("module_function", new Module_module_function());
-		c.defineMethod("module_eval", new Module_module_eval());
-		c.defineMethod("class_eval", new Module_module_eval());
+		RubyMethod module_eval = new Module_module_eval();
+		c.defineMethod("module_eval", module_eval);
+		c.defineMethod("class_eval", module_eval);
 
 		c.setAccessPrivate();
 		c.defineMethod("attr_reader", new Module_attr_reader());
