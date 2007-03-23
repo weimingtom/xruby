@@ -292,13 +292,7 @@ public class RubyAPI {
 	public static RubyValue getCurrentNamespaceConstant(RubyModule receiver, String name) {
 		RubyValue v = receiver.getConstant(name);
 		if (null == v) {
-			RubyString str = ObjectFactory.createString();
-			receiver.to_s(str);
-			if (str.length() > 0) {
-				str.appendString("::");
-			}
-			str.appendString(name);
-			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + str.toString());
+			throwUninitializedConstant(receiver, name);
 		}
 		
 		return v;
@@ -319,16 +313,22 @@ public class RubyAPI {
 		RubyModule m = (RubyModule)receiver;
 		RubyValue v = m.getConstant(name);
 		if (null == v) {
-			RubyString str = ObjectFactory.createString();
+			throwUninitializedConstant(m, name);
+		}
+		
+		return v;
+	}
+
+	private static void throwUninitializedConstant(RubyModule m, String name) {
+		RubyString str = ObjectFactory.createString();
+		if (m != RubyRuntime.ObjectClass) {
 			m.to_s(str);
 			if (str.length() > 0) {
 				str.appendString("::");
 			}
-			str.appendString(name);
-			throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + str.toString());
 		}
-		
-		return v;
+		str.appendString(name);
+		throw new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant " + str.toString());
 	}
 
 	public static RubyValue setConstant(RubyValue value, RubyValue receiver, String name) {
