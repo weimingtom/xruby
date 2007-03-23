@@ -10,7 +10,7 @@ import com.xruby.runtime.value.*;
 public abstract class RubyProgram {
 
 	public RubyValue invoke() {
-		return invoke(ObjectFactory.topLevelSelfValue, null, null, RubyRuntime.GlobalScope);
+		return invoke(ObjectFactory.topLevelSelfValue, null, null, RubyRuntime.ObjectClass);
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope) {

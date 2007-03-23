@@ -39,7 +39,8 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
 				cv_,
 				binding,
-				null);
+				null,
+				false);
 	}
 
 	private void createImplicitConstructor(ClassVisitor cw) {
@@ -48,7 +49,8 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				m,
 				cw,
 				null,
-				null);
+				null,
+				false);
 		mg.loadThis();
 		mg.invokeConstructor(Type.getType(Types.RubyProgramClass), m);
 		mg.returnValue();
@@ -60,7 +62,8 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				Method.getMethod("void main (String[])"),
 				cv,
 				null,
-				null);
+				null,
+				false);
 
 		mg.loadArg(0);
 		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),

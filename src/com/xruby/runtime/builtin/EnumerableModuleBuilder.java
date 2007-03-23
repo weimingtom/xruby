@@ -16,7 +16,7 @@ import com.xruby.runtime.value.ObjectFactory;
 
 class Enum_collect extends RubyVarArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
+		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver, getOwner());
 		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, CommonRubyID.eachID);
 		return repeatableBlock.getRetValue();
 	}
@@ -24,7 +24,7 @@ class Enum_collect extends RubyVarArgMethod {
 
 class Enum_all extends RubyVarArgMethod {	
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
+		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver, getOwner());
 		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, CommonRubyID.eachID);
 		RubyArray array = repeatableBlock.getRetValue();
 
@@ -40,7 +40,7 @@ class Enum_all extends RubyVarArgMethod {
 
 class Enum_any extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver);
+		RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver, getOwner());
 		RubyAPI.callPublicMethod(receiver, args, repeatableBlock, CommonRubyID.eachID);
 		RubyArray array = repeatableBlock.getRetValue();
 

@@ -9,9 +9,9 @@ import junit.framework.TestCase;
 
 public class ClassGeneratorForRubyBlockTest extends TestCase {
 	public void test_buildContructorSignature() {
-		assertEquals("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock)", ClassGeneratorForRubyBlock.buildContructorSignature(0));
-		assertEquals("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue)", ClassGeneratorForRubyBlock.buildContructorSignature(1));
-		assertEquals("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)",
+		assertEquals("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)", ClassGeneratorForRubyBlock.buildContructorSignature(0));
+		assertEquals("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, com.xruby.runtime.lang.RubyValue)", ClassGeneratorForRubyBlock.buildContructorSignature(1));
+		assertEquals("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)",
 				ClassGeneratorForRubyBlock.buildContructorSignature(2));
 	}
 }

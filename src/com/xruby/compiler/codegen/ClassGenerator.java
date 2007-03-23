@@ -55,10 +55,12 @@ abstract class ClassGenerator {
 			suspended_mgs_for_class_builder_method_.push(current_mg_for_class_builder_method_);
 		}
 
-		current_mg_for_class_builder_method_ = new MethodGeneratorForClassBuilder(
+		current_mg_for_class_builder_method_ = new MethodGenerator(
 				Opcodes.ACC_PRIVATE,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule)"),
+				Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
 				cv_,
+				null,
+				null,
 				is_singleton);
 	}
 
@@ -80,7 +82,7 @@ abstract class ClassGenerator {
 
 	public void callClassBuilderMethod(String name) {
 		getMethodGenerator().invokeConstructor(Type.getType("L" + name_ + ";"), 
-			Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyModule)"));
+			Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"));
 	}
 
 	public void addParameter(String name) {

@@ -22,7 +22,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 
 	public RubyBlock convertToRubyBolck(RubyValue self) {
 		final RubyMethod m = this;
-		return new RubyBlock(argc_, has_asterisk_parameter_, default_argc_, null, self, null) {
+		return new RubyBlock(argc_, has_asterisk_parameter_, default_argc_, null, self, null, getOwner()) {
 			protected RubyValue run(RubyValue receiver, RubyArray args) {
 				if (null != args && args.size() == 1) {
 					return m.invoke(receiver, args.get(0), null, null);

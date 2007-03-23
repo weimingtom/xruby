@@ -64,7 +64,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		if (isInGlobalScope()) {
 			cg_.getMethodGenerator().RubyRuntime_GlobalScope();
 		} else {
-			cg_.getMethodGenerator().loadArg(1);
+			cg_.getMethodGenerator().loadArg(3);
 		}
 
 		if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(className)) {
@@ -78,9 +78,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		//The class body may refer the constant, so save it before class builder starts.
 		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(className));
-		
-		cg_.getMethodGenerator().dup();
+		int i = cg_.getMethodGenerator().getLocalVariable(className);
+		cg_.getMethodGenerator().storeLocal(i);
+		cg_.getMethodGenerator().pushNull();
+		cg_.getMethodGenerator().pushNull();
+		cg_.getMethodGenerator().loadLocal(i);
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
 		cg_.startClassBuilderMethod(method_name_for_class_builder, false);
@@ -93,6 +95,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitSingletonClassDefination2() {
 		cg_.getMethodGenerator().RubyValue_getSingletonClass();
 		cg_.getMethodGenerator().dup();
+		int i = cg_.getMethodGenerator().newLocal(Type.getType(Types.RubyClassClass));
+		cg_.getMethodGenerator().storeLocal(i);
+		cg_.getMethodGenerator().pushNull();
+		cg_.getMethodGenerator().pushNull();
+		cg_.getMethodGenerator().loadLocal(i);
 		
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder("SIGLETON");
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
@@ -110,16 +117,18 @@ public class RubyCompilerImpl implements CodeVisitor {
 			if (isInGlobalScope()) {
 				cg_.getMethodGenerator().RubyRuntime_GlobalScope();
 			} else {
-				cg_.getMethodGenerator().loadArg(1);
+				cg_.getMethodGenerator().loadArg(3);
 			}
 
 			cg_.getMethodGenerator().RubyModule_defineModule(moduleName);
 		}
 		
 		cg_.getMethodGenerator().dup();
-		cg_.getMethodGenerator().storeLocal(cg_.getMethodGenerator().getLocalVariable(moduleName));
-
-		cg_.getMethodGenerator().dup();
+		int i = cg_.getMethodGenerator().getLocalVariable(moduleName);
+		cg_.getMethodGenerator().storeLocal(i);
+		cg_.getMethodGenerator().pushNull();
+		cg_.getMethodGenerator().pushNull();
+		cg_.getMethodGenerator().loadLocal(i);
 		String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
 		cg_.callClassBuilderMethod(method_name_for_class_builder);
 		cg_.startClassBuilderMethod(method_name_for_class_builder, false);
@@ -133,7 +142,13 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
 
-		cg_.getMethodGenerator().RubyModule_defineMethod(methodName, uniqueMethodName, is_singleton_method);
+		if (!is_singleton_method) {
+			cg_.getMethodGenerator().loadCurrentClass(cg_.isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
+		} else {
+			cg_.getMethodGenerator().RubyValue_getSingletonClass();
+		}
+
+		cg_.getMethodGenerator().RubyModule_defineMethod(methodName, uniqueMethodName);
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
@@ -142,7 +157,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 								num_of_args,
 								has_asterisk_parameter,
 								num_of_default_args,
-								is_singleton_method || (cg_.isInClassBuilder() && ((MethodGeneratorForClassBuilder)cg_.getMethodGenerator()).isSingleton()));
+								is_singleton_method || cg_.getMethodGenerator().isSingleton());
 	}
 
 	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression) {
@@ -176,7 +191,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		compilation_results_.add(cg_.getCompilationResult());
 		cg_ = suspended_cgs_.pop();
 		
-		cg_.getMethodGenerator().new_BlockClass(cg_, uniqueBlockName, commons, isInGlobalScope(), isInBlock());
+		cg_.getMethodGenerator().new_BlockClass(cg_, uniqueBlockName, commons, cg_.isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
 
 		cg_.getMethodGenerator().storeBlockForFutureRestoreAndCheckReturned();
 
