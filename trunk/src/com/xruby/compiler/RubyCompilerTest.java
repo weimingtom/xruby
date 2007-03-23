@@ -3607,6 +3607,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_constant_in_module_exception() {
 		String[] program_texts = {
+				"Object::CONSTANT_IN_MODULE_EXCEPTION_YYY",
 				"CONSTANT_IN_MODULE_EXCEPTION_XXX",
 				"module ConstantInModuleException; end; ConstantInModuleException::NO_SUCH_CONST_XXX",
 				"a=1; a::B",
@@ -3614,10 +3615,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		RubyException[] exceptions = {
-			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant CONSTANT_IN_MODULE_EXCEPTION_XXX"),
-			new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant ConstantInModuleException::NO_SUCH_CONST_XXX"),
-			new RubyException(RubyRuntime.TypeErrorClass, "1 is not a class/module"),
-			new RubyException(RubyRuntime.TypeErrorClass, "9 is not a class/module"),
+				new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant CONSTANT_IN_MODULE_EXCEPTION_YYY"),
+				new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant CONSTANT_IN_MODULE_EXCEPTION_XXX"),
+				new RubyException(RubyRuntime.NameErrorClass, "uninitialized constant ConstantInModuleException::NO_SUCH_CONST_XXX"),
+				new RubyException(RubyRuntime.TypeErrorClass, "1 is not a class/module"),
+				new RubyException(RubyRuntime.TypeErrorClass, "9 is not a class/module"),
 		};
 
 		compile_run_and_catch_exception(program_texts, exceptions);
@@ -3954,12 +3956,16 @@ public class RubyCompilerTest extends CompilerTestCase {
 				"m = 'xx'.method(:length); print m.call",
 				"m = 1.method('+'); print m.call(2)",
 				"m = 1.method('+'); print m",
+				
+				"1.times {def f; print self; end}; f ",
 		};
 
 		String[] outputs = {
 				"2",
 				"3",
 				"#<Method: Fixnum#+>",
+				
+				"main",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);

@@ -18,15 +18,21 @@ class MethodGenerator extends GeneratorAdapter {
 	private IntegerTable integer_table_ = new IntegerTable();
 	private ArrayList<Class> current_types_on_stack_ = new ArrayList<Class>();
 	private ArrayList<Integer> saved_vars_ = new ArrayList<Integer>();//may be have same length of current_types_on_stack_
+	private final boolean is_singleton_;
 
-	public MethodGenerator(final int arg0, final Method arg1, final ClassVisitor cv, RubyBinding binding, SymbolTable st) {
+	public MethodGenerator(final int arg0, final Method arg1, final ClassVisitor cv, RubyBinding binding, SymbolTable st, boolean is_singleton) {
 		super(arg0, arg1, null, null, cv);
 		if (null == st) { 
 			symbol_table_ = new SymbolTable(null == binding ? null : binding.getVariableNames());
 		} else {
 			symbol_table_ = new SymbolTableForBlock(null == binding ? null : binding.getVariableNames(), st);
 		}
+		is_singleton_ = is_singleton;
 		visitCode();
+	}
+	
+	public boolean isSingleton() {
+		return is_singleton_;
 	}
 	
 	public void saveCurrentVariablesOnStack() {
@@ -141,14 +147,16 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("int size()"));
 	}
 
-	public void loadCurrentClass(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {
-		if (isInClassBuilder) {
+	public void loadCurrentClass(boolean is_in_class_builder, boolean is_in_singleton_method, boolean is_in_global_scope, boolean is_in_block) {
+		if (is_in_class_builder) {
 			loadCurrentClass();
-		} else if (isInSingletonMethod) {
-			loadSelf(isInBlock);
+		} else if (is_in_singleton_method) {
+			loadSelf(is_in_block);
 			checkCast(Type.getType(Types.RubyClassClass));
-		} else if (isInGlobalScope) {
+		} else if (is_in_global_scope) {
 			loadArg(3);
+		} else if (is_in_block) {
+			loadScopeOfCurrentMethod();
 		} else {
 			loadThis();
 			RubyMethod_getOwner();
@@ -156,11 +164,8 @@ class MethodGenerator extends GeneratorAdapter {
 	}
 
 	/// @return true if in global scope
-	public boolean loadCurrentClass() {
-		getStatic(Type.getType(RubyRuntime.class),
-			"ObjectClass",
-			Type.getType(RubyClass.class));
-		return false;
+	public void loadCurrentClass() {
+		loadArg(3);
 	}
 	
 	public void call_initializeAsteriskParameter(Class c) {
@@ -225,7 +230,12 @@ class MethodGenerator extends GeneratorAdapter {
 	public void loadSelfOfCurrentMethod() {
 		loadThis();
 		getField(Type.getType(Types.RubyBlockClass), "selfOfCurrentMethod_", Type.getType(Types.RubyValueClass));
-	} 
+	}
+
+	public void loadScopeOfCurrentMethod() {
+		loadThis();
+		getField(Type.getType(Types.RubyBlockClass), "scopeOfCurrentMethod_", Type.getType(Types.RubyModuleClass));
+	}
 	
 	public void loadSelf(boolean is_in_block) {
 		if (is_in_block) {
@@ -247,7 +257,7 @@ class MethodGenerator extends GeneratorAdapter {
 		loadArg(2);
 	}
 
-	public void new_BlockClass(ClassGenerator cg, String methodName, String[] commons, boolean is_in_global_scope, boolean is_in_block) {
+	public void new_BlockClass(ClassGenerator cg, String methodName, String[] commons, boolean is_in_class_builder, boolean is_in_singleton_method, boolean is_in_global_scope, boolean is_in_block) {
 		Type methodNameType = Type.getType("L" + methodName + ";");
 		newInstance(methodNameType);
 		dup();
@@ -267,6 +277,8 @@ class MethodGenerator extends GeneratorAdapter {
 		} else {
 			pushNull();
 		}
+
+		loadCurrentClass(is_in_class_builder, is_in_singleton_method, is_in_global_scope, is_in_block);
 		
 		for (String name : commons) {
 			cg.loadVariable(name);
@@ -711,13 +723,7 @@ class MethodGenerator extends GeneratorAdapter {
 				Method.getMethod("void undefMethod(String)"));
 	}
 	
-	public void RubyModule_defineMethod(String methodName, String uniqueMethodName, boolean is_singleton_method) {
-		if (!is_singleton_method) {
-			loadCurrentClass();
-		} else {
-			RubyValue_getSingletonClass();
-		}
-		
+	public void RubyModule_defineMethod(String methodName, String uniqueMethodName) {
 		push(methodName);
 		new_MethodClass(uniqueMethodName);
 		invokeVirtual(Type.getType(RubyModule.class),
@@ -778,28 +784,6 @@ class MethodGenerator extends GeneratorAdapter {
 	public void RubyProc_isDefinedInAnotherBlock() {
 		invokeVirtual(Type.getType(Types.RubyProcClass),
 				Method.getMethod("boolean isDefinedInAnotherBlock()"));
-	}
-}
-
-class MethodGeneratorForClassBuilder extends MethodGenerator {
-	private boolean is_singleton_;
-	
-	public MethodGeneratorForClassBuilder(int arg0, Method arg1, ClassVisitor cv, boolean is_singleton) {
-		super(arg0, arg1, cv, null, null);
-		is_singleton_ = is_singleton;
-	}
-
-	boolean isSingleton() {
-		return is_singleton_;
-	}
-
-	public boolean loadCurrentClass() {
-		loadArg(1);
-		return true;
-	}
-
-	void loadCurrentBlock() {
-		pushNull();
 	}
 }
 

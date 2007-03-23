@@ -80,7 +80,8 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock)"),
 				cv_,
 				null,
-				null);
+				null,
+				false);
 	}
 
 	private MethodGenerator visitRubyOneArgMethod() {
@@ -98,7 +99,8 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock)"),
 				cv_,
 				null,
-				null);
+				null,
+				false);
 	}
 
 	private void createConstructorOfRubyVarArgMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
@@ -106,7 +108,8 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				Method.getMethod("void <init> ()"),
 				cv_,
 				null,
-				null);
+				null,
+				false);
 		mg.loadThis();
 		mg.push(argc);
 		mg.push(has_asterisk_parameter);
@@ -122,7 +125,8 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				Method.getMethod("void <init> ()"),
 				cv_,
 				null,
-				null);
+				null,
+				false);
 		mg.loadThis();
 		mg.invokeConstructor(Type.getType(Types.RubyOneArgMethodClass),
 						Method.getMethod("void <init> ()"));
