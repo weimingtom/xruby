@@ -73,8 +73,8 @@ public class Block {
 		asterisk_parameter_ = name;
 	}
 
-	private ArrayList<VariableExpression> buildLhs() {
-		ArrayList<VariableExpression> mlhs = new ArrayList<VariableExpression>();
+	private ArrayList<Expression> buildLhs() {
+		ArrayList<Expression> mlhs = new ArrayList<Expression>();
 		for (ParameterVariableExpression var : parameters_) {
 			mlhs.add(var);
 		}

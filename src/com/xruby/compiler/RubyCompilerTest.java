@@ -2807,6 +2807,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_multiple_assignment_no_asterisk() {
 		String[] program_texts = {
+				"a = []; a[0], a [2] = 3, 9; p a",
+				
 				"w,x,y,z = [1,2,3,4];print w,9,x,9,y,9,z",
 				"c = (a,b=1,2); p c",
 				
@@ -2822,6 +2824,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"[3, nil, 9]\n",
+				
 				"1929394",
 				"[1, 2]\n",
 				"1",

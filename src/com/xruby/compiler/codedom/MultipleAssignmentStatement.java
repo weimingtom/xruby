@@ -9,7 +9,7 @@ import java.util.*;
 import antlr.RecognitionException;
 
 public class MultipleAssignmentStatement extends Statement {
-	private ArrayList<VariableExpression> mlhs_ = new ArrayList<VariableExpression>();
+	private ArrayList<Expression> mlhs_ = new ArrayList<Expression>();
 	private ArrayList<Expression> mrhs_ = new ArrayList<Expression>();
 	private VariableExpression asterisk_lhs_ = null;
 	private Expression asterisk_rhs_ = null;
@@ -37,11 +37,14 @@ public class MultipleAssignmentStatement extends Statement {
 		} else if (e instanceof MethodCallExpression) {
 			//For inputs like 'a, b = 1', a will be recognized as MethodCall
 			MethodCallExpression m = (MethodCallExpression)e;
-			if (m.getArguments() != null &&
-					m.getArguments().size() > 0) {//TODO more erro checking? e.g. a(), b = 1
+			if (m.getArguments() == null ||
+					m.getArguments().size() == 0) {//TODO more erro checking? e.g. a(), b = 1
+				mlhs_.add(new LocalVariableExpression(m.getName(), false));
+			} else if (m.isElementSet()) {
+				mlhs_.add(m);
+			} else {
 				throw new RecognitionException("Only variable can be parallel assigned");
 			}
-			mlhs_.add(new LocalVariableExpression(m.getName(), false));
 		} else {
 			throw new RecognitionException("Only variable can be parallel assigned");
 		}
@@ -85,14 +88,14 @@ public class MultipleAssignmentStatement extends Statement {
 	}
 
 	static void acceptMLhs(CodeVisitor visitor, 
-								ArrayList<VariableExpression> mlhs,
+								ArrayList<Expression> mlhs,
 								VariableExpression asterisk_lhs,
 								boolean has_extra_comma) {
 		Collections.reverse(mlhs);
 
 		if (mlhs.size() == 1 && null == asterisk_lhs && !has_extra_comma) {
 			visitor.visitMultipleAssignment(true, true);
-			mlhs.get(0).acceptAsAssignment(visitor, false, true);
+			((VariableExpression)mlhs.get(0)).acceptAsAssignment(visitor, false, true);
 		} else {
 			int var = visitor.visitMultipleAssignment(false, mlhs.size() > 0);
 		
@@ -105,8 +108,13 @@ public class MultipleAssignmentStatement extends Statement {
 				asterisk_lhs.acceptAsAssignment(visitor, false, true);
 			}
 			
-			for (VariableExpression lhs : mlhs) {
-				lhs.acceptAsAssignment(visitor, false, true);
+			for (Expression lhs : mlhs) {
+				if (lhs instanceof VariableExpression) {
+					((VariableExpression)lhs).acceptAsAssignment(visitor, false, true);
+				} else {
+					assert(lhs instanceof MethodCallExpression);
+					((MethodCallExpression)lhs).acceptMultipleArrayAssign(visitor);
+				}
 			}
 		}
 	}

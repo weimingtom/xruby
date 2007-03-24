@@ -35,9 +35,8 @@ public class AssignmentOperatorExpression extends Expression {
 	public static Expression create(Expression left, Expression right) throws RecognitionException {
 		if (left instanceof MethodCallExpression) {
 			MethodCallExpression call = (MethodCallExpression)left;
-			if ((call.getName().equals("[]") ||
-				call.hasReceiver())) {
-				return call.convertElementAccessToElmentSet(right);
+			if (call.isElementSet()) {
+				return call.convertElementAccessToElementSet(right);
 			} else {
 				throw new RecognitionException("Method call can not be assigned");
 			}

@@ -345,4 +345,9 @@ public class RubyAPI {
 			throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
 		}
 	}
+
+	public static void callArraySet(RubyValue value, RubyValue index, RubyValue receiver) {
+		RubyArray args = new RubyArray(index, value);
+		callPublicMethod(receiver, args, null, StringMap.intern("[]="));
+	}
 }

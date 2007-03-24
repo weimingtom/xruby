@@ -154,7 +154,7 @@ public interface CodeVisitor extends ISymbolTable {
 	
 	public void visitMrhs(int var, int index, boolean asterisk);
 	public int visitMultipleAssignment(boolean single_lhs, boolean has_mlhs);
-	
+	public void visitMultipleArrayAssign();
 	public int visitNestedVariable(boolean single_lhs, boolean has_mlhs);
 
 	public void visitSpecialLambdaCallBegin();
