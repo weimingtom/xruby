@@ -152,7 +152,7 @@ class MethodGenerator extends GeneratorAdapter {
 			loadCurrentClass();
 		} else if (is_in_singleton_method) {
 			loadSelf(is_in_block);
-			checkCast(Type.getType(Types.RubyClassClass));
+			checkCast(Type.getType(Types.RubyModuleClass));
 		} else if (is_in_global_scope) {
 			loadArg(3);
 		} else if (is_in_block) {
