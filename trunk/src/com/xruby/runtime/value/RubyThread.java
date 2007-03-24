@@ -18,13 +18,22 @@ public class RubyThread extends RubyValue {
 		});
 		thread_.start();
 	}
-	
+
+	private RubyThread(Thread thread) {
+		super(RubyRuntime.ThreadClass);
+		thread_ = thread;
+	}
+
 	public void join() {
 		try {
 			thread_.join();
 		} catch (InterruptedException e) {
 			throw new Error(e);
 		}
+	}
+
+	public static RubyThread current() {
+		return new RubyThread(Thread.currentThread());
 	}
 	
 }
