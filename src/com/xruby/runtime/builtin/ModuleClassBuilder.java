@@ -257,15 +257,35 @@ class Module_module_function extends RubyVarArgMethod {
 
 class Module_module_eval extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		if (null == args) {
+		//TODO duplicated code: instance_eval
+		if (null == args && null == block) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "block not supplied");
 		}
-		
-		RubyString program_text = (RubyString)args.get(0);
-		RubyBinding binding = new RubyBinding();
-		binding.setScope((RubyModule)receiver);
-		binding.setSelf(receiver);
-		return Kernel_eval.eval(program_text, binding);
+
+		if (null != args) {
+			RubyString program_text = (RubyString)args.get(0);
+			RubyBinding binding = new RubyBinding();
+			binding.setScope((RubyModule)receiver);
+			binding.setSelf(receiver);
+			return Kernel_eval.eval(program_text, binding);
+		} else {
+			block.setSelf(receiver);
+			return block.invoke(receiver, null);
+		}
+	}
+}
+
+class Module_const_get extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubySymbol s = RubyTypesUtil.convertToSymbol(arg);
+		return RubyAPI.getConstant(receiver, s.toString());
+	}
+}
+
+class Module_const_set extends RubyTwoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
+		RubySymbol s = RubyTypesUtil.convertToSymbol(arg1);
+		return RubyAPI.setConstant(arg2, receiver, s.toString());
 	}
 }
 
@@ -290,6 +310,9 @@ public class ModuleClassBuilder {
 		RubyMethod module_eval = new Module_module_eval();
 		c.defineMethod("module_eval", module_eval);
 		c.defineMethod("class_eval", module_eval);
+		c.defineMethod("const_get", new Module_const_get());
+		c.defineMethod("const_set", new Module_const_set());
+		
 
 		c.setAccessPrivate();
 		c.defineMethod("attr_reader", new Module_attr_reader());
