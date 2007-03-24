@@ -58,7 +58,13 @@ abstract class MethodCollection extends ConstantCollection {
 		RubyID oldId = StringMap.intern(oldName);
 		RubyMethod m = findOwnMethod(oldId);
 		if (null == m) {
-			throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + oldName + " for class `Object'");
+			if (this instanceof RubyModule) {
+				//TODO may be we should just overide this method in RubyModule
+				m = RubyRuntime.ObjectClass.findPublicMethod(oldId);
+			}
+			if (null == m) {
+				throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + oldName + " for class `Object'");
+			}
 		}
 		
 		RubyID newId = StringMap.intern(newName);
@@ -79,6 +85,13 @@ abstract class MethodCollection extends ConstantCollection {
 
 	public RubyMethod setAccess(RubyID mid, int access) {
 		RubyMethod m = findOwnMethod(mid);
+		if (null == m) {
+			if (this instanceof RubyModule) {
+				//TODO may be we should just overide this method in RubyModule
+				m = RubyRuntime.ObjectClass.findPublicMethod(mid);
+			}
+		}
+		
 		if (null != m) {
 			m.setAccess(access);
 		} 
