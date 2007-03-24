@@ -22,6 +22,8 @@ class When {
 		Object next_label = visitor.visitAfterWhenCondition(var);
 		if (null != body_) {
 			body_.accept(visitor);
+		} else {
+			visitor.visitNilExpression();
 		}
 		return visitor.visitAfterWhenBody(next_label, end_label);
 	}
@@ -55,7 +57,9 @@ public class CaseExpression extends Expression {
 		ensureElseBodyIsNotEmpty();
 
 		for (When when : whens_) {
-			when.body_.ensureVariablesAreInitialized(visitor);
+			if (null != when.body_) {
+				when.body_.ensureVariablesAreInitialized(visitor);
+			}
 		}
 		
 		else_body_.ensureVariablesAreInitialized(visitor);

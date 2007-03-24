@@ -990,6 +990,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_case() {
 		String[] program_texts = {
+				"case 1; when 1; end",
+				
 				"print case 1\n" +
 				"	when 1\n" +
 				"		1234\n" +
@@ -1021,6 +1023,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"",
 				"1234",
 				"2245",
 				"34",
