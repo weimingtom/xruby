@@ -363,6 +363,10 @@ class TrueClass
 	def to_s
 		return "true"
 	end
+  
+  def inspect
+		"true"
+	end
 end
 
 class FalseClass
@@ -384,6 +388,10 @@ class FalseClass
 	
 	def to_s
 		return "false"
+	end
+  
+  def inspect
+		"false"
 	end
 end
 
