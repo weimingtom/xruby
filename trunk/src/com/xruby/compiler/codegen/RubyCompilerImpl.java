@@ -868,7 +868,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			return;
 		}
 
-		loadCurrentScope();
+		cg_.getMethodGenerator().loadCurrentClass(cg_.isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
 		cg_.getMethodGenerator().RubyAPI_getCurrentNamespaceConstant(name);
 	}
 
@@ -890,21 +890,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	private void loadTopScope() {
 		if (isInGlobalScope()) {
-			cg_.getMethodGenerator().loadArg(3);
+			cg_.getMethodGenerator().loadCurrentClass();
 		} else {
 			cg_.getMethodGenerator().RubyRuntime_GlobalScope();
 		}
 	}
 
-	private void loadCurrentScope() {
-		if (cg_.isInClassBuilder()) {
-			cg_.getMethodGenerator().loadCurrentClass();
-		} else {
-			visitSelfExpression();
-			cg_.getMethodGenerator().RubyValue_getRubyClass();
-		}
-	}
-		
 	public void visitCurrentNamespaceConstantAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assign) {
 		if (isInGlobalScope()) {
 			visitTopLevelConstantAssignmentOperator(name, rhs_is_method_call, is_multiple_assign);
@@ -937,7 +928,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			return;
 		}
 		
-		loadCurrentScope();
+		cg_.getMethodGenerator().loadCurrentClass(cg_.isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
 		cg_.getMethodGenerator().RubyAPI_isDefinedCurrentNamespaceConstant(name);
 	}
 
