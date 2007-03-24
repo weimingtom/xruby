@@ -24,6 +24,16 @@ public class RubyThread extends RubyValue {
 		thread_ = thread;
 	}
 
+	public boolean equals(Object o) {
+		if (null == o) {
+			return false;
+		} else if (o instanceof RubyThread) {
+			return thread_ == ((RubyThread)o).thread_;
+		} else {
+			return false;
+		}
+	}
+
 	public void join() {
 		try {
 			thread_.join();
