@@ -62,7 +62,7 @@ public abstract class RubyBlock extends MethodBlockBase {
 	protected boolean __return__ = false;
 	protected boolean __redo__ = false;
 	protected RubyBlock blockOfCurrentMethod_;
-	protected RubyValue selfOfCurrentMethod_;
+	protected RubyValue selfOfCurrentMethod_;//TODO can we just use the 'receiver' parameter of invoke() method???
 	private RubyBlock owner_;//not null if defined in another block
 	protected RubyModule scopeOfCurrentMethod_;
 	
@@ -74,6 +74,10 @@ public abstract class RubyBlock extends MethodBlockBase {
 		selfOfCurrentMethod_ = self;
 		owner_ = owner;
 		scopeOfCurrentMethod_ = scope;
+	}
+
+	public void setSelf(RubyValue v) {
+		selfOfCurrentMethod_ = v;
 	}
 
 	public boolean isDefinedInAnotherBlock() {
