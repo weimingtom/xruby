@@ -141,6 +141,8 @@ def ENV.to_s
 end
 
 class String
+  include Comparable
+  
 	def to_s
 		return self
 	end
