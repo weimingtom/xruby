@@ -416,7 +416,7 @@ class String_access extends RubyVarArgMethod {
 			++end;
 		}
 		
-		if (begin >= end || begin > string.length() || end > string.length()) {
+		if (begin < 0 || end < 0 || begin >= end || begin > string.length() || end > string.length()) {
 			return ObjectFactory.nilValue;
 		}
 		
