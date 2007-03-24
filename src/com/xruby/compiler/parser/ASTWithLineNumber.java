@@ -16,7 +16,7 @@ public class ASTWithLineNumber extends CommonAST {
 
 	private static final long serialVersionUID = 1L;
 	private int line_ = 0;
-	private static int last_line_ = 0;
+	private static int last_line_ = 0;//help initialize(int t, String txt)
 
 	public static void resetLineNumber() {
 		last_line_ = 0;
@@ -33,6 +33,7 @@ public class ASTWithLineNumber extends CommonAST {
 		super.initialize(ast);
 		if (ast instanceof ASTWithLineNumber){
 			line_ = ((ASTWithLineNumber)ast).getLine();
+			last_line_ = line_;
 		}
 	}
 	
