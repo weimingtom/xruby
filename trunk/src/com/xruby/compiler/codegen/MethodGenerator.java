@@ -679,6 +679,11 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeStatic(Type.getType(RubyAPI.class),
 			Method.getMethod("com.xruby.runtime.lang.RubyValue setConstant(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, String)"));
 	}
+
+	public void RubyAPI_callArraySet() {		
+		invokeStatic(Type.getType(RubyAPI.class),
+					Method.getMethod("void callArraySet(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+	}
 	
 	public void RubyModule_defineClass(String className) {
 		if (RubyRuntime.isBuiltinClass(className)) {

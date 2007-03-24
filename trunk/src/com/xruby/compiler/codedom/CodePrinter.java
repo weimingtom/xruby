@@ -622,4 +622,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitPotentialProcCall() {
 	}
 
+	public void visitMultipleArrayAssign() {
+	}
+
 }

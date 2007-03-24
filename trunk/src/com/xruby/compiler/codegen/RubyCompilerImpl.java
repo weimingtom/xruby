@@ -1012,5 +1012,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		cg_.getMethodGenerator().mark(label1);
 	}
+
+	public void visitMultipleArrayAssign() {
+		cg_.getMethodGenerator().RubyAPI_callArraySet();
+	}
 	
 }

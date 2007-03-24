@@ -19,11 +19,12 @@ public class NestedVariableExpression extends ParameterVariableExpression {
 		} else if (e instanceof MethodCallExpression) {
 			//For inputs like 'a, b = 1', a will be recognized as MethodCall
 			MethodCallExpression m = (MethodCallExpression)e;
-			if (m.getArguments() != null &&
-					m.getArguments().size() > 0) {//TODO more erro checking? e.g. a(), b = 1
+			if (m.getArguments() == null ||
+					m.getArguments().size() == 0) {//TODO more erro checking? e.g. a(), b = 1
+				mlhs_.add(new LocalVariableExpression(m.getName(), false));
+			} else {
 				throw new RecognitionException("Only variable can be parallel assigned");
 			}
-			mlhs_.add(new LocalVariableExpression(m.getName(), false));
 		} else {
 			throw new RecognitionException("Only variable can be parallel assigned");
 		}

@@ -26,7 +26,11 @@ public class MethodCallExpression extends Expression {
 		block_ = block;
 	}
 
-	public Expression convertElementAccessToElmentSet(Expression value) throws RecognitionException {
+	boolean isElementSet() {
+		return methodName_.equals("[]") || (null != receiver_);
+	}
+	
+	Expression convertElementAccessToElementSet(Expression value) throws RecognitionException {
 		MethodCallArguments  args;
 		if (null != arguments_) {
 			args = arguments_.clone();
@@ -55,10 +59,6 @@ public class MethodCallExpression extends Expression {
 		return block_;
 	}
 
-	boolean hasReceiver() {
-		return (null != receiver_);
-	}
-
 	//Optimization for "lambda {...}.call"
 	//TODO, handle "x = lambda {...}; x.call"
 	private boolean isLambdaCall() {
@@ -80,6 +80,12 @@ public class MethodCallExpression extends Expression {
 		}
 
 		return m.methodName_.equals("lambda") || m.methodName_.equals("proc");
+	}
+
+	public void acceptMultipleArrayAssign(CodeVisitor visitor) {
+		arguments_.getFirstExpression().accept(visitor);
+		receiver_.accept(visitor);
+		visitor.visitMultipleArrayAssign();
 	}
 
 	public void acceptAsLambdaCall(CodeVisitor visitor) {
