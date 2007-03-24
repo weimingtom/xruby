@@ -41,15 +41,15 @@ class Thread_equal extends RubyOneArgMethod {
 
 class Thread_array_access extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		//TODO implement this!
-		return ObjectFactory.nilValue;
+		String s = RubyTypesUtil.convertToJavaString(arg);
+		return RubyThread.getVariable(s);
 	}
 }
 
 class Thread_array_set extends RubyTwoArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
-		//TODO implement this!
-		return arg2;
+		String s = RubyTypesUtil.convertToJavaString(arg1);
+		return RubyThread.setVariable(s, arg2);
 	}
 }
 

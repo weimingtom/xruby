@@ -51,6 +51,16 @@ public class RubyTypesUtil {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Symbol");
 		}
 	}
+
+	public static String convertToJavaString(RubyValue arg){
+		if (arg instanceof RubyString) {
+			return ((RubyString)arg).toString();
+		} else if (arg instanceof RubySymbol) {
+			return ((RubySymbol)arg).toString();
+		} else {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into String");		
+		}
+	}
 	
 	public static int convertToJavaInt(RubyValue arg){
 		if (arg instanceof RubyFixnum) {

@@ -5168,9 +5168,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Thread() {
 		String[] program_texts = {
-				//"Thread.current[\"name\"] = \"A\";\n" +
-				//"print Thread.current[\"name\"]\n" +
-				//"print Thread.current[\"name2\"]",
+				"Thread.current[\"name\"] = \"A\";\n" +
+				"print Thread.current[\"name\"]\n" +
+				"print Thread.current[\"name2\"]\n" +
+				"print Thread.current[:name]",
 				
 				"print Thread.current == Thread.current",
 				
@@ -5179,7 +5180,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
-				//"Anil",
+				"AnilA",
 				"true",
 				"33",
 				"Thread",
