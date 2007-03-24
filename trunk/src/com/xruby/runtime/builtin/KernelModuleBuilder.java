@@ -594,6 +594,25 @@ class Kernel_gets extends RubyVarArgMethod {
 	}
 }
 
+class Kernel_instance_eval extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (null == args && null == block) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "block not supplied");
+		}
+
+		if (null != args) {
+			RubyString program_text = (RubyString)args.get(0);
+			RubyBinding binding = new RubyBinding();
+			binding.setScope((RubyModule)receiver);
+			binding.setSelf(receiver);
+			return Kernel_eval.eval(program_text, binding);
+		} else {
+			block.setSelf(receiver);
+			return block.invoke(receiver, null);
+		}
+	}
+}
+
 class Kernel_Float extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		return RubyTypesUtil.convertToFloat(arg);
@@ -610,7 +629,9 @@ public class KernelModuleBuilder {
 	public static void initialize() {
 		RubyModule m = RubyRuntime.KernelModule;
 		m.defineMethod("class", new Kernel_class());
-		m.defineMethod("raise", new Kernel_raise());
+		RubyMethod raise = new Kernel_raise();
+		m.defineMethod("raise", raise);
+		m.defineMethod("fail", raise);
 		m.defineMethod("===", new Kernel_operator_case_equal());
 		m.defineMethod("to_s", new Kernel_to_s());
 		m.defineMethod("loop", new Kernel_loop());
@@ -621,6 +642,7 @@ public class KernelModuleBuilder {
 		RubyMethod send = new Kernel_send();
 		m.defineMethod("send", send);
 		m.defineMethod("__send__", send);
+		m.defineMethod("instance_eval", new Kernel_instance_eval());
 		m.defineMethod("method", new Kernel_method());
 		m.defineMethod("methods", new Kernel_methods());
 		m.defineMethod("caller", new Kernel_caller());
