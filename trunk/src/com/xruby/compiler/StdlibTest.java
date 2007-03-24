@@ -179,8 +179,8 @@ public class StdlibTest extends CompilerTestCase {
 				"print AssertionMessage::Template.new(['?']).result([2])",
 				"print AssertionMessage::Template.create('<?>').result([3])",
 				"print AssertionMessage.new('x', '<?>', [1]).add_period('y')",
-				//TODO"print AssertionMessage.new('x', '<?>', [1])",
-				//"print(build_message('xxx', '<?> is not true.', false))",
+				"print AssertionMessage.new('x', '<?>', [1])",
+				"print(build_message('xxx', '<?> is not true.', false))",
 				"assert_block {true}",
 		};
 		
@@ -193,8 +193,8 @@ public class StdlibTest extends CompilerTestCase {
 				"2",
 				"<3>",
 				"y.",
-				//"x.\n<1>",
-				//"xxx.\n<false> is not true.",
+				"x.\n<1>",
+				"xxx.\n<false> is not true.",
 				"",
 		};
 		
@@ -255,6 +255,19 @@ public class StdlibTest extends CompilerTestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+	
+	/*
+	public void test_matrix() {
+		String[] program_texts = {
+				"require 'matrix'",
+		};
+		
+		String[] outputs = {
+				"",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}*/
 	
 	public void test_rational() {
 		String[] program_texts = {
