@@ -1803,6 +1803,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_alias_method() {
 		String[] program_texts = {
+				"module M; alias fail2 fail; end",
+				
 				"def F_alias; print 22 ; end;alias G_alias F_alias; G_alias()",
 				
 				"def f= x; print x;end; alias test_alias f=; test_alias 5",
@@ -1836,6 +1838,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"",
+				
 				"22",
 				
 				"5",
@@ -2353,6 +2357,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 	public void test_public() {
 		String[] program_texts = {
+				"module M; public :fail; end",
+				
 				"class TestPublic1\n" +
 				"	public\n" +
 				"	def f\n" +
@@ -2381,6 +2387,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"",
 				"1111",
 				"2222",
 				"3333",
@@ -3570,6 +3577,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_constant_in_class_module() {
 		String [] program_texts = {
+				"module ConstantInModule; C6 = 6; def ConstantInModule.f; print C6; end; end; ConstantInModule.f",
 				"print Object::Kernel",
 				"TestConstant = 1999; print ::TestConstant",
 				"::TestConstant0 = 9991; print ::TestConstant0",
@@ -3590,6 +3598,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"6",
 				"Kernel",
 				"1999",
 				"9991",
@@ -4392,6 +4401,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_String_misc() {
 		String [] program_texts = {
+				"print 'pp'[-3..-1]",
 				"print 'hello  world'.count('lo')",
 				"print 'abaca'.tr('a', 'z')",
 				"print \"\\na\\nb\\n\".tr(\"\\n\", ' ')",
@@ -4424,6 +4434,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 		
 		String[] outputs = {
+				"nil",
 				"5",
 				"zbzcz",
 				" a b ",
@@ -4703,7 +4714,34 @@ public class RubyCompilerTest extends CompilerTestCase {
 		
 		compile_run_and_compare_output(program_texts, outputs);
 	}
+
+	public void test_Kernel_module_eval() {
+		String [] program_texts = {
+				"'x'.instance_eval { print self }",
+		};
+		
+		String[] outputs = {
+				"x",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
 	
+	public void test_Module_const_set_get() {
+		String [] program_texts = {
+				"module M end\n" +
+				"print M.const_set(:TEST_CONSTANT1, 1)\n" +
+				"print M::TEST_CONSTANT1\n" +
+				"print M.const_get(:TEST_CONSTANT1)",
+		};
+		
+		String[] outputs = {
+				"111",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+
 	public void test_Module_module_function() {
 		String [] program_texts = {
 				"module TestModuleFunction\n" +
@@ -5131,10 +5169,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 	public void test_Thread() {
 		String[] program_texts = {
 				"a = Thread.new {print 33}; a.join",
+				"print Thread.current.class",
 		};
 		
 		String[] outputs = {
 				"33",
+				"Thread",
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
