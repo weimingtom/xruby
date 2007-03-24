@@ -28,6 +28,17 @@ class Thread_current extends RubyNoArgMethod {
 	}
 }
 
+//c ruby does not have this method, but since we wrapped java's Thread, can no longer use java's == operator
+class Thread_equal extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (receiver.equals(arg)) {
+			return ObjectFactory.trueValue;
+		} else {
+			return ObjectFactory.falseValue;
+		}
+	}
+}
+
 class Thread_array_access extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		//TODO implement this!
@@ -48,6 +59,7 @@ public class ThreadClassBuilder {
 		c.defineMethod("join", new Thread_join());
 		c.defineMethod("[]", new Thread_array_access());
 		c.defineMethod("[]=", new Thread_array_set());
+		c.defineMethod("==", new Thread_equal());
 		c.getSingletonClass().defineMethod("current", new Thread_current());
 		c.getSingletonClass().defineMethod("new", new Thread_new());
 	}
