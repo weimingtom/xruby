@@ -617,7 +617,7 @@ returns [MethodDefinationExpression e]
 				(name=methodName	{e = new MethodDefinationExpression(name);}
 				|#(SINGLETON_METHOD exp=expression (DOT|COLON2)	name=methodName	{e = new MethodDefinationExpression(name, exp);})
 				)
-				(	{id=null;func=null;}
+				(	{id=null;func=null;exp=null;}
 					(id:IDENTIFIER|func:FUNCTION)
 					((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	exp=expression)?
 					{e.addParameter((null != id) ? id.getText() : func.getText(), exp);}
