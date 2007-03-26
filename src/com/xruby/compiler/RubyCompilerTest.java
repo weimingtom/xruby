@@ -421,6 +421,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Array_misc() {
 		String[] program_texts = {
+				"print %w$a b c $[1..-1]",
 				"p [1,2].clear",
 				"p Array.new(3, 0)",
 				"p Array.new(3)",
@@ -455,6 +456,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				"bc",
 				"[]\n",
 				"[0, 0, 0]\n",
 				"[nil, nil, nil]\n",
