@@ -97,7 +97,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public Object visitAfterIfBody(Object next_label, Object end_label);
 	
 	public Object visitAfterCaseCondition();
-	public Object visitAfterWhenCondition(Object case_value);
+	public Object visitAfterWhenCondition(Object case_value, boolean asterisk);
 	public Object visitAfterWhenBody(Object next_label, Object end_label);
 
 	public Object visitAfterUnlessCondition();

@@ -545,10 +545,11 @@ caseExpression
 returns [CaseExpression e]
 {
 	Expression condition = null;
+	boolean asterisk = false;
 	CompoundStatement body = null;
 }		:	#(	"case"	(condition=expression)?	{e=null;}		{e = new CaseExpression(condition);}
-				("when"	#(MRHS	condition=expression)
-				(body=compoundStatement)?	{e.addWhen(condition, body);condition=null;body=null;}
+				("when"	#(MRHS	(REST_ARG_PREFIX	{asterisk=true;})?	condition=expression)
+				(body=compoundStatement)?	{e.addWhen(condition, asterisk, body);condition=null;asterisk=false;body=null;}
 				)*
 				("else"	(body=compoundStatement)?							{e.addElse(body);})?
 			)

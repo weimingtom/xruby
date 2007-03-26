@@ -10,16 +10,18 @@ import java.util.ArrayList;
 class When {
 	
 	private final Expression condition_;
+	private final boolean asterisk_;// when *[[1]]
 	final CompoundStatement body_;
 	
-	When(Expression condition, CompoundStatement body) {
+	When(Expression condition, boolean asterisk, CompoundStatement body) {
 		condition_ = condition;
+		asterisk_ = asterisk;
 		body_ = body;
 	}
 
 	public Object accept(CodeVisitor visitor, Object var, Object end_label) {
 		condition_.accept(visitor);
-		Object next_label = visitor.visitAfterWhenCondition(var);
+		Object next_label = visitor.visitAfterWhenCondition(var, asterisk_);
 		if (null != body_) {
 			body_.accept(visitor);
 		} else {
@@ -38,8 +40,8 @@ public class CaseExpression extends Expression {
 		condition_ = condition;
 	}
 
-	public void addWhen(Expression condition, CompoundStatement body) {
-		whens_.add(new When(condition, body));
+	public void addWhen(Expression condition, boolean asterisk, CompoundStatement body) {
+		whens_.add(new When(condition, asterisk, body));
 	}
 
 	public void addElse(CompoundStatement body) {

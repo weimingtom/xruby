@@ -321,14 +321,17 @@ public class CodePrinter implements CodeVisitor {
 		return null;
 	}
 
-	public Object visitAfterWhenCondition(Object case_value) {
-		result_.append("when\n");
+	public Object visitAfterWhenCondition(Object case_value, boolean asterisk) {
+		result_.append("when");
+		if (asterisk) {
+			result_.append("*");	
+		}
+		result_.append("\n");
 		return null;
 	}
 
 	public Object visitAfterWhenBody(Object next_label, Object end_label) {
-		result_.append("end when");
-		result_.append("\n");
+		result_.append("end when\n");
 		return null;
 	}
 
