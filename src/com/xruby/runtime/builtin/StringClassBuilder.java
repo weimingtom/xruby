@@ -8,6 +8,7 @@ package com.xruby.runtime.builtin;
 import java.math.BigInteger;
 import java.util.StringTokenizer;
 
+import com.xruby.runtime.builtin.String_casecmp;
 import com.xruby.runtime.builtin.String_gsub;
 import com.xruby.runtime.builtin.String_sub;
 import com.xruby.runtime.lang.*;
@@ -387,6 +388,23 @@ class String_operator_compare extends RubyOneArgMethod {
 	}
 }
 
+class String_casecmp extends RubyOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		if (!(arg instanceof RubyString)) {
+			return ObjectFactory.nilValue;
+		}
+		RubyString value1 = (RubyString)receiver;
+		RubyString value2 = (RubyString)arg;
+		int compare = value1.toString().toUpperCase().compareTo(value2.toString().toUpperCase());
+		if (compare > 0){
+			compare = 1;
+		}else if(compare < 0){
+			compare = -1;
+		}
+		return ObjectFactory.createFixnum(compare);
+	}
+}
+
 class String_operator_match extends RubyOneArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		if (arg instanceof RubyRegexp) {
@@ -757,6 +775,7 @@ public class StringClassBuilder {
 		c.defineMethod("sub!", new String_sub_danger());
 		c.defineMethod("split", new String_split());
 		c.defineMethod("<=>", new String_operator_compare());
+		c.defineMethod("casecmp", new String_casecmp());
 		c.defineMethod("=~", new String_operator_match());
 		c.defineMethod("[]", new String_access());
 		c.defineMethod("[]=", new String_access_set());
