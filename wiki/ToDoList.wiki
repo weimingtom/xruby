@@ -9,18 +9,16 @@ Here is a list of things we are going to do
   * Change compiler's command line interface to compile multiple ruby scripts into one jar
   * Merge newruntime
   * Implement more builtin libraries
-  * Support scripting API
   * Adjust generated code structure based on runtime
-  * Complete Java support
   * Refactoring is always welcome
 
 = Long Term Goal =
-
   * Make Ruby on Rails work
   * Upgrade Antlr to 3.0
   * Make the compiled code debuggable
   * Support JSR 223: https://scripting.dev.java.net/
   * Support YARV instruction
+  * Complete Java support
 
 = Thought? =
 
