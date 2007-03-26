@@ -4059,6 +4059,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_super() {
 		String [] program_texts = {
+				//TODO
+				//"class B;  def B.f x; print x; end;  end\n" +
+				//"class C < B;  def C.f x; super; end;  end\n" +
+				//"C.f 456",
+				
 				"class TestSuperImplicitParameter\n" +
 				"  def print x\n" +
 				"    super\n" +
@@ -4140,6 +4145,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 		};
 
 		String[] outputs = {
+				//"456",
 				"333",
 				"123",
 				"xxx",
