@@ -256,6 +256,7 @@ public class StdlibTest extends CompilerTestCase {
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 	
+	/*TODO
 	public void test_matrix() {
 		String[] program_texts = {
 				"require 'matrix'",
@@ -266,7 +267,7 @@ public class StdlibTest extends CompilerTestCase {
 		};
 		
 		compile_run_and_compare_output(program_texts, outputs);
-	}
+	}*/
 	
 	public void test_rational() {
 		String[] program_texts = {
