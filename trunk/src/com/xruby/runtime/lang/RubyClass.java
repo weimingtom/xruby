@@ -120,6 +120,10 @@ public class RubyClass extends RubyModule {
 	}
 
 	protected RubyMethod findSuperMethod(RubyID mid) {
+		if (null == superclass_) {
+			return null;
+		}
+		
 		MethodCache.CacheEntry entry = cache.getMethod(this.superclass_, mid);
 		if (entry != null && entry.klass == this && entry.mid == mid) {
 			if (entry.method == null) {
@@ -129,7 +133,7 @@ public class RubyClass extends RubyModule {
 			}
 		}
 		
-		RubyMethod m =  (null != superclass_) ? superclass_.findOwnMethod(mid) : null;
+		RubyMethod m =  superclass_.findOwnMethod(mid);
 		
 		cache.putMethod(this.superclass_, mid, m);
 		
