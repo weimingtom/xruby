@@ -65,9 +65,17 @@ class Array_array_access extends RubyVarArgMethod {
 			} else if (args.get(0) instanceof RubyRange) {
 				int begin = ((RubyFixnum)((RubyRange)args.get(0)).getLeft()).intValue();
 				int end = ((RubyFixnum)((RubyRange)args.get(0)).getRight()).intValue();
+				if (begin < 0) {
+					begin = value.size() + begin;
+				}
+				if (end < 0) {
+					end = value.size() + end;
+				}
+				
 				if (!((RubyRange)args.get(0)).isExcludeEnd()) {
 					++end;
 				}
+				
 				RubyArray resultValue = value.subarray(begin, end - begin);
 				return (null == resultValue ? ObjectFactory.nilValue : resultValue);
 			}
