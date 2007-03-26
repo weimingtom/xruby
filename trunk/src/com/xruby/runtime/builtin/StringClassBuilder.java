@@ -8,6 +8,8 @@ package com.xruby.runtime.builtin;
 import java.math.BigInteger;
 import java.util.StringTokenizer;
 
+import com.xruby.runtime.builtin.String_gsub;
+import com.xruby.runtime.builtin.String_sub;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
@@ -198,6 +200,54 @@ class String_plus extends RubyOneArgMethod {
 		RubyString v1 = (RubyString)receiver;
 		RubyString v2 = (RubyString)arg;
 		return ObjectFactory.createString(v1.toString() + v2.toString());
+	}
+}
+
+class String_sub extends String_gsub {
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (null == block) {
+			checkParameters1(args);
+
+			RubyString g = (RubyString) receiver;
+			RubyRegexp r = (RubyRegexp) args.get(0);
+			RubyString s = (RubyString) args.get(1);
+
+			return ObjectFactory.createString(r.sub(g, s));
+		} else {
+			checkParameters2(args);
+
+			RubyString g = (RubyString) receiver;
+			RubyRegexp r = (RubyRegexp) args.get(0);
+			return r.sub(g, block);
+		}
+	}
+}
+
+class String_sub_danger extends String_sub {
+	
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyString g = (RubyString)receiver;
+		
+		if (null == block) {
+			checkParameters1(args);
+
+			
+			RubyRegexp r = (RubyRegexp)args.get(0);
+			RubyString s = (RubyString)args.get(1);
+
+			String result = r.sub(g, s);
+			if (g.toString().equals(result)) {
+				return ObjectFactory.nilValue;
+			} else {
+				return g.setString(result);
+			}
+		} else {
+			checkParameters2(args);
+
+			RubyRegexp r = (RubyRegexp)args.get(0);
+			return g.setString(r.sub(g, block).toString());
+		}
 	}
 }
 
@@ -703,8 +753,8 @@ public class StringClassBuilder {
 		c.defineMethod("+", new String_plus());
 		c.defineMethod("gsub", new String_gsub());
 		c.defineMethod("gsub!", new String_gsub_danger());
-		c.defineMethod("sub", new String_gsub());//TODO sub is not the same as gsub 
-		c.defineMethod("sub!", new String_gsub_danger());
+		c.defineMethod("sub", new String_sub());
+		c.defineMethod("sub!", new String_sub_danger());
 		c.defineMethod("split", new String_split());
 		c.defineMethod("<=>", new String_operator_compare());
 		c.defineMethod("=~", new String_operator_match());
