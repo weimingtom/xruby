@@ -6,7 +6,11 @@
 package com.xruby.runtime.value;
 
 import java.util.regex.*;
+
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyString;
 
 public class RubyRegexp extends RubyBasic {
 
@@ -86,6 +90,37 @@ public class RubyRegexp extends RubyBasic {
 		}
 
 		return replace_string;
+	}
+	
+	public String sub(RubyString str, RubyString repl) {
+		Matcher m = regex_.matcher(str.toString());
+		String replace_String = getReplaceString(repl.toString(), m);
+		return m.replaceFirst(replace_String);
+	}
+	
+	public RubyString sub(RubyString s, RubyBlock block) {
+		Matcher m = regex_.matcher(s.toString());
+		int end = -1;
+		final int groupcount = m.groupCount();
+		RubyString r = new RubyString("");
+		if (m.find()) {
+			for (int i = 1; i <= groupcount; ++i) {
+				String sg = m.group(i);
+				GlobalVariables.set(ObjectFactory.createString(sg), "$" + i);
+			}
+			String g = m.group();
+			end = m.end();
+			GlobalVariables.set(ObjectFactory.createString(g), "$&");
+			RubyString match = new RubyString(g);
+			RubyValue v = block.invoke(this, new RubyArray(match));
+			r.appendString(v);
+		}
+		
+		if (end >= 0 && end < s.length()) {
+			r.appendString(s.toString().substring(end, s.length()));
+		}
+		
+		return r;
 	}
 	
 	public String gsub(RubyString str, RubyString repl) {
