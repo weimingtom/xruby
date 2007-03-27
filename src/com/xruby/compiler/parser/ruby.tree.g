@@ -4,7 +4,7 @@ package com.xruby.compiler.parser;
 import com.xruby.compiler.codedom.*;
 }
 
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi
  * Distributed under the GNU General Public License 2.0
  */
@@ -18,6 +18,7 @@ options {
 
 {
 	private String filename_ = null;
+	protected int currentLineNumber = 0;
 
 	public Program parse(AST t, String filename) throws RecognitionException {
 		filename_ = filename;
@@ -92,7 +93,7 @@ returns[String s]
 		|	sym=symbol			{s = sym.getValue();}
 		|	s=operator
 		;
-		
+
 undef
 returns[UndefStatement s]
 {String name = null;}
@@ -163,13 +164,23 @@ returns [Expression e]
 	ReturnArguments return_args = null;
 	CompoundStatement cs = null;
 	String method_name = null;
+	int lineNumber = _t.getLine();
+	boolean startANewLine = false;
+
+	if (lineNumber != currentLineNumber) {
+		// System.out.println(currentLineNumber);
+        currentLineNumber = lineNumber;
+        startANewLine = true;
+    }
+
+    // System.out.println("Line: " +lineNumber + " " + _t.getText() + "\t\t " + startANewLine);
 }
-		:	#("and"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
+		:	(#("and"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
 		|	#("or"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("||", left, right);}
 		|	#("not"					left=expression)					{e = new UnaryOperatorExpression("!", left);}
 		|	#(QUESTION				condition=expression	left=expression	right=expression)
 																	{e = new IfExpression(condition, left, right);}
-		|	#(ASSIGN				left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, right);}
+		|	#(ASSIGN				left=expression	right=expression) {e = AssignmentOperatorExpression.create(left, right); }
 		|	#(PLUS_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("+", left, right));}
 		|	#(MINUS_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("-", left, right));}
 		|	#(STAR_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("*", left, right));}
@@ -223,7 +234,7 @@ returns [Expression e]
 									}
 		|	e=callExpression
 		|	#(LBRACK_ARRAY_ACCESS	left=expression	args=elements_as_arguments)	{e = new MethodCallExpression(left, "[]", args, null);}
-		|	#(COLON2				left=expression	(right=callExpression|constant:CONSTANT|function:FUNCTION))	
+		|	#(COLON2				left=expression	(right=callExpression|constant:CONSTANT|function:FUNCTION))
 									{	if (null != right) {
 											MethodCallExpression mc = (MethodCallExpression)right;
 											e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
@@ -251,6 +262,11 @@ returns [Expression e]
 		|	#(LPAREN_WITH_NO_LEADING_SPACE	cs=compoundStatement)			{e = new ParenthesisExpression(cs);}
 		|	"redo"										{e = new RedoExpression();}
 		|	"retry"										{e = new RetryExpression();}
+		)
+		{
+            e.setNewLine(startANewLine);
+		    e.setPosition(currentLineNumber);
+		}
 		;
 
 callExpression
@@ -263,7 +279,7 @@ returns [Expression e]
 	Expression left = null;
 	Expression right = null;
 }
-		:	#(	CALL	
+		:	#(	CALL
 				(	method_name=methodCallName
 					|yield:"yield"
 					|sup:"super"
@@ -453,7 +469,7 @@ symbol
 returns [SymbolExpression e]
 {String s = null;}
 		:	#(SYMBOL
-				(id:IDENTIFIER		{e= new SymbolExpression(id.getText());}
+				(id:IDENTIFIER		{e= new SymbolExpression(id.getText()); }
 				|f:FUNCTION			{e= new SymbolExpression(f.getText());}
 				|constant:CONSTANT	{e= new SymbolExpression(constant.getText());}
 				|g:GLOBAL_VARIABLE 	{e= new SymbolExpression(g.getText());}
@@ -667,7 +683,7 @@ returns [Block b]
 }
 		:	#(	BLOCK					{b = new Block();}
 				((BOR|LOGICAL_OR)		{b.setShouldValidateArgumentLength();})?
-				(	
+				(
 					#(BLOCK_ARG
 						(	(var=local_variable|var=nestedLhs)
 							((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	default_value=expression)?
