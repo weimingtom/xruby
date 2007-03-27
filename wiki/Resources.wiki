@@ -27,3 +27,12 @@ end
 
 MyClass.new.say_hello_three_times`
 
+{{{
+verbatim code block
+}}}
+
+[http://domain/page label]
+
+
+
+
