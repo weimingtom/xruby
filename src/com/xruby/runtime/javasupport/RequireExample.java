@@ -16,7 +16,7 @@ import java.io.StringReader;
 public class RequireExample {
 	public static void main(String[] args) throws Exception {
 
-        String program_text = "" +
+        String program_text = "\n\n" +
                 "require_java 'org.beanworms.test.Talker'\n" +
                 "require_java 'java.util.Random'\n" +
                 "require_java 'java.util.ArrayList'\n" +
@@ -43,7 +43,6 @@ public class RequireExample {
 		RubyRuntime.init(args);
 		p.invoke();
 		RubyRuntime.fini();
-
     }
 }
 
