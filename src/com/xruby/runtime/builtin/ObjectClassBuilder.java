@@ -53,6 +53,19 @@ class Object_object_id extends RubyNoArgMethod {
 	}
 }
 
+class Object_freeze extends RubyNoArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		receiver.freeze();
+		return receiver;
+	}
+}
+
+class Object_frozen_question extends RubyNoArgMethod {	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		return receiver.frozen() ? ObjectFactory.trueValue : ObjectFactory.falseValue;
+	}
+}
+
 public class ObjectClassBuilder {
 	
 	public static void initialize() {
@@ -64,6 +77,8 @@ public class ObjectClassBuilder {
 		c.defineMethod("clone", clone);
 		c.defineMethod("dup", clone);
 		c.defineMethod("extend", new Object_extend());
+		c.defineMethod("freeze", new Object_freeze());
+		c.defineMethod("frozen?", new Object_frozen_question());
 		RubyMethod object_id = new Object_object_id();
 		c.defineMethod("object_id", object_id);
 		c.defineMethod("__id__", object_id);

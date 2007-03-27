@@ -45,6 +45,7 @@ abstract class BlockCallStatus {
 
 public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 	private RubyClass class_;
+	private boolean frozen_ = false;
 	protected RubySingletonClass singleton_class_ = null;
 	private Map<String, RubyValue> instance_varibles_ = null;
 
@@ -70,6 +71,14 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 	public boolean equals(Object o) {
 		RubyValue v = RubyAPI.callPublicOneArgMethod(this, (RubyValue)o, null, "==");
 		return RubyAPI.testTrueFalse(v);
+	}
+
+	public boolean frozen() {
+		return frozen_;
+	}
+
+	public void freeze() {
+		frozen_ = true;
 	}
 	
 	public RubyValue getInstanceVariable(String name) {
