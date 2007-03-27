@@ -158,6 +158,19 @@ class String
     '"' + to_s + '"'
   end
   
+  def insert(idx, str)
+    if idx < 0
+      idx += length + 1
+    end
+    raise IndexError, "index #{idx} out of string" if idx < 0 || idx > length
+    if idx < length
+      self[idx,0] = str
+    else
+      self << str
+    end
+    self
+  end
+  
    # justify left = -1, center = 0, right = 1
   def justify_string(width, str, justify)
     return self if width <= length
