@@ -2,6 +2,7 @@
 
 == Introduction ==
 TODO-LIST
+
 A new branch named debugger has been created, which is located under the directory branch.
 All the code about debug will be submitted to that branch.
 
@@ -18,7 +19,6 @@ All the code about debug will be submitted to that branch.
    * Rough mannual, definition
 
 4. (Optional) A gui tools or a plug-in for a IDE
-
 
 
 
