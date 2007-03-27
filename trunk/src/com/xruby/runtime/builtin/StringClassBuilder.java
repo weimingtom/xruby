@@ -539,8 +539,8 @@ class String_access_set extends RubyVarArgMethod {
 		} else {
 			replacement = ((RubyString)args.get(2)).toString();
 			
-			start = RubyTypesUtil.convertToJavaInt(args.get(1));
-			end = RubyTypesUtil.convertToJavaInt(args.get(2));
+			start = RubyTypesUtil.convertToJavaInt(args.get(0));
+			end = RubyTypesUtil.convertToJavaInt(args.get(1))+start;
 			if (start >= string.length()) {
 				throw new RubyException(RubyRuntime.RangeClass, String.format("index %d out of string", start));
 			}
@@ -552,7 +552,7 @@ class String_access_set extends RubyVarArgMethod {
 	private String replace(String source, int start, int end, String replacement) {
 		assert(start <= source.length() - 1);
 
-		if (end <= start){
+		if (end < start){
 			end = start + 1;
 		}
 		
