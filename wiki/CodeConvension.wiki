@@ -1,7 +1,7 @@
-#summary Draft for code convension
+#summary Code convention
 
 == Introduction ==
-Code Convension for XRuby project, to make our code more readable
+Code Convention for XRuby project, to make our code more readable
 
 This document based on Coding Guidelines of Globus
 [http://www-unix.globus.org/toolkit/docs/development/coding_guidelines.html]
@@ -193,5 +193,4 @@ public class JavaClass extends RubyClass {
 }
 
 }}}
-
 
