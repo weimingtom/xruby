@@ -1,9 +1,9 @@
-#labels Resources
+*Resources
+
 free online edition of Java 2 Virtual Machine (2ed)
 (author will post the whole book in the following weeks):
 http://www.artima.com/insidejvm/ed2/
 
 JVM Resources provided by Inside the Java Virtual Machine 
 http://www.artima.com/insidejvm/resources/
-
 
