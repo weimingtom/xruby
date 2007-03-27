@@ -1,0 +1,279 @@
+<html>
+<head>
+<title>XRuby Hacking Guide</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+<h2>XRuby Hacking Guide</h2>
+<i>
+Xue Yong Zhi (zhixueyong AT hotmail DOT com), <br/>
+Ye Zheng (dreamhead.cn AT gmail DOT com)
+</i>
+
+<p>NOTE: this article is still under development. Last significant update: Oct 15, 2006.</p>
+
+
+
+<h3>Table of Contents</h3>
+<p><a href="#intro">Introduction</a></p>
+<p><a href="#howto">How to Compile Ruby?</a></p>
+<p><a href="#example">Example</a></p>
+<p><a href="#code_organization">Code Organization</a></p>
+<p><a href="#builtin">Builtin Libraries</a></p>
+<p><a href="#parser">XRuby's Parser</a></p>
+<p><a href="#trouble_shooting">Trouble Shooting</p>
+
+
+<h3><a name="intro">Introduction</a></h3>
+<p>
+The goal of the article is to help users/developers understand XRuby's internal.
+</p>
+
+
+<h3><a name="howto">How to Compile Ruby?</a></h3>
+<p>
+So how to compile Ruby to Java bytecode? First, you do not have to be a bytecode expert to think of this problem.
+Java's bytecode is a very high level abstraction on top of native machine instructions, and is very close to the Java source code.
+So you can just think of the problem as: how to represent a Ruby program in Java?
+</p>
+
+<p>
+The two languages have lots of things in common: Ruby is a OO language, it has classes, methods, variables etc, Java has them as well.
+Does it mean we can map Ruby's class as a Java class, Ruby's method as a Java method? Well, besides all the similarities, there are enough
+differences to make the naive idea infeasible: first, Ruby is a Dynamic Typing language, so a method can take parameters of different types, while
+in Java, parameters' type are part of the signature. Second, in Ruby, method can be added and removed dynamically from a class, and current JVM
+does not support this behavior very well. It worth pointing out the above problems may be addressed in future version JVM, please check out
+Gilad Bracha's work at <a href="http://www.jcp.org/en/jsr/detail?id=292">JSR 292</a>.
+</p>
+
+<p>
+So one solution is to maintain a type system ourselves, and this is the approach that XRuby is using (Ruby.NET seems to use this as well). So from
+the JVM's point of view, a Ruby class is just an object, which contains other objects that represent methods etc. We will talk more about this later. 
+</p>
+
+<p>
+Another approach is to compile the source code dynamically. Given type information is known at run time, it is possible to compile the code into very
+efficient code (same methods may be compiled to several different versions due to the duck typing nature).
+</p>
+
+<p>
+TODO compare the two approaches.
+</p>
+
+<h3><a name="#example">Example</a></h3>
+Let's understand more about XRuby through an example:
+
+<pre>
+def say_hello_three_times
+	3.times {puts 'hello'}
+end
+
+say_hello_three_times
+</pre>
+
+we save the above code as test.rb, and then compile it using XRuby:
+
+<pre>
+java -jar xruby-0.1.3.jar -c test.rb
+</pre>
+
+Then we get test.jar file, we can run the program with the following command:
+
+<pre>
+java -jar test.jar
+</pre>
+
+<p>
+Of course you will see the following output:
+</p>
+
+<pre>
+hello
+hello
+hello
+</pre>
+
+If you look at the test.jar file, you will find three class files:
+<li>test/BLOCK$1.class</li>
+<li>test/say_hello_three_times$0.class</li>
+<li>test/main.class</li>
+
+Which are equivalent to the following Java program:
+
+<pre>
+//test/main.class
+public class main
+    implements RubyProgram
+{
+
+    public main()
+    {
+    }
+
+    public static void main(String args[])
+    {
+    	RubyRuntime.init(args);
+        (new main()).run();
+        RubyRuntime.fini();
+    }
+
+    public RubyValue run()
+    {
+        RubyRuntime.ObjectClass.defineMethod("say_hello_three_times", new say_hello_three_times._cls0());
+        return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue, null, null, "say_hello_three_times");
+    }
+}
+
+
+//say_hello_three_times$0.class
+class say_hello_three_times$0 extends RubyMethod
+{
+
+    protected RubyValue run(RubyValue rubyvalue, RubyArray arrayvalue, RubyBlock rubyblock)
+    {
+        return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(3), null, new BLOCK._cls1(), "times");
+    }
+
+    public say_hello_three_times$0()
+    {
+        super(0, false);
+    }
+}
+
+
+//test/BLOCK$1.class
+class BLOCK$1 extends RubyBlock
+{
+
+    protected RubyValue run(RubyValue rubyvalue, RubyArray arrayvalue)
+    {
+        RubyArray arrayvalue1 = new RubyArray(1);
+        arrayvalue1.add(ObjectFactory.createString("hello"));
+        return RubyRuntime.callMethod(rubyvalue, arrayvalue1, null, "puts");
+    }
+
+    public BLOCK$1()
+    {
+        super(0, false);
+    }
+}
+
+
+</pre>
+
+<p>
+Class "main" represents the program: first a private method "say_hello_three_times" is defined on "Object" class, then
+the method is called with no parameter, no block and top level "self" as the receiver.
+</p>
+
+<p>
+Class "say_hello_three_times$0" represent the implementation of the "say_hello_three_times" method(think of the command pattern).
+In its body, we can see "time" method is called on Fixnum "3"(receiver). Still no parameter(null), but a block is passed in.
+</p>
+
+<p>
+Class BLOCK$1 represents the blocks passed to "3.times", and its body is the implementation of "puts 'hello'".
+</p>
+
+<h3><a name="code_organization">Code Organization</a></h3>
+<p>
+<ul> 
+
+<li> 
+<b>com.xruby.compiler.parser</b> 
+provides the compiler front end (parser and tree parser). 
+Parser translates ruby scripts into AST (Abstract Syntax Tree), 
+and then, tree parser translates AST into an internal structure. 
+<br/> 
+The front end uses Antlr as the parser generator. It's a good practice 
+to separate front end into two parts: parser and tree parser: parser 
+parses scripts and tree parser generates internal structure. 
+</li> 
+
+<li> 
+<b>com.xruby.compiler.codedom</b> defines internal structure which 
+describes structure of Ruby scripts. As the interface between front 
+and back end, internal structure is very important in Xruby. 
+</li> 
+
+<li>
+<b>com.xruby.compiler.codegen</b> implements compiler's back end (code generation). 
+Back end translates internal structure generated by font end 
+into Java bytecode. Code generation is implemented by ASM which 
+simplifies bytecode manipulation. 
+</li> 
+
+<li> 
+<b>com.xruby.runtime</b> implements XRuby runtime. It maintains a type 
+system which is required to run ruby scripts. <b>com.xruby.runtime.lang</b> 
+describes the runtime structure of Ruby types. Some standard 
+libraries are implemented in <b>com.xruby.runtime.builtin</b>. 
+</li> 
+
+</ul> 
+
+</p>
+
+<h3><a name="builtin">Builtin Libraries</a></h3>
+<p>
+The easiest way to jump start XRuby hacking is to study the source code in the 'com.xruby.runtime.builtin' packages.
+</p>
+
+<p>
+The following code snippet illustrates how Fixnm::+ is implemented:
+</p>
+
+
+<pre>
+
+class Fixnum_operator_plus extends RubyMethod {
+	public Fixnum_operator_plus() {
+		super(1);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyFixnum value1 = (RubyFixnum)receiver.getValue();
+		RubyFixnum value2 = (RubyFixnum)args.get(0).getValue();
+		return ObjectFactory.createFixnum(value1.intValue() + value2.intValue());
+	}
+}
+
+...
+RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
+c.defineMethod("+", new Fixnum_operator_plus());
+...
+</pre>
+
+
+<h3><a name="parser">XRuby's Parser</a></h3>
+<p>
+XRuby's parser used <a href="http://www.antlr.org">Antlr</a> as the parser generator. This is so far the only alternative ruby grammar other than the
+one in the c ruby.
+</p>
+
+<p>
+For lots of programming languages, lexing and parsing are two seperated steps: first lexer groups input characters into tokens, then parser groups 
+tokens into syntactical units. But in Ruby (and Perl), lexer and parser are more tightly coupled: sometimes the lexer need context information from 
+the passer ( e.g.  expression substitutions in a double quote string)! 
+</p>
+
+<h3><a name="trouble_shooting">Trouble Shooting</a></h3>
+<p>
+As XRuby developers, our changes may break the compiler and make bad bytecodes get generated. When this happens, there are three tools we
+can rely on: javap, ASM, and your favorite Java decompiler (I recommend <a href="http://www.kpdus.com/jad.html">jad</a>).
+</p>
+
+<p>
+If the generated  class file is well formed but does not work as expected, we can simply use decompiler to translate bytecodes to very
+readable Java source code, then spot errors. 
+</p>
+
+<p>
+If what you get is a verifier error, then most decompilers do not work (jad may simply crash in this situation). We have to go back to javap
+and read at bytecode level. Most of the time the message given by the JVM class verifier is not helpful, but we can use ASM to get to the
+error location quicker (see ASM FAQ: <a href=" http://asm.objectweb.org/doc/faq.html#Q4">Why do I get the [xxx] verifier error?</a>). 
+</p>
+
+</body>
+</html>
