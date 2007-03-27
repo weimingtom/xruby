@@ -1,0 +1,106 @@
+#summary Draft for code convension
+
+== Introduction ==
+Code Convension for XRuby project, to make our code more readable
+
+This document based on Coding Guidelines of Globus
+[http://www-unix.globus.org/toolkit/docs/development/coding_guidelines.html]
+
+== Details ==
+=== Base coding conventions ===
+Use the Sun Coding Conventions for the Java Programming Language:
+
+http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html 
+=== Statements ===
+==== Import Statements ====
+All imports must be single class and explicit. In other words,
+{{{
+import org.xruby.runtime.value.*;
+}}}
+is not allowed.
+{{{
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyArray;
+}}}
+is preferred.
+
+=== Variables ===
+No acronyms or abbreviations should be used.
+
+
+
+For example,
+{{{
+ a = b + mVarLen 
+}}}
+should be avoided. Use this instead:
+{{{
+totalLength = partLength + newLength
+}}}
+
+==== Instance Variables ====
+Use this. as the prefix when referencing instance variables. For example,
+{{{
+public MyClass (ServicePropertiesInterface properties) {
+     this.properties = properties;
+}
+
+public int foo () {
+    int localInt = 3;
+    return this.instanceInt + localInt;
+}
+}}}
+Instance variables should never be declared public. If instance variables need to be accessed from outside of the class then use getters/setters.
+
+We leave it to the implementers' discretion to choose between protected and private as appropriate.
+
+==== Constant Variable ====
+For constant variable(static final), Underscore Uppercase style is highly recommended. 
+{{{
+private static final RubyValue OBJECT_SPACE_MODULE = ... ; // Uppercase and underscore
+}}}
+
+=== Layout ===
+==== Indentation ====
+
+All indentation levels should be *four (4) spaces*.
+
+No editor tabs are allowed unless they are converted to four spaces before saving the file.
+
+==== Brackets ====
+* Curly brackets {} are put on separate lines. This is never allowed:
+{{{
+      // Wrong style
+      for (index = 0; index < length; index++)
+      {
+           <code>
+      }
+}}}
+* As defined in the Java Coding guidelines. This is highly recommended:
+{{{
+      for (index = 0; index < length; index++) {
+           <code>
+      }
+}}}
+* One-Liners
+
+Even single line statements should be inside brackets. E.g.
+{{{
+if (isEmpty) {
+     return true;
+}
+}}}
+And, this is not recommended:
+{{{
+if (isEmpty) 
+    return true;
+}}}
+
+=== Exceptions ===
+We high recommend you should throw a customized Exception extending RubyException and RubyRuntimeException(We need create this Exception), please don't throw the built-in Java Exceptions.
+
+
+
+
+
+
