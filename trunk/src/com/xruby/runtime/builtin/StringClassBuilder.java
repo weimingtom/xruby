@@ -464,7 +464,7 @@ class String_access extends RubyVarArgMethod {
 			}
 		} else {
 			int start = RubyTypesUtil.convertToJavaInt(args.get(0));
-			int length = RubyTypesUtil.convertToJavaInt(args.get(1));
+			int length = RubyTypesUtil.convertToJavaInt(args.get(1))-1;
 			
 			return substring(string, start, start + length, false);
 		}
