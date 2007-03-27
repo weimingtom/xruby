@@ -100,7 +100,98 @@ if (isEmpty)
 We high recommend you should throw a customized Exception extending RubyException and RubyRuntimeException(We need create this Exception), please don't throw the built-in Java Exceptions.
 
 
+== Sample Code ===
 
+{{{
 
+/**
+ * Copyright 2006-2007 Yu Su, Ye Zheng
+ * Distributed under the GNU General Public License 2.0
+ */
+
+package com.xruby.runtime.javasupport;
+
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyVarArgMethod;
+import com.xruby.runtime.lang.RubyID;
+import com.xruby.runtime.lang.StringMap;
+import com.xruby.runtime.value.RubyArray;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Wrapper for Java Class
+ *
+ * @author Yu Su (beanworms@gmail.com), Ye Zheng(dreamhead.cn@gmail.com)
+ */
+public class JavaClass extends RubyClass {
+
+    // ----------------------
+    //      Const fields
+    // ----------------------
+    private static final String NEW_METHOD = "new";
+
+    // ---------------------------------------
+    //   Cache of methods (and constructors)
+    // ---------------------------------------
+    private Map<String, List<Method>> methodMap
+            = new HashMap<String, List<Method>>();
+
+    private Map<Integer, List<Constructor>> initMap
+            = new HashMap<Integer, List<Constructor>>();
+
+    private Map<Method, JavaMethod> javaMethods
+            = new HashMap<Method, JavaMethod>();
+
+    private Map<Constructor, JavaMethod> initMethods
+            = new HashMap<Constructor, JavaMethod>();
+    
+    // Actual constructor
+    private JavaClass(String name) {
+        super(name, RubyRuntime.ObjectClass, RubyRuntime.GlobalScope);
+    }
+
+    /**
+     * Constructor
+     *
+     * @param clazz Class instance
+     */
+    public JavaClass(Class clazz) {
+        this(clazz.getName());
+
+        // Initialize public constructors and methods
+        initConstructors(clazz);
+        initMethods(clazz);
+    }
+
+    ... ...
+
+    // Collect public methods of given class
+    private void initMethods(Class clazz) {
+        Method[] methods = clazz.getDeclaredMethods();
+
+        for (Method method : methods) {
+            int modifiers = method.getModifiers();
+            if (Modifier.isPublic(modifiers)) {
+                categoryByName(method);
+            }
+        }
+    }
+
+    ... ...
+}
+
+}}}
 
 
