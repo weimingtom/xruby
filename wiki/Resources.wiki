@@ -19,3 +19,11 @@ Inside the Java Virtual Machine
 JVM Resources
 
 http://www.artima.com/insidejvm/resources/
+`class MyClass
+	def say_hello_three_times
+		3.times {puts "hello"}
+	end
+end
+
+MyClass.new.say_hello_three_times`
+
