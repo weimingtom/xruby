@@ -780,7 +780,9 @@ public class StringClassBuilder {
 		c.defineMethod("[]", new String_access());
 		c.defineMethod("[]=", new String_access_set());
 		c.defineMethod("*", new String_operator_star());
-		c.defineMethod("each", new String_each());
+		RubyMethod each = new String_each();
+		c.defineMethod("each", each);
+		c.defineMethod("each_line",each);
 		c.defineMethod("each_byte", new String_each_byte());
 		c.defineMethod("reverse!", new String_reverse_danger());
 		c.defineMethod("reverse", new String_reverse());
