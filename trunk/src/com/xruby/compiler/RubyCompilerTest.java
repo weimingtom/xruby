@@ -2633,12 +2633,15 @@ public class RubyCompilerTest extends CompilerTestCase {
 	
 	public void test_Object_extend() {
 		String[] program_texts = {
+				"a = 'x'; print a.frozen?; a.freeze; print a.frozen?",
+				
 				"module Mod; def hello; \"Mod\"; end; end\n" +
 				"class Klass; def hello; \"Klass\"; end; end\n" +
 				"k = Klass.new; print k.hello; k.extend(Mod);print k.hello",
 		};
 		
 		String[] outputs = {
+				"falsetrue",
 				"KlassMod",
 		};
 
