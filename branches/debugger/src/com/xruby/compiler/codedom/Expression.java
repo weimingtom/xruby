@@ -8,7 +8,10 @@ package com.xruby.compiler.codedom;
 import java.util.ArrayList;
 
 public abstract class Expression implements Visitable {
-	protected boolean conditionIsAlwayTrue(Expression e) {
+	protected int position;
+	protected boolean newLine = false;
+
+    protected boolean conditionIsAlwayTrue(Expression e) {
 		if (e instanceof IntegerExpression) {
 			return true;
 		} else if (e instanceof FloatExpression) {
@@ -44,5 +47,22 @@ public abstract class Expression implements Visitable {
 	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
 		//Default behavior is do nothing
 	}
-	
+
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+
+    public boolean shouldlabelNewLine() {
+        return newLine;
+    }
+
+    public void setNewLine(boolean newLine) {
+        this.newLine = newLine;
+    }
 }
