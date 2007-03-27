@@ -5,8 +5,7 @@
 
 package com.xruby.runtime.builtin;
 
-import java.util.Date;
-
+import java.util.*;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
@@ -95,6 +94,26 @@ class Time_operator_compare extends RubyOneArgMethod {
 	}
 }
 
+class Time_utc extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		if (null == args) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
+		}
+
+		int i = 0;
+		int year = ((RubyFixnum)args.get(i++)).intValue();
+		int month = (args.size() <= i) ? 0 : ((RubyFixnum)args.get(i++)).intValue();
+		int day = (args.size() <= i) ? 0 : ((RubyFixnum)args.get(i++)).intValue();
+		int hour = (args.size() <= i) ? 0 : ((RubyFixnum)args.get(i++)).intValue();
+		int min = (args.size() <= i) ? 0 : ((RubyFixnum)args.get(i++)).intValue();
+		int sec = (args.size() <= i) ? 0 : ((RubyFixnum)args.get(i++)).intValue();
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month, day, hour, min, sec);
+		return ObjectFactory.createTime(calendar.getTime());
+	}
+}
+
 public class TimeClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.TimeClass;
@@ -107,8 +126,9 @@ public class TimeClassBuilder {
 		c.defineAllocMethod(new Time_new());
 		
 		c.getSingletonClass().defineMethod("now", ClassClassBuilder.class_new_);
-		c.getSingletonClass().defineMethod("at", new Time_at());
-		
+		RubyMethod utc = new Time_utc();
+		c.getSingletonClass().defineMethod("utc", utc);
+		c.getSingletonClass().defineMethod("gm", utc);
 	}
 }
 

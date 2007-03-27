@@ -5225,6 +5225,21 @@ public class RubyCompilerTest extends CompilerTestCase {
 	}
 	
 	/*
+	public void test_Time() {
+		String[] program_texts = {
+				"print Time.gm(2000,1,2,3,4,5)",
+				"print Time.utc(2000)",
+		};
+		
+		String[] outputs = {
+				"Sun Jan 02 03:04:05 UTC 2000",
+				"Sat Jan 01 00:00:00 UTC 2000",
+		};
+		
+		compile_run_and_compare_output(program_texts, outputs);
+	}*/
+		
+	/*
 	TODO does not work with exception
 	TODO wrong format, should fix the implementation
 	public void test_Kernel_caller() {
