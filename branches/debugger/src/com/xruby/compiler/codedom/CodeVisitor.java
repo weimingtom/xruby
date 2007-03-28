@@ -5,6 +5,8 @@
 
 package com.xruby.compiler.codedom;
 
+import org.objectweb.asm.Label;
+
 import java.math.BigInteger;
 
 interface ISymbolTable {
@@ -161,4 +163,11 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons);
 
 	public void visitPotentialProcCall();
+
+    // ---------------------------
+    //   Interfaces for debugger
+    // ---------------------------
+    public Label visitLineLabel(int lineNumber);
+
+    public void visitVariableRange(String varName, int start, int end);
 }
