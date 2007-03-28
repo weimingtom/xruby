@@ -1,13 +1,20 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Yu Su
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby;
 
-import java.io.*;
-import java.util.*;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 class CommandLineOptions {
 	private boolean compileOnly_ = false;
@@ -17,7 +24,8 @@ class CommandLineOptions {
 	private boolean switch_ = false;
 	private boolean strip_ = false;
 	private boolean is_pe_ = false;
-	private String eval_script_ = "";
+    private boolean enableDebug = false;
+    private String eval_script_ = "";
 	private String file_ = null;
 	String backupExtension_ = null;
 	private ArrayList<String> vars_ = new ArrayList<String>();
@@ -46,8 +54,12 @@ class CommandLineOptions {
 	public boolean isPe() {
 		return is_pe_;
 	}
-	
-	public String getEvalScript() {
+
+    public boolean isEnableDebug() {
+        return enableDebug;
+    }
+
+    public String getEvalScript() {
 		if (is_pe_) {
 			return "while gets();" + eval_script_ + ";end";
 		}
@@ -191,8 +203,9 @@ class CommandLineOptions {
 		options.addOption("v", false, "print version number, then turn on verbose mode");
 		options.addOption("s", false, "enable some switch parsing for switches after script name");
 		options.addOption("x", false, "strip off text before #!ruby line");
-		
-		CommandLine line;
+        options.addOption("g", false, "enable debug");
+
+        CommandLine line;
 		try {
 			line = parser.parse(options, args, true);
 		} catch (ParseException e) {
@@ -201,7 +214,12 @@ class CommandLineOptions {
 		
 		if (line.hasOption("c")) {
 			compileOnly_ = true;
-		} else if (line.hasOption("h")) {
+            
+            // Check debug flag
+            if (line.hasOption("g")) {
+                enableDebug = true;
+            }            
+        } else if (line.hasOption("h")) {
 			help_ = true;
 		} else if (line.hasOption("v")) {
 			verbose_ = true;
