@@ -166,14 +166,14 @@ returns [Expression e]
 	String method_name = null;
 	int lineNumber = _t.getLine();
 	boolean startANewLine = false;
-
+ 
 	if (lineNumber != currentLineNumber) {
-		// System.out.println(currentLineNumber);
         currentLineNumber = lineNumber;
         startANewLine = true;
     }
 
-    // System.out.println("Line: " +lineNumber + " " + _t.getText() + "\t\t " + startANewLine);
+     // TODO: Remove this line when distributing xruby
+     // System.out.println("Line: " +lineNumber + " " + _t.getText() + "\t\t " + startANewLine);
 }
 		:	(#("and"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
 		|	#("or"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("||", left, right);}

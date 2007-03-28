@@ -107,7 +107,7 @@ public class MethodCallExpression extends Expression {
 	
 	public void accept(CodeVisitor visitor) {
         if(this.shouldlabelNewLine()) {
-			// System.out.println("Here's a 'one-line' method call in line " + this.getPosition());
+		//	System.out.println("Here's a 'one-line' method call in line " + this.getPosition());
 		}
         
         if (isLambdaCall()) {
