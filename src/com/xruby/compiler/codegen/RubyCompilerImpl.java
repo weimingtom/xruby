@@ -1,29 +1,36 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng, Yu Su
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.codegen;
 
-import org.objectweb.asm.*;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import java.math.BigInteger;
-import java.util.*;
-import com.xruby.compiler.codedom.*;
+import com.xruby.compiler.codedom.CodeVisitor;
+import com.xruby.compiler.codedom.Program;
 import com.xruby.runtime.lang.RubyBinding;
 import com.xruby.runtime.lang.RubyRuntime;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.GeneratorAdapter;
+
+import java.math.BigInteger;
+import java.util.Stack;
 
 public class RubyCompilerImpl implements CodeVisitor {
-	
-	private ClassGenerator cg_;
+
+    // TODO: Modify the variable's names
+    private ClassGenerator cg_;
 	private Stack<ClassGenerator> suspended_cgs_ = new Stack<ClassGenerator>();
 	private CompilationResults compilation_results_ = new CompilationResults();
 	private String script_name_;
 	private LabelManager labelManager_ = new LabelManager();
 	private EnsureLabelManager ensureLabelManager_ = new EnsureLabelManager();
 	private RubyBinding binding_;
-	
-	public RubyCompilerImpl(String script_name) {
+
+    private boolean enableDebug = false;
+
+    public RubyCompilerImpl(String script_name) {
 		script_name_ = script_name;
 	}
 	
@@ -34,8 +41,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 	private boolean isInBlock() {
 		return (cg_ instanceof ClassGeneratorForRubyBlock);
 	}
-	
-	private boolean isInSingletonMethod() {
+
+    public void enableDebug() {
+        enableDebug = true;
+    }
+
+    private boolean isInSingletonMethod() {
 		if (cg_ instanceof ClassGeneratorForRubyMethod) {
 			return ((ClassGeneratorForRubyMethod)cg_).isSingletonMethod();
 		}
@@ -1025,13 +1036,17 @@ public class RubyCompilerImpl implements CodeVisitor {
     //   Interfaces for debugger
     // ---------------------------
     public Label visitLineLabel(int lineNumber) {
-        Label label = cg_.getMethodGenerator().mark();
-        cg_.getMethodGenerator().visitLineNumber(lineNumber, label);
-        
-        // TODO: Create a linenumber - label cache(hash), record linenumber-label value pairs
-        // TODO: Cache should be filename based
+        if(enableDebug) {
+            Label label = cg_.getMethodGenerator().mark();
+            cg_.getMethodGenerator().visitLineNumber(lineNumber, label);
 
-        return label;
+            // TODO: Create a linenumber - label cache(hash), record linenumber-label value pairs
+            // TODO: Cache should be filename based
+
+            return label;
+        }
+
+        return null;
     }
 
     public void visitVariableRange(String varName, int start, int end) {

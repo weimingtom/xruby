@@ -1,15 +1,27 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi 
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby;
 
-import java.io.*;
+import com.xruby.compiler.RubyCompiler;
+import com.xruby.compiler.codegen.CompilationResults;
+import com.xruby.runtime.lang.GlobalVariables;
+import com.xruby.runtime.lang.RubyProgram;
+import com.xruby.runtime.lang.RubyRuntime;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.StringReader;
 import java.nio.channels.FileChannel;
-import com.xruby.compiler.*;
-import com.xruby.compiler.codegen.*;
-import com.xruby.runtime.lang.*;
 
 public class Main {
 
@@ -37,17 +49,18 @@ public class Main {
 			run(results, null);
 		} else if (options.getFilename() == null) {
 			//eval STDIN 
-			CompilationResults results = compile(null, options.isStrip(), options.isVerbose());
+			CompilationResults results = compile(null, options.isStrip(), options.isVerbose(), false);
 			run(results, null);
 		} else if (options.isCompileOnly()){
 			//compile and just save the result
 			String filename = options.getFilename();
-			CompilationResults results = compile(filename, options.isStrip(), options.isVerbose());
+			CompilationResults results =
+                    compile(filename, options.isStrip(), options.isVerbose(), options.isEnableDebug());
 			results.save(filename);
 		} else {
 			//eval file
 			String filename = options.getFilename();
-			CompilationResults results = compile(filename, options.isStrip(), options.isVerbose());
+			CompilationResults results = compile(filename, options.isStrip(), options.isVerbose(), false);
 			options.parseOptionsFromFile(filename);
 			GlobalVariables.setProgramName(filename);
 			GlobalVariables.importValuesFromCommandLine(options.getVars());
@@ -81,13 +94,18 @@ public class Main {
 		System.out.println("Usage: xruby [-c] filename1, filename2, ...");
 	}
 
-	private static CompilationResults compile(String filename, boolean strip, boolean verbose) throws Exception {
+	private static CompilationResults compile(String filename, boolean strip, boolean verbose, boolean debug) throws Exception {
 		if (verbose) {
 			System.out.println("Compilation of " + filename + " strarted");
 		}
 		
 		RubyCompiler compiler = new RubyCompiler(null, strip);
-		CompilationResults results = compiler.compile(filename);
+        if(debug) {
+            // Enable debug
+            compiler.enableDebug();
+        }
+        
+        CompilationResults results = compiler.compile(filename);
 		
 		if (verbose) {
 			System.out.println("Compilation of " + filename + " finished successfully");
@@ -97,7 +115,7 @@ public class Main {
 	}
 	
 	private static void run(CompilationResults results, String[] args) throws Exception {		
-		RubyProgram p = (RubyProgram)results.getRubyProgram();
+		RubyProgram p = results.getRubyProgram();
 		RubyRuntime.init(args);
 		p.invoke();
 		RubyRuntime.fini();
