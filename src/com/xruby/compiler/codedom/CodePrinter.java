@@ -5,6 +5,8 @@
 
 package com.xruby.compiler.codedom;
 
+import org.objectweb.asm.Label;
+
 import java.math.BigInteger;
 
 public class CodePrinter implements CodeVisitor {
@@ -625,7 +627,17 @@ public class CodePrinter implements CodeVisitor {
 	public void visitPotentialProcCall() {
 	}
 
-	public void visitMultipleArrayAssign() {
+    public void visitMultipleArrayAssign() {
 	}
+
+    // ---------------------------
+    //   Interfaces for debugger
+    // ---------------------------
+    public Label visitLineLabel(int lineNumber) {
+        return null;
+    }
+
+    public void visitVariableRange(String varName, int start, int end) {         
+    }
 
 }

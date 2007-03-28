@@ -1017,8 +1017,25 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().mark(label1);
 	}
 
-	public void visitMultipleArrayAssign() {
+    public void visitMultipleArrayAssign() {
 		cg_.getMethodGenerator().RubyAPI_callArraySet();
 	}
-	
+
+    // ---------------------------
+    //   Interfaces for debugger
+    // ---------------------------
+    public Label visitLineLabel(int lineNumber) {
+        Label label = cg_.getMethodGenerator().mark();
+        cg_.getMethodGenerator().visitLineNumber(lineNumber, label);
+        
+        // TODO: Create a linenumber - label cache(hash), record linenumber-label value pairs
+        // TODO: Cache should be filename based
+
+        return label;
+    }
+
+    public void visitVariableRange(String varName, int start, int end) {
+        // TODO: Add variable range infomation here
+    }
+
 }
