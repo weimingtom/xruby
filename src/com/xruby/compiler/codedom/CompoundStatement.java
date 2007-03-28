@@ -41,6 +41,8 @@ public class CompoundStatement implements Visitable {
 			} else {
 				return true;
 			}
+		} else if (statements_.get(statements_.size() - 1) instanceof MultipleAssignmentStatement) {
+			return true;
 		} else {
 			return false;
 		}
