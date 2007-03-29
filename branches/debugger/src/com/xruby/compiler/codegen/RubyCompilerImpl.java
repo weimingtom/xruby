@@ -57,8 +57,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public CompilationResults compile(Program program, RubyBinding binding) throws CompilerException {
 		binding_ = binding;
-		RubyIDClassGenerator.initScript(script_name_);
-		cg_ = new ClassGeneratorForRubyProgram(NameFactory.createClassName(script_name_, null), binding);
+        RubyIDClassGenerator.initScript(script_name_);
+		cg_ = new ClassGeneratorForRubyProgram(NameFactory.createClassName(script_name_, null), script_name_, binding);
 		program.accept(this);
 
         // Record the local variables' range, if user enables debug
