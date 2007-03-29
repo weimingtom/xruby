@@ -35,6 +35,8 @@ As our current focus is to get major Ruby libraries work under XRuby, a typical 
   # Open src/com/xruby/compiler/StdlibTest.java, start to write a test case for it (using mighty print).
   # If it failes, fix it (right now the most likly reason is some builtin are either not implemented or not correctly implemented), then move on to the next target.
 
+NOTE: We perfer to write builtin in pure ruby (builtin.rb) unless it is impossible or *too* bad for performance.
+
 = Eclipse =
 If you want to develope XRuby with eclipse, please do the following:
 
@@ -48,5 +50,4 @@ If you want to develope XRuby with eclipse, please do the following:
 = Note =
 
 Please just choose an area that you are interested in most. Enjoy!
-
 
