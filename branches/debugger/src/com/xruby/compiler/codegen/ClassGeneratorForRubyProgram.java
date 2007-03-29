@@ -15,9 +15,9 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 
     public ClassGeneratorForRubyProgram(String name, String fileName, RubyBinding binding) {
 		super(name);
-		mg_for_run_method_ = visitRubyProgram(binding);
-		binding_ = binding;
         this.fileName = fileName;
+		mg_for_run_method_ = visitRubyProgram(binding, fileName);
+		binding_ = binding;
     }
 
 
@@ -33,7 +33,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 		return Types.RubyProgramClass;
 	}
 
-	private MethodGenerator visitRubyProgram(RubyBinding binding) {
+	private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName) {
 		cv_.visit(Opcodes.V1_5,
 				Opcodes.ACC_PUBLIC,
 				name_,
