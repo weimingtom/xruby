@@ -114,6 +114,19 @@ abstract class ClassGenerator {
 			return;
 		} 
 
+		Class c = getCurrentType();
+		int asterisk_parameter_access_counter = getSymbolTable().getMethodAsteriskParameter(name);
+		if (asterisk_parameter_access_counter >= 0) {
+			getMethodGenerator().store_asterisk_parameter_(c);
+			return;
+		}
+
+		int block_parameter_access_counter = getSymbolTable().getMethodBlockParameter(name);
+		if (block_parameter_access_counter >= 0) {
+			getMethodGenerator().store_block_parameter_(c);
+			return;
+		}
+
 		int index = getSymbolTable().getMethodParameter(name);
 		if (index >= 0) {
 			storeMethodParameter(index);
