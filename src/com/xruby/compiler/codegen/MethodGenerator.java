@@ -802,6 +802,7 @@ class MethodGenerator extends GeneratorAdapter {
         SymbolTable table = getSymbolTable();
         Map<String,Label> varRanges = table.getLocalVariableRange();
 
+        // ERROR: TODO: The index is totally wrong. It must be fixed asap 
         int idx = 0;
         List<String> sequence = table.getDeclarationSeq();
         for(String var: sequence) {

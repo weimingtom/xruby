@@ -58,15 +58,19 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public CompilationResults compile(Program program, RubyBinding binding) throws CompilerException {
 		binding_ = binding;
         RubyIDClassGenerator.initScript(script_name_);
-		cg_ = new ClassGeneratorForRubyProgram(NameFactory.createClassName(script_name_, null), script_name_, binding);
-		program.accept(this);
+        String className = NameFactory.createClassName(script_name_, null);
+        cg_ = new ClassGeneratorForRubyProgram(className, script_name_, binding);
+        MethodGenerator mg = cg_.getMethodGenerator();
+
+        // Start compiling
+        program.accept(this);
 
         // Record the local variables' range, if user enables debug
         if(enableDebug) {
-            cg_.getMethodGenerator().writeLocalVariableInfo();
+            mg.writeLocalVariableInfo();
         }
         
-        cg_.getMethodGenerator().endMethod();
+        mg.endMethod();
 		cg_.visitEnd();
 		compilation_results_.add(RubyIDClassGenerator.getCompilationResult());
 //		RubyIDClassGenerator.clear();
@@ -1050,11 +1054,10 @@ public class RubyCompilerImpl implements CodeVisitor {
     // ---------------------------
     public Label visitLineLabel(int lineNumber) {
         if(enableDebug) {
+            // store the current line, if debug is enabled
             currentLineLabel = cg_.getMethodGenerator().mark();
             cg_.getMethodGenerator().visitLineNumber(lineNumber, currentLineLabel);
 
-            // TODO: Create a linenumber - label cache(hash), record linenumber-label value pairs
-            // TODO: Cache should be filename based
             return currentLineLabel;
         }
 
