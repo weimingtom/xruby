@@ -11,14 +11,25 @@ import com.xruby.runtime.lang.RubyBinding;
 
 class ClassGeneratorForRubyProgram extends ClassGenerator {
 	private RubyBinding binding_;
-	
-	public ClassGeneratorForRubyProgram(String name, RubyBinding binding) {
+    private String fileName;
+
+    public ClassGeneratorForRubyProgram(String name, String fileName, RubyBinding binding) {
 		super(name);
 		mg_for_run_method_ = visitRubyProgram(binding);
 		binding_ = binding;
-	}
-	
-	protected Class getCurrentType() {
+        this.fileName = fileName;
+    }
+
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    protected Class getCurrentType() {
 		return Types.RubyProgramClass;
 	}
 
@@ -31,7 +42,12 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				null										// interface
 				);
 
-		createImplicitConstructor(cv_);
+        // set source file's name, for debug
+        if(fileName != null) {
+            cv_.visitSource(fileName, null);
+        }
+
+        createImplicitConstructor(cv_);
 		createStaticVoidMain(cv_);
 		
 		//Implement RubyProgram
