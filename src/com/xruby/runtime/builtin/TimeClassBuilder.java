@@ -126,6 +126,7 @@ public class TimeClassBuilder {
 		c.defineAllocMethod(new Time_new());
 		
 		c.getSingletonClass().defineMethod("now", ClassClassBuilder.class_new_);
+		c.getSingletonClass().defineMethod("at", new Time_at());
 		RubyMethod utc = new Time_utc();
 		c.getSingletonClass().defineMethod("utc", utc);
 		c.getSingletonClass().defineMethod("gm", utc);
