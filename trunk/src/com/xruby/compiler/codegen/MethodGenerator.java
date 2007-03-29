@@ -121,7 +121,19 @@ class MethodGenerator extends GeneratorAdapter {
 			        return;
 		*/
 	}
+
+	public void store_asterisk_parameter_(Class c) {
+		loadThis();
+		swap();
+		putField(Type.getType(c), "asterisk_parameter_", Type.getType(Types.RubyValueClass));
+	}
 	
+	public void store_block_parameter_(Class c) {
+		loadThis();
+		swap();
+		putField(Type.getType(c), "block_parameter_", Type.getType(Types.RubyValueClass));
+	}
+
 	public void load_asterisk_parameter_(Class c) {
 		loadThis();
 		getField(Type.getType(c), "asterisk_parameter_", Type.getType(Types.RubyValueClass));

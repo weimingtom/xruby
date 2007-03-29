@@ -11,9 +11,11 @@ class MethodBlockBase {
 	protected int argc_;
 	protected boolean has_asterisk_parameter_;
 	protected int default_argc_;
+	protected RubyValue[] default_values_ = null;
+
+	//TODO we can just just use regular local variables for these two
 	protected RubyValue asterisk_parameter_;
 	protected RubyValue block_parameter_;
-	protected RubyValue[] default_values_ = null;
 	
 	protected MethodBlockBase(int argc, boolean has_asterisk_parameter, int default_argc) {
 		argc_ = argc;
