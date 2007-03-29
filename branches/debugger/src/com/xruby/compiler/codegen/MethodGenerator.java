@@ -802,16 +802,14 @@ class MethodGenerator extends GeneratorAdapter {
         SymbolTable table = getSymbolTable();
         Map<String,Label> varRanges = table.getLocalVariableRange();
 
-        // ERROR: TODO: The index is totally wrong. It must be fixed asap 
-        int idx = 0;
+        // ERROR: TODO: The index is totally wrong. It must be fixed asap
         List<String> sequence = table.getDeclarationSeq();
         for(String var: sequence) {
             Label startLabel = varRanges.get(var);
             if(startLabel != null) {
-                this.visitLocalVariable(var, "Lcom/xruby/runtime/lang/RubyValue;", null, startLabel, endLabel, idx);
+                int index = table.getLocalVariable(var);
+                this.visitLocalVariable(var, "Lcom/xruby/runtime/lang/RubyValue;", null, startLabel, endLabel, index);
             }
-            
-            idx ++;
         }
     }
 }
