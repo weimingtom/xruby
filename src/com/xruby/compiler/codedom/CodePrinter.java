@@ -636,8 +636,4 @@ public class CodePrinter implements CodeVisitor {
     public Label visitLineLabel(int lineNumber) {
         return null;
     }
-
-    public void visitVariableRange(String varName, int start, int end) {         
-    }
-
 }

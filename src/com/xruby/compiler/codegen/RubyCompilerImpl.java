@@ -28,11 +28,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 	private EnsureLabelManager ensureLabelManager_ = new EnsureLabelManager();
 	private RubyBinding binding_;
 
+    private Label currentLineLabel;
     private boolean enableDebug = false;
 
     public RubyCompilerImpl(String script_name) {
 		script_name_ = script_name;
-	}
+    }
 	
 	private boolean isInGlobalScope() {
 		return suspended_cgs_.empty() && !cg_.isInClassBuilder();
@@ -60,7 +61,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_ = new ClassGeneratorForRubyProgram(NameFactory.createClassName(script_name_, null), binding);
 		program.accept(this);
 
-		cg_.getMethodGenerator().endMethod();
+        // Record the local variables' range, if user enables debug
+        if(enableDebug) {
+            cg_.getMethodGenerator().writeLocalVariableInfo();
+        }
+        
+        cg_.getMethodGenerator().endMethod();
 		cg_.visitEnd();
 		compilation_results_.add(RubyIDClassGenerator.getCompilationResult());
 //		RubyIDClassGenerator.clear();
@@ -385,15 +391,22 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
-		if (rhs_is_method_call) {
-			cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue();
+        MethodGenerator mg = cg_.getMethodGenerator();
+        if (rhs_is_method_call) {
+			mg.RubyAPI_expandArrayIfThereIsZeroOrOneValue();
 		}
 		if (!is_multiple_assign) {
-			cg_.getMethodGenerator().dup();//do not pop off empty stack
+			mg.dup();//do not pop off empty stack
 		}
 
 		cg_.storeVariable(var);
-	}
+        SymbolTable table = mg.getSymbolTable();
+
+        // Record the start label of this variable
+        if(enableDebug && table.isNewLocalVar(var)) {
+            table.setVarLineNumberInfo(var, currentLineLabel);
+        }
+    }
 
 	public void visitFloatExpression(double value) {
 		cg_.getMethodGenerator().ObjectFactory_createFloat(value);
@@ -1037,20 +1050,15 @@ public class RubyCompilerImpl implements CodeVisitor {
     // ---------------------------
     public Label visitLineLabel(int lineNumber) {
         if(enableDebug) {
-            Label label = cg_.getMethodGenerator().mark();
-            cg_.getMethodGenerator().visitLineNumber(lineNumber, label);
+            currentLineLabel = cg_.getMethodGenerator().mark();
+            cg_.getMethodGenerator().visitLineNumber(lineNumber, currentLineLabel);
 
             // TODO: Create a linenumber - label cache(hash), record linenumber-label value pairs
             // TODO: Cache should be filename based
-
-            return label;
+            return currentLineLabel;
         }
 
         return null;
-    }
-
-    public void visitVariableRange(String varName, int start, int end) {
-        // TODO: Add variable range infomation here
     }
 
 }

@@ -168,6 +168,4 @@ public interface CodeVisitor extends ISymbolTable {
     //   Interfaces for debugger
     // ---------------------------
     public Label visitLineLabel(int lineNumber);
-
-    public void visitVariableRange(String varName, int start, int end);
 }

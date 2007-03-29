@@ -790,5 +790,28 @@ class MethodGenerator extends GeneratorAdapter {
 		invokeVirtual(Type.getType(Types.RubyProcClass),
 				Method.getMethod("boolean isDefinedInAnotherBlock()"));
 	}
+
+    // For debug function
+
+    /**
+     * Write the local varirable info.
+     *
+     */
+    public void writeLocalVariableInfo() {
+        Label endLabel = mark();
+        SymbolTable table = getSymbolTable();
+        Map<String,Label> varRanges = table.getLocalVariableRange();
+
+        int idx = 0;
+        List<String> sequence = table.getDeclarationSeq();
+        for(String var: sequence) {
+            Label startLabel = varRanges.get(var);
+            if(startLabel != null) {
+                this.visitLocalVariable(var, "Lcom/xruby/runtime/lang/RubyValue;", null, startLabel, endLabel, idx);
+            }
+            
+            idx ++;
+        }
+    }
 }
 
