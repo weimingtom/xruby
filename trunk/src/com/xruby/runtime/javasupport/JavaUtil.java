@@ -6,14 +6,13 @@
 package com.xruby.runtime.javasupport;
 
 import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.RubyException;
-
 import com.xruby.runtime.value.*;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -25,9 +24,9 @@ public class JavaUtil {
     private static final String RCLASS_STRING = "String";
     private static final String RCLASS_FIXNUM = "Fixnum";
     private static final String RCLASS_BIGNUM = "Bignum";
-    private static final String RCLASS_TRUE   = "TrueClass";
-    private static final String RCLASS_FALSE  = "FalseClass";
-    private static final String RCLASS_NIL    = "NilClass";
+    private static final String RCLASS_TRUE = "TrueClass";
+    private static final String RCLASS_FALSE = "FalseClass";
+    private static final String RCLASS_NIL = "NilClass";
 
     // Need special manipulation
     private static final String RCLASS_REGEXP = "Regexp";
@@ -36,26 +35,26 @@ public class JavaUtil {
 
     public static RubyValue convertToRubyValue(Object value) {
         if (null == value) {
-            return ObjectFactory.nilValue;
+            return ObjectFactory.NIL_VALUE;
         }
 
         if (value.getClass().equals(Integer.class)) {
             return ObjectFactory.createFixnum((Integer) value);
         }
-        
+
         if (value.getClass().equals(Double.class)) {
-            return ObjectFactory.createFloat((Double)value);
+            return ObjectFactory.createFloat((Double) value);
         }
 
         if (value.getClass().equals(Float.class)) {
-            return ObjectFactory.createFloat((Float)value);
+            return ObjectFactory.createFloat((Float) value);
         }
 
         if (value.getClass().equals(Boolean.class)) {
             if (value.equals(true)) {
-                return ObjectFactory.trueValue;
+                return ObjectFactory.TRUE_VALUE;
             } else {
-                return ObjectFactory.falseValue;
+                return ObjectFactory.FALSE_VALUE;
             }
         }
 
@@ -97,32 +96,24 @@ public class JavaUtil {
     }
 
     @SuppressWarnings("unchecked")
-	private static Object convertToJavaValue(String className, RubyValue value) {
+    private static Object convertToJavaValue(String className, RubyValue value) {
         if (className.equals(RCLASS_STRING)) {
-            return ((RubyString)value).toString();
-        }
-        else if (className.equals(RCLASS_FIXNUM)) {
-            return ((RubyFixnum)value).intValue();
-        }
-        else if (className.equals(RCLASS_BIGNUM)) {
-            return ((RubyBignum)value).getInternal();
-        }
-        else if(className.equals(RCLASS_TRUE)) {
+            return ((RubyString) value).toString();
+        } else if (className.equals(RCLASS_FIXNUM)) {
+            return ((RubyFixnum) value).intValue();
+        } else if (className.equals(RCLASS_BIGNUM)) {
+            return ((RubyBignum) value).getInternal();
+        } else if (className.equals(RCLASS_TRUE)) {
             return true;
-        }
-        else if(className.equals(RCLASS_FALSE)) {
+        } else if (className.equals(RCLASS_FALSE)) {
             return false;
-        }
-        else if(className.equals(RCLASS_NIL)) {
+        } else if (className.equals(RCLASS_NIL)) {
             return null;
-        }
-        else if(className.equals(RCLASS_SYMBOL)) {
-            return ((RubySymbol)value).toString();
-        }
-        else if(className.equals(RCLASS_EXCEPTION)) {
+        } else if (className.equals(RCLASS_SYMBOL)) {
+            return ((RubySymbol) value).toString();
+        } else if (className.equals(RCLASS_EXCEPTION)) {
             return new Exception(value.toString());
-        }
-        else if(className.equals(RCLASS_REGEXP)) {
+        } else if (className.equals(RCLASS_REGEXP)) {
             // TODO:Convert to Java's regular expression
         }
 
@@ -135,10 +126,10 @@ public class JavaUtil {
         String[] tmp = new String[50];
         int i = 0;
 
-        for(RubyValue value: args) {
+        for (RubyValue value : args) {
             String className = value.getRubyClass().getName();
             tmp[i] = className;
-            ++ i;
+            ++i;
         }
 
         String[] types = new String[i];
@@ -148,8 +139,8 @@ public class JavaUtil {
     }
 
     private static boolean matchNativeTye(String type, Class clazz) {
-        if(type.equals("String")) {
-            if(clazz.equals(String.class)) {
+        if (type.equals("String")) {
+            if (clazz.equals(String.class)) {
                 return true;
             }
         }
@@ -160,8 +151,8 @@ public class JavaUtil {
     public static Method matchMethod(List<Method> methods, RubyArray args) {
         String[] types = collectTypes(args);
 
-        for(Method method: methods) {
-            for(String type: types) {
+        for (Method method : methods) {
+            for (String type : types) {
 
             }
 
@@ -184,7 +175,7 @@ public class JavaUtil {
                 }
             }
 
-            if(match)  {
+            if (match) {
                 return method;
             }
         }
