@@ -425,8 +425,12 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_result(program_texts, results);
 
         program_texts = new String[]{"\"hello\".index(/[aeiou]/, -3)"};
-        results = new int[]{4};
-        compile_run_and_compare_result(program_texts, results);
+        res = new RubyValue[]{ObjectFactory.FIXNUM4};
+        compile_run_and_compare_result(program_texts, res);
+
+        program_texts = new String[]{"\"hll\".index(/[aeiou]/, -3)"};
+        res = new RubyValue[]{ObjectFactory.NIL_VALUE};
+        compile_run_and_compare_result(program_texts, res);
     }
 
     public void test_String_succ() {

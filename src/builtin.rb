@@ -175,7 +175,11 @@ class String
                 end
             end
         else #regex
-            return (x =~ (self[begin_index, self.length-begin_index])) + begin_index
+            x = (x =~ (self[begin_index, self.length-begin_index]))
+            if x
+                return x + begin_index
+            end
+            return nil
         end
     end
 
