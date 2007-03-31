@@ -10,10 +10,7 @@ import antlr.TokenStreamException;
 import com.xruby.compiler.codegen.CompilationResults;
 import com.xruby.compiler.codegen.CompilerException;
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyIO;
+import com.xruby.runtime.value.*;
 import junit.framework.TestCase;
 
 import java.io.*;
@@ -33,6 +30,40 @@ class CompilerTestCase extends TestCase {
                 RubyValue v = p.invoke();
                 RubyFixnum r = (RubyFixnum) v;
                 assertEquals(results[i], r.intValue());
+            } catch (RubyException e) {
+                assertTrue("RubyException at " + i + ": " + e.toString(), false);
+            } catch (RecognitionException e) {
+                assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
+            } catch (TokenStreamException e) {
+                assertTrue("TokenStreamException at " + i + ": " + e.toString(), false);
+            } catch (CompilerException e) {
+                assertTrue("CompilerException at " + i + ": " + e.toString(), false);
+            } catch (InstantiationException e) {
+                assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
+            } catch (IllegalAccessException e) {
+                assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
+            } catch (VerifyError e) {
+                assertTrue("VerifyError at " + i + ": " + e.toString(), false);
+            } /*catch (NullPointerException e) {
+				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
+			}*/
+        }
+    }
+
+    protected void compile_run_and_compare_result(String[] program_texts, String[] results) {
+        assertEquals("the number of 'results' should match 'program_texts'",
+                program_texts.length, results.length);
+
+        for (int i = 0; i < program_texts.length; ++i) {
+            RubyCompiler compiler = new RubyCompiler(null, false);
+
+            try {
+                CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
+                assertTrue(null != codes);
+                RubyProgram p = codes.getRubyProgram();
+                RubyValue v = p.invoke();
+                RubyString r = (RubyString) v;
+                assertEquals(results[i], r.toString());
             } catch (RubyException e) {
                 assertTrue("RubyException at " + i + ": " + e.toString(), false);
             } catch (RecognitionException e) {
@@ -358,6 +389,96 @@ public class RubyCompilerTest extends CompilerTestCase {
                 -2,
         };
 
+        compile_run_and_compare_result(program_texts, results);
+    }
+
+    public void test_String_index() {
+        String[] program_texts = {"\"hello\".index('e')"};
+        int[] results = {
+                1
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"\"hello\".index('lo')"};
+        results = new int[]{
+                3
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"\"hello\".index('a')"};
+        RubyValue[] res = {ObjectFactory.NIL_VALUE};
+
+        compile_run_and_compare_result(program_texts, res);
+
+        program_texts = new String[]{"\"hello\".index(101)"};
+        results = new int[]{1};
+
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"\"helle\".index('e', 3)"};
+        results = new int[]{4};
+        compile_run_and_compare_result(program_texts, results);
+
+
+        program_texts = new String[]{"\"helle\".index('e', -3)"};
+        results = new int[]{4};
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"\"hello\".index(/[aeiou]/, -3)"};
+        results = new int[]{4};
+        compile_run_and_compare_result(program_texts, results);
+    }
+
+    public void test_String_succ() {
+
+        String[] program_texts = {"''.succ"};
+        String[] results = {
+                ""
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"'a'.succ"};
+        results = new String[]{
+                "b"
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"'0'.succ"};
+        results = new String[]{
+                "1"
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"' '.succ"};
+        results = new String[]{
+                "!"
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+
+        program_texts = new String[]{"'z'.succ"};
+        results = new String[]{
+                "aa"
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"'9'.succ"};
+        results = new String[]{
+                "10"
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+
+        program_texts = new String[]{"'***'.succ"};
+        results = new String[]{
+                "**+"
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"'<<koala>>'.succ"};
+        results = new String[]{
+                "<<koalb>>"
+        };
         compile_run_and_compare_result(program_texts, results);
     }
 
@@ -3198,15 +3319,20 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "(3..1).to_a",
         };
 
-        /*String[] outputs = {
-                  "[]",
-          };*/
-
         RubyValue[] results = {
                 new RubyArray()
         };
 
         compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{
+                "(1..3).to_a",
+        };
+
+        results = new RubyValue[]{
+                new RubyArray()
+        };
+
     }
 
     public void test_regex_case_equal() {
