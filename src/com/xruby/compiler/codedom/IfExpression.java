@@ -22,6 +22,8 @@ class Elseif {
 		Object next_label = visitor.visitAfterIfCondition();
 		if (null != body_) {
 			body_.accept(visitor);
+		} else {
+			visitor.visitNilExpression();
 		}
 		visitor.visitAfterIfBody(next_label, end_label);
 	}
