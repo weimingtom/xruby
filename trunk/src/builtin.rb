@@ -152,9 +152,9 @@ class String
         return self
     end
 
-    def =~ x
-        return x.match(self)
-    end
+    #    def =~ x
+    #        return x.match(self)
+    #    end
 
     def index(x, *start)
         begin_index = 0
