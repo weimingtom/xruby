@@ -144,7 +144,9 @@ class Hash_default_assign extends RubyOneArgMethod {
 
 class Hash_new extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return ObjectFactory.createHash();
+    	RubyHash h = ObjectFactory.createHash();
+    	h.setRubyClass((RubyClass) receiver);
+    	return h;
     }
 }
 
