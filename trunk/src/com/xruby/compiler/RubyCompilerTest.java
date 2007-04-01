@@ -28,7 +28,7 @@ class CompilerTestCase extends TestCase {
                 assertTrue(null != codes);
                 RubyProgram p = codes.getRubyProgram();
                 RubyValue v = p.invoke();
-                RubyFixnum r = (RubyFixnum) v;
+                RubyFixnum r = (RubyFixnum)v;
                 assertEquals(results[i], r.intValue());
             } catch (RubyException e) {
                 assertTrue("RubyException at " + i + ": " + e.toString(), false);
@@ -45,8 +45,8 @@ class CompilerTestCase extends TestCase {
             } catch (VerifyError e) {
                 assertTrue("VerifyError at " + i + ": " + e.toString(), false);
             } /*catch (NullPointerException e) {
-				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-			}*/
+                assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
+            }*/
         }
     }
 
@@ -149,8 +149,8 @@ class CompilerTestCase extends TestCase {
             } catch (VerifyError e) {
                 assertTrue("VerifyError at " + i + ": " + e.toString(), false);
             } /*catch (NullPointerException e) {
-				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-			}*/
+                assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
+            }*/
         }
     }
 
@@ -193,8 +193,8 @@ class CompilerTestCase extends TestCase {
             } catch (VerifyError e) {
                 assertTrue("VerifyError at " + i + ": " + e.toString(), false);
             } /*catch (NullPointerException e) {
-				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-			}*/
+                assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
+            }*/
         }
     }
 
@@ -203,7 +203,7 @@ class CompilerTestCase extends TestCase {
 public class RubyCompilerTest extends CompilerTestCase {
 
     public void setUp() {
-        RubyRuntime.init(new String[]{"my_arg"});
+        RubyRuntime.init(new String[] {"my_arg"});
     }
 
     public void test_raise() throws RecognitionException, TokenStreamException, CompilerException, InstantiationException, IllegalAccessException {
@@ -226,15 +226,15 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_simple_integer() {
-        String[] program_texts = {"2", "0", "123456", "0b1100110", "0xFF",
+        String[] program_texts = { "2", "0", "123456", "0b1100110", "0xFF",
                 "070", "+9", "-100"};
-        int[] results = {2, 0, 123456, 102, 255, 56, 9, -100};
+        int[] results = { 2, 0, 123456, 102, 255, 56, 9, -100};
 
         compile_run_and_compare_result(program_texts, results);
     }
 
     public void test_ascii_value() {
-        String[] program_texts = {"?a", "?A", "?\\n", "?\\r", "?\\C-a", "?\\M-a", "?\\M-\\C-a"};
+        String[] program_texts = { "?a", "?A", "?\\n", "?\\r", "?\\C-a", "?\\M-a", "?\\M-\\C-a"};
         int[] results = {97, 65, 10, 13, 1, 225, 129};
 
         compile_run_and_compare_result(program_texts, results);
@@ -303,10 +303,10 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_BinaryOperatorExpression() {
-        String[] program_texts = {"2+2", "0 + 100", "0 + 0", "654321 + 9999",
+        String[] program_texts = { "2+2", "0 + 100", "0 + 0", "654321 + 9999",
                 "0xFF + 1", "3 - 5", "3 * 5 * 2", "100/2", "4%2", "7%3",
-                "1 + 2 + 3 -0 + 100", "6- 5 *2 + 100 - 6", "4.div 2",};
-        int[] results = {4, 100, 0, 664320, 256, -2, 30, 50, 0, 1, 106, 90, 2};
+                "1 + 2 + 3 -0 + 100", "6- 5 *2 + 100 - 6", "4.div 2", };
+        int[] results = { 4, 100, 0, 664320, 256, -2, 30, 50, 0, 1, 106, 90, 2};
 
         compile_run_and_compare_result(program_texts, results);
     }
@@ -511,8 +511,8 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_array() {
-        String[] program_texts = {"[1, 'xxx', 1.2].length", "[].length",};
-        int[] results = {3, 0,};
+        String[] program_texts = { "[1, 'xxx', 1.2].length", "[].length",};
+        int[] results = { 3, 0,};
 
         compile_run_and_compare_result(program_texts, results);
     }
@@ -764,10 +764,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_method_compile() {
         String program_texts =
-                "def f\n" +
-                        "	print 123\n" +
-                        "end\n" +
-                        "f";
+            "def f\n" +
+            "	print 123\n" +
+            "end\n" +
+            "f";
         RubyCompiler compiler = new RubyCompiler(null, false);
 
         try {
@@ -781,12 +781,12 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_duplicate_method_run() {
         String[] program_texts = {
                 "def f\n" +
-                        "	print 123\n" +
-                        "end\n" +
-                        "def f\n" +
-                        "	print 456\n" +
-                        "end\n" +
-                        "f",
+                "	print 123\n" +
+                "end\n" +
+                "def f\n" +
+                "	print 456\n" +
+                "end\n" +
+                "f",
         };
 
         String[] outputs = {
@@ -799,26 +799,26 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_method_return() {
         String[] program_texts = {
                 "def f\n" +
-                        " 123\n" +
-                        "end\n" +
-                        "print f()",
+                " 123\n" +
+                "end\n" +
+                "print f()",
 
                 "def f1\n" +
-                        " 456\n" +
-                        "end\n" +
-                        "print f1",
+                " 456\n" +
+                "end\n" +
+                "print f1",
 
                 "def f2\n" +
-                        "	return 'xxx'\n" +
-                        "end\n" +
-                        "print f2",
+                "	return 'xxx'\n" +
+                "end\n" +
+                "print f2",
 
                 "def r; return; end; a = r(); print a",
 
                 "def f\n" +
-                        " return 1, 2, 3\n" +
-                        "end\n" +
-                        "print f()",
+                " return 1, 2, 3\n" +
+                "end\n" +
+                "print f()",
 
                 "def f(a); a; end; print f('yyy')",
         };
@@ -840,19 +840,19 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "def a *; print 'ok'; end; a 1, 2, 3",
 
                 "def my_print(*a)\n" +
-                        "	print a\n" +
-                        "end\n" +
-                        "my_print ':)', 5634 , 888",
+                "	print a\n" +
+                "end\n" +
+                "my_print ':)', 5634 , 888",
 
                 "def my_print(a, *b)\n" +
-                        "	print b, a\n" +
-                        "end\n" +
-                        "my_print ':)', 5634 , 888",
+                "	print b, a\n" +
+                "end\n" +
+                "my_print ':)', 5634 , 888",
 
                 "def my_print(*a)\n" +
-                        "	print a, a\n" +
-                        "end\n" +
-                        "my_print ':)', 5634 , 888",
+                "	print a, a\n" +
+                "end\n" +
+                "my_print ':)', 5634 , 888",
         };
 
         String[] outputs = {
@@ -871,20 +871,20 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "a = 5;  def a; 6; end;  print(a)",
 
                 "def my_print(a, b, c)\n" +
-                        "	print c\n" +
-                        "	print a\n" +
-                        "end\n" +
-                        "my_print ':)', 5634 , 888",
+                "	print c\n" +
+                "	print a\n" +
+                "end\n" +
+                "my_print ':)', 5634 , 888",
 
                 "def f\n" +
-                        "	print 123\n" +
-                        "end\n" +
-                        "f",
+                "	print 123\n" +
+                "end\n" +
+                "f",
 
                 "def my_print(a)\n" +
-                        "	print a\n" +
-                        "end\n" +
-                        "my_print ':)'",
+                "	print a\n" +
+                "end\n" +
+                "my_print ':)'",
 
                 "def f(a); a = 1; end;  x = 100; f(x); print x",
                 "def f(x); x= 5; print x; end; f(4)",
@@ -922,45 +922,45 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_class() {
         String[] program_texts = {
                 "class C\n" +
-                        "	def f\n" +
-                        "		print \"~~~~\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "C.new.f",
+                "	def f\n" +
+                "		print \"~~~~\"\n" +
+                "	end\n" +
+                "end\n" +
+                "C.new.f",
 
                 "class C1\n" +
-                        "	def f\n" +
-                        "		print \"~~~~\"\n" +
-                        "	end\n" +
-                        "	def f\n" +
-                        "		print \"!!!\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "C1.new.f",
+                "	def f\n" +
+                "		print \"~~~~\"\n" +
+                "	end\n" +
+                "	def f\n" +
+                "		print \"!!!\"\n" +
+                "	end\n" +
+                "end\n" +
+                "C1.new.f",
 
                 "class C2\n" +
-                        "	def f\n" +
-                        "		print \"????\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "class C2\n" +
-                        "	def f2\n" +
-                        "		print \"*****\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "C2.new.f2",
+                "	def f\n" +
+                "		print \"????\"\n" +
+                "	end\n" +
+                "end\n" +
+                "class C2\n" +
+                "	def f2\n" +
+                "		print \"*****\"\n" +
+                "	end\n" +
+                "end\n" +
+                "C2.new.f2",
 
                 "class C3\n" +
-                        "	def f1\n" +
-                        "		print \"????\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "class C3\n" +
-                        "	def f2\n" +
-                        "		print \"*****\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "C3.new.f1",
+                "	def f1\n" +
+                "		print \"????\"\n" +
+                "	end\n" +
+                "end\n" +
+                "class C3\n" +
+                "	def f2\n" +
+                "		print \"*****\"\n" +
+                "	end\n" +
+                "end\n" +
+                "C3.new.f1",
         };
 
         String[] outputs = {
@@ -975,50 +975,51 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_class_inheritence() {
         String[] program_texts = {
-                "class B\n" +
-                        "	def say\n" +
-                        "		print 7654\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class S < B\n" +
-                        "end\n" +
-                        "\n" +
-                        "S.new.say",
+            "class B\n" +
+            "	def say\n" +
+            "		print 7654\n" +
+            "	end\n" +
+            "end\n" +
+            "\n" +
+            "class S < B\n" +
+            "end\n" +
+            "\n" +
+            "S.new.say",
 
-                "def B\n" +
-                        "	print 999\n" +
-                        "end\n" +
-                        "\n" +
-                        "class B\n" +
-                        "	def hello\n" +
-                        "		print 7654\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class S < B\n" +
-                        "end\n" +
-                        "\n" +
-                        "S.new.hello\n" +
-                        "B()",
+            "def B\n" +
+            "	print 999\n" +
+            "end\n" +
+            "\n" +
+            "class B\n" +
+            "	def hello\n" +
+            "		print 7654\n" +
+            "	end\n" +
+            "end\n" +
+            "\n" +
+            "class S < B\n" +
+            "end\n" +
+            "\n" +
+            "S.new.hello\n" +
+            "B()",
 
-                "def B\n" +
-                        "	print 999\n" +
-                        "end\n" +
-                        "\n" +
-                        "class B\n" +
-                        "	def hello\n" +
-                        "		print 4567\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class S < B\n" +
-                        "end\n" +
-                        "\n" +
-                        "S.new.hello\n" +
-                        "B",    //<-- B should resolved as class B, not method B()
+            "def B\n" +
+            "	print 999\n" +
+            "end\n" +
+            "\n" +
+            "class B\n" +
+            "	def hello\n" +
+            "		print 4567\n" +
+            "	end\n" +
+            "end\n" +
+            "\n" +
+            "class S < B\n" +
+            "end\n" +
+            "\n" +
+            "S.new.hello\n" +
+            "B",    //<-- B should resolved as class B, not method B()
 
         };
+
 
 
         String[] outputs = {
@@ -1033,17 +1034,17 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_class_inheritence_exception() {
         String[] program_texts = {
                 "B = 1\n" +
-                        "class S < B\n" +
-                        "end\n" +
-                        "\n" +
-                        "S.new.hello",
+                "class S < B\n" +
+                "end\n" +
+                "\n" +
+                "S.new.hello",
 
                 "class C;end; class C < String;end",
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (Fixnum given)"),
-                new RubyException(RubyRuntime.TypeErrorClass, "superclass mismatch for class C"),
+            new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (Fixnum given)"),
+            new RubyException(RubyRuntime.TypeErrorClass, "superclass mismatch for class C"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
@@ -1083,24 +1084,24 @@ public class RubyCompilerTest extends CompilerTestCase {
         String[] program_texts = {
                 "a = true ? 1 : 2; print a",
                 "a = b = 12\n" +
-                        "print a\n",
+                "print a\n",
 
                 //"a = b = 'xxx'\n" +
                 //"print b\n",
 
                 "a = 999\n" +
-                        "print a\n",
+                "print a\n",
 
                 "a = b = 888\n" +
-                        "print a, b\n",
+                "print a, b\n",
 
                 "a = 777\n" +
-                        "a = 666\n" +
-                        "print a\n",
+                "a = 666\n" +
+                "print a\n",
 
                 "a = 555\n" +
-                        "b = a\n" +
-                        "print b\n",
+                "b = a\n" +
+                "print b\n",
 
                 "a=5; a+=6; print a",
                 "a = b = 1 + 2 + 3; print a, b ",
@@ -1126,28 +1127,28 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_if() {
         String[] program_texts = {
                 "if true\n" +
-                        "	print 1\n" +
-                        "else\n" +
-                        "	print 2\n" +
-                        "end",
+                "	print 1\n" +
+                "else\n" +
+                "	print 2\n" +
+                "end",
 
                 "if false\n" +
-                        "	print 1\n" +
-                        "else\n" +
-                        "	print 2\n" +
-                        "end",
+                "	print 1\n" +
+                "else\n" +
+                "	print 2\n" +
+                "end",
 
                 "if true\n" +
-                        "	print 'xxx'\n" +
-                        "end",
+                "	print 'xxx'\n" +
+                "end",
 
                 "if false then" +
-                        "	print 1\n" +
-                        "elsif true\n" +
-                        "	print 2\n" +
-                        "else\n" +
-                        "	print 3\n" +
-                        "end",
+                "	print 1\n" +
+                "elsif true\n" +
+                "	print 2\n" +
+                "else\n" +
+                "	print 3\n" +
+                "end",
         };
 
         String[] outputs = {
@@ -1181,33 +1182,33 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "case 1; when 1; end",
 
                 "print case 1\n" +
-                        "	when 1\n" +
-                        "		1234\n" +
-                        "	else\n" +
-                        "		2345\n" +
-                        "end",
+                "	when 1\n" +
+                "		1234\n" +
+                "	else\n" +
+                "		2345\n" +
+                "end",
 
                 "print case 100\n" +
-                        "	when 1\n" +
-                        "		123\n" +
-                        "	when 2\n" +
-                        "		234\n" +
-                        "	when 3\n" +
-                        "		34\n" +
-                        "	else\n" +
-                        "		2245\n" +
-                        "end",
+                "	when 1\n" +
+                "		123\n" +
+                "	when 2\n" +
+                "		234\n" +
+                "	when 3\n" +
+                "		34\n" +
+                "	else\n" +
+                "		2245\n" +
+                "end",
 
                 "print case 3\n" +
-                        "	when 1\n" +
-                        "		123\n" +
-                        "	when 2\n" +
-                        "		234\n" +
-                        "	when 3\n" +
-                        "		34\n" +
-                        "	else\n" +
-                        "		2245\n" +
-                        "end",
+                "	when 1\n" +
+                "		123\n" +
+                "	when 2\n" +
+                "		234\n" +
+                "	when 3\n" +
+                "		34\n" +
+                "	else\n" +
+                "		2245\n" +
+                "end",
         };
 
         String[] outputs = {
@@ -1224,20 +1225,20 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_unless() {
         String[] program_texts = {
                 "a =unless false\n" +
-                        "	111\n" +
-                        "else\n" +
-                        "	222\n" +
-                        "end\n" +
-                        "\n" +
-                        "print a",
+                "	111\n" +
+                "else\n" +
+                "	222\n" +
+                "end\n" +
+                "\n" +
+                "print a",
 
                 "a =unless true then" +
-                        "	111\n" +
-                        "else\n" +
-                        "	222\n" +
-                        "end\n" +
-                        "\n" +
-                        "print a",
+                "	111\n" +
+                "else\n" +
+                "	222\n" +
+                "end\n" +
+                "\n" +
+                "print a",
 
                 "$bad = false; unless $x == $x; $bad = true; end; print $bad"
         };
@@ -1255,72 +1256,72 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_ensure() {
         String[] program_texts = {
                 "while true\n" +
-                        "  begin\n" +
-                        "    break\n" +
-                        "  ensure\n" +
-                        "    print \"break\"\n" +
-                        "  end\n" +
-                        "end",
+                "  begin\n" +
+                "    break\n" +
+                "  ensure\n" +
+                "    print \"break\"\n" +
+                "  end\n" +
+                "end",
 
                 "print begin;  end",
                 "begin; print 'xxx'; ensure; print 'ensure'; end",
                 "begin; ensure; print 'ensure'; end",
 
                 "begin\n" +
-                        "	raise \"!!!!\"\n" +
-                        "rescue RuntimeError\n" +
-                        "	print \"xxx\"\n" +
-                        "ensure\n" +
-                        "	print \"yyy\"\n" +
-                        "end",
+                "	raise \"!!!!\"\n" +
+                "rescue RuntimeError\n" +
+                "	print \"xxx\"\n" +
+                "ensure\n" +
+                "	print \"yyy\"\n" +
+                "end",
 
                 "begin\n" +
-                        "rescue NoMethodError\n" +
-                        "	print \"xxx\"\n" +
-                        "else\n" +
-                        "	print \"zzz\"\n" +
-                        "ensure\n" +
-                        "	print \"yyy\"\n" +
-                        "end",
+                "rescue NoMethodError\n" +
+                "	print \"xxx\"\n" +
+                "else\n" +
+                "	print \"zzz\"\n" +
+                "ensure\n" +
+                "	print \"yyy\"\n" +
+                "end",
 
                 "begin\n" +
-                        " 1\n" +
-                        "rescue NoMethodError\n" +
-                        "	print \"333\"\n" +
-                        "else\n" +
-                        "	print \"444\"\n" +
-                        "ensure\n" +
-                        "	print \"555\"\n" +
-                        "end",
+                " 1\n" +
+                "rescue NoMethodError\n" +
+                "	print \"333\"\n" +
+                "else\n" +
+                "	print \"444\"\n" +
+                "ensure\n" +
+                "	print \"555\"\n" +
+                "end",
 
                 "begin\n" +
-                        "	raise \"!!!\"\n" +
-                        "rescue RuntimeError\n" +
-                        "	print \"333\"\n" +
-                        "else\n" +
-                        "	print \"444\"\n" +
-                        "ensure\n" +
-                        "	print \"555\"\n" +
-                        "end",
+                "	raise \"!!!\"\n" +
+                "rescue RuntimeError\n" +
+                "	print \"333\"\n" +
+                "else\n" +
+                "	print \"444\"\n" +
+                "ensure\n" +
+                "	print \"555\"\n" +
+                "end",
 
                 "begin\n" +
-                        "  begin\n" +
-                        "    raise \"this must be handled no.5\"\n" +
-                        "  ensure\n" +
-                        "    print \"ok\"\n" +
-                        "  end\n" +
-                        "rescue\n" +
-                        "  print \"catch\"\n" +
-                        "end",
+                "  begin\n" +
+                "    raise \"this must be handled no.5\"\n" +
+                "  ensure\n" +
+                "    print \"ok\"\n" +
+                "  end\n" +
+                "rescue\n" +
+                "  print \"catch\"\n" +
+                "end",
 
                 "begin\n" +
-                        "  begin\n" +
-                        "    raise \"this must be handled\"\n" +
-                        "  ensure\n" +
-                        "    print \"ok\"\n" +
-                        "  end\n" +
-                        "rescue\n" +
-                        "end",
+                "  begin\n" +
+                "    raise \"this must be handled\"\n" +
+                "  ensure\n" +
+                "    print \"ok\"\n" +
+                "  end\n" +
+                "rescue\n" +
+                "end",
         };
 
         String[] outputs = {
@@ -1361,64 +1362,64 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "def f(a); end; begin; f; rescue; print 55 ; end",
 
                 "begin\n" +
-                        "	raise \"!!!!\"\n" +
-                        "rescue RuntimeError\n" +
-                        "	print \"xxx\"\n" +
-                        "end",
+                "	raise \"!!!!\"\n" +
+                "rescue RuntimeError\n" +
+                "	print \"xxx\"\n" +
+                "end",
 
                 "begin\n" +
-                        "	raise \"!!!!\"\n" +
-                        "rescue\n" +
-                        "	print \"yyy\"\n" +
-                        "end",
+                "	raise \"!!!!\"\n" +
+                "rescue\n" +
+                "	print \"yyy\"\n" +
+                "end",
 
                 "begin\n" +
-                        "	raise \"!!!!\"\n" +
-                        "rescue RuntimeError\n" +
-                        "	print \"aaa\"\n" +
-                        "end\n" +
-                        "print 'bbb'",
+                "	raise \"!!!!\"\n" +
+                "rescue RuntimeError\n" +
+                "	print \"aaa\"\n" +
+                "end\n" +
+                "print 'bbb'",
 
                 "begin\n" +
-                        "	print 'zzz'\n" +
-                        "rescue RuntimeError\n" +
-                        "	print \"ccc\"\n" +
-                        "end\n" +
-                        "print 'ddd'",
+                "	print 'zzz'\n" +
+                "rescue RuntimeError\n" +
+                "	print \"ccc\"\n" +
+                "end\n" +
+                "print 'ddd'",
 
                 "begin\n" +
-                        "	raise \"!!!!\"\n" +
-                        "rescue RuntimeError\n" +
-                        "	print \"111\"\n" +
-                        "rescue RuntimeError\n" +
-                        "	print \"222\"\n" +
-                        "end",
+                "	raise \"!!!!\"\n" +
+                "rescue RuntimeError\n" +
+                "	print \"111\"\n" +
+                "rescue RuntimeError\n" +
+                "	print \"222\"\n" +
+                "end",
 
                 "begin\n" +
-                        "	raise \"!!!!\"\n" +
-                        "	rescue RuntimeError => e\n" +
-                        "		print e\n" +
-                        "end",
+                "	raise \"!!!!\"\n" +
+                "	rescue RuntimeError => e\n" +
+                "		print e\n" +
+                "end",
 
                 "begin\n" +
-                        "  raise \"test\"\n" +
-                        "rescue => e\n" +
-                        "  print e\n" +
-                        "end",
+                "  raise \"test\"\n" +
+                "rescue => e\n" +
+                "  print e\n" +
+                "end",
 
                 "begin\n" +
-                        "  begin\n" +
-                        "    raise \"this must be handled no.5\"\n" +
-                        "  end\n" +
-                        "rescue\n" +
-                        "  print \"catch\"\n" +
-                        "end",
+                "  begin\n" +
+                "    raise \"this must be handled no.5\"\n" +
+                "  end\n" +
+                "rescue\n" +
+                "  print \"catch\"\n" +
+                "end",
 
                 "begin raise Exception.new, 'zzz'\n" +
-                        "rescue Exception=> e; print e; end",
+                "rescue Exception=> e; print e; end",
 
                 "begin raise Exception, 'ooo'\n" +
-                        "rescue Exception=> e; print e; end",
+                "rescue Exception=> e; print e; end",
         };
 
         String[] outputs = {
@@ -1447,23 +1448,23 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "x = binding; eval 'i = 1', x;  print(eval('i', x))",
 
                 "module TestBinding\n" +
-                        "  A = 6\n" +
-                        "  $x = binding\n" +
-                        "end\n" +
-                        "\n" +
-                        "print eval(\"A\", $x)",
+                "  A = 6\n" +
+                "  $x = binding\n" +
+                "end\n" +
+                "\n" +
+                "print eval(\"A\", $x)",
 
                 "def getBinding(x); lambda {return binding}.call; end\n" +
-                        "b = getBinding(666)\n" +
-                        "print eval(\"x\", b)",
+                "b = getBinding(666)\n" +
+                "print eval(\"x\", b)",
 
                 "def getBinding(param); return binding; end\n" +
-                        "b = getBinding(\"hello\")\n" +
-                        "print eval(\"param\", b) ",
+                "b = getBinding(\"hello\")\n" +
+                "print eval(\"param\", b) ",
 
                 "def getBinding(param); x = 5; return binding; end\n" +
-                        "b = getBinding(\"hello\")\n" +
-                        "print eval(\"x\", b) ",
+                "b = getBinding(\"hello\")\n" +
+                "print eval(\"x\", b) ",
         };
 
         String[] outputs = {
@@ -1631,15 +1632,15 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "print $a0 = 'xxx'",
 
                 "def f\n" +
-                        "	$G = 123\n" +
-                        "end\n" +
-                        "f\n" +
-                        "print $G",
+                "	$G = 123\n" +
+                "end\n" +
+                "f\n" +
+                "print $G",
 
                 "def f\n" +
-                        "	$F0 = 123\n" +
-                        "end\n" +
-                        "print $F0",
+                "	$F0 = 123\n" +
+                "end\n" +
+                "print $F0",
 
                 "print $$.instance_of?(Fixnum)",
         };
@@ -1663,7 +1664,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.NameErrorClass, "$$ is a read-only variable"),
+            new RubyException(RubyRuntime.NameErrorClass, "$$ is a read-only variable"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
@@ -1691,7 +1692,6 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
-        ;
     }
 
     public void test_require() throws RecognitionException, TokenStreamException, CompilerException, FileNotFoundException, IOException {
@@ -1699,7 +1699,6 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyCompiler compiler = new RubyCompiler(null, false);
         CompilationResults codes = compiler.compile(new StringReader(program_text));
         File file = new File("test_require.jar");
-        //assertFalse(file.exists());
         codes.save("test_require");
         assertTrue(file.exists());
 
@@ -1848,33 +1847,38 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_block() {
         String[] program_texts = {
+                "a= true\n" +
+                "1.times {|var| 1.times {|var|}} if a\n" +
+                "1.times {|var| 1.times {|var|}}",
+
                 "module TestPrintModuleInBlock; 1.times {print TestPrintModuleInBlock}; end",
 
                 "def a\n" +
-                        "	yield(\"haha\")\n" +
-                        "end\n" +
-                        "a {|x| print x}",
+                "	yield(\"haha\")\n" +
+                "end\n" +
+                "a {|x| print x}",
 
                 "3.times {print 'Ho!'}",
 
                 "5.times do |i|\n" +
-                        "  print i\n" +
-                        "end",
+                "  print i\n" +
+                "end",
 
                 "def a\n" +
-                        "	print yield(5)\n" +
-                        "end\n" +
-                        "a {|x| print x}",
+                "	print yield(5)\n" +
+                "end\n" +
+                "a {|x| print x}",
 
                 "def a\n" +
-                        "	print yield(66)\n" +
-                        "end\n" +
-                        "a {|x| print x; 99}",
+                "	print yield(66)\n" +
+                "end\n" +
+                "a {|x| print x; 99}",
 
                 "3.times {|x, y| print x, y}",
         };
 
         String[] outputs = {
+                "",
                 "TestPrintModuleInBlock",
                 "haha",
                 "Ho!Ho!Ho!",
@@ -1921,31 +1925,31 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "def f(&x); x.call;  end;   f {print 555}",
 
                 "class TestBlockBindingScope\n" +
-                        "    def initialize(num)\n" +
-                        "        @num = num\n" +
-                        "    end\n" +
-                        "    \n" +
-                        "    def each(&block)\n" +
-                        "        for i in 0 .. @num \n" +
-                        "            block.call(i) \n" +
-                        "        end         \n" +
-                        "    end\n" +
-                        "    \n" +
-                        "end\n" +
-                        "\n" +
-                        "te = TestBlockBindingScope.new(10)\n" +
-                        "te.each {|item| print item}",
+                "    def initialize(num)\n" +
+                "        @num = num\n" +
+                "    end\n" +
+                "    \n" +
+                "    def each(&block)\n" +
+                "        for i in 0 .. @num \n" +
+                "            block.call(i) \n" +
+                "        end         \n" +
+                "    end\n" +
+                "    \n" +
+                "end\n" +
+                "\n" +
+                "te = TestBlockBindingScope.new(10)\n" +
+                "te.each {|item| print item}",
 
                 "class Array\n" +
-                        "    def test_self_in_block\n" +
-                        "        self.length.times do |index|\n" +
-                        "            print self[index]\n" +
-                        "        end\n" +
-                        "    end\n" +
-                        "end\n" +
-                        "\n" +
-                        "foo = [4,5,6]\n" +
-                        "foo.test_self_in_block",
+                "    def test_self_in_block\n" +
+                "        self.length.times do |index|\n" +
+                "            print self[index]\n" +
+                "        end\n" +
+                "    end\n" +
+                "end\n" +
+                "\n" +
+                "foo = [4,5,6]\n" +
+                "foo.test_self_in_block",
         };
 
         String[] outputs = {
@@ -2012,24 +2016,24 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "def e; print 'bbb'; end; alias :f :e ; f",
 
                 "class TestAliasMethod\n" +
-                        "	def f\n" +
-                        "		print \"~~~~\"\n" +
-                        "	end\n" +
-                        "	alias g f\n" +
-                        "end\n" +
-                        "TestAliasMethod.new.f",
+                "	def f\n" +
+                "		print \"~~~~\"\n" +
+                "	end\n" +
+                "	alias g f\n" +
+                "end\n" +
+                "TestAliasMethod.new.f",
 
                 "class TestAliasMethod2\n" +
-                        "	def f\n" +
-                        "		print \"3333\"\n" +
-                        "	end\n" +
-                        "	alias g f\n" +
-                        "end\n" +
-                        "TestAliasMethod2.new.g",
+                "	def f\n" +
+                "		print \"3333\"\n" +
+                "	end\n" +
+                "	alias g f\n" +
+                "end\n" +
+                "TestAliasMethod2.new.g",
 
                 "class Alias0;  def foo;  print \"foo\" end;  end\n" +
-                        "class Alias1<Alias0;  alias bar foo;  end\n" +
-                        "Alias1.new.foo",
+                "class Alias1<Alias0;  alias bar foo;  end\n" +
+                "Alias1.new.foo",
         };
 
         String[] outputs = {
@@ -2055,8 +2059,8 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_undef_should_not_remove_methods_from_Super_class() {
         String[] program_texts = {
                 "class TestUndef1;  def f; print 9898; end;   end\n" +
-                        "class TestUndef2 < TestUndef1;	undef f; end\n" +
-                        "TestUndef1.new.f",
+                "class TestUndef2 < TestUndef1;	undef f; end\n" +
+                "TestUndef1.new.f",
         };
 
         String[] outputs = {
@@ -2072,26 +2076,26 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "def b; print 'qqq'; end; undef :b; b",
 
                 "class CTest\n" +
-                        "	def f123\n" +
-                        "		print \"~~~~\"\n" +
-                        "	end\n" +
-                        "	undef f123\n" +
-                        "end\n" +
-                        "CTest.new.f123",
+                "	def f123\n" +
+                "		print \"~~~~\"\n" +
+                "	end\n" +
+                "	undef f123\n" +
+                "end\n" +
+                "CTest.new.f123",
 
                 "class TestUndef1;  def f; print 9898; end;   end\n" +
-                        "class TestUndef2 < TestUndef1;	undef f; end\n" +
-                        "TestUndef2.new.f",
+                "class TestUndef2 < TestUndef1;	undef f; end\n" +
+                "TestUndef2.new.f",
 
         };
 
         RubyException[] exceptions = {
-                //TODO exception type is not correct
-                new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'a' for Object"),
-                new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'b' for Object"),
+            //TODO exception type is not correct
+            new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'a' for Object"),
+            new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'b' for Object"),
 
-                new RubyException(RubyRuntime.NoMethodErrorClass, null),
-                new RubyException(RubyRuntime.NoMethodErrorClass, null),
+            new RubyException(RubyRuntime.NoMethodErrorClass, null),
+            new RubyException(RubyRuntime.NoMethodErrorClass, null),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
@@ -2267,28 +2271,28 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         String[] program_texts = {
                 "i = 0\n" +
-                        "while i<20; i+=1; result = i; end\n" +
-                        "print result",
+                "while i<20; i+=1; result = i; end\n" +
+                "print result",
 
                 "i = 0\n" +
-                        "while i<3; i+=1; result = i; end\n" +
-                        "print result",
+                "while i<3; i+=1; result = i; end\n" +
+                "print result",
 
                 "i = 1 ;while i < 1 ; end; print i",
                 "while false; print 'xxx'; end",
                 "until true; print 'xxx'; end",
 
                 "a = 0\n" +
-                        "while a > 1\n" +
-                        "    print 'xxx'\n" +
-                        "    a = 1\n" +
-                        "end",
+                "while a > 1\n" +
+                "    print 'xxx'\n" +
+                "    a = 1\n" +
+                "end",
 
                 "a = 2\n" +
-                        "while a > 1\n" +
-                        "    print 'xxx'\n" +
-                        "    a = 1\n" +
-                        "end",
+                "while a > 1\n" +
+                "    print 'xxx'\n" +
+                "    a = 1\n" +
+                "end",
         };
 
         String[] outputs = {
@@ -2323,14 +2327,14 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_break_in_block() {
         String[] program_texts = {
                 "i =0\n" +
-                        "def f\n" +
-                        "  1.upto(10) {|i|\n" +
-                        "    yield i\n" +
-                        "  }\n" +
-                        "end\n" +
-                        "f{|i| break if i == 5}\n" +
-                        "\n" +
-                        "print i",
+                "def f\n" +
+                "  1.upto(10) {|i|\n" +
+                "    yield i\n" +
+                "  }\n" +
+                "end\n" +
+                "f{|i| break if i == 5}\n" +
+                "\n" +
+                "print i",
         };
 
         String[] outputs = {
@@ -2355,20 +2359,20 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_redo_in_block() {
         String[] program_texts = {
                 "done = false\n" +
-                        "loop {\n" +
-                        "  print \"in loop\"\n" +
-                        "  break if done\n" +
-                        "  done = true\n" +
-                        "  redo\n" +
-                        "}",
+                "loop {\n" +
+                "  print \"in loop\"\n" +
+                "  break if done\n" +
+                "  done = true\n" +
+                "  redo\n" +
+                "}",
 
                 "count = 1;\n" +
-                        "for i in 1..9\n" +
-                        "	print i\n" +
-                        "	break if count == 4\n" +
-                        "	count = count + 1\n" +
-                        "	redo\n" +
-                        "end",
+                "for i in 1..9\n" +
+                "	print i\n" +
+                "	break if count == 4\n" +
+                "	count = count + 1\n" +
+                "	redo\n" +
+                "end",
         };
 
         String[] outputs = {
@@ -2382,15 +2386,15 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_retry_in_begin_end() {
         String[] program_texts = {
                 "$bad = true\n" +
-                        "begin\n" +
-                        "  raise \"this will be handled\"\n" +
-                        "rescue\n" +
-                        "  if $bad\n" +
-                        "    $bad = false\n" +
-                        "    retry\n" +
-                        "    print \"you should not see this\"\n" +
-                        "  end\n" +
-                        "end",
+                "begin\n" +
+                "  raise \"this will be handled\"\n" +
+                "rescue\n" +
+                "  if $bad\n" +
+                "    $bad = false\n" +
+                "    retry\n" +
+                "    print \"you should not see this\"\n" +
+                "  end\n" +
+                "end",
         };
 
         String[] outputs = {
@@ -2403,12 +2407,12 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_retry() {
         String[] program_texts = {
                 "count = 1;\n" +
-                        "for i in 1..9\n" +
-                        "	print i\n" +
-                        "	break if count == 4\n" +
-                        "	count = count + 1\n" +
-                        "	retry\n" +
-                        "end",
+                "for i in 1..9\n" +
+                "	print i\n" +
+                "	break if count == 4\n" +
+                "	count = count + 1\n" +
+                "	retry\n" +
+                "end",
         };
 
         String[] outputs = {
@@ -2436,12 +2440,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_local_variable_assigned_in_whille_condition() {
         String[] program_texts = {
-                "$TestWhile = 0\n" +
-                        "def f\n" +
-                        "	$TestWhile = $TestWhile + 1 \n" +
-                        "end\n" +
-                        "\n" +
-                        "while i = f(); break if i > 5; print i; end ",
+            "$TestWhile = 0\n" +
+            "def f\n" +
+            "	$TestWhile = $TestWhile + 1 \n" +
+            "end\n" +
+            "\n" +
+            "while i = f(); break if i > 5; print i; end ",
         };
 
         String[] outputs = {
@@ -2458,8 +2462,8 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "print self.class",
 
                 "class A\n" +
-                        "	print self.class\n" +
-                        "end",
+                "	print self.class\n" +
+                "end",
 
                 "print self",
         };
@@ -2517,22 +2521,22 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "a = 5; 1.times {1.times {print a}}",
 
                 "begin   \n" +
-                        "     for k,v in true\n" +
-                        "     end\n" +
-                        "rescue\n" +
-                        "end\n" +
-                        "   \n" +
-                        "print k",
+                "     for k,v in true\n" +
+                "     end\n" +
+                "rescue\n" +
+                "end\n" +
+                "   \n" +
+                "print k",
 
                 "if false; test_scope_1 = 1; end; print test_scope_1",
                 "case 4; when 1; test_scope_2 = 1; end; print test_scope_2",
 
                 "a = 5\n" +
-                        "class A\n" +
-                        "	a=9\n" +
-                        "	print a\n" +
-                        "end\n" +
-                        "print a",
+                "class A\n" +
+                "	a=9\n" +
+                "	print a\n" +
+                "end\n" +
+                "print a",
 
         };
 
@@ -2555,30 +2559,30 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "module M; public :fail; end",
 
                 "class TestPublic1\n" +
-                        "	public\n" +
-                        "	def f\n" +
-                        "		print \"1111\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "TestPublic1.new.f",
+                "	public\n" +
+                "	def f\n" +
+                "		print \"1111\"\n" +
+                "	end\n" +
+                "end\n" +
+                "TestPublic1.new.f",
 
                 "class TestPublic2\n" +
-                        "	private\n" +
-                        "	def f\n" +
-                        "		print \"2222\"\n" +
-                        "	end\n" +
-                        "	public :f\n" +
-                        "end\n" +
-                        "TestPublic2.new.f",
+                "	private\n" +
+                "	def f\n" +
+                "		print \"2222\"\n" +
+                "	end\n" +
+                "	public :f\n" +
+                "end\n" +
+                "TestPublic2.new.f",
 
                 "class TestPublic3\n" +
-                        "	private\n" +
-                        "	def f\n" +
-                        "		print \"3333\"\n" +
-                        "	end\n" +
-                        "	public 'f'\n" +
-                        "end\n" +
-                        "TestPublic3.new.f",
+                "	private\n" +
+                "	def f\n" +
+                "		print \"3333\"\n" +
+                "	end\n" +
+                "	public 'f'\n" +
+                "end\n" +
+                "TestPublic3.new.f",
         };
 
         String[] outputs = {
@@ -2594,12 +2598,12 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_protected() {
         String[] program_texts = {
                 "class C\n" +
-                        "  def test_protected1; end\n" +
-                        "  protected :test_protected1  \n" +
-                        "  def test_protected2(x);  defined?(x.test_protected1) ;end\n" +
-                        "end\n" +
-                        "\n" +
-                        "a = C.new; print a.test_protected2(a)",
+                "  def test_protected1; end\n" +
+                "  protected :test_protected1  \n" +
+                "  def test_protected2(x);  defined?(x.test_protected1) ;end\n" +
+                "end\n" +
+                "\n" +
+                "a = C.new; print a.test_protected2(a)",
         };
 
         String[] outputs = {
@@ -2613,46 +2617,46 @@ public class RubyCompilerTest extends CompilerTestCase {
         String[] bad_program_texts = {
 
                 "class TestPrivateProtected1\n" +
-                        "	private\n" +
-                        "	def f\n" +
-                        "		print \"~~~~\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "TestPrivateProtected1.new.pf",
+                "	private\n" +
+                "	def f\n" +
+                "		print \"~~~~\"\n" +
+                "	end\n" +
+                "end\n" +
+                "TestPrivateProtected1.new.pf",
 
                 "class TestPrivateProtected2\n" +
-                        "	protected\n" +
-                        "	def test_private_protected2\n" +
-                        "		print \"~~~~\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "TestPrivateProtected2.new.test_private_protected2",
+                "	protected\n" +
+                "	def test_private_protected2\n" +
+                "		print \"~~~~\"\n" +
+                "	end\n" +
+                "end\n" +
+                "TestPrivateProtected2.new.test_private_protected2",
 
                 "class TestPrivateProtected3\n" +
-                        "	def tpp1\n" +
-                        "		print \"1111\"\n" +
-                        "	end\n" +
-                        "	private :tpp1\n" +
-                        "end\n" +
-                        "TestPrivateProtected3.new.tpp1",
+                "	def tpp1\n" +
+                "		print \"1111\"\n" +
+                "	end\n" +
+                "	private :tpp1\n" +
+                "end\n" +
+                "TestPrivateProtected3.new.tpp1",
 
                 "class TestPrivateProtected4\n" +
-                        "	def test_private_protected4\n" +
-                        "		print \"1111\"\n" +
-                        "	end\n" +
-                        "	private :no_such_method\n" +
-                        "end\n",
+                "	def test_private_protected4\n" +
+                "		print \"1111\"\n" +
+                "	end\n" +
+                "	private :no_such_method\n" +
+                "end\n",
 
                 "def test_private_protected5; end\n" +
-                        "Object.new.test_private_protected5",
+                "Object.new.test_private_protected5",
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'pf' for TestPrivateProtected1"),
-                new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'test_private_protected2' for TestPrivateProtected2"),
-                new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'tpp1' for TestPrivateProtected3"),
-                new RubyException(RubyRuntime.NameErrorClass, "undefined method 'no_such_method' for TestPrivateProtected4"),
-                new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'test_private_protected5' for Object"),
+            new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'pf' for TestPrivateProtected1"),
+            new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'test_private_protected2' for TestPrivateProtected2"),
+            new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'tpp1' for TestPrivateProtected3"),
+            new RubyException(RubyRuntime.NameErrorClass, "undefined method 'no_such_method' for TestPrivateProtected4"),
+            new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'test_private_protected5' for Object"),
         };
 
         compile_run_and_catch_exception(bad_program_texts, exceptions);
@@ -2667,17 +2671,17 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "print defined?(yield)",
 
                 "def defined_test\n" +
-                        "  print defined?(yield)\n" +
-                        "end\n" +
-                        "\n" +
-                        "defined_test\n" +
-                        "defined_test {print 333}",
+                "  print defined?(yield)\n" +
+                "end\n" +
+                "\n" +
+                "defined_test\n" +
+                "defined_test {print 333}",
 
                 "print defined? yield",
 
                 "class C; def C.g; print 456; end; end\n" +
-                        "def f; print 123;   C;   end\n" +
-                        "print defined?(f().g)",
+                "def f; print 123;   C;   end\n" +
+                "print defined?(f().g)",
 
                 "$x=1; print defined?($x)",
                 "print defined?(Array)",
@@ -2698,12 +2702,12 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "class C; print defined? super; end",
 
                 "class TestDefined0; end\n" +
-                        "class TestDefined2 < TestDefined0; def test_define; print defined? super end; end\n" +
-                        "TestDefined2.new.test_define",
+                "class TestDefined2 < TestDefined0; def test_define; print defined? super end; end\n" +
+                "TestDefined2.new.test_define",
 
                 "class TestDefined0; def test_define; end;  end\n" +
-                        "class TestDefined2 < TestDefined0; def test_define; print defined? super end; end\n" +
-                        "TestDefined2.new.test_define",
+                "class TestDefined2 < TestDefined0; def test_define; print defined? super end; end\n" +
+                "TestDefined2.new.test_define",
         };
 
         String[] outputs = {
@@ -2762,32 +2766,32 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "@a= 234; print @a",
 
                 "class TestInstanceVariable\n" +
-                        "	def f\n" +
-                        "		@a = 123\n" +
-                        "	end\n" +
-                        "	\n" +
-                        "	def display\n" +
-                        "		print @a\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "a = TestInstanceVariable.new\n" +
-                        "a.f\n" +
-                        "a.display",
+                "	def f\n" +
+                "		@a = 123\n" +
+                "	end\n" +
+                "	\n" +
+                "	def display\n" +
+                "		print @a\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "a = TestInstanceVariable.new\n" +
+                "a.f\n" +
+                "a.display",
 
                 " class MyClass\n" +
-                        "   @one = 1\n" +
-                        "   def do_something\n" +
-                        "     @one = 2\n" +
-                        "   end\n" +
-                        "   def output\n" +
-                        "     print @one\n" +
-                        "   end\n" +
-                        " end\n" +
-                        " instance = MyClass.new\n" +
-                        " instance.output\n" +
-                        " instance.do_something\n" +
-                        " instance.output",
+                "   @one = 1\n" +
+                "   def do_something\n" +
+                "     @one = 2\n" +
+                "   end\n" +
+                "   def output\n" +
+                "     print @one\n" +
+                "   end\n" +
+                " end\n" +
+                " instance = MyClass.new\n" +
+                " instance.output\n" +
+                " instance.do_something\n" +
+                " instance.output",
         };
 
         String[] outputs = {
@@ -2821,8 +2825,8 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "a = 'x'; print a.frozen?; a.freeze; print a.frozen?",
 
                 "module Mod; def hello; \"Mod\"; end; end\n" +
-                        "class Klass; def hello; \"Klass\"; end; end\n" +
-                        "k = Klass.new; print k.hello; k.extend(Mod);print k.hello",
+                "class Klass; def hello; \"Klass\"; end; end\n" +
+                "k = Klass.new; print k.hello; k.extend(Mod);print k.hello",
         };
 
         String[] outputs = {
@@ -2836,140 +2840,140 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_class_variable() {
         String[] program_texts = {
                 "class TestClassVariable2\n" +
-                        "	@@test_class_variable = \"xxx\"\n" +
-                        "	def test_class_variable1\n" +
-                        "		@@test_class_variable\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestClassVariable3 < TestClassVariable2\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestClassVariable3.new.test_class_variable1",
+                "	@@test_class_variable = \"xxx\"\n" +
+                "	def test_class_variable1\n" +
+                "		@@test_class_variable\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "class TestClassVariable3 < TestClassVariable2\n" +
+                "end\n" +
+                "\n" +
+                "print TestClassVariable3.new.test_class_variable1",
 
                 "@@a= 567; print @@a",
 
                 "class TestClassVariable\n" +
-                        "	def f\n" +
-                        "		@@a = 123\n" +
-                        "	end\n" +
-                        "	\n" +
-                        "	def display\n" +
-                        "		print @@a\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "a = TestClassVariable.new\n" +
-                        "a.f\n" +
-                        "a.display",
+                "	def f\n" +
+                "		@@a = 123\n" +
+                "	end\n" +
+                "	\n" +
+                "	def display\n" +
+                "		print @@a\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "a = TestClassVariable.new\n" +
+                "a.f\n" +
+                "a.display",
 
                 " class MyClass\n" +
-                        "   @@value = 1\n" +
-                        "   def add_one\n" +
-                        "     @@value= @@value + 1\n" +
-                        "   end\n" +
-                        "   \n" +
-                        "   def value\n" +
-                        "     @@value\n" +
-                        "   end\n" +
-                        " end\n" +
-                        " instanceOne = MyClass.new\n" +
-                        " instanceTwo = MyClass.new\n" +
-                        " print instanceOne.value\n" +
-                        " instanceOne.add_one\n" +
-                        " print instanceOne.value\n" +
-                        " print instanceTwo.value",
+                "   @@value = 1\n" +
+                "   def add_one\n" +
+                "     @@value= @@value + 1\n" +
+                "   end\n" +
+                "   \n" +
+                "   def value\n" +
+                "     @@value\n" +
+                "   end\n" +
+                " end\n" +
+                " instanceOne = MyClass.new\n" +
+                " instanceTwo = MyClass.new\n" +
+                " print instanceOne.value\n" +
+                " instanceOne.add_one\n" +
+                " print instanceOne.value\n" +
+                " print instanceTwo.value",
 
                 "class TestClassVariable0\n" +
-                        "	@@test_class_variable = \"xxx\"\n" +
-                        "	def f\n" +
-                        "		@@test_class_variable\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestClassVariable1 < TestClassVariable0\n" +
-                        "	@@test_class_variable = \"yyy\"\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestClassVariable0.new.f",
+                "	@@test_class_variable = \"xxx\"\n" +
+                "	def f\n" +
+                "		@@test_class_variable\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "class TestClassVariable1 < TestClassVariable0\n" +
+                "	@@test_class_variable = \"yyy\"\n" +
+                "end\n" +
+                "\n" +
+                "print TestClassVariable0.new.f",
 
                 "class TestClassVariable4\n" +
-                        "	@@test_class_variable = \"000\"\n" +
-                        "	print @@test_class_variable\n" +
-                        "end\n",
+                "	@@test_class_variable = \"000\"\n" +
+                "	print @@test_class_variable\n" +
+                "end\n",
 
                 "class TestClassVariable5\n" +
-                        "	@@test_class_variable = \"zzz\"\n" +
-                        "	def TestClassVariable5.f\n" +
-                        "		@@test_class_variable\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestClassVariable5.f",
+                "	@@test_class_variable = \"zzz\"\n" +
+                "	def TestClassVariable5.f\n" +
+                "		@@test_class_variable\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "print TestClassVariable5.f",
 
                 "class TestClassVariable6\n" +
-                        "	@@test_class_variable = \"ppp\"\n" +
-                        "	class <<self\n" +
-                        "		def f\n" +
-                        "			@@test_class_variable\n" +
-                        "		end\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestClassVariable6.f",
+                "	@@test_class_variable = \"ppp\"\n" +
+                "	class <<self\n" +
+                "		def f\n" +
+                "			@@test_class_variable\n" +
+                "		end\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "print TestClassVariable6.f",
 
                 "module TestClassVariableM\n" +
-                        "	@@var = 999\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestClassVariableC\n" +
-                        "	include TestClassVariableM\n" +
-                        "	def f\n" +
-                        "		@@var\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestClassVariableC.new.f",
+                "	@@var = 999\n" +
+                "end\n" +
+                "\n" +
+                "class TestClassVariableC\n" +
+                "	include TestClassVariableM\n" +
+                "	def f\n" +
+                "		@@var\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "print TestClassVariableC.new.f",
 
                 "class TestClassVariableB1\n" +
-                        "	@@var = 777\n" +
-                        "	def TestClassVariableB1.f\n" +
-                        "		@@var\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "module TestClassVariableM1\n" +
-                        "	@@var = 666\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestClassVariableC1 < TestClassVariableB1\n" +
-                        "	include TestClassVariableM1\n" +
-                        "	\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestClassVariableC1.f",
+                "	@@var = 777\n" +
+                "	def TestClassVariableB1.f\n" +
+                "		@@var\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "module TestClassVariableM1\n" +
+                "	@@var = 666\n" +
+                "end\n" +
+                "\n" +
+                "class TestClassVariableC1 < TestClassVariableB1\n" +
+                "	include TestClassVariableM1\n" +
+                "	\n" +
+                "end\n" +
+                "\n" +
+                "print TestClassVariableC1.f",
 
                 "class TestClassVariableB2\n" +
-                        "	@@var = 777\n" +
-                        "	def g1\n" +
-                        "		@@var\n" +
-                        "	end\n" +
-                        "	\n" +
-                        "end\n" +
-                        "\n" +
-                        "module TestClassVariableM2\n" +
-                        "	@@var = 999\n" +
-                        "	def g2\n" +
-                        "		@@var\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestClassVariableC2 < TestClassVariableB2\n" +
-                        "	include TestClassVariableM2\n" +
-                        "end\n" +
-                        "\n" +
-                        "a = TestClassVariableC2.new\n" +
-                        "print a.g1, a.g2 ",
+                "	@@var = 777\n" +
+                "	def g1\n" +
+                "		@@var\n" +
+                "	end\n" +
+                "	\n" +
+                "end\n" +
+                "\n" +
+                "module TestClassVariableM2\n" +
+                "	@@var = 999\n" +
+                "	def g2\n" +
+                "		@@var\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "class TestClassVariableC2 < TestClassVariableB2\n" +
+                "	include TestClassVariableM2\n" +
+                "end\n" +
+                "\n" +
+                "a = TestClassVariableC2.new\n" +
+                "print a.g1, a.g2 ",
         };
 
         String[] outputs = {
@@ -2995,7 +2999,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.NameErrorClass, "uninitialized class variable @@no_scuh_variable in Object"),
+            new RubyException(RubyRuntime.NameErrorClass, "uninitialized class variable @@no_scuh_variable in Object"),
         };
 
         compile_run_and_catch_exception(bad_program_texts, exceptions);
@@ -3162,7 +3166,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "def r; return []; end; a = r(); print a, a.class",
                 "def r; return [*[]]; end; a = r(); print a, a.class, '*'",
                 "def r; return *[[]]; end; a = *r(); print a",
-                "def r; return *nil; end; *a = r(); print a.class, a.length, a[0]",    //a == [nil]
+                "def r; return *nil; end; *a = r(); print a.class, a.length, a[0]",	//a == [nil]
         };
 
         String[] outputs = {
@@ -3205,7 +3209,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.LocalJumpErrorClass, "in `loop': no block given"),
+            new RubyException(RubyRuntime.LocalJumpErrorClass, "in `loop': no block given"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
@@ -3228,40 +3232,40 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_return_break_next_in_block() {
         String[] program_texts = {
                 "def test()\n" +
-                        "    3.times do |index|\n" +
-                        "        print index\n" +
-                        "        return\n" +
-                        "    end\n" +
-                        "end\n" +
-                        "\n" +
-                        "test()",
+                "    3.times do |index|\n" +
+                "        print index\n" +
+                "        return\n" +
+                "    end\n" +
+                "end\n" +
+                "\n" +
+                "test()",
 
                 "def test()\n" +
-                        "    3.times do |index|\n" +
-                        "        print index\n" +
-                        "        break\n" +
-                        "    end\n" +
-                        "end\n" +
-                        "\n" +
-                        "test()",
+                "    3.times do |index|\n" +
+                "        print index\n" +
+                "        break\n" +
+                "    end\n" +
+                "end\n" +
+                "\n" +
+                "test()",
 
                 "def test()\n" +
-                        "    3.times do |index|\n" +
-                        "        print index\n" +
-                        "        next\n" +
-                        "    end\n" +
-                        "end\n" +
-                        "\n" +
-                        "test()",
+                "    3.times do |index|\n" +
+                "        print index\n" +
+                "        next\n" +
+                "    end\n" +
+                "end\n" +
+                "\n" +
+                "test()",
 
                 "def f()\n" +
-                        "    3.times do |index|\n" +
-                        "        return 123\n" +
-                        "    end\n" +
-                        "    print 456\n" +
-                        "end\n" +
-                        "\n" +
-                        "print f()",
+                "    3.times do |index|\n" +
+                "        return 123\n" +
+                "    end\n" +
+                "    print 456\n" +
+                "end\n" +
+                "\n" +
+                "print f()",
         };
 
         String[] outputs = {
@@ -3280,12 +3284,12 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "def f; a= yield; print a, a.class; end; f {next *nil}",
 
                 "count = 1;\n" +
-                        "for i in 1..9\n" +
-                        "	print i\n" +
-                        "	break if count == 4\n" +
-                        "	count = count + 1\n" +
-                        "	next\n" +
-                        "end",
+                "for i in 1..9\n" +
+                "	print i\n" +
+                "	break if count == 4\n" +
+                "	count = count + 1\n" +
+                "	next\n" +
+                "end",
         };
 
         String[] outputs = {
@@ -3304,8 +3308,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
-                new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
@@ -3344,23 +3348,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Range_to_a() {
         String[] program_texts = {
-                "(3..1).to_a",
+                "print ((1..7).to_a)",
         };
 
-        RubyValue[] results = {
-                new RubyArray()
+        String[] outputs = {
+                "1234567",
         };
 
-        compile_run_and_compare_result(program_texts, results);
-
-        program_texts = new String[]{
-                "(1..3).to_a",
-        };
-
-        results = new RubyValue[]{
-                new RubyArray()
-        };
-
+        compile_run_and_compare_output(program_texts, outputs);
     }
 
     public void test_regex_case_equal() {
@@ -3417,7 +3412,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_RegexpExpressionSubstitution() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print /^f#{}.*r#{   }$/ === 'foobar'",
                 "a = 'f.*r'; print /^#{a}$/ === 'foobar'",
         };
@@ -3432,7 +3427,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
 
     public void test__FILE__() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print __FILE__",
         };
 
@@ -3444,7 +3439,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test__LINE__() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print __LINE__  \n print __LINE__   \n\n   print __LINE__",
         };
 
@@ -3456,7 +3451,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_StringExpressionSubstitution() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print \"\\n#{1}\\n\"",
                 "print \"#{1}\" \"3\" \"#{2}\" ",
                 "print \"abc#{}opq#{   }xyz\"",
@@ -3482,7 +3477,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         file.delete();
         assert(!file.exists());
 
-        String[] program_texts = {
+        String [] program_texts = {
                 "f = open('test_File.txt', 'w'); print f.class; print f.close",
         };
 
@@ -3497,7 +3492,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_File_misc() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print File::SEPARATOR",
                 "print File.join('usr', 'mail', 'gumby')",
 
@@ -3548,31 +3543,31 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "def getblock(&b); b; end;  res = getblock(&lambda{||});  res.call(1, 2)",
 
                 "def f= x; print x;end;  alias test_wrong_number_of_arguments f=\n" +
-                        "module M; def test_wrong_number_of_arguments; end;end;  include M\n" +
-                        "test_wrong_number_of_arguments",
+                "module M; def test_wrong_number_of_arguments; end;end;  include M\n" +
+                "test_wrong_number_of_arguments",
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 1)"),
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 0)"),
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 3)"),
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 2)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 1)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 0)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 3)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 2)"),
 
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 0)"),
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 3)"),
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 1)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 0)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 3)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 1)"),
 
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 0)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 0)"),
 
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
     }
 
     public void test_default_argument() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "def f(a = 5432) print a; end; f 666",
                 "def f(a = 5432) print a; end; f",
                 "def f(a = 111, b = 222) print a, b; end; f",
@@ -3598,7 +3593,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_module() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "module TestModule; end; print TestModule.class",
                 "module TestModule; end; print TestModule",
         };
@@ -3612,70 +3607,70 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_include_module() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "module Test1; module Test2; def test_include_3; print Test2; end; end; end\n" +
-                        "include Test1::Test2; test_include_3",
+                "include Test1::Test2; test_include_3",
 
                 "module TEST_CONSTANT_M; TEST_CONSTANT = 5; end\n" +
-                        "print(include(TEST_CONSTANT_M))\n" +
-                        "print TEST_CONSTANT",
+                "print(include(TEST_CONSTANT_M))\n" +
+                "print TEST_CONSTANT",
 
                 "module TestTopLevelIncludeModule\n" +
-                        "	def test_top_level_include_module\n" +
-                        "		print 77777\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "include TestTopLevelIncludeModule\n" +
-                        "test_top_level_include_module",
+                "	def test_top_level_include_module\n" +
+                "		print 77777\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "include TestTopLevelIncludeModule\n" +
+                "test_top_level_include_module",
 
                 "module TestTopLevelIncludeModule\n" +
-                        "	@@var = 100\n" +
-                        "	\n" +
-                        "	def test_top_level_include_module\n" +
-                        "		print @@var\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "include TestTopLevelIncludeModule\n" +
-                        "test_top_level_include_module",
+                "	@@var = 100\n" +
+                "	\n" +
+                "	def test_top_level_include_module\n" +
+                "		print @@var\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "include TestTopLevelIncludeModule\n" +
+                "test_top_level_include_module",
 
                 "module TestTopLevelIncludeModule1\n" +
-                        "	def g\n" +
-                        "		print \"B1\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "module TestTopLevelIncludeModule2\n" +
-                        "	def g\n" +
-                        "		print \"B2\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "include TestTopLevelIncludeModule1\n" +
-                        "include TestTopLevelIncludeModule2\n" +
-                        "g",
+                "	def g\n" +
+                "		print \"B1\"\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "module TestTopLevelIncludeModule2\n" +
+                "	def g\n" +
+                "		print \"B2\"\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "include TestTopLevelIncludeModule1\n" +
+                "include TestTopLevelIncludeModule2\n" +
+                "g",
 
                 "module TestTopLevelIncludeModule3\n" +
-                        "end\n" +
-                        "\n" +
-                        "include TestTopLevelIncludeModule3\n" +
-                        "\n" +
-                        "module TestTopLevelIncludeModule3\n" +
-                        "	def test_top_level_include_module2\n" +
-                        "		print 8765\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "test_top_level_include_module2",
+                "end\n" +
+                "\n" +
+                "include TestTopLevelIncludeModule3\n" +
+                "\n" +
+                "module TestTopLevelIncludeModule3\n" +
+                "	def test_top_level_include_module2\n" +
+                "		print 8765\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "test_top_level_include_module2",
 
                 "module TestIncludeM; def f; print 7654; end; end\n" +
-                        "class TestIncludeC;  include TestIncludeM;  end\n" +
-                        "TestIncludeC.new.f",
+                "class TestIncludeC;  include TestIncludeM;  end\n" +
+                "TestIncludeC.new.f",
 
                 "module TestIncludeM2; def f; print 1234; end; end\n" +
-                        "class TestIncludeC2;  include TestIncludeM2; alias :g :f; end\n" +
-                        "TestIncludeC2.new.g",
+                "class TestIncludeC2;  include TestIncludeM2; alias :g :f; end\n" +
+                "TestIncludeC2.new.g",
         };
 
         String[] outputs = {
@@ -3697,13 +3692,13 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "a = Proc.new {break}; a.call",
 
                 "def getblock(&b); b; end\n" +
-                        "res = getblock { break }\n" +
-                        "res.call",
+                "res = getblock { break }\n" +
+                "res.call",
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.LocalJumpErrorClass, "break from proc-closure"),
-                new RubyException(RubyRuntime.LocalJumpErrorClass, "break from proc-closure"),
+            new RubyException(RubyRuntime.LocalJumpErrorClass, "break from proc-closure"),
+            new RubyException(RubyRuntime.LocalJumpErrorClass, "break from proc-closure"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
@@ -3715,7 +3710,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type String (expected Module)"),
+            new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type String (expected Module)"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
@@ -3728,56 +3723,56 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.TypeErrorClass, "TestNameConflict is not a class"),
-                new RubyException(RubyRuntime.TypeErrorClass, "TestNameConflict2 is not a module"),
+            new RubyException(RubyRuntime.TypeErrorClass, "TestNameConflict is not a class"),
+            new RubyException(RubyRuntime.TypeErrorClass, "TestNameConflict2 is not a module"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
     }
 
     public void test_class_module_in_class_module() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "module ConstantInModule\n" +
-                        "	class C\n" +
-                        "		def f\n" +
-                        "			print \"MCf\"\n" +
-                        "		end\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "ConstantInModule::C.new.f",
+                "	class C\n" +
+                "		def f\n" +
+                "			print \"MCf\"\n" +
+                "		end\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "ConstantInModule::C.new.f",
 
                 "class ConstantInModule2\n" +
-                        "	class C\n" +
-                        "		def f\n" +
-                        "			print \"MCf2\"\n" +
-                        "		end\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "ConstantInModule2::C.new.f",
+                "	class C\n" +
+                "		def f\n" +
+                "			print \"MCf2\"\n" +
+                "		end\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "ConstantInModule2::C.new.f",
 
                 "TestM0 = 0\n" +
-                        "\n" +
-                        "module TestM1\n" +
-                        "  module TestM2\n" +
-                        "    module TestM3\n" +
-                        "     TestM4 = 1\n" +
-                        "     print TestM0,TestM1, TestM2, TestM3, TestM4\n" +
-                        "    end\n" +
-                        "  end\n" +
-                        "end",
+                "\n" +
+                "module TestM1\n" +
+                "  module TestM2\n" +
+                "    module TestM3\n" +
+                "     TestM4 = 1\n" +
+                "     print TestM0,TestM1, TestM2, TestM3, TestM4\n" +
+                "    end\n" +
+                "  end\n" +
+                "end",
 
                 "module TestConst1\n" +
-                        "  module TestConst2\n" +
-                        "  end\n" +
-                        "end\n" +
-                        "\n" +
-                        "module TestConst1\n" +
-                        "  class TestConst3\n" +
-                        "    print TestConst2\n" +
-                        "  end\n" +
-                        "end",
+                "  module TestConst2\n" +
+                "  end\n" +
+                "end\n" +
+                "\n" +
+                "module TestConst1\n" +
+                "  class TestConst3\n" +
+                "    print TestConst2\n" +
+                "  end\n" +
+                "end",
         };
 
         String[] outputs = {
@@ -3791,7 +3786,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_constant_in_class_module() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "module ConstantInModule; C6 = 6; def ConstantInModule.f; print C6; end; end; ConstantInModule.f",
                 "print Object::Kernel",
                 "TestConstant = 1999; print ::TestConstant",
@@ -3803,13 +3798,13 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "C4 = 8;module TestConstant4;print C4;end",
 
                 "C5 = 5\n" +
-                        "class TestConstant5\n" +
-                        "	def f\n" +
-                        "		print C5\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "TestConstant5.new.f",
+                "class TestConstant5\n" +
+                "	def f\n" +
+                "		print C5\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "TestConstant5.new.f",
         };
 
         String[] outputs = {
@@ -3850,14 +3845,14 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_initialize() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "class TestInitialize\n" +
-                        "	def initialize\n" +
-                        "		print \"in initialize\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "	\n" +
-                        "TestInitialize.new",
+                "	def initialize\n" +
+                "		print \"in initialize\"\n" +
+                "	end\n" +
+                "end\n" +
+                "	\n" +
+                "TestInitialize.new",
 
                 "print String.new('xxx')",
 
@@ -3875,7 +3870,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_attr() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "class TestAttr; attr  :size, true; end; c = TestAttr.new; c.size= 5; print c.size",
         };
 
@@ -3887,26 +3882,26 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_attr_reader() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "class TestAttrReader\n" +
-                        "	attr_reader :a\n" +
-                        "\n" +
-                        "	def initialize\n" +
-                        "		@a = 5\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestAttrReader.new.a",
+                "	attr_reader :a\n" +
+                "\n" +
+                "	def initialize\n" +
+                "		@a = 5\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "print TestAttrReader.new.a",
 
                 "class TestAttrReader2\n" +
-                        "	attr_reader 'b'\n" +
-                        "\n" +
-                        "	def initialize\n" +
-                        "		@b = 6\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestAttrReader2.new.b",
+                "	attr_reader 'b'\n" +
+                "\n" +
+                "	def initialize\n" +
+                "		@b = 6\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "print TestAttrReader2.new.b",
         };
 
         String[] outputs = {
@@ -3923,21 +3918,21 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.ArgumentErrorClass, "1 is not a symbol"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "1 is not a symbol"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
     }
 
     public void test_assignment_method() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "class TestAssignmetMethod\n" +
-                        "	def a=(x)\n" +
-                        "		print \"fff\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "TestAssignmetMethod.new.a=4",
+                "	def a=(x)\n" +
+                "		print \"fff\"\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "TestAssignmetMethod.new.a=4",
         };
 
         String[] outputs = {
@@ -3948,15 +3943,15 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_assignment_parameter() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "def f x\n" +
-                        "	while x > 0\n" +
-                        "		x -= 1\n" +
-                        "		print x\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "f(5)",
+                "	while x > 0\n" +
+                "		x -= 1\n" +
+                "		print x\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "f(5)",
         };
 
         String[] outputs = {
@@ -3967,16 +3962,16 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_attr_writer() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "class TestAttrWriter\n" +
-                        "	attr_writer :a\n" +
-                        "\n" +
-                        "	def get_a\n" +
-                        "		@a\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "x = TestAttrWriter.new; x.a = 5; print x.get_a",
+                "	attr_writer :a\n" +
+                "\n" +
+                "	def get_a\n" +
+                "		@a\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "x = TestAttrWriter.new; x.a = 5; print x.get_a",
         };
 
         String[] outputs = {
@@ -3987,18 +3982,18 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_attr_accessor() {
-        String[] program_texts = {
+        String [] program_texts = {
                 " class TestSingletonAttrAccessor\n" +
-                        "	@use_pp = true\n" +
-                        "	class << self; attr_accessor :use_pp; end\n" +
-                        "end\n" +
-                        "print TestSingletonAttrAccessor.use_pp",
+                "	@use_pp = true\n" +
+                "	class << self; attr_accessor :use_pp; end\n" +
+                "end\n" +
+                "print TestSingletonAttrAccessor.use_pp",
 
                 "class TestAttrAccessor\n" +
-                        "	attr_accessor :a\n" +
-                        "end\n" +
-                        "\n" +
-                        "x = TestAttrAccessor.new; x.a = 5; print x.a",
+                "	attr_accessor :a\n" +
+                "end\n" +
+                "\n" +
+                "x = TestAttrAccessor.new; x.a = 5; print x.a",
         };
 
         String[] outputs = {
@@ -4010,7 +4005,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_kind_of() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print(1.kind_of?(Object))",
                 "print(1.kind_of?(Fixnum))",
                 "print(1.kind_of?(Numeric))",
@@ -4028,7 +4023,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_instance_of() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print(1.instance_of?(Object))",
                 "print(1.instance_of?(Fixnum))",
                 "print(1.instance_of?(Numeric))",
@@ -4046,7 +4041,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_respond_to() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print 1.respond_to?('to_s')",
                 "print 1.respond_to?(:to_s)",
                 "print 1.respond_to?('no_such_method_xxx')",
@@ -4068,33 +4063,33 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_singleton_method() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "module M; def M::colon2_singleton; print 'ppp'; end; end\n" +
-                        "M.colon2_singleton",
+                "M.colon2_singleton",
 
                 "module M; def M.f x; print x; end end; M::f(77)",
 
                 "class TestSingleton0;\n" +
-                        "	def TestSingleton0.test_singleton;  123;  end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestSingleton1 < TestSingleton0; end\n" +
-                        "\n" +
-                        "print TestSingleton1.test_singleton",
+                "	def TestSingleton0.test_singleton;  123;  end\n" +
+                "end\n" +
+                "\n" +
+                "class TestSingleton1 < TestSingleton0; end\n" +
+                "\n" +
+                "print TestSingleton1.test_singleton",
 
                 "a = 'x'; def a.ffff; print 9521 end; a.ffff",
 
                 "class TestSingletonClass; end\n" +
-                        "def TestSingletonClass.new_method;print 4321;end\n" +
-                        "TestSingletonClass.new_method\n",
+                "def TestSingletonClass.new_method;print 4321;end\n" +
+                "TestSingletonClass.new_method\n",
 
                 "class Class\n" +
-                        "	def test_meta\n" +
-                        "		print \"Test meta\"\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "Module.test_meta",
+                "	def test_meta\n" +
+                "		print \"Test meta\"\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "Module.test_meta",
         };
 
         String[] outputs = {
@@ -4110,13 +4105,13 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_singleton_method_exception() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "class TestSingleton2; end\n" +
-                        "class TestSingleton3 < TestSingleton2;\n" +
-                        "	def TestSingleton3.f;  123;  end\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestSingleton2.f",
+                "class TestSingleton3 < TestSingleton2;\n" +
+                "	def TestSingleton3.f;  123;  end\n" +
+                "end\n" +
+                "\n" +
+                "print TestSingleton2.f",
         };
 
         RubyException[] exceptions = {
@@ -4128,7 +4123,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_if_unless_modifier() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print 123 if true",
                 "print 123 if false",
                 "print 456 unless false",
@@ -4148,7 +4143,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_send() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print 'xx'.send(:length)",
                 "print 1.__send__('+', 2)",
         };
@@ -4162,7 +4157,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_method_parameter_assignment() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "def f x=1; x = 4; print x;end; f",
                 "def f x; x = 3; print x;end; f 1",
         };
@@ -4176,7 +4171,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_mehtod_and_call() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "m = 'xx'.method(:length); print m.call",
                 "m = 1.method('+'); print m.call(2)",
                 "m = 1.method('+'); print m",
@@ -4196,7 +4191,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Kernel_methods() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print 1.methods.include?('methods')",
                 "print 1.methods.include?('no_such_method_xxxx')",
         };
@@ -4210,9 +4205,9 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_implicit_hash() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "def f a; print a.class, a['a'], a['b']; end\n" +
-                        "f 'a' => 1, 'b' => 2",
+                "f 'a' => 1, 'b' => 2",
         };
 
         String[] outputs = {
@@ -4223,22 +4218,24 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_block_arg() {
-        String[] program_texts = {
+        String [] program_texts = {
+                "def f(x, &block); if x; block = 1; end;   print block;  end;  f true",
+
                 "def f(x); x; end;  print f(33, &nil)",
 
                 "def f; yield; end\n" +
-                        "def g1 &arg; f &arg; end\n" +
-                        "g1 {print 321}",
+                "def g1 &arg; f &arg; end\n" +
+                "g1 {print 321}",
 
                 "def f\n" +
-                        "	yield 222, 333\n" +
-                        "end\n" +
-                        "\n" +
-                        "def g2 &arg\n" +
-                        "	f &arg\n" +
-                        "end\n" +
-                        "\n" +
-                        "g2 {|x, y| print x, y}",
+                "	yield 222, 333\n" +
+                "end\n" +
+                "\n" +
+                "def g2 &arg\n" +
+                "	f &arg\n" +
+                "end\n" +
+                "\n" +
+                "g2 {|x, y| print x, y}",
 
                 "def f &arg; print arg.class; end;   f {}",
                 "def f &arg; print arg.class; end;   f",
@@ -4249,6 +4246,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "1",
                 "33",
 
                 "321",
@@ -4264,88 +4262,88 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_super() {
-        String[] program_texts = {
+        String [] program_texts = {
                 //TODO
                 //"class B;  def B.f x; print x; end;  end\n" +
                 //"class C < B;  def C.f x; super; end;  end\n" +
                 //"C.f 456",
 
                 "class TestSuperImplicitParameter\n" +
-                        "  def print x\n" +
-                        "    super\n" +
-                        "  end\n" +
-                        "end\n" +
-                        "\n" +
-                        "TestSuperImplicitParameter.new.print 333",
+                "  def print x\n" +
+                "    super\n" +
+                "  end\n" +
+                "end\n" +
+                "\n" +
+                "TestSuperImplicitParameter.new.print 333",
 
                 "class TestSuper8\n" +
-                        "	def test_super\n" +
-                        "		print 123\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestSuper9 < TestSuper8\n" +
-                        "	def test_super\n" +
-                        "		super\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestSuper10 < TestSuper9\n" +
-                        "end\n" +
-                        "\n" +
-                        "TestSuper10.new.test_super",
+                "	def test_super\n" +
+                "		print 123\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "class TestSuper9 < TestSuper8\n" +
+                "	def test_super\n" +
+                "		super\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "class TestSuper10 < TestSuper9\n" +
+                "end\n" +
+                "\n" +
+                "TestSuper10.new.test_super",
 
                 "class MyString < String\n" +
-                        "	def to_s\n" +
-                        "		super\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "print MyString.new(\"xxx\").to_s",
+                "	def to_s\n" +
+                "		super\n" +
+                "	end\n" +
+                "end\n" +
+                "print MyString.new(\"xxx\").to_s",
 
                 "class TestSuper1\n" +
-                        "	def f\n" +
-                        "		yield\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestSuper2 < TestSuper1\n" +
-                        "	def f\n" +
-                        "		super\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "TestSuper2.new.f {print \"yyy\"}",
+                "	def f\n" +
+                "		yield\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "class TestSuper2 < TestSuper1\n" +
+                "	def f\n" +
+                "		super\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "TestSuper2.new.f {print \"yyy\"}",
 
                 "class TestSuper3\n" +
-                        "	def f\n" +
-                        "		yield\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestSuper4 < TestSuper3\n" +
-                        "	def f\n" +
-                        "		super {print \"zzz\"}\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "TestSuper4.new.f",
+                "	def f\n" +
+                "		yield\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "class TestSuper4 < TestSuper3\n" +
+                "	def f\n" +
+                "		super {print \"zzz\"}\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "TestSuper4.new.f",
 
                 "class TestSuper5\n" +
-                        "	def f\n" +
-                        "		print 321\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestSuper6 < TestSuper5\n" +
-                        "end\n" +
-                        "\n" +
-                        "class TestSuper7 < TestSuper6\n" +
-                        "	def f\n" +
-                        "		super\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "TestSuper7.new.f",
+                "	def f\n" +
+                "		print 321\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "class TestSuper6 < TestSuper5\n" +
+                "end\n" +
+                "\n" +
+                "class TestSuper7 < TestSuper6\n" +
+                "	def f\n" +
+                "		super\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "TestSuper7.new.f",
 
 
         };
@@ -4364,27 +4362,27 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_heredoc_expression_substitution() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print <<EOF\n" +
-                        "x#{456}y\n" +
-                        "EOF\n",
+                "x#{456}y\n" +
+                "EOF\n",
 
                 "print <<EOF, 9\n" +
-                        "x#{456}y\n" +
-                        "EOF\n",
+                "x#{456}y\n" +
+                "EOF\n",
 
                 "print <<EOF, 9\n" +
-                        "x#{456}y\n" +
-                        "EOF\n" +
-                        "print 8\n",
+                "x#{456}y\n" +
+                "EOF\n" +
+                "print 8\n",
 
                 /*TODO
-                    "print 1, <<EOF1, 2, <<EOF2, 3\n" +
-                    "#{print 2}\n" +
-                    "EOF1\n" +
-                    "#{print 5}\n" +
-                    "EOF2\n",
-                    */
+                "print 1, <<EOF1, 2, <<EOF2, 3\n" +
+                "#{print 2}\n" +
+                "EOF1\n" +
+                "#{print 5}\n" +
+                "EOF2\n",
+                */
         };
 
         String[] outputs = {
@@ -4399,34 +4397,34 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_heredoc() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print <<END;\n" +
-                        "ABCD\n" +
-                        "END\n",
+                "ABCD\n" +
+                "END\n",
 
                 "print <<EOF\n" +
-                        "hey\n" +
-                        "EOF\n",
+                "hey\n" +
+                "EOF\n",
 
                 "print <<EOF\n" +
-                        "  hey\n" +
-                        "EOF\n",
+                "  hey\n" +
+                "EOF\n",
 
                 "print <<-EOF\n" +
-                        "   hey\n" +
-                        " EOF\n",
+                "   hey\n" +
+                " EOF\n",
 
                 "print <<-EOF + 'xxx'\n" +
-                        "  hey\n" +
-                        " EOF\n",
+                "  hey\n" +
+                " EOF\n",
 
                 "print(<<EOF)\n" +
-                        " eee\n" +
-                        "EOF\n",
+                " eee\n" +
+                "EOF\n",
 
                 "print <<-EOF + \"#{'yyy'}\"\n" +
-                        "  hey\n" +
-                        " EOF\n",
+                "  hey\n" +
+                " EOF\n",
         };
 
         String[] outputs = {
@@ -4437,91 +4435,91 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "   hey\n",
 
                 "  hey\n" +
-                        "xxx",
+                "xxx",
 
                 " eee\n",
 
                 "  hey\n" +
-                        "yyy",
+                "yyy",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
     }
 
     public void test_multiple_heredoc() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print <<EOF, 99, <<EOA\n" +
-                        " hey\n" +
-                        "EOF\n" +
-                        " there\n" +
-                        "EOA\n",
+                " hey\n" +
+                "EOF\n" +
+                " there\n" +
+                "EOA\n",
 
                 "print <<-EOF, 99, <<-EOA\n" +
-                        " hello\n" +
-                        "  EOF\n" +
-                        " there\n" +
-                        "  EOA\n",
+                " hello\n" +
+                "  EOF\n" +
+                " there\n" +
+                "  EOA\n",
 
                 "print <<-EOF + 'xxx' + <<-EOA\n" +
-                        " hello\n" +
-                        "  EOF\n" +
-                        " there\n" +
-                        "  EOA\n",
+                " hello\n" +
+                "  EOF\n" +
+                " there\n" +
+                "  EOA\n",
 
                 "print <<-EOF + String.new('yyy') + <<-EOA\n" +
-                        " hello\n" +
-                        "  EOF\n" +
-                        " there\n" +
-                        "  EOA\n",
+                " hello\n" +
+                "  EOF\n" +
+                " there\n" +
+                "  EOA\n",
         };
 
         String[] outputs = {
                 " hey\n" +
-                        "99 there\n",
+                "99 there\n",
 
                 " hello\n" +
-                        "99 there\n",
+                "99 there\n",
 
                 " hello\n" +
-                        "xxx there\n",
+                "xxx there\n",
 
                 " hello\n" +
-                        "yyy there\n",
+                "yyy there\n",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
     }
 
     public void test_class_left_shift() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "a = \"\"\n" +
-                        "class <<a\n" +
-                        "	def f\n" +
-                        "		99\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "print a.f",
+                "class <<a\n" +
+                "	def f\n" +
+                "		99\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "print a.f",
 
                 "class TestClassLeftShift\n" +
-                        "	class << self\n" +
-                        "		def f\n" +
-                        "			88\n" +
-                        "		end\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestClassLeftShift.f",
+                "	class << self\n" +
+                "		def f\n" +
+                "			88\n" +
+                "		end\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "print TestClassLeftShift.f",
 
                 "class TestClassLeftShift\n" +
-                        "	class << TestClassLeftShift\n" +
-                        "		def f\n" +
-                        "			77\n" +
-                        "		end\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "\n" +
-                        "print TestClassLeftShift.f",
+                "	class << TestClassLeftShift\n" +
+                "		def f\n" +
+                "			77\n" +
+                "		end\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "print TestClassLeftShift.f",
         };
 
         String[] outputs = {
@@ -4540,7 +4538,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         out.print("line 2");
         out.close();
 
-        String[] program_texts = {
+        String [] program_texts = {
                 "f = open(\"test_IO_gets.txt\"); print f.gets(nil); f.close",
                 "f = open(\"test_IO_gets.txt\"); print f.gets; f.close",
                 "f = open(\"test_IO_gets.txt\"); print f.gets; print f.gets; print f.gets; f.close",
@@ -4569,7 +4567,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         out.print("line 2");
         out.close();
 
-        String[] program_texts = {
+        String [] program_texts = {
                 "f = open(\"test_IO_eof.txt\"); f.gets(nil); print f.eof?; f.close",
                 "f = open(\"test_IO_eof.txt\"); print f.eof; f.close",
         };
@@ -4585,7 +4583,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_string_match() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "\"abcabc\" =~ /.*a/; print $&, $&.class",
                 "print \"\" =~ /^$/",
                 "print \"a\\n\\n\" =~ /^$/",
@@ -4609,7 +4607,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_W_ARRAY() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "p %w$a b c$",
         };
 
@@ -4621,7 +4619,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_String_misc() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print 'pp'[-3..-1]",
                 "print 'hello  world'.count('lo')",
                 "print 'abaca'.tr('a', 'z')",
@@ -4691,7 +4689,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_gsub() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print 'ABCD\nABCDE'.gsub!(/((.|\n)*?)B((.|\n)*?)D/){$3}",
 
                 "'hello'.gsub(/./) {|s| print s + ','}",
@@ -4723,7 +4721,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_String_scan() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print 'cruel world'.scan(/(..)(..)/) == [['cr', 'ue'], ['l ', 'wo']]",
                 "print '1a2b3c'.scan(/(\\d.)/) == [['1a'], ['2b'], ['3c']]",
                 "print 'cruel world'.scan(/\\w+/) ",
@@ -4739,7 +4737,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_String_chmop() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print 'hello\n'.chomp",
                 "print 'hello'.chomp!('llo')",
         };
@@ -4753,7 +4751,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_String_split() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "a = ' a  b c   '.split(' '); print a, a.size",
                 "a = ' a  b c   d'.split; print a, a.size",
                 "a = ' the time'.split(//); print a, a.size",
@@ -4785,7 +4783,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_for_in() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "for x, (y, z) in [1, [2, [3, 4]]]; print x,y,z; end",
 
                 "for i_test_for_in in 1..1; j_test_for_in=3; end; print i_test_for_in, j_test_for_in",
@@ -4811,7 +4809,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Marshal() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "StrClone=String.clone; print Marshal.load(Marshal.dump(StrClone.new('abc'))).class",
                 "StrClone=String.clone; print Marshal.dump(StrClone.new('abc')) == \"\004\\bC:\\rStrClone\\\"\\babc\"",
                 "print Marshal.load(Marshal.dump(:hello))",
@@ -4869,7 +4867,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Math() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print Math.exp(1).class",
                 "print Math.exp(1.1).class",
                 "print Math.sqrt(4)",
@@ -4887,7 +4885,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_ARGV() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print ARGV[0], ARGV[1]",
         };
 
@@ -4899,7 +4897,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Module_compare() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print String <=> 123",
                 "print String <=> String",
                 "print String <=> Object",
@@ -4919,13 +4917,13 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Module_module_eval() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "class TestModuleEval; end\n" +
-                        "TestModuleEval.module_eval(%q{def test_module_eval() 123 end})\n" +
-                        "print TestModuleEval.new.test_module_eval",
+                "TestModuleEval.module_eval(%q{def test_module_eval() 123 end})\n" +
+                "print TestModuleEval.new.test_module_eval",
 
                 "class TestModuleEval2; end\n" +
-                        "TestModuleEval2.module_eval('print self')",
+                "TestModuleEval2.module_eval('print self')",
         };
 
         String[] outputs = {
@@ -4937,7 +4935,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Kernel_module_eval() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "'x'.instance_eval { print self }",
         };
 
@@ -4949,11 +4947,11 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Module_const_set_get() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "module M end\n" +
-                        "print M.const_set(:TEST_CONSTANT1, 1)\n" +
-                        "print M::TEST_CONSTANT1\n" +
-                        "print M.const_get(:TEST_CONSTANT1)",
+                "print M.const_set(:TEST_CONSTANT1, 1)\n" +
+                "print M::TEST_CONSTANT1\n" +
+                "print M.const_get(:TEST_CONSTANT1)",
         };
 
         String[] outputs = {
@@ -4964,12 +4962,12 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Module_module_function() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "module TestModuleFunction\n" +
-                        "  def test_module_function; print 123; end\n" +
-                        "  module_function :test_module_function\n" +
-                        "end\n" +
-                        "TestModuleFunction.test_module_function",
+                "  def test_module_function; print 123; end\n" +
+                "  module_function :test_module_function\n" +
+                "end\n" +
+                "TestModuleFunction.test_module_function",
         };
 
         String[] outputs = {
@@ -4980,7 +4978,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Module_ancestors() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "module Testancestors; end; print Testancestors.ancestors",
                 "module Testancestors0; end; print Testancestors0.ancestors[0].class",
                 "module Testancestors1; end; module Testancestors2; include Testancestors1; end; print Testancestors2.ancestors",
@@ -4998,15 +4996,15 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_clone() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "StrClone=String.clone; print StrClone.class, StrClone == String, StrClone.new('abc').class",
 
                 "a = Object.new\n" +
-                        "def a.test_clone\n" +
-                        "	print \"clone\"\n" +
-                        "end\n" +
-                        "b = a.clone\n" +
-                        "b.test_clone",
+                "def a.test_clone\n" +
+                "	print \"clone\"\n" +
+                "end\n" +
+                "b = a.clone\n" +
+                "b.test_clone",
         };
 
         String[] outputs = {
@@ -5018,13 +5016,13 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_clone_exception() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "a = Object.new\n" +
-                        "b = a.clone\n" +
-                        "def b.test_clone_exception\n" +
-                        "	print \"clone\"\n" +
-                        "end\n" +
-                        "a.test_clone_exception",
+                "b = a.clone\n" +
+                "def b.test_clone_exception\n" +
+                "	print \"clone\"\n" +
+                "end\n" +
+                "a.test_clone_exception",
         };
 
         RubyException[] exceptions = {
@@ -5035,7 +5033,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_TRUE_FALSE_NIL() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print TRUE, FALSE, NIL",
         };
 
@@ -5047,7 +5045,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Kernel_throw() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "throw\n",
                 "throw 123\n",
                 "throw :test_throw",
@@ -5066,7 +5064,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Kernel_catch() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print catch(:test_cacth) {}",
                 "print catch(:test_cacth) {print 2}",
                 "print catch(:test_cacth) {throw :test_cacth; print 2}",
@@ -5084,7 +5082,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_trace_var_exception() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "untrace_var\n",
                 "untrace_var 123\n",
                 "untrace_var :test_untrace_var",
@@ -5106,7 +5104,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_trace_var() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "trace_var (:$test_trace_var1) {print $test_trace_var1;}; $test_trace_var1 = 5",
                 "trace_var (:$test_untrace_var2) {print $test_untrace_var2;}; trace_var (:$test_untrace_var2) {print 2;};$test_untrace_var2 = 5",
                 "trace_var (:$test_untrace_var3) {|x| print x}; $test_untrace_var3 = 6; untrace_var :$test_untrace_var3; $test_untrace_var3 = 7",
@@ -5124,21 +5122,21 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_block_given() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "def f; 1.times {print block_given?}; end; f {}",
 
                 "def f; print block_given?; end; f &nil",
 
                 "def try\n" +
-                        "	if block_given?\n" +
-                        "		print true\n" +
-                        "	else\n" +
-                        "		print false\n" +
-                        "	end\n" +
-                        "end\n" +
-                        "try\n" +
-                        "try { \"hello\" }\n" +
-                        "try do \"hello\" end",
+                "	if block_given?\n" +
+                "		print true\n" +
+                "	else\n" +
+                "		print false\n" +
+                "	end\n" +
+                "end\n" +
+                "try\n" +
+                "try { \"hello\" }\n" +
+                "try do \"hello\" end",
 
                 "print iterator?",
         };
@@ -5154,7 +5152,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Method_to_proc() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "method(:print).to_proc.call(\"xxx\")",
         };
 
@@ -5166,7 +5164,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Module_case_equal() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print NilClass === true",
                 "print NilClass === nil",
                 "print Object === true",
@@ -5186,7 +5184,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Struct_new() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "Struct.new('TestStructNew6', :name); a = Struct::TestStructNew6.new('ppp'); a[0] = 'ooo'; print a.name",
                 "Struct.new('TestStructNew5', :name); a = Struct::TestStructNew5.new('zzz'); print a.to_a, a.to_a.class",
                 "Struct.new('TestStructNew4', :name); a = Struct::TestStructNew4.new('yyy'); print a[0]",
@@ -5211,7 +5209,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Proc_new() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "p = proc{test_proc = 0; proc{test_proc}}.call; test_proc=7; print p.call",
                 "test_proc4 = 0; p = proc{test_proc4}; test_proc4=7; print p.call",
 
@@ -5221,31 +5219,31 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "x = []; (0..9).each{|i5| x[i5] = proc{i5*2}}; print x[4].call",
 
                 "def f\n" +
-                        "  Proc.new{return 1}.call()\n" +
-                        "  print 2\n" +
-                        "end\n" +
-                        "\n" +
-                        "print f",
+                "  Proc.new{return 1}.call()\n" +
+                "  print 2\n" +
+                "end\n" +
+                "\n" +
+                "print f",
 
                 "def f\n" +
-                        "  lambda{return 1}.call()\n" +
-                        "  print 2\n" +
-                        "end\n" +
-                        "\n" +
-                        "print f",
+                "  lambda{return 1}.call()\n" +
+                "  print 2\n" +
+                "end\n" +
+                "\n" +
+                "print f",
 
                 "print Proc.new{|a,| a}.call(4,5,6)",
 
                 "class Proc\n" +
-                        "  alias :callxxx :call\n" +
-                        "end\n" +
-                        "\n" +
-                        "def f\n" +
-                        "  Proc.new{return 5}.callxxx\n" +
-                        "  print 2\n" +
-                        "end\n" +
-                        "\n" +
-                        "print f",
+                "  alias :callxxx :call\n" +
+                "end\n" +
+                "\n" +
+                "def f\n" +
+                "  Proc.new{return 5}.callxxx\n" +
+                "  print 2\n" +
+                "end\n" +
+                "\n" +
+                "print f",
         };
 
         String[] outputs = {
@@ -5265,7 +5263,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_return_value_of_def() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "a = def f; end; print a",
                 "print eval('def f; end')",
         };
@@ -5279,7 +5277,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_pack() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print [\"abcd\"].pack('x3a4').length",
                 "print [-1].pack('s_')[0]",
                 "print [-32767].pack('s_')[1]",
@@ -5311,7 +5309,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_unpack() {
-        String[] program_texts = {
+        String [] program_texts = {
                 "print \">a\221E\312\300\\#@\".unpack('d')",
                 "print \"\000\000\000abcd\".unpack('x3a4')",
                 "print \"90\000\000\".unpack('i')",
@@ -5343,14 +5341,14 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_method_missing() {
         String[] program_texts = {
                 "alias old_method_missing method_missing\n" +
-                        "def method_missing a, *arg; print a; end\n" +
-                        "no_such_method_xxx\n" +
-                        "alias method_missing old_method_missing",
+                "def method_missing a, *arg; print a; end\n" +
+                "no_such_method_xxx\n" +
+                "alias method_missing old_method_missing",
 
                 "alias old_method_missing method_missing\n" +
-                        "def method_missing a, *arg; print a.class, arg; end\n" +
-                        "no_such_method_xxx 1, 2\n" +
-                        "alias method_missing old_method_missing",
+                "def method_missing a, *arg; print a.class, arg; end\n" +
+                "no_such_method_xxx 1, 2\n" +
+                "alias method_missing old_method_missing",
         };
 
         String[] outputs = {
@@ -5390,9 +5388,9 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_Thread() {
         String[] program_texts = {
                 "Thread.current[\"name\"] = \"A\";\n" +
-                        "print Thread.current[\"name\"]\n" +
-                        "print Thread.current[\"name2\"]\n" +
-                        "print Thread.current[:name]",
+                "print Thread.current[\"name\"]\n" +
+                "print Thread.current[\"name2\"]\n" +
+                "print Thread.current[:name]",
 
                 "print Thread.current == Thread.current",
 
@@ -5423,38 +5421,38 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     /*
-     public void test_Time() {
-         String[] program_texts = {
-                 "print Time.gm(2000,1,2,3,4,5)",
-                 "print Time.utc(2000)",
-         };
+    public void test_Time() {
+        String[] program_texts = {
+                "print Time.gm(2000,1,2,3,4,5)",
+                "print Time.utc(2000)",
+        };
 
-         String[] outputs = {
-                 "Sun Jan 02 03:04:05 UTC 2000",
-                 "Sat Jan 01 00:00:00 UTC 2000",
-         };
+        String[] outputs = {
+                "Sun Jan 02 03:04:05 UTC 2000",
+                "Sat Jan 01 00:00:00 UTC 2000",
+        };
 
-         compile_run_and_compare_output(program_texts, outputs);
-     }*/
+        compile_run_and_compare_output(program_texts, outputs);
+    }*/
 
     /*
-     TODO does not work with exception
-     TODO wrong format, should fix the implementation
-     public void test_Kernel_caller() {
-         String[] program_texts = {
-                 "def f;	p caller(); end; def g;	f; end;  g",
-                 "def f;	p caller(0); end; def g;	f; end;  g",
-                 "def f;	p caller(2); end; def g;	f; end;  g",
+    TODO does not work with exception
+    TODO wrong format, should fix the implementation
+    public void test_Kernel_caller() {
+        String[] program_texts = {
+                "def f;	p caller(); end; def g;	f; end;  g",
+                "def f;	p caller(0); end; def g;	f; end;  g",
+                "def f;	p caller(2); end; def g;	f; end;  g",
 
-         };
+        };
 
-         String[] outputs = {
-                 "[g]",	//TODO should be: ["test.rb:1:in `g'", "test.rb:1"]
-                 "[f, g]",
-                 "[]",
-         };
+        String[] outputs = {
+                "[g]",	//TODO should be: ["test.rb:1:in `g'", "test.rb:1"]
+                "[f, g]",
+                "[]",
+        };
 
-         compile_run_and_compare_output(program_texts, outputs);
-     }*/
+        compile_run_and_compare_output(program_texts, outputs);
+    }*/
 
 }
