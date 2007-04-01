@@ -5183,6 +5183,22 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+	public void test_new() {
+        String [] program_texts = {
+            "class MyString < String; end;print MyString.new.class",
+            "class MyHash < Hash; end;print MyHash.new.class",
+            "class MyArray < Array; end;print MyArray.new.class",
+        };
+
+        String[] outputs = {
+            "MyString",
+            "MyHash",
+            "MyArray",
+        };
+
+		compile_run_and_compare_output(program_texts, outputs);
+    }
+
     public void test_Struct_new() {
         String [] program_texts = {
                 "Struct.new('TestStructNew6', :name); a = Struct::TestStructNew6.new('ppp'); a[0] = 'ooo'; print a.name",
