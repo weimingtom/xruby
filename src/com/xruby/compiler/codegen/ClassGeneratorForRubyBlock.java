@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi
  * Distributed under the GNU General Public License 2.0
  */
@@ -12,33 +12,39 @@ import java.util.*;
 
 class FieldManager {
 	private final FieldManager parent_;
+	private final ClassGeneratorForRubyBlock cg_;
 	private final Set<String> fields_ = new HashSet<String>();//assigned fields are fields as well
 	private final Set<String> assigned_fields_ = new HashSet<String>();
-	
-	public FieldManager(FieldManager parent) {
+
+	public FieldManager(FieldManager parent, ClassGeneratorForRubyBlock cg) {
 		parent_ = parent;
+		cg_ = cg;
 	}
- 
+
 	public void addField(String s) {
 		fields_.add(s);
 		if (null != parent_) {
 			parent_.addField(s);
 		}
 	}
-	
-	public void addAssignedField(String s) {
+
+	public void addAssignedField(String s, boolean is_for_in_expression) {
 		fields_.add(s);
-		assigned_fields_.add(s);
+
+		if (is_for_in_expression || cg_.isDefinedInOwnerScope(s)) {
+			assigned_fields_.add(s);
+		}
+
 		if (null != parent_) {
 			parent_.addField(s);
-			parent_.addAssignedField(s);
+			parent_.addAssignedField(s, false);
 		}
 	}
-	
+
 	public String[] getFields() {
 		return fields_.toArray(new String[fields_.size()]);
 	}
-	
+
 	public String[] getAssignedFields() {
 		return assigned_fields_.toArray(new String[assigned_fields_.size()]);
 	}
@@ -46,7 +52,7 @@ class FieldManager {
 }
 
 class ClassGeneratorForRubyBlock extends ClassGenerator {
-	private final SymbolTable symbol_table_of_the_current_scope_;
+	private final SymbolTable symbol_table_of_the_current_scope_;//TODO remove this field, use isDefinedInOwnerScope
 	private final int argc_;
 	private final boolean has_asterisk_parameter_;
 	private final int default_argc_;
@@ -70,9 +76,10 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		is_for_in_expression_ = is_for_in_expression;
 		binding_ = binding;
 		field_manager_ = new FieldManager(
-			(owner instanceof ClassGeneratorForRubyBlock) ? ((ClassGeneratorForRubyBlock)owner).field_manager_ : null);
+			(owner instanceof ClassGeneratorForRubyBlock) ? ((ClassGeneratorForRubyBlock)owner).field_manager_ : null,
+					this);
 	}
-	
+
 	protected Class getCurrentType() {
 		return Types.RubyBlockClass;
 	}
@@ -81,7 +88,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg_for_run_method_.loadThis();
 		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
 	}
-	
+
 	public String[] getAssignedFields() {
 		return field_manager_.getAssignedFields();
 	}
@@ -97,7 +104,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
 	private void storeField(String name) {
 		super.storeVariable("tmp$");
-			
+
 		getMethodGenerator().loadThis();
 		loadVariable("tmp$");
 		getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
@@ -105,7 +112,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
 	public void storeVariable(String name) {
 		if (is_for_in_expression_ || isDefinedInOwnerScope(name)) {
-			field_manager_.addAssignedField(name);
+			field_manager_.addAssignedField(name, is_for_in_expression_);
 			storeField(name);
 			if (is_for_in_expression_) {
 				updateBinding(binding_, name);
@@ -117,7 +124,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
 	private void initialFiledUsingBlockParameter(String name) {
 		if (isDefinedInOwnerScope(name)) {
-			field_manager_.addAssignedField(name);
+			field_manager_.addAssignedField(name, false);
 			getMethodGenerator().loadThis();
 			super.loadVariable(name);
 			getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
@@ -129,10 +136,10 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		if (i < 0) {
 			getMethodGenerator().loadThis();
 		}
-		
+
 		getMethodGenerator().loadLocal(getSymbolTable().getInternalBlockVar());
 		getMethodGenerator().getField(Type.getType("L" + blockName + ";"), name, Type.getType(Types.RubyValueClass));
-		
+
 		if (i < 0) {
 			getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
 		} else {
@@ -158,12 +165,12 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	private MethodGenerator visitRubyBlock() {
 		cv_.visit(Opcodes.V1_5,
 				Opcodes.ACC_PUBLIC,		//need to modify fields when doing Proc#call, see RubyProc.java
-				name_,	
+				name_,
 				null,								// signature
 				"com/xruby/runtime/lang/RubyBlock",	// superName
 				null								// interface
 				);
-	
+
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"),
 				cv_,
@@ -181,7 +188,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		method_name.append(")");
 		return method_name.toString();
 	}
-	
+
 	public String[] createFieldsAndConstructorOfRubyBlock() {
 		String[] commons = field_manager_.getFields();
 		createConstructorOfRubyBlock(commons);
@@ -200,16 +207,16 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			fv.visitEnd();
 		}
 	}
-	
+
 	private void createConstructorOfRubyBlock(final String[] commons) {
-		
+
 		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
 				Method.getMethod(buildContructorSignature(commons.length)),
 				cv_,
 				null,
 				symbol_table_of_the_current_scope_,
 				false);
-		
+
 		mg.loadThis();
 		mg.push(argc_);
 		mg.push(has_asterisk_parameter_);
@@ -220,13 +227,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		mg.loadArg(3);
 		mg.invokeConstructor(Type.getType(Types.RubyBlockClass),
 						Method.getMethod("void <init> (int, boolean, int, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"));
-		
+
 		for (int i = 0; i < commons.length; ++i) {
 			mg.loadThis();
 			mg.loadArg(i + 4);
 			mg.putField(Type.getType("L" + name_ + ";"), commons[i], Type.getType(Types.RubyValueClass));
 		}
-		
+
 		mg.returnValue();
 		mg.endMethod();
 	}
@@ -242,19 +249,19 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	public void createBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
 		super.createBinding(isInSingletonMethod, isInGlobalScope, is_in_block);
 
-		//TODO one level look up is not enough 
+		//TODO one level look up is not enough
 		Collection<String> vars = symbol_table_of_the_current_scope_.getLocalVariables();
 		for (String s : vars) {
 			addVariableToBinding(s);
 		}
-		
+
 		Collection<String> params = symbol_table_of_the_current_scope_.getParameters();
 		for (String s : params) {
 			addVariableToBinding(s);
 		}
 	}
-	
-	private boolean isDefinedInOwnerScope(String name) {
+
+	public boolean isDefinedInOwnerScope(String name) {
 		SymbolTableForBlock st = (SymbolTableForBlock)getSymbolTable();
 		return st.isDefinedInOwnerScope(name);
 	}
