@@ -22,11 +22,14 @@ TODO：将比较这两种方法。
 
 = 例子 =
 让我们通过一个例子来更多的理解XRuby： 
+
+{{{
 def say_hello_three_times
 	3.times {puts 'hello'}
 end
 
 say_hello_three_times
+}}}
 
 我们将上面的代码存为test.rb，使用XRuby编译： 
 java -jar xruby-0.1.3.jar -c test.rb
@@ -45,6 +48,8 @@ test/BLOCK$1.class
 test/say_hello_three_times$0.class 
 test/main.class 
 这些class文件等价于下面这段java程序： 
+
+{{{
 //test/main.class
 public class main
     implements RubyProgram
@@ -101,7 +106,7 @@ class BLOCK$1 extends RubyBlock
         super(0, false);
     }
 }
-
+}}}
 
 
 main类表示程序：首先在"Object"类中定义了一个私有的方法“say_hello_three_times”，然后调用这个方法，没有参数，没有block，以顶层的“self”作为接收者。 
@@ -123,7 +128,7 @@ com.xruby.runtime 实现了XRuby运行时（runtime），它维护着运行Ruby�
 
 下面的代码片段表明如何实现Fixnum::+方法： 
 
-
+{{{
 class Fixnum_operator_plus extends RubyMethod {
 	public Fixnum_operator_plus() {
 		super(1);
@@ -140,6 +145,7 @@ class Fixnum_operator_plus extends RubyMethod {
 RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
 c.defineMethod("+", new Fixnum_operator_plus());
 ...
+}}}
 
 = XRuby's Parser =
 XRuby的解析器使用 Antlr 作为解析器的生成器。 这是目前除C Ruby之外唯一可选的Ruby语法。 
@@ -152,5 +158,4 @@ XRuby的解析器使用 Antlr 作为解析器的生成器。 这是目前除C Ru
 如果生成的class文件格式正确但是运行结果不是预期的，我们可以简单地用反编译工具将字节码转换成可读的Java源代码，以便查找错误。 
 
 如果你遇到是一个验证错误（verifier error），大部分的反编译器都不能正常工作（jad在这种情况也许会简单崩溃）。我们不得不使用javap来研读字节码。多数情况下，JVM class验证器（verifier）给出的信息没什么用处，但是我们可以通过ASM快速地定位错误。(见ASM FAQ: Why do I get the [xxx] verifier error?). 
-
 
