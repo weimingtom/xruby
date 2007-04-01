@@ -189,43 +189,87 @@ class String
             return ""
         end
 
-        result = self  #may be dup?
-        if self.scan(/[0-9]|[a-z]|[A-Z]/).length > 0
-            result[index] = ( result[index] + 1).chr
+        result = self.dup  #may be dup?
+        index = self.length - 1
+
+        if (last_index = __last_alpha_numeric__) == -1
+            result[index] = (result[index] + 1).chr
             return result
         end
-
-        index = self.length - 1
-        char = result[index]
         carry = false
         carry_type = nil
-        while index >= -1
-            if carry && index == -1
-                if carry_type == "CARRY_NUM"
-                    result = "1" + result
-                elsif carry_type == "CARRY_CHAR"
-                    result = "a" + result
-                end
 
-                return result
+        return __add_nocarry__(result, last_index)
+    end
+
+    def upto(end_str)
+        start_str = self
+        while start_str <= end_str
+            puts "in:" + start_str
+            yield start_str
+            if start_str == end_str
+                break
             end
-            if char == ?9 || char == ?z
-                carry = true
-                if char == ?9
-                    result[index] = ?0.chr
-                    carry_type = "CARRY_NUM"
-                else
-                    result[index] = ?a.chr
-                    carry_type = "CARRY_CHAR"
+            start_str = start_str.succ
+        end
+    end
+
+    #add a carry to postion index, with carry_type
+    def __add__(str, index, carry, carry_type)
+        result = str.dup
+        char = str[index]
+        if carry
+            if index == -1 || str[0, str.length-1].__last_alpha_numeric__(index) == -1 #no char beforehand
+                if carry_type == "CARRY_NUM"
+                    return result.insert(index+1, "1")
+                elsif carry_type == "CARRY_CHAR"
+                    return result.insert(index+1, "a")
                 end
-                index = index - 1
             else
-                result[index] = ( result[index] + 1).chr
-                return result
+                return __add_nocarry__(str, index)
+            end
+        else #normal situation
+            return __add_nocarry__(str, index)
+        end
+
+
+    end
+
+    def __add_nocarry__(str, index)
+        char = str[index]
+        result = str.dup
+        if char == ?9 || char == ?z
+            carry = true
+            if char == ?9
+                result[index] = ?0.chr
+                carry_type = "CARRY_NUM"
+            else
+                result[index] = ?a.chr
+                carry_type = "CARRY_CHAR"
+            end
+
+            return __add__(result, index-1, carry, carry_type)
+        else #normal situation without carry
+            result[index] = (result[index] + 1).chr
+            return result
+        end
+    end
+
+    def __last_alpha_numeric__(*start)
+        index = nil
+        if start.size > 0
+            index = start[0]
+            index = self.length + index if index < 0
+        else
+            index = self.length - 1
+        end
+
+        index.downto(0) do |i|
+            if self[i].is_alpha_numeric
+                return i
             end
         end
-        return result
-        #result[index] = ( result[index] + 1).chr
+        return -1
     end
 
     def empty?

@@ -442,10 +442,10 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_result(program_texts, results);
 
         program_texts = new String[]{"'a'.succ"};
-        results = new String[]{
-                "b"
+        RubyValue[] res = {
+                ObjectFactory.createString("b")
         };
-        compile_run_and_compare_result(program_texts, results);
+        compile_run_and_compare_result(program_texts, res);
 
         program_texts = new String[]{"'0'.succ"};
         results = new String[]{
@@ -482,6 +482,30 @@ public class RubyCompilerTest extends CompilerTestCase {
         program_texts = new String[]{"'<<koala>>'.succ"};
         results = new String[]{
                 "<<koalb>>"
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"'z>>'.succ"};
+        results = new String[]{
+                "aa>>"
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"'zz>>'.succ"};
+        res = new RubyValue[]{
+                ObjectFactory.createString("aaa>>")
+        };
+        compile_run_and_compare_result(program_texts, res);
+
+        program_texts = new String[]{"'1999zzz'.succ"};
+        results = new String[]{
+                "2000aaa"
+        };
+        compile_run_and_compare_result(program_texts, results);
+
+        program_texts = new String[]{"'>z>>'.succ"};
+        results = new String[]{
+                ">aa>>"
         };
         compile_run_and_compare_result(program_texts, results);
     }
@@ -1675,7 +1699,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyCompiler compiler = new RubyCompiler(null, false);
         CompilationResults codes = compiler.compile(new StringReader(program_text));
         File file = new File("test_require.jar");
-        assertFalse(file.exists());
+        //assertFalse(file.exists());
         codes.save("test_require");
         assertTrue(file.exists());
 
