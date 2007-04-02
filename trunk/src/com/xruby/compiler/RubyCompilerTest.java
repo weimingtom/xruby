@@ -1699,6 +1699,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyCompiler compiler = new RubyCompiler(null, false);
         CompilationResults codes = compiler.compile(new StringReader(program_text));
         File file = new File("test_require.jar");
+        file.delete();
         codes.save("test_require");
         assertTrue(file.exists());
 
@@ -1722,7 +1723,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyCompiler compiler1 = new RubyCompiler(null, false);
         CompilationResults codes1 = compiler1.compile(new StringReader(program_text1));
         File file1 = new File("test_require1.jar");
-        assertFalse(file1.exists());
+        file1.delete();
         codes1.save("test_require1");
         assertTrue(file1.exists());
 
@@ -1730,7 +1731,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyCompiler compiler2 = new RubyCompiler(null, false);
         CompilationResults codes2 = compiler2.compile(new StringReader(program_text2));
         File file2 = new File("test_require2.jar");
-        assertFalse(file2.exists());
+        file2.delete();
         codes2.save("test_require2");
         assertTrue(file2.exists());
 
@@ -1755,7 +1756,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyCompiler compiler1 = new RubyCompiler(null, false);
         CompilationResults codes1 = compiler1.compile(new StringReader(program_text1));
         File file1 = new File("test_require1.jar");
-        assertFalse(file1.exists());
+        file1.delete();
         codes1.save("test_require1");
         assertTrue(file1.exists());
 
@@ -1763,7 +1764,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyCompiler compiler2 = new RubyCompiler(null, false);
         CompilationResults codes2 = compiler2.compile(new StringReader(program_text2));
         File file2 = new File("test_require2.jar");
-        assertFalse(file2.exists());
+        file2.delete();
         codes2.save("test_require2");
         assertTrue(file2.exists());
 
