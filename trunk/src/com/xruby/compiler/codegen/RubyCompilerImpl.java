@@ -161,7 +161,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression) {
-		String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_);
+		String method_name = (cg_ instanceof ClassGeneratorForRubyMethod) ? ((ClassGeneratorForRubyMethod)cg_).getMethodName() : null;
+		String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_, method_name);
 		
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);

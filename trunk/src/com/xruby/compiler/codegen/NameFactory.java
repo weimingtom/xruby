@@ -39,12 +39,16 @@ public class NameFactory {
 		return sb.toString();
 	}
 
-	public static String createClassNameForBlock(String script_name) {
+	public static String createClassNameForBlock(String script_name, String method_name) {
 		if (null == script_name) {
 			script_name = "STDIN";
 		}
 
-		return getNameWithoutSufix(script_name) + "/BLOCK$" + count_.getAndIncrement();
+		return getNameWithoutSufix(script_name) +
+			"/BLOCK" +
+			((null == method_name) ? "" : "_" + removeInvalidIdentifierPart(method_name)) +
+			"$" +
+			count_.getAndIncrement();
 	}
 
 	public static String createMethodnameForClassBuilder(String class_name) {
