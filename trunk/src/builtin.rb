@@ -59,8 +59,8 @@ module Kernel
         #puts "[DEBUG] Loading library: #{file_name}"
 
         content = ::IO.read(file_name)
-        eval(content, nil)
         $__loaded_libraries.push(file_name) unless $__loaded_libraries.include?(file_name)
+        eval(content, nil)
         true
     end
 end
