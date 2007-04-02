@@ -6,25 +6,25 @@ import com.xruby.runtime.lang.RubyRuntime;
  * Test if ruby's standand lib work under xruby
  */
 public class StdlibTest extends CompilerTestCase {
-	
+
 	public void setUp() {
 		RubyRuntime.init(null);
 	}
-	
+
 	public void test_test_unit_assertionfailederror() {
 		String[] program_texts = {
 				"require 'test/unit/assertionfailederror'",
 				"print Test::Unit::AssertionFailedError.superclass",
 		};
-		
+
 		String[] outputs = {
 				"",
 				"StandardError",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_failure() {
 		String[] program_texts = {
 				"require 'test/unit/failure'",
@@ -34,7 +34,7 @@ public class StdlibTest extends CompilerTestCase {
 				"print Test::Unit::Failure.new('x1', ['y'], 'z1').long_display",
 				"print Test::Unit::Failure.new('x1', ['y'], 'z1').to_s",
 		};
-		
+
 		String[] outputs = {
 				"",
 				"F",
@@ -43,48 +43,48 @@ public class StdlibTest extends CompilerTestCase {
 				"Failure:\nx1y:\nz1",
 				"Failure:\nx1y:\nz1",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_util_backtracefilter() {
 		String[] program_texts = {
 				"print(require('test/unit/util/backtracefilter'))",
 				"print Test::Unit::Util::BacktraceFilter",
 		};
-		
+
 		String[] outputs = {
 				"true",
 				"Test::Unit::Util::BacktraceFilter",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_util_procwrapper() {
 		String[] program_texts = {
 				"print(require('test/unit/util/procwrapper'))",
 		};
-		
+
 		String[] outputs = {
 				"true",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_util_observable() {
 		String[] program_texts = {
 				"print(require('test/unit/util/observable'))",
 		};
-		
+
 		String[] outputs = {
 				"true",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_testresult() {
 		String[] program_texts = {
 				"print(require('test/unit/testresult'))",
@@ -97,7 +97,7 @@ public class StdlibTest extends CompilerTestCase {
 				"a=Test::Unit::TestResult.new; print a.add_error('xxx'), a.add_error('yyy'), a.error_count",
 				"a=Test::Unit::TestResult.new; print a.add_assertion",
 		};
-		
+
 		String[] outputs = {
 				"true",
 				"0 tests, 0 assertions, 0 failures, 0 errors",
@@ -109,29 +109,43 @@ public class StdlibTest extends CompilerTestCase {
 				"002",
 				"0",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_error() {
 		String[] program_texts = {
 				"print(require('test/unit/error'))",
 				"print Test::Unit::Error.new('name', 'excepton').single_character_display",
 				"print Test::Unit::Error.new('excepton', NameError.new('message')).message",
 		};
-		
+
 		String[] outputs = {
 				"true",
 				"E",
 				"NameError: message",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
+	public void test_test_unit_testcase() {
+		String[] program_texts = {
+				"require('test/unit/testcase')",
+				"print Test::Unit::TestCase.new('name').size",
+		};
+
+		String[] outputs = {
+				"",
+				"1",
+		};
+
+		compile_run_and_compare_output(program_texts, outputs);
+	}
+
 	public void test_test_unit_testsuite() {
 		String[] program_texts = {
-				"print(require('test/unit/testsuite'))",
+				"require('test/unit/testsuite')",
 				"print Test::Unit::TestSuite.new.to_s",
 				"print Test::Unit::TestSuite.new('name').to_s",
 				"print Test::Unit::TestSuite.new.empty?",
@@ -141,9 +155,9 @@ public class StdlibTest extends CompilerTestCase {
 				"a = Test::Unit::TestSuite.new; b = Test::Unit::TestSuite.new; print a == b",
 				"Test::Unit::TestSuite.new('x').run('z') {|x, y| print x, y}",
 		};
-		
+
 		String[] outputs = {
-				"true",
+				"",
 				"Unnamed TestSuite",
 				"name",
 				"true",
@@ -153,25 +167,25 @@ public class StdlibTest extends CompilerTestCase {
 				"true",
 				"Test::Unit::TestSuite::STARTEDxTest::Unit::TestSuite::FINISHEDx",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_collector() {
 		String[] program_texts = {
 				"print(require('test/unit/collector'))",
 		};
-		
+
 		String[] outputs = {
 				"true",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_assertions() {
 		String[] program_texts = {
-				"print(require('test/unit/assertions'))",
+				"require('test/unit/assertions')",
 				"print (include Test::Unit::Assertions)",
 				"print(build_message('xxx'))",
 				"print(build_message('xxx', 'yyy'))",
@@ -183,9 +197,9 @@ public class StdlibTest extends CompilerTestCase {
 				"print(build_message('xxx', '<?> is not true.', false))",
 				"assert_block {true}",
 		};
-		
+
 		String[] outputs = {
-				"true",
+				"",
 				"Object",
 				"xxx.",
 				"xxx.\nyyy",
@@ -197,47 +211,47 @@ public class StdlibTest extends CompilerTestCase {
 				"xxx.\n<false> is not true.",
 				"",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_ui_testrunnerutilities() {
 		String[] program_texts = {
 				"print(require('test/unit/ui/testrunnerutilities'))",
 		};
-		
+
 		String[] outputs = {
 				"true",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	/*
 	public void test_test_unit_ui_testrunnermediator() {
 		String[] program_texts = {
 				"print(require('test/unit/ui/testrunnermediator'))",
 		};
-		
+
 		String[] outputs = {
 				"true",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	public void test_test_unit_ui_console_testrunner() {
 		String[] program_texts = {
 				"print(require('test/unit/ui/console/testrunner'))",
 		};
-		
+
 		String[] outputs = {
 				"true",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}*/
-	
+
 	public void test_complex() {
 		String[] program_texts = {
 				"require 'complex.rb'",
@@ -245,85 +259,85 @@ public class StdlibTest extends CompilerTestCase {
 				"print Complex.new(0,2)",
 				"print Complex::I",
 		};
-		
+
 		String[] outputs = {
 				"",
 				"true",
 				"2i",
 				"1i",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
-	
+
 	/*TODO
 	public void test_matrix() {
 		String[] program_texts = {
 				"require 'matrix'",
 		};
-		
+
 		String[] outputs = {
 				"",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}*/
-	
+
 	public void test_rational() {
 		String[] program_texts = {
 				"require 'rational'",
 				"print Rational(3,4).to_s",
-				
+
 				"print Rational(+7,4).to_i",
 				"print Rational(-7,4).to_i",
-				
+
 				"print Rational(+7,4).to_f",
-				
+
 				"print Rational(3,4) / 2",
 				"print Rational(3,4) / 2.0",
-				
+
 				"print Rational(3,4) * 2",
-				
+
 				"print Rational(7,4) % Rational(1,2)",
 				"print Rational(3,4) % 1",
 				"print Rational(3,4) % Rational(1,7)",
-				
+
 				"print Rational(3,4) ** 2",
-				
+
 				"print Rational(-3,5).abs",
-				
+
 				"print Rational(-3,2) == Rational(-3,2) ",
-				
+
 				"print Rational(-3,2) <=> Rational(-3,2) ",
 		};
-		
+
 		String[] outputs = {
 				"",
 				"3/4",
-				
+
 				"1",
 				"-2",
-				
+
 				"1.75",
-				
+
 				"3/8",
 				"0.375",
-				
+
 				"3/2",
-				
+
 				"1/4",
 				"3/4",
 				"1/28",
-				
+
 				"9/16",
-				
+
 				"3/5",
-				
+
 				"true",
-				
+
 				"0",
 		};
-		
+
 		compile_run_and_compare_output(program_texts, outputs);
 	}
 }
