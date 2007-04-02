@@ -159,7 +159,9 @@ public class HashClassBuilder {
         c.defineMethod("size", length);
         c.defineMethod("[]", new Hash_hash_access());
         c.defineMethod("[]=", new Hash_hash_set());
-        c.defineMethod("each", new Hash_each());
+        RubyMethod each = new Hash_each();
+        c.defineMethod("each", each);
+        c.defineMethod("each_pair", each);
         c.defineMethod("to_s", new Hash_to_s());
         c.defineMethod("initialize", new Hash_initialize());
         c.defineMethod("has_key?", new Hash_has_key_question());
