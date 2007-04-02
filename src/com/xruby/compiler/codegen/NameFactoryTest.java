@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi
  * Distributed under the GNU General Public License 2.0
  */
@@ -13,7 +13,7 @@ public class NameFactoryTest extends TestCase {
 	public void setUp() {
 		NameFactory.reset();
 	}
-	
+
 	public void test_createClassName() {
 		assertEquals("STDIN/main", NameFactory.createClassName(null, null));
 		assertEquals("test/main", NameFactory.createClassName("test.rb", null));
@@ -22,22 +22,22 @@ public class NameFactoryTest extends TestCase {
 	}
 
 	public void test_createClassNameForBlock() {
-		assertEquals("test/BLOCK$0", NameFactory.createClassNameForBlock("test.rb"));
-		assertEquals("test/BLOCK$1", NameFactory.createClassNameForBlock("test.rb"));
+		assertEquals("test/BLOCK$0", NameFactory.createClassNameForBlock("test.rb", ""));
+		assertEquals("test/BLOCK$1", NameFactory.createClassNameForBlock("test.rb", ""));
 	}
-	
+
 	public void test_createClassFileName () {
 		assertEquals("main.class", NameFactory.createClassFileName("main"));
 		assertEquals("to_s$1234.class", NameFactory.createClassFileName("to_s$1234"));
 		assertEquals("empty?$4.class", NameFactory.createClassFileName("empty?$4"));
 	}
-	
+
 	public void test_createJarFileName() {
 		assertEquals((new File("test.jar")).toString(), NameFactory.createJarFileName("test.rb.bak").toString());
 		assertEquals((new File("STDIN.jar")).toString(), NameFactory.createJarFileName(null).toString());
 		assertEquals(new File("test.jar").toString(), NameFactory.createJarFileName("c:/ruby/lib/test.rb").toString());
 	}
-	
+
 	public void test_change_suffix_to_jar() {
 		assertEquals((new File("stringio.jar")).toString(), NameFactory.change_filename_suffix_to_jar("stringio").toString());
 		assertEquals((new File("time.jar")).toString(), NameFactory.change_filename_suffix_to_jar("time.rb").toString());
@@ -54,7 +54,7 @@ public class NameFactoryTest extends TestCase {
 		assertEquals("test.main", NameFactory.convertSlashToDot("test/main"));
 		assertEquals("xruby.test.main", NameFactory.convertSlashToDot("xruby/test/main"));
 	}
-	
+
 	public void test_filename2classname() {
 		assertEquals("test.main", NameFactory.filename2classname("test/main.class"));
 	}
