@@ -22,8 +22,8 @@ public class NameFactoryTest extends TestCase {
 	}
 
 	public void test_createClassNameForBlock() {
-		assertEquals("test/BLOCK$0", NameFactory.createClassNameForBlock("test.rb", ""));
-		assertEquals("test/BLOCK$1", NameFactory.createClassNameForBlock("test.rb", ""));
+		assertEquals("test/BLOCK$0", NameFactory.createClassNameForBlock("test.rb", null));
+		assertEquals("test/BLOCK$1", NameFactory.createClassNameForBlock("test.rb", null));
 	}
 
 	public void test_createClassFileName () {
