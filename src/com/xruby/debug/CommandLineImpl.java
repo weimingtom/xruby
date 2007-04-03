@@ -11,8 +11,12 @@ import java.util.List;
  * Implementation for Commands
  */
 public class CommandLineImpl implements Commands {
-        
+
     public void run() {
+        JVMConnection connection = Environment.getJvmConnection();
+        String entrance = connection.connectorArg("main");
+
+        connection.open();
 
     }
 

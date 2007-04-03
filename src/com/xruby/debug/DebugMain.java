@@ -4,6 +4,11 @@
  */
 package com.xruby.debug;
 
+import com.sun.jdi.VirtualMachine;
+
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * This is a debugger simulater
  *
@@ -11,6 +16,19 @@ package com.xruby.debug;
  */
 public class DebugMain {
     public static void main(String[] args) throws Exception {
+        int traceFlags = VirtualMachine.TRACE_NONE;
+        // TODO: Handle the args in the future
+        // TODO: Handle sourcepath
+        // TODO: How to get main method?
 
+        Map<String, String> arguments = new HashMap<String, String>();
+        arguments.put(JVMConnection.MAIN, "test_debug.main");
+        arguments.put(JVMConnection.OPTIONS, "-classpath F:\\Projects\\example\\lib\\xruby-0.1.3.jar;");
+        arguments.put(JVMConnection.LAUNCH, "com.sun.jdi.CommandLineLaunch");
+
+        // initiate environment
+        Environment.initEnv(traceFlags, arguments);
+        new Debugger();
+        
     }
 }
