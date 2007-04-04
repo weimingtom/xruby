@@ -15,13 +15,7 @@ public class RubyAPI {
 
     public static boolean testTrueFalse(RubyValue value) {
         //only 'nil' and 'false' is false.
-        if (value == ObjectFactory.FALSE_VALUE) {
-            return false;
-        } else if (value == ObjectFactory.NIL_VALUE) {
-            return false;
-        } else {
-            return true;
-        }
+        return value != ObjectFactory.FALSE_VALUE && value != ObjectFactory.NIL_VALUE;
     }
 
     public static boolean testCaseEqual(RubyValue value1, RubyValue value2) {
@@ -344,7 +338,7 @@ public class RubyAPI {
         if (!(receiver instanceof RubyClass) &&
                 !(receiver instanceof RubyModule)) {
             RubyValue v = RubyAPI.callPublicMethod(receiver, null, null, CommonRubyID.toSID);
-            String s = ((RubyString) v).toString();
+            String s = v.toString();
             throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
         }
     }

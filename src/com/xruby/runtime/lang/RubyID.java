@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Ye Zheng
+ * Copyright 2006-2007 Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -11,10 +11,6 @@ class RubyIDGenerator {
 	// ID_ALLOCATOR = 1
 	
 	private static AtomicLong lastId = new AtomicLong(2);
-	
-	public static void reset(long seed) {
-		lastId.set(seed);
-	}
 	
 	public static RubyID nextId() {
 		return new RubyID(lastId.getAndIncrement());
@@ -36,18 +32,6 @@ public class RubyID {
 
 	public long getId() {
 		return id;
-	}
-
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		}
-		
-		if (obj == null) {
-			return false;
-		}
-		
-		return (obj instanceof RubyID) ? this.id == ((RubyID)obj).id : false;
 	}
 
 	public int hashCode() {
