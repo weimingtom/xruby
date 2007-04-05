@@ -23,7 +23,7 @@ public class DebugMain {
 
         Map<String, String> arguments = new HashMap<String, String>();
         arguments.put(JVMConnection.MAIN, "test_debug.main");
-        arguments.put(JVMConnection.OPTIONS, "-classpath F:\\Projects\\example\\lib\\xruby-0.1.3.jar;");
+        arguments.put(JVMConnection.OPTIONS, "-classpath E:\\Projects\\xruby_debugger\\xruby-0.1.3.jar;E:\\Projects\\xruby_debugger\\test_debug");
         arguments.put(JVMConnection.LAUNCH, "com.sun.jdi.CommandLineLaunch");
 
         // initiate environment
