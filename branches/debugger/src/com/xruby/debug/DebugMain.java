@@ -16,19 +16,17 @@ import java.util.HashMap;
  */
 public class DebugMain {
     public static void main(String[] args) throws Exception {
-        int traceFlags = VirtualMachine.TRACE_NONE;
-        // TODO: Handle the args in the future
-        // TODO: Handle sourcepath
-        // TODO: How to get main method?
-
-        Map<String, String> arguments = new HashMap<String, String>();
-        arguments.put(JVMConnection.MAIN, "test_debug.main");
-        arguments.put(JVMConnection.OPTIONS, "-classpath E:\\Projects\\xruby_debugger\\xruby-0.1.3.jar;E:\\Projects\\xruby_debugger\\test_debug");
-        arguments.put(JVMConnection.LAUNCH, "com.sun.jdi.CommandLineLaunch");
-
-        // initiate environment
-        Environment.initEnv(traceFlags, arguments);
-        new Debugger();
+//        int traceFlags = VirtualMachine.TRACE_NONE;
+//
+//        Map<String, String> arguments = new HashMap<String, String>();
+//        arguments.put(JVMConnection.MAIN, "test_debug.main");
+//        arguments.put(JVMConnection.OPTIONS, "-classpath E:\\Projects\\xruby_debugger\\xruby-0.1.3.jar;E:\\Projects\\xruby_debugger\\test_debug");
+//        arguments.put(JVMConnection.LAUNCH, "com.sun.jdi.CommandLineLaunch");
+//
+//        // initiate environment
+//        Environment.initEnv(traceFlags, arguments);
+//        new Debugger();
+        CommandLineFrontEnd frontEnd = new CommandLineFrontEnd(args);
         
     }
 }
