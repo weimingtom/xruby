@@ -258,6 +258,17 @@ public class RubyAPI {
         return a;
     }
 
+	public static RubyValue expandArrayIfThereIsOnlyOneRubyArray(RubyValue v) {
+        if (v instanceof RubyArray) {
+        	RubyArray a = (RubyArray)v;
+        	if (a.size() == 1 && a.isSingleRhs()) {
+                return a.get(0);
+        	}
+        }
+
+        return v;
+    }
+
     public static RubyArray convertToArrayIfNotYet(RubyValue v) {
         if (v instanceof RubyArray) {
             return (RubyArray) v;
