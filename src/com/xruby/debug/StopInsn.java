@@ -75,6 +75,7 @@ public class StopInsn implements Instruction {
     // Private methods
 
     // Validate class's id, return false if it's illegal, otherwise true.
+
     private boolean validateClassId(String id) {
         // TODO: Check class's id
         return true;

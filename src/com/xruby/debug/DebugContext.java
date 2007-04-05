@@ -23,6 +23,7 @@ class DebugContext {
     private static List<File> sourcePath;
     private static String classPath;
     private static JVMEventNotifier notifier;
+    private static EventHandler handler;
 
     static {
         sourcePath = new ArrayList<File>();
@@ -50,6 +51,15 @@ class DebugContext {
         return notifier;
     }
 
+
+    public static EventHandler getHandler() {
+        return handler;
+    }
+
+    public static void setHandler(EventHandler handler) {
+        DebugContext.handler = handler;
+    }
+
     public static JVMConnection getJvmConnection() {
         return jvmConnection;
     }
@@ -73,25 +83,24 @@ class DebugContext {
     public static void addSourcePath(String path) {
         File file = new File(path);
 
-        if(file.isDirectory()) {
+        if (file.isDirectory()) {
             sourcePath.add(file);
-        }
-        else if(path.endsWith(".jar")){
+        } else if (path.endsWith(".jar")) {
             sourcePath.add(file);
-        }
-        else {
+        } else {
             // TODO: Output the warning here
         }
     }
 
     public static void addSourcePath(List<String> list) {
-        for(String path: list) {
+        for (String path : list) {
             addSourcePath(path);
         }
     }
 
     /**
      * Return the description of this context.
+     *
      * @return description
      */
     public static String dumpContext() {

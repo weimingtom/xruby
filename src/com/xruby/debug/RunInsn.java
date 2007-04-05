@@ -10,7 +10,6 @@ package com.xruby.debug;
  * @author Yu Su (beanworms@gmail.com)
  */
 public class RunInsn implements Instruction {
-    private EventHandler handler;
 
     /**
      * Execute Run instruction, general process is listed as below:
@@ -22,9 +21,11 @@ public class RunInsn implements Instruction {
     public void execute() {
         JVMConnection connection = DebugContext.getJvmConnection();
 
-        connection.open();        
-        if ((handler == null) && DebugContext.getJvmConnection().isOpen()) {
-            handler = new EventHandler(DebugContext.getNotifier(), false);
+        connection.open();
+        if ((DebugContext.getHandler() == null) &&
+             DebugContext.getJvmConnection().isOpen())
+        {
+            DebugContext.setHandler(new EventHandler(DebugContext.getNotifier(), false));
         }
     }
 }

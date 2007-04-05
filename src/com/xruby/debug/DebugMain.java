@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author Yu Su (beanworms@gmail.com)
  */
 public class DebugMain {
-        
+
     public static void main(String[] args) throws XRubyDebugException {
         // Parse the arguments: entrance, options
         DebugCommandLineOptions options = new DebugCommandLineOptions(args);
@@ -21,14 +21,14 @@ public class DebugMain {
 
         // Options, this is optional
         String optionsArg;
-        if(options.getClassPath() != null) {
+        if (options.getClassPath() != null) {
             optionsArg = String.format("-classpath %s", options.getClassPath());
             arguments.put(DebugConstant.OPTIONS, optionsArg);
         }
 
         // Entrance, required
         String mainArg = String.format("%s", options.getEntrance());
-        if(mainArg == null || mainArg.equals("")) {
+        if (mainArg == null || mainArg.equals("")) {
             throw new XRubyDebugException("No entrance");
         }
         arguments.put(DebugConstant.MAIN, mainArg);
@@ -36,7 +36,7 @@ public class DebugMain {
         // Create front end
         FrontEnd frontEnd = new CommandLineFrontEnd(arguments);
 
-        // Start initiate debug context
+        // initiate debug context
         DebugContext.addSourcePath(options.getPathList());
         DebugContext.setClassPath(options.getClassPath());
 

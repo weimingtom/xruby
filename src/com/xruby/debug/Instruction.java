@@ -6,6 +6,7 @@ package com.xruby.debug;
 
 /**
  * Interface for debug instruction
+ *
  * @author Yu Su (beanworms@gmail.com)
  */
 public interface Instruction {

@@ -9,7 +9,7 @@ package com.xruby.debug;
  *
  * @author Yu Su (beanworms@gmail.com)
  */
-public class ListInsn  implements Instruction{
+public class ListInsn implements Instruction {
     // TODO: consider how to use this instruction
     public void execute() {
 
