@@ -88,6 +88,7 @@ public class Block {
 									is_for_in_expression_);
 
 		MultipleAssignmentStatement.acceptMLhs(visitor, buildLhs(), asterisk_parameter_, has_extra_comma_);
+		visitor.visitTerminal();
 		
 		//TODO support default_value
 
