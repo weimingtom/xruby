@@ -28,9 +28,6 @@ public class JVMConnection {
     //---------------
     //   constants
     //---------------
-    static final String LAUNCH = "launch";
-    static final String MAIN = "main";
-    static final String OPTIONS = "options";
 
     private VirtualMachine jvm;
     private Process process;
@@ -41,7 +38,7 @@ public class JVMConnection {
     private final Map<String, Connector.Argument> connectorArgs;
 
     JVMConnection(int traceFlag, Map<String, String> arguments) {
-        String launchMethod = arguments.get(LAUNCH);
+        String launchMethod = arguments.get(DebugConstant.LAUNCH);
         connector = findConnector(launchMethod);
         if (connector == null) {
             throw new RuntimeException("Wrong connector: " + launchMethod);

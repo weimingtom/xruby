@@ -4,24 +4,42 @@
  */
 package com.xruby.debug;
 
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * This is a debugger simulater
  *
  * @author Yu Su (beanworms@gmail.com)
  */
 public class DebugMain {
-    public static void main(String[] args) throws Exception {
-//        int traceFlags = VirtualMachine.TRACE_NONE;
-//
-//        Map<String, String> arguments = new HashMap<String, String>();
-//        arguments.put(JVMConnection.MAIN, "test_debug.main");
-//        arguments.put(JVMConnection.OPTIONS, "-classpath E:\\Projects\\xruby_debugger\\xruby-0.1.3.jar;E:\\Projects\\xruby_debugger\\test_debug");
-//        arguments.put(JVMConnection.LAUNCH, "com.sun.jdi.CommandLineLaunch");
-//
-//        // initiate environment
-//        DebugContext.initContext(traceFlags, arguments);
-//        new Debugger();
-        CommandLineFrontEnd frontEnd = new CommandLineFrontEnd(args);
         
+    public static void main(String[] args) throws XRubyDebugException {
+        // Parse the arguments: entrance, options
+        DebugCommandLineOptions options = new DebugCommandLineOptions(args);
+        Map<String, String> arguments = new HashMap<String, String>();
+
+        // Options, this is optional
+        String optionsArg;
+        if(options.getClassPath() != null) {
+            optionsArg = String.format("-classpath %s", options.getClassPath());
+            arguments.put(DebugConstant.OPTIONS, optionsArg);
+        }
+
+        // Entrance, required
+        String mainArg = String.format("%s", options.getEntrance());
+        if(mainArg == null || mainArg.equals("")) {
+            throw new XRubyDebugException("No entrance");
+        }
+        arguments.put(DebugConstant.MAIN, mainArg);
+
+        // Create front end
+        FrontEnd frontEnd = new CommandLineFrontEnd(arguments);
+
+        // Start initiate debug context
+        DebugContext.addSourcePath(options.getPathList());
+        DebugContext.setClassPath(options.getClassPath());
+
+        frontEnd.distributeCommand("run", null);
     }
 }

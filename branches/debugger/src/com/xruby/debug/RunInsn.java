@@ -9,7 +9,8 @@ package com.xruby.debug;
  *
  * @author Yu Su (beanworms@gmail.com)
  */
-public class RunInsn implements Instruction{
+public class RunInsn implements Instruction {
+    private EventHandler handler;
 
     /**
      * Execute Run instruction, general process is listed as below:
@@ -19,6 +20,11 @@ public class RunInsn implements Instruction{
      * 4. Start threads handling in/error/out streams
      */
     public void execute() {
-        // TODO: Implements run instruction
+        JVMConnection connection = DebugContext.getJvmConnection();
+
+        connection.open();        
+        if ((handler == null) && DebugContext.getJvmConnection().isOpen()) {
+            handler = new EventHandler(DebugContext.getNotifier(), false);
+        }
     }
 }
