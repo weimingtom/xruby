@@ -131,6 +131,9 @@ public class JVMConnection {
 
     // TODO: Find out what the hell are these funcions do actually, 
     // now I just copy them from jpda demo
+
+    // Start a thread responsible for input stream
+    // read characters and print them out. (dumpStream)
     private void displayRemoteOutput(final InputStream stream) {
         Thread thr = new Thread("output reader") {
             public void run() {
@@ -156,6 +159,7 @@ public class JVMConnection {
         }
     }
 
+    // Read every character from stream, output them
     private void dumpStream(InputStream stream) throws IOException {
         BufferedReader in =
                 new BufferedReader(new InputStreamReader(stream));

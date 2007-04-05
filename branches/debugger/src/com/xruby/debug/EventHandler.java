@@ -40,7 +40,7 @@ public class EventHandler implements Runnable {
     }
 
     public void run() {
-        EventQueue queue = Environment.getJVM().eventQueue();
+        EventQueue queue = DebugContext.getJVM().eventQueue();
         while (connected) {
             try {
                 EventSet eventSet = queue.remove();

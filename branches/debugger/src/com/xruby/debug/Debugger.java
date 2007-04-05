@@ -6,7 +6,6 @@ package com.xruby.debug;
 
 import com.sun.jdi.event.VMStartEvent;
 import com.sun.jdi.event.Event;
-import com.sun.tools.example.debug.tty.*;
 
 import static java.lang.System.out;
 
@@ -25,7 +24,7 @@ public class Debugger implements JVMEventNotifier {
         // HERE NOW: Execute one command: run ...
 
         commands.run();
-        if ((handler == null) && Environment.getJvmConnection().isOpen()) {
+        if ((handler == null) && DebugContext.getJvmConnection().isOpen()) {
             handler = new EventHandler(this, false);
         }
     }

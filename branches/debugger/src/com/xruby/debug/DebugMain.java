@@ -4,11 +4,6 @@
  */
 package com.xruby.debug;
 
-import com.sun.jdi.VirtualMachine;
-
-import java.util.Map;
-import java.util.HashMap;
-
 /**
  * This is a debugger simulater
  *
@@ -24,7 +19,7 @@ public class DebugMain {
 //        arguments.put(JVMConnection.LAUNCH, "com.sun.jdi.CommandLineLaunch");
 //
 //        // initiate environment
-//        Environment.initEnv(traceFlags, arguments);
+//        DebugContext.initContext(traceFlags, arguments);
 //        new Debugger();
         CommandLineFrontEnd frontEnd = new CommandLineFrontEnd(args);
         
