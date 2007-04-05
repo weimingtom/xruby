@@ -17,7 +17,7 @@ public abstract class FrontEnd {
     private static final String STOP = "stop";
     private static final String LIST = "list";
 
-    public void distributeEvent(final String command, String[] args) throws XRubyDebugException {
+    public void distributeCommand(final String command, String[] args) throws XRubyDebugException {
         if (command.equalsIgnoreCase(RUN)) {
             // TODO: Run the program
             new RunInsn().execute();

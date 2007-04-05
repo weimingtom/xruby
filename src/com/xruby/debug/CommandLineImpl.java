@@ -13,7 +13,7 @@ import java.util.List;
 public class CommandLineImpl implements Commands {
 
     public void run() {
-        JVMConnection connection = Environment.getJvmConnection();
+        JVMConnection connection = DebugContext.getJvmConnection();
         String entrance = connection.connectorArg("main");
 
         connection.open();

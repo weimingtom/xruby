@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Environment for debug
+ * DebugContext for debug
  *
  * @author Yu Su(beanworms@gmail.com)
  */
-public class Environment {
+public class DebugContext {
     private static JVMConnection jvmConnection;
     private static List<File> sourcePath;
 
@@ -29,7 +29,7 @@ public class Environment {
     // -----------------
     //  static methods
     // -----------------
-    public static void initEnv(int traceFlg, Map<String, String> arguments) {
+    public static void initContext(int traceFlg, Map<String, String> arguments) {
         jvmConnection = new JVMConnection(traceFlg, arguments);
     }
 
@@ -43,6 +43,22 @@ public class Environment {
     }
 
     public static void addSourcePath(String path) {
+        File file = new File(path);
 
+        if(file.isDirectory()) {
+            sourcePath.add(file);
+        }
+        else if(path.endsWith(".jar")){
+            sourcePath.add(file);
+        }
+        else {
+            // TODO: Output the warning here
+        }
+    }
+
+    public static void addSourcePath(List<String> list) {
+        for(String path: list) {
+            addSourcePath(path);
+        }
     }
 }
