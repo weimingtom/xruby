@@ -6,18 +6,28 @@
 package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.RubyString;
+import com.xruby.runtime.value.RubyArray;
 
-public class RubyModule extends MethodCollectionWithMixin {
+public class RubyModule extends MethodCollection {
 
 	private RubyModule owner_ = null;//owner is where is the module is defined under.
+    protected RubyClass superclass_;
 
-	public RubyModule(String name, RubyModule owner) {
+    public RubyModule(String name, RubyModule owner) {
 		super(null);
 		super.name_ = name;
 		owner_ = owner;
 	}
-	
-	//We called super(null) in RubyModule's constructor to avoid initialization pains 
+
+    public boolean isRealModule() {
+        return true;
+    }
+
+    public boolean isRealClass() {
+        return false;
+    }
+
+    //We called super(null) in RubyModule's constructor to avoid initialization pains
 	public RubyClass getRubyClass() {
 		return RubyRuntime.ModuleClass;
 	}
@@ -104,12 +114,19 @@ public class RubyModule extends MethodCollectionWithMixin {
 	}
 
 	RubyValue getConstant(String name) {
-		RubyValue v = super.getConstant(name);
+		RubyValue v = super.getOwnConstant(name);
 		if (null != v) {
 			return v;
 		}
-		
-		if (null == owner_) {
+
+        if (null != this.superclass_) {
+            v = this.superclass_.getConstant(name);
+            if (null != v) {
+                return v;
+            }
+        }
+
+        if (null == owner_) {
 			return null;
 		}
 
@@ -117,9 +134,7 @@ public class RubyModule extends MethodCollectionWithMixin {
 	}
 	
 	public void to_s(RubyString s) {
-		if (null == owner_) {
-			return;
-		} else {
+        if (null != owner_) {
 			owner_.to_s(s);
 			if (s.length() > 0) {
 				s.appendString("::");
@@ -135,5 +150,61 @@ public class RubyModule extends MethodCollectionWithMixin {
 			throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
 		}
 		getSingletonClass().defineMethod(method_name, m);
+	}
+
+    /*
+	 * Include Module
+	 */
+    public void includeModule(RubyModule module) {
+		if (module == null) {
+			return;
+		}
+		RubyModule c = this;
+		boolean changed = false;
+		while (module != null) {
+			boolean superclassSeen = false;
+			if (c.methods_ == module.methods_) {
+                throw new RubyException(RubyRuntime.ArgumentErrorClass, "cyclic include detected");
+			}
+
+			boolean skip = false;
+
+			for (RubyClass p = this.superclass_; p != null; p = p.superclass_) {
+				if (p instanceof RubyIncludeClass) {
+					if (p.methods_ == module.methods_) {
+						if (!superclassSeen) {
+							c = p;
+							skip = true;
+							break;
+						}
+					}
+				} else if (p.isRealClass()) {
+					superclassSeen = true;
+					break;
+				}
+			}
+
+			if (!skip) {
+				c.superclass_ = new RubyIncludeClass(module, c.superclass_);
+				c = c.superclass_;
+				changed = true;
+			}
+
+			module = module.superclass_;
+		}
+
+		if (changed) {
+			RubyClass.resetCache();
+		}
+	}
+
+    public final void collectIncludedModuleNames(RubyArray a) {
+        for (RubyModule m = this; m != null; m = m.superclass_) {
+            if (m.isRealModule()) {
+                a.add(m);
+            } else if (m instanceof RubyIncludeClass) {
+                a.add(((RubyIncludeClass)m).getIncludedModule());
+            }
+        }
 	}
 }

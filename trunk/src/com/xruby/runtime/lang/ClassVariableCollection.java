@@ -9,7 +9,7 @@ import java.util.*;
 
 abstract class ClassVariableCollection extends RubyValue {
 	protected String name_;
-	private Map<String, RubyValue> class_varibles_ = new HashMap<String, RubyValue>();
+	protected Map<String, RubyValue> class_varibles_ = new HashMap<String, RubyValue>();
 
 	ClassVariableCollection(RubyClass c) {
 		super(c);

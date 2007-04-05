@@ -18,7 +18,7 @@ class TopLevelSelf_include extends RubyVarArgMethod {
             if (c != RubyRuntime.ModuleClass) {
                 throw new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type " + c.getName() + " (expected Module)");
             }
-            RubyRuntime.GlobalScope.includeModule((RubyModule) v);
+            RubyRuntime.ObjectClass.includeModule((RubyModule) v);
         }
 
         return RubyRuntime.ObjectClass;
