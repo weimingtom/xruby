@@ -631,6 +631,11 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.value.RubyArray expandArrayIfThereIsOnlyOneRubyArray(com.xruby.runtime.value.RubyArray)"));
     }
 
+    public void RubyAPI_expandArrayIfThereIsOnlyOneRubyArray2() {
+        invokeStatic(Type.getType(RubyAPI.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsOnlyOneRubyArray(com.xruby.runtime.lang.RubyValue)"));
+    }
+
     public void RubyAPI_convertToArrayIfNotYet() {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.value.RubyArray convertToArrayIfNotYet(com.xruby.runtime.lang.RubyValue)"));

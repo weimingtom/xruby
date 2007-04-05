@@ -515,7 +515,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public Object visitAfterWhenCondition(Object case_value, boolean asterisk) {
 		if (asterisk) {
-			cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsOnlyOneRubyArray();
+			cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsOnlyOneRubyArray2();
 		}
 		
 		int i = (Integer)case_value;
