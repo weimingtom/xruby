@@ -8,8 +8,8 @@ package com.xruby.debug;
 import com.sun.jdi.VirtualMachine;
 
 import java.io.File;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,22 +17,38 @@ import java.util.Map;
  *
  * @author Yu Su(beanworms@gmail.com)
  */
-public class DebugContext {
+class DebugContext {
+
     private static JVMConnection jvmConnection;
     private static List<File> sourcePath;
+    private static String classPath;
+    private static JVMEventNotifier notifier;
 
-    // static initialization
     static {
         sourcePath = new ArrayList<File>();
+        notifier = new DefaultJVMEventNotifier();
     }
 
-    // -----------------
-    //  static methods
-    // -----------------
-    public static void initContext(int traceFlg, Map<String, String> arguments) {
-        jvmConnection = new JVMConnection(traceFlg, arguments);
+    /**
+     * Initiate context
+     *
+     * @param traceFlag trace mode
+     * @param arguments arguments
+     */
+    public static void initContext(int traceFlag, Map<String, String> arguments) {
+        jvmConnection = new JVMConnection(traceFlag, arguments);
     }
 
+    // -------------------------
+    //   Readers and Writters
+    // -------------------------
+    public static void setNotifier(JVMEventNotifier notifier) {
+        DebugContext.notifier = notifier;
+    }
+
+    public static JVMEventNotifier getNotifier() {
+        return notifier;
+    }
 
     public static JVMConnection getJvmConnection() {
         return jvmConnection;
@@ -40,6 +56,18 @@ public class DebugContext {
 
     public static VirtualMachine getJVM() {
         return jvmConnection.getJvm();
+    }
+
+    public static String getClassPath() {
+        return classPath;
+    }
+
+    public static void setClassPath(String classPath) {
+        DebugContext.classPath = classPath;
+    }
+
+    public static List<File> getSourcePath() {
+        return sourcePath;
     }
 
     public static void addSourcePath(String path) {
@@ -60,5 +88,13 @@ public class DebugContext {
         for(String path: list) {
             addSourcePath(path);
         }
+    }
+
+    /**
+     * Return the description of this context.
+     * @return description
+     */
+    public static String dumpContext() {
+        return null; // TODO: implement it
     }
 }

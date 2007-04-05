@@ -4,6 +4,10 @@
  */
 package com.xruby.debug;
 
+import com.sun.jdi.VirtualMachine;
+
+import java.util.Map;
+
 /**
  * Abstract FrontEnd
  *
@@ -17,6 +21,33 @@ public abstract class FrontEnd {
     private static final String STOP = "stop";
     private static final String LIST = "list";
 
+    /**
+     * Validate arguments, LAUNCH, MAIN, OPTIONS
+     *
+     * @param arguments arguments
+     * @throws XRubyDebugException throw exception if no entrance
+     */
+    protected FrontEnd(Map<String, String> arguments) throws XRubyDebugException {
+        if (arguments.containsKey(DebugConstant.MAIN))
+        {
+            arguments.put(DebugConstant.LAUNCH, getLaunchMode());
+        }
+        else {
+            throw new XRubyDebugException("No entrance");
+        }
+
+        // TODO: Add trace flag options in the future
+        // Initiate Context
+        DebugContext.initContext(VirtualMachine.TRACE_NONE, arguments);
+    }
+
+    /**
+     * Create commands and sent them out
+     *  
+     * @param command command's name
+     * @param args its arguments
+     * @throws XRubyDebugException command is illegal
+     */
     public void distributeCommand(final String command, String[] args) throws XRubyDebugException {
         if (command.equalsIgnoreCase(RUN)) {
             // TODO: Run the program
@@ -29,5 +60,16 @@ public abstract class FrontEnd {
         } else {
             throw new XRubyDebugException(String.format("This command %s is not supported now", command));
         }
+    }
+
+    /**
+     * Return lauch mode
+     * @return mode
+     */
+    protected abstract String getLaunchMode();
+
+    protected boolean validateLauchMode() {
+        // TODO: Implement it.
+        return true;
     }
 }
