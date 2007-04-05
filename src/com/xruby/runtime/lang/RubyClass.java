@@ -16,7 +16,7 @@ public class RubyClass extends RubyModule {
 	}
 	
 	//private Set<RubyObject> instances_ = new HashSet<RubyObject>();
-	private RubyClass superclass_;
+	
 	private RubyMethod alloc_method_;
 	private int objectAddress;
 	
@@ -25,8 +25,25 @@ public class RubyClass extends RubyModule {
 		superclass_ = superclass;
 		this.objectAddress = super.hashCode();
 	}
-	
-	public int objectAddress() {
+
+    public boolean isRealModule() {
+        return false;
+    }
+
+    public boolean isRealClass() {
+        return true;
+    }
+
+    public RubyClass getRealClass() {
+        RubyClass klass = this;
+        while (klass != null && !klass.isRealClass()) {
+            klass = klass.superclass_;
+        }
+
+        return klass;
+    }
+
+    public int objectAddress() {
 		return this.objectAddress;
 	}
 	

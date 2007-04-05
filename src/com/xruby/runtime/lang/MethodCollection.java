@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 abstract class MethodCollection extends ConstantCollection {
-    private Map<RubyID, RubyMethod> methods_ = new HashMap<RubyID, RubyMethod>();
+    protected Map<RubyID, RubyMethod> methods_ = new HashMap<RubyID, RubyMethod>();
     private int current_access_mode_ = RubyMethod.PUBLIC;
 
     MethodCollection(RubyClass c) {

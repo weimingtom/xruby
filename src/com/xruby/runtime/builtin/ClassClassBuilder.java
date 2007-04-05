@@ -33,11 +33,12 @@ class Class_superclass extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyClass r = (RubyClass) receiver;
         RubyClass c = r.getSuperClass();
-        if (null == c) {
-            return ObjectFactory.NIL_VALUE;
-        } else {
-            return c;
+
+        if (null != c) {
+            c = c.getRealClass();
         }
+
+        return (null == c) ? ObjectFactory.NIL_VALUE : c;
     }
 }
 

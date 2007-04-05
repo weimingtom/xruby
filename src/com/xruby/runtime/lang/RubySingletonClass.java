@@ -15,7 +15,7 @@ public class RubySingletonClass extends RubyClass {
 		return true;
 	}
 
-	public boolean isReal() {
+	public boolean isRealClass() {
 		return false;
 	}
 }
