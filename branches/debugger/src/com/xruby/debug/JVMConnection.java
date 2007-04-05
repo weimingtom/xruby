@@ -162,7 +162,7 @@ public class JVMConnection {
         int i;
         try {
             while ((i = in.read()) != -1) {
-                err.println((char) i);// Special case: use
+                err.print((char) i);// Special case: use
                 //   printDirect()
             }
         } catch (IOException ex) {
