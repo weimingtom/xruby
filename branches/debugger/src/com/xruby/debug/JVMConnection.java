@@ -25,10 +25,6 @@ import java.util.Set;
  */
 public class JVMConnection {
 
-    //---------------
-    //   constants
-    //---------------
-
     private VirtualMachine jvm;
     private Process process;
 
@@ -83,7 +79,7 @@ public class JVMConnection {
         for (String key : keys) {
             String value = arguments.get(key);
             if (defaultArgs.containsKey(key)) {
-                Connector.Argument argument = (Connector.Argument) defaultArgs.get(key);
+                Connector.Argument argument = defaultArgs.get(key);
                 argument.setValue(value);
             }
         }
@@ -95,7 +91,7 @@ public class JVMConnection {
         LaunchingConnector launcher = (LaunchingConnector) connector;
         try {
             VirtualMachine vm = launcher.launch(connectorArgs);
-            process = vm.process();      
+            process = vm.process();
             displayRemoteOutput(process.getErrorStream());
             displayRemoteOutput(process.getInputStream());
             return vm;
@@ -125,9 +121,6 @@ public class JVMConnection {
 
         return null;
     }
-
-    // TODO: Find out what the hell are these funcions do actually, 
-    // now I just copy them from jpda demo
 
     // Start a thread responsible for input stream
     // read characters and print them out. (dumpStream)

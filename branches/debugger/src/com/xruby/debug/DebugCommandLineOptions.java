@@ -56,19 +56,19 @@ class DebugCommandLineOptions {
             String paths = line.getOptionValue(SOURCE_PATH_S);
             StringTokenizer st = new StringTokenizer(paths, SEPARATOR);
 
-            while(st.hasMoreTokens()) {
+            while (st.hasMoreTokens()) {
                 String path = st.nextToken();
                 pathList.add(path);
             }
         }
 
-        if(line.hasOption(CLASS_PATH_S)) {
+        if (line.hasOption(CLASS_PATH_S)) {
             this.classPath = line.getOptionValue(CLASS_PATH_S);
         }
 
         String[] tmp = line.getArgs();
         entrance = new StringBuffer();
-        for(String str: tmp) {
+        for (String str : tmp) {
             entrance.append(str).append(" ");
         }
     }

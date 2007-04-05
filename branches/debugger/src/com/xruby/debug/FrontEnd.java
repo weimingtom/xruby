@@ -28,11 +28,9 @@ public abstract class FrontEnd {
      * @throws XRubyDebugException throw exception if no entrance
      */
     protected FrontEnd(Map<String, String> arguments) throws XRubyDebugException {
-        if (arguments.containsKey(DebugConstant.MAIN))
-        {
+        if (arguments.containsKey(DebugConstant.MAIN)) {
             arguments.put(DebugConstant.LAUNCH, getLaunchMode());
-        }
-        else {
+        } else {
             throw new XRubyDebugException("No entrance");
         }
 
@@ -43,9 +41,9 @@ public abstract class FrontEnd {
 
     /**
      * Create commands and sent them out
-     *  
+     *
      * @param command command's name
-     * @param args its arguments
+     * @param args    its arguments
      * @throws XRubyDebugException command is illegal
      */
     public void distributeCommand(final String command, String[] args) throws XRubyDebugException {
@@ -64,6 +62,7 @@ public abstract class FrontEnd {
 
     /**
      * Return lauch mode
+     *
      * @return mode
      */
     protected abstract String getLaunchMode();
