@@ -34,9 +34,9 @@ public abstract class FrontEnd {
             throw new XRubyDebugException("No entrance");
         }
 
-        // TODO: Add trace flag options in the future
         // Initiate Context
-        DebugContext.initContext(VirtualMachine.TRACE_NONE, arguments);
+        int traceMode = validateLauchMode();
+        DebugContext.initContext(traceMode, arguments);
     }
 
     /**
@@ -67,8 +67,7 @@ public abstract class FrontEnd {
      */
     protected abstract String getLaunchMode();
 
-    protected boolean validateLauchMode() {
-        // TODO: Implement it.
-        return true;
+    protected int validateLauchMode() {
+        return VirtualMachine.TRACE_NONE;
     }
 }

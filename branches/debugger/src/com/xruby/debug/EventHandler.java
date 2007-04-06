@@ -23,7 +23,7 @@ import com.sun.jdi.event.WatchpointEvent;
 import com.sun.jdi.request.EventRequest;
 
 /**
- * @author Yu Su (beanworms@gmail.com)
+ * 
  */
 public class EventHandler implements Runnable {
     private boolean connected = true;
@@ -85,7 +85,7 @@ public class EventHandler implements Runnable {
         } else if (event instanceof MethodExitEvent) {
             return true; //methodExitEvent(event);
         } else if (event instanceof ClassPrepareEvent) {
-            return true; //classPrepareEvent(event);
+            return classPrepareEvent(event);
         } else if (event instanceof ClassUnloadEvent) {
             return true; //classUnloadEvent(event);
         } else if (event instanceof ThreadStartEvent) {
@@ -103,5 +103,12 @@ public class EventHandler implements Runnable {
         VMStartEvent se = (VMStartEvent) event;
         notifier.vmStartEvent(se);
         return stopOnVMStart;
+    }
+
+    private boolean classPrepareEvent(Event event) {
+        ClassPrepareEvent cle = (ClassPrepareEvent) event;
+        notifier.classPrepareEvent(cle);
+
+        return true;
     }
 }
