@@ -6,8 +6,12 @@ package com.xruby.debug;
 
 import com.sun.jdi.event.VMStartEvent;
 import com.sun.jdi.event.Event;
+import com.sun.jdi.event.ClassPrepareEvent;
+import com.sun.tools.example.debug.tty.MessageOutput;
 
 import static java.lang.System.out;
+import java.util.Iterator;
+import java.util.StringTokenizer;
 
 /**
  * Implementation for JVMEventNotifier
@@ -22,5 +26,18 @@ public class DefaultJVMEventNotifier implements JVMEventNotifier {
     }
 
     public void receivedEvent(Event event) {
+    }
+
+    public void vmInterrupted() {
+        Thread.yield();
+        printCurrentLocation();
+    }
+
+    public void classPrepareEvent(ClassPrepareEvent e) {
+        System.out.println("ClassPrepared event");
+    }
+
+    private void printCurrentLocation() {
+        // TODO:Print current source code
     }
 }
