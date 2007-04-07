@@ -114,7 +114,7 @@ public class EventHandler implements Runnable {
     private boolean classPrepareEvent(Event event) {
         ClassPrepareEvent cle = (ClassPrepareEvent) event;
         notifier.classPrepareEvent(cle);
-        DebugContext.resolveAllDeferred(cle);
+        EventRequestHandler.resolveAllDeferred(cle);
 
         // One way or another, the debugger should go on even some deferred command
         // couldn't be executed correctly
