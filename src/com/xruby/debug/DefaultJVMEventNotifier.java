@@ -41,7 +41,7 @@ public class DefaultJVMEventNotifier implements JVMEventNotifier {
     public void breakpointEvent(BreakpointEvent e) {
         System.out.println("A breakpoint hit");
     }
-
+    
     private void printCurrentLocation() {
         // TODO:Print current source code
     }

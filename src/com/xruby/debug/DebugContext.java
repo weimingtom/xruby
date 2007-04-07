@@ -26,13 +26,13 @@ class DebugContext {
     private static String classPath;
     private static JVMEventNotifier notifier;
     private static EventHandler handler;
-    private static List<Instruction> delayedInsns;
+    private static List<Instruction> deferredInsns;
 
     // Initiate 
     static {
         sourcePath = new ArrayList<File>();
         notifier = new DefaultJVMEventNotifier();
-        delayedInsns = new ArrayList<Instruction>();
+        deferredInsns = new ArrayList<Instruction>();
     }
 
     /**
@@ -89,6 +89,10 @@ class DebugContext {
         return sourcePath;
     }
 
+    public static List<Instruction> getDeferredInsns() {
+        return deferredInsns;
+    }
+
     // If jvm is still a null value
     public static boolean isStarted() {
         return (getJVM() != null);
@@ -126,34 +130,6 @@ class DebugContext {
     }
 
     public static void pushCommand(Instruction insn) {
-        delayedInsns.add(insn);
-    }
-
-    /**
-     * Execute all the commands deferred,
-     * because they're all waiting for the ReferenceType.
-     * These commands used to be comitted before JVM starts
-     *
-     * @param event ClassPrepareEvent
-     */
-    public static void resolveAllDeferred(ClassPrepareEvent event) {
-        for(Instruction insn: delayedInsns) {
-            if(insn instanceof EventRequestHandler) {
-                EventRequestHandler handler = (EventRequestHandler) insn;
-                handler.solveEvent(event);
-            }
-        }
-    }
-
-    /**
-     *
-     */
-    public static void presolveAllDelayed() {
-        for(Instruction insn: delayedInsns) {
-            if(insn instanceof EventRequestHandler) {
-                EventRequestHandler handler = (EventRequestHandler) insn;
-                handler.preSolved();
-            }
-        }
+        deferredInsns.add(insn);
     }
 }
