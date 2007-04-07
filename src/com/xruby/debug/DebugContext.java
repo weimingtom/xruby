@@ -6,6 +6,8 @@
 package com.xruby.debug;
 
 import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.event.ClassPrepareEvent;
+import com.sun.jdi.request.EventRequestManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,10 +26,13 @@ class DebugContext {
     private static String classPath;
     private static JVMEventNotifier notifier;
     private static EventHandler handler;
+    private static List<Instruction> delayedInsns;
 
+    // Initiate 
     static {
         sourcePath = new ArrayList<File>();
         notifier = new DefaultJVMEventNotifier();
+        delayedInsns = new ArrayList<Instruction>();
     }
 
     /**
@@ -68,6 +73,10 @@ class DebugContext {
         return jvmConnection.getJvm();
     }
 
+    public static EventRequestManager getEventRequestManager() {
+        return getJVM().eventRequestManager();
+    }
+
     public static String getClassPath() {
         return classPath;
     }
@@ -79,6 +88,15 @@ class DebugContext {
     public static List<File> getSourcePath() {
         return sourcePath;
     }
+
+    // If jvm is still a null value
+    public static boolean isStarted() {
+        return (getJVM() != null);
+    }
+
+    // --------------------
+    //    Helper Methods
+    // --------------------
 
     public static void addSourcePath(String path) {
         File file = new File(path);
@@ -97,7 +115,7 @@ class DebugContext {
             addSourcePath(path);
         }
     }
-
+    
     /**
      * Return the description of this context.
      *
@@ -105,5 +123,37 @@ class DebugContext {
      */
     public static String dumpContext() {
         return null; // TODO: implement it
+    }
+
+    public static void pushCommand(Instruction insn) {
+        delayedInsns.add(insn);
+    }
+
+    /**
+     * Execute all the commands deferred,
+     * because they're all waiting for the ReferenceType.
+     * These commands used to be comitted before JVM starts
+     *
+     * @param event ClassPrepareEvent
+     */
+    public static void resolveAllDeferred(ClassPrepareEvent event) {
+        for(Instruction insn: delayedInsns) {
+            if(insn instanceof EventRequestHandler) {
+                EventRequestHandler handler = (EventRequestHandler) insn;
+                handler.solveEvent(event);
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    public static void presolveAllDelayed() {
+        for(Instruction insn: delayedInsns) {
+            if(insn instanceof EventRequestHandler) {
+                EventRequestHandler handler = (EventRequestHandler) insn;
+                handler.preSolved();
+            }
+        }
     }
 }

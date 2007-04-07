@@ -10,7 +10,7 @@ package com.xruby.debug;
  * @author Yu Su (beanworms@gmail.com)
  */
 public class RunInsn implements Instruction {
-
+    private static final String message = "JVM has started already.";
     /**
      * Execute Run instruction, general process is listed as below:
      * 1. Start/Launch the process, pass the arguments to debugee
@@ -18,14 +18,28 @@ public class RunInsn implements Instruction {
      * 3. Construct&attache the event handler
      * 4. Start threads handling in/error/out streams
      */
-    public void execute() {
-        JVMConnection connection = DebugContext.getJvmConnection();
+    public Result execute() {
+        Result result = new Result();
+        if(DebugContext.isStarted()) {
+            result.setStatus(Result.Status.ERROR);
+            result.setErrMsg(message);
 
-        connection.open();
+            return result;
+        }
+
+        // Start JVM, program start running
+        JVMConnection connection = DebugContext.getJvmConnection();
+        connection.start();
+        DebugContext.presolveAllDelayed();
+
         if ((DebugContext.getHandler() == null) &&
-             DebugContext.getJvmConnection().isOpen())
+             DebugContext.isStarted())
         {
             DebugContext.setHandler(new EventHandler(DebugContext.getNotifier(), false));
         }
+
+        result.setStatus(Result.Status.SUCCESSFUL);
+
+        return result;
     }
 }

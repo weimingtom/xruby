@@ -48,10 +48,6 @@ public class JVMConnection {
         return jvm;
     }
 
-    boolean isOpen() {
-        return (jvm != null);
-    }
-
     String connectorArg(String name) {
         Connector.Argument argument = connectorArgs.get(name);
         if (argument == null) {
@@ -61,12 +57,14 @@ public class JVMConnection {
     }
 
     // Open JVM
-    void open() {
+    void start() {
         if (connector instanceof LaunchingConnector) {
             jvm = launchTarget();
         }
 
         jvm.setDebugTraceMode(traceFlag);
+
+
         // TODO: AttachLauncher
         // TODO: Listen...
         // TODO: Handle suspending commands, e.g. stop ...

@@ -11,7 +11,7 @@ package com.xruby.debug;
  */
 public class ListInsn implements Instruction {
     // TODO: consider how to use this instruction
-    public void execute() {
-
+    public Result execute() {
+        return null;
     }
 }

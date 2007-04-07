@@ -3,6 +3,7 @@ package com.xruby.debug;
 import com.sun.jdi.event.VMStartEvent;
 import com.sun.jdi.event.Event;
 import com.sun.jdi.event.ClassPrepareEvent;
+import com.sun.jdi.event.BreakpointEvent;
 
 /**
  * @author Yu Su (beanworms@gmail.com)
@@ -15,4 +16,6 @@ public interface JVMEventNotifier {
     public void vmInterrupted();
 
     public void classPrepareEvent(ClassPrepareEvent e);
+
+    public void breakpointEvent(BreakpointEvent e);
 }

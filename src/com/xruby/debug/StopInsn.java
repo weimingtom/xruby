@@ -4,17 +4,25 @@
  */
 package com.xruby.debug;
 
+import com.sun.jdi.AbsentInformationException;
+import com.sun.jdi.Location;
+import com.sun.jdi.ReferenceType;
+import com.sun.jdi.request.EventRequest;
+import com.sun.jdi.request.EventRequestManager;
+import com.sun.tools.example.debug.tty.AmbiguousMethodException;
+import com.sun.tools.example.debug.tty.LineNotFoundException;
+
+import java.util.List;
+
 /**
  * Stop instruction, there are two way to use this instruction
- * 1. Add a breakpoint in a specified position of a file/class
- * 2. Add a breakpoint at the beginning of a specified method
+ * . Add a breakpoint in a specified position of a file/class
  *
  * @author Yu Su (beanworms@gmail.com)
  */
-public class StopInsn implements Instruction {
+public class StopInsn extends EventRequestHandler implements Instruction {
     private int lineNumber = -1;
     private String classId;
-    private String methodName;
 
     /**
      * Constructor
@@ -23,38 +31,45 @@ public class StopInsn implements Instruction {
      * @param lineNumber Line number
      */
     public StopInsn(String classId, int lineNumber) {
+        super(classId);
         this.lineNumber = lineNumber;
         this.classId = classId;
     }
 
     /**
-     * Constructor
-     *
-     * @param classId    Class identifier
-     * @param methodName method's name
+     * Implement instruction interface
+     * @return result
      */
-    public StopInsn(String classId, String methodName) {
-        this.methodName = methodName;
-        this.classId = classId;
-    }
-
-    public void execute() {
-        // TODO: Implement Stop
-        if (lineNumber != -1) {
-            executeStopAt();
-        } else {
-            executeStopIn();
+    public Result execute() {
+        Result result = new Result();
+        if(DebugContext.isStarted()) {
+            preSolved();
+            result.setStatus(Result.Status.SUCCESSFUL);
+            return result;
+        }
+        else {
+            result.setStatus(Result.Status.DELAYED);
+            DebugContext.pushCommand(this);
+            return result;
         }
     }
 
-    // For the first usage, position breakpoint
-    protected void executeStopAt() {
-
-    }
-
-    // For the second usage, method breakpoint
-    protected void executeStopIn() {
-
+    /**
+     * Implements EventRequestHandler
+     */
+    public void resolveEventRequest(ReferenceType refType) {
+        try {
+            Location location = location(refType);
+            if (location == null) {
+                throw new XRubyDebugException();
+            }
+            EventRequestManager em = refType.virtualMachine().eventRequestManager();
+            EventRequest bp = em.createBreakpointRequest(location);
+            bp.setSuspendPolicy(EventRequest.SUSPEND_ALL);
+            bp.enable();
+        } catch (Exception e) {
+            // TODO: Print out the error message
+        }
     }
 
     // ----------------------
@@ -68,16 +83,31 @@ public class StopInsn implements Instruction {
         return classId;
     }
 
-    public String getMethodName() {
-        return methodName;
-    }
-
     // Private methods
 
     // Validate class's id, return false if it's illegal, otherwise true.
-
     private boolean validateClassId(String id) {
         // TODO: Check class's id
         return true;
+    }
+
+    private Location location(ReferenceType refType) throws
+            AmbiguousMethodException,
+            AbsentInformationException,
+            NoSuchMethodException,
+            LineNotFoundException {
+        Location location = null;
+        // let AbsentInformationException be thrown
+        List locs = refType.locationsOfLine(lineNumber);
+        if (locs.size() == 0) {
+            throw new LineNotFoundException();
+        }
+        
+        location = (Location) locs.get(0);
+        if (location.method() == null) {
+            throw new LineNotFoundException();
+        }
+        
+        return location;
     }
 }

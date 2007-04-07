@@ -75,7 +75,7 @@ public class EventHandler implements Runnable {
         if (event instanceof ExceptionEvent) {
             return true; //exceptionEvent(event);
         } else if (event instanceof BreakpointEvent) {
-            return true; //breakpointEvent(event);
+            return breakpointEvent(event);
         } else if (event instanceof WatchpointEvent) {
             return true; //fieldWatchEvent(event);
         } else if (event instanceof StepEvent) {
@@ -99,6 +99,12 @@ public class EventHandler implements Runnable {
         }
     }
 
+    private boolean breakpointEvent(Event event) {
+        BreakpointEvent be = (BreakpointEvent) event;
+        notifier.breakpointEvent(be);
+        return true;
+    }
+
     private boolean vmStartEvent(Event event) {
         VMStartEvent se = (VMStartEvent) event;
         notifier.vmStartEvent(se);
@@ -108,7 +114,11 @@ public class EventHandler implements Runnable {
     private boolean classPrepareEvent(Event event) {
         ClassPrepareEvent cle = (ClassPrepareEvent) event;
         notifier.classPrepareEvent(cle);
+        DebugContext.resolveAllDeferred(cle);
 
-        return true;
+        // One way or another, the debugger should go on even some deferred command
+        // couldn't be executed correctly
+        // TODO: What's the failed execution bring us? Should we consider that?
+        return false;
     }
 }

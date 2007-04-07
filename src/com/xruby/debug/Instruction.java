@@ -10,5 +10,5 @@ package com.xruby.debug;
  * @author Yu Su (beanworms@gmail.com)
  */
 public interface Instruction {
-    public void execute();
+    public Result execute();
 }
