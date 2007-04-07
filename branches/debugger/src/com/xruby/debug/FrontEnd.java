@@ -36,6 +36,8 @@ public abstract class FrontEnd {
 
         // Initiate Context
         int traceMode = validateLauchMode();
+
+        // TODO: Singleton or static ?
         DebugContext.initContext(traceMode, arguments);
     }
 
@@ -51,6 +53,10 @@ public abstract class FrontEnd {
             // TODO: Run the program
             new RunInsn().execute();
         } else if (command.equalsIgnoreCase(STOP)) {
+            String classId = args[0];
+            int lineNumber = Integer.parseInt(args[1]);
+            StopInsn insn = new StopInsn(classId, lineNumber);
+            insn.execute();
             // TODO: Check the arguments, guarantee that all arguments are right and in correct poisition
             // Right form: stop at XXX:linenumber or stop in XXXX:methodname
         } else if (command.equalsIgnoreCase(LIST)) {

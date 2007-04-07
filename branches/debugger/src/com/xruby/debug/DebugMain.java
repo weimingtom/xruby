@@ -40,6 +40,7 @@ public class DebugMain {
         DebugContext.addSourcePath(options.getPathList());
         DebugContext.setClassPath(options.getClassPath());
 
+        frontEnd.distributeCommand("stop", new String[]{"test_debug.main", "6"});
         frontEnd.distributeCommand("run", null);
     }
 }

@@ -7,6 +7,7 @@ package com.xruby.debug;
 import com.sun.jdi.event.VMStartEvent;
 import com.sun.jdi.event.Event;
 import com.sun.jdi.event.ClassPrepareEvent;
+import com.sun.jdi.event.BreakpointEvent;
 import com.sun.tools.example.debug.tty.MessageOutput;
 
 import static java.lang.System.out;
@@ -35,6 +36,10 @@ public class DefaultJVMEventNotifier implements JVMEventNotifier {
 
     public void classPrepareEvent(ClassPrepareEvent e) {
         System.out.println("ClassPrepared event");
+    }
+
+    public void breakpointEvent(BreakpointEvent e) {
+        System.out.println("A breakpoint hit");
     }
 
     private void printCurrentLocation() {
