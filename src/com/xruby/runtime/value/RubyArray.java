@@ -338,23 +338,25 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return false;
     }
 
-    public void each(RubyValue receiver, RubyBlock block) {
+    public RubyValue each(RubyValue receiver, RubyBlock block) {
         for (RubyValue item : array_) {
             RubyValue v = block.invoke(receiver, new RubyArray(item));
 		    if (block.breakedOrReturned()) {
-			    return;
+			    return v;
 		    }
         }
+        return this;
     }
 
-    public void reverse_each(RubyValue receiver, RubyBlock block) {
+    public RubyValue reverse_each(RubyValue receiver, RubyBlock block) {
     	ListIterator<RubyValue> ite = array_.listIterator(array_.size());
         while (ite.hasPrevious()) {
             RubyValue v = block.invoke(receiver, new RubyArray(ite.previous()));
 		    if (block.breakedOrReturned()) {
-			    return;
+			    return v;
 		    }
         }
+        return this;
     }
 
     public RubyArray expand(RubyValue v) {
