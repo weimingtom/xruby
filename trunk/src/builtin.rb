@@ -101,18 +101,47 @@ class Array
 
     def inspect
         str = "["
-        is_first = true;
+        is_first = true
         self.each() { |x|
             if (!is_first)
-                str += ", "
+                str << ", "
             end
-            is_first = false;
-            str += x.inspect
+            is_first = false
+            str << x.inspect
         }
-        str += "]";
-        return str
+        str << "]"
     end
 
+end
+
+class Hash
+    def inspect
+      r = '{'
+      is_first = true
+      each_pair do |k, v|
+        if !is_first
+          r << ", "
+        end
+        is_first = false
+        r << k.inspect
+        r << '=>'
+        r << v.inspect
+      end
+      r << '}'
+    end
+
+    def invert
+      h = {}
+      each {|k, v| h[v] = k}
+      h
+    end
+    
+    def update other
+        other.each {|k, v| self[k] = v}
+        self
+    end
+    
+    alias merge! update
 end
 
 class Symbol
@@ -630,6 +659,10 @@ class Proc
     def to_proc
         self
     end
+    
+    def inspect
+        to_s  
+    end      
 end
 
 class File
