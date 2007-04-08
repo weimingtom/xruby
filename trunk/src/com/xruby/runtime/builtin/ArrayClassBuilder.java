@@ -269,16 +269,14 @@ class Array_include extends RubyOneArgMethod {
 class Array_each extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
-        array.each(receiver, block);
-        return receiver;
+        return array.each(receiver, block);
     }
 }
 
 class Array_reverse_each extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
-        array.reverse_each(receiver, block);
-        return receiver;
+        return array.reverse_each(receiver, block);
     }
 }
 

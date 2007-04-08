@@ -3255,7 +3255,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_return_break_next_in_block() {
         String[] program_texts = {
-                "def f; [1, 2].each {|x| print x; return}; end;  f",
+                "def f; [1, 2].each {|x| print x; return 4}; end; print(f)",
 
                 /*TODO
                 "def f &block; 1.times {block.call}; print 'yyy'; end\n" +
@@ -3301,7 +3301,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-                "1",
+                "14",
                 //"xxx",
 
                 "0",
