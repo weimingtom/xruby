@@ -4,15 +4,18 @@
  */
 package com.xruby.debug;
 
-import com.sun.jdi.event.VMStartEvent;
-import com.sun.jdi.event.Event;
-import com.sun.jdi.event.ClassPrepareEvent;
+import com.sun.jdi.IncompatibleThreadStateException;
+import com.sun.jdi.Location;
+import com.sun.jdi.StackFrame;
+import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.event.BreakpointEvent;
+import com.sun.jdi.event.ClassPrepareEvent;
+import com.sun.jdi.event.Event;
+import com.sun.jdi.event.VMStartEvent;
 import com.sun.tools.example.debug.tty.MessageOutput;
 
+import static java.lang.System.err;
 import static java.lang.System.out;
-import java.util.Iterator;
-import java.util.StringTokenizer;
 
 /**
  * Implementation for JVMEventNotifier
@@ -41,8 +44,47 @@ public class DefaultJVMEventNotifier implements JVMEventNotifier {
     public void breakpointEvent(BreakpointEvent e) {
         System.out.println("A breakpoint hit");
     }
-    
+
+
     private void printCurrentLocation() {
-        // TODO:Print current source code
+        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
+        StackFrame frame;
+        try {
+            frame = threadInfo.getCurrentFrame();
+        } catch (IncompatibleThreadStateException exc) {
+            err.println("<location unavailable>");
+            return;
+        }
+        if (frame == null) {
+            err.println("No frames on the current call stack");
+        } else {
+            Location loc = frame.location();
+            // TODO: Print out source code
+            try {
+                String sourceFile = loc.sourceName();
+                int lineNumber = loc.lineNumber();
+                out.println(
+                        String.format("Breakpoint: %s:%d", sourceFile, lineNumber));
+                out.println(SourceCodeMgr.sourceLine(sourceFile, lineNumber));
+            } catch (AbsentInformationException e) {
+                err.println("Debug information lost");
+            }
+        }
+        // Output the current source line, if possible
+//            if (loc.lineNumber() != -1) {
+//                String line;
+//                try {
+//                    line = Env.sourceLine(loc, loc.lineNumber());
+//                } catch (java.io.IOException e) {
+//                    line = null;
+//                }
+//                if (line != null) {
+//                    MessageOutput.println("source line number and line",
+//                            new Object[]{new Integer(loc.lineNumber()),
+//                                    line});
+//                }
+//            }
+//        }
+//        MessageOutput.println();
     }
 }

@@ -10,6 +10,9 @@ import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.LaunchingConnector;
 import com.sun.jdi.connect.VMStartException;
+import com.sun.jdi.request.EventRequestManager;
+import com.sun.jdi.request.ThreadDeathRequest;
+import com.sun.jdi.request.ThreadStartRequest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -64,6 +67,10 @@ public class JVMConnection {
 
         jvm.setDebugTraceMode(traceFlag);
 
+        if(jvm.canBeModified()) {
+            setEventRequests(jvm);
+            EventRequestHandler.presolveAllDelayed();
+        }
 
         // TODO: AttachLauncher
         // TODO: Listen...
@@ -106,6 +113,15 @@ public class JVMConnection {
             err.println("Target VM failed to initialize.");
         }
         return null; // Shuts up the compiler
+    }
+
+    private void setEventRequests(VirtualMachine vm) {
+        EventRequestManager erm = vm.eventRequestManager();
+
+        ThreadStartRequest tsr = erm.createThreadStartRequest();
+        tsr.enable();
+        ThreadDeathRequest tdr = erm.createThreadDeathRequest();
+        tdr.enable();
     }
 
     private Connector findConnector(String specName) {

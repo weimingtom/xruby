@@ -1,0 +1,17 @@
+Document TODO list:
+
+Overview:
+Components in the debugger: EventHandler, Instructions and EventRequestHandler, and SourceMgr. What's their
+roles.
+
+Chapters/Sections:
+1. Sth about JVM's ThreadFrame, stack of the threads, this is important, because we use that to locate the
+   current position.
+   e.g. ThreadReference.frames()
+2. Requests in JDI arch. especially ClassParepareRequest, ThreadStart/DeathRequest, JVMStartRequest,
+   and BreakpointRequest(Locatable). How to we handle them: set, remove, enable, what's the roles of them?
+3. Class diagrams showing the relationship among these classes.
+4. State chart of Debugger
+5. How to extend this debugger. Say, the plugin for some a IDE, or a standalone GUI debugger
+6. Sequence of some important instructions, e.g. run, stop, list ...
+7. Simple Manual
