@@ -43,21 +43,29 @@ public class StopInsn extends EventRequestHandler implements Instruction {
     public Result execute() {
         Result result = new Result();
         if(DebugContext.isStarted()) {
-            preSolved();
-            result.setStatus(Result.Status.SUCCESSFUL);
-            return result;
+            ReferenceType refType = isClassPrepared();
+            if(refType != null) {
+                return resolveEventRequest(refType);
+            }
+            else {
+                preSolved();
+                result.setStatus(Result.Status.SUCCESSFUL);
+                return result;
+            }
         }
         else {
-            result.setStatus(Result.Status.DELAYED);
+            result.setStatus(Result.Status.DEFERRED);
             DebugContext.pushCommand(this);
             return result;
         }
     }
+        
 
     /**
      * Implements EventRequestHandler
      */
-    public void resolveEventRequest(ReferenceType refType) {
+    public Result resolveEventRequest(ReferenceType refType) {
+        Result result = new Result();
         try {
             Location location = location(refType);
             if (location == null) {
@@ -67,9 +75,13 @@ public class StopInsn extends EventRequestHandler implements Instruction {
             EventRequest bp = em.createBreakpointRequest(location);
             bp.setSuspendPolicy(EventRequest.SUSPEND_ALL);
             bp.enable();
+            result.setStatus(Result.Status.SUCCESSFUL);
         } catch (Exception e) {
-            // TODO: Print out the error message
+            result.setStatus(Result.Status.ERROR);
+            result.setErrMsg(e.getMessage());
         }
+        
+        return result;
     }
 
     // ----------------------

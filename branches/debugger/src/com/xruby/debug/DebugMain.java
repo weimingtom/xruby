@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class DebugMain {
 
-    public static void main(String[] args) throws XRubyDebugException {
+    public static void main(String[] args) throws XRubyDebugException, Exception {
         // Parse the arguments: entrance, options
         DebugCommandLineOptions options = new DebugCommandLineOptions(args);
         Map<String, String> arguments = new HashMap<String, String>();
@@ -41,6 +41,13 @@ public class DebugMain {
         DebugContext.setClassPath(options.getClassPath());
 
         frontEnd.distributeCommand("stop", new String[]{"test_debug.main", "6"});
+        Thread.sleep(1000);
         frontEnd.distributeCommand("run", null);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("stop", new String[]{"test_debug.main", "8"});
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
     }
 }

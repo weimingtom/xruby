@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 /**
  * Result of instrution execution, including status and
- * additional information, status is set to DELAYED by default
+ * additional information, status is set to DEFERRED by default
  *
  * @author Yu Su (beanworms@gmail.com)
  */
@@ -17,12 +17,12 @@ public class Result {
     /**
      * status
      */
-    public enum Status {ERROR, SUCCESSFUL, DELAYED}
-
+    public enum Status {ERROR, SUCCESSFUL, DEFERRED}
+    
     private static final String ERROR_MSG = "ERROR_MSG";
 
-    // status is set to DELAYED by default
-    private Status status = Status.DELAYED;
+    // status is set to DEFERRED by default
+    private Status status = Status.DEFERRED;
     private Map<String, Object> additionalInfo;    
 
     public Status getStatus() {
