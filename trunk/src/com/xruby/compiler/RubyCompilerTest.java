@@ -2151,7 +2151,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_Hash_misc() {
         String[] program_texts = {
         		"a = {1=>2}; a[1] = 3; p a",
-        		"p({1 => 2, 3 => 4}.merge!({3 =>7, 2=>6}))",
+        		"p({1 => 2, 3 => 4}.merge!({3 =>7, 4=>6}))",
         		"p({1 => 2, 3 => 4})",
 
                 "print({1 =>3}.fetch(1))",
@@ -2178,7 +2178,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         String[] outputs = {
         		"{1=>3}\n",
-        		"{1=>2, 2=>6, 3=>7}\n",
+        		"{1=>2, 3=>7, 4=>6}\n",
         		"{1=>2, 3=>4}\n",
         	    "3",
         	    "5",
@@ -3255,6 +3255,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_return_break_next_in_block() {
         String[] program_texts = {
+        		/*"def f &block; 1.times {block.call}; print 'yyy'; end\n" +
+        		"def g; f {print 'xxx';return}; end\n" +
+        		"g",
+        		*/
+
                 "def test()\n" +
                 "    3.times do |index|\n" +
                 "        print index\n" +
@@ -3293,6 +3298,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+        		//"xxx",
+
                 "0",
                 "0",
                 "012",
