@@ -107,7 +107,7 @@ class DebugContext {
 
         if (file.isDirectory()) {
             sourcePath.add(file);
-        } else if (path.endsWith(".jar")) {
+        } else if (path.endsWith(".zip")) {
             sourcePath.add(file);
         } else {
             // TODO: Output the warning here

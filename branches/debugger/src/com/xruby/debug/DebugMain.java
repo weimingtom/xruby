@@ -47,7 +47,7 @@ public class DebugMain {
         frontEnd.distributeCommand("stop", new String[]{"test_debug.main", "8"});
         Thread.sleep(1000);
         frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         frontEnd.distributeCommand("cont", null);
     }
 }

@@ -29,8 +29,7 @@ public class RunInsn implements Instruction {
 
         // Start JVM, program start running
         JVMConnection connection = DebugContext.getJvmConnection();
-        connection.start();
-        EventRequestHandler.presolveAllDelayed();
+        connection.start();            
 
         if ((DebugContext.getHandler() == null) &&
              DebugContext.isStarted())

@@ -5,6 +5,7 @@
 package com.xruby.debug;
 
 import com.sun.jdi.VMDisconnectedException;
+import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.BreakpointEvent;
 import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.event.ClassUnloadEvent;
@@ -20,7 +21,9 @@ import com.sun.jdi.event.ThreadDeathEvent;
 import com.sun.jdi.event.ThreadStartEvent;
 import com.sun.jdi.event.VMStartEvent;
 import com.sun.jdi.event.WatchpointEvent;
+import com.sun.jdi.event.LocatableEvent;
 import com.sun.jdi.request.EventRequest;
+import com.sun.tools.example.debug.tty.*;
 
 /**
  * 
@@ -53,7 +56,7 @@ public class EventHandler implements Runnable {
                 if (resumeStoppedApp) {
                     eventSet.resume();
                 } else if (eventSet.suspendPolicy() == EventRequest.SUSPEND_ALL) {
-                    //setCurrentThread(eventSet);
+                    setCurrentThread(eventSet);
                     notifier.vmInterrupted();
                 }
             } catch (InterruptedException exc) {
@@ -89,14 +92,27 @@ public class EventHandler implements Runnable {
         } else if (event instanceof ClassUnloadEvent) {
             return true; //classUnloadEvent(event);
         } else if (event instanceof ThreadStartEvent) {
-            return true; //threadStartEvent(event);
+            return threadStartEvent(event);
         } else if (event instanceof ThreadDeathEvent) {
-            return true; //threadDeathEvent(event);
+            return threadDeathEvent(event);
         } else if (event instanceof VMStartEvent) {
             return vmStartEvent(event);
         } else {
             return true; //handleExitEvent(event);
         }
+    }
+
+    private boolean threadDeathEvent(Event event) {
+        ThreadDeathEvent threadDeathEvent = (ThreadDeathEvent) event;
+        
+        return false;
+    }
+
+    private boolean threadStartEvent(Event event) {
+        ThreadStartEvent threadStartEvent = (ThreadStartEvent) event;
+        ThreadInfo.addThread(threadStartEvent.thread());
+
+        return false;
     }
 
     private boolean breakpointEvent(Event event) {
@@ -120,5 +136,41 @@ public class EventHandler implements Runnable {
         // couldn't be executed correctly
         // TODO: What's the failed execution bring us? Should we consider that?
         return false;
+    }
+
+    private void setCurrentThread(EventSet set) {
+        ThreadReference thread;
+        if (set.size() > 0) {
+            /*
+             * If any event in the set has a thread associated with it,
+             * they all will, so just grab the first one.
+             */
+            Event event = set.iterator().next(); // Is there a better way?
+            thread = eventThread(event);
+        } else {
+            thread = null;
+        }
+        setCurrentThread(thread);
+    }
+
+    private void setCurrentThread(ThreadReference thread) {
+        ThreadInfo.invalidateAll();
+        ThreadInfo.setCurrentThread(thread);
+    }
+
+    private ThreadReference eventThread(Event event) {
+        if (event instanceof ClassPrepareEvent) {
+            return ((ClassPrepareEvent) event).thread();
+        } else if (event instanceof LocatableEvent) {
+            return ((LocatableEvent) event).thread();
+        } else if (event instanceof ThreadStartEvent) {
+            return ((ThreadStartEvent) event).thread();
+        } else if (event instanceof ThreadDeathEvent) {
+            return ((ThreadDeathEvent) event).thread();
+        } else if (event instanceof VMStartEvent) {
+            return ((VMStartEvent) event).thread();
+        } else {
+            return null;
+        }
     }
 }
