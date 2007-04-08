@@ -228,7 +228,7 @@ class Array_insert extends RubyTwoArgMethod {
 class Array_pop extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
-        return array.remove(array.size() - 1);
+        return array.delete_at(array.size() - 1);
     }
 }
 
@@ -237,7 +237,14 @@ class Array_delete_at extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
         RubyFixnum pos = (RubyFixnum) arg;
-        return array.remove(pos.intValue());
+        return array.delete_at(pos.intValue());
+    }
+}
+
+class Array_delete_if extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        return array.delete_if(block);
     }
 }
 
@@ -262,8 +269,15 @@ class Array_include extends RubyOneArgMethod {
 class Array_each extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
-        array.rb_iterate(receiver, block);
+        array.each(receiver, block);
+        return receiver;
+    }
+}
 
+class Array_reverse_each extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        array.reverse_each(receiver, block);
         return receiver;
     }
 }
@@ -293,7 +307,7 @@ class Array_new extends RubyVarArgMethod {
 class Array_shift extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
-        return array.remove(0);
+        return array.delete_at(0);
     }
 }
 
@@ -406,9 +420,11 @@ public class ArrayClassBuilder {
         c.defineMethod("pop", new Array_pop());
         c.defineMethod("delete", new Array_delete());
         c.defineMethod("delete_at", new Array_delete_at());
+        c.defineMethod("delete_if", new Array_delete_if());
         c.defineMethod("include?", new Array_include());
         c.defineMethod("unshift", new Array_unshift());
         c.defineMethod("each", new Array_each());
+		c.defineMethod("reverse_each", new Array_reverse_each());
         c.defineMethod("pack", new Array_pack());
         c.defineMethod("shift", new Array_shift());
         c.defineMethod("sort!", new Array_sort_dangers());

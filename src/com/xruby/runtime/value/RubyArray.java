@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 /**
  * @breif Internal representation of a ruby array
@@ -87,7 +88,11 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this;
     }
 
-    public RubyValue remove(int index) {
+    public int size() {
+        return array_.size();
+    }
+
+    public RubyValue delete_at(int index) {
         if (index < 0 || index > size()) {
             return ObjectFactory.NIL_VALUE;
         }
@@ -95,8 +100,16 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return array_.remove(index);
     }
 
-    public int size() {
-        return array_.size();
+    public RubyValue delete_if(RubyBlock block) {
+        for (int i = 0; i < array_.size();) {
+            RubyValue r = block.invoke(this, new RubyArray(array_.get(i)));
+            if (RubyAPI.testTrueFalse(r)) {
+                array_.remove(i);
+            } else {
+            	++i;
+            }
+        }
+        return this;
     }
 
     public RubyValue delete(RubyValue arg) {
@@ -325,12 +338,16 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return false;
     }
 
-    public void rb_iterate(RubyValue receiver, RubyBlock block) {
+    public void each(RubyValue receiver, RubyBlock block) {
         for (RubyValue item : array_) {
-            RubyArray args = new RubyArray();
-            args.add(item);
+            block.invoke(receiver, new RubyArray(item));
+        }
+    }
 
-            block.invoke(receiver, args);
+    public void reverse_each(RubyValue receiver, RubyBlock block) {
+    	ListIterator<RubyValue> ite = array_.listIterator(array_.size());
+        while (ite.hasPrevious()) {
+            block.invoke(receiver, new RubyArray(ite.previous()));
         }
     }
 

@@ -50,8 +50,10 @@ public class RubyHash extends RubyBasic {
     }
 
     public RubyHash add(RubyValue k, RubyValue v) {
+        if (!map_.containsKey(k)) {
+            keys_.add(k);
+        }
         map_.put(k, v);
-        keys_.add(k);
         return this;
     }
 
@@ -83,7 +85,7 @@ public class RubyHash extends RubyBasic {
         }
     }
 
-    public void rb_iterate(RubyValue receiver, RubyBlock block) {
+    public void each(RubyValue receiver, RubyBlock block) {
         for (RubyValue key : keys_) {
             RubyValue value = map_.get(key);
             RubyArray args = new RubyArray();
