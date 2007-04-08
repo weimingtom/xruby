@@ -2150,9 +2150,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Hash_misc() {
         String[] program_texts = {
-        		"a = {1=>2}; a[1] = 3; p a",
-        		"p({1 => 2, 3 => 4}.merge!({3 =>7, 4=>6}))",
-        		"p({1 => 2, 3 => 4})",
+                "a = {1=>2}; a[1] = 3; p a",
+                "p({1 => 2, 3 => 4}.merge!({3 =>7, 4=>6}))",
+                "p({1 => 2, 3 => 4})",
 
                 "print({1 =>3}.fetch(1))",
                 "print({1 =>4}.fetch(2, 5))",
@@ -2177,9 +2177,9 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-        		"{1=>3}\n",
-        		"{1=>2, 3=>7, 4=>6}\n",
-        		"{1=>2, 3=>4}\n",
+                "{1=>3}\n",
+                "{1=>2, 3=>7, 4=>6}\n",
+                "{1=>2, 3=>4}\n",
         	    "3",
         	    "5",
         	    "2",
@@ -3255,10 +3255,13 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_return_break_next_in_block() {
         String[] program_texts = {
-        		/*"def f &block; 1.times {block.call}; print 'yyy'; end\n" +
-        		"def g; f {print 'xxx';return}; end\n" +
-        		"g",
-        		*/
+                "def f; [1, 2].each {|x| print x; return}; end;  f",
+
+                /*TODO
+                "def f &block; 1.times {block.call}; print 'yyy'; end\n" +
+                "def test_return2; f {print 'xxx';return}; end\n" +
+                "test_return2",
+                */
 
                 "def test()\n" +
                 "    3.times do |index|\n" +
@@ -3298,7 +3301,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-        		//"xxx",
+                "1",
+                //"xxx",
 
                 "0",
                 "0",
