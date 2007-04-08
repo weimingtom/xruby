@@ -410,7 +410,7 @@ class Kernel_send extends RubyVarArgMethod {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "no method name given");
         }
 
-        RubyValue method_name = args.remove(0);
+        RubyValue method_name = args.delete_at(0);
         RubyID mid = StringMap.intern(convertToString(method_name));
         if (args.size() == 0) {
             return RubyAPI.callMethod(receiver, null, block, mid);

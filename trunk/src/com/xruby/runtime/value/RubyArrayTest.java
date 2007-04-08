@@ -152,18 +152,18 @@ public class RubyArrayTest extends TestCase {
         a.add(ObjectFactory.FIXNUM1);
         a.add(ObjectFactory.createFixnum(2));
 
-        RubyValue v = a.remove(0);
+        RubyValue v = a.delete_at(0);
         assertEquals(1, a.size());
         assertEquals(1, ((RubyFixnum) v).intValue());
         assertEquals(2, ((RubyFixnum) a.get(0)).intValue());
 
         RubyArray b = new RubyArray();
-        v = b.remove(1);
+        v = b.delete_at(1);
         assertEquals(ObjectFactory.NIL_VALUE, v);
 
         // remove negative index
         RubyArray c = new RubyArray();
-        v = c.remove(-1);
+        v = c.delete_at(-1);
         assertEquals(ObjectFactory.NIL_VALUE, v);
     }
 

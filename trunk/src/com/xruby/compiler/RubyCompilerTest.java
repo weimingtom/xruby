@@ -606,6 +606,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Array_misc() {
         String[] program_texts = {
+        		"a = [1, 2, 1, 3]; a.delete_if {|x| true if x == 1}; p a",
+                "[1, 2, 3].reverse_each {|x| print x}",
                 "print %w$a b c $[1..-1]",
                 "p [1,2].clear",
                 "p Array.new(3, 0)",
@@ -641,6 +643,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+        		"[2, 3]\n",
+                "321",
                 "bc",
                 "[]\n",
                 "[0, 0, 0]\n",
@@ -2144,8 +2148,16 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_hash() {
+    public void test_Hash_misc() {
         String[] program_texts = {
+        		"a = {1=>2}; a[1] = 3; p a",
+        		"p({1 => 2, 3 => 4}.merge!({3 =>7, 2=>6}))",
+        		"p({1 => 2, 3 => 4})",
+
+                "print({1 =>3}.fetch(1))",
+                "print({1 =>4}.fetch(2, 5))",
+                "{1 =>4}.fetch(2) {|x| print x}",
+
                 "a = {1, 2}; b = a.dup; b.shift; print a, b",
 
                 "print {}",
@@ -2165,6 +2177,13 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+        		"{1=>3}\n",
+        		"{1=>2, 2=>6, 3=>7}\n",
+        		"{1=>2, 3=>4}\n",
+        	    "3",
+        	    "5",
+        	    "2",
+
                 "12",
 
                 "nil",
