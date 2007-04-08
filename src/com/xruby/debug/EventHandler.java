@@ -54,7 +54,7 @@ public class EventHandler implements Runnable {
                     eventSet.resume();
                 } else if (eventSet.suspendPolicy() == EventRequest.SUSPEND_ALL) {
                     //setCurrentThread(eventSet);
-                    //notifier.vmInterrupted();
+                    notifier.vmInterrupted();
                 }
             } catch (InterruptedException exc) {
                 // Do nothing. Any changes will be seen at top of loop.

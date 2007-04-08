@@ -20,6 +20,7 @@ public abstract class FrontEnd {
     private static final String RUN = "run";
     private static final String STOP = "stop";
     private static final String LIST = "list";
+    private static final String CONT = "cont";
 
     /**
      * Validate arguments, LAUNCH, MAIN, OPTIONS
@@ -61,6 +62,8 @@ public abstract class FrontEnd {
             // Right form: stop at XXX:linenumber or stop in XXXX:methodname
         } else if (command.equalsIgnoreCase(LIST)) {
             // TODO: List the source code, if no arguments just list 10 lines
+        } else if (command.equalsIgnoreCase(CONT)) {
+            new ContinueInsn().execute();   
         } else {
             throw new XRubyDebugException(String.format("This command %s is not supported now", command));
         }

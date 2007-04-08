@@ -31,13 +31,28 @@ public abstract class EventRequestHandler {
         prepareRequest.enable();
     }
 
-    public abstract void resolveEventRequest(ReferenceType refType);
+    public abstract Result resolveEventRequest(ReferenceType refType);
 
-    public void solveEvent(ClassPrepareEvent event) {
+    public Result solveEvent(ClassPrepareEvent event) {
         ReferenceType refType = event.referenceType();
-        resolveEventRequest(refType);
+        Result result = resolveEventRequest(refType);
+
+        // Disable this class's prepare event and delete it
         prepareRequest.disable();
         DebugContext.getEventRequestManager().deleteEventRequest(prepareRequest);
+
+        return result;
+    }
+
+    protected ReferenceType isClassPrepared() {
+        List<ReferenceType> clazzs = DebugContext.getJVM().allClasses();
+        for(ReferenceType refType: clazzs) {
+            if(refType.isPrepared() && refType.name().equals(classId)) {
+                return refType;
+            }
+        }
+
+        return null;
     }
 
 
