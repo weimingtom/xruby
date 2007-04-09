@@ -32,7 +32,7 @@ class Object_extend extends RubyVarArgMethod {
         }
 
         for (RubyValue v : args) {
-            RubyAPI.callPublicOneArgMethod(v, receiver, null, "extend_object");
+            RubyAPI.callPublicOneArgMethod(v, receiver, null, CommonRubyID.extendObjectID);
         }
 
         return receiver;

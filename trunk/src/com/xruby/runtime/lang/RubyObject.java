@@ -5,10 +5,8 @@
 
 package com.xruby.runtime.lang;
 
-public class RubyObject extends RubyValue {
-
+public class RubyObject extends RubyBasic {
 	public RubyObject(RubyClass c) {
 		super(c);
 	}
-
 }

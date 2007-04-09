@@ -518,8 +518,8 @@ class MethodGenerator extends GeneratorAdapter {
 
     public void RubyRuntime_GlobalScope() {
         getStatic(Type.getType(RubyRuntime.class),
-                "GlobalScope",
-                Type.getType(RubyModule.class));
+                "ObjectClass",
+                Type.getType(RubyClass.class));
     }
 
     public void RubyAPI_testTrueFalse() {
@@ -529,25 +529,6 @@ class MethodGenerator extends GeneratorAdapter {
 
     private void loadRubyID(String s) {
         RubyIDClassGenerator.getField(this, s);
-        /*
-          push(s);
-          invokeStatic(Type.getType(StringMap.class),
-                  Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
-                  */
-        /*
-          if (this.idMap.containsKey(s)) {
-              int index = this.idMap.get(s);
-              this.loadLocal(index);
-          } else {
-              push(s);
-              invokeStatic(Type.getType(StringMap.class),
-                  Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
-              int index = this.newLocal(Type.getType(RubyID.class));
-              this.storeLocal(index);
-              this.idMap.put(s, index);
-              this.loadLocal(index);
-          }
-          */
     }
 
     public void RubyAPI_callPublicMethod(String methodName) {
@@ -710,6 +691,11 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("void callArraySet(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
     }
 
+    public void RubyAPI_defineClass() {
+        invokeStatic(Type.getType(RubyAPI.class),
+                    Method.getMethod("com.xruby.runtime.lang.RubyClass defineClass(String, com.xruby.runtime.lang.RubyValue)"));
+    }
+    
     public void RubyModule_defineClass(String className) {
         if (RubyRuntime.isBuiltinClass(className)) {
             invokeVirtual(Type.getType(RubyModule.class),
@@ -718,6 +704,12 @@ class MethodGenerator extends GeneratorAdapter {
             invokeVirtual(Type.getType(RubyModule.class),
                     Method.getMethod("com.xruby.runtime.lang.RubyClass defineClass(String, com.xruby.runtime.lang.RubyValue)"));
         }
+    }
+
+    public void RubyAPI_defineModule(String name) {
+        push(name);
+        invokeStatic(Type.getType(RubyAPI.class),
+                    Method.getMethod("com.xruby.runtime.lang.RubyModule defineModule(String)"));
     }
 
     public void RubyModule_defineModule(String name) {
@@ -795,15 +787,17 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void RubyValue_getInstanceVariable(String name) {
-        push(name);
+        //push(name);
+        RubyIDClassGenerator.getField(this, name);
         invokeVirtual(Type.getType(Types.RubyValueClass),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue getInstanceVariable(String)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue getInstanceVariable(com.xruby.runtime.lang.RubyID)"));
     }
 
     public void RubyValue_setInstanceVariable(String name) {
-        push(name);
+        RubyIDClassGenerator.getField(this, name);
+        //push(name);
         invokeVirtual(Type.getType(Types.RubyValueClass),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, String)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyID)"));
     }
 
     public void RubyMethod_getOwner() {

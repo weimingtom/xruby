@@ -5,10 +5,7 @@
 
 package com.xruby.runtime.value;
 
-import com.xruby.runtime.lang.GlobalVariables;
-import com.xruby.runtime.lang.RubyBlock;
-import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -87,7 +87,7 @@ public class RubyIDClassGenerator {
 		}
 		
 		try {
-		mg.getStatic(Type.getType(RubyIDClassDescriptor), id, Type.getType(RubyID.class));
+            mg.getStatic(Type.getType(RubyIDClassDescriptor), id, Type.getType(RubyID.class));
 		} catch (RuntimeException e) {
 			System.out.println(s);
 			throw e;

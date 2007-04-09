@@ -556,7 +556,7 @@ class TrueClass
     end
 
     def to_s
-        return "true"
+        "true"
     end
 
     def inspect
@@ -582,7 +582,7 @@ class FalseClass
     end
 
     def to_s
-        return "false"
+        "false"
     end
 
     def inspect

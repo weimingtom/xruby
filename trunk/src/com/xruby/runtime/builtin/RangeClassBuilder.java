@@ -79,7 +79,7 @@ class Range_each extends RubyNoArgMethod {
     private RubyID succID = StringMap.intern("succ");
 
     private boolean compare(RubyValue value1, RubyValue value2) {
-        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, "<=>");
+        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, CommonRubyID.unequalID);
         return !RubyAPI.testEqual(r, ObjectFactory.FIXNUM0);
     }
 

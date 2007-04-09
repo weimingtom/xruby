@@ -8,7 +8,7 @@ package com.xruby.runtime.lang;
 import com.xruby.runtime.value.*;
 import java.util.*;
 
-public class RubyBinding extends RubyValue {
+public class RubyBinding extends RubyBasic {
 	private RubyModule scope_;
 	private RubyValue self_;
 	private RubyBlock block_;

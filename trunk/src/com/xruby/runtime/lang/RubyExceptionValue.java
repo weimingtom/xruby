@@ -8,7 +8,7 @@ package com.xruby.runtime.lang;
 /**
  * Java does not have multiple inheritance, and RubyException has to be inheritated from Exception.
  */
-public class RubyExceptionValue extends RubyValue {
+public class RubyExceptionValue extends RubyBasic {
 
 	private String message_;
 	

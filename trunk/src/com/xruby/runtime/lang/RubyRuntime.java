@@ -10,69 +10,133 @@ import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
 public class RubyRuntime {
+    public static RubyModule GlobalScope;
+    public static RubyClass ObjectClass;
+    public static RubyClass ModuleClass;
+    public static RubyClass ClassClass;
+    public static RubyModule KernelModule;
+    public static RubyModule ComparableModule;
+    public static RubyModule EnumerableModule;
+    public static RubyModule ErrnoModule;
+    public static RubyModule FileTestModule;
+    public static RubyModule GCModule;
+    public static RubyModule MarshalModule;
+    public static RubyModule MathModule;
+    public static RubyModule ObjectSpaceModule;
+    public static RubyModule ProcessModule;
+    public static RubyClass BingingClass;
+    public static RubyClass NilClassClass;
+    public static RubyClass TrueClassClass; 
+    public static RubyClass FalseClassClass;
+    public static RubyClass NumericClass;
+    public static RubyClass IntegerClass;
+    public static RubyClass FixnumClass;
+    public static RubyClass BignumClass;
+    public static RubyClass StringClass;
+    public static RubyClass FloatClass;
+    public static RubyClass ArrayClass;
+    public static RubyClass HashClass;
+    public static RubyClass SymbolClass;
+    public static RubyClass IOClass;
+    public static RubyClass ProcClass;
+    public static RubyClass RangeClass;
+    public static RubyClass RegexpClass;
+    public static RubyClass FileClass;
+    public static RubyClass MethodClass;
+    public static RubyClass TimeClass;
+    public static RubyClass MatchDataClass;
+    public static RubyClass DirClass;
+    public static RubyClass StructClass;
+    public static RubyClass ThreadGroupClass;
+    public static RubyClass ThreadClass;
 
-    //For performance reason we provide direct access(static public field) for most builtin types.
-    //Note: order is important: should creare parent classes first!
-    public static RubyModule GlobalScope = new RubyModule(null, null);
-    public static RubyClass ObjectClass = GlobalScope.defineNewClass("Object", null);
-    public static RubyClass ModuleClass = GlobalScope.defineNewClass("Module", RubyRuntime.ObjectClass);
-    public static RubyClass ClassClass = GlobalScope.defineNewClass("Class", RubyRuntime.ModuleClass);
-    public static RubyModule KernelModule = GlobalScope.defineNewModule("Kernel");
-    public static RubyModule ComparableModule = GlobalScope.defineNewModule("Comparable");
-    public static RubyModule EnumerableModule = GlobalScope.defineNewModule("Enumerable");
-    public static RubyModule ErrnoModule = GlobalScope.defineNewModule("Errno");
-    public static RubyModule FileTestModule = GlobalScope.defineNewModule("FileTest");
-    public static RubyModule GCModule = GlobalScope.defineNewModule("GC");
-    public static RubyModule MarshalModule = GlobalScope.defineNewModule("Marshal");
-    public static RubyModule MathModule = GlobalScope.defineNewModule("Math");
-    public static RubyModule ObjectSpaceModule = GlobalScope.defineNewModule("ObjectSpace");
-    public static RubyModule ProcessModule = GlobalScope.defineNewModule("Process");
-    public static RubyClass BingingClass = GlobalScope.defineNewClass("Binding", RubyRuntime.ObjectClass);
-    public static RubyClass NilClassClass = GlobalScope.defineNewClass("NilClass", RubyRuntime.ObjectClass);
-    public static RubyClass TrueClassClass = GlobalScope.defineNewClass("TrueClass", RubyRuntime.ObjectClass);
-    public static RubyClass FalseClassClass = GlobalScope.defineNewClass("FalseClass", RubyRuntime.ObjectClass);
-    public static RubyClass NumericClass = GlobalScope.defineNewClass("Numeric", RubyRuntime.ObjectClass);
-    public static RubyClass IntegerClass = GlobalScope.defineNewClass("Integer", RubyRuntime.NumericClass);
-    public static RubyClass FixnumClass = GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
-    public static RubyClass BignumClass = GlobalScope.defineNewClass("Bignum", RubyRuntime.IntegerClass);
-    public static RubyClass StringClass = GlobalScope.defineNewClass("String", RubyRuntime.ObjectClass);
-    public static RubyClass FloatClass = GlobalScope.defineNewClass("Float", RubyRuntime.NumericClass);
-    public static RubyClass ArrayClass = GlobalScope.defineNewClass("Array", RubyRuntime.ObjectClass);
-    public static RubyClass HashClass = GlobalScope.defineNewClass("Hash", RubyRuntime.ObjectClass);
-    public static RubyClass SymbolClass = GlobalScope.defineNewClass("Symbol", RubyRuntime.ObjectClass);
-    public static RubyClass IOClass = GlobalScope.defineNewClass("IO", RubyRuntime.ObjectClass);
-    public static RubyClass ProcClass = GlobalScope.defineNewClass("Proc", RubyRuntime.ObjectClass);
-    public static RubyClass RangeClass = GlobalScope.defineNewClass("Range", RubyRuntime.ObjectClass);
-    public static RubyClass RegexpClass = GlobalScope.defineNewClass("Regexp", RubyRuntime.ObjectClass);
-    public static RubyClass FileClass = GlobalScope.defineNewClass("File", RubyRuntime.IOClass);
-    public static RubyClass MethodClass = GlobalScope.defineNewClass("Method", RubyRuntime.ObjectClass);
-    public static RubyClass TimeClass = GlobalScope.defineNewClass("Time", RubyRuntime.ObjectClass);
-    public static RubyClass MatchDataClass = GlobalScope.defineNewClass("MatchData", RubyRuntime.ObjectClass);
-    public static RubyClass DirClass = GlobalScope.defineNewClass("Dir", RubyRuntime.ObjectClass);
-    public static RubyClass StructClass = GlobalScope.defineNewClass("Struct", RubyRuntime.ObjectClass);
-    public static RubyClass ThreadGroupClass = GlobalScope.defineNewClass("ThreadGroup", RubyRuntime.ObjectClass);
-    public static RubyClass ThreadClass = GlobalScope.defineNewClass("Thread", RubyRuntime.ObjectClass);
+    public static RubyClass ExceptionClass;
+    public static RubyClass StandardErrorClass;
+    public static RubyClass TypeErrorClass;
+    public static RubyClass ArgumentErrorClass;
+    public static RubyClass IndexErrorClass;
+    public static RubyClass RangeErrorClass;
+    public static RubyClass NameErrorClass;
+    public static RubyClass NoMethodErrorClass;
+    public static RubyClass IOErrorClass;
+    public static RubyClass RuntimeErrorClass;
+    public static RubyClass LocalJumpErrorClass;
 
-    public static RubyClass ExceptionClass = GlobalScope.defineNewClass("Exception", RubyRuntime.ObjectClass);
-    public static RubyClass StandardErrorClass = GlobalScope.defineNewClass("StandardError", ExceptionClass);
-    public static RubyClass TypeErrorClass = GlobalScope.defineNewClass("TypeError", StandardErrorClass);
-    public static RubyClass ArgumentErrorClass = GlobalScope.defineNewClass("ArgumentError", StandardErrorClass);
-    public static RubyClass IndexErrorClass = GlobalScope.defineNewClass("IndexError", StandardErrorClass);
-    public static RubyClass RangeErrorClass = GlobalScope.defineNewClass("RangeError", StandardErrorClass);
-    public static RubyClass NameErrorClass = GlobalScope.defineNewClass("NameError", StandardErrorClass);
-    public static RubyClass NoMethodErrorClass = GlobalScope.defineNewClass("NoMethodError", NameErrorClass);
-    public static RubyClass IOErrorClass = GlobalScope.defineNewClass("IOError", StandardErrorClass);
-    public static RubyClass RuntimeErrorClass = GlobalScope.defineNewClass("RuntimeError", StandardErrorClass);
-    public static RubyClass LocalJumpErrorClass = GlobalScope.defineNewClass("LocalJumpError", StandardErrorClass);
-
-    public static RubyClass ScriptErrorClass = GlobalScope.defineNewClass("ScriptError", ExceptionClass);
-    public static RubyClass SyntaxErrorClass = GlobalScope.defineNewClass("SyntaxError", ScriptErrorClass);
-    public static RubyClass LoadErrorClass = GlobalScope.defineNewClass("LoadError", ScriptErrorClass);
-    public static RubyClass NotImplementedErrorClass = GlobalScope.defineNewClass("NotImplementedError", ScriptErrorClass);
+    public static RubyClass ScriptErrorClass;
+    public static RubyClass SyntaxErrorClass;
+    public static RubyClass LoadErrorClass;
+    public static RubyClass NotImplementedErrorClass;
 
     private static boolean initialized_ = false;
 
     static {
+        //For performance reason we provide direct access(static public field) for most builtin types.
+        //Note: order is important: should creare parent classes first!
+        GlobalScope = new RubyModule(null, null);
+
+        ObjectClass = ClassFactory.defineBootClass("Object", null);
+        ModuleClass = ClassFactory.defineBootClass("Module", RubyRuntime.ObjectClass);
+        ClassClass = ClassFactory.defineBootClass("Class", RubyRuntime.ModuleClass);
+
+        RubySingletonClass metaClass = new RubySingletonClass(ObjectClass, ClassClass);
+        metaClass = new RubySingletonClass(ModuleClass, metaClass);
+        metaClass = new RubySingletonClass(ClassClass, metaClass);
+
+        KernelModule = RubyAPI.defineModule("Kernel");
+
+        ComparableModule = RubyAPI.defineModule("Comparable");
+        EnumerableModule = RubyAPI.defineModule("Enumerable");
+        ErrnoModule = RubyAPI.defineModule("Errno");
+        FileTestModule = RubyAPI.defineModule("FileTest");
+        GCModule = RubyAPI.defineModule("GC");
+        MarshalModule = RubyAPI.defineModule("Marshal");
+        MathModule = RubyAPI.defineModule("Math");
+        ObjectSpaceModule = RubyAPI.defineModule("ObjectSpace");
+        ProcessModule = RubyAPI.defineModule("Process");
+
+        BingingClass = RubyAPI.defineClass("Binding", RubyRuntime.ObjectClass);
+        NilClassClass = RubyAPI.defineClass("NilClass", RubyRuntime.ObjectClass);
+        TrueClassClass = RubyAPI.defineClass("TrueClass", RubyRuntime.ObjectClass);
+        FalseClassClass = RubyAPI.defineClass("FalseClass", RubyRuntime.ObjectClass);
+        NumericClass = RubyAPI.defineClass("Numeric", RubyRuntime.ObjectClass);
+        IntegerClass = RubyAPI.defineClass("Integer", RubyRuntime.NumericClass);
+        FixnumClass = RubyAPI.defineClass("Fixnum", RubyRuntime.IntegerClass);
+        BignumClass = RubyAPI.defineClass("Bignum", RubyRuntime.IntegerClass);
+        StringClass = RubyAPI.defineClass("String", RubyRuntime.ObjectClass);
+        FloatClass = RubyAPI.defineClass("Float", RubyRuntime.NumericClass);
+        ArrayClass = RubyAPI.defineClass("Array", RubyRuntime.ObjectClass);
+        HashClass = RubyAPI.defineClass("Hash", RubyRuntime.ObjectClass);
+        SymbolClass = RubyAPI.defineClass("Symbol", RubyRuntime.ObjectClass);
+        IOClass = RubyAPI.defineClass("IO", RubyRuntime.ObjectClass);
+        ProcClass = RubyAPI.defineClass("Proc", RubyRuntime.ObjectClass);
+        RangeClass = RubyAPI.defineClass("Range", RubyRuntime.ObjectClass);
+        RegexpClass = RubyAPI.defineClass("Regexp", RubyRuntime.ObjectClass);
+        FileClass = RubyAPI.defineClass("File", RubyRuntime.IOClass);
+        MethodClass = RubyAPI.defineClass("Method", RubyRuntime.ObjectClass);
+        TimeClass = RubyAPI.defineClass("Time", RubyRuntime.ObjectClass);
+        MatchDataClass = RubyAPI.defineClass("MatchData", RubyRuntime.ObjectClass);
+        DirClass = RubyAPI.defineClass("Dir", RubyRuntime.ObjectClass);
+        StructClass = RubyAPI.defineClass("Struct", RubyRuntime.ObjectClass);
+        ThreadGroupClass = RubyAPI.defineClass("ThreadGroup", RubyRuntime.ObjectClass);
+        ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);
+
+        ExceptionClass = RubyAPI.defineClass("Exception", RubyRuntime.ObjectClass);
+        StandardErrorClass = RubyAPI.defineClass("StandardError", ExceptionClass);
+        TypeErrorClass = RubyAPI.defineClass("TypeError", StandardErrorClass);
+        ArgumentErrorClass = RubyAPI.defineClass("ArgumentError", StandardErrorClass);
+        IndexErrorClass = RubyAPI.defineClass("IndexError", StandardErrorClass);
+        RangeErrorClass = RubyAPI.defineClass("RangeError", StandardErrorClass);
+        NameErrorClass = RubyAPI.defineClass("NameError", StandardErrorClass);
+        NoMethodErrorClass = RubyAPI.defineClass("NoMethodError", NameErrorClass);
+        IOErrorClass = RubyAPI.defineClass("IOError", StandardErrorClass);
+        RuntimeErrorClass = RubyAPI.defineClass("RuntimeError", StandardErrorClass);
+        LocalJumpErrorClass = RubyAPI.defineClass("LocalJumpError", StandardErrorClass);
+
+        ScriptErrorClass = RubyAPI.defineClass("ScriptError", ExceptionClass);
+        SyntaxErrorClass = RubyAPI.defineClass("SyntaxError", ScriptErrorClass);
+        LoadErrorClass = RubyAPI.defineClass("LoadError", ScriptErrorClass);
+        NotImplementedErrorClass = GlobalScope.defineNewClass("NotImplementedError", ScriptErrorClass);
+
         ObjectClassBuilder.initialize();
         ModuleClassBuilder.initialize();
         ClassClassBuilder.initialize();
@@ -159,7 +223,7 @@ public class RubyRuntime {
                 //"Continuation",
                 "Dir", "Exception",
                 //"File::Stat",
-                "File", "Fixnum", "Float", "Hash", "Integer", "IO", "MatchData", "Method",
+                "FalseClass", "File", "Fixnum", "Float", "Hash", "Integer", "IO", "MatchData", "Method",
                 "Module", "NilClass", "Numeric", "Object", "Proc", "Range", "Regexp", "String", "Struct",
                 //"Struct::Tms"
                 "Symbol", "ThreadGroup", "Thread", "ArgumentError",

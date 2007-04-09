@@ -7,7 +7,7 @@ package com.xruby.runtime.lang;
 
 import java.util.*;
 
-abstract class ClassVariableCollection extends RubyValue {
+abstract class ClassVariableCollection extends RubyBasic {
 	protected String name_;
 	protected Map<String, RubyValue> class_varibles_ = new HashMap<String, RubyValue>();
 
@@ -16,7 +16,7 @@ abstract class ClassVariableCollection extends RubyValue {
 	}
 	
 	public String getName() {
-		return name_;
+        return name_;
 	}
 
 	public void setName(String name) {

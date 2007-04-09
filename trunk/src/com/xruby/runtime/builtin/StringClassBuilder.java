@@ -413,7 +413,7 @@ class String_operator_match extends RubyOneArgMethod {
                 return ObjectFactory.NIL_VALUE;
             }
         } else {
-            return RubyAPI.callPublicOneArgMethod(arg, receiver, null, "=~");
+            return RubyAPI.callPublicOneArgMethod(arg, receiver, null, CommonRubyID.matchID);
         }
     }
 }

@@ -179,19 +179,20 @@ class CompilerTestCase extends TestCase {
 
                 assertEquals("Failed at " + i, outputs[i], output.toString());
             } catch (RubyException e) {
-                assertTrue("RubyException at " + i + ": " + e.toString(), false);
+                throw e;
+                //fail("RubyException at " + i + ": " + e.toString());
             } catch (RecognitionException e) {
-                assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
+                fail("RecognitionException at " + i + ": " + e.toString());
             } catch (TokenStreamException e) {
-                assertTrue("TokenStreamException at " + i + ": " + e.toString(), false);
+                fail("TokenStreamException at " + i + ": " + e.toString());
             } catch (CompilerException e) {
-                assertTrue("CompilerException at " + i + ": " + e.toString(), false);
+                fail("CompilerException at " + i + ": " + e.toString());
             } catch (InstantiationException e) {
-                assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
+                fail("InstantiationException at " + i + ": " + e.toString());
             } catch (IllegalAccessException e) {
-                assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
+                fail("IllegalAccessException at " + i + ": " + e.toString());
             } catch (VerifyError e) {
-                assertTrue("VerifyError at " + i + ": " + e.toString(), false);
+                fail("VerifyError at " + i + ": " + e.toString());
             } /*catch (NullPointerException e) {
                 assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
             }*/
@@ -979,7 +980,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_class_inheritence() {
+    public void zeritence() {
         String[] program_texts = {
             "class B\n" +
             "	def say\n" +
@@ -4118,7 +4119,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "def TestSingletonClass.new_method;print 4321;end\n" +
                 "TestSingletonClass.new_method\n",
 
-                "class Class\n" +
+                "class Class < Module\n" +
                 "	def test_meta\n" +
                 "		print \"Test meta\"\n" +
                 "	end\n" +
@@ -4838,6 +4839,18 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "123455",
 
                 "12",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
+    public void test_failure_Marshal() {
+        String [] program_texts = {
+                "str = Marshal.dump([1, 3]); print str == \"\\x04\\x08[\\x07i\\x06i\\x08\"",
+        };
+
+        String[] outputs = {
+                "true"
         };
 
         compile_run_and_compare_output(program_texts, outputs);

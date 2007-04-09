@@ -57,12 +57,12 @@ class Integer_times extends RubyNoArgMethod {
             }
         } else {
             RubyValue a = ObjectFactory.FIXNUM0;
-            while (RubyAPI.testTrueFalse(RubyAPI.callPublicOneArgMethod(a, receiver, null, "<"))) {
+            while (RubyAPI.testTrueFalse(RubyAPI.callPublicOneArgMethod(a, receiver, null, CommonRubyID.lessID))) {
                 RubyValue v = block.invoke(receiver, new RubyArray(a));
                 if (block.breakedOrReturned()) {
                     return v;
                 }
-                a = RubyAPI.callPublicOneArgMethod(a, ObjectFactory.FIXNUM1, null, "+");
+                a = RubyAPI.callPublicOneArgMethod(a, ObjectFactory.FIXNUM1, null, CommonRubyID.plusID);
             }
         }
 

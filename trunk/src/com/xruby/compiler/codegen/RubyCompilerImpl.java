@@ -7,6 +7,7 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.GeneratorAdapter;
+
 import java.math.BigInteger;
 import java.util.*;
 import com.xruby.compiler.codedom.*;
@@ -62,21 +63,25 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().loadThis();
 
 		if (isInGlobalScope()) {
-			cg_.getMethodGenerator().RubyRuntime_GlobalScope();
+//			cg_.getMethodGenerator().RubyRuntime_GlobalScope();
 		} else {
 			cg_.getMethodGenerator().loadArg(3);
 		}
 
-		if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(className)) {
+		//if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(className)) {
 			cg_.getMethodGenerator().push(className);
-		}
+		//}
 		//super class will be pushed next, then visitSuperClass() will be called
 	}
 
 	public void visitClassDefination2(String className) {
-		cg_.getMethodGenerator().RubyModule_defineClass(className);
+        if (isInGlobalScope()) {
+            cg_.getMethodGenerator().RubyAPI_defineClass();
+        } else {
+            cg_.getMethodGenerator().RubyModule_defineClass(className);
+        }
 
-		//The class body may refer the constant, so save it before class builder starts.
+        //The class body may refer the constant, so save it before class builder starts.
 		cg_.getMethodGenerator().dup();
 		int i = cg_.getMethodGenerator().getLocalVariable(className);
 		cg_.getMethodGenerator().storeLocal(i);
@@ -115,12 +120,16 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(moduleName)) {
 			if (isInGlobalScope()) {
-				cg_.getMethodGenerator().RubyRuntime_GlobalScope();
+//				cg_.getMethodGenerator().RubyRuntime_GlobalScope();
 			} else {
 				cg_.getMethodGenerator().loadArg(3);
 			}
 
-			cg_.getMethodGenerator().RubyModule_defineModule(moduleName);
+            if (isInGlobalScope()) {
+                cg_.getMethodGenerator().RubyAPI_defineModule(moduleName);
+            } else {
+                cg_.getMethodGenerator().RubyModule_defineModule(moduleName);
+            }
 		}
 		
 		cg_.getMethodGenerator().dup();

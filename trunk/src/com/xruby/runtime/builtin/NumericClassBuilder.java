@@ -18,7 +18,7 @@ class Numeric_unary_plus extends RubyNoArgMethod {
 
 class Numeric_unary_minus extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return RubyAPI.callPublicOneArgMethod(ObjectFactory.FIXNUM0, receiver, null, "-");
+        return RubyAPI.callPublicOneArgMethod(ObjectFactory.FIXNUM0, receiver, null, CommonRubyID.subID);
     }
 }
 
