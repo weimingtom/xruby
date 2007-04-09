@@ -182,7 +182,7 @@ class ThreadInfo {
             idToken = idToken.substring(2);
         }
         try {
-            long threadId = Long.decode(idToken).longValue();
+            long threadId = Long.decode(idToken);
             tinfo = getThreadInfo(threadId);
         } catch (NumberFormatException e) {
             tinfo = null;

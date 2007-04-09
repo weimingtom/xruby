@@ -265,7 +265,9 @@ returns [Expression e]
 		)
 		{
             e.setNewLine(startANewLine);
-		    e.setPosition(currentLineNumber);
+            if(e.getPosition() < 1) {
+		        e.setPosition(currentLineNumber);
+		    } // To fix the linenumber problem for forInExpression
 		}
 		;
 
@@ -654,10 +656,13 @@ returns [MethodDefinationExpression e]
 forInExpression
 returns [ForInExpression e]
 {
+    // TODO: Here's a line number issue, after forInExpression is called. Line number is added to one
+    // So, the final line number is the line next to it. 
 	Expression exp = null;
 	Block b = null;
 	CompoundStatement cs = null;
 	ParameterVariableExpression var = null;
+	int lineNumber = _t.getLine();
 }
 		:	#(	"for"	{b = new Block();}
 				(	#(BLOCK_ARG
@@ -672,6 +677,9 @@ returns [ForInExpression e]
 				(cs=compoundStatement	{b.setBody(cs);})?
 				{e = new ForInExpression(exp, b);}
 			)
+			{
+			    e.setPosition(lineNumber);    
+			}
 		;
 
 codeBlock
