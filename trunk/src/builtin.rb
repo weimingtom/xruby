@@ -113,6 +113,7 @@ class Array
     end
     
     def fetch index, *default
+        #TODO incomplete 
         return self[index]
     end
 end
