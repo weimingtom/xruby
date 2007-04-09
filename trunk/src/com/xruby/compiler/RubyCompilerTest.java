@@ -4844,18 +4844,6 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_failure_Marshal() {
-        String [] program_texts = {
-                "str = Marshal.dump([1, 3]); print str == \"\\x04\\x08[\\x07i\\x06i\\x08\"",
-        };
-
-        String[] outputs = {
-                "true"
-        };
-
-        compile_run_and_compare_output(program_texts, outputs);
-    }
-
     public void test_Marshal() {
         String [] program_texts = {
                 "StrClone=String.clone; print Marshal.load(Marshal.dump(StrClone.new('abc'))).class",
