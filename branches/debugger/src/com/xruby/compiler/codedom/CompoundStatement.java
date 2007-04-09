@@ -10,25 +10,34 @@ import antlr.RecognitionException;
 
 public class CompoundStatement implements Visitable {
 	protected ArrayList<Statement> statements_ = new ArrayList<Statement>();
+    private int lastLine = 0;
 
-	public void addStatement(Statement statement) {
+    public void addStatement(Statement statement) {
 		if (null != statement) {
 			//optimazation: remove dead code
 			if (statement instanceof ExpressionStatement) {
-				if (!((ExpressionStatement)statement).getExpression().willNotBeExecuted()) {
+                Expression expression = ((ExpressionStatement) statement).getExpression();
+				if (!expression.willNotBeExecuted()) {
 					statements_.add(statement);
 				}
-			} else {
+                if(expression.shouldlabelNewLine() && expression.getPosition() > 0) {
+                    lastLine = expression.getPosition();
+                }
+            } else {
 				statements_.add(statement);
 			}
 		}
-	}
+    }
 
 	int size() {
 		return statements_.size();
 	}
-	
-	boolean lastStatementHasReturnValue() {
+
+    public int getLastLine() {
+        return lastLine;
+    }
+
+    boolean lastStatementHasReturnValue() {
 		if (statements_.isEmpty()) {
 			return false;
 		} else if (statements_.get(statements_.size() - 1) instanceof ExpressionStatement) {

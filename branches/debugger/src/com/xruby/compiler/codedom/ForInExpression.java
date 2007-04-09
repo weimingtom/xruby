@@ -21,10 +21,12 @@ public class ForInExpression extends Expression {
 
 	public void accept(CodeVisitor visitor) {
 		block_.initAllParametersToNil(visitor);
-		MethodCallExpression e;
+        block_.setStartPosition(position);
+
+        MethodCallExpression e;
 		try {
 			e = new MethodCallExpression(exp_, "each", null, block_);
-		} catch (RecognitionException e1) {
+        } catch (RecognitionException e1) {
 			throw new Error(e1);
 		}
 		e.accept(visitor);

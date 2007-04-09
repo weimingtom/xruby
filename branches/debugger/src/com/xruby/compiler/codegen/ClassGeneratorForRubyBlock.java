@@ -53,8 +53,9 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	private final boolean is_for_in_expression_;//for..in expression does not introduce new scope
 	private final RubyBinding binding_;
 	private final FieldManager field_manager_;
+    private final String fileName;
 
-	public ClassGeneratorForRubyBlock(String name,
+    public ClassGeneratorForRubyBlock(String name, String fileName,
 			int argc,
 			boolean has_asterisk_parameter,
 			int default_argc,
@@ -62,7 +63,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			boolean is_for_in_expression,
 			RubyBinding binding) {
 		super(name);
-		symbol_table_of_the_current_scope_ = owner.getSymbolTable();
+        this.fileName = fileName;
+        symbol_table_of_the_current_scope_ = owner.getSymbolTable();
 		mg_for_run_method_ = visitRubyBlock();
 		argc_ = argc;
 		has_asterisk_parameter_ = has_asterisk_parameter;
@@ -163,8 +165,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 				"com/xruby/runtime/lang/RubyBlock",	// superName
 				null								// interface
 				);
-	
-		return new MethodGenerator(Opcodes.ACC_PROTECTED,
+        
+        // set source file's name, for debug
+        if(fileName != null) {
+            cv_.visitSource(fileName, null);
+        }
+
+        return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"),
 				cv_,
 				null,
