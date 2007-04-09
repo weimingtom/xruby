@@ -106,22 +106,25 @@ class MarshalDumper {
             sb.append('T');
         } else if (v == ObjectFactory.FALSE_VALUE) {
             sb.append('F');
-        } else if (v.getRubyClass() == RubyRuntime.StringClass) {
-            packString((RubyString) v, sb);
-        } else if (v.getRubyClass() == RubyRuntime.SymbolClass) {
-            packSymbol((RubySymbol) v, sb);
-        } else if (v.getRubyClass() == RubyRuntime.FixnumClass) {
-            packInteger((RubyFixnum) v, sb);
-        } else if (v.getRubyClass() == RubyRuntime.ArrayClass) {
-            packArray((RubyArray) v, sb);
-        } else if (v.getRubyClass() == RubyRuntime.HashClass) {
-            packHash((RubyHash) v, sb);
-        } else if (v.getRubyClass() == RubyRuntime.FloatClass) {
-            packFloat((RubyFloat) v, sb);
-        } else if (v.getRubyClass() == RubyRuntime.BignumClass) {
-            packBignum((RubyBignum) v, sb);
         } else {
-            packObject(v, sb);
+            RubyClass klass = v.getRubyClass().getRealClass();
+            if (klass == RubyRuntime.StringClass) {
+                packString((RubyString) v, sb);
+            } else if (klass == RubyRuntime.SymbolClass) {
+                packSymbol((RubySymbol) v, sb);
+            } else if (klass == RubyRuntime.FixnumClass) {
+                packInteger((RubyFixnum) v, sb);
+            } else if (klass == RubyRuntime.ArrayClass) {
+                packArray((RubyArray) v, sb);
+            } else if (klass == RubyRuntime.HashClass) {
+                packHash((RubyHash) v, sb);
+            } else if (klass == RubyRuntime.FloatClass) {
+                packFloat((RubyFloat) v, sb);
+            } else if (klass == RubyRuntime.BignumClass) {
+                packBignum((RubyBignum) v, sb);
+            } else {
+                packObject(v, sb);
+            }
         }
     }
 
@@ -214,7 +217,7 @@ class MarshalLoader {
         ++current_index_;//ignore ':'
         String class_name = _loadString(v);
         RubyValue r = loadValue(v);
-        r.setRubyClass((RubyClass) RubyAPI.getConstant(RubyRuntime.GlobalScope, class_name));
+        r.setRubyClass((RubyClass) RubyAPI.getConstant(RubyRuntime.ObjectClass, class_name));
         return r;
     }
 

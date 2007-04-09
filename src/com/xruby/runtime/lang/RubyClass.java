@@ -10,7 +10,6 @@ import com.xruby.runtime.value.*;
 public class RubyClass extends RubyModule {
 	protected static MethodCache cache = new MethodCache();
 	
-	// Just for internal test
 	public static void resetCache() {
 		cache.reset();
 	}
@@ -34,6 +33,14 @@ public class RubyClass extends RubyModule {
         return true;
     }
 
+    public boolean isSingleton() {
+        return false;
+    }
+
+    public String getName() {
+        return this.getRealClass().name_;
+    }
+
     public RubyClass getRealClass() {
         RubyClass klass = this;
         while (klass != null && !klass.isRealClass()) {
@@ -49,14 +56,18 @@ public class RubyClass extends RubyModule {
 	
 	//We called super(null, ...) in RubyModule's constructor to avoid initialization pains 
 	public RubyClass getRubyClass() {
-		return RubyRuntime.ClassClass;
+		return this.class_ != null ? this.class_ : RubyRuntime.ClassClass;
 	}
 
 	public RubyClass getSuperClass() {
 		return superclass_;
 	}
-	
-	public void defineAllocMethod(RubyMethod m) {
+
+    public void setSuperClass(RubyClass superclass) {
+        this.superclass_ = superclass;
+    }
+
+    public void defineAllocMethod(RubyMethod m) {
 		alloc_method_ = m;
 	}
 	
@@ -82,85 +93,11 @@ public class RubyClass extends RubyModule {
 		}
 	}
 
-    private RubyMethod internalFindSingletonMethod(RubyID mid) {
-        return super.findSingletonMethod(mid);
-    }
-
-    protected RubyMethod findSingletonMethod(RubyID mid) {        
-        if (this.singleton_class_ != null) {
-			MethodCache.CacheEntry entry = cache.getMethod(this.singleton_class_, mid);
-			if (entry.klass == this && entry.mid == mid) {
-				if (entry.method == null) {
-					return null;
-				} else {
-					return entry.method;
-				}
-			}
-		}
-
-        RubyClass klass = this;
-
-        while (klass != null) {
-            RubyMethod m = klass.internalFindSingletonMethod(mid);
-            if (m != null) {
-                if (this.singleton_class_ != null) {
-                    cache.putMethod(this.singleton_class_, mid, m);
-                }
-                return m;
-            }                
-            klass = klass.superclass_;
-        }
-
-        return null;
-	}
-	
-	protected RubyMethod findSingletonPublicMethod(RubyID mid) {
-		if (this.singleton_class_ != null) {
-			MethodCache.CacheEntry entry = cache.getMethod(this.singleton_class_, mid);
-			if (entry.klass == this && entry.mid == mid) {
-				if (entry.method == null) {
-					return null;
-				} else if (entry.method.isPublic()) {
-					return entry.method;
-				}
-			}
-		}
-
-        RubyClass klass = this;
-        while (klass != null) {
-            RubyMethod m = klass.internalFindSingletonMethod(mid);
-            if (m != null && m.isPublic()) {
-                if (this.singleton_class_ != null) {
-                    cache.putMethod(this.singleton_class_, mid, m);
-                }
-                return m;
-            }
-            klass = klass.superclass_;
-        }
-		
-		return null;
-	}
-
 	protected RubyMethod findSuperMethod(RubyID mid) {
-        if (null == superclass_) {
-            return null;
-        }
-		
-		MethodCache.CacheEntry entry = cache.getMethod(this.superclass_, mid);
-		if (entry.klass == this && entry.mid == mid) {
-			if (entry.method == null) {
-				return null;
-			} else {
-				return entry.method;
-			}
-		}
-		
-		RubyMethod m =  superclass_.findOwnMethod(mid);
-		
-		cache.putMethod(this.superclass_, mid, m);
-		
-		return m;
-	}
+        return null != this.superclass_
+                ? this.superclass_.findOwnMethod(mid)
+                : null;
+    }
 
     private RubyMethod internalFindOwnMethod(RubyID mid) {
         return super.findOwnMethod(mid);        

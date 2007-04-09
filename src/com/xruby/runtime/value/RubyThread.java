@@ -8,10 +8,11 @@ package com.xruby.runtime.value;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyBasic;
 
 import java.util.HashMap;
 
-public class RubyThread extends RubyValue {
+public class RubyThread extends RubyBasic {
 
     private final Thread thread_;
     private static ThreadLocal<HashMap<String, RubyValue>> thread_local_variables_ =

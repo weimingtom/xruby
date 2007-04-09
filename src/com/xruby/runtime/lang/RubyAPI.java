@@ -12,6 +12,41 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class RubyAPI {
+    public static RubyClass defineClass(String name, RubyClass superclass) {
+        return ClassFactory.defineClass(name, superclass);
+    }
+
+    /* For compiler */
+    public static RubyClass defineClass(String name, RubyValue superclass) {
+		if (null != superclass && !(superclass instanceof RubyClass)) {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (" + superclass.getRubyClass().getName() + " given)");
+		}
+
+        RubyValue value = RubyRuntime.ObjectClass.getConstant(name);
+        if (value != null) {
+            if (!(value instanceof RubyClass)) {
+                throw new RubyException(RubyRuntime.TypeErrorClass, name + " is not a class");
+            }
+
+            RubyClass klass = (RubyClass)value;
+
+            if (superclass != null) {                          
+                if (superclass != klass.getSuperClass().getRealClass()) {
+                    throw new RubyException(RubyRuntime.TypeErrorClass, "superclass mismatch for class " + name);
+                }
+            }
+
+            klass.setAccessPublic();
+
+            return klass;
+        }
+
+        return defineClass(name, null == superclass ? null : (RubyClass)superclass);
+	}
+
+    public static RubyModule defineModule(String name) {
+        return ClassFactory.defineModule(name);
+    }
 
     public static boolean testTrueFalse(RubyValue value) {
         //only 'nil' and 'false' is false.
@@ -19,12 +54,12 @@ public class RubyAPI {
     }
 
     public static boolean testCaseEqual(RubyValue value1, RubyValue value2) {
-        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, "===");
+        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, CommonRubyID.longEqualID);
         return testTrueFalse(r);
     }
 
     public static boolean testEqual(RubyValue value1, RubyValue value2) {
-        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, "==");
+        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, CommonRubyID.equalID);
         return testTrueFalse(r);
     }
 
@@ -106,7 +141,9 @@ public class RubyAPI {
             return m.invoke(receiver, null, args, block);
         }
 
-        throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + StringMap.id2name(mid) + "' for " + receiver.getRubyClass().getName());
+        RubyClass klass = receiver.getRubyClass();
+        klass = (klass != null) ? klass.getRealClass() : null;
+        throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + StringMap.id2name(mid) + "' for " + klass.getName());
     }
 
     //receiver is implicit self
@@ -132,10 +169,6 @@ public class RubyAPI {
         return callMethodMissing(receiver, new RubyArray(arg), block, mid);
     }
 
-    public static RubyValue callPublicOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, String method_name) {
-        return callPublicOneArgMethod(receiver, arg, block, StringMap.intern(method_name));
-    }
-
     //method call with *one* argument and no block (use the other one if no arg (arg == null)!)
     //This make code (especially reverse engineered ones) more readable.
     public static RubyValue callPublicOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid) {
@@ -151,6 +184,9 @@ public class RubyAPI {
     //TODO should pass owner to work with protected method
     public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid) {
         assert(null == args || args.size() > 1);//use callPublicOneArgMethod if has only one arg
+        if ("nil?".equals(StringMap.id2name(mid))) {
+            String s = "1";
+        }
         RubyMethod m = receiver.findPublicMethod(mid);
         if (null != m && !UndefMethod.isUndef(m)) {
             return invokeMethod(m, mid, receiver, null, args, block);
@@ -294,11 +330,17 @@ public class RubyAPI {
     }
 
     public static RubyValue setTopLevelConstant(RubyValue value, String name) {
-        return RubyRuntime.GlobalScope.setConstant(name, value);
+        return RubyRuntime.ObjectClass.setConstant(name, value);
+        //return RubyRuntime.GlobalScope.setConstant(name, value);
     }
 
     public static RubyValue getCurrentNamespaceConstant(RubyModule receiver, String name) {
         RubyValue v = receiver.getConstant(name);
+        if (null != v) {
+            return v;
+        }
+
+        v = RubyRuntime.ObjectClass.getConstant(name);
         if (null == v) {
             throwUninitializedConstant(receiver, name);
         }

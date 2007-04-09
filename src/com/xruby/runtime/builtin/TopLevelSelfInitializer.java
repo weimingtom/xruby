@@ -14,7 +14,7 @@ class TopLevelSelf_include extends RubyVarArgMethod {
         assert(ObjectFactory.TOP_LEVEL_SELF_VALUE == receiver);
 
         for (RubyValue v : args) {
-            RubyClass c = v.getRubyClass();
+            RubyClass c = v.getRubyClass().getRealClass();
             if (c != RubyRuntime.ModuleClass) {
                 throw new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type " + c.getName() + " (expected Module)");
             }

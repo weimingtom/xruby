@@ -29,7 +29,7 @@ public class RubyModule extends MethodCollection {
 
     //We called super(null) in RubyModule's constructor to avoid initialization pains
 	public RubyClass getRubyClass() {
-		return RubyRuntime.ModuleClass;
+		return this.class_ != null ? this.class_ : RubyRuntime.ModuleClass;
 	}
 
 	public RubyValue defineMethod(String name, RubyMethod m) {
@@ -126,12 +126,15 @@ public class RubyModule extends MethodCollection {
             }
         }
 
-        if (null == owner_) {
-			return null;
-		}
+        if (null != owner_) {
+            v = this.owner_.getConstant(name);
+            if (null != v) {
+                return v;
+            }
+        }
 
-		return owner_.getConstant(name);
-	}
+        return null;
+    }
 	
 	public void to_s(RubyString s) {
         if (null != owner_) {
@@ -139,9 +142,13 @@ public class RubyModule extends MethodCollection {
 			if (s.length() > 0) {
 				s.appendString("::");
 			}
-			s.appendString(getName());
 		}
-	}
+
+        String name = this.getName();
+        if (name != null) {
+            s.appendString(getName());
+        }
+    }
 
 	public void module_function(String method_name) {
 		RubyID mid = StringMap.intern(method_name);

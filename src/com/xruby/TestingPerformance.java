@@ -195,7 +195,8 @@ public class TestingPerformance {
     }
 
     private static long test_searchEmptySingletonClass() {
-        RubySingletonClass c = new RubySingletonClass();
+        RubyObject o = new RubyObject(RubyRuntime.ObjectClass);
+        RubyClass c = o.getSingletonClass();
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < LOOP; ++i) {

@@ -47,23 +47,16 @@ abstract class BlockCallStatus {
 }
 
 public abstract class RubyValue extends BlockCallStatus implements Cloneable {
-    private RubyClass class_;
     private boolean frozen_ = false;
-    protected RubySingletonClass singleton_class_ = null;
-    private Map<String, RubyValue> instance_varibles_ = null;
+    private Map<RubyID, RubyValue> instance_varibles_ = null;
 
-    public RubyValue(RubyClass c) {
-        class_ = c;
-    }
+    public abstract void setRubyClass(RubyClass klass);
+    public abstract RubyClass getRubyClass();
 
     public RubyValue clone() {
         RubyValue v;
         try {
             v = (RubyValue) super.clone();
-            if (null != singleton_class_) {
-                v.singleton_class_ = new RubySingletonClass();
-                v.singleton_class_.copyMethods(singleton_class_);
-            }
         } catch (CloneNotSupportedException e) {
             throw new RubyException(RubyRuntime.ExceptionClass, e.toString());
         }
@@ -72,7 +65,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 
     //Do not use this method if o is not instanceof RubyValue
     public boolean equals(Object o) {
-        RubyValue v = RubyAPI.callPublicOneArgMethod(this, (RubyValue) o, null, "==");
+        RubyValue v = RubyAPI.callPublicOneArgMethod(this, (RubyValue) o, null, CommonRubyID.equalID);
         return RubyAPI.testTrueFalse(v);
     }
 
@@ -84,12 +77,12 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
         frozen_ = true;
     }
 
-    public RubyValue getInstanceVariable(String name) {
+    public RubyValue getInstanceVariable(RubyID id) {
         if (null == instance_varibles_) {
             return ObjectFactory.NIL_VALUE;
         }
 
-        RubyValue v = instance_varibles_.get(name);
+        RubyValue v = instance_varibles_.get(id);
         if (null != v) {
             return v;
         } else {
@@ -97,70 +90,40 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
         }
     }
 
-    public RubyValue setInstanceVariable(RubyValue value, String name) {
+    public RubyValue setInstanceVariable(RubyValue value, RubyID id) {
         if (null == instance_varibles_) {
-            instance_varibles_ = new HashMap<String, RubyValue>();
+            instance_varibles_ = new HashMap<RubyID, RubyValue>();
         }
 
-        instance_varibles_.put(name, value);
+        instance_varibles_.put(id, value);
         return value;
     }
 
-    public void setRubyClass(RubyClass c) {
-        class_ = c;
-    }
-
-    public RubyClass getRubyClass() {
-        return class_;
-    }
-
     public RubyClass getSingletonClass() {
-        if (null == singleton_class_) {
-            singleton_class_ = new RubySingletonClass();
+        RubyClass klass = this.getRubyClass();
+
+        if (klass.isSingleton()
+                && klass.getInstanceVariable(CommonRubyID.attachedID) == this) {
+            return klass;
+        } else {
+            return new RubySingletonClass(this, this.getRubyClass());
         }
-        return singleton_class_;
     }
 
     public String toString() {
         return getRubyClass().getName() + super.toString();
     }
 
-    protected RubyMethod findSingletonMethod(RubyID mid) {
-        if (null == singleton_class_) {
-            return null;
-        }
-        return singleton_class_.findOwnMethod(mid);
-    }
-
-    protected RubyMethod findSingletonPublicMethod(RubyID mid) {
-        if (null == singleton_class_) {
-            return null;
-        }
-        return singleton_class_.findOwnPublicMethod(mid);
-    }
-
     public RubyMethod findPublicMethod(RubyID mid) {
-        RubyMethod m = findSingletonPublicMethod(mid);
-        if (null != m && m.isPublic()) {
-            return m;
-        }
-
         return getRubyClass().findOwnPublicMethod(mid);
     }
 
     public RubyMethod findMethod(RubyID mid) {
-        RubyMethod m = findSingletonMethod(mid);
-        if (null != m) {
-            return m;
-        }
-
         return getRubyClass().findOwnMethod(mid);
     }
 
     public void collectMethodNames(RubyArray a) {
-        getSingletonClass().collectOwnMethodNames(a);
         getRubyClass().collectClassMethodNames(a);
     }
-
 }
 

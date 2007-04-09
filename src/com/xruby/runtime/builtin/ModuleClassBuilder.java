@@ -21,9 +21,9 @@ class Module_AccessControl {
         for (RubyValue arg : args) {
             String method_name;
             if (arg instanceof RubyString) {
-                method_name = ((RubyString) arg).toString();
+                method_name = arg.toString();
             } else if (arg instanceof RubySymbol) {
-                method_name = ((RubySymbol) arg).toString();
+                method_name = arg.toString();
             } else {
                 throw new RubyException(RubyRuntime.TypeErrorClass, arg.toString() + " is not a symbol");
             }
@@ -97,14 +97,14 @@ class Module_inspect extends RubyVarArgMethod {
 }
 
 class AttrReader extends RubyNoArgMethod {
-    private String methodName_;
+    private RubyID attrName;
 
     public AttrReader(String methodName) {
-        methodName_ = "@" + methodName;
+        attrName = StringMap.intern("@" + methodName);
     }
 
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return receiver.getInstanceVariable(methodName_);
+        return receiver.getInstanceVariable(attrName);
     }
 }
 
@@ -122,14 +122,14 @@ class Module_attr_reader extends RubyVarArgMethod {
 }
 
 class AttrWriter extends RubyOneArgMethod {
-    private String methodName_;
+    private RubyID attrName;
 
     public AttrWriter(String methodName) {
-        methodName_ = "@" + methodName;
+        attrName = StringMap.intern("@" + methodName);
     }
 
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        return receiver.setInstanceVariable(arg, methodName_);
+        return receiver.setInstanceVariable(arg, attrName);
     }
 }
 

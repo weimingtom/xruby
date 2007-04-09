@@ -31,7 +31,7 @@ public class ClassDefinationExpression extends Expression {
 			visitor.visitClassDefination1(className_);
 			if (null != superClass_) {
 				superClass_.accept(visitor);
-			} else {
+            } else {
 				visitor.visitNoSuperClass();
 			}
 			visitor.visitClassDefination2(className_);

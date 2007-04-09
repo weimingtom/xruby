@@ -101,19 +101,19 @@ class Kernel_print extends RubyVarArgMethod {
         for (int i = 0; i < args.size(); ++i) {
             // insert the output field separator($,) if not nil
             if (i > 0 && GlobalVariables.get("$,") != ObjectFactory.NIL_VALUE) {
-                RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$,"), null, "write");
+                RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$,"), null, CommonRubyID.writeID);
             }
 
             if (args.get(i) == ObjectFactory.NIL_VALUE) {
-                RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("nil"), null, "write");
+                RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("nil"), null, CommonRubyID.writeID);
             } else {
-                RubyAPI.callPublicOneArgMethod(receiver, args.get(i), null, "write");
+                RubyAPI.callPublicOneArgMethod(receiver, args.get(i), null, CommonRubyID.writeID);
             }
         }
 
         // if the output record separator($\) is not nil, it will be appended to the output.
         if (GlobalVariables.get("$\\") != ObjectFactory.NIL_VALUE) {
-            RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$\\"), null, "write");
+            RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$\\"), null, CommonRubyID.writeID);
         }
 
         return ObjectFactory.NIL_VALUE;
@@ -158,7 +158,8 @@ class Kernel_p extends RubyVarArgMethod {
 
 class Kernel_class extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        return receiver.getRubyClass();
+        RubyClass klass = receiver.getRubyClass();
+        return klass != null ? klass.getRealClass() : null;
     }
 }
 
@@ -167,7 +168,7 @@ class Kernel_operator_case_equal extends RubyOneArgMethod {
         if (receiver == arg) {
             return ObjectFactory.TRUE_VALUE;
         } else {
-            return RubyAPI.callPublicOneArgMethod(receiver, arg, block, "==");
+            return RubyAPI.callPublicOneArgMethod(receiver, arg, block, CommonRubyID.equalID);
         }
     }
 }
@@ -175,7 +176,9 @@ class Kernel_operator_case_equal extends RubyOneArgMethod {
 class Kernel_method_missing extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubySymbol method_name = (RubySymbol) args.get(0);
-        throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + method_name.toString() + "' for " + receiver.getRubyClass().getName());
+        RubyClass klass = receiver.getRubyClass();
+        klass = (klass != null) ? klass.getRealClass() : null;
+        throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + method_name.toString() + "' for " + klass.getName());
     }
 }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2007 Ye Zheng
+ * Copyright 2006-2007 Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -19,10 +19,22 @@ public class CommonRubyID {
     public static RubyID lengthID = StringMap.intern("length");
 
     public static RubyID plusID = StringMap.intern("+");
+    public static RubyID subID = StringMap.intern("-");
 
+    public static RubyID matchID = StringMap.intern("=~");
+
+    public static RubyID equalID = StringMap.intern("==");
+    public static RubyID longEqualID = StringMap.intern("===");
     public static RubyID unequalID = StringMap.intern("<=>");
+    public static RubyID lessID = StringMap.intern("<");
+
+    public static RubyID writeID = StringMap.intern("write");
+
+    public static RubyID extendObjectID = StringMap.intern("extend_object");
 
     public static RubyID methodMissingId = StringMap.intern("method_missing");
+
+    static RubyID attachedID = StringMap.intern("__attached__");
 
     private CommonRubyID() {
     }
