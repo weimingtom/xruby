@@ -111,7 +111,10 @@ class Array
         }
         str << "]"
     end
-
+    
+    def fetch index, *default
+        return self[index]
+    end
 end
 
 class Hash
