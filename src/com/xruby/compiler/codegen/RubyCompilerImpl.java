@@ -841,7 +841,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitRedo() {
 		if (isInBlock()) {
-			cg_.getMethodGenerator().pushNull();
+			cg_.getMethodGenerator().ObjectFactory_nilValue();
 			cg_.getMethodGenerator().redoFromBlock();
 		} else {
 			cg_.getMethodGenerator().goTo(labelManager_.getCurrentRedo());
@@ -850,7 +850,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	
 	public void visitRetry() {
 		if (isInBlock()) {
-			cg_.getMethodGenerator().pushNull();
+			cg_.getMethodGenerator().ObjectFactory_nilValue();
 			cg_.getMethodGenerator().redoFromBlock();
 		} else {
 			cg_.getMethodGenerator().goTo(ensureLabelManager_.getCurrentRetry());
