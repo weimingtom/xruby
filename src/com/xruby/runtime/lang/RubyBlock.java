@@ -126,7 +126,13 @@ public abstract class RubyBlock extends MethodBlockBase {
         __return__ = false;
         __redo__ = false;
 
-        return run(receiver, null != args ? args : new RubyArray(0));
+        RubyValue v = run(receiver, null != args ? args : new RubyArray(0));
+        //TODO Maybe we can just use the fields in BlockCallStatus, remove the
+        //__break__, __return__, __redo__ here
+        if (v.returnedInBlock()) {
+            __return__ = true;
+        }
+        return v;
     }
 
     protected abstract RubyValue run(RubyValue receiver, RubyArray args);
