@@ -20,9 +20,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * @author Yu Su (beanworms@gmail.com)
- */
 class ThreadInfo {
     // This is a list of all known ThreadInfo objects. It survives
     // ThreadInfo.invalidateAll, unlike the other static fields below.
