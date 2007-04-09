@@ -606,7 +606,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Array_misc() {
         String[] program_texts = {
-        		"a = [1, 2, 1, 3]; a.delete_if {|x| true if x == 1}; p a",
+                "print [ 11, 22, 33, 44 ].fetch(1)",
+                "a = [1, 2, 1, 3]; a.delete_if {|x| true if x == 1}; p a",
                 "[1, 2, 3].reverse_each {|x| print x}",
                 "print %w$a b c $[1..-1]",
                 "p [1,2].clear",
@@ -643,7 +644,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-        		"[2, 3]\n",
+                "22",
+                "[2, 3]\n",
                 "321",
                 "bc",
                 "[]\n",
@@ -3255,13 +3257,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_return_break_next_in_block() {
         String[] program_texts = {
-                "def f; [1, 2].each {|x| print x; return 4}; end; print(f)",
-
-                /*TODO
                 "def f &block; 1.times {block.call}; print 'yyy'; end\n" +
                 "def test_return2; f {print 'xxx';return}; end\n" +
                 "test_return2",
-                */
+
+                "def f; [1, 2].each {|x| print x; return 4}; end; print(f)",
 
                 "def test()\n" +
                 "    3.times do |index|\n" +
@@ -3301,8 +3301,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "xxx",
                 "14",
-                //"xxx",
 
                 "0",
                 "0",
