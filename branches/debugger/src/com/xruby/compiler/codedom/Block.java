@@ -96,13 +96,14 @@ public class Block {
 
 		if (null != bodyStatement_) {
 			bodyStatement_.accept(visitor);
-		}
+            setEndPosition(bodyStatement_.getLastLine());
+        }
 
 		Pair p = new Pair();
 		p.name = name;
 		p.value = visitor.visitBlockEnd(name, (null != bodyStatement_) ?
 										bodyStatement_.lastStatementHasReturnValue() : false);
-        this.setEndPosition(bodyStatement_.getLastLine());
+
         return p;
 	}
 
