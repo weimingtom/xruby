@@ -21,8 +21,11 @@ public class Block {
 	private boolean should_validate_argument_length_ = false;
 	private boolean is_for_in_expression_ = false;
 	private boolean has_extra_comma_ = false;
-	
-	public void setHasExtraComma() {
+
+    private int startPosition;
+    private int endPosition;
+
+    public void setHasExtraComma() {
 		has_extra_comma_ = true;
 	}
 	
@@ -99,6 +102,24 @@ public class Block {
 		p.name = name;
 		p.value = visitor.visitBlockEnd(name, (null != bodyStatement_) ?
 										bodyStatement_.lastStatementHasReturnValue() : false);
-		return p;
+        this.setEndPosition(bodyStatement_.getLastLine());
+        return p;
 	}
+
+
+    public int getStartPosition() {
+        return startPosition;
+    }
+
+    public void setStartPosition(int startPosition) {
+        this.startPosition = startPosition;
+    }
+
+    public int getEndPosition() {
+        return endPosition;
+    }
+
+    public void setEndPosition(int endPosition) {
+        this.endPosition = endPosition;
+    }
 }
