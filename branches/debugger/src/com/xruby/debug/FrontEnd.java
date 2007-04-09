@@ -21,6 +21,7 @@ public abstract class FrontEnd {
     private static final String STOP = "stop";
     private static final String LIST = "list";
     private static final String CONT = "cont";
+    private static final String SETP_OVER = "next";
 
     /**
      * Validate arguments, LAUNCH, MAIN, OPTIONS
@@ -64,6 +65,8 @@ public abstract class FrontEnd {
             // TODO: List the source code, if no arguments just list 10 lines
         } else if (command.equalsIgnoreCase(CONT)) {
             new ContinueInsn().execute();   
+        } else if (command.equalsIgnoreCase(SETP_OVER)) {
+            new NextInsn().execute();
         } else {
             throw new XRubyDebugException(String.format("This command %s is not supported now", command));
         }

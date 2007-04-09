@@ -40,14 +40,48 @@ public class DebugMain {
         DebugContext.addSourcePath(options.getPathList());
         DebugContext.setClassPath(options.getClassPath());
 
-        frontEnd.distributeCommand("stop", new String[]{"test_debug.main", "6"});
+        // For test_debug.main
+//        frontEnd.distributeCommand("stop", new String[]{"test_debug.main", "1"});
+//        Thread.sleep(1000);
+//        frontEnd.distributeCommand("run", null);
+//        Thread.sleep(1000);
+//        frontEnd.distributeCommand("next", null);
+//        Thread.sleep(1000);
+//        frontEnd.distributeCommand("stop", new String[]{"test_debug.main", "6"});
+//        Thread.sleep(1000);
+//        frontEnd.distributeCommand("cont", null);
+//        Thread.sleep(1000);
+//        frontEnd.distributeCommand("next", null);
+//        Thread.sleep(1000);
+//        frontEnd.distributeCommand("next", null);
+//        Thread.sleep(1000);
+//        frontEnd.distributeCommand("cont", null);
+
+        // For test_debug2.BLOCK$0
+        frontEnd.distributeCommand("stop", new String[]{"test_debug2.BLOCK$0", "4"});
         Thread.sleep(1000);
         frontEnd.distributeCommand("run", null);
         Thread.sleep(1000);
-        frontEnd.distributeCommand("stop", new String[]{"test_debug.main", "8"});
+        frontEnd.distributeCommand("cont", null);
         Thread.sleep(1000);
         frontEnd.distributeCommand("cont", null);
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
+        Thread.sleep(1000);
+        frontEnd.distributeCommand("cont", null);
+        Thread.sleep(1000);
         frontEnd.distributeCommand("cont", null);
     }
 }
