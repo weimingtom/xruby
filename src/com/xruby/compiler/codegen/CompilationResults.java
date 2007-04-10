@@ -72,10 +72,12 @@ public class CompilationResults {
         // TODO: Add debug check here
         // TODO: We need a loop statement to support multiple files
         // if(is_debug?) {...}
-        jarstream.putNextEntry(new JarEntry(script_name + ".smap"));
         String blockMap = Block.getBlockMapByName(script_name);
-        jarstream.write(blockMap.getBytes());
-        
+        if(blockMap != null) {
+            jarstream.putNextEntry(new JarEntry(script_name + ".smap"));
+            System.out.println(jarstream != null);
+            jarstream.write(blockMap.getBytes());
+        }
         jarstream.close();
 		System.out.println("Generated " + tarfilename.toString());
 	}

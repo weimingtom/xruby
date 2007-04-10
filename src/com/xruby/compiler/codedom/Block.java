@@ -110,7 +110,9 @@ public class Block {
 		p.name = name;
 		p.value = visitor.visitBlockEnd(name, (null != bodyStatement_) ?
 										bodyStatement_.lastStatementHasReturnValue() : false);
-        Block.markBlock(this);
+        if(name != null) {
+            Block.markBlock(this);
+        }
         return p;
 	}
 
