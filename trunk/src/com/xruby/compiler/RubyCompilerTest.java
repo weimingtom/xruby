@@ -4989,11 +4989,13 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "module M end\n" +
                 "print M.const_set(:TEST_CONSTANT1, 1)\n" +
                 "print M::TEST_CONSTANT1\n" +
-                "print M.const_get(:TEST_CONSTANT1)",
+                "print M.const_get(:TEST_CONSTANT1)\n" +
+                "print M.const_set('TEST_CONSTANT2', 2)\n" +
+                "print M::TEST_CONSTANT2",
         };
 
         String[] outputs = {
-                "111",
+                "11122",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
