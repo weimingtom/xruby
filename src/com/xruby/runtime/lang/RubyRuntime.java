@@ -135,7 +135,7 @@ public class RubyRuntime {
         ScriptErrorClass = RubyAPI.defineClass("ScriptError", ExceptionClass);
         SyntaxErrorClass = RubyAPI.defineClass("SyntaxError", ScriptErrorClass);
         LoadErrorClass = RubyAPI.defineClass("LoadError", ScriptErrorClass);
-        NotImplementedErrorClass = GlobalScope.defineNewClass("NotImplementedError", ScriptErrorClass);
+        NotImplementedErrorClass = RubyAPI.defineClass("NotImplementedError", ScriptErrorClass);
 
         ObjectClassBuilder.initialize();
         ModuleClassBuilder.initialize();

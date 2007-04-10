@@ -331,7 +331,6 @@ public class RubyAPI {
 
     public static RubyValue setTopLevelConstant(RubyValue value, String name) {
         return RubyRuntime.ObjectClass.setConstant(name, value);
-        //return RubyRuntime.GlobalScope.setConstant(name, value);
     }
 
     public static RubyValue getCurrentNamespaceConstant(RubyModule receiver, String name) {
