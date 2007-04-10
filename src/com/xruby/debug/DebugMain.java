@@ -58,7 +58,8 @@ public class DebugMain {
 //        frontEnd.distributeCommand("cont", null);
 
         // For test_debug2.BLOCK$0
-        frontEnd.distributeCommand("stop", new String[]{"test_debug2.BLOCK$0", "4"});
+        // TODO: next step frontEnd.distributeCommand("stop", new String[]{"test_debug2.rb", "4"});
+        frontEnd.distributeCommand("stop", new String[]{"test_debug2.main", "4"});
         Thread.sleep(1000);
         frontEnd.distributeCommand("run", null);
         Thread.sleep(1000);

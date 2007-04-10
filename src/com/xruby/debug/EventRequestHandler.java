@@ -20,10 +20,6 @@ public abstract class EventRequestHandler {
     protected ClassPrepareRequest prepareRequest;
     private String classId;
 
-    protected EventRequestHandler(String classId) {
-        this.classId = classId;
-    }
-
     public void preSolved() {
         prepareRequest = DebugContext.getEventRequestManager().createClassPrepareRequest();
         prepareRequest.addClassFilter(classId);
@@ -55,6 +51,13 @@ public abstract class EventRequestHandler {
         return null;
     }
 
+    protected String getClassId() {
+        return classId;
+    }
+
+    protected void setClassId(String classId) {
+        this.classId = classId;
+    }
 
     public ClassPrepareRequest getPrepareRequest() {
         return prepareRequest;
