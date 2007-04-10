@@ -20,8 +20,8 @@ class CompilationResultLoader extends ClassLoader {
 }
 
 class CompilationResult {
-	
-	private final String name_;
+
+    private final String name_;
 	private final byte[] code_;
 	
 	public CompilationResult(String name, byte[] code) {
@@ -43,7 +43,10 @@ class CompilationResult {
 }
 
 public class CompilationResults {
-	private final ArrayList<CompilationResult> results_ = new ArrayList<CompilationResult>();
+
+    private static final String SMAP_SUFFIX = ".smap";
+
+    private final ArrayList<CompilationResult> results_ = new ArrayList<CompilationResult>();
 	
 	public void add(CompilationResult result) {
 		results_.add(result);
@@ -73,9 +76,10 @@ public class CompilationResults {
         // TODO: We need a loop statement to support multiple files
         // if(is_debug?) {...}
         String blockMap = Block.getBlockMapByName(script_name);
-        if(blockMap != null) {
-            jarstream.putNextEntry(new JarEntry(script_name + ".smap"));
-            System.out.println(jarstream != null);
+        if (blockMap != null) {
+            String entryName =
+                    NameFactory.getNameWithoutSufix(script_name) + "/" + script_name + SMAP_SUFFIX;
+            jarstream.putNextEntry(new JarEntry(entryName));
             jarstream.write(blockMap.getBytes());
         }
         jarstream.close();

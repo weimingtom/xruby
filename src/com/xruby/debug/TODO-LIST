@@ -29,3 +29,6 @@ Reason, script file's name is required, and its name is not always end with ".rb
 Start options
 SourceCodeMgr
 // TODO: We should add a smap option in start options
+
+I've changed the position of .smap file, so:
+!!! Change the algorithm for searching smap file. Refer to the source code of springframework
