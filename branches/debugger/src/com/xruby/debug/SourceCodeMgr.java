@@ -10,10 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import static java.lang.System.out;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * @author Yu Su (beanworms@gmail.com)
@@ -21,9 +18,11 @@ import java.util.ArrayList;
 public class SourceCodeMgr {
 
     private static Map<String, SourceCode> cache ;
+    private static Map<String, Map<String, int[]>> blockMap;
 
     static {
         cache = new HashMap<String, SourceCode>();
+        blockMap = new HashMap<String, Map<String, int[]>>();
     }
 
     // TODO: handle exception
@@ -52,6 +51,89 @@ public class SourceCodeMgr {
         }
 
         return null;
+    }
+
+    public static String getRealClass(String classId, int lineNumber) throws XRubyDebugException {
+        //test_debug2.main -> test_debug2.BLOCK$0
+        StringTokenizer st = new StringTokenizer(classId, ".");
+        String scriptName;
+        String className;
+
+        if(st.hasMoreTokens()) {
+            className = st.nextToken();
+            scriptName =  className + ".rb";
+        } else {
+            throw new XRubyDebugException("IllegalArgumentExcpeiont, class");
+        }
+
+        // TODO: We should add a smap option in start options
+        // TODO: put the .smap file under the same directory of .class files
+        List<File> paths = DebugContext.getSourcePath();
+        for (File path : paths) {
+            if (path.isDirectory()) {
+                String tmp = path.getAbsolutePath() + File.separatorChar + scriptName + ".smap";
+                File file = new File(tmp);
+                if(file.exists()) {
+                    String blockName = retrieveBlockName(file, lineNumber);
+                    if(blockName != null) {
+                        return String.format("%s.%s", className, blockName);
+                    }
+                }
+            }
+        }
+
+        return classId;
+    }
+
+
+    private static String retrieveBlockName(File mapFile, int lineNumber) throws XRubyDebugException {
+        Map<String, int[]> map = blockMap.get(mapFile.getName());
+        String realName = null;
+
+        if(map == null) {  // The first time reading this file's map
+            map = new HashMap<String, int[]>();
+            blockMap.put(mapFile.getName(), map);
+            BufferedReader reader;
+            try {
+                reader = new BufferedReader(new FileReader(mapFile));
+                int number = Integer.parseInt(reader.readLine());
+                for(int i = 0; i < number;) {
+                    String line = reader.readLine();
+                    if(line.trim().equals("")) {
+                        continue;
+                    }
+
+                    StringTokenizer seq = new StringTokenizer(line, " ");
+
+                    // We assume the format is correct: [Block's Name] [start] [end]
+                    String blockName = seq.nextToken();
+                    String start = seq.nextToken();
+                    String end = seq.nextToken();
+                    int startIdx = Integer.parseInt(start);
+                    int endIdx = Integer.parseInt(end);
+
+                    if(lineNumber > startIdx && lineNumber <= endIdx) {
+                        realName = blockName;
+                    }
+
+                    map.put(blockName, new int[]{startIdx, endIdx});
+                    i ++;
+                }
+            } catch (IOException e) {
+                throw new XRubyDebugException(
+                        String.format("Couldn't read this file or wrong format, %s:\n%s", mapFile.getName(), e.getMessage()));
+            }
+        } else {  // already existed
+            Set<String> blocks = map.keySet();
+            for(String block: blocks) {
+                int[] range = map.get(block);
+                if(lineNumber > range[0] && lineNumber <= range[1]) {
+                    return block;
+                }
+            }
+        }
+
+        return realName;
     }
 }
 

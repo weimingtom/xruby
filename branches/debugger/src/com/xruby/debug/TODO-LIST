@@ -19,9 +19,13 @@ Chapters/Sections:
 Design&Implementation TODO: List
 Global:
 TODO: We need support multiple files
+TODO: We need more XRubyXXX Exceptions, including XRubyRuntimeException
 
 Block.java
 Reason, script file's name is required, and its name is not always end with ".rb"
 // TODO: maybe we need create a global variable to keep current script name
 // TODO: Add a new global helper method getCurrentScriptName(). We need fix this in the feature.
 
+Start options
+SourceCodeMgr
+// TODO: We should add a smap option in start options

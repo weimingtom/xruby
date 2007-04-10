@@ -22,18 +22,17 @@ import java.util.List;
  */
 public class StopInsn extends EventRequestHandler implements Instruction {
     private int lineNumber = -1;
-    private String classId;
 
     /**
      * Constructor
      *
      * @param classId    Class identifier
      * @param lineNumber Line number
+     * @throws XRubyDebugException exception
      */
-    public StopInsn(String classId, int lineNumber) {
-        super(classId);
+    public StopInsn(String classId, int lineNumber) throws XRubyDebugException {
         this.lineNumber = lineNumber;
-        this.classId = classId;
+        setClassId(SourceCodeMgr.getRealClass(classId, lineNumber));
     }
 
     /**
@@ -89,10 +88,6 @@ public class StopInsn extends EventRequestHandler implements Instruction {
     // ----------------------
     public int getLineNumber() {
         return lineNumber;
-    }
-
-    public String getClassId() {
-        return classId;
     }
 
     // Private methods
