@@ -1184,8 +1184,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_case() {
         String[] program_texts = {
-        		"class C; end; def C.f; [5]; end\n" +
-        		"case 5;when *C.f; print 123; end",
+                "b = proc {print 0}; case 1; when 2; a = 3, 4; else b.call; end",
+
+                "class C; end; def C.f; [5]; end\n" +
+                "case 5;when *C.f; print 123; end",
 
                 "case [1, 2]; when *[[1, 2]]; print 'ok'; end",
 
@@ -1222,7 +1224,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-        		"123",
+                "0",
+        	    "123",
                 "ok",
                 "",
                 "1234",

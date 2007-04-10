@@ -118,4 +118,10 @@ public class MultipleAssignmentStatement extends Statement {
 			}
 		}
 	}
+
+	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+		for (Expression exp : mlhs_) {
+			exp.getNewlyAssignedVariables(symboltable, result);
+		}
+	}
 }
