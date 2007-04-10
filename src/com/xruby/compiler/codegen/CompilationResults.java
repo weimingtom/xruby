@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.jar.*;
 
 import com.xruby.compiler.*;
+import com.xruby.compiler.codedom.Block;
 import com.xruby.runtime.lang.RubyProgram;
 
 class CompilationResultLoader extends ClassLoader {
@@ -33,7 +34,7 @@ class CompilationResult {
 		System.out.println("Added " + filename_to_save);
 
 		jarstream.putNextEntry(new JarEntry(filename_to_save));
-		jarstream.write(code_);		
+		jarstream.write(code_);
 	}
 	
 	public Class load(CompilationResultLoader loader) {
@@ -66,8 +67,16 @@ public class CompilationResults {
 		for (CompilationResult result : results_) {
 			result.save(jarstream);
 		}
-		
-		jarstream.close();
+
+        // Write Block Info
+        // TODO: Add debug check here
+        // TODO: We need a loop statement to support multiple files
+        // if(is_debug?) {...}
+        jarstream.putNextEntry(new JarEntry(script_name + ".smap"));
+        String blockMap = Block.getBlockMapByName(script_name);
+        jarstream.write(blockMap.getBytes());
+        
+        jarstream.close();
 		System.out.println("Generated " + tarfilename.toString());
 	}
 	
