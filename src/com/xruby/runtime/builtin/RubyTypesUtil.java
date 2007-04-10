@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2006-2007 Jie Li, Xue Yong Zhi
  * Distributed under the GNU General Public License 2.0
  */
@@ -8,7 +8,7 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-public class RubyTypesUtil {	
+public class RubyTypesUtil {
 	public static RubyFixnum convertToFixnum(RubyValue arg){
 		if (arg instanceof RubyFixnum) {
 			return (RubyFixnum)arg;
@@ -27,7 +27,7 @@ public class RubyTypesUtil {
 			return (RubyFloat)v;
 		}
 	}
-	
+
 	public static RubyString convertToString(RubyValue arg){
 		if (arg instanceof RubyString) {
 			return (RubyString)arg;
@@ -35,7 +35,7 @@ public class RubyTypesUtil {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into String");
 		}
 	}
-	
+
 	public static RubyTime convertToTime(RubyValue arg){
 		if (arg instanceof RubyTime) {
 			return (RubyTime)arg;
@@ -47,6 +47,8 @@ public class RubyTypesUtil {
 	public static RubySymbol convertToSymbol(RubyValue arg){
 		if (arg instanceof RubySymbol) {
 			return (RubySymbol)arg;
+		} else if (arg instanceof RubyString) {
+			return new RubySymbol(arg.toString());
 		} else {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Symbol");
 		}
@@ -58,10 +60,10 @@ public class RubyTypesUtil {
 		} else if (arg instanceof RubySymbol) {
 			return ((RubySymbol)arg).toString();
 		} else {
-			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into String");		
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into String");
 		}
 	}
-	
+
 	public static int convertToJavaInt(RubyValue arg){
 		if (arg instanceof RubyFixnum) {
 			return ((RubyFixnum)arg).intValue();
@@ -73,7 +75,7 @@ public class RubyTypesUtil {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
 		}
 	}
-	
+
 	public static long convertToJavaLong(RubyValue arg){
 		if (arg instanceof RubyFixnum) {
 			return ((RubyFixnum)arg).intValue();
@@ -85,7 +87,7 @@ public class RubyTypesUtil {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
 		}
 	}
-	
+
 	public static double convertToJavaDouble(RubyValue arg){
 		if (arg instanceof RubyFixnum) {
 			return ((RubyFixnum)arg).intValue();
@@ -97,7 +99,7 @@ public class RubyTypesUtil {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Float");
 		}
 	}
-	
+
 	public static float convertToJavaFloat(RubyValue arg){
 		if (arg instanceof RubyFixnum) {
 			return ((RubyFixnum)arg).intValue();
