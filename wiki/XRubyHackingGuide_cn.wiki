@@ -69,7 +69,7 @@ public class main
     public RubyValue run()
     {
         RubyRuntime.ObjectClass.defineMethod("say_hello_three_times", new say_hello_three_times._cls0());
-        return RubyRuntime.callMethod(ObjectFactory.topLevelSelfValue, null, null, "say_hello_three_times");
+        return RubyAPI.callMethod(ObjectFactory.topLevelSelfValue, null, null, "say_hello_three_times");
     }
 }
 
@@ -80,7 +80,7 @@ class say_hello_three_times$0 extends RubyMethod
 
     protected RubyValue run(RubyValue rubyvalue, RubyArray arrayvalue, RubyBlock rubyblock)
     {
-        return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(3), null, new BLOCK._cls1(), "times");
+        return RubyAPI.callPublicMethod(ObjectFactory.createFixnum(3), null, new BLOCK._cls1(), "times");
     }
 
     public say_hello_three_times$0()
@@ -98,7 +98,7 @@ class BLOCK$1 extends RubyBlock
     {
         RubyArray arrayvalue1 = new RubyArray(1);
         arrayvalue1.add(ObjectFactory.createString("hello"));
-        return RubyRuntime.callMethod(rubyvalue, arrayvalue1, null, "puts");
+        return RubyAPI.callMethod(rubyvalue, arrayvalue1, null, "puts");
     }
 
     public BLOCK$1()
@@ -147,12 +147,12 @@ class Fixnum_operator_plus extends RubyMethod {
 }
 
 ...
-RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
+RubyClass c = RubyAPI.defineClass("Fixnum", RubyRuntime.IntegerClass);
 c.defineMethod("+", new Fixnum_operator_plus());
 ...
 }}}
 
-= XRuby's Parser =
+= XRuby的解析器 =
 XRuby的解析器使用 Antlr 作为解析器的生成器。 这是目前除C Ruby之外唯一可选的Ruby语法。 
 
 对于大部分编程语言来说，词法分析（lexing）和语法解析（parsing）是两个不同的步骤：首先词法分析器将输入的字符组织成记号（token），然后解析器将记号组织成句法单元。但是在Ruby（和Perl）中，词法分析器和语法解析器是紧紧地耦合在一起的：有时候词法分析器需要从语法分析器中获取上下文信息（比如，双引号字符串中的表达式替换）！ 
@@ -162,4 +162,9 @@ XRuby的解析器使用 Antlr 作为解析器的生成器。 这是目前除C Ru
 
 如果生成的class文件格式正确但是运行结果不是预期的，我们可以简单地用反编译工具将字节码转换成可读的Java源代码，以便查找错误。 
 
-如果你遇到是一个验证错误（verifier error），大部分的反编译器都不能正常工作（jad在这种情况也许会简单崩溃）。我们不得不使用javap来研读字节码。多数情况下，JVM class验证器（verifier）给出的信息没什么用处，但是我们可以通过ASM快速地定位错误。(见ASM FAQ: Why do I get the [xxx] verifier error?). 
+如果你遇到是一个验证错误（verifier error），大部分的反编译器都不能正常工作（jad在这种情况也许会简单崩溃）。我们不得不使用javap来研读字节码。多数情况下，JVM class验证器（verifier）给出的信息没什么用处，但是我们可以通过ASM快速地定位错误。( 见ASM FAQ: [http://asm.objectweb.org/doc/faq.html#Q4 "Why do I get the xxx verifier error?"] ). 
+
+
+
+
+
