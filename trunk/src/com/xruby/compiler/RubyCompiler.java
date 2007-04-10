@@ -15,7 +15,7 @@ import com.xruby.runtime.lang.*;
 
 public class RubyCompiler {
 
-	public static final String VERSION = "0.1.3";
+	public static final String VERSION = "0.1.4";
 
 	private RubyBinding binding_;
 	private boolean strip_;
