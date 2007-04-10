@@ -50,12 +50,4 @@ public class RubyFixnum extends RubyValue {
 		}
 		return Integer.toString(value_, radix);
 	}
-
-	public RubyMethod findPublicMethod(RubyID mid) {
-		return getRubyClass().findOwnPublicMethod(mid);
-	}
-
-	public RubyMethod findMethod(RubyID mid) {
-		return getRubyClass().findOwnMethod(mid);
-	}
 }

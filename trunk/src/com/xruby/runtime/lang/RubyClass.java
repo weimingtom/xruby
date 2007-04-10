@@ -23,7 +23,7 @@ public class RubyClass extends RubyModule {
 		super(name, owner);
 		superclass_ = superclass;
 		this.objectAddress = super.hashCode();
-	}
+    }
 
     public boolean isRealModule() {
         return false;
@@ -52,11 +52,6 @@ public class RubyClass extends RubyModule {
 
     public int objectAddress() {
 		return this.objectAddress;
-	}
-	
-	//We called super(null, ...) in RubyModule's constructor to avoid initialization pains 
-	public RubyClass getRubyClass() {
-		return this.class_ != null ? this.class_ : RubyRuntime.ClassClass;
 	}
 
 	public RubyClass getSuperClass() {

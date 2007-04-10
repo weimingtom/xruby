@@ -28,7 +28,5 @@ class TopLevelSelf_include extends RubyVarArgMethod {
 public class TopLevelSelfInitializer {
     public static void initialize() {
         ObjectFactory.TOP_LEVEL_SELF_VALUE.getSingletonClass().defineMethod("include", new TopLevelSelf_include());
-        RubyRuntime.ObjectClass.includeModule(RubyRuntime.GlobalScope);
     }
-
 }

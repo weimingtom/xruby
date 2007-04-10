@@ -27,11 +27,6 @@ public class RubyModule extends MethodCollection {
         return false;
     }
 
-    //We called super(null) in RubyModule's constructor to avoid initialization pains
-	public RubyClass getRubyClass() {
-		return this.class_ != null ? this.class_ : RubyRuntime.ModuleClass;
-	}
-
 	public RubyValue defineMethod(String name, RubyMethod m) {
 		m.setOwner(this);
 		RubyID mid = StringMap.intern(name);
@@ -42,8 +37,16 @@ public class RubyModule extends MethodCollection {
 	/// It has less overhead than 'defineClass' (no hash table lookup).
 	/// This method is NOT used by classes compiled from ruby script.
 	public RubyClass defineNewClass(String name, RubyClass parent) {
-		RubyClass c = new RubyClass(name, parent, this);
-		constants_.put(name, c);
+        if (parent == null) {
+            parent = RubyRuntime.ObjectClass;
+        }
+        
+        RubyClass c = new RubyClass(name, parent, this);
+        c.setName(name);
+        c.setRubyClass(RubyRuntime.ClassClass);
+        new RubySingletonClass(c, parent.getRubyClass());
+        
+        constants_.put(name, c);
 		return c;
 	}
 
@@ -96,7 +99,9 @@ public class RubyModule extends MethodCollection {
 	
 	public RubyModule defineNewModule(String name) {
 		RubyModule m = new RubyModule(name, this);
-		constants_.put(name, m);//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
+        m.setName(name);
+        m.setRubyClass(RubyRuntime.ModuleClass);
+        constants_.put(name, m);//NOTE, do not use ObjectFactory.createClass, it will cause initialization issue
 		return m;
 	}
 

@@ -53,7 +53,7 @@ public class JavaClass extends RubyClass {
     
     // Actual constructor
     private JavaClass(String name) {
-        super(name, RubyRuntime.ObjectClass, RubyRuntime.GlobalScope);
+        super(name, RubyRuntime.ObjectClass, null);
     }
 
     /**

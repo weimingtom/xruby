@@ -62,15 +62,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		cg_.getMethodGenerator().loadThis();
 
-		if (isInGlobalScope()) {
-//			cg_.getMethodGenerator().RubyRuntime_GlobalScope();
-		} else {
+		if (!isInGlobalScope()) {
 			cg_.getMethodGenerator().loadArg(3);
 		}
 
-		//if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinClass(className)) {
-			cg_.getMethodGenerator().push(className);
-		//}
+		cg_.getMethodGenerator().push(className);
 		//super class will be pushed next, then visitSuperClass() will be called
 	}
 
@@ -119,15 +115,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.getMethodGenerator().loadThis();
 
 		if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(moduleName)) {
-			if (isInGlobalScope()) {
-//				cg_.getMethodGenerator().RubyRuntime_GlobalScope();
-			} else {
-				cg_.getMethodGenerator().loadArg(3);
-			}
-
             if (isInGlobalScope()) {
                 cg_.getMethodGenerator().RubyAPI_defineModule(moduleName);
             } else {
+                cg_.getMethodGenerator().loadArg(3);
                 cg_.getMethodGenerator().RubyModule_defineModule(moduleName);
             }
 		}
