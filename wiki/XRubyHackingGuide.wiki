@@ -87,8 +87,8 @@ public class main implements RubyProgram
     {
         RubyValue rubyvalue;
         RubyValue rubyvalue1;
-        MyClass$0(rubyvalue1 = rubyvalue = RubyRuntime.GlobalScope.defineClass("MyClass", ObjectFactory.ObjectClassValue), (RubyModule)rubyvalue1.getValue());
-        return RubyRuntime.callPublicMethod(RubyRuntime.callPublicMethod(RubyModule.getTopLevelConstant("MyClass"), null, null, "new"), null, null, "say_hello_three_times");
+        MyClass$0(rubyvalue1 = rubyvalue = RubyAPI.defineClass("MyClass", RubyRuntime.ObjectClass), (RubyModule)rubyvalue1.getValue());
+        return RubyAPI.callPublicMethod(RubyAPI.callPublicMethod(RubyModule.getTopLevelConstant("MyClass"), null, null, "new"), null, null, "say_hello_three_times");
     }
 
     private RubyValue MyClass$0(RubyValue rubyvalue, RubyModule rubymodule) throws RubyException
@@ -105,7 +105,7 @@ class say_hello_three_times$1 extends RubyMethod
 
     protected RubyValue run(RubyValue rubyvalue, ArrayValue arrayvalue, RubyBlock rubyblock) throws RubyException
     {
-        return RubyRuntime.callPublicMethod(ObjectFactory.createFixnum(3), null, new BLOCK._cls2(rubyblock), "times");
+        return RubyAPI.callPublicMethod(ObjectFactory.createFixnum(3), null, new BLOCK._cls2(rubyblock), "times");
     }
 
     public say_hello_three_times$1()
@@ -123,7 +123,7 @@ class BLOCK$2 extends RubyBlock
     {
         ArrayValue arrayvalue1 = new ArrayValue(1, true);
         arrayvalue1.add(ObjectFactory.createString("hello"));
-        return RubyRuntime.callMethod(rubyvalue, arrayvalue1, null, "puts");
+        return RubyAPI.callMethod(rubyvalue, arrayvalue1, null, "puts");
     }
 
     public BLOCK$2(RubyBlock rubyblock)
@@ -169,7 +169,7 @@ class Fixnum_operator_plus extends RubyOneArgMethod {
 }
 
 ...
-RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
+RubyClass c = RubyAPI.defineClass("Fixnum", RubyRuntime.IntegerClass);
 c.defineMethod("+", new Fixnum_operator_plus());
 ...
 }}}
@@ -187,3 +187,6 @@ As XRuby developers, our changes may break the compiler and make bad bytecodes g
 If the generated  class file is well formed but does not work as expected, we can simply use decompiler to translate bytecodes to very readable Java source code, then spot errors. 
 
 If what you get is a verifier error, then most decompilers do not work (jad may simply crash in this situation). We have to go back to javap and read at bytecode level. Most of the time the message given by the JVM class verifier is not helpful, but we can use ASM to get to the error location quicker (see ASM FAQ: [http://asm.objectweb.org/doc/faq.html#Q4 "Why do I get the xxx verifier error?"]). 
+
+
+
