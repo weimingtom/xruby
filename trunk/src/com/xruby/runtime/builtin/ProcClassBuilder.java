@@ -48,7 +48,9 @@ class Proc_alloc extends RubyNoArgMethod {
 public class ProcClassBuilder {	
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ProcClass;
-		c.defineMethod("call", new Proc_call());
+		RubyMethod call = new Proc_call();
+		c.defineMethod("call", call);
+		c.defineMethod("[]", call);
 		c.defineMethod("arity", new Proc_arity());
 		c.defineAllocMethod(new Proc_alloc());
 	}
