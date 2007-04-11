@@ -708,4 +708,15 @@ module Enumerable
     end
 
     alias :select :find_all
-end
+    
+    def sort_by &block
+        a = self.to_a
+        #TODO this cause warning in c ruby:
+        #"multiple values for a block parameter (2 for 1)"
+        #It is becuase Enumerable#sort_by's block has one parameter and Array#sort has two
+        a.sort &block
+    end
+
+    end
+  end
+  
