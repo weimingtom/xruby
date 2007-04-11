@@ -2156,6 +2156,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Hash_misc() {
         String[] program_texts = {
+                "a = {:s => 9}; print a[:s], a['s']",
                 "a = {1=>2}; a[1] = 3; p a",
                 "p({1 => 2, 3 => 4}.merge!({3 =>7, 4=>6}))",
                 "p({1 => 2, 3 => 4})",
@@ -2183,6 +2184,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "9nil",
                 "{1=>3}\n",
                 "{1=>2, 3=>7, 4=>6}\n",
                 "{1=>2, 3=>4}\n",
