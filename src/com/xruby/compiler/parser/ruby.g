@@ -547,10 +547,15 @@ methodCall
 //cruby can accept LPAREN in some situation but gives a warning:
 //"don't put space before argument parentheses"
 methodInvocationArgumentWithParen
+{
+//super and super() are different, the former takes implicit parameters from the calling method
+boolean has_arg = false;
+}
 		:	LPAREN_WITH_NO_LEADING_SPACE!
-				(methodInvocationArgumentWithoutParen[true])?
+				(methodInvocationArgumentWithoutParen[true]	{has_arg = true;})?
 				(LINE_BREAK!)?
 			RPAREN!
+			{if (!has_arg) {#methodInvocationArgumentWithParen = #(#[ARG, "ARG"], #methodInvocationArgumentWithParen);}}
 		;
 
 methodInvocationArgumentWithoutParen[boolean should_ignore_line_break]
