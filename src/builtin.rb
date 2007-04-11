@@ -73,6 +73,11 @@ class Object
     def =~ x
         false
     end
+
+    private
+    def initialize
+      return nil
+    end
 end
 
 class Array
