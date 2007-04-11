@@ -717,6 +717,4 @@ module Enumerable
         a.sort &block
     end
 
-    end
-  end
-  
+end
