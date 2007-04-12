@@ -68,6 +68,15 @@ public class RubyIO extends RubyBasic {
         }
     }
 
+    public void flush() {
+        try {
+            file_.getChannel().force(false);
+        } catch (IOException e) {
+	        // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     public boolean print(String s) {
         if (null == file_) {
             throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");

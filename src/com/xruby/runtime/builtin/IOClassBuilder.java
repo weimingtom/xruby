@@ -49,6 +49,16 @@ class IO_close extends RubyNoArgMethod {
     }
 }
 
+class IO_flush extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        if (receiver instanceof RubyIO) {
+            //not stdout, stderr, stdin
+            ((RubyIO) receiver).flush();
+        }
+        return ObjectFactory.NIL_VALUE;
+    }
+}
+
 class IO_gets extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (receiver instanceof RubyIO) {
@@ -117,6 +127,7 @@ public class IOClassBuilder {
 		c.defineMethod("puts", new IO_puts());
         c.defineMethod("gets", new IO_gets());
         c.defineMethod("close", new IO_close());
+        c.defineMethod("flush", new IO_flush());
         RubyMethod eof = new IO_eof();
         c.defineMethod("eof", eof);
         c.defineMethod("eof?", eof);
