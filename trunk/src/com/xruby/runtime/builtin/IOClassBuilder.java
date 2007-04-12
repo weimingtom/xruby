@@ -33,6 +33,12 @@ class IO_print extends Kernel_print {
     }
 }
 
+class IO_puts extends Kernel_puts {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        return _run(receiver, args, block);
+    }
+}
+
 class IO_close extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         if (receiver instanceof RubyIO) {
@@ -108,6 +114,7 @@ public class IOClassBuilder {
         RubyClass c = RubyRuntime.IOClass;
         c.defineMethod("write", new IO_write());
         c.defineMethod("print", new IO_print());
+		c.defineMethod("puts", new IO_puts());
         c.defineMethod("gets", new IO_gets());
         c.defineMethod("close", new IO_close());
         RubyMethod eof = new IO_eof();
