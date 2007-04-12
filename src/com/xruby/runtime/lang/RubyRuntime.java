@@ -10,6 +10,8 @@ import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
 public class RubyRuntime {
+    //For performance reason we provide direct access(static public field) for most builtin types.
+    //Those fields are not 'final' because ruby allows program to change their values.
     public static RubyModule GlobalScope;
     public static RubyClass ObjectClass;
     public static RubyClass ModuleClass;
@@ -70,7 +72,6 @@ public class RubyRuntime {
     private static boolean initialized_ = false;
 
     static {
-        //For performance reason we provide direct access(static public field) for most builtin types.
         //Note: order is important: should creare parent classes first!
         GlobalScope = new RubyModule(null, null);
 
@@ -206,8 +207,10 @@ public class RubyRuntime {
         RubyAPI.setTopLevelConstant(new RubyObject(RubyRuntime.ObjectClass), "ENV");
         RubyAPI.setTopLevelConstant(ObjectFactory.createString("1.8.5"), "RUBY_VERSION");
         RubyAPI.setTopLevelConstant(ObjectFactory.createString("1.8.5"), "VERSION");
+        RubyAPI.setTopLevelConstant(new RubyObject(RubyRuntime.IOClass), "STDOUT");
 
         TopLevelSelfInitializer.initialize();
+        GlobalVariables.initialize();
 
         loadBuildinDotRb();
         initialized_ = true;

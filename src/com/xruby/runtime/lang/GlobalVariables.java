@@ -50,29 +50,29 @@ class MultipleMap<T> {
 /*
 $* $ARGV
 $" $LOADED_FEATURES
-$? $CHILD_STATUS 
+$? $CHILD_STATUS
 $& $MATCH
-$< $DEFAULT_INPUT 
+$< $DEFAULT_INPUT
 $. $NR
-$> $DEFAULT_OUTPUT 
+$> $DEFAULT_OUTPUT
 $, $OFS
-$! $ERROR_INFO 
+$! $ERROR_INFO
 $\ $ORS
-$@ $ERROR_POSITION 
+$@ $ERROR_POSITION
 $, $OUTPUT_FIELD_SEPARATOR
-$; $FIELD_SEPARATOR 
+$; $FIELD_SEPARATOR
 $\ $OUTPUT_RECORD_SEPARATOR
-$; $FS 
+$; $FS
 $$ $PID
-$= $IGNORECASE 
+$= $IGNORECASE
 $' $POSTMATCH
-$. $INPUT_LINE_NUMBER 
+$. $INPUT_LINE_NUMBER
 $` $PREMATCH
-$/ $INPUT_RECORD_SEPARATOR 
+$/ $INPUT_RECORD_SEPARATOR
 $$ $PROCESS_ID
-$~ $LAST_MATCH_INFO 
+$~ $LAST_MATCH_INFO
 $0 $PROGRAM_NAME
-$+ $LAST_PAREN_MATCH 
+$+ $LAST_PAREN_MATCH
 $/ $RS
 $_ $LAST_READ_LINE
 */
@@ -83,8 +83,8 @@ public class GlobalVariables {
 
     private static boolean in_tracing_ = false;//TODO should this be global or per variable?
 
-    static {
-        values_.put("$stdout", new RubyObject(RubyRuntime.IOClass));
+    public static void initialize() {
+        values_.put("$stdout", RubyRuntime.ObjectClass.getConstant("STDOUT"));
         values_.put("$/", ObjectFactory.createString("\n"));
         values_.put("$$", ObjectFactory.FIXNUM0);//no way to get pid in java
     }

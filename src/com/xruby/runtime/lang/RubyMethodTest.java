@@ -24,6 +24,11 @@ class f extends RubyNoArgMethod {
 }
 
 public class RubyMethodTest extends TestCase {
+
+    public void setUp() {
+        RubyRuntime.init(null);
+    }
+
     public void test() {
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
