@@ -63,6 +63,9 @@ class TestingProgram extends RubyProgram {
 }
 
 public class RubyProgramTest extends TestCase {
+    public void setUp() {
+        RubyRuntime.init(null);
+    }
 
     public void test_output() {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
