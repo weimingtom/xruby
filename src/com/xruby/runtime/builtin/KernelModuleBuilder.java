@@ -69,20 +69,30 @@ class Kernel_binding extends RubyVarArgMethod {
 
 class Kernel_puts extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        return _run(GlobalVariables.get("$stdout"), args, block);
+	}
+
+    protected RubyValue _run(RubyValue receiver, RubyArray args, RubyBlock block) {
+	    if (null == args) {
+            RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("\n"), null, CommonRubyID.writeID);
+			return ObjectFactory.NIL_VALUE;
+	    }
+
+        RubyString value = null;
         for (RubyValue arg : args) {
             if (ObjectFactory.NIL_VALUE == arg) {
-                System.out.print("nil\n");
+                value = ObjectFactory.createString("nil\n");
             } else if (arg instanceof RubyString) {
-                RubyString value = (RubyString) arg;
+                value = (RubyString) arg;
                 value.appendString("\n");
-                System.out.print(value.toString());
             } else {
                 RubyValue str = RubyAPI.callPublicMethod(arg, null, null, CommonRubyID.toSID);
-                RubyString value = (RubyString) str;
+                value = (RubyString) str;
                 value.appendString("\n");
-                System.out.print(value.toString());
             }
         }
+
+        RubyAPI.callPublicOneArgMethod(receiver, value, null, CommonRubyID.writeID);
         return ObjectFactory.NIL_VALUE;
     }
 }
