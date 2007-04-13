@@ -30,7 +30,7 @@ public class RubyAPI {
 
             RubyClass klass = (RubyClass)value;
 
-            if (superclass != null) {                          
+            if (superclass != null) {
                 if (superclass != klass.getSuperClass().getRealClass()) {
                     throw new RubyException(RubyRuntime.TypeErrorClass, "superclass mismatch for class " + name);
                 }
@@ -184,9 +184,6 @@ public class RubyAPI {
     //TODO should pass owner to work with protected method
     public static RubyValue callPublicMethod(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid) {
         assert(null == args || args.size() > 1);//use callPublicOneArgMethod if has only one arg
-        if ("nil?".equals(StringMap.id2name(mid))) {
-            String s = "1";
-        }
         RubyMethod m = receiver.findPublicMethod(mid);
         if (null != m && !UndefMethod.isUndef(m)) {
             return invokeMethod(m, mid, receiver, null, args, block);
