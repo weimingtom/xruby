@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
@@ -10,7 +10,8 @@ import com.xruby.runtime.value.*;
 public abstract class RubyMethod extends MethodBlockBase {
 	private RubyModule owner_;//save a reference of the class/module to implement 'super' and class variable
 	private int access_;
-	
+	private RubyID id_; //its own id, saved to build better error message
+
 	public static final int PUBLIC = 0;
 	public static final int PROTECTED = 1;
 	public static final int PRIVATE = 2;
@@ -19,6 +20,10 @@ public abstract class RubyMethod extends MethodBlockBase {
 		super(argc, has_asterisk_parameter, default_argc);
 		access_ = PUBLIC;
 	}
+
+    void setID(RubyID id) {
+        id_ = id;
+    }
 
 	public RubyBlock convertToRubyBolck(RubyValue self) {
 		final RubyMethod m = this;
@@ -42,31 +47,31 @@ public abstract class RubyMethod extends MethodBlockBase {
 	public void setAccess(int access) {
 		access_ = access;
 	}
-	
+
 	protected void setOwner(RubyModule c) {
 		owner_ = c;
 	}
-	
+
 	protected RubyModule getOwner() {
 		return owner_;
 	}
-	
+
 	protected void assertArgNumberAtLeast(RubyArray args, int expected_argc) {
 		assert(expected_argc > 0);
 		if (null == args || args.size() < expected_argc) {
 			int actual_argc = (null == args ) ? 0 : args.size();
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
 		}
 	}
-	
+
 	protected void assertArgNumberEqual(RubyArray args, int expected_argc) {
 		assert(expected_argc > 0);
 		if (null == args || args.size() != expected_argc) {
 			int actual_argc = (null == args ) ? 0 : args.size();
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
 		}
 	}
-	
+
 	protected static String convertToString(RubyValue v) {
 		if (v instanceof RubyString) {
 			return ((RubyString)v).toString();
@@ -76,12 +81,12 @@ public abstract class RubyMethod extends MethodBlockBase {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, inspect(v) + " is not a symbol");
 		}
 	}
-	
+
 	private static String inspect(RubyValue value) {
 		RubyValue v = RubyAPI.callPublicMethod(value, null, null, CommonRubyID.inspectID);
 		return ((RubyString)v).toString();
 	}
-	
+
 	/**
 	 * Emulate ruby's parameter passing behavior
 	 * @param receiver
@@ -96,13 +101,13 @@ public abstract class RubyMethod extends MethodBlockBase {
 		if (argc_ >= 0) {
 			final int args_length = (null != args) ? args.size() : ((null != arg)? 1 : 0);
 			if (0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) {
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args_length + " for " + argc_ + ")");
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
 			} else if (args_length < (argc_ - default_argc_)) {
 				//number of arguments falls short anyway
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
 			}
 		}
-		
+
 		RubyValue v = run(receiver, arg, args, block);
 		if (null != block) {
 			v.setReturnedInBlock(block.returned(), block.breakedOrReturned(), false);
@@ -111,7 +116,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 		}
 		return v;
 	}
-	
+
 	/**
 	 * Template method
 	 * @param receiver
@@ -120,7 +125,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @return
 	 * @throws RubyException
 	 */
-	protected abstract RubyValue run(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block);	
+	protected abstract RubyValue run(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block);
 }
 
 /**
@@ -131,20 +136,20 @@ public abstract class RubyMethod extends MethodBlockBase {
 class UndefMethod extends RubyVarArgMethod {
 
 	private static UndefMethod instance_ = new UndefMethod();
-	
+
 	private UndefMethod() {
 	}
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		throw new Error("should not reach here!");
 	}
-	
+
 	static RubyMethod getInstance() {
 		return instance_;
 	}
-	
+
 	static boolean isUndef(RubyMethod m) {
 		return m == instance_;
 	}
-	
+
 }

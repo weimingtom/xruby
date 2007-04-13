@@ -44,6 +44,7 @@ abstract class MethodCollection extends ConstantCollection {
 
     protected RubyValue addMethod(RubyID id, RubyMethod m) {
         m.setAccess(current_access_mode_);
+        m.setID(id);
         methods_.put(id, m);
         return ObjectFactory.NIL_VALUE;
     }
