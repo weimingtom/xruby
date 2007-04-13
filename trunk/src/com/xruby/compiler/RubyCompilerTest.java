@@ -2127,7 +2127,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-                "[\"apple\", \"pear\", \"fig\"]\n[\"fig\", \"pear\", \"apple\"]\n",		
+                "[\"apple\", \"pear\", \"fig\"]\n[\"fig\", \"pear\", \"apple\"]\n",
                 "[3, 6, 9]\n",
                 "[3]\n",
 
@@ -3591,11 +3591,11 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 1)"),
-            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 0)"),
-            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
-            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 3)"),
-            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 2)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "in `f': wrong number of arguments (2 for 1)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "in `f': wrong number of arguments (1 for 0)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "in `f': wrong number of arguments (0 for 1)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "in `f': wrong number of arguments (1 for 3)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "in `f': wrong number of arguments (1 for 2)"),
 
             new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 0)"),
             new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 3)"),
@@ -3603,7 +3603,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
             new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 0)"),
 
-            new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "in `test_wrong_number_of_arguments': wrong number of arguments (0 for 1)"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
@@ -5101,7 +5101,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
+                new RubyException(RubyRuntime.ArgumentErrorClass, "in `throw': wrong number of arguments (0 for 1)"),
                 new RubyException(RubyRuntime.ArgumentErrorClass, "123 is not a symbol"),
                 new RubyException(RubyRuntime.NameErrorClass, "uncaught throw `test_throw'"),
                 new RubyException(RubyRuntime.NameErrorClass, "uncaught throw `xxx'"),
@@ -5139,7 +5139,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-                new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)"),
+                new RubyException(RubyRuntime.ArgumentErrorClass, "in `untrace_var': wrong number of arguments (0 for 1)"),
                 new RubyException(RubyRuntime.ArgumentErrorClass, "123 is not a symbol"),
                 new RubyException(RubyRuntime.NameErrorClass, "undefined global variable test_untrace_var"),
                 new RubyException(RubyRuntime.NameErrorClass, "undefined global variable $test_untrace_var"),
