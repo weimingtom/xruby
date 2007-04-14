@@ -20,6 +20,15 @@ class ClassFactory {
 
     }
     public static RubyClass defineClass(String name, RubyClass superclass) {
+        if (superclass == null) {
+          superclass = RubyRuntime.ObjectClass;
+        }else{
+            if(superclass.getName().equals("Class")){
+                throw new RubyException(RubyRuntime.TypeErrorClass,"can't make subclass of Class");
+            } 
+        }
+        
+        
         RubyValue value = RubyRuntime.ObjectClass.getConstant(name);
         if (value != null) {
             if (!(value instanceof RubyClass)) {
@@ -38,9 +47,9 @@ class ClassFactory {
             return klass;
         }
 
-        if (superclass == null) {
-            superclass = RubyRuntime.ObjectClass;
-        }
+//        if (superclass == null) {
+//            superclass = RubyRuntime.ObjectClass;
+//        }
 
         RubyClass klass = createRubyClass(name, superclass);
         new RubySingletonClass(klass, superclass.getRubyClass());
