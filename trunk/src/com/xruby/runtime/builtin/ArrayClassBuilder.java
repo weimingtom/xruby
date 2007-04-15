@@ -302,6 +302,19 @@ class Array_new extends RubyVarArgMethod {
     }
 }
 
+class Array_new_with_given_objects extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyArray a;
+        if (null == args) {
+            a = new RubyArray();
+        } else {
+            a = args.copy();
+        }
+        a.setRubyClass((RubyClass) receiver);
+        return a;
+    }
+}
+
 class Array_shift extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
@@ -396,6 +409,7 @@ public class ArrayClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.ArrayClass;
         c.getSingletonClass().defineMethod("new", new Array_new());
+        c.getSingletonClass().defineMethod("[]", new Array_new_with_given_objects());
         c.defineMethod("length", new Array_length());
         c.defineMethod("clear", new Array_clear());
         c.defineMethod("to_s", new Array_to_s());
