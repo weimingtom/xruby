@@ -702,6 +702,20 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
+    
+    public void test_Array_populate() {
+        String[] program_texts = {
+                "a = Array[ 4, 6, 5];print a[1]",
+                "a = Array.[](4, 6, 5);print a[2]",
+        };
+
+        String[] outputs = {
+                "6",
+                "5",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
 
     public void test_UNARY_PLUS_MINUS_METHOD_NAME() {
         String[] program_texts = {
