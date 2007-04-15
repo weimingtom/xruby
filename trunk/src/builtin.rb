@@ -716,5 +716,9 @@ module Enumerable
         #It is becuase Enumerable#sort_by's block has one parameter and Array#sort has two
         a.sort &block
     end
-
+      
+    def each_with_index 
+        i = 0;
+        each {|x| yield x, i; i = i + 1}
+    end
 end
