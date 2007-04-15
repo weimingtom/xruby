@@ -55,6 +55,7 @@ class ClassFactory {
         new RubySingletonClass(klass, superclass.getRubyClass());
         RubyRuntime.ObjectClass.setConstant(name, klass);
 
+        inheritedBy(klass,superclass);
         return klass;
     }
 
@@ -102,6 +103,13 @@ class ClassFactory {
         module.setName(name);
         module.setRubyClass(RubyRuntime.ModuleClass);
         return module;
+    }
+    
+    private static void inheritedBy(RubyClass klass,RubyClass superclass){
+        if(!RubyRuntime.isBuiltinClass(klass.getName())){
+            RubyID mid = StringMap.intern("inherited");
+            RubyAPI.callOneArgMethod(superclass, klass, null, mid);
+        }        
     }
 
     private ClassFactory() {
