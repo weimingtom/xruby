@@ -105,6 +105,14 @@ class Hash_has_key_question extends RubyOneArgMethod {
     }
 }
 
+class Hash_delete extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        RubyHash h = (RubyHash) receiver;
+        //TODO hsh.delete( aKeyObject ) {| aKeyObject | block } 
+        return h.delete(arg);
+    }
+}
+
 class Hash_has_value_question extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyHash h = (RubyHash) receiver;
@@ -196,6 +204,7 @@ public class HashClassBuilder {
         c.defineMethod("keys", new Hash_keys());
         c.defineMethod("values", new Hash_values());
         c.defineMethod("shift", new Hash_shift());
+        c.defineMethod("delete", new Hash_delete());		
         c.defineMethod("default", new Hash_default());
         c.defineMethod("default=", new Hash_default_assign());
         c.defineAllocMethod(new Hash_new());
