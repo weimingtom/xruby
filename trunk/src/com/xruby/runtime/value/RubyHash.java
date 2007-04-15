@@ -119,6 +119,15 @@ public class RubyHash extends RubyBasic {
         return false;
     }
 
+    public RubyValue delete(RubyValue k) {
+    	RubyValue v = map_.remove(k);
+        if (null != v) {
+            return v;
+        } else {
+        	return RubyAPI.callOneArgMethod(this, k, null, defaultID);
+        }
+    }
+
     public boolean has_value(RubyValue value) {
         for (RubyValue key : keys_) {
             RubyValue v = map_.get(key);
