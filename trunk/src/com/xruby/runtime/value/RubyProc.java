@@ -46,8 +46,8 @@ public class RubyProc extends RubyBinding {
         }
     }
 
-    public RubyValue call(RubyValue receiver, RubyArray args) {
+    public RubyValue call(RubyArray args) {
         setUpCallContext();
-        return value_.invoke(receiver, args);
+        return value_.invoke(value_.getSelf(), args);
     }
 }

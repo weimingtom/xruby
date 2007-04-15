@@ -5201,10 +5201,14 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_Method_to_proc() {
         String [] program_texts = {
                 "method(:print).to_proc.call(\"xxx\")",
+
+                "class TestToProc; def test_to_proc; print self.class; end; end\n" +
+                "TestToProc.new.method(:test_to_proc).to_proc.call",
         };
 
         String[] outputs = {
                 "xxx",
+                "TestToProc",
         };
 
         compile_run_and_compare_output(program_texts, outputs);

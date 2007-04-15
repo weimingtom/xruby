@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
@@ -19,8 +19,8 @@ class Proc_call extends RubyVarArgMethod {
 			args = ObjectFactory.createArray(1, 0, true);
 			args.add(arg);
 		}
-		
-		RubyValue v = ((RubyProc)receiver).call(receiver, args);
+
+		RubyValue v = ((RubyProc)receiver).call(args);
 		block = ((RubyProc)receiver).getBlock();
 		if (null != block) {
 			v.setReturnedInBlock(block.createdByLambda() ? false : block.returned(), block.breakedOrReturned(), !block.createdByLambda());
@@ -45,7 +45,7 @@ class Proc_alloc extends RubyNoArgMethod {
 	}
 }
 
-public class ProcClassBuilder {	
+public class ProcClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.ProcClass;
 		RubyMethod call = new Proc_call();
