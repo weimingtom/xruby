@@ -73,12 +73,23 @@ class Object
     def =~ x
         false
     end
+    
+    def inherited(sub_class)
+      return nil
+    end
 
     private
     def initialize
       return nil
     end
 end
+
+class Class
+    private
+    def Class.inherited(sub_class)
+      return nil
+    end
+end 
 
 class Array
     def to_a
