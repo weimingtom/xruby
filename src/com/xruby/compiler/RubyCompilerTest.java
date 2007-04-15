@@ -1070,6 +1070,24 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_catch_exception(program_texts, exceptions);
     }
+    
+    public void test_class_inherited(){
+        String[] program_texts = {
+                "class Top\n"+
+                "   def Top.inherited(sub)\n"+
+                "       print sub\n"+
+                "   end\n"+
+                "end\n"+
+                "class Middle < Top\n"+
+                "end\n",            
+        };
+        
+        String[] outputs = {
+                "Middle",
+        };
+        
+        compile_run_and_compare_output(program_texts, outputs);
+    }
 
     public void test_dot_class_method() {
         String[] program_texts = {
