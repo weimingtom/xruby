@@ -1061,11 +1061,14 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "S.new.hello",
 
                 "class C;end; class C < String;end",
+                
+                "class D < Class;end",
         };
 
         RubyException[] exceptions = {
             new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (Fixnum given)"),
             new RubyException(RubyRuntime.TypeErrorClass, "superclass mismatch for class C"),
+            new RubyException(RubyRuntime.TypeErrorClass,"can't make subclass of Class"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
