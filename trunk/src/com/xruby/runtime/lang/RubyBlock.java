@@ -65,7 +65,11 @@ public abstract class RubyBlock extends MethodBlockBase {
     protected boolean __return__ = false;
     protected boolean __redo__ = false;
     protected RubyBlock blockOfCurrentMethod_;
-    protected RubyValue selfOfCurrentMethod_;//TODO can we just use the 'receiver' parameter of invoke() method???
+
+    //consider MethodValue: it has a 'receiver' field to remember the the receivre should be.
+    //we we convert Method to Proc, need to keep the 'receiver' -- that what selfOfCurrentMethod_ is for.
+    //TODO can we just remove the 'receiver' parameter of invoke() method???
+    protected RubyValue selfOfCurrentMethod_;
     private RubyBlock owner_;//not null if defined in another block
     protected RubyModule scopeOfCurrentMethod_;
 
@@ -81,6 +85,10 @@ public abstract class RubyBlock extends MethodBlockBase {
 
     public void setSelf(RubyValue v) {
         selfOfCurrentMethod_ = v;
+    }
+
+    public RubyValue getSelf() {
+        return selfOfCurrentMethod_;
     }
 
     public boolean isDefinedInAnotherBlock() {
