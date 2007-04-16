@@ -416,6 +416,17 @@ class Array_index extends RubyOneArgMethod {
     }
 }
 
+class Array_rindex extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        for(int i=array.size()-1; i>=0; i--){
+            if(array.get(i).equals(arg))
+                return ObjectFactory.createFixnum(i);
+        }
+        return ObjectFactory.NIL_VALUE;
+    }
+}
+
 public class ArrayClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.ArrayClass;
@@ -461,6 +472,7 @@ public class ArrayClassBuilder {
         c.defineMethod("reverse", new Array_reverse());
         c.defineMethod("slice", new Array_array_access());
         c.defineMethod("index",new Array_index());
+        c.defineMethod("rindex",new Array_rindex());
 
         c.includeModule(RubyRuntime.EnumerableModule);
     }
