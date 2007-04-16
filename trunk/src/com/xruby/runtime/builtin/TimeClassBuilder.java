@@ -88,7 +88,7 @@ class Time_operator_compare extends RubyOneArgMethod {
         long time1 = ((RubyTime) receiver).getTime();
         long time2 = RubyTypesUtil.convertToTime(arg).getTime();
         if (time1 < time2) {
-            return ObjectFactory.createFixnum(-1);
+            return ObjectFactory.FIXNUM_NEGATIVE_ONE;
         } else if (time1 > time2) {
             return ObjectFactory.FIXNUM1;
         }

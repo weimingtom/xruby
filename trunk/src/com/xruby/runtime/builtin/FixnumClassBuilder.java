@@ -331,7 +331,7 @@ class Fixnum_operator_star_star extends RubyOneArgMethod {
                     if (bigValue2.intValue() % 2 == 0) {
                         return ObjectFactory.FIXNUM1;
                     } else {
-                        return ObjectFactory.createFixnum(-1);
+                        return ObjectFactory.FIXNUM_NEGATIVE_ONE;
                     }
                 } else {
                     // TODO: return Rational

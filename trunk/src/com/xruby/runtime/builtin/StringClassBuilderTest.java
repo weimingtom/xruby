@@ -162,7 +162,7 @@ public class StringClassBuilderTest extends TestCase {
         RubyValue str1 = ObjectFactory.createString("abc");
         RubyValue str2 = ObjectFactory.createString("abd");
         RubyValue result = RubyAPI.callOneArgMethod(str1, str2, null, CommonRubyID.unequalID);
-        assertEquals(result, ObjectFactory.createFixnum(-1));
+        assertEquals(result, ObjectFactory.FIXNUM_NEGATIVE_ONE);
 
         str2 = ObjectFactory.createString("abb");
         result = RubyAPI.callOneArgMethod(str1, str2, null, CommonRubyID.unequalID);
@@ -178,7 +178,7 @@ public class StringClassBuilderTest extends TestCase {
 
         str2 = ObjectFactory.createString("b");
         result = RubyAPI.callOneArgMethod(str1, str2, null, CommonRubyID.unequalID);
-        assertEquals(result, ObjectFactory.createFixnum(-1));
+        assertEquals(result, ObjectFactory.FIXNUM_NEGATIVE_ONE);
 
         result = RubyAPI.callOneArgMethod(str1, ObjectFactory.FIXNUM1, null, CommonRubyID.unequalID);
         assertTrue(result == ObjectFactory.NIL_VALUE);

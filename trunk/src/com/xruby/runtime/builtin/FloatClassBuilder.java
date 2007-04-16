@@ -54,7 +54,7 @@ class Float_operator_compare extends RubyOneArgMethod {
         }
         double floatValue1 = value1.doubleValue();
         if (floatValue1 < floatValue2) {
-            return ObjectFactory.createFixnum(-1);
+            return ObjectFactory.FIXNUM_NEGATIVE_ONE;
         } else if (floatValue1 > floatValue2) {
             return ObjectFactory.FIXNUM1;
         } else {
@@ -198,7 +198,7 @@ class Float_infinite extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         double value = ((RubyFloat) receiver).doubleValue();
         if (value == Double.NEGATIVE_INFINITY) {
-            return ObjectFactory.createFixnum(-1);
+            return ObjectFactory.FIXNUM_NEGATIVE_ONE;
         } else if (value == Double.POSITIVE_INFINITY) {
             return ObjectFactory.FIXNUM1;
         } else {
