@@ -9,9 +9,9 @@ public class WArrayExpression extends Expression {
 	private final String value_;
 
 	public WArrayExpression(String value) {
-		value_ = value;
+		value_ = value.trim();
 	}
-	
+
 	private ArrayExpression convert2ArrayExpression() {
 		ArrayExpression a = new ArrayExpression();
 		String[] tokens = value_.split("\\s");
