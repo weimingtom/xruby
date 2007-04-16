@@ -4693,9 +4693,11 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_W_ARRAY() {
         String [] program_texts = {
                 "p %w$a b c$",
+                "p %w{ a b c }",
         };
 
         String[] outputs = {
+                "[\"a\", \"b\", \"c\"]\n",
                 "[\"a\", \"b\", \"c\"]\n",
         };
 
