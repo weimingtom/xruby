@@ -98,7 +98,7 @@ class String_downcase extends RubyNoArgMethod {
     }
 }
 
-/// Downcases the contents of str, returning nil if no changes were made. 
+/// Downcases the contents of str, returning nil if no changes were made.
 class String_downcase_danger extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyString value = (RubyString) receiver;
@@ -115,6 +115,23 @@ class String_to_f extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyString value = (RubyString) receiver;
         return ObjectFactory.createFloat(Double.valueOf(value.toString()));
+    }
+}
+
+class String_hex extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyString value = (RubyString) receiver;
+        String s = value.toString();
+        if (s.startsWith("0x")) {
+        	s = s.substring("0x".length());
+        }
+
+        try {
+            return ObjectFactory.createFixnum(Integer.valueOf(s, 16));
+        } catch (NumberFormatException e) {
+        	return ObjectFactory.FIXNUM0;
+        }
+
     }
 }
 
@@ -760,6 +777,7 @@ public class StringClassBuilder {
         c.defineMethod("downcase", new String_downcase());
         c.defineMethod("to_f", new String_to_f());
         c.defineMethod("to_i", new String_to_i());
+        c.defineMethod("hex", new String_hex());
         c.defineMethod("to_s", new String_to_s());
         c.defineMethod("length", new String_length());
         c.defineMethod("downcase!", new String_downcase_danger());

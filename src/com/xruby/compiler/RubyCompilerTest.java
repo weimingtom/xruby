@@ -702,7 +702,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
-    
+
     public void test_Array_populate() {
         String[] program_texts = {
                 "a = Array[ 4, 6, 5];print a[1]",
@@ -1061,7 +1061,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "S.new.hello",
 
                 "class C;end; class C < String;end",
-                
+
                 "class D < Class;end",
         };
 
@@ -1073,7 +1073,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_catch_exception(program_texts, exceptions);
     }
-    
+
     public void test_class_inherited(){
         String[] program_texts = {
                 "class Top\n"+
@@ -1082,13 +1082,13 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "   end\n"+
                 "end\n"+
                 "class Middle < Top\n"+
-                "end\n",            
+                "end\n",
         };
-        
+
         String[] outputs = {
                 "Middle",
         };
-        
+
         compile_run_and_compare_output(program_texts, outputs);
     }
 
@@ -4706,6 +4706,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_misc() {
         String [] program_texts = {
+                "print '0x0a'.hex",
+                "print 'xxxx'.hex",
                 "print 'pp'[-3..-1]",
                 "print 'hello  world'.count('lo')",
                 "print 'abaca'.tr('a', 'z')",
@@ -4739,6 +4741,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "10",
+                "0",
                 "nil",
                 "5",
                 "zbzcz",
