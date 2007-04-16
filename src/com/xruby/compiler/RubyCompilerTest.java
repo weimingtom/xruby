@@ -716,6 +716,21 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
+    
+    public void test_Array_index(){
+        String[] program_texts = {
+                "a = [ \"a\", \"b\", \"c\" ];print a.index(\"b\") ",
+                "a = [ \"a\", \"b\", \"c\" ];print a.index(\"z\") ",
+        };
+        
+        String[] outputs = {
+                "1",
+                "nil",
+        };
+        
+        compile_run_and_compare_output(program_texts, outputs);
+        
+    }
 
     public void test_UNARY_PLUS_MINUS_METHOD_NAME() {
         String[] program_texts = {
