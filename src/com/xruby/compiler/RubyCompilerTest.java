@@ -717,14 +717,20 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
     
-    public void test_Array_index(){
+    public void test_Array_index_rindex(){
         String[] program_texts = {
                 "a = [ \"a\", \"b\", \"c\" ];print a.index(\"b\") ",
                 "a = [ \"a\", \"b\", \"c\" ];print a.index(\"z\") ",
+                "a = [ \"a\", \"b\", \"c\" ];print a.rindex(\"a\") ",
+                "a = [ \"a\", \"b\", \"c\" ];print a.index(\"c\") ",
+                "a = [ \"a\", \"b\", \"c\" ];print a.rindex(\"z\") ",
         };
         
         String[] outputs = {
                 "1",
+                "nil",
+                "0",
+                "2",
                 "nil",
         };
         
