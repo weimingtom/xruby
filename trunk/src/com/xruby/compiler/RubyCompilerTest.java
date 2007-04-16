@@ -4988,6 +4988,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Module_compare() {
         String [] program_texts = {
+                "print String < Module",
+                "print Object < String",
+                "print String < Object",
+                //TODO"print String < Kernel",
+                //TODO"print Kernel < String",
+
                 "print String <=> 123",
                 "print String <=> String",
                 "print String <=> Object",
@@ -4996,6 +5002,12 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+        		"nil",
+                "false",
+                "true",
+                //"true",
+                //"false",
+
                 "nil",
                 "0",
                 "-1",

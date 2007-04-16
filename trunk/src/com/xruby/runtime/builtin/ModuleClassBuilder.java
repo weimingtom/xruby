@@ -204,30 +204,48 @@ class Module_ancestors extends RubyNoArgMethod {
     }
 }
 
-/*
-class Module_operator_compare extends RubyOneArgMethod {
+class Module_operator_less_than extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         if (receiver == arg) {
            return ObjectFactory.FALSE_VALUE;
         }
-		
+
+		if (!(arg instanceof RubyModule)) {
+            throw new RubyException(RubyRuntime.TypeErrorClass, "compared with non class/module");
+        }
+
+        RubyModule module = (RubyModule) receiver;
+        RubyModule other_module = (RubyModule) arg;
+
+        if (module instanceof RubyClass && other_module instanceof RubyClass) {
+            RubyClass c1 = (RubyClass) module;
+            RubyClass c2 = (RubyClass) other_module;
+            if (c1.isKindOf(c2)) {
+                return ObjectFactory.TRUE_VALUE;
+            } else if (c2.isKindOf(c1)) {
+                return ObjectFactory.FALSE_VALUE;
+            }
+        }
+
+        return ObjectFactory.NIL_VALUE;
+
     }
 }
-*/
 
 class Module_operator_compare extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyModule module = (RubyModule) receiver;
+        if (receiver == arg) {
+            return ObjectFactory.FIXNUM0;
+        }
+
         if (!(arg instanceof RubyModule)) {
             return ObjectFactory.NIL_VALUE;
         }
 
+        RubyModule module = (RubyModule) receiver;
         RubyModule other_module = (RubyModule) arg;
-        if (module == other_module) {
-            return ObjectFactory.FIXNUM0;
-        }
 
-        if (module instanceof RubyClass || other_module instanceof RubyClass) {
+        if (module instanceof RubyClass && other_module instanceof RubyClass) {
             RubyClass c1 = (RubyClass) module;
             RubyClass c2 = (RubyClass) other_module;
             if (c1.isKindOf(c2)) {
@@ -318,7 +336,7 @@ public class ModuleClassBuilder {
         c.defineMethod("include", new Module_include());
         c.defineMethod("extend_object", new Module_extend_object());
         c.defineMethod("<=>", new Module_operator_compare());
-		//c.defineMethod("<", new Module_operator_less_than());
+		c.defineMethod("<", new Module_operator_less_than());
         c.defineMethod("===", new Module_case_equal());
         c.defineMethod("ancestors", new Module_ancestors());
         c.defineMethod("module_function", new Module_module_function());
