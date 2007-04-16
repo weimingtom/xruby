@@ -192,6 +192,18 @@ class Kernel_method_missing extends RubyVarArgMethod {
     }
 }
 
+class Kernel_exit extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		int exit_code = 0;
+		if (null != args && args.get(0) instanceof RubyFixnum) {
+            exit_code = ((RubyFixnum)args.get(0)).intValue();
+		}
+        //TODO should raise SystemExit exception and call at_exit blocks
+        System.exit(exit_code);
+        return ObjectFactory.NIL_VALUE;
+    }
+}
+
 class Kernel_raise extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (null == args) {
@@ -647,6 +659,7 @@ public class KernelModuleBuilder {
         RubyMethod raise = new Kernel_raise();
         m.defineMethod("raise", raise);
         m.defineMethod("fail", raise);
+		m.defineMethod("exit", new Kernel_exit());
         m.defineMethod("===", new Kernel_operator_case_equal());
         m.defineMethod("to_s", new Kernel_to_s());
         m.defineMethod("loop", new Kernel_loop());
