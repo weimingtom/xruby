@@ -206,16 +206,17 @@ class Module_ancestors extends RubyNoArgMethod {
 
 class Module_operator_less_than extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        if (receiver == arg) {
-           return ObjectFactory.FALSE_VALUE;
-        }
-
 		if (!(arg instanceof RubyModule)) {
             throw new RubyException(RubyRuntime.TypeErrorClass, "compared with non class/module");
         }
 
-        RubyModule module = (RubyModule) receiver;
-        RubyModule other_module = (RubyModule) arg;
+        return Module_operator_less_than.compareModule(receiver, arg);
+    }
+
+    static RubyValue compareModule(RubyValue module, RubyValue other_module) {
+        if (module == other_module) {
+           return ObjectFactory.FALSE_VALUE;
+        }
 
         if (module instanceof RubyClass && other_module instanceof RubyClass) {
             RubyClass c1 = (RubyClass) module;
@@ -229,6 +230,16 @@ class Module_operator_less_than extends RubyOneArgMethod {
 
         return ObjectFactory.NIL_VALUE;
 
+    }
+}
+
+class Module_operator_greater_than extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        if (!(arg instanceof RubyModule)) {
+            throw new RubyException(RubyRuntime.TypeErrorClass, "compared with non class/module");
+        }
+
+        return Module_operator_less_than.compareModule(arg, receiver);
     }
 }
 
@@ -287,6 +298,19 @@ class Module_module_function extends RubyVarArgMethod {
     }
 }
 
+/*
+class Module_public_instance_methods extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyModule module = (RubyModule) receiver;
+        if (args != null) {
+
+        }
+
+        return new RubyArray();
+    }
+}
+*/
+
 class Module_module_eval extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         //TODO duplicated code: instance_eval
@@ -337,8 +361,10 @@ public class ModuleClassBuilder {
         c.defineMethod("extend_object", new Module_extend_object());
         c.defineMethod("<=>", new Module_operator_compare());
 		c.defineMethod("<", new Module_operator_less_than());
+		c.defineMethod(">", new Module_operator_greater_than());
         c.defineMethod("===", new Module_case_equal());
         c.defineMethod("ancestors", new Module_ancestors());
+        //c.defineMethod("public_instance_methods", new Module_public_instance_methods());
         c.defineMethod("module_function", new Module_module_function());
         RubyMethod module_eval = new Module_module_eval();
         c.defineMethod("module_eval", module_eval);
