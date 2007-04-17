@@ -6,10 +6,11 @@
 package com.xruby.debug;
 
 import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.request.EventRequestManager;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +24,13 @@ class DebugContext {
 
     private static JVMConnection jvmConnection;
     private static List<File> sourcePath;
-    private static String classPath;
+    private static List<URL> classPath;
     private static JVMEventNotifier notifier;
     private static EventHandler handler;
     private static List<Instruction> deferredInsns;
+    private static SmapMgr smapMgr;
 
-    // Initiate 
+    // Initiate
     static {
         sourcePath = new ArrayList<File>();
         notifier = new DefaultJVMEventNotifier();
@@ -77,16 +79,23 @@ class DebugContext {
         return getJVM().eventRequestManager();
     }
 
-    public static String getClassPath() {
+    public static List<URL> getClassPath() {
         return classPath;
     }
 
-    public static void setClassPath(String classPath) {
+    public static void setClassPath(List<URL> classPath) {
         DebugContext.classPath = classPath;
+
+        URLClassLoader loader = new URLClassLoader(classPath.toArray(new URL[]{}));
+        smapMgr = new SmapMgr(loader);
     }
 
     public static List<File> getSourcePath() {
         return sourcePath;
+    }
+
+    public static SmapMgr getSmapMgr() {
+        return smapMgr;
     }
 
     public static List<Instruction> getDeferredInsns() {
