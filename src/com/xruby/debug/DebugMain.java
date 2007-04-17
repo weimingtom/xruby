@@ -4,8 +4,8 @@
  */
 package com.xruby.debug;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is a debugger simulater
@@ -38,7 +38,7 @@ public class DebugMain {
 
         // initiate debug context
         DebugContext.addSourcePath(options.getPathList());
-        DebugContext.setClassPath(options.getClassPath());
+        DebugContext.setClassPath(options.getClassPathList());
 
         // For test_debug.main
 //        frontEnd.distributeCommand("stop", new String[]{"test_debug.main", "1"});

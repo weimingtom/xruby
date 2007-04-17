@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import static java.lang.System.out;
 import java.util.*;
 
@@ -65,41 +66,32 @@ public class SourceCodeMgr {
         } else {
             throw new XRubyDebugException("IllegalArgumentExcpeiont, class");
         }
-
-        // TODO: We should add a smap option in start options
         // TODO: put the .smap file under the same directory of .class files
-        List<File> paths = DebugContext.getSourcePath();
-        for (File path : paths) {
-            if (path.isDirectory()) {
-                String tmp = path.getAbsolutePath() + File.separatorChar + scriptName + ".smap";
-                File file = new File(tmp);
-                if(file.exists()) {
-                    String blockName = retrieveBlockName(file, lineNumber);
-                    if(blockName != null) {
-                        return String.format("%s.%s", className, blockName);
-                    }
-                }
-            }
+        String blockName = retrieveBlockName(scriptName, lineNumber);
+        if (blockName != null) {
+            return String.format("%s.%s", className, blockName);
         }
 
         return classId;
     }
 
 
-    private static String retrieveBlockName(File mapFile, int lineNumber) throws XRubyDebugException {
-        Map<String, int[]> map = blockMap.get(mapFile.getName());
+    private static String retrieveBlockName(String fileName, int lineNumber) throws XRubyDebugException {
+        Map<String, int[]> map = blockMap.get(fileName);
         String realName = null;
 
         if(map == null) {  // The first time reading this file's map
             map = new HashMap<String, int[]>();
-            blockMap.put(mapFile.getName(), map);
+            blockMap.put(fileName, map);
             BufferedReader reader;
             try {
-                reader = new BufferedReader(new FileReader(mapFile));
+                String smap = DebugContext.getSmapMgr().getSmap(fileName);
+                StringReader sr = new StringReader(smap);
+                reader = new BufferedReader(sr);
                 int number = Integer.parseInt(reader.readLine());
-                for(int i = 0; i < number;) {
+                for (int i = 0; i < number;) {
                     String line = reader.readLine();
-                    if(line.trim().equals("")) {
+                    if (line.trim().equals("")) {
                         continue;
                     }
 
@@ -121,7 +113,7 @@ public class SourceCodeMgr {
                 }
             } catch (IOException e) {
                 throw new XRubyDebugException(
-                        String.format("Couldn't read this file or wrong format, %s:\n%s", mapFile.getName(), e.getMessage()));
+                        String.format("Couldn't read this file or wrong format, %s:\n%s", fileName, e.getMessage()));
             }
         } else {  // already existed
             Set<String> blocks = map.keySet();

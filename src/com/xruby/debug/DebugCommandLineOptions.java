@@ -4,13 +4,16 @@
  */
 package com.xruby.debug;
 
+import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
 
-import java.util.List;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -83,6 +86,24 @@ class DebugCommandLineOptions {
 
     public String getClassPath() {
         return classPath;
+    }
+
+    public List<URL> getClassPathList() {
+        StringTokenizer st = new StringTokenizer(classPath, ";");
+        List<URL> list = new ArrayList<URL>();
+
+        while(st.hasMoreTokens()) {
+            File file = new File(st.nextToken());
+            if(file.exists()) {
+                try {
+                    list.add(file.toURL());
+                } catch (MalformedURLException e) {
+                    // TODO: Handle this exception
+                }
+            }
+        }
+
+        return list;
     }
 
 
