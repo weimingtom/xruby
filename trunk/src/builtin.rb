@@ -728,6 +728,15 @@ module Enumerable
         a.sort &block
     end
       
+    def detect
+      each {|x|
+          if yield x
+              return x
+          end
+      }
+      nil
+    end
+
     def each_with_index 
         i = 0;
         each {|x| yield x, i; i = i + 1}

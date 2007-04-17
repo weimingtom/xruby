@@ -2174,6 +2174,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Enumerable() {
         String[] program_texts = {
+                "a = (1..10).detect  {|i| i % 5 == 0 and i % 7 == 0 }; print a",
+                "a = (1..100).detect {|i| i % 5 == 0 and i % 7 == 0 }; print a",
                 "[1,2,3].each_with_index{|x, y| print x,y}",
                 "a = %w{apple pear fig }; b = a.sort_by {|word| word.length}; p a, b",
                 "p (1..10).find_all {|i|  i % 3 == 0 }",
@@ -2184,6 +2186,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "nil",
+                "35",
                 "102132",
                 "[\"apple\", \"pear\", \"fig\"]\n[\"fig\", \"pear\", \"apple\"]\n",
                 "[3, 6, 9]\n",
