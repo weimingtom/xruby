@@ -435,6 +435,19 @@ class String_operator_match extends RubyOneArgMethod {
     }
 }
 
+class String_format extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        String format = ((RubyString) receiver).toString();
+		String s;
+        if (arg instanceof RubyArray) {
+            s = String.format(format, Kernel_printf.buildFormatArg((RubyArray)arg, 0));
+        } else {
+		    s = String.format(format, Kernel_printf.buildFormatArg(new RubyArray(arg), 0));
+        }
+        return ObjectFactory.createString(s);
+    }
+}
+
 class String_access extends RubyVarArgMethod {
     public String_access() {
         super(2, false, 1);
@@ -793,6 +806,7 @@ public class StringClassBuilder {
         c.defineMethod("casecmp", new String_casecmp());
         c.defineMethod("=~", new String_operator_match());
         c.defineMethod("[]", new String_access());
+        c.defineMethod("%", new String_format());		
         c.defineMethod("[]=", new String_access_set());
         c.defineMethod("*", new String_operator_star());
         RubyMethod each = new String_each();

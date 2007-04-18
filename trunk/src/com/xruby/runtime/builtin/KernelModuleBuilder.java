@@ -131,27 +131,28 @@ class Kernel_print extends RubyVarArgMethod {
 }
 
 class Kernel_printf extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        Object[] raw_args = new Object[args.size() - 1];
-        for (int i = 1; i < args.size(); ++i) {
-            Object v = args.get(i);
+
+    static Object[] buildFormatArg(RubyArray args, int start) {
+        Object[] raw_args = new Object[args.size() - start];
+        for (int i = 0; i < args.size() - start; ++i) {
+            Object v = args.get(i + start);
             if (v instanceof RubyFixnum) {
-                raw_args[i - 1] = new Integer(((RubyFixnum) v).intValue());
-            } else if (args.get(i) instanceof RubyString) {
-                raw_args[i - 1] = args.get(i);
+                raw_args[i] = new Integer(((RubyFixnum) v).intValue());
             } else {
-                raw_args[i - 1] = v;
+                raw_args[i] = v;
             }
         }
+        return raw_args;
+    }
 
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         String fmt = ((RubyString) args.get(0)).toString();
-        System.out.printf(fmt, raw_args);
+        System.out.printf(fmt, buildFormatArg(args, 1));
         return ObjectFactory.NIL_VALUE;
     }
 }
 
 class Kernel_p extends RubyVarArgMethod {
-
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (null != args) {

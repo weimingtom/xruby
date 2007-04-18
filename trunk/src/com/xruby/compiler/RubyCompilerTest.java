@@ -716,7 +716,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
-    
+
     public void test_Array_index_rindex(){
         String[] program_texts = {
                 "a = [ \"a\", \"b\", \"c\" ];print a.index(\"b\") ",
@@ -725,7 +725,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "a = [ \"a\", \"b\", \"c\" ];print a.index(\"c\") ",
                 "a = [ \"a\", \"b\", \"c\" ];print a.rindex(\"z\") ",
         };
-        
+
         String[] outputs = {
                 "1",
                 "nil",
@@ -733,9 +733,9 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "2",
                 "nil",
         };
-        
+
         compile_run_and_compare_output(program_texts, outputs);
-        
+
     }
 
     public void test_UNARY_PLUS_MINUS_METHOD_NAME() {
@@ -4731,6 +4731,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_misc() {
         String [] program_texts = {
+                "print '%05d' % 123",
+                "print '%s:%s' % [ 'a', 'b' ]",
                 "print '0x0a'.hex",
                 "print 'xxxx'.hex",
                 "print 'pp'[-3..-1]",
@@ -4766,6 +4768,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "00123",
+                "a:b",
                 "10",
                 "0",
                 "nil",
