@@ -122,8 +122,8 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
         return getRubyClass().findOwnMethod(mid);
     }
 
-    public void collectMethodNames(RubyArray a) {
-        getRubyClass().collectClassMethodNames(a);
+    public void collectMethodNames(RubyArray a, int mode) {
+        getRubyClass().collectClassMethodNames(a, mode);
     }
 }
 

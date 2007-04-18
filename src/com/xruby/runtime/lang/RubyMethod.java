@@ -15,6 +15,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 	public static final int PUBLIC = 0;
 	public static final int PROTECTED = 1;
 	public static final int PRIVATE = 2;
+    public static final int ALL = 3;
 
 	protected RubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
 		super(argc, has_asterisk_parameter, default_argc);
@@ -23,6 +24,10 @@ public abstract class RubyMethod extends MethodBlockBase {
 
     void setID(RubyID id) {
         id_ = id;
+    }
+
+    String getName() {
+        return StringMap.id2name(id_);
     }
 
 	public RubyBlock convertToRubyBolck(RubyValue self) {
@@ -40,8 +45,8 @@ public abstract class RubyMethod extends MethodBlockBase {
 		};
 	}
 
-	boolean isPublic() {
-		return PUBLIC == access_;
+	int getAccess() {
+		return access_;
 	}
 
 	public void setAccess(int access) {

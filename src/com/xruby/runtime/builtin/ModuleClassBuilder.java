@@ -298,18 +298,22 @@ class Module_module_function extends RubyVarArgMethod {
     }
 }
 
-/*
 class Module_public_instance_methods extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyModule module = (RubyModule) receiver;
-        if (args != null) {
-
+        boolean include_super = false;
+        if (args != null && RubyAPI.testTrueFalse(args.get(0))) {
+        	include_super = true;
         }
 
-        return new RubyArray();
+        RubyArray a = new RubyArray();
+        if (include_super) {
+            receiver.collectMethodNames(a, RubyMethod.PUBLIC);
+        } else {
+            ((RubyModule)receiver).collectOwnMethodNames(a, RubyMethod.PUBLIC);
+        }
+        return a;
     }
 }
-*/
 
 class Module_module_eval extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
@@ -364,7 +368,7 @@ public class ModuleClassBuilder {
 		c.defineMethod(">", new Module_operator_greater_than());
         c.defineMethod("===", new Module_case_equal());
         c.defineMethod("ancestors", new Module_ancestors());
-        //c.defineMethod("public_instance_methods", new Module_public_instance_methods());
+        c.defineMethod("public_instance_methods", new Module_public_instance_methods());
         c.defineMethod("module_function", new Module_module_function());
         RubyMethod module_eval = new Module_module_eval();
         c.defineMethod("module_eval", module_eval);
