@@ -29,16 +29,19 @@ abstract class MethodCollection extends ConstantCollection {
 
     protected RubyMethod findOwnPublicMethod(RubyID mid) {
         RubyMethod m = methods_.get(mid);
-        if (null != m && m.isPublic()) {
+        if (null != m && RubyMethod.PUBLIC == m.getAccess()) {
             return m;
         }
 
         return null;
     }
 
-    void collectOwnMethodNames(RubyArray a) {
+    public void collectOwnMethodNames(RubyArray a, int mode) {
         for (RubyID id : methods_.keySet()) {
-            a.add(ObjectFactory.createString(StringMap.id2name(id)));
+            if (RubyMethod.ALL == mode ||
+                methods_.get(id).getAccess() == mode) {
+                a.add(ObjectFactory.createString(StringMap.id2name(id)));
+            }
         }
     }
 

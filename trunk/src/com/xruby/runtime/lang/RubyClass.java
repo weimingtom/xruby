@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
@@ -9,16 +9,16 @@ import com.xruby.runtime.value.*;
 
 public class RubyClass extends RubyModule {
 	protected static MethodCache cache = new MethodCache();
-	
+
 	public static void resetCache() {
 		cache.reset();
 	}
-	
+
 	//private Set<RubyObject> instances_ = new HashSet<RubyObject>();
-	
+
 	private RubyMethod alloc_method_;
 	private int objectAddress;
-	
+
 	public RubyClass(String name, RubyClass superclass, RubyModule owner) {
 		super(name, owner);
 		superclass_ = superclass;
@@ -65,7 +65,7 @@ public class RubyClass extends RubyModule {
     public void defineAllocMethod(RubyMethod m) {
 		alloc_method_ = m;
 	}
-	
+
 	public RubyValue invokeAllocMethod(RubyValue reciver, RubyBlock block) {//TODO reciver can be 'this' in the future
 		if (null != alloc_method_) {
 			return alloc_method_.invoke(reciver, null, null, block);
@@ -73,7 +73,7 @@ public class RubyClass extends RubyModule {
 			return superclass_.invokeAllocMethod(reciver, block);
 		}
 	}
-	
+
 	boolean isMyParent(final RubyClass superclass) {
 		return superclass_ == superclass;
 	}
@@ -95,7 +95,7 @@ public class RubyClass extends RubyModule {
     }
 
     private RubyMethod internalFindOwnMethod(RubyID mid) {
-        return super.findOwnMethod(mid);        
+        return super.findOwnMethod(mid);
     }
 
     public RubyMethod findOwnMethod(RubyID mid) {
@@ -109,7 +109,7 @@ public class RubyClass extends RubyModule {
 		}
 
         RubyClass klass = this;
-        
+
         while (klass != null) {
             RubyMethod m = klass.internalFindOwnMethod(mid);
             if (m != null) {
@@ -118,15 +118,15 @@ public class RubyClass extends RubyModule {
             }
             klass = klass.superclass_;
         }
-		
+
 		return null;
 	}
-	
+
 	public RubyMethod findOwnPublicMethod(RubyID mid) {
 		MethodCache.CacheEntry entry = cache.getMethod(this, mid);
 		if (entry.klass == this && entry.mid == mid) {
             RubyMethod em = entry.method;
-            if (em != null && em.isPublic()) {
+            if (em != null && RubyMethod.PUBLIC == em.getAccess()) {
                 return em;
             } else {
                 return null;
@@ -136,20 +136,20 @@ public class RubyClass extends RubyModule {
         RubyClass klass = this;
         while (klass != null) {
             RubyMethod m = klass.internalFindOwnMethod(mid);
-            if (m != null && m.isPublic()) {
+            if (m != null && RubyMethod.PUBLIC == m.getAccess()) {
                 cache.putMethod(this, mid, m);
                 return m;
             }
             klass = klass.superclass_;
         }
-        
+
         return null;
 	}
 
-	protected void collectClassMethodNames(RubyArray a) {
-		super.collectOwnMethodNames(a);
+	protected void collectClassMethodNames(RubyArray a, int mode) {
+		super.collectOwnMethodNames(a, mode);
 		if (null != superclass_){
-			superclass_.collectClassMethodNames(a);
+			superclass_.collectClassMethodNames(a, mode);
 		}
 	}
 
@@ -162,7 +162,7 @@ public class RubyClass extends RubyModule {
 		if (null != v) {
 			return v;
 		}
-		
+
 		return super.findClassVariable(name);
 	}
 
@@ -171,11 +171,11 @@ public class RubyClass extends RubyModule {
 		if (null != v) {
 			return this;
 		}
-		
+
 		if (null != superclass_){
 			return superclass_.findWhereIsClassVariableDefined(name);
 		}
-		
+
 		return null;
 	}
 
@@ -190,16 +190,16 @@ public class RubyClass extends RubyModule {
 		} else {
 			c.setOwnClassVariable(value, name);
 		}
-		
+
 		return value;
 	}
-	
+
 	public RubyValue defineMethod(String name, RubyMethod m) {
 		m.setOwner(this);
 		RubyID mid = StringMap.intern(name);
 		return addMethod(mid, m);
 	}
-	
+
 	protected RubyValue addMethod(RubyID id, RubyMethod method) {
 		cache.removeMethod(id);
 		return super.addMethod(id, method);

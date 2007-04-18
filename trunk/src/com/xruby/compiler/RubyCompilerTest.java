@@ -5094,8 +5094,12 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_Module_module_function() {
+    public void test_Module_misc() {
         String [] program_texts = {
+                "class TestPublicInstanceMethods; def f; end; end\n" +
+                "a = TestPublicInstanceMethods.public_instance_methods(false)\n" +
+                "p a",
+
                 "module TestModuleFunction\n" +
                 "  def test_module_function; print 123; end\n" +
                 "  module_function :test_module_function\n" +
@@ -5104,6 +5108,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "[\"f\"]\n",
                 "123",
         };
 

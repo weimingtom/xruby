@@ -464,7 +464,15 @@ class Kernel_method extends RubyOneArgMethod {
 class Kernel_methods extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyArray a = new RubyArray();
-        receiver.collectMethodNames(a);
+        receiver.collectMethodNames(a, RubyMethod.ALL);
+        return a;
+    }
+}
+
+class Kernel_public_methods extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyArray a = new RubyArray();
+        receiver.collectMethodNames(a, RubyMethod.PUBLIC);
         return a;
     }
 }
@@ -674,6 +682,7 @@ public class KernelModuleBuilder {
         m.defineMethod("instance_eval", new Kernel_instance_eval());
         m.defineMethod("method", new Kernel_method());
         m.defineMethod("methods", new Kernel_methods());
+        m.defineMethod("public_methods", new Kernel_public_methods());
         m.defineMethod("caller", new Kernel_caller());
         m.defineMethod("throw", new Kernel_throw());
         m.defineMethod("catch", new Kernel_catch());
