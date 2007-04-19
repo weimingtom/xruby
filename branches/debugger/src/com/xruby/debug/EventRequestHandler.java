@@ -4,9 +4,9 @@
  */
 package com.xruby.debug;
 
+import com.sun.jdi.ReferenceType;
 import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.request.ClassPrepareRequest;
-import com.sun.jdi.ReferenceType;
 
 import java.util.List;
 
@@ -33,9 +33,11 @@ public abstract class EventRequestHandler {
         ReferenceType refType = event.referenceType();
         Result result = resolveEventRequest(refType);
 
-        // Disable this class's prepare event and delete it
-        prepareRequest.disable();
-        DebugContext.getEventRequestManager().deleteEventRequest(prepareRequest);
+        if(result.isSuccessful()) {
+            // Disable this class's prepare event and delete it
+            prepareRequest.disable();
+            DebugContext.getEventRequestManager().deleteEventRequest(prepareRequest);
+        }
 
         return result;
     }
@@ -77,10 +79,12 @@ public abstract class EventRequestHandler {
      */
     public static void resolveAllDeferred(ClassPrepareEvent event) {
         List<Instruction> deferredInsns = DebugContext.getDeferredInsns();
-        for(Instruction insn: deferredInsns) {
-            if(insn instanceof EventRequestHandler) {
-                EventRequestHandler handler = (EventRequestHandler) insn;
-                handler.solveEvent(event);
+        synchronized (deferredInsns) {
+            for (Instruction insn : deferredInsns) {
+                if (insn instanceof EventRequestHandler) {
+                    EventRequestHandler handler = (EventRequestHandler) insn;
+                    Result result = handler.solveEvent(event);
+                }
             }
         }
     }

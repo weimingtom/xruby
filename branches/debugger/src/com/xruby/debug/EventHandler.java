@@ -4,8 +4,8 @@
  */
 package com.xruby.debug;
 
-import com.sun.jdi.VMDisconnectedException;
 import com.sun.jdi.ThreadReference;
+import com.sun.jdi.VMDisconnectedException;
 import com.sun.jdi.event.BreakpointEvent;
 import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.event.ClassUnloadEvent;
@@ -14,6 +14,7 @@ import com.sun.jdi.event.EventIterator;
 import com.sun.jdi.event.EventQueue;
 import com.sun.jdi.event.EventSet;
 import com.sun.jdi.event.ExceptionEvent;
+import com.sun.jdi.event.LocatableEvent;
 import com.sun.jdi.event.MethodEntryEvent;
 import com.sun.jdi.event.MethodExitEvent;
 import com.sun.jdi.event.StepEvent;
@@ -21,9 +22,7 @@ import com.sun.jdi.event.ThreadDeathEvent;
 import com.sun.jdi.event.ThreadStartEvent;
 import com.sun.jdi.event.VMStartEvent;
 import com.sun.jdi.event.WatchpointEvent;
-import com.sun.jdi.event.LocatableEvent;
 import com.sun.jdi.request.EventRequest;
-import com.sun.tools.example.debug.tty.*;
 
 /**
  * 
@@ -58,6 +57,13 @@ public class EventHandler implements Runnable {
                 } else if (eventSet.suspendPolicy() == EventRequest.SUSPEND_ALL) {
                     setCurrentThread(eventSet);
                     notifier.vmInterrupted();
+
+                    // TODO: Remove this after we finished the Commandline front end
+                    try {
+                        DebugMain.frontEnd.distributeCommand("cont", null);
+                    } catch (XRubyDebugException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
                 }
             } catch (InterruptedException exc) {
                 // Do nothing. Any changes will be seen at top of loop.

@@ -4,8 +4,8 @@
  */
 package com.xruby.debug;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Result of instrution execution, including status and

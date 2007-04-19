@@ -5,7 +5,6 @@
 package com.xruby.debug;
 
 import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Command Line FrontEnd
