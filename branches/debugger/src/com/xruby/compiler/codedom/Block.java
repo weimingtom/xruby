@@ -6,6 +6,8 @@
 package com.xruby.compiler.codedom;
 
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 class Pair {
 	String name;
@@ -13,10 +15,7 @@ class Pair {
 } 
 
 public class Block {
-    // TODO: fix this cache(map), maybe it has a naming conflict in multiple files compile
-    private static Map<String, Map<String, int[]>> blockMap =
-            new HashMap<String, Map<String, int[]>>();
-
+    
     private CompoundStatement bodyStatement_ = null;
 	private ArrayList<ParameterVariableExpression> parameters_ = new ArrayList<ParameterVariableExpression>();
 	private ParameterVariableExpression asterisk_parameter_ = null;
@@ -111,7 +110,7 @@ public class Block {
 		p.value = visitor.visitBlockEnd(name, (null != bodyStatement_) ?
 										bodyStatement_.lastStatementHasReturnValue() : false);
         if(name != null) {
-            Block.markBlock(this);
+            BlockFarm.markBlock(this);
         }
         return p;
 	}
@@ -135,112 +134,5 @@ public class Block {
 
     public void setEndPosition(int endPosition) {
         this.endPosition = endPosition;
-    }
-
-    /**
-     * Return the block description for all blocks
-     *
-     * e.g.
-     * 2                       # Number of files
-     * a_script.rb             # script's file name
-     * 2                       # Number of blocks
-     * BLOCK$0 2 10            # block name start end
-     * BLOCK$1 22 30
-     * b_script.rb
-     * 2
-     * BLOCK$0 2 10
-     * BLOCK$1 22 30
-     *
-     * @return block description
-     */
-    public static String getBlockMap() {
-        StringBuffer description = new StringBuffer();
-        Set<String> files = blockMap.keySet();
-        description.append(files.size()).append("\n"); // Number of files
-
-        for(String scriptName: files) {
-            Map<String, int[]> map = blockMap.get(scriptName);
-            description.append(scriptName).append("\n"); // script's file name
-            description.append(map.size());  // Number of blocks
-
-            Set<String> blocks = map.keySet();
-            for(String blockName: blocks) {
-                int[] range = map.get(blockName);
-                String line = String.format("%s %d %d\n", blockName, range[0], range[1]);
-                description.append(line);
-            }
-        }
-
-        return description.toString();
-    }
-
-    /**
-     * 2                       # Number of blocks
-     * BLOCK$0 2 10            # block name start end
-     * BLOCK$1 22 30
-     * b_script.rb
-     *
-     * @param scriptName script file's name
-     * @return block map, string form
-     */
-    public static String getBlockMapByName(String scriptName) {
-        Set<String> files = blockMap.keySet();
-        if (!files.contains(scriptName)) {
-            return null;
-        } else {
-            StringBuffer description = new StringBuffer();
-            Map<String, int[]> map = blockMap.get(scriptName);
-            description.append(map.size()).append("\n");  // Number of blocks
-
-            Set<String> blocks = map.keySet();
-            for (String blockName : blocks) {
-                int[] range = map.get(blockName);
-                String line = String.format("%s %d %d\n", blockName, range[0], range[1]);
-                description.append(line);
-            }
-
-            return description.toString();
-        }
-    }
-
-    protected static void markBlock(Block block) {
-        String blockName = block.getName();
-        String name = extractBlockName(blockName);
-        String scriptName = extractScriptName(blockName);
-
-        Map<String, int[]> map = blockMap.get(scriptName);
-
-        // First block in this file
-        if(map == null) {
-            map = new HashMap<String, int[]>();
-            blockMap.put(scriptName, map);
-        }
-
-        int start = block.getStartPosition();
-        int end = block.getEndPosition();
-        int[] range = new int[] {start, end};
-        map.put(name, range);
-    }
-
-    private static String extractScriptName(String blockName) {
-        StringTokenizer st = new StringTokenizer(blockName, "/");
-
-        // TODO: maybe we need create a global variable to keep current script name
-        // TODO: Add a new global helper method getCurrentScriptName(). We need fix this in the feature.
-        if(st.hasMoreTokens()) {
-            return st.nextToken() + ".rb";
-        } else {
-            return null;
-        }
-    }
-
-    private static String extractBlockName(String name) {
-        StringTokenizer st = new StringTokenizer(name, "/");
-        String blockName = null;
-        while(st.hasMoreTokens()) {
-            blockName = st.nextToken();
-        }
-
-        return blockName;
     }
 }

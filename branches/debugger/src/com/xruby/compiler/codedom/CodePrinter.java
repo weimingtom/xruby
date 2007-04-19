@@ -226,7 +226,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("/\n");
 	}
 	
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
+	public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
 		result_.append("def ");
 		result_.append(methodName);
 		result_.append(":");
@@ -238,7 +238,9 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(":");
 		result_.append(is_singleton_method);
 		result_.append("\n");
-	}
+
+        return methodName;
+    }
 
 	public void visitClassDefination1(String className) {
 		result_.append("class ");

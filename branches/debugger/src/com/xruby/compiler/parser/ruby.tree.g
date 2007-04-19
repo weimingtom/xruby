@@ -631,6 +631,7 @@ returns [MethodDefinationExpression e]
 	String name = null;
 	BodyStatement body = null;
 	Expression exp = null;
+	int lineNumber = _t.getLine();
 }
 		:	#("def"
 				(name=methodName	{e = new MethodDefinationExpression(name);}
@@ -651,6 +652,9 @@ returns [MethodDefinationExpression e]
 				)?
 				(body=bodyStatement {e.setBody(body);})?
 			)
+			{
+			     e.setPosition(lineNumber);
+			}
 		;
 
 forInExpression

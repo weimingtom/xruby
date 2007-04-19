@@ -159,7 +159,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 		visitClassDefinationEnd(last_statement_has_return_value);//TODO
 	}
 
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
+	public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
 
 		String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
 
@@ -179,7 +179,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 								has_asterisk_parameter,
 								num_of_default_args,
 								is_singleton_method || cg_.getMethodGenerator().isSingleton());
-	}
+
+        return uniqueMethodName;
+    }
 
 	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression) {
 		String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_);

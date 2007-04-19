@@ -30,6 +30,11 @@ class Rescue {
 
 		visitor.visitAfterRescueBody(next_label, end_label);
 	}
+
+    // For debugger
+    int getLastLine() {
+        return body_.getLastLine();
+    }
 }
 
 public class BodyStatement implements Visitable {
@@ -144,4 +149,24 @@ public class BodyStatement implements Visitable {
 		
 		visitor.visitBodyEnd(end_label);
 	}
+
+    // for debugger
+    public int getLastLine() {
+        int lastLine = compoundStatement_.getLastLine();
+        if(else_ != null && else_.getLastLine() > lastLine) {
+            lastLine = else_.getLastLine();
+        }
+
+        if(ensure_ != null &&  ensure_.getLastLine() > lastLine) {
+            lastLine = ensure_.getLastLine();
+        }
+
+        for(Rescue rescue: rescues_) {
+            if(rescue.getLastLine() > lastLine) {
+                lastLine = rescue.getLastLine();
+            }
+        }
+
+        return lastLine;
+    }
 }

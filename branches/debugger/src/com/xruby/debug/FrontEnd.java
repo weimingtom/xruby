@@ -55,6 +55,7 @@ public abstract class FrontEnd {
             // TODO: Run the program
             new RunInsn().execute();
         } else if (command.equalsIgnoreCase(STOP)) {
+            // TODO:Validate script's name
             String classId = args[0];
             int lineNumber = Integer.parseInt(args[1]);
             StopInsn insn = new StopInsn(classId, lineNumber);
