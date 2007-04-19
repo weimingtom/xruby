@@ -1,9 +1,9 @@
 package com.xruby.debug;
 
-import com.sun.jdi.event.VMStartEvent;
-import com.sun.jdi.event.Event;
-import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.event.BreakpointEvent;
+import com.sun.jdi.event.ClassPrepareEvent;
+import com.sun.jdi.event.Event;
+import com.sun.jdi.event.VMStartEvent;
 
 /**
  * @author Yu Su (beanworms@gmail.com)

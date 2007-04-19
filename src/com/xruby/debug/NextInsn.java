@@ -4,13 +4,12 @@
  */
 package com.xruby.debug;
 
+import com.sun.jdi.ThreadReference;
 import com.sun.jdi.request.EventRequestManager;
 import com.sun.jdi.request.StepRequest;
-import com.sun.jdi.ThreadReference;
 
 import static java.lang.System.out;
 import java.util.List;
-import java.util.Iterator;
 
 /**
  * Next step

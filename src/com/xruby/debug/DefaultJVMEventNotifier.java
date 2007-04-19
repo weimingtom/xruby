@@ -4,15 +4,14 @@
  */
 package com.xruby.debug;
 
+import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.Location;
 import com.sun.jdi.StackFrame;
-import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.event.BreakpointEvent;
 import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.event.Event;
 import com.sun.jdi.event.VMStartEvent;
-import com.sun.tools.example.debug.tty.MessageOutput;
 
 import static java.lang.System.err;
 import static java.lang.System.out;

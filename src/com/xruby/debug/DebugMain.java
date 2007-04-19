@@ -15,6 +15,7 @@ import java.util.Map;
  * @author Yu Su (beanworms@gmail.com)
  */
 public class DebugMain {
+    public static FrontEnd frontEnd;
 
     public static void main(String[] args) throws XRubyDebugException, Exception {
         // Parse the arguments: entrance, options
@@ -36,7 +37,7 @@ public class DebugMain {
         arguments.put(DebugConstant.MAIN, mainArg);
 
         // Create front end
-        FrontEnd frontEnd = new CommandLineFrontEnd(arguments);
+        frontEnd = new CommandLineFrontEnd(arguments);
 
         // initiate debug context
         DebugContext.addSourcePath(options.getPathList());
@@ -60,33 +61,11 @@ public class DebugMain {
 //        frontEnd.distributeCommand("cont", null);
 
         // For test_debug2.BLOCK$0
-        // TODO: next step frontEnd.distributeCommand("stop", new String[]{"test_debug2.rb", "4"});
+        frontEnd.distributeCommand("stop", new String[]{"test_debug2.main", "5"});
         frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "14"});
         frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "27"});
         frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "17"});
         Thread.sleep(1000);
-        frontEnd.distributeCommand("run", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("cont", null);
+        frontEnd.distributeCommand("run", null);      
     }
 }
