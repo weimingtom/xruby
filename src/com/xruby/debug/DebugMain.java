@@ -62,6 +62,8 @@ public class DebugMain {
         // For test_debug2.BLOCK$0
         // TODO: next step frontEnd.distributeCommand("stop", new String[]{"test_debug2.rb", "4"});
         frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "14"});
+        frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "27"});
+        frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "17"});
         Thread.sleep(1000);
         frontEnd.distributeCommand("run", null);
         Thread.sleep(1000);

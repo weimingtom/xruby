@@ -173,7 +173,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
-		cg_ = new ClassGeneratorForRubyMethod(methodName,
+		cg_ = new ClassGeneratorForRubyMethod(methodName, script_name_,
 								uniqueMethodName,
 								num_of_args,
 								has_asterisk_parameter,
