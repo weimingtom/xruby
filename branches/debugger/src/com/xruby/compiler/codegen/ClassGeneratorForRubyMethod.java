@@ -14,18 +14,25 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 	private final String method_name_;//this name is saved for 'super'
 	private final boolean is_singleton_method_;
 	private final boolean has_only_one_arg_;
-	
-	public ClassGeneratorForRubyMethod(String method_name, String name, int argc, boolean has_asterisk_parameter, int default_argc, boolean is_singleton_method) {
+    private String fileName;
+
+    public ClassGeneratorForRubyMethod(String method_name, String fileName, String name, int argc, boolean has_asterisk_parameter, int default_argc, boolean is_singleton_method) {
 		super(name);
 		method_name_ = method_name;
-		is_singleton_method_ = is_singleton_method;
+        this.fileName = fileName;
+        is_singleton_method_ = is_singleton_method;
 		has_only_one_arg_ = ((1 == argc) && !has_asterisk_parameter && (0 == default_argc));
 		if (has_only_one_arg_) {
 			mg_for_run_method_ = visitRubyOneArgMethod();
 		} else {
 			mg_for_run_method_ = visitRubyVarArgMethod(argc, has_asterisk_parameter, default_argc);
 		}
-	}
+
+        // set source file's name, for debug
+        if(fileName != null) {
+            cv_.visitSource(fileName, null);
+        }
+    }
 
 	public boolean hasOnlyOneArg() {
 		return has_only_one_arg_;
@@ -73,8 +80,8 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
 				"com/xruby/runtime/lang/RubyVarArgMethod",	// superName
 				null								// interface
 				);
-		
-		createConstructorOfRubyVarArgMethod(argc, has_asterisk_parameter, default_argc);
+
+        createConstructorOfRubyVarArgMethod(argc, has_asterisk_parameter, default_argc);
 		
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock)"),
