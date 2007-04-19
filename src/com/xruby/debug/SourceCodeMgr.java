@@ -20,10 +20,12 @@ public class SourceCodeMgr {
 
     private static Map<String, SourceCode> cache ;
     private static Map<String, Map<String, int[]>> blockMap;
+    private static Map<String, Map<String, int[]>> methodMap;
 
     static {
         cache = new HashMap<String, SourceCode>();
         blockMap = new HashMap<String, Map<String, int[]>>();
+        methodMap = new HashMap<String, Map<String, int[]>>();
     }
 
     // TODO: handle exception
@@ -67,9 +69,10 @@ public class SourceCodeMgr {
             throw new XRubyDebugException("IllegalArgumentExcpeiont, class");
         }
         // TODO: put the .smap file under the same directory of .class files
+        // Retrieve block/method's name
         String blockName = retrieveBlockName(scriptName, lineNumber);
         if (blockName != null) {
-            return String.format("%s.%s", className, blockName);
+            return blockName;
         }
 
         return classId;
@@ -88,8 +91,11 @@ public class SourceCodeMgr {
                 String smap = DebugContext.getSmapMgr().getSmap(fileName);
                 StringReader sr = new StringReader(smap);
                 reader = new BufferedReader(sr);
+
+                // Start parsing block info
                 int number = Integer.parseInt(reader.readLine());
-                for (int i = 0; i < number;) {
+                int lastStartIdx = -1;
+                for (int i = 0; i < number; i ++) {
                     String line = reader.readLine();
                     if (line.trim().equals("")) {
                         continue;
@@ -104,12 +110,13 @@ public class SourceCodeMgr {
                     int startIdx = Integer.parseInt(start);
                     int endIdx = Integer.parseInt(end);
 
-                    if(lineNumber > startIdx && lineNumber <= endIdx) {
+                    if(lineNumber >= startIdx && lineNumber <= endIdx && 
+                       (lastStartIdx == -1 || lastStartIdx < startIdx)) {
                         realName = blockName;
+                        lastStartIdx = startIdx;
                     }
 
                     map.put(blockName, new int[]{startIdx, endIdx});
-                    i ++;
                 }
             } catch (IOException e) {
                 throw new XRubyDebugException(

@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.jar.*;
 
 import com.xruby.compiler.*;
-import com.xruby.compiler.codedom.Block;
+import com.xruby.compiler.codedom.BlockFarm;
 import com.xruby.runtime.lang.RubyProgram;
 
 class CompilationResultLoader extends ClassLoader {
@@ -75,18 +75,28 @@ public class CompilationResults {
         // TODO: Add debug check here
         // TODO: We need a loop statement to support multiple files
         // if(is_debug?) {...}
-        String blockMap = Block.getBlockMapByName(script_name);
-        if (blockMap != null) {
-            String entryName =
-                    NameFactory.getNameWithoutSufix(script_name) + "/" + script_name + SMAP_SUFFIX;
-            jarstream.putNextEntry(new JarEntry(entryName));
-            jarstream.write(blockMap.getBytes());
+        String smap = BlockFarm.getMapByName(script_name);
+        if(smap == null) {
+            smap = "0\n";
         }
+
+        String entryName =
+                NameFactory.getNameWithoutSufix(script_name) + "/" + script_name + SMAP_SUFFIX;
+        jarstream.putNextEntry(new JarEntry(entryName));
+        jarstream.write(smap.getBytes());
+
         jarstream.close();
 		System.out.println("Generated " + tarfilename.toString());
 	}
-	
-	private Manifest createManifest(String script_name) {
+
+    private String combine(Map<String, int[]> blockMap, Map<String, int[]> methodMap) {
+        StringBuffer smap = new StringBuffer();
+        ArrayList list = new ArrayList<String>();
+
+        return smap.toString();
+    }
+
+    private Manifest createManifest(String script_name) {
 		Manifest manifest = new Manifest();
 		Attributes attrs = manifest.getMainAttributes();
 		attrs.putValue("Manifest-Version", "1.0");

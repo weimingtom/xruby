@@ -15,6 +15,7 @@ Chapters/Sections:
 5. How to extend this debugger. Say, the plugin for some a IDE, or a standalone GUI debugger
 6. Sequence of some important instructions, e.g. run, stop, list ...
 7. Simple Manual
+8. How do we record method and block
 
 Design&Implementation TODO: List
 Global:

@@ -8,8 +8,7 @@ package com.xruby.compiler.codedom;
 import java.util.*;
 
 public class MethodDefinationExpression extends Expression {
-
-	private String methodName_;
+    private String methodName_;
 	private Expression method_owner_;
 	private BodyStatement bodyStatement_ = null;
 	private ArrayList<String> parameters_ = new ArrayList<String>();
@@ -29,7 +28,7 @@ public class MethodDefinationExpression extends Expression {
 	
 	public void setBody(BodyStatement bodyStatement) {
 		bodyStatement_ = bodyStatement;
-	}
+    }
 	
 	public void addParameter(String name, Expression default_value) {
 		parameters_.add(name);
@@ -56,7 +55,7 @@ public class MethodDefinationExpression extends Expression {
 			method_owner_.accept(visitor);
 		}
 		
-		visitor.visitMethodDefination(methodName_,
+		String uniqueMethodName = visitor.visitMethodDefination(methodName_,
 						parameters_.size(),
 						(null != asterisk_parameter_),
 						default_parameters_.size(),
@@ -92,6 +91,26 @@ public class MethodDefinationExpression extends Expression {
 	
 		visitor.visitMethodDefinationEnd((null != bodyStatement_) ?
 										bodyStatement_.lastStatementHasReturnValue() : false);
-	}
 
+        int firstLine = this.getPosition();
+        int lastLine = firstLine;
+        if(bodyStatement_ != null) {
+            lastLine = bodyStatement_.getLastLine();
+        }
+
+        String scriptName = extractScriptName(uniqueMethodName);
+        BlockFarm.markMethod(scriptName, uniqueMethodName, new int[]{firstLine, lastLine});
+    }
+
+    // Extract script file's name, as same as the one in the Block.java
+    // TODO: so, we do need a global variable  to keep current script name
+    private static String extractScriptName(String uniqueMethodName) {
+        StringTokenizer st = new StringTokenizer(uniqueMethodName, "/");
+
+        if(st.hasMoreTokens()) {
+            return st.nextToken() + ".rb";
+        } else {
+            return null;
+        }
+    }
 }

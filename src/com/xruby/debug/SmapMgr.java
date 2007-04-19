@@ -60,7 +60,6 @@ public class SmapMgr {
                     StringBuffer content = new StringBuffer();
                     String line = reader.readLine();
                     while (line != null) {
-                        System.out.println(line);
                         content.append(line).append("\n");
                         line = reader.readLine();
                     }
