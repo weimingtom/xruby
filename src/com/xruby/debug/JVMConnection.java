@@ -69,7 +69,7 @@ public class JVMConnection {
 
         if(jvm.canBeModified()) {
             setEventRequests(jvm);
-            EventRequestHandler.presolveAllDelayed();
+            EventRequestHandler.presolveAllDeferred();
         }
 
         // TODO: AttachLauncher

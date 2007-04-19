@@ -9,6 +9,7 @@ import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.request.ClassPrepareRequest;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Event Request Handler, for ClassPrepareRequest
@@ -79,23 +80,32 @@ public abstract class EventRequestHandler {
      */
     public static void resolveAllDeferred(ClassPrepareEvent event) {
         List<Instruction> deferredInsns = DebugContext.getDeferredInsns();
-        synchronized (deferredInsns) {
-            for (Instruction insn : deferredInsns) {
-                if (insn instanceof EventRequestHandler) {
-                    EventRequestHandler handler = (EventRequestHandler) insn;
-                    Result result = handler.solveEvent(event);
+        List<Instruction> recycleBin = new ArrayList<Instruction>();
+        for (Instruction insn : deferredInsns) {
+            if (insn instanceof EventRequestHandler) {
+                EventRequestHandler handler = (EventRequestHandler) insn;
+                Result result = handler.solveEvent(event);
+
+                if (result.isSuccessful()) {
+                    recycleBin.add(insn);
                 }
+
             }
+        }
+
+        // Remove the commands who have been executed successfully
+        for(Instruction insn: recycleBin) {
+            deferredInsns.remove(insn);
         }
     }
 
     /**
-     *
+     * Pre-Solve the deferred commands
      */
-    public static void presolveAllDelayed() {
+    public static void presolveAllDeferred() {
         List<Instruction> deferredInsns = DebugContext.getDeferredInsns();
-        for(Instruction insn: deferredInsns) {
-            if(insn instanceof EventRequestHandler) {
+        for (Instruction insn : deferredInsns) {
+            if (insn instanceof EventRequestHandler) {
                 EventRequestHandler handler = (EventRequestHandler) insn;
                 handler.preSolved();
             }
