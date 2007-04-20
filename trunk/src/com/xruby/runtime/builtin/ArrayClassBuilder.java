@@ -469,6 +469,24 @@ class Array_rindex extends RubyOneArgMethod {
     }
 }
 
+class Array_replace extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        RubyArray anotherArray = (RubyArray)arg;
+        if(array == anotherArray)
+            return array;
+        
+        array.clear();
+        for(int i=0;i<anotherArray.size();i++){
+            array.add(anotherArray.get(i));
+        }
+        return array;
+    }
+}
+
+
+
+
 public class ArrayClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.ArrayClass;
@@ -516,6 +534,7 @@ public class ArrayClassBuilder {
         c.defineMethod("slice!", new Array_slice_bang());
         c.defineMethod("index",new Array_index());
         c.defineMethod("rindex",new Array_rindex());
+        c.defineMethod("replace", new Array_replace());
 
         c.includeModule(RubyRuntime.EnumerableModule);
     }
