@@ -21,6 +21,13 @@ class Exception_new extends RubyNoArgMethod {
 	}
 }
 
+class Exception_backtrace extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		RubyExceptionValue e = (RubyExceptionValue)receiver;
+        return e.backtrace();
+	}
+}
+
 class Exception_initialize extends RubyVarArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 		RubyExceptionValue e = (RubyExceptionValue)receiver;
@@ -43,6 +50,7 @@ public class ExceptionClassBuilder {
 		c.defineMethod("to_s", to_s);
 		c.defineMethod("message", to_s);
 		c.defineMethod("to_str", to_s);
+        c.defineMethod("backtrace", new Exception_backtrace());
 		c.defineAllocMethod(new Exception_new());
 	}
 }
