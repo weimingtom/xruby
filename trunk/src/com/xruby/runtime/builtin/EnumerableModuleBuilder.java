@@ -14,7 +14,7 @@ import com.xruby.runtime.value.RubyArray;
  * TODO: the implementation of Enumerable has a drawback, please take care if you wanna use it
  */
 
-class Enum_collect extends RubyVarArgMethod {
+class Enumerable_collect extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver, getOwner());
         RubyAPI.callPublicMethod(receiver, args, repeatableBlock, CommonRubyID.eachID);
@@ -22,7 +22,7 @@ class Enum_collect extends RubyVarArgMethod {
     }
 }
 
-class Enum_all extends RubyVarArgMethod {
+class Enumerable_all extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver, getOwner());
         RubyAPI.callPublicMethod(receiver, args, repeatableBlock, CommonRubyID.eachID);
@@ -38,7 +38,7 @@ class Enum_all extends RubyVarArgMethod {
     }
 }
 
-class Enum_any extends RubyVarArgMethod {
+class Enumerable_any extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RepeatableRubyBlock repeatableBlock = new RepeatableRubyBlock(block, receiver, getOwner());
         RubyAPI.callPublicMethod(receiver, args, repeatableBlock, CommonRubyID.eachID);
@@ -57,10 +57,10 @@ class Enum_any extends RubyVarArgMethod {
 public class EnumerableModuleBuilder {
     public static void initialize() {
         RubyModule m = RubyRuntime.EnumerableModule;
-        RubyMethod enum_collect = new Enum_collect();
+        RubyMethod enum_collect = new Enumerable_collect();
         m.defineMethod("collect", enum_collect);
         m.defineMethod("map", enum_collect);
-        m.defineMethod("all?", new Enum_all());
-        m.defineMethod("any?", new Enum_any());
+        m.defineMethod("all?", new Enumerable_all());
+        m.defineMethod("any?", new Enumerable_any());
     }
 }
