@@ -289,13 +289,13 @@ class Array_unshift extends RubyVarArgMethod {
 
 class Array_new extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-    	RubyArray a;
-    	if (null == args) {
+        RubyArray a;
+        if (null == args) {
             a = new RubyArray();
         } else {
             RubyFixnum size = (RubyFixnum) args.get(0);
             RubyValue default_value = args.get(1);
-            a = new RubyArray(size.intValue(), default_value);
+            a = ObjectFactory.createArray(size.intValue(), default_value);
         }
         a.setRubyClass((RubyClass) receiver);
         return a;
@@ -458,7 +458,7 @@ public class ArrayClassBuilder {
         c.defineMethod("include?", new Array_include());
         c.defineMethod("unshift", new Array_unshift());
         c.defineMethod("each", new Array_each());
-		c.defineMethod("reverse_each", new Array_reverse_each());
+        c.defineMethod("reverse_each", new Array_reverse_each());
         c.defineMethod("pack", new Array_pack());
         c.defineMethod("shift", new Array_shift());
         c.defineMethod("sort!", new Array_sort_dangers());

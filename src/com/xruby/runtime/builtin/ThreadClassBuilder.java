@@ -20,7 +20,7 @@ class Thread_join extends RubyNoArgMethod {
 
 class Thread_new extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        return new RubyThread(block);
+        return ObjectFactory.createThread(block);
     }
 }
 

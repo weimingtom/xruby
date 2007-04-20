@@ -22,7 +22,7 @@ public class RubyThread extends RubyBasic {
                 }
             };
 
-    public RubyThread(final RubyBlock block) {
+    RubyThread(final RubyBlock block) {
         super(RubyRuntime.ThreadClass);
         thread_ = new Thread(new Runnable() {
             public void run() {
