@@ -206,7 +206,7 @@ class Module_ancestors extends RubyNoArgMethod {
 
 class Module_operator_less_than extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		if (!(arg instanceof RubyModule)) {
+        if (!(arg instanceof RubyModule)) {
             throw new RubyException(RubyRuntime.TypeErrorClass, "compared with non class/module");
         }
 
@@ -302,7 +302,7 @@ class Module_public_instance_methods extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         boolean include_super = false;
         if (args != null && RubyAPI.testTrueFalse(args.get(0))) {
-        	include_super = true;
+            include_super = true;
         }
 
         RubyArray a = new RubyArray();
@@ -327,7 +327,7 @@ class Module_module_eval extends RubyVarArgMethod {
             RubyBinding binding = new RubyBinding();
             binding.setScope((RubyModule) receiver);
             binding.setSelf(receiver);
-            return Kernel_eval.eval(program_text, binding);
+            return Kernel_eval.eval(program_text, binding, null);
         } else {
             block.setSelf(receiver);
             return block.invoke(receiver, null);
@@ -364,8 +364,8 @@ public class ModuleClassBuilder {
         c.defineMethod("include", new Module_include());
         c.defineMethod("extend_object", new Module_extend_object());
         c.defineMethod("<=>", new Module_operator_compare());
-		c.defineMethod("<", new Module_operator_less_than());
-		c.defineMethod(">", new Module_operator_greater_than());
+        c.defineMethod("<", new Module_operator_less_than());
+        c.defineMethod(">", new Module_operator_greater_than());
         c.defineMethod("===", new Module_case_equal());
         c.defineMethod("ancestors", new Module_ancestors());
         c.defineMethod("public_instance_methods", new Module_public_instance_methods());

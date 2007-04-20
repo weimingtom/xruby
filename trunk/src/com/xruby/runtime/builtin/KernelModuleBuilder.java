@@ -24,10 +24,10 @@ import java.util.regex.Pattern;
 //TODO imcomplete
 class Kernel_eval extends RubyVarArgMethod {
 
-    static RubyValue eval(RubyString program_text, RubyBinding binding) {
+    static RubyValue eval(RubyString program_text, RubyBinding binding, String file_name) {
         RubyCompiler compiler = new RubyCompiler(binding, false);
         try {
-            CompilationResults codes = compiler.compile(new StringReader(program_text.toString()));
+            CompilationResults codes = compiler.compile(file_name, new StringReader(program_text.toString()));
             RubyProgram p = codes.getRubyProgram();
             if (null != binding) {
                 return p.invoke(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
@@ -56,7 +56,12 @@ class Kernel_eval extends RubyVarArgMethod {
             binding = (RubyBinding) args.get(1);
         }
 
-        return eval(program_text, binding);
+        String file_name = null;
+        if (args.size() > 2) {
+            file_name = ((RubyString)args.get(2)).toString();
+        }
+
+        return eval(program_text, binding, file_name);
     }
 }
 
@@ -70,13 +75,13 @@ class Kernel_binding extends RubyVarArgMethod {
 class Kernel_puts extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         return _run(GlobalVariables.get("$stdout"), args, block);
-	}
+    }
 
     protected RubyValue _run(RubyValue receiver, RubyArray args, RubyBlock block) {
-	    if (null == args) {
+        if (null == args) {
             RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("\n"), null, CommonRubyID.writeID);
-			return ObjectFactory.NIL_VALUE;
-	    }
+            return ObjectFactory.NIL_VALUE;
+        }
 
         RubyString value = null;
         for (RubyValue arg : args) {
@@ -195,10 +200,10 @@ class Kernel_method_missing extends RubyVarArgMethod {
 
 class Kernel_exit extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		int exit_code = 0;
-		if (null != args && args.get(0) instanceof RubyFixnum) {
+        int exit_code = 0;
+        if (null != args && args.get(0) instanceof RubyFixnum) {
             exit_code = ((RubyFixnum)args.get(0)).intValue();
-		}
+        }
         //TODO should raise SystemExit exception and call at_exit blocks
         System.exit(exit_code);
         return ObjectFactory.NIL_VALUE;
@@ -641,7 +646,7 @@ class Kernel_instance_eval extends RubyVarArgMethod {
             RubyBinding binding = new RubyBinding();
             binding.setScope((RubyModule) receiver);
             binding.setSelf(receiver);
-            return Kernel_eval.eval(program_text, binding);
+            return Kernel_eval.eval(program_text, binding, null);
         } else {
             block.setSelf(receiver);
             return block.invoke(receiver, null);
@@ -668,7 +673,7 @@ public class KernelModuleBuilder {
         RubyMethod raise = new Kernel_raise();
         m.defineMethod("raise", raise);
         m.defineMethod("fail", raise);
-		m.defineMethod("exit", new Kernel_exit());
+        m.defineMethod("exit", new Kernel_exit());
         m.defineMethod("===", new Kernel_operator_case_equal());
         m.defineMethod("to_s", new Kernel_to_s());
         m.defineMethod("loop", new Kernel_loop());
