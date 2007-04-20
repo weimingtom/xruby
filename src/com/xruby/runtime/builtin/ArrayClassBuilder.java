@@ -535,7 +535,8 @@ public class ArrayClassBuilder {
         c.defineMethod("index",new Array_index());
         c.defineMethod("rindex",new Array_rindex());
         c.defineMethod("replace", new Array_replace());
-
+        c.defineMethod("eql?", new Array_equal());
+        
         c.includeModule(RubyRuntime.EnumerableModule);
     }
 }
