@@ -43,14 +43,14 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         add(value2);
     }
 
-    public RubyArray(int size, RubyValue default_value) {
+    RubyArray(int size, RubyValue default_value) {
         this(size);
         for (int i = 0; i < size; ++i) {
             array_.add(default_value);
         }
     }
 
-    public RubyArray(int size, int rhs_size, boolean has_single_asterisk_or_call) {
+    RubyArray(int size, int rhs_size, boolean has_single_asterisk_or_call) {
         super(RubyRuntime.ArrayClass);
         array_ = new ArrayList<RubyValue>(size);
 
@@ -106,7 +106,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
             if (RubyAPI.testTrueFalse(r)) {
                 array_.remove(i);
             } else {
-            	++i;
+                ++i;
             }
         }
         return this;
@@ -341,20 +341,20 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public RubyValue each(RubyValue receiver, RubyBlock block) {
         for (RubyValue item : array_) {
             RubyValue v = block.invoke(receiver, new RubyArray(item));
-		    if (block.breakedOrReturned()) {
-			    return v;
-		    }
+            if (block.breakedOrReturned()) {
+                return v;
+            }
         }
         return this;
     }
 
     public RubyValue reverse_each(RubyValue receiver, RubyBlock block) {
-    	ListIterator<RubyValue> ite = array_.listIterator(array_.size());
+        ListIterator<RubyValue> ite = array_.listIterator(array_.size());
         while (ite.hasPrevious()) {
             RubyValue v = block.invoke(receiver, new RubyArray(ite.previous()));
-		    if (block.breakedOrReturned()) {
-			    return v;
-		    }
+            if (block.breakedOrReturned()) {
+                return v;
+            }
         }
         return this;
     }

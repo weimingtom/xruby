@@ -67,6 +67,10 @@ public class ObjectFactory {
         return new RubyString(value);
     }
 
+    public static RubyString createString(RubyClass c, String s) {
+        return new RubyString(c, s);
+    }
+
     public static RubyRegexp createRegexp(String value) {
         return new RubyRegexp(value);
     }
@@ -81,6 +85,10 @@ public class ObjectFactory {
 
     public static RubyFloat createFloat(double value) {
         return new RubyFloat(value);
+    }
+
+    public static RubyArray createArray(int size, RubyValue default_value) {
+        return new RubyArray(size, default_value);
     }
 
     public static RubyArray createArray(int size, int rhs_size, boolean has_single_asteriskor_or_call) {
@@ -133,10 +141,11 @@ public class ObjectFactory {
         return new RubyBignum(new BigInteger(value));
     }
 
-    public static RubyValue createBoolean(boolean value) {
-        if (value) {
-            return TRUE_VALUE;
-        }
-        return FALSE_VALUE;
+    public static RubyValue createBoolean(boolean is_true) {
+        return is_true ? TRUE_VALUE : FALSE_VALUE;
+    }
+
+    public static RubyThread createThread(RubyBlock block) {
+        return new RubyThread(block);
     }
 }

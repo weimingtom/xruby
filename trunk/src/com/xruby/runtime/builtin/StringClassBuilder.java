@@ -123,13 +123,13 @@ class String_hex extends RubyNoArgMethod {
         RubyString value = (RubyString) receiver;
         String s = value.toString();
         if (s.startsWith("0x")) {
-        	s = s.substring("0x".length());
+            s = s.substring("0x".length());
         }
 
         try {
             return ObjectFactory.createFixnum(Integer.valueOf(s, 16));
         } catch (NumberFormatException e) {
-        	return ObjectFactory.FIXNUM0;
+            return ObjectFactory.FIXNUM0;
         }
 
     }
@@ -206,7 +206,7 @@ class String_initialize extends RubyVarArgMethod {
 
 class String_new extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return new RubyString((RubyClass) receiver, "");
+        return ObjectFactory.createString((RubyClass) receiver, "");
     }
 }
 
@@ -438,11 +438,11 @@ class String_operator_match extends RubyOneArgMethod {
 class String_format extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String format = ((RubyString) receiver).toString();
-		String s;
+        String s;
         if (arg instanceof RubyArray) {
             s = String.format(format, Kernel_printf.buildFormatArg((RubyArray)arg, 0));
         } else {
-		    s = String.format(format, Kernel_printf.buildFormatArg(new RubyArray(arg), 0));
+            s = String.format(format, Kernel_printf.buildFormatArg(new RubyArray(arg), 0));
         }
         return ObjectFactory.createString(s);
     }
@@ -806,7 +806,7 @@ public class StringClassBuilder {
         c.defineMethod("casecmp", new String_casecmp());
         c.defineMethod("=~", new String_operator_match());
         c.defineMethod("[]", new String_access());
-        c.defineMethod("%", new String_format());		
+        c.defineMethod("%", new String_format());
         c.defineMethod("[]=", new String_access_set());
         c.defineMethod("*", new String_operator_star());
         RubyMethod each = new String_each();
