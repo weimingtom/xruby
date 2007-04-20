@@ -484,6 +484,18 @@ class Array_replace extends RubyOneArgMethod {
     }
 }
 
+class Array_indexes extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyArray array = (RubyArray)receiver;
+        RubyArray a = new RubyArray(args.size());
+        for(int i=0;i<args.size();i++){
+            RubyFixnum n = (RubyFixnum) args.get(i);
+            a.add(array.get(n.intValue()));
+        }
+        return a;
+    }
+}
+
 
 
 
@@ -536,6 +548,8 @@ public class ArrayClassBuilder {
         c.defineMethod("rindex",new Array_rindex());
         c.defineMethod("replace", new Array_replace());
         c.defineMethod("eql?", new Array_equal());
+        c.defineMethod("indexes", new Array_indexes());
+        c.defineMethod("indices", new Array_indexes());
         
         c.includeModule(RubyRuntime.EnumerableModule);
     }
