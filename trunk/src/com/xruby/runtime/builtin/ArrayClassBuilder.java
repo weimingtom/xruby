@@ -95,6 +95,48 @@ class Array_array_access extends RubyVarArgMethod {
     }
 }
 
+class Array_slice_bang extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyArray value = (RubyArray) receiver;
+
+        if (1 == args.size()) {
+            Object argValue = args.get(0);
+            if (argValue instanceof RubyFixnum) {
+                RubyFixnum index = (RubyFixnum) argValue;
+                return value.delete_at(index.intValue());
+            } else if (args.get(0) instanceof RubyRange) {
+                int begin = ((RubyFixnum) ((RubyRange) args.get(0)).getLeft()).intValue();
+                int end = ((RubyFixnum) ((RubyRange) args.get(0)).getRight()).intValue();
+                if (begin < 0) {
+                    begin = value.size() + begin;
+                }
+                if (end < 0) {
+                    end = value.size() + end;
+                }
+
+                if (!((RubyRange) args.get(0)).isExcludeEnd()) {
+                    ++end;
+                }
+
+                RubyArray resultValue = value.delete_at(begin, end - begin);
+                return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+            }
+        } else if (2 == args.size()) {
+            Object arg0Value = args.get(0);
+            Object arg1Value = args.get(1);
+            if (arg0Value instanceof RubyFixnum && arg1Value instanceof RubyFixnum) {
+                int begin = ((RubyFixnum) arg0Value).intValue();
+                int length = ((RubyFixnum) arg1Value).intValue();
+                RubyArray resultValue = value.delete_at(begin, length);
+                return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+            }
+        }
+
+        //TODO
+        throw new RubyException("not implemented");
+    }
+}
+
 class Array_array_at extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyArray value = (RubyArray) receiver;
@@ -471,6 +513,7 @@ public class ArrayClassBuilder {
         c.defineMethod("reverse!", new Array_reverse_danger());
         c.defineMethod("reverse", new Array_reverse());
         c.defineMethod("slice", new Array_array_access());
+        c.defineMethod("slice!", new Array_slice_bang());
         c.defineMethod("index",new Array_index());
         c.defineMethod("rindex",new Array_rindex());
 
