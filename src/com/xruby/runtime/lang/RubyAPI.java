@@ -18,9 +18,9 @@ public class RubyAPI {
 
     /* For compiler */
     public static RubyClass defineClass(String name, RubyValue superclass) {
-		if (null != superclass && !(superclass instanceof RubyClass)) {
-			throw new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (" + superclass.getRubyClass().getName() + " given)");
-		}
+        if (null != superclass && !(superclass instanceof RubyClass)) {
+            throw new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (" + superclass.getRubyClass().getName() + " given)");
+        }
 
         RubyValue value = RubyRuntime.ObjectClass.getConstant(name);
         if (value != null) {
@@ -42,7 +42,7 @@ public class RubyAPI {
         }
 
         return defineClass(name, null == superclass ? null : (RubyClass)superclass);
-	}
+    }
 
     public static RubyModule defineModule(String name) {
         return ClassFactory.defineModule(name);
@@ -291,12 +291,12 @@ public class RubyAPI {
         return a;
     }
 
-	public static RubyValue expandArrayIfThereIsOnlyOneRubyArray(RubyValue v) {
+    public static RubyValue expandArrayIfThereIsOnlyOneRubyArray(RubyValue v) {
         if (v instanceof RubyArray) {
-        	RubyArray a = (RubyArray)v;
-        	if (a.size() == 1 && a.isSingleRhs()) {
+            RubyArray a = (RubyArray)v;
+            if (a.size() == 1 && a.isSingleRhs()) {
                 return a.get(0);
-        	}
+            }
         }
 
         return v;
@@ -313,8 +313,8 @@ public class RubyAPI {
     public static RubyBlock convertRubyValue2RubyBlock(RubyValue v) {
         if (ObjectFactory.NIL_VALUE == v) {
             return null;
-        } else if (v instanceof MethodValue) {
-            return ((MethodValue) v).convertToRubyProc().getBlock();
+        } else if (v instanceof RubyMethodValue) {
+            return ((RubyMethodValue) v).convertToRubyProc().getBlock();
         } else if (v instanceof RubyProc) {
             return ((RubyProc) v).getBlock();
         } else {
