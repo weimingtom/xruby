@@ -60,7 +60,7 @@ module Kernel
 
         content = ::IO.read(file_name)
         $__loaded_libraries.push(file_name) unless $__loaded_libraries.include?(file_name)
-        eval(content, nil)
+        eval(content, nil, file_name)
         true
     end
 end
