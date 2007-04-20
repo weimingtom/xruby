@@ -107,6 +107,35 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
         return array_.remove(index);
     }
+    
+    public RubyArray delete_at(int begin, int length) {
+        final int arraySize = array_.size();
+        if (begin > arraySize) {
+            return null;
+        }
+
+        if (length < 0) {
+            return null;
+        }
+
+        if (begin < 0) {
+            begin += arraySize;
+        }
+
+        if (begin + length > arraySize) {
+            length = arraySize - begin;
+            if (length < 0) {
+                length = 0;
+            }
+        }
+        
+        while(length > 0){
+            array_.remove(begin);
+            length--;
+        }
+
+        return this;
+    }
 
     public RubyValue delete_if(RubyBlock block) {
         for (int i = 0; i < array_.size();) {
