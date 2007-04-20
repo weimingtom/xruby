@@ -103,8 +103,8 @@ public class ObjectFactory {
         return new RubyIO(filename, mode);
     }
 
-    public static MethodValue createMethod(RubyValue r, String s, RubyMethod m) {
-        return new MethodValue(r, s, m);
+    public static RubyMethodValue createMethod(RubyValue r, String s, RubyMethod m) {
+        return new RubyMethodValue(r, s, m);
     }
 
     public static RubyProc createProc(RubyBlock block) {

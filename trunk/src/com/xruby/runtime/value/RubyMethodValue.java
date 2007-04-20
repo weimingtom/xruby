@@ -7,13 +7,13 @@ package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
 
-public class MethodValue extends RubyBasic {
+public class RubyMethodValue extends RubyBasic {
 
     private RubyValue receiver_;
     private String name_;
     private RubyMethod method_;
 
-    MethodValue(RubyValue receiver, String name, RubyMethod method) {
+    RubyMethodValue(RubyValue receiver, String name, RubyMethod method) {
         super(RubyRuntime.MethodClass);
         receiver_ = receiver;
         name_ = name;
