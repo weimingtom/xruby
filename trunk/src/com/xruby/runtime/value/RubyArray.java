@@ -93,7 +93,15 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     }
 
     public RubyValue delete_at(int index) {
-        if (index < 0 || index >= size()) {
+        if (index >= size()) {
+            return ObjectFactory.NIL_VALUE;
+        }
+        
+        if(index < 0){
+            index += size();
+        }
+        
+        if(index < 0){
             return ObjectFactory.NIL_VALUE;
         }
 
