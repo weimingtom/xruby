@@ -79,8 +79,8 @@ class CompilerTestCase extends TestCase {
             } catch (VerifyError e) {
                 assertTrue("VerifyError at " + i + ": " + e.toString(), false);
             } /*catch (NullPointerException e) {
-				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-			}*/
+                assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
+            }*/
         }
     }
 
@@ -112,8 +112,8 @@ class CompilerTestCase extends TestCase {
             } catch (VerifyError e) {
                 assertTrue("VerifyError at " + i + ": " + e.toString(), false);
             } /*catch (NullPointerException e) {
-				assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-			}*/
+                assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
+            }*/
         }
     }
 
@@ -1281,7 +1281,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         String[] outputs = {
                 "0",
-        	    "123",
+                "123",
                 "ok",
                 "",
                 "1234",
@@ -2174,6 +2174,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Enumerable() {
         String[] program_texts = {
+                "a = [1, 3, 2].sort_by {|x| print x; 1};p a",
                 "a = (1..10).detect  {|i| i % 5 == 0 and i % 7 == 0 }; print a",
                 "a = (1..100).detect {|i| i % 5 == 0 and i % 7 == 0 }; print a",
                 "[1,2,3].each_with_index{|x, y| print x,y}",
@@ -2186,6 +2187,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "132[1, 3, 2]\n",
                 "nil",
                 "35",
                 "102132",
@@ -2254,9 +2256,9 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "{1=>3}\n",
                 "{1=>2, 3=>7, 4=>6}\n",
                 "{1=>2, 3=>4}\n",
-        	    "3",
-        	    "5",
-        	    "2",
+                "3",
+                "5",
+                "2",
 
                 "12",
 
@@ -5031,7 +5033,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-        		"nil",
+                "nil",
                 "false",
                 "true",
                 //"true",
@@ -5325,7 +5327,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-	public void test_new() {
+    public void test_new() {
         String [] program_texts = {
             "class MyString < String; end;print MyString.new.class",
             "class MyHash < Hash; end;print MyHash.new.class",
@@ -5338,7 +5340,7 @@ public class RubyCompilerTest extends CompilerTestCase {
             "MyArray",
         };
 
-		compile_run_and_compare_output(program_texts, outputs);
+        compile_run_and_compare_output(program_texts, outputs);
     }
 
     public void test_Struct_new() {
