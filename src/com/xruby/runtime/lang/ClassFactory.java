@@ -17,18 +17,17 @@ class ClassFactory {
         }
 
         return klass == RubyRuntime.ObjectClass && superclass == null;
-
     }
+
     public static RubyClass defineClass(String name, RubyClass superclass) {
         if (superclass == null) {
           superclass = RubyRuntime.ObjectClass;
-        }else{
-            if(superclass.getName().equals("Class")){
+        } else {
+            if (superclass.getName().equals("Class")){
                 throw new RubyException(RubyRuntime.TypeErrorClass,"can't make subclass of Class");
-            } 
+            }
         }
-        
-        
+
         RubyValue value = RubyRuntime.ObjectClass.getConstant(name);
         if (value != null) {
             if (!(value instanceof RubyClass)) {
@@ -44,6 +43,7 @@ class ClassFactory {
             // FIXME: remove this method
             klass.setAccessPublic();
 
+            ObjectSpace.add(klass);
             return klass;
         }
 
@@ -56,6 +56,8 @@ class ClassFactory {
         RubyRuntime.ObjectClass.setConstant(name, klass);
 
         inheritedBy(klass,superclass);
+
+        ObjectSpace.add(klass);
         return klass;
     }
 
@@ -75,21 +77,22 @@ class ClassFactory {
         RubyModule module = createRubyModule(name);
         RubyRuntime.ObjectClass.setConstant(name, module);
 
+        ObjectSpace.add(module);
         return module;
     }
 
     /**
-	 * Define a boot class.
-	 *
-	 * name, the name of the boot class to be defined.
-	 * superclass, the super class of the boot class to be defined.
-	 */
-	static RubyClass defineBootClass(String name, RubyClass superclass) {
-		RubyClass obj = createRubyClass(name, superclass);
+     * Define a boot class.
+     *
+     * name, the name of the boot class to be defined.
+     * superclass, the super class of the boot class to be defined.
+     */
+    static RubyClass defineBootClass(String name, RubyClass superclass) {
+        RubyClass obj = createRubyClass(name, superclass);
         RubyClass constObj = (RubyRuntime.ObjectClass != null) ? RubyRuntime.ObjectClass : obj;
-		constObj.setConstant(name, obj);
-		return obj;
-	}
+        constObj.setConstant(name, obj);
+        return obj;
+    }
 
     private static RubyClass createRubyClass(String name, RubyClass superclass) {
         RubyClass klass = new RubyClass(name, superclass, null);
@@ -104,12 +107,12 @@ class ClassFactory {
         module.setRubyClass(RubyRuntime.ModuleClass);
         return module;
     }
-    
+
     private static void inheritedBy(RubyClass klass,RubyClass superclass){
         if(!RubyRuntime.isBuiltinClass(klass.getName())){
             RubyID mid = StringMap.intern("inherited");
             RubyAPI.callOneArgMethod(superclass, klass, null, mid);
-        }        
+        }
     }
 
     private ClassFactory() {

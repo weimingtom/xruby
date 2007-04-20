@@ -28,7 +28,7 @@ public class RubyRuntime {
     public static RubyModule ProcessModule;
     public static RubyClass BingingClass;
     public static RubyClass NilClassClass;
-    public static RubyClass TrueClassClass; 
+    public static RubyClass TrueClassClass;
     public static RubyClass FalseClassClass;
     public static RubyClass NumericClass;
     public static RubyClass IntegerClass;
@@ -168,6 +168,7 @@ public class RubyRuntime {
         ExceptionClassBuilder.initialize();
         ThreadClassBuilder.initialize();
         FileTestModuleBuilder.initialize();
+        ObjectSpaceModuleBuilder.initialize();
     }
 
     private static void initARGV(String[] args) {
