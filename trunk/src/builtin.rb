@@ -719,15 +719,14 @@ module Enumerable
     end
 
     alias :select :find_all
-    
+
     def sort_by &block
-        a = self.to_a
-        #TODO this cause warning in c ruby:
-        #"multiple values for a block parameter (2 for 1)"
-        #It is becuase Enumerable#sort_by's block has one parameter and Array#sort has two
-        a.sort &block
+        array_of_tuples = []
+        each {|x| array_of_tuples.push([x, yield(x)])}
+        array_of_tuples = array_of_tuples.sort {|x, y| x[1] <=> y[1]}
+        return array_of_tuples.collect {|x| x[0]}
     end
-      
+
     def detect
       each {|x|
           if yield x
