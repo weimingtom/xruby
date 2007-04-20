@@ -496,7 +496,17 @@ class Array_indexes extends RubyVarArgMethod {
     }
 }
 
-
+class Array_nitems extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        int n = 0;
+        for(int i=0;i<array.size();i++){
+            if(array.get(i) != ObjectFactory.NIL_VALUE)
+                n++;
+        }
+        return ObjectFactory.createFixnum(n);
+    }
+}
 
 
 public class ArrayClassBuilder {
@@ -550,6 +560,7 @@ public class ArrayClassBuilder {
         c.defineMethod("eql?", new Array_equal());
         c.defineMethod("indexes", new Array_indexes());
         c.defineMethod("indices", new Array_indexes());
+        c.defineMethod("nitems",new Array_nitems());
         
         c.includeModule(RubyRuntime.EnumerableModule);
     }
