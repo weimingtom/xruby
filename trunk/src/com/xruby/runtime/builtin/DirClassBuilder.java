@@ -5,12 +5,21 @@
 
 package com.xruby.runtime.builtin;
 
-import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
+import java.io.File;
+
 import org.apache.oro.io.GlobFilenameFilter;
 
-import java.io.File;
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyNoArgMethod;
+import com.xruby.runtime.lang.RubyOneArgMethod;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyDir;
 
 class Dir_chdir extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
@@ -137,10 +146,30 @@ class Dir_glob extends RubyOneArgMethod {
     }
 }
 
+class Dir_chroot extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        throw new RubyException(RubyRuntime.NotImplementedErrorClass,"chroot is not portable and is unimplemented.");
+    }
+}
+
+class Dir_new extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        String path = RubyTypesUtil.convertToString(arg).toString();
+        RubyDir dir = new RubyDir(path);
+        if (!dir.isDirectory()) {
+            throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such directory - " + path);
+        }
+        return dir;
+    }
+}
+
+
 public class DirClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.DirClass;
 
+        c.getSingletonClass().defineMethod("new",new Dir_new());
+        c.getSingletonClass().defineMethod("chroot",new Dir_chroot());
         c.getSingletonClass().defineMethod("chdir", new Dir_chdir());
         RubyMethod getwd = new Dir_getwd();
         c.getSingletonClass().defineMethod("getwd", getwd);
