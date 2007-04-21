@@ -159,7 +159,30 @@ class Dir_new extends RubyOneArgMethod {
         if (!dir.isDirectory()) {
             throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such directory - " + path);
         }
+        dir.setRubyClass((RubyClass)receiver);
         return dir;
+    }
+}
+
+class Dir_close extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        ((RubyDir)receiver).close();
+        return ObjectFactory.NIL_VALUE;
+    }
+}
+
+class Dir_read extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyDir dir = (RubyDir)receiver;
+        if(!dir.isOpen()){
+            throw new RubyException(RubyRuntime.IOErrorClass,"closed directory");
+        }
+        
+        String str = dir.read();
+        if(str == null)
+            return ObjectFactory.NIL_VALUE;
+        else
+            return ObjectFactory.createString(str);
     }
 }
 
@@ -182,5 +205,8 @@ public class DirClassBuilder {
         c.getSingletonClass().defineMethod("entries", new Dir_entries());
         c.getSingletonClass().defineMethod("[]", new Dir_array_access());
         c.getSingletonClass().defineMethod("glob", new Dir_glob());
+        
+        c.defineMethod("close", new Dir_close());
+        c.defineMethod("read", new Dir_read());
     }
 }
