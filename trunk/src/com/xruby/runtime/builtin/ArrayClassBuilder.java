@@ -315,6 +315,14 @@ class Array_each extends RubyNoArgMethod {
     }
 }
 
+class Array_each_index extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        return array.each_index(receiver, block);
+    }
+}
+
+
 class Array_reverse_each extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
@@ -611,6 +619,7 @@ public class ArrayClassBuilder {
         c.defineMethod("nitems",new Array_nitems());
         c.defineMethod("flatten", new Array_flatten());
         c.defineMethod("flatten!", new Array_flatten_danger());
+        c.defineMethod("each_index", new Array_each_index());
         
         c.includeModule(RubyRuntime.EnumerableModule);
     }
