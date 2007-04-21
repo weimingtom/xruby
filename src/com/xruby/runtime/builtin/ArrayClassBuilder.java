@@ -564,6 +564,18 @@ class Array_flatten_danger extends RubyNoArgMethod {
     }
 }
 
+class Array_collect_danger extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyArray a = (RubyArray)RubyAPI.callPublicMethod(receiver, null, block, StringMap.intern("collect"));
+        RubyArray array = (RubyArray) receiver;        
+        array.clear();
+        for(int i=0;i<a.size();i++){
+            array.add(a.get(i));
+        }
+        return array;
+    }
+}
+
 
 public class ArrayClassBuilder {
     public static void initialize() {
@@ -620,6 +632,7 @@ public class ArrayClassBuilder {
         c.defineMethod("flatten", new Array_flatten());
         c.defineMethod("flatten!", new Array_flatten_danger());
         c.defineMethod("each_index", new Array_each_index());
+        c.defineMethod("collect!", new Array_collect_danger());
         
         c.includeModule(RubyRuntime.EnumerableModule);
     }
