@@ -20,6 +20,7 @@ import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyDir;
+import com.xruby.runtime.value.RubyFixnum;
 
 class Dir_chdir extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
@@ -186,12 +187,51 @@ class Dir_read extends RubyNoArgMethod {
     }
 }
 
+class Dir_rewind extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyDir dir = (RubyDir)receiver;
+        dir.setPos(0);
+        return ObjectFactory.NIL_VALUE;
+    }
+}
+
+class Dir_tell extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyDir dir = (RubyDir)receiver;
+        return ObjectFactory.createFixnum(dir.getPos());
+    }
+}
+
+class Dir_seek extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        RubyDir dir = (RubyDir)receiver;
+        RubyFixnum pos = (RubyFixnum)arg;
+        dir.setPos(pos.intValue());
+        return dir;
+    }
+}
+
+class Dir_each extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyDir dir = (RubyDir)receiver;
+        return dir.each(receiver,block);
+    }
+}
+
+class Dir_foreach extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        String path = RubyTypesUtil.convertToString(arg).toString();
+        RubyDir dir = new RubyDir(path);
+        return dir.each(dir, block);
+    }
+}
 
 public class DirClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.DirClass;
 
-        c.getSingletonClass().defineMethod("new",new Dir_new());
+        c.getSingletonClass().defineMethod("new",new Dir_new());     
+        c.getSingletonClass().defineMethod("foreach",new Dir_foreach());
         c.getSingletonClass().defineMethod("chroot",new Dir_chroot());
         c.getSingletonClass().defineMethod("chdir", new Dir_chdir());
         RubyMethod getwd = new Dir_getwd();
@@ -208,5 +248,11 @@ public class DirClassBuilder {
         
         c.defineMethod("close", new Dir_close());
         c.defineMethod("read", new Dir_read());
+        c.defineMethod("rewind", new Dir_rewind());
+        c.defineMethod("tell", new Dir_tell());
+        c.defineMethod("seek", new Dir_seek());
+        c.defineMethod("each", new Dir_each());
+        
+        c.includeModule(RubyRuntime.EnumerableModule);
     }
 }
