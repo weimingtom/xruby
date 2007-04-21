@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.xruby.runtime.lang.RubyBasic;
+import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
 
 public class RubyDir extends RubyBasic{
     private File dir_;
@@ -52,5 +54,23 @@ public class RubyDir extends RubyBasic{
         String tmp = list.get(curPos);
         curPos++;
         return tmp;
+    }
+    
+    public void setPos(int pos){
+        curPos = pos;
+    }
+    
+    public int getPos(){
+        return curPos;
+    }
+    
+    public RubyValue each(RubyValue receiver,RubyBlock block){
+        for (String item : list) {
+            RubyValue v = block.invoke(receiver, new RubyArray(ObjectFactory.createString(item)));
+            if (block.breakedOrReturned()) {
+                return v;
+            }
+        }
+        return this;
     }
 }
