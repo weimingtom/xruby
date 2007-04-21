@@ -95,7 +95,7 @@ class Array_array_access extends RubyVarArgMethod {
     }
 }
 
-class Array_slice_bang extends RubyVarArgMethod {
+class Array_slice_danger extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyArray value = (RubyArray) receiver;
 
@@ -508,6 +508,54 @@ class Array_nitems extends RubyNoArgMethod {
     }
 }
 
+class Array_flatten extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        RubyArray a = new RubyArray();
+        recursiveAdd(a,array);
+        return a;
+    }
+    
+    private void recursiveAdd(RubyArray receiver,RubyArray array){
+        for(int i=0;i<array.size();i++){
+            RubyValue val = array.get(i);
+            if(val instanceof RubyArray){
+                recursiveAdd(receiver,(RubyArray)val);
+            }else{
+                receiver.add(val);
+            }
+        }
+    }
+}
+
+class Array_flatten_danger extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        RubyArray copy = array.copy();
+        array.clear();
+        boolean hasModified = recursiveAdd(array,copy);
+        if(hasModified){
+            return array;
+        }else{
+            return ObjectFactory.NIL_VALUE;
+        }
+    }
+    
+    private boolean recursiveAdd(RubyArray receiver,RubyArray array){
+        boolean flag = false;
+        for(int i=0;i<array.size();i++){
+            RubyValue val = array.get(i);
+            if(val instanceof RubyArray){
+                flag = true;
+                recursiveAdd(receiver,(RubyArray)val);
+            }else{
+                receiver.add(val);
+            }
+        }
+        return flag;
+    }
+}
+
 
 public class ArrayClassBuilder {
     public static void initialize() {
@@ -553,7 +601,7 @@ public class ArrayClassBuilder {
         c.defineMethod("reverse!", new Array_reverse_danger());
         c.defineMethod("reverse", new Array_reverse());
         c.defineMethod("slice", new Array_array_access());
-        c.defineMethod("slice!", new Array_slice_bang());
+        c.defineMethod("slice!", new Array_slice_danger());
         c.defineMethod("index",new Array_index());
         c.defineMethod("rindex",new Array_rindex());
         c.defineMethod("replace", new Array_replace());
@@ -561,6 +609,8 @@ public class ArrayClassBuilder {
         c.defineMethod("indexes", new Array_indexes());
         c.defineMethod("indices", new Array_indexes());
         c.defineMethod("nitems",new Array_nitems());
+        c.defineMethod("flatten", new Array_flatten());
+        c.defineMethod("flatten!", new Array_flatten_danger());
         
         c.includeModule(RubyRuntime.EnumerableModule);
     }
