@@ -576,6 +576,47 @@ class Array_collect_danger extends RubyNoArgMethod {
     }
 }
 
+class Array_assoc extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        RubyValue val = null;
+        for(int i=0;i<array.size();i++){
+            val = array.get(i);
+            if(val instanceof RubyArray){
+                if(((RubyArray)val).size() > 0){
+                    RubyValue tmp = ((RubyArray)val).get(0);
+                    if(arg.equals(tmp)){
+                        return val;
+                    }
+                }                
+            }
+        }
+
+       return ObjectFactory.NIL_VALUE;
+    }
+}
+
+
+class Array_rassoc extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        RubyArray array = (RubyArray) receiver;
+        RubyValue val = null;
+        for(int i=0;i<array.size();i++){
+            val = array.get(i);
+            if(val instanceof RubyArray){
+                if(((RubyArray)val).size() > 1){
+                    RubyValue tmp = ((RubyArray)val).get(1);
+                    if(arg.equals(tmp)){
+                        return val;
+                    }
+                }                
+            }
+        }
+
+       return ObjectFactory.NIL_VALUE;
+    }
+}
+
 
 public class ArrayClassBuilder {
     public static void initialize() {
@@ -633,6 +674,8 @@ public class ArrayClassBuilder {
         c.defineMethod("flatten!", new Array_flatten_danger());
         c.defineMethod("each_index", new Array_each_index());
         c.defineMethod("collect!", new Array_collect_danger());
+        c.defineMethod("assoc", new Array_assoc());
+        c.defineMethod("rassoc", new Array_rassoc());
         
         c.includeModule(RubyRuntime.EnumerableModule);
     }
