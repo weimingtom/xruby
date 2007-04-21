@@ -7,4 +7,5 @@ A note for people who working on ANRLTv3 Ruby parser.
 
 = Details =
 
+Some old notes on the blog:
 http://del.icio.us/yawl/blog/ANTLR
