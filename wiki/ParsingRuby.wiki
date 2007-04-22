@@ -2,10 +2,22 @@
 
 = Introduction =
 
-A note for people who working on ANRLTv3 Ruby parser.
+A note for people who are working on ANRLTv3 Ruby parser.
 
 
 = Details =
 
 Some old notes on the blog:
 http://del.icio.us/yawl/blog/ANTLR
+
+Ruby, like most real world programming languages, its grammar can not be fully expressed by BNF.
+
+Some challenges include:
+
+*ID/function ambiguity*
+
+*expression substitution inside string*
+
+*heredoc*
+
+
