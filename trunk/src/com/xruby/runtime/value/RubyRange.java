@@ -18,18 +18,19 @@ public class RubyRange extends RubyBasic {
     }
 
     public void setValue(RubyValue left, RubyValue right, boolean isExclusive) {
-        try {
-            RubyValue result = RubyAPI.callOneArgMethod(left, right, null, CommonRubyID.unequalID);
-            if (result == ObjectFactory.NIL_VALUE) {
-                throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
+        if(!(left instanceof RubyFixnum && right instanceof RubyFixnum)){
+            try {
+                RubyValue result = RubyAPI.callOneArgMethod(left, right, null, CommonRubyID.unequalID);
+                if (result == ObjectFactory.NIL_VALUE) {
+                    throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
+                }
+            } catch (RubyException exception) {
+                if (exception.getRubyValue().getRubyClass() == RubyRuntime.ArgumentErrorClass) {
+                    throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
+                }
+                throw exception;
             }
-        } catch (RubyException exception) {
-            if (exception.getRubyValue().getRubyClass() == RubyRuntime.ArgumentErrorClass) {
-                throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
-            }
-            throw exception;
-        }
-
+        }  
         begin_ = left;
         end_ = right;
         exclude_end_ = isExclusive;
