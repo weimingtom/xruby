@@ -54,6 +54,12 @@ class Object_object_id extends RubyNoArgMethod {
     }
 }
 
+class Object_hash extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        return ObjectFactory.createFixnum(receiver.hashCode());
+    }
+}
+
 class Object_freeze extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         receiver.freeze();
@@ -83,6 +89,7 @@ public class ObjectClassBuilder {
         RubyMethod object_id = new Object_object_id();
         c.defineMethod("object_id", object_id);
         c.defineMethod("__id__", object_id);
+        c.defineMethod("hash", new Object_hash());
         c.defineAllocMethod(new Object_alloc());
     }
 }
