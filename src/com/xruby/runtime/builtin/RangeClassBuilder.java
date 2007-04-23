@@ -1,13 +1,23 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng, Yu Zhang
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.runtime.builtin;
 
-import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.CommonRubyID;
+import com.xruby.runtime.lang.RubyAPI;
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyID;
+import com.xruby.runtime.lang.RubyNoArgMethod;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyVarArgMethod;
+import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyFixnum;
 import com.xruby.runtime.value.RubyRange;
 
 class Range_begin extends RubyNoArgMethod {
@@ -112,6 +122,21 @@ class Range_each extends RubyNoArgMethod {
     }
 }
 
+class Range_hash extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyRange rr = (RubyRange)receiver;
+        int baseHash = rr.isExcludeEnd()?1:0;
+        int beginHash = ((RubyFixnum)RubyAPI.callPublicMethod(rr.getLeft(),null,null, StringMap.intern("hash"))).intValue();
+        int endHash = ((RubyFixnum)RubyAPI.callPublicMethod(rr.getRight(),null,null, StringMap.intern("hash"))).intValue();
+        
+        int hash = baseHash;
+        hash = hash ^ (beginHash << 1);
+        hash = hash ^ (endHash << 9);
+        hash = hash ^ (baseHash << 24);
+        return ObjectFactory.createFixnum(hash);
+    }
+}
+
 public class RangeClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.RangeClass;
@@ -120,6 +145,7 @@ public class RangeClassBuilder {
         c.defineMethod("exclude_end?", new Range_exclude_end());
         c.defineMethod("initialize", new Range_initialize());
         c.defineMethod("each", new Range_each());
+        c.defineMethod("hash", new Range_hash());
         c.defineAllocMethod(new Range_new());
     }
 }
