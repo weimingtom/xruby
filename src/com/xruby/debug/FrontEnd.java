@@ -90,13 +90,17 @@ public abstract class FrontEnd {
             result.setErrMsg(e.getMessage());
 
             return result;
-        }
+        }        
 
         return insn.execute();
     }
 
-    protected Result list() {
-        return null;
+    protected Result list(int range) {
+        if(range > 0) {
+            return new ListInsn(range).execute();
+        } else {
+            return new ListInsn().execute();
+        }
     }
 
     protected Result cont() {

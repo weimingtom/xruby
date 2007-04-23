@@ -10,7 +10,7 @@ package com.xruby.debug;
  * @author Yu Su (beanworms@gmail.com)
  */
 public class RunInsn implements Instruction {
-    private static final String message = "JVM has started already.";
+    private static final String MESSAGE = "JVM has started already.";
     /**
      * Execute Run instruction, general process is listed as below:
      * 1. Start/Launch the process, pass the arguments to debugee
@@ -22,7 +22,7 @@ public class RunInsn implements Instruction {
         Result result = new Result();
         if(DebugContext.isStarted()) {
             result.setStatus(Result.Status.ERROR);
-            result.setErrMsg(message);
+            result.setErrMsg(MESSAGE);
 
             return result;
         }

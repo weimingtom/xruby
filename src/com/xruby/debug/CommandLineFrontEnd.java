@@ -32,11 +32,15 @@ public class CommandLineFrontEnd extends FrontEnd {
     private static final String CMD_PATTERN_STR =
             "run(\\s*)|stop(\\s*)|list(\\s*)|cont(\\s*)|next(\\s*)";
     private static final String STOP_PATTERN_STR =
-            "(stop){1}\\s*(at|in)*\\s*((([\\w\\$]+)(.rb)*){1}:(\\d+){1})*";
+            "(stop){1}\\s*(at|in)\\s*((([\\w\\$]+)(.rb)*){1}:(\\d+){1})*";
+    private static final String LIST_PATTERN_STR =
+            "(list)\\s*(\\d+)?";
+
     private static final String cmdPrompt = "> ";
 
     private static Pattern commandPattern = Pattern.compile(CMD_PATTERN_STR);
     private static Pattern stopPattern = Pattern.compile(STOP_PATTERN_STR);
+    private static Pattern listPattern = Pattern.compile(LIST_PATTERN_STR);
 
     private boolean running = false;
 
@@ -57,7 +61,7 @@ public class CommandLineFrontEnd extends FrontEnd {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         running = true;
         while (running) {
-            try {
+            try {                    
                 out.print(cmdPrompt);
 
                 String cmd = in.readLine().trim();
@@ -97,7 +101,11 @@ public class CommandLineFrontEnd extends FrontEnd {
             
             result = stop(classId, lineNumber);
         } else if (command.equalsIgnoreCase(LIST)) {
-            result = list();
+            int range = -1;
+            if(args != null && args[0] != null) {
+                range = Integer.parseInt(args[0]);
+            }
+            result = list(range);
         } else if (command.equalsIgnoreCase(CONT)) {
             result = cont();
         } else if (command.equalsIgnoreCase(SETP_OVER)) {
@@ -109,15 +117,22 @@ public class CommandLineFrontEnd extends FrontEnd {
 
     public void onVmShutdown() {}
 
-    private String[] retrieveArgs(String cmdName, String cmd) {
+    private String[] retrieveArgs(String insnName, String cmd) {
         String[] args = null;
-        if (cmdName.equalsIgnoreCase(STOP)) {            
+        if (insnName.equalsIgnoreCase(STOP)) {
             Matcher m = stopPattern.matcher(cmd);
 
             if(m.find()) {
                 args = new String[2];
                 args[0] = m.group(4);
                 args[1] = m.group(7);
+            }
+        } else if (insnName.equalsIgnoreCase(LIST)) {
+            Matcher m = listPattern.matcher(cmd);
+
+            if(m.find()) {
+                args = new String[1];
+                args[0] = m.group(2);
             }
         }
 
