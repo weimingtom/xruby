@@ -621,6 +621,8 @@ class Range
         return self.begin.to_s + ".." + self.end.to_s
     end
 
+    alias inspect :to_s
+
     alias first :begin
     alias last :end
 
@@ -650,6 +652,18 @@ class Range
             end
         end
         return result
+    end
+
+    def step(n=1)
+	if n == 1 then
+		each{|i|yield(i)}
+	else
+		counter = 0
+		each do |i|
+			yield(i) if counter%n == 0
+			counter = counter + 1
+		end
+	end
     end
 end
 
