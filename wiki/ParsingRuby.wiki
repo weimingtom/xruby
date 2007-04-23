@@ -11,11 +11,11 @@ Ruby, like most real world programming languages, its grammar can not be fully e
 
 Some challenges include:
 
-  *ID/function ambiguity
+  * ID/function ambiguity
 
-  *expression substitution inside string
+  * expression substitution inside string
 
-  *heredoc
+  * heredoc
 
 = ANTLR v3 vs v2=
 
@@ -39,12 +39,12 @@ Some old notes on the blog:
 http://del.icio.us/yawl/blog/ANTLR
 
 = Questions =
-  *Does JRuby still uses Jay(Yacc port to Java) as their parsers now?
+  * Does JRuby still uses Jay(Yacc port to Java) as their parsers now?
 
 Yes, The grammar have not changed much since Stephen Matthias Aust ported the Ruby grammar from C ruby to Jay.
 
 = Findings =
-  *When def a ID both as local variable and method,
+  * When def a ID both as local variable and method,
 ruby takes advantage of variable:
 {{{
 test =1
