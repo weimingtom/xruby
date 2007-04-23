@@ -27,6 +27,12 @@ ANTLR v3 is more powerful as it produces full LL(*) lexer/parser, not only linea
 
 Read the source code that ANTLR generates and use a debugger to step through it. The best part of ANTLR is it produces human readable code -- take advantage of it!
 
+= Coupling between Lexer and Parser=
+
+Of course it is very desirable to have independent lexer and parser, which is great for testing purpose. But for ruby, this is not always possible: see examples in http://seclib.blogspot.com/2006/04/rubyfront-020-released.html
+
+I tried my best to make lexer and parser independent by introducing lexer state in lexer.
+
 = References =
 
 Some old notes on the blog:
@@ -34,7 +40,8 @@ http://del.icio.us/yawl/blog/ANTLR
 
 = Questions =
 Does JRuby still uses Jay(Yacc port to Java) as their parsers now?
-*Yes*
+
+Yes, The grammar have not changed much since Stephen Matthias Aust ported the Ruby grammar from C ruby to Jay.
 
 = Finds =
 when def a ID both as local variable and method,
