@@ -17,7 +17,7 @@ import java.util.List;
  * @author Yu Su (beanworms@gmail.com)
  */
 public class NextInsn implements Instruction {
-    private static final String[] excludes = {"java.*", "javax.*", "sun.*", "com.sun.*"};
+    private static final String[] excludes = {"java.*", "javax.*", "sun.*", "com.sun.*", "com.xruby.*"};
     
     public Result execute() {
         ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
