@@ -57,13 +57,6 @@ class Range_new extends RubyNoArgMethod {
     }
 }
 
-class Range_to_a extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyRange r = (RubyRange) receiver;
-        return r.to_a();
-    }
-}
-
 /*
 		return self if exclude_end? && (self.begin <=> self.end) != -1
 		return self if !exclude_end? && (self.begin <=> self.end) == 1
@@ -122,14 +115,11 @@ class Range_each extends RubyNoArgMethod {
 public class RangeClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.RangeClass;
-        //c.defineMethod("===", new Range_case_equal());
-        //c.defineMethod("to_s", new Range_to_s());
         c.defineMethod("begin", new Range_begin());
         c.defineMethod("end", new Range_end());
         c.defineMethod("exclude_end?", new Range_exclude_end());
         c.defineMethod("initialize", new Range_initialize());
         c.defineMethod("each", new Range_each());
-        c.defineMethod("to_a", new Range_to_a());
         c.defineAllocMethod(new Range_new());
     }
 }
