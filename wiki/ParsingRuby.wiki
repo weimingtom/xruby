@@ -21,7 +21,7 @@ Some challenges include:
 
 ANTLR v2 produces a limited LL(k) lexer/parser (with 'linear approximate lookahead'). Linear approximate lookahead is a reasonable optimization technique, but it gives warnings for legitimate LL(k) grammar. To avoid this annoying behavior, xruby's ANTLR v2 parser uses k=1, and adds prediction manually if we need k > 1.
 
-ANTLR v3 is more powerful as it produces full LL(*) lexer/parser, not only linear approximate lookahead is gone, LL(*) is better than LL(k) as well. So we should be able to clean up some hack used in our v2 lexer/parser.
+ANTLR v3 is more powerful as it produces full LL({{{*}}}) lexer/parser, not only linear approximate lookahead is gone, LL({{{*}}}) is better than LL(k) as well. So we should be able to clean up some hack used in our v2 lexer/parser.
 
 = Advise =
 
