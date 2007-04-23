@@ -60,6 +60,35 @@ public class SourceCodeMgr {
         return null;
     }
 
+    public static String getSourceSnippet(String sourceFile, int lineNumber, int range) {
+        StringBuffer snippet = new StringBuffer();
+        if(cache.containsKey(sourceFile)) {
+            SourceCode code = cache.get(sourceFile);
+            int start = lineNumber - range;
+            int end = lineNumber + range - 1;
+
+            if(start <= 0) {
+                start = 1;
+            }
+
+            if(end > code.size()) {
+                end = code.size();
+            }
+
+            // TODO: align the code
+            for(int i = start; i <= end; i ++) {
+                String tmp = code.sourceLine(i);
+                if(i != lineNumber) {
+                    snippet.append(String.format("%d   %s\n", i, tmp));
+                } else {
+                    snippet.append(String.format("%d=> %s\n", i, tmp));
+                }
+            }
+        }
+
+        return snippet.toString();
+    }
+
     public static String getRealClass(String classId, int lineNumber) throws XRubyDebugException {
         //test_debug2.main -> test_debug2.BLOCK$0
         StringTokenizer st = new StringTokenizer(classId, ".");
@@ -167,5 +196,9 @@ class SourceCode {
 
     public String sourceLine(int lineNumber) {
         return lines.get(lineNumber - 1);
+    }
+
+    public int size() {
+        return lines.size();
     }
 }
