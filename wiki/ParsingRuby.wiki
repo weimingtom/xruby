@@ -41,7 +41,7 @@ http://del.icio.us/yawl/blog/ANTLR
 = Questions =
   * Does JRuby still uses Jay(Yacc port to Java) as their parsers now?
 
-Yes, The grammar have not changed much since Stephen Matthias Aust ported the Ruby grammar from C ruby to Jay.
+Yes, Their grammar has not changed much since Stephen Matthias Aust ported the Ruby grammar from C ruby to Jay.
 
 = Findings =
   * When def a ID both as local variable and method,
