@@ -33,4 +33,21 @@ Some old notes on the blog:
 http://del.icio.us/yawl/blog/ANTLR
 
 -------------------------------
+= Questions =
 do JRuby still uses Jay(Yacc port to Java) as their parsers now?
+---------------------
+= Finds =
+when def a ID both as local variable and method,
+ruby takes advantage of variable:
+
+test =1
+x=1
+def x
+
+end
+
+puts x
+--outputs 1
+so that explains the behavior when ruby meets <<
+when left of << is var, it treats << as shift operator,
+else , it's a heredoc.
