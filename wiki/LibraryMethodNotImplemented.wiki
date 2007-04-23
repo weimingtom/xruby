@@ -1,0 +1,5 @@
+If you find a method not implemented,feel free to report that.Of course,we welcome that you implement them and share with us.
+
+*Range
+
+
