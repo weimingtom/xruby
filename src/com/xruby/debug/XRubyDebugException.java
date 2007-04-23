@@ -19,4 +19,8 @@ public class XRubyDebugException extends Exception {
     public XRubyDebugException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public XRubyDebugException(Exception e) {
+        super(e);
+    }
 }

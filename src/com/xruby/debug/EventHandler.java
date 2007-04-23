@@ -57,13 +57,6 @@ public class EventHandler implements Runnable {
                 } else if (eventSet.suspendPolicy() == EventRequest.SUSPEND_ALL) {
                     setCurrentThread(eventSet);
                     notifier.vmInterrupted();
-
-                    // TODO: Remove this after we finished the Commandline front end
-                    try {
-                        DebugMain.frontEnd.distributeCommand("cont", null);
-                    } catch (XRubyDebugException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
                 }
             } catch (InterruptedException exc) {
                 // Do nothing. Any changes will be seen at top of loop.
@@ -104,8 +97,12 @@ public class EventHandler implements Runnable {
         } else if (event instanceof VMStartEvent) {
             return vmStartEvent(event);
         } else {
-            return true; //handleExitEvent(event);
+            return handleExitEvent(event);
         }
+    }
+
+    private boolean handleExitEvent(Event event) {
+        return false;
     }
 
     private boolean threadDeathEvent(Event event) {
