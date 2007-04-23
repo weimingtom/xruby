@@ -19,9 +19,9 @@ public class ObjectSpace {
     public static int each_object(RubyValue receiver, RubyModule m, RubyBlock block) {
         int i = 0;
         for (RubyValue v : map_.keySet()) {
-            ++i;
             if (null == m || RubyAPI.isKindOf(m, v)) {
                 block.invoke(receiver, new RubyArray(v));
+                ++i;
             }
         }
         return i;
