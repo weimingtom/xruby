@@ -39,12 +39,12 @@ Some old notes on the blog:
 http://del.icio.us/yawl/blog/ANTLR
 
 = Questions =
-Does JRuby still uses Jay(Yacc port to Java) as their parsers now?
+  *Does JRuby still uses Jay(Yacc port to Java) as their parsers now?
 
 Yes, The grammar have not changed much since Stephen Matthias Aust ported the Ruby grammar from C ruby to Jay.
 
-= Finds =
-when def a ID both as local variable and method,
+= Findings =
+  *When def a ID both as local variable and method,
 ruby takes advantage of variable:
 {{{
 test =1
@@ -56,6 +56,7 @@ end
 puts x
 }}}
 --outputs 1
-so that explains the behavior when ruby meets <<
+
+It explains the behavior when ruby meets <<
 when left of << is var, it treats << as shift operator,
 otherwise, it's a heredoc.
