@@ -77,6 +77,11 @@ public class JVMConnection {
         // TODO: Handle suspending commands, e.g. stop ...
     }
 
+    void shutdown() {
+        jvm.dispose();
+        jvm = null;
+    }
+
     private Map<String, Connector.Argument> initConnectArgs(Connector connector, Map<String, String> arguments) {
         Map<String, Connector.Argument> defaultArgs = connector.defaultArguments();
         Set<String> keys = arguments.keySet();
