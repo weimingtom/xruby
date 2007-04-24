@@ -1,13 +1,31 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng, Yu Zhang
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.runtime.builtin;
 
-import com.xruby.runtime.lang.*;
+import java.util.Iterator;
+import java.util.Map;
+
+import com.xruby.runtime.lang.CommonRubyID;
+import com.xruby.runtime.lang.RubyAPI;
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyID;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyNoArgMethod;
+import com.xruby.runtime.lang.RubyObject;
+import com.xruby.runtime.lang.RubyOneArgMethod;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyVarArgMethod;
+import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.value.RubyString;
 
 class Object_operator_equal extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
@@ -56,7 +74,7 @@ class Object_object_id extends RubyNoArgMethod {
 
 class Object_hash extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return ObjectFactory.createFixnum(receiver.hashCode());
+        return ObjectFactory.createFixnum(((RubyObject)receiver).hash());
     }
 }
 
@@ -72,6 +90,36 @@ class Object_frozen_question extends RubyNoArgMethod {
         return receiver.frozen() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
     }
 }
+
+class Object_inspect extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("#<");
+        sb.append(receiver.getRubyClass().getRealClass().getName());
+        sb.append(":0x");
+        int hash = ((RubyObject)receiver).hash();
+        sb.append(Integer.toHexString(hash));
+        
+        String sep = "";
+        Map vars = receiver.getInstanceVariables();
+        
+        if(vars != null){
+            for (Iterator iter = vars.keySet().iterator(); iter.hasNext();) {
+                RubyID id = (RubyID)iter.next();            
+                sb.append(sep);
+                sb.append(" ");
+                sb.append(StringMap.id2name(id));
+                sb.append("=");            
+                sb.append(((RubyString)RubyAPI.callPublicMethod((RubyValue)vars.get(id), null, null, StringMap.intern("inspect")))).toString();
+                sep = ",";            
+            } 
+        }        
+        sb.append(">");
+        
+        return ObjectFactory.createString(sb.toString());
+    }
+}
+
 
 public class ObjectClassBuilder {
 
@@ -90,6 +138,7 @@ public class ObjectClassBuilder {
         c.defineMethod("object_id", object_id);
         c.defineMethod("__id__", object_id);
         c.defineMethod("hash", new Object_hash());
+        c.defineMethod("inspect", new Object_inspect());	
         c.defineAllocMethod(new Object_alloc());
     }
 }
