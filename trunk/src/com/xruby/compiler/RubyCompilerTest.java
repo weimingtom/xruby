@@ -5106,6 +5106,10 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "a = TestPublicInstanceMethods.public_instance_methods(false)\n" +
                 "p a",
 
+                "class TestPublicInstanceMethods2; def test_public_instance_methods2; end; end\n" +
+                "a = TestPublicInstanceMethods2.public_instance_methods(true)\n" +
+                "print a.include?('test_public_instance_methods2')",
+
                 "module TestModuleFunction\n" +
                 "  def test_module_function; print 123; end\n" +
                 "  module_function :test_module_function\n" +
@@ -5115,6 +5119,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         String[] outputs = {
                 "[\"test_public_instance_methods\"]\n",
+                "true",
                 "123",
         };
 
