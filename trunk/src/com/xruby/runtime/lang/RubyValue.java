@@ -98,6 +98,10 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
         instance_varibles_.put(id, value);
         return value;
     }
+    
+    public Map getInstanceVariables(){
+        return instance_varibles_;
+    }
 
     public RubyClass getSingletonClass() {
         RubyClass klass = this.getRubyClass();
