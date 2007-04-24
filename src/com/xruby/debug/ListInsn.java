@@ -22,11 +22,11 @@ public class ListInsn implements Instruction {
     private int range;
 
     public ListInsn(int range) {
-        this.range = range;
-    }
-
-    public ListInsn() {
-        this(5);
+        if(range > 0) {
+            this.range = range;
+        } else {
+            this.range = 5;
+        }
     }
 
     public Result execute() {

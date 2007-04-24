@@ -44,36 +44,7 @@ public abstract class FrontEnd {
 
         // Maybe monostate is better for DebugContext
         DebugContext.initContext(traceMode, arguments);
-    }
-
-    /**
-     * Validate input, create instructions, and execute them
-     *
-     * @param command command's name
-     * @param args    its arguments
-     * @throws XRubyDebugException command is illegal
-     */
-    public void distributeCommand(final String command, String[] args) throws XRubyDebugException {
-        if (command.equalsIgnoreCase(RUN)) {
-            // TODO: Run the program
-            new RunInsn().execute();
-        } else if (command.equalsIgnoreCase(STOP)) {
-            // TODO:Validate script's name
-            String classId = args[0];
-            int lineNumber = Integer.parseInt(args[1]);
-            StopInsn insn = new StopInsn(classId, lineNumber);
-            insn.execute();
-            // TODO: Check the arguments, guarantee that all arguments are right and in correct poisition
-            // Right form: stop at XXX:linenumber or stop in XXXX:methodname
-        } else if (command.equalsIgnoreCase(LIST)) {
-            // TODO: List the source code, if no arguments just list 10 lines
-        } else if (command.equalsIgnoreCase(CONT)) {
-            new ContinueInsn().execute();   
-        } else if (command.equalsIgnoreCase(SETP_OVER)) {
-            new NextInsn().execute();
-        } else {
-            throw new XRubyDebugException(String.format("This command %s is not supported now", command));
-        }
+        DebugContext.registerFrontEnd(this);
     }
 
     protected Result run() {
@@ -96,11 +67,7 @@ public abstract class FrontEnd {
     }
 
     protected Result list(int range) {
-        if(range > 0) {
-            return new ListInsn(range).execute();
-        } else {
-            return new ListInsn().execute();
-        }
+        return new ListInsn(range).execute();
     }
 
     protected Result cont() {
@@ -109,6 +76,20 @@ public abstract class FrontEnd {
 
     protected Result stepOver() {
         return new NextInsn().execute();
+    }
+
+    protected Result clear(int index) {
+        return new ClearInsn(index).execute();
+    }
+
+    /**
+     * Clear the breakpoint in give position
+     * 
+     * @param position in this form: file.rb:12
+     * @return Result
+     */
+    protected Result clear(String position) {
+        return new ClearInsn(position).execute();
     }
 
 

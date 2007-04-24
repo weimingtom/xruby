@@ -13,6 +13,7 @@ import java.util.Map;
  * This is a debugger simulater
  *
  * @author Yu Su (beanworms@gmail.com)
+ * @deprecated 
  */
 public class DebugMain {
     public static FrontEnd frontEnd;
@@ -61,11 +62,11 @@ public class DebugMain {
 //        frontEnd.distributeCommand("cont", null);
 
         // For test_debug2.BLOCK$0
-        frontEnd.distributeCommand("stop", new String[]{"test_debug2.main", "5"});
-        frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "14"});
-        frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "27"});
-        frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "17"});
-        Thread.sleep(1000);
-        frontEnd.distributeCommand("run", null);      
+//        frontEnd.distributeCommand("stop", new String[]{"test_debug2.main", "5"});
+//        frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "14"});
+//        frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "27"});
+//        frontEnd.distributeCommand("stop", new String[]{NameFactory.createMainClass("test_debug2.rb"), "17"});
+//        Thread.sleep(1000);
+//        frontEnd.distributeCommand("run", null);
     }
 }
