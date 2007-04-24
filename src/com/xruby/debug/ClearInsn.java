@@ -50,7 +50,7 @@ public class ClearInsn implements Instruction {
                 tmp.append(i + 1).append(" ").append(list.get(i)).append("\n");
             }
 
-            System.out.println(tmp.toString());
+            DebugContext.emitMessage(tmp.toString());
         }
 
         return result;

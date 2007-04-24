@@ -8,7 +8,6 @@ import com.sun.jdi.ThreadReference;
 import com.sun.jdi.request.EventRequestManager;
 import com.sun.jdi.request.StepRequest;
 
-import static java.lang.System.out;
 import java.util.List;
 
 /**
@@ -22,7 +21,6 @@ public class NextInsn implements Instruction {
     public Result execute() {
         ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
         if (threadInfo == null) {
-            out.println("Nothing suspended.");
             return null;
         }
         clearPreviousStep(threadInfo.getThread());

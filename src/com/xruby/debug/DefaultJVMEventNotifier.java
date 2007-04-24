@@ -18,6 +18,7 @@ import static java.lang.System.out;
 
 /**
  * Implementation for JVMEventNotifier
+ * It's only for command line, so we don't use MessageCenter
  *
  * @author Yu Su (beanworms@gmail.com)
  */
@@ -37,7 +38,7 @@ public class DefaultJVMEventNotifier implements JVMEventNotifier {
     }
 
     public void classPrepareEvent(ClassPrepareEvent e) {
-        System.out.println("ClassPrepared event");
+//        System.out.println("ClassPrepared event");
     }
 
     public void breakpointEvent(BreakpointEvent e) {

@@ -16,7 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * DebugContext for debug.
+ * DebugContext for debug. It manages
+ * 1. JVM connection
+ * 2. Debug Runtime settings, source path, class path
+ * 3. JVM shutdown hook, FrontEnd management
+ * 4. Instruction management
+ * 5. Message proxy
  *
  * @author Yu Su(beanworms@gmail.com)
  */
@@ -31,10 +36,11 @@ class DebugContext {
     private static SmapMgr smapMgr;
     private static FrontEnd frontEnd;
 
+    private static MessageCenter messageCtr;
+
     // Initiate
     static {
         sourcePath = new ArrayList<File>();
-        notifier = new DefaultJVMEventNotifier();
         deferredInsns = new ArrayList<Instruction>();
     }
 
@@ -152,5 +158,39 @@ class DebugContext {
 
     public static void pushCommand(Instruction insn) {
         deferredInsns.add(insn);
+    }
+
+    // ---------------------
+    //   5. Message proxy
+    // ---------------------
+
+    /**
+     * This must be set up before start debugger
+     * @param messageCtr implementation of MessageCenter interface
+     */
+    public static void setMessageCenter(MessageCenter messageCtr) {
+        DebugContext.messageCtr = messageCtr;
+    }
+
+    public static void emitMessage(String msg) {
+        DebugContext.messageCtr.emitMessage(msg);
+    }
+
+    public static void emitMessage(String format, Object ... args) {
+        DebugContext.messageCtr.emitMessage(format, args);
+    }
+
+    /**
+     * validate the debug context, to guarantee it has been set up correctly
+     * otherwise throw RuntimeException
+     *
+     * TODO: Create XRubyRuntimeException
+     */
+    public static void validateContext() {
+        if(DebugContext.messageCtr == null ||    // Message cener
+           DebugContext.frontEnd == null   ||    // Front end register itself by default
+           DebugContext.notifier == null) {      // JVM event notifer
+            throw new RuntimeException("Fatal error: Debugger failed to start");
+        }
     }
 }
