@@ -32,13 +32,16 @@ public class ClearInsn implements Instruction {
         
         List<String> list = StopInsn.allBreakpoints();
         
-        if(index > 0) {
+        if(index > 0 && index <= list.size()) {
             position = list.get(index - 1);
         }
 
         if(position != null) {
             EventRequest request = StopInsn.getBreakpointReq(position);
-            DebugContext.getEventRequestManager().deleteEventRequest(request);
+            if(request != null) {
+                DebugContext.getEventRequestManager().deleteEventRequest(request);
+            }
+            // TODO: A bug, if breakpoint is not resolved
 
             StopInsn.removeBreakpoint(position);
         } else {
