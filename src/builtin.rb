@@ -1,5 +1,5 @@
 #
-# Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
+# Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng, Yu Zhang
 # Distributed under the GNU General Public License 2.0
 #
 
@@ -12,10 +12,7 @@ $__loaded_libraries = []
 
 $* = ARGV
 
-module Kernel
-    def to_a
-        [self]
-    end
+module Kernel   
 
     alias require__ require
     alias load__    load
@@ -66,6 +63,12 @@ module Kernel
 end
 
 class Object
+    def to_a
+        [self]
+    end
+
+    alias type :class 
+
     def nil?
         false
     end
