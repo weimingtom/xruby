@@ -13,7 +13,7 @@ import static java.lang.System.err;
 import static java.lang.System.out;
 
 /**
- * List the source code
+ * List the source code, only for commandline tools
  *
  * @author Yu Su (beanworms@gmail.com)
  */

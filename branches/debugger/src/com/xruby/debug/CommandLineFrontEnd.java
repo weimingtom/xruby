@@ -46,8 +46,6 @@ public class CommandLineFrontEnd extends FrontEnd {
     private static Pattern listPattern = Pattern.compile(LIST_PATTERN_STR);
     private static Pattern clearPattern = Pattern.compile(CLEAR_PATTERN_STR);
 
-    private boolean running = false;
-
     public CommandLineFrontEnd(Map<String, String> arguments) throws XRubyDebugException {
         super(arguments);
     }
@@ -75,7 +73,7 @@ public class CommandLineFrontEnd extends FrontEnd {
 
                     execute(cmdName, arguments);
                 } else {
-                    out.println("Invalid instruction");
+                    DebugContext.emitMessage("Invalid instruction");
                 }
 
                 // TODO: We should handle VMdisconnect&VMDeath events in EventHandler
@@ -183,9 +181,13 @@ public class CommandLineFrontEnd extends FrontEnd {
         // initiate debug context
         DebugContext.addSourcePath(options.getPathList());
         DebugContext.setClassPath(options.getClassPathList());
+        DebugContext.setNotifier(new DefaultJVMEventNotifier());
+        DebugContext.setMessageCenter(new DefaultMessageCenter());
 
         // Create front end
         FrontEnd frontEnd = new CommandLineFrontEnd(arguments);
+
+        DebugContext.validateContext();
         frontEnd.start();
     }
 }

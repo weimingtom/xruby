@@ -6,13 +6,28 @@ package com.xruby.debug;
 
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.VMDisconnectedException;
-import com.sun.jdi.event.*;
+import com.sun.jdi.event.BreakpointEvent;
+import com.sun.jdi.event.ClassPrepareEvent;
+import com.sun.jdi.event.ClassUnloadEvent;
+import com.sun.jdi.event.Event;
+import com.sun.jdi.event.EventIterator;
+import com.sun.jdi.event.EventQueue;
+import com.sun.jdi.event.EventSet;
+import com.sun.jdi.event.ExceptionEvent;
+import com.sun.jdi.event.LocatableEvent;
+import com.sun.jdi.event.MethodEntryEvent;
+import com.sun.jdi.event.MethodExitEvent;
+import com.sun.jdi.event.StepEvent;
+import com.sun.jdi.event.ThreadDeathEvent;
+import com.sun.jdi.event.ThreadStartEvent;
+import com.sun.jdi.event.VMDeathEvent;
+import com.sun.jdi.event.VMDisconnectEvent;
+import com.sun.jdi.event.VMStartEvent;
+import com.sun.jdi.event.WatchpointEvent;
 import com.sun.jdi.request.EventRequest;
 
-import static java.lang.System.out;
-
 /**
- * 
+ * JVM Event Handler
  */
 public class EventHandler implements Runnable {
     private boolean connected = true;
@@ -90,9 +105,9 @@ public class EventHandler implements Runnable {
 
     private boolean handleExitEvent(Event event) {
         if (event instanceof VMDeathEvent) {
-            out.println("Application existed");
+            DebugContext.emitMessage("Application existed");
         } else if (event instanceof VMDisconnectEvent) {
-            out.println("VM disconneted");
+            DebugContext.emitMessage("VM disconneted");
             DebugContext.shutdown();
         }
         
