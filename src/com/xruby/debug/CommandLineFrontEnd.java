@@ -96,24 +96,24 @@ public class CommandLineFrontEnd extends FrontEnd {
      */
     private Result execute(final String command, String[] args) {
         Result result = null;
-        if (command.equalsIgnoreCase(RUN)) {
+        if (command.equalsIgnoreCase(RUN)) {             // run
             result = run();
-        } else if (command.equalsIgnoreCase(STOP)) {
+        } else if (command.equalsIgnoreCase(STOP)) {     // stop at filename:postion
             String classId = args[0];
             int lineNumber = Integer.parseInt(args[1]);
             
             result = stop(classId, lineNumber);
-        } else if (command.equalsIgnoreCase(LIST)) {
+        } else if (command.equalsIgnoreCase(LIST)) {     // list [range]
             int range = -1;
             if(args != null && args[0] != null) {
                 range = Integer.parseInt(args[0]);
             }
             result = list(range);
-        } else if (command.equalsIgnoreCase(CONT)) {
+        } else if (command.equalsIgnoreCase(CONT)) {     // cont
             result = cont();
-        } else if (command.equalsIgnoreCase(SETP_OVER)) {
+        } else if (command.equalsIgnoreCase(SETP_OVER)) {// next
             result = stepOver();
-        } else if (command.equalsIgnoreCase(CLEAR)) {
+        } else if (command.equalsIgnoreCase(CLEAR)) {    // clear [index]
             int index = -1;
             if(args != null && args[0] != null) {
                 index = Integer.parseInt(args[0]);
