@@ -194,8 +194,10 @@ public class RubyLexer extends RubyLexerBase {
 		case BOR:
 			if (allow_block_parameter_) {
 				allow_block_parameter_ = false;
-			} else if ((last_token_.getType() == LCURLY_BLOCK)
-					|| (last_token_.getType() == LITERAL_do)) {
+			} else if ((last_token_.getType() == LCURLY_BLOCK) ||
+					(last_token_.getType() == LITERAL_do) ||
+					(last_token_.getType() == LINE_BREAK)//better check the token before line break is 'do'
+					) {
 				allow_block_parameter_ = true;
 			}
 			break;

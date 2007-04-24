@@ -1918,6 +1918,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_block() {
         String[] program_texts = {
+                "[1].each do \n" +
+                "  |test| print test; end",
+
                 "a= true\n" +
                 "1.times {|var| 1.times {|var|}} if a\n" +
                 "1.times {|var| 1.times {|var|}}",
@@ -1949,6 +1952,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "1",
                 "",
                 "TestPrintModuleInBlock",
                 "haha",
@@ -5098,7 +5102,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Module_misc() {
         String [] program_texts = {
-                "class TestPublicInstanceMethods; def f; end; end\n" +
+                "class TestPublicInstanceMethods; def test_public_instance_methods; end; end\n" +
                 "a = TestPublicInstanceMethods.public_instance_methods(false)\n" +
                 "p a",
 
@@ -5110,7 +5114,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-                "[\"f\"]\n",
+                "[\"test_public_instance_methods\"]\n",
                 "123",
         };
 
