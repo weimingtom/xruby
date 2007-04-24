@@ -146,7 +146,7 @@ public class RubyClass extends RubyModule {
         return null;
 	}
 
-	protected void collectClassMethodNames(RubyArray a, int mode) {
+	public void collectClassMethodNames(RubyArray a, int mode) {
 		super.collectOwnMethodNames(a, mode);
 		if (null != superclass_){
 			superclass_.collectClassMethodNames(a, mode);

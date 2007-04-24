@@ -307,7 +307,7 @@ class Module_public_instance_methods extends RubyVarArgMethod {
 
         RubyArray a = new RubyArray();
         if (include_super) {
-            receiver.collectMethodNames(a, RubyMethod.PUBLIC);
+            ((RubyClass)receiver).collectClassMethodNames(a, RubyMethod.PUBLIC);
         } else {
             ((RubyModule)receiver).collectOwnMethodNames(a, RubyMethod.PUBLIC);
         }
