@@ -7,7 +7,6 @@ package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.RubyString;
 import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.ObjectFactory;
 
 public class RubyModule extends MethodCollection {
 
@@ -221,12 +220,4 @@ public class RubyModule extends MethodCollection {
         getSingletonClass().defineMethod(method_name, m);
     }
 
-    public void public_instance_methods(RubyArray a, RubyValue receiver, boolean include_super) {
-        //TODO include_super
-    	for (RubyMethod m : methods_.values()) {
-            if (RubyMethod.PUBLIC == m.getAccess()) {
-                a.add(ObjectFactory.createString(m.getName()));
-            }
-        }
-    }
 }
