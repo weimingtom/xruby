@@ -13,6 +13,9 @@ import com.sun.tools.example.debug.tty.AmbiguousMethodException;
 import com.sun.tools.example.debug.tty.LineNotFoundException;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Stop instruction, there are two way to use this instruction
@@ -21,6 +24,15 @@ import java.util.List;
  * @author Yu Su (beanworms@gmail.com)
  */
 public class StopInsn extends EventRequestHandler implements Instruction {
+
+    private static Map<String, EventRequest> resolved;   // resolved break points
+    private static List<String> all;                     // all break points
+
+    static {
+        resolved = new HashMap<String, EventRequest>();
+        all = new ArrayList<String>();
+    }
+
     private int lineNumber = -1;
 
     /**
@@ -33,6 +45,9 @@ public class StopInsn extends EventRequestHandler implements Instruction {
     public StopInsn(String classId, int lineNumber) throws XRubyDebugException {
         this.lineNumber = lineNumber;
         setClassId(SourceCodeMgr.getRealClass(classId, lineNumber));
+
+        String position = String.format("%s:%d", classId, lineNumber);
+        all.add(position);
     }
 
     /**
@@ -75,12 +90,33 @@ public class StopInsn extends EventRequestHandler implements Instruction {
             bp.setSuspendPolicy(EventRequest.SUSPEND_ALL);
             bp.enable();
             result.setStatus(Result.Status.SUCCESSFUL);
+
+            // store the EventRequest
+            String position =
+                    String.format("%s:%d", location.sourceName(), location.lineNumber());
+            StopInsn.resolved.put(position, bp);
         } catch (Exception e) {
             result.setStatus(Result.Status.ERROR);
             result.setErrMsg(e.getMessage());
         }
         
         return result;
+    }
+
+    // --------------------------
+    //     static methods
+    // --------------------------
+    public static List<String> allBreakpoints() {
+        return StopInsn.all;
+    }
+
+    public static EventRequest getBreakpointReq(String position) {
+        return StopInsn.resolved.get(position);
+    }
+
+    public static void removeBreakpoint(String position) {
+        StopInsn.all.remove(position);
+        StopInsn.resolved.remove(position);
     }
 
     // ----------------------

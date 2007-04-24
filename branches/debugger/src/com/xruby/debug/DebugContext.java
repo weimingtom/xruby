@@ -29,6 +29,7 @@ class DebugContext {
     private static EventHandler handler;
     private static List<Instruction> deferredInsns;
     private static SmapMgr smapMgr;
+    private static FrontEnd frontEnd;
 
     // Initiate
     static {
@@ -86,6 +87,7 @@ class DebugContext {
     public static void setClassPath(List<URL> classPath) {
         DebugContext.classPath = classPath;
 
+        // Initiatate smapMgr
         URLClassLoader loader = new URLClassLoader(classPath.toArray(new URL[]{}));
         smapMgr = new SmapMgr(loader);
     }
@@ -105,6 +107,16 @@ class DebugContext {
     // If jvm is still a null value
     public static boolean isStarted() {
         return (getJVM() != null);
+    }
+
+    public static void registerFrontEnd(FrontEnd frontEnd) {
+        DebugContext.frontEnd = frontEnd;
+    }
+
+    public static void shutdown() {
+        if(DebugContext.frontEnd != null) {
+            frontEnd.onVmShutdown();
+        } 
     }
 
     // --------------------

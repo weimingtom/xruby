@@ -35,6 +35,12 @@ public class SourceCodeMgr {
     // TODO: handle exception
     // TODO: handle possible naming conflict
     // TODO: This method should take a location instance as its parameter.
+    /**
+     * Return the source code in specified position
+     * @param sourceFile source file's name
+     * @param lineNumber position
+     * @return source code, return null if the position is illegal
+     */
     public static String sourceLine(String sourceFile, int lineNumber) {
         if(cache.containsKey(sourceFile)) {
             return cache.get(sourceFile).sourceLine(lineNumber);
@@ -60,6 +66,15 @@ public class SourceCodeMgr {
         return null;
     }
 
+    /**
+     * Return the code snippet of given range
+     * e.g. lineNumber = 12, range = 5, it returns the code between [7, 17] 
+     *
+     * @param sourceFile source file's name
+     * @param lineNumber position
+     * @param range range
+     * @return sourece snippet
+     */
     public static String getSourceSnippet(String sourceFile, int lineNumber, int range) {
         StringBuffer snippet = new StringBuffer();
         if(cache.containsKey(sourceFile)) {
@@ -75,13 +90,15 @@ public class SourceCodeMgr {
                 end = code.size();
             }
 
-            // TODO: align the code
+            // First, align the line number
+            int width = String.valueOf(end).length();
+            String format = "%" + width + "d";
             for(int i = start; i <= end; i ++) {
                 String tmp = code.sourceLine(i);
                 if(i != lineNumber) {
-                    snippet.append(String.format("%d   %s\n", i, tmp));
+                    snippet.append(String.format(format + "   %s\n", i, tmp));
                 } else {
-                    snippet.append(String.format("%d=> %s\n", i, tmp));
+                    snippet.append(String.format(format + "=> %s\n", i, tmp));
                 }
             }
         }
@@ -89,8 +106,18 @@ public class SourceCodeMgr {
         return snippet.toString();
     }
 
+    /**
+     * Return the real class's name, for methods and blocks
+     * e.g. test_debug2.main -> test_debug2.BLOCK$0
+     * 
+     * @param classId class id
+     * @param lineNumber position
+     * @return class name
+     * 
+     * @throws XRubyDebugException illegal classId
+     */
     public static String getRealClass(String classId, int lineNumber) throws XRubyDebugException {
-        //test_debug2.main -> test_debug2.BLOCK$0
+
         StringTokenizer st = new StringTokenizer(classId, ".");
         String scriptName;
         String className;
@@ -101,7 +128,7 @@ public class SourceCodeMgr {
         } else {
             throw new XRubyDebugException("IllegalArgumentExcpeiont, class");
         }
-        // TODO: put the .smap file under the same directory of .class files
+        
         // Retrieve block/method's name
         String blockName = retrieveBlockName(scriptName, lineNumber);
         if (blockName != null) {
