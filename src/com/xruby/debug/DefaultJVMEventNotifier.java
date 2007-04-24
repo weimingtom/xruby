@@ -62,9 +62,11 @@ public class DefaultJVMEventNotifier implements JVMEventNotifier {
             try {
                 String sourceFile = loc.sourceName();
                 int lineNumber = loc.lineNumber();
-                out.println(
-                        String.format("Breakpoint: %s:%d", sourceFile, lineNumber));
-                out.println(SourceCodeMgr.sourceLine(sourceFile, lineNumber));
+                if(lineNumber > 0) {
+                    out.println(
+                            String.format("Breakpoint: %s:%d", sourceFile, lineNumber));
+                    out.println(SourceCodeMgr.sourceLine(sourceFile, lineNumber));
+                }
             } catch (AbsentInformationException e) {
                 err.println("Debug information lost");
             }
