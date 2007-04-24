@@ -757,4 +757,19 @@ module Enumerable
         i = 0;
         each {|x| yield x, i; i = i + 1}
     end
+    
+    def to_a
+	arr = []
+	each{|obj| arr <<obj}
+	return arr
+    end
+    
+    alias entries :to_a
+    
+    def member?(other)
+	each{|obj| return true if obj == other }
+	return false
+    end
+    
+    alias include? :member?
 end
