@@ -2179,6 +2179,15 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Enumerable() {
+        /*
+         * Have added tests for methods as follows(alphabetic sequence):
+         * entries
+         * include?
+         * inject
+         * member?
+         * to_a 
+         * 
+         */
         String[] program_texts = {
                 "a = [1, 3, 2].sort_by {|x| print x; 1};p a",
                 "a = (1..10).detect  {|i| i % 5 == 0 and i % 7 == 0 }; print a",
@@ -2190,6 +2199,67 @@ public class RubyCompilerTest extends CompilerTestCase {
 
                 "print (5..10).inject {|sum, n| sum + n }",
                 "print (5..10).inject(1) {|product, n| product * n }",
+                
+                "class Two\n"+
+                "       include Comparable\n"+
+
+                "       attr :str\n"+
+
+                "       def <=>(other)\n"+
+                "           if !other.kind_of? Two\n"+
+                "               return false\n"+
+                "           end\n"+
+                "           @str.size <=>other.str.size\n"+
+                "       end\n"+
+
+                "       def initialize(str)\n"+
+                "           @str = str\n"+
+                "       end\n"+
+
+                "       def inspect\n"+
+                "           @str\n"+
+                "       end\n"+
+                
+                "       def add(other)\n"+
+                "           Two.new(@str + other.str)\n"+
+                "       end\n" +
+                
+                "end\n"+
+
+                "class One\n"+
+                "       include Enumerable\n"+
+
+                "       def initialize\n"+
+                "           t1 = Two.new(\"1\")\n"+
+                "           t2 = Two.new(\"bc\")\n"+
+                "           t3 = Two.new(\"567\")\n"+
+                "           t4 = Two.new(\"0000\")\n"+
+                "           @data = [t1,t2,t3,t4]\n"+
+                "       end\n"+
+
+                "       def each\n"+
+                "           i = 0\n"+
+                "           n = @data.size\n"+
+                "           while   i < n\n"+
+                "               yield(@data[i])\n"+
+                "               i += 1\n"+
+                "           end \n"+
+                "           #@data.each{|i|yield(i)}\n"+
+                "       end\n"+
+
+                "       def One.test\n"+
+                "           o = One.new\n"+
+                "           p o.member?(\"2\")\n"+
+                "           p o.include?(Two.new(\"bc\"))\n"+
+                "           p o.to_a\n"+
+                "           p o.entries\n"+
+                "           p o.inject{|sum,element|sum.add(element)}\n"+
+                "           p o.inject(Two.new(\"begin\")){|sum,element|sum.add(element)}\n"+
+                "           #p o.max\n"+
+                "       end\n"+
+                "end\n"+
+
+                "One.test\n",
         };
 
         String[] outputs = {
@@ -2203,6 +2273,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
                 "45",
                 "151200",
+                "false\ntrue\n[1, bc, 567, 0000]\n[1, bc, 567, 0000]\n1bc5670000\nbegin1bc5670000\n",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
