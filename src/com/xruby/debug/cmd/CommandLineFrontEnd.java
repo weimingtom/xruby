@@ -4,23 +4,21 @@
  */
 package com.xruby.debug.cmd;
 
-import com.xruby.debug.FrontEnd;
-import com.xruby.debug.XRubyDebugException;
-import com.xruby.debug.Result;
-import com.xruby.debug.DebugContext;
 import com.xruby.debug.DebugCommandLineOptions;
 import com.xruby.debug.DebugConstant;
-import com.xruby.debug.DefaultJVMEventNotifier;
+import com.xruby.debug.DebugContext;
+import com.xruby.debug.FrontEnd;
+import com.xruby.debug.Result;
+import com.xruby.debug.XRubyDebugException;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
-
+import java.io.InputStreamReader;
 import static java.lang.System.out;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Command Line FrontEnd

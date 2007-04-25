@@ -2,7 +2,7 @@
  * Copyright 2006-2007 Yu Su
  * Distributed under the GNU General Public License 2.0
  */
-package com.xruby.debug;
+package com.xruby.debug.cmd;
 
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.IncompatibleThreadStateException;
@@ -12,6 +12,9 @@ import com.sun.jdi.event.BreakpointEvent;
 import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.event.Event;
 import com.sun.jdi.event.VMStartEvent;
+import com.xruby.debug.JVMEventNotifier;
+import com.xruby.debug.ThreadInfo;
+import com.xruby.debug.SourceCodeMgr;
 
 import static java.lang.System.err;
 import static java.lang.System.out;
