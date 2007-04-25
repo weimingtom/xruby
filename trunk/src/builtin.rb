@@ -786,4 +786,19 @@ module Enumerable
 	each { |obj| return false unless proc.call(obj) }
 	true
     end
+    
+    def any?(&proc)
+	proc = lambda { |obj| obj } unless block_given?
+	each { |obj| return true if proc.call(obj) }
+	false
+    end
+
+    def collect
+	arr = []
+	each{|obj| arr << yield(obj)}
+	return arr
+    end   
+
+    alias map :collect
+    
 end
