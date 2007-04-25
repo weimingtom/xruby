@@ -75,16 +75,6 @@ public abstract class FrontEnd {
         return new NextInsn().execute();
     }
 
-    /**
-     * Clear the breakpoint in give position
-     * 
-     * @param position in this form: file.rb:12
-     * @return Result
-     */
-    protected Result clear(String position) {
-        return new ClearInsn(position).execute();
-    }
-
 
     // --------------------------------------
     // protected (abstract) methos
