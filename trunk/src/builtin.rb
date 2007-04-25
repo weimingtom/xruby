@@ -800,5 +800,26 @@ module Enumerable
     end   
 
     alias map :collect
+
+    def max(&proc)
+	proc = lambda { |a, b| a <=> b } unless block_given?
+	max = nil
+	each {|obj| max = obj if max.nil? || proc.call(max, obj) < 0}
+	max
+    end
+
+    def min(&proc)
+	proc = lambda { |a, b| a <=> b } unless block_given?
+	min = nil
+	each {|obj| min = obj if min.nil? || proc.call(min, obj) > 0}
+	min
+    end
+
+    def partition
+	left = []
+	right = []
+	each { |obj| yield(obj) ? left.push(obj) : right.push(obj) }
+	return [left, right]
+    end
     
 end
