@@ -12,6 +12,8 @@ public class RubyTypesUtil {
     public static RubyFixnum convertToFixnum(RubyValue arg){
         if (arg instanceof RubyFixnum) {
             return (RubyFixnum)arg;
+        } else if (arg instanceof RubyString) {
+            return ObjectFactory.createFixnum(Integer.valueOf(((RubyString)arg).toString()));
         } else {
             throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Fixnum");
         }
