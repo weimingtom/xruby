@@ -2,12 +2,16 @@
  * Copyright 2006-2007 Yu Su
  * Distributed under the GNU General Public License 2.0
  */
-package com.xruby.debug;
+package com.xruby.debug.cmd;
 
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.Location;
 import com.sun.jdi.AbsentInformationException;
+import com.xruby.debug.Instruction;
+import com.xruby.debug.Result;
+import com.xruby.debug.ThreadInfo;
+import com.xruby.debug.SourceCodeMgr;
 
 import static java.lang.System.err;
 import static java.lang.System.out;

@@ -25,7 +25,7 @@ import java.util.Map;
  *
  * @author Yu Su(beanworms@gmail.com)
  */
-class DebugContext {
+public class DebugContext {
 
     private static JVMConnection jvmConnection;
     private static List<File> sourcePath;

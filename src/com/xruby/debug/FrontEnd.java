@@ -5,6 +5,7 @@
 package com.xruby.debug;
 
 import com.sun.jdi.VirtualMachine;
+import com.xruby.debug.cmd.ClearInsn;
 
 import java.util.Map;
 
@@ -66,20 +67,12 @@ public abstract class FrontEnd {
         return insn.execute();
     }
 
-    protected Result list(int range) {
-        return new ListInsn(range).execute();
-    }
-
     protected Result cont() {
         return new ContinueInsn().execute();
     }
 
     protected Result stepOver() {
         return new NextInsn().execute();
-    }
-
-    protected Result clear(int index) {
-        return new ClearInsn(index).execute();
     }
 
     /**

@@ -2,7 +2,15 @@
  * Copyright 2006-2007 Yu Su
  * Distributed under the GNU General Public License 2.0
  */
-package com.xruby.debug;
+package com.xruby.debug.cmd;
+
+import com.xruby.debug.FrontEnd;
+import com.xruby.debug.XRubyDebugException;
+import com.xruby.debug.Result;
+import com.xruby.debug.DebugContext;
+import com.xruby.debug.DebugCommandLineOptions;
+import com.xruby.debug.DebugConstant;
+import com.xruby.debug.DefaultJVMEventNotifier;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -29,15 +37,17 @@ public class CommandLineFrontEnd extends FrontEnd {
     private static final String CLEAR = "clear";
     private static final String CONT  = "cont";
     private static final String SETP_OVER = "next";
+    private static final String LOCALS = "locals";
+    private static final String WHERE = "where";
 
     private static final String CMD_PATTERN_STR =
-            "run(\\s*)|stop(\\s*)|list(\\s*)|cont(\\s*)|next(\\s*)|clear(\\s*)";
+            "run(\\s*)|stop(\\s*)|list(\\s*)|cont(\\s*)|next(\\s*)|clear(\\s*)|locals(\\s*)|where(\\s*)";
     private static final String STOP_PATTERN_STR =
             "(stop){1}\\s*(at|in)\\s*((([\\w\\$]+)(.rb)*){1}:(\\d+){1})*";
     private static final String LIST_PATTERN_STR =
             "(list)\\s+(\\d+)?";
     private static final String CLEAR_PATTERN_STR =
-            "(clear)\\s+(\\d+)?";    
+            "(clear)\\s+(\\d+)?";
 
     private static final String cmdPrompt = "> ";
 
@@ -99,14 +109,14 @@ public class CommandLineFrontEnd extends FrontEnd {
         } else if (command.equalsIgnoreCase(STOP)) {     // stop at filename:postion
             String classId = args[0];
             int lineNumber = Integer.parseInt(args[1]);
-            
+
             result = stop(classId, lineNumber);
         } else if (command.equalsIgnoreCase(LIST)) {     // list [range]
             int range = -1;
             if(args != null && args[0] != null) {
                 range = Integer.parseInt(args[0]);
             }
-            result = list(range);
+            result = new ListInsn(range).execute();
         } else if (command.equalsIgnoreCase(CONT)) {     // cont
             result = cont();
         } else if (command.equalsIgnoreCase(SETP_OVER)) {// next
@@ -116,7 +126,11 @@ public class CommandLineFrontEnd extends FrontEnd {
             if(args != null && args[0] != null) {
                 index = Integer.parseInt(args[0]);
             }
-            result = clear(index);
+            result = new ClearInsn(index).execute();
+        } else if(command.equalsIgnoreCase(LOCALS)) {
+            result = new LocalVariablesInsn().execute();
+        } else if(command.equalsIgnoreCase(WHERE)) {
+            result = new WhereInsn().execute();
         }
 
         return result;

@@ -120,11 +120,11 @@ public class SourceCodeMgr {
 
         StringTokenizer st = new StringTokenizer(classId, ".");
         String scriptName;
-        String className;
+        String packageName;
 
         if(st.hasMoreTokens()) {
-            className = st.nextToken();
-            scriptName =  className + ".rb";
+            packageName = st.nextToken();
+            scriptName =  packageName + ".rb";
         } else {
             throw new XRubyDebugException("IllegalArgumentExcpeiont, class");
         }
@@ -133,9 +133,9 @@ public class SourceCodeMgr {
         String blockName = retrieveBlockName(scriptName, lineNumber);
         if (blockName != null) {
             return blockName;
+        } else {
+            return packageName + ".main";
         }
-
-        return classId;
     }
 
 

@@ -2,7 +2,9 @@
  * Copyright 2006-2007 Yu Su
  * Distributed under the GNU General Public License 2.0
  */
-package com.xruby.debug;
+package com.xruby.debug.cmd;
+
+import com.xruby.debug.MessageCenter;
 
 import static java.lang.System.out;
 import static java.lang.System.err;
