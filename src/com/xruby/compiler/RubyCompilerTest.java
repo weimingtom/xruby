@@ -265,12 +265,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Float_Integer() {
         String[] program_texts = {
+                "print Integer('1')",
                 "print Float(2)",
                 "print Integer(2)",
                 "print Float(4.2).to_i",
         };
 
         String[] outputs = {
+                "1",
                 "2.0",
                 "2",
                 "4",
