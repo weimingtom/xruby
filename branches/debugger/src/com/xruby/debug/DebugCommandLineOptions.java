@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
  *
  * @author Yu Su (beanworms@gmail.com)
  */
-class DebugCommandLineOptions {
+public class DebugCommandLineOptions {
     private static final String SEPARATOR = ";"; //semicolon
 
     // _S means short name e.g. --sourcepath is abbreviated to -s

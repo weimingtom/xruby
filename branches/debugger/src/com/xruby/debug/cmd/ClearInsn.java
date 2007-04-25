@@ -1,6 +1,10 @@
-package com.xruby.debug;
+package com.xruby.debug.cmd;
 
 import com.sun.jdi.request.EventRequest;
+import com.xruby.debug.Instruction;
+import com.xruby.debug.Result;
+import com.xruby.debug.StopInsn;
+import com.xruby.debug.DebugContext;
 
 import java.util.List;
 
