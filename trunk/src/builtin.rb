@@ -739,14 +739,12 @@ module Enumerable
         return array_of_tuples.collect {|x| x[0]}
     end
 
-    def detect
-      each {|x|
-          if yield x
-              return x
-          end
-      }
-      nil
+    def detect(ifnone = nil)
+	each { |obj| return obj if yield(obj) }
+	ifnone.call if ifnone
     end
+    
+    alias find :detect
 
     def each_with_index 
         i = 0;
@@ -781,5 +779,11 @@ module Enumerable
 	else
 		nil
 	end
+    end
+    
+    def all?(&proc)
+	proc = lambda { |obj| obj } unless block_given?
+	each { |obj| return false unless proc.call(obj) }
+	true
     end
 end
