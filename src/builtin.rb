@@ -730,11 +730,6 @@ module Enumerable
         return a
     end
 
-    def inject(memo = 0)
-        each {|obj| memo = yield(memo, obj)}
-        memo
-    end
-
     alias :select :find_all
 
     def sort_by &block
@@ -772,4 +767,19 @@ module Enumerable
     end
     
     alias include? :member?
+    
+    def inject(*args)
+	if args.size == 0 then
+		vals = to_a
+		memo = vals[0]
+		vals[1..vals.size-1].each {|obj| memo = yield(memo, obj)}
+		return memo
+	elsif args.size == 1 then
+		memo = args[0]
+		each {|obj| memo = yield(memo, obj)}
+		return memo
+	else
+		nil
+	end
+    end
 end
