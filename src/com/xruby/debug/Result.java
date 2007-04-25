@@ -52,4 +52,8 @@ public class Result {
     public void setErrMsg(String msg) {
         addInfo(ERROR_MSG, msg);
     }
+
+    public String getErrMsg() {
+        return (String) getInfo(ERROR_MSG);
+    }
 }

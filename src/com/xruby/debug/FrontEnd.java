@@ -5,7 +5,6 @@
 package com.xruby.debug;
 
 import com.sun.jdi.VirtualMachine;
-import com.xruby.debug.cmd.ClearInsn;
 
 import java.util.Map;
 
@@ -18,14 +17,6 @@ import java.util.Map;
  * @author Yu Su (beanworms@gmail.com)
  */
 public abstract class FrontEnd {
-    // --------------------
-    //   Constant Fields
-    // --------------------
-    private static final String RUN = "run";
-    private static final String STOP = "stop";
-    private static final String LIST = "list";
-    private static final String CONT = "cont";
-    private static final String SETP_OVER = "next";
 
     /**
      * Validate arguments, LAUNCH, MAIN, OPTIONS
@@ -41,7 +32,7 @@ public abstract class FrontEnd {
         }
 
         // Initiate Context
-        int traceMode = validateLauchMode();
+        int traceMode = getTraceMode();
 
         // Maybe monostate is better for DebugContext
         DebugContext.initContext(traceMode, arguments);
@@ -90,7 +81,7 @@ public abstract class FrontEnd {
 
     protected abstract void handleResult(Result result);
 
-    protected int validateLauchMode() {
+    protected int getTraceMode() {
         return VirtualMachine.TRACE_NONE;
     }
 
