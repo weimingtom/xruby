@@ -24,12 +24,10 @@ public class SourceCodeMgr {
 
     private static Map<String, SourceCode> cache ;
     private static Map<String, Map<String, int[]>> blockMap;
-    private static Map<String, Map<String, int[]>> methodMap;
 
     static {
         cache = new HashMap<String, SourceCode>();
         blockMap = new HashMap<String, Map<String, int[]>>();
-        methodMap = new HashMap<String, Map<String, int[]>>();
     }
 
     // TODO: handle exception
@@ -198,10 +196,8 @@ public class SourceCodeMgr {
 
 class SourceCode {
     private List<String> lines;
-    private File file;
 
     SourceCode(File file) throws XRubyDebugException {
-        this.file = file;
         lines = new ArrayList<String>();
         if (!file.exists()) {
             throw new XRubyDebugException(String.format("%s doesn't exist", file.getName()));
