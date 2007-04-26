@@ -1,8 +1,15 @@
 #summary Library Method Not Implemented
 
 If you find a method not implemented,feel free to report that.Of course,we welcome that you implement them and share with us.
+
 *Range
 
+
 All methods in this Class or Module has implemented!
+
 *Comparable
+
 *Enumerable
+
+
+
