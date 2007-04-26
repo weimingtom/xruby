@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng, Yu Su
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -19,6 +19,8 @@ import org.objectweb.asm.commons.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
+import java.util.List;
 
 class MethodGenerator extends GeneratorAdapter {
 
@@ -808,6 +810,27 @@ class MethodGenerator extends GeneratorAdapter {
     public void RubyProc_isDefinedInAnotherBlock() {
         invokeVirtual(Type.getType(Types.RubyProcClass),
                 Method.getMethod("boolean isDefinedInAnotherBlock()"));
+    }
+
+    // For debug function
+
+    /**
+     * Write the local varirable info.
+     *
+     */
+    public void writeLocalVariableInfo() {
+        Label endLabel = mark();
+        SymbolTable table = getSymbolTable();
+        Map<String,Label> varRanges = table.getLocalVariableRange();
+
+        List<String> sequence = table.getDeclarationSeq();
+        for(String var: sequence) {
+            Label startLabel = varRanges.get(var);
+            if(startLabel != null) {
+                int index = table.getLocalVariable(var);
+                this.visitLocalVariable(var, "Lcom/xruby/runtime/lang/RubyValue;", null, startLabel, endLabel, index);
+            }
+        }
     }
 }
 

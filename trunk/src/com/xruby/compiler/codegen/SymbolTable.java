@@ -5,11 +5,15 @@
 
 package com.xruby.compiler.codegen;
 
+import org.objectweb.asm.Label;
+
 import java.util.*;
 
 class SymbolTable {
 	private final Map<String, Integer> local_variables_ = new HashMap<String, Integer>();
-	private final ArrayList<String> method_parameters_;
+    private final Map<String, Label> localVariableRange = new HashMap<String, Label>();
+    private final List<String> declarationSeq = new ArrayList<String>();
+    private final ArrayList<String> method_parameters_;
 	private String asterisk_parameters_ = null;
 	private String block_parameters_ = null;
 	private int asterisk_parameters_access_counter_ = 0;
@@ -55,6 +59,7 @@ class SymbolTable {
 	
 	public void addLocalVariable(String name, int i) {
 		local_variables_.put(name, i);
+        localVariableRange.put(name, null);
 	}
 	
 	public int getLocalVariable(String name) {
@@ -118,6 +123,22 @@ class SymbolTable {
 		}
 	}
 
+    public boolean isNewLocalVar(String var) {
+        return localVariableRange.get(var) == null;
+    }
+
+    public void setVarLineNumberInfo(String var, Label label) {
+        localVariableRange.put(var, label);
+        declarationSeq.add(var);
+    }
+
+    public Map<String, Label> getLocalVariableRange() {
+        return localVariableRange;
+    }
+
+    public List<String> getDeclarationSeq() {
+        return declarationSeq;
+    }
 }
 
 
