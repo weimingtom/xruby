@@ -1,16 +1,18 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Yu Su
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.codedom;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 class Pair {
 	String name;
 	String[] value;
-};
+}
 
 public class Block {
 
@@ -21,7 +23,11 @@ public class Block {
 	private boolean should_validate_argument_length_ = false;
 	private boolean is_for_in_expression_ = false;
 	private boolean has_extra_comma_ = false;
-	
+
+    private String name;
+    private int startPosition;
+    private int endPosition;
+
 	public void setHasExtraComma() {
 		has_extra_comma_ = true;
 	}
@@ -82,7 +88,7 @@ public class Block {
 	}
 
 	public Pair accept(CodeVisitor visitor) {
-		String name = visitor.visitBlock((should_validate_argument_length_ ? parameters_.size() : -1),
+		name = visitor.visitBlock((should_validate_argument_length_ ? parameters_.size() : -1),
 									(null != asterisk_parameter_),
 									default_parameters_.size(),
 									is_for_in_expression_);
@@ -94,12 +100,40 @@ public class Block {
 
 		if (null != bodyStatement_) {
 			bodyStatement_.accept(visitor);
-		}
+            setEndPosition(bodyStatement_.getLastLine());
+        }
+        else {
+            setEndPosition(startPosition);
+        }
 
 		Pair p = new Pair();
 		p.name = name;
 		p.value = visitor.visitBlockEnd(name, (null != bodyStatement_) ?
 										bodyStatement_.lastStatementHasReturnValue() : false);
-		return p;
+		if(name != null) {
+            BlockFarm.markBlock(this);
+        }
+        return p;
 	}
+
+
+    public int getStartPosition() {
+        return startPosition;
+    }
+
+    public void setStartPosition(int startPosition) {
+        this.startPosition = startPosition;
+    }
+
+    public int getEndPosition() {
+        return endPosition;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setEndPosition(int endPosition) {
+        this.endPosition = endPosition;
+    }
 }

@@ -23,13 +23,14 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 		 other = 2;
 		 f { first = 3; second = 4}
 		 */
-		ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", null);
+		ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null);
 		p.storeVariable("first");
 		p.storeVariable("other");
 
 		ClassGeneratorForRubyBlock cg = new ClassGeneratorForRubyBlock(
 				"BLOCK$0", //name,
-				0, //argc,
+                "", // File Name
+                0, //argc,
 				false, //has_asterisk_parameter,
 				0, //default_argc,
 				p, //owner,
@@ -59,12 +60,13 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 		 x = 1
 		 1.times {|x|}
 		 */
-		ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", null);
+		ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null);
 		p.storeVariable("x");
 
 		ClassGeneratorForRubyBlock cg = new ClassGeneratorForRubyBlock(
 				"BLOCK$0", //name,
-				1, //argc,
+                "",
+                1, //argc,
 				false, //has_asterisk_parameter,
 				0, //default_argc,
 				p, //owner,
@@ -86,11 +88,12 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 
 		 1.times {|x|}
 		 */
-		ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", null);
+		ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null);
 
 		ClassGeneratorForRubyBlock cg = new ClassGeneratorForRubyBlock(
 				"BLOCK$0", //name,
-				1, //argc,
+                "",
+                1, //argc,
 				false, //has_asterisk_parameter,
 				0, //default_argc,
 				p, //owner,
@@ -111,11 +114,12 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 
 		 1.times {|var| 1.times {|var|}}
 		 */
-		ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", null);
+		ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null);
 
 		ClassGeneratorForRubyBlock cg1 = new ClassGeneratorForRubyBlock(
 				"BLOCK$0", //name,
-				1, //argc,
+                "",
+                1, //argc,
 				false, //has_asterisk_parameter,
 				0, //default_argc,
 				p, //owner,
@@ -128,7 +132,8 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 
 		ClassGeneratorForRubyBlock cg2 = new ClassGeneratorForRubyBlock(
 				"BLOCK$1", //name,
-				1, //argc,
+                "",
+                1, //argc,
 				false, //has_asterisk_parameter,
 				0, //default_argc,
 				cg1, //owner,

@@ -5,6 +5,8 @@
 
 package com.xruby.compiler.codedom;
 
+import org.objectweb.asm.Label;
+
 import java.math.BigInteger;
 
 interface ISymbolTable {
@@ -71,7 +73,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitRegexpExpressionWithExpressionSubstitutionEnd();
 	public void visitCommandOutputExpressionWithExpressionSubstitutionEnd();
 	
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method);
+	public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method);
 	public void visitMethodDefinationParameter(String name);
 	public void visitMethodDefinationAsteriskParameter(String name);
 	public void visitMethodDefinationBlockParameter(String name);
@@ -161,4 +163,9 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons);
 
 	public void visitPotentialProcCall();
+
+    // ---------------------------
+    //   Interfaces for debugger
+    // ---------------------------
+    public Label visitLineLabel(int lineNumber);
 }

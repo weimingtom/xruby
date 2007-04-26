@@ -18,6 +18,7 @@ options {
 
 {
 	private String filename_ = null;
+	protected int currentLineNumber = 0;
 
 	public Program parse(AST t, String filename) throws RecognitionException {
 		filename_ = filename;
@@ -163,8 +164,16 @@ returns [Expression e]
 	ReturnArguments return_args = null;
 	CompoundStatement cs = null;
 	String method_name = null;
+	int lineNumber = _t.getLine();
+	boolean startANewLine = false;
+
+	if (lineNumber != currentLineNumber) {
+        currentLineNumber = lineNumber;
+        startANewLine = true;
+    }
+    
 }
-		:	#("and"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
+		:  (#("and"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("&&", left, right);}
 		|	#("or"					left=expression	right=expression)	{e = new AndOrBinaryOperatorExpression("||", left, right);}
 		|	#("not"					left=expression)					{e = new UnaryOperatorExpression("!", left);}
 		|	#(QUESTION				condition=expression	left=expression	right=expression)
@@ -251,6 +260,13 @@ returns [Expression e]
 		|	#(LPAREN_WITH_NO_LEADING_SPACE	cs=compoundStatement)			{e = new ParenthesisExpression(cs);}
 		|	"redo"										{e = new RedoExpression();}
 		|	"retry"										{e = new RetryExpression();}
+		)
+		{
+            e.setNewLine(startANewLine);
+            if(e.getPosition() < 1) {
+		        e.setPosition(currentLineNumber);
+		    } // To fix the linenumber problem for forInExpression
+		}
 		;
 
 callExpression
@@ -613,6 +629,7 @@ returns [MethodDefinationExpression e]
 	String name = null;
 	BodyStatement body = null;
 	Expression exp = null;
+	int lineNumber = _t.getLine();
 }
 		:	#("def"
 				(name=methodName	{e = new MethodDefinationExpression(name);}
@@ -633,15 +650,21 @@ returns [MethodDefinationExpression e]
 				)?
 				(body=bodyStatement {e.setBody(body);})?
 			)
+			{
+			     e.setPosition(lineNumber);
+			}
 		;
 
 forInExpression
 returns [ForInExpression e]
 {
+    // TODO: Here's a line number issue, after forInExpression is called. Line number is added to one
+    // So, the final line number is the line next to it.
 	Expression exp = null;
 	Block b = null;
 	CompoundStatement cs = null;
 	ParameterVariableExpression var = null;
+	int lineNumber = _t.getLine();
 }
 		:	#(	"for"	{b = new Block();}
 				(	#(BLOCK_ARG
@@ -656,6 +679,9 @@ returns [ForInExpression e]
 				(cs=compoundStatement	{b.setBody(cs);})?
 				{e = new ForInExpression(exp, b);}
 			)
+			{
+			    e.setPosition(lineNumber);
+			}
 		;
 
 codeBlock

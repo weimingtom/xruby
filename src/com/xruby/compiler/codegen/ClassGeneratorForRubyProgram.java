@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi
  * Distributed under the GNU General Public License 2.0
  */
@@ -11,18 +11,29 @@ import com.xruby.runtime.lang.RubyBinding;
 
 class ClassGeneratorForRubyProgram extends ClassGenerator {
 	private RubyBinding binding_;
-	
-	public ClassGeneratorForRubyProgram(String name, RubyBinding binding) {
+    private String fileName;
+
+    public ClassGeneratorForRubyProgram(String name, String fileName, RubyBinding binding) {
 		super(name);
-		mg_for_run_method_ = visitRubyProgram(binding);
+        this.fileName = fileName;
+		mg_for_run_method_ = visitRubyProgram(binding, fileName);
 		binding_ = binding;
-	}
-	
-	protected Class getCurrentType() {
+    }
+
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    protected Class getCurrentType() {
 		return Types.RubyProgramClass;
 	}
 
-	private MethodGenerator visitRubyProgram(RubyBinding binding) {
+	private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName) {
 		cv_.visit(Opcodes.V1_5,
 				Opcodes.ACC_PUBLIC,
 				name_,
@@ -31,9 +42,14 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 				null										// interface
 				);
 
-		createImplicitConstructor(cv_);
+        // set source file's name, for debug
+        if(fileName != null) {
+            cv_.visitSource(fileName, null);
+        }
+
+        createImplicitConstructor(cv_);
 		createStaticVoidMain(cv_);
-		
+
 		//Implement RubyProgram
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
 				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
@@ -80,16 +96,16 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 
 		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),
 				Method.getMethod("void fini()"));
-		
+
 		mg.returnValue();
 		mg.endMethod();
 	}
 
 	public void storeVariable(String name) {
 		updateBinding(binding_, name);
-		
+
 		super.storeVariable(name);
 	}
-	
+
 }
 

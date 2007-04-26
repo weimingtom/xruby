@@ -95,7 +95,7 @@ public class NameFactory {
         }
     }
 
-    private static String getNameWithoutSufix(String script_name) {
+    static String getNameWithoutSufix(String script_name) {
         File file = new File(script_name);
         String name = file.getName();
         int position_of_first_dot = name.indexOf('.');

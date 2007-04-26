@@ -1,17 +1,24 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Yu Su
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler;
 
-import java.io.*;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
-
+import com.xruby.compiler.codegen.CompilationResults;
+import com.xruby.compiler.codegen.CompilerException;
+import com.xruby.compiler.codegen.RubyCompilerImpl;
 import com.xruby.compiler.parser.RubyParser;
-import com.xruby.compiler.codegen.*;
-import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.RubyBinding;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 public class RubyCompiler {
 
@@ -19,6 +26,7 @@ public class RubyCompiler {
 
 	private RubyBinding binding_;
 	private boolean strip_;
+    private boolean enableDebug = false;
 
 	public RubyCompiler(RubyBinding binding, boolean strip) {
 		binding_ = binding;
@@ -49,6 +57,16 @@ public class RubyCompiler {
 		String [] pre_defined = (null == binding_) ? null : binding_.getVariableNames().toArray(new String[] {});
 		RubyParser parser = new RubyParser(reader, pre_defined, strip_);
 		RubyCompilerImpl compiler = new RubyCompilerImpl(filename);
-		return compiler.compile(parser.parse(filename), binding_);
+
+        // Enable debug or not
+        if(enableDebug) {
+            compiler.enableDebug();
+        }
+
+        return compiler.compile(parser.parse(filename), binding_);
 	}
+
+    public void enableDebug() {
+        enableDebug = true;
+    }
 }

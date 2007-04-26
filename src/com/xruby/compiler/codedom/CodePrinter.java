@@ -1,9 +1,11 @@
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.codedom;
+
+import org.objectweb.asm.Label;
 
 import java.math.BigInteger;
 
@@ -19,7 +21,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(name);
 		result_.append("\n");
 	}
-	
+
 	public void visitDefinedConstant(String name) {
 		result_.append("defined? ");
 		result_.append(name);
@@ -33,7 +35,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitDefinedTopLevelConstant(String name) {
 		visitDefinedConstant(name);
 	}
-	
+
 	public void visitDefinedMethod(String name) {
 		result_.append("defined? ");
 		result_.append(name);
@@ -53,30 +55,30 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(name);
 		result_.append("\n");
 	}
-	
+
 	public void visitBinaryOperator(String operator) {
 		result_.append(operator);
 		result_.append("\n");
 	}
-	
+
 	public Object visitAndBinaryOperatorLeft() {
 		result_.append("&& left\n");
 		return null;
 	}
-	
+
 	public void visitAndBinaryOperatorRight(Object label) {
 		result_.append("&& right\n");
 	}
-	
+
 	public Object visitOrBinaryOperatorLeft() {
 		result_.append("|| left\n");
 		return null;
 	}
-	
+
 	public void visitOrBinaryOperatorRight(Object label) {
 		result_.append("|| right\n");
 	}
-	
+
 	public void visitExclusiveRangeOperator() {
 		result_.append("... operator\n");
 	}
@@ -84,7 +86,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitInclusiveRangeOperator() {
 		result_.append(".. operator\n");
 	}
-	
+
 	public void visitUnaryOperator(String operator) {
 		result_.append(operator);
 		result_.append("\n");
@@ -145,7 +147,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitConstantAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment) {
 		visitCurrentNamespaceConstantAssignmentOperator(var, rhs_is_method_call, is_multiple_assignment);
 	}
-	
+
 	public void visitNoParameter() {
 	}
 
@@ -166,7 +168,7 @@ public class CodePrinter implements CodeVisitor {
 
 	public void visitMethodCallBegin() {
 	}
-	
+
 	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, boolean single_arg) {
 		result_.append(methodName);
 		result_.append(":");
@@ -193,11 +195,11 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(value);
 		result_.append("\n");
 	}
-	
+
 	public void visitStringExpressionWithExpressionSubstitutionBegin() {
 		result_.append("visitStringExpressionWithExpressionSubstitutionBegin\n");
 	}
-	
+
 	public void visitStringExpressionWithExpressionSubstitution(String value) {
 		result_.append(value);
 		result_.append("\n");
@@ -205,7 +207,7 @@ public class CodePrinter implements CodeVisitor {
 
 	public void visitStringExpressionWithExpressionSubstitution() {
 	}
-	
+
 	public void visitStringExpressionWithExpressionSubstitutionEnd() {
 		result_.append("StringExpressionWithExpressionSubstitutionEnd\n");
 	}
@@ -223,8 +225,8 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(value);
 		result_.append("/\n");
 	}
-	
-	public void visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
+
+	public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
 		result_.append("def ");
 		result_.append(methodName);
 		result_.append(":");
@@ -236,7 +238,9 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(":");
 		result_.append(is_singleton_method);
 		result_.append("\n");
-	}
+
+        return methodName;
+    }
 
 	public void visitClassDefination1(String className) {
 		result_.append("class ");
@@ -255,7 +259,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitSingletonClassDefination2() {
 		result_.append("visitSingletonClassDefination2\n");
 	}
-	
+
 	public void visitModuleDefination(String moduleName) {
 		result_.append("module ");
 		result_.append(moduleName);
@@ -267,7 +271,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(last_statement_has_return_value);
 		result_.append("\n");
 	}
-	
+
 	public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
 		result_.append("end:");
 		result_.append(last_statement_has_return_value);
@@ -296,7 +300,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitTrueExpression() {
 		result_.append("true\n");
 	}
-	
+
 	public void visitFalseExpression() {
 		result_.append("false\n");
 	}
@@ -324,7 +328,7 @@ public class CodePrinter implements CodeVisitor {
 	public Object visitAfterWhenCondition(Object case_value, boolean asterisk) {
 		result_.append("when");
 		if (asterisk) {
-			result_.append("*");	
+			result_.append("*");
 		}
 		result_.append("\n");
 		return null;
@@ -359,7 +363,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitBodyEnd(Object label) {
 		result_.append("body end\n");
 	}
-	
+
 	public Object visitPrepareEnsure() {
 		result_.append("visitPrepareEnsure\n");
 		return null;
@@ -369,11 +373,11 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("visitRescueBegin\n");
 		return 0;
 	}
-	
+
 	public void visitEnsure(int var) {
 		result_.append("ensure\n");
 	}
-	
+
 	public int visitEnsureBodyBegin() {
 		result_.append("EnsureBodyBegin");
 		return 0;
@@ -382,7 +386,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitEnsureBodyEnd(int var) {
 		result_.append("EnsureBodyEnd");
 	}
-	
+
 	public void visitAfterRescueBody(Object next_label, Object end_label) {
 		result_.append("end rescue\n");
 	}
@@ -390,7 +394,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitRescueEnd(int exception_variable, boolean has_ensure) {
 		result_.append("end rescue!\n");
 	}
-	
+
 	public Object visitRescueVariable(String name, int exception_var) {
 		result_.append("=>");
 		result_.append(name);
@@ -407,7 +411,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(has_single_asterisk);
 		result_.append("\n");
 	}
-	
+
 	public void visitArrayEnd() {
 		result_.append("]!\n");
 	}
@@ -433,7 +437,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitHashEnd() {
 		result_.append("}!\n");
 	}
-	
+
 	public void visitSymbolExpression(String value) {
 		result_.append(":" + value + "\n");
 	}
@@ -441,7 +445,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitYieldBegin() {
 		result_.append("yield\n");
 	}
-	
+
 	public void visitYieldEnd() {
 		result_.append("end yield\n");
 	}
@@ -449,7 +453,7 @@ public class CodePrinter implements CodeVisitor {
 	public void visitSuperBegin() {
 		result_.append("super\n");
 	}
-	
+
 	public void visitSuperEnd(boolean has_no_arg, boolean has_one_arg) {
 		result_.append("end super\n");
 	}
@@ -458,7 +462,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(value);
 		result_.append("\n");
 	}
-	
+
 	public void visitClassVariableExpression(String value) {
 		result_.append(value);
 		result_.append("\n");
@@ -480,7 +484,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(name);
 		result_.append("\n");
 	}
-	
+
 	public void visitMethodDefinationAsteriskParameter(String name) {
 		result_.append("*parameter:");
 		result_.append(name);
@@ -510,19 +514,19 @@ public class CodePrinter implements CodeVisitor {
 	public void visitReturn() {
 		result_.append("return\n");
 	}
-	
+
 	public void visitBreak() {
 		result_.append("break\n");
 	}
-	
+
 	public void visitNext() {
 		result_.append("next\n");
 	}
-	
+
 	public void visitRedo() {
 		result_.append("redo\n");
 	}
-	
+
 	public void visitRetry() {
 		result_.append("retry\n");
 	}
@@ -554,7 +558,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(i);
 		result_.append("\n");
 	}
-	
+
 	public void visitWhileConditionBegin() {
 		result_.append("while condition\n");
 	}
@@ -573,7 +577,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append(":");
 		result_.append(has_asterisk_parameter);
 		result_.append(":");
-		result_.append(num_of_default_args);	
+		result_.append(num_of_default_args);
 		result_.append("\n");
 		return null;
 	}
@@ -625,7 +629,13 @@ public class CodePrinter implements CodeVisitor {
 	public void visitPotentialProcCall() {
 	}
 
-	public void visitMultipleArrayAssign() {
+    public void visitMultipleArrayAssign() {
 	}
 
+    // ---------------------------
+    //   Interfaces for debugger
+    // ---------------------------
+    public Label visitLineLabel(int lineNumber) {
+        return null;
+    }
 }
