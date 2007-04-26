@@ -2179,18 +2179,11 @@ public class RubyCompilerTest extends CompilerTestCase {
     }
 
     public void test_Enumerable() {
-        /*
-         * Have added tests for methods as follows(alphabetic sequence):
-         * entries
-         * include?
-         * inject
-         * member?
-         * to_a 
-         * 
-         */
         String[] program_texts = {
                 "a = [1, 3, 2].sort_by {|x| print x; 1};p a\n"+
                 "a = %w{apple pear fig }; b = a.sort_by {|word| word.length}; p a, b\n",
+                
+                "p (1..10).sort {|a,b| b <=> a}\n",
                 
                 "a = (1..10).detect  {|i| i % 5 == 0 and i % 7 == 0 }; print a",
                 "a = (1..100).detect {|i| i % 5 == 0 and i % 7 == 0 }; print a",
@@ -2274,10 +2267,21 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "p (1..4).map { \"cat\"  }\n",
                 
                 "p (1..6).partition {|i| (i&1).zero?}\n",
+                
+                "p (1..100).grep 38..44\n"+
+                "c= [\"SEK_END\", \"SEEK_SET\", \"SEEK_CUR\"]\n"+
+                "p c.grep(/SEEK/)\n",
+                
+                "a = [ 4, 5 ]\n"+
+                "b = [ 7, 8, 9 ]\n"+
+                "p (1..3).zip(a, b)\n"+
+                "p (1..3).zip\n",
+                        
         };
 
         String[] outputs = {
                 "132[1, 3, 2]\n[\"apple\", \"pear\", \"fig\"]\n[\"fig\", \"pear\", \"apple\"]\n",
+                "[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]\n",
                 "nil",
                 "35",
                 "102132",                
@@ -2289,6 +2293,8 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "true\ntrue\nfalse\ntrue\n",
                 "[1, 4, 9, 16]\n[\"cat\", \"cat\", \"cat\", \"cat\"]\n",
                 "[[2, 4, 6], [1, 3, 5]]\n",
+                "[38, 39, 40, 41, 42, 43, 44]\n[\"SEEK_SET\", \"SEEK_CUR\"]\n",
+                "[[1, 4, 7], [2, 5, 8], [3, nil, 9]]\n[[1], [2], [3]]\n",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
