@@ -758,6 +758,18 @@ module Enumerable
     end
     
     alias entries :to_a
+
+    def sort(&proc)
+	#proc = lambda{ |a,b| a<=>b } unless block_given?
+	arr = to_a
+	arr.sort{|x,y| 
+	    if block_given?  then
+	        proc.call(x,y)
+	    else
+		x<=>y
+	    end
+	}
+    end
     
     def member?(other)
 	each{|obj| return true if obj == other }
@@ -821,5 +833,31 @@ module Enumerable
 	each { |obj| yield(obj) ? left.push(obj) : right.push(obj) }
 	return [left, right]
     end
+
+    def zip(*args)
+	result = []
+	args = args.map{|arg| arg.to_a}
+	each_with_index{|obj,i|
+	   arr = [obj]
+	   args.each{|x| arr << x[i]}
+	   result << arr
+
+	   yield(result.last) if block_given?
+	}
+	result unless block_given?
+    end 
     
+    def grep(pattern, &proc)
+        result = []
+	each do |obj|
+	    if pattern === obj
+		if block_given? then
+		    result << proc.call(obj)
+		else
+		    result << obj
+		end
+	    end
+        end
+	result
+  end
 end
