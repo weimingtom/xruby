@@ -9,10 +9,15 @@ package com.xruby.debug;
  */
 public class ContinueInsn implements Instruction {
     public Result execute() {
-        DebugContext.getJVM().resume();
-
         Result result = new Result();
-        result.setStatus(Result.Status.SUCCESSFUL);
+        if (DebugContext.isStarted()) {
+            DebugContext.getJVM().resume();
+
+            result.setStatus(Result.Status.SUCCESSFUL);
+        } else {
+            DebugContext.emitMessage("VM hasn't started");
+        }
+
         return result;
     }
 }
