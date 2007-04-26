@@ -37,6 +37,7 @@ public abstract class FrontEnd {
         // Maybe monostate is better for DebugContext
         DebugContext.initContext(traceMode, arguments);
         DebugContext.registerFrontEnd(this);
+        DebugContext.validateContext();
     }
 
     protected Result run() {
