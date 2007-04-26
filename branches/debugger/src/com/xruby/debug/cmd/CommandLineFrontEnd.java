@@ -198,8 +198,7 @@ public class CommandLineFrontEnd extends FrontEnd {
 
         // Create front end
         FrontEnd frontEnd = new CommandLineFrontEnd(arguments);
-
-        DebugContext.validateContext();
+                
         frontEnd.start();
     }
 }

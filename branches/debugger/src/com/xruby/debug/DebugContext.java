@@ -17,11 +17,12 @@ import java.util.Map;
 
 /**
  * DebugContext for debug. It manages
- * 1. JVM connection
- * 2. Debug Runtime settings, source path, class path
- * 3. JVM shutdown hook, FrontEnd management
- * 4. Instruction management
- * 5. Message proxy
+ * 1. JVM connection;
+ * 2. Debug Runtime settings, source path,
+ *    classpath, and jvm event notifier;
+ * 3. JVM shutdown hook, FrontEnd management;
+ * 4. Instruction management;
+ * 5. Message proxy; 
  *
  * @author Yu Su(beanworms@gmail.com)
  */
@@ -45,7 +46,22 @@ public class DebugContext {
     }
 
     /**
-     * Initiate context
+     * validate the debug context, to guarantee it has been set up correctly
+     * otherwise throw RuntimeException
+     * 
+     * The rule is:
+     * EvnetNotifier, FrontEnd, and MessageCtr couldn't be null
+     */
+    public static void validateContext() {
+        if(DebugContext.messageCtr == null ||    // Message cener
+           DebugContext.frontEnd == null   ||    // Front end register itself by default
+           DebugContext.notifier == null) {      // JVM event notifer
+            throw new RuntimeException("Fatal error: Debugger failed to start");
+        }
+    }
+
+    /**
+     * Initiate context, create JVM connection
      *
      * @param traceFlag trace mode
      * @param arguments arguments
@@ -54,18 +70,61 @@ public class DebugContext {
         jvmConnection = new JVMConnection(traceFlag, arguments);
     }
 
-    // -------------------------
-    //   Readers and Writters
-    // -------------------------
-    public static void setNotifier(JVMEventNotifier notifier) {
+    // -----------------------
+    //  1. JVM management
+    // -----------------------
+
+    /**
+     * Check if jvm has started/shutdown
+     * 
+     * @return true if jvm has started, otherwise false
+     */
+    public static boolean isStarted() {
+        return (getJVM() != null);
+    }
+
+    /**
+     * return jvm connection
+     * @return current jvm connection
+     */
+    public static JVMConnection getJvmConnection() {
+        return jvmConnection;
+    }
+
+    /**
+     * Retrieve VM
+     * @return VM
+     */
+    public static VirtualMachine getJVM() {
+        return jvmConnection.getJvm();
+    }
+
+    /**
+     * Retrieve VM's EventRequestManager
+     * @return VM's EventRequestManager
+     */
+    public static EventRequestManager getEventRequestManager() {
+        return getJVM().eventRequestManager();
+    }
+
+    // -------------------------------
+    //  2. Debug Runtime settings
+    // -------------------------------
+
+    /**
+     * Note: Setting notifier is a "must operation", otherwise  
+     * @param notifier notifier impl
+     */
+     public static void setNotifier(JVMEventNotifier notifier) {
         DebugContext.notifier = notifier;
     }
 
+    // Getter
     public static JVMEventNotifier getNotifier() {
         return notifier;
     }
 
-
+    // Event Handler
     public static EventHandler getHandler() {
         return handler;
     }
@@ -74,18 +133,7 @@ public class DebugContext {
         DebugContext.handler = handler;
     }
 
-    public static JVMConnection getJvmConnection() {
-        return jvmConnection;
-    }
-
-    public static VirtualMachine getJVM() {
-        return jvmConnection.getJvm();
-    }
-
-    public static EventRequestManager getEventRequestManager() {
-        return getJVM().eventRequestManager();
-    }
-
+    // Classpath
     public static List<URL> getClassPath() {
         return classPath;
     }
@@ -101,33 +149,6 @@ public class DebugContext {
     public static List<File> getSourcePath() {
         return sourcePath;
     }
-
-    public static SmapMgr getSmapMgr() {
-        return smapMgr;
-    }
-
-    public static List<Instruction> getDeferredInsns() {
-        return deferredInsns;
-    }
-
-    // If jvm is still a null value
-    public static boolean isStarted() {
-        return (getJVM() != null);
-    }
-
-    public static void registerFrontEnd(FrontEnd frontEnd) {
-        DebugContext.frontEnd = frontEnd;
-    }
-
-    public static void shutdown() {
-        if(DebugContext.frontEnd != null) {
-            frontEnd.onVmShutdown();
-        } 
-    }
-
-    // --------------------
-    //    Helper Methods
-    // --------------------
 
     public static void addSourcePath(String path) {
         File file = new File(path);
@@ -146,14 +167,31 @@ public class DebugContext {
             addSourcePath(path);
         }
     }
+
+    public static SmapMgr getSmapMgr() {
+        return smapMgr;
+    }
+
+    // ----------------------------
+    //   3. FrontEnd Management
+    // ----------------------------
     
-    /**
-     * Return the description of this context.
-     *
-     * @return description
-     */
-    public static String dumpContext() {
-        return null; // TODO: implement it
+    public static void registerFrontEnd(FrontEnd frontEnd) {
+        DebugContext.frontEnd = frontEnd;
+    }
+
+    // Shutdown hook
+    public static void shutdown() {
+        if(DebugContext.frontEnd != null) {
+            frontEnd.onVmShutdown();
+        } 
+    }
+
+    // --------------------------------------
+    //  4. Deffered Instructions Management
+    // --------------------------------------
+    public static List<Instruction> getDeferredInsns() {
+        return deferredInsns;
     }
 
     public static void pushCommand(Instruction insn) {
@@ -163,7 +201,6 @@ public class DebugContext {
     // ---------------------
     //   5. Message proxy
     // ---------------------
-
     /**
      * This must be set up before start debugger
      * @param messageCtr implementation of MessageCenter interface
@@ -178,19 +215,5 @@ public class DebugContext {
 
     public static void emitMessage(String format, Object ... args) {
         DebugContext.messageCtr.emitMessage(format, args);
-    }
-
-    /**
-     * validate the debug context, to guarantee it has been set up correctly
-     * otherwise throw RuntimeException
-     *
-     * TODO: Create XRubyRuntimeException
-     */
-    public static void validateContext() {
-        if(DebugContext.messageCtr == null ||    // Message cener
-           DebugContext.frontEnd == null   ||    // Front end register itself by default
-           DebugContext.notifier == null) {      // JVM event notifer
-            throw new RuntimeException("Fatal error: Debugger failed to start");
-        }
     }
 }
