@@ -18,10 +18,12 @@ public class RubyDir extends RubyBasic{
     private File dir_;
     private boolean isOpen = true;
     private int curPos;
+    private String path;
     private List<String> list = new ArrayList<String>();
     
     public RubyDir(String path){
         super(RubyRuntime.DirClass);
+        this.path = path;
         dir_ = new File(path);
         
         list.add(".");
@@ -63,10 +65,14 @@ public class RubyDir extends RubyBasic{
     public int getPos(){
         return curPos;
     }
+
+    public String getPath(){
+        return path;
+    }
     
-    public RubyValue each(RubyValue receiver,RubyBlock block){
+    public RubyValue each(RubyBlock block){
         for (String item : list) {
-            RubyValue v = block.invoke(receiver, new RubyArray(ObjectFactory.createString(item)));
+            RubyValue v = block.invoke(this, new RubyArray(ObjectFactory.createString(item)));
             if (block.breakedOrReturned()) {
                 return v;
             }
