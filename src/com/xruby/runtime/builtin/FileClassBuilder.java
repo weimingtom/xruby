@@ -79,10 +79,15 @@ class File_file_question extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String fileName = RubyTypesUtil.convertToString(arg).toString();
         File file = new File(fileName);
-        if (file.isFile()) {
-            return ObjectFactory.TRUE_VALUE;
-        }
-        return ObjectFactory.FALSE_VALUE;
+        return file.isFile() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+    }
+}
+
+class File_directory_question extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        String fileName = RubyTypesUtil.convertToString(arg).toString();
+        File file = new File(fileName);
+        return file.isFile() ? ObjectFactory.FALSE_VALUE : ObjectFactory.TRUE_VALUE;
     }
 }
 
@@ -195,6 +200,7 @@ public class FileClassBuilder {
         //c.defineMethod("id2name", new Symbol_id2name());
 
         c.getSingletonClass().defineMethod("file?", new File_file_question());
+        c.getSingletonClass().defineMethod("directory?", new File_directory_question());
         c.getSingletonClass().defineMethod("expand_path", new File_expand_path());
         c.getSingletonClass().defineMethod("dirname", new File_dirname());
         RubyMethod delete = new File_delete();
