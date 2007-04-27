@@ -11,5 +11,6 @@ All methods in this Class or Module has implemented!
 
 *Enumerable
 
+*Dir
 
 
