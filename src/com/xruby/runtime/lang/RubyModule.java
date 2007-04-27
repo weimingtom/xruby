@@ -118,7 +118,7 @@ public class RubyModule extends MethodCollection {
         return (RubyModule)v;
     }
 
-    RubyValue getConstant(String name) {
+    public RubyValue getConstant(String name) {
         RubyValue v = super.getOwnConstant(name);
         if (null != v) {
             return v;
