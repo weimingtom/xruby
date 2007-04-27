@@ -90,10 +90,11 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitClassDefination2(String className) {
+        //TODO optimizing aceess to builtin class (use them directly)
         if (isInGlobalScope()) {
             cg_.getMethodGenerator().RubyAPI_defineClass();
         } else {
-            cg_.getMethodGenerator().RubyModule_defineClass(className);
+            cg_.getMethodGenerator().RubyModule_defineClass();
         }
 
         //The class body may refer the constant, so save it before class builder starts.
