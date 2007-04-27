@@ -3939,6 +3939,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_class_module_in_class_module() {
         String [] program_texts = {
+                "module M; class Object; print 'another object'; end; end",
+
                 "module ConstantInModule\n" +
                 "	class C\n" +
                 "		def f\n" +
@@ -3983,6 +3985,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "another object",
                 "MCf",
                 "MCf2",
                 "0TestM1TestM1::TestM2TestM1::TestM2::TestM31",
