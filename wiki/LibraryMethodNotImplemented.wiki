@@ -2,6 +2,8 @@
 
 If you find a method not implemented,feel free to report that.Of course,we welcome that you implement them and share with us.
 
+Rubinius has lots builtin methods written in pure ruby, we could use some of their implementations. To keep their copyright, better put all these migrated code in a single file and then required by builtin.rb.
+
 *Range
 
 
@@ -12,5 +14,7 @@ All methods in this Class or Module has implemented!
 *Enumerable
 
 *Dir
+
+
 
 
