@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng, Yu Zhang
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -39,7 +39,7 @@ class Dir_getwd extends RubyNoArgMethod {
         return ObjectFactory.createString(System.getProperty("user.dir"));
     }
 }
-
+//TODO deal with dir permission!
 class Dir_mkdir extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String dir = RubyTypesUtil.convertToString(arg).toString();
@@ -56,12 +56,12 @@ class Dir_rmdir extends RubyOneArgMethod {
         String dir = RubyTypesUtil.convertToString(arg).toString();
         File file = new File(dir);
         if (!file.isDirectory()) {
-            throw new RubyException(RubyRuntime.RuntimeErrorClass, "Not a directory - " + dir);
+            throw new RubyException((RubyClass)RubyRuntime.ErrnoModule.getConstant("ENOENT"), "Not a directory - " + dir);
         }
         if (file.delete()) {
             return ObjectFactory.FIXNUM0;
         }
-        throw new RubyException(RubyRuntime.RuntimeErrorClass, "Can't delete directory - " + dir);
+        throw new RubyException((RubyClass)RubyRuntime.ErrnoModule.getConstant("ENOENT"), "Can't delete directory - " + dir);
     }
 }
 
@@ -158,7 +158,7 @@ class Dir_new extends RubyOneArgMethod {
         String path = RubyTypesUtil.convertToString(arg).toString();
         RubyDir dir = new RubyDir(path);
         if (!dir.isDirectory()) {
-            throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such directory - " + path);
+            throw new RubyException((RubyClass)RubyRuntime.ErrnoModule.getConstant("ENOENT"), "No such directory - " + path);
         }
         dir.setRubyClass((RubyClass)receiver);
         return dir;
@@ -211,10 +211,19 @@ class Dir_seek extends RubyOneArgMethod {
     }
 }
 
+class Dir_pos_eq extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        RubyDir dir = (RubyDir)receiver;
+        RubyFixnum pos = (RubyFixnum)arg;
+        dir.setPos(pos.intValue());
+        return pos;
+    }
+}
+
 class Dir_each extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyDir dir = (RubyDir)receiver;
-        return dir.each(receiver,block);
+        return dir.each(block);
     }
 }
 
@@ -222,7 +231,33 @@ class Dir_foreach extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String path = RubyTypesUtil.convertToString(arg).toString();
         RubyDir dir = new RubyDir(path);
-        return dir.each(dir, block);
+        return dir.each(block);
+    }
+}
+
+class Dir_path extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyDir dir = (RubyDir)receiver;
+        return ObjectFactory.createString(dir.getPath());
+    }
+}
+
+class Dir_open extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        String path = RubyTypesUtil.convertToString(arg).toString();
+        RubyDir dir = new RubyDir(path);
+        if (!dir.isDirectory()) {
+            throw new RubyException((RubyClass)RubyRuntime.ErrnoModule.getConstant("ENOENT"), "No such directory - " + path);
+        }
+        dir.setRubyClass((RubyClass)receiver);
+
+        if (null == block) {
+            return dir;
+        } else {
+            RubyValue v = block.invoke(receiver, new RubyArray(dir));
+            dir.close();
+            return v;
+        }
     }
 }
 
@@ -245,13 +280,17 @@ public class DirClassBuilder {
         c.getSingletonClass().defineMethod("entries", new Dir_entries());
         c.getSingletonClass().defineMethod("[]", new Dir_array_access());
         c.getSingletonClass().defineMethod("glob", new Dir_glob());
+        c.getSingletonClass().defineMethod("open", new Dir_open());
         
         c.defineMethod("close", new Dir_close());
         c.defineMethod("read", new Dir_read());
         c.defineMethod("rewind", new Dir_rewind());
         c.defineMethod("tell", new Dir_tell());
+        c.defineMethod("pos", new Dir_tell());
         c.defineMethod("seek", new Dir_seek());
+        c.defineMethod("pos=", new Dir_pos_eq());
         c.defineMethod("each", new Dir_each());
+        c.defineMethod("path", new Dir_path());
         
         c.includeModule(RubyRuntime.EnumerableModule);
     }
