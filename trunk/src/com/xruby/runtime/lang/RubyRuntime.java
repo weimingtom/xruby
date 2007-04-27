@@ -63,6 +63,7 @@ public class RubyRuntime {
     public static RubyClass IOErrorClass;
     public static RubyClass RuntimeErrorClass;
     public static RubyClass LocalJumpErrorClass;
+    public static RubyClass SystemCallErrorClass;
 
     public static RubyClass ScriptErrorClass;
     public static RubyClass SyntaxErrorClass;
@@ -132,6 +133,7 @@ public class RubyRuntime {
         IOErrorClass = RubyAPI.defineClass("IOError", StandardErrorClass);
         RuntimeErrorClass = RubyAPI.defineClass("RuntimeError", StandardErrorClass);
         LocalJumpErrorClass = RubyAPI.defineClass("LocalJumpError", StandardErrorClass);
+        SystemCallErrorClass = RubyAPI.defineClass("SystemCallError", StandardErrorClass);
 
         ScriptErrorClass = RubyAPI.defineClass("ScriptError", ExceptionClass);
         SyntaxErrorClass = RubyAPI.defineClass("SyntaxError", ScriptErrorClass);
@@ -146,6 +148,7 @@ public class RubyRuntime {
         GCModuleBuilder.initialize();
         MarshalModuleBuilder.initialize();
         MathModuleBuilder.initialize();
+        ErrnoModuleBuilder.initialize();
         NumericClassBuilder.initialize();
         IntegerClassBuilder.initialize();
         FixnumClassBuilder.initialize();
@@ -233,7 +236,7 @@ public class RubyRuntime {
                 "Symbol", "ThreadGroup", "Thread", "ArgumentError",
                 "Time", "TrueClass",
 
-                "Exception", "StandardError", "TypeError", "IndexError", "RangeError", "NameError", "NoMethodError", "IOError", "RuntimeError", "LocalJumpError",
+                "Exception", "StandardError", "TypeError", "IndexError", "RangeError", "NameError", "NoMethodError", "IOError", "RuntimeError", "LocalJumpError","SystemCallError", 
                 "ScriptError", "SyntaxError", "LoadError", "NotImplementedError",
         };
 
