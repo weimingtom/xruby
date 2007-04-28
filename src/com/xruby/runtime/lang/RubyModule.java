@@ -47,6 +47,7 @@ public class RubyModule extends MethodCollection {
         new RubySingletonClass(c, parent.getRubyClass());
 
         constants_.put(name, c);
+        ObjectSpace.add(c);
         return c;
     }
 
