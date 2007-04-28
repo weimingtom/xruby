@@ -9,7 +9,7 @@ import org.antlr.runtime.Token;
  * Distributed under the GNU General Public License 2.0
  */
 public class IntToken extends CommonToken {
-    private int value;
+    private int value; //test
 
     public IntToken() {
         super(Rubyv3Lexer.INT);
