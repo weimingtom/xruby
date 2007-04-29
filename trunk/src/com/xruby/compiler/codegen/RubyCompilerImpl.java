@@ -131,11 +131,15 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.endClassBuilderMethod(last_statement_has_return_value);
 	}
 
-	public void visitModuleDefination(String moduleName) {
-		cg_.getMethodGenerator().loadThis();
-
+    public void visitModuleDefination1() {
+        cg_.getMethodGenerator().loadThis();
+    }
+    
+	public void visitModuleDefination2(String moduleName, boolean has_scope) {
 		if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(moduleName)) {
-            if (isInGlobalScope()) {
+            if (has_scope) {
+                cg_.getMethodGenerator().RubyModule_defineModule(moduleName);
+            } else if (isInGlobalScope()) {
                 cg_.getMethodGenerator().RubyAPI_defineModule(moduleName);
             } else {
                 cg_.getMethodGenerator().loadArg(3);

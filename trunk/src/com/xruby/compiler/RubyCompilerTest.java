@@ -2182,20 +2182,20 @@ public class RubyCompilerTest extends CompilerTestCase {
         String[] program_texts = {
                 "a = [1, 3, 2].sort_by {|x| print x; 1};p a\n"+
                 "a = %w{apple pear fig }; b = a.sort_by {|word| word.length}; p a, b\n",
-                
+
                 "p (1..10).sort {|a,b| b <=> a}\n",
-                
+
                 "a = (1..10).detect  {|i| i % 5 == 0 and i % 7 == 0 }; print a",
                 "a = (1..100).detect {|i| i % 5 == 0 and i % 7 == 0 }; print a",
-                
+
                 "[1,2,3].each_with_index{|x, y| print x,y}",
-                
+
                 "p (1..10).find_all {|i|  i % 3 == 0 }",
                 "p [1, 2, 3, 4].find_all {|i|  i % 3 == 0 }",
 
                 "p (5..10).inject {|sum, n| sum + n }\n"+
                 "p (5..10).inject(1) {|product, n| product * n }",
-                
+
                 "class Two\n"+
                 "       include Comparable\n"+
 
@@ -2215,11 +2215,11 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "       def inspect\n"+
                 "           @str\n"+
                 "       end\n"+
-                
+
                 "       def add(other)\n"+
                 "           Two.new(@str + other.str)\n"+
                 "       end\n" +
-                
+
                 "end\n"+
 
                 "class One\n"+
@@ -2252,31 +2252,31 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "           p o.inject{|sum,element|sum.add(element)}\n"+
                 "           p o.inject(Two.new(\"begin\")){|sum,element|sum.add(element)}\n"+
                 "           p o.max\n"+
-                "           p o.min\n"+        
+                "           p o.min\n"+
                 "       end\n"+
                 "end\n"+
 
                 "One.test\n",
-                
+
                 "p [ nil, true, 99 ].any? \n"+
                 "p [ 2, true, 99 ].all? \n"+
                 "p [ nil, true, 99 ].all? \n"+
                 "p %w{ ant bear cat}.all? {|word| word.length >= 3}\n",
-                
+
                 "p (1..4).collect {|i| i*i }\n"+
                 "p (1..4).map { \"cat\"  }\n",
-                
+
                 "p (1..6).partition {|i| (i&1).zero?}\n",
-                
+
                 "p (1..100).grep 38..44\n"+
                 "c= [\"SEK_END\", \"SEEK_SET\", \"SEEK_CUR\"]\n"+
                 "p c.grep(/SEEK/)\n",
-                
+
                 "a = [ 4, 5 ]\n"+
                 "b = [ 7, 8, 9 ]\n"+
                 "p (1..3).zip(a, b)\n"+
                 "p (1..3).zip\n",
-                        
+
         };
 
         String[] outputs = {
@@ -2284,7 +2284,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]\n",
                 "nil",
                 "35",
-                "102132",                
+                "102132",
                 "[3, 6, 9]\n",
                 "[3]\n",
 
@@ -3801,11 +3801,13 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_module() {
         String [] program_texts = {
+                "module Kernel::M2;print self;end",
                 "module TestModule; end; print TestModule.class",
                 "module TestModule; end; print TestModule",
         };
 
         String[] outputs = {
+                "Kernel::M2",
                 "Module",
                 "TestModule",
         };
