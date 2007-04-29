@@ -18,12 +18,7 @@ class TestCharLexer extends CharLexer {
         super(input);
     }
 
-    public Token nextToken() {
-        if (mark) {
-            rewind();
-        }
-        return super.nextToken();
-    }
+
 }
 
 public class BaseLexerTest extends TestCase {

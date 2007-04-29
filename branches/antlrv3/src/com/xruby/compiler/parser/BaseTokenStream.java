@@ -59,7 +59,7 @@ public class BaseTokenStream implements TokenStream {
     }
 
     public int LA(int i) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return LT(i).getType();
     }
 
     public int mark() {

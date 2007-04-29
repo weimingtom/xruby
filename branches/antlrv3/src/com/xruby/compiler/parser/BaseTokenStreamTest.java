@@ -36,7 +36,9 @@ public class BaseTokenStreamTest extends TestCase {
         tokenStream.consume();
         token = tokenStream.LT(1);
         assertEquals(Token.EOF_TOKEN.getType(), token.getType());
-
+        tokenStream.consume();
+        token = tokenStream.LT(-1);
+        assertEquals("5", token.getText());
         /*token = tokenStream.LT(2);
        assertEquals(Token.EOF_TOKEN.getType(), token.getType());*/
 
