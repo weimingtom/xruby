@@ -4838,6 +4838,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_misc() {
         String [] program_texts = {
+                "print %q{location:1 in 'l'}.sub(/\\A(.+:\\d+).*/, ' [\\\\1]')",
+                "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '<\\&>')",
+                "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, 'a\\2b')",
+                "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '\\1')",
+
                 "print '%05d' % 123",
                 "print '%s:%s' % [ 'a', 'b' ]",
                 "print '0x0a'.hex",
@@ -4857,9 +4862,6 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "print 'x'[-1]",
                 "print 'x'[2]",
                 "print \"\\#\".length",
-                "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '<\\&>')",
-                "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, 'a\\2b')",
-                "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '\\1')",
 
                 "print 'abcd'.delete('bc')",
 
@@ -4875,6 +4877,11 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                " [location:1]",
+                "<a.gif>",
+                "ab",
+                "gif",
+                
                 "00123",
                 "a:b",
                 "10",
@@ -4894,9 +4901,6 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "120",
                 "nil",
                 "1",
-                "<a.gif>",
-                "ab",
-                "gif",
 
                 "ad",
 

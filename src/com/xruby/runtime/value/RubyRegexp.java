@@ -80,10 +80,15 @@ public class RubyRegexp extends RubyBasic {
         //java uses $1, $2, ruby uses \1, \2
         replace_string = replace_string.replace("\\&", "$0");
         final int n = m.groupCount();
+
+        //%q{location:1 in 'l'}.sub(/\A(.+:\d+).*/, ' [\\1]') is as same as
+        //%q{location:1 in 'l'}.sub(/\A(.+:\d+).*/, ' [\1]')
         for (int i = 1; i <= n; ++i) {
+            replace_string = replace_string.replace("\\\\" + i, "$" + i);
             replace_string = replace_string.replace("\\" + i, "$" + i);
         }
         for (int i = n + 1; i < 10; ++i) {
+            replace_string = replace_string.replace("\\\\" + i, "$" + i);
             replace_string = replace_string.replace("\\" + i, "");
         }
 
