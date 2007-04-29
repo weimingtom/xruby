@@ -6,7 +6,6 @@
 package com.xruby.compiler.parser;
 
 import org.antlr.runtime.ANTLRFileStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
 import java.io.*;
@@ -61,7 +60,7 @@ public class Rubyv3ParserSmokeTest {
                 ANTLRFileStream input =
                         new ANTLRFileStream(f.getAbsolutePath());
                 Rubyv3Lexer lexer = new Rubyv3Lexer(input);
-                CommonTokenStream tokens = new CommonSetTokenStream(lexer);
+                BaseTokenStream tokens = new BaseTokenStream(lexer);
                 Rubyv3Parser parser = new Rubyv3Parser(tokens);
                 parser.program();
             } catch (RecognitionException e) {

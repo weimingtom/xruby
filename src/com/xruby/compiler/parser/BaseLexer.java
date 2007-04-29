@@ -2,6 +2,7 @@ package com.xruby.compiler.parser;
 
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.Lexer;
+import org.antlr.runtime.Token;
 
 /**
  * Copyright 2005-2007 femto
@@ -34,5 +35,12 @@ public abstract class BaseLexer extends Lexer implements RewindableTokenSource {
     public void rewind() {
         mark = false;
         input.rewind();
+    }
+
+    public Token nextToken() {
+        if (mark) {
+            rewind();
+        }
+        return super.nextToken();
     }
 }
