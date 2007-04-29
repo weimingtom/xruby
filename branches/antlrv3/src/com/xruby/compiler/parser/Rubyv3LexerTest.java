@@ -7,9 +7,14 @@ import org.antlr.runtime.TokenStream;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class Rubyv3LexerTest extends TestCaseExtend {
+    private static final int ANY = -2; //doesn't care what this lex type is
+
     public void test_INT() throws Exception {
         //Token token = lex_one("12345");
 
@@ -93,11 +98,16 @@ public class Rubyv3LexerTest extends TestCaseExtend {
     }
 
     public void test_HEREDOC_STRING() throws Exception {
-        /*assert_lex("<<HERE\n" +
+        assert_lex("<<HERE\n" +
                 "Double quoted \n" +
                 "here document.\n" +
                 "It is #{Time.now}\n" +
-                "HERE", Rubyv3Lexer.HEREDOC_STRING);*/
+                "HERE", Rubyv3Lexer.HEREDOC_BEGIN);
+        assert_lex("var<<HERE\n" +
+                "Double quoted \n" +
+                "here document.\n" +
+                "It is #{Time.now}\n" +
+                "HERE", new int[]{ANY, Rubyv3Lexer.SHIFT});
     }
 
     private TokenStream lex(String text) throws IOException {
@@ -124,30 +134,55 @@ public class Rubyv3LexerTest extends TestCaseExtend {
     private void assert_lex(String text, int expectedTypes) throws IOException, RecognitionException {
         ANTLRStringStream input =
                 new ANTLRStringStream(text);
-        Properties prop = new Properties();
-        prop.load(new FileInputStream(".\\src\\com\\xruby\\compiler\\parser\\Rubyv3.tokens")); //hard code here and only init once.
         Rubyv3Lexer lexer = new Rubyv3Lexer(input);
         BaseTokenStream tokens = new BaseTokenStream(lexer);
 
-        assertEquals(expectedTypes, tokens.get(0).getType());
+        assertTokenTypeEquals(expectedTypes, tokens.get(0).getType());
 
-        //assertEquals(-1, lexer.nextToken().getType());
+        //assertTokenTypeEquals(-1, lexer.nextToken().getType());
     }
 
     private void assert_lex(String text, int[] expectedTypes) throws IOException, RecognitionException {
         ANTLRStringStream input =
                 new ANTLRStringStream(text);
-        Properties prop = new Properties();
-        prop.load(new FileInputStream(".\\src\\com\\xruby\\compiler\\parser\\Rubyv3.tokens")); //hard code here and only init once.
         Rubyv3Lexer lexer = new Rubyv3Lexer(input);
         BaseTokenStream tokens = new BaseTokenStream(lexer);
         //assertEquals("tokens.size should be " + expectedTypes.length + ",", expectedTypes.length, tokens.size());
         for (int i = 0; i < expectedTypes.length; i++) {
             int expectedType = expectedTypes[i];
-            assertEquals(expectedType, tokens.get(i).getType());
+            assertTokenTypeEquals(expectedType, tokens.get(i).getType());
         }
 
         //assertEquals(-1, lexer.nextToken().getType());
     }
+
+    private void assertTokenTypeEquals(int expectedTypes, int type) {
+        if (expectedTypes == ANY) {
+            return; //we don't care what type this is
+        }
+        assertEquals("expected:" + typeToFriendlyName.get(expectedTypes) +
+                " but was:" + typeToFriendlyName.get(type) +
+                "", expectedTypes, type);
+    }
+
+    Properties prop;
+    Map typeToFriendlyName;
+
+    protected void setUp() throws Exception {
+        prop = new Properties();
+        prop.load(new FileInputStream(".\\src\\com\\xruby\\compiler\\parser\\Rubyv3.tokens")); //hard code here and only init once.
+        typeToFriendlyName = new HashMap();
+        Enumeration<Object> keys = prop.keys();
+        while (keys.hasMoreElements()) {
+            Object key = keys.nextElement();
+            try {
+                typeToFriendlyName.put(Integer.parseInt(prop.get(key).toString()), key);
+            } catch (NumberFormatException e) {
+                System.out.println("warning: can't convert " + key + "=" + prop.get(key));
+                //System.out.println(prop.get(key));
+            }
+        }
+    }
+
 
 }
