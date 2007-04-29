@@ -47,7 +47,7 @@ package com.xruby.compiler.parser;
 @lexer::members {
         /** Override this method to change where error messages go */
         public void emitErrorMessage(String msg) {
-		//System.err.println(msg);
+		System.err.println(msg);
 	}
 	
 	/*public Token emit() {
@@ -61,9 +61,9 @@ package com.xruby.compiler.parser;
         return t;
         }*/
         
-        private Token createIntToken() {
+        /*private Token createIntToken() {
           return new IntToken(input, channel, tokenStartCharIndex, getCharIndex()-1);
-        }
+        }*/
         private Token createStringToken() {
                 return new StringToken(input, channel, tokenStartCharIndex, getCharIndex()-1);
         }
@@ -151,12 +151,31 @@ ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
 
 
 expression
-	:	'expression0' | 'expression1' | 'expression2'|INT|ID|ID INT|boolean_expression| block_expression|if_expression|unless_expression;
+	:	'expression0' | 'expression1' | 'expression2'|INT|ID|boolean_expression| block_expression|if_expression|unless_expression|assignment_expression;
+assignment_expression
+	:	lvalue '=' rvalue;
+lvalue	:	ID;
+rvalue	:	expression;
 
-literal	:	NUMBER|STRING|ARRAY|HASH|RANGE|SYMBOL|REGEX;
+literal	:	NUMBER|string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
 INT
-	:	'-'?(('0d'|'0x'|'0b')?('0'..'9') ('_'? '0'..'9')* | ESCAPE_INT) {token = createIntToken();}
+	:	'-'?((OCTAL)=> OCTAL|DECIMAL|HEX|BINARY| ESCAPE_INT)
 	;
+fragment
+OCTAL	:	'0' '_'? ('0'..'7') ('_'? '0'..'7')*;
+fragment
+DECIMAL	:	
+('0d')?('0'..'9') ('_'? '0'..'9')* ;
+fragment
+HEX	: '0x' HEX_PART ('_'? HEX_PART)* ;
+fragment
+HEX_PART
+	:	('0'..'9'|'a'..'f'|'A'..'F')
+	;
+
+fragment
+BINARY	:	'0b'('0'..'1') ('_'? '0'..'1')*;
+
 fragment
 ESCAPE_INT
 	:       '?'(CONTROL_PART|META_PART)* ('\u0000' .. '\u0255')  
@@ -180,14 +199,17 @@ fragment
 EXP_PART:	('e' | 'E') '-'? LEADING0_NUMBER;
 NUMBER	:	INT|FLOAT;
 
-STRING	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING;
-fragment
+string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING;
+
 SINGLE_QUOTE_STRING
-	:	'\'' .* '\'' | '%q' begin=. {int end=determineEnd($begin); System.out.println($begin);} (tmp=.{System.out.println(tmp); if(tmp==end) {return;}})*; // ;
-fragment
+	@init{int end=0;}:	'\'' .* '\'' | '%q' begin=. {end=determineEnd($begin); System.out.println($begin);} (tmp=.{System.out.println(tmp); if(tmp==end) {this.type=SINGLE_QUOTE_STRING;return;}})*; // ;
+
 DOUBLE_QUOTE_STRING
-	:	'"' .* '"' | '%Q' begin=. {int end=determineEnd($begin); System.out.println($begin);} 
-	(tmp=.{System.out.println(tmp); if(tmp==end) {token=createStringToken();return;}})*; // ;;	
+	@init{int end=0;}:	'"' .* '"' | '%Q' begin=. {end=determineEnd($begin); System.out.println($begin);} 
+	(tmp=.{System.out.println(tmp); if(tmp==end) {this.type=DOUBLE_QUOTE_STRING;return;}})*; // ;;	
+HEREDOC_STRING
+	@init{String end = null;}:	('<<'|'<<-') begin=ID (tmp=.{System.out.println(tmp); if(tmp==end) {this.type=DOUBLE_QUOTE_STRING;return;}})*;
+        
 ARRAY	:	'[]';
 HASH	:	'{}';
 RANGE	:	'a..b';

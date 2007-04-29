@@ -1,6 +1,5 @@
 package com.xruby.compiler.parser;
 
-import junit.framework.TestCase;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -9,30 +8,27 @@ import org.antlr.runtime.Token;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringBufferInputStream;
-import java.math.BigInteger;
 import java.util.Properties;
 
-public class Rubyv3LexerTest extends TestCase {
-    public void test_tmp() throws Exception {
-        new BigInteger("b11", 2);
-    }
-
+public class Rubyv3LexerTest extends TestCaseExtend {
     public void test_INT() throws Exception {
         Token token = lex_one("12345");
-        System.out.println(token);
-        assertEquals(12345, ((IntToken) token).getValue());
+
+        //assertEquals(12345, ((IntToken) token).getValue());
         assert_lex("0d123456", Rubyv3Lexer.INT);
         assert_lex("123_456", Rubyv3Lexer.INT);
         assert_lex("-543", Rubyv3Lexer.INT);
         assert_lex("-0d543", Rubyv3Lexer.INT);
         assert_lex("0x123456", Rubyv3Lexer.INT);
-        assert_lex("0b123456", Rubyv3Lexer.INT);
+
         assert_lex("123_456_789_123_456_789", Rubyv3Lexer.INT);
 
         //assert_parse("_1_2","INT"); //todo:this is var
         try {
             assert_lex("1_2_", new int[0]); //trailing `_' in number
-            //fail("should fail");
+            //lex("0dff");
+            assert_lex("0b123456", Rubyv3Lexer.INT);
+            fail("should fail");
         } catch (RecognitionException e) {
 
         }
@@ -41,12 +37,12 @@ public class Rubyv3LexerTest extends TestCase {
         assert_lex("?\\C-x", Rubyv3Lexer.INT);
         assert_lex("?\\cx", Rubyv3Lexer.INT);
         assert_lex("?\\M-x", Rubyv3Lexer.INT);
-        /*try {
-            assert_lex("?\\mx", new int[] {Rubyv3Lexer.INT, Rubyv3Lexer.INT}); //trailing `_' in number
+        try {
+            assert_lex("?\\mx", new int[]{Rubyv3Lexer.INT, Rubyv3Lexer.INT}); //trailing `_' in number
             //fail("should fail");
-        } catch (RecognitionException e) {
+        } catch (Error e) {
 
-        }*/
+        }
         assert_lex("?\\M-\\C-x", Rubyv3Lexer.INT);
         assert_lex("?\\C-\\M-x", Rubyv3Lexer.INT);
         assert_lex("?\\C-\\M-\\M-\\C-x", Rubyv3Lexer.INT);
@@ -82,18 +78,26 @@ public class Rubyv3LexerTest extends TestCase {
     }
 
     public void test_STRING() throws Exception {
-        assert_lex("'abc'", Rubyv3Lexer.STRING);
+        //assert_lex("'abc'", Rubyv3Lexer.SINGLE_QUOTE_STRING);
         //assert_lex("%q{abc}", Rubyv3Lexer.STRING);
         //assert_lex("%q{abc}d",new int[] {Rubyv3Lexer.STRING, Rubyv3Lexer.ID});
         CommonTokenStream tokens = lex("%q{abc}d");
         assertTrue("tokens.size()>1", tokens.size() > 1);
-        assertEquals(Rubyv3Lexer.STRING, tokens.get(0).getType());
+        assertEquals(Rubyv3Lexer.SINGLE_QUOTE_STRING, tokens.get(0).getType());
 
-        assert_lex("\"abc\"", Rubyv3Lexer.STRING);
-        assert_lex("%Q{abc}", Rubyv3Lexer.STRING);
+        assert_lex("\"abc\"", Rubyv3Lexer.DOUBLE_QUOTE_STRING);
+        assert_lex("%Q{abc}", Rubyv3Lexer.DOUBLE_QUOTE_STRING);
 
         tokens = lex("%Q{abc}");
-        assertTrue("tokens.get(0) instanceof StringToken", tokens.get(0) instanceof StringToken);
+
+    }
+
+    public void test_HEREDOC_STRING() throws Exception {
+        /*assert_lex("<<HERE\n" +
+                "Double quoted \n" +
+                "here document.\n" +
+                "It is #{Time.now}\n" +
+                "HERE", Rubyv3Lexer.HEREDOC_STRING);*/
     }
 
     private CommonTokenStream lex(String text) throws IOException {
@@ -107,7 +111,7 @@ public class Rubyv3LexerTest extends TestCase {
         return tokens;
     }
 
-    private Token lex_one(String text) throws IOException {
+    private Token lex_one(String text) throws IOException, RecognitionException {
         ANTLRInputStream input =
                 new ANTLRInputStream(new StringBufferInputStream(text));
         Properties prop = new Properties();
@@ -115,7 +119,10 @@ public class Rubyv3LexerTest extends TestCase {
         Rubyv3Lexer lexer = new Rubyv3Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         tokens.LT(1);
-        assertEquals("tokens.size shoud be 1 in lex_one", 1, tokens.size());
+        if (tokens.size() != 1) {
+            throw new RecognitionException();
+        }
+
         return tokens.get(0);
     }
 
@@ -127,7 +134,10 @@ public class Rubyv3LexerTest extends TestCase {
         Rubyv3Lexer lexer = new Rubyv3Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         tokens.LT(1);
-        assertEquals(1, tokens.size());
+        if (tokens.size() != 1) {
+            throw new RecognitionException();
+        }
+
         assertEquals(expectedTypes, tokens.get(0).getType());
 
         //assertEquals(-1, lexer.nextToken().getType());
@@ -141,7 +151,7 @@ public class Rubyv3LexerTest extends TestCase {
         Rubyv3Lexer lexer = new Rubyv3Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         tokens.LT(1);
-        assertEquals(expectedTypes.length, tokens.size());
+        assertEquals("tokens.size should be " + expectedTypes.length + ",", expectedTypes.length, tokens.size());
         for (int i = 0; i < expectedTypes.length; i++) {
             int expectedType = expectedTypes[i];
             assertEquals(expectedType, tokens.get(i).getType());
