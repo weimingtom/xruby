@@ -3801,12 +3801,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_module() {
         String [] program_texts = {
+                "module M1;end; module M1::M2;print self;end",
                 "module Kernel::M2;print self;end",
                 "module TestModule; end; print TestModule.class",
                 "module TestModule; end; print TestModule",
         };
 
         String[] outputs = {
+                "M1::M2",
                 "Kernel::M2",
                 "Module",
                 "TestModule",

@@ -138,6 +138,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	public void visitModuleDefination2(String moduleName, boolean has_scope) {
 		if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(moduleName)) {
             if (has_scope) {
+                cg_.getMethodGenerator().checkCast(Type.getType(Types.RubyModuleClass));
                 cg_.getMethodGenerator().RubyModule_defineModule(moduleName);
             } else if (isInGlobalScope()) {
                 cg_.getMethodGenerator().RubyAPI_defineModule(moduleName);
