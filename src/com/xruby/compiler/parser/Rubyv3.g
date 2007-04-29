@@ -159,13 +159,13 @@ rvalue	:	expression;
 
 literal	:	NUMBER|string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
 INT
-	:	'-'?((OCTAL)=> OCTAL|DECIMAL|HEX|BINARY| ESCAPE_INT)
+	:	'-'?(OCTAL|DECIMAL|HEX|BINARY| ESCAPE_INT)
 	;
 fragment
 OCTAL	:	'0' '_'? ('0'..'7') ('_'? '0'..'7')*;
 fragment
 DECIMAL	:	
-('0d')?('0'..'9') ('_'? '0'..'9')* ;
+('0d')?('1'..'9') ('_'? '0'..'9')* ;
 fragment
 HEX	: '0x' HEX_PART ('_'? HEX_PART)* ;
 fragment
@@ -208,7 +208,7 @@ DOUBLE_QUOTE_STRING
 	@init{int end=0;}:	'"' .* '"' | '%Q' begin=. {end=determineEnd($begin); System.out.println($begin);} 
 	(tmp=.{System.out.println(tmp); if(tmp==end) {this.type=DOUBLE_QUOTE_STRING;return;}})*; // ;;	
 HEREDOC_STRING
-	@init{String end = null;}:	('<<'|'<<-') begin=ID (tmp=.{System.out.println(tmp); if(tmp==end) {this.type=DOUBLE_QUOTE_STRING;return;}})*;
+	@init{String end = null;}:	('<<'|'<<-') begin=ID (tmp=.{System.out.println(tmp); if(end.equals(new Integer(begin.getText()))) {this.type=DOUBLE_QUOTE_STRING;return;}})*;
         
 ARRAY	:	'[]';
 HASH	:	'{}';

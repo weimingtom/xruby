@@ -39,6 +39,14 @@ public class BaseTokenStream implements TokenStream {
     }
 
     public Token get(int i) {
+        if (p < i) {
+            int index = p;
+            while (index < i) {
+                tokens.add(tokenSource.nextToken());
+                initializedIndex++;
+                index++;
+            }
+        }
         return (Token) tokens.get(i);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -87,6 +95,6 @@ public class BaseTokenStream implements TokenStream {
     }
 
     public int size() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("can't query size on a lazily initialized token stream"); //todo
     }
 }
