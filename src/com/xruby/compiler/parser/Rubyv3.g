@@ -13,6 +13,8 @@ tokens {
 	BODY;
 	CALL;
 	ARG;
+	
+	SHIFT;
 	//COMPSTMT;
 	SYMBOL;
 	BLOCK;
@@ -49,6 +51,7 @@ package com.xruby.compiler.parser;
         public void emitErrorMessage(String msg) {
 		System.err.println(msg);
 	}
+	private boolean just_seen_var=false;
 	
 	/*public Token emit() {
         IntToken t =
@@ -145,7 +148,7 @@ LINE_BREAK
 	;	
 WS	:	(' ' | '\t') { skip(); }
 	;
-ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
+ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))* {if("var".equals($text)) {System.out.println("just_seen_var:"+$text);just_seen_var=true;}}
 	;
 
 
@@ -199,17 +202,20 @@ fragment
 EXP_PART:	('e' | 'E') '-'? LEADING0_NUMBER;
 NUMBER	:	INT|FLOAT;
 
-string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING;
+string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|HEREDOC_STRING;
 
 SINGLE_QUOTE_STRING
 	@init{int end=0;}:	'\'' .* '\'' | '%q' begin=. {end=determineEnd($begin); System.out.println($begin);} (tmp=.{System.out.println(tmp); if(tmp==end) {this.type=SINGLE_QUOTE_STRING;return;}})*; // ;
 
 DOUBLE_QUOTE_STRING
 	@init{int end=0;}:	'"' .* '"' | '%Q' begin=. {end=determineEnd($begin); System.out.println($begin);} 
-	(tmp=.{System.out.println(tmp); if(tmp==end) {this.type=DOUBLE_QUOTE_STRING;return;}})*; // ;;	
+	(tmp=.{System.out.println(tmp); if(tmp==end) {this.type=DOUBLE_QUOTE_STRING;return;}})*; // ;;
+HEREDOC_BEGIN
+	:	'<<'{if(just_seen_var) {$type=SHIFT;}};	
+//SHFIT   //set in HEREDOC_BEGIN
+//	: '<<';
 HEREDOC_STRING
-	@init{String end = null;}:	('<<'|'<<-') begin=ID (tmp=.{System.out.println(tmp); if(end.equals(new Integer(begin.getText()))) {this.type=DOUBLE_QUOTE_STRING;return;}})*;
-        
+	:	'HEREDOC_STRING';       
 ARRAY	:	'[]';
 HASH	:	'{}';
 RANGE	:	'a..b';
