@@ -88,8 +88,9 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitSingletonClassDefination1();
 	public void visitSingletonClassDefination2();
 	public void visitClassDefinationEnd(boolean last_statement_has_return_value);
-	
-	public void visitModuleDefination(String moduleName);
+
+    public void visitModuleDefination1();
+	public void visitModuleDefination2(String moduleName, boolean has_scope);
 	public void visitModuleDefinationEnd(boolean last_statement_has_return_value);
 	
 	public void visitTerminal();

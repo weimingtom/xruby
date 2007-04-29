@@ -806,7 +806,7 @@ moduleDefination
 		;
 
 moduleName
-		:	CONSTANT	(COLON2 CONSTANT)*
+		:	CONSTANT	(COLON2^ CONSTANT)*
 		;
 
 classDefination

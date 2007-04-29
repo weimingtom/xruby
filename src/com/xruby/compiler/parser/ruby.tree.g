@@ -612,14 +612,17 @@ moduleDefination
 returns [ModuleDefinationExpression e]
 {
 	String name = null;
+	Expression exp = null;
 	BodyStatement body = null;
 }
 		:	#("module"
-			name=moduleName
+			(name=moduleName
+			|#(COLON2	exp=expression	name=moduleName)
+			)
 			(body=bodyStatement)?
 			)
 			{
-				e = new ModuleDefinationExpression(name, body);
+				e = new ModuleDefinationExpression(exp, name, body);
 			}
 		;
 

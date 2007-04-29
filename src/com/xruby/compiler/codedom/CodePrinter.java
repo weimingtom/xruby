@@ -260,7 +260,10 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("visitSingletonClassDefination2\n");
 	}
 
-	public void visitModuleDefination(String moduleName) {
+    public void visitModuleDefination1() {
+    }
+    
+	public void visitModuleDefination2(String moduleName, boolean has_scope) {
 		result_.append("module ");
 		result_.append(moduleName);
 		result_.append("\n");
