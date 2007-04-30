@@ -131,10 +131,27 @@ class Array
         str << "]"
     end
     
-    def fetch index, *default
-        #TODO incomplete 
-        return self[index]
+    #from rubinius
+    def fetch(pos, *rest)
+    if rest.length > 1
+      raise ArgumentError, "wrong number of arguments (#{1 + rest.length} for 2)"
     end
+    if !rest.empty? && block_given?
+      #warn about block superceding default arg
+    end
+    index = pos
+    if index < 0
+      index += self.length
+    end
+    if index < 0 || self.length <= index
+      return yield(pos) if block_given?
+      if rest.length == 0
+        raise IndexError, "index #{index} out of array"
+      end
+      return rest[0]
+    end
+    self.at(index)
+  end
 end
 
 class Hash
@@ -331,7 +348,8 @@ class String
     def inspect
         '"' + to_s + '"'
     end
-
+    
+    #from rubinius
     def insert(idx, str)
         if idx < 0
             idx += length + 1
@@ -345,6 +363,7 @@ class String
         self
     end
 
+	#from rubinius
     # justify left = -1, center = 0, right = 1
     def justify_string(width, str, justify)
         return self if width <= length
@@ -360,14 +379,17 @@ class String
         return out.insert(split-((width-length)%2), self)
     end
 
+	#from rubinius
     def rjust(width, str=" ")
         justify_string(width, str, 1)
     end
-
+	
+	#from rubinius
     def ljust(width, str=" ")
         justify_string(width, str, -1)
     end
 
+	#from rubinius
     def center(width, str=" ")
         justify_string(width, str, 0)
     end
