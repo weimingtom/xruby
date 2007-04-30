@@ -89,3 +89,22 @@ test_ok($x == [1,2,1,2,3,3])
 $x = [1,2,3]
 $x.concat($x)
 test_ok($x == [1,2,3,1,2,3])
+
+$x = [ 11, 22, 33, 44 ]
+test_ok($x.fetch(1) == 22)
+test_ok($x.fetch(-1, 'cat') == 44)
+test_ok($x.fetch(4, 'cat') == "cat")
+test_ok($x.fetch(4) {|i| i*i } ==16)
+
+$x = ["a","b","c","d"]
+test_ok($x.fill("x") ==  ["x", "x", "x", "x"])
+test_ok($x.fill("z", 2, 2)     ==     ["x", "x", "z", "z"])
+test_ok($x.fill("y", 0..1)          ==["y", "y", "z", "z"])
+test_ok($x.fill {|i| i*i}  ==         [0, 1, 4, 9])
+test_ok($x.fill(-3) {|i| i+100}   ==  [0, 101, 102, 103])
+
+$x =%w{ a b c d e f }
+test_ok($x.values_at(1, 3, 5)        ==  ["b", "d", "f"])
+test_ok($x.values_at(1, 3, 5, 7)     ==  ["b", "d", "f", nil])
+test_ok($x.values_at(-1, -3, -5, -7) ==  ["f", "d", "b", nil])
+test_ok($x.values_at(1..3, 2...5)    ==  ["b", "c", "d", "c", "d", "e"])
