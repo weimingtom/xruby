@@ -193,7 +193,12 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     public RubyValue replace(int start, int length, RubyValue value) {
         int index = getRealIndex(start);
-
+        if (value == ObjectFactory.NIL_VALUE) {
+        	for(int i=0;i<length;i++) {
+        		array_.remove(index);
+        	}
+        	return value;
+        }
         if (length < 0) {
             throw new RubyException(RubyRuntime.IndexErrorClass, "negative length (" + length + ")");
         } else if (0 == length) {
@@ -203,12 +208,15 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
                 array_.add(index, value);
             }
         } else {
-            for (int i = 0; i < length - 1; ++i) {
+            for (int i = 0; i < length -1; ++i) {
                 array_.remove(index);
             }
-
-            //TODO should we use addAll if value is RubyArray?
-            array_.set(index, value);
+            if (value instanceof RubyArray) {
+            	array_.remove(index);
+            	array_.addAll(index, ((RubyArray) value).getInternal());
+            } else {
+            	array_.set(index, value);
+            }
         }
         return value;
     }
