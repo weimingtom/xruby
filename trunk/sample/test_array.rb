@@ -178,4 +178,39 @@ a[0, 2] = "?";             test_ok( a== ["?", 2, nil, "4"])
 a[0..2] = "A";       test_ok( a ==  ["A", "4"])
 a[-1]   = "Z";             test_ok( a ==  ["A", "Z"])
 a[1..-1] = nil;         test_ok( a ==  ["A"])
+#|
+test_ok([ "a", "b", "c" ] | [ "c", "d", "a" ] ==  ["a", "b", "c", "d"])
+#assoc
+s1 = [ "colors", "red", "blue", "green" ]
+s2 = [ "letters", "a", "b", "c" ]
+s3 = "foo"
+a = [ s1, s2, s3 ]
+test_ok(a.assoc("letters")  ==["letters", "a", "b", "c"])
+test_ok(a.assoc("foo")      == nil)
+#at
+a = [ "a", "b", "c", "d", "e" ]
+test_ok(a.at(0)    =="a")
+test_ok(a.at(-1)   =="e")
+#clear
+a = [ "a", "b", "c", "d", "e" ]
+test_ok(a.clear  == [])
+#collect!
+a = [ "a", "b", "c", "d" ]
+test_ok(a.collect! {|x| x + "!" }  == ["a!", "b!", "c!", "d!"])
+test_ok(a         ==  ["a!", "b!", "c!", "d!"])
+#compact
+test_ok([ "a", nil, "b", nil, "c", nil ].compact ==  ["a", "b", "c"])
+#compact!
+test_ok [ "a", nil, "b", nil, "c" ].compact!  == ["a", "b", "c"]
+test_ok [ "a", "b", "c" ].compact!   ==nil
+#concat
+test_ok [ "a", "b" ].concat( ["c", "d"] ) ==["a", "b", "c", "d"]
+#delete
+a = [ "a", "b", "b", "b", "c" ]
+test_ok a.delete("b")                 ==    "b"
+test_ok a                             ==    ["a", "c"]
+test_ok a.delete("z")                 ==    nil
+test_ok a.delete("z") { "not found" }  ==   "not found"
+
+
 

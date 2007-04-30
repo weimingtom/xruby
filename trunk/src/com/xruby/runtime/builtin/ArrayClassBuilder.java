@@ -296,7 +296,6 @@ class Array_pop extends RubyVarArgMethod {
     }
 }
 
-//TODO array.delete(obj) { block }
 class Array_delete_at extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
@@ -315,7 +314,12 @@ class Array_delete_if extends RubyNoArgMethod {
 class Array_delete extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
-        return array.delete(arg);
+        RubyValue return_value = array.delete(arg);
+        if (null != block && return_value == ObjectFactory.NIL_VALUE) {
+        	return block.invoke(receiver, new RubyArray(arg));
+        } else {
+        	return return_value;
+        }
     }
 }
 
