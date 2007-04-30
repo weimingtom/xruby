@@ -84,7 +84,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     }
 
     public RubyArray insert(int index, RubyValue v) {
-        array_.add(index, v);
+        array_.addAll(index,((RubyArray) v).getInternal());
         return this;
     }
 
