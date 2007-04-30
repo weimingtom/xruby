@@ -211,6 +211,15 @@ class Array
     end
     self
   end
+  
+  #from rubinius
+  def transpose
+    out = []
+    a1 = shift
+    a1.zip(*self) { |x| out << x }
+    out
+  end
+  
 end
 
 class Hash
