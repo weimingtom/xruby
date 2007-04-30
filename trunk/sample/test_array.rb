@@ -112,7 +112,8 @@ test_ok($x.values_at(1, 3, 5, 7)     ==  ["b", "d", "f", nil])
 test_ok($x.values_at(-1, -3, -5, -7) ==  ["f", "d", "b", nil])
 test_ok($x.values_at(1..3, 2...5)    ==  ["b", "c", "d", "c", "d", "e"])
 
-##test from pikeaxe book
+###############################################################################################
+##test from Programming Ruby
 
 #[]
 test_ok(Array.[]( 1, 'a', /^A/ ) ==[1, "a",/^A/])
@@ -136,4 +137,34 @@ copy = Array.new(squares)      # initialized by copying
 squares[5] = 25
 test_ok(squares   == [0, 1, 4, 9, 16, 25])
 test_ok(copy      == [0, 1, 4, 9, 16])
-
+#&
+test_ok([ 1, 1, 3, 5 ] & [ 1, 2, 3 ] ==[1, 3])
+#*
+test_ok([ 1, 2, 3 ] * 3  ==[1, 2, 3, 1, 2, 3, 1, 2, 3])
+test_ok([ 1, 2, 3 ] * "--" =="1--2--3")
+#+
+test_ok([ 1, 2, 3 ] + [ 4, 5 ]==[1, 2, 3, 4, 5])
+#-
+test_ok([ 1, 1, 2, 2, 3, 3, 4, 5 ] - [ 1, 2, 4 ] ==[3, 3, 5])
+#<<
+test_ok([ 1, 2 ] << "c" << "d" << [ 3, 4 ]==[1, 2, "c", "d", [3, 4]])
+#<=>
+test_ok([ "a", "a", "c" ]    <=> [ "a", "b", "c" ]  == -1)
+test_ok([ 1, 2, 3, 4, 5, 6 ] <=> [ 1, 2 ]  ==1)
+#==
+test_ok([ "a", "c" ]    == [ "a", "c", 7 ]  ==false)
+test_ok([ "a", "c", 7 ] == [ "a", "c", 7 ]    == true)
+test_ok([ "a", "c", 7 ] == [ "a", "d", "f" ]  == false)
+#[]
+a = [ "a", "b", "c", "d", "e" ]
+test_ok(a[2] + a[0] + a[1] =="cab")
+test_ok(a[6]     ==nil)
+test_ok(a[1, 2]  ==["b", "c"])
+test_ok(a[1..3]  ==["b", "c", "d"])
+test_ok(a[4..7]==["e"])
+test_ok(a[6..10]==nil)
+test_ok(a[-3, 3] ==["c", "d", "e"])
+# special cases
+test_ok(a[5]     ==nil)
+test_ok(a[5, 1]  ==[])
+test_ok(a[5..10] ==[])
