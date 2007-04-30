@@ -95,6 +95,9 @@ class Class
 end 
 
 class Array
+	
+	alias reject! delete_if
+	
     def to_a
         self
     end
