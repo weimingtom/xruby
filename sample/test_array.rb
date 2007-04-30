@@ -149,12 +149,12 @@ test_ok([ 1, 1, 2, 2, 3, 3, 4, 5 ] - [ 1, 2, 4 ] ==[3, 3, 5])
 #<<
 test_ok([ 1, 2 ] << "c" << "d" << [ 3, 4 ]==[1, 2, "c", "d", [3, 4]])
 #<=>
-test_ok([ "a", "a", "c" ]    <=> [ "a", "b", "c" ]  == -1)
-test_ok([ 1, 2, 3, 4, 5, 6 ] <=> [ 1, 2 ]  ==1)
+test_ok(([ "a", "a", "c" ]    <=> [ "a", "b", "c" ])  == -1)
+test_ok(([ 1, 2, 3, 4, 5, 6 ] <=> [ 1, 2 ])  ==1)
 #==
-test_ok([ "a", "c" ]    == [ "a", "c", 7 ]  ==false)
-test_ok([ "a", "c", 7 ] == [ "a", "c", 7 ]    == true)
-test_ok([ "a", "c", 7 ] == [ "a", "d", "f" ]  == false)
+test_ok(([ "a", "c" ]    == [ "a", "c", 7 ] ) ==false)
+test_ok(([ "a", "c", 7 ] == [ "a", "c", 7 ] )   == true)
+test_ok(([ "a", "c", 7 ] == [ "a", "d", "f" ])  == false)
 #[]
 a = [ "a", "b", "c", "d", "e" ]
 test_ok(a[2] + a[0] + a[1] =="cab")
@@ -168,3 +168,14 @@ test_ok(a[-3, 3] ==["c", "d", "e"])
 test_ok(a[5]     ==nil)
 test_ok(a[5, 1]  ==[])
 test_ok(a[5..10] ==[])
+#[]=
+test_ok((a = Array.new) == [])
+a[4] = "4";                 test_ok( a ==  [nil, nil, nil, nil, "4"])
+a[0] = [ 1, 2, 3 ];         test_ok(a  == [[1, 2, 3], nil, nil, nil, "4"])
+a[0, 3] = [ 'a', 'b', 'c'];test_ok(a ==  ["a", "b", "c", nil, "4"])
+a[1..2] = [ 1, 2 ];       test_ok( a ==["a", 1, 2, nil, "4"])
+a[0, 2] = "?";             test_ok( a== ["?", 2, nil, "4"])
+a[0..2] = "A";       test_ok( a ==  ["A", "4"])
+a[-1]   = "Z";             test_ok( a ==  ["A", "Z"])
+a[1..-1] = nil;         test_ok( a ==  ["A"])
+
