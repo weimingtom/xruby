@@ -112,7 +112,28 @@ test_ok($x.values_at(1, 3, 5, 7)     ==  ["b", "d", "f", nil])
 test_ok($x.values_at(-1, -3, -5, -7) ==  ["f", "d", "b", nil])
 test_ok($x.values_at(1..3, 2...5)    ==  ["b", "c", "d", "c", "d", "e"])
 
+##test from pikeaxe book
+
 #[]
-test_ok(Array.[]( 1, 'a' ) ==[1, "a"])
-test_ok(Array[ 1, 'a', ]==[1, "a"])
-test_ok([ 1, 'a' ] ==[1, "a"])
+test_ok(Array.[]( 1, 'a', /^A/ ) ==[1, "a",/^A/])
+test_ok(Array[ 1, 'a', /^A/ ]==[1, "a",/^A/])
+test_ok([ 1, 'a',/^A/ ] ==[1, "a",/^A/])
+#new
+test_ok(Array.new==[])
+test_ok(Array.new(2)==[nil,nil])
+test_ok(Array.new(5,"A")==["A","A","A","A","A"])
+a = Array.new(2, Hash.new)
+a[0]['cat'] = 'feline'
+test_ok(a   == [{"cat"=>"feline"}, {"cat"=>"feline"}])
+a[1]['cat'] = 'Felix'
+test_ok(a   == [{"cat"=>"Felix"}, {"cat"=>"Felix"}])
+a = Array.new(2) { Hash.new } # Multiple instances
+a[0]['cat'] = 'feline'
+test_ok(a ==[{"cat"=>"feline"}, {}])
+squares = Array.new(5) {|i| i*i}
+test_ok( squares==[0, 1, 4, 9, 16])
+copy = Array.new(squares)      # initialized by copying
+squares[5] = 25
+test_ok(squares   == [0, 1, 4, 9, 16, 25])
+test_ok(copy      == [0, 1, 4, 9, 16])
+
