@@ -977,3 +977,10 @@ module Enumerable
 	result
   end
 end
+
+class Regexp
+  def ==(other)
+    return false unless Regexp === other
+    return inspect == other.inspect
+  end
+end
