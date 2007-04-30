@@ -133,24 +133,80 @@ class Array
     
     #from rubinius
     def fetch(pos, *rest)
-    if rest.length > 1
-      raise ArgumentError, "wrong number of arguments (#{1 + rest.length} for 2)"
+    	if rest.length > 1
+      		raise ArgumentError, "wrong number of arguments (#{1 + rest.length} for 2)"
+    	end
+    	if !rest.empty? && block_given?
+      		#warn about block superceding default arg
+    	end
+    	index = pos
+    	if index < 0
+      		index += self.length
+    	end
+    	if index < 0 || self.length <= index
+      		return yield(pos) if block_given?
+      		if rest.length == 0
+        		raise IndexError, "index #{index} out of array"
+      		end
+      		return rest[0]
+    	end
+    	self.at(index)
+  end
+  
+  #from rubinius
+  def fill(*args)
+    start_index = 0
+    end_index = self.length - 1
+    len = item = nil
+    arg_length = args.length
+    arg_index_offset = 0
+    max_args = 2
+    if !block_given?
+      item = args[0]
+      arg_length -= 1
+      arg_index_offset = 1
+      max_args = 3
     end
-    if !rest.empty? && block_given?
-      #warn about block superceding default arg
-    end
-    index = pos
-    if index < 0
-      index += self.length
-    end
-    if index < 0 || self.length <= index
-      return yield(pos) if block_given?
-      if rest.length == 0
-        raise IndexError, "index #{index} out of array"
+
+    arg1 = args[arg_index_offset] || 0
+    arg2 = args[1 + arg_index_offset]
+
+    case arg_length
+    when 0
+      start_index = 0
+      end_index = self.length - 1
+    when 1
+      if arg1.nil? || arg1.kind_of?(Integer)
+        start_index = arg1 || 0
+        end_index = self.length - 1
+      elsif arg1.kind_of?(Range)
+        start_index = arg1.first
+        end_index = arg1.last
+        end_index -= 1 if arg1.exclude_end?
+        if end_index < 0
+          end_index += self.length
+        end
+      else
+        raise TypeError, "can't convert #{arg1.class} into Integer"
       end
-      return rest[0]
+    when 2
+      start_index = arg1
+      len = arg2
+    else
+      raise ArgumentError, "wrong number of arguments (#{args.length} for #{max_args})"
     end
-    self.at(index)
+    if start_index < 0
+      start_index += self.length
+      start_index = 0 if start_index < 0
+    end
+    if len
+      end_index = start_index + len - 1
+    end
+    
+    (start_index..end_index).each do |i|
+      self[i] = block_given? ? yield(i) : item
+    end
+    self
   end
 end
 
