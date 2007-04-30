@@ -24,7 +24,6 @@ import com.xruby.runtime.lang.RubyVarArgMethod;
 import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyFixnum;
 import com.xruby.runtime.value.RubyString;
 
 class Object_operator_equal extends RubyOneArgMethod {
@@ -74,7 +73,7 @@ class Object_object_id extends RubyNoArgMethod {
 
 class Object_hash extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return ObjectFactory.createFixnum(((RubyObject)receiver).hash());
+        return ObjectFactory.createFixnum(receiver.hashCode());
     }
 }
 
@@ -93,29 +92,33 @@ class Object_frozen_question extends RubyNoArgMethod {
 
 class Object_inspect extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        if (!(receiver instanceof RubyObject)) {
+            return RubyAPI.callPublicMethod(receiver, null, null, CommonRubyID.toSID);
+        }
+
         StringBuffer sb = new StringBuffer();
         sb.append("#<");
         sb.append(receiver.getRubyClass().getRealClass().getName());
         sb.append(":0x");
-        int hash = ((RubyObject)receiver).hash();
+        int hash = receiver.hashCode();
         sb.append(Integer.toHexString(hash));
-        
+
         String sep = "";
         Map vars = receiver.getInstanceVariables();
-        
-        if(vars != null){
+
+        if (vars != null) {
             for (Iterator iter = vars.keySet().iterator(); iter.hasNext();) {
-                RubyID id = (RubyID)iter.next();            
+                RubyID id = (RubyID)iter.next();
                 sb.append(sep);
                 sb.append(" ");
                 sb.append(StringMap.id2name(id));
-                sb.append("=");            
+                sb.append("=");
                 sb.append(((RubyString)RubyAPI.callPublicMethod((RubyValue)vars.get(id), null, null, StringMap.intern("inspect")))).toString();
-                sep = ",";            
-            } 
-        }        
+                sep = ",";
+            }
+        }
         sb.append(">");
-        
+
         return ObjectFactory.createString(sb.toString());
     }
 }
@@ -138,7 +141,7 @@ public class ObjectClassBuilder {
         c.defineMethod("object_id", object_id);
         c.defineMethod("__id__", object_id);
         c.defineMethod("hash", new Object_hash());
-        c.defineMethod("inspect", new Object_inspect());	
+        c.defineMethod("inspect", new Object_inspect());
         c.defineAllocMethod(new Object_alloc());
     }
 }

@@ -758,10 +758,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_p() {
         String[] program_texts = {
+                "p 1.234",
                 "p [1, [3,4], 2]",
         };
 
         String[] outputs = {
+                "1.234\n",
                 "[1, [3, 4], 2]\n",
         };
 
@@ -4881,7 +4883,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "<a.gif>",
                 "ab",
                 "gif",
-                
+
                 "00123",
                 "a:b",
                 "10",
