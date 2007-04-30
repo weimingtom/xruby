@@ -4222,6 +4222,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_kind_of() {
         String [] program_texts = {
+                "print Kernel.kind_of?(Kernel)",
                 "print(1.kind_of?(Object))",
                 "print(1.kind_of?(Fixnum))",
                 "print(1.kind_of?(Numeric))",
@@ -4229,6 +4230,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "true",
                 "true",
                 "true",
                 "true",
