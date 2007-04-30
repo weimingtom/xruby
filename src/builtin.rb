@@ -246,6 +246,8 @@ class Array
     out
   end
   
+  alias map! collect!
+  
 end
 
 class Hash

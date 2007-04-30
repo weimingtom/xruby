@@ -90,13 +90,6 @@ $x = [1,2,3]
 $x.concat($x)
 test_ok($x == [1,2,3,1,2,3])
 
-#values
-$x =%w{ a b c d e f }
-test_ok($x.values_at(1, 3, 5)        ==  ["b", "d", "f"])
-test_ok($x.values_at(1, 3, 5, 7)     ==  ["b", "d", "f", nil])
-test_ok($x.values_at(-1, -3, -5, -7) ==  ["f", "d", "b", nil])
-test_ok($x.values_at(1..3, 2...5)    ==  ["b", "c", "d", "c", "d", "e"])
-
 ###############################################################################################
 ##test from Programming Ruby
 
@@ -291,5 +284,138 @@ test_ok a.insert(2, 99)        == ["a", "b", 99, "c", "d"]
 test_ok a.insert(-2, 1, 2, 3)  == ["a", "b", 99, "c", 1, 2, 3, "d"]
 test_ok a.insert(-1, "e")      == ["a", "b", 99, "c", 1, 2, 3, "d", "e"]
 
+#join
+test_ok [ "a", "b", "c" ].join        =="abc"
+test_ok [ "a", "b", "c" ].join("-")   =="a-b-c"
 
+#last
+test_ok [ "w", "x", "y", "z" ].last    =="z"
+test_ok [ "w", "x", "y", "z" ].last(1) ==  ["z"]
+test_ok [ "w", "x", "y", "z" ].last(3) ==  ["x", "y", "z"]
 
+#length
+test_ok [ 1, nil, 3, nil, 5 ].length   ==5
+
+#map!
+a=[1,2,3,4].map!{|e|e+1}
+test_ok a==[2,3,4,5]
+
+#nitems
+test_ok [ 1, nil, 3, nil, 5 ].nitems   ==3
+
+#pack
+a = [ "a", "b", "c" ]
+n = [ 65, 66, 67 ]   
+test_ok a.pack("A3A3A3")  == "a  b  c  "
+puts "to do in array pack"
+test_ok a.pack("a3a3a3")   ==   "a\000\000b\000\000c\000\000";
+test_ok n.pack("ccc")      ==   "ABC"
+
+#pop
+a = [ "a", "m", "z" ]
+test_ok a.pop =="z"
+test_ok a== ["a", "m"]
+
+#push
+a = [ "a", "b", "c" ]
+test_ok a.push("d", "e", "f") ==["a", "b", "c", "d", "e", "f"]
+
+#rassoc
+a = [ [ 1, "one"], [2, "two"], [3, "three"], ["ii", "two"] ]
+test_ok a.rassoc("two")    == [2, "two"]
+test_ok a.rassoc("four")   == nil
+
+#replace
+a = [ "a", "b", "c", "d", "e" ]
+test_ok a.replace([ "x", "y", "z" ])  ==["x", "y", "z"]
+test_ok a    == ["x", "y", "z"]
+
+#reverse
+test_ok [ "a", "b", "c" ].reverse  == ["c", "b", "a"]
+test_ok [ 1 ].reverse             ==  [1]
+
+#reverse!
+a = [ "a", "b", "c" ]
+test_ok a.reverse! ==           ["c", "b", "a"]
+test_ok a  ==  ["c", "b", "a"]
+test_ok [ 1 ].reverse!  ==    [1]
+
+#reverse_each
+a = [ "a", "b", "c" ]
+test_ok a.reverse_each {|e| }==["a","b","c"]
+
+#rindex
+a = [ "a", "b", "b", "b", "c" ]
+test_ok a.rindex("b")  ==3
+test_ok a.rindex("z")  ==nil
+
+#shift
+args = [ "-m", "-q", "filename" ]
+test_ok args.shift  == "-m"
+test_ok args        == ["-q", "filename"]
+
+#size
+a=[1,3]
+test_ok a.size ==2
+
+#slice
+a = [ "a", "b", "c", "d", "e" ]
+test_ok a.slice(2) + a.slice(0) + a.slice(1)  == "cab"
+test_ok a.slice(6)                         ==    nil
+test_ok a.slice(1, 2)                      ==    ["b", "c"]
+test_ok a.slice(1..3)                      ==    ["b", "c", "d"]
+test_ok a.slice(4..7)                      ==    ["e"]
+test_ok a.slice(6..10)                     ==    nil
+test_ok a.slice(-3, 3)                     ==    ["c", "d", "e"]
+# special cases
+test_ok a.slice(5)                        ==     nil
+test_ok a.slice(5, 1)                     ==     []
+test_ok a.slice(5..10)                    ==     []
+
+#slice!
+a = [ "a", "b", "c" ]
+test_ok a.slice!(1)  ==       "b"
+test_ok a       ==            ["a", "c"]
+test_ok a.slice!(-1)     ==   "c"
+test_ok a      ==             ["a"]
+test_ok a.slice!(100)   ==    nil
+test_ok a                ==   ["a"]
+
+#sort
+a = [ "d", "a", "e", "c", "b" ]
+test_ok a.sort                    == ["a", "b", "c", "d", "e"]
+test_ok a.sort {|x,y| y <=> x }   == ["e", "d", "c", "b", "a"]
+
+#sort!
+a = [ "d", "a", "e", "c", "b" ]
+test_ok a.sort!   == ["a", "b", "c", "d", "e"]
+test_ok a         == ["a", "b", "c", "d", "e"]
+
+#to_s
+test_ok [ "a", "e", "i", "o" ].to_s  == "aeio"
+
+#transpose
+a = [[1,2], [3,4], [5,6]]
+test_ok a.transpose   == [[1, 3, 5], [2, 4, 6]]
+
+#uniq
+a = [ "a", "a", "b", "b", "c" ]
+test_ok a.uniq  == ["a", "b", "c"]
+
+#uniq!
+a = [ "a", "a", "b", "b", "c" ]
+test_ok a.uniq!  == ["a", "b", "c"]
+b = [ "a", "b", "c" ]
+test_ok b.uniq!  == nil
+
+#unshift
+a = [ "b", "c", "d" ]
+test_ok a.unshift("a")    == ["a", "b", "c", "d"]
+test_ok a.unshift(1, 2)   == [1, 2, "a", "b", "c", "d"]
+
+#values_at
+$x =%w{ a b c d e f }
+test_ok($x.values_at(1, 3, 5)        ==  ["b", "d", "f"])
+test_ok($x.values_at(1, 3, 5, 7)     ==  ["b", "d", "f", nil])
+test_ok($x.values_at(-1, -3, -5, -7) ==  ["f", "d", "b", nil])
+test_ok($x.values_at(1..3, 2...5)    ==  ["b", "c", "d", "c", "d", "e"])
