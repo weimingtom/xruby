@@ -146,18 +146,40 @@ class Array_array_at extends RubyOneArgMethod {
 }
 
 class Array_array_set extends RubyVarArgMethod {
+	private int getRealIndex(int size,int i) {
+        int index = i;
+        if (index < 0) {
+            index = size + index;
+        }
+
+        if (index < 0) {
+            throw new RubyException(RubyRuntime.IndexErrorClass, "index " + i + " out of array");
+        }
+
+        return index;
+    }
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        //TODO index can be range, -1 etc
         RubyArray value = (RubyArray) receiver;
-        RubyFixnum index = (RubyFixnum) args.get(0);
+        
         if (2 == args.size()) {
-            return value.set(index.intValue(), args.get(1));
+        	if (args.get(0) instanceof RubyRange) {
+        		RubyRange range = (RubyRange) args.get(0);
+        		RubyFixnum left = (RubyFixnum)range.getLeft();
+        		RubyFixnum right = (RubyFixnum)range.getRight();
+        		int l_index = getRealIndex(value.size(), left.intValue());
+        		int r_index = getRealIndex(value.size(), right.intValue());
+        		int length = r_index-l_index+1;
+        		return value.replace(l_index, length, args.get(1));
+        	} else {
+        		RubyFixnum index = (RubyFixnum) args.get(0);
+        		return value.set(index.intValue(), args.get(1));
+        	}
         } else if (3 == args.size()) {
+        	RubyFixnum index = (RubyFixnum) args.get(0);
             RubyFixnum length = (RubyFixnum) args.get(1);
             return value.replace(index.intValue(), length.intValue(), args.get(2));
         }
 
-        //TODO
         throw new RubyException("not implemented");
     }
 }
