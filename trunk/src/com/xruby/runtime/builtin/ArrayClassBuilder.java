@@ -342,10 +342,22 @@ class Array_new extends RubyVarArgMethod {
         RubyArray a;
         if (null == args) {
             a = new RubyArray();
+        } else if(null == block) {
+        	if (args.get(0) instanceof RubyArray) {
+        		a = (RubyArray)args.get(0).clone();
+        	} else {
+        		RubyFixnum size = (RubyFixnum) args.get(0);
+                RubyValue default_value = args.get(1);
+                a = ObjectFactory.createArray(size.intValue(), default_value);
+        	}
         } else {
-            RubyFixnum size = (RubyFixnum) args.get(0);
-            RubyValue default_value = args.get(1);
-            a = ObjectFactory.createArray(size.intValue(), default_value);
+        	RubyFixnum size = (RubyFixnum) args.get(0);
+        	a  = new RubyArray();
+        	for(int i=0; i<size.intValue(); i++)
+        	{
+        		RubyValue return_value = block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum(i)));
+        		a.add(return_value);
+        	}
         }
         a.setRubyClass((RubyClass) receiver);
         return a;
