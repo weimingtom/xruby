@@ -220,6 +220,32 @@ class Array
     out
   end
   
+  #from rubinius
+  def values_at (*args)
+    out = []
+    args.each { |x|
+      if Range === x
+        # doesn't work: x.each { |i| out << self[i] }: one nil too many
+        # doesn't work: out.concat self[x]: [1, 2, 3, 4, 5].values_at(0..2, 1...3, 4..6).should == [1, 2, 3, 2, 3, 5, nil]
+        lst = x.last
+        if lst < 0
+          lst += @total
+        end
+        if lst > size
+          lst = size            # sick to do this BEFORE exclude_end?
+        end
+        lst -= 1 if x.exclude_end?
+        idx = x.first  
+        idx.upto(lst) { |i|
+          out << self[i]
+        }
+      else
+        out << self[x]
+      end
+    }
+    out
+  end
+  
 end
 
 class Hash
