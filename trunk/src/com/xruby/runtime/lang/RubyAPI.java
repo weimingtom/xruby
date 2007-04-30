@@ -75,7 +75,14 @@ public class RubyAPI {
     }
 
     public static boolean isKindOf(RubyValue class_to_compare, RubyValue value) {
-        return value.getRubyClass().isKindOf((RubyClass) class_to_compare);
+        if (class_to_compare == value) {
+            return true;
+        } else if (!(class_to_compare instanceof RubyClass)) {
+            //TODO should test include relationship with Module
+            return false;
+        } else {
+            return value.getRubyClass().isKindOf((RubyClass) class_to_compare);
+        }
     }
 
     public static boolean isInstanceOf(RubyValue class_to_compare, RubyValue value) {
