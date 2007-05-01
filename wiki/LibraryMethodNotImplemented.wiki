@@ -1,6 +1,6 @@
 #summary Library Method Not Implemented
 
-If you find a method not implemented,feel free to report that.Of course,we welcome that you implement them and share with us.
+If you find a method not implemented,feel free to report it here.Of course,we welcome that you implement them and share with us.
 
 _Rubinius has lots builtin methods written in pure ruby, we could use some of their implementations. To keep their copyright, better put all these migrated code in a single file and then load it at runtime._
 
