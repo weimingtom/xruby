@@ -15,5 +15,5 @@ All methods in this Class or Module has implemented!
 
 *Dir
 
-
-
+=Reference=
+http://www.ruby-doc.org/docs/ProgrammingRuby/html/builtins.html
