@@ -105,10 +105,10 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	private void storeField(String name) {
-		super.storeVariable("tmp$");
+		super.storeVariable(SymbolTable.NAME_FOR_INTERNAL_TMP_VAR);
 
 		getMethodGenerator().loadThis();
-		loadVariable("tmp$");
+		loadVariable(SymbolTable.NAME_FOR_INTERNAL_TMP_VAR);
 		getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
 	}
 
