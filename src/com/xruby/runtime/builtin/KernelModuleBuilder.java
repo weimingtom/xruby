@@ -212,29 +212,32 @@ class Kernel_exit extends RubyVarArgMethod {
 
 class Kernel_raise extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyExceptionValue e;
         if (null == args) {
             //With no arguments, raises the exception in $! or raises a RuntimeError if $! is nil.
             RubyValue v = GlobalVariables.get("$!");
-            if (ObjectFactory.NIL_VALUE != v) {
-                throw new RubyException((RubyClass) v, "");
+            if (ObjectFactory.NIL_VALUE == v) {
+                e = new RubyExceptionValue(RubyRuntime.RuntimeErrorClass, "");
             } else {
-                throw new RubyException(RubyRuntime.RuntimeErrorClass, "");
+                e = (RubyExceptionValue)v;
             }
         } else if (1 == args.size() && (args.get(0) instanceof RubyString)) {
             //With a single String argument, raises a RuntimeError with the string as a message.
-            throw new RubyException(RubyRuntime.RuntimeErrorClass, ((RubyString) args.get(0)).toString());
+            e = new RubyExceptionValue(RubyRuntime.RuntimeErrorClass, ((RubyString) args.get(0)).toString());
         } else if (args.get(0) instanceof RubyExceptionValue) {
             //Otherwise, the first parameter should be the name of an Exception class
             //(or an object that returns an Exception when sent exception). The optional second
             //parameter sets the message associated with the exception, and the third parameter
             //is an array of callback information.
-            RubyExceptionValue v = (RubyExceptionValue) args.get(0);
-            v.setMessage(1 == args.size() ? "" : ((RubyString) args.get(1)).toString());
-            throw new RubyException(v);
+            e = (RubyExceptionValue) args.get(0);
+            e.setMessage(1 == args.size() ? "" : ((RubyString) args.get(1)).toString());
         } else {
             RubyClass v = (RubyClass) args.get(0);
-            throw new RubyException(v, 1 == args.size() ? "" : ((RubyString) args.get(1)).toString());
+            e = new RubyExceptionValue(v, 1 == args.size() ? "" : ((RubyString) args.get(1)).toString());
         }
+
+        GlobalVariables.set(e, "$!");
+        throw new RubyException(e);
     }
 }
 
@@ -535,12 +538,14 @@ class Kernel_throw extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         assertArgNumberAtLeast(args, 1);
 
-        if (!(args.get(0) instanceof RubySymbol)) {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
+        RubyExceptionValue e;
+        if (args.get(0) instanceof RubySymbol ||
+            args.get(0) instanceof RubyString) {
+            e = new RubyExceptionValueForThrow(args.get(0), args.get(1));
+        } else {
+            e = new RubyExceptionValue(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
         }
-
-        RubySymbol s = (RubySymbol) args.get(0);
-        RubyExceptionValueForThrow e = new RubyExceptionValueForThrow(s, args.get(1));
+        GlobalVariables.set(e, "$!");
         throw new RubyException(e);
     }
 }
@@ -557,7 +562,7 @@ class Kernel_catch extends RubyOneArgMethod {
             Object ev = e.getRubyValue();
             if (ev instanceof RubyExceptionValueForThrow) {
                 RubyExceptionValueForThrow v = (RubyExceptionValueForThrow) ev;
-                if (v.isSameSymbol((RubySymbol) arg)) {
+                if (v.isSameSymbol(arg)) {
                     return v.getReturnValue();
                 }
             }
