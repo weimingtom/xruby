@@ -609,6 +609,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Array_misc() {
         String[] program_texts = {
+                "a=[]; a.insert 2, 3, 4; p a",
                 "print [ 11, 22, 33, 44 ].fetch(1)",
                 "a = [1, 2, 1, 3]; a.delete_if {|x| true if x == 1}; p a",
                 "[1, 2, 3].reverse_each {|x| print x}",
@@ -647,6 +648,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "[nil, nil, 3, 4]\n",
                 "22",
                 "[2, 3]\n",
                 "321",
@@ -1432,6 +1434,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_exception() {
         String[] program_texts = {
+                "begin; raise 'www'; rescue; print $!; end",
+                "begin; throw 'vvv'; rescue; print $!; end",
 
                 "def f(a); end; begin; f; rescue; print 55 ; end",
 
@@ -1497,6 +1501,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "www",
+                "uncaught throw `vvv'",
                 "55",
                 "xxx",
                 "yyy",
