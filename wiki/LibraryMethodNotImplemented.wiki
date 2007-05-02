@@ -20,6 +20,7 @@ _Rubinius has lots builtin methods written in pure ruby, we could use some of th
 
 =Passed Tests=
 {{{
+ruby\test_alias.rb
 ruby\test_array.rb
 testunit\test_error.rb
 testunit\test_failure.rb
