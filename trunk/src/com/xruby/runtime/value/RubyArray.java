@@ -83,8 +83,16 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this;
     }
 
+    public RubyArray insert(int index, RubyArray a) {
+		for (int i = array_.size(); i < index; ++i) {
+			array_.add(ObjectFactory.NIL_VALUE);
+		}
+        array_.addAll(index, a.array_);
+        return this;
+    }
+
     public RubyArray insert(int index, RubyValue v) {
-        array_.addAll(index,((RubyArray) v).getInternal());
+        array_.add(index, v);
         return this;
     }
 
@@ -96,18 +104,18 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         if (index >= size()) {
             return ObjectFactory.NIL_VALUE;
         }
-        
+
         if(index < 0){
             index += size();
         }
-        
+
         if(index < 0){
             return ObjectFactory.NIL_VALUE;
         }
 
         return array_.remove(index);
     }
-    
+
     public RubyArray delete_at(int begin, int length) {
         final int arraySize = array_.size();
         if (begin > arraySize) {
@@ -128,7 +136,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
                 length = 0;
             }
         }
-        
+
         while(length > 0){
             array_.remove(begin);
             length--;
@@ -194,16 +202,16 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public RubyValue replace(int start, int length, RubyValue value) {
         int index = getRealIndex(start);
         if (value == ObjectFactory.NIL_VALUE) {
-        	for(int i=0;i<length;i++) {
-        		array_.remove(index);
-        	}
-        	return value;
+            for(int i=0;i<length;i++) {
+                array_.remove(index);
+            }
+            return value;
         }
         if (length < 0) {
             throw new RubyException(RubyRuntime.IndexErrorClass, "negative length (" + length + ")");
         } else if (0 == length) {
             if (value instanceof RubyArray) {
-                array_.addAll(index, ((RubyArray) value).getInternal());
+                array_.addAll(index, ((RubyArray) value).array_);
             } else {
                 array_.add(index, value);
             }
@@ -212,10 +220,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
                 array_.remove(index);
             }
             if (value instanceof RubyArray) {
-            	array_.remove(index);
-            	array_.addAll(index, ((RubyArray) value).getInternal());
+                array_.remove(index);
+                array_.addAll(index, ((RubyArray) value).array_);
             } else {
-            	array_.set(index, value);
+                array_.set(index, value);
             }
         }
         return value;
@@ -321,17 +329,13 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return r;
     }
 
-    ArrayList<RubyValue> getInternal() {
-        return array_;
-    }
-
     public void concat(RubyValue v) {
         if (!(v instanceof RubyArray)) {
             throw new RubyException(RubyRuntime.TypeErrorClass,
                     "can't convert " + v.getRubyClass().toString() + " into Array");
         }
 
-        array_.addAll(((RubyArray) v).getInternal());
+        array_.addAll(((RubyArray) v).array_);
     }
 
     public RubyArray plus(RubyArray v) {
@@ -392,7 +396,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
         return this;
     }
-    
+
     public RubyValue each_index(RubyValue receiver, RubyBlock block) {
         for (int i=0;i<size();i++) {
             RubyValue v = block.invoke(receiver, new RubyArray(new RubyFixnum(i)));
@@ -417,7 +421,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public RubyArray expand(RubyValue v) {
         if (v instanceof RubyArray) {
             //[5,6,*[1, 2]]
-            array_.addAll(((RubyArray) v).getInternal());
+            array_.addAll(((RubyArray) v).array_);
         } else {
             //[5,6,*1], [5,6,*nil]
             array_.add(v);
@@ -449,7 +453,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     }
 
     public RubyArray unshift(RubyArray value) {
-        array_.addAll(0, value.getInternal());
+        array_.addAll(0, value.array_);
         return this;
     }
 
