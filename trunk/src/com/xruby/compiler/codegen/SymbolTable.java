@@ -51,7 +51,7 @@ class SymbolTable {
 	public Collection<String> getLocalVariables() {
 		Collection<String> r = local_variables_.keySet();
 		r.remove(NAME_FOR_INTERNAL_BLOCK_VAR);
-		r.remove(NAME_FOR_INTERNAL_BINDING_VAR);
+		//r.remove(NAME_FOR_INTERNAL_BINDING_VAR);
 		r.remove(NAME_FOR_INTERNAL_TMP_VAR);
 		return r;
 	}
