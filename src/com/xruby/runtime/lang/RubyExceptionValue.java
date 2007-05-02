@@ -16,11 +16,13 @@ public class RubyExceptionValue extends RubyBasic {
 
 	public RubyExceptionValue(RubyClass c) {
 		super(c);
+		GlobalVariables.set(this, "$!");
 	}
 
 	public RubyExceptionValue(RubyClass c, String message) {
 		super(c);
 		message_ = message;
+		GlobalVariables.set(this, "$!");
 	}
 
 	public void setMessage(String message) {
