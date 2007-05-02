@@ -15,6 +15,7 @@ tokens {
 	ARG;
 	
 	SHIFT;
+	ASSIGNMENT; //or just use '=' etc?
 	//COMPSTMT;
 	SYMBOL;
 	BLOCK;
@@ -154,13 +155,13 @@ ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))* {if("var".equal
 
 
 expression
-	:	'expression0' | 'expression1' | 'expression2'|INT|ID|boolean_expression| block_expression|if_expression|unless_expression|assignment_expression;
+	:	'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression;
 assignment_expression
-	:	lvalue '=' rvalue;
-lvalue	:	ID;
-rvalue	:	expression;
+	:	lhs '=' rhs -> ^(ASSIGNMENT lhs rhs);
+lhs	:	ID;
+rhs	:	expression;
 
-literal	:	NUMBER|string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
+literal	:	INT|FLOAT|string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
 INT
 	:	'-'?(OCTAL|DECIMAL|HEX|BINARY| ESCAPE_INT)
 	;
@@ -200,7 +201,6 @@ LEADING0_NUMBER
 	:('0'..'9') ('_'? '0'..'9')*;
 fragment	
 EXP_PART:	('e' | 'E') '-'? LEADING0_NUMBER;
-NUMBER	:	INT|FLOAT;
 
 string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|HEREDOC_STRING;
 
