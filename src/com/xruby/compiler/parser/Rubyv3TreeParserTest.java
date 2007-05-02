@@ -59,7 +59,15 @@ public class Rubyv3TreeParserTest extends TestCase {
     }
 
     public void test_string() throws Exception {
-        compile_run_and_compare_result(ObjectFactory.createString("'abc'"), "%q|abc|;"); //todo: this shouldn't be correct
+        compile_run_and_compare_result(ObjectFactory.createString("abc"), "'abc';");
+        compile_run_and_compare_result(ObjectFactory.createString("abc"), "%q|abc|;");
+        compile_run_and_compare_result(ObjectFactory.createString("1(abc)2"), "%q(1(abc)2);");
+        compile_run_and_compare_result(ObjectFactory.createString("abc"), "\"abc\"");
+
+        compile_run_and_compare_result(ObjectFactory.createString("abc"), "%Q|abc|;");
+        compile_run_and_compare_result(ObjectFactory.createString("abc"), "%Q(abc);");
+        compile_run_and_compare_result(ObjectFactory.createString("1(abc)2"), "%Q(1(abc)2);");
+
     }
 
     public void test_assignment() throws Exception {

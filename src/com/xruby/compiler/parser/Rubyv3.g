@@ -71,6 +71,13 @@ package com.xruby.compiler.parser;
         private Token createStringToken() {
                 return new StringToken(input, channel, tokenStartCharIndex, getCharIndex()-1);
         }
+        private int determineBegin(int begin) {
+        int result = 0; //if collide with EOF, then we can use other value like -3,-7 
+        if (begin == '[' || begin == '{' || begin == '(' || begin == '<') {
+            result = begin;
+        } 
+        return result;
+        }
         private int determineEnd(int begin) {
                 int end = 0;
                 if(begin == '[') {
@@ -205,11 +212,33 @@ EXP_PART:	('e' | 'E') '-'? LEADING0_NUMBER;
 string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|HEREDOC_STRING;
 
 SINGLE_QUOTE_STRING
-	@init{int end=0;}:	'\'' .* '\'' | '%q' begin=. {end=determineEnd($begin); System.out.println($begin);} (tmp=.{System.out.println(tmp); if(tmp==end) {this.type=SINGLE_QUOTE_STRING;return;}})*; // ;
+	@init{int end=0; int nested=0;}:	'\'' .* '\'' | '%q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } (tmp=.{System.out.println(tmp); 
+	                    if(tmp==begin) {
+                                nested ++;
+                            } else if(tmp==end)  {
+                                
+                                if(nested == 0) {
+                                this.type=SINGLE_QUOTE_STRING;
+                                return;
+                                }
+                                nested --;
+                            }
+                            })*; // ;
 
 DOUBLE_QUOTE_STRING
-	@init{int end=0;}:	'"' .* '"' | '%Q' begin=. {end=determineEnd($begin); System.out.println($begin);} 
-	(tmp=.{System.out.println(tmp); if(tmp==end) {this.type=DOUBLE_QUOTE_STRING;return;}})*; // ;;
+	@init{int end=0; int nested=0;}:	'"' .* '"' | '%Q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } 
+	(tmp=.{System.out.println(tmp); 
+	                    if(tmp==begin) {
+                                nested ++;
+                            } else if(tmp==end)  {
+                                
+                                if(nested == 0) {
+                                this.type=DOUBLE_QUOTE_STRING;
+                                return;
+                                }
+                                nested --;
+                            }
+                            })*; // ;;
 HEREDOC_BEGIN
 	:	'<<'{if(just_seen_var) {$type=SHIFT;}};	
 //SHFIT   //set in HEREDOC_BEGIN
