@@ -96,7 +96,17 @@ end
 
 class Array
 	
-	alias reject! delete_if
+    alias reject! delete_if
+  
+    def reject
+      a = []
+      each {|x|
+        if !yield x
+          a << x
+        end
+      }
+      a
+    end
 	
     def to_a
         self
