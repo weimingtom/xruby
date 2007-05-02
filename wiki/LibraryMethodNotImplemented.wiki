@@ -81,7 +81,6 @@ testunit\util\test_procwrapper.rb
 testunit\util\test_observable.rb
 testunit\collector\test_dir.rb
 testunit\collector\test_objectspace.rb
-...
 }}}
 
 =Reference=
