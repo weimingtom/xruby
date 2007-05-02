@@ -236,7 +236,6 @@ class Kernel_raise extends RubyVarArgMethod {
             e = new RubyExceptionValue(v, 1 == args.size() ? "" : ((RubyString) args.get(1)).toString());
         }
 
-        GlobalVariables.set(e, "$!");
         throw new RubyException(e);
     }
 }
@@ -545,7 +544,6 @@ class Kernel_throw extends RubyVarArgMethod {
         } else {
             e = new RubyExceptionValue(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
         }
-        GlobalVariables.set(e, "$!");
         throw new RubyException(e);
     }
 }
