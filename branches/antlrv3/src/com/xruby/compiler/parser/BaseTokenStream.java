@@ -34,6 +34,10 @@ public class BaseTokenStream implements TokenStream {
                 initializedIndex++;
             }
         }
+        //System.out.println("p+k" + (p + k));
+        if (p + k < 0) {
+            return null;
+        }
 
         return (Token) tokens.get(p + k);  //To change body of implemented methods use File | Settings | File Templates.
     }
