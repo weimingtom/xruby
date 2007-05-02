@@ -95,6 +95,8 @@ public class Rubyv3LexerTest extends TestCaseExtend {
 
         tokens = lex("%Q{abc}");
 
+        assert_lex("%Q((abc))", Rubyv3Lexer.DOUBLE_QUOTE_STRING);
+
     }
 
     public void test_HEREDOC_STRING() throws Exception {
