@@ -8,7 +8,7 @@ _Rubinius has lots builtin methods written in pure ruby, we could use some of th
 
 *Range
 
-=All methods in this Class or Module has implemented!=
+=All methods in those Class or Module have been implemented!=
 
 *Comparable
 
@@ -17,12 +17,15 @@ _Rubinius has lots builtin methods written in pure ruby, we could use some of th
 *Dir
 
 =Passed Tests=
+{{{
 ruby\test_array.rb
 testunit\test_error.rb
 testunit\test_failure.rb
 testunit\util\test_backtracefilter.rb
+}}}
 
 =Failed Tests=
+{{{
 testunit\test_assertions.rb
 testunit\test_testcase.rb
 testunit\test_testsuite.rb
@@ -32,6 +35,7 @@ testunit\util\test_observable.rb
 testunit\collector\test_dir.rb
 testunit\collector\test_objectspace.rb
 ...
+}}}
 
 =Reference=
 http://www.ruby-doc.org/docs/ProgrammingRuby/html/builtins.html
