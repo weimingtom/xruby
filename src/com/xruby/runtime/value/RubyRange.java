@@ -24,13 +24,14 @@ public class RubyRange extends RubyBasic {
                 if (result == ObjectFactory.NIL_VALUE) {
                     throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
                 }
-            } catch (RubyException exception) {
-                if (exception.getRubyValue().getRubyClass() == RubyRuntime.ArgumentErrorClass) {
+            } catch (RubyException e) {
+                RubyValue value = RubyAPI.convertRubyException2RubyValue(e);
+                if (value.getRubyClass() == RubyRuntime.ArgumentErrorClass) {
                     throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
                 }
-                throw exception;
+                throw e;
             }
-        }  
+        }
         begin_ = left;
         end_ = right;
         exclude_end_ = isExclusive;
