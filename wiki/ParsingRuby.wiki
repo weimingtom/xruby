@@ -49,7 +49,7 @@ http://del.icio.us/yawl/blog/ANTLR
 
   * Is there an 'official' grammar for ruby?
 
-  No. The only rerference is the parer.y file.  There is a simpilefied 'Pseudo BNF Syntax of Ruby' at http://www.ruby-doc.org/docs/ruby-doc-bundle/Manual/man-1.4/yacc.html, but it can  only help you to get started.
+  No. The only rerference is the parse.y file.  There is a simpilefied 'Pseudo BNF Syntax of Ruby' at http://www.ruby-doc.org/docs/ruby-doc-bundle/Manual/man-1.4/yacc.html, but it can  only help you to get started.
 
 = Findings =
   * When def a ID both as local variable and method,
