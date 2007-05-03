@@ -80,6 +80,31 @@ public class Rubyv3TreeParserTest extends TestCase {
 
     }
 
+    public void test_string_escape() throws Exception {
+        //compile_run_and_compare_result(ObjectFactory.createString("a#"), "\"a#\"");
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString("\\"), "'\\';");
+            fail("should fail");
+        } catch (SyntaxException e) {
+            //ignore
+        }
+        compile_run_and_compare_result(ObjectFactory.createString("\\"), "'\\\\';");
+
+        compile_run_and_compare_result(ObjectFactory.createString("\n"), "\"\\n\"");
+        compile_run_and_compare_result(ObjectFactory.createString("\r"), "\"\\r\"");
+        compile_run_and_compare_result(ObjectFactory.createString("\1"), "\"\\1\"");
+        compile_run_and_compare_result(ObjectFactory.createString("\11"), "\"\\11\"");
+        compile_run_and_compare_result(ObjectFactory.createString("\111"), "\"\\111\"");
+        compile_run_and_compare_result(ObjectFactory.createString("\u00ff"), "\"\\777\"");
+
+        compile_run_and_compare_result(ObjectFactory.createString("\12"), "\"\\xa\"");
+        compile_run_and_compare_result(ObjectFactory.createString("\u00ff"), "\"\\xff\"");
+    }
+
+    public void test_string_substitution() throws Exception {
+        //compile_run_and_compare_result(ObjectFactory.createString("1"), "\"#{x=1;}\"");
+    }
+
     public void test_assignment() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFixnum(1), "a=1;");
 

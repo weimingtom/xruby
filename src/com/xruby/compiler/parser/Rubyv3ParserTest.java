@@ -79,7 +79,7 @@ public class Rubyv3ParserTest extends TestCase {
     public void test_assignment() throws Exception {
         assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= x 1)))");
         assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
-        assert_parse("x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
+        //assert_parse("x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
         /*assert_parse("x <<1\n" +
                 "\n"
                 , "");*/
