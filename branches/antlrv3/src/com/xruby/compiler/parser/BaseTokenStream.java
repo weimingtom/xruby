@@ -23,6 +23,8 @@ public class BaseTokenStream implements TokenStream {
     private int p = -1; //actually, no need for p=-1 for juding preload
     private int initializedIndex = -1; //how far do we go?
 
+    protected int lastMarker;
+
     public BaseTokenStream(RewindableTokenSource tokenSource) {
         this.tokenSource = tokenSource;
     }
@@ -30,9 +32,15 @@ public class BaseTokenStream implements TokenStream {
     public Token LT(int k) {
         if (p + k > initializedIndex) {//need to initialize on
             while (initializedIndex < p + k) {
-                tokens.add(tokenSource.nextToken());
+                Token token = tokenSource.nextToken();
                 initializedIndex++;
+                token.setTokenIndex(initializedIndex);
+                tokens.add(token);
+
             }
+        }
+        if (k < 0) {
+            return LB(-k);
         }
         //System.out.println("p+k" + (p + k));
         if (p + k < 0) {
@@ -40,6 +48,16 @@ public class BaseTokenStream implements TokenStream {
         }
 
         return (Token) tokens.get(p + k);  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private Token LB(int k) {
+        if (k == 0) {
+            return null;
+        }
+        if ((p + 1 - k) < 0) {
+            return null;
+        }
+        return (Token) tokens.get(p + 1 - k);
     }
 
     public Token get(int i) {
@@ -55,15 +73,36 @@ public class BaseTokenStream implements TokenStream {
     }
 
     public TokenSource getTokenSource() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return tokenSource;
     }
 
     public String toString(int start, int stop) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (start < 0 || stop < 0) {
+            return null;
+        }
+
+        /*if ( stop>=tokens.size() ) {
+              stop = tokens.size()-1;
+          }
+           */
+        if (stop > initializedIndex) {
+            //stop = initializedIndex;
+            throw new RuntimeException("stop passed initializedIndex"); //todo: check this later
+        }
+
+        StringBuffer buf = new StringBuffer();
+        for (int i = start; i <= stop; i++) {
+            Token t = (Token) tokens.get(i);
+            buf.append(t.getText());
+        }
+        return buf.toString();
     }
 
     public String toString(Token start, Token stop) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (start != null && stop != null) {
+            return toString(start.getTokenIndex(), stop.getTokenIndex());
+        }
+        return null;
     }
 
     public void consume() {
@@ -75,27 +114,28 @@ public class BaseTokenStream implements TokenStream {
     }
 
     public int mark() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        lastMarker = index();
+        return lastMarker;
     }
 
     public int index() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return p;
     }
 
     public void rewind(int marker) {
-//To change body of implemented methods use File | Settings | File Templates.
+        seek(marker);
     }
 
     public void rewind() {
-//To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void release(int marker) {
-//To change body of implemented methods use File | Settings | File Templates.
+        seek(lastMarker);
     }
 
     public void seek(int index) {
-//To change body of implemented methods use File | Settings | File Templates.
+        p = index;
+    }
+
+    public void release(int marker) {
+        // no resources to release
     }
 
     public int size() {

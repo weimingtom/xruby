@@ -47,12 +47,30 @@ package com.xruby.compiler.parser;
 package com.xruby.compiler.parser;
 
 }
+@members {
+  private SymbolTableManager stm = new SymbolTableManager(null);
+  public boolean just_seen_var() {
+          Token token = input.LT(1);
+          if(token != null) {
+            return stm.isDefinedInCurrentScope(token.getText());
+          }
+          return false;
+  }
+  
+}
+
 @lexer::members {
         /** Override this method to change where error messages go */
         public void emitErrorMessage(String msg) {
 		System.err.println(msg);
 	}
-	private boolean just_seen_var=false;
+	private Rubyv3Parser parser;
+	public void setParser(Rubyv3Parser parser) {
+        this.parser = parser;
+        }
+	private boolean just_seen_var() {
+	    return parser.just_seen_var();    
+	}
 	
 	/*public Token emit() {
         IntToken t =
@@ -95,7 +113,9 @@ package com.xruby.compiler.parser;
         }
 }
 program
-                :	terminal* |statement_list terminal*
+@init {
+  ((Rubyv3Lexer) input.getTokenSource()).setParser(this);
+}               :	terminal* |statement_list terminal*
 		;
 
 statement_list
@@ -156,15 +176,16 @@ LINE_BREAK
 	;	
 WS	:	(' ' | '\t') { skip(); }
 	;
-ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))* {if("var".equals($text)) {System.out.println("just_seen_var:"+$text);just_seen_var=true;}}
+ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
 	;
 
 
 
 expression
-	:	'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression;
+	:	'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression
+	|       lhs SHIFT^ rhs ;
 assignment_expression
-	:	lhs '=' rhs -> ^(ASSIGNMENT lhs rhs);
+	:	lhs '='^ rhs {System.out.println($lhs.text); stm.addVariable($lhs.text);};
 lhs	:	ID;
 rhs	:	expression;
 
@@ -246,7 +267,7 @@ DOUBLE_QUOTE_STRING
                             }
                             })*; // ;;
 HEREDOC_BEGIN
-	:	'<<'{if(just_seen_var) {$type=SHIFT;}};	
+	:	'<<'{if(just_seen_var()) {$type=SHIFT;}};	
 //SHFIT   //set in HEREDOC_BEGIN
 //	: '<<';
 HEREDOC_STRING

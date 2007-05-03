@@ -2,7 +2,6 @@ package com.xruby.compiler.parser;
 
 import junit.framework.TestCase;
 import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 
@@ -77,6 +76,13 @@ public class Rubyv3ParserTest extends TestCase {
                 "end if nil", "(STATEMENT_LIST (STATEMENT (IF (IF 7 (STATEMENT_LIST (STATEMENT 31))) (STATEMENT_LIST (STATEMENT 11))) (if nil)))");
     }
 
+    public void test_assignment() throws Exception {
+        assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= x 1)))");
+        assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
+        /*assert_parse("x <<1\n" +
+                "\n"
+                , "");*/
+    }
 
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
 
@@ -85,8 +91,7 @@ public class Rubyv3ParserTest extends TestCase {
                 new ANTLRStringStream(text);
 
         Rubyv3Lexer lexer = new Rubyv3Lexer(input);
-        //BaseTokenStream tokens = new BaseTokenStream(lexer);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        BaseTokenStream tokens = new BaseTokenStream(lexer);
         Rubyv3Parser parser = new Rubyv3Parser(tokens);
         Rubyv3Parser.program_return result = null;
 
