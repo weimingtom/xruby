@@ -12,6 +12,9 @@ Here is a list of things we are going to do
   * Adjust generated code structure based on runtime
   * Refactoring is always welcome
 
+= XRuby 0.3.0 =
+  * Pass all c ruby unit tests (Milestone)
+
 = Long Term Goal =
   * Make Ruby on Rails work
   * Upgrade Antlr to 3.0
