@@ -189,7 +189,7 @@ BINARY	:	'0b'('0'..'1') ('_'? '0'..'1')*;
 
 fragment
 ESCAPE_INT
-	:       '?'(CONTROL_PART|META_PART)* ('\u0000' .. '\u0255')  
+	:       '?'(CONTROL_PART|META_PART)* ('\u0000' .. '\u0091' | '\u0093'..'\u0255' | ESCAPE_INT_PART)
 	;
 fragment
 CONTROL_PART
@@ -198,6 +198,12 @@ CONTROL_PART
 fragment
 META_PART
 	:	'\\M-'
+	;
+fragment
+ESCAPE_INT_PART //ESCAPE_INT_PART in ESCAPE_INT
+	:	'\\' ('0'..'7' | '0'..'7' '0'..'7' | '0'..'7' '0'..'7' '0'..'7')
+	|       '\\' 'x' (HEX_PART|HEX_PART HEX_PART) //validating semantic predicate seems does not work, just use enum directly
+	|       '\\' ~('0'..'7'|'x'|'c'|'M'|'C')
 	;
 FLOAT	:	'-'?( NON_LEADING0_NUMBER | '0') (EXP_PART | '.' LEADING0_NUMBER EXP_PART?);
 fragment
