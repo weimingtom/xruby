@@ -372,7 +372,7 @@ class Array_new extends RubyVarArgMethod {
         RubyArray a;
         if (null == args) {
             a = new RubyArray();
-        } else if(null == block) {
+        } else if (null == block) {
         	if (args.get(0) instanceof RubyArray) {
         		a = (RubyArray)args.get(0).clone();
         	} else {
@@ -383,8 +383,7 @@ class Array_new extends RubyVarArgMethod {
         } else {
         	RubyFixnum size = (RubyFixnum) args.get(0);
         	a  = new RubyArray();
-        	for(int i=0; i<size.intValue(); i++)
-        	{
+        	for (int i=0; i<size.intValue(); i++) {
         		RubyValue return_value = block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum(i)));
         		a.add(return_value);
         	}
