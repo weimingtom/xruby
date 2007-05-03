@@ -49,12 +49,15 @@ package com.xruby.compiler.parser;
 }
 @members {
   private SymbolTableManager stm = new SymbolTableManager(null);
-  public boolean just_seen_var() {
+  /*public boolean just_seen_var() {
           Token token = input.LT(1);
           if(token != null) {
             return stm.isDefinedInCurrentScope(token.getText());
           }
           return false;
+  }*/
+  public boolean isDefinedVar(String text) {
+        return stm.isDefinedInCurrentScope(text);
   }
   
 }
@@ -68,9 +71,10 @@ package com.xruby.compiler.parser;
 	public void setParser(Rubyv3Parser parser) {
         this.parser = parser;
         }
-	private boolean just_seen_var() {
-	    return parser.just_seen_var();    
-	}
+        public Rubyv3Parser getParser() {
+          return this.parser;
+        }
+	
 	
 	/*public Token emit() {
         IntToken t =
@@ -185,7 +189,7 @@ expression
 	:	'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression
 	|       lhs SHIFT^ rhs ;
 assignment_expression
-	:	lhs '='^ rhs {System.out.println($lhs.text); stm.addVariable($lhs.text);};
+	:	lhs '='^ rhs {stm.addVariable($lhs.text);};
 lhs	:	ID;
 rhs	:	expression;
 
@@ -267,7 +271,7 @@ DOUBLE_QUOTE_STRING
                             }
                             })*; // ;;
 HEREDOC_BEGIN
-	:	'<<'{if(just_seen_var()) {$type=SHIFT;}};	
+	:	'<<';  //mofidy type to SHIFT in BaseTokenStream if previous token is var	
 //SHFIT   //set in HEREDOC_BEGIN
 //	: '<<';
 HEREDOC_STRING
