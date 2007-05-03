@@ -37,6 +37,17 @@ public class BaseTokenStream implements TokenStream {
                 token.setTokenIndex(initializedIndex);
                 tokens.add(token);
 
+                //modify token in place.
+                if (token.getType() == Rubyv3Lexer.HEREDOC_BEGIN) {
+                    int index = token.getTokenIndex() - 1;
+                    if (index >= 0) {
+                        Token previous = (Token) tokens.get(index);
+                        if (((Rubyv3Lexer) tokenSource).getParser().isDefinedVar(previous.getText())) {
+                            token.setType(Rubyv3Lexer.SHIFT); //modify type in place
+                        }
+                    }
+                }
+
             }
         }
         if (k < 0) {
@@ -124,6 +135,7 @@ public class BaseTokenStream implements TokenStream {
 
     public void rewind(int marker) {
         seek(marker);
+        //todo: also clears out initializeIndex, tokens to p
     }
 
     public void rewind() {
