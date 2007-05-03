@@ -557,7 +557,7 @@ class Kernel_catch extends RubyOneArgMethod {
         try {
             block.invoke(receiver, null);
         } catch (RubyException e) {
-            Object ev = e.getRubyValue();
+            RubyValue ev = RubyAPI.convertRubyException2RubyValue(e);
             if (ev instanceof RubyExceptionValueForThrow) {
                 RubyExceptionValueForThrow v = (RubyExceptionValueForThrow) ev;
                 if (v.isSameSymbol(arg)) {

@@ -26,7 +26,8 @@ public class RubyException extends RuntimeException {
 		value_ = e;
 	}
 	
-	public RubyExceptionValue getRubyValue() {
+	RubyExceptionValue getRubyValue() {
+		value_.setException(this);
 		return value_;
 	}
 

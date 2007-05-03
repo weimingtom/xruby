@@ -6,35 +6,48 @@
 package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.ObjectFactory;
 
 /**
  * Java does not have multiple inheritance, and RubyException has to be inheritated from Exception.
  */
 public class RubyExceptionValue extends RubyBasic {
 
-	private String message_;
+    private RubyException exception_;
+    private String message_;
 
-	public RubyExceptionValue(RubyClass c) {
-		super(c);
-		GlobalVariables.set(this, "$!");
-	}
+    public RubyExceptionValue(RubyClass c) {
+        super(c);
+        GlobalVariables.set(this, "$!");
+    }
 
-	public RubyExceptionValue(RubyClass c, String message) {
-		super(c);
-		message_ = message;
-		GlobalVariables.set(this, "$!");
-	}
+    public RubyExceptionValue(RubyClass c, String message) {
+        super(c);
+        message_ = message;
+        GlobalVariables.set(this, "$!");
+    }
 
-	public void setMessage(String message) {
-		message_ = message;
-	}
+    public void setMessage(String message) {
+        message_ = message;
+    }
 
-	public String toString() {
-		return message_;
-	}
+    void setException(RubyException exception) {
+        exception_ = exception;
+    }
+
+    public String toString() {
+        return message_;
+    }
 
     public RubyArray backtrace() {
-        //TODO implement this!
-        return new RubyArray();
+        RubyArray a = new RubyArray();
+        StackTraceElement[] trace = exception_.getStackTrace();
+        for (StackTraceElement e : trace) {
+            String s = e.getClassName();
+            if (!s.contains("com.xruby")) {//filter internal calls
+                a.add(ObjectFactory.createString(s));
+            }
+        }
+        return a;
     }
 }

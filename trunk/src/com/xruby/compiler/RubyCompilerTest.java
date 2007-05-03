@@ -131,10 +131,12 @@ class CompilerTestCase extends TestCase {
                 p.invoke();
                 fail("Error at " + i + ": should throw RubyException");
             } catch (RubyException e) {
-                if (exceptions[i].getRubyValue().toString() != null) {
-                    assertEquals("Exception message mismatch at " + i, exceptions[i].getRubyValue().toString(), e.getRubyValue().toString());
+                RubyValue v1 = RubyAPI.convertRubyException2RubyValue(exceptions[i]);
+                RubyValue v2 = RubyAPI.convertRubyException2RubyValue(e);
+                if (v1.toString() != null) {
+                    assertEquals("Exception message mismatch at " + i, v1.toString(), v2.toString());
                 }
-                assertEquals("Exception type mismatch at " + i, exceptions[i].getRubyValue().getRubyClass().getName(), e.getRubyValue().getRubyClass().getName());
+                assertEquals("Exception type mismatch at " + i, v1.getRubyClass().getName(), v2.getRubyClass().getName());
                 continue;
             } catch (RecognitionException e) {
                 assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
@@ -216,7 +218,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         try {
             p.invoke();
         } catch (RubyException e) {
-            RubyValue v = e.getRubyValue();
+            RubyValue v = RubyAPI.convertRubyException2RubyValue(e);
             assertEquals(v.getRubyClass(), RubyRuntime.RuntimeErrorClass);
             String s = v.toString();
             assertEquals("test", s);
@@ -2312,6 +2314,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Hash_default() {
         String[] program_texts = {
+                "h = Hash.new {print 4;3}; print h[2]",
+                "h = Hash.new(1); print h[2]",
                 "h = {}; def h.default(x); print 'x'; x; end; print h[1], h[2]",
                 "h = { 'a' => 100, 'b' => 200 }; print h.default",
                 "h = { 'a' => 100, 'b' => 200 };h.default = 'Go fish'; print h['a'], h['z'] ",
@@ -2319,6 +2323,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "43",
+                "1",
                 "xx12",
                 "nil",
                 "100Go fish",
