@@ -243,7 +243,8 @@ EXP_PART:	('e' | 'E') '-'? LEADING0_NUMBER;
 string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|HEREDOC_STRING;
 
 SINGLE_QUOTE_STRING
-	@init{int end=0; int nested=0;}:	'\'' .* '\'' | '%q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } (tmp=.{System.out.println(tmp); 
+	@init{int end=0; int nested=0;}:	'\'' SINGLE_STRING_CHAR* '\'' 
+	| '%q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } (tmp=.{System.out.println(tmp); 
 	                    if(tmp==begin) {
                                 nested ++;
                             } else if(tmp==end)  {
@@ -254,10 +255,14 @@ SINGLE_QUOTE_STRING
                                 }
                                 nested --;
                             }
-                            })*; // ;
-
+                            })*;
+fragment	
+SINGLE_STRING_CHAR
+  	:	'\\' . | ~ ('\\'|'\'') ;
+DOUBLE_STRING_CHAR
+	:	'\\' . | ~ ('\\'|'"');
 DOUBLE_QUOTE_STRING
-	@init{int end=0; int nested=0;}:	'"' .* '"' | '%Q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } 
+	@init{int end=0; int nested=0;}:	'"' DOUBLE_STRING_CHAR* '"' | '%Q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } 
 	(tmp=.{System.out.println(tmp); 
 	                    if(tmp==begin) {
                                 nested ++;

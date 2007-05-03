@@ -81,14 +81,24 @@ public class Rubyv3TreeParserTest extends TestCase {
     }
 
     public void test_string_escape() throws Exception {
-        //compile_run_and_compare_result(ObjectFactory.createString("a#"), "\"a#\"");
-        try {
+
+        compile_run_and_compare_result(ObjectFactory.createString("a#"), "\"a#\"");
+        /*try {
             compile_run_and_compare_result(ObjectFactory.createString("\\"), "'\\';");
             fail("should fail");
         } catch (SyntaxException e) {
             //ignore
-        }
+        }*/
         compile_run_and_compare_result(ObjectFactory.createString("\\"), "'\\\\';");
+        compile_run_and_compare_result(ObjectFactory.createString("\\\""), "'\\\"'");
+
+        compile_run_and_compare_result(ObjectFactory.createString("'"), "'\\''");
+
+        compile_run_and_compare_result(ObjectFactory.createString("\""), "\"\\\"\"");
+        compile_run_and_compare_result(ObjectFactory.createString("'"), "\"'\"");
+
+
+        compile_run_and_compare_result(ObjectFactory.createString("\\d"), "'\\d'");
 
         compile_run_and_compare_result(ObjectFactory.createString("\n"), "\"\\n\"");
         compile_run_and_compare_result(ObjectFactory.createString("\r"), "\"\\r\"");
@@ -106,7 +116,7 @@ public class Rubyv3TreeParserTest extends TestCase {
     }
 
     public void test_assignment() throws Exception {
-        compile_run_and_compare_result(ObjectFactory.createFixnum(1), "a=1;");
+        //compile_run_and_compare_result(ObjectFactory.createFixnum(1), "a=1;");
 
         //System.out.println(new Double("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111119999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.233"));
         //System.out.println(new Double("1e-9999"));

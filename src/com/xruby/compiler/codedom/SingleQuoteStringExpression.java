@@ -33,6 +33,9 @@ public class SingleQuoteStringExpression extends StringExpression {
                     tokens.append(c);
                 } else if (c == '\'') {
                     tokens.append(c);
+                } else {
+                    tokens.append("\\");
+                    tokens.append(c);
                 }
             } else {
                 tokens.append(c);
