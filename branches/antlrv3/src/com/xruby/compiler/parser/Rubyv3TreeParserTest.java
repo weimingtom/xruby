@@ -56,22 +56,36 @@ public class Rubyv3TreeParserTest extends TestCase {
         //todo: why is ?\C-? -> 127, ?? & 0x9f ( 63 & 0x9f = 31)
 
 
+        compile_run_and_compare_result(ObjectFactory.createFixnum(1), "?\\1");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(9), "?\\11");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(73), "?\\111");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(255), "?\\777");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(10), "?\\xa");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(255), "?\\xff");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(10), "?\\n");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(100), "?\\d");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(138), "?\\M-\\n");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(228), "?\\M-\\d");
     }
 
     public void test_string() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createString("abc"), "'abc';");
         compile_run_and_compare_result(ObjectFactory.createString("abc"), "%q|abc|;");
-        compile_run_and_compare_result(ObjectFactory.createString("1(abc)2"), "%q(1(abc)2);");
+        compile_run_and_compare_result(ObjectFactory.createString("1(abc)2"), "%q(1(abc)2)");
         compile_run_and_compare_result(ObjectFactory.createString("abc"), "\"abc\"");
 
         compile_run_and_compare_result(ObjectFactory.createString("abc"), "%Q|abc|;");
         compile_run_and_compare_result(ObjectFactory.createString("abc"), "%Q(abc);");
-        compile_run_and_compare_result(ObjectFactory.createString("1(abc)2"), "%Q(1(abc)2);");
+        compile_run_and_compare_result(ObjectFactory.createString("1(abc)2"), "%Q(1(abc)2)");
 
     }
 
     public void test_assignment() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFixnum(1), "a=1;");
+
+        //System.out.println(new Double("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111119999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.233"));
+        //System.out.println(new Double("1e-9999"));
+        //System.out.println(new Double("1.111111111111111111111111111111111"));
     }
 
 
