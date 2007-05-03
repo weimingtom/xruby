@@ -68,23 +68,7 @@ public class IntegerExpression extends Expression {
                 control_escape = true;
             }
             int asciiValue = 0;
-            if (text.charAt(index + 1) == '\\') {
-                switch (text.charAt(index + 2)) {
-                    case 'n':
-                        asciiValue = '\n';
-                        break;
-                    case 'r':
-                        asciiValue = '\r';
-                        break;
-                    default:
-                        //TODO more escped value
-                        asciiValue = text.charAt(index + 2);
-                        break;
-
-                }
-            } else {
-                asciiValue = text.charAt(index + 1);
-            }
+            asciiValue = read_value(text, index);
             if (control_escape) {
                 asciiValue = asciiValue & 0x9f;
             }
@@ -99,6 +83,67 @@ public class IntegerExpression extends Expression {
             value = value.negate();
         }
         return new IntegerExpression(value);
+    }
+
+    private static int read_value(String text, int index) {
+        int asciiValue;
+        if (text.charAt(index + 1) == '\\') {
+            switch (text.charAt(index + 2)) {
+                case 'n':
+                    asciiValue = '\n';
+                    break;
+                case 'r':
+                    asciiValue = '\r';
+                    break;
+                case '\\': // backslash
+                    asciiValue = '\\';
+                    break;
+                case 't': // horizontal tab
+                    asciiValue = '\t';
+                    break;
+                case 'f': // form feed
+                    asciiValue = '\f';
+                    break;
+                case 'v': // vertical tab
+                    asciiValue = '\u0013';
+                    break;
+                case 'a': // alarm(bell)
+                    asciiValue = '\u0007';
+                    break;
+                case 'e': // escape
+                    asciiValue = '\u0033';
+                    break;
+                case 'b': // backspace
+                    asciiValue = '\010';
+                    break;
+                case 's': // space
+                    asciiValue = ' ';
+                    break;
+                case '0':
+                case '1':
+                case '2':
+                case '3': // octal constant
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                    asciiValue = Integer.parseInt(text.substring(index + 2), 8);
+                    if (asciiValue > 255) {
+                        asciiValue = 255;
+                    }
+                    break;
+                case 'x':
+                    asciiValue = Integer.parseInt(text.substring(index + 3), 16);
+                    break;
+                default:
+                    asciiValue = text.charAt(index + 2);
+                    break;
+
+            }
+        } else {
+            asciiValue = text.charAt(index + 1);
+        }
+        return asciiValue;
     }
 
     public void accept(CodeVisitor visitor) {
