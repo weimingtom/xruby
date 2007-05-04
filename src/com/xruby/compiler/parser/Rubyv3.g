@@ -46,6 +46,8 @@ package com.xruby.compiler.parser;
 @lexer::header {
 package com.xruby.compiler.parser;
 
+import com.xruby.compiler.codedom.*;
+
 }
 @members {
   private SymbolTableManager stm = new SymbolTableManager(null);
@@ -74,6 +76,25 @@ package com.xruby.compiler.parser;
         public Rubyv3Parser getParser() {
           return this.parser;
         }
+        
+        private Expression expression;
+        public void reset() {
+		super.reset(); // reset all recognizer state variables
+		expression = null;
+	}
+        public Token emit() {
+	    MyToken t =
+	        new MyToken(input, type, channel,
+	                    tokenStartCharIndex, getCharIndex()-1);
+	    t.setLine(tokenStartLine);
+	    t.setText(text);
+	    t.setCharPositionInLine(tokenStartCharPositionInLine);
+	    t.expression = expression;
+	    expression = null; //clear out expression
+	    emit(t);
+	    return t;
+       }
+
 	
 	
 	/*public Token emit() {
@@ -262,7 +283,7 @@ SINGLE_STRING_CHAR
 DOUBLE_STRING_CHAR
 	:	'\\' . | ~ ('\\'|'"');
 DOUBLE_QUOTE_STRING
-	@init{int end=0; int nested=0;}:	'"' DOUBLE_STRING_CHAR* '"' | '%Q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } 
+	@init{int end=0; int nested=0;}:	s=('"' DOUBLE_STRING_CHAR* '"' | '%Q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } 
 	(tmp=.{System.out.println(tmp); 
 	                    if(tmp==begin) {
                                 nested ++;
@@ -274,7 +295,7 @@ DOUBLE_QUOTE_STRING
                                 }
                                 nested --;
                             }
-                            })*; // ;;
+                            })*) {expression = new DoubleQuoteStringExpression(input.substring(tokenStartCharIndex, getCharIndex() - 1));}; //todo: is this some ref like $s.text here?
 HEREDOC_BEGIN
 	:	'<<';  //mofidy type to SHIFT in BaseTokenStream if previous token is var	
 //SHFIT   //set in HEREDOC_BEGIN
