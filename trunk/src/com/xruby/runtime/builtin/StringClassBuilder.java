@@ -161,21 +161,22 @@ class String_to_i extends RubyVarArgMethod {
 
         value = value.substring(0, end);
 
-        if (null == args) {
-            return ObjectFactory.createFixnum(Integer.valueOf(value.toString()));
-        } else {
-            int radix = ((RubyFixnum) args.get(0)).intValue();
-            if (radix >= 2 && radix <= 36) {
-                BigInteger bigint;
-                try {
-                    bigint = new BigInteger(value, radix);
-                } catch (NumberFormatException e) {
-                    return ObjectFactory.FIXNUM0;
-                }
-                return RubyBignum.bignorm(bigint);
-            }
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
+		int radix = 10;
+        if (null != args) {
+            radix = ((RubyFixnum) args.get(0)).intValue();
         }
+		
+        if (radix >= 2 && radix <= 36) {
+            BigInteger bigint;
+            try {
+                bigint = new BigInteger(value, radix);
+            } catch (NumberFormatException e) {
+                return ObjectFactory.FIXNUM0;
+            }
+            return RubyBignum.bignorm(bigint);
+        }
+        throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
+       
     }
 }
 
