@@ -671,23 +671,25 @@ class Kernel_Integer extends RubyOneArgMethod {
 }
 
 class Kernel_srand extends RubyVarArgMethod {
-    private static RubyFixnum lastSeed_ = ObjectFactory.FIXNUM0;
+    private static long lastSeed_ = 0;
     static Random random_ = new Random();
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyFixnum seed;
+        long seed;
         if (null == args) {
             //TODO seeds the generator using a combination of the time, the process id, and a sequence number.
-            seed = ObjectFactory.FIXNUM0;
+            seed = 0;
+        } else if (args.get(0) instanceof RubyFixnum) {
+            seed = ((RubyFixnum)args.get(0)).intValue();
         } else {
-            seed = (RubyFixnum)args.get(0);
+            seed = ((RubyBignum)args.get(0)).longValue();
         }
 
-        random_.setSeed(seed.intValue());
+        random_.setSeed(seed);
 
-        RubyFixnum r = lastSeed_;
+        long r = lastSeed_;
         lastSeed_ = seed;
-        return r;
+        return RubyBignum.bignorm(r);
     }
 }
 

@@ -42,6 +42,10 @@ public class RubyBignum extends RubyBasic {
         return value_;
     }
 
+	public long longValue() {
+		return value_.longValue();
+	}
+
     public void setValue(BigInteger value) {
         value_ = value;
     }
