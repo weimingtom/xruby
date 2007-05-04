@@ -670,6 +670,30 @@ class Kernel_Integer extends RubyOneArgMethod {
     }
 }
 
+class Kernel_rand extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        int max;
+        if (null == args) {
+            //TODO seeds the generator using a combination of the time, the process id, and a sequence number.
+            max = 0;
+        } else if (args.get(0) instanceof RubyFixnum) {
+            max = ((RubyFixnum)args.get(0)).intValue();
+        } else {
+            max = (int)((RubyBignum)args.get(0)).longValue();
+        }
+
+        if (max < 0) {
+            max = -max;
+        }
+
+        if (0 == max) {
+            return ObjectFactory.createFloat(Kernel_srand.random_.nextGaussian());
+        } else {
+            return ObjectFactory.createFixnum(Kernel_srand.random_.nextInt(max));
+        }
+    }
+}
+
 class Kernel_srand extends RubyVarArgMethod {
     private static long lastSeed_ = 0;
     static Random random_ = new Random();
@@ -726,6 +750,7 @@ public class KernelModuleBuilder {
         m.defineMethod("Float", new Kernel_Float());
         m.defineMethod("Integer", new Kernel_Integer());
         m.defineMethod("srand", new Kernel_srand());
+        m.defineMethod("rand", new Kernel_rand());
 
         //TODO Create a method wrapper so that following methods can be instantiated only once
         m.getSingletonClass().defineMethod("puts", new Kernel_puts());
