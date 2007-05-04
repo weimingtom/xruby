@@ -17,6 +17,7 @@ import com.xruby.runtime.value.*;
 
 import java.io.*;
 import java.util.Enumeration;
+import java.util.Random;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
@@ -669,6 +670,27 @@ class Kernel_Integer extends RubyOneArgMethod {
     }
 }
 
+class Kernel_srand extends RubyVarArgMethod {
+    private static RubyFixnum lastSeed_ = ObjectFactory.FIXNUM0;
+    static Random random_ = new Random();
+
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyFixnum seed;
+        if (null == args) {
+            //TODO seeds the generator using a combination of the time, the process id, and a sequence number.
+            seed = ObjectFactory.FIXNUM0;
+        } else {
+            seed = (RubyFixnum)args.get(0);
+        }
+
+        random_.setSeed(seed.intValue());
+
+        RubyFixnum r = lastSeed_;
+        lastSeed_ = seed;
+        return r;
+    }
+}
+
 public class KernelModuleBuilder {
     public static void initialize() {
         RubyModule m = RubyRuntime.KernelModule;
@@ -701,6 +723,7 @@ public class KernelModuleBuilder {
         m.defineMethod("block_given?", block_given);
         m.defineMethod("Float", new Kernel_Float());
         m.defineMethod("Integer", new Kernel_Integer());
+        m.defineMethod("srand", new Kernel_srand());
 
         //TODO Create a method wrapper so that following methods can be instantiated only once
         m.getSingletonClass().defineMethod("puts", new Kernel_puts());
