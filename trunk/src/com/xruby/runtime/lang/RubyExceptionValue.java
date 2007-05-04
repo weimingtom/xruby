@@ -44,7 +44,7 @@ public class RubyExceptionValue extends RubyBasic {
         StackTraceElement[] trace = exception_.getStackTrace();
         for (StackTraceElement e : trace) {
             String s = e.getClassName();
-            if (!s.contains("com.xruby")) {//filter internal calls
+            if (!s.startsWith("com.xruby")) {//filter internal calls
                 a.add(ObjectFactory.createString(s));
             }
         }
