@@ -243,6 +243,20 @@ class Module_operator_greater_than extends RubyOneArgMethod {
     }
 }
 
+class Module_operator_greater_or_equal extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        if (!(arg instanceof RubyModule)) {
+            throw new RubyException(RubyRuntime.TypeErrorClass, "compared with non class/module");
+        }
+
+		if (arg == receiver) {
+           return ObjectFactory.TRUE_VALUE;
+        }
+
+        return Module_operator_less_than.compareModule(arg, receiver);
+    }
+}
+
 class Module_operator_compare extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         if (receiver == arg) {
@@ -366,6 +380,7 @@ public class ModuleClassBuilder {
         c.defineMethod("<=>", new Module_operator_compare());
         c.defineMethod("<", new Module_operator_less_than());
         c.defineMethod(">", new Module_operator_greater_than());
+		c.defineMethod(">=", new Module_operator_greater_or_equal());
         c.defineMethod("===", new Module_case_equal());
         c.defineMethod("ancestors", new Module_ancestors());
         c.defineMethod("public_instance_methods", new Module_public_instance_methods());
