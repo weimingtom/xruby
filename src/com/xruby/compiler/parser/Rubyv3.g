@@ -267,8 +267,18 @@ string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|HEREDOC_STRING;
 
 SINGLE_QUOTE_STRING
 	@init{int end=0; int nested=0;}:	'\'' SINGLE_STRING_CHAR* '\'' 
-	| '%q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } (tmp=.{System.out.println(tmp); 
-	                    if(tmp==begin) {
+	| '%q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } (tmp=.{System.out.println(tmp);
+	                    if(tmp == EOF) {
+	                      throw new SyntaxException("unterminated string meets end of file");
+	                    } else if(tmp == '\\') {
+	                      int c = input.LA(1);
+	                      if(c == EOF) {
+	                         throw new SyntaxException("unterminated string meets end of file");
+	                      } else if (c == begin || c == end) {
+	                         //tokens.add();
+	                         input.consume();
+	                      }
+	                    }else if(tmp==begin) {
                                 nested ++;
                             } else if(tmp==end)  {
                                 
