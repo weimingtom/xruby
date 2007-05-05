@@ -15,8 +15,14 @@ public class DoubleQuoteStringExpression extends StringExpressionWithExpressionS
         if (value.startsWith("\"")) {
             text = value.substring(1, value.length() - 1);
         } else if (value.startsWith("%Q")) {
+            if (value.length() <= 3) {
+                throw new SyntaxException("unterminated string meets end of file");
+            }
             text = value.substring(3, value.length() - 1);
         } else if (value.startsWith("%")) {
+            if (value.length() <= 2) {
+                throw new SyntaxException("unterminated string meets end of file");
+            }
             text = value.substring(2, value.length() - 1);
         }
         parseString(text);

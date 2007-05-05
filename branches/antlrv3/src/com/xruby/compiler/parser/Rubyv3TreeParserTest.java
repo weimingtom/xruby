@@ -139,6 +139,46 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createString("{"), "%Q{\\{};");
         compile_run_and_compare_result(ObjectFactory.createString("\""), "%Q{\"};");
         compile_run_and_compare_result(ObjectFactory.createString("\""), "%Q{\\\"};");
+
+        //compile_run_and_compare_result(ObjectFactory.createString("}"), "%Q{\\}");
+
+
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString(""), "%q");
+            fail("should fail");
+        } catch (SyntaxException e) {
+
+        }
+
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString(""), "%q{");
+            fail("should fail");
+        } catch (SyntaxException e) {
+
+        }
+
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString(""), "%Q");
+            fail("should fail");
+        } catch (SyntaxException e) {
+
+        }
+
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString(""), "%Q{");
+            fail("should fail");
+        } catch (SyntaxException e) {
+
+        }
+
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString(""), "%");
+            fail("should fail");
+        } catch (Exception e) {
+
+        }
+        compile_run_and_compare_result(ObjectFactory.createString("abc"), "%q abc ");
+        compile_run_and_compare_result(ObjectFactory.createString("abc"), "%Q abc ");
         //compile_run_and_compare_result(ObjectFactory.createString("1"), "\"#{x=1;}\"");
         //compile_run_and_compare_result(ObjectFactory.createString("2"), "\"#{x=1}\";x <<1;");
     }
