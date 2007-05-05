@@ -114,15 +114,31 @@ public class Rubyv3TreeParserTest extends TestCase {
     }
 
     public void test_string_substitution() throws Exception {
-        compile_run_and_compare_result(ObjectFactory.createString("{"), "%q{\\{}");
-        compile_run_and_compare_result(ObjectFactory.createString("\\\'"), "%q{\\'}");
-        compile_run_and_compare_result(ObjectFactory.createString("\\"), "%q{\\\\}");
+        //compile_run_and_compare_result(ObjectFactory.createString("{"), "%q{\\{};");
 
-        compile_run_and_compare_result(ObjectFactory.createString("{"), "%Q{\\{}");
-        compile_run_and_compare_result(ObjectFactory.createString("\\"), "%Q{\\\\}");
-        compile_run_and_compare_result(ObjectFactory.createString("{"), "%Q{\\{}");
-        compile_run_and_compare_result(ObjectFactory.createString("\""), "%Q{\"}");
-        compile_run_and_compare_result(ObjectFactory.createString("\""), "%Q{\\\"}");
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString("|"), "%q|\\|");
+
+            fail("should fail");
+        } catch (SyntaxException e) {
+            //ignore
+        }
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString("|"), "%q|\\");
+            fail("should fail");
+        } catch (SyntaxException e) {
+
+        }
+
+        compile_run_and_compare_result(ObjectFactory.createString("\\\'"), "%q{\\'};");
+        compile_run_and_compare_result(ObjectFactory.createString("\\"), "%q{\\\\};");
+        compile_run_and_compare_result(ObjectFactory.createString("|"), "%q|\\||");
+
+        compile_run_and_compare_result(ObjectFactory.createString("{"), "%Q{\\{};");
+        compile_run_and_compare_result(ObjectFactory.createString("\\"), "%Q{\\\\};");
+        compile_run_and_compare_result(ObjectFactory.createString("{"), "%Q{\\{};");
+        compile_run_and_compare_result(ObjectFactory.createString("\""), "%Q{\"};");
+        compile_run_and_compare_result(ObjectFactory.createString("\""), "%Q{\\\"};");
         //compile_run_and_compare_result(ObjectFactory.createString("1"), "\"#{x=1;}\"");
         //compile_run_and_compare_result(ObjectFactory.createString("2"), "\"#{x=1}\";x <<1;");
     }

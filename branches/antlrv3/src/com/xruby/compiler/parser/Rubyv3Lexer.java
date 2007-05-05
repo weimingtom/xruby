@@ -1,4 +1,4 @@
-// $ANTLR 3.0b7 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-05-04 22:08:01
+// $ANTLR 3.0b7 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-05-05 10:49:55
 
 package com.xruby.compiler.parser;
 
@@ -1868,7 +1868,17 @@ public class Rubyv3Lexer extends BaseLexer {
                                 int tmp = input.LA(1);
                                 matchAny();
                                 System.out.println(tmp);
-                                if (tmp == begin) {
+                                if (tmp == EOF) {
+                                    throw new SyntaxException("unterminated string meets end of file");
+                                } else if (tmp == '\\') {
+                                    int c = input.LA(1);
+                                    if (c == EOF) {
+                                        throw new SyntaxException("unterminated string meets end of file");
+                                    } else if (c == begin || c == end || c == '\\') {
+                                        //tokens.add();
+                                        input.consume();
+                                    }
+                                } else if (tmp == begin) {
                                     nested++;
                                 } else if (tmp == end) {
 
@@ -1904,7 +1914,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mSINGLE_STRING_CHAR() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:284:6: ( '\\\\' . | ~ ( '\\\\' | '\\'' ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:6: ( '\\\\' . | ~ ( '\\\\' | '\\'' ) )
             int alt33 = 2;
             int LA33_0 = input.LA(1);
 
@@ -1915,13 +1925,13 @@ public class Rubyv3Lexer extends BaseLexer {
                 alt33 = 2;
             } else {
                 NoViableAltException nvae =
-                        new NoViableAltException("282:1: fragment SINGLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\\'' ) );", 33, 0, input);
+                        new NoViableAltException("292:1: fragment SINGLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\\'' ) );", 33, 0, input);
 
                 throw nvae;
             }
             switch (alt33) {
                 case 1:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:284:6: '\\\\' .
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:6: '\\\\' .
                 {
                     match('\\');
                     matchAny();
@@ -1929,7 +1939,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 break;
                 case 2:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:284:15: ~ ( '\\\\' | '\\'' )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:15: ~ ( '\\\\' | '\\'' )
                 {
                     if ((input.LA(1) >= '\u0000' && input.LA(1) <= '&') || (input.LA(1) >= '(' && input.LA(1) <= '[') || (input.LA(1) >= ']' && input.LA(1) <= '\uFFFE')) {
                         input.consume();
@@ -1957,7 +1967,7 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mDOUBLE_STRING_CHAR() throws RecognitionException {
         try {
             int _type = DOUBLE_STRING_CHAR;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:286:4: ( '\\\\' . | ~ ( '\\\\' | '\"' ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:4: ( '\\\\' . | ~ ( '\\\\' | '\"' ) )
             int alt34 = 2;
             int LA34_0 = input.LA(1);
 
@@ -1968,13 +1978,13 @@ public class Rubyv3Lexer extends BaseLexer {
                 alt34 = 2;
             } else {
                 NoViableAltException nvae =
-                        new NoViableAltException("285:1: DOUBLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\"' ) );", 34, 0, input);
+                        new NoViableAltException("295:1: DOUBLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\"' ) );", 34, 0, input);
 
                 throw nvae;
             }
             switch (alt34) {
                 case 1:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:286:4: '\\\\' .
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:4: '\\\\' .
                 {
                     match('\\');
                     matchAny();
@@ -1982,7 +1992,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 break;
                 case 2:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:286:13: ~ ( '\\\\' | '\"' )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:13: ~ ( '\\\\' | '\"' )
                 {
                     if ((input.LA(1) >= '\u0000' && input.LA(1) <= '!') || (input.LA(1) >= '#' && input.LA(1) <= '[') || (input.LA(1) >= ']' && input.LA(1) <= '\uFFFE')) {
                         input.consume();
@@ -2013,10 +2023,10 @@ public class Rubyv3Lexer extends BaseLexer {
             int _type = DOUBLE_QUOTE_STRING;
             int end = 0;
             int nested = 0;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:35: (s= ( '\"' ( DOUBLE_STRING_CHAR )* '\"' | '%Q' begin= . (tmp= . )* ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:35: s= ( '\"' ( DOUBLE_STRING_CHAR )* '\"' | '%Q' begin= . (tmp= . )* )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:35: (s= ( '\"' ( DOUBLE_STRING_CHAR )* '\"' | '%Q' begin= . (tmp= . )* ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:35: s= ( '\"' ( DOUBLE_STRING_CHAR )* '\"' | '%Q' begin= . (tmp= . )* )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:37: ( '\"' ( DOUBLE_STRING_CHAR )* '\"' | '%Q' begin= . (tmp= . )* )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:37: ( '\"' ( DOUBLE_STRING_CHAR )* '\"' | '%Q' begin= . (tmp= . )* )
                 int alt37 = 2;
                 int LA37_0 = input.LA(1);
 
@@ -2026,16 +2036,16 @@ public class Rubyv3Lexer extends BaseLexer {
                     alt37 = 2;
                 } else {
                     NoViableAltException nvae =
-                            new NoViableAltException("288:37: ( '\"' ( DOUBLE_STRING_CHAR )* '\"' | '%Q' begin= . (tmp= . )* )", 37, 0, input);
+                            new NoViableAltException("298:37: ( '\"' ( DOUBLE_STRING_CHAR )* '\"' | '%Q' begin= . (tmp= . )* )", 37, 0, input);
 
                     throw nvae;
                 }
                 switch (alt37) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:38: '\"' ( DOUBLE_STRING_CHAR )* '\"'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:38: '\"' ( DOUBLE_STRING_CHAR )* '\"'
                     {
                         match('\"');
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:42: ( DOUBLE_STRING_CHAR )*
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:42: ( DOUBLE_STRING_CHAR )*
                         loop35:
                         do {
                             int alt35 = 2;
@@ -2048,7 +2058,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                             switch (alt35) {
                                 case 1:
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:42: DOUBLE_STRING_CHAR
+                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:42: DOUBLE_STRING_CHAR
                                 {
                                     mDOUBLE_STRING_CHAR();
 
@@ -2065,7 +2075,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                     case 2:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:68: '%Q' begin= . (tmp= . )*
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:68: '%Q' begin= . (tmp= . )*
                     {
                         match("%Q");
 
@@ -2074,7 +2084,7 @@ public class Rubyv3Lexer extends BaseLexer {
                         System.out.println(begin);
                         end = determineEnd(begin);
                         begin = determineBegin(begin);
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:289:2: (tmp= . )*
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:299:2: (tmp= . )*
                         loop36:
                         do {
                             int alt36 = 2;
@@ -2087,7 +2097,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                             switch (alt36) {
                                 case 1:
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:289:3: tmp= .
+                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:299:3: tmp= .
                                 {
                                     int tmp = input.LA(1);
                                     matchAny();
@@ -2134,8 +2144,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHEREDOC_BEGIN() throws RecognitionException {
         try {
             int _type = HEREDOC_BEGIN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:4: ( '<<' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:4: '<<'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:4: ( '<<' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:4: '<<'
             {
                 match("<<");
 
@@ -2154,8 +2164,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHEREDOC_STRING() throws RecognitionException {
         try {
             int _type = HEREDOC_STRING;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:306:4: ( 'HEREDOC_STRING' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:306:4: 'HEREDOC_STRING'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:316:4: ( 'HEREDOC_STRING' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:316:4: 'HEREDOC_STRING'
             {
                 match("HEREDOC_STRING");
 
@@ -2174,8 +2184,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mARRAY() throws RecognitionException {
         try {
             int _type = ARRAY;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:9: ( '[]' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:9: '[]'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:317:9: ( '[]' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:317:9: '[]'
             {
                 match("[]");
 
@@ -2194,8 +2204,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHASH() throws RecognitionException {
         try {
             int _type = HASH;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:308:8: ( '{}' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:308:8: '{}'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:8: ( '{}' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:8: '{}'
             {
                 match("{}");
 
@@ -2214,8 +2224,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRANGE() throws RecognitionException {
         try {
             int _type = RANGE;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:9: ( 'a..b' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:9: 'a..b'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:319:9: ( 'a..b' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:319:9: 'a..b'
             {
                 match("a..b");
 
@@ -2234,8 +2244,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mREGEX() throws RecognitionException {
         try {
             int _type = REGEX;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:310:9: ( '/abc/' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:310:9: '/abc/'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:320:9: ( '/abc/' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:320:9: '/abc/'
             {
                 match("/abc/");
 
@@ -2254,8 +2264,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSYMBOL() throws RecognitionException {
         try {
             int _type = SYMBOL;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:10: ( ':abc' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:10: ':abc'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:10: ( ':abc' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:10: ':abc'
             {
                 match(":abc");
 
