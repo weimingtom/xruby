@@ -247,12 +247,7 @@ fragment
 META_PART
 	:	'\\M-'
 	;
-fragment
-ESCAPE_INT_PART //ESCAPE_INT_PART in ESCAPE_INT
-	:	'\\' ('0'..'7' | '0'..'7' '0'..'7' | '0'..'7' '0'..'7' '0'..'7')
-	|       '\\' 'x' (HEX_PART|HEX_PART HEX_PART) //validating semantic predicate seems does not work, just use enum directly
-	|       '\\' ~('0'..'7'|'x'|'c'|'M'|'C')
-	;
+
 FLOAT	:	'-'?( NON_LEADING0_NUMBER | '0') (EXP_PART | '.' LEADING0_NUMBER EXP_PART?);
 fragment
 NON_LEADING0_NUMBER
@@ -274,7 +269,7 @@ SINGLE_QUOTE_STRING
 	                      int c = input.LA(1);
 	                      if(c == EOF) {
 	                         throw new SyntaxException("unterminated string meets end of file");
-	                      } else if (c == begin || c == end) {
+	                      } else if (c == begin || c == end || c == '\\') {
 	                         //tokens.add();
 	                         input.consume();
 	                      }
@@ -297,7 +292,17 @@ DOUBLE_STRING_CHAR
 DOUBLE_QUOTE_STRING
 	@init{int end=0; int nested=0;}:	s=('"' DOUBLE_STRING_CHAR* '"' | '%Q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } 
 	(tmp=.{System.out.println(tmp); 
-	                    if(tmp==begin) {
+	                    if(tmp == EOF) {
+	                      throw new SyntaxException("unterminated string meets end of file");
+	                    } else if(tmp == '\\') {
+	                      int c = input.LA(1);
+	                      if(c == EOF) {
+	                         throw new SyntaxException("unterminated string meets end of file");
+	                      } else { //if (c == begin || c == end || c == '\\') {, for double quote string, always consume
+	                         //tokens.add();
+	                         input.consume();
+	                      }
+	                    }else if(tmp==begin) {
                                 nested ++;
                             } else if(tmp==end)  {
                                 
@@ -308,6 +313,14 @@ DOUBLE_QUOTE_STRING
                                 nested --;
                             }
                             })*) {expression = new DoubleQuoteStringExpression(input.substring(tokenStartCharIndex, getCharIndex() - 1));}; //todo: is this some ref like $s.text here?
+
+fragment
+ESCAPE_INT_PART //ESCAPE_INT_PART in ESCAPE_INT
+	:	'\\' ('0'..'7' | '0'..'7' '0'..'7' | '0'..'7' '0'..'7' '0'..'7')
+	|       '\\' 'x' (HEX_PART|HEX_PART HEX_PART) //validating semantic predicate seems does not work, just use enum directly, this is ugly.
+	|       '\\' ~('0'..'7'|'x'|'c'|'M'|'C')
+	;
+                            
 HEREDOC_BEGIN
 	:	'<<';  //mofidy type to SHIFT in BaseTokenStream if previous token is var	
 //SHFIT   //set in HEREDOC_BEGIN
