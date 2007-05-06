@@ -19,5 +19,9 @@ public class MyToken extends CommonToken {
     public String toString() {
         return super.toString() + ",expression=" + expression;
     }
+
+    public Expression getExpression() {
+        return expression;
+    }
 }
 
