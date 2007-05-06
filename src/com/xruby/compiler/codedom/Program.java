@@ -23,6 +23,10 @@ public class Program implements Visitable {
         this.compoundStatement_ = statementList;
     }
 
+    public CompoundStatement getCompoundStatement() {
+        return compoundStatement_;
+    }
+
     public void accept(CodeVisitor visitor) {
         if (null == compoundStatement_) {
             visitor.visitEof(false);
