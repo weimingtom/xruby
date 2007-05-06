@@ -90,12 +90,12 @@ public class Rubyv3LexerTest extends TestCaseExtend {
         //assertTrue("tokens.size()>1", tokens.size() > 1);
         assertEquals(Rubyv3Lexer.SINGLE_QUOTE_STRING, tokens.get(0).getType());
 
-        assert_lex("\"abc\"", Rubyv3Lexer.DOUBLE_QUOTE_STRING);
-        assert_lex("%Q{abc}", Rubyv3Lexer.DOUBLE_QUOTE_STRING);
+        /*assert_lex("\"abc\"", Rubyv3Lexer.DOUBLE_QUOTE_STRING);
+        assert_lex("%Q{abc}", Rubyv3Lexer.DOUBLE_QUOTE_STRING);*/
 
         tokens = lex("%Q{abc}");
 
-        assert_lex("%Q((abc))", Rubyv3Lexer.DOUBLE_QUOTE_STRING);
+        //assert_lex("%Q((abc))", Rubyv3Lexer.DOUBLE_QUOTE_STRING);
 
     }
 
