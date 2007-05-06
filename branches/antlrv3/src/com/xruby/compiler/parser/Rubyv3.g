@@ -52,6 +52,7 @@ import com.xruby.compiler.codedom.*;
 
 }
 @members {
+  private Rubyv3Parser parent = null;
   private SymbolTableManager stm = new SymbolTableManager(null);
   /*public boolean just_seen_var() {
           Token token = input.LT(1);
@@ -63,6 +64,21 @@ import com.xruby.compiler.codedom.*;
   public boolean isDefinedVar(String text) {
         return stm.isDefinedInCurrentScope(text);
   }
+  public void addVariable(String s) {
+        if(parent != null) {
+           parent.addVariable(s);
+           return;
+        }
+        stm.addVariable(s);
+  }
+  public Rubyv3Parser(TokenStream input, Rubyv3Parser parent) {
+            super(input);
+            ((Rubyv3Lexer) input.getTokenSource()).setParser(this);
+            this.parent = parent;
+  }
+  /*public void init() {
+    ((Rubyv3Lexer) input.getTokenSource()).setParser(this);
+  }*/
   
 }
 
@@ -96,6 +112,7 @@ import com.xruby.compiler.codedom.*;
 	    emit(t);
 	    return t;
        }
+       public static int nesting = 0;
 
 	
 	
@@ -140,9 +157,7 @@ import com.xruby.compiler.codedom.*;
         }
 }
 program
-@init {
-  ((Rubyv3Lexer) input.getTokenSource()).setParser(this);
-}               :	terminal* |statement_list terminal*
+                :	terminal* |statement_list terminal*
 		;
 
 statement_list
@@ -212,7 +227,7 @@ expression
 	:	'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression
 	|       lhs SHIFT^ rhs ;
 assignment_expression
-	:	lhs '='^ rhs {stm.addVariable($lhs.text);};
+	:	lhs '='^ rhs {addVariable($lhs.text);};
 lhs	:	ID;
 rhs	:	expression;
 
@@ -287,11 +302,13 @@ SINGLE_QUOTE_STRING
 fragment	
 SINGLE_STRING_CHAR
   	:	'\\' . | ~ ('\\'|'\'') ;
+fragment
 DOUBLE_STRING_CHAR
 	:	'\\' . | ~ ('\\'|'"');
 DOUBLE_QUOTE_STRING
-	@init{int end=0; int nested=0;}:	s=('"' DOUBLE_STRING_CHAR* '"' | '%Q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } 
-	(tmp=.{System.out.println(tmp); 
+	@init{int end=0; int nested=0;}:	s=('"' {expression = new DoubleStringParser(this.parser, input, '"', 0).parseString();}  | '%Q' begin=. {end=determineEnd($begin);begin=determineBegin($begin); 
+	expression = new DoubleStringParser(this.parser, input, end, begin).parseString(); } 
+	/* (tmp=.{System.out.println(tmp); 
 	                    if(tmp == EOF) {
 	                      throw new SyntaxException("unterminated string meets end of file");
 	                    } else if(tmp == '\\') {
@@ -312,8 +329,25 @@ DOUBLE_QUOTE_STRING
                                 }
                                 nested --;
                             }
-                            })*) {expression = new DoubleQuoteStringExpression(input.substring(tokenStartCharIndex, getCharIndex() - 1));}; //todo: is this some ref like $s.text here?
-
+                            })* */); //{expression = new DoubleQuoteStringExpression(input.substring(tokenStartCharIndex, getCharIndex() - 1));}; //todo: is this some ref like $s.text here?
+                            
+LCURLY  : '{' {nesting++; System.out.println("meeting LCURLY with nesting:" + nesting);}
+        ;
+/** If we have a '}' with nesting level 0 then it must match the '{'
+ *  (unseen by this grammar) that started an embedded Simple statement
+ *  block within a javadoc comment.
+ */
+RCURLY  : '}'
+          {
+          if ( nesting<=0 ) {
+                token=Token.EOF_TOKEN;
+                System.out.println("exiting embedded simple with nesting:" + nesting);
+          }
+          else {
+                nesting--;
+          }
+          }
+        ;
 fragment
 ESCAPE_INT_PART //ESCAPE_INT_PART in ESCAPE_INT
 	:	'\\' ('0'..'7' | '0'..'7' '0'..'7' | '0'..'7' '0'..'7' '0'..'7')
