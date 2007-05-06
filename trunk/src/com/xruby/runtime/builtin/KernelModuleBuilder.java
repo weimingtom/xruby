@@ -287,7 +287,16 @@ class JarLoader extends ClassLoader {
     }
 }
 
-class Kernel_require extends RubyOneArgMethod {
+/*
+* Loads and executes the Ruby program in the file aFileName.
+* If the filename does not resolve to an absolute path, the
+* file is searched for in the library directories listed in $:.
+* If the optional wrap parameter is true, the loaded script will
+* be executed under an anonymous module, protecting the calling
+* program's global namespace. Any local variables in the loaded
+* file will not be propagated to the loading environment.
+*/
+class Kernel_load extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyString required_file = (RubyString) arg;
         File filename = NameFactory.find_corresponding_jar_file(required_file.toString(), null);//TODO search $:
@@ -328,21 +337,6 @@ class Kernel_require_java extends RubyOneArgMethod {
         }
 
         return ObjectFactory.TRUE_VALUE;
-    }
-}
-
-class Kernel_load extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        throw new RubyException("not implemented!");
-        /*
-           * Loads and executes the Ruby program in the file aFileName.
-           * If the filename does not resolve to an absolute path, the
-           * file is searched for in the library directories listed in $:.
-           * If the optional wrap parameter is true, the loaded script will
-           * be executed under an anonymous module, protecting the calling
-           * program's global namespace. Any local variables in the loaded
-           * file will not be propagated to the loading environment.
-           */
     }
 }
 

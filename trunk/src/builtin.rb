@@ -14,8 +14,7 @@ $* = ARGV
 
 module Kernel   
 
-    alias require__ require
-    alias load__    load
+    alias load__ load
 
     #private
     def require(path)
@@ -27,7 +26,7 @@ module Kernel
             next unless ::File.file?(file_name)
             return load_once(file_name)
         end
-        require__(path)
+        load__(path)
     end
 
     #private
@@ -40,7 +39,7 @@ module Kernel
             next unless ::File.file?(file_name)
             return load_file(file_name)
         end
-        require__(path)
+        load__(path)
     end
 
     private
