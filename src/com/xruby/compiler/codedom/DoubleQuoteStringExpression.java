@@ -52,7 +52,7 @@ public class DoubleQuoteStringExpression extends StringExpressionWithExpressionS
         stmts_.add(tokens.toString());
     }
 
-    //port from JRuby
+    //deprecated ,put parse into DoubeStringParser.
     /**
      * @param text
      * @param index
