@@ -79,6 +79,8 @@ public class Rubyv3ParserTest extends TestCase {
     public void test_assignment() throws Exception {
         assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= x 1)))");
         assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
+
+        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
         //assert_parse("x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
         /*assert_parse("x <<1\n" +
                 "\n"
@@ -93,7 +95,7 @@ public class Rubyv3ParserTest extends TestCase {
 
         Rubyv3Lexer lexer = new Rubyv3Lexer(input);
         BaseTokenStream tokens = new BaseTokenStream(lexer);
-        Rubyv3Parser parser = new Rubyv3Parser(tokens);
+        Rubyv3Parser parser = new Rubyv3Parser(tokens, null);
         Rubyv3Parser.program_return result = null;
 
         result = parser.program(); //this line may produce RecognitionException
