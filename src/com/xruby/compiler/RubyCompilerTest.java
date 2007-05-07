@@ -3542,8 +3542,10 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_catch_exception(program_texts, exceptions);
     }
 
-    public void test_range_case_equal() {
+    public void test_range_equal() {
         String[] program_texts = {
+                "print (1..2) == (1..2), (1..2) == (1...3)",
+
                 "a = 1..3; print a === 0",
                 "a = 1..3; print a === 1",
                 "a = 1..3; print a === 2",
@@ -3558,6 +3560,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "truefalse",
+
                 "false",
                 "true",
                 "true",
@@ -3575,10 +3579,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Range_to_a() {
         String[] program_texts = {
+                "print((1...1).to_a)",
                 "print ((1..7).to_a)",
         };
 
         String[] outputs = {
+                "",
                 "1234567",
         };
 
