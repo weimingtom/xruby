@@ -739,6 +739,14 @@ end
 class Range
     include Enumerable
 
+    def ==(value)
+      if value.first == first and value.last == last and value.exclude_end? == exclude_end?
+        true
+      else
+        false
+      end
+    end
+
     def ===(value)
         each do |item|
             return true if value == item
@@ -785,15 +793,15 @@ class Range
     end
 
     def step(n=1)
-	if n == 1 then
-		each{|i|yield(i)}
-	else
-		counter = 0
-		each do |i|
-			yield(i) if counter%n == 0
-			counter = counter + 1
-		end
-	end
+        if n == 1 then
+            each{|i|yield(i)}
+        else
+            counter = 0
+		        each do |i|
+            yield(i) if counter%n == 0
+			      counter = counter + 1
+		    end
+	   end
     end
 end
 
