@@ -764,7 +764,6 @@ public class KernelModuleBuilder {
         m.defineMethod("binding", new Kernel_binding());
         m.defineMethod("method_missing", new Kernel_method_missing());
         m.defineMethod("eval", new Kernel_eval());
-        m.defineMethod("require", new Kernel_require());
         m.defineMethod("require_java", new Kernel_require_java());
         m.defineMethod("load", new Kernel_load());
         RubyMethod lambda = new Kernel_lambda();
