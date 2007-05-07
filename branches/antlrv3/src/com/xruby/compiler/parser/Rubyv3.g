@@ -62,7 +62,18 @@ import com.xruby.compiler.codedom.*;
           return false;
   }*/
   public boolean isDefinedVar(String text) {
-        return stm.isDefinedInCurrentScope(text);
+        boolean result = false;
+        if(parent != null) {
+          result = parent.isDefinedVar(text);
+        } else {
+          return stm.isDefinedInCurrentScope(text);
+        }
+        if(result) {
+          return true;
+        } else {
+          return false;
+        }
+        
   }
   public void addVariable(String s) {
         if(parent != null) {
@@ -225,7 +236,7 @@ ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
 
 expression
 	:	'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression
-	|       lhs SHIFT^ rhs ;
+	|       lhs SHIFT^ rhs;
 assignment_expression
 	:	lhs '='^ rhs {addVariable($lhs.text);};
 lhs	:	ID;

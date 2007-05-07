@@ -24,7 +24,7 @@ public class Rubyv3TreeParserTest extends TestCase {
         Rubyv3Lexer lexer = new Rubyv3Lexer(input);
         //BaseTokenStream tokens = new BaseTokenStream(lexer);
         BaseTokenStream tokens = new BaseTokenStream(lexer);
-        Rubyv3Parser parser = new Rubyv3Parser(tokens);
+        Rubyv3Parser parser = new Rubyv3Parser(tokens, null);
         Rubyv3Parser.program_return result = null;
 
         result = parser.program(); //this line may produce RecognitionException
@@ -200,15 +200,17 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createString("(\1)"), "%Q((\\1))");
 
 
-
         compile_run_and_compare_result(ObjectFactory.createString("#"), "%Q{#}");
         compile_run_and_compare_result(ObjectFactory.createString("#"), "\"#\"");
-        //todo:more on this
-        //compile_run_and_compare_result(ObjectFactory.createString("a1b"), "%Q{a#{x=1}b}");
-        //compile_run_and_compare_result(ObjectFactory.createString("a1b"), "%Q{a#{x=1}b}; x <<1;");
+
+        compile_run_and_compare_result(ObjectFactory.createString("a1b"), "%Q{a#{x=1}b}");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(2), "%Q{a#{x=1}b}; x <<1;");
+        compile_run_and_compare_result(ObjectFactory.createString("a1b 1"), "%Q{a#{x=1}b #{x}}");
+        compile_run_and_compare_result(ObjectFactory.createString("a1b 2"), "%Q{a#{x=1}b #{x <<1;}}");
 
 
     }
+
     public void test_assignment() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFixnum(1), "a=1;");
 
