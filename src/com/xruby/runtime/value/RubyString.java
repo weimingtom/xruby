@@ -25,6 +25,12 @@ public class RubyString extends RubyBasic {
         sb_ = sb;
     }
 
+    public RubyString clone() {
+        RubyString s = (RubyString)super.clone();
+        s.sb_ = new StringBuilder(sb_);
+        return s;
+    }
+
     public String toString() {
         return sb_.toString();
     }
