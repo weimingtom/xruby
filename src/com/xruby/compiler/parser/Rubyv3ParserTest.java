@@ -81,6 +81,10 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
 
         assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
+
+        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
+
+        assert_parse("%Q{a#{x=1}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
         //assert_parse("x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
         /*assert_parse("x <<1\n" +
                 "\n"
