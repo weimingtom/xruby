@@ -28,6 +28,7 @@ ruby\test_const.rb
 ruby\test_gc.rb
 ruby\test_ifunless.rb
 ruby\test_math.rb
+ruby\test_range.rb
 ruby\test_struct.rb
 ruby\test_trace.rb
 
@@ -60,7 +61,6 @@ ruby\test_pipe.rb
 ruby\test_proc.rb
 ruby\test_process.rb
 ruby\test_rand.rb
-ruby\test_range.rb
 ruby\test_readpartial.rb
 ruby\test_settracefunc.rb
 ruby\test_signal.rb
