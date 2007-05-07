@@ -440,11 +440,15 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_succ() {
 
-        String[] program_texts = {"''.succ"};
-        String[] results = {
-                ""
+        String[] program_texts = {
+                "a = 'a'; print a.succ, a",
+                "print ''.succ",
         };
-        compile_run_and_compare_result(program_texts, results);
+        String[] results = {
+                "ba",
+                "",
+        };
+        compile_run_and_compare_output(program_texts, results);
 
         program_texts = new String[]{"'a'.succ"};
         RubyValue[] res = {
@@ -5146,8 +5150,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Module_compare() {
         String [] program_texts = {
-				"print String >= String, String >= Object, Object >= String",
-					
+                "print String >= String, String >= Object, Object >= String",
+
                 "print String < Module",
                 "print Object < String",
                 "print String < Object",
@@ -5162,7 +5166,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-				"truefalsetrue",
+                "truefalsetrue",
                 "nil",
                 "false",
                 "true",
@@ -5270,8 +5274,10 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_clone() {
+    public void test_clone_dup() {
         String [] program_texts = {
+                "b ='b'; c= b.dup; c[0]='c'; print b, c",
+
                 "StrClone=String.clone; print StrClone.class, StrClone == String, StrClone.new('abc').class",
 
                 "a = Object.new\n" +
@@ -5283,6 +5289,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "bc",
                 "ClassfalseStrClone",
                 "clone",
         };
