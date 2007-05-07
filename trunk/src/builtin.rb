@@ -765,20 +765,20 @@ class Range
         if Fixnum === first && Fixnum === last
             a = first
             while a <= last
-                result << a
-                a += 1
                 if exclude_end? && a == last
                     break
                 end
+                result << a
+                a += 1
             end
         else
             a = first
             while a <= last
-                result << a
-                a = a.succ
                 if exclude_end? && a == last
                     break
                 end
+                result << a
+                a = a.succ
             end
         end
         return result
