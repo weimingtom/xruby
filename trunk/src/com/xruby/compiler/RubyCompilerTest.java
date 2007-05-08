@@ -4948,6 +4948,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_gsub() {
         String [] program_texts = {
+                "print 'abca'.gsub('a', 'c')",
+                "print 'abca'.sub('a', 'c')",
                 "print 'ABCD\nABCDE'.gsub!(/((.|\n)*?)B((.|\n)*?)D/){$3}",
 
                 "'hello'.gsub(/./) {|s| print s + ','}",
@@ -4962,6 +4964,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "cbcc",
+                "cbca",
                 "CCE",
 
                 "h,e,l,l,o,",

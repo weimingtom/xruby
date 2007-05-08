@@ -161,11 +161,11 @@ class String_to_i extends RubyVarArgMethod {
 
         value = value.substring(0, end);
 
-		int radix = 10;
+        int radix = 10;
         if (null != args) {
             radix = ((RubyFixnum) args.get(0)).intValue();
         }
-		
+
         if (radix >= 2 && radix <= 36) {
             BigInteger bigint;
             try {
@@ -176,7 +176,7 @@ class String_to_i extends RubyVarArgMethod {
             return RubyBignum.bignorm(bigint);
         }
         throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
-       
+
     }
 }
 
@@ -219,21 +219,39 @@ class String_plus extends RubyOneArgMethod {
     }
 }
 
-class String_sub extends String_gsub {
+class String_sub extends RubyVarArgMethod {
+
+    String sub(RubyString g, RubyArray args) {
+        assertArgNumberEqual(args, 2);
+
+        if (!(args.get(1) instanceof RubyString)) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "can't convert " + args.get(1).getRubyClass().getName() + " into String");
+        }
+
+        RubyString s = (RubyString) args.get(1);
+
+        if (args.get(0) instanceof RubyRegexp) {
+            RubyRegexp r = (RubyRegexp) args.get(0);
+            return r.sub(g, s);
+        } else if (args.get(0) instanceof RubyString) {
+            RubyString r = (RubyString) args.get(0);
+            return g.toString().replaceFirst(r.toString(), s.toString());
+        } else {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
+        }
+    }
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyString g = (RubyString) receiver;
+
         if (null == block) {
-            checkParameters1(args);
-
-            RubyString g = (RubyString) receiver;
-            RubyRegexp r = (RubyRegexp) args.get(0);
-            RubyString s = (RubyString) args.get(1);
-
-            return ObjectFactory.createString(r.sub(g, s));
+            return ObjectFactory.createString(sub(g, args));
         } else {
-            checkParameters2(args);
+            assertArgNumberEqual(args, 1);
+            if (!(args.get(0) instanceof RubyRegexp)) {
+                throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
+            }
 
-            RubyString g = (RubyString) receiver;
             RubyRegexp r = (RubyRegexp) args.get(0);
             return r.sub(g, block);
         }
@@ -246,20 +264,17 @@ class String_sub_danger extends String_sub {
         RubyString g = (RubyString) receiver;
 
         if (null == block) {
-            checkParameters1(args);
-
-
-            RubyRegexp r = (RubyRegexp) args.get(0);
-            RubyString s = (RubyString) args.get(1);
-
-            String result = r.sub(g, s);
+            String result = sub(g, args);
             if (g.toString().equals(result)) {
                 return ObjectFactory.NIL_VALUE;
             } else {
                 return g.setString(result);
             }
         } else {
-            checkParameters2(args);
+            assertArgNumberEqual(args, 1);
+            if (!(args.get(0) instanceof RubyRegexp)) {
+                throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
+            }
 
             RubyRegexp r = (RubyRegexp) args.get(0);
             return g.setString(r.sub(g, block).toString());
@@ -268,39 +283,38 @@ class String_sub_danger extends String_sub {
 }
 
 class String_gsub extends RubyVarArgMethod {
-    protected void checkParameters1(RubyArray args) {
-        assertArgNumberEqual(args, 2);
 
-        if (!(args.get(0) instanceof RubyRegexp)) {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
-        }
+    String gsub(RubyString g, RubyArray args) {
+        assertArgNumberEqual(args, 2);
 
         if (!(args.get(1) instanceof RubyString)) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "can't convert " + args.get(1).getRubyClass().getName() + " into String");
         }
-    }
 
-    protected void checkParameters2(RubyArray args) {
-        assertArgNumberEqual(args, 1);
+        RubyString s = (RubyString) args.get(1);
 
-        if (!(args.get(0) instanceof RubyRegexp)) {
+        if (args.get(0) instanceof RubyRegexp) {
+            RubyRegexp r = (RubyRegexp) args.get(0);
+            return r.gsub(g, s);
+        } else if (args.get(0) instanceof RubyString) {
+            RubyString r = (RubyString) args.get(0);
+            return g.toString().replaceAll(r.toString(), s.toString());
+        } else {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
         }
     }
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyString g = (RubyString) receiver;
+
         if (null == block) {
-            checkParameters1(args);
-
-            RubyString g = (RubyString) receiver;
-            RubyRegexp r = (RubyRegexp) args.get(0);
-            RubyString s = (RubyString) args.get(1);
-
-            return ObjectFactory.createString(r.gsub(g, s));
+            return ObjectFactory.createString(gsub(g, args));
         } else {
-            checkParameters2(args);
+            assertArgNumberEqual(args, 1);
+            if (!(args.get(0) instanceof RubyRegexp)) {
+                throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
+            }
 
-            RubyString g = (RubyString) receiver;
             RubyRegexp r = (RubyRegexp) args.get(0);
             return r.gsub(g, block);
         }
@@ -312,20 +326,18 @@ class String_gsub_danger extends String_gsub {
         RubyString g = (RubyString) receiver;
 
         if (null == block) {
-            checkParameters1(args);
+            String result = gsub(g, args);
 
-
-            RubyRegexp r = (RubyRegexp) args.get(0);
-            RubyString s = (RubyString) args.get(1);
-
-            String result = r.gsub(g, s);
             if (g.toString().equals(result)) {
                 return ObjectFactory.NIL_VALUE;
             } else {
                 return g.setString(result);
             }
         } else {
-            checkParameters2(args);
+            assertArgNumberEqual(args, 1);
+            if (!(args.get(0) instanceof RubyRegexp)) {
+                throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
+            }
 
             RubyRegexp r = (RubyRegexp) args.get(0);
             return g.setString(r.gsub(g, block).toString());
