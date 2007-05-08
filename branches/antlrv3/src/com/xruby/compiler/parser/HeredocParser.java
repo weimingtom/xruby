@@ -108,20 +108,20 @@ public class HeredocParser {
     private boolean matchString(String src, boolean indent) {
         int length = src.length();
         StringBuffer buffer = new StringBuffer(length + 20);
-        int i = 0;
+        int index = 0;
         if (indent) {
             int c;
-            while ((c = input.LT(i + 1)) != Token.EOF) {
+            while ((c = input.LT(index + 1)) != Token.EOF) {
                 if (!Character.isWhitespace(c)) {
                     break;
                 }
                 //buffer.append((char) c);
-                i++;
+                index++;
             }
         } //for handling indent
 
-        for (i = 0; i < length; i++) {
-            int c = input.LT(i + 1);
+        for (int i = 0; i < length; i++) {
+            int c = input.LT(i + index + 1);
             //buffer.append((char) c);
             if (src.charAt(i) != c) {
                 //unreadMany(buffer);

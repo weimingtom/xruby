@@ -213,6 +213,7 @@ public class Rubyv3TreeParserTest extends TestCase {
 
     public void test_heredoc_string() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<HERE\ntest\nHERE");
+        compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<HERE\ntest\nHERE\n");
         compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<'HERE'\ntest\nHERE");
         try {
             compile_run_and_compare_result(ObjectFactory.createString(""), "<<'HERE' a \ntest\nHERE");
@@ -224,6 +225,9 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createFixnum(3), "<<HERE\ntest\nHERE\n3");
 
         compile_run_and_compare_result(ObjectFactory.createString("test\nHERE  \n;3\n"), "<<'HERE'  \ntest\nHERE  \n;3\nHERE");
+        compile_run_and_compare_result(ObjectFactory.createString("test\n  HERE\nend\n"), "<<HERE  \ntest\n  HERE\nend\nHERE");
+
+        compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<-HERE  \ntest\n  HERE");
     }
 
     public void test_assignment() throws Exception {
