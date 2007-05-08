@@ -91,6 +91,25 @@ class String_upcase extends RubyNoArgMethod {
     }
 }
 
+class String_swapcase extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyString value = (RubyString) receiver;
+        return ObjectFactory.createString(value.swapCase());
+    }
+}
+
+class String_swapcase_danger extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyString value = (RubyString) receiver;
+        String new_value = value.swapCase().toString();
+        if (new_value.equals(value.toString())) {
+            return ObjectFactory.NIL_VALUE;
+        } else {
+            return value.setString(new_value);
+        }
+    }
+}
+
 class String_downcase extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyString value = (RubyString) receiver;
@@ -795,18 +814,20 @@ public class StringClassBuilder {
         RubyClass c = RubyRuntime.StringClass;
         c.defineMethod("strip", new String_strip());
         c.defineMethod("strip!", new String_strip_danger());
-        c.defineMethod("capitalize", new String_capitalize());
         c.defineMethod("==", new String_operator_equal());
-        c.defineMethod("upcase!", new String_upcase_danger());
+        c.defineMethod("capitalize", new String_capitalize());
         c.defineMethod("capitalize!", new String_capitalize_danger());
         c.defineMethod("upcase", new String_upcase());
+        c.defineMethod("upcase!", new String_upcase_danger());
         c.defineMethod("downcase", new String_downcase());
+        c.defineMethod("downcase!", new String_downcase_danger());
+        c.defineMethod("swapcase", new String_swapcase());
+        c.defineMethod("swapcase!", new String_swapcase_danger());
         c.defineMethod("to_f", new String_to_f());
         c.defineMethod("to_i", new String_to_i());
         c.defineMethod("hex", new String_hex());
         c.defineMethod("to_s", new String_to_s());
         c.defineMethod("length", new String_length());
-        c.defineMethod("downcase!", new String_downcase_danger());
         c.defineMethod("initialize_copy", new String_initialize());
         c.defineMethod("initialize", new String_initialize());
         c.defineMethod("+", new String_plus());
