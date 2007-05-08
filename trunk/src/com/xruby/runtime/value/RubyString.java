@@ -224,4 +224,21 @@ public class RubyString extends RubyBasic {
         }
         return n;
     }
+
+    public StringBuilder swapCase() {
+        StringBuilder sb = new StringBuilder(sb_.length());
+
+        for (int i = 0; i < sb_.length(); i++) {
+            char c = sb_.charAt(i);
+            if (Character.isUpperCase(c)) {
+                sb.append(Character.toLowerCase(c));
+            } else if (Character.isLowerCase(c)) {
+                sb.append(Character.toUpperCase(c));
+            } else {
+            	sb.append(c);
+            }
+        }
+
+        return sb;
+    }
 }
