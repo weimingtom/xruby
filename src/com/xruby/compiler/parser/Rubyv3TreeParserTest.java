@@ -216,7 +216,7 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<HERE\ntest\nHERE\n");
         compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<'HERE'\ntest\nHERE");
         try {
-            compile_run_and_compare_result(ObjectFactory.createString(""), "<<'HERE' a \ntest\nHERE");
+            compile_run_and_compare_result(ObjectFactory.createString("xyz"), "<<'HERE' a \ntest\nHERE");
             fail("should fail");
         } catch (SyntaxException e) {
         }
@@ -228,6 +228,16 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createString("test\n  HERE\nend\n"), "<<HERE  \ntest\n  HERE\nend\nHERE");
 
         compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<-HERE  \ntest\n  HERE");
+
+        compile_run_and_compare_result(ObjectFactory.createString("  \n"), "<<HERE\n  \nHERE");
+        compile_run_and_compare_result(ObjectFactory.createString("  \n"), "<<-HERE\n  \nHERE");
+        compile_run_and_compare_result(ObjectFactory.createString("  \n"), "<<-HERE\n  \n  HERE");
+
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString("xyz"), "<<-HERE\n  ");
+            fail("should fail");
+        } catch (SyntaxException e) {
+        }
     }
 
     public void test_assignment() throws Exception {
