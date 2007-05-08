@@ -5,7 +5,7 @@
 
 package com.xruby.compiler.codedom;
 
-public class Program implements Visitable {
+public class Program extends Expression implements Visitable {
 	
 	private CompoundStatement compoundStatement_;
 	
