@@ -211,6 +211,16 @@ public class Rubyv3TreeParserTest extends TestCase {
 
     }
 
+    public void test_heredoc_string() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<HERE\ntest\nHERE");
+        compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<'HERE'\ntest\nHERE");
+        try {
+            compile_run_and_compare_result(ObjectFactory.createString(""), "<<'HERE' a \ntest\nHERE");
+            fail("should fail");
+        } catch (SyntaxException e) {
+        }
+    }
+
     public void test_assignment() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFixnum(1), "a=1;");
 
