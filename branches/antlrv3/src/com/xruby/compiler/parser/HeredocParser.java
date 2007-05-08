@@ -112,6 +112,11 @@ public class HeredocParser {
         if (indent) {
             int c;
             while ((c = input.LT(index + 1)) != Token.EOF) {
+                if (c == '\n') {
+                    return false; //just an empty line
+                } else if (c == Token.EOF) {
+                    throw new SyntaxException("can't find string \"" + delimiter + "\" anywhere before EOF");
+                }
                 if (!Character.isWhitespace(c)) {
                     break;
                 }
