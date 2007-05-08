@@ -94,6 +94,20 @@ import com.xruby.compiler.codedom.*;
 }
 
 @lexer::members {
+
+    static final int STR_FUNC_ESCAPE=0x01;
+    static final int STR_FUNC_EXPAND=0x02;
+    static final int STR_FUNC_REGEXP=0x04;
+    static final int STR_FUNC_QWORDS=0x08;
+    static final int STR_FUNC_SYMBOL=0x10;
+    static final int STR_FUNC_INDENT=0x20;
+
+    private final int str_squote = 0;
+    private final int str_dquote = STR_FUNC_EXPAND;
+    private final int str_xquote = STR_FUNC_EXPAND;
+    private final int str_regexp = STR_FUNC_REGEXP | STR_FUNC_ESCAPE | STR_FUNC_EXPAND;
+    private final int str_ssym   = STR_FUNC_SYMBOL;
+    private final int str_dsym   = STR_FUNC_SYMBOL | STR_FUNC_EXPAND;
         /** Override this method to change where error messages go */
         public void emitErrorMessage(String msg) {
 		System.err.println(msg);
@@ -123,28 +137,12 @@ import com.xruby.compiler.codedom.*;
 	    emit(t);
 	    return t;
        }
-       public static int nesting = 0;
+       private static final boolean isIdentifierChar(int c) {
+        return Character.isLetterOrDigit(c) || c == '_';
+       }
+        public static int nesting = 0;
 
-	
-	
-	/*public Token emit() {
-        IntToken t =
-            new IntToken(input, type, channel,
-                        tokenStartCharIndex, getCharIndex()-1);
-        t.setLine(tokenStartLine);
-        t.setText(text);
-        t.setCharPositionInLine(tokenStartCharPositionInLine);
-        emit(t);
-        return t;
-        }*/
-        
-        /*private Token createIntToken() {
-          return new IntToken(input, channel, tokenStartCharIndex, getCharIndex()-1);
-        }*/
-        private Token createStringToken() {
-                return new StringToken(input, channel, tokenStartCharIndex, getCharIndex()-1);
-        }
-        private int determineBegin(int begin) {
+	private int determineBegin(int begin) {
         int result = 0; //if collide with EOF, then we can use other value like -3,-7 
         if (begin == '[' || begin == '{' || begin == '(' || begin == '<') {
             result = begin;
@@ -242,6 +240,8 @@ assignment_expression
 lhs	:	ID;
 rhs	:	expression;
 
+//primary	:	literal| 'begin' program 'end'; //todo:more on this later
+
 literal	:	INT|FLOAT|string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
 INT
 	:	'-'?(OCTAL|DECIMAL|HEX|BINARY| ESCAPE_INT)
@@ -319,28 +319,7 @@ DOUBLE_STRING_CHAR
 DOUBLE_QUOTE_STRING
 	@init{int end=0; int nested=0;}:	s=('"' {expression = new DoubleStringParser(this.parser, input, '"', 0).parseString();}  | '%Q' begin=. {end=determineEnd($begin);begin=determineBegin($begin); 
 	expression = new DoubleStringParser(this.parser, input, end, begin).parseString(); } 
-	/* (tmp=.{System.out.println(tmp); 
-	                    if(tmp == EOF) {
-	                      throw new SyntaxException("unterminated string meets end of file");
-	                    } else if(tmp == '\\') {
-	                      int c = input.LA(1);
-	                      if(c == EOF) {
-	                         throw new SyntaxException("unterminated string meets end of file");
-	                      } else { //if (c == begin || c == end || c == '\\') {, for double quote string, always consume
-	                         //tokens.add();
-	                         input.consume();
-	                      }
-	                    }else if(tmp==begin) {
-                                nested ++;
-                            } else if(tmp==end)  {
-                                
-                                if(nested == 0) {
-                                this.type=DOUBLE_QUOTE_STRING;
-                                return;
-                                }
-                                nested --;
-                            }
-                            })* */); //{expression = new DoubleQuoteStringExpression(input.substring(tokenStartCharIndex, getCharIndex() - 1));}; //todo: is this some ref like $s.text here?
+	); //{expression = new DoubleQuoteStringExpression(input.substring(tokenStartCharIndex, getCharIndex() - 1));}; //todo: is this some ref like $s.text here?
                             
 LCURLY  : '{' {nesting++; System.out.println("meeting LCURLY with nesting:" + nesting);}
         ;
@@ -368,10 +347,54 @@ ESCAPE_INT_PART //ESCAPE_INT_PART in ESCAPE_INT
                             
 HEREDOC_BEGIN
 	:	'<<';  //mofidy type to SHIFT in BaseTokenStream if previous token is var	
+HEREDOC_INDENT_BEGIN
+	:	'<<-';
 //SHFIT   //set in HEREDOC_BEGIN
 //	: '<<';
 HEREDOC_STRING
-	:	'HEREDOC_STRING';       
+	@init{boolean heredoc_indent_string=false; String delimiter = null;int func = 0;StringBuffer tokens = new StringBuffer();}:	(HEREDOC_BEGIN|HEREDOC_INDENT_BEGIN{heredoc_indent_string=true;})
+	   c=('\''|'"'|'`'|'0'..'9'|'a'..'z'|'A'..'Z'|'_'){
+	    int end;
+	    if (c == '\'' || c == '"' || c == '`') {
+            if (c == '\'') {
+                func |= str_squote;
+            } else if (c == '"') {
+                func |= str_dquote;
+            } else {
+                func |= str_xquote; 
+            }
+
+            
+            end = c;
+            while ((c = input.LT(1)) != EOF && c != end) {
+                tokens.append((char)c);
+                input.consume();
+            }
+            if (c == EOF) {
+                throw new SyntaxException("unterminated here document identifier");
+            }
+            input.consume(); //consume the end character.	
+        } else {
+            /*if (!isIdentifierChar(c)) {
+                throw new SyntaxException("shouldn't happen");
+            }*/
+            
+            func |= str_dquote;
+            tokens.append((char)c);
+            while(true) {
+            c = input.LT(1);
+            if(c == Token.EOF || !isIdentifierChar(c)) {
+                break;
+            }
+            tokens.append((char)c);
+            input.consume();
+            }
+            
+         } //we already consume the last character.
+             
+	   expression = new HeredocParser(this.parser, input, func, tokens.toString(), heredoc_indent_string).parseString();
+	};  
+        
 ARRAY	:	'[]';
 HASH	:	'{}';
 RANGE	:	'a..b';
