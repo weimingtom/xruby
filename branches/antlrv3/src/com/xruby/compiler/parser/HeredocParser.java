@@ -51,7 +51,7 @@ public class HeredocParser {
         while (true) {
             int c = input.LT(1);
             if (c == '\n') {
-                input.consume();
+                //input.consume(); //leave this for terminal+ matching
                 return;
             } else if (c == Token.EOF) {
                 return;
@@ -73,7 +73,7 @@ public class HeredocParser {
             if (input.LT(1) == Token.EOF) {
                 throw new SyntaxException("can't find string \"" + delimiter + "\" anywhere before EOF");
             }
-            if (input.getCharPositionInLine() == 0 && matchString(delimiter, indent)) {
+            if (input.getCharPositionInLine() == 0 && matchString(delimiter + '\n', indent)) {
                 expressionList.addExpression(currentExpression);
                 consumeLastLine();
                 return expressionList;
@@ -108,22 +108,26 @@ public class HeredocParser {
     private boolean matchString(String src, boolean indent) {
         int length = src.length();
         StringBuffer buffer = new StringBuffer(length + 20);
-
+        int i = 0;
         if (indent) {
             int c;
-            while ((c = input.LT(1)) != Token.EOF) {
+            while ((c = input.LT(i + 1)) != Token.EOF) {
                 if (!Character.isWhitespace(c)) {
                     break;
                 }
-                buffer.append((char) c);
+                //buffer.append((char) c);
+                i++;
             }
         } //for handling indent
 
-        for (int i = 0; i < length; i++) {
+        for (i = 0; i < length; i++) {
             int c = input.LT(i + 1);
-            buffer.append((char) c);
+            //buffer.append((char) c);
             if (src.charAt(i) != c) {
-                //unreadMany(buffer); //todo: rewind input
+                //unreadMany(buffer);
+                if (src.charAt(i) == '\n' && c == Token.EOF) { //&& i is last character of src
+                    return true;
+                }
                 return false;
             }
             //input.consume();

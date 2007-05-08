@@ -91,6 +91,13 @@ public class Rubyv3ParserTest extends TestCase {
                 , "");*/
     }
 
+    public void test_heredoc_string() throws Exception {
+        assert_parse("<<HERE\ntest\nHERE", "(STATEMENT_LIST (STATEMENT <<HERE\ntest\nHERE))");
+        assert_parse("<<'HERE'\ntest\nHERE", "(STATEMENT_LIST (STATEMENT <<'HERE'\ntest\nHERE))");
+        //assert_parse("<<'HERE'\ntest\nHERE\n", "(STATEMENT_LIST (STATEMENT <<'HERE'\ntest\nHERE))");
+        assert_parse("<<HERE\ntest\nHERE\n3", "(STATEMENT_LIST (STATEMENT <<HERE\ntest\nHERE) (STATEMENT 3))");
+    }
+
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
 
     {
