@@ -258,13 +258,19 @@ expression
 	:	 andorExpression;
 andorExpression
 		:	notExpression (
-				(	'and'^		(options{greedy=true;}:LINE_BREAK!)?
-				|	'or'^		(options{greedy=true;}:LINE_BREAK!)?
+				(	'and'^		(LINE_BREAK!)*
+				|	'or'^		(LINE_BREAK!)*
 				)
 				notExpression
 			)*
 		;
 notExpression
+		:	'not'^
+			(LINE_BREAK!)*
+			notExpression
+		|	ternaryIfThenElseExpression
+		;
+ternaryIfThenElseExpression
 	:'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression
 	|       lhs SHIFT^ rhs ;	
 assignment_expression

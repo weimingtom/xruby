@@ -29,7 +29,9 @@ expression returns[Expression e]
 	|       'false'{e = new FalseExpression();}
 	|       'nil'{e = new NilExpression();}
 	|       ^(op=('and'|'&&') left=expression right=expression) {e= new AndOrBinaryOperatorExpression("&&", left, right);}
-	|       ^(op=('or'|'||') left=expression right=expression) {e= new AndOrBinaryOperatorExpression("||", left, right);};
+	|       ^(op=('or'|'||') left=expression right=expression) {e= new AndOrBinaryOperatorExpression("||", left, right);}
+	|       ^(op='not'left=expression) {e = new UnaryOperatorExpression("!", left);}
+	;
 
 	
 

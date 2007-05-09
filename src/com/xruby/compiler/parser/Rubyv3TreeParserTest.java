@@ -240,7 +240,7 @@ public class Rubyv3TreeParserTest extends TestCase {
         }
     }
 
-    public void test_value() throws Exception {
+    public void test_and_or_expression() throws Exception {
         compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "true;");
         compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "false;");
         compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "nil;");
@@ -248,8 +248,16 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "3 and false");
         compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "3 and nil");
 
+        compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "3 and \n false");
+        compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "3 and \n\n false");
+
         compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "false or true");
         compile_run_and_compare_result(ObjectFactory.createFixnum(3), "nil or 3");
+    }
+
+    public void test_not_expression() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "not false;");
+        compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "not true;");
     }
 
     public void test_assignment() throws Exception {
