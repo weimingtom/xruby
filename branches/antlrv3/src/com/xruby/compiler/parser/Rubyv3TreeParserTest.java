@@ -216,7 +216,7 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<HERE\ntest\nHERE\n");
         compile_run_and_compare_result(ObjectFactory.createString("test\n"), "<<'HERE'\ntest\nHERE");
         try {
-            compile_run_and_compare_result(ObjectFactory.createString("xyz"), "<<'HERE' a \ntest\nHERE");
+            compile_run_and_compare_result(ObjectFactory.createString("ttt"), "<<'HERE' a \ntest\nHERE");
             fail("should fail");
         } catch (SyntaxException e) {
         }
@@ -234,10 +234,22 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createString("  \n"), "<<-HERE\n  \n  HERE");
 
         try {
-            compile_run_and_compare_result(ObjectFactory.createString("xyz"), "<<-HERE\n  ");
+            compile_run_and_compare_result(ObjectFactory.createString("ttt"), "<<-HERE\n  ");
             fail("should fail");
         } catch (SyntaxException e) {
         }
+    }
+
+    public void test_value() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "true;");
+        compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "false;");
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "nil;");
+
+        compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "3 and false");
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "3 and nil");
+
+        compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "false or true");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(3), "nil or 3");
     }
 
     public void test_assignment() throws Exception {

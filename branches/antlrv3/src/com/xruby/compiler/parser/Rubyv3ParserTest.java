@@ -98,6 +98,10 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("<<HERE\ntest\nHERE\n3", "(STATEMENT_LIST (STATEMENT <<HERE\ntest\nHERE) (STATEMENT 3))");
     }
 
+    public void test_value() throws Exception {
+        assert_parse("3 and false", "(STATEMENT_LIST (STATEMENT (and 3 false)))");
+    }
+
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
 
     {

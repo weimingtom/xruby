@@ -230,11 +230,43 @@ WS	:	(' ' | '\t') { skip(); }
 ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
 	;
 
-
+/*
+ * operator expression precedence
+ * lowest->
+ *		and or
+ *		not
+ *		? :
+ *		= += -= *= /= %= &= ^= |= <<= >>= **=
+ *		.. ...
+ *		||
+ *		&&
+ *		<=> ==  === !=  =~  !~
+ *		>  >=  <  <=
+ *		|	 ^
+ *		&
+ *		<<  >>
+ *		+  -
+ *		*  /  %
+ *		-(unary)  +(unary)  !  ~
+ *		**
+ *		[]
+ *		::
+ * highest<-
+ */
 
 expression
-	:	'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression
-	|       lhs SHIFT^ rhs;
+	:	 andorExpression;
+andorExpression
+		:	notExpression (
+				(	'and'^		(options{greedy=true;}:LINE_BREAK!)?
+				|	'or'^		(options{greedy=true;}:LINE_BREAK!)?
+				)
+				notExpression
+			)*
+		;
+notExpression
+	:'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression
+	|       lhs SHIFT^ rhs ;	
 assignment_expression
 	:	lhs '='^ rhs {addVariable($lhs.text);};
 lhs	:	ID;
