@@ -186,12 +186,12 @@ public class Rubyv3TreeParserTest extends TestCase {
         }
         compile_run_and_compare_result(ObjectFactory.createString("abc"), "%q abc ");
         compile_run_and_compare_result(ObjectFactory.createString("abc"), "%Q abc ");
-        //compile_run_and_compare_result(ObjectFactory.createString("1"), "\"#{x=1;}\"");
-        //compile_run_and_compare_result(ObjectFactory.createString("2"), "\"#{x=1}\";x <<1;");
+        compile_run_and_compare_result(ObjectFactory.createString("1"), "\"#{x=1;}\"");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(2), "\"#{x=1}\";x <<1;");
     }
 
     public void test_string_expression_list() throws Exception {
-        /*compile_run_and_compare_result(ObjectFactory.createString("abc"), "%Q{abc}");
+        compile_run_and_compare_result(ObjectFactory.createString("abc"), "%Q{abc}");
         compile_run_and_compare_result(ObjectFactory.createString("abc"), "\"abc\"");
         compile_run_and_compare_result(ObjectFactory.createString(""), "%Q{}");
         compile_run_and_compare_result(ObjectFactory.createString("{"), "%Q{\\{}");
@@ -203,7 +203,7 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createString("#"), "%Q{#}");
         compile_run_and_compare_result(ObjectFactory.createString("#"), "\"#\"");
 
-        compile_run_and_compare_result(ObjectFactory.createString("a1b"), "%Q{a#{x=1}b}");*/
+        compile_run_and_compare_result(ObjectFactory.createString("a1b"), "%Q{a#{x=1}b}");
         compile_run_and_compare_result(ObjectFactory.createFixnum(2), "%Q{a#{x=1}b}; x <<1;");
         compile_run_and_compare_result(ObjectFactory.createString("a1b 1"), "%Q{a#{x=1}b #{x}}");
         compile_run_and_compare_result(ObjectFactory.createString("a1b 2"), "%Q{a#{x=1}b #{x <<1;}}");
@@ -258,6 +258,11 @@ public class Rubyv3TreeParserTest extends TestCase {
     public void test_not_expression() throws Exception {
         compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "not false;");
         compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "not true;");
+    }
+
+    public void test_shift() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.createFixnum(2), "1<< 1");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(2), "1<<\n1");
     }
 
     public void test_assignment() throws Exception {

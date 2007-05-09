@@ -1,4 +1,4 @@
-// $ANTLR 3.0b7 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-05-09 17:10:46
+// $ANTLR 3.0b7 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-05-09 17:20:02
 
 package com.xruby.compiler.parser;
 
@@ -2228,6 +2228,9 @@ public class Rubyv3Lexer extends BaseLexer {
             {
                 match("<<");
 
+                if (Character.isWhitespace(input.LT(1))) {
+                    _type = LEFT_SHIFT;
+                }
 
             }
 

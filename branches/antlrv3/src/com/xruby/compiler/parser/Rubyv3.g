@@ -524,7 +524,7 @@ ESCAPE_INT_PART //ESCAPE_INT_PART in ESCAPE_INT
 	;
                             
 HEREDOC_BEGIN
-	:	'<<';  //mofidy type to SHIFT in BaseTokenStream if previous token is var	
+	:	'<<'{if(Character.isWhitespace(input.LT(1))) {$type = LEFT_SHIFT;}};  //mofidy type to SHIFT in BaseTokenStream if previous token is var	
 HEREDOC_INDENT_BEGIN
 	:	'<<-';
 //SHFIT   //set in HEREDOC_BEGIN

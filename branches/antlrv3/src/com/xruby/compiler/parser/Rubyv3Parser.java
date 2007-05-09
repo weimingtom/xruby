@@ -1,4 +1,4 @@
-// $ANTLR 3.0b7 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-05-09 17:10:45
+// $ANTLR 3.0b7 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-05-09 17:20:02
 
 package com.xruby.compiler.parser;
 
@@ -4920,12 +4920,12 @@ public class Rubyv3Parser extends Parser {
                     root_0 = (Object) adaptor.nil();
 
                     HEREDOC_BEGIN158 = (Token) input.LT(1);
-                    match(input, HEREDOC_BEGIN, FOLLOW_HEREDOC_BEGIN_in_heredoc_string2706);
+                    match(input, HEREDOC_BEGIN, FOLLOW_HEREDOC_BEGIN_in_heredoc_string2707);
                     HEREDOC_BEGIN158_tree = (Object) adaptor.create(HEREDOC_BEGIN158);
                     adaptor.addChild(root_0, HEREDOC_BEGIN158_tree);
 
                     HEREDOC_CONTENT159 = (Token) input.LT(1);
-                    match(input, HEREDOC_CONTENT, FOLLOW_HEREDOC_CONTENT_in_heredoc_string2708);
+                    match(input, HEREDOC_CONTENT, FOLLOW_HEREDOC_CONTENT_in_heredoc_string2709);
                     HEREDOC_CONTENT159_tree = (Object) adaptor.create(HEREDOC_CONTENT159);
                     adaptor.addChild(root_0, HEREDOC_CONTENT159_tree);
 
@@ -4938,7 +4938,7 @@ public class Rubyv3Parser extends Parser {
                     root_0 = (Object) adaptor.nil();
 
                     HEREDOC_INDENT_STRING160 = (Token) input.LT(1);
-                    match(input, HEREDOC_INDENT_STRING, FOLLOW_HEREDOC_INDENT_STRING_in_heredoc_string2710);
+                    match(input, HEREDOC_INDENT_STRING, FOLLOW_HEREDOC_INDENT_STRING_in_heredoc_string2711);
                     HEREDOC_INDENT_STRING160_tree = (Object) adaptor.create(HEREDOC_INDENT_STRING160);
                     adaptor.addChild(root_0, HEREDOC_INDENT_STRING160_tree);
 
@@ -5245,8 +5245,8 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_SINGLE_QUOTE_STRING_in_string2358 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_DOUBLE_QUOTE_STRING_in_string2360 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_heredoc_string_in_string2362 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_HEREDOC_BEGIN_in_heredoc_string2706 = new BitSet(new long[]{0x0000000000000000L, 0x0000000000200000L});
-    public static final BitSet FOLLOW_HEREDOC_CONTENT_in_heredoc_string2708 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_HEREDOC_INDENT_STRING_in_heredoc_string2710 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_HEREDOC_BEGIN_in_heredoc_string2707 = new BitSet(new long[]{0x0000000000000000L, 0x0000000000200000L});
+    public static final BitSet FOLLOW_HEREDOC_CONTENT_in_heredoc_string2709 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_HEREDOC_INDENT_STRING_in_heredoc_string2711 = new BitSet(new long[]{0x0000000000000002L});
 
 }

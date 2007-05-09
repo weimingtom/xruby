@@ -23,7 +23,7 @@ expression returns[Expression e]
 	|       value=DOUBLE_QUOTE_STRING{e=((MyToken)$value.getToken()).getExpression();} 
 	|       value=HEREDOC_INDENT_STRING{e=((MyToken)$value.getToken()).getExpression();}
 	|       ^('=' lhs=. rhs=expression) {e=new AssignmentExpression(new LocalVariableExpression($lhs.text, false), rhs);}
-	|       ^(LEFT_SHIFT lhs=. rhs=expression) {e=new BinaryOperatorExpression("<<", new LocalVariableExpression($lhs.text, false), rhs);}
+	|       ^(LEFT_SHIFT lhs0=expression rhs=expression) {e=new BinaryOperatorExpression("<<", lhs0, rhs);}
 	|       ID {e=new LocalVariableExpression($ID.text, false);}
 	|       'true' {e = new TrueExpression();}
 	|       'false'{e = new FalseExpression();}
