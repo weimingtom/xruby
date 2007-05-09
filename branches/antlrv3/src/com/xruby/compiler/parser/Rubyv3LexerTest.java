@@ -109,7 +109,7 @@ public class Rubyv3LexerTest extends TestCaseExtend {
                 "Double quoted \n" +
                 "here document.\n" +
                 "It is #{Time.now}\n" +
-                "HERE", new int[]{ANY, Rubyv3Lexer.SHIFT});
+                "HERE", new int[]{ANY, Rubyv3Lexer.LEFT_SHIFT});
     }
 
     private TokenStream lex(String text) throws IOException {
