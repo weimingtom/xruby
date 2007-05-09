@@ -462,7 +462,7 @@ LEADING0_NUMBER
 fragment	
 EXP_PART:	('e' | 'E') '-'? LEADING0_NUMBER;
 
-string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|HEREDOC_STRING;
+string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|heredoc_string;
 
 SINGLE_QUOTE_STRING
 	@init{int end=0; int nested=0;}:	'\'' SINGLE_STRING_CHAR* '\'' 
@@ -529,8 +529,13 @@ HEREDOC_INDENT_BEGIN
 	:	'<<-';
 //SHFIT   //set in HEREDOC_BEGIN
 //	: '<<';
-HEREDOC_STRING
-	@init{boolean heredoc_indent_string=false; String delimiter = null;int func = 0;StringBuffer tokens = new StringBuffer();}:(HEREDOC_BEGIN|HEREDOC_INDENT_BEGIN{heredoc_indent_string=true;})
+heredoc_string
+	:	HEREDOC_BEGIN HEREDOC_CONTENT|HEREDOC_INDENT_STRING;
+
+HEREDOC_CONTENT
+	:	'abc';
+HEREDOC_INDENT_STRING
+	@init{boolean heredoc_indent_string=false; String delimiter = null;int func = 0;StringBuffer tokens = new StringBuffer();}:(HEREDOC_INDENT_BEGIN{heredoc_indent_string=true;})
 	   c=('\''|'"'|'`'|'0'..'9'|'a'..'z'|'A'..'Z'|'_'){
 	    int end;
 	    if (c == '\'' || c == '"' || c == '`') {
