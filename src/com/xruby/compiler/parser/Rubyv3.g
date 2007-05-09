@@ -16,7 +16,7 @@ tokens {
 	CALL;
 	ARG;
 	
-	SHIFT;
+	LEFT_SHIFT;
 	ASSIGNMENT; //or just use '=' etc?
 	//COMPSTMT;
 	SYMBOL;
@@ -29,6 +29,9 @@ tokens {
 	NESTED_LHS;
 	SINGLETON_METHOD;
 	STRING;
+	
+	DIV;
+	MOD;
 }
 
 @rulecatch {
@@ -255,7 +258,7 @@ ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
  */
 
 expression
-	:	 andorExpression;
+	:	 andorExpression|assignment_expression;
 andorExpression
 		:	notExpression (
 				(	'and'^		(LINE_BREAK!)*
@@ -271,8 +274,145 @@ notExpression
 		|	ternaryIfThenElseExpression
 		;
 ternaryIfThenElseExpression
-	:'expression0' | 'expression1' | 'expression2'|literal|assignment_expression|ID|boolean_expression| block_expression|if_expression|unless_expression
-	|       lhs SHIFT^ rhs ;	
+		:	rangeExpression
+		;
+//= += -= *= /= %= **= &= ^= |= <<= >>= &&= ||=
+//.. ...
+rangeExpression
+		:	logicalOrExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	INCLUSIVE_RANGE^	(options{greedy=true;}:LINE_BREAK!)?
+				|	EXCLUSIVE_RANGE^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				logicalOrExpression
+			)*
+		;
+
+//||
+logicalOrExpression
+		:	logicalAndExpression
+			(options{greedy=true;/*caused by command*/}:
+				LOGICAL_OR^		(options{greedy=true;}:LINE_BREAK!)?
+				logicalAndExpression
+			)*
+		;
+
+//&&
+logicalAndExpression
+		:	equalityExpression
+			(options{greedy=true;/*caused by command*/}:
+				LOGICAL_AND^		(options{greedy=true;}:LINE_BREAK!)?
+				equalityExpression
+			)*
+		;
+
+//<=> ==  === !=  =~  !~
+equalityExpression
+		:	relationalExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	COMPARE^		(options{greedy=true;}:LINE_BREAK!)?
+				|	EQUAL^			(options{greedy=true;}:LINE_BREAK!)?
+				|	CASE_EQUAL^	(options{greedy=true;}:LINE_BREAK!)?
+				|	NOT_EQUAL^		(options{greedy=true;}:LINE_BREAK!)?
+				|	MATCH^			(options{greedy=true;}:LINE_BREAK!)?
+				|	NOT_MATCH^		(options{greedy=true;}:LINE_BREAK!)?
+				)
+				relationalExpression
+			)*
+		;
+
+
+//>  >=  <  <=
+relationalExpression
+		:	orExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	LESS_THAN^			(options{greedy=true;}:LINE_BREAK!)?
+				|	GREATER_THAN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	LESS_OR_EQUAL^		(options{greedy=true;}:LINE_BREAK!)?
+				|	GREATER_OR_EQUAL^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				orExpression
+			)*
+		;
+
+//|  ^
+orExpression
+		:	andExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	BXOR^			(options{greedy=true;}:LINE_BREAK!)?
+				|	BOR^			(options{greedy=true;}:LINE_BREAK!)?
+				)
+				andExpression
+			)*
+		;
+
+//&
+andExpression
+		:	shiftExpression
+			(options{greedy=true;/*caused by command*/}:
+				BAND^			(options{greedy=true;}:LINE_BREAK!)?
+				shiftExpression
+			)*
+		;
+
+
+
+//<<  >>
+shiftExpression
+		:	additiveExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	LEFT_SHIFT^		(options{greedy=true;}:LINE_BREAK!)?
+				|	RIGHT_SHIFT^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				additiveExpression
+			)*
+		;
+
+
+
+//+  -
+additiveExpression
+		:	multiplicativeExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	PLUS^				(options{greedy=true;}:LINE_BREAK!)?
+				|	MINUS^				(options{greedy=true;}:LINE_BREAK!)?
+				)
+				multiplicativeExpression
+			)*
+		;
+
+//*  /  %
+multiplicativeExpression
+		:	powerExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	STAR^			(options{greedy=true;}:LINE_BREAK!)?
+				|	DIV^			(options{greedy=true;}:LINE_BREAK!)?
+				|	MOD^			(options{greedy=true;}:LINE_BREAK!)?
+				)
+				powerExpression
+			)*
+		;
+
+
+//**
+powerExpression
+		:	bnotExpression
+			(options{greedy=true;/*caused by command*/}:
+				POWER^			(options{greedy=true;}:LINE_BREAK!)?
+				bnotExpression
+			)*
+		;
+
+//!  ~
+bnotExpression
+		:	(	BNOT^			(options{greedy=true;}:LINE_BREAK!)?
+			|	NOT^			(options{greedy=true;}:LINE_BREAK!)?
+			)*
+			command
+		;
+command
+	:'expression0' | 'expression1' | 'expression2'|literal|ID|boolean_expression| block_expression|if_expression|unless_expression
+	; //|       lhs SHIFT^ rhs ;	
 assignment_expression
 	:	lhs '='^ rhs {addVariable($lhs.text);};
 lhs	:	ID;
@@ -390,7 +530,7 @@ HEREDOC_INDENT_BEGIN
 //SHFIT   //set in HEREDOC_BEGIN
 //	: '<<';
 HEREDOC_STRING
-	@init{boolean heredoc_indent_string=false; String delimiter = null;int func = 0;StringBuffer tokens = new StringBuffer();}:	(HEREDOC_BEGIN|HEREDOC_INDENT_BEGIN{heredoc_indent_string=true;})
+	@init{boolean heredoc_indent_string=false; String delimiter = null;int func = 0;StringBuffer tokens = new StringBuffer();}:(HEREDOC_BEGIN|HEREDOC_INDENT_BEGIN{heredoc_indent_string=true;})
 	   c=('\''|'"'|'`'|'0'..'9'|'a'..'z'|'A'..'Z'|'_'){
 	    int end;
 	    if (c == '\'' || c == '"' || c == '`') {
@@ -438,3 +578,59 @@ HASH	:	'{}';
 RANGE	:	'a..b';
 REGEX	:	'/abc/';
 SYMBOL	:	':abc';
+
+PLUS_ASSIGN			:	'+='	;
+MINUS_ASSIGN		:	'-='		;
+STAR_ASSIGN			:	'*='		;
+DIV_ASSIGN		:	'/='		;
+MOD_ASSIGN		:	'%='	;
+POWER_ASSIGN		:	'**='	;
+BAND_ASSIGN			:	'&='		;
+BXOR_ASSIGN			:	'^='		;
+BOR_ASSIGN			:	'|='		;
+LEFT_SHIFT_ASSIGN	:	'<<='	;
+RIGHT_SHIFT_ASSIGN	:	'>>='	;
+LOGICAL_AND_ASSIGN	:	'&&='	;
+LOGICAL_OR_ASSIGN	:	'||='	;
+INCLUSIVE_RANGE     :	'..';
+EXCLUSIVE_RANGE     :	'...';
+
+ASSOC				:	'=>'		;
+LOGICAL_AND			:	'&&'		;
+LOGICAL_OR			:	'||'		;
+
+//QUESTION			:	'?'		;
+LPAREN				:	'('     ;
+RPAREN				:	')'		;
+LBRACK				:	'['		;
+RBRACK				:	']'		;
+EMPTY_ARRAY		:	'[]'		;
+//LCURLY_HASH			:	'{'		;
+//RCURLY				:	'}'		;
+COMMA				:	','		;
+COLON				:	':'		;
+COLON2				:	'::'	;
+
+NOT					:	'!'		;
+BNOT				:	'~'		;
+//DIV				:	'/'		;
+PLUS				:	'+'		;
+MINUS				:	'-'		;
+//MOD				:	'%'		;
+STAR				:	'*'		;	//'f * g' can parsed as 'f(*g)' or '(f) * (g)'
+LESS_THAN			:	'<'		;
+GREATER_THAN		:	'>'		;
+BXOR				:	'^'		;
+BOR					:	'|'		;
+BAND				:	'&'		;
+POWER				:	'**'		;
+COMPARE				:	'<=>'	;
+GREATER_OR_EQUAL	:	'>='		;
+LESS_OR_EQUAL		:	'<='		;
+EQUAL				:	'=='		;
+CASE_EQUAL			:	'==='	;
+NOT_EQUAL			:	'!='		;
+MATCH				:	'=~'		;
+NOT_MATCH			:	'!~'		;
+//LEFT_SHIFT		:	'<<'		;
+RIGHT_SHIFT			:	'>>'		;
