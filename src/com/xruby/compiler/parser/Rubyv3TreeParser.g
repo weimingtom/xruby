@@ -24,7 +24,12 @@ expression returns[Expression e]
 	|       value=HEREDOC_STRING{e=((MyToken)$value.getToken()).getExpression();}
 	|       ^('=' lhs=. rhs=expression) {e=new AssignmentExpression(new LocalVariableExpression($lhs.text, false), rhs);}
 	|       ^(SHIFT lhs=. rhs=expression) {e=new BinaryOperatorExpression("<<", new LocalVariableExpression($lhs.text, false), rhs);}
-	|       ID {e=new LocalVariableExpression($ID.text, false);};
+	|       ID {e=new LocalVariableExpression($ID.text, false);}
+	|       'true' {e = new TrueExpression();}
+	|       'false'{e = new FalseExpression();}
+	|       'nil'{e = new NilExpression();}
+	|       ^(op=('and'|'&&') left=expression right=expression) {e= new AndOrBinaryOperatorExpression("&&", left, right);}
+	|       ^(op=('or'|'||') left=expression right=expression) {e= new AndOrBinaryOperatorExpression("||", left, right);};
 
 	
 
