@@ -100,6 +100,7 @@ public class Rubyv3ParserTest extends TestCase {
 
     public void test_value() throws Exception {
         assert_parse("3 and false", "(STATEMENT_LIST (STATEMENT (and 3 false)))");
+        assert_parse("3 and \n false", "(STATEMENT_LIST (STATEMENT (and 3 false)))");
     }
 
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException

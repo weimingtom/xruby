@@ -1,4 +1,4 @@
-// $ANTLR 3.0b7 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-05-09 10:29:15
+// $ANTLR 3.0b7 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-05-09 11:09:06
 
 package com.xruby.compiler.parser;
 
@@ -64,6 +64,7 @@ public class Rubyv3Lexer extends BaseLexer {
     public static final int HEREDOC_BEGIN = 58;
     public static final int SEMI = 29;
     public static final int EXP_PART = 49;
+    public static final int T75 = 75;
     public static final int MRHS = 20;
     public static final int BLOCK_ARG = 18;
     public static final int IF = 7;
@@ -72,7 +73,7 @@ public class Rubyv3Lexer extends BaseLexer {
     public static final int EOF = -1;
     public static final int T67 = 67;
     public static final int CALL = 10;
-    public static final int Tokens = 75;
+    public static final int Tokens = 76;
     public static final int T60 = 60;
     public static final int RESCUE_MODIFIER = 28;
     public static final int MODIFIER_LINE = 6;
@@ -397,10 +398,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT71() throws RecognitionException {
         try {
             int _type = T71;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:97:7: ( 'expression0' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:97:7: 'expression0'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:97:7: ( 'not' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:97:7: 'not'
             {
-                match("expression0");
+                match("not");
 
 
             }
@@ -417,10 +418,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT72() throws RecognitionException {
         try {
             int _type = T72;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:98:7: ( 'expression1' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:98:7: 'expression1'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:98:7: ( 'expression0' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:98:7: 'expression0'
             {
-                match("expression1");
+                match("expression0");
 
 
             }
@@ -437,10 +438,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT73() throws RecognitionException {
         try {
             int _type = T73;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:99:7: ( 'expression2' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:99:7: 'expression2'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:99:7: ( 'expression1' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:99:7: 'expression1'
             {
-                match("expression2");
+                match("expression1");
 
 
             }
@@ -457,8 +458,28 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT74() throws RecognitionException {
         try {
             int _type = T74;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:100:7: ( '=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:100:7: '='
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:100:7: ( 'expression2' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:100:7: 'expression2'
+            {
+                match("expression2");
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T74
+
+    // $ANTLR start T75
+
+    public final void mT75() throws RecognitionException {
+        try {
+            int _type = T75;
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:101:7: ( '=' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:101:7: '='
             {
                 match('=');
 
@@ -469,7 +490,7 @@ public class Rubyv3Lexer extends BaseLexer {
         finally {
         }
     }
-    // $ANTLR end T74
+    // $ANTLR end T75
 
     // $ANTLR start IF_MODIFIER
 
@@ -738,10 +759,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mINT() throws RecognitionException {
         try {
             int _type = INT;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:4: ( ( '-' )? ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:4: ( '-' )? ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:4: ( ( '-' )? ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:4: ( '-' )? ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:4: ( '-' )?
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:4: ( '-' )?
                 int alt3 = 2;
                 int LA3_0 = input.LA(1);
 
@@ -750,7 +771,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 switch (alt3) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:4: '-'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:4: '-'
                     {
                         match('-');
 
@@ -759,17 +780,17 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:8: ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:8: ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT )
                 int alt4 = 5;
                 switch (input.LA(1)) {
                     case '0': {
                         switch (input.LA(2)) {
-                            case 'd': {
-                                alt4 = 2;
-                            }
-                            break;
                             case 'b': {
                                 alt4 = 4;
+                            }
+                            break;
+                            case 'd': {
+                                alt4 = 2;
                             }
                             break;
                             case 'x': {
@@ -790,7 +811,7 @@ public class Rubyv3Lexer extends BaseLexer {
                             break;
                             default:
                                 NoViableAltException nvae =
-                                        new NoViableAltException("279:8: ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT )", 4, 1, input);
+                                        new NoViableAltException("285:8: ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT )", 4, 1, input);
 
                                 throw nvae;
                         }
@@ -815,42 +836,42 @@ public class Rubyv3Lexer extends BaseLexer {
                     break;
                     default:
                         NoViableAltException nvae =
-                                new NoViableAltException("279:8: ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT )", 4, 0, input);
+                                new NoViableAltException("285:8: ( OCTAL | DECIMAL | HEX | BINARY | ESCAPE_INT )", 4, 0, input);
 
                         throw nvae;
                 }
 
                 switch (alt4) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:9: OCTAL
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:9: OCTAL
                     {
                         mOCTAL();
 
                     }
                     break;
                     case 2:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:15: DECIMAL
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:15: DECIMAL
                     {
                         mDECIMAL();
 
                     }
                     break;
                     case 3:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:23: HEX
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:23: HEX
                     {
                         mHEX();
 
                     }
                     break;
                     case 4:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:27: BINARY
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:27: BINARY
                     {
                         mBINARY();
 
                     }
                     break;
                     case 5:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:279:35: ESCAPE_INT
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:35: ESCAPE_INT
                     {
                         mESCAPE_INT();
 
@@ -873,11 +894,11 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mOCTAL() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:9: ( '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:9: '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )*
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:9: ( '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )* )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:9: '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )*
             {
                 match('0');
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:13: ( '_' )?
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:13: ( '_' )?
                 int alt5 = 2;
                 int LA5_0 = input.LA(1);
 
@@ -886,7 +907,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 switch (alt5) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:13: '_'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:13: '_'
                     {
                         match('_');
 
@@ -895,14 +916,14 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:18: ( '0' .. '7' )
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:19: '0' .. '7'
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:18: ( '0' .. '7' )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:19: '0' .. '7'
                 {
                     matchRange('0', '7');
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:29: ( ( '_' )? '0' .. '7' )*
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:29: ( ( '_' )? '0' .. '7' )*
                 loop7:
                 do {
                     int alt7 = 2;
@@ -915,9 +936,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                     switch (alt7) {
                         case 1:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:30: ( '_' )? '0' .. '7'
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:30: ( '_' )? '0' .. '7'
                         {
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:30: ( '_' )?
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:30: ( '_' )?
                             int alt6 = 2;
                             int LA6_0 = input.LA(1);
 
@@ -926,7 +947,7 @@ public class Rubyv3Lexer extends BaseLexer {
                             }
                             switch (alt6) {
                                 case 1:
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:282:30: '_'
+                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:288:30: '_'
                                 {
                                     match('_');
 
@@ -958,10 +979,10 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mDECIMAL() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:1: ( ( '0d' )? ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:1: ( '0d' )? ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )*
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:1: ( ( '0d' )? ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )* )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:1: ( '0d' )? ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )*
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:1: ( '0d' )?
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:1: ( '0d' )?
                 int alt8 = 2;
                 int LA8_0 = input.LA(1);
 
@@ -970,7 +991,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 switch (alt8) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:2: '0d'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:2: '0d'
                     {
                         match("0d");
 
@@ -980,14 +1001,14 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:8: ( '1' .. '9' )
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:9: '1' .. '9'
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:8: ( '1' .. '9' )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:9: '1' .. '9'
                 {
                     matchRange('1', '9');
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:19: ( ( '_' )? '0' .. '9' )*
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:19: ( ( '_' )? '0' .. '9' )*
                 loop10:
                 do {
                     int alt10 = 2;
@@ -1000,9 +1021,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                     switch (alt10) {
                         case 1:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:20: ( '_' )? '0' .. '9'
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:20: ( '_' )? '0' .. '9'
                         {
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:20: ( '_' )?
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:20: ( '_' )?
                             int alt9 = 2;
                             int LA9_0 = input.LA(1);
 
@@ -1011,7 +1032,7 @@ public class Rubyv3Lexer extends BaseLexer {
                             }
                             switch (alt9) {
                                 case 1:
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:285:20: '_'
+                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:291:20: '_'
                                 {
                                     match('_');
 
@@ -1043,13 +1064,13 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mHEX() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:287:7: ( '0x' HEX_PART ( ( '_' )? HEX_PART )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:287:7: '0x' HEX_PART ( ( '_' )? HEX_PART )*
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:293:7: ( '0x' HEX_PART ( ( '_' )? HEX_PART )* )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:293:7: '0x' HEX_PART ( ( '_' )? HEX_PART )*
             {
                 match("0x");
 
                 mHEX_PART();
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:287:21: ( ( '_' )? HEX_PART )*
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:293:21: ( ( '_' )? HEX_PART )*
                 loop12:
                 do {
                     int alt12 = 2;
@@ -1062,9 +1083,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                     switch (alt12) {
                         case 1:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:287:22: ( '_' )? HEX_PART
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:293:22: ( '_' )? HEX_PART
                         {
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:287:22: ( '_' )?
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:293:22: ( '_' )?
                             int alt11 = 2;
                             int LA11_0 = input.LA(1);
 
@@ -1073,7 +1094,7 @@ public class Rubyv3Lexer extends BaseLexer {
                             }
                             switch (alt11) {
                                 case 1:
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:287:22: '_'
+                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:293:22: '_'
                                 {
                                     match('_');
 
@@ -1105,8 +1126,8 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mHEX_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:290:4: ( ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:290:4: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:4: ( ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:4: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
             {
                 if ((input.LA(1) >= '0' && input.LA(1) <= '9') || (input.LA(1) >= 'A' && input.LA(1) <= 'F') || (input.LA(1) >= 'a' && input.LA(1) <= 'f')) {
                     input.consume();
@@ -1131,19 +1152,19 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mBINARY() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:10: ( '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:10: '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )*
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:10: ( '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )* )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:10: '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )*
             {
                 match("0b");
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:14: ( '0' .. '1' )
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:15: '0' .. '1'
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:14: ( '0' .. '1' )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:15: '0' .. '1'
                 {
                     matchRange('0', '1');
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:25: ( ( '_' )? '0' .. '1' )*
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:25: ( ( '_' )? '0' .. '1' )*
                 loop14:
                 do {
                     int alt14 = 2;
@@ -1156,9 +1177,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                     switch (alt14) {
                         case 1:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:26: ( '_' )? '0' .. '1'
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:26: ( '_' )? '0' .. '1'
                         {
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:26: ( '_' )?
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:26: ( '_' )?
                             int alt13 = 2;
                             int LA13_0 = input.LA(1);
 
@@ -1167,7 +1188,7 @@ public class Rubyv3Lexer extends BaseLexer {
                             }
                             switch (alt13) {
                                 case 1:
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:26: '_'
+                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:26: '_'
                                 {
                                     match('_');
 
@@ -1199,11 +1220,11 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mESCAPE_INT() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:10: ( '?' ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:10: '?' ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:304:10: ( '?' ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:304:10: '?' ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
             {
                 match('?');
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:13: ( CONTROL_PART | META_PART )*
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:304:13: ( CONTROL_PART | META_PART )*
                 loop15:
                 do {
                     int alt15 = 3;
@@ -1212,10 +1233,10 @@ public class Rubyv3Lexer extends BaseLexer {
                     if ((LA15_0 == '\\')) {
                         int LA15_1 = input.LA(2);
 
-                        if ((LA15_1 == 'M')) {
-                            alt15 = 2;
-                        } else if ((LA15_1 == 'C' || LA15_1 == 'c')) {
+                        if ((LA15_1 == 'C' || LA15_1 == 'c')) {
                             alt15 = 1;
+                        } else if ((LA15_1 == 'M')) {
+                            alt15 = 2;
                         }
 
 
@@ -1224,14 +1245,14 @@ public class Rubyv3Lexer extends BaseLexer {
 
                     switch (alt15) {
                         case 1:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:14: CONTROL_PART
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:304:14: CONTROL_PART
                         {
                             mCONTROL_PART();
 
                         }
                         break;
                         case 2:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:27: META_PART
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:304:27: META_PART
                         {
                             mMETA_PART();
 
@@ -1243,7 +1264,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                 } while (true);
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:39: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:304:39: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
                 int alt16 = 3;
                 int LA16_0 = input.LA(1);
 
@@ -1261,27 +1282,27 @@ public class Rubyv3Lexer extends BaseLexer {
                     alt16 = 1;
                 } else {
                     NoViableAltException nvae =
-                            new NoViableAltException("298:39: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )", 16, 0, input);
+                            new NoViableAltException("304:39: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )", 16, 0, input);
 
                     throw nvae;
                 }
                 switch (alt16) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:40: '\\u0000' .. '\\u0091'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:304:40: '\\u0000' .. '\\u0091'
                     {
                         matchRange('\u0000', '\u0091');
 
                     }
                     break;
                     case 2:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:63: '\\u0093' .. '\\u0255'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:304:63: '\\u0093' .. '\\u0255'
                     {
                         matchRange('\u0093', '\u0255');
 
                     }
                     break;
                     case 3:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:84: ESCAPE_INT_PART
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:304:84: ESCAPE_INT_PART
                     {
                         mESCAPE_INT_PART();
 
@@ -1303,35 +1324,35 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mCONTROL_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:4: ( ( '\\\\C-' | '\\\\c' ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:4: ( '\\\\C-' | '\\\\c' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:308:4: ( ( '\\\\C-' | '\\\\c' ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:308:4: ( '\\\\C-' | '\\\\c' )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:4: ( '\\\\C-' | '\\\\c' )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:308:4: ( '\\\\C-' | '\\\\c' )
                 int alt17 = 2;
                 int LA17_0 = input.LA(1);
 
                 if ((LA17_0 == '\\')) {
                     int LA17_1 = input.LA(2);
 
-                    if ((LA17_1 == 'C')) {
-                        alt17 = 1;
-                    } else if ((LA17_1 == 'c')) {
+                    if ((LA17_1 == 'c')) {
                         alt17 = 2;
+                    } else if ((LA17_1 == 'C')) {
+                        alt17 = 1;
                     } else {
                         NoViableAltException nvae =
-                                new NoViableAltException("302:4: ( '\\\\C-' | '\\\\c' )", 17, 1, input);
+                                new NoViableAltException("308:4: ( '\\\\C-' | '\\\\c' )", 17, 1, input);
 
                         throw nvae;
                     }
                 } else {
                     NoViableAltException nvae =
-                            new NoViableAltException("302:4: ( '\\\\C-' | '\\\\c' )", 17, 0, input);
+                            new NoViableAltException("308:4: ( '\\\\C-' | '\\\\c' )", 17, 0, input);
 
                     throw nvae;
                 }
                 switch (alt17) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:5: '\\\\C-'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:308:5: '\\\\C-'
                     {
                         match("\\C-");
 
@@ -1339,7 +1360,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                     case 2:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:12: '\\\\c'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:308:12: '\\\\c'
                     {
                         match("\\c");
 
@@ -1362,8 +1383,8 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mMETA_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:306:4: ( '\\\\M-' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:306:4: '\\\\M-'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:4: ( '\\\\M-' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:4: '\\\\M-'
             {
                 match("\\M-");
 
@@ -1381,10 +1402,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mFLOAT() throws RecognitionException {
         try {
             int _type = FLOAT;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:9: ( ( '-' )? ( NON_LEADING0_NUMBER | '0' ) ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:9: ( '-' )? ( NON_LEADING0_NUMBER | '0' ) ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:9: ( ( '-' )? ( NON_LEADING0_NUMBER | '0' ) ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:9: ( '-' )? ( NON_LEADING0_NUMBER | '0' ) ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:9: ( '-' )?
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:9: ( '-' )?
                 int alt18 = 2;
                 int LA18_0 = input.LA(1);
 
@@ -1393,7 +1414,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 switch (alt18) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:9: '-'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:9: '-'
                     {
                         match('-');
 
@@ -1402,7 +1423,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:13: ( NON_LEADING0_NUMBER | '0' )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:13: ( NON_LEADING0_NUMBER | '0' )
                 int alt19 = 2;
                 int LA19_0 = input.LA(1);
 
@@ -1412,20 +1433,20 @@ public class Rubyv3Lexer extends BaseLexer {
                     alt19 = 2;
                 } else {
                     NoViableAltException nvae =
-                            new NoViableAltException("309:13: ( NON_LEADING0_NUMBER | '0' )", 19, 0, input);
+                            new NoViableAltException("315:13: ( NON_LEADING0_NUMBER | '0' )", 19, 0, input);
 
                     throw nvae;
                 }
                 switch (alt19) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:15: NON_LEADING0_NUMBER
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:15: NON_LEADING0_NUMBER
                     {
                         mNON_LEADING0_NUMBER();
 
                     }
                     break;
                     case 2:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:37: '0'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:37: '0'
                     {
                         match('0');
 
@@ -1434,7 +1455,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:42: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:42: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
                 int alt21 = 2;
                 int LA21_0 = input.LA(1);
 
@@ -1444,24 +1465,24 @@ public class Rubyv3Lexer extends BaseLexer {
                     alt21 = 2;
                 } else {
                     NoViableAltException nvae =
-                            new NoViableAltException("309:42: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )", 21, 0, input);
+                            new NoViableAltException("315:42: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )", 21, 0, input);
 
                     throw nvae;
                 }
                 switch (alt21) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:43: EXP_PART
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:43: EXP_PART
                     {
                         mEXP_PART();
 
                     }
                     break;
                     case 2:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:54: '.' LEADING0_NUMBER ( EXP_PART )?
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:54: '.' LEADING0_NUMBER ( EXP_PART )?
                     {
                         match('.');
                         mLEADING0_NUMBER();
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:74: ( EXP_PART )?
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:74: ( EXP_PART )?
                         int alt20 = 2;
                         int LA20_0 = input.LA(1);
 
@@ -1470,7 +1491,7 @@ public class Rubyv3Lexer extends BaseLexer {
                         }
                         switch (alt20) {
                             case 1:
-                                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:74: EXP_PART
+                                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:74: EXP_PART
                             {
                                 mEXP_PART();
 
@@ -1499,17 +1520,17 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mNON_LEADING0_NUMBER() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:3: ( ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:3: ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )*
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:3: ( ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )* )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:3: ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )*
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:3: ( '1' .. '9' )
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:4: '1' .. '9'
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:3: ( '1' .. '9' )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:4: '1' .. '9'
                 {
                     matchRange('1', '9');
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:14: ( ( '_' )? '0' .. '9' )*
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:14: ( ( '_' )? '0' .. '9' )*
                 loop23:
                 do {
                     int alt23 = 2;
@@ -1522,9 +1543,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                     switch (alt23) {
                         case 1:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:15: ( '_' )? '0' .. '9'
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:15: ( '_' )? '0' .. '9'
                         {
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:15: ( '_' )?
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:15: ( '_' )?
                             int alt22 = 2;
                             int LA22_0 = input.LA(1);
 
@@ -1533,7 +1554,7 @@ public class Rubyv3Lexer extends BaseLexer {
                             }
                             switch (alt22) {
                                 case 1:
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:15: '_'
+                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:318:15: '_'
                                 {
                                     match('_');
 
@@ -1565,17 +1586,17 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mLEADING0_NUMBER() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:3: ( ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:3: ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:3: ( ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:3: ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:3: ( '0' .. '9' )
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:4: '0' .. '9'
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:3: ( '0' .. '9' )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:4: '0' .. '9'
                 {
                     matchRange('0', '9');
 
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:14: ( ( '_' )? '0' .. '9' )*
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:14: ( ( '_' )? '0' .. '9' )*
                 loop25:
                 do {
                     int alt25 = 2;
@@ -1588,9 +1609,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                     switch (alt25) {
                         case 1:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:15: ( '_' )? '0' .. '9'
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:15: ( '_' )? '0' .. '9'
                         {
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:15: ( '_' )?
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:15: ( '_' )?
                             int alt24 = 2;
                             int LA24_0 = input.LA(1);
 
@@ -1599,7 +1620,7 @@ public class Rubyv3Lexer extends BaseLexer {
                             }
                             switch (alt24) {
                                 case 1:
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:15: '_'
+                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:321:15: '_'
                                 {
                                     match('_');
 
@@ -1631,8 +1652,8 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mEXP_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:317:11: ( ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:317:11: ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:323:11: ( ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:323:11: ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER
             {
                 if (input.LA(1) == 'E' || input.LA(1) == 'e') {
                     input.consume();
@@ -1644,7 +1665,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     throw mse;
                 }
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:317:23: ( '-' )?
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:323:23: ( '-' )?
                 int alt26 = 2;
                 int LA26_0 = input.LA(1);
 
@@ -1653,7 +1674,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 switch (alt26) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:317:23: '-'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:323:23: '-'
                     {
                         match('-');
 
@@ -1679,7 +1700,7 @@ public class Rubyv3Lexer extends BaseLexer {
             int _type = SINGLE_QUOTE_STRING;
             int end = 0;
             int nested = 0;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:322:35: ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' | '%q' begin= . (tmp= . )* )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:328:35: ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' | '%q' begin= . (tmp= . )* )
             int alt29 = 2;
             int LA29_0 = input.LA(1);
 
@@ -1689,16 +1710,16 @@ public class Rubyv3Lexer extends BaseLexer {
                 alt29 = 2;
             } else {
                 NoViableAltException nvae =
-                        new NoViableAltException("321:1: SINGLE_QUOTE_STRING : ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' | '%q' begin= . (tmp= . )* );", 29, 0, input);
+                        new NoViableAltException("327:1: SINGLE_QUOTE_STRING : ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' | '%q' begin= . (tmp= . )* );", 29, 0, input);
 
                 throw nvae;
             }
             switch (alt29) {
                 case 1:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:322:35: '\\'' ( SINGLE_STRING_CHAR )* '\\''
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:328:35: '\\'' ( SINGLE_STRING_CHAR )* '\\''
                 {
                     match('\'');
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:322:40: ( SINGLE_STRING_CHAR )*
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:328:40: ( SINGLE_STRING_CHAR )*
                     loop27:
                     do {
                         int alt27 = 2;
@@ -1711,7 +1732,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                         switch (alt27) {
                             case 1:
-                                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:322:40: SINGLE_STRING_CHAR
+                                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:328:40: SINGLE_STRING_CHAR
                             {
                                 mSINGLE_STRING_CHAR();
 
@@ -1728,7 +1749,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 break;
                 case 2:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:323:4: '%q' begin= . (tmp= . )*
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:329:4: '%q' begin= . (tmp= . )*
                 {
                     match("%q");
 
@@ -1737,7 +1758,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     System.out.println(begin);
                     end = determineEnd(begin);
                     begin = determineBegin(begin);
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:323:103: (tmp= . )*
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:329:103: (tmp= . )*
                     loop28:
                     do {
                         int alt28 = 2;
@@ -1750,7 +1771,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                         switch (alt28) {
                             case 1:
-                                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:323:104: tmp= .
+                                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:329:104: tmp= .
                             {
                                 int tmp = input.LA(1);
                                 matchAny();
@@ -1801,7 +1822,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mSINGLE_STRING_CHAR() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:347:6: ( '\\\\' . | ~ ( '\\\\' | '\\'' ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:353:6: ( '\\\\' . | ~ ( '\\\\' | '\\'' ) )
             int alt30 = 2;
             int LA30_0 = input.LA(1);
 
@@ -1812,13 +1833,13 @@ public class Rubyv3Lexer extends BaseLexer {
                 alt30 = 2;
             } else {
                 NoViableAltException nvae =
-                        new NoViableAltException("345:1: fragment SINGLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\\'' ) );", 30, 0, input);
+                        new NoViableAltException("351:1: fragment SINGLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\\'' ) );", 30, 0, input);
 
                 throw nvae;
             }
             switch (alt30) {
                 case 1:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:347:6: '\\\\' .
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:353:6: '\\\\' .
                 {
                     match('\\');
                     matchAny();
@@ -1826,7 +1847,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 break;
                 case 2:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:347:15: ~ ( '\\\\' | '\\'' )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:353:15: ~ ( '\\\\' | '\\'' )
                 {
                     if ((input.LA(1) >= '\u0000' && input.LA(1) <= '&') || (input.LA(1) >= '(' && input.LA(1) <= '[') || (input.LA(1) >= ']' && input.LA(1) <= '\uFFFE')) {
                         input.consume();
@@ -1853,7 +1874,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mDOUBLE_STRING_CHAR() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:4: ( '\\\\' . | ~ ( '\\\\' | '\"' ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:4: ( '\\\\' . | ~ ( '\\\\' | '\"' ) )
             int alt31 = 2;
             int LA31_0 = input.LA(1);
 
@@ -1864,13 +1885,13 @@ public class Rubyv3Lexer extends BaseLexer {
                 alt31 = 2;
             } else {
                 NoViableAltException nvae =
-                        new NoViableAltException("348:1: fragment DOUBLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\"' ) );", 31, 0, input);
+                        new NoViableAltException("354:1: fragment DOUBLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\"' ) );", 31, 0, input);
 
                 throw nvae;
             }
             switch (alt31) {
                 case 1:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:4: '\\\\' .
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:4: '\\\\' .
                 {
                     match('\\');
                     matchAny();
@@ -1878,7 +1899,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 break;
                 case 2:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:13: ~ ( '\\\\' | '\"' )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:13: ~ ( '\\\\' | '\"' )
                 {
                     if ((input.LA(1) >= '\u0000' && input.LA(1) <= '!') || (input.LA(1) >= '#' && input.LA(1) <= '[') || (input.LA(1) >= ']' && input.LA(1) <= '\uFFFE')) {
                         input.consume();
@@ -1908,10 +1929,10 @@ public class Rubyv3Lexer extends BaseLexer {
             int _type = DOUBLE_QUOTE_STRING;
             int end = 0;
             int nested = 0;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:35: (s= ( '\"' | '%Q' begin= . ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:35: s= ( '\"' | '%Q' begin= . )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:35: (s= ( '\"' | '%Q' begin= . ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:35: s= ( '\"' | '%Q' begin= . )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:37: ( '\"' | '%Q' begin= . )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:37: ( '\"' | '%Q' begin= . )
                 int alt32 = 2;
                 int LA32_0 = input.LA(1);
 
@@ -1921,13 +1942,13 @@ public class Rubyv3Lexer extends BaseLexer {
                     alt32 = 2;
                 } else {
                     NoViableAltException nvae =
-                            new NoViableAltException("352:37: ( '\"' | '%Q' begin= . )", 32, 0, input);
+                            new NoViableAltException("358:37: ( '\"' | '%Q' begin= . )", 32, 0, input);
 
                     throw nvae;
                 }
                 switch (alt32) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:38: '\"'
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:38: '\"'
                     {
                         match('\"');
                         expression = new DoubleStringParser(this.parser, input, '"', 0).parseString();
@@ -1935,7 +1956,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                     case 2:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:126: '%Q' begin= .
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:126: '%Q' begin= .
                     {
                         match("%Q");
 
@@ -1965,8 +1986,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLCURLY() throws RecognitionException {
         try {
             int _type = LCURLY;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:11: ( '{' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:11: '{'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:362:11: ( '{' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:362:11: '{'
             {
                 match('{');
                 nesting++;
@@ -1986,8 +2007,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRCURLY() throws RecognitionException {
         try {
             int _type = RCURLY;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:362:11: ( '}' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:362:11: '}'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:368:11: ( '}' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:368:11: '}'
             {
                 match('}');
 
@@ -2012,7 +2033,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
     public final void mESCAPE_INT_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:375:4: ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:4: ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) )
             int alt35 = 3;
             int LA35_0 = input.LA(1);
 
@@ -2028,22 +2049,22 @@ public class Rubyv3Lexer extends BaseLexer {
                     alt35 = 1;
                 } else {
                     NoViableAltException nvae =
-                            new NoViableAltException("373:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 35, 1, input);
+                            new NoViableAltException("379:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 35, 1, input);
 
                     throw nvae;
                 }
             } else {
                 NoViableAltException nvae =
-                        new NoViableAltException("373:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 35, 0, input);
+                        new NoViableAltException("379:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 35, 0, input);
 
                 throw nvae;
             }
             switch (alt35) {
                 case 1:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:375:4: '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:4: '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
                 {
                     match('\\');
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:375:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
                     int alt33 = 3;
                     int LA33_0 = input.LA(1);
 
@@ -2063,20 +2084,20 @@ public class Rubyv3Lexer extends BaseLexer {
                         }
                     } else {
                         NoViableAltException nvae =
-                                new NoViableAltException("375:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )", 33, 0, input);
+                                new NoViableAltException("381:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )", 33, 0, input);
 
                         throw nvae;
                     }
                     switch (alt33) {
                         case 1:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:375:10: '0' .. '7'
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:10: '0' .. '7'
                         {
                             matchRange('0', '7');
 
                         }
                         break;
                         case 2:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:375:21: '0' .. '7' '0' .. '7'
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:21: '0' .. '7' '0' .. '7'
                         {
                             matchRange('0', '7');
                             matchRange('0', '7');
@@ -2084,7 +2105,7 @@ public class Rubyv3Lexer extends BaseLexer {
                         }
                         break;
                         case 3:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:375:41: '0' .. '7' '0' .. '7' '0' .. '7'
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:41: '0' .. '7' '0' .. '7' '0' .. '7'
                         {
                             matchRange('0', '7');
                             matchRange('0', '7');
@@ -2099,11 +2120,11 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 break;
                 case 2:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:376:10: '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:382:10: '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART )
                 {
                     match('\\');
                     match('x');
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:376:19: ( HEX_PART | HEX_PART HEX_PART )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:382:19: ( HEX_PART | HEX_PART HEX_PART )
                     int alt34 = 2;
                     int LA34_0 = input.LA(1);
 
@@ -2117,20 +2138,20 @@ public class Rubyv3Lexer extends BaseLexer {
                         }
                     } else {
                         NoViableAltException nvae =
-                                new NoViableAltException("376:19: ( HEX_PART | HEX_PART HEX_PART )", 34, 0, input);
+                                new NoViableAltException("382:19: ( HEX_PART | HEX_PART HEX_PART )", 34, 0, input);
 
                         throw nvae;
                     }
                     switch (alt34) {
                         case 1:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:376:20: HEX_PART
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:382:20: HEX_PART
                         {
                             mHEX_PART();
 
                         }
                         break;
                         case 2:
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:376:29: HEX_PART HEX_PART
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:382:29: HEX_PART HEX_PART
                         {
                             mHEX_PART();
                             mHEX_PART();
@@ -2144,7 +2165,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 break;
                 case 3:
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:377:10: '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:383:10: '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' )
                 {
                     match('\\');
                     if ((input.LA(1) >= '\u0000' && input.LA(1) <= '/') || (input.LA(1) >= '8' && input.LA(1) <= 'B') || (input.LA(1) >= 'D' && input.LA(1) <= 'L') || (input.LA(1) >= 'N' && input.LA(1) <= 'b') || (input.LA(1) >= 'd' && input.LA(1) <= 'w') || (input.LA(1) >= 'y' && input.LA(1) <= '\uFFFE')) {
@@ -2173,8 +2194,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHEREDOC_BEGIN() throws RecognitionException {
         try {
             int _type = HEREDOC_BEGIN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:4: ( '<<' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:4: '<<'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:4: ( '<<' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:4: '<<'
             {
                 match("<<");
 
@@ -2193,8 +2214,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHEREDOC_INDENT_BEGIN() throws RecognitionException {
         try {
             int _type = HEREDOC_INDENT_BEGIN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:383:4: ( '<<-' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:383:4: '<<-'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:389:4: ( '<<-' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:389:4: '<<-'
             {
                 match("<<-");
 
@@ -2217,10 +2238,10 @@ public class Rubyv3Lexer extends BaseLexer {
             String delimiter = null;
             int func = 0;
             StringBuffer tokens = new StringBuffer();
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:126: ( ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN ) c= ( '\\'' | '\"' | '`' | '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z' | '_' ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN ) c= ( '\\'' | '\"' | '`' | '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z' | '_' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:393:126: ( ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN ) c= ( '\\'' | '\"' | '`' | '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z' | '_' ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:393:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN ) c= ( '\\'' | '\"' | '`' | '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z' | '_' )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN )
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:393:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN )
                 int alt36 = 2;
                 int LA36_0 = input.LA(1);
 
@@ -2237,32 +2258,32 @@ public class Rubyv3Lexer extends BaseLexer {
                             alt36 = 1;
                         } else {
                             NoViableAltException nvae =
-                                    new NoViableAltException("387:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN )", 36, 2, input);
+                                    new NoViableAltException("393:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN )", 36, 2, input);
 
                             throw nvae;
                         }
                     } else {
                         NoViableAltException nvae =
-                                new NoViableAltException("387:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN )", 36, 1, input);
+                                new NoViableAltException("393:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN )", 36, 1, input);
 
                         throw nvae;
                     }
                 } else {
                     NoViableAltException nvae =
-                            new NoViableAltException("387:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN )", 36, 0, input);
+                            new NoViableAltException("393:126: ( HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN )", 36, 0, input);
 
                     throw nvae;
                 }
                 switch (alt36) {
                     case 1:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:127: HEREDOC_BEGIN
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:393:127: HEREDOC_BEGIN
                     {
                         mHEREDOC_BEGIN();
 
                     }
                     break;
                     case 2:
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:141: HEREDOC_INDENT_BEGIN
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:393:141: HEREDOC_INDENT_BEGIN
                     {
                         mHEREDOC_INDENT_BEGIN();
                         heredoc_indent_string = true;
@@ -2339,8 +2360,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mARRAY() throws RecognitionException {
         try {
             int _type = ARRAY;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:430:9: ( '[]' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:430:9: '[]'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:436:9: ( '[]' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:436:9: '[]'
             {
                 match("[]");
 
@@ -2359,8 +2380,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHASH() throws RecognitionException {
         try {
             int _type = HASH;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:431:8: ( '{}' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:431:8: '{}'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:437:8: ( '{}' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:437:8: '{}'
             {
                 match("{}");
 
@@ -2379,8 +2400,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRANGE() throws RecognitionException {
         try {
             int _type = RANGE;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:432:9: ( 'a..b' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:432:9: 'a..b'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:438:9: ( 'a..b' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:438:9: 'a..b'
             {
                 match("a..b");
 
@@ -2399,8 +2420,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mREGEX() throws RecognitionException {
         try {
             int _type = REGEX;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:433:9: ( '/abc/' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:433:9: '/abc/'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:439:9: ( '/abc/' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:439:9: '/abc/'
             {
                 match("/abc/");
 
@@ -2419,8 +2440,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSYMBOL() throws RecognitionException {
         try {
             int _type = SYMBOL;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:434:10: ( ':abc' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:434:10: ':abc'
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:440:10: ( ':abc' )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:440:10: ':abc'
             {
                 match(":abc");
 
@@ -2435,8 +2456,8 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR end SYMBOL
 
     public void mTokens() throws RecognitionException {
-        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:10: ( T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | T69 | T70 | T71 | T72 | T73 | T74 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | ID | INT | FLOAT | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | HEREDOC_STRING | ARRAY | HASH | RANGE | REGEX | SYMBOL )
-        int alt37 = 38;
+        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:10: ( T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | T69 | T70 | T71 | T72 | T73 | T74 | T75 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | ID | INT | FLOAT | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | HEREDOC_STRING | ARRAY | HASH | RANGE | REGEX | SYMBOL )
+        int alt37 = 39;
         alt37 = dfa37.predict(input);
         switch (alt37) {
             case 1:
@@ -2545,161 +2566,168 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             break;
             case 16:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:70: IF_MODIFIER
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:70: T75
+            {
+                mT75();
+
+            }
+            break;
+            case 17:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:74: IF_MODIFIER
             {
                 mIF_MODIFIER();
 
             }
             break;
-            case 17:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:82: UNLESS_MODIFIER
+            case 18:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:86: UNLESS_MODIFIER
             {
                 mUNLESS_MODIFIER();
 
             }
             break;
-            case 18:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:98: WHILE_MODIFIER
+            case 19:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:102: WHILE_MODIFIER
             {
                 mWHILE_MODIFIER();
 
             }
             break;
-            case 19:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:113: UNTIL_MODIFIER
+            case 20:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:117: UNTIL_MODIFIER
             {
                 mUNTIL_MODIFIER();
 
             }
             break;
-            case 20:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:128: RESCUE_MODIFIER
+            case 21:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:132: RESCUE_MODIFIER
             {
                 mRESCUE_MODIFIER();
 
             }
             break;
-            case 21:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:144: SEMI
+            case 22:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:148: SEMI
             {
                 mSEMI();
 
             }
             break;
-            case 22:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:149: LINE_BREAK
+            case 23:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:153: LINE_BREAK
             {
                 mLINE_BREAK();
 
             }
             break;
-            case 23:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:160: WS
+            case 24:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:164: WS
             {
                 mWS();
 
             }
             break;
-            case 24:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:163: ID
+            case 25:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:167: ID
             {
                 mID();
 
             }
             break;
-            case 25:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:166: INT
+            case 26:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:170: INT
             {
                 mINT();
 
             }
             break;
-            case 26:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:170: FLOAT
+            case 27:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:174: FLOAT
             {
                 mFLOAT();
 
             }
             break;
-            case 27:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:176: SINGLE_QUOTE_STRING
+            case 28:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:180: SINGLE_QUOTE_STRING
             {
                 mSINGLE_QUOTE_STRING();
 
             }
             break;
-            case 28:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:196: DOUBLE_QUOTE_STRING
+            case 29:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:200: DOUBLE_QUOTE_STRING
             {
                 mDOUBLE_QUOTE_STRING();
 
             }
             break;
-            case 29:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:216: LCURLY
+            case 30:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:220: LCURLY
             {
                 mLCURLY();
 
             }
             break;
-            case 30:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:223: RCURLY
+            case 31:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:227: RCURLY
             {
                 mRCURLY();
 
             }
             break;
-            case 31:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:230: HEREDOC_BEGIN
+            case 32:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:234: HEREDOC_BEGIN
             {
                 mHEREDOC_BEGIN();
 
             }
             break;
-            case 32:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:244: HEREDOC_INDENT_BEGIN
+            case 33:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:248: HEREDOC_INDENT_BEGIN
             {
                 mHEREDOC_INDENT_BEGIN();
 
             }
             break;
-            case 33:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:265: HEREDOC_STRING
+            case 34:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:269: HEREDOC_STRING
             {
                 mHEREDOC_STRING();
 
             }
             break;
-            case 34:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:280: ARRAY
+            case 35:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:284: ARRAY
             {
                 mARRAY();
 
             }
             break;
-            case 35:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:286: HASH
+            case 36:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:290: HASH
             {
                 mHASH();
 
             }
             break;
-            case 36:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:291: RANGE
+            case 37:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:295: RANGE
             {
                 mRANGE();
 
             }
             break;
-            case 37:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:297: REGEX
+            case 38:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:301: REGEX
             {
                 mREGEX();
 
             }
             break;
-            case 38:
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:303: SYMBOL
+            case 39:
+                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:307: SYMBOL
             {
                 mSYMBOL();
 
@@ -2713,46 +2741,46 @@ public class Rubyv3Lexer extends BaseLexer {
 
     protected DFA37 dfa37 = new DFA37(this);
     static final String DFA37_eotS =
-            "\1\uffff\5\21\1\47\2\21\1\uffff\4\21\6\uffff\1\25\4\uffff\1\63\4" +
-                    "\uffff\10\21\3\uffff\1\21\1\76\1\77\3\21\2\uffff\1\25\2\uffff\1" +
-                    "\105\3\21\1\113\1\21\1\115\2\21\1\120\2\uffff\4\21\1\125\2\uffff" +
-                    "\3\21\1\131\1\uffff\1\21\1\uffff\1\133\1\134\1\uffff\4\21\1\uffff" +
-                    "\1\141\1\21\1\143\1\uffff\1\144\2\uffff\1\145\1\21\1\147\1\21\1" +
-                    "\uffff\1\21\3\uffff\1\152\1\uffff\1\153\1\21\2\uffff\3\21\1\162" +
-                    "\1\163\1\164\3\uffff";
+            "\1\uffff\5\21\1\50\2\21\1\uffff\4\21\6\uffff\1\25\4\uffff\1\64\4" +
+                    "\uffff\11\21\2\uffff\1\21\1\uffff\1\100\1\101\3\21\2\uffff\1\25" +
+                    "\2\uffff\1\107\3\21\1\115\1\21\1\117\1\120\2\21\1\123\2\uffff\4" +
+                    "\21\1\130\2\uffff\2\21\1\133\1\21\1\uffff\1\21\2\uffff\1\136\1\137" +
+                    "\1\uffff\4\21\1\uffff\1\144\1\21\1\uffff\1\146\1\147\2\uffff\1\150" +
+                    "\1\21\1\152\1\21\1\uffff\1\21\3\uffff\1\155\1\uffff\1\156\1\21\2" +
+                    "\uffff\3\21\1\165\1\166\1\167\3\uffff";
     static final String DFA37_eofS =
-            "\165\uffff";
+            "\170\uffff";
     static final String DFA37_minS =
             "\1\11\1\145\1\154\1\141\1\151\1\150\1\141\1\56\1\162\1\uffff\1\146" +
                     "\1\156\1\150\1\145\4\uffff\1\60\2\56\2\uffff\1\121\1\uffff\1\175" +
-                    "\1\uffff\1\74\2\uffff\1\147\1\160\1\163\1\144\2\154\1\165\1\145" +
-                    "\3\uffff\1\144\2\60\1\154\1\151\1\163\1\uffff\1\60\1\56\2\uffff" +
-                    "\1\42\1\151\1\162\1\145\1\60\1\163\1\60\1\145\1\156\1\60\2\uffff" +
-                    "\1\151\1\145\1\154\1\165\1\42\2\uffff\1\156\1\145\1\146\1\60\1\uffff" +
-                    "\1\145\1\uffff\2\60\1\uffff\1\154\1\163\1\145\1\143\1\uffff\1\60" +
-                    "\1\163\1\60\1\uffff\1\60\2\uffff\1\60\1\163\1\60\1\145\1\uffff\1" +
-                    "\163\3\uffff\1\60\1\uffff\1\60\1\151\2\uffff\1\157\1\156\4\60\3" +
-                    "\uffff";
+                    "\1\uffff\1\74\2\uffff\1\147\1\160\1\163\1\144\2\154\1\164\1\165" +
+                    "\1\145\2\uffff\1\144\1\uffff\2\60\1\154\1\151\1\163\1\uffff\1\60" +
+                    "\1\56\2\uffff\1\42\1\151\1\162\1\145\1\60\1\163\2\60\1\145\1\156" +
+                    "\1\60\2\uffff\1\151\1\145\1\154\1\165\1\42\2\uffff\1\156\1\145\1" +
+                    "\60\1\146\1\uffff\1\145\2\uffff\2\60\1\uffff\1\154\1\163\1\145\1" +
+                    "\143\1\uffff\1\60\1\163\1\uffff\2\60\2\uffff\1\60\1\163\1\60\1\145" +
+                    "\1\uffff\1\163\3\uffff\1\60\1\uffff\1\60\1\151\2\uffff\1\157\1\156" +
+                    "\4\60\3\uffff";
     static final String DFA37_maxS =
-            "\1\175\1\145\1\170\1\141\1\151\1\162\1\141\1\156\1\162\1\uffff\1" +
+            "\1\175\1\145\1\170\1\141\1\157\1\162\1\141\1\156\1\162\1\uffff\1" +
                     "\146\1\156\1\150\1\145\4\uffff\1\77\1\170\1\145\2\uffff\1\161\1" +
                     "\uffff\1\175\1\uffff\1\74\2\uffff\1\147\1\160\1\163\1\144\2\154" +
-                    "\1\165\1\145\3\uffff\1\144\2\172\1\164\1\151\1\163\1\uffff\1\71" +
-                    "\1\145\2\uffff\1\172\1\151\1\162\1\151\1\172\1\163\1\172\1\145\1" +
-                    "\156\1\172\2\uffff\1\151\1\145\1\154\1\165\1\172\2\uffff\1\156\1" +
-                    "\145\1\146\1\172\1\uffff\1\145\1\uffff\2\172\1\uffff\1\154\1\163" +
-                    "\1\145\1\143\1\uffff\1\172\1\163\1\172\1\uffff\1\172\2\uffff\1\172" +
-                    "\1\163\1\172\1\145\1\uffff\1\163\3\uffff\1\172\1\uffff\1\172\1\151" +
-                    "\2\uffff\1\157\1\156\1\62\3\172\3\uffff";
+                    "\1\164\1\165\1\145\2\uffff\1\144\1\uffff\2\172\1\164\1\151\1\163" +
+                    "\1\uffff\1\71\1\145\2\uffff\1\172\1\151\1\162\1\151\1\172\1\163" +
+                    "\2\172\1\145\1\156\1\172\2\uffff\1\151\1\145\1\154\1\165\1\172\2" +
+                    "\uffff\1\156\1\145\1\172\1\146\1\uffff\1\145\2\uffff\2\172\1\uffff" +
+                    "\1\154\1\163\1\145\1\143\1\uffff\1\172\1\163\1\uffff\2\172\2\uffff" +
+                    "\1\172\1\163\1\172\1\145\1\uffff\1\163\3\uffff\1\172\1\uffff\1\172" +
+                    "\1\151\2\uffff\1\157\1\156\1\62\3\172\3\uffff";
     static final String DFA37_acceptS =
-            "\11\uffff\1\17\4\uffff\1\25\1\26\1\27\1\30\3\uffff\1\31\1\33\1\uffff" +
-                    "\1\34\1\uffff\1\36\1\uffff\1\42\1\45\10\uffff\1\46\1\10\1\44\6\uffff" +
-                    "\1\32\2\uffff\1\43\1\35\12\uffff\1\13\1\20\5\uffff\1\37\1\41\4\uffff" +
-                    "\1\2\1\uffff\1\4\2\uffff\1\12\4\uffff\1\40\3\uffff\1\7\1\uffff\1" +
-                    "\5\1\11\4\uffff\1\1\1\uffff\1\6\1\3\1\23\1\uffff\1\22\2\uffff\1" +
-                    "\21\1\24\6\uffff\1\14\1\16\1\15";
+            "\11\uffff\1\20\4\uffff\1\26\1\27\1\30\1\31\3\uffff\1\32\1\34\1\uffff" +
+                    "\1\35\1\uffff\1\37\1\uffff\1\43\1\46\11\uffff\1\47\1\10\1\uffff" +
+                    "\1\45\5\uffff\1\33\2\uffff\1\44\1\36\13\uffff\1\13\1\21\5\uffff" +
+                    "\1\40\1\42\4\uffff\1\2\1\uffff\1\4\1\14\2\uffff\1\12\4\uffff\1\41" +
+                    "\2\uffff\1\7\2\uffff\1\5\1\11\4\uffff\1\1\1\uffff\1\6\1\3\1\24\1" +
+                    "\uffff\1\23\2\uffff\1\22\1\25\6\uffff\1\15\1\17\1\16";
     static final String DFA37_specialS =
-            "\165\uffff}>";
+            "\170\uffff}>";
     static final String[] DFA37_transitionS = {
             "\1\20\1\17\2\uffff\1\17\22\uffff\1\20\1\uffff\1\30\2\uffff\1" +
                     "\27\1\uffff\1\26\5\uffff\1\22\1\uffff\1\35\1\23\11\24\1\6\1" +
@@ -2762,34 +2790,33 @@ public class Rubyv3Lexer extends BaseLexer {
             "\1\36",
             "\1\40\1\uffff\1\41\11\uffff\1\37",
             "\1\42",
-            "\1\43",
-            "\1\45\11\uffff\1\44",
-            "\1\46",
-            "\1\50\77\uffff\1\51",
-            "\1\52",
-            "",
+            "\1\43\5\uffff\1\44",
+            "\1\46\11\uffff\1\45",
+            "\1\47",
+            "\1\52\77\uffff\1\51",
             "\1\53",
+            "",
             "\1\54",
             "\1\55",
             "\1\56",
+            "\1\57",
             "",
             "",
             "",
             "",
             "\1\23\11\24\5\uffff\1\25",
-            "\1\57\1\uffff\10\25\15\uffff\1\57\31\uffff\1\25\2\uffff\1\25" +
-                    "\1\uffff\1\25\1\57\22\uffff\1\25",
-            "\1\57\1\uffff\12\61\13\uffff\1\57\31\uffff\1\60\5\uffff\1\57",
+            "\1\60\1\uffff\10\25\15\uffff\1\60\31\uffff\1\25\2\uffff\1\25" +
+                    "\1\uffff\1\25\1\60\22\uffff\1\25",
+            "\1\60\1\uffff\12\62\13\uffff\1\60\31\uffff\1\61\5\uffff\1\60",
             "",
             "",
             "\1\30\37\uffff\1\26",
             "",
-            "\1\62",
-            "",
-            "\1\64",
-            "",
+            "\1\63",
             "",
             "\1\65",
+            "",
+            "",
             "\1\66",
             "\1\67",
             "\1\70",
@@ -2797,81 +2824,85 @@ public class Rubyv3Lexer extends BaseLexer {
             "\1\72",
             "\1\73",
             "\1\74",
-            "",
-            "",
-            "",
             "\1\75",
-            "\12\21\7\uffff\32\21\6\uffff\32\21",
-            "\12\21\7\uffff\32\21\6\uffff\32\21",
-            "\1\101\7\uffff\1\100",
-            "\1\102",
-            "\1\103",
-            "",
-            "\12\61",
-            "\1\57\1\uffff\12\61\13\uffff\1\57\31\uffff\1\60\5\uffff\1\57",
+            "\1\76",
             "",
             "",
-            "\1\106\4\uffff\1\106\5\uffff\1\104\2\uffff\12\106\7\uffff\32" +
-                    "\106\4\uffff\34\106",
-            "\1\107",
-            "\1\110",
-            "\1\112\3\uffff\1\111",
+            "\1\77",
+            "",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
-            "\1\114",
+            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\1\103\7\uffff\1\102",
+            "\1\104",
+            "\1\105",
+            "",
+            "\12\62",
+            "\1\60\1\uffff\12\62\13\uffff\1\60\31\uffff\1\61\5\uffff\1\60",
+            "",
+            "",
+            "\1\110\4\uffff\1\110\5\uffff\1\106\2\uffff\12\110\7\uffff\32" +
+                    "\110\4\uffff\34\110",
+            "\1\111",
+            "\1\112",
+            "\1\113\3\uffff\1\114",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
             "\1\116",
-            "\1\117",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
-            "",
-            "",
+            "\12\21\7\uffff\32\21\6\uffff\32\21",
             "\1\121",
             "\1\122",
-            "\1\123",
+            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "",
+            "",
             "\1\124",
-            "\1\106\4\uffff\1\106\10\uffff\12\106\7\uffff\32\106\4\uffff" +
-                    "\34\106",
-            "",
-            "",
+            "\1\125",
             "\1\126",
             "\1\127",
-            "\1\130",
-            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\1\110\4\uffff\1\110\10\uffff\12\110\7\uffff\32\110\4\uffff" +
+                    "\34\110",
             "",
+            "",
+            "\1\131",
             "\1\132",
-            "",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
-            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\1\134",
             "",
             "\1\135",
-            "\1\136",
-            "\1\137",
+            "",
+            "",
+            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "",
             "\1\140",
-            "",
-            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\1\141",
             "\1\142",
-            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\1\143",
             "",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\1\145",
+            "",
+            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\12\21\7\uffff\32\21\6\uffff\32\21",
             "",
             "",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
-            "\1\146",
-            "\12\21\7\uffff\32\21\6\uffff\32\21",
-            "\1\150",
-            "",
             "\1\151",
-            "",
-            "",
-            "",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\1\153",
             "",
-            "\12\21\7\uffff\32\21\6\uffff\32\21",
             "\1\154",
             "",
             "",
-            "\1\155",
-            "\1\156",
-            "\1\157\1\161\1\160",
+            "",
+            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "",
+            "\12\21\7\uffff\32\21\6\uffff\32\21",
+            "\1\157",
+            "",
+            "",
+            "\1\160",
+            "\1\161",
+            "\1\162\1\164\1\163",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
             "\12\21\7\uffff\32\21\6\uffff\32\21",
@@ -2911,7 +2942,7 @@ public class Rubyv3Lexer extends BaseLexer {
         }
 
         public String getDescription() {
-            return "1:1: Tokens : ( T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | T69 | T70 | T71 | T72 | T73 | T74 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | ID | INT | FLOAT | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | HEREDOC_STRING | ARRAY | HASH | RANGE | REGEX | SYMBOL );";
+            return "1:1: Tokens : ( T60 | T61 | T62 | T63 | T64 | T65 | T66 | T67 | T68 | T69 | T70 | T71 | T72 | T73 | T74 | T75 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | ID | INT | FLOAT | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | HEREDOC_STRING | ARRAY | HASH | RANGE | REGEX | SYMBOL );";
         }
     }
 
