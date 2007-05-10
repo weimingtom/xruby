@@ -326,6 +326,16 @@ class String
         return self
     end
 
+    def sum(n=16)
+        sum = 0
+        each_byte {|x| sum += x}
+        if n != 0
+            return sum & ((1 << n) - 1)
+        else
+            return sum
+        end
+    end
+
     #    def =~ x
     #        return x.match(self)
     #    end
