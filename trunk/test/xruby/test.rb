@@ -1,3 +1,6 @@
+#The tests here are created by xruby team members
+#Most other tests in the 'test' folder are copied from c ruby
+
 require 'test/unit'
 
 class XRubyTest < Test::Unit::TestCase
