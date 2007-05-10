@@ -307,8 +307,6 @@ test_ok [ 1, nil, 3, nil, 5 ].nitems   ==3
 a = [ "a", "b", "c" ]
 n = [ 65, 66, 67 ]   
 test_ok a.pack("A3A3A3")  == "a  b  c  "
-puts "to do in array pack"
-test_ok a.pack("a3a3a3")   ==   "a\000\000b\000\000c\000\000";
 test_ok n.pack("ccc")      ==   "ABC"
 
 #pop
