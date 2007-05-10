@@ -16,8 +16,8 @@ TRUE = true
 FALSE = false
 NIL = nil
 RUBY_PLATFORM = "java"
-RUBY_VERSION = 1.5
-VERSION = 1.5
+RUBY_VERSION = 1.8.5
+VERSION = 1.8.5
 
 
 module Kernel   
