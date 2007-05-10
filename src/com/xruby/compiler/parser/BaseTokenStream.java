@@ -1,5 +1,6 @@
 package com.xruby.compiler.parser;
 
+import com.xruby.compiler.codedom.Expression;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenSource;
 import org.antlr.runtime.TokenStream;
@@ -38,16 +39,8 @@ public class BaseTokenStream implements TokenStream {
                 tokens.add(token);
 
                 //modify token in place.
-                //System.out.println(token.getType() == Rubyv3Lexer.HEREDOC_BEGIN);
-                if (token.getType() == Rubyv3Lexer.HEREDOC_BEGIN) {
-                    int index = token.getTokenIndex() - 1;
-                    if (index >= 0) {
-                        Token previous = (Token) tokens.get(index);
-                        if (((Rubyv3Lexer) tokenSource).getParser().isDefinedVar(previous.getText())) {
-                            token.setType(Rubyv3Lexer.LEFT_SHIFT); //modify type in place
-                        }
-                    }
-                }
+                //affect tokens collection
+                inPlaceModifying(token);
 
             }
         }
@@ -60,6 +53,32 @@ public class BaseTokenStream implements TokenStream {
         }
 
         return (Token) tokens.get(p + k);  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private void inPlaceModifying(Token token) {
+        if (token.getType() == Rubyv3Lexer.HEREDOC_BEGIN) {
+            int index = token.getTokenIndex() - 1;
+            if (index >= 0) {
+                Token previous = (Token) tokens.get(index);
+                if (((Rubyv3Lexer) tokenSource).getParser().isDefinedVar(previous.getText())) {
+                    token.setType(Rubyv3Lexer.LEFT_SHIFT); //modify type in place
+                }
+            }
+        }
+        if (token.getType() == Rubyv3Lexer.HEREDOC_BEGIN || token.getType() == Rubyv3Lexer.HEREDOC_INDENT_BEGIN) { //heredoc Begin
+            Expression expression = null;
+
+            if (token.getType() == Rubyv3Lexer.HEREDOC_BEGIN) {
+                expression = ((Rubyv3Lexer) tokenSource).mHEREDOC_CONTENT(false);
+            } else { //Rubyv3Lexer.HEREDOC_INDENT_BEGIN
+                expression = ((Rubyv3Lexer) tokenSource).mHEREDOC_CONTENT(true);
+            }
+
+            if (expression != null) { //we are heredoc string   
+                token.setType(Rubyv3Lexer.HEREDOC_STRING);
+                ((MyToken) token).expression = expression;
+            }
+        }
     }
 
     private Token LB(int k) {

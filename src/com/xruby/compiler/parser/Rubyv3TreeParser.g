@@ -21,7 +21,7 @@ expression returns[Expression e]
 	:	value=INT{e=IntegerExpression.parseIntegerExpression($value.text);}
 	|       value=SINGLE_QUOTE_STRING{e=new SingleQuoteStringExpression($value.text);}
 	|       value=DOUBLE_QUOTE_STRING{e=((MyToken)$value.getToken()).getExpression();} 
-	|       value=HEREDOC_INDENT_STRING{e=((MyToken)$value.getToken()).getExpression();}
+	|       value=HEREDOC_STRING{e=((MyToken)$value.getToken()).getExpression();}
 	|       ^('=' lhs=. rhs=expression) {e=new AssignmentExpression(new LocalVariableExpression($lhs.text, false), rhs);}
 	|       ^(LEFT_SHIFT lhs0=expression rhs=expression) {e=new BinaryOperatorExpression("<<", lhs0, rhs);}
 	|       ID {e=new LocalVariableExpression($ID.text, false);}

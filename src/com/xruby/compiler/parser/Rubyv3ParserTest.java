@@ -92,15 +92,19 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_heredoc_string() throws Exception {
-        assert_parse("<<HERE\ntest\nHERE", "(STATEMENT_LIST (STATEMENT <<HERE\ntest\nHERE))");
-        assert_parse("<<'HERE'\ntest\nHERE", "(STATEMENT_LIST (STATEMENT <<'HERE'\ntest\nHERE))");
+        //assert_parse("<<HERE\ntest\nHERE", "(STATEMENT_LIST (STATEMENT <<HERE\ntest\nHERE))");
+        //assert_parse("<<'HERE'\ntest\nHERE", "(STATEMENT_LIST (STATEMENT <<'HERE'\ntest\nHERE))");
         //assert_parse("<<'HERE'\ntest\nHERE\n", "(STATEMENT_LIST (STATEMENT <<'HERE'\ntest\nHERE))");
-        assert_parse("<<HERE\ntest\nHERE\n3", "(STATEMENT_LIST (STATEMENT <<HERE\ntest\nHERE) (STATEMENT 3))");
+        //assert_parse("<<HERE\ntest\nHERE\n3", "(STATEMENT_LIST (STATEMENT <<HERE\ntest\nHERE) (STATEMENT 3))");
     }
 
     public void test_value() throws Exception {
         assert_parse("3 and false", "(STATEMENT_LIST (STATEMENT (and 3 false)))");
         assert_parse("3 and \n false", "(STATEMENT_LIST (STATEMENT (and 3 false)))");
+    }
+
+    public void test_fixnum() throws Exception {
+        assert_parse("7;", "(STATEMENT_LIST (STATEMENT 7))");
     }
 
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
