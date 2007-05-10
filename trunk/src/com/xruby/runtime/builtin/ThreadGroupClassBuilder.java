@@ -14,6 +14,7 @@ import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyOneArgMethod;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyThread;
 import com.xruby.runtime.value.RubyThreadGroup;
@@ -45,11 +46,28 @@ class ThreadGroup_add extends RubyOneArgMethod {
     }
 }
 
+class ThreadGroup_enclose extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyThreadGroup group = (RubyThreadGroup)receiver;
+        group.enclose();
+        return group;
+    }
+}
+
+class ThreadGroup_is_enclosed extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyThreadGroup group = (RubyThreadGroup)receiver;
+        return ObjectFactory.createBoolean(group.isEnclosed());
+    }
+}
+
 public class ThreadGroupClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.ThreadGroupClass;             
         c.defineMethod("add", new ThreadGroup_add());
-        c.defineMethod("list", new ThreadGroup_list());      
+        c.defineMethod("list", new ThreadGroup_list());  
+        c.defineMethod("enclose", new ThreadGroup_enclose());
+        c.defineMethod("enclosed?", new ThreadGroup_is_enclosed());
         
         c.setConstant("Default",RubyThreadGroup.defaultThreadGroup);
         c.getSingletonClass().defineMethod("new", new ThreadGroup_new());
