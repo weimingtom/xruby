@@ -17,6 +17,7 @@ tokens {
 	ARG;
 	
 	LEFT_SHIFT;
+	HEREDOC_STRING;
 	ASSIGNMENT; //or just use '=' etc?
 	//COMPSTMT;
 	SYMBOL;
@@ -57,6 +58,7 @@ import com.xruby.compiler.codedom.*;
 @members {
   private Rubyv3Parser parent = null;
   private SymbolTableManager stm = new SymbolTableManager(null);
+  private Rubyv3Lexer lexer;
   /*public boolean just_seen_var() {
           Token token = input.LT(1);
           if(token != null) {
@@ -89,6 +91,7 @@ import com.xruby.compiler.codedom.*;
             super(input);
             ((Rubyv3Lexer) input.getTokenSource()).setParser(this);
             this.parent = parent;
+            this.lexer = (Rubyv3Lexer)input.getTokenSource();
   }
   /*public void init() {
     ((Rubyv3Lexer) input.getTokenSource()).setParser(this);
@@ -111,6 +114,9 @@ import com.xruby.compiler.codedom.*;
     private final int str_regexp = STR_FUNC_REGEXP | STR_FUNC_ESCAPE | STR_FUNC_EXPAND;
     private final int str_ssym   = STR_FUNC_SYMBOL;
     private final int str_dsym   = STR_FUNC_SYMBOL | STR_FUNC_EXPAND;
+    
+    public int lex_state = 0;
+    public static final int IN_HEREDOC_STRING = 1;
         /** Override this method to change where error messages go */
         public void emitErrorMessage(String msg) {
 		System.err.println(msg);
@@ -166,6 +172,62 @@ import com.xruby.compiler.codedom.*;
                     end = begin;
                 }
                 return end;
+        }
+        
+        //hand written lexer matcher
+        public Expression mHEREDOC_CONTENT(boolean indent) {
+            String delimiter = null;int func = 0;StringBuffer tokens = new StringBuffer();
+            expression = null;
+            int c= input.LA(1);
+                if ( input.LA(1)=='\"'||input.LA(1)=='\''||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='_' && input.LA(1)<='z') ) {
+                    input.consume();
+
+                }
+                else {
+                    return expression; //not match heredoc
+                }
+
+
+                        int end;
+                        if (c == '\'' || c == '"' || c == '`') {
+                            if (c == '\'') {
+                                func |= str_squote;
+                            } else if (c == '"') {
+                                func |= str_dquote;
+                            } else {
+                                func |= str_xquote;
+                            }
+
+
+                            end = c;
+                            while ((c = input.LT(1)) != EOF && c != end) {
+                                tokens.append((char)c);
+                                input.consume();
+                            }
+                            if (c == EOF) {
+                                throw new SyntaxException("unterminated here document identifier");
+                            }
+                            input.consume(); //consume the end character.
+                        } else {
+                            /*if (!isIdentifierChar(c)) {
+                                throw new SyntaxException("shouldn't happen");
+                            }*/
+
+                            func |= str_dquote;
+                            tokens.append((char)c);
+                            while(true) {
+                            c = input.LT(1);
+                            if(c == Token.EOF || !isIdentifierChar(c)) {
+                                break;
+                            }
+                            tokens.append((char)c);
+                            input.consume();
+                            }
+
+                         } //we already consume the last character.
+
+                       expression = new HeredocParser(this.parser, input, func, tokens.toString(), indent).parseString();
+                       return expression;
         }
 }
 program
@@ -462,7 +524,7 @@ LEADING0_NUMBER
 fragment	
 EXP_PART:	('e' | 'E') '-'? LEADING0_NUMBER;
 
-string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|heredoc_string;
+string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|HEREDOC_STRING;
 
 SINGLE_QUOTE_STRING
 	@init{int end=0; int nested=0;}:	'\'' SINGLE_STRING_CHAR* '\'' 
@@ -525,59 +587,13 @@ ESCAPE_INT_PART //ESCAPE_INT_PART in ESCAPE_INT
                             
 HEREDOC_BEGIN
 	:	'<<'{if(Character.isWhitespace(input.LT(1))) {$type = LEFT_SHIFT;}};  //mofidy type to SHIFT in BaseTokenStream if previous token is var	
+
 HEREDOC_INDENT_BEGIN
-	:	'<<-';
+	:	'<<-'{if(Character.isWhitespace(input.LT(1))) {$type = LEFT_SHIFT;}}; 
 //SHFIT   //set in HEREDOC_BEGIN
 //	: '<<';
-heredoc_string
-	:	HEREDOC_BEGIN HEREDOC_CONTENT|HEREDOC_INDENT_STRING;
 
-HEREDOC_CONTENT
-	:	'abc';
-HEREDOC_INDENT_STRING
-	@init{boolean heredoc_indent_string=false; String delimiter = null;int func = 0;StringBuffer tokens = new StringBuffer();}:(HEREDOC_INDENT_BEGIN{heredoc_indent_string=true;})
-	   c=('\''|'"'|'`'|'0'..'9'|'a'..'z'|'A'..'Z'|'_'){
-	    int end;
-	    if (c == '\'' || c == '"' || c == '`') {
-            if (c == '\'') {
-                func |= str_squote;
-            } else if (c == '"') {
-                func |= str_dquote;
-            } else {
-                func |= str_xquote; 
-            }
-
-            
-            end = c;
-            while ((c = input.LT(1)) != EOF && c != end) {
-                tokens.append((char)c);
-                input.consume();
-            }
-            if (c == EOF) {
-                throw new SyntaxException("unterminated here document identifier");
-            }
-            input.consume(); //consume the end character.	
-        } else {
-            /*if (!isIdentifierChar(c)) {
-                throw new SyntaxException("shouldn't happen");
-            }*/
-            
-            func |= str_dquote;
-            tokens.append((char)c);
-            while(true) {
-            c = input.LT(1);
-            if(c == Token.EOF || !isIdentifierChar(c)) {
-                break;
-            }
-            tokens.append((char)c);
-            input.consume();
-            }
-            
-         } //we already consume the last character.
-             
-	   expression = new HeredocParser(this.parser, input, func, tokens.toString(), heredoc_indent_string).parseString();
-	};  
-        
+      
 ARRAY	:	'[]';
 HASH	:	'{}';
 RANGE	:	'a..b';
