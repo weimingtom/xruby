@@ -12,6 +12,14 @@ $__loaded_libraries = []
 
 $* = ARGV
 
+TRUE = true
+FALSE = false
+NIL = nil
+RUBY_PLATFORM = "java"
+RUBY_VERSION = 1.5
+VERSION = 1.5
+
+
 module Kernel   
 
     alias load__ load
