@@ -59,6 +59,7 @@ public class RubyRuntime {
     public static RubyClass IndexErrorClass;
     public static RubyClass RangeErrorClass;
     public static RubyClass NameErrorClass;
+    public static RubyClass ThreadErrorClass;
     public static RubyClass NoMethodErrorClass;
     public static RubyClass IOErrorClass;
     public static RubyClass RuntimeErrorClass;
@@ -129,6 +130,7 @@ public class RubyRuntime {
         IndexErrorClass = RubyAPI.defineClass("IndexError", StandardErrorClass);
         RangeErrorClass = RubyAPI.defineClass("RangeError", StandardErrorClass);
         NameErrorClass = RubyAPI.defineClass("NameError", StandardErrorClass);
+        ThreadErrorClass = RubyAPI.defineClass("ThreadError", StandardErrorClass);
         NoMethodErrorClass = RubyAPI.defineClass("NoMethodError", NameErrorClass);
         IOErrorClass = RubyAPI.defineClass("IOError", StandardErrorClass);
         RuntimeErrorClass = RubyAPI.defineClass("RuntimeError", StandardErrorClass);
@@ -238,7 +240,7 @@ public class RubyRuntime {
                 "Time", "TrueClass",
 
                 "Exception", "StandardError", "TypeError", "IndexError", "RangeError", "NameError", "NoMethodError", "IOError", "RuntimeError", "LocalJumpError","SystemCallError", 
-                "ScriptError", "SyntaxError", "LoadError", "NotImplementedError",
+                "ScriptError", "SyntaxError", "LoadError", "NotImplementedError","ThreadError",
         };
 
         for (String s : builtin_classes) {
