@@ -5,22 +5,55 @@
 
 package com.xruby.runtime.builtin;
 
-import antlr.RecognitionException;
-import antlr.TokenStreamException;
-import com.xruby.compiler.RubyCompiler;
-import com.xruby.compiler.codegen.CompilationResults;
-import com.xruby.compiler.codegen.CompilerException;
-import com.xruby.compiler.codegen.NameFactory;
-import com.xruby.runtime.javasupport.JavaClass;
-import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.*;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.Enumeration;
 import java.util.Random;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
+
+import antlr.RecognitionException;
+import antlr.TokenStreamException;
+
+import com.xruby.compiler.RubyCompiler;
+import com.xruby.compiler.codegen.CompilationResults;
+import com.xruby.compiler.codegen.CompilerException;
+import com.xruby.compiler.codegen.NameFactory;
+import com.xruby.runtime.javasupport.JavaClass;
+import com.xruby.runtime.lang.AtExitBlocks;
+import com.xruby.runtime.lang.CommonRubyID;
+import com.xruby.runtime.lang.FrameManager;
+import com.xruby.runtime.lang.GlobalVariables;
+import com.xruby.runtime.lang.RubyAPI;
+import com.xruby.runtime.lang.RubyBinding;
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyExceptionValue;
+import com.xruby.runtime.lang.RubyExceptionValueForThrow;
+import com.xruby.runtime.lang.RubyID;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyModule;
+import com.xruby.runtime.lang.RubyNoArgMethod;
+import com.xruby.runtime.lang.RubyOneArgMethod;
+import com.xruby.runtime.lang.RubyProgram;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyVarArgMethod;
+import com.xruby.runtime.lang.StringMap;
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyBignum;
+import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.value.RubyIO;
+import com.xruby.runtime.value.RubyProc;
+import com.xruby.runtime.value.RubyString;
+import com.xruby.runtime.value.RubySymbol;
 
 //TODO imcomplete
 class Kernel_eval extends RubyVarArgMethod {
@@ -711,6 +744,20 @@ class Kernel_srand extends RubyVarArgMethod {
     }
 }
 
+class Kernel_sleep extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        long milliseconds = RubyTypesUtil.convertToJavaLong(arg)*1000;
+        long startTime = System.currentTimeMillis();
+        try{
+            Thread.sleep(milliseconds);
+        }catch(InterruptedException ie){
+            //
+        }
+        long endTime = System.currentTimeMillis();
+        return ObjectFactory.createFixnum((int)Math.round((endTime-startTime)/1000.0));
+    }
+}
+
 public class KernelModuleBuilder {
     public static void initialize() {
         RubyModule m = RubyRuntime.KernelModule;
@@ -773,6 +820,7 @@ public class KernelModuleBuilder {
         m.defineMethod("gsub", new Kernel_gsub());
         m.defineMethod("gsub!", new Kernel_gsub_danger());
         m.defineMethod("sub", new Kernel_gsub());//TODO sub != gsub
+        m.defineMethod("sleep", new Kernel_sleep());
         m.setAccessPublic();
 
         RubyRuntime.ObjectClass.includeModule(m);
