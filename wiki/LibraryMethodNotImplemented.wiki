@@ -25,6 +25,7 @@ ruby\test_call.rb
 ruby\test_clone.rb
 ruby\test_condition.rb
 ruby\test_const.rb
+ruby\test_exception.rb
 ruby\test_gc.rb
 ruby\test_ifunless.rb
 ruby\test_math.rb
@@ -46,21 +47,20 @@ ruby\test_beginendblock.rb
 ruby\test_bignum.rb
 ruby\test_case.rb
 ruby\test_defined.rb
-ruby\test_dir.rb
+ruby\test_dir.rb		#require 'fileutil'
 ruby\test_env.rb
 ruby\test_eval.rb
-ruby\test_exception.rb
-ruby\test_file.rb
+ruby\test_file.rb		#require 'tmpfile'
 ruby\test_float.rb
-ruby\test_hash.rb
-ruby\test_io.rb
-ruby\test_iterator.rb
+ruby\test_hash.rb		#tough to deal with...
+ruby\test_io.rb		#IO#pipe
+ruby\test_iterator.rb	#treeparser problem
 ruby\test_marshal.rb
 ruby\test_method.rb
 ruby\test_objectspace.rb
 ruby\test_pack.rb
 ruby\test_path.rb
-ruby\test_pipe.rb
+ruby\test_pipe.rb		#IO#pipe, require 'envutil'
 ruby\test_proc.rb
 ruby\test_process.rb
 ruby\test_rand.rb
