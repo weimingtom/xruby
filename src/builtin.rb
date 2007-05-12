@@ -15,10 +15,12 @@ $* = ARGV
 TRUE = true
 FALSE = false
 NIL = nil
-RUBY_PLATFORM = "java"
-RUBY_VERSION = 1.8.5
-VERSION = 1.8.5
 
+RUBY_PLATFORM = "java"
+RUBY_VERSION = "1.8.5"
+VERSION = "1.8.5"
+
+Float::EPSILON = 2.2204460492503131e-16
 
 module Kernel   
 
@@ -1021,3 +1023,5 @@ class Regexp
     return inspect == other.inspect
   end
 end
+
+  
