@@ -476,6 +476,8 @@ returns [SymbolExpression e]
 				|i:INSTANCE_VARIABLE	{e= new SymbolExpression(i.getText());}
 				|c:CLASS_VARIABLE	{e= new SymbolExpression(c.getText());}
 				|u:UNARY_PLUS_MINUS_METHOD_NAME	{e= new SymbolExpression(u.getText());}
+				|ds:DOUBLE_QUOTE_STRING	{e= new SymbolExpression(ds.getText());}
+				|ss:SINGLE_QUOTE_STRING	{e= new SymbolExpression(ss.getText());}
 				|s=keyword			{e = new SymbolExpression(s);}
 				|s=operator			{e = new SymbolExpression(s);}
 				)

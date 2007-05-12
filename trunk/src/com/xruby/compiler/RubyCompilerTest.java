@@ -1692,6 +1692,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_symbol() {
         String[] program_texts = {
+				"print :\"!\"",
+				"print :'='",
                 "print :hello1.id2name",
                 "print :hello2.to_a",
                 "print :fred.inspect",
@@ -1701,6 +1703,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+				"!",
+				"=",
                 "hello1",
                 "hello2",
                 ":fred",
