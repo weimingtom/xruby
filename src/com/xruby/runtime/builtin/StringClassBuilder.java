@@ -133,7 +133,13 @@ class String_downcase_danger extends RubyNoArgMethod {
 class String_to_f extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyString value = (RubyString) receiver;
-        return ObjectFactory.createFloat(Double.valueOf(value.toString()));
+		double d;
+		try {
+			d = Double.parseDouble(value.toString());
+		} catch (NumberFormatException e) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, e.toString());
+		}
+        return ObjectFactory.createFloat(d);
     }
 }
 
