@@ -18,6 +18,10 @@ public class RubyModule extends MethodCollection {
         super.name_ = name;
         owner_ = owner;
     }
+    
+    void setOwner(RubyModule owner) {
+    	this.owner_ = owner;
+    }
 
     public boolean isRealModule() {
         return true;
@@ -40,15 +44,15 @@ public class RubyModule extends MethodCollection {
         if (parent == null) {
             parent = RubyRuntime.ObjectClass;
         }
-
-        RubyClass c = new RubyClass(name, parent, this);
-        c.setName(name);
-        c.setRubyClass(RubyRuntime.ClassClass);
-        new RubySingletonClass(c, parent.getRubyClass());
-
-        constants_.put(name, c);
-        ObjectSpace.add(c);
-        return c;
+        
+        RubyClass klass = ClassFactory.makeRubyClass(parent);
+        klass.setOwner(this);
+        klass.setName(name);
+        constants_.put(name, klass);
+        ClassFactory.inheritedClass(parent, klass);        
+        
+        ObjectSpace.add(klass);
+        return klass;
     }
 
     private RubyClass defineClass(String name, RubyClass parent) {

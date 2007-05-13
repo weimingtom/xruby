@@ -236,6 +236,8 @@ public class RubyRuntime {
 
                 "Exception", "StandardError", "TypeError", "IndexError", "RangeError", "NameError", "NoMethodError", "IOError", "RuntimeError", "LocalJumpError","SystemCallError", 
                 "ScriptError", "SyntaxError", "LoadError", "NotImplementedError","ThreadError",
+                
+                "ENOENT",
         };
 
         for (String s : builtin_classes) {
