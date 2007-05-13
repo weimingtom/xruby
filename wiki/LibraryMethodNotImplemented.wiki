@@ -21,6 +21,7 @@ _Rubinius has lots builtin methods written in pure ruby, we could use some of th
 ruby\test_alias.rb
 ruby\test_assignment.rb
 ruby\test_array.rb
+ruby\test_case.rb
 ruby\test_call.rb
 ruby\test_clone.rb
 ruby\test_condition.rb
@@ -45,7 +46,6 @@ testunit\util\test_backtracefilter.rb
 {{{
 ruby\test_beginendblock.rb
 ruby\test_bignum.rb
-ruby\test_case.rb
 ruby\test_defined.rb
 ruby\test_dir.rb		#require 'fileutil'
 ruby\test_env.rb
