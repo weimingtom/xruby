@@ -49,5 +49,10 @@ public class ClassClassBuilder {
         RubyClass c = RubyRuntime.ClassClass;
         c.defineMethod("new", class_new_);
         c.defineMethod("superclass", new Class_superclass());
+
+        /*
+        c.setAccessPrivate();        
+        c.defineMethod("inherited", new RubyDummyMethod());
+        */
     }
 }

@@ -6,26 +6,9 @@
 package com.xruby.runtime.lang;
 
 class ClassFactory {
-    private static boolean isValidDefinedClass(RubyClass klass, RubyClass superclass) {
-        RubyClass realSuperClass = klass.getSuperClass().getRealClass();
-        if (realSuperClass == superclass) {
-            return true;
-        }
-
-        if (superclass == null && realSuperClass == RubyRuntime.ObjectClass) {
-            return true;
-        }
-
-        return klass == RubyRuntime.ObjectClass && superclass == null;
-    }
-
     public static RubyClass defineClass(String name, RubyClass superclass) {
         if (superclass == null) {
           superclass = RubyRuntime.ObjectClass;
-        } else {
-            if (superclass.getName().equals("Class")){
-                throw new RubyException(RubyRuntime.TypeErrorClass,"can't make subclass of Class");
-            }
         }
 
         RubyValue value = RubyRuntime.ObjectClass.getConstant(name);
@@ -36,7 +19,7 @@ class ClassFactory {
 
             RubyClass klass = (RubyClass)value;
 
-            if (!isValidDefinedClass(klass, superclass)) {
+            if (klass.getSuperClass().getRealClass() != superclass) {
                 throw new RubyException(RubyRuntime.NameErrorClass, name + " is already defined");
             }
 
@@ -47,15 +30,11 @@ class ClassFactory {
             return klass;
         }
 
-//        if (superclass == null) {
-//            superclass = RubyRuntime.ObjectClass;
-//        }
-
-        RubyClass klass = createRubyClass(name, superclass);
-        new RubySingletonClass(klass, superclass.getRubyClass());
+        RubyClass klass = makeRubyClass(superclass);
+        
+        klass.setName(name);
         RubyRuntime.ObjectClass.setConstant(name, klass);
-
-        inheritedBy(klass,superclass);
+        inheritedClass(superclass,klass);
 
         ObjectSpace.add(klass);
         return klass;
@@ -88,17 +67,40 @@ class ClassFactory {
      * superclass, the super class of the boot class to be defined.
      */
     static RubyClass defineBootClass(String name, RubyClass superclass) {
-        RubyClass obj = createRubyClass(name, superclass);
-        RubyClass constObj = (RubyRuntime.ObjectClass != null) ? RubyRuntime.ObjectClass : obj;
-        constObj.setConstant(name, obj);
-        return obj;
+    	RubyClass klass = createBootClass(superclass);
+    	klass.setName(name);
+        RubyClass constObj = (RubyRuntime.ObjectClass != null) ? RubyRuntime.ObjectClass : klass;
+        constObj.setConstant(name, klass);
+        return klass;
+    }
+    
+    private static RubyClass createRubyClass(RubyClass superclass) {
+    	if (superclass == RubyRuntime.ClassClass) {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "can't make subclass of Class");
+		}
+    	
+    	if (!superclass.isRealClass()) {
+    		throw new RubyException(RubyRuntime.TypeErrorClass, "can't make subclass of virtual class");
+    	}
+    	
+    	return createBootClass(superclass);
     }
 
-    private static RubyClass createRubyClass(String name, RubyClass superclass) {
-        RubyClass klass = new RubyClass(name, superclass, null);
-        klass.setName(name);
-        klass.setRubyClass(RubyRuntime.ClassClass);
+    static RubyClass makeRubyClass(RubyClass superclass) {
+    	if (superclass == null) {
+    		superclass = RubyRuntime.ObjectClass;
+    	}
+    	
+    	RubyClass klass = createRubyClass(superclass);
+        new RubySingletonClass(klass, superclass.getRubyClass());
         return klass;
+    }
+    
+    private static RubyClass createBootClass(RubyClass superclass) {
+    	RubyClass klass = new RubyClass(null, superclass, null);
+    	klass.setRubyClass(RubyRuntime.ClassClass);
+    	
+    	return klass;    	
     }
 
     private static RubyModule createRubyModule(String name) {
@@ -108,10 +110,12 @@ class ClassFactory {
         return module;
     }
 
-    private static void inheritedBy(RubyClass klass,RubyClass superclass){
+    static void inheritedClass(RubyClass superclass, RubyClass klass){    	
         if(!RubyRuntime.isBuiltinClass(klass.getName())){
-            RubyID mid = StringMap.intern("inherited");
-            RubyAPI.callOneArgMethod(superclass, klass, null, mid);
+        	if (superclass == null) {
+        		superclass = RubyRuntime.ObjectClass;
+        	}
+        	superclass.setInherited(klass);
         }
     }
 

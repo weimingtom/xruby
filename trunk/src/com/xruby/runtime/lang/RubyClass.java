@@ -20,7 +20,7 @@ public class RubyClass extends RubyModule {
 	private int objectAddress;
 
 	public RubyClass(String name, RubyClass superclass, RubyModule owner) {
-		super(name, owner);
+		super(name, owner);		
 		superclass_ = superclass;
 		this.objectAddress = super.hashCode();
     }
@@ -65,6 +65,10 @@ public class RubyClass extends RubyModule {
     public void defineAllocMethod(RubyMethod m) {
 		alloc_method_ = m;
 	}
+    
+    public void setInherited(RubyClass klass) {
+    	RubyAPI.callOneArgMethod(this, klass, null, CommonRubyID.inheritedID);
+    }
 
 	public RubyValue invokeAllocMethod(RubyValue reciver, RubyBlock block) {//TODO reciver can be 'this' in the future
 		if (null != alloc_method_) {
