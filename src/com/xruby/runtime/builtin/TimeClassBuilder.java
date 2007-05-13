@@ -31,6 +31,13 @@ class Time_to_i extends RubyNoArgMethod {
     }
 }
 
+class Time_usec extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyTime t = (RubyTime) receiver;
+        return ObjectFactory.createFixnum((int) (t.getTime() * 1000));
+    }
+}
+
 class Time_to_s extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyTime t = (RubyTime) receiver;
@@ -120,9 +127,12 @@ public class TimeClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.TimeClass;
         c.defineMethod("to_f", new Time_to_f());
-		RubyMethod m = new Time_to_i();
-		c.defineMethod("tv_sec", m);
-		c.defineMethod("to_i", m);
+		RubyMethod tv_sec = new Time_to_i();
+		c.defineMethod("tv_sec", tv_sec);
+		c.defineMethod("to_i", tv_sec);
+		RubyMethod usec = new Time_usec();
+		c.defineMethod("tv_usec", usec);
+		c.defineMethod("usec", usec);
         c.defineMethod("to_s", new Time_to_s());
         c.defineMethod("+", new Time_plus());
         c.defineMethod("-", new Time_minus());
