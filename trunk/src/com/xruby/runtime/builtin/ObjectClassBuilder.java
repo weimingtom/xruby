@@ -42,6 +42,23 @@ class Object_clone extends RubyNoArgMethod {
     }
 }
 
+class Object_singleton_methods extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        boolean all = true;
+        if (args != null && !RubyAPI.testTrueFalse(args.get(0))) {
+            all = false;
+        }
+
+		RubyArray a = new RubyArray();
+        if (all) {
+            receiver.getSingletonClass().collectClassMethodNames(a, RubyMethod.PUBLIC);
+        } else {
+            receiver.getSingletonClass().collectOwnMethodNames(a, RubyMethod.PUBLIC);
+        }
+		return a;
+    }
+}
+
 class Object_extend extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (null == args) {
@@ -142,6 +159,7 @@ public class ObjectClassBuilder {
         c.defineMethod("__id__", object_id);
         c.defineMethod("hash", new Object_hash());
         c.defineMethod("inspect", new Object_inspect());
+		c.defineMethod("singleton_methods", new Object_singleton_methods());
         c.defineAllocMethod(new Object_alloc());
     }
 }
