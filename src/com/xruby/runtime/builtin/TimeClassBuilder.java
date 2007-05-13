@@ -120,7 +120,9 @@ public class TimeClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.TimeClass;
         c.defineMethod("to_f", new Time_to_f());
-        c.defineMethod("to_i", new Time_to_i());
+		RubyMethod m = new Time_to_i();
+		c.defineMethod("tv_sec", m);
+		c.defineMethod("to_i", m);
         c.defineMethod("to_s", new Time_to_s());
         c.defineMethod("+", new Time_plus());
         c.defineMethod("-", new Time_minus());
