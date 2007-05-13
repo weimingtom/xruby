@@ -65,8 +65,12 @@ public class CaseExpression extends Expression {
 		}
 		
 		else_body_.ensureVariablesAreInitialized(visitor);
-		
-		condition_.accept(visitor);
+
+		if (null == condition_) {
+			visitor.visitTrueExpression();
+		} else {
+			condition_.accept(visitor);
+		}
 		Object var = visitor.visitAfterCaseCondition();
 
 		Object end_label = null;
