@@ -77,7 +77,7 @@ public class BaseTokenStream implements TokenStream {
             if (expression != null) { //we are heredoc string   
                 token.setType(Rubyv3Lexer.HEREDOC_STRING);
                 ((MyToken) token).expression = expression;
-            }
+            } //todo: else , is not actually heredoc
         }
     }
 
