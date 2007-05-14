@@ -238,6 +238,8 @@ public class Rubyv3TreeParserTest extends TestCase {
             fail("should fail");
         } catch (SyntaxException e) {
         }
+
+        //compile_run_and_compare_result(ObjectFactory.createString("ttt"), "1<<- 1"); todo: handle situation like this
     }
 
     public void test_and_or_expression() throws Exception {
@@ -271,6 +273,10 @@ public class Rubyv3TreeParserTest extends TestCase {
         //System.out.println(new Double("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111119999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.233"));
         //System.out.println(new Double("1e-9999"));
         //System.out.println(new Double("1.111111111111111111111111111111111"));
+    }
+
+    public void test_ternary_if_expression() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.createFixnum(3), "a=5?3:2;a");
     }
 
 
