@@ -584,7 +584,7 @@ class ArrayPacker {
                         from = array.get(idx++);
                         int l = RubyTypesUtil.convertToJavaInt(from);
                         if (l < 0) {
-                            throw new RubyException(RubyRuntime.RangeClass, "pack(U): value out of range");
+                            throw new RubyException(RubyRuntime.RangeErrorClass, "pack(U): value (" + from + ") out of range");
                         }
                         result.append(uv_to_utf8(buf));
                     }
