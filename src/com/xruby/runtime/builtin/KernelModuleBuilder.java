@@ -54,6 +54,7 @@ import com.xruby.runtime.value.RubyIO;
 import com.xruby.runtime.value.RubyProc;
 import com.xruby.runtime.value.RubyString;
 import com.xruby.runtime.value.RubySymbol;
+import com.xruby.runtime.value.RubyThread;
 
 //TODO imcomplete
 class Kernel_eval extends RubyVarArgMethod {
@@ -748,11 +749,9 @@ class Kernel_sleep extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         long milliseconds = RubyTypesUtil.convertToJavaLong(arg)*1000;
         long startTime = System.currentTimeMillis();
-        try{
-            Thread.sleep(milliseconds);
-        }catch(InterruptedException ie){
-            //
-        }
+        
+        RubyThread.sleep(milliseconds);
+
         long endTime = System.currentTimeMillis();
         return ObjectFactory.createFixnum((int)Math.round((endTime-startTime)/1000.0));
     }
