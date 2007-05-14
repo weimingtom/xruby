@@ -10,9 +10,6 @@ import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
 public class RubyRuntime {
-    //For performance reason we provide direct access(static public field) for most builtin types.
-    //Those fields are not 'final' because ruby allows program to change their values.
-    public static RubyModule GlobalScope;
     public static RubyClass ObjectClass;
     public static RubyClass ModuleClass;
     public static RubyClass ClassClass;
@@ -72,10 +69,11 @@ public class RubyRuntime {
     public static RubyClass NotImplementedErrorClass;
 
     private static boolean initialized_ = false;
+    
+    public static boolean running = false;
 
     static {
         //Note: order is important: should creare parent classes first!
-        GlobalScope = new RubyModule(null, null);
 
         ObjectClass = ClassFactory.defineBootClass("Object", null);
         ModuleClass = ClassFactory.defineBootClass("Module", RubyRuntime.ObjectClass);
@@ -175,6 +173,8 @@ public class RubyRuntime {
         ThreadGroupClassBuilder.initialize();
         FileTestModuleBuilder.initialize();
         ObjectSpaceModuleBuilder.initialize();
+        
+        RubyRuntime.running = true;
     }
 
     private static void initARGV(String[] args) {
@@ -236,8 +236,6 @@ public class RubyRuntime {
 
                 "Exception", "StandardError", "TypeError", "IndexError", "RangeError", "NameError", "NoMethodError", "IOError", "RuntimeError", "LocalJumpError","SystemCallError", 
                 "ScriptError", "SyntaxError", "LoadError", "NotImplementedError","ThreadError",
-                
-                "ENOENT",
         };
 
         for (String s : builtin_classes) {

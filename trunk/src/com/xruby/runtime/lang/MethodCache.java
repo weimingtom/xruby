@@ -12,6 +12,10 @@ class MethodCache {
 	private CacheEntry[] cache = clearCache();
 	
 	public void reset() {
+		if (!RubyRuntime.running) {
+			return;
+		}
+		
 		for (int i = 0; i < CACHE_SIZE; i++) {
 			cache[i].klass = null;
 			cache[i].mid = null;
@@ -35,15 +39,7 @@ class MethodCache {
 		return (((c.objectAddress() >> 3) ^ ((int)id.getId())) & CACHE_MASK);
 	}
 	
-	public CacheEntry getMethod(RubyClass c, RubyID id) {
-		if (c == null) {
-			System.out.println("Ruby Class is null");
-		}
-		
-		if (id == null) {
-			System.out.println("ID is null");
-		}
-		
+	public CacheEntry getMethod(RubyClass c, RubyID id) {		
 		int index = cacheIndex(c, id);
 		return cache[index];
 	}
@@ -57,7 +53,9 @@ class MethodCache {
 	}
 	
 	public void removeMethod(RubyClass c, RubyID id) {
-		// FIXME: ruby_running
+		if (!RubyRuntime.running) {
+			return;
+		}
 		
 		for (CacheEntry entry : cache) {
 			if (entry.mid == id && entry.klass == c) {
@@ -68,7 +66,9 @@ class MethodCache {
 	}
 	
 	public void removeMethod(RubyID id) {
-		// FIXME: ruby_running
+		if (!RubyRuntime.running) {
+			return;
+		}
 		
 		for (CacheEntry entry : cache) {
 			if (entry.mid == id) {
@@ -78,7 +78,9 @@ class MethodCache {
 	}
 	
 	public void removeClass(RubyClass c) {
-		// FIXME: ruby_running
+		if (!RubyRuntime.running) {
+			return;
+		}
 		
 		for (CacheEntry entry : cache) {
 			if (entry.klass == c) {

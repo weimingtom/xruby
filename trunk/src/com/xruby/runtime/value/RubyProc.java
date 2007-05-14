@@ -18,7 +18,7 @@ public class RubyProc extends RubyBinding {
     RubyProc(RubyBlock v) {
         super(RubyRuntime.ProcClass);
         setSelf(ObjectFactory.TOP_LEVEL_SELF_VALUE);//TODO should not hardcode this
-        setScope(RubyRuntime.GlobalScope);//TODO should not hardcode this
+        setScope(RubyRuntime.ObjectClass);//TODO should not hardcode this
         value_ = v;
     }
 
