@@ -111,7 +111,7 @@ class ClassFactory {
     }
 
     static void inheritedClass(RubyClass superclass, RubyClass klass){    	
-        if(!RubyRuntime.isBuiltinClass(klass.getName())){
+        if(RubyRuntime.running) {
         	if (superclass == null) {
         		superclass = RubyRuntime.ObjectClass;
         	}
