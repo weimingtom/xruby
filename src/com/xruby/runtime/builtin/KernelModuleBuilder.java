@@ -70,9 +70,9 @@ class Kernel_eval extends RubyVarArgMethod {
                 return p.invoke();
             }
         } catch (RecognitionException e) {
-            throw new RubyException(e.toString());
+            throw new RubyException(RubyRuntime.SyntaxErrorClass, e.toString());
         } catch (TokenStreamException e) {
-            throw new RubyException(e.toString());
+            throw new RubyException(RubyRuntime.SyntaxErrorClass, e.toString());
         } catch (CompilerException e) {
             throw new RubyException(e.toString());
         } catch (InstantiationException e) {

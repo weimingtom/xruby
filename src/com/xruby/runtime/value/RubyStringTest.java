@@ -1,5 +1,5 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -15,5 +15,19 @@ public class RubyStringTest extends TestCase {
 		assertTrue(a.equals(a));
 		assertTrue(a.equals(b));
 		assertTrue(!a.equals(c));
+	}
+	
+	public void test_chop() {
+		RubyString x = new RubyString("x");
+		x.chop();
+		assertEquals("", x.toString());
+		
+		RubyString y = new RubyString("xyz");
+		y.chop();
+		assertEquals("xy", y.toString());
+		
+		RubyString z = new RubyString("xy\r\n");
+		z.chop();
+		assertEquals("xy", z.toString());
 	}
 }

@@ -254,4 +254,20 @@ public class RubyString extends RubyBasic {
 
         return sb;
     }
+    
+    public void chop() {
+    	int length = this.sb_.length();
+    	
+    	if (length > 0) {
+    		int orgLength = length;
+    		length--;
+    		if (this.sb_.charAt(length) == '\n') {
+    			if (length > 0 && this.sb_.charAt(length - 1) == '\r') {
+    				length--;
+    			}
+    		}
+
+    		this.sb_.delete(length, orgLength);
+    	}
+    }
 }
