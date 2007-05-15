@@ -67,8 +67,6 @@ public class RubyRuntime {
     public static RubyClass SyntaxErrorClass;
     public static RubyClass LoadErrorClass;
     public static RubyClass NotImplementedErrorClass;
-
-    private static boolean initialized_ = false;
     
     public static boolean running = false;
 
@@ -173,8 +171,6 @@ public class RubyRuntime {
         ThreadGroupClassBuilder.initialize();
         FileTestModuleBuilder.initialize();
         ObjectSpaceModuleBuilder.initialize();
-        
-        RubyRuntime.running = true;
     }
 
     private static void initARGV(String[] args) {
@@ -202,7 +198,7 @@ public class RubyRuntime {
     }
 
     public static void init(String[] args) {
-        if (initialized_) {
+        if (RubyRuntime.running) {
             return;
         }
 
@@ -215,7 +211,7 @@ public class RubyRuntime {
         GlobalVariables.initialize();
 
         loadBuildinDotRb();
-        initialized_ = true;
+        RubyRuntime.running = true;
     }
 
     public static void fini() {

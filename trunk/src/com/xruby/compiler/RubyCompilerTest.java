@@ -1703,6 +1703,8 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "print :next.to_a",
                 "print :<<",
                 "print :eql?",
+                "print :test.to_s",
+                "print :test.to_sym"
         };
 
         String[] outputs = {
@@ -1714,6 +1716,8 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "next",
                 "<<",
                 "eql?",
+                "test",
+                "test"
         };
 
         compile_run_and_compare_output(program_texts, outputs);
