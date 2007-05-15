@@ -80,7 +80,12 @@ public class ObjectFactory {
     }
 
     public static RubySymbol createSymbol(String value) {
-        return new RubySymbol(value);
+    	RubyID id = StringMap.intern(value);
+        return id.toSymbol();
+    }
+    
+    public static RubySymbol createSymbol(RubyID id) {
+    	return id.toSymbol();
     }
 
     public static RubyFloat createFloat(double value) {

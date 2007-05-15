@@ -141,9 +141,9 @@ public class RubyAPI {
         RubyMethod m = receiver.findMethod(CommonRubyID.methodMissingId);
         if (null != m && !UndefMethod.isUndef(m)) {
             if (null == args) {
-                args = new RubyArray(ObjectFactory.createSymbol(StringMap.id2name(mid)));
+                args = new RubyArray(ObjectFactory.createSymbol(mid));
             } else {
-                args.insert(0, ObjectFactory.createSymbol(StringMap.id2name(mid)));
+                args.insert(0, ObjectFactory.createSymbol(mid));
             }
             return m.invoke(receiver, null, args, block);
         }

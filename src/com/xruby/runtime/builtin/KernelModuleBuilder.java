@@ -43,6 +43,7 @@ import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyOneArgMethod;
 import com.xruby.runtime.lang.RubyProgram;
 import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
 import com.xruby.runtime.lang.StringMap;
@@ -53,7 +54,6 @@ import com.xruby.runtime.value.RubyFixnum;
 import com.xruby.runtime.value.RubyIO;
 import com.xruby.runtime.value.RubyProc;
 import com.xruby.runtime.value.RubyString;
-import com.xruby.runtime.value.RubySymbol;
 import com.xruby.runtime.value.RubyThread;
 
 //TODO imcomplete

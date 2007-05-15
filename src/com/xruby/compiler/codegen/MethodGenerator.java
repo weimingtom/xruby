@@ -453,7 +453,7 @@ class MethodGenerator extends GeneratorAdapter {
     public void ObjectFactory_createSymbol(String value) {
         push(value);
         invokeStatic(Type.getType(ObjectFactory.class),
-                Method.getMethod("com.xruby.runtime.value.RubySymbol createSymbol(String)"));
+                Method.getMethod("com.xruby.runtime.lang.RubySymbol createSymbol(String)"));
     }
 
     public void ObjectFactory_nilValue() {
