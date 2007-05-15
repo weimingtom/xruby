@@ -28,6 +28,8 @@ expression returns[Expression e]
 	|       'true' {e = new TrueExpression();}
 	|       'false'{e = new FalseExpression();}
 	|       'nil'{e = new NilExpression();}
+	|       ^(QUESTION condition=expression left=expression right=expression) {e= new IfExpression(condition, left, right);}
+	|       ^(POWER left=expression right=expression) {e= new BinaryOperatorExpression("**", left, right);}
 	|       ^(op=('and'|'&&') left=expression right=expression) {e= new AndOrBinaryOperatorExpression("&&", left, right);}
 	|       ^(op=('or'|'||') left=expression right=expression) {e= new AndOrBinaryOperatorExpression("||", left, right);}
 	|       ^(op='not'left=expression) {e = new UnaryOperatorExpression("!", left);}

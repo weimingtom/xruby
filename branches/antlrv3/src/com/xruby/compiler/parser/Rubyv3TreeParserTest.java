@@ -276,7 +276,11 @@ public class Rubyv3TreeParserTest extends TestCase {
     }
 
     public void test_ternary_if_expression() throws Exception {
-        compile_run_and_compare_result(ObjectFactory.createFixnum(3), "a=5?3:2;a");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(3), "5?3:2");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(3), "5**3?3:2");
+    }
+    public void test_power() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.createFixnum(128), "2**7");
     }
 
 
