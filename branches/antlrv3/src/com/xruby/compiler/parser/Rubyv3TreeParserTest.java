@@ -78,6 +78,19 @@ public class Rubyv3TreeParserTest extends TestCase {
 
         compile_run_and_compare_result(ObjectFactory.createFixnum(0), "0");
     }
+    public void test_float() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.createFloat(1.0), "1.0");
+        compile_run_and_compare_result(ObjectFactory.createFloat(0.0), "0.0");
+        compile_run_and_compare_result(ObjectFactory.createFloat(1.0), "1e0");
+        compile_run_and_compare_result(ObjectFactory.createFloat(10.0), "1e1");
+        compile_run_and_compare_result(ObjectFactory.createFloat(0.1), "1e-1");
+        compile_run_and_compare_result(ObjectFactory.createFloat(0.0), "0e0");
+        compile_run_and_compare_result(ObjectFactory.createFloat(0.0), "0e1");
+        compile_run_and_compare_result(ObjectFactory.createFloat(0.0), "0e-1");
+        compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.createFloat(0.1), ObjectFactory.createFixnum(3), false), "0.1..3");
+        compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.createFloat(0.1), ObjectFactory.createFloat(3.2), false), "0.1..3.2");
+        
+    }
 
     public void test_string() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createString("abc"), "'abc';");

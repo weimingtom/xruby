@@ -19,6 +19,7 @@ statement returns[Statement s]
 
 expression returns[Expression e]
 	:	value=INT{e=IntegerExpression.parseIntegerExpression($value.text);}
+	|       value=FLOAT{e=new FloatExpression($value.text);}
 	|       value=SINGLE_QUOTE_STRING{e=new SingleQuoteStringExpression($value.text);}
 	|       value=DOUBLE_QUOTE_STRING{e=((MyToken)$value.getToken()).getExpression();} 
 	|       value=HEREDOC_STRING{e=((MyToken)$value.getToken()).getExpression();}
