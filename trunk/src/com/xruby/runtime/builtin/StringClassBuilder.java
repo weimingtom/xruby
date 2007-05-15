@@ -842,6 +842,13 @@ class String_intern extends RubyNoArgMethod {
 	}
 }
 
+class String_dump extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		RubyString s = (RubyString)receiver;
+		return ObjectFactory.createString(s.dump());
+	}
+}
+
 public class StringClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.StringClass;
@@ -902,6 +909,7 @@ public class StringClassBuilder {
         c.defineMethod("chop!", new String_chop_danger());
         c.defineMethod("intern", new String_intern());
         c.defineMethod("to_sym", new String_intern());
+        c.defineMethod("dump", new String_dump());
         c.defineAllocMethod(new String_new());
     }
 }

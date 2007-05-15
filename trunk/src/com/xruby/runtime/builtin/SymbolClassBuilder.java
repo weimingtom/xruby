@@ -5,6 +5,7 @@
 
 package com.xruby.runtime.builtin;
 
+
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
@@ -16,9 +17,164 @@ class Symbol_toI extends RubyNoArgMethod {
 }
 
 class Symbol_inspect extends RubyNoArgMethod {
+	private int getChar(String name, int index) {
+		if (index >= name.length()) {
+			return -1;
+		}
+		
+		return name.charAt(index);
+	}
+	
+	private boolean isUpper(int c) {
+		return c >= 'A' && c <= 'Z';
+	}
+	
+	private boolean isAlpha(int c) {
+		return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+	}
+	
+	private boolean isAlnum(int c) {
+		return isAlpha(c) || (c >= '0' && c <= '9');
+	}
+	
+	// FIXME: TO BE COMPLETE
+	private boolean isIdentChar(int c) {
+		return isAlnum(c) || c == '_';
+	}
+
+	private boolean isSymname(String name) {
+		if (name == null) {
+			return false;
+		}
+		
+		int current = 0;
+		boolean id = false;
+		boolean localid = false;
+		
+		switch(getChar(name, current)) {
+		case '\0':
+			return false;
+		case '$':
+			// FIXME: global name
+			id = true;
+			break;
+		case '@':
+			current++;
+			if (getChar(name, current) == '@') {
+				current++;
+			}			
+			id = true;
+		case '<':
+			current++;
+			switch (getChar(name, current)) {
+			case '<': 
+				current++;
+				break;
+			case '=':
+				current++;
+				if (getChar(name, current) == '>') {
+					current++;
+				}
+				break;
+			}
+			break;
+		case '>':
+			current++;
+			switch (getChar(name, current)) {
+			case '>':
+			case '=':
+				current++;
+				break;
+			}
+			break;
+		case '=':
+			current++;
+			switch (getChar(name, current)) {
+			case '~':
+				current++;
+				break;
+			case '=':
+				current++;
+				if (getChar(name, current) == '=') {
+					current++;
+				}
+				break;
+			default:
+				return false;
+			}
+		case '*':
+			current++;
+			if (getChar(name, current) == '*') {
+				current++;
+			}			
+			break;
+		case '+':
+		case '-':
+			current++;
+			if (getChar(name, current) == '@') {
+				current++;
+			}
+			break;
+		case '|': 
+		case '^': 
+		case '&': 
+		case '/': 
+		case '%': 
+		case '~': 
+		case '`':
+	        current++;
+	        break;
+		case '[':
+			current++;
+			if (getChar(name, current) != ']') {
+				return false;
+			}
+			
+			current++;			
+			if (getChar(name, current) == '=') {
+				current++;
+			}
+			break;
+		default:
+			localid = !isUpper(getChar(name, current));
+		    id = true;
+			break;
+		}
+		
+		if (id) {
+			// FIXME: TO BE COMPLETE
+			int c = getChar(name, current);			
+			if (c != '_' && !isAlpha(c)) {
+				return false;
+			}
+			// FIXME: TO BE COMPLETE
+			while (isIdentChar(getChar(name, current))) {
+				current++;
+			}
+			
+			if (localid) {
+				switch (getChar(name, current)) {
+				case '!': 
+				case '?': 
+				case '=': 
+					current++;
+				}
+			}
+		}
+		
+		return getChar(name, current) <= 0;
+	}
+	
 	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		String value = ((RubySymbol)receiver).toString();
-		return ObjectFactory.createString(":" + value);
+		RubyString str = ObjectFactory.createString(":" + value);
+		if (!isSymname(value)) {
+			String s = str.dump();
+			s = ":\"" + s.substring(2);
+			str = ObjectFactory.createString(s); 
+		}
+		
+		return str;
 	}
 }
 
