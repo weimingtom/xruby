@@ -18,7 +18,7 @@ tokens {
 	
 	LEFT_SHIFT;
 	HEREDOC_STRING;
-	ASSIGNMENT; //or just use '=' etc?
+	FLOAT;
 	//COMPSTMT;
 	SYMBOL;
 	BLOCK;
@@ -322,7 +322,7 @@ ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
  */
 
 expression
-	:	 andorExpression|assignment_expression;
+	:	 andorExpression;
 andorExpression
 		:	notExpression (
 				(	'and'^		(LINE_BREAK!)*
@@ -335,10 +335,17 @@ notExpression
 		:	'not'^
 			(LINE_BREAK!)*
 			notExpression
-		|	ternaryIfThenElseExpression
+		|	definedExpression
 		;
+definedExpression
+	:	assignmentExpression;
+assignmentExpression
+	:	ternaryIfThenElseExpression
+	        |  lhs (ASSIGN|MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
+	           ternaryIfThenElseExpression {addVariable($lhs.text);};
+
 ternaryIfThenElseExpression
-		:	rangeExpression{System.out.println("done with rangeExpression");} ( |  QUESTION^ rangeExpression ':'! rangeExpression)
+		:	rangeExpression ( |  QUESTION^ rangeExpression ':'! rangeExpression)
 		;
 //= += -= *= /= %= **= &= ^= |= <<= >>= &&= ||=
 //.. ...
@@ -475,25 +482,32 @@ bnotExpression
 			command
 		;
 command
-@after{System.out.println("done with command" + $command.text); tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
+@after{tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
 	:('expression0' | 'expression1' | 'expression2'|literal|ID|boolean_expression| block_expression|if_expression|unless_expression)
 	; //|       lhs SHIFT^ rhs ;	
-assignment_expression
-	:	lhs '='^ rhs {addVariable($lhs.text);};
+
 lhs	:	ID;
 rhs	:	expression;
 
 //primary	:	literal| 'begin' program 'end'; //todo:more on this later
 
-literal	:	INT|FLOAT|string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
+literal	:	INT|/*FLOAT|*/string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
 INT
-	:	'-'?(OCTAL|DECIMAL|HEX|BINARY )//|ESCAPE_INT)
+	:	'-'?
+	        (OCTAL|HEX|BINARY|LEADING_MARK_DECIMAL
+	        | ('0'|'1'..'9' ('_'? '0'..'9')* ) (/*none*/ | (EXP_PART|{if(input.LA(2) < '0' || input.LA(2) > '9') {$type=INT; this.type = INT; return;}} '.' LEADING0_NUMBER EXP_PART?) {$type = FLOAT;}) 
+	        )//|ESCAPE_INT)
 	;
+//fragment
+//FLOAT_WITH_DIRECT_EXPPART
+//	: ( NON_LEADING0_NUMBER | '0') EXP_PART	; //{$type = FLOAT;};
+//fragment
+//FLOAT	:	'-'?( NON_LEADING0_NUMBER | '0') ('.' LEADING0_NUMBER EXP_PART?);
 fragment
 OCTAL	:	'0' '_'? ('0'..'7') ('_'? '0'..'7')*;
 fragment
-DECIMAL	:	
-('0d')?('1'..'9') ('_'? '0'..'9')* ;
+LEADING_MARK_DECIMAL	:	
+('0d') ('0'..'9') ('_'? '0'..'9')* ;
 fragment
 HEX	: '0x' HEX_PART ('_'? HEX_PART)* ;
 fragment
@@ -517,7 +531,6 @@ META_PART
 	:	'\\M-'
 	;
 
-FLOAT	:	'-'?( NON_LEADING0_NUMBER | '0') (EXP_PART | '.' LEADING0_NUMBER EXP_PART?);
 fragment
 NON_LEADING0_NUMBER
 	:('1'..'9') ('_'? '0'..'9')*;	
@@ -599,15 +612,17 @@ HEREDOC_INDENT_BEGIN
       
 ARRAY	:	'[]';
 HASH	:	'{}';
-RANGE	:	'a..b';
+RANGE	:	'a....b';
 REGEX	:	'/abc/';
 SYMBOL	:	':abc';
 
+ASSIGN                  :	'=';
 PLUS_ASSIGN			:	'+='	;
 MINUS_ASSIGN		:	'-='		;
 STAR_ASSIGN			:	'*='		;
 DIV_ASSIGN		:	'/='		;
 MOD_ASSIGN		:	'%='	;
+COMPLEMENT_ASSIGN   :   '~=';
 POWER_ASSIGN		:	'**='	;
 BAND_ASSIGN			:	'&='		;
 BXOR_ASSIGN			:	'^='		;
@@ -637,10 +652,10 @@ COLON2				:	'::'	;
 
 NOT					:	'!'		;
 BNOT				:	'~'		;
-//DIV				:	'/'		;
+DIV				:	'/'		;
 PLUS				:	'+'		;
 MINUS				:	'-'		;
-//MOD				:	'%'		;
+MOD				:	'%'		;
 STAR				:	'*'		;	//'f * g' can parsed as 'f(*g)' or '(f) * (g)'
 LESS_THAN			:	'<'		;
 GREATER_THAN		:	'>'		;

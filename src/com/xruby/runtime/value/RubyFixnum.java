@@ -5,7 +5,10 @@
 
 package com.xruby.runtime.value;
 
-import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
 
 public class RubyFixnum extends RubyValue {
     private final int value_;
@@ -18,9 +21,11 @@ public class RubyFixnum extends RubyValue {
         return value_;
     }
 
-    public int hashCode() {
+    /*public int hashCode() {
         return value_;
-    }
+    }*/
+
+
 
     public void setRubyClass(RubyClass klass) {
         throw new RubyException(RubyRuntime.TypeErrorClass, "fixnum can't be set class");
@@ -30,7 +35,7 @@ public class RubyFixnum extends RubyValue {
         return RubyRuntime.FixnumClass;
     }
 
-    public boolean equals(Object o) {
+    /*public boolean equals(Object o) {
         if (null == o) {
             return false;
         } else if (o instanceof RubyFixnum) {
@@ -38,6 +43,22 @@ public class RubyFixnum extends RubyValue {
         } else {
             return false;
         }
+    }*/
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        //if (!super.equals(o)) return false;
+
+        RubyFixnum that = (RubyFixnum) o;
+
+        if (value_ != that.value_) return false;
+
+        return true;
+    }
+
+    public int hashCode() {
+        return value_;
     }
 
     public String toString() {

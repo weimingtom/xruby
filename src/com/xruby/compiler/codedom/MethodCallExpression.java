@@ -5,7 +5,8 @@
 
 package com.xruby.compiler.codedom;
 
-import antlr.RecognitionException;
+import com.xruby.compiler.parser.SyntaxException;
+
 import java.util.ArrayList;
 
 public class MethodCallExpression extends Expression {
@@ -15,9 +16,9 @@ public class MethodCallExpression extends Expression {
 	private Block block_;
 	private MethodCallArguments arguments_;
 
-	public MethodCallExpression(Expression receiver, String methodName, MethodCallArguments arguments, Block block) throws RecognitionException {
+	public MethodCallExpression(Expression receiver, String methodName, MethodCallArguments arguments, Block block) /*throws RecognitionException*/ {
 		if (null != block && null != arguments && null != arguments.getBlockArgument()) {
-			throw new RecognitionException("both block arg and actual block given");
+			throw new SyntaxException("both block arg and actual block given");
 		}
 
 		receiver_ = receiver;
@@ -30,7 +31,7 @@ public class MethodCallExpression extends Expression {
 		return methodName_.equals("[]") || (null != receiver_);
 	}
 	
-	Expression convertElementAccessToElementSet(Expression value) throws RecognitionException {
+	Expression convertElementAccessToElementSet(Expression value) /*throws RecognitionException*/ {
 		MethodCallArguments  args;
 		if (null != arguments_) {
 			args = arguments_.clone();

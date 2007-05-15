@@ -5,7 +5,8 @@
 
 package com.xruby.compiler.codedom;
 
-import antlr.RecognitionException;
+import com.xruby.compiler.parser.SyntaxException;
+
 import java.util.ArrayList;
 
 public class ForInExpression extends Expression {
@@ -26,7 +27,7 @@ public class ForInExpression extends Expression {
         MethodCallExpression e;
 		try {
 			e = new MethodCallExpression(exp_, "each", null, block_);
-        } catch (RecognitionException e1) {
+        } catch (SyntaxException e1) {
 			throw new Error(e1);
 		}
 		e.accept(visitor);

@@ -5,8 +5,9 @@
 
 package com.xruby.compiler.codedom;
 
+import com.xruby.compiler.parser.SyntaxException;
+
 import java.util.ArrayList;
-import antlr.RecognitionException;
 
 public class CompoundStatement implements Visitable {
 	protected ArrayList<Statement> statements_ = new ArrayList<Statement>();
@@ -75,7 +76,7 @@ public class CompoundStatement implements Visitable {
 		for (String var : vars) {
 			try {
 				comp.addStatement(new ExpressionStatement(new AssignmentOperatorExpression(new LocalVariableExpression(var, false), new NilExpression())));
-			} catch (RecognitionException e) {
+			} catch (SyntaxException e) {
 				throw new Error(e);
 			}
 		}

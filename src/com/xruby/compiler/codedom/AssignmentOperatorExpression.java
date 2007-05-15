@@ -5,20 +5,20 @@
 
 package com.xruby.compiler.codedom;
 
-import java.util.ArrayList;
+import com.xruby.compiler.parser.SyntaxException;
 
-import antlr.RecognitionException;
+import java.util.ArrayList;
 
 public class AssignmentOperatorExpression extends Expression {
 
 	private VariableExpression lhs_;
 	private Expression rhs_;
 
-	public AssignmentOperatorExpression(Expression left, Expression right) throws RecognitionException {
+	public AssignmentOperatorExpression(Expression left, Expression right) /*throws RecognitionException*/ {
 		if (left instanceof VariableExpression) {
 			lhs_ = (VariableExpression)left;
 		} else {
-			throw new RecognitionException("Only variable can be assigned");
+			throw new SyntaxException("Only variable can be assigned");
 		}
 		
 		rhs_ = right;
@@ -32,13 +32,13 @@ public class AssignmentOperatorExpression extends Expression {
 		return rhs_;
 	}
 	
-	public static Expression create(Expression left, Expression right) throws RecognitionException {
+	public static Expression create(Expression left, Expression right) /*throws RecognitionException*/ {
 		if (left instanceof MethodCallExpression) {
 			MethodCallExpression call = (MethodCallExpression)left;
 			if (call.isElementSet()) {
 				return call.convertElementAccessToElementSet(right);
 			} else {
-				throw new RecognitionException("Method call can not be assigned");
+				throw new SyntaxException("Method call can not be assigned");
 			}
 		} else {
 			return new AssignmentOperatorExpression(left, right);

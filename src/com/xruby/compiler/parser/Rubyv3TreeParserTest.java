@@ -67,6 +67,16 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createFixnum(100), "?\\d");
         compile_run_and_compare_result(ObjectFactory.createFixnum(138), "?\\M-\\n");
         compile_run_and_compare_result(ObjectFactory.createFixnum(228), "?\\M-\\d");
+
+        compile_run_and_compare_result(ObjectFactory.createFixnum(0), "0d000");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(1), "0d01");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(0), "0");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(1), "01");
+        //compile_run_and_compare_result(ObjectFactory.createFixnum(1), "09");
+
+        compile_run_and_compare_result(ObjectFactory.createFixnum(99), "0d099");
+
+        compile_run_and_compare_result(ObjectFactory.createFixnum(0), "0");
     }
 
     public void test_string() throws Exception {
@@ -256,6 +266,9 @@ public class Rubyv3TreeParserTest extends TestCase {
 
         compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "false or true");
         compile_run_and_compare_result(ObjectFactory.createFixnum(3), "nil or 3");
+
+        //compile_run_and_compare_result(ObjectFactory.createFixnum(1), "false or a=1;a");
+        //compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "true or a=1;a");
     }
 
     public void test_not_expression() throws Exception {
@@ -270,7 +283,8 @@ public class Rubyv3TreeParserTest extends TestCase {
 
     public void test_assignment() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFixnum(1), "a=1;");
-
+        compile_run_and_compare_result(ObjectFactory.createFixnum(3), "a=5?3:2;a");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(4), "a=1;a+=5?3:2;a");
         //System.out.println(new Double("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111119999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.233"));
         //System.out.println(new Double("1e-9999"));
         //System.out.println(new Double("1.111111111111111111111111111111111"));
@@ -279,9 +293,15 @@ public class Rubyv3TreeParserTest extends TestCase {
     public void test_ternary_if_expression() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFixnum(3), "5?3:2");
         compile_run_and_compare_result(ObjectFactory.createFixnum(3), "5**3?3:2");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(3), "5**?3?3:2");
+    }
+    public void test_range_expression() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.FIXNUM2, ObjectFactory.FIXNUM3, false), "2..3");
+        compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.FIXNUM2, ObjectFactory.FIXNUM3, true), "2...3");
     }
     public void test_power() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFixnum(128), "2**7");
+        //compile_run_and_compare_result(ObjectFactory.createFixnum(new BigInteger("444089209850062616169452667236328125)"), "5**?3");
     }
 
 

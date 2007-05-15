@@ -5,9 +5,9 @@
 
 package com.xruby.compiler.codedom;
 
-import java.util.ArrayList;
+import com.xruby.compiler.parser.SyntaxException;
 
-import antlr.RecognitionException;
+import java.util.ArrayList;
 
 public class LocalVariableExpression extends ParameterVariableExpression {
 	private final String value_;
@@ -34,7 +34,7 @@ public class LocalVariableExpression extends ParameterVariableExpression {
 		AssignmentOperatorExpression assign;
 		try {
 			assign = new AssignmentOperatorExpression(new LocalVariableExpression(value_, false), new NilExpression());
-		} catch (RecognitionException e) {
+		} catch (SyntaxException e) {
 			throw new Error(e);
 		}
 		assign.accept(visitor);
@@ -48,7 +48,7 @@ public class LocalVariableExpression extends ParameterVariableExpression {
 			Expression exp;
 			try {
 				exp = new MethodCallExpression(null, value_, null, null);
-			} catch (RecognitionException e) {
+			} catch (SyntaxException e) {
 				throw new Error(e);
 			}
 			exp.accept(visitor);
