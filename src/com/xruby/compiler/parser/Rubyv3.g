@@ -491,7 +491,7 @@ rhs	:	expression;
 
 //primary	:	literal| 'begin' program 'end'; //todo:more on this later
 
-literal	:	INT|/*FLOAT|*/string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
+literal	:	INT|FLOAT|string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
 INT
 	:	'-'?
 	        (OCTAL|HEX|BINARY|LEADING_MARK_DECIMAL
