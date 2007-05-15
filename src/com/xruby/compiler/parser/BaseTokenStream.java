@@ -6,7 +6,9 @@ import org.antlr.runtime.TokenSource;
 import org.antlr.runtime.TokenStream;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Copyright 2005-2007 femto
@@ -17,6 +19,7 @@ public class BaseTokenStream implements TokenStream {
     private RewindableTokenSource tokenSource;
     private List tokens = new ArrayList();
 
+    private Map<Integer, VirtualToken> virtualTokens = new HashMap<Integer, VirtualToken>();
     /**
      * The index into the tokens list of the current token (next token
      * to consume).  p==-1 indicates that the tokens list is empty
@@ -28,6 +31,10 @@ public class BaseTokenStream implements TokenStream {
 
     public BaseTokenStream(RewindableTokenSource tokenSource) {
         this.tokenSource = tokenSource;
+    }
+
+    public void addVirtualToken(int index, VirtualToken token) {
+        virtualTokens.put(index, token);
     }
 
     public Token LT(int k) {
@@ -78,7 +85,21 @@ public class BaseTokenStream implements TokenStream {
                 token.setType(Rubyv3Lexer.HEREDOC_STRING);
                 ((MyToken) token).expression = expression;
             } //todo: else , is not actually heredoc
+        } else if(token.getType() == Rubyv3Lexer.QUESTION) { //see if we are in escape_int
+            VirtualToken virtualToken = getPreviousVirtualToken(token);
+            if(virtualToken != null && virtualToken == VirtualToken.EXPR_END) {
+                System.out.println("previous virtualToken is EXPR_END");
+                
+            }
         }
+    }
+
+    private VirtualToken getPreviousVirtualToken(Token token) {
+        int index = token.getTokenIndex() - 1;
+        if (index >= 0) {
+            return virtualTokens.get(index);
+        }
+        return null;
     }
 
     private Token LB(int k) {

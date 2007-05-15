@@ -59,6 +59,7 @@ import com.xruby.compiler.codedom.*;
   private Rubyv3Parser parent = null;
   private SymbolTableManager stm = new SymbolTableManager(null);
   private Rubyv3Lexer lexer;
+  private BaseTokenStream tokenStream;
   /*public boolean just_seen_var() {
           Token token = input.LT(1);
           if(token != null) {
@@ -92,6 +93,7 @@ import com.xruby.compiler.codedom.*;
             ((Rubyv3Lexer) input.getTokenSource()).setParser(this);
             this.parent = parent;
             this.lexer = (Rubyv3Lexer)input.getTokenSource();
+            this.tokenStream = (BaseTokenStream)input;
   }
   /*public void init() {
     ((Rubyv3Lexer) input.getTokenSource()).setParser(this);
@@ -336,15 +338,15 @@ notExpression
 		|	ternaryIfThenElseExpression
 		;
 ternaryIfThenElseExpression
-		:	rangeExpression
+		:	rangeExpression{System.out.println("done with rangeExpression");} ( |  QUESTION^ rangeExpression ':'! rangeExpression)
 		;
 //= += -= *= /= %= **= &= ^= |= <<= >>= &&= ||=
 //.. ...
 rangeExpression
 		:	logicalOrExpression
-			(options{greedy=true;/*caused by command*/}:
-				(	INCLUSIVE_RANGE^	(options{greedy=true;}:LINE_BREAK!)?
-				|	EXCLUSIVE_RANGE^	(options{greedy=true;}:LINE_BREAK!)?
+		       (
+				(	INCLUSIVE_RANGE^	(LINE_BREAK!)*
+				|	EXCLUSIVE_RANGE^	(LINE_BREAK!)*
 				)
 				logicalOrExpression
 			)*
@@ -353,8 +355,8 @@ rangeExpression
 //||
 logicalOrExpression
 		:	logicalAndExpression
-			(options{greedy=true;/*caused by command*/}:
-				LOGICAL_OR^		(options{greedy=true;}:LINE_BREAK!)?
+                        (
+				LOGICAL_OR^		(LINE_BREAK!)*
 				logicalAndExpression
 			)*
 		;
@@ -362,8 +364,8 @@ logicalOrExpression
 //&&
 logicalAndExpression
 		:	equalityExpression
-			(options{greedy=true;/*caused by command*/}:
-				LOGICAL_AND^		(options{greedy=true;}:LINE_BREAK!)?
+                        (
+				LOGICAL_AND^		(LINE_BREAK!)*
 				equalityExpression
 			)*
 		;
@@ -371,13 +373,13 @@ logicalAndExpression
 //<=> ==  === !=  =~  !~
 equalityExpression
 		:	relationalExpression
-			(options{greedy=true;/*caused by command*/}:
-				(	COMPARE^		(options{greedy=true;}:LINE_BREAK!)?
-				|	EQUAL^			(options{greedy=true;}:LINE_BREAK!)?
-				|	CASE_EQUAL^	(options{greedy=true;}:LINE_BREAK!)?
-				|	NOT_EQUAL^		(options{greedy=true;}:LINE_BREAK!)?
-				|	MATCH^			(options{greedy=true;}:LINE_BREAK!)?
-				|	NOT_MATCH^		(options{greedy=true;}:LINE_BREAK!)?
+                        (
+				(	COMPARE^		(LINE_BREAK!)*
+				|	EQUAL^			(LINE_BREAK!)*
+				|	CASE_EQUAL^	(LINE_BREAK!)*
+				|	NOT_EQUAL^		(LINE_BREAK!)*
+				|	MATCH^			(LINE_BREAK!)*
+				|	NOT_MATCH^		(LINE_BREAK!)*
 				)
 				relationalExpression
 			)*
@@ -387,11 +389,11 @@ equalityExpression
 //>  >=  <  <=
 relationalExpression
 		:	orExpression
-			(options{greedy=true;/*caused by command*/}:
-				(	LESS_THAN^			(options{greedy=true;}:LINE_BREAK!)?
-				|	GREATER_THAN^		(options{greedy=true;}:LINE_BREAK!)?
-				|	LESS_OR_EQUAL^		(options{greedy=true;}:LINE_BREAK!)?
-				|	GREATER_OR_EQUAL^	(options{greedy=true;}:LINE_BREAK!)?
+                        (
+				(	LESS_THAN^			(LINE_BREAK!)*
+				|	GREATER_THAN^		(LINE_BREAK!)*
+				|	LESS_OR_EQUAL^		(LINE_BREAK!)*
+				|	GREATER_OR_EQUAL^	(LINE_BREAK!)*
 				)
 				orExpression
 			)*
@@ -400,9 +402,9 @@ relationalExpression
 //|  ^
 orExpression
 		:	andExpression
-			(options{greedy=true;/*caused by command*/}:
-				(	BXOR^			(options{greedy=true;}:LINE_BREAK!)?
-				|	BOR^			(options{greedy=true;}:LINE_BREAK!)?
+                        (
+				(	BXOR^			(LINE_BREAK!)*
+				|	BOR^			(LINE_BREAK!)*
 				)
 				andExpression
 			)*
@@ -411,8 +413,8 @@ orExpression
 //&
 andExpression
 		:	shiftExpression
-			(options{greedy=true;/*caused by command*/}:
-				BAND^			(options{greedy=true;}:LINE_BREAK!)?
+                        (
+				BAND^			(LINE_BREAK!)*
 				shiftExpression
 			)*
 		;
@@ -422,9 +424,9 @@ andExpression
 //<<  >>
 shiftExpression
 		:	additiveExpression
-			(options{greedy=true;/*caused by command*/}:
-				(	LEFT_SHIFT^		(options{greedy=true;}:LINE_BREAK!)?
-				|	RIGHT_SHIFT^	(options{greedy=true;}:LINE_BREAK!)?
+                        (
+				(	LEFT_SHIFT^		(LINE_BREAK!)*
+				|	RIGHT_SHIFT^	(LINE_BREAK!)*
 				)
 				additiveExpression
 			)*
@@ -435,9 +437,9 @@ shiftExpression
 //+  -
 additiveExpression
 		:	multiplicativeExpression
-			(options{greedy=true;/*caused by command*/}:
-				(	PLUS^				(options{greedy=true;}:LINE_BREAK!)?
-				|	MINUS^				(options{greedy=true;}:LINE_BREAK!)?
+                        (
+				(	PLUS^				(LINE_BREAK!)*
+				|	MINUS^				(LINE_BREAK!)*
 				)
 				multiplicativeExpression
 			)*
@@ -446,10 +448,10 @@ additiveExpression
 //*  /  %
 multiplicativeExpression
 		:	powerExpression
-			(options{greedy=true;/*caused by command*/}:
-				(	STAR^			(options{greedy=true;}:LINE_BREAK!)?
-				|	DIV^			(options{greedy=true;}:LINE_BREAK!)?
-				|	MOD^			(options{greedy=true;}:LINE_BREAK!)?
+                        (
+				(	STAR^			(LINE_BREAK!)*
+				|	DIV^			(LINE_BREAK!)*
+				|	MOD^			(LINE_BREAK!)*
 				)
 				powerExpression
 			)*
@@ -459,21 +461,22 @@ multiplicativeExpression
 //**
 powerExpression
 		:	bnotExpression
-			(options{greedy=true;/*caused by command*/}:
-				POWER^			(options{greedy=true;}:LINE_BREAK!)?
+                        (			
+				POWER^			(LINE_BREAK!)*
 				bnotExpression
 			)*
 		;
 
 //!  ~
 bnotExpression
-		:	(	BNOT^			(options{greedy=true;}:LINE_BREAK!)?
-			|	NOT^			(options{greedy=true;}:LINE_BREAK!)?
+		:	(	BNOT^			(LINE_BREAK!)*
+			|	NOT^			(LINE_BREAK!)*
 			)*
 			command
 		;
 command
-	:'expression0' | 'expression1' | 'expression2'|literal|ID|boolean_expression| block_expression|if_expression|unless_expression
+@after{System.out.println("done with command" + $command.text); tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
+	:('expression0' | 'expression1' | 'expression2'|literal|ID|boolean_expression| block_expression|if_expression|unless_expression)
 	; //|       lhs SHIFT^ rhs ;	
 assignment_expression
 	:	lhs '='^ rhs {addVariable($lhs.text);};
@@ -484,7 +487,7 @@ rhs	:	expression;
 
 literal	:	INT|FLOAT|string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
 INT
-	:	'-'?(OCTAL|DECIMAL|HEX|BINARY| ESCAPE_INT)
+	:	'-'?(OCTAL|DECIMAL|HEX|BINARY )//|ESCAPE_INT)
 	;
 fragment
 OCTAL	:	'0' '_'? ('0'..'7') ('_'? '0'..'7')*;
@@ -503,7 +506,7 @@ BINARY	:	'0b'('0'..'1') ('_'? '0'..'1')*;
 
 fragment
 ESCAPE_INT
-	:       '?'(CONTROL_PART|META_PART)* ('\u0000' .. '\u0091' | '\u0093'..'\u0255' | ESCAPE_INT_PART)
+	:       QUESTION (CONTROL_PART|META_PART)* ('\u0000' .. '\u0091' | '\u0093'..'\u0255' | ESCAPE_INT_PART)
 	;
 fragment
 CONTROL_PART
@@ -620,7 +623,7 @@ ASSOC				:	'=>'		;
 LOGICAL_AND			:	'&&'		;
 LOGICAL_OR			:	'||'		;
 
-//QUESTION			:	'?'		;
+QUESTION			:	'?'		;
 LPAREN				:	'('     ;
 RPAREN				:	')'		;
 LBRACK				:	'['		;
