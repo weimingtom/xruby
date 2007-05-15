@@ -7,6 +7,7 @@ package com.xruby.runtime.lang;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+
 class RubyIDGenerator {
 	// ID_ALLOCATOR = 1
 	
@@ -21,12 +22,9 @@ public class RubyID {
 	public static RubyID ID_ALLOCATOR = new RubyID(1);
 	
 	private long id;
+	private RubySymbol symbol;
 	
-	public RubyID() {
-		this(0);
-	}
-	
-	public RubyID(long id) {
+	RubyID(long id) {
 		this.id = id;
 	}
 
@@ -38,11 +36,15 @@ public class RubyID {
 		return (int)this.id;
 	}
 	
-	/*
 	public RubySymbol toSymbol() {
-		return new RubySymbol(this.id);
+		if (this.symbol == null) {			
+			this.symbol = new RubySymbol(this);
+		}
+		
+		return this.symbol;
 	}
 	
+	/*
 	public RubyFixnum toFixnum() {
 		return RubyFixnum.long2Fix(this.id);
 	}

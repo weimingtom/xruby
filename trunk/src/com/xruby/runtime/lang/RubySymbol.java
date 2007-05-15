@@ -3,7 +3,7 @@
  * Distributed under the GNU General Public License 2.0
  */
 
-package com.xruby.runtime.value;
+package com.xruby.runtime.lang;
 
 import com.xruby.runtime.lang.*;
 
@@ -12,22 +12,27 @@ import com.xruby.runtime.lang.*;
  * Two ':symbol' may be two diffrence instances.
  */
 public class RubySymbol extends RubyBasic {
-
-    private String value_;
-
+	private RubyID id;
+	
     RubySymbol(String s) {
-        super(RubyRuntime.SymbolClass);
-        value_ = s.intern();
+    	this(StringMap.intern(s));
+    }
+    
+    public RubySymbol(RubyID id) {
+    	super(RubyRuntime.SymbolClass);
+    	this.id = id;
     }
 
     public String toString() {
-        return value_;
+        return StringMap.id2name(this.id);
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof RubySymbol)) {
+    	if (this == obj) {
+    		return true;
+    	} else if (!(obj instanceof RubySymbol)) {
             return false;
-        } else if (value_.equals(((RubySymbol)obj).value_)) {
+        } else if (this.id == ((RubySymbol)obj).id) {
             return true;
         } else {
             return false;
@@ -35,7 +40,10 @@ public class RubySymbol extends RubyBasic {
     }
 
     public int hashCode() {
-        return value_.hashCode();
+        return this.id.hashCode();
     }
-
+    
+    public RubyID toID() {
+    	return this.id;
+    }
 }

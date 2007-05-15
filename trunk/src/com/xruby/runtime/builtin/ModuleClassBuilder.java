@@ -9,7 +9,6 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyString;
-import com.xruby.runtime.value.RubySymbol;
 
 class Module_AccessControl {
     static void run(int access, RubyModule c, RubyArray args, RubyBlock block) {
