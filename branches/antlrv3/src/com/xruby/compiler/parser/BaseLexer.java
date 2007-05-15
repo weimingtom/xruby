@@ -17,6 +17,9 @@ public abstract class BaseLexer extends Lexer implements RewindableTokenSource {
     protected BaseLexer(CharStream input) {
         super(input);
     }
+    public CharStream getInput() {
+        return input;
+    }
 
     public int mark() {
         mark = true;

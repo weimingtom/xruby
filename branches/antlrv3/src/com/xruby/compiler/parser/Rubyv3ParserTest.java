@@ -105,6 +105,7 @@ public class Rubyv3ParserTest extends TestCase {
 
     public void test_fixnum() throws Exception {
         assert_parse("7;", "(STATEMENT_LIST (STATEMENT 7))");
+        //assert_parse("?a;", "(STATEMENT_LIST (STATEMENT 7))");
     }
     public void test_tenary_if_expression() throws Exception {
         assert_parse("5?3:2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");

@@ -506,7 +506,7 @@ BINARY	:	'0b'('0'..'1') ('_'? '0'..'1')*;
 
 fragment
 ESCAPE_INT
-	:       QUESTION (CONTROL_PART|META_PART)* ('\u0000' .. '\u0091' | '\u0093'..'\u0255' | ESCAPE_INT_PART)
+	:       /*QUESTION*/ (CONTROL_PART|META_PART)* ('\u0000' .. '\u0091' | '\u0093'..'\u0255' | ESCAPE_INT_PART)
 	;
 fragment
 CONTROL_PART
