@@ -76,20 +76,7 @@ public class Rubyv3ParserTest extends TestCase {
                 "end if nil", "(STATEMENT_LIST (STATEMENT (IF (IF 7 (STATEMENT_LIST (STATEMENT 31))) (STATEMENT_LIST (STATEMENT 11))) (if nil)))");
     }
 
-    public void test_assignment() throws Exception {
-        //assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= x 1)))");
-        assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
 
-        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
-
-        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
-
-        assert_parse("%Q{a#{x=1}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
-        //assert_parse("x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
-        /*assert_parse("x <<1\n" +
-                "\n"
-                , "");*/
-    }
 
     public void test_heredoc_string() throws Exception {
         //assert_parse("<<HERE\ntest\nHERE", "(STATEMENT_LIST (STATEMENT <<HERE\ntest\nHERE))");
@@ -105,14 +92,40 @@ public class Rubyv3ParserTest extends TestCase {
 
     public void test_fixnum() throws Exception {
         assert_parse("7;", "(STATEMENT_LIST (STATEMENT 7))");
+        //assert_parse("09;", "(STATEMENT_LIST (STATEMENT 09))");
+
+        assert_parse("0d099", "(STATEMENT_LIST (STATEMENT 0d099))");
         //assert_parse("?a;", "(STATEMENT_LIST (STATEMENT 7))");
     }
     public void test_tenary_if_expression() throws Exception {
         assert_parse("5?3:2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
         assert_parse("5**3?3:2", "(STATEMENT_LIST (STATEMENT (? (** 5 3) 3 2)))");
     }
+    public void test_assignment() throws Exception {
+        //assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= x 1)))");
+        assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
+
+        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
+
+        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
+
+        assert_parse("%Q{a#{x=1}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
+
+        assert_parse("a=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= a (? 5 3 2))) (STATEMENT a))");
+
+        assert_parse("a=1;a+=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= a 1)) (STATEMENT (+= a (? 5 3 2))) (STATEMENT a))");
+        //assert_parse("x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
+        /*assert_parse("x <<1\n" +
+                "\n"
+                , "");*/
+    }
     public void test_power() throws Exception {
         assert_parse("3**2;", "(STATEMENT_LIST (STATEMENT (** 3 2)))");
+    }
+    public void test_range_expression() throws Exception {
+        assert_parse("2..3;", "(STATEMENT_LIST (STATEMENT (.. 2 3)))");
+        assert_parse("2...3", "(STATEMENT_LIST (STATEMENT (... 2 3)))");
+        //assert_parse("2.sayhello", "");
     }
 
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
