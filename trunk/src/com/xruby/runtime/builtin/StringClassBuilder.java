@@ -815,6 +815,33 @@ class String_count extends RubyVarArgMethod {
     }
 }
 
+class String_chop extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		RubyString s = ((RubyString)receiver).clone();
+		s.chop();
+		return s;
+	}
+}
+
+class String_chop_danger extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		((RubyString)receiver).chop();
+		return receiver;
+	}
+}
+
+class String_intern extends RubyNoArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		RubyString s = (RubyString)receiver;
+		if (s.length() <= 0) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "interning empty string");
+		}
+		
+		RubyID id = StringMap.intern(s.toString());		
+		return id.toSymbol();
+	}
+}
+
 public class StringClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.StringClass;
@@ -871,6 +898,10 @@ public class StringClassBuilder {
         c.defineMethod("concat", concat);
         c.defineMethod("<<", concat);
         c.defineMethod("count", new String_count());
+        c.defineMethod("chop", new String_chop());
+        c.defineMethod("chop!", new String_chop_danger());
+        c.defineMethod("intern", new String_intern());
+        c.defineMethod("to_sym", new String_intern());
         c.defineAllocMethod(new String_new());
     }
 }
