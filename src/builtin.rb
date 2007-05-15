@@ -69,6 +69,10 @@ module Kernel
         eval(content, nil, file_name)
         true
     end
+
+    private
+    def method_added symbol
+    end
 end
 
 class Object

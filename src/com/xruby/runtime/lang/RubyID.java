@@ -7,6 +7,9 @@ package com.xruby.runtime.lang;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyFixnum;
+
 
 class RubyIDGenerator {
 	// ID_ALLOCATOR = 1
@@ -44,9 +47,7 @@ public class RubyID {
 		return this.symbol;
 	}
 	
-	/*
 	public RubyFixnum toFixnum() {
-		return RubyFixnum.long2Fix(this.id);
+		return ObjectFactory.createFixnum((int)this.id);
 	}
-	*/
 }

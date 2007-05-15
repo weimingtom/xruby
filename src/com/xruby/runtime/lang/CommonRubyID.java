@@ -34,6 +34,7 @@ public class CommonRubyID {
 
     public static final RubyID methodMissingId = StringMap.intern("method_missing");
     public static final RubyID inheritedID = StringMap.intern("inherited");
+    public static final RubyID methodAddedID = StringMap.intern("method_added");
 
     static final RubyID attachedID = StringMap.intern("__attached__");
     static final RubyID classidID = StringMap.intern("__classid__");

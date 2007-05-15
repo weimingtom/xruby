@@ -9,7 +9,6 @@ import com.xruby.runtime.value.RubyString;
 import com.xruby.runtime.value.RubyArray;
 
 public class RubyModule extends MethodCollection {
-
     private RubyModule owner_ = null;//owner is where is the module is defined under.
     protected RubyClass superclass_;
 
@@ -35,6 +34,14 @@ public class RubyModule extends MethodCollection {
         m.setOwner(this);
         RubyID mid = StringMap.intern(name);
         return addMethod(mid, m);
+    }
+    
+    protected RubyValue addMethod(RubyID id, RubyMethod m) {
+    	RubyValue v = super.addMethod(id, m);
+    	if (RubyRuntime.running) {
+    		RubyAPI.callOneArgMethod(this, id.toSymbol(), null, CommonRubyID.methodAddedID);
+    	}
+    	return v;
     }
 
     /// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
