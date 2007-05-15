@@ -4,27 +4,18 @@
 
 Here is a list of things we are going to do
 
-= XRuby 0.2.0 =
-  * Make test::unit work under xruby (Milestone)
-  * Change compiler's command line interface to compile multiple ruby scripts into one jar
-  * Merge newruntime
-  * Implement more builtin libraries
-  * Adjust generated code structure based on runtime
-  * Refactoring is always welcome
-
 = XRuby 0.3.0 =
   * Pass all c ruby unit tests (Milestone)
+  * Change compiler's command line interface to compile multiple ruby scripts into one jar
   * Improve performance
+  * Implement more builtin libraries
+  * Refactoring is always welcome
 
-= Long Term Goal =
+= Long Term =
   * Make Ruby on Rails work
   * Upgrade Antlr to 3.0
   * Make the compiled code debuggable
   * Support JSR 223: https://scripting.dev.java.net/
   * Support YARV instruction
   * Complete Java support
-
-= Thought? =
-
-  * Make C extension work
-  * Simplify builtin library code
+  * Make C extension work (?)
