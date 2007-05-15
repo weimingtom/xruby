@@ -1,4 +1,4 @@
-#summary XRubyHackingGuide中文版.
+#summary XRuby Hacking Guide 中文版.
 
 注意：本文尚在写作中。最近修改于2006年10月15日
 
@@ -166,7 +166,6 @@ XRuby的解析器使用 Antlr 作为解析器的生成器。 这是目前除C Ru
 如果生成的class文件格式正确但是运行结果不是预期的，我们可以简单地用反编译工具将字节码转换成可读的Java源代码，以便查找错误。 
 
 如果你遇到是一个验证错误（verifier error），大部分的反编译器都不能正常工作（jad在这种情况也许会简单崩溃）。我们不得不使用javap来研读字节码。多数情况下，JVM class验证器（verifier）给出的信息没什么用处，但是我们可以通过ASM快速地定位错误。( 见ASM FAQ: [http://asm.objectweb.org/doc/faq.html#Q4 "Why do I get the xxx verifier error?"] ). 
-
 
 
 
