@@ -30,4 +30,15 @@ public class RubyStringTest extends TestCase {
 		z.chop();
 		assertEquals("xy", z.toString());
 	}
+	
+	public void test_dump() {
+		RubyString s = new RubyString("abc");
+		assertEquals("\"abc\"", s.dump());
+		
+		s = new RubyString("123");
+		assertEquals("\"123\"", s.dump());
+		
+		s = new RubyString("a\r\n");
+		assertEquals("\"a\\r\\n\"", s.dump());
+	}
 }

@@ -5,6 +5,8 @@
 
 package com.xruby.runtime.value;
 
+import java.util.Formatter;
+
 import com.xruby.runtime.lang.*;
 
 public class RubyString extends RubyBasic {
@@ -269,5 +271,80 @@ public class RubyString extends RubyBasic {
 
     		this.sb_.delete(length, orgLength);
     	}
+    }
+    
+    private boolean isEvstr(char c, int current, int end) {
+    	return (current < end) && (c == '$') && (c == '@') && (c == '{');
+    }
+    
+    private boolean isAscii(char c) {
+    	return c <= 0x7F;
+    }
+    
+    private boolean isPrint(char c) {
+    	return isAscii(c) && c > 0x1F;
+    }
+    
+    private static Formatter formatter;
+    
+    private String formatForDump(String format, char c) {
+    	if (RubyString.formatter == null) {
+    		RubyString.formatter = new Formatter();
+    	}
+    	
+    	return RubyString.formatter.format(format, c).toString();
+    }
+    
+    public String dump() {
+    	int length = this.sb_.length();
+    	StringBuilder buf = new StringBuilder();
+    	buf.append('"');
+    	
+    	for (int i = 0; i < length; i++) {
+    		char c = this.sb_.charAt(i);
+    		
+    		if (c == '"' || c == '\\') {
+    			buf.append('\\');
+    			buf.append(c);
+    		} else if (c == '#') {
+    			if (isEvstr(c, i, length - 1)) {
+    				buf.append('\\');
+    			}
+    			buf.append('#');
+    		} else if (isPrint(c)) {
+    			buf.append(c);
+    		} else if (c == '\n') {
+    			buf.append('\\');
+    			buf.append('n');
+    		} else if (c == '\r') {
+    			buf.append('\\');
+    			buf.append('r');
+    		} else if (c == '\t') {
+    			buf.append('\\');
+    			buf.append('t');
+    		} else if (c == '\f') {
+    			buf.append('\\');
+    			buf.append('f');
+    		} else if (c == '\013') {
+    			buf.append('\\');
+    			buf.append('v');
+    		} else if (c == '\010') {
+    			buf.append('\\');
+    			buf.append('b');
+    		} else if (c == '\007') {
+    			buf.append('\\');
+    			buf.append('a');
+    		} else if (c == '\033') {
+    			buf.append('\\');
+    			buf.append('e');
+    		} else {
+    			buf.append('\\');
+    			buf.append(formatForDump("%03o", c));
+    		}
+    	}
+    	
+    	buf.append('"');
+    	
+    	return buf.toString();
     }
 }
