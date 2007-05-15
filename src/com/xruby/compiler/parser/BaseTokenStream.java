@@ -1,6 +1,7 @@
 package com.xruby.compiler.parser;
 
 import com.xruby.compiler.codedom.Expression;
+import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenSource;
 import org.antlr.runtime.TokenStream;
@@ -89,7 +90,17 @@ public class BaseTokenStream implements TokenStream {
             VirtualToken virtualToken = getPreviousVirtualToken(token);
             if(virtualToken != null && virtualToken == VirtualToken.EXPR_END) {
                 System.out.println("previous virtualToken is EXPR_END");
-                
+                //do nothing, we are QEUSTION
+            } else {
+                try {
+                    token.setType(Rubyv3Lexer.INT);
+                    int beginIndex = tokenSource.index();  //charIndex in CharStream
+                    ((Rubyv3Lexer) tokenSource).mESCAPE_INT();
+                    int endIndex = tokenSource.index();
+                    token.setText("?" + ((Rubyv3Lexer) tokenSource).getInput().substring(beginIndex, endIndex-1));
+                } catch (RecognitionException e) {
+                    throw new SyntaxException(e);
+                }
             }
         }
     }
