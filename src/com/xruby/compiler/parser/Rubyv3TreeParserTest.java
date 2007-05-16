@@ -81,6 +81,8 @@ public class Rubyv3TreeParserTest extends TestCase {
     public void test_float() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFloat(1.0), "1.0");
         compile_run_and_compare_result(ObjectFactory.createFloat(0.0), "0.0");
+        compile_run_and_compare_result(ObjectFactory.createFloat(0.1), "0.1");
+         compile_run_and_compare_result(ObjectFactory.createFloat(0.01), "0.01");
         compile_run_and_compare_result(ObjectFactory.createFloat(1.0), "1e0");
         compile_run_and_compare_result(ObjectFactory.createFloat(10.0), "1e1");
         compile_run_and_compare_result(ObjectFactory.createFloat(0.1), "1e-1");
@@ -311,11 +313,20 @@ public class Rubyv3TreeParserTest extends TestCase {
     public void test_range_expression() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.FIXNUM2, ObjectFactory.FIXNUM3, false), "2..3");
         compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.FIXNUM2, ObjectFactory.FIXNUM3, true), "2...3");
+        compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.FIXNUM2, ObjectFactory.FIXNUM3, false), "1?2..3:4...5");
     }
     public void test_power() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFixnum(128), "2**7");
         //compile_run_and_compare_result(ObjectFactory.createFixnum(new BigInteger("444089209850062616169452667236328125)"), "5**?3");
     }
+    public void test_value() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "true");
+        compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "false");
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "nil");
+    }
 
+    public void test_method_invocation() throws Exception {
+        //compile_run_and_compare_result(null, "require \"dbm\"");
+    }
 
 }

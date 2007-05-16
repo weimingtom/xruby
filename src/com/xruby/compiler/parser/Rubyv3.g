@@ -19,6 +19,10 @@ tokens {
 	LEFT_SHIFT;
 	HEREDOC_STRING;
 	FLOAT;
+	
+	CONSTANT;
+	FID;
+	
 	//COMPSTMT;
 	SYMBOL;
 	BLOCK;
@@ -232,6 +236,7 @@ import com.xruby.compiler.codedom.*;
                        return expression;
         }
 }
+
 program
                 :	terminal* |statement_list terminal*
 		;
@@ -294,8 +299,7 @@ LINE_BREAK
 	;	
 WS	:	(' ' | '\t') { skip(); }
 	;
-ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
-	;
+
 
 /*
  * operator expression precedence
@@ -322,7 +326,20 @@ ID	:	('a'..'z' | 'A'..'Z') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
  */
 
 expression
-	:	 andorExpression;
+	:	 'alias' fitem fitem|andorExpression;
+fitem	:	fname;// | symbol;
+fname	:	ID|CONSTANT|FID|op;
+
+/*op            : tPIPE | tCARET | tAMPER2 | tCMP | tEQ | tEQQ | tMATCH | tGT
+              | tGEQ | tLT | tLEQ | tLSHFT | tRSHFT | tPLUS  | tMINUS | tSTAR2
+              | tSTAR | tDIVIDE | tPERCENT | tPOW | tTILDE | tUPLUS | tUMINUS
+              | tAREF | tASET | tBACK_REF2
+*/
+
+op            : '|' | '^' | '&' | COMPARE | EQUAL | CASE_EQUAL | MATCH | GREATER_THAN
+              | GREATER_OR_EQUAL | LESS_THAN | LESS_OR_EQUAL | LEFT_SHIFT | RIGHT_SHIFT | PLUS  | MINUS | STAR
+              | DIV | MOD | POWER | '~' /*is TILDE*/
+              | '[]' | '[]=' ;
 andorExpression
 		:	notExpression (
 				(	'and'^		(LINE_BREAK!)*
@@ -491,13 +508,17 @@ rhs	:	expression;
 
 //primary	:	literal| 'begin' program 'end'; //todo:more on this later
 
-literal	:	INT|FLOAT|string|ARRAY|HASH|RANGE|SYMBOL|REGEX;
+literal	:	INT|FLOAT|string|ARRAY|HASH|SYMBOL|REGEX;
 INT
 	:	'-'?
 	        (OCTAL|HEX|BINARY|LEADING_MARK_DECIMAL
 	        | ('0'|'1'..'9' ('_'? '0'..'9')* ) (/*none*/ | (EXP_PART|{if(input.LA(2) < '0' || input.LA(2) > '9') {$type=INT; this.type = INT; return;}} '.' LEADING0_NUMBER EXP_PART?) {$type = FLOAT;}) 
 	        )//|ESCAPE_INT)
 	;
+
+ID	:	('a'..'z' | 'A'..'Z'{$type = CONSTANT;} | '_') (('a'..'z' | 'A'..'Z') | ('0'..'9'))* (/*none*/ | ('?'|'!') {$type=FID;})
+	;
+
 //fragment
 //FLOAT_WITH_DIRECT_EXPPART
 //	: ( NON_LEADING0_NUMBER | '0') EXP_PART	; //{$type = FLOAT;};
@@ -612,7 +633,6 @@ HEREDOC_INDENT_BEGIN
       
 ARRAY	:	'[]';
 HASH	:	'{}';
-RANGE	:	'a....b';
 REGEX	:	'/abc/';
 SYMBOL	:	':abc';
 
@@ -673,3 +693,14 @@ MATCH				:	'=~'		;
 NOT_MATCH			:	'!~'		;
 //LEFT_SHIFT		:	'<<'		;
 RIGHT_SHIFT			:	'>>'		;
+
+COMMENT
+		:	'#'	ANYTHING_OTHER_THAN_LINE_FEED LINE_BREAK
+			{
+				skip();
+			}
+		;
+fragment
+ANYTHING_OTHER_THAN_LINE_FEED
+		:	(~('\r'|'\n'))*
+		;
