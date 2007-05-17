@@ -1254,8 +1254,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_case() {
         String[] program_texts = {
-				"case; when true; print 1; else; print 2; end",
-					
+                "case; when true; print 1; else; print 2; end",
+
                 "b = proc {print 0}; case 1; when 2; a = 3, 4; else b.call; end",
 
                 "class C; end; def C.f; [5]; end\n" +
@@ -1296,7 +1296,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-				"1",
+                "1",
                 "0",
                 "123",
                 "ok",
@@ -1653,6 +1653,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_and_or() {
         String[] program_texts = {
+                "false or a = 1; print a",
                 "print nil and 'xxx'",
                 "print true && 'xxx'",
                 "print 1 or 'yyyy'",
@@ -1664,6 +1665,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "1",
                 "nil",
                 "xxx",
                 "1",
@@ -1695,8 +1697,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_symbol() {
         String[] program_texts = {
-				"print :\"!\"",
-				"print :'='",
+                "print :\"!\"",
+                "print :'='",
                 "print :hello1.id2name",
                 "print :hello2.to_a",
                 "print :fred.inspect",
@@ -1708,8 +1710,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-				"!",
-				"=",
+                "!",
+                "=",
                 "hello1",
                 "hello2",
                 ":fred",
@@ -4877,7 +4879,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_misc() {
         String [] program_texts = {
-				"print 'aaBBcc'.delete!('a-z')",
+                "print 'aaBBcc'.delete!('a-z')",
                 "print %q{location:1 in 'l'}.sub(/\\A(.+:\\d+).*/, ' [\\\\1]')",
                 "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '<\\&>')",
                 "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, 'a\\2b')",
@@ -4917,7 +4919,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-				"BB",
+                "BB",
                 " [location:1]",
                 "<a.gif>",
                 "ab",
