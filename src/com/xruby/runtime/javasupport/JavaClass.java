@@ -5,24 +5,25 @@
 
 package com.xruby.runtime.javasupport;
 
-import com.xruby.runtime.lang.RubyBlock;
-import com.xruby.runtime.lang.RubyClass;
-import com.xruby.runtime.lang.RubyException;
-import com.xruby.runtime.lang.RubyMethod;
-import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.RubyVarArgMethod;
-import com.xruby.runtime.lang.RubyID;
-import com.xruby.runtime.lang.StringMap;
-import com.xruby.runtime.value.RubyArray;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyID;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyVarArgMethod;
+import com.xruby.runtime.lang.StringMap;
+import com.xruby.runtime.value.RubyArray;
 
 /**
  * Wrapper for Java Class
@@ -50,6 +51,8 @@ public class JavaClass extends RubyClass {
 
     private Map<Constructor, JavaMethod> initMethods
             = new HashMap<Constructor, JavaMethod>();
+    
+    private static List<String> packageNames = new ArrayList<String>();
     
     // Actual constructor
     private JavaClass(String name) {
@@ -272,6 +275,21 @@ public class JavaClass extends RubyClass {
 
             return method.run(receiver, args, block);
         }
+    }
+    
+    public static void addPackage(String name){
+        packageNames.add(name);
+    }
+    
+    public static String[] getPackeageList(){
+        String[] tmp = new String[packageNames.size()];
+        Iterator<String> iter = packageNames.iterator();
+        int count = 0;
+        while(iter.hasNext()){
+            tmp[count] = iter.next();
+            count++;
+        }
+        return tmp;
     }
 }
 

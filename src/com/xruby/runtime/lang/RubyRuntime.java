@@ -265,4 +265,13 @@ public class RubyRuntime {
 
         return false;
     }
+    
+    private static boolean supported;
+    public static boolean javaIsSupported(){
+        return supported;
+    }
+    
+    public static void setJavaSupported(boolean val){
+        supported = val;
+    }
 }

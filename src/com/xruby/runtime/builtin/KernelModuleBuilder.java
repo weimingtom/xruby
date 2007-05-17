@@ -353,23 +353,26 @@ class Kernel_require_java extends RubyOneArgMethod {
     private static Pattern packagePattern = Pattern.compile("\\.");
 
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyString className = (RubyString) arg;
+        String className = ((RubyString) arg).toString();
+        String[] names = packagePattern.split(className);
+        String name = names[names.length - 1];
+        if(name.equals("*")){            
+            JavaClass.addPackage(className.substring(0, className.lastIndexOf('.')));           
+        }else{
+            try {
+                Class clazz = Class.forName(className.toString());
+                JavaClass jClazz = new JavaClass(clazz);
 
-        try {
-            Class clazz = Class.forName(className.toString());
-            String[] names = packagePattern.split(className.toString());
-            String name = names[names.length - 1];
+                //TODO: The naming mechanism is not quite appropriate
+                RubyAPI.setTopLevelConstant(jClazz, name);
+                RubyAPI.setTopLevelConstant(jClazz, className.toString());
 
-            JavaClass jClazz = new JavaClass(clazz);
-
-            //TODO: The naming mechanism is not quite appropriate
-            RubyAPI.setTopLevelConstant(jClazz, name);
-            RubyAPI.setTopLevelConstant(jClazz, className.toString());
-
-        } catch (ClassNotFoundException e) {
-            throw new RubyException("Couldn't find class " + className.toString());
+            } catch (ClassNotFoundException e) {
+                throw new RubyException("Couldn't find class " + className.toString());
+            }
         }
-
+                
+        RubyRuntime.setJavaSupported(true);
         return ObjectFactory.TRUE_VALUE;
     }
 }
@@ -811,6 +814,7 @@ public class KernelModuleBuilder {
         m.defineMethod("method_missing", new Kernel_method_missing());
         m.defineMethod("eval", new Kernel_eval());
         m.defineMethod("require_java", new Kernel_require_java());
+        m.defineMethod("import", new Kernel_require_java());
         m.defineMethod("load", new Kernel_load());
         RubyMethod lambda = new Kernel_lambda();
         m.defineMethod("lambda", lambda);

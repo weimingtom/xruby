@@ -1,5 +1,5 @@
 /** 
- * Copyright 2006-2007 Yu Su
+ * Copyright 2006-2007 Yu Su, Yu Zhang
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -17,17 +17,10 @@ public class RequireExample {
 	public static void main(String[] args) throws Exception {
 
         String program_text = "" +
-                "require_java 'org.beanworms.test.Talker'\n" +
-                "require_java 'java.util.Random'\n" +
-                "require_java 'java.util.ArrayList'\n" +
-                "\n" +
-                "t = Talker.new\n" +
-                "t.talk \"XRuby\"\n" +
-                "t.talk \"Mr.\", \"XRuby\"" + "\n" +
-                "t.talk \"XRuby\"\n" +
-                "r = Random.new 259" + "\n" +
+                "import 'java.util.*'\n" +
+                "r = Random.new" + "\n" +
                 "puts r.nextInt\n" +
-                "puts r.nextInt(2)\n" +
+                "puts r.nextInt(3)\n" +
                 "array = ArrayList.new\n" +
                 "array.add 1\n" +
                 "array.add 2\n" +
