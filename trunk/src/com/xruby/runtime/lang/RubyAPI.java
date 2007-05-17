@@ -5,11 +5,16 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import com.xruby.runtime.javasupport.JavaClass;
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyMethodValue;
+import com.xruby.runtime.value.RubyProc;
+import com.xruby.runtime.value.RubyString;
 
 public class RubyAPI {
     public static RubyClass defineClass(String name, RubyClass superclass) {
@@ -345,6 +350,19 @@ public class RubyAPI {
 
         v = RubyRuntime.ObjectClass.getConstant(name);
         if (null == v) {
+            if(RubyRuntime.javaIsSupported()){
+                for(String pkgName :JavaClass.getPackeageList()){
+                    try {
+                        Class clazz = Class.forName(pkgName+"."+name);
+                        JavaClass jClazz = new JavaClass(clazz);
+                        RubyAPI.setTopLevelConstant(jClazz, name);
+                        RubyAPI.setTopLevelConstant(jClazz, pkgName+"."+name);
+                        return jClazz;
+                    } catch (ClassNotFoundException e) {
+                        //do nothing
+                    }
+                }
+            }
             throwUninitializedConstant(receiver, name);
         }
 
