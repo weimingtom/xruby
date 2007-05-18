@@ -24,7 +24,9 @@ expression returns[Expression e]
 	|       value=DOUBLE_QUOTE_STRING{e=((MyToken)$value.getToken()).getExpression();} 
 	|       value=HEREDOC_STRING{e=((MyToken)$value.getToken()).getExpression();}
 	
-	|       ^(ASSIGN left=expression right=expression) {e=new AssignmentExpression((VariableExpression)left, right);}
+	|       ^('alias' newName=. oldName=.) {e = new ExpressionList(); ((ExpressionList)e).addExpression(new MethodDefinationExpression($oldName.text)); ((ExpressionList)e).addExpression(new AliasStatement($newName.text, $oldName.text));}
+	
+	|       ^(ASSIGN left=expression right=expression) {e = AssignmentOperatorExpression.create(left, right);}
 	|       ^(MOD_ASSIGN  left=expression	right=expression) {e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression(String.valueOf(37), left, right));}
 	//|       ^(COMPLEMENT_ASSIGN left=expression	right=expression) {e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("~", left, right));}
 	|       ^(DIV_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("/", left, right));}

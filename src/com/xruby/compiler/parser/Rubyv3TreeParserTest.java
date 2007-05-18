@@ -282,8 +282,8 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "false or true");
         compile_run_and_compare_result(ObjectFactory.createFixnum(3), "nil or 3");
 
-        //compile_run_and_compare_result(ObjectFactory.createFixnum(1), "false or a=1;a");
-        //compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "true or a=1;a");
+        compile_run_and_compare_result(ObjectFactory.createFixnum(1), "false or a=1;a");
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "true or a=1;a");
     }
 
     public void test_not_expression() throws Exception {
@@ -323,6 +323,10 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "true");
         compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "false");
         compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "nil");
+    }
+
+    public void test_alias() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.createString(""), "alias test1 test");
     }
 
     public void test_method_invocation() throws Exception {

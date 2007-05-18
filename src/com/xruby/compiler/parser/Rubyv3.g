@@ -326,7 +326,7 @@ WS	:	(' ' | '\t') { skip(); }
  */
 
 expression
-	:	 'alias' fitem fitem|andorExpression;
+	:	 'alias'^ fitem fitem|andorExpression;
 fitem	:	fname;// | symbol;
 fname	:	ID|CONSTANT|FID|op;
 
