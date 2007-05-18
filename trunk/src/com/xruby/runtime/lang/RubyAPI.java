@@ -354,10 +354,7 @@ public class RubyAPI {
                 for(String pkgName :JavaClass.getPackeageList()){
                     try {
                         Class clazz = Class.forName(pkgName+"."+name);
-                        JavaClass jClazz = new JavaClass(clazz);
-                        RubyAPI.setTopLevelConstant(jClazz, name);
-                        RubyAPI.setTopLevelConstant(jClazz, pkgName+"."+name);
-                        return jClazz;
+                        return JavaClass.createJavaClass(clazz);
                     } catch (ClassNotFoundException e) {
                         //do nothing
                     }

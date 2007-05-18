@@ -360,13 +360,8 @@ class Kernel_require_java extends RubyOneArgMethod {
             JavaClass.addPackage(className.substring(0, className.lastIndexOf('.')));           
         }else{
             try {
-                Class clazz = Class.forName(className.toString());
-                JavaClass jClazz = new JavaClass(clazz);
-
-                //TODO: The naming mechanism is not quite appropriate
-                RubyAPI.setTopLevelConstant(jClazz, name);
-                RubyAPI.setTopLevelConstant(jClazz, className.toString());
-
+                Class clazz = Class.forName(className);
+                JavaClass.createJavaClass(clazz);
             } catch (ClassNotFoundException e) {
                 throw new RubyException("Couldn't find class " + className.toString());
             }

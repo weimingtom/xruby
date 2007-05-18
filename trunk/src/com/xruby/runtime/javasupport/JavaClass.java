@@ -1,5 +1,5 @@
 /**
- * Copyright 2006-2007 Yu Su, Ye Zheng
+ * Copyright 2006-2007 Yu Su, Ye Zheng, Yu Zhang
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
@@ -28,7 +29,8 @@ import com.xruby.runtime.value.RubyArray;
 /**
  * Wrapper for Java Class
  *
- * @author Yu Su (beanworms@gmail.com), Ye Zheng(dreamhead.cn@gmail.com)
+ * @author Yu Su (beanworms@gmail.com), Ye Zheng(dreamhead.cn@gmail.com),
+ * Yu Zhang(zhangyu8374@gmail.com)
  */
 public class JavaClass extends RubyClass {
 
@@ -54,22 +56,40 @@ public class JavaClass extends RubyClass {
     
     private static List<String> packageNames = new ArrayList<String>();
     
-    // Actual constructor
-    private JavaClass(String name) {
-        super(name, RubyRuntime.ObjectClass, null);
-    }
-
-    /**
-     * Constructor
-     *
-     * @param clazz Class instance
-     */
-    public JavaClass(Class clazz) {
-        this(clazz.getName());
-
-        // Initialize public constructors and methods
+    private JavaClass(Class clazz,RubyClass superclass){
+        super(clazz.getName(),superclass,null);
+        
+        //Initialize public constructors and methods
         initConstructors(clazz);
         initMethods(clazz);
+    }
+
+    
+    private static JavaClass newJavaClass(Class clazz,RubyClass parent){
+        JavaClass jClass = new JavaClass(clazz,parent);
+        String fullName = clazz.getName();
+        //TODO: The naming mechanism is not quite appropriate
+        if(fullName.equals("java.lang.Object")){
+            //When class name collision occurs,append 'J¡¯ to class name.
+            RubyAPI.setTopLevelConstant(jClass, "JObject");
+            RubyAPI.setTopLevelConstant(jClass, "java.lang.JObject");
+        }else{
+            RubyAPI.setTopLevelConstant(jClass, fullName);
+            RubyAPI.setTopLevelConstant(jClass, fullName.substring(fullName.lastIndexOf('.')+1));
+        }        
+        return jClass;
+    }
+    
+    public static JavaClass createJavaClass(Class clazz){
+        Class superClass = clazz.getSuperclass();
+        if(superClass != null){
+            JavaClass parentClass = createJavaClass(superClass);
+            return newJavaClass(clazz,parentClass);
+        }else{
+            //Only deal with Object
+            JavaClass jClass = newJavaClass(Object.class,RubyRuntime.ObjectClass);        
+            return jClass;
+        }
     }
 
     // Collect public methods of given class
@@ -142,9 +162,18 @@ public class JavaClass extends RubyClass {
         if (methodName.equals(NEW_METHOD)) {
             return new FakeInitMethod();
         }
-
-        if (methodMap.containsKey(methodName)) {
-            return new FakeMethod(methodName);
+        
+        RubyClass klass = this;
+        while(klass != null){
+            if(klass instanceof JavaClass){
+                if(((JavaClass)klass).methodMap.containsKey(methodName)){
+                    return new FakeMethod(methodName);
+                }
+            }else{
+                //Caution:not invoke findPublicMethod
+                return klass.findOwnMethod(mid);
+            }
+            klass = klass.getSuperClass();
         }
 
         return null;
@@ -187,7 +216,18 @@ public class JavaClass extends RubyClass {
     // TODO: InComplete, method cache is required(indexed by params' number)
     JavaMethod findJavaMethod(String methodName, RubyArray args) {
         int size = args == null ? 0 : args.size();
-        List<Method> list = methodMap.get(methodName);
+        
+        List<Method> list = null;
+        RubyClass klass = this;
+        while(klass != null){
+            list = ((JavaClass)klass).methodMap.get(methodName);
+            if (null != list) {
+                break;
+            }else{
+                klass = klass.getSuperClass();
+            }
+        }
+         
         if (null == list) {
             return null;
         }
