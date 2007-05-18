@@ -1,5 +1,5 @@
 /**
- * Copyright 2006-2007 Yu Su
+ * Copyright 2006-2007 Yu Su, Yu Zhang
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -58,10 +58,14 @@ public class JavaUtil {
                 return ObjectFactory.FALSE_VALUE;
             }
         }
+        
+        if(value.getClass().equals(String.class)){
+            return ObjectFactory.createString((String)value);
+        }
 
         // TODO: Support more data types: Hash, Array, File etc.
-
-        return null;
+        throw new IllegalArgumentException("Currently the value of Java type " + value.getClass().getName() +
+        " couldn't be changed to Ruby value");
     }
 
     public static RubyArray convertToRubyValues(Object[] value) {
