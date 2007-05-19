@@ -293,7 +293,14 @@ public class JavaClass extends RubyClass {
         }
 
         protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-            JavaClass clazz = (JavaClass) receiver.getRubyClass();
+            JavaClass clazz = null;
+            //This is a trick.Because no creating the metaclass for every Java
+            //class,deal with the static methods as follows:
+            if(receiver instanceof JavaClass){
+                clazz = (JavaClass)receiver;
+            }else{
+                clazz = (JavaClass) receiver.getRubyClass();
+            }            
             JavaMethod method = clazz.findJavaMethod(methodName, args);
 
             if (null == method) {

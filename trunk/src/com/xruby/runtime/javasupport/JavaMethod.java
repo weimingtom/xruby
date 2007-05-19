@@ -49,7 +49,11 @@ public class JavaMethod extends RubyVarArgMethod {
 
         try {
             if(!isConstructor) {
-                Object object = ((RubyData<Object>)receiver).getData();
+                Object object = null;
+                if(!(receiver instanceof JavaClass)){
+                    object = ((RubyData<Object>)receiver).getData();
+                }
+                //If the underlying method is static,object will be null!
                 Object retValue = method.invoke(object, arguments);
 
                 return JavaUtil.convertToRubyValue(retValue);
