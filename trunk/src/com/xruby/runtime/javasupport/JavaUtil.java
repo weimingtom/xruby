@@ -5,21 +5,27 @@
 
 package com.xruby.runtime.javasupport;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.math.BigInteger;
+import java.util.List;
+
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.value.*;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.List;
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyBignum;
+import com.xruby.runtime.value.RubyData;
+import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.value.RubyString;
 
 /**
  * Helper class for Java Runtime
  *
- * @author yu su (beanworms@gmail.com)
+ * @author yu su (beanworms@gmail.com), Yu Zhang (zhangyu8374@gmail.com)
  */
 public class JavaUtil {
     private static final String RCLASS_STRING = "String";
@@ -59,13 +65,20 @@ public class JavaUtil {
             }
         }
         
+        if(value.getClass().equals(BigInteger.class)){
+            return ObjectFactory.createBignum((BigInteger)value);
+        }
+        
+        
         if(value.getClass().equals(String.class)){
             return ObjectFactory.createString((String)value);
         }
 
         // TODO: Support more data types: Hash, Array, File etc.
-        throw new IllegalArgumentException("Currently the value of Java type " + value.getClass().getName() +
-        " couldn't be changed to Ruby value");
+        //throw new IllegalArgumentException("Currently the value of Java type " + value.getClass().getName() +
+        //" couldn't be changed to Ruby value");
+        
+        return new RubyJavaObject<Object>(JavaClass.createJavaClass(value.getClass()), value);
     }
 
     public static RubyArray convertToRubyValues(Object[] value) {
