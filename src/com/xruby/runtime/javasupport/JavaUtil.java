@@ -21,6 +21,7 @@ import com.xruby.runtime.value.RubyBignum;
 import com.xruby.runtime.value.RubyData;
 import com.xruby.runtime.value.RubyFixnum;
 import com.xruby.runtime.value.RubyString;
+import com.xruby.runtime.value.RubyFloat;
 
 /**
  * Helper class for Java Runtime
@@ -34,6 +35,7 @@ public class JavaUtil {
     private static final String RCLASS_TRUE = "TrueClass";
     private static final String RCLASS_FALSE = "FalseClass";
     private static final String RCLASS_NIL = "NilClass";
+    private static final String RCLASS_FLOAT = "Float";
 
     // Need special manipulation
     private static final String RCLASS_REGEXP = "Regexp";
@@ -131,6 +133,8 @@ public class JavaUtil {
             return ((RubySymbol) value).toString();
         } else if (className.equals(RCLASS_EXCEPTION)) {
             return new Exception(value.toString());
+        } else if (className.equals(RCLASS_FLOAT)) {
+            return ((RubyFloat)value).doubleValue();
         } else if (className.equals(RCLASS_REGEXP)) {
             // TODO:Convert to Java's regular expression
         }
