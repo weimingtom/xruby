@@ -5,6 +5,12 @@
 
 package com.xruby.runtime.builtin;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PipedReader;
+import java.io.PipedWriter;
+import java.nio.channels.Pipe;
+
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
@@ -119,6 +125,25 @@ class IO_read_singleton extends RubyVarArgMethod {
     }
 }
 
+class IO_pipe_singleton extends RubyNoArgMethod{
+
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		RubyArray array = new RubyArray(2);
+		try {
+			Pipe pipe = Pipe.open();
+			RubyIO r = new RubyIO(new RubyIOPipeSourceExecutor(pipe.source()));
+			RubyIO w = new RubyIO(new RubyIOPipeSinkExecutor(pipe.sink()));
+			array.add(r);
+			array.add(w);
+		} catch (IOException e) {
+			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
+		}
+		
+		return array;
+	}
+	
+}
+
 public class IOClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.IOClass;
@@ -134,6 +159,7 @@ public class IOClassBuilder {
         c.defineMethod("read", new IO_read());
 
         c.getSingletonClass().defineMethod("read", new IO_read_singleton());
+        c.getSingletonClass().defineMethod("pipe", new IO_pipe_singleton());
 
     }
 }
