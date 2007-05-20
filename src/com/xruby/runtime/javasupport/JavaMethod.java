@@ -1,19 +1,23 @@
 /** 
- * Copyright 2006-2007 Yu Su, Ye Zheng
+ * Copyright 2006-2007 Yu Su, Ye Zheng, Yu Zhang
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.runtime.javasupport;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+
 import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyData;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 
 /**
  * Java Method Wrapper for both public method and constructor
@@ -52,7 +56,11 @@ public class JavaMethod extends RubyVarArgMethod {
                 Object object = null;
                 if(!(receiver instanceof JavaClass)){
                     object = ((RubyData<Object>)receiver).getData();
+                }                
+                if(!(Modifier.isStatic(method.getModifiers())) && object == null){
+                    throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + method.getName() + "' for " + ((RubyClass)receiver).getName());
                 }
+                
                 //If the underlying method is static,object will be null!
                 Object retValue = method.invoke(object, arguments);
 
@@ -63,8 +71,15 @@ public class JavaMethod extends RubyVarArgMethod {
                 RubyData<Object> value = new RubyJavaObject<Object>((JavaClass) receiver, instance);
                 return value;
             }
-        } catch (Exception e) {          // IllegalAccessException and InvocationTargetException
+        }catch (IllegalArgumentException e) {
+            throw new RubyException(e.getMessage());
+        } catch (InstantiationException e) {
+            throw new RubyException(e.getMessage());
+        } catch (IllegalAccessException e) {
+            throw new RubyException(e.getMessage());
+        } catch (InvocationTargetException e) {
             throw new RubyException(e.getMessage());
         }
+
     }
 }
