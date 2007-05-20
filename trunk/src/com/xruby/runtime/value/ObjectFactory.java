@@ -105,7 +105,7 @@ public class ObjectFactory {
     }
 
     public static RubyIO createFile(String filename, String mode) {
-        return new RubyIO(filename, mode);
+        return new RubyFile(filename, mode);
     }
 
     public static RubyMethodValue createMethod(RubyValue r, String s, RubyMethod m) {
