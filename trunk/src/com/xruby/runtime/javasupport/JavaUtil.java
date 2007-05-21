@@ -10,18 +10,15 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.List;
 
-import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
-import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyBignum;
-import com.xruby.runtime.value.RubyData;
 import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyString;
 import com.xruby.runtime.value.RubyFloat;
+import com.xruby.runtime.value.RubyString;
 
 /**
  * Helper class for Java Runtime
@@ -29,18 +26,6 @@ import com.xruby.runtime.value.RubyFloat;
  * @author yu su (beanworms@gmail.com), Yu Zhang (zhangyu8374@gmail.com)
  */
 public class JavaUtil {
-    private static final String RCLASS_STRING = "String";
-    private static final String RCLASS_FIXNUM = "Fixnum";
-    private static final String RCLASS_BIGNUM = "Bignum";
-    private static final String RCLASS_TRUE = "TrueClass";
-    private static final String RCLASS_FALSE = "FalseClass";
-    private static final String RCLASS_NIL = "NilClass";
-    private static final String RCLASS_FLOAT = "Float";
-
-    // Need special manipulation
-    private static final String RCLASS_REGEXP = "Regexp";
-    private static final String RCLASS_SYMBOL = "Symbol";
-    private static final String RCLASS_EXCEPTION = "Exception";
 
     public static RubyValue convertToRubyValue(Object value) {
         if (null == value) {
@@ -69,8 +54,7 @@ public class JavaUtil {
         
         if(value.getClass().equals(BigInteger.class)){
             return ObjectFactory.createBignum((BigInteger)value);
-        }
-        
+        }        
         
         if(value.getClass().equals(String.class)){
             return ObjectFactory.createString((String)value);
@@ -89,14 +73,36 @@ public class JavaUtil {
 
     @SuppressWarnings("unchecked")
     public static Object convertToJavaValue(RubyValue value) {
-        RubyClass clazz = value.getRubyClass();
-        String className = clazz.getName();
+        String className = value.getRubyClass().getName();
 
-        if (RubyRuntime.isBuiltinClass(className)) {
-            return convertToJavaValue(className, value);
-        } else {
-            return ((RubyData<Object>) value).getData();
+        if (className.equals("String")) {
+            return ((RubyString) value).toString();
+        } else if (className.equals("Fixnum")) {
+            return ((RubyFixnum) value).intValue();
+        } else if (className.equals("Bignum")) {
+            return ((RubyBignum) value).getInternal();
+        } else if (className.equals("TrueClass")) {
+            return true;
+        } else if (className.equals("FalseClass")) {
+            return false;
+        } else if (className.equals("NilClass")) {
+            return null;
+        } else if (className.equals("Symbol")) {
+            return ((RubySymbol) value).toString();
+        } else if (className.equals("Exception")) {
+            return new Exception(value.toString());
+        } else if (className.equals("Float")) {
+            return ((RubyFloat)value).doubleValue();
+        } else if (className.equals("Regexp")) {
+            // TODO:Convert to Java's regular expression
         }
+
+        if(value instanceof RubyJavaObject){
+            return ((RubyJavaObject<Object>) value).getData();
+        }else{
+            throw new IllegalArgumentException("Ruby type " + className +
+                       " couldn't be passed to java method");  
+        }               
     }
 
     public static Object[] convertToJavaValues(RubyArray array) {
@@ -115,34 +121,6 @@ public class JavaUtil {
         return retValues;
     }
 
-    @SuppressWarnings("unchecked")
-    private static Object convertToJavaValue(String className, RubyValue value) {
-        if (className.equals(RCLASS_STRING)) {
-            return ((RubyString) value).toString();
-        } else if (className.equals(RCLASS_FIXNUM)) {
-            return ((RubyFixnum) value).intValue();
-        } else if (className.equals(RCLASS_BIGNUM)) {
-            return ((RubyBignum) value).getInternal();
-        } else if (className.equals(RCLASS_TRUE)) {
-            return true;
-        } else if (className.equals(RCLASS_FALSE)) {
-            return false;
-        } else if (className.equals(RCLASS_NIL)) {
-            return null;
-        } else if (className.equals(RCLASS_SYMBOL)) {
-            return ((RubySymbol) value).toString();
-        } else if (className.equals(RCLASS_EXCEPTION)) {
-            return new Exception(value.toString());
-        } else if (className.equals(RCLASS_FLOAT)) {
-            return ((RubyFloat)value).doubleValue();
-        } else if (className.equals(RCLASS_REGEXP)) {
-            // TODO:Convert to Java's regular expression
-        }
-
-
-        throw new IllegalArgumentException("Ruby type " + className +
-                " couldn't be passed to java method");
-    }
 
     private static String[] collectTypes(RubyArray args) {
         String[] tmp = new String[50];
@@ -165,8 +143,28 @@ public class JavaUtil {
             if (clazz.equals(String.class)) {
                 return true;
             }
+        }        
+        if(type.equals("Fixnum")) {
+            if (clazz.equals(Integer.class)) {
+                return true;
+            }
         }
-
+        if(type.equals("Bignum")) {
+            if (clazz.equals(BigInteger.class)) {
+                return true;
+            }
+        }
+        if(type.equals("TrueClass")) {
+            if (clazz.equals(Boolean.class)) {
+                return true;
+            }
+        }
+        if(type.equals("FalseClass")) {
+            if (clazz.equals(Boolean.class)) {
+                return true;
+            }
+        }
+        //TODO More type
         return false;
     }
 

@@ -6,6 +6,7 @@
 package com.xruby.runtime.javasupport;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -26,8 +27,11 @@ import com.xruby.runtime.value.RubyData;
  */
 public class JavaMethod extends RubyVarArgMethod {
     private Method method;
+    private Field field;
     private Constructor constructor;
     private boolean isConstructor;
+    private boolean isField;
+    private boolean isGetter;
 
     /**
      * Public method
@@ -46,24 +50,40 @@ public class JavaMethod extends RubyVarArgMethod {
         this.constructor = constructor;
         this.isConstructor = true;
     }
+    
+    public JavaMethod(Method method,Field field,boolean isGetter){
+        this.method = method;
+        this.field = field;
+        this.isField = true;
+        this.isGetter = isGetter;
+    }
 
     @SuppressWarnings("unchecked")
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         Object[] arguments = JavaUtil.convertToJavaValues(args);
 
         try {
-            if(!isConstructor) {
+            if(!isConstructor) {                
                 Object object = null;
                 if(!(receiver instanceof JavaClass)){
                     object = ((RubyData<Object>)receiver).getData();
-                }                
-                if(!(Modifier.isStatic(method.getModifiers())) && object == null){
-                    throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + method.getName() + "' for " + ((RubyClass)receiver).getName());
-                }
+                } 
                 
-                //If the underlying method is static,object will be null!
-                Object retValue = method.invoke(object, arguments);
-
+                Object retValue = null;
+                if(isField){
+                    if(isGetter){
+                        retValue = method.invoke(null, new Object[]{field,object});
+                    }else{
+                        method.invoke(null, new Object[]{field,object,arguments[0]});
+                    }
+                }else{
+                    if(!(Modifier.isStatic(method.getModifiers())) && object == null){
+                        throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + method.getName() + "' for " + ((RubyClass)receiver).getName());
+                    }
+                    //If the underlying method is static,object will be null!
+                    retValue = method.invoke(object, arguments);
+                }               
+                
                 return JavaUtil.convertToRubyValue(retValue);
             }
             else {
