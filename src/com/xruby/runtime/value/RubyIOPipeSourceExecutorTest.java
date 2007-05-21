@@ -1,3 +1,8 @@
+/**
+ * Copyright 2007 Michael Chen
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.value;
 
 import java.nio.ByteBuffer;
@@ -22,14 +27,14 @@ public class RubyIOPipeSourceExecutorTest extends TestCase {
         sink = p.sink();
         executor = new RubyIOPipeSourceExecutor(source);
     }
-    
-    
+
+
     public void testGetsWithNilParamShouldReturnAllContents() throws Exception {
         sink.write(ByteBuffer.wrap("testdata".getBytes()));
         sink.close();
         assertEquals("testdata", executor.gets(ObjectFactory.NIL_VALUE).toString());
     }
-    
+
     public void testGetsWithSeparatorWillReturnPartial() throws Exception {
         sink.write(ByteBuffer.wrap("testdata".getBytes()));
         sink.close();
@@ -39,7 +44,7 @@ public class RubyIOPipeSourceExecutorTest extends TestCase {
         assertEquals("data", executor.gets(ObjectFactory.NIL_VALUE).toString());
         assertTrue(executor.eof());
     }
-    
+
     public void testShouldNotAllowReadingRelatedOperations() throws Exception {
         assertNotAllow(new Function() {
             public void run() throws RuntimeException {
@@ -57,7 +62,7 @@ public class RubyIOPipeSourceExecutorTest extends TestCase {
             }
         });
     }
-    
+
     private void assertNotAllow(Function f) {
         try {
             f.run();
@@ -66,11 +71,11 @@ public class RubyIOPipeSourceExecutorTest extends TestCase {
             assertEquals("not opened for writing", ex.toString());
         }
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
         executor.close();
     }
-    
+
 }

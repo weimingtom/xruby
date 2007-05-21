@@ -1,14 +1,11 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng Michael Chen
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.runtime.builtin;
 
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PipedReader;
-import java.io.PipedWriter;
 import java.nio.channels.Pipe;
 
 import com.xruby.runtime.lang.*;
@@ -127,21 +124,21 @@ class IO_read_singleton extends RubyVarArgMethod {
 
 class IO_pipe_singleton extends RubyNoArgMethod{
 
-	protected RubyValue run(RubyValue receiver, RubyBlock block) {
-		RubyArray array = new RubyArray(2);
-		try {
-			Pipe pipe = Pipe.open();
-			RubyIO r = new RubyIO(new RubyIOPipeSourceExecutor(pipe.source()));
-			RubyIO w = new RubyIO(new RubyIOPipeSinkExecutor(pipe.sink()));
-			array.add(r);
-			array.add(w);
-		} catch (IOException e) {
-			throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
-		}
-		
-		return array;
-	}
-	
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyArray array = new RubyArray(2);
+        try {
+            Pipe pipe = Pipe.open();
+            RubyIO r = new RubyIO(new RubyIOPipeSourceExecutor(pipe.source()));
+            RubyIO w = new RubyIO(new RubyIOPipeSinkExecutor(pipe.sink()));
+            array.add(r);
+            array.add(w);
+        } catch (IOException e) {
+            throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
+        }
+
+        return array;
+    }
+
 }
 
 public class IOClassBuilder {
@@ -149,7 +146,7 @@ public class IOClassBuilder {
         RubyClass c = RubyRuntime.IOClass;
         c.defineMethod("write", new IO_write());
         c.defineMethod("print", new IO_print());
-		c.defineMethod("puts", new IO_puts());
+        c.defineMethod("puts", new IO_puts());
         c.defineMethod("gets", new IO_gets());
         c.defineMethod("close", new IO_close());
         c.defineMethod("flush", new IO_flush());

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2007 Michael Chen
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.value;
 
 import java.nio.channels.Pipe;

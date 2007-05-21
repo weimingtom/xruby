@@ -1,3 +1,8 @@
+/**
+ * Copyright 2007 Michael Chen
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.value;
 
 import java.io.IOException;
@@ -48,17 +53,17 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
         } else {
             buffer = ByteBuffer.allocate(1);
         }
-        
+
         try {
             while (avaliable = (source.read(buffer) != -1)) {
                 String string = new String(buffer.array(), 0, buffer.position());
                 result.append(string);
                 buffer.clear();
-                
+
                 if (ObjectFactory.NIL_VALUE == separator) {
                     continue;
                 }
-                
+
                 if (result.toString().endsWith(separator.toString())) {
                     break;
                 }
@@ -68,7 +73,7 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
             throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
         }
     }
-    
+
     public void print(String s) {
         throw notAllowed();
     }
