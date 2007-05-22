@@ -30,9 +30,13 @@ public class RubyFixnum extends RubyValue {
         return RubyRuntime.FixnumClass;
     }
 
+    public RubyClass getSingletonClass() {
+    	throw new RubyException(RubyRuntime.TypeErrorClass, "can't define singleton");
+    }
+
     public boolean equals(Object o) {
-        if (null == o) {
-            return false;
+        if (this == o) {
+            return true;
         } else if (o instanceof RubyFixnum) {
             return value_ == ((RubyFixnum)o).intValue();
         } else {
@@ -45,9 +49,6 @@ public class RubyFixnum extends RubyValue {
     }
 
     public String toString(int radix) {
-        if (value_ < 0){
-            return "-" + Integer.toString(-value_, radix);
-        }
         return Integer.toString(value_, radix);
     }
 }
