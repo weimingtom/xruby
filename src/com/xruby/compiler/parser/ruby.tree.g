@@ -768,7 +768,7 @@ returns [String s]
 		|	BAND				{s = "&";}
 		|	BOR					{s = "|";}
 		|	BXOR				{s = "^";}
-		|	(EMPTY_ARRAY	|EMPTY_ARRAY_ACCESS)	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = "[]";}
+		|	(EMPTY_ARRAY	|EMPTY_ARRAY_ACCESS)	{s = "[]";}	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE	{s = "[]=";})?
 		|	MATCH				{s = "=~";}
 		|	COMPARE				{s = "<=>";}
 		|	BNOT				{s = "~";}
