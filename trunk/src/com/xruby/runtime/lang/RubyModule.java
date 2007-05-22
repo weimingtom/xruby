@@ -38,7 +38,7 @@ public class RubyModule extends MethodCollection {
     
     protected RubyValue addMethod(RubyID id, RubyMethod m) {
     	RubyValue v = super.addMethod(id, m);
-    	if (RubyRuntime.running) {
+    	if (RubyRuntime.running && id != RubyID.ID_ALLOCATOR) {
     		RubyAPI.callOneArgMethod(this, id.toSymbol(), null, CommonRubyID.methodAddedID);
     	}
     	return v;

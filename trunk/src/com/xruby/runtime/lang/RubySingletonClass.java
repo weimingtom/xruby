@@ -31,4 +31,8 @@ public class RubySingletonClass extends RubyClass {
 	public boolean isRealClass() {
 		return false;
 	}
+
+	public RubyValue allocObject(RubyBlock block) {
+		throw new RubyException(RubyRuntime.TypeErrorClass, "can't create instance of virtual class");
+	}
 }
