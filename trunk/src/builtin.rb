@@ -4,6 +4,12 @@
 #
 
 #
+#Some code are borrowed from rubinius, they are indentified by 'from rubinius'
+#notice before the method. rubinius's copyright is here:
+#http://code.fallingsnow.net/svn/rubinius/trunk/LICENSE
+#
+
+#
 #Some built-in functions can be implemented in pure ruby, so they are implemented here.
 #
 
