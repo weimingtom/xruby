@@ -56,6 +56,22 @@ import com.xruby.runtime.value.RubyProc;
 import com.xruby.runtime.value.RubyString;
 import com.xruby.runtime.value.RubyThread;
 
+class Kernel_operator_equal extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        if (receiver == arg) {
+            return ObjectFactory.TRUE_VALUE;
+        } else {
+            return ObjectFactory.FALSE_VALUE;
+        }
+    }
+}
+
+class Kernel_clone extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        return (RubyValue) receiver.clone();
+    }
+}
+
 //TODO imcomplete
 class Kernel_eval extends RubyVarArgMethod {
 
@@ -210,7 +226,7 @@ class Kernel_p extends RubyVarArgMethod {
 class Kernel_class extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyClass klass = receiver.getRubyClass();
-        return klass != null ? klass.getRealClass() : null;
+        return klass != null ? klass.getRealClass() : ObjectFactory.NIL_VALUE;
     }
 }
 
@@ -758,12 +774,19 @@ class Kernel_sleep extends RubyOneArgMethod {
 public class KernelModuleBuilder {
     public static void initialize() {
         RubyModule m = RubyRuntime.KernelModule;
+        m.defineMethod("==", new Kernel_operator_equal());
+        m.defineMethod("equal?", new Kernel_operator_equal());
+        m.defineMethod("===", new Kernel_operator_case_equal());
+        m.defineMethod("eql?", new Kernel_operator_case_equal());        
         m.defineMethod("class", new Kernel_class());
+        m.defineMethod("clone", new Kernel_clone());
+        m.defineMethod("dup", new Kernel_clone());
+        
         RubyMethod raise = new Kernel_raise();
         m.defineMethod("raise", raise);
         m.defineMethod("fail", raise);
         m.defineMethod("exit", new Kernel_exit());
-        m.defineMethod("===", new Kernel_operator_case_equal());
+        
         m.defineMethod("to_s", new Kernel_to_s());
         m.defineMethod("loop", new Kernel_loop());
         m.defineMethod("open", new Kernel_open());

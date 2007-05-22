@@ -5,23 +5,15 @@
 
 package com.xruby.runtime.lang;
 
-public class RubySymbol extends RubyValue {
+public class RubySymbol extends RubySpecialValue {
 	private RubyID id;
     
     public RubySymbol(RubyID id) {
     	this.id = id;
     }
 
-    public void setRubyClass(RubyClass klass) {
-        throw new RubyException(RubyRuntime.TypeErrorClass, "symbol can't be set class");
-    }
-
     public RubyClass getRubyClass() {
         return RubyRuntime.SymbolClass;
-    }
-
-    public RubyClass getSingletonClass() {
-    	throw new RubyException(RubyRuntime.TypeErrorClass, "can't define singleton");
     }
 
     public String toString() {

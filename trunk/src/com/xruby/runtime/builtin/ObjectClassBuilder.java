@@ -17,7 +17,6 @@ import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyObject;
-import com.xruby.runtime.lang.RubyOneArgMethod;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
@@ -25,22 +24,6 @@ import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyString;
-
-class Object_operator_equal extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        if (receiver == arg) {
-            return ObjectFactory.TRUE_VALUE;
-        } else {
-            return ObjectFactory.FALSE_VALUE;
-        }
-    }
-}
-
-class Object_clone extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return (RubyValue) receiver.clone();
-    }
-}
 
 class Object_singleton_methods extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
@@ -145,12 +128,8 @@ public class ObjectClassBuilder {
 
     public static void initialize() {
         RubyClass c = RubyRuntime.ObjectClass;
-        RubyMethod equal = new Object_operator_equal();
-        c.defineMethod("==", equal);
-        c.defineMethod("equal?", equal);
-        RubyMethod clone = new Object_clone();
-        c.defineMethod("clone", clone);
-        c.defineMethod("dup", clone);
+        c.defineAllocMethod(new Object_alloc());
+
         c.defineMethod("extend", new Object_extend());
         c.defineMethod("freeze", new Object_freeze());
         c.defineMethod("frozen?", new Object_frozen_question());
@@ -160,6 +139,6 @@ public class ObjectClassBuilder {
         c.defineMethod("hash", new Object_hash());
         c.defineMethod("inspect", new Object_inspect());
 		c.defineMethod("singleton_methods", new Object_singleton_methods());
-        c.defineAllocMethod(new Object_alloc());
+        
     }
 }
