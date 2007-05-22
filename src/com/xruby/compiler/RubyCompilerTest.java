@@ -4839,6 +4839,18 @@ public class RubyCompilerTest extends CompilerTestCase {
         assertTrue(f.delete());
     }
 
+    public void test_IO_misc() {
+        String [] program_texts = {
+                "$stdout << 'Hello ' << 'world!'",
+        };
+
+        String[] outputs = {
+                "Hello world!",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
     public void test_string_match() {
         String [] program_texts = {
                 "\"abcabc\" =~ /.*a/; print $&, $&.class",
