@@ -7,7 +7,7 @@ package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
 
-public class RubyFixnum extends RubyValue {
+public class RubyFixnum extends RubySpecialValue {
     private final int value_;
 
     RubyFixnum(int i) {
@@ -22,16 +22,8 @@ public class RubyFixnum extends RubyValue {
         return value_;
     }
 
-    public void setRubyClass(RubyClass klass) {
-        throw new RubyException(RubyRuntime.TypeErrorClass, "fixnum can't be set class");
-    }
-
     public RubyClass getRubyClass() {
         return RubyRuntime.FixnumClass;
-    }
-
-    public RubyClass getSingletonClass() {
-    	throw new RubyException(RubyRuntime.TypeErrorClass, "can't define singleton");
     }
 
     public boolean equals(Object o) {

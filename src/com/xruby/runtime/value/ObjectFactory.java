@@ -13,9 +13,9 @@ import java.util.regex.Matcher;
 
 public class ObjectFactory {
 
-    public static final RubyValue TRUE_VALUE = new RubyObject(RubyRuntime.TrueClassClass);
-    public static final RubyValue FALSE_VALUE = new RubyObject(RubyRuntime.FalseClassClass);
-    public static final RubyValue NIL_VALUE = new RubyObject(RubyRuntime.NilClassClass);
+    public static final RubyValue TRUE_VALUE = RubyConstant.QTRUE;
+    public static final RubyValue FALSE_VALUE = RubyConstant.QFALSE;
+    public static final RubyValue NIL_VALUE = RubyConstant.QNIL;
     public static final RubyValue TOP_LEVEL_SELF_VALUE = new RubyObject(RubyRuntime.ObjectClass);
 
     //For preformance reason, some frequently used numbers are predefined here.
