@@ -38,6 +38,10 @@ abstract class MethodCollection extends ConstantCollection {
 
     public void collectOwnMethodNames(RubyArray a, int mode) {
         for (RubyID id : methods_.keySet()) {
+            if (id == RubyID.ID_ALLOCATOR) {
+                continue;
+            }
+            
             if (RubyMethod.ALL == mode ||
                 methods_.get(id).getAccess() == mode) {
                 a.add(ObjectFactory.createString(StringMap.id2name(id)));

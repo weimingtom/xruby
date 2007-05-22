@@ -14,9 +14,6 @@ public class RubyClass extends RubyModule {
 		cache.reset();
 	}
 
-	//private Set<RubyObject> instances_ = new HashSet<RubyObject>();
-
-	private RubyMethod alloc_method_;
 	private int objectAddress;
 
 	public RubyClass(String name, RubyClass superclass, RubyModule owner) {
@@ -63,19 +60,21 @@ public class RubyClass extends RubyModule {
     }
 
     public void defineAllocMethod(RubyMethod m) {
-		alloc_method_ = m;
+        m.setAccess(RubyMethod.PRIVATE);
+        this.getRubyClass().addMethod(RubyID.ID_ALLOCATOR, m);
 	}
     
     public void setInherited(RubyClass klass) {
     	RubyAPI.callOneArgMethod(this, klass, null, CommonRubyID.inheritedID);
     }
 
-	public RubyValue invokeAllocMethod(RubyValue reciver, RubyBlock block) {//TODO reciver can be 'this' in the future
-		if (null != alloc_method_) {
-			return alloc_method_.invoke(reciver, null, null, block);
-		} else {
-			return superclass_.invokeAllocMethod(reciver, block);
-		}
+	public RubyValue allocObject(RubyBlock block) {
+        RubyValue value = RubyAPI.callMethod(this, null, block, RubyID.ID_ALLOCATOR);
+        if (value.getRubyClass().getRealClass() != this.getRealClass()) {
+        	throw new RubyException(RubyRuntime.TypeErrorClass, "wrong instance allocation");
+        }
+        
+        return value;
 	}
 
 	boolean isMyParent(final RubyClass superclass) {
