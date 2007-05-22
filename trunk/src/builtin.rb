@@ -1028,4 +1028,10 @@ class Regexp
   end
 end
 
-  
+class IO
+    def <<(v)
+      write v
+      return self
+    end
+end
+
