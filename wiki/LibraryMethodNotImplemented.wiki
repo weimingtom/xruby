@@ -35,6 +35,7 @@ ruby\test_range.rb
 ruby\test_struct.rb
 ruby\test_string.rb
 ruby\test_stringchar.rb
+ruby\test_symbol.rb
 ruby\test_trace.rb
 ruby\test_variable.rb
 
@@ -60,7 +61,7 @@ ruby\test_method.rb
 ruby\test_objectspace.rb
 ruby\test_pack.rb
 ruby\test_path.rb
-ruby\test_pipe.rb		#IO#pipe, require 'envutil'
+ruby\test_pipe.rb
 ruby\test_proc.rb
 ruby\test_process.rb
 ruby\test_rand.rb
@@ -68,7 +69,6 @@ ruby\test_readpartial.rb
 ruby\test_settracefunc.rb
 ruby\test_signal.rb
 ruby\test_super.rb
-ruby\test_symbol.rb
 ruby\test_system.rb
 ruby\test_time.rb
 ruby\test_whileuntil.rb
