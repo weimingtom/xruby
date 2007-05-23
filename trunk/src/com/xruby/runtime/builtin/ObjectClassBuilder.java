@@ -5,42 +5,19 @@
 
 package com.xruby.runtime.builtin;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import com.xruby.runtime.lang.CommonRubyID;
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
-import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyObject;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
-import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyString;
-
-class Object_singleton_methods extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        boolean all = true;
-        if (args != null && !RubyAPI.testTrueFalse(args.get(0))) {
-            all = false;
-        }
-
-		RubyArray a = new RubyArray();
-        if (all) {
-            receiver.getSingletonClass().collectClassMethodNames(a, RubyMethod.PUBLIC);
-        } else {
-            receiver.getSingletonClass().collectOwnMethodNames(a, RubyMethod.PUBLIC);
-        }
-		return a;
-    }
-}
 
 class Object_extend extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
@@ -90,40 +67,6 @@ class Object_frozen_question extends RubyNoArgMethod {
     }
 }
 
-class Object_inspect extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        if (!(receiver instanceof RubyObject)) {
-            return RubyAPI.callPublicMethod(receiver, null, null, CommonRubyID.toSID);
-        }
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("#<");
-        sb.append(receiver.getRubyClass().getRealClass().getName());
-        sb.append(":0x");
-        int hash = receiver.hashCode();
-        sb.append(Integer.toHexString(hash));
-
-        String sep = "";
-        Map vars = receiver.getInstanceVariables();
-
-        if (vars != null) {
-            for (Iterator iter = vars.keySet().iterator(); iter.hasNext();) {
-                RubyID id = (RubyID)iter.next();
-                sb.append(sep);
-                sb.append(" ");
-                sb.append(StringMap.id2name(id));
-                sb.append("=");
-                sb.append(((RubyString)RubyAPI.callPublicMethod((RubyValue)vars.get(id), null, null, StringMap.intern("inspect")))).toString();
-                sep = ",";
-            }
-        }
-        sb.append(">");
-
-        return ObjectFactory.createString(sb.toString());
-    }
-}
-
-
 public class ObjectClassBuilder {
 
     public static void initialize() {
@@ -137,8 +80,7 @@ public class ObjectClassBuilder {
         c.defineMethod("object_id", object_id);
         c.defineMethod("__id__", object_id);
         c.defineMethod("hash", new Object_hash());
-        c.defineMethod("inspect", new Object_inspect());
-		c.defineMethod("singleton_methods", new Object_singleton_methods());
+		
         
     }
 }
