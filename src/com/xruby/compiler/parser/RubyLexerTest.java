@@ -1084,6 +1084,8 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 
 	public void test_GLOBAL_VARIABLE () {
 		String[] program_texts = {
+			"$-#",
+			"$-",
 			"$-K",
 			"$A",
 			"$a",
