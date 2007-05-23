@@ -33,13 +33,45 @@ class Symbol_inspect extends RubyNoArgMethod {
 		return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
 	}
 	
-	private boolean isAlnum(int c) {
-		return isAlpha(c) || (c >= '0' && c <= '9');
+	private boolean isDigit(int c) {
+		return c >= '0' && c <= '9';
 	}
 	
-	// FIXME: TO BE COMPLETE
+	private boolean isAlnum(int c) {
+		return isAlpha(c) || isDigit(c);
+	}
+	
+	// FIXME: TO BE COMPLETED
 	private boolean isIdentChar(int c) {
 		return isAlnum(c) || c == '_';
+	}
+	
+	private boolean isSpecialGlobalName(String name) {
+		int current = 0;
+		switch (getChar(name, current)) {
+		case '~': case '*': case '$': case '?': case '!': case '@':
+		case '/': case '\\': case ';': case ',': case '.': case '=':
+		case ':': case '<': case '>': case '\"':
+		case '&': case '`': case '\'': case '+':
+		case '0':
+			current++;
+			break;
+		case '-':
+			current++;
+			// FIXME: TO BE COMPLETED
+			// if (is_identchar(*m)) m += mbclen(*m);
+			break;
+		default:
+			if (!isDigit(getChar(name, current))) {
+				return false;
+			}
+			
+			do {
+				current++;
+			} while (isDigit(getChar(name, current)));
+		}
+		
+		return getChar(name, current) <= 0;
 	}
 
 	private boolean isSymname(String name) {
@@ -55,7 +87,9 @@ class Symbol_inspect extends RubyNoArgMethod {
 		case '\0':
 			return false;
 		case '$':
-			// FIXME: global name
+			if (isSpecialGlobalName(name.substring(++current))) {
+				return true;
+			}
 			id = true;
 			break;
 		case '@':

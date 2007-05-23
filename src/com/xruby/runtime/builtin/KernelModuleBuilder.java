@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -40,6 +42,7 @@ import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyNoArgMethod;
+import com.xruby.runtime.lang.RubyObject;
 import com.xruby.runtime.lang.RubyOneArgMethod;
 import com.xruby.runtime.lang.RubyProgram;
 import com.xruby.runtime.lang.RubyRuntime;
@@ -69,6 +72,56 @@ class Kernel_operator_equal extends RubyOneArgMethod {
 class Kernel_clone extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         return (RubyValue) receiver.clone();
+    }
+}
+
+class Kernel_inspect extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        if (!(receiver instanceof RubyObject)) {
+            return RubyAPI.callPublicMethod(receiver, null, null, CommonRubyID.toSID);
+        }
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("#<");
+        sb.append(receiver.getRubyClass().getRealClass().getName());
+        sb.append(":0x");
+        int hash = receiver.hashCode();
+        sb.append(Integer.toHexString(hash));
+
+        String sep = "";
+        Map vars = receiver.getInstanceVariables();
+
+        if (vars != null) {
+            for (Iterator iter = vars.keySet().iterator(); iter.hasNext();) {
+                RubyID id = (RubyID)iter.next();
+                sb.append(sep);
+                sb.append(" ");
+                sb.append(StringMap.id2name(id));
+                sb.append("=");
+                sb.append(((RubyString)RubyAPI.callPublicMethod((RubyValue)vars.get(id), null, null, StringMap.intern("inspect")))).toString();
+                sep = ",";
+            }
+        }
+        sb.append(">");
+
+        return ObjectFactory.createString(sb.toString());
+    }
+}
+
+class Kernel_singleton_methods extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        boolean all = true;
+        if (args != null && !RubyAPI.testTrueFalse(args.get(0))) {
+            all = false;
+        }
+
+		RubyArray a = new RubyArray();
+        if (all) {
+            receiver.getSingletonClass().collectClassMethodNames(a, RubyMethod.PUBLIC);
+        } else {
+            receiver.getSingletonClass().collectOwnMethodNames(a, RubyMethod.PUBLIC);
+        }
+		return a;
     }
 }
 
@@ -779,15 +832,21 @@ public class KernelModuleBuilder {
         m.defineMethod("===", new Kernel_operator_case_equal());
         m.defineMethod("eql?", new Kernel_operator_case_equal());        
         m.defineMethod("class", new Kernel_class());
+        
+        // FIXME: Kernel_clone should be revised. 
         m.defineMethod("clone", new Kernel_clone());
         m.defineMethod("dup", new Kernel_clone());
+        
+        m.defineMethod("to_s", new Kernel_to_s());
+        m.defineMethod("inspect", new Kernel_inspect());
+        m.defineMethod("methods", new Kernel_methods());
+        m.defineMethod("singleton_methods", new Kernel_singleton_methods());
         
         RubyMethod raise = new Kernel_raise();
         m.defineMethod("raise", raise);
         m.defineMethod("fail", raise);
-        m.defineMethod("exit", new Kernel_exit());
+        m.defineMethod("exit", new Kernel_exit());        
         
-        m.defineMethod("to_s", new Kernel_to_s());
         m.defineMethod("loop", new Kernel_loop());
         m.defineMethod("open", new Kernel_open());
         m.defineMethod("kind_of?", new Kernel_kind_of());
@@ -798,7 +857,7 @@ public class KernelModuleBuilder {
         m.defineMethod("__send__", send);
         m.defineMethod("instance_eval", new Kernel_instance_eval());
         m.defineMethod("method", new Kernel_method());
-        m.defineMethod("methods", new Kernel_methods());
+        
         m.defineMethod("public_methods", new Kernel_public_methods());
         m.defineMethod("caller", new Kernel_caller());
         m.defineMethod("throw", new Kernel_throw());

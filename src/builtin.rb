@@ -29,6 +29,22 @@ VERSION = "1.8.5"
 Float::EPSILON = 2.2204460492503131e-16
 
 module Kernel   
+    def nil?
+        false
+    end
+
+    def =~ x
+        false
+    end
+
+    def singleton_method_added symbol
+    end
+
+    def singleton_method_removed symbol
+    end
+
+    def singleton_method_undefined symbol
+    end
 
     alias load__ load
 
@@ -87,22 +103,30 @@ class Object
     end
 
     alias type :class 
-
-    def nil?
-        false
-    end
-
-    def =~ x
-        false
-    end
     
     def inherited(sub_class)
-      return nil
     end
 
     private
     def initialize
-      return nil
+    end
+end
+
+class Module
+    private
+    def included klass
+    end
+
+    def extended a_module
+    end
+
+    def method_added symbol
+    end
+
+    def method_removed symbol
+    end
+
+    def method_undefined symbol
     end
 end
 
