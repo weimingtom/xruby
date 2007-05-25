@@ -313,35 +313,34 @@ class Module_module_function extends RubyVarArgMethod {
 
 class Module_public_instance_methods extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        boolean include_super = false;
+        return get_instance_methods(receiver, args, block, RubyMethod.PUBLIC);
+    }
+
+	RubyValue get_instance_methods(RubyValue receiver, RubyArray args, RubyBlock block, int mode) {
+		boolean include_super = false;
         if (args != null && RubyAPI.testTrueFalse(args.get(0))) {
             include_super = true;
         }
 
         RubyArray a = new RubyArray();
         if (include_super) {
-            ((RubyClass)receiver).collectClassMethodNames(a, RubyMethod.PUBLIC);
+            ((RubyClass)receiver).collectClassMethodNames(a, mode);
         } else {
-            ((RubyModule)receiver).collectOwnMethodNames(a, RubyMethod.PUBLIC);
+            ((RubyModule)receiver).collectOwnMethodNames(a, mode);
         }
         return a;
+	}
+}
+
+class Module_protected_instance_methods extends Module_public_instance_methods {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        return get_instance_methods(receiver, args, block, RubyMethod.PROTECTED);
     }
 }
 
-class Module_private_instance_methods extends RubyVarArgMethod {
+class Module_private_instance_methods extends Module_public_instance_methods {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        boolean include_super = false;
-        if (args != null && RubyAPI.testTrueFalse(args.get(0))) {
-            include_super = true;
-        }
-
-        RubyArray a = new RubyArray();
-        if (include_super) {
-            ((RubyClass)receiver).collectClassMethodNames(a, RubyMethod.PRIVATE);
-        } else {
-            ((RubyModule)receiver).collectOwnMethodNames(a, RubyMethod.PRIVATE);
-        }
-        return a;
+        return get_instance_methods(receiver, args, block, RubyMethod.PRIVATE);
     }
 }
 
@@ -401,6 +400,7 @@ public class ModuleClassBuilder {
         c.defineMethod("ancestors", new Module_ancestors());
         c.defineMethod("public_instance_methods", new Module_public_instance_methods());
 		c.defineMethod("private_instance_methods", new Module_private_instance_methods());
+		c.defineMethod("protected_instance_methods", new Module_protected_instance_methods());
         c.defineMethod("module_function", new Module_module_function());
         RubyMethod module_eval = new Module_module_eval();
         c.defineMethod("module_eval", module_eval);
