@@ -44,6 +44,19 @@ class Class_superclass extends RubyNoArgMethod {
     }
 }
 
+class Class_singleton_new extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		RubyClass superclass;
+		if (null == args) {
+			superclass = RubyRuntime.ObjectClass;
+		} else {
+			superclass = (RubyClass)args.get(0);
+		}
+
+		return RubyAPI.defineClass("", superclass);
+	}
+}
+
 public class ClassClassBuilder {
     static RubyMethod class_new_ = new Class_new();
 
@@ -51,6 +64,7 @@ public class ClassClassBuilder {
         RubyClass c = RubyRuntime.ClassClass;
         c.defineMethod("new", class_new_);
         c.defineMethod("superclass", new Class_superclass());
+		c.getSingletonClass().defineMethod("new", new Class_singleton_new());
 
         /*
         c.setAccessPrivate();        
