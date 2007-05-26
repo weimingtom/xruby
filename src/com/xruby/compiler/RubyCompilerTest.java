@@ -961,12 +961,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Class_superclass() {
         String[] program_texts = {
+				"print Class.new.superclass",
                 "print String.superclass",
                 "print Class.superclass",
                 "print Object.superclass",
         };
 
         String[] outputs = {
+				"Object",
                 "Object",
                 "Module",
                 "nil",
