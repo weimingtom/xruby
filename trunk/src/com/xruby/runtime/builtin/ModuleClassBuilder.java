@@ -248,7 +248,7 @@ class Module_operator_greater_or_equal extends RubyOneArgMethod {
             throw new RubyException(RubyRuntime.TypeErrorClass, "compared with non class/module");
         }
 
-		if (arg == receiver) {
+        if (arg == receiver) {
            return ObjectFactory.TRUE_VALUE;
         }
 
@@ -316,8 +316,8 @@ class Module_public_instance_methods extends RubyVarArgMethod {
         return get_instance_methods(receiver, args, block, RubyMethod.PUBLIC);
     }
 
-	RubyValue get_instance_methods(RubyValue receiver, RubyArray args, RubyBlock block, int mode) {
-		boolean include_super = false;
+    RubyValue get_instance_methods(RubyValue receiver, RubyArray args, RubyBlock block, int mode) {
+        boolean include_super = false;
         if (args != null && RubyAPI.testTrueFalse(args.get(0))) {
             include_super = true;
         }
@@ -329,7 +329,7 @@ class Module_public_instance_methods extends RubyVarArgMethod {
             ((RubyModule)receiver).collectOwnMethodNames(a, mode);
         }
         return a;
-	}
+    }
 }
 
 class Module_protected_instance_methods extends Module_public_instance_methods {
@@ -378,6 +378,12 @@ class Module_const_set extends RubyTwoArgMethod {
     }
 }
 
+class Module_singleton_new extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        return RubyAPI.defineModule("");
+    }
+}
+
 public class ModuleClassBuilder {
 
     public static void initialize() {
@@ -395,12 +401,12 @@ public class ModuleClassBuilder {
         c.defineMethod("<=>", new Module_operator_compare());
         c.defineMethod("<", new Module_operator_less_than());
         c.defineMethod(">", new Module_operator_greater_than());
-		c.defineMethod(">=", new Module_operator_greater_or_equal());
+        c.defineMethod(">=", new Module_operator_greater_or_equal());
         c.defineMethod("===", new Module_case_equal());
         c.defineMethod("ancestors", new Module_ancestors());
         c.defineMethod("public_instance_methods", new Module_public_instance_methods());
-		c.defineMethod("private_instance_methods", new Module_private_instance_methods());
-		c.defineMethod("protected_instance_methods", new Module_protected_instance_methods());
+        c.defineMethod("private_instance_methods", new Module_private_instance_methods());
+        c.defineMethod("protected_instance_methods", new Module_protected_instance_methods());
         c.defineMethod("module_function", new Module_module_function());
         RubyMethod module_eval = new Module_module_eval();
         c.defineMethod("module_eval", module_eval);
@@ -415,5 +421,7 @@ public class ModuleClassBuilder {
         c.defineMethod("attr_accessor", new Module_attr_accessor());
         c.defineMethod("attr", new Module_attr());
         c.setAccessPublic();
+
+        c.getSingletonClass().defineMethod("new", new Module_singleton_new());
     }
 }
