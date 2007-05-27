@@ -23,7 +23,7 @@ public class ExpressionStatement extends Statement {
         expression.accept(visitor);
 	}
 
-	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		expression.getNewlyAssignedVariables(symboltable, result);
 	}
 

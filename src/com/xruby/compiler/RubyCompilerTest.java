@@ -1447,6 +1447,16 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_exception() {
         String[] program_texts = {
+				"def f\n" +
+				"  begin\n" +
+				"    a=1\n" +
+				"    raise '!'\n" +
+				"  end\n" +
+				"  rescue\n" +
+				"    print a\n" +
+				"end\n" +
+				"f",
+				
                 "begin; raise 'www'; rescue; print $!; end",
                 "begin; throw 'vvv'; rescue; print $!; end",
 
@@ -1514,6 +1524,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+				"1",
                 "www",
                 "uncaught throw `vvv'",
                 "55",

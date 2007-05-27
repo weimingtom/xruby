@@ -61,7 +61,7 @@ public class LocalVariableExpression extends ParameterVariableExpression {
 		visitor.visitLocalVariableAssignmentOperator(value_, rhs_is_method_call, is_multiple_assign);
 	}
 
-	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		if (!symboltable.isDefinedInCurrentScope(value_)) {
 			result.add(value_);
 		}

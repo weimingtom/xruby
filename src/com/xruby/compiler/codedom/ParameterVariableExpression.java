@@ -9,5 +9,5 @@ import java.util.ArrayList;
 
 public abstract class ParameterVariableExpression extends VariableExpression {
 	abstract public void acceptAsInitializeToNil(CodeVisitor visitor);
-	abstract public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result);
+	abstract void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result);
 }

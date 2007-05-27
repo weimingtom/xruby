@@ -57,7 +57,7 @@ public class CompoundStatement implements Visitable {
 		}
 	}
 
-	private void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		for (Statement s : statements_) {
 			s.getNewlyAssignedVariables(symboltable, result);
 		}
