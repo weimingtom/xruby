@@ -48,6 +48,7 @@ public class RubyRuntime {
     public static RubyClass StructClass;
     public static RubyClass ThreadGroupClass;
     public static RubyClass ThreadClass;
+	public static RubyClass UnboundMethodClass;
 
     public static RubyClass ExceptionClass;
     public static RubyClass StandardErrorClass;
@@ -118,6 +119,7 @@ public class RubyRuntime {
         StructClass = RubyAPI.defineClass("Struct", RubyRuntime.ObjectClass);
         ThreadGroupClass = RubyAPI.defineClass("ThreadGroup", RubyRuntime.ObjectClass);
         ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);
+		UnboundMethodClass = RubyAPI.defineClass("UnboundMethod", RubyRuntime.ObjectClass);
 
         ExceptionClass = RubyAPI.defineClass("Exception", RubyRuntime.ObjectClass);
         StandardErrorClass = RubyAPI.defineClass("StandardError", ExceptionClass);
@@ -163,6 +165,7 @@ public class RubyRuntime {
         FileClassBuilder.initialize();
         MethodClassBuilder.initialize();
         TimeClassBuilder.initialize();
+		UnboundMethodClassBuilder.initialize();
         MatchDataClassBuilder.initialize();
         DirClassBuilder.initialize();
         StructClassBuilder.initialize();
@@ -228,7 +231,7 @@ public class RubyRuntime {
                 "Module", "NilClass", "Numeric", "Object", "Proc", "Range", "Regexp", "String", "Struct",
                 //"Struct::Tms"
                 "Symbol", "ThreadGroup", "Thread", "ArgumentError",
-                "Time", "TrueClass",
+                "Time", "TrueClass", "UnboundMethod",
 
                 "Exception", "StandardError", "TypeError", "IndexError", "RangeError", "NameError", "NoMethodError", "IOError", "RuntimeError", "LocalJumpError","SystemCallError", 
                 "ScriptError", "SyntaxError", "LoadError", "NotImplementedError","ThreadError",

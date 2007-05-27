@@ -36,6 +36,14 @@ class Method_arity extends RubyNoArgMethod {
     }
 }
 
+class Method_unbind extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyMethodValue m = (RubyMethodValue)receiver;
+        m.unbind();
+        return receiver;
+    }
+}
+
 public class MethodClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.MethodClass;
@@ -45,5 +53,6 @@ public class MethodClassBuilder {
         c.defineMethod("to_s", to_s);
         c.defineMethod("inspect", to_s);
         c.defineMethod("arity", new Method_arity());
+        c.defineMethod("unbind", new Method_unbind());
     }
 }
