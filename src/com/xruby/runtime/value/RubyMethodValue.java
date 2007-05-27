@@ -36,6 +36,14 @@ public class RubyMethodValue extends RubyBasic {
         return method_.arity();
     }
 
+    public void bind(RubyValue receiver) {
+        receiver_ = receiver;
+    }
+
+    public void unbind() {
+        setRubyClass(RubyRuntime.UnboundMethodClass);
+    }
+
     public String toString() {
         StringBuilder s = new StringBuilder("#<Method: ");
         s.append(receiver_.getRubyClass().getName());
