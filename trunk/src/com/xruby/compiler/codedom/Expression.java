@@ -40,7 +40,7 @@ public abstract class Expression implements Visitable {
 		return false;
 	}
 
-	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		//Default behavior is do nothing
 	}
 

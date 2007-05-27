@@ -61,4 +61,8 @@ public class WhileExpression extends Expression {
 		visitor.visitWhileBodyEnd(null != body_);
 	}
 
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+		condition_.getNewlyAssignedVariables(symboltable, result);
+        body_.getNewlyAssignedVariables(symboltable, result);
+    }
 }

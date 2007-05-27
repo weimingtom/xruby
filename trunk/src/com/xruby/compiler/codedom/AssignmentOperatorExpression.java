@@ -52,7 +52,7 @@ public class AssignmentOperatorExpression extends Expression {
 				false);
 	}
 	
-	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		if (lhs_ instanceof LocalVariableExpression) {
 			String name = ((LocalVariableExpression)lhs_).getValue();
 			if (!symboltable.isDefinedInCurrentScope(name)) {

@@ -80,7 +80,7 @@ public class NestedVariableExpression extends ParameterVariableExpression {
 		}
 	}
 
-	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		for (ParameterVariableExpression var : mlhs_) {
 			var.getNewlyAssignedVariables(symboltable, result);
 		}

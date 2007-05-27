@@ -42,7 +42,7 @@ public class Block {
 		}
 	}
 	
-	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		for (ParameterVariableExpression var : parameters_) {
 			var.getNewlyAssignedVariables(symboltable, result);
 		}

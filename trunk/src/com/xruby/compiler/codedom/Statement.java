@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class Statement implements Visitable {
 
-	public void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		//Default behavior is do nothing
 	}
 	
