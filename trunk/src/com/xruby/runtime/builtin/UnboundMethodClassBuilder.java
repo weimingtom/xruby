@@ -15,8 +15,7 @@ import com.xruby.runtime.value.RubyMethodValue;
 class UnboundMethod_bind extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyMethodValue m = (RubyMethodValue)receiver;
-        m.bind(arg);
-        return receiver;
+        return m.bind(arg);
     }
 }
 
