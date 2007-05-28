@@ -637,6 +637,11 @@ class Kernel_throw extends RubyVarArgMethod {
         if (args.get(0) instanceof RubySymbol ||
             args.get(0) instanceof RubyString) {
             e = new RubyExceptionValueForThrow(args.get(0), args.get(1));
+        } else if (args.get(0) instanceof RubyExceptionValue) {
+        	e = (RubyExceptionValue)args.get(0);
+        } else if (args.get(0) instanceof RubyClass) {
+        	RubyClass c = (RubyClass)args.get(0);
+        	e = new RubyExceptionValue(c, c.getName() + " is not a symbol");
         } else {
             e = new RubyExceptionValue(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
         }
