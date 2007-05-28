@@ -40,14 +40,14 @@ public class RubyMethodValue extends RubyBasic {
 		if (receiver.getRubyClass() != receiver_.getRubyClass()) {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "bind argument must be an instance of " + receiver_.getRubyClass().getName());
 		}
-        receiver_ = receiver;
-		setRubyClass(RubyRuntime.MethodClass);
-		return this;//TODO It looks like we should return a copy, not the original
+		RubyMethodValue m = new RubyMethodValue(receiver, name_, method_);
+		return m;
     }
 
     public RubyMethodValue unbind() {
-        setRubyClass(RubyRuntime.UnboundMethodClass);
-		return this;//TODO It looks like we should return a copy, not the original
+		RubyMethodValue m = new RubyMethodValue(receiver_, name_, method_);
+        m.setRubyClass(RubyRuntime.UnboundMethodClass);
+		return m;
     }
 
     public String toString() {
