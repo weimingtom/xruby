@@ -39,8 +39,7 @@ class Method_arity extends RubyNoArgMethod {
 class Method_unbind extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyMethodValue m = (RubyMethodValue)receiver;
-        m.unbind();
-        return receiver;
+        return m.unbind();
     }
 }
 

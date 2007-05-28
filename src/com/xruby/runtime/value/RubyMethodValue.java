@@ -36,12 +36,18 @@ public class RubyMethodValue extends RubyBasic {
         return method_.arity();
     }
 
-    public void bind(RubyValue receiver) {
+    public RubyMethodValue bind(RubyValue receiver) {
+		if (receiver.getRubyClass() != receiver_.getRubyClass()) {
+			throw new RubyException(RubyRuntime.TypeErrorClass, "bind argument must be an instance of " + receiver_.getRubyClass().getName());
+		}
         receiver_ = receiver;
+		setRubyClass(RubyRuntime.MethodClass);
+		return this;//TODO It looks like we should return a copy, not the original
     }
 
-    public void unbind() {
+    public RubyMethodValue unbind() {
         setRubyClass(RubyRuntime.UnboundMethodClass);
+		return this;//TODO It looks like we should return a copy, not the original
     }
 
     public String toString() {
