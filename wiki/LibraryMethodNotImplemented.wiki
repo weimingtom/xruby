@@ -31,6 +31,7 @@ ruby\test_gc.rb
 ruby\test_ifunless.rb
 ruby\test_io.rb
 ruby\test_math.rb
+ruby\test_method.rb
 ruby\test_range.rb
 ruby\test_struct.rb
 ruby\test_string.rb
@@ -52,12 +53,11 @@ ruby\test_defined.rb
 ruby\test_dir.rb		#require 'fileutil'
 ruby\test_env.rb
 ruby\test_eval.rb
-ruby\test_file.rb		#require 'tmpfile'
+ruby\test_file.rb	
 ruby\test_float.rb
 ruby\test_hash.rb		#tough to deal with...
 ruby\test_iterator.rb	#treeparser problem
 ruby\test_marshal.rb
-ruby\test_method.rb
 ruby\test_objectspace.rb
 ruby\test_pack.rb
 ruby\test_path.rb
