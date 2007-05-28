@@ -1447,6 +1447,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_exception() {
         String[] program_texts = {
+				"begin; throw TypeError;rescue Exception =>e; print e; end",
+				
                 "def f\n" +
                 "  begin\n" +
                 "    a=1\n" +
@@ -1524,6 +1526,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+				"TypeError is not a symbol",		
                 "1",
                 "www",
                 "uncaught throw `vvv'",
