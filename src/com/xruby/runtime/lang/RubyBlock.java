@@ -83,6 +83,10 @@ public abstract class RubyBlock extends MethodBlockBase {
         scopeOfCurrentMethod_ = scope;
     }
 
+	public void setScope(RubyModule m) {
+        scopeOfCurrentMethod_ = m;
+    }
+	
     public void setSelf(RubyValue v) {
         selfOfCurrentMethod_ = v;
     }

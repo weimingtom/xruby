@@ -354,10 +354,11 @@ class Module_module_eval extends RubyVarArgMethod {
         if (null != args) {
             RubyString program_text = (RubyString) args.get(0);
             RubyBinding binding = new RubyBinding();
-            binding.setScope((RubyModule) receiver);
+            binding.setScope((RubyModule)receiver);
             binding.setSelf(receiver);
             return Kernel_eval.eval(program_text, binding, null);
         } else {
+        	block.setScope((RubyModule)receiver);
             block.setSelf(receiver);
             return block.invoke(receiver, null);
         }

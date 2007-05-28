@@ -961,14 +961,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Class_superclass() {
         String[] program_texts = {
-				"print Class.new.superclass",
+                "print Class.new.superclass",
                 "print String.superclass",
                 "print Class.superclass",
                 "print Object.superclass",
         };
 
         String[] outputs = {
-				"Object",
+                "Object",
                 "Object",
                 "Module",
                 "nil",
@@ -1447,16 +1447,16 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_exception() {
         String[] program_texts = {
-				"def f\n" +
-				"  begin\n" +
-				"    a=1\n" +
-				"    raise '!'\n" +
-				"  end\n" +
-				"  rescue\n" +
-				"    print a\n" +
-				"end\n" +
-				"f",
-				
+                "def f\n" +
+                "  begin\n" +
+                "    a=1\n" +
+                "    raise '!'\n" +
+                "  end\n" +
+                "  rescue\n" +
+                "    print a\n" +
+                "end\n" +
+                "f",
+
                 "begin; raise 'www'; rescue; print $!; end",
                 "begin; throw 'vvv'; rescue; print $!; end",
 
@@ -1524,7 +1524,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-				"1",
+                "1",
                 "www",
                 "uncaught throw `vvv'",
                 "55",
@@ -5253,7 +5253,21 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_Kernel_module_eval() {
+    public void test_Module_class_eval() {
+        String [] program_texts = {
+                "class TestClassEval; def f() 1 end end\n" +
+                "TestClassEval.class_eval do def f() 2 end end\n" +
+                "print TestClassEval.new.f",
+        };
+
+        String[] outputs = {
+                "2",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
+    public void test_Kernel_instance_eval() {
         String [] program_texts = {
                 "'x'.instance_eval { print self }",
         };
@@ -5284,11 +5298,11 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Module_misc() {
         String [] program_texts = {
-				"class TestProtectedInstanceMethods; protected; def test_protected_instance_methods; end; end\n" +
+                "class TestProtectedInstanceMethods; protected; def test_protected_instance_methods; end; end\n" +
                 "a = TestProtectedInstanceMethods.protected_instance_methods(false)\n" +
                 "p a",
-                
-				"class TestPrivateInstanceMethods; private; def test_private_instance_methods; end; end\n" +
+
+                "class TestPrivateInstanceMethods; private; def test_private_instance_methods; end; end\n" +
                 "a = TestPrivateInstanceMethods.private_instance_methods(false)\n" +
                 "p a",
 
@@ -5308,8 +5322,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-				"[\"test_protected_instance_methods\"]\n",
-				"[\"test_private_instance_methods\"]\n",
+                "[\"test_protected_instance_methods\"]\n",
+                "[\"test_private_instance_methods\"]\n",
                 "[\"test_public_instance_methods\"]\n",
                 "true",
                 "123",
