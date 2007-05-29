@@ -92,6 +92,19 @@ import com.xruby.compiler.codedom.*;
         }
         stm.addVariable(s);
   }
+  
+  protected void enterScope() {
+        stm.enterScope();
+  }
+
+	//protected void enterBlockScope() {
+	//	lexer_.getSymbolTableManager().enterBlockScope();
+	//}
+	
+  protected void leaveScope() {
+       stm.leaveScope();
+  }
+		
   public Rubyv3Parser(TokenStream input, Rubyv3Parser parent) {
             super(input);
             ((Rubyv3Lexer) input.getTokenSource()).setParser(this);
@@ -326,7 +339,25 @@ WS	:	(' ' | '\t') { skip(); }
  */
 
 expression
-	:	 'alias'^ fitem fitem|andorExpression;
+	:	 'alias'^ fitem fitem|andorExpression|primaryExpression;
+primaryExpression
+	:	methodDefinition;
+methodDefinition
+	:	'def'^ methodName {enterScope();} methodDefinationArgument (bodyStatement)? 'end'! {leaveScope();};
+methodName
+	:	id=ID;  //todo:or constant
+methodDefinationArgument
+	:	'(' (methodDefinationArgumentWithoutParen)? ')' (terminal)?
+	|       (methodDefinationArgumentWithoutParen)? terminal;
+methodDefinationArgumentWithoutParen
+	:	normalMethodDefinationArgument;
+normalMethodDefinationArgument
+	:	variable ( '=' expression);
+variable:	id=ID {addVariable($id.text);};	
+bodyStatement
+	:	statement_list;
+	
+
 fitem	:	fname;// | symbol;
 fname	:	ID|CONSTANT|FID|op;
 

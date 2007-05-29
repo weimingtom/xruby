@@ -132,6 +132,10 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("alias test1 test", "(STATEMENT_LIST (STATEMENT alias test1 test))");
     }
 
+    public void test_def_method() throws Exception {
+        assert_parse("def test \n end", "(STATEMENT_LIST (STATEMENT (def test)))");
+    }
+
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
 
     {

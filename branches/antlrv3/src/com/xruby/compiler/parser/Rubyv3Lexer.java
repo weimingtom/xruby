@@ -1,4 +1,4 @@
-// $ANTLR 3.0b7 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-05-16 15:25:56
+// $ANTLR 3.0b7 Rubyv3.g 2007-05-29 14:23:21
 
 package com.xruby.compiler.parser;
 
@@ -16,6 +16,7 @@ public class Rubyv3Lexer extends BaseLexer {
     public static final int HEX_PART=87;
     public static final int LOGICAL_OR=68;
     public static final int LESS_THAN=44;
+    public static final int T129=129;
     public static final int META_PART=89;
     public static final int LEADING0_NUMBER=86;
     public static final int BOR=73;
@@ -123,7 +124,7 @@ public class Rubyv3Lexer extends BaseLexer {
     public static final int EOF=-1;
     public static final int T126=126;
     public static final int CALL=10;
-    public static final int Tokens=129;
+    public static final int Tokens=130;
     public static final int RBRACK=106;
     public static final int RESCUE_MODIFIER=33;
     public static final int MODIFIER_LINE=6;
@@ -268,14 +269,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public Rubyv3Lexer(CharStream input) {
         super(input);
     }
-    public String getGrammarFileName() { return "C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g"; }
+    public String getGrammarFileName() { return "Rubyv3.g"; }
 
     // $ANTLR start T113
     public final void mT113() throws RecognitionException {
         try {
             int _type = T113;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:145:8: ( 'begin' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:145:8: 'begin'
+            // Rubyv3.g:145:8: ( 'begin' )
+            // Rubyv3.g:145:8: 'begin'
             {
             match("begin"); 
 
@@ -293,8 +294,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT114() throws RecognitionException {
         try {
             int _type = T114;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:146:8: ( 'end' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:146:8: 'end'
+            // Rubyv3.g:146:8: ( 'end' )
+            // Rubyv3.g:146:8: 'end'
             {
             match("end"); 
 
@@ -312,8 +313,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT115() throws RecognitionException {
         try {
             int _type = T115;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:147:8: ( 'false' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:147:8: 'false'
+            // Rubyv3.g:147:8: ( 'false' )
+            // Rubyv3.g:147:8: 'false'
             {
             match("false"); 
 
@@ -331,8 +332,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT116() throws RecognitionException {
         try {
             int _type = T116;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:148:8: ( 'nil' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:148:8: 'nil'
+            // Rubyv3.g:148:8: ( 'nil' )
+            // Rubyv3.g:148:8: 'nil'
             {
             match("nil"); 
 
@@ -350,8 +351,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT117() throws RecognitionException {
         try {
             int _type = T117;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:149:8: ( 'true' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:149:8: 'true'
+            // Rubyv3.g:149:8: ( 'true' )
+            // Rubyv3.g:149:8: 'true'
             {
             match("true"); 
 
@@ -369,8 +370,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT118() throws RecognitionException {
         try {
             int _type = T118;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:150:8: ( 'elsif' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:150:8: 'elsif'
+            // Rubyv3.g:150:8: ( 'elsif' )
+            // Rubyv3.g:150:8: 'elsif'
             {
             match("elsif"); 
 
@@ -388,8 +389,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT119() throws RecognitionException {
         try {
             int _type = T119;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:151:8: ( 'else' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:151:8: 'else'
+            // Rubyv3.g:151:8: ( 'else' )
+            // Rubyv3.g:151:8: 'else'
             {
             match("else"); 
 
@@ -407,8 +408,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT120() throws RecognitionException {
         try {
             int _type = T120;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:152:8: ( 'then' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:152:8: 'then'
+            // Rubyv3.g:152:8: ( 'then' )
+            // Rubyv3.g:152:8: 'then'
             {
             match("then"); 
 
@@ -426,8 +427,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT121() throws RecognitionException {
         try {
             int _type = T121;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:153:8: ( 'alias' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:153:8: 'alias'
+            // Rubyv3.g:153:8: ( 'alias' )
+            // Rubyv3.g:153:8: 'alias'
             {
             match("alias"); 
 
@@ -445,10 +446,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT122() throws RecognitionException {
         try {
             int _type = T122;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:154:8: ( '[]=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:154:8: '[]='
+            // Rubyv3.g:154:8: ( 'def' )
+            // Rubyv3.g:154:8: 'def'
             {
-            match("[]="); 
+            match("def"); 
 
 
             }
@@ -464,10 +465,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT123() throws RecognitionException {
         try {
             int _type = T123;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:155:8: ( 'and' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:155:8: 'and'
+            // Rubyv3.g:155:8: ( '[]=' )
+            // Rubyv3.g:155:8: '[]='
             {
-            match("and"); 
+            match("[]="); 
 
 
             }
@@ -483,10 +484,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT124() throws RecognitionException {
         try {
             int _type = T124;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:156:8: ( 'or' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:156:8: 'or'
+            // Rubyv3.g:156:8: ( 'and' )
+            // Rubyv3.g:156:8: 'and'
             {
-            match("or"); 
+            match("and"); 
 
 
             }
@@ -502,10 +503,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT125() throws RecognitionException {
         try {
             int _type = T125;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:157:8: ( 'not' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:157:8: 'not'
+            // Rubyv3.g:157:8: ( 'or' )
+            // Rubyv3.g:157:8: 'or'
             {
-            match("not"); 
+            match("or"); 
 
 
             }
@@ -521,10 +522,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT126() throws RecognitionException {
         try {
             int _type = T126;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:158:8: ( 'expression0' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:158:8: 'expression0'
+            // Rubyv3.g:158:8: ( 'not' )
+            // Rubyv3.g:158:8: 'not'
             {
-            match("expression0"); 
+            match("not"); 
 
 
             }
@@ -540,10 +541,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT127() throws RecognitionException {
         try {
             int _type = T127;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:8: ( 'expression1' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:8: 'expression1'
+            // Rubyv3.g:159:8: ( 'expression0' )
+            // Rubyv3.g:159:8: 'expression0'
             {
-            match("expression1"); 
+            match("expression0"); 
 
 
             }
@@ -559,10 +560,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT128() throws RecognitionException {
         try {
             int _type = T128;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:160:8: ( 'expression2' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:160:8: 'expression2'
+            // Rubyv3.g:160:8: ( 'expression1' )
+            // Rubyv3.g:160:8: 'expression1'
             {
-            match("expression2"); 
+            match("expression1"); 
 
 
             }
@@ -574,12 +575,31 @@ public class Rubyv3Lexer extends BaseLexer {
     }
     // $ANTLR end T128
 
+    // $ANTLR start T129
+    public final void mT129() throws RecognitionException {
+        try {
+            int _type = T129;
+            // Rubyv3.g:161:8: ( 'expression2' )
+            // Rubyv3.g:161:8: 'expression2'
+            {
+            match("expression2"); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end T129
+
     // $ANTLR start IF_MODIFIER
     public final void mIF_MODIFIER() throws RecognitionException {
         try {
             int _type = IF_MODIFIER;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:259:20: ( 'if' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:259:20: 'if'
+            // Rubyv3.g:272:20: ( 'if' )
+            // Rubyv3.g:272:20: 'if'
             {
             match("if"); 
 
@@ -597,8 +617,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mUNLESS_MODIFIER() throws RecognitionException {
         try {
             int _type = UNLESS_MODIFIER;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:20: ( 'unless' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:20: 'unless'
+            // Rubyv3.g:273:20: ( 'unless' )
+            // Rubyv3.g:273:20: 'unless'
             {
             match("unless"); 
 
@@ -616,8 +636,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mWHILE_MODIFIER() throws RecognitionException {
         try {
             int _type = WHILE_MODIFIER;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:261:20: ( 'while' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:261:20: 'while'
+            // Rubyv3.g:274:20: ( 'while' )
+            // Rubyv3.g:274:20: 'while'
             {
             match("while"); 
 
@@ -635,8 +655,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mUNTIL_MODIFIER() throws RecognitionException {
         try {
             int _type = UNTIL_MODIFIER;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:262:20: ( 'until' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:262:20: 'until'
+            // Rubyv3.g:275:20: ( 'until' )
+            // Rubyv3.g:275:20: 'until'
             {
             match("until"); 
 
@@ -654,8 +674,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRESCUE_MODIFIER() throws RecognitionException {
         try {
             int _type = RESCUE_MODIFIER;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:263:20: ( 'resuce' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:263:20: 'resuce'
+            // Rubyv3.g:276:20: ( 'resuce' )
+            // Rubyv3.g:276:20: 'resuce'
             {
             match("resuce"); 
 
@@ -673,8 +693,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSEMI() throws RecognitionException {
         try {
             int _type = SEMI;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:265:7: ( ';' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:265:7: ';'
+            // Rubyv3.g:278:7: ( ';' )
+            // Rubyv3.g:278:7: ';'
             {
             match(';'); 
 
@@ -691,10 +711,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLINE_BREAK() throws RecognitionException {
         try {
             int _type = LINE_BREAK;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:3: ( ( '\\r' )? '\\n' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:3: ( '\\r' )? '\\n'
+            // Rubyv3.g:311:3: ( ( '\\r' )? '\\n' )
+            // Rubyv3.g:311:3: ( '\\r' )? '\\n'
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:3: ( '\\r' )?
+            // Rubyv3.g:311:3: ( '\\r' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -703,7 +723,7 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             switch (alt1) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:3: '\\r'
+                    // Rubyv3.g:311:3: '\\r'
                     {
                     match('\r'); 
 
@@ -727,8 +747,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mWS() throws RecognitionException {
         try {
             int _type = WS;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:6: ( ( ' ' | '\\t' ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:6: ( ' ' | '\\t' )
+            // Rubyv3.g:313:6: ( ( ' ' | '\\t' ) )
+            // Rubyv3.g:313:6: ( ' ' | '\\t' )
             {
             if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
                 input.consume();
@@ -755,10 +775,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mINT() throws RecognitionException {
         try {
             int _type = INT;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:513:4: ( ( '-' )? ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:513:4: ( '-' )? ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )
+            // Rubyv3.g:544:4: ( ( '-' )? ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) ) )
+            // Rubyv3.g:544:4: ( '-' )? ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:513:4: ( '-' )?
+            // Rubyv3.g:544:4: ( '-' )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -767,7 +787,7 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             switch (alt2) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:513:4: '-'
+                    // Rubyv3.g:544:4: '-'
                     {
                     match('-'); 
 
@@ -776,17 +796,12 @@ public class Rubyv3Lexer extends BaseLexer {
 
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:514:10: ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )
+            // Rubyv3.g:545:10: ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )
             int alt9=5;
             int LA9_0 = input.LA(1);
 
             if ( (LA9_0=='0') ) {
                 switch ( input.LA(2) ) {
-                case 'b':
-                    {
-                    alt9=3;
-                    }
-                    break;
                 case 'x':
                     {
                     alt9=2;
@@ -795,6 +810,11 @@ public class Rubyv3Lexer extends BaseLexer {
                 case 'd':
                     {
                     alt9=4;
+                    }
+                    break;
+                case 'b':
+                    {
+                    alt9=3;
                     }
                     break;
                 case '0':
@@ -819,43 +839,43 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("514:10: ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )", 9, 0, input);
+                    new NoViableAltException("545:10: ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )", 9, 0, input);
 
                 throw nvae;
             }
             switch (alt9) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:514:11: OCTAL
+                    // Rubyv3.g:545:11: OCTAL
                     {
                     mOCTAL(); 
 
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:514:17: HEX
+                    // Rubyv3.g:545:17: HEX
                     {
                     mHEX(); 
 
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:514:21: BINARY
+                    // Rubyv3.g:545:21: BINARY
                     {
                     mBINARY(); 
 
                     }
                     break;
                 case 4 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:514:28: LEADING_MARK_DECIMAL
+                    // Rubyv3.g:545:28: LEADING_MARK_DECIMAL
                     {
                     mLEADING_MARK_DECIMAL(); 
 
                     }
                     break;
                 case 5 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
+                    // Rubyv3.g:546:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
                     {
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* )
+                    // Rubyv3.g:546:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* )
                     int alt5=2;
                     int LA5_0 = input.LA(1);
 
@@ -867,23 +887,23 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("515:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* )", 5, 0, input);
+                            new NoViableAltException("546:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* )", 5, 0, input);
 
                         throw nvae;
                     }
                     switch (alt5) {
                         case 1 :
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:13: '0'
+                            // Rubyv3.g:546:13: '0'
                             {
                             match('0'); 
 
                             }
                             break;
                         case 2 :
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:17: '1' .. '9' ( ( '_' )? '0' .. '9' )*
+                            // Rubyv3.g:546:17: '1' .. '9' ( ( '_' )? '0' .. '9' )*
                             {
                             matchRange('1','9'); 
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:26: ( ( '_' )? '0' .. '9' )*
+                            // Rubyv3.g:546:26: ( ( '_' )? '0' .. '9' )*
                             loop4:
                             do {
                                 int alt4=2;
@@ -896,9 +916,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                                 switch (alt4) {
                             	case 1 :
-                            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:27: ( '_' )? '0' .. '9'
+                            	    // Rubyv3.g:546:27: ( '_' )? '0' .. '9'
                             	    {
-                            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:27: ( '_' )?
+                            	    // Rubyv3.g:546:27: ( '_' )?
                             	    int alt3=2;
                             	    int LA3_0 = input.LA(1);
 
@@ -907,7 +927,7 @@ public class Rubyv3Lexer extends BaseLexer {
                             	    }
                             	    switch (alt3) {
                             	        case 1 :
-                            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:27: '_'
+                            	            // Rubyv3.g:546:27: '_'
                             	            {
                             	            match('_'); 
 
@@ -932,7 +952,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                     }
 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:45: ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
+                    // Rubyv3.g:546:45: ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
                     int alt8=2;
                     int LA8_0 = input.LA(1);
 
@@ -943,14 +963,14 @@ public class Rubyv3Lexer extends BaseLexer {
                         alt8=1;}
                     switch (alt8) {
                         case 1 :
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:55: 
+                            // Rubyv3.g:546:55: 
                             {
                             }
                             break;
                         case 2 :
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
+                            // Rubyv3.g:546:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
                             {
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
+                            // Rubyv3.g:546:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
                             int alt7=2;
                             int LA7_0 = input.LA(1);
 
@@ -962,25 +982,25 @@ public class Rubyv3Lexer extends BaseLexer {
                             }
                             else {
                                 NoViableAltException nvae =
-                                    new NoViableAltException("515:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )", 7, 0, input);
+                                    new NoViableAltException("546:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )", 7, 0, input);
 
                                 throw nvae;
                             }
                             switch (alt7) {
                                 case 1 :
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:58: EXP_PART
+                                    // Rubyv3.g:546:58: EXP_PART
                                     {
                                     mEXP_PART(); 
 
                                     }
                                     break;
                                 case 2 :
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:67: '.' LEADING0_NUMBER ( EXP_PART )?
+                                    // Rubyv3.g:546:67: '.' LEADING0_NUMBER ( EXP_PART )?
                                     {
                                     if(input.LA(2) < '0' || input.LA(2) > '9') {_type=INT; this.type = INT; return;}
                                     match('.'); 
                                     mLEADING0_NUMBER(); 
-                                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:170: ( EXP_PART )?
+                                    // Rubyv3.g:546:170: ( EXP_PART )?
                                     int alt6=2;
                                     int LA6_0 = input.LA(1);
 
@@ -989,7 +1009,7 @@ public class Rubyv3Lexer extends BaseLexer {
                                     }
                                     switch (alt6) {
                                         case 1 :
-                                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:170: EXP_PART
+                                            // Rubyv3.g:546:170: EXP_PART
                                             {
                                             mEXP_PART(); 
 
@@ -1031,10 +1051,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mID() throws RecognitionException {
         try {
             int _type = ID;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:6: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) )* ( | ( '?' | '!' ) ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:6: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) )* ( | ( '?' | '!' ) )
+            // Rubyv3.g:550:6: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) )* ( | ( '?' | '!' ) ) )
+            // Rubyv3.g:550:6: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) )* ( | ( '?' | '!' ) )
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:6: ( 'a' .. 'z' | 'A' .. 'Z' | '_' )
+            // Rubyv3.g:550:6: ( 'a' .. 'z' | 'A' .. 'Z' | '_' )
             int alt10=3;
             switch ( input.LA(1) ) {
             case 'a':
@@ -1104,21 +1124,21 @@ public class Rubyv3Lexer extends BaseLexer {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("519:6: ( 'a' .. 'z' | 'A' .. 'Z' | '_' )", 10, 0, input);
+                    new NoViableAltException("550:6: ( 'a' .. 'z' | 'A' .. 'Z' | '_' )", 10, 0, input);
 
                 throw nvae;
             }
 
             switch (alt10) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:7: 'a' .. 'z'
+                    // Rubyv3.g:550:7: 'a' .. 'z'
                     {
                     matchRange('a','z'); 
 
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:18: 'A' .. 'Z'
+                    // Rubyv3.g:550:18: 'A' .. 'Z'
                     {
                     matchRange('A','Z'); 
                     _type = CONSTANT;
@@ -1126,7 +1146,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:48: '_'
+                    // Rubyv3.g:550:48: '_'
                     {
                     match('_'); 
 
@@ -1135,7 +1155,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:53: ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) )*
+            // Rubyv3.g:550:53: ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) )*
             loop11:
             do {
                 int alt11=3;
@@ -1151,7 +1171,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:54: ( 'a' .. 'z' | 'A' .. 'Z' )
+            	    // Rubyv3.g:550:54: ( 'a' .. 'z' | 'A' .. 'Z' )
             	    {
             	    if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
             	        input.consume();
@@ -1167,10 +1187,10 @@ public class Rubyv3Lexer extends BaseLexer {
             	    }
             	    break;
             	case 2 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:78: ( '0' .. '9' )
+            	    // Rubyv3.g:550:78: ( '0' .. '9' )
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:78: ( '0' .. '9' )
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:79: '0' .. '9'
+            	    // Rubyv3.g:550:78: ( '0' .. '9' )
+            	    // Rubyv3.g:550:79: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1185,7 +1205,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
             } while (true);
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:91: ( | ( '?' | '!' ) )
+            // Rubyv3.g:550:91: ( | ( '?' | '!' ) )
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1196,12 +1216,12 @@ public class Rubyv3Lexer extends BaseLexer {
                 alt12=1;}
             switch (alt12) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:101: 
+                    // Rubyv3.g:550:101: 
                     {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:519:103: ( '?' | '!' )
+                    // Rubyv3.g:550:103: ( '?' | '!' )
                     {
                     if ( input.LA(1)=='!'||input.LA(1)=='?' ) {
                         input.consume();
@@ -1233,11 +1253,11 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start OCTAL
     public final void mOCTAL() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:9: ( '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:9: '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )*
+            // Rubyv3.g:559:9: ( '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )* )
+            // Rubyv3.g:559:9: '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )*
             {
             match('0'); 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:13: ( '_' )?
+            // Rubyv3.g:559:13: ( '_' )?
             int alt13=2;
             int LA13_0 = input.LA(1);
 
@@ -1246,7 +1266,7 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             switch (alt13) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:13: '_'
+                    // Rubyv3.g:559:13: '_'
                     {
                     match('_'); 
 
@@ -1255,14 +1275,14 @@ public class Rubyv3Lexer extends BaseLexer {
 
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:18: ( '0' .. '7' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:19: '0' .. '7'
+            // Rubyv3.g:559:18: ( '0' .. '7' )
+            // Rubyv3.g:559:19: '0' .. '7'
             {
             matchRange('0','7'); 
 
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:29: ( ( '_' )? '0' .. '7' )*
+            // Rubyv3.g:559:29: ( ( '_' )? '0' .. '7' )*
             loop15:
             do {
                 int alt15=2;
@@ -1275,9 +1295,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 switch (alt15) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:30: ( '_' )? '0' .. '7'
+            	    // Rubyv3.g:559:30: ( '_' )? '0' .. '7'
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:30: ( '_' )?
+            	    // Rubyv3.g:559:30: ( '_' )?
             	    int alt14=2;
             	    int LA14_0 = input.LA(1);
 
@@ -1286,7 +1306,7 @@ public class Rubyv3Lexer extends BaseLexer {
             	    }
             	    switch (alt14) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:30: '_'
+            	            // Rubyv3.g:559:30: '_'
             	            {
             	            match('_'); 
 
@@ -1317,25 +1337,25 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start LEADING_MARK_DECIMAL
     public final void mLEADING_MARK_DECIMAL() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:1: ( ( '0d' ) ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:1: ( '0d' ) ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
+            // Rubyv3.g:562:1: ( ( '0d' ) ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
+            // Rubyv3.g:562:1: ( '0d' ) ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:1: ( '0d' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:2: '0d'
+            // Rubyv3.g:562:1: ( '0d' )
+            // Rubyv3.g:562:2: '0d'
             {
             match("0d"); 
 
 
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:8: ( '0' .. '9' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:9: '0' .. '9'
+            // Rubyv3.g:562:8: ( '0' .. '9' )
+            // Rubyv3.g:562:9: '0' .. '9'
             {
             matchRange('0','9'); 
 
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:19: ( ( '_' )? '0' .. '9' )*
+            // Rubyv3.g:562:19: ( ( '_' )? '0' .. '9' )*
             loop17:
             do {
                 int alt17=2;
@@ -1348,9 +1368,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 switch (alt17) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:20: ( '_' )? '0' .. '9'
+            	    // Rubyv3.g:562:20: ( '_' )? '0' .. '9'
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:20: ( '_' )?
+            	    // Rubyv3.g:562:20: ( '_' )?
             	    int alt16=2;
             	    int LA16_0 = input.LA(1);
 
@@ -1359,7 +1379,7 @@ public class Rubyv3Lexer extends BaseLexer {
             	    }
             	    switch (alt16) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:531:20: '_'
+            	            // Rubyv3.g:562:20: '_'
             	            {
             	            match('_'); 
 
@@ -1390,13 +1410,13 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start HEX
     public final void mHEX() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:533:7: ( '0x' HEX_PART ( ( '_' )? HEX_PART )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:533:7: '0x' HEX_PART ( ( '_' )? HEX_PART )*
+            // Rubyv3.g:564:7: ( '0x' HEX_PART ( ( '_' )? HEX_PART )* )
+            // Rubyv3.g:564:7: '0x' HEX_PART ( ( '_' )? HEX_PART )*
             {
             match("0x"); 
 
             mHEX_PART(); 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:533:21: ( ( '_' )? HEX_PART )*
+            // Rubyv3.g:564:21: ( ( '_' )? HEX_PART )*
             loop19:
             do {
                 int alt19=2;
@@ -1409,9 +1429,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 switch (alt19) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:533:22: ( '_' )? HEX_PART
+            	    // Rubyv3.g:564:22: ( '_' )? HEX_PART
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:533:22: ( '_' )?
+            	    // Rubyv3.g:564:22: ( '_' )?
             	    int alt18=2;
             	    int LA18_0 = input.LA(1);
 
@@ -1420,7 +1440,7 @@ public class Rubyv3Lexer extends BaseLexer {
             	    }
             	    switch (alt18) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:533:22: '_'
+            	            // Rubyv3.g:564:22: '_'
             	            {
             	            match('_'); 
 
@@ -1451,8 +1471,8 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start HEX_PART
     public final void mHEX_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:536:4: ( ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:536:4: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
+            // Rubyv3.g:567:4: ( ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' ) )
+            // Rubyv3.g:567:4: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='F')||(input.LA(1)>='a' && input.LA(1)<='f') ) {
                 input.consume();
@@ -1476,19 +1496,19 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start BINARY
     public final void mBINARY() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:540:10: ( '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:540:10: '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )*
+            // Rubyv3.g:571:10: ( '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )* )
+            // Rubyv3.g:571:10: '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )*
             {
             match("0b"); 
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:540:14: ( '0' .. '1' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:540:15: '0' .. '1'
+            // Rubyv3.g:571:14: ( '0' .. '1' )
+            // Rubyv3.g:571:15: '0' .. '1'
             {
             matchRange('0','1'); 
 
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:540:25: ( ( '_' )? '0' .. '1' )*
+            // Rubyv3.g:571:25: ( ( '_' )? '0' .. '1' )*
             loop21:
             do {
                 int alt21=2;
@@ -1501,9 +1521,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 switch (alt21) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:540:26: ( '_' )? '0' .. '1'
+            	    // Rubyv3.g:571:26: ( '_' )? '0' .. '1'
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:540:26: ( '_' )?
+            	    // Rubyv3.g:571:26: ( '_' )?
             	    int alt20=2;
             	    int LA20_0 = input.LA(1);
 
@@ -1512,7 +1532,7 @@ public class Rubyv3Lexer extends BaseLexer {
             	    }
             	    switch (alt20) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:540:26: '_'
+            	            // Rubyv3.g:571:26: '_'
             	            {
             	            match('_'); 
 
@@ -1543,10 +1563,10 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start ESCAPE_INT
     public final void mESCAPE_INT() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:544:23: ( ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:544:23: ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
+            // Rubyv3.g:575:23: ( ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART ) )
+            // Rubyv3.g:575:23: ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:544:23: ( CONTROL_PART | META_PART )*
+            // Rubyv3.g:575:23: ( CONTROL_PART | META_PART )*
             loop22:
             do {
                 int alt22=3;
@@ -1555,11 +1575,11 @@ public class Rubyv3Lexer extends BaseLexer {
                 if ( (LA22_0=='\\') ) {
                     int LA22_1 = input.LA(2);
 
-                    if ( (LA22_1=='C'||LA22_1=='c') ) {
-                        alt22=1;
-                    }
-                    else if ( (LA22_1=='M') ) {
+                    if ( (LA22_1=='M') ) {
                         alt22=2;
+                    }
+                    else if ( (LA22_1=='C'||LA22_1=='c') ) {
+                        alt22=1;
                     }
 
 
@@ -1568,14 +1588,14 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 switch (alt22) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:544:24: CONTROL_PART
+            	    // Rubyv3.g:575:24: CONTROL_PART
             	    {
             	    mCONTROL_PART(); 
 
             	    }
             	    break;
             	case 2 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:544:37: META_PART
+            	    // Rubyv3.g:575:37: META_PART
             	    {
             	    mMETA_PART(); 
 
@@ -1587,7 +1607,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
             } while (true);
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:544:49: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
+            // Rubyv3.g:575:49: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
             int alt23=3;
             int LA23_0 = input.LA(1);
 
@@ -1608,27 +1628,27 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("544:49: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )", 23, 0, input);
+                    new NoViableAltException("575:49: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )", 23, 0, input);
 
                 throw nvae;
             }
             switch (alt23) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:544:50: '\\u0000' .. '\\u0091'
+                    // Rubyv3.g:575:50: '\\u0000' .. '\\u0091'
                     {
                     matchRange('\u0000','\u0091'); 
 
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:544:73: '\\u0093' .. '\\u0255'
+                    // Rubyv3.g:575:73: '\\u0093' .. '\\u0255'
                     {
                     matchRange('\u0093','\u0255'); 
 
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:544:94: ESCAPE_INT_PART
+                    // Rubyv3.g:575:94: ESCAPE_INT_PART
                     {
                     mESCAPE_INT_PART(); 
 
@@ -1649,38 +1669,38 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start CONTROL_PART
     public final void mCONTROL_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:548:4: ( ( '\\\\C-' | '\\\\c' ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:548:4: ( '\\\\C-' | '\\\\c' )
+            // Rubyv3.g:579:4: ( ( '\\\\C-' | '\\\\c' ) )
+            // Rubyv3.g:579:4: ( '\\\\C-' | '\\\\c' )
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:548:4: ( '\\\\C-' | '\\\\c' )
+            // Rubyv3.g:579:4: ( '\\\\C-' | '\\\\c' )
             int alt24=2;
             int LA24_0 = input.LA(1);
 
             if ( (LA24_0=='\\') ) {
                 int LA24_1 = input.LA(2);
 
-                if ( (LA24_1=='C') ) {
-                    alt24=1;
-                }
-                else if ( (LA24_1=='c') ) {
+                if ( (LA24_1=='c') ) {
                     alt24=2;
+                }
+                else if ( (LA24_1=='C') ) {
+                    alt24=1;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("548:4: ( '\\\\C-' | '\\\\c' )", 24, 1, input);
+                        new NoViableAltException("579:4: ( '\\\\C-' | '\\\\c' )", 24, 1, input);
 
                     throw nvae;
                 }
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("548:4: ( '\\\\C-' | '\\\\c' )", 24, 0, input);
+                    new NoViableAltException("579:4: ( '\\\\C-' | '\\\\c' )", 24, 0, input);
 
                 throw nvae;
             }
             switch (alt24) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:548:5: '\\\\C-'
+                    // Rubyv3.g:579:5: '\\\\C-'
                     {
                     match("\\C-"); 
 
@@ -1688,7 +1708,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:548:12: '\\\\c'
+                    // Rubyv3.g:579:12: '\\\\c'
                     {
                     match("\\c"); 
 
@@ -1710,8 +1730,8 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start META_PART
     public final void mMETA_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:552:4: ( '\\\\M-' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:552:4: '\\\\M-'
+            // Rubyv3.g:583:4: ( '\\\\M-' )
+            // Rubyv3.g:583:4: '\\\\M-'
             {
             match("\\M-"); 
 
@@ -1727,17 +1747,17 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start NON_LEADING0_NUMBER
     public final void mNON_LEADING0_NUMBER() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:3: ( ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:3: ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )*
+            // Rubyv3.g:588:3: ( ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )* )
+            // Rubyv3.g:588:3: ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )*
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:3: ( '1' .. '9' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:4: '1' .. '9'
+            // Rubyv3.g:588:3: ( '1' .. '9' )
+            // Rubyv3.g:588:4: '1' .. '9'
             {
             matchRange('1','9'); 
 
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:14: ( ( '_' )? '0' .. '9' )*
+            // Rubyv3.g:588:14: ( ( '_' )? '0' .. '9' )*
             loop26:
             do {
                 int alt26=2;
@@ -1750,9 +1770,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 switch (alt26) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:15: ( '_' )? '0' .. '9'
+            	    // Rubyv3.g:588:15: ( '_' )? '0' .. '9'
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:15: ( '_' )?
+            	    // Rubyv3.g:588:15: ( '_' )?
             	    int alt25=2;
             	    int LA25_0 = input.LA(1);
 
@@ -1761,7 +1781,7 @@ public class Rubyv3Lexer extends BaseLexer {
             	    }
             	    switch (alt25) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:15: '_'
+            	            // Rubyv3.g:588:15: '_'
             	            {
             	            match('_'); 
 
@@ -1792,17 +1812,17 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start LEADING0_NUMBER
     public final void mLEADING0_NUMBER() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:3: ( ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:3: ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
+            // Rubyv3.g:591:3: ( ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
+            // Rubyv3.g:591:3: ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:3: ( '0' .. '9' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:4: '0' .. '9'
+            // Rubyv3.g:591:3: ( '0' .. '9' )
+            // Rubyv3.g:591:4: '0' .. '9'
             {
             matchRange('0','9'); 
 
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:14: ( ( '_' )? '0' .. '9' )*
+            // Rubyv3.g:591:14: ( ( '_' )? '0' .. '9' )*
             loop28:
             do {
                 int alt28=2;
@@ -1815,9 +1835,9 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 switch (alt28) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:15: ( '_' )? '0' .. '9'
+            	    // Rubyv3.g:591:15: ( '_' )? '0' .. '9'
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:15: ( '_' )?
+            	    // Rubyv3.g:591:15: ( '_' )?
             	    int alt27=2;
             	    int LA27_0 = input.LA(1);
 
@@ -1826,7 +1846,7 @@ public class Rubyv3Lexer extends BaseLexer {
             	    }
             	    switch (alt27) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:15: '_'
+            	            // Rubyv3.g:591:15: '_'
             	            {
             	            match('_'); 
 
@@ -1857,8 +1877,8 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start EXP_PART
     public final void mEXP_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:562:11: ( ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:562:11: ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER
+            // Rubyv3.g:593:11: ( ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER )
+            // Rubyv3.g:593:11: ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER
             {
             if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
                 input.consume();
@@ -1870,7 +1890,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 recover(mse);    throw mse;
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:562:23: ( '-' )?
+            // Rubyv3.g:593:23: ( '-' )?
             int alt29=2;
             int LA29_0 = input.LA(1);
 
@@ -1879,7 +1899,7 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             switch (alt29) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:562:23: '-'
+                    // Rubyv3.g:593:23: '-'
                     {
                     match('-'); 
 
@@ -1903,7 +1923,7 @@ public class Rubyv3Lexer extends BaseLexer {
         try {
             int _type = SINGLE_QUOTE_STRING;
             int end=0; int nested=0;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:35: ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' | '%q' begin= . (tmp= . )* )
+            // Rubyv3.g:598:35: ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' | '%q' begin= . (tmp= . )* )
             int alt32=2;
             int LA32_0 = input.LA(1);
 
@@ -1915,16 +1935,16 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("566:1: SINGLE_QUOTE_STRING : ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' | '%q' begin= . (tmp= . )* );", 32, 0, input);
+                    new NoViableAltException("597:1: SINGLE_QUOTE_STRING : ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' | '%q' begin= . (tmp= . )* );", 32, 0, input);
 
                 throw nvae;
             }
             switch (alt32) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:35: '\\'' ( SINGLE_STRING_CHAR )* '\\''
+                    // Rubyv3.g:598:35: '\\'' ( SINGLE_STRING_CHAR )* '\\''
                     {
                     match('\''); 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:40: ( SINGLE_STRING_CHAR )*
+                    // Rubyv3.g:598:40: ( SINGLE_STRING_CHAR )*
                     loop30:
                     do {
                         int alt30=2;
@@ -1937,7 +1957,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                         switch (alt30) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:40: SINGLE_STRING_CHAR
+                    	    // Rubyv3.g:598:40: SINGLE_STRING_CHAR
                     	    {
                     	    mSINGLE_STRING_CHAR(); 
 
@@ -1954,14 +1974,14 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:568:4: '%q' begin= . (tmp= . )*
+                    // Rubyv3.g:599:4: '%q' begin= . (tmp= . )*
                     {
                     match("%q"); 
 
                     int begin = input.LA(1);
                     matchAny(); 
                     System.out.println(begin); end=determineEnd(begin);begin=determineBegin(begin); 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:568:103: (tmp= . )*
+                    // Rubyv3.g:599:103: (tmp= . )*
                     loop31:
                     do {
                         int alt31=2;
@@ -1974,7 +1994,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                         switch (alt31) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:568:104: tmp= .
+                    	    // Rubyv3.g:599:104: tmp= .
                     	    {
                     	    int tmp = input.LA(1);
                     	    matchAny(); 
@@ -2024,7 +2044,7 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start SINGLE_STRING_CHAR
     public final void mSINGLE_STRING_CHAR() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:592:6: ( '\\\\' . | ~ ( '\\\\' | '\\'' ) )
+            // Rubyv3.g:623:6: ( '\\\\' . | ~ ( '\\\\' | '\\'' ) )
             int alt33=2;
             int LA33_0 = input.LA(1);
 
@@ -2036,13 +2056,13 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("590:1: fragment SINGLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\\'' ) );", 33, 0, input);
+                    new NoViableAltException("621:1: fragment SINGLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\\'' ) );", 33, 0, input);
 
                 throw nvae;
             }
             switch (alt33) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:592:6: '\\\\' .
+                    // Rubyv3.g:623:6: '\\\\' .
                     {
                     match('\\'); 
                     matchAny(); 
@@ -2050,7 +2070,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:592:15: ~ ( '\\\\' | '\\'' )
+                    // Rubyv3.g:623:15: ~ ( '\\\\' | '\\'' )
                     {
                     if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                         input.consume();
@@ -2076,7 +2096,7 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start DOUBLE_STRING_CHAR
     public final void mDOUBLE_STRING_CHAR() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:595:4: ( '\\\\' . | ~ ( '\\\\' | '\"' ) )
+            // Rubyv3.g:626:4: ( '\\\\' . | ~ ( '\\\\' | '\"' ) )
             int alt34=2;
             int LA34_0 = input.LA(1);
 
@@ -2088,13 +2108,13 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("593:1: fragment DOUBLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\"' ) );", 34, 0, input);
+                    new NoViableAltException("624:1: fragment DOUBLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\"' ) );", 34, 0, input);
 
                 throw nvae;
             }
             switch (alt34) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:595:4: '\\\\' .
+                    // Rubyv3.g:626:4: '\\\\' .
                     {
                     match('\\'); 
                     matchAny(); 
@@ -2102,7 +2122,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:595:13: ~ ( '\\\\' | '\"' )
+                    // Rubyv3.g:626:13: ~ ( '\\\\' | '\"' )
                     {
                     if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                         input.consume();
@@ -2130,10 +2150,10 @@ public class Rubyv3Lexer extends BaseLexer {
         try {
             int _type = DOUBLE_QUOTE_STRING;
             int end=0; int nested=0;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:597:35: (s= ( '\"' | '%Q' begin= . ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:597:35: s= ( '\"' | '%Q' begin= . )
+            // Rubyv3.g:628:35: (s= ( '\"' | '%Q' begin= . ) )
+            // Rubyv3.g:628:35: s= ( '\"' | '%Q' begin= . )
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:597:37: ( '\"' | '%Q' begin= . )
+            // Rubyv3.g:628:37: ( '\"' | '%Q' begin= . )
             int alt35=2;
             int LA35_0 = input.LA(1);
 
@@ -2145,13 +2165,13 @@ public class Rubyv3Lexer extends BaseLexer {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("597:37: ( '\"' | '%Q' begin= . )", 35, 0, input);
+                    new NoViableAltException("628:37: ( '\"' | '%Q' begin= . )", 35, 0, input);
 
                 throw nvae;
             }
             switch (alt35) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:597:38: '\"'
+                    // Rubyv3.g:628:38: '\"'
                     {
                     match('\"'); 
                     expression = new DoubleStringParser(this.parser, input, '"', 0).parseString();
@@ -2159,7 +2179,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:597:126: '%Q' begin= .
+                    // Rubyv3.g:628:126: '%Q' begin= .
                     {
                     match("%Q"); 
 
@@ -2187,8 +2207,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLCURLY() throws RecognitionException {
         try {
             int _type = LCURLY;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:601:11: ( '{' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:601:11: '{'
+            // Rubyv3.g:632:11: ( '{' )
+            // Rubyv3.g:632:11: '{'
             {
             match('{'); 
             nesting++; System.out.println("meeting LCURLY with nesting:" + nesting);
@@ -2206,8 +2226,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRCURLY() throws RecognitionException {
         try {
             int _type = RCURLY;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:607:11: ( '}' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:607:11: '}'
+            // Rubyv3.g:638:11: ( '}' )
+            // Rubyv3.g:638:11: '}'
             {
             match('}'); 
             
@@ -2232,41 +2252,41 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start ESCAPE_INT_PART
     public final void mESCAPE_INT_PART() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:620:4: ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) )
+            // Rubyv3.g:651:4: ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) )
             int alt38=3;
             int LA38_0 = input.LA(1);
 
             if ( (LA38_0=='\\') ) {
                 int LA38_1 = input.LA(2);
 
-                if ( (LA38_1=='x') ) {
-                    alt38=2;
-                }
-                else if ( ((LA38_1>='\u0000' && LA38_1<='/')||(LA38_1>='8' && LA38_1<='B')||(LA38_1>='D' && LA38_1<='L')||(LA38_1>='N' && LA38_1<='b')||(LA38_1>='d' && LA38_1<='w')||(LA38_1>='y' && LA38_1<='\uFFFE')) ) {
+                if ( ((LA38_1>='\u0000' && LA38_1<='/')||(LA38_1>='8' && LA38_1<='B')||(LA38_1>='D' && LA38_1<='L')||(LA38_1>='N' && LA38_1<='b')||(LA38_1>='d' && LA38_1<='w')||(LA38_1>='y' && LA38_1<='\uFFFE')) ) {
                     alt38=3;
+                }
+                else if ( (LA38_1=='x') ) {
+                    alt38=2;
                 }
                 else if ( ((LA38_1>='0' && LA38_1<='7')) ) {
                     alt38=1;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("618:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 38, 1, input);
+                        new NoViableAltException("649:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 38, 1, input);
 
                     throw nvae;
                 }
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("618:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 38, 0, input);
+                    new NoViableAltException("649:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 38, 0, input);
 
                 throw nvae;
             }
             switch (alt38) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:620:4: '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
+                    // Rubyv3.g:651:4: '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
                     {
                     match('\\'); 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:620:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
+                    // Rubyv3.g:651:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
                     int alt36=3;
                     int LA36_0 = input.LA(1);
 
@@ -2287,20 +2307,20 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("620:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )", 36, 0, input);
+                            new NoViableAltException("651:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )", 36, 0, input);
 
                         throw nvae;
                     }
                     switch (alt36) {
                         case 1 :
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:620:10: '0' .. '7'
+                            // Rubyv3.g:651:10: '0' .. '7'
                             {
                             matchRange('0','7'); 
 
                             }
                             break;
                         case 2 :
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:620:21: '0' .. '7' '0' .. '7'
+                            // Rubyv3.g:651:21: '0' .. '7' '0' .. '7'
                             {
                             matchRange('0','7'); 
                             matchRange('0','7'); 
@@ -2308,7 +2328,7 @@ public class Rubyv3Lexer extends BaseLexer {
                             }
                             break;
                         case 3 :
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:620:41: '0' .. '7' '0' .. '7' '0' .. '7'
+                            // Rubyv3.g:651:41: '0' .. '7' '0' .. '7' '0' .. '7'
                             {
                             matchRange('0','7'); 
                             matchRange('0','7'); 
@@ -2323,11 +2343,11 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:621:10: '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART )
+                    // Rubyv3.g:652:10: '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART )
                     {
                     match('\\'); 
                     match('x'); 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:621:19: ( HEX_PART | HEX_PART HEX_PART )
+                    // Rubyv3.g:652:19: ( HEX_PART | HEX_PART HEX_PART )
                     int alt37=2;
                     int LA37_0 = input.LA(1);
 
@@ -2342,20 +2362,20 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("621:19: ( HEX_PART | HEX_PART HEX_PART )", 37, 0, input);
+                            new NoViableAltException("652:19: ( HEX_PART | HEX_PART HEX_PART )", 37, 0, input);
 
                         throw nvae;
                     }
                     switch (alt37) {
                         case 1 :
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:621:20: HEX_PART
+                            // Rubyv3.g:652:20: HEX_PART
                             {
                             mHEX_PART(); 
 
                             }
                             break;
                         case 2 :
-                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:621:29: HEX_PART HEX_PART
+                            // Rubyv3.g:652:29: HEX_PART HEX_PART
                             {
                             mHEX_PART(); 
                             mHEX_PART(); 
@@ -2369,7 +2389,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:622:10: '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' )
+                    // Rubyv3.g:653:10: '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' )
                     {
                     match('\\'); 
                     if ( (input.LA(1)>='\u0000' && input.LA(1)<='/')||(input.LA(1)>='8' && input.LA(1)<='B')||(input.LA(1)>='D' && input.LA(1)<='L')||(input.LA(1)>='N' && input.LA(1)<='b')||(input.LA(1)>='d' && input.LA(1)<='w')||(input.LA(1)>='y' && input.LA(1)<='\uFFFE') ) {
@@ -2397,8 +2417,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHEREDOC_BEGIN() throws RecognitionException {
         try {
             int _type = HEREDOC_BEGIN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:626:4: ( '<<' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:626:4: '<<'
+            // Rubyv3.g:657:4: ( '<<' )
+            // Rubyv3.g:657:4: '<<'
             {
             match("<<"); 
 
@@ -2417,8 +2437,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHEREDOC_INDENT_BEGIN() throws RecognitionException {
         try {
             int _type = HEREDOC_INDENT_BEGIN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:629:4: ( '<<-' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:629:4: '<<-'
+            // Rubyv3.g:660:4: ( '<<-' )
+            // Rubyv3.g:660:4: '<<-'
             {
             match("<<-"); 
 
@@ -2437,8 +2457,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mARRAY() throws RecognitionException {
         try {
             int _type = ARRAY;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:634:9: ( '[]' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:634:9: '[]'
+            // Rubyv3.g:665:9: ( '[]' )
+            // Rubyv3.g:665:9: '[]'
             {
             match("[]"); 
 
@@ -2456,8 +2476,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHASH() throws RecognitionException {
         try {
             int _type = HASH;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:635:8: ( '{}' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:635:8: '{}'
+            // Rubyv3.g:666:8: ( '{}' )
+            // Rubyv3.g:666:8: '{}'
             {
             match("{}"); 
 
@@ -2475,8 +2495,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mREGEX() throws RecognitionException {
         try {
             int _type = REGEX;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:636:9: ( '/abc/' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:636:9: '/abc/'
+            // Rubyv3.g:667:9: ( '/abc/' )
+            // Rubyv3.g:667:9: '/abc/'
             {
             match("/abc/"); 
 
@@ -2494,8 +2514,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSYMBOL() throws RecognitionException {
         try {
             int _type = SYMBOL;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:637:10: ( ':abc' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:637:10: ':abc'
+            // Rubyv3.g:668:10: ( ':abc' )
+            // Rubyv3.g:668:10: ':abc'
             {
             match(":abc"); 
 
@@ -2513,8 +2533,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mASSIGN() throws RecognitionException {
         try {
             int _type = ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:639:27: ( '=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:639:27: '='
+            // Rubyv3.g:670:27: ( '=' )
+            // Rubyv3.g:670:27: '='
             {
             match('='); 
 
@@ -2531,8 +2551,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mPLUS_ASSIGN() throws RecognitionException {
         try {
             int _type = PLUS_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:640:17: ( '+=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:640:17: '+='
+            // Rubyv3.g:671:17: ( '+=' )
+            // Rubyv3.g:671:17: '+='
             {
             match("+="); 
 
@@ -2550,8 +2570,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMINUS_ASSIGN() throws RecognitionException {
         try {
             int _type = MINUS_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:641:17: ( '-=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:641:17: '-='
+            // Rubyv3.g:672:17: ( '-=' )
+            // Rubyv3.g:672:17: '-='
             {
             match("-="); 
 
@@ -2569,8 +2589,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSTAR_ASSIGN() throws RecognitionException {
         try {
             int _type = STAR_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:642:17: ( '*=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:642:17: '*='
+            // Rubyv3.g:673:17: ( '*=' )
+            // Rubyv3.g:673:17: '*='
             {
             match("*="); 
 
@@ -2588,8 +2608,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mDIV_ASSIGN() throws RecognitionException {
         try {
             int _type = DIV_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:643:15: ( '/=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:643:15: '/='
+            // Rubyv3.g:674:15: ( '/=' )
+            // Rubyv3.g:674:15: '/='
             {
             match("/="); 
 
@@ -2607,8 +2627,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMOD_ASSIGN() throws RecognitionException {
         try {
             int _type = MOD_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:644:15: ( '%=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:644:15: '%='
+            // Rubyv3.g:675:15: ( '%=' )
+            // Rubyv3.g:675:15: '%='
             {
             match("%="); 
 
@@ -2626,8 +2646,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOMPLEMENT_ASSIGN() throws RecognitionException {
         try {
             int _type = COMPLEMENT_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:645:25: ( '~=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:645:25: '~='
+            // Rubyv3.g:676:25: ( '~=' )
+            // Rubyv3.g:676:25: '~='
             {
             match("~="); 
 
@@ -2645,8 +2665,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mPOWER_ASSIGN() throws RecognitionException {
         try {
             int _type = POWER_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:646:17: ( '**=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:646:17: '**='
+            // Rubyv3.g:677:17: ( '**=' )
+            // Rubyv3.g:677:17: '**='
             {
             match("**="); 
 
@@ -2664,8 +2684,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBAND_ASSIGN() throws RecognitionException {
         try {
             int _type = BAND_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:647:17: ( '&=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:647:17: '&='
+            // Rubyv3.g:678:17: ( '&=' )
+            // Rubyv3.g:678:17: '&='
             {
             match("&="); 
 
@@ -2683,8 +2703,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBXOR_ASSIGN() throws RecognitionException {
         try {
             int _type = BXOR_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:648:17: ( '^=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:648:17: '^='
+            // Rubyv3.g:679:17: ( '^=' )
+            // Rubyv3.g:679:17: '^='
             {
             match("^="); 
 
@@ -2702,8 +2722,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBOR_ASSIGN() throws RecognitionException {
         try {
             int _type = BOR_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:649:16: ( '|=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:649:16: '|='
+            // Rubyv3.g:680:16: ( '|=' )
+            // Rubyv3.g:680:16: '|='
             {
             match("|="); 
 
@@ -2721,8 +2741,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLEFT_SHIFT_ASSIGN() throws RecognitionException {
         try {
             int _type = LEFT_SHIFT_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:650:21: ( '<<=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:650:21: '<<='
+            // Rubyv3.g:681:21: ( '<<=' )
+            // Rubyv3.g:681:21: '<<='
             {
             match("<<="); 
 
@@ -2740,8 +2760,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRIGHT_SHIFT_ASSIGN() throws RecognitionException {
         try {
             int _type = RIGHT_SHIFT_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:651:22: ( '>>=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:651:22: '>>='
+            // Rubyv3.g:682:22: ( '>>=' )
+            // Rubyv3.g:682:22: '>>='
             {
             match(">>="); 
 
@@ -2759,8 +2779,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLOGICAL_AND_ASSIGN() throws RecognitionException {
         try {
             int _type = LOGICAL_AND_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:652:22: ( '&&=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:652:22: '&&='
+            // Rubyv3.g:683:22: ( '&&=' )
+            // Rubyv3.g:683:22: '&&='
             {
             match("&&="); 
 
@@ -2778,8 +2798,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLOGICAL_OR_ASSIGN() throws RecognitionException {
         try {
             int _type = LOGICAL_OR_ASSIGN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:653:21: ( '||=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:653:21: '||='
+            // Rubyv3.g:684:21: ( '||=' )
+            // Rubyv3.g:684:21: '||='
             {
             match("||="); 
 
@@ -2797,8 +2817,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mINCLUSIVE_RANGE() throws RecognitionException {
         try {
             int _type = INCLUSIVE_RANGE;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:654:23: ( '..' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:654:23: '..'
+            // Rubyv3.g:685:23: ( '..' )
+            // Rubyv3.g:685:23: '..'
             {
             match(".."); 
 
@@ -2816,8 +2836,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mEXCLUSIVE_RANGE() throws RecognitionException {
         try {
             int _type = EXCLUSIVE_RANGE;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:655:23: ( '...' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:655:23: '...'
+            // Rubyv3.g:686:23: ( '...' )
+            // Rubyv3.g:686:23: '...'
             {
             match("..."); 
 
@@ -2835,8 +2855,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mASSOC() throws RecognitionException {
         try {
             int _type = ASSOC;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:657:12: ( '=>' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:657:12: '=>'
+            // Rubyv3.g:688:12: ( '=>' )
+            // Rubyv3.g:688:12: '=>'
             {
             match("=>"); 
 
@@ -2854,8 +2874,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLOGICAL_AND() throws RecognitionException {
         try {
             int _type = LOGICAL_AND;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:658:17: ( '&&' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:658:17: '&&'
+            // Rubyv3.g:689:17: ( '&&' )
+            // Rubyv3.g:689:17: '&&'
             {
             match("&&"); 
 
@@ -2873,8 +2893,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLOGICAL_OR() throws RecognitionException {
         try {
             int _type = LOGICAL_OR;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:659:16: ( '||' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:659:16: '||'
+            // Rubyv3.g:690:16: ( '||' )
+            // Rubyv3.g:690:16: '||'
             {
             match("||"); 
 
@@ -2892,8 +2912,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mQUESTION() throws RecognitionException {
         try {
             int _type = QUESTION;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:661:14: ( '?' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:661:14: '?'
+            // Rubyv3.g:692:14: ( '?' )
+            // Rubyv3.g:692:14: '?'
             {
             match('?'); 
 
@@ -2910,8 +2930,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLPAREN() throws RecognitionException {
         try {
             int _type = LPAREN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:662:13: ( '(' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:662:13: '('
+            // Rubyv3.g:693:13: ( '(' )
+            // Rubyv3.g:693:13: '('
             {
             match('('); 
 
@@ -2928,8 +2948,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRPAREN() throws RecognitionException {
         try {
             int _type = RPAREN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:663:13: ( ')' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:663:13: ')'
+            // Rubyv3.g:694:13: ( ')' )
+            // Rubyv3.g:694:13: ')'
             {
             match(')'); 
 
@@ -2946,8 +2966,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLBRACK() throws RecognitionException {
         try {
             int _type = LBRACK;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:664:13: ( '[' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:664:13: '['
+            // Rubyv3.g:695:13: ( '[' )
+            // Rubyv3.g:695:13: '['
             {
             match('['); 
 
@@ -2964,8 +2984,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRBRACK() throws RecognitionException {
         try {
             int _type = RBRACK;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:665:13: ( ']' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:665:13: ']'
+            // Rubyv3.g:696:13: ( ']' )
+            // Rubyv3.g:696:13: ']'
             {
             match(']'); 
 
@@ -2982,8 +3002,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mEMPTY_ARRAY() throws RecognitionException {
         try {
             int _type = EMPTY_ARRAY;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:666:16: ( '[]' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:666:16: '[]'
+            // Rubyv3.g:697:16: ( '[]' )
+            // Rubyv3.g:697:16: '[]'
             {
             match("[]"); 
 
@@ -3001,8 +3021,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOMMA() throws RecognitionException {
         try {
             int _type = COMMA;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:669:12: ( ',' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:669:12: ','
+            // Rubyv3.g:700:12: ( ',' )
+            // Rubyv3.g:700:12: ','
             {
             match(','); 
 
@@ -3019,8 +3039,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOLON() throws RecognitionException {
         try {
             int _type = COLON;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:670:12: ( ':' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:670:12: ':'
+            // Rubyv3.g:701:12: ( ':' )
+            // Rubyv3.g:701:12: ':'
             {
             match(':'); 
 
@@ -3037,8 +3057,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOLON2() throws RecognitionException {
         try {
             int _type = COLON2;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:671:13: ( '::' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:671:13: '::'
+            // Rubyv3.g:702:13: ( '::' )
+            // Rubyv3.g:702:13: '::'
             {
             match("::"); 
 
@@ -3056,8 +3076,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mNOT() throws RecognitionException {
         try {
             int _type = NOT;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:673:11: ( '!' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:673:11: '!'
+            // Rubyv3.g:704:11: ( '!' )
+            // Rubyv3.g:704:11: '!'
             {
             match('!'); 
 
@@ -3074,8 +3094,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBNOT() throws RecognitionException {
         try {
             int _type = BNOT;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:674:11: ( '~' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:674:11: '~'
+            // Rubyv3.g:705:11: ( '~' )
+            // Rubyv3.g:705:11: '~'
             {
             match('~'); 
 
@@ -3092,8 +3112,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mDIV() throws RecognitionException {
         try {
             int _type = DIV;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:675:10: ( '/' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:675:10: '/'
+            // Rubyv3.g:706:10: ( '/' )
+            // Rubyv3.g:706:10: '/'
             {
             match('/'); 
 
@@ -3110,8 +3130,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mPLUS() throws RecognitionException {
         try {
             int _type = PLUS;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:676:11: ( '+' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:676:11: '+'
+            // Rubyv3.g:707:11: ( '+' )
+            // Rubyv3.g:707:11: '+'
             {
             match('+'); 
 
@@ -3128,8 +3148,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMINUS() throws RecognitionException {
         try {
             int _type = MINUS;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:677:12: ( '-' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:677:12: '-'
+            // Rubyv3.g:708:12: ( '-' )
+            // Rubyv3.g:708:12: '-'
             {
             match('-'); 
 
@@ -3146,8 +3166,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMOD() throws RecognitionException {
         try {
             int _type = MOD;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:678:10: ( '%' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:678:10: '%'
+            // Rubyv3.g:709:10: ( '%' )
+            // Rubyv3.g:709:10: '%'
             {
             match('%'); 
 
@@ -3164,8 +3184,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSTAR() throws RecognitionException {
         try {
             int _type = STAR;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:679:11: ( '*' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:679:11: '*'
+            // Rubyv3.g:710:11: ( '*' )
+            // Rubyv3.g:710:11: '*'
             {
             match('*'); 
 
@@ -3182,8 +3202,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLESS_THAN() throws RecognitionException {
         try {
             int _type = LESS_THAN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:680:15: ( '<' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:680:15: '<'
+            // Rubyv3.g:711:15: ( '<' )
+            // Rubyv3.g:711:15: '<'
             {
             match('<'); 
 
@@ -3200,8 +3220,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mGREATER_THAN() throws RecognitionException {
         try {
             int _type = GREATER_THAN;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:681:17: ( '>' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:681:17: '>'
+            // Rubyv3.g:712:17: ( '>' )
+            // Rubyv3.g:712:17: '>'
             {
             match('>'); 
 
@@ -3218,8 +3238,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBXOR() throws RecognitionException {
         try {
             int _type = BXOR;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:682:11: ( '^' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:682:11: '^'
+            // Rubyv3.g:713:11: ( '^' )
+            // Rubyv3.g:713:11: '^'
             {
             match('^'); 
 
@@ -3236,8 +3256,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBOR() throws RecognitionException {
         try {
             int _type = BOR;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:683:11: ( '|' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:683:11: '|'
+            // Rubyv3.g:714:11: ( '|' )
+            // Rubyv3.g:714:11: '|'
             {
             match('|'); 
 
@@ -3254,8 +3274,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBAND() throws RecognitionException {
         try {
             int _type = BAND;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:684:11: ( '&' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:684:11: '&'
+            // Rubyv3.g:715:11: ( '&' )
+            // Rubyv3.g:715:11: '&'
             {
             match('&'); 
 
@@ -3272,8 +3292,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mPOWER() throws RecognitionException {
         try {
             int _type = POWER;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:685:12: ( '**' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:685:12: '**'
+            // Rubyv3.g:716:12: ( '**' )
+            // Rubyv3.g:716:12: '**'
             {
             match("**"); 
 
@@ -3291,8 +3311,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOMPARE() throws RecognitionException {
         try {
             int _type = COMPARE;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:686:14: ( '<=>' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:686:14: '<=>'
+            // Rubyv3.g:717:14: ( '<=>' )
+            // Rubyv3.g:717:14: '<=>'
             {
             match("<=>"); 
 
@@ -3310,8 +3330,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mGREATER_OR_EQUAL() throws RecognitionException {
         try {
             int _type = GREATER_OR_EQUAL;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:687:20: ( '>=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:687:20: '>='
+            // Rubyv3.g:718:20: ( '>=' )
+            // Rubyv3.g:718:20: '>='
             {
             match(">="); 
 
@@ -3329,8 +3349,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLESS_OR_EQUAL() throws RecognitionException {
         try {
             int _type = LESS_OR_EQUAL;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:688:18: ( '<=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:688:18: '<='
+            // Rubyv3.g:719:18: ( '<=' )
+            // Rubyv3.g:719:18: '<='
             {
             match("<="); 
 
@@ -3348,8 +3368,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mEQUAL() throws RecognitionException {
         try {
             int _type = EQUAL;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:689:12: ( '==' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:689:12: '=='
+            // Rubyv3.g:720:12: ( '==' )
+            // Rubyv3.g:720:12: '=='
             {
             match("=="); 
 
@@ -3367,8 +3387,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCASE_EQUAL() throws RecognitionException {
         try {
             int _type = CASE_EQUAL;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:690:16: ( '===' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:690:16: '==='
+            // Rubyv3.g:721:16: ( '===' )
+            // Rubyv3.g:721:16: '==='
             {
             match("==="); 
 
@@ -3386,8 +3406,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mNOT_EQUAL() throws RecognitionException {
         try {
             int _type = NOT_EQUAL;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:691:15: ( '!=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:691:15: '!='
+            // Rubyv3.g:722:15: ( '!=' )
+            // Rubyv3.g:722:15: '!='
             {
             match("!="); 
 
@@ -3405,8 +3425,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMATCH() throws RecognitionException {
         try {
             int _type = MATCH;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:692:12: ( '=~' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:692:12: '=~'
+            // Rubyv3.g:723:12: ( '=~' )
+            // Rubyv3.g:723:12: '=~'
             {
             match("=~"); 
 
@@ -3424,8 +3444,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mNOT_MATCH() throws RecognitionException {
         try {
             int _type = NOT_MATCH;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:693:15: ( '!~' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:693:15: '!~'
+            // Rubyv3.g:724:15: ( '!~' )
+            // Rubyv3.g:724:15: '!~'
             {
             match("!~"); 
 
@@ -3443,8 +3463,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRIGHT_SHIFT() throws RecognitionException {
         try {
             int _type = RIGHT_SHIFT;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:17: ( '>>' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:17: '>>'
+            // Rubyv3.g:726:17: ( '>>' )
+            // Rubyv3.g:726:17: '>>'
             {
             match(">>"); 
 
@@ -3462,8 +3482,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOMMENT() throws RecognitionException {
         try {
             int _type = COMMENT;
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:698:5: ( '#' ANYTHING_OTHER_THAN_LINE_FEED LINE_BREAK )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:698:5: '#' ANYTHING_OTHER_THAN_LINE_FEED LINE_BREAK
+            // Rubyv3.g:729:5: ( '#' ANYTHING_OTHER_THAN_LINE_FEED LINE_BREAK )
+            // Rubyv3.g:729:5: '#' ANYTHING_OTHER_THAN_LINE_FEED LINE_BREAK
             {
             match('#'); 
             mANYTHING_OTHER_THAN_LINE_FEED(); 
@@ -3484,10 +3504,10 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start ANYTHING_OTHER_THAN_LINE_FEED
     public final void mANYTHING_OTHER_THAN_LINE_FEED() throws RecognitionException {
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:705:5: ( (~ ( '\\r' | '\\n' ) )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:705:5: (~ ( '\\r' | '\\n' ) )*
+            // Rubyv3.g:736:5: ( (~ ( '\\r' | '\\n' ) )* )
+            // Rubyv3.g:736:5: (~ ( '\\r' | '\\n' ) )*
             {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:705:5: (~ ( '\\r' | '\\n' ) )*
+            // Rubyv3.g:736:5: (~ ( '\\r' | '\\n' ) )*
             loop39:
             do {
                 int alt39=2;
@@ -3500,7 +3520,7 @@ public class Rubyv3Lexer extends BaseLexer {
 
                 switch (alt39) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:705:6: ~ ( '\\r' | '\\n' )
+            	    // Rubyv3.g:736:6: ~ ( '\\r' | '\\n' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -3531,64 +3551,47 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR end ANYTHING_OTHER_THAN_LINE_FEED
 
     public void mTokens() throws RecognitionException {
-        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:10: ( T113 | T114 | T115 | T116 | T117 | T118 | T119 | T120 | T121 | T122 | T123 | T124 | T125 | T126 | T127 | T128 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | INT | ID | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | ARRAY | HASH | REGEX | SYMBOL | ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | STAR_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | POWER_ASSIGN | BAND_ASSIGN | BXOR_ASSIGN | BOR_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | INCLUSIVE_RANGE | EXCLUSIVE_RANGE | ASSOC | LOGICAL_AND | LOGICAL_OR | QUESTION | LPAREN | RPAREN | LBRACK | RBRACK | EMPTY_ARRAY | COMMA | COLON | COLON2 | NOT | BNOT | DIV | PLUS | MINUS | MOD | STAR | LESS_THAN | GREATER_THAN | BXOR | BOR | BAND | POWER | COMPARE | GREATER_OR_EQUAL | LESS_OR_EQUAL | EQUAL | CASE_EQUAL | NOT_EQUAL | MATCH | NOT_MATCH | RIGHT_SHIFT | COMMENT )
-        int alt40=88;
+        // Rubyv3.g:1:10: ( T113 | T114 | T115 | T116 | T117 | T118 | T119 | T120 | T121 | T122 | T123 | T124 | T125 | T126 | T127 | T128 | T129 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | INT | ID | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | ARRAY | HASH | REGEX | SYMBOL | ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | STAR_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | POWER_ASSIGN | BAND_ASSIGN | BXOR_ASSIGN | BOR_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | INCLUSIVE_RANGE | EXCLUSIVE_RANGE | ASSOC | LOGICAL_AND | LOGICAL_OR | QUESTION | LPAREN | RPAREN | LBRACK | RBRACK | EMPTY_ARRAY | COMMA | COLON | COLON2 | NOT | BNOT | DIV | PLUS | MINUS | MOD | STAR | LESS_THAN | GREATER_THAN | BXOR | BOR | BAND | POWER | COMPARE | GREATER_OR_EQUAL | LESS_OR_EQUAL | EQUAL | CASE_EQUAL | NOT_EQUAL | MATCH | NOT_MATCH | RIGHT_SHIFT | COMMENT )
+        int alt40=89;
         switch ( input.LA(1) ) {
         case 'b':
             {
             int LA40_1 = input.LA(2);
 
             if ( (LA40_1=='e') ) {
-                int LA40_43 = input.LA(3);
+                int LA40_44 = input.LA(3);
 
-                if ( (LA40_43=='g') ) {
-                    int LA40_102 = input.LA(4);
+                if ( (LA40_44=='g') ) {
+                    int LA40_104 = input.LA(4);
 
-                    if ( (LA40_102=='i') ) {
-                        int LA40_138 = input.LA(5);
+                    if ( (LA40_104=='i') ) {
+                        int LA40_141 = input.LA(5);
 
-                        if ( (LA40_138=='n') ) {
-                            int LA40_154 = input.LA(6);
+                        if ( (LA40_141=='n') ) {
+                            int LA40_158 = input.LA(6);
 
-                            if ( (LA40_154=='!'||(LA40_154>='0' && LA40_154<='9')||LA40_154=='?'||(LA40_154>='A' && LA40_154<='Z')||(LA40_154>='a' && LA40_154<='z')) ) {
-                                alt40=26;
+                            if ( (LA40_158=='!'||(LA40_158>='0' && LA40_158<='9')||LA40_158=='?'||(LA40_158>='A' && LA40_158<='Z')||(LA40_158>='a' && LA40_158<='z')) ) {
+                                alt40=27;
                             }
                             else {
                                 alt40=1;}
                         }
                         else {
-                            alt40=26;}
+                            alt40=27;}
                     }
                     else {
-                        alt40=26;}
+                        alt40=27;}
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
             }
             else {
-                alt40=26;}
+                alt40=27;}
             }
             break;
         case 'e':
             {
             switch ( input.LA(2) ) {
-            case 'n':
-                {
-                int LA40_44 = input.LA(3);
-
-                if ( (LA40_44=='d') ) {
-                    int LA40_103 = input.LA(4);
-
-                    if ( (LA40_103=='!'||(LA40_103>='0' && LA40_103<='9')||LA40_103=='?'||(LA40_103>='A' && LA40_103<='Z')||(LA40_103>='a' && LA40_103<='z')) ) {
-                        alt40=26;
-                    }
-                    else {
-                        alt40=2;}
-                }
-                else {
-                    alt40=26;}
-                }
-                break;
             case 'l':
                 {
                 int LA40_45 = input.LA(3);
@@ -3597,10 +3600,10 @@ public class Rubyv3Lexer extends BaseLexer {
                     switch ( input.LA(4) ) {
                     case 'e':
                         {
-                        int LA40_140 = input.LA(5);
+                        int LA40_142 = input.LA(5);
 
-                        if ( (LA40_140=='!'||(LA40_140>='0' && LA40_140<='9')||LA40_140=='?'||(LA40_140>='A' && LA40_140<='Z')||(LA40_140>='a' && LA40_140<='z')) ) {
-                            alt40=26;
+                        if ( (LA40_142=='!'||(LA40_142>='0' && LA40_142<='9')||LA40_142=='?'||(LA40_142>='A' && LA40_142<='Z')||(LA40_142>='a' && LA40_142<='z')) ) {
+                            alt40=27;
                         }
                         else {
                             alt40=7;}
@@ -3608,27 +3611,27 @@ public class Rubyv3Lexer extends BaseLexer {
                         break;
                     case 'i':
                         {
-                        int LA40_141 = input.LA(5);
+                        int LA40_143 = input.LA(5);
 
-                        if ( (LA40_141=='f') ) {
-                            int LA40_156 = input.LA(6);
+                        if ( (LA40_143=='f') ) {
+                            int LA40_160 = input.LA(6);
 
-                            if ( (LA40_156=='!'||(LA40_156>='0' && LA40_156<='9')||LA40_156=='?'||(LA40_156>='A' && LA40_156<='Z')||(LA40_156>='a' && LA40_156<='z')) ) {
-                                alt40=26;
+                            if ( (LA40_160=='!'||(LA40_160>='0' && LA40_160<='9')||LA40_160=='?'||(LA40_160>='A' && LA40_160<='Z')||(LA40_160>='a' && LA40_160<='z')) ) {
+                                alt40=27;
                             }
                             else {
                                 alt40=6;}
                         }
                         else {
-                            alt40=26;}
+                            alt40=27;}
                         }
                         break;
                     default:
-                        alt40=26;}
+                        alt40=27;}
 
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
                 }
                 break;
             case 'x':
@@ -3636,92 +3639,109 @@ public class Rubyv3Lexer extends BaseLexer {
                 int LA40_46 = input.LA(3);
 
                 if ( (LA40_46=='p') ) {
-                    int LA40_105 = input.LA(4);
+                    int LA40_106 = input.LA(4);
 
-                    if ( (LA40_105=='r') ) {
-                        int LA40_142 = input.LA(5);
+                    if ( (LA40_106=='r') ) {
+                        int LA40_144 = input.LA(5);
 
-                        if ( (LA40_142=='e') ) {
-                            int LA40_157 = input.LA(6);
+                        if ( (LA40_144=='e') ) {
+                            int LA40_161 = input.LA(6);
 
-                            if ( (LA40_157=='s') ) {
-                                int LA40_168 = input.LA(7);
+                            if ( (LA40_161=='s') ) {
+                                int LA40_172 = input.LA(7);
 
-                                if ( (LA40_168=='s') ) {
-                                    int LA40_175 = input.LA(8);
+                                if ( (LA40_172=='s') ) {
+                                    int LA40_179 = input.LA(8);
 
-                                    if ( (LA40_175=='i') ) {
-                                        int LA40_178 = input.LA(9);
+                                    if ( (LA40_179=='i') ) {
+                                        int LA40_182 = input.LA(9);
 
-                                        if ( (LA40_178=='o') ) {
-                                            int LA40_179 = input.LA(10);
+                                        if ( (LA40_182=='o') ) {
+                                            int LA40_183 = input.LA(10);
 
-                                            if ( (LA40_179=='n') ) {
+                                            if ( (LA40_183=='n') ) {
                                                 switch ( input.LA(11) ) {
                                                 case '2':
                                                     {
-                                                    int LA40_181 = input.LA(12);
+                                                    int LA40_185 = input.LA(12);
 
-                                                    if ( (LA40_181=='!'||(LA40_181>='0' && LA40_181<='9')||LA40_181=='?'||(LA40_181>='A' && LA40_181<='Z')||(LA40_181>='a' && LA40_181<='z')) ) {
-                                                        alt40=26;
+                                                    if ( (LA40_185=='!'||(LA40_185>='0' && LA40_185<='9')||LA40_185=='?'||(LA40_185>='A' && LA40_185<='Z')||(LA40_185>='a' && LA40_185<='z')) ) {
+                                                        alt40=27;
                                                     }
                                                     else {
-                                                        alt40=16;}
+                                                        alt40=17;}
                                                     }
                                                     break;
                                                 case '0':
                                                     {
-                                                    int LA40_182 = input.LA(12);
+                                                    int LA40_186 = input.LA(12);
 
-                                                    if ( (LA40_182=='!'||(LA40_182>='0' && LA40_182<='9')||LA40_182=='?'||(LA40_182>='A' && LA40_182<='Z')||(LA40_182>='a' && LA40_182<='z')) ) {
-                                                        alt40=26;
-                                                    }
-                                                    else {
-                                                        alt40=14;}
-                                                    }
-                                                    break;
-                                                case '1':
-                                                    {
-                                                    int LA40_183 = input.LA(12);
-
-                                                    if ( (LA40_183=='!'||(LA40_183>='0' && LA40_183<='9')||LA40_183=='?'||(LA40_183>='A' && LA40_183<='Z')||(LA40_183>='a' && LA40_183<='z')) ) {
-                                                        alt40=26;
+                                                    if ( (LA40_186=='!'||(LA40_186>='0' && LA40_186<='9')||LA40_186=='?'||(LA40_186>='A' && LA40_186<='Z')||(LA40_186>='a' && LA40_186<='z')) ) {
+                                                        alt40=27;
                                                     }
                                                     else {
                                                         alt40=15;}
                                                     }
                                                     break;
+                                                case '1':
+                                                    {
+                                                    int LA40_187 = input.LA(12);
+
+                                                    if ( (LA40_187=='!'||(LA40_187>='0' && LA40_187<='9')||LA40_187=='?'||(LA40_187>='A' && LA40_187<='Z')||(LA40_187>='a' && LA40_187<='z')) ) {
+                                                        alt40=27;
+                                                    }
+                                                    else {
+                                                        alt40=16;}
+                                                    }
+                                                    break;
                                                 default:
-                                                    alt40=26;}
+                                                    alt40=27;}
 
                                             }
                                             else {
-                                                alt40=26;}
+                                                alt40=27;}
                                         }
                                         else {
-                                            alt40=26;}
+                                            alt40=27;}
                                     }
                                     else {
-                                        alt40=26;}
+                                        alt40=27;}
                                 }
                                 else {
-                                    alt40=26;}
+                                    alt40=27;}
                             }
                             else {
-                                alt40=26;}
+                                alt40=27;}
                         }
                         else {
-                            alt40=26;}
+                            alt40=27;}
                     }
                     else {
-                        alt40=26;}
+                        alt40=27;}
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
+                }
+                break;
+            case 'n':
+                {
+                int LA40_47 = input.LA(3);
+
+                if ( (LA40_47=='d') ) {
+                    int LA40_107 = input.LA(4);
+
+                    if ( (LA40_107=='!'||(LA40_107>='0' && LA40_107<='9')||LA40_107=='?'||(LA40_107>='A' && LA40_107<='Z')||(LA40_107>='a' && LA40_107<='z')) ) {
+                        alt40=27;
+                    }
+                    else {
+                        alt40=2;}
+                }
+                else {
+                    alt40=27;}
                 }
                 break;
             default:
-                alt40=26;}
+                alt40=27;}
 
             }
             break;
@@ -3730,75 +3750,75 @@ public class Rubyv3Lexer extends BaseLexer {
             int LA40_3 = input.LA(2);
 
             if ( (LA40_3=='a') ) {
-                int LA40_47 = input.LA(3);
+                int LA40_48 = input.LA(3);
 
-                if ( (LA40_47=='l') ) {
-                    int LA40_106 = input.LA(4);
+                if ( (LA40_48=='l') ) {
+                    int LA40_108 = input.LA(4);
 
-                    if ( (LA40_106=='s') ) {
-                        int LA40_143 = input.LA(5);
+                    if ( (LA40_108=='s') ) {
+                        int LA40_146 = input.LA(5);
 
-                        if ( (LA40_143=='e') ) {
-                            int LA40_158 = input.LA(6);
+                        if ( (LA40_146=='e') ) {
+                            int LA40_162 = input.LA(6);
 
-                            if ( (LA40_158=='!'||(LA40_158>='0' && LA40_158<='9')||LA40_158=='?'||(LA40_158>='A' && LA40_158<='Z')||(LA40_158>='a' && LA40_158<='z')) ) {
-                                alt40=26;
+                            if ( (LA40_162=='!'||(LA40_162>='0' && LA40_162<='9')||LA40_162=='?'||(LA40_162>='A' && LA40_162<='Z')||(LA40_162>='a' && LA40_162<='z')) ) {
+                                alt40=27;
                             }
                             else {
                                 alt40=3;}
                         }
                         else {
-                            alt40=26;}
+                            alt40=27;}
                     }
                     else {
-                        alt40=26;}
+                        alt40=27;}
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
             }
             else {
-                alt40=26;}
+                alt40=27;}
             }
             break;
         case 'n':
             {
             switch ( input.LA(2) ) {
-            case 'i':
-                {
-                int LA40_48 = input.LA(3);
-
-                if ( (LA40_48=='l') ) {
-                    int LA40_107 = input.LA(4);
-
-                    if ( (LA40_107=='!'||(LA40_107>='0' && LA40_107<='9')||LA40_107=='?'||(LA40_107>='A' && LA40_107<='Z')||(LA40_107>='a' && LA40_107<='z')) ) {
-                        alt40=26;
-                    }
-                    else {
-                        alt40=4;}
-                }
-                else {
-                    alt40=26;}
-                }
-                break;
             case 'o':
                 {
                 int LA40_49 = input.LA(3);
 
                 if ( (LA40_49=='t') ) {
-                    int LA40_108 = input.LA(4);
+                    int LA40_109 = input.LA(4);
 
-                    if ( (LA40_108=='!'||(LA40_108>='0' && LA40_108<='9')||LA40_108=='?'||(LA40_108>='A' && LA40_108<='Z')||(LA40_108>='a' && LA40_108<='z')) ) {
-                        alt40=26;
+                    if ( (LA40_109=='!'||(LA40_109>='0' && LA40_109<='9')||LA40_109=='?'||(LA40_109>='A' && LA40_109<='Z')||(LA40_109>='a' && LA40_109<='z')) ) {
+                        alt40=27;
                     }
                     else {
-                        alt40=13;}
+                        alt40=14;}
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
+                }
+                break;
+            case 'i':
+                {
+                int LA40_50 = input.LA(3);
+
+                if ( (LA40_50=='l') ) {
+                    int LA40_110 = input.LA(4);
+
+                    if ( (LA40_110=='!'||(LA40_110>='0' && LA40_110<='9')||LA40_110=='?'||(LA40_110>='A' && LA40_110<='Z')||(LA40_110>='a' && LA40_110<='z')) ) {
+                        alt40=27;
+                    }
+                    else {
+                        alt40=4;}
+                }
+                else {
+                    alt40=27;}
                 }
                 break;
             default:
-                alt40=26;}
+                alt40=27;}
 
             }
             break;
@@ -3807,317 +3827,340 @@ public class Rubyv3Lexer extends BaseLexer {
             switch ( input.LA(2) ) {
             case 'r':
                 {
-                int LA40_50 = input.LA(3);
+                int LA40_51 = input.LA(3);
 
-                if ( (LA40_50=='u') ) {
-                    int LA40_109 = input.LA(4);
+                if ( (LA40_51=='u') ) {
+                    int LA40_111 = input.LA(4);
 
-                    if ( (LA40_109=='e') ) {
-                        int LA40_146 = input.LA(5);
+                    if ( (LA40_111=='e') ) {
+                        int LA40_149 = input.LA(5);
 
-                        if ( (LA40_146=='!'||(LA40_146>='0' && LA40_146<='9')||LA40_146=='?'||(LA40_146>='A' && LA40_146<='Z')||(LA40_146>='a' && LA40_146<='z')) ) {
-                            alt40=26;
+                        if ( (LA40_149=='!'||(LA40_149>='0' && LA40_149<='9')||LA40_149=='?'||(LA40_149>='A' && LA40_149<='Z')||(LA40_149>='a' && LA40_149<='z')) ) {
+                            alt40=27;
                         }
                         else {
                             alt40=5;}
                     }
                     else {
-                        alt40=26;}
+                        alt40=27;}
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
                 }
                 break;
             case 'h':
                 {
-                int LA40_51 = input.LA(3);
+                int LA40_52 = input.LA(3);
 
-                if ( (LA40_51=='e') ) {
-                    int LA40_110 = input.LA(4);
+                if ( (LA40_52=='e') ) {
+                    int LA40_112 = input.LA(4);
 
-                    if ( (LA40_110=='n') ) {
-                        int LA40_147 = input.LA(5);
+                    if ( (LA40_112=='n') ) {
+                        int LA40_150 = input.LA(5);
 
-                        if ( (LA40_147=='!'||(LA40_147>='0' && LA40_147<='9')||LA40_147=='?'||(LA40_147>='A' && LA40_147<='Z')||(LA40_147>='a' && LA40_147<='z')) ) {
-                            alt40=26;
+                        if ( (LA40_150=='!'||(LA40_150>='0' && LA40_150<='9')||LA40_150=='?'||(LA40_150>='A' && LA40_150<='Z')||(LA40_150>='a' && LA40_150<='z')) ) {
+                            alt40=27;
                         }
                         else {
                             alt40=8;}
                     }
                     else {
-                        alt40=26;}
+                        alt40=27;}
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
                 }
                 break;
             default:
-                alt40=26;}
+                alt40=27;}
 
             }
             break;
         case 'a':
             {
             switch ( input.LA(2) ) {
-            case 'n':
-                {
-                int LA40_52 = input.LA(3);
-
-                if ( (LA40_52=='d') ) {
-                    int LA40_111 = input.LA(4);
-
-                    if ( (LA40_111=='!'||(LA40_111>='0' && LA40_111<='9')||LA40_111=='?'||(LA40_111>='A' && LA40_111<='Z')||(LA40_111>='a' && LA40_111<='z')) ) {
-                        alt40=26;
-                    }
-                    else {
-                        alt40=11;}
-                }
-                else {
-                    alt40=26;}
-                }
-                break;
             case 'l':
                 {
                 int LA40_53 = input.LA(3);
 
                 if ( (LA40_53=='i') ) {
-                    int LA40_112 = input.LA(4);
+                    int LA40_113 = input.LA(4);
 
-                    if ( (LA40_112=='a') ) {
-                        int LA40_149 = input.LA(5);
+                    if ( (LA40_113=='a') ) {
+                        int LA40_151 = input.LA(5);
 
-                        if ( (LA40_149=='s') ) {
-                            int LA40_161 = input.LA(6);
+                        if ( (LA40_151=='s') ) {
+                            int LA40_165 = input.LA(6);
 
-                            if ( (LA40_161=='!'||(LA40_161>='0' && LA40_161<='9')||LA40_161=='?'||(LA40_161>='A' && LA40_161<='Z')||(LA40_161>='a' && LA40_161<='z')) ) {
-                                alt40=26;
+                            if ( (LA40_165=='!'||(LA40_165>='0' && LA40_165<='9')||LA40_165=='?'||(LA40_165>='A' && LA40_165<='Z')||(LA40_165>='a' && LA40_165<='z')) ) {
+                                alt40=27;
                             }
                             else {
                                 alt40=9;}
                         }
                         else {
-                            alt40=26;}
+                            alt40=27;}
                     }
                     else {
-                        alt40=26;}
+                        alt40=27;}
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
+                }
+                break;
+            case 'n':
+                {
+                int LA40_54 = input.LA(3);
+
+                if ( (LA40_54=='d') ) {
+                    int LA40_114 = input.LA(4);
+
+                    if ( (LA40_114=='!'||(LA40_114>='0' && LA40_114<='9')||LA40_114=='?'||(LA40_114>='A' && LA40_114<='Z')||(LA40_114>='a' && LA40_114<='z')) ) {
+                        alt40=27;
+                    }
+                    else {
+                        alt40=12;}
+                }
+                else {
+                    alt40=27;}
                 }
                 break;
             default:
-                alt40=26;}
+                alt40=27;}
 
+            }
+            break;
+        case 'd':
+            {
+            int LA40_7 = input.LA(2);
+
+            if ( (LA40_7=='e') ) {
+                int LA40_55 = input.LA(3);
+
+                if ( (LA40_55=='f') ) {
+                    int LA40_115 = input.LA(4);
+
+                    if ( (LA40_115=='!'||(LA40_115>='0' && LA40_115<='9')||LA40_115=='?'||(LA40_115>='A' && LA40_115<='Z')||(LA40_115>='a' && LA40_115<='z')) ) {
+                        alt40=27;
+                    }
+                    else {
+                        alt40=10;}
+                }
+                else {
+                    alt40=27;}
+            }
+            else {
+                alt40=27;}
             }
             break;
         case '[':
             {
-            int LA40_7 = input.LA(2);
+            int LA40_8 = input.LA(2);
 
-            if ( (LA40_7==']') ) {
-                int LA40_54 = input.LA(3);
+            if ( (LA40_8==']') ) {
+                int LA40_56 = input.LA(3);
 
-                if ( (LA40_54=='=') ) {
-                    alt40=10;
+                if ( (LA40_56=='=') ) {
+                    alt40=11;
                 }
                 else {
-                    alt40=33;}
+                    alt40=34;}
             }
             else {
-                alt40=60;}
+                alt40=61;}
             }
             break;
         case 'o':
             {
-            int LA40_8 = input.LA(2);
+            int LA40_9 = input.LA(2);
 
-            if ( (LA40_8=='r') ) {
-                int LA40_56 = input.LA(3);
+            if ( (LA40_9=='r') ) {
+                int LA40_58 = input.LA(3);
 
-                if ( (LA40_56=='!'||(LA40_56>='0' && LA40_56<='9')||LA40_56=='?'||(LA40_56>='A' && LA40_56<='Z')||(LA40_56>='a' && LA40_56<='z')) ) {
-                    alt40=26;
+                if ( (LA40_58=='!'||(LA40_58>='0' && LA40_58<='9')||LA40_58=='?'||(LA40_58>='A' && LA40_58<='Z')||(LA40_58>='a' && LA40_58<='z')) ) {
+                    alt40=27;
                 }
                 else {
-                    alt40=12;}
+                    alt40=13;}
             }
             else {
-                alt40=26;}
+                alt40=27;}
             }
             break;
         case 'i':
             {
-            int LA40_9 = input.LA(2);
+            int LA40_10 = input.LA(2);
 
-            if ( (LA40_9=='f') ) {
-                int LA40_57 = input.LA(3);
+            if ( (LA40_10=='f') ) {
+                int LA40_59 = input.LA(3);
 
-                if ( (LA40_57=='!'||(LA40_57>='0' && LA40_57<='9')||LA40_57=='?'||(LA40_57>='A' && LA40_57<='Z')||(LA40_57>='a' && LA40_57<='z')) ) {
-                    alt40=26;
+                if ( (LA40_59=='!'||(LA40_59>='0' && LA40_59<='9')||LA40_59=='?'||(LA40_59>='A' && LA40_59<='Z')||(LA40_59>='a' && LA40_59<='z')) ) {
+                    alt40=27;
                 }
                 else {
-                    alt40=17;}
+                    alt40=18;}
             }
             else {
-                alt40=26;}
+                alt40=27;}
             }
             break;
         case 'u':
             {
-            int LA40_10 = input.LA(2);
+            int LA40_11 = input.LA(2);
 
-            if ( (LA40_10=='n') ) {
+            if ( (LA40_11=='n') ) {
                 switch ( input.LA(3) ) {
-                case 'l':
-                    {
-                    int LA40_117 = input.LA(4);
-
-                    if ( (LA40_117=='e') ) {
-                        int LA40_150 = input.LA(5);
-
-                        if ( (LA40_150=='s') ) {
-                            int LA40_162 = input.LA(6);
-
-                            if ( (LA40_162=='s') ) {
-                                int LA40_171 = input.LA(7);
-
-                                if ( (LA40_171=='!'||(LA40_171>='0' && LA40_171<='9')||LA40_171=='?'||(LA40_171>='A' && LA40_171<='Z')||(LA40_171>='a' && LA40_171<='z')) ) {
-                                    alt40=26;
-                                }
-                                else {
-                                    alt40=18;}
-                            }
-                            else {
-                                alt40=26;}
-                        }
-                        else {
-                            alt40=26;}
-                    }
-                    else {
-                        alt40=26;}
-                    }
-                    break;
                 case 't':
                     {
-                    int LA40_118 = input.LA(4);
+                    int LA40_120 = input.LA(4);
 
-                    if ( (LA40_118=='i') ) {
-                        int LA40_151 = input.LA(5);
+                    if ( (LA40_120=='i') ) {
+                        int LA40_154 = input.LA(5);
 
-                        if ( (LA40_151=='l') ) {
-                            int LA40_163 = input.LA(6);
+                        if ( (LA40_154=='l') ) {
+                            int LA40_166 = input.LA(6);
 
-                            if ( (LA40_163=='!'||(LA40_163>='0' && LA40_163<='9')||LA40_163=='?'||(LA40_163>='A' && LA40_163<='Z')||(LA40_163>='a' && LA40_163<='z')) ) {
-                                alt40=26;
+                            if ( (LA40_166=='!'||(LA40_166>='0' && LA40_166<='9')||LA40_166=='?'||(LA40_166>='A' && LA40_166<='Z')||(LA40_166>='a' && LA40_166<='z')) ) {
+                                alt40=27;
+                            }
+                            else {
+                                alt40=21;}
+                        }
+                        else {
+                            alt40=27;}
+                    }
+                    else {
+                        alt40=27;}
+                    }
+                    break;
+                case 'l':
+                    {
+                    int LA40_121 = input.LA(4);
+
+                    if ( (LA40_121=='e') ) {
+                        int LA40_155 = input.LA(5);
+
+                        if ( (LA40_155=='s') ) {
+                            int LA40_167 = input.LA(6);
+
+                            if ( (LA40_167=='s') ) {
+                                int LA40_176 = input.LA(7);
+
+                                if ( (LA40_176=='!'||(LA40_176>='0' && LA40_176<='9')||LA40_176=='?'||(LA40_176>='A' && LA40_176<='Z')||(LA40_176>='a' && LA40_176<='z')) ) {
+                                    alt40=27;
+                                }
+                                else {
+                                    alt40=19;}
+                            }
+                            else {
+                                alt40=27;}
+                        }
+                        else {
+                            alt40=27;}
+                    }
+                    else {
+                        alt40=27;}
+                    }
+                    break;
+                default:
+                    alt40=27;}
+
+            }
+            else {
+                alt40=27;}
+            }
+            break;
+        case 'w':
+            {
+            int LA40_12 = input.LA(2);
+
+            if ( (LA40_12=='h') ) {
+                int LA40_61 = input.LA(3);
+
+                if ( (LA40_61=='i') ) {
+                    int LA40_122 = input.LA(4);
+
+                    if ( (LA40_122=='l') ) {
+                        int LA40_156 = input.LA(5);
+
+                        if ( (LA40_156=='e') ) {
+                            int LA40_168 = input.LA(6);
+
+                            if ( (LA40_168=='!'||(LA40_168>='0' && LA40_168<='9')||LA40_168=='?'||(LA40_168>='A' && LA40_168<='Z')||(LA40_168>='a' && LA40_168<='z')) ) {
+                                alt40=27;
                             }
                             else {
                                 alt40=20;}
                         }
                         else {
-                            alt40=26;}
+                            alt40=27;}
                     }
                     else {
-                        alt40=26;}
-                    }
-                    break;
-                default:
-                    alt40=26;}
-
-            }
-            else {
-                alt40=26;}
-            }
-            break;
-        case 'w':
-            {
-            int LA40_11 = input.LA(2);
-
-            if ( (LA40_11=='h') ) {
-                int LA40_59 = input.LA(3);
-
-                if ( (LA40_59=='i') ) {
-                    int LA40_119 = input.LA(4);
-
-                    if ( (LA40_119=='l') ) {
-                        int LA40_152 = input.LA(5);
-
-                        if ( (LA40_152=='e') ) {
-                            int LA40_164 = input.LA(6);
-
-                            if ( (LA40_164=='!'||(LA40_164>='0' && LA40_164<='9')||LA40_164=='?'||(LA40_164>='A' && LA40_164<='Z')||(LA40_164>='a' && LA40_164<='z')) ) {
-                                alt40=26;
-                            }
-                            else {
-                                alt40=19;}
-                        }
-                        else {
-                            alt40=26;}
-                    }
-                    else {
-                        alt40=26;}
+                        alt40=27;}
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
             }
             else {
-                alt40=26;}
+                alt40=27;}
             }
             break;
         case 'r':
             {
-            int LA40_12 = input.LA(2);
+            int LA40_13 = input.LA(2);
 
-            if ( (LA40_12=='e') ) {
-                int LA40_60 = input.LA(3);
+            if ( (LA40_13=='e') ) {
+                int LA40_62 = input.LA(3);
 
-                if ( (LA40_60=='s') ) {
-                    int LA40_120 = input.LA(4);
+                if ( (LA40_62=='s') ) {
+                    int LA40_123 = input.LA(4);
 
-                    if ( (LA40_120=='u') ) {
-                        int LA40_153 = input.LA(5);
+                    if ( (LA40_123=='u') ) {
+                        int LA40_157 = input.LA(5);
 
-                        if ( (LA40_153=='c') ) {
-                            int LA40_165 = input.LA(6);
+                        if ( (LA40_157=='c') ) {
+                            int LA40_169 = input.LA(6);
 
-                            if ( (LA40_165=='e') ) {
-                                int LA40_174 = input.LA(7);
+                            if ( (LA40_169=='e') ) {
+                                int LA40_178 = input.LA(7);
 
-                                if ( (LA40_174=='!'||(LA40_174>='0' && LA40_174<='9')||LA40_174=='?'||(LA40_174>='A' && LA40_174<='Z')||(LA40_174>='a' && LA40_174<='z')) ) {
-                                    alt40=26;
+                                if ( (LA40_178=='!'||(LA40_178>='0' && LA40_178<='9')||LA40_178=='?'||(LA40_178>='A' && LA40_178<='Z')||(LA40_178>='a' && LA40_178<='z')) ) {
+                                    alt40=27;
                                 }
                                 else {
-                                    alt40=21;}
+                                    alt40=22;}
                             }
                             else {
-                                alt40=26;}
+                                alt40=27;}
                         }
                         else {
-                            alt40=26;}
+                            alt40=27;}
                     }
                     else {
-                        alt40=26;}
+                        alt40=27;}
                 }
                 else {
-                    alt40=26;}
+                    alt40=27;}
             }
             else {
-                alt40=26;}
+                alt40=27;}
             }
             break;
         case ';':
             {
-            alt40=22;
+            alt40=23;
             }
             break;
         case '\n':
         case '\r':
             {
-            alt40=23;
+            alt40=24;
             }
             break;
         case '\t':
         case ' ':
             {
-            alt40=24;
+            alt40=25;
             }
             break;
         case '-':
@@ -4125,7 +4168,7 @@ public class Rubyv3Lexer extends BaseLexer {
             switch ( input.LA(2) ) {
             case '=':
                 {
-                alt40=39;
+                alt40=40;
                 }
                 break;
             case '0':
@@ -4139,11 +4182,11 @@ public class Rubyv3Lexer extends BaseLexer {
             case '8':
             case '9':
                 {
-                alt40=25;
+                alt40=26;
                 }
                 break;
             default:
-                alt40=70;}
+                alt40=71;}
 
             }
             break;
@@ -4158,7 +4201,7 @@ public class Rubyv3Lexer extends BaseLexer {
         case '8':
         case '9':
             {
-            alt40=25;
+            alt40=26;
             }
             break;
         case 'A':
@@ -4189,7 +4232,6 @@ public class Rubyv3Lexer extends BaseLexer {
         case 'Z':
         case '_':
         case 'c':
-        case 'd':
         case 'g':
         case 'h':
         case 'j':
@@ -4204,12 +4246,12 @@ public class Rubyv3Lexer extends BaseLexer {
         case 'y':
         case 'z':
             {
-            alt40=26;
+            alt40=27;
             }
             break;
         case '\'':
             {
-            alt40=27;
+            alt40=28;
             }
             break;
         case '%':
@@ -4217,12 +4259,88 @@ public class Rubyv3Lexer extends BaseLexer {
             switch ( input.LA(2) ) {
             case 'Q':
                 {
-                alt40=28;
+                alt40=29;
                 }
                 break;
             case 'q':
                 {
-                alt40=27;
+                alt40=28;
+                }
+                break;
+            case '=':
+                {
+                alt40=43;
+                }
+                break;
+            default:
+                alt40=72;}
+
+            }
+            break;
+        case '\"':
+            {
+            alt40=29;
+            }
+            break;
+        case '{':
+            {
+            int LA40_23 = input.LA(2);
+
+            if ( (LA40_23=='}') ) {
+                alt40=35;
+            }
+            else {
+                alt40=30;}
+            }
+            break;
+        case '}':
+            {
+            alt40=31;
+            }
+            break;
+        case '<':
+            {
+            switch ( input.LA(2) ) {
+            case '=':
+                {
+                int LA40_69 = input.LA(3);
+
+                if ( (LA40_69=='>') ) {
+                    alt40=80;
+                }
+                else {
+                    alt40=82;}
+                }
+                break;
+            case '<':
+                {
+                switch ( input.LA(3) ) {
+                case '=':
+                    {
+                    alt40=49;
+                    }
+                    break;
+                case '-':
+                    {
+                    alt40=33;
+                    }
+                    break;
+                default:
+                    alt40=32;}
+
+                }
+                break;
+            default:
+                alt40=74;}
+
+            }
+            break;
+        case '/':
+            {
+            switch ( input.LA(2) ) {
+            case 'a':
+                {
+                alt40=36;
                 }
                 break;
             case '=':
@@ -4231,83 +4349,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 }
                 break;
             default:
-                alt40=71;}
-
-            }
-            break;
-        case '\"':
-            {
-            alt40=28;
-            }
-            break;
-        case '{':
-            {
-            int LA40_22 = input.LA(2);
-
-            if ( (LA40_22=='}') ) {
-                alt40=34;
-            }
-            else {
-                alt40=29;}
-            }
-            break;
-        case '}':
-            {
-            alt40=30;
-            }
-            break;
-        case '<':
-            {
-            switch ( input.LA(2) ) {
-            case '<':
-                {
-                switch ( input.LA(3) ) {
-                case '-':
-                    {
-                    alt40=32;
-                    }
-                    break;
-                case '=':
-                    {
-                    alt40=48;
-                    }
-                    break;
-                default:
-                    alt40=31;}
-
-                }
-                break;
-            case '=':
-                {
-                int LA40_68 = input.LA(3);
-
-                if ( (LA40_68=='>') ) {
-                    alt40=79;
-                }
-                else {
-                    alt40=81;}
-                }
-                break;
-            default:
-                alt40=73;}
-
-            }
-            break;
-        case '/':
-            {
-            switch ( input.LA(2) ) {
-            case '=':
-                {
-                alt40=41;
-                }
-                break;
-            case 'a':
-                {
-                alt40=35;
-                }
-                break;
-            default:
-                alt40=68;}
+                alt40=69;}
 
             }
             break;
@@ -4316,57 +4358,57 @@ public class Rubyv3Lexer extends BaseLexer {
             switch ( input.LA(2) ) {
             case 'a':
                 {
-                alt40=36;
+                alt40=37;
                 }
                 break;
             case ':':
                 {
-                alt40=65;
+                alt40=66;
                 }
                 break;
             default:
-                alt40=64;}
+                alt40=65;}
 
             }
             break;
         case '=':
             {
             switch ( input.LA(2) ) {
-            case '=':
-                {
-                int LA40_76 = input.LA(3);
-
-                if ( (LA40_76=='=') ) {
-                    alt40=83;
-                }
-                else {
-                    alt40=82;}
-                }
-                break;
             case '>':
                 {
-                alt40=54;
+                alt40=55;
                 }
                 break;
             case '~':
                 {
-                alt40=85;
+                alt40=86;
+                }
+                break;
+            case '=':
+                {
+                int LA40_80 = input.LA(3);
+
+                if ( (LA40_80=='=') ) {
+                    alt40=84;
+                }
+                else {
+                    alt40=83;}
                 }
                 break;
             default:
-                alt40=37;}
+                alt40=38;}
 
             }
             break;
         case '+':
             {
-            int LA40_28 = input.LA(2);
+            int LA40_29 = input.LA(2);
 
-            if ( (LA40_28=='=') ) {
-                alt40=38;
+            if ( (LA40_29=='=') ) {
+                alt40=39;
             }
             else {
-                alt40=69;}
+                alt40=70;}
             }
             break;
         case '*':
@@ -4374,34 +4416,34 @@ public class Rubyv3Lexer extends BaseLexer {
             switch ( input.LA(2) ) {
             case '*':
                 {
-                int LA40_82 = input.LA(3);
+                int LA40_84 = input.LA(3);
 
-                if ( (LA40_82=='=') ) {
-                    alt40=44;
+                if ( (LA40_84=='=') ) {
+                    alt40=45;
                 }
                 else {
-                    alt40=78;}
+                    alt40=79;}
                 }
                 break;
             case '=':
                 {
-                alt40=40;
+                alt40=41;
                 }
                 break;
             default:
-                alt40=72;}
+                alt40=73;}
 
             }
             break;
         case '~':
             {
-            int LA40_30 = input.LA(2);
+            int LA40_31 = input.LA(2);
 
-            if ( (LA40_30=='=') ) {
-                alt40=43;
+            if ( (LA40_31=='=') ) {
+                alt40=44;
             }
             else {
-                alt40=67;}
+                alt40=68;}
             }
             break;
         case '&':
@@ -4409,44 +4451,9 @@ public class Rubyv3Lexer extends BaseLexer {
             switch ( input.LA(2) ) {
             case '&':
                 {
-                int LA40_87 = input.LA(3);
+                int LA40_89 = input.LA(3);
 
-                if ( (LA40_87=='=') ) {
-                    alt40=50;
-                }
-                else {
-                    alt40=55;}
-                }
-                break;
-            case '=':
-                {
-                alt40=45;
-                }
-                break;
-            default:
-                alt40=77;}
-
-            }
-            break;
-        case '^':
-            {
-            int LA40_32 = input.LA(2);
-
-            if ( (LA40_32=='=') ) {
-                alt40=46;
-            }
-            else {
-                alt40=75;}
-            }
-            break;
-        case '|':
-            {
-            switch ( input.LA(2) ) {
-            case '|':
-                {
-                int LA40_92 = input.LA(3);
-
-                if ( (LA40_92=='=') ) {
+                if ( (LA40_89=='=') ) {
                     alt40=51;
                 }
                 else {
@@ -4455,11 +4462,46 @@ public class Rubyv3Lexer extends BaseLexer {
                 break;
             case '=':
                 {
-                alt40=47;
+                alt40=46;
                 }
                 break;
             default:
+                alt40=78;}
+
+            }
+            break;
+        case '^':
+            {
+            int LA40_33 = input.LA(2);
+
+            if ( (LA40_33=='=') ) {
+                alt40=47;
+            }
+            else {
                 alt40=76;}
+            }
+            break;
+        case '|':
+            {
+            switch ( input.LA(2) ) {
+            case '|':
+                {
+                int LA40_94 = input.LA(3);
+
+                if ( (LA40_94=='=') ) {
+                    alt40=52;
+                }
+                else {
+                    alt40=57;}
+                }
+                break;
+            case '=':
+                {
+                alt40=48;
+                }
+                break;
+            default:
+                alt40=77;}
 
             }
             break;
@@ -4468,41 +4510,41 @@ public class Rubyv3Lexer extends BaseLexer {
             switch ( input.LA(2) ) {
             case '=':
                 {
-                alt40=80;
+                alt40=81;
                 }
                 break;
             case '>':
                 {
-                int LA40_96 = input.LA(3);
+                int LA40_98 = input.LA(3);
 
-                if ( (LA40_96=='=') ) {
-                    alt40=49;
+                if ( (LA40_98=='=') ) {
+                    alt40=50;
                 }
                 else {
-                    alt40=87;}
+                    alt40=88;}
                 }
                 break;
             default:
-                alt40=74;}
+                alt40=75;}
 
             }
             break;
         case '.':
             {
-            int LA40_35 = input.LA(2);
+            int LA40_36 = input.LA(2);
 
-            if ( (LA40_35=='.') ) {
-                int LA40_98 = input.LA(3);
+            if ( (LA40_36=='.') ) {
+                int LA40_100 = input.LA(3);
 
-                if ( (LA40_98=='.') ) {
-                    alt40=53;
+                if ( (LA40_100=='.') ) {
+                    alt40=54;
                 }
                 else {
-                    alt40=52;}
+                    alt40=53;}
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("1:1: Tokens : ( T113 | T114 | T115 | T116 | T117 | T118 | T119 | T120 | T121 | T122 | T123 | T124 | T125 | T126 | T127 | T128 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | INT | ID | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | ARRAY | HASH | REGEX | SYMBOL | ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | STAR_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | POWER_ASSIGN | BAND_ASSIGN | BXOR_ASSIGN | BOR_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | INCLUSIVE_RANGE | EXCLUSIVE_RANGE | ASSOC | LOGICAL_AND | LOGICAL_OR | QUESTION | LPAREN | RPAREN | LBRACK | RBRACK | EMPTY_ARRAY | COMMA | COLON | COLON2 | NOT | BNOT | DIV | PLUS | MINUS | MOD | STAR | LESS_THAN | GREATER_THAN | BXOR | BOR | BAND | POWER | COMPARE | GREATER_OR_EQUAL | LESS_OR_EQUAL | EQUAL | CASE_EQUAL | NOT_EQUAL | MATCH | NOT_MATCH | RIGHT_SHIFT | COMMENT );", 40, 35, input);
+                    new NoViableAltException("1:1: Tokens : ( T113 | T114 | T115 | T116 | T117 | T118 | T119 | T120 | T121 | T122 | T123 | T124 | T125 | T126 | T127 | T128 | T129 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | INT | ID | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | ARRAY | HASH | REGEX | SYMBOL | ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | STAR_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | POWER_ASSIGN | BAND_ASSIGN | BXOR_ASSIGN | BOR_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | INCLUSIVE_RANGE | EXCLUSIVE_RANGE | ASSOC | LOGICAL_AND | LOGICAL_OR | QUESTION | LPAREN | RPAREN | LBRACK | RBRACK | EMPTY_ARRAY | COMMA | COLON | COLON2 | NOT | BNOT | DIV | PLUS | MINUS | MOD | STAR | LESS_THAN | GREATER_THAN | BXOR | BOR | BAND | POWER | COMPARE | GREATER_OR_EQUAL | LESS_OR_EQUAL | EQUAL | CASE_EQUAL | NOT_EQUAL | MATCH | NOT_MATCH | RIGHT_SHIFT | COMMENT );", 40, 36, input);
 
                 throw nvae;
             }
@@ -4510,671 +4552,678 @@ public class Rubyv3Lexer extends BaseLexer {
             break;
         case '?':
             {
-            alt40=57;
+            alt40=58;
             }
             break;
         case '(':
             {
-            alt40=58;
+            alt40=59;
             }
             break;
         case ')':
             {
-            alt40=59;
+            alt40=60;
             }
             break;
         case ']':
             {
-            alt40=61;
+            alt40=62;
             }
             break;
         case ',':
             {
-            alt40=63;
+            alt40=64;
             }
             break;
         case '!':
             {
             switch ( input.LA(2) ) {
-            case '~':
-                {
-                alt40=86;
-                }
-                break;
             case '=':
                 {
-                alt40=84;
+                alt40=85;
+                }
+                break;
+            case '~':
+                {
+                alt40=87;
                 }
                 break;
             default:
-                alt40=66;}
+                alt40=67;}
 
             }
             break;
         case '#':
             {
-            alt40=88;
+            alt40=89;
             }
             break;
         default:
             NoViableAltException nvae =
-                new NoViableAltException("1:1: Tokens : ( T113 | T114 | T115 | T116 | T117 | T118 | T119 | T120 | T121 | T122 | T123 | T124 | T125 | T126 | T127 | T128 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | INT | ID | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | ARRAY | HASH | REGEX | SYMBOL | ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | STAR_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | POWER_ASSIGN | BAND_ASSIGN | BXOR_ASSIGN | BOR_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | INCLUSIVE_RANGE | EXCLUSIVE_RANGE | ASSOC | LOGICAL_AND | LOGICAL_OR | QUESTION | LPAREN | RPAREN | LBRACK | RBRACK | EMPTY_ARRAY | COMMA | COLON | COLON2 | NOT | BNOT | DIV | PLUS | MINUS | MOD | STAR | LESS_THAN | GREATER_THAN | BXOR | BOR | BAND | POWER | COMPARE | GREATER_OR_EQUAL | LESS_OR_EQUAL | EQUAL | CASE_EQUAL | NOT_EQUAL | MATCH | NOT_MATCH | RIGHT_SHIFT | COMMENT );", 40, 0, input);
+                new NoViableAltException("1:1: Tokens : ( T113 | T114 | T115 | T116 | T117 | T118 | T119 | T120 | T121 | T122 | T123 | T124 | T125 | T126 | T127 | T128 | T129 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | INT | ID | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | ARRAY | HASH | REGEX | SYMBOL | ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | STAR_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | POWER_ASSIGN | BAND_ASSIGN | BXOR_ASSIGN | BOR_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | INCLUSIVE_RANGE | EXCLUSIVE_RANGE | ASSOC | LOGICAL_AND | LOGICAL_OR | QUESTION | LPAREN | RPAREN | LBRACK | RBRACK | EMPTY_ARRAY | COMMA | COLON | COLON2 | NOT | BNOT | DIV | PLUS | MINUS | MOD | STAR | LESS_THAN | GREATER_THAN | BXOR | BOR | BAND | POWER | COMPARE | GREATER_OR_EQUAL | LESS_OR_EQUAL | EQUAL | CASE_EQUAL | NOT_EQUAL | MATCH | NOT_MATCH | RIGHT_SHIFT | COMMENT );", 40, 0, input);
 
             throw nvae;
         }
 
         switch (alt40) {
             case 1 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:10: T113
+                // Rubyv3.g:1:10: T113
                 {
                 mT113(); 
 
                 }
                 break;
             case 2 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:15: T114
+                // Rubyv3.g:1:15: T114
                 {
                 mT114(); 
 
                 }
                 break;
             case 3 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:20: T115
+                // Rubyv3.g:1:20: T115
                 {
                 mT115(); 
 
                 }
                 break;
             case 4 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:25: T116
+                // Rubyv3.g:1:25: T116
                 {
                 mT116(); 
 
                 }
                 break;
             case 5 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:30: T117
+                // Rubyv3.g:1:30: T117
                 {
                 mT117(); 
 
                 }
                 break;
             case 6 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:35: T118
+                // Rubyv3.g:1:35: T118
                 {
                 mT118(); 
 
                 }
                 break;
             case 7 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:40: T119
+                // Rubyv3.g:1:40: T119
                 {
                 mT119(); 
 
                 }
                 break;
             case 8 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:45: T120
+                // Rubyv3.g:1:45: T120
                 {
                 mT120(); 
 
                 }
                 break;
             case 9 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:50: T121
+                // Rubyv3.g:1:50: T121
                 {
                 mT121(); 
 
                 }
                 break;
             case 10 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:55: T122
+                // Rubyv3.g:1:55: T122
                 {
                 mT122(); 
 
                 }
                 break;
             case 11 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:60: T123
+                // Rubyv3.g:1:60: T123
                 {
                 mT123(); 
 
                 }
                 break;
             case 12 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:65: T124
+                // Rubyv3.g:1:65: T124
                 {
                 mT124(); 
 
                 }
                 break;
             case 13 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:70: T125
+                // Rubyv3.g:1:70: T125
                 {
                 mT125(); 
 
                 }
                 break;
             case 14 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:75: T126
+                // Rubyv3.g:1:75: T126
                 {
                 mT126(); 
 
                 }
                 break;
             case 15 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:80: T127
+                // Rubyv3.g:1:80: T127
                 {
                 mT127(); 
 
                 }
                 break;
             case 16 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:85: T128
+                // Rubyv3.g:1:85: T128
                 {
                 mT128(); 
 
                 }
                 break;
             case 17 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:90: IF_MODIFIER
+                // Rubyv3.g:1:90: T129
+                {
+                mT129(); 
+
+                }
+                break;
+            case 18 :
+                // Rubyv3.g:1:95: IF_MODIFIER
                 {
                 mIF_MODIFIER(); 
 
                 }
                 break;
-            case 18 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:102: UNLESS_MODIFIER
+            case 19 :
+                // Rubyv3.g:1:107: UNLESS_MODIFIER
                 {
                 mUNLESS_MODIFIER(); 
 
                 }
                 break;
-            case 19 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:118: WHILE_MODIFIER
+            case 20 :
+                // Rubyv3.g:1:123: WHILE_MODIFIER
                 {
                 mWHILE_MODIFIER(); 
 
                 }
                 break;
-            case 20 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:133: UNTIL_MODIFIER
+            case 21 :
+                // Rubyv3.g:1:138: UNTIL_MODIFIER
                 {
                 mUNTIL_MODIFIER(); 
 
                 }
                 break;
-            case 21 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:148: RESCUE_MODIFIER
+            case 22 :
+                // Rubyv3.g:1:153: RESCUE_MODIFIER
                 {
                 mRESCUE_MODIFIER(); 
 
                 }
                 break;
-            case 22 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:164: SEMI
+            case 23 :
+                // Rubyv3.g:1:169: SEMI
                 {
                 mSEMI(); 
 
                 }
                 break;
-            case 23 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:169: LINE_BREAK
+            case 24 :
+                // Rubyv3.g:1:174: LINE_BREAK
                 {
                 mLINE_BREAK(); 
 
                 }
                 break;
-            case 24 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:180: WS
+            case 25 :
+                // Rubyv3.g:1:185: WS
                 {
                 mWS(); 
 
                 }
                 break;
-            case 25 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:183: INT
+            case 26 :
+                // Rubyv3.g:1:188: INT
                 {
                 mINT(); 
 
                 }
                 break;
-            case 26 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:187: ID
+            case 27 :
+                // Rubyv3.g:1:192: ID
                 {
                 mID(); 
 
                 }
                 break;
-            case 27 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:190: SINGLE_QUOTE_STRING
+            case 28 :
+                // Rubyv3.g:1:195: SINGLE_QUOTE_STRING
                 {
                 mSINGLE_QUOTE_STRING(); 
 
                 }
                 break;
-            case 28 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:210: DOUBLE_QUOTE_STRING
+            case 29 :
+                // Rubyv3.g:1:215: DOUBLE_QUOTE_STRING
                 {
                 mDOUBLE_QUOTE_STRING(); 
 
                 }
                 break;
-            case 29 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:230: LCURLY
+            case 30 :
+                // Rubyv3.g:1:235: LCURLY
                 {
                 mLCURLY(); 
 
                 }
                 break;
-            case 30 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:237: RCURLY
+            case 31 :
+                // Rubyv3.g:1:242: RCURLY
                 {
                 mRCURLY(); 
 
                 }
                 break;
-            case 31 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:244: HEREDOC_BEGIN
+            case 32 :
+                // Rubyv3.g:1:249: HEREDOC_BEGIN
                 {
                 mHEREDOC_BEGIN(); 
 
                 }
                 break;
-            case 32 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:258: HEREDOC_INDENT_BEGIN
+            case 33 :
+                // Rubyv3.g:1:263: HEREDOC_INDENT_BEGIN
                 {
                 mHEREDOC_INDENT_BEGIN(); 
 
                 }
                 break;
-            case 33 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:279: ARRAY
+            case 34 :
+                // Rubyv3.g:1:284: ARRAY
                 {
                 mARRAY(); 
 
                 }
                 break;
-            case 34 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:285: HASH
+            case 35 :
+                // Rubyv3.g:1:290: HASH
                 {
                 mHASH(); 
 
                 }
                 break;
-            case 35 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:290: REGEX
+            case 36 :
+                // Rubyv3.g:1:295: REGEX
                 {
                 mREGEX(); 
 
                 }
                 break;
-            case 36 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:296: SYMBOL
+            case 37 :
+                // Rubyv3.g:1:301: SYMBOL
                 {
                 mSYMBOL(); 
 
                 }
                 break;
-            case 37 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:303: ASSIGN
+            case 38 :
+                // Rubyv3.g:1:308: ASSIGN
                 {
                 mASSIGN(); 
 
                 }
                 break;
-            case 38 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:310: PLUS_ASSIGN
+            case 39 :
+                // Rubyv3.g:1:315: PLUS_ASSIGN
                 {
                 mPLUS_ASSIGN(); 
 
                 }
                 break;
-            case 39 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:322: MINUS_ASSIGN
+            case 40 :
+                // Rubyv3.g:1:327: MINUS_ASSIGN
                 {
                 mMINUS_ASSIGN(); 
 
                 }
                 break;
-            case 40 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:335: STAR_ASSIGN
+            case 41 :
+                // Rubyv3.g:1:340: STAR_ASSIGN
                 {
                 mSTAR_ASSIGN(); 
 
                 }
                 break;
-            case 41 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:347: DIV_ASSIGN
+            case 42 :
+                // Rubyv3.g:1:352: DIV_ASSIGN
                 {
                 mDIV_ASSIGN(); 
 
                 }
                 break;
-            case 42 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:358: MOD_ASSIGN
+            case 43 :
+                // Rubyv3.g:1:363: MOD_ASSIGN
                 {
                 mMOD_ASSIGN(); 
 
                 }
                 break;
-            case 43 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:369: COMPLEMENT_ASSIGN
+            case 44 :
+                // Rubyv3.g:1:374: COMPLEMENT_ASSIGN
                 {
                 mCOMPLEMENT_ASSIGN(); 
 
                 }
                 break;
-            case 44 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:387: POWER_ASSIGN
+            case 45 :
+                // Rubyv3.g:1:392: POWER_ASSIGN
                 {
                 mPOWER_ASSIGN(); 
 
                 }
                 break;
-            case 45 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:400: BAND_ASSIGN
+            case 46 :
+                // Rubyv3.g:1:405: BAND_ASSIGN
                 {
                 mBAND_ASSIGN(); 
 
                 }
                 break;
-            case 46 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:412: BXOR_ASSIGN
+            case 47 :
+                // Rubyv3.g:1:417: BXOR_ASSIGN
                 {
                 mBXOR_ASSIGN(); 
 
                 }
                 break;
-            case 47 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:424: BOR_ASSIGN
+            case 48 :
+                // Rubyv3.g:1:429: BOR_ASSIGN
                 {
                 mBOR_ASSIGN(); 
 
                 }
                 break;
-            case 48 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:435: LEFT_SHIFT_ASSIGN
+            case 49 :
+                // Rubyv3.g:1:440: LEFT_SHIFT_ASSIGN
                 {
                 mLEFT_SHIFT_ASSIGN(); 
 
                 }
                 break;
-            case 49 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:453: RIGHT_SHIFT_ASSIGN
+            case 50 :
+                // Rubyv3.g:1:458: RIGHT_SHIFT_ASSIGN
                 {
                 mRIGHT_SHIFT_ASSIGN(); 
 
                 }
                 break;
-            case 50 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:472: LOGICAL_AND_ASSIGN
+            case 51 :
+                // Rubyv3.g:1:477: LOGICAL_AND_ASSIGN
                 {
                 mLOGICAL_AND_ASSIGN(); 
 
                 }
                 break;
-            case 51 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:491: LOGICAL_OR_ASSIGN
+            case 52 :
+                // Rubyv3.g:1:496: LOGICAL_OR_ASSIGN
                 {
                 mLOGICAL_OR_ASSIGN(); 
 
                 }
                 break;
-            case 52 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:509: INCLUSIVE_RANGE
+            case 53 :
+                // Rubyv3.g:1:514: INCLUSIVE_RANGE
                 {
                 mINCLUSIVE_RANGE(); 
 
                 }
                 break;
-            case 53 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:525: EXCLUSIVE_RANGE
+            case 54 :
+                // Rubyv3.g:1:530: EXCLUSIVE_RANGE
                 {
                 mEXCLUSIVE_RANGE(); 
 
                 }
                 break;
-            case 54 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:541: ASSOC
+            case 55 :
+                // Rubyv3.g:1:546: ASSOC
                 {
                 mASSOC(); 
 
                 }
                 break;
-            case 55 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:547: LOGICAL_AND
+            case 56 :
+                // Rubyv3.g:1:552: LOGICAL_AND
                 {
                 mLOGICAL_AND(); 
 
                 }
                 break;
-            case 56 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:559: LOGICAL_OR
+            case 57 :
+                // Rubyv3.g:1:564: LOGICAL_OR
                 {
                 mLOGICAL_OR(); 
 
                 }
                 break;
-            case 57 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:570: QUESTION
+            case 58 :
+                // Rubyv3.g:1:575: QUESTION
                 {
                 mQUESTION(); 
 
                 }
                 break;
-            case 58 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:579: LPAREN
+            case 59 :
+                // Rubyv3.g:1:584: LPAREN
                 {
                 mLPAREN(); 
 
                 }
                 break;
-            case 59 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:586: RPAREN
+            case 60 :
+                // Rubyv3.g:1:591: RPAREN
                 {
                 mRPAREN(); 
 
                 }
                 break;
-            case 60 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:593: LBRACK
+            case 61 :
+                // Rubyv3.g:1:598: LBRACK
                 {
                 mLBRACK(); 
 
                 }
                 break;
-            case 61 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:600: RBRACK
+            case 62 :
+                // Rubyv3.g:1:605: RBRACK
                 {
                 mRBRACK(); 
 
                 }
                 break;
-            case 62 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:607: EMPTY_ARRAY
+            case 63 :
+                // Rubyv3.g:1:612: EMPTY_ARRAY
                 {
                 mEMPTY_ARRAY(); 
 
                 }
                 break;
-            case 63 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:619: COMMA
+            case 64 :
+                // Rubyv3.g:1:624: COMMA
                 {
                 mCOMMA(); 
 
                 }
                 break;
-            case 64 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:625: COLON
+            case 65 :
+                // Rubyv3.g:1:630: COLON
                 {
                 mCOLON(); 
 
                 }
                 break;
-            case 65 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:631: COLON2
+            case 66 :
+                // Rubyv3.g:1:636: COLON2
                 {
                 mCOLON2(); 
 
                 }
                 break;
-            case 66 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:638: NOT
+            case 67 :
+                // Rubyv3.g:1:643: NOT
                 {
                 mNOT(); 
 
                 }
                 break;
-            case 67 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:642: BNOT
+            case 68 :
+                // Rubyv3.g:1:647: BNOT
                 {
                 mBNOT(); 
 
                 }
                 break;
-            case 68 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:647: DIV
+            case 69 :
+                // Rubyv3.g:1:652: DIV
                 {
                 mDIV(); 
 
                 }
                 break;
-            case 69 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:651: PLUS
+            case 70 :
+                // Rubyv3.g:1:656: PLUS
                 {
                 mPLUS(); 
 
                 }
                 break;
-            case 70 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:656: MINUS
+            case 71 :
+                // Rubyv3.g:1:661: MINUS
                 {
                 mMINUS(); 
 
                 }
                 break;
-            case 71 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:662: MOD
+            case 72 :
+                // Rubyv3.g:1:667: MOD
                 {
                 mMOD(); 
 
                 }
                 break;
-            case 72 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:666: STAR
+            case 73 :
+                // Rubyv3.g:1:671: STAR
                 {
                 mSTAR(); 
 
                 }
                 break;
-            case 73 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:671: LESS_THAN
+            case 74 :
+                // Rubyv3.g:1:676: LESS_THAN
                 {
                 mLESS_THAN(); 
 
                 }
                 break;
-            case 74 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:681: GREATER_THAN
+            case 75 :
+                // Rubyv3.g:1:686: GREATER_THAN
                 {
                 mGREATER_THAN(); 
 
                 }
                 break;
-            case 75 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:694: BXOR
+            case 76 :
+                // Rubyv3.g:1:699: BXOR
                 {
                 mBXOR(); 
 
                 }
                 break;
-            case 76 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:699: BOR
+            case 77 :
+                // Rubyv3.g:1:704: BOR
                 {
                 mBOR(); 
 
                 }
                 break;
-            case 77 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:703: BAND
+            case 78 :
+                // Rubyv3.g:1:708: BAND
                 {
                 mBAND(); 
 
                 }
                 break;
-            case 78 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:708: POWER
+            case 79 :
+                // Rubyv3.g:1:713: POWER
                 {
                 mPOWER(); 
 
                 }
                 break;
-            case 79 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:714: COMPARE
+            case 80 :
+                // Rubyv3.g:1:719: COMPARE
                 {
                 mCOMPARE(); 
 
                 }
                 break;
-            case 80 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:722: GREATER_OR_EQUAL
+            case 81 :
+                // Rubyv3.g:1:727: GREATER_OR_EQUAL
                 {
                 mGREATER_OR_EQUAL(); 
 
                 }
                 break;
-            case 81 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:739: LESS_OR_EQUAL
+            case 82 :
+                // Rubyv3.g:1:744: LESS_OR_EQUAL
                 {
                 mLESS_OR_EQUAL(); 
 
                 }
                 break;
-            case 82 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:753: EQUAL
+            case 83 :
+                // Rubyv3.g:1:758: EQUAL
                 {
                 mEQUAL(); 
 
                 }
                 break;
-            case 83 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:759: CASE_EQUAL
+            case 84 :
+                // Rubyv3.g:1:764: CASE_EQUAL
                 {
                 mCASE_EQUAL(); 
 
                 }
                 break;
-            case 84 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:770: NOT_EQUAL
+            case 85 :
+                // Rubyv3.g:1:775: NOT_EQUAL
                 {
                 mNOT_EQUAL(); 
 
                 }
                 break;
-            case 85 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:780: MATCH
+            case 86 :
+                // Rubyv3.g:1:785: MATCH
                 {
                 mMATCH(); 
 
                 }
                 break;
-            case 86 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:786: NOT_MATCH
+            case 87 :
+                // Rubyv3.g:1:791: NOT_MATCH
                 {
                 mNOT_MATCH(); 
 
                 }
                 break;
-            case 87 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:796: RIGHT_SHIFT
+            case 88 :
+                // Rubyv3.g:1:801: RIGHT_SHIFT
                 {
                 mRIGHT_SHIFT(); 
 
                 }
                 break;
-            case 88 :
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:808: COMMENT
+            case 89 :
+                // Rubyv3.g:1:813: COMMENT
                 {
                 mCOMMENT(); 
 
