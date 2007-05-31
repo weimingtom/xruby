@@ -13,10 +13,10 @@ Here is a list of things we are going to do
 
 = XRuby 0.4.0 =
   * Support RSpec
+  * Upgrade Antlr to 3.0
 
 = XRuby 1.0 and beyond =
   * Make Ruby on Rails work
-  * Upgrade Antlr to 3.0
   * Make the compiled code debuggable
   * Support JSR 223: https://scripting.dev.java.net/
   * Support YARV instruction
