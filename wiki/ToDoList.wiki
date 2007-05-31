@@ -11,6 +11,9 @@ Here is a list of things we are going to do
   * Implement more builtin libraries
   * Refactoring is always welcome
 
+= XRuby 0.4.0 =
+  * Support rspec
+
 = Long Term =
   * Make Ruby on Rails work
   * Upgrade Antlr to 3.0
@@ -19,3 +22,9 @@ Here is a list of things we are going to do
   * Support YARV instruction
   * Complete Java support
   * Make C extension work (?)
+
+= Wild Ideas =
+  * Compiler code that uses JRuby's runtime and lib
+  * Bring better concurrency to ruby (Borrow ideas from Erlang)
+  * Aggressive type inference (Borrow ideas from Strongtalk)
+  
