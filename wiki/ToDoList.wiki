@@ -14,7 +14,7 @@ Here is a list of things we are going to do
 = XRuby 0.4.0 =
   * Support RSpec
 
-= Long Term (1.0 and beyond) =
+= XRuby 1.0 and beyond =
   * Make Ruby on Rails work
   * Upgrade Antlr to 3.0
   * Make the compiled code debuggable
@@ -27,4 +27,5 @@ Here is a list of things we are going to do
   * Compiler code that uses JRuby's runtime and lib
   * Bring better concurrency to ruby (Borrow ideas from Erlang)
   * Aggressive type inference (Borrow ideas from Strongtalk)
+  * Rewrite compiler in pure ruby
   
