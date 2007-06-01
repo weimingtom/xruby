@@ -144,7 +144,6 @@ public class RubyRuntime {
         ModuleClassBuilder.initialize();
         ClassClassBuilder.initialize();
         KernelModuleBuilder.initialize();
-        EnumerableModuleBuilder.initialize();
         GCModuleBuilder.initialize();
         MarshalModuleBuilder.initialize();
         MathModuleBuilder.initialize();
