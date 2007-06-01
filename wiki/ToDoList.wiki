@@ -14,6 +14,7 @@ Here is a list of things we are going to do
 = XRuby 0.4.0 =
   * Support RSpec
   * Upgrade Antlr to 3.0
+  * Decouple runtime and compiler
 
 = XRuby 1.0 and beyond =
   * Make Ruby on Rails work
@@ -24,7 +25,7 @@ Here is a list of things we are going to do
   * Make C extension work (?)
 
 = Wild Ideas? =
-  * Compiler code that uses JRuby's runtime and lib
+  * Compile code that uses JRuby's runtime and lib
   * Bring better concurrency to ruby (Borrow ideas from Erlang)
   * Aggressive type inference (Borrow ideas from Strongtalk)
   * Rewrite compiler in pure ruby
