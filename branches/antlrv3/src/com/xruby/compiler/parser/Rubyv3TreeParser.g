@@ -53,7 +53,14 @@ expression returns[Expression e]
 	|       ^(op='not'left=expression) {e = new UnaryOperatorExpression("!", left);}
 	|       ^(INCLUSIVE_RANGE		left=expression	right=expression)	{e = new RangeOperatorExpression("..", left, right);}
 	|       ^(EXCLUSIVE_RANGE		left=expression	right=expression)	{e = new RangeOperatorExpression("...", left, right);}
+	
+	|       e1=methodDefinition {e=e1;} 
+	|       ^('{' {e = new HashExpression();} (e1=expression e2=expression {((HashExpression)e).addElement(e1,e2);})*)
 	;
+
+methodDefinition
+returns [MethodDefinationExpression e]
+        :	^('def' name=. .*) {System.out.println($name.text); e = new MethodDefinationExpression($name.text);};
 
 	
 
