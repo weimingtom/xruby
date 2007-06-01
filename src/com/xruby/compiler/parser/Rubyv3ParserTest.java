@@ -132,6 +132,11 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("alias test1 test", "(STATEMENT_LIST (STATEMENT alias test1 test))");
     }
 
+    public void test_hash() throws Exception {
+        assert_parse("{1,2}", "(STATEMENT_LIST (STATEMENT ({ 1 , 2)))");
+        //assert_parse("{1}", "");
+    }
+
     public void test_def_method() throws Exception {
         assert_parse("def test \n end", "(STATEMENT_LIST (STATEMENT (def test)))");
     }

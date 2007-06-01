@@ -957,7 +957,7 @@ methodDefinationArgument
 			(options {greedy=true;}:terminal)?
 		|	(methodDefinationArgumentWithoutParen)?	terminal
 		;
-
+                                                          r
 methodDefinationArgumentWithoutParen
 {boolean seen_star_or_band = false;}
 		:	normalMethodDefinationArgument

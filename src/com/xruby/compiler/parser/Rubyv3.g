@@ -13,7 +13,7 @@ tokens {
 	IF;
 	RPAREN_IN_METHOD_DEFINATION;
 	BODY;
-	CALL;
+	//CALL;
 	ARG;
 	
 	LEFT_SHIFT;
@@ -22,6 +22,7 @@ tokens {
 	
 	CONSTANT;
 	FID;
+	CALL;
 	
 	//COMPSTMT;
 	SYMBOL;
@@ -59,6 +60,9 @@ package com.xruby.compiler.parser;
 import com.xruby.compiler.codedom.*;
 
 }
+//@lexer::options {
+//  superClass=BaseLexer;
+//}
 @members {
   private Rubyv3Parser parent = null;
   private SymbolTableManager stm = new SymbolTableManager(null);
@@ -343,7 +347,7 @@ expression
 primaryExpression
 	:	methodDefinition;
 methodDefinition
-	:	'def'^ methodName {enterScope();} methodDefinationArgument (bodyStatement)? 'end'! {leaveScope();};
+	:	'def'^ (LINE_BREAK!)* methodName {enterScope();} methodDefinationArgument (bodyStatement)? 'end'! {leaveScope();};
 methodName
 	:	id=ID;  //todo:or constant
 methodDefinationArgument
@@ -539,7 +543,7 @@ rhs	:	expression;
 
 //primary	:	literal| 'begin' program 'end'; //todo:more on this later
 
-literal	:	INT|FLOAT|string|ARRAY|HASH|SYMBOL|REGEX;
+literal	:	INT|FLOAT|string|ARRAY|hash|SYMBOL|REGEX;
 INT
 	:	'-'?
 	        (OCTAL|HEX|BINARY|LEADING_MARK_DECIMAL
@@ -663,7 +667,9 @@ HEREDOC_INDENT_BEGIN
 
       
 ARRAY	:	'[]';
-HASH	:	'{}';
+hash	:	'{'^ hash_content '}'!;
+hash_content
+	:	(e1=expression ','! e2=expression)*;
 REGEX	:	'/abc/';
 SYMBOL	:	':abc';
 

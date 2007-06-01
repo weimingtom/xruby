@@ -6,6 +6,7 @@ import com.xruby.compiler.codegen.CompilerException;
 import com.xruby.compiler.codegen.RubyCompilerImpl;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyHash;
 import junit.framework.TestCase;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
@@ -325,8 +326,20 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "nil");
     }
 
+    public void test_hash() throws Exception {
+        RubyHash hash = ObjectFactory.createHash();
+        hash.add(ObjectFactory.createFixnum(1), ObjectFactory.createFixnum(2));
+        compile_run_and_compare_result(hash, "{1,2}");
+
+        //compile_run_and_compare_result(hash, "{1}");
+    }
+
     public void test_alias() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createString(""), "alias test1 test");
+    }
+    public void test_method() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test\n end");
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test\n end test");
     }
 
     public void test_method_invocation() throws Exception {
