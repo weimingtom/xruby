@@ -666,7 +666,7 @@ public class ArrayClassBuilder {
         c.getSingletonClass().defineMethod("[]", new Array_new_with_given_objects());
         c.defineMethod("length", new Array_length());
         c.defineMethod("clear", new Array_clear());
-        c.defineMethod("to_s", new Array_to_s());
+        c.defineMethod(CommonRubyID.toSID, new Array_to_s());
         c.defineMethod("[]", new Array_array_access());
         c.defineMethod("first", new Array_array_first());
         c.defineMethod("last", new Array_array_last());
@@ -676,8 +676,8 @@ public class ArrayClassBuilder {
         c.defineMethod("<=>", new Array_compare());
         c.defineMethod("<<", new Array_left_shift_operator());
         c.defineMethod("concat", new Array_concat());
-        c.defineMethod("+", new Array_plus());
-        c.defineMethod("-", new Array_minus());
+        c.defineMethod(CommonRubyID.plusID, new Array_plus());
+        c.defineMethod(CommonRubyID.subID, new Array_minus());
         c.defineMethod("*", new Array_times());
         c.defineMethod("&", new Array_operator_and());
         c.defineMethod("|", new Array_operator_or());

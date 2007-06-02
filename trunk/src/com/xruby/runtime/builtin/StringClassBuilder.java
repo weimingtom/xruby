@@ -866,11 +866,11 @@ public class StringClassBuilder {
         c.defineMethod("to_f", new String_to_f());
         c.defineMethod("to_i", new String_to_i());
         c.defineMethod("hex", new String_hex());
-        c.defineMethod("to_s", new String_to_s());
+        c.defineMethod(CommonRubyID.toSID, new String_to_s());
         c.defineMethod("length", new String_length());
         c.defineMethod("initialize_copy", new String_initialize());
         c.defineMethod("initialize", new String_initialize());
-        c.defineMethod("+", new String_plus());
+        c.defineMethod(CommonRubyID.plusID, new String_plus());
         c.defineMethod("gsub", new String_gsub());
         c.defineMethod("gsub!", new String_gsub_danger());
         c.defineMethod("sub", new String_sub());

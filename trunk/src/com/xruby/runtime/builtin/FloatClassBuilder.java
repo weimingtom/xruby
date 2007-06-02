@@ -225,9 +225,9 @@ public class FloatClassBuilder {
 
     public static void initialize() {
         RubyClass c = RubyRuntime.FloatClass;
-        c.defineMethod("to_s", new Float_to_s());
-        c.defineMethod("-", new Float_operator_minus());
-        c.defineMethod("+", new Float_operator_plus());
+        c.defineMethod(CommonRubyID.toSID, new Float_to_s());
+        c.defineMethod(CommonRubyID.subID, new Float_operator_minus());
+        c.defineMethod(CommonRubyID.plusID, new Float_operator_plus());
         c.defineMethod("*", new Float_operator_star());
         c.defineMethod("/", new Float_operator_div());
         c.defineMethod("<=>", new Float_operator_compare());

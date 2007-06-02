@@ -133,9 +133,9 @@ public class TimeClassBuilder {
 		RubyMethod usec = new Time_usec();
 		c.defineMethod("tv_usec", usec);
 		c.defineMethod("usec", usec);
-        c.defineMethod("to_s", new Time_to_s());
-        c.defineMethod("+", new Time_plus());
-        c.defineMethod("-", new Time_minus());
+        c.defineMethod(CommonRubyID.toSID, new Time_to_s());
+        c.defineMethod(CommonRubyID.plusID, new Time_plus());
+        c.defineMethod(CommonRubyID.subID, new Time_minus());
         c.defineMethod("<=>", new Time_operator_compare());
         c.defineAllocMethod(new Time_new());
 

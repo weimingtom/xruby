@@ -476,11 +476,11 @@ public class FixnumClassBuilder {
         c.defineMethod("<<", new Fixnum_operator_left_shift());
         c.defineMethod("==", new Fixnum_operator_equal());
         c.defineMethod("===", new Fixnum_operator_case_equal());
-        c.defineMethod("+", new Fixnum_operator_plus());
+        c.defineMethod(CommonRubyID.plusID, new Fixnum_operator_plus());
         c.defineMethod("<=", new Fixnum_operator_less_or_equal());
-        c.defineMethod("-", new Fixnum_operator_minus());
+        c.defineMethod(CommonRubyID.subID, new Fixnum_operator_minus());
         c.defineMethod("/", new Fixnum_operator_div());
-        c.defineMethod("to_s", new Fixnum_to_s());
+        c.defineMethod(CommonRubyID.toSID, new Fixnum_to_s());
         c.defineMethod("%", new Fixnum_operator_mod());
         c.defineMethod("|", new Fixnum_operator_bor());
         c.defineMethod("&", new Fixnum_operator_band());

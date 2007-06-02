@@ -39,6 +39,18 @@ public class CommonRubyID {
     static final RubyID attachedID = StringMap.intern("__attached__");
     static final RubyID classidID = StringMap.intern("__classid__");
 
+    //used by the compiler to use common ruby id
+    static String name2Field(String name) {
+        //TODO resue more
+        if (name.equals("+")) {
+            return "plusID";
+        } else  if (name.equals("-")) {
+            return "subID";
+        } else {
+            return null;
+        }
+    }
+
     private CommonRubyID() {
     }
 }
