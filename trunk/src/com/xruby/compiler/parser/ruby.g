@@ -118,7 +118,7 @@ statement
 									|!UNLESS_MODIFIER^	unless_condition:expression	{#statement = #(#[LITERAL_unless, "unless"], unless_condition, #(#[COMPSTMT, "COMPSTMT"], #body));}
 									|!WHILE_MODIFIER^	while_condition:expression	{#statement = #(#[LITERAL_while, "while"], while_condition, #(#[COMPSTMT, "COMPSTMT"], #body));}
 									|!UNTIL_MODIFIER^	until_condition:expression	{#statement = #(#[LITERAL_until, "until"], until_condition, #(#[COMPSTMT, "COMPSTMT"], #body));}
-									|!RESCUE_MODIFIER^	rescue_condition:expression	{#statement = #(#[LITERAL_rescue, "rescue"], rescue_condition, #(#[COMPSTMT, "COMPSTMT"], #body));}
+									|!RESCUE_MODIFIER^	rescue_condition:expression	{#statement = #(#[LITERAL_begin, "begin"], #(#[BODY, "BODY"], #(#[COMPSTMT, "COMPSTMT"], #body), #[LITERAL_rescue, "rescue"], rescue_condition));}
 									)*
 		;
 
@@ -751,6 +751,7 @@ exceptionHandlingExpression
 
 exceptionList
 		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	variable)?
+		|	GLOBAL_VARIABLE
 		;
 
 ifExpression
