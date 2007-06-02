@@ -793,11 +793,11 @@ class Range
     include Enumerable
 
     def ==(value)
-      if value.first == first and value.last == last and value.exclude_end? == exclude_end?
-        true
-      else
-        false
-      end
+        if value.first == first and value.last == last and value.exclude_end? == exclude_end?
+            true
+        else
+            false
+        end
     end
 
     def ===(value)
@@ -928,8 +928,8 @@ module Enumerable
     end
 
     def detect(ifnone = nil)
-	each { |obj| return obj if yield(obj) }
-	ifnone.call if ifnone
+        each { |obj| return obj if yield(obj) }
+        ifnone.call if ifnone
     end
     
     alias find :detect
@@ -940,23 +940,23 @@ module Enumerable
     end
     
     def to_a
-	arr = []
-	each{|obj| arr <<obj}
-	return arr
+        arr = []
+        each{|obj| arr <<obj}
+        return arr
     end
     
     alias entries :to_a
 
     def sort(&proc)
-	#proc = lambda{ |a,b| a<=>b } unless block_given?
-	arr = to_a
-	arr.sort{|x,y| 
-	    if block_given?  then
-	        proc.call(x,y)
-	    else
-		x<=>y
-	    end
-	}
+        #proc = lambda{ |a,b| a<=>b } unless block_given?
+        arr = to_a
+        arr.sort{|x,y| 
+            if block_given?  then
+                proc.call(x,y)
+            else
+            x<=>y
+            end
+        }
     end
     
     def member?(other)
@@ -982,85 +982,85 @@ module Enumerable
     end
     
     def all?(&proc)
-	proc = lambda { |obj| obj } unless block_given?
-	each { |obj| return false unless proc.call(obj) }
-	true
+        proc = lambda { |obj| obj } unless block_given?
+        each { |obj| return false unless proc.call(obj) }
+        true
     end
     
     def any?(&proc)
-	proc = lambda { |obj| obj } unless block_given?
-	each { |obj| return true if proc.call(obj) }
-	false
+        proc = lambda { |obj| obj } unless block_given?
+        each { |obj| return true if proc.call(obj) }
+        false
     end
 
     def collect
-	arr = []
-	each{|obj| arr << yield(obj)}
-	return arr
+        arr = []
+        each{|obj| arr << yield(obj)}
+        return arr
     end   
 
     alias map :collect
 
     def max(&proc)
-	proc = lambda { |a, b| a <=> b } unless block_given?
-	max = nil
-	each {|obj| max = obj if max.nil? || proc.call(max, obj) < 0}
-	max
+        proc = lambda { |a, b| a <=> b } unless block_given?
+        max = nil
+        each {|obj| max = obj if max.nil? || proc.call(max, obj) < 0}
+        max
     end
 
     def min(&proc)
-	proc = lambda { |a, b| a <=> b } unless block_given?
-	min = nil
-	each {|obj| min = obj if min.nil? || proc.call(min, obj) > 0}
-	min
+        proc = lambda { |a, b| a <=> b } unless block_given?
+        min = nil
+        each {|obj| min = obj if min.nil? || proc.call(min, obj) > 0}
+        min
     end
 
     def partition
-	left = []
-	right = []
-	each { |obj| yield(obj) ? left.push(obj) : right.push(obj) }
-	return [left, right]
+        left = []
+        right = []
+        each { |obj| yield(obj) ? left.push(obj) : right.push(obj) }
+        return [left, right]
     end
 
     def zip(*args)
-	result = []
-	args = args.map{|arg| arg.to_a}
-	each_with_index{|obj,i|
-	   arr = [obj]
-	   args.each{|x| arr << x[i]}
-	   result << arr
+        result = []
+        args = args.map{|arg| arg.to_a}
+        each_with_index{|obj,i|
+           arr = [obj]
+           args.each{|x| arr << x[i]}
+           result << arr
 
-	   yield(result.last) if block_given?
-	}
-	result unless block_given?
+           yield(result.last) if block_given?
+        }
+        result unless block_given?
     end 
     
     def grep(pattern, &proc)
         result = []
-	each do |obj|
-	    if pattern === obj
-		if block_given? then
-		    result << proc.call(obj)
-		else
-		    result << obj
-		end
-	    end
-        end
-	result
+        each do |obj|
+            if pattern === obj
+            if block_given? then
+                result << proc.call(obj)
+            else
+                result << obj
+            end
+            end
+            end
+        result
   end
 end
 
 class Regexp
-  def ==(other)
-    return false unless Regexp === other
-    return inspect == other.inspect
-  end
+    def ==(other)
+        return false unless Regexp === other
+        return inspect == other.inspect
+    end
 end
 
 class IO
     def <<(v)
-      write v
-      return self
+        write v
+        return self
     end
 end
 
