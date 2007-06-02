@@ -99,6 +99,6 @@ public class StructClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.StructClass;
 		c.getSingletonClass().defineMethod("new", new Struct_new());
-		//c.defineMethod("to_s", new Struct_to_s());
+		//c.defineMethod(CommonRubyID.toSID, new Struct_to_s());
 	}
 }

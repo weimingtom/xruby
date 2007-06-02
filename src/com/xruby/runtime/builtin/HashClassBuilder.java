@@ -195,7 +195,7 @@ public class HashClassBuilder {
         RubyMethod each = new Hash_each();
         c.defineMethod("each", each);
         c.defineMethod("each_pair", each);
-        c.defineMethod("to_s", new Hash_to_s());
+        c.defineMethod(CommonRubyID.toSID, new Hash_to_s());
         c.defineMethod("initialize", new Hash_initialize());
         c.defineMethod("has_key?", new Hash_has_key_question());
         c.defineMethod("has_value?", new Hash_has_value_question());

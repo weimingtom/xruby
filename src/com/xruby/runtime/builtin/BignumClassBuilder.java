@@ -217,12 +217,12 @@ class Bignum_operator_star_star extends RubyOneArgMethod {
 public class BignumClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.BignumClass;
-        c.defineMethod("to_s", new Bignum_to_s());
+        c.defineMethod(CommonRubyID.toSID, new Bignum_to_s());
         c.defineMethod("*", new Bignum_operator_star());
         c.defineMethod("/", new Bignum_operator_divide());
         c.defineMethod("quo", new Bignum_quo());
-        c.defineMethod("+", new Bignum_operator_plus());
-        c.defineMethod("-", new Bignum_operator_minus());
+        c.defineMethod(CommonRubyID.plusID, new Bignum_operator_plus());
+        c.defineMethod(CommonRubyID.subID, new Bignum_operator_minus());
         c.defineMethod("%", new Bignum_operator_mod());
         c.defineMethod("&", new Bignum_operator_band());
         c.defineMethod("|", new Bignum_operator_bor());

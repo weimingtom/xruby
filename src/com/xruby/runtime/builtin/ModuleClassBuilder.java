@@ -394,7 +394,7 @@ public class ModuleClassBuilder {
         c.defineMethod("private", new Module_private());
         c.defineMethod("private_class_method", new Module_private_class_method());
         RubyMethod name = new Module_name();
-        c.defineMethod("to_s", name);
+        c.defineMethod(CommonRubyID.toSID, name);
         c.defineMethod("name", name);
         c.defineMethod("inspect", new Module_inspect());
         c.defineMethod("include", new Module_include());
