@@ -241,9 +241,9 @@ public class RubyAPI {
         }
     }
 
-	private static boolean isWindows() {
-		return (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") >= 0);	
-	}
+    static boolean isWindows() {
+        return (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") >= 0);	
+    }
 
     public static RubyValue runCommandAndCaptureOutput(String value) {
         //some commands are builtin within the shell. e,g. echo, copy...
