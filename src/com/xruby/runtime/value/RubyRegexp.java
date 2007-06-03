@@ -162,10 +162,7 @@ public class RubyRegexp extends RubyBasic {
         return regex_.split(input, limit);
     }
 
-    public RubyString inspect() {
-        RubyString s = ObjectFactory.createString("/");
-        s.appendString(regex_.toString());
-        s.appendString("/");
-        return s;
+    public String source() {
+        return regex_.toString();
     }
 }
