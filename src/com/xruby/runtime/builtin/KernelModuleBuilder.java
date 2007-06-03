@@ -115,13 +115,13 @@ class Kernel_singleton_methods extends RubyVarArgMethod {
             all = false;
         }
 
-		RubyArray a = new RubyArray();
+        RubyArray a = new RubyArray();
         if (all) {
             receiver.getSingletonClass().collectClassMethodNames(a, RubyMethod.PUBLIC);
         } else {
             receiver.getSingletonClass().collectOwnMethodNames(a, RubyMethod.PUBLIC);
         }
-		return a;
+        return a;
     }
 }
 
@@ -334,7 +334,9 @@ class Kernel_raise extends RubyVarArgMethod {
             //parameter sets the message associated with the exception, and the third parameter
             //is an array of callback information.
             e = (RubyExceptionValue) args.get(0);
-            e.setMessage(1 == args.size() ? "" : ((RubyString) args.get(1)).toString());
+            if (args.size() > 1) {
+                e.setMessage(((RubyString) args.get(1)).toString());
+            }
         } else {
             RubyClass v = (RubyClass) args.get(0);
             e = new RubyExceptionValue(v, 1 == args.size() ? "" : ((RubyString) args.get(1)).toString());
@@ -425,8 +427,8 @@ class Kernel_require_java extends RubyOneArgMethod {
         String className = ((RubyString) arg).toString();
         String[] names = packagePattern.split(className);
         String name = names[names.length - 1];
-        if(name.equals("*")){            
-            JavaClass.addPackage(className.substring(0, className.lastIndexOf('.')));           
+        if(name.equals("*")){
+            JavaClass.addPackage(className.substring(0, className.lastIndexOf('.')));
         }else{
             try {
                 Class clazz = Class.forName(className);
@@ -435,7 +437,7 @@ class Kernel_require_java extends RubyOneArgMethod {
                 throw new RubyException("Couldn't find class " + className.toString());
             }
         }
-                
+
         RubyRuntime.setJavaSupported(true);
         return ObjectFactory.TRUE_VALUE;
     }
@@ -638,10 +640,10 @@ class Kernel_throw extends RubyVarArgMethod {
             args.get(0) instanceof RubyString) {
             e = new RubyExceptionValueForThrow(args.get(0), args.get(1));
         } else if (args.get(0) instanceof RubyExceptionValue) {
-        	e = (RubyExceptionValue)args.get(0);
+            e = (RubyExceptionValue)args.get(0);
         } else if (args.get(0) instanceof RubyClass) {
-        	RubyClass c = (RubyClass)args.get(0);
-        	e = new RubyExceptionValue(c, c.getName() + " is not a symbol");
+            RubyClass c = (RubyClass)args.get(0);
+            e = new RubyExceptionValue(c, c.getName() + " is not a symbol");
         } else {
             e = new RubyExceptionValue(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
         }
@@ -821,7 +823,7 @@ class Kernel_sleep extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         long milliseconds = RubyTypesUtil.convertToJavaLong(arg)*1000;
         long startTime = System.currentTimeMillis();
-        
+
         RubyThread.sleep(milliseconds);
 
         long endTime = System.currentTimeMillis();
@@ -835,23 +837,23 @@ public class KernelModuleBuilder {
         m.defineMethod("==", new Kernel_operator_equal());
         m.defineMethod("equal?", new Kernel_operator_equal());
         m.defineMethod("===", new Kernel_operator_case_equal());
-        m.defineMethod("eql?", new Kernel_operator_case_equal());        
+        m.defineMethod("eql?", new Kernel_operator_case_equal());
         m.defineMethod("class", new Kernel_class());
-        
-        // FIXME: Kernel_clone should be revised. 
+
+        // FIXME: Kernel_clone should be revised.
         m.defineMethod("clone", new Kernel_clone());
         m.defineMethod("dup", new Kernel_clone());
-        
+
         m.defineMethod("to_s", new Kernel_to_s());
         m.defineMethod("inspect", new Kernel_inspect());
         m.defineMethod("methods", new Kernel_methods());
         m.defineMethod("singleton_methods", new Kernel_singleton_methods());
-        
+
         RubyMethod raise = new Kernel_raise();
         m.defineMethod("raise", raise);
         m.defineMethod("fail", raise);
-        m.defineMethod("exit", new Kernel_exit());        
-        
+        m.defineMethod("exit", new Kernel_exit());
+
         m.defineMethod("loop", new Kernel_loop());
         m.defineMethod("open", new Kernel_open());
         m.defineMethod("kind_of?", new Kernel_kind_of());
@@ -862,7 +864,7 @@ public class KernelModuleBuilder {
         m.defineMethod("__send__", send);
         m.defineMethod("instance_eval", new Kernel_instance_eval());
         m.defineMethod("method", new Kernel_method());
-        
+
         m.defineMethod("public_methods", new Kernel_public_methods());
         m.defineMethod("caller", new Kernel_caller());
         m.defineMethod("throw", new Kernel_throw());
