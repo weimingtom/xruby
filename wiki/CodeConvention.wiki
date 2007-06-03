@@ -67,6 +67,10 @@ All indentation levels should be *four (4) spaces*.
 
 No editor tabs are allowed unless they are converted to four spaces before saving the file.
 
+  * AnyEdit plugin of Eclipse can expand tab to whitespace before saving a file
+  * In Source Insight, open 'Options->Document Options', select 'Expand tabs', and set 'Tab width' = 4
+  * In Scite, edit ruby.propertises: tab.indents = true tabsize=4 indent.size=4 use.tabs=0
+
 ==== Brackets ====
 * Curly brackets {} are put on separate lines. This is never allowed:
 {{{
