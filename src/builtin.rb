@@ -960,25 +960,25 @@ module Enumerable
     end
     
     def member?(other)
-	each{|obj| return true if obj == other }
-	return false
+        each{|obj| return true if obj == other }
+        return false
     end
     
     alias include? :member?
     
     def inject(*args)
-	if args.size == 0 then
-		vals = to_a
-		memo = vals[0]
-		vals[1..vals.size-1].each {|obj| memo = yield(memo, obj)}
-		return memo
-	elsif args.size == 1 then
-		memo = args[0]
-		each {|obj| memo = yield(memo, obj)}
-		return memo
-	else
-		nil
-	end
+        if args.size == 0 then
+            vals = to_a
+            memo = vals[0]
+            vals[1..vals.size-1].each {|obj| memo = yield(memo, obj)}
+            return memo
+        elsif args.size == 1 then
+            memo = args[0]
+            each {|obj| memo = yield(memo, obj)}
+            return memo
+        else
+            nil
+        end
     end
     
     def all?(&proc)
