@@ -32,24 +32,20 @@ class MethodBlockBase {
         }
     }
 
-    protected RubyValue initializeAsteriskParameter(RubyArray args) {
+    protected void initializeAsteriskParameter(RubyArray args) {
         if (null == args) {
             asterisk_parameter_ = new RubyArray();
         } else {
             asterisk_parameter_ = args.collect(argc_);
         }
-
-        return asterisk_parameter_;
     }
 
-    protected RubyValue initializeBlockParameter(RubyBlock block) {
+    protected void initializeBlockParameter(RubyBlock block) {
         if (null == block) {
             block_parameter_ = ObjectFactory.NIL_VALUE;
         } else {
             block_parameter_ = ObjectFactory.createProc(block);
         }
-
-        return block_parameter_;
     }
 
 }

@@ -194,7 +194,7 @@ class MethodGenerator extends GeneratorAdapter {
         loadThis();
         loadArg(1);
         invokeVirtual(Type.getType(c),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue initializeAsteriskParameter(com.xruby.runtime.value.RubyArray)"));
+                Method.getMethod("void initializeAsteriskParameter(com.xruby.runtime.value.RubyArray)"));
 
     }
 
@@ -202,7 +202,7 @@ class MethodGenerator extends GeneratorAdapter {
         loadThis();
         loadArg(2);
         invokeVirtual(Type.getType(c),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue initializeBlockParameter(com.xruby.runtime.lang.RubyBlock)"));
+                Method.getMethod("void initializeBlockParameter(com.xruby.runtime.lang.RubyBlock)"));
     }
 
     public void breakFromBlock() {
@@ -697,7 +697,7 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Type.getType(RubyAPI.class),
                     Method.getMethod("com.xruby.runtime.lang.RubyClass defineClass(String, com.xruby.runtime.lang.RubyValue)"));
     }
-    
+
     public void RubyModule_defineClass() {
         invokeVirtual(Type.getType(RubyModule.class),
                     Method.getMethod("com.xruby.runtime.lang.RubyClass defineClass(String, com.xruby.runtime.lang.RubyValue)"));
