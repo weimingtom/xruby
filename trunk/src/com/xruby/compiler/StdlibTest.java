@@ -15,11 +15,14 @@ public class StdlibTest extends CompilerTestCase {
         String[] program_texts = {
                 "require 'test/unit/assertionfailederror'",
                 "print Test::Unit::AssertionFailedError.superclass",
+                "begin; raise Test::Unit::AssertionFailedError.new('xxx')\n" +
+                "rescue =>e; print e.message; end",
         };
 
         String[] outputs = {
                 "",
                 "StandardError",
+                "xxx",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
