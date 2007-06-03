@@ -1055,6 +1055,10 @@ class Regexp
         return false unless Regexp === other
         return inspect == other.inspect
     end
+    
+    def inspect
+        '/' + source + '/'
+    end
 end
 
 class IO

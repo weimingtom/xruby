@@ -68,10 +68,10 @@ class Regexp_new extends RubyNoArgMethod {
     }
 }
 
-class Regexp_inspect extends RubyNoArgMethod {
+class Regexp_source extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyRegexp r = (RubyRegexp) receiver;
-        return r.inspect();
+        return ObjectFactory.createString(r.source());
     }
 }
 
@@ -88,7 +88,7 @@ public class RegexpClassBuilder {
         c.defineMethod("===", new Regexp_case_equal());
         c.defineMethod("match", new Regexp_match());
         c.defineMethod("=~", new Regexp_match_operator());
-		 c.defineMethod("inspect", new Regexp_inspect());
+         c.defineMethod("source", new Regexp_source());
         RubyMethod quote = new Regexp_quote();
         c.getSingletonClass().defineMethod("escape", quote);
         c.getSingletonClass().defineMethod("quote", quote);
