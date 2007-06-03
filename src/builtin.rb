@@ -1068,3 +1068,10 @@ class IO
     end
 end
 
+class Float
+    def to_f
+        self
+    end
+    
+end
+
