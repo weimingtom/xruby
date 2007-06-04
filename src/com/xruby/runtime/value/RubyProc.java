@@ -13,7 +13,7 @@ import com.xruby.runtime.lang.RubyValue;
 import java.lang.reflect.Field;
 
 public class RubyProc extends RubyBinding {
-    private RubyBlock value_;
+    private final RubyBlock value_;
 
     RubyProc(RubyBlock v) {
         super(RubyRuntime.ProcClass);
