@@ -22,6 +22,7 @@ tokens {
 	
 	CONSTANT;
 	FID;
+	VARIABLE;
 	CALL;
 	
 	//COMPSTMT;
@@ -356,8 +357,8 @@ methodDefinationArgument
 methodDefinationArgumentWithoutParen
 	:	normalMethodDefinationArgument;
 normalMethodDefinationArgument
-	:	variable ( '=' expression);
-variable:	id=ID {addVariable($id.text);};	
+	:	variable {addVariable($variable.text);}( '=' expression);
+
 bodyStatement
 	:	statement_list;
 	
@@ -390,7 +391,18 @@ notExpression
 		|	definedExpression
 		;
 definedExpression
-	:	assignmentExpression;
+	:	methodExpression;
+methodExpression
+	:      variable|method|	
+	assignmentExpression;
+variable:	{isDefinedVar(input.LT(1).getText())}? => ID -> ^(VARIABLE ID);
+method	:	{!isDefinedVar(input.LT(1).getText())}? => ID -> ^(CALL ID);
+	/*|	ID '(' ')'
+	|	ID args;
+args	:	pure_args_one_or_more | '(' pure_args_one_or_more ')';
+pure_args_one_or_more
+	:	expression (',' expression)*;*/
+	
 assignmentExpression
 	:	ternaryIfThenElseExpression
 	        |  lhs (ASSIGN|MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
@@ -535,9 +547,9 @@ bnotExpression
 		;
 command
 @after{tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
-	:('expression0' | 'expression1' | 'expression2'|literal|ID|boolean_expression| block_expression|if_expression|unless_expression)
+	:('expression0' | 'expression1' | 'expression2'|literal|boolean_expression| block_expression|if_expression|unless_expression)
 	; //|       lhs SHIFT^ rhs ;	
-
+	
 lhs	:	ID;
 rhs	:	expression;
 
@@ -667,9 +679,22 @@ HEREDOC_INDENT_BEGIN
 
       
 ARRAY	:	'[]';
-hash	:	'{'^ hash_content '}'!;
-hash_content
-	:	(e1=expression ','! e2=expression)*;
+hash	:	'{'^ assoc_list '}'!;
+assoc_list
+	:	assocs trailer /*| args trailer*/;
+assocs	:	assoc ( ','! assoc)*;
+
+assoc         : arg_value (ASSOC|',')! arg_value;
+
+args	:	arg_value (','! arg_value)*;
+
+arg_value
+	:	arg;
+	
+arg	:	assignmentExpression;
+
+trailer       : /* none */ | '\n' | ',';
+
 REGEX	:	'/abc/';
 SYMBOL	:	':abc';
 

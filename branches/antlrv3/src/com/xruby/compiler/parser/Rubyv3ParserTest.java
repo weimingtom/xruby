@@ -129,16 +129,27 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_alias() throws Exception {
-        assert_parse("alias test1 test", "(STATEMENT_LIST (STATEMENT alias test1 test))");
+        assert_parse("alias test1 test", "(STATEMENT_LIST (STATEMENT (alias test1 test)))");
     }
 
     public void test_hash() throws Exception {
-        assert_parse("{1,2}", "(STATEMENT_LIST (STATEMENT ({ 1 , 2)))");
+        assert_parse("{1,2}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
+        assert_parse("{1,2,3,4}", "(STATEMENT_LIST (STATEMENT ({ 1 2 3 4)))");
+
+        assert_parse("{1=>2}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
+        assert_parse("{1=>2,3=>4}", "(STATEMENT_LIST (STATEMENT ({ 1 2 3 4)))");
+
+        assert_parse("{1,2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
+        assert_parse("{1=>2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
         //assert_parse("{1}", "");
     }
 
     public void test_def_method() throws Exception {
         assert_parse("def test \n end", "(STATEMENT_LIST (STATEMENT (def test)))");
+    }
+    public void test_method() throws Exception {
+        assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
+        assert_parse("t=1;t", "(STATEMENT_LIST (STATEMENT (= t 1)) (STATEMENT (VARIABLE t)))");
     }
 
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
