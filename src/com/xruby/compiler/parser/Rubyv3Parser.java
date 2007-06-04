@@ -1,4 +1,4 @@
-// $ANTLR 3.0 F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-06-04 22:27:33
+// $ANTLR 3.0 F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-06-04 23:12:03
 
 package com.xruby.compiler.parser;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Rubyv3Parser extends Parser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "STATEMENT_LIST", "STATEMENT", "MODIFIER_LINE", "IF", "RPAREN_IN_METHOD_DEFINATION", "BODY", "ARG", "LEFT_SHIFT", "HEREDOC_STRING", "FLOAT", "CONSTANT", "FID", "VARIABLE", "CALL", "SYMBOL", "BLOCK", "MULTIPLE_ASSIGN", "MULTIPLE_ASSIGN_WITH_EXTRA_COMMA", "BLOCK_ARG", "BLOCK_ARG_WITH_EXTRA_COMMA", "MRHS", "NESTED_LHS", "SINGLETON_METHOD", "STRING", "DIV", "MOD", "IF_MODIFIER", "UNLESS_MODIFIER", "WHILE_MODIFIER", "UNTIL_MODIFIER", "RESCUE_MODIFIER", "SEMI", "LINE_BREAK", "WS", "ID", "COMPARE", "EQUAL", "CASE_EQUAL", "MATCH", "GREATER_THAN", "GREATER_OR_EQUAL", "LESS_THAN", "LESS_OR_EQUAL", "RIGHT_SHIFT", "PLUS", "MINUS", "STAR", "POWER", "ASSIGN", "MOD_ASSIGN", "COMPLEMENT_ASSIGN", "DIV_ASSIGN", "MINUS_ASSIGN", "PLUS_ASSIGN", "BOR_ASSIGN", "BAND_ASSIGN", "LEFT_SHIFT_ASSIGN", "RIGHT_SHIFT_ASSIGN", "STAR_ASSIGN", "LOGICAL_AND_ASSIGN", "LOGICAL_OR_ASSIGN", "POWER_ASSIGN", "QUESTION", "INCLUSIVE_RANGE", "EXCLUSIVE_RANGE", "LOGICAL_OR", "LOGICAL_AND", "NOT_EQUAL", "NOT_MATCH", "BXOR", "BOR", "BAND", "BNOT", "NOT", "INT", "ARRAY", "REGEX", "OCTAL", "HEX", "BINARY", "LEADING_MARK_DECIMAL", "EXP_PART", "LEADING0_NUMBER", "HEX_PART", "CONTROL_PART", "META_PART", "ESCAPE_INT_PART", "ESCAPE_INT", "NON_LEADING0_NUMBER", "SINGLE_QUOTE_STRING", "DOUBLE_QUOTE_STRING", "SINGLE_STRING_CHAR", "DOUBLE_STRING_CHAR", "LCURLY", "RCURLY", "HEREDOC_BEGIN", "HEREDOC_INDENT_BEGIN", "ASSOC", "BXOR_ASSIGN", "LPAREN", "RPAREN", "LBRACK", "RBRACK", "EMPTY_ARRAY", "COMMA", "COLON", "COLON2", "ANYTHING_OTHER_THAN_LINE_FEED", "COMMENT", "'begin'", "'end'", "'false'", "'nil'", "'true'", "'elsif'", "'else'", "'then'", "'alias'", "'def'", "'[]='", "'and'", "'or'", "'not'", "'expression0'", "'expression1'", "'expression2'", "'\\n'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "STATEMENT_LIST", "STATEMENT", "MODIFIER_LINE", "IF", "RPAREN_IN_METHOD_DEFINATION", "BODY", "ARG", "LEFT_SHIFT", "HEREDOC_STRING", "FLOAT", "CONSTANT", "FID", "VARIABLE", "CALL", "SYMBOL", "BLOCK", "MULTIPLE_ASSIGN", "MULTIPLE_ASSIGN_WITH_EXTRA_COMMA", "BLOCK_ARG", "BLOCK_ARG_WITH_EXTRA_COMMA", "MRHS", "NESTED_LHS", "SINGLETON_METHOD", "STRING", "DIV", "MOD", "IF_MODIFIER", "UNLESS_MODIFIER", "WHILE_MODIFIER", "UNTIL_MODIFIER", "RESCUE_MODIFIER", "SEMI", "LINE_BREAK", "WS", "ID", "COMPARE", "EQUAL", "CASE_EQUAL", "MATCH", "GREATER_THAN", "GREATER_OR_EQUAL", "LESS_THAN", "LESS_OR_EQUAL", "RIGHT_SHIFT", "PLUS", "MINUS", "STAR", "POWER", "ASSIGN", "MOD_ASSIGN", "COMPLEMENT_ASSIGN", "DIV_ASSIGN", "MINUS_ASSIGN", "PLUS_ASSIGN", "BOR_ASSIGN", "BAND_ASSIGN", "LEFT_SHIFT_ASSIGN", "RIGHT_SHIFT_ASSIGN", "STAR_ASSIGN", "LOGICAL_AND_ASSIGN", "LOGICAL_OR_ASSIGN", "POWER_ASSIGN", "QUESTION", "INCLUSIVE_RANGE", "EXCLUSIVE_RANGE", "LOGICAL_OR", "LOGICAL_AND", "NOT_EQUAL", "NOT_MATCH", "BXOR", "BOR", "BAND", "BNOT", "NOT", "INT", "ARRAY", "REGEX", "OCTAL", "HEX", "BINARY", "LEADING_MARK_DECIMAL", "EXP_PART", "LEADING0_NUMBER", "HEX_PART", "CONTROL_PART", "META_PART", "ESCAPE_INT_PART", "ESCAPE_INT", "NON_LEADING0_NUMBER", "SINGLE_QUOTE_STRING", "DOUBLE_QUOTE_STRING", "SINGLE_STRING_CHAR", "DOUBLE_STRING_CHAR", "LCURLY", "RCURLY", "HEREDOC_BEGIN", "HEREDOC_INDENT_BEGIN", "ASSOC", "BXOR_ASSIGN", "LPAREN", "RPAREN", "LBRACK", "RBRACK", "EMPTY_ARRAY", "COMMA", "COLON", "COLON2", "ANYTHING_OTHER_THAN_LINE_FEED", "COMMENT", "'begin'", "'end'", "'false'", "'nil'", "'true'", "'elsif'", "'else'", "'then'", "'alias'", "'def'", "'[]='", "'and'", "'or'", "'not'", "'expression0'", "'expression1'", "'expression2'"
     };
     public static final int COMMA=108;
     public static final int GREATER_THAN=43;
@@ -536,7 +536,7 @@ public class Rubyv3Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: expression, modifier_line
+            // elements: modifier_line, expression
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1071,7 +1071,7 @@ public class Rubyv3Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: body2, body1, e0, body0, e1
+            // elements: e0, body0, e1, body1, body2
             // token labels: 
             // rule labels: e0, e1, body0, retval, body2
             // token list labels: 
@@ -3302,7 +3302,7 @@ public class Rubyv3Parser extends Parser {
             int alt37=2;
             int LA37_0 = input.LA(1);
 
-            if ( (LA37_0==EOF||(LA37_0>=IF_MODIFIER && LA37_0<=LINE_BREAK)||LA37_0==RCURLY||LA37_0==ASSOC||LA37_0==RPAREN||(LA37_0>=COMMA && LA37_0<=COLON)||LA37_0==114||(LA37_0>=118 && LA37_0<=120)||(LA37_0>=124 && LA37_0<=125)||LA37_0==130) ) {
+            if ( (LA37_0==EOF||(LA37_0>=IF_MODIFIER && LA37_0<=LINE_BREAK)||LA37_0==RCURLY||LA37_0==ASSOC||LA37_0==RPAREN||(LA37_0>=COMMA && LA37_0<=COLON)||LA37_0==114||(LA37_0>=118 && LA37_0<=120)||(LA37_0>=124 && LA37_0<=125)) ) {
                 alt37=1;
             }
             else if ( (LA37_0==QUESTION) ) {
@@ -6554,21 +6554,21 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start trailer
-    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:1: trailer : ( | '\\n' | ',' );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:1: trailer : ( | LINE_BREAK | ',' );
     public final trailer_return trailer() throws RecognitionException {
         trailer_return retval = new trailer_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token char_literal208=null;
+        Token LINE_BREAK208=null;
         Token char_literal209=null;
 
-        Object char_literal208_tree=null;
+        Object LINE_BREAK208_tree=null;
         Object char_literal209_tree=null;
 
         try {
-            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:28: ( | '\\n' | ',' )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:29: ( | LINE_BREAK | ',' )
             int alt88=3;
             switch ( input.LA(1) ) {
             case RCURLY:
@@ -6576,7 +6576,7 @@ public class Rubyv3Parser extends Parser {
                 alt88=1;
                 }
                 break;
-            case 130:
+            case LINE_BREAK:
                 {
                 alt88=2;
                 }
@@ -6588,39 +6588,39 @@ public class Rubyv3Parser extends Parser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("696:1: trailer : ( | '\\n' | ',' );", 88, 0, input);
+                    new NoViableAltException("696:1: trailer : ( | LINE_BREAK | ',' );", 88, 0, input);
 
                 throw nvae;
             }
 
             switch (alt88) {
                 case 1 :
-                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:28: 
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:29: 
                     {
                     root_0 = (Object)adaptor.nil();
 
                     }
                     break;
                 case 2 :
-                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:30: '\\n'
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:31: LINE_BREAK
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    char_literal208=(Token)input.LT(1);
-                    match(input,130,FOLLOW_130_in_trailer3318); 
-                    char_literal208_tree = (Object)adaptor.create(char_literal208);
-                    adaptor.addChild(root_0, char_literal208_tree);
+                    LINE_BREAK208=(Token)input.LT(1);
+                    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_trailer3319); 
+                    LINE_BREAK208_tree = (Object)adaptor.create(LINE_BREAK208);
+                    adaptor.addChild(root_0, LINE_BREAK208_tree);
 
 
                     }
                     break;
                 case 3 :
-                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:37: ','
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:44: ','
                     {
                     root_0 = (Object)adaptor.nil();
 
                     char_literal209=(Token)input.LT(1);
-                    match(input,COMMA,FOLLOW_COMMA_in_trailer3322); 
+                    match(input,COMMA,FOLLOW_COMMA_in_trailer3323); 
                     char_literal209_tree = (Object)adaptor.create(char_literal209);
                     adaptor.addChild(root_0, char_literal209_tree);
 
@@ -6962,7 +6962,7 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_LCURLY_in_hash3207 = new BitSet(new long[]{0x00000040C0043000L,0x803A00026001F000L,0x0000000000000003L});
     public static final BitSet FOLLOW_assoc_list_in_hash3210 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L});
     public static final BitSet FOLLOW_RCURLY_in_hash3212 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_assocs_in_assoc_list3221 = new BitSet(new long[]{0x0000000000000002L,0x0000100000000000L,0x0000000000000004L});
+    public static final BitSet FOLLOW_assocs_in_assoc_list3221 = new BitSet(new long[]{0x0000001000000002L,0x0000100000000000L});
     public static final BitSet FOLLOW_trailer_in_assoc_list3223 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assoc_in_assocs3232 = new BitSet(new long[]{0x0000000000000002L,0x0000100000000000L});
     public static final BitSet FOLLOW_COMMA_in_assocs3236 = new BitSet(new long[]{0x00000040C0043000L,0x803A00026001F000L,0x0000000000000003L});
@@ -6975,7 +6975,7 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_arg_value_in_args3280 = new BitSet(new long[]{0x0000000000000002L,0x0000100000000000L});
     public static final BitSet FOLLOW_arg_in_arg_value3291 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assignmentExpression_in_arg3300 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_130_in_trailer3318 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_COMMA_in_trailer3322 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_trailer3319 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_COMMA_in_trailer3323 = new BitSet(new long[]{0x0000000000000002L});
 
 }
