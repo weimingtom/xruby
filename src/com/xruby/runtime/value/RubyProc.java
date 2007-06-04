@@ -22,6 +22,16 @@ public class RubyProc extends RubyBinding {
         value_ = v;
     }
 
+    public boolean equals(Object o) {
+        if (null == o) {
+            return false;
+        } else if (o instanceof RubyProc) {
+            return value_ == ((RubyProc) o).value_;
+        } else {
+            return false;
+        }
+    }
+
     public RubyBlock getBlock() {
         return value_;
     }
