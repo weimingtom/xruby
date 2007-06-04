@@ -14,8 +14,6 @@ class SymbolTable {
     private final Map<String, Label> localVariableRange = new HashMap<String, Label>();
     private final List<String> declarationSeq = new ArrayList<String>();
     private final ArrayList<String> method_parameters_;
-    private String asterisk_parameters_ = null;
-    private String block_parameters_ = null;
 
     private static final String NAME_FOR_INTERNAL_BLOCK_VAR = "block$";
     private static final String NAME_FOR_INTERNAL_BINDING_VAR = "binding$";
@@ -76,48 +74,14 @@ class SymbolTable {
         method_parameters_.add(name);
     }
 
-    public void setMethodAsteriskParameter(String name) {
-        assert(null == asterisk_parameters_);
-        asterisk_parameters_ = name;
-    }
-
-    public void setMethodBlockParameter(String name) {
-        assert(null == block_parameters_);
-        block_parameters_ = name;
-    }
-
     public int getMethodParameter(String name) {
         return method_parameters_.indexOf(name);
-    }
-
-    public boolean getMethodAsteriskParameter(String name) {
-        if (null == asterisk_parameters_) {
-            return false;
-        } else if (!asterisk_parameters_.equals(name)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public boolean getMethodBlockParameter(String name) {
-        if (null == block_parameters_) {
-            return false;
-        } else if (!block_parameters_.equals(name)) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     public boolean isDefinedInCurrentScope(String name) {
         if (getLocalVariable(name) >= 0) {
             return true;
         } else if (getMethodParameter(name) >= 0) {
-            return true;
-        } else if (null != asterisk_parameters_ && asterisk_parameters_.equals(name)) {
-            return true;
-        } else if (null != block_parameters_ && block_parameters_.equals(name)) {
             return true;
         } else {
             return false;

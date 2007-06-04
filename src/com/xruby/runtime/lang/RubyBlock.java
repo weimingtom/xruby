@@ -14,10 +14,6 @@ class MethodBlockBase {
     protected int default_argc_;
     protected RubyValue[] default_values_ = null;
 
-    //TODO we can just just use regular local variables for these two
-    protected RubyValue asterisk_parameter_;
-    protected RubyValue block_parameter_;
-
     protected MethodBlockBase(int argc, boolean has_asterisk_parameter, int default_argc) {
         argc_ = argc;
         has_asterisk_parameter_ = has_asterisk_parameter;
@@ -29,22 +25,6 @@ class MethodBlockBase {
             return -(argc_ - default_argc_) - 1;
         } else {
             return argc_;
-        }
-    }
-
-    protected void initializeAsteriskParameter(RubyArray args) {
-        if (null == args) {
-            asterisk_parameter_ = new RubyArray();
-        } else {
-            asterisk_parameter_ = args.collect(argc_);
-        }
-    }
-
-    protected void initializeBlockParameter(RubyBlock block) {
-        if (null == block) {
-            block_parameter_ = ObjectFactory.NIL_VALUE;
-        } else {
-            block_parameter_ = ObjectFactory.createProc(block);
         }
     }
 

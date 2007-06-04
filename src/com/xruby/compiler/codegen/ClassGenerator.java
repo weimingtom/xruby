@@ -89,17 +89,17 @@ abstract class ClassGenerator {
         getSymbolTable().addMethodParameter(name);
     }
 
-    public void setAsteriskParameter(String name) {
+    public void setAsteriskParameter(String name, int argc) {
         //initializeAsteriskParameter() is always called. -- this will makes code generation simpler.
         //But doing it here has a little advantage (optimazation): if the
         //asterisk parameter is not used, we'd better avoid calling initializeAsteriskParameter().
-        getSymbolTable().setMethodAsteriskParameter(name);
-        getMethodGenerator().call_initializeAsteriskParameter(getCurrentType());
+        getMethodGenerator().RubyAPI_initializeAsteriskParameter(argc);
+        getMethodGenerator().storeLocal(getMethodGenerator().getNewLocalVariable(name));
     }
 
     public void setBlockParameter(String name) {
-        getSymbolTable().setMethodBlockParameter(name);
-        getMethodGenerator().call_initializeBlockParameter(getCurrentType());
+        getMethodGenerator().RubyAPI_initializeBlockParameter();
+        getMethodGenerator().storeLocal(getMethodGenerator().getNewLocalVariable(name));
     }
 
     public void visitEnd() {
@@ -110,23 +110,10 @@ abstract class ClassGenerator {
         return getMethodGenerator().newLocal(Type.getType(Types.RubyValueClass));
     }
 
-    abstract protected Class getCurrentType();
-
     public void storeVariable(String name) {
         int i = getSymbolTable().getLocalVariable(name);
         if (i >= 0) {
             getMethodGenerator().storeLocal(i);
-            return;
-        }
-
-        Class c = getCurrentType();
-        if (getSymbolTable().getMethodAsteriskParameter(name)) {
-            getMethodGenerator().store_asterisk_parameter_(c);
-            return;
-        }
-
-        if (getSymbolTable().getMethodBlockParameter(name)) {
-            getMethodGenerator().store_block_parameter_(c);
             return;
         }
 
@@ -143,17 +130,6 @@ abstract class ClassGenerator {
         //check if this is local variable
         if (getSymbolTable().getLocalVariable(name) >= 0) {
             getMethodGenerator().loadLocal(getMethodGenerator().getLocalVariable(name));
-            return;
-        }
-
-        Class c = getCurrentType();
-        if (getSymbolTable().getMethodAsteriskParameter(name)) {
-            getMethodGenerator().load_asterisk_parameter_(c);
-            return;
-        }
-
-        if (getSymbolTable().getMethodBlockParameter(name)) {
-            getMethodGenerator().load_block_parameter_(c);
             return;
         }
 

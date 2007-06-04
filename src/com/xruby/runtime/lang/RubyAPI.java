@@ -422,4 +422,21 @@ public class RubyAPI {
         RubyArray args = new RubyArray(index, value);
         callPublicMethod(receiver, args, null, StringMap.intern("[]="));
     }
+
+    public static RubyValue initializeAsteriskParameter(RubyArray args, int argc) {
+        if (null == args) {
+            return new RubyArray();
+        } else {
+            return args.collect(argc);
+        }
+    }
+
+    public static RubyValue initializeBlockParameter(RubyBlock block) {
+        if (null == block) {
+            return ObjectFactory.NIL_VALUE;
+        } else {
+            return ObjectFactory.createProc(block);
+        }
+    }
+
 }

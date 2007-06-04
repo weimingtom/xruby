@@ -10,14 +10,14 @@ import org.objectweb.asm.commons.Method;
 import com.xruby.runtime.lang.RubyBinding;
 
 class ClassGeneratorForRubyProgram extends ClassGenerator {
-	private RubyBinding binding_;
+    private RubyBinding binding_;
     private String fileName;
 
     public ClassGeneratorForRubyProgram(String name, String fileName, RubyBinding binding) {
-		super(name);
+        super(name);
         this.fileName = fileName;
-		mg_for_run_method_ = visitRubyProgram(binding, fileName);
-		binding_ = binding;
+        mg_for_run_method_ = visitRubyProgram(binding, fileName);
+        binding_ = binding;
     }
 
 
@@ -29,18 +29,14 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
         this.fileName = fileName;
     }
 
-    protected Class getCurrentType() {
-		return Types.RubyProgramClass;
-	}
-
-	private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName) {
-		cv_.visit(Opcodes.V1_5,
-				Opcodes.ACC_PUBLIC,
-				name_,
-				null,										// signature
-				"com/xruby/runtime/lang/RubyProgram",		// superName
-				null										// interface
-				);
+    private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName) {
+        cv_.visit(Opcodes.V1_5,
+                Opcodes.ACC_PUBLIC,
+                name_,
+                null,										// signature
+                "com/xruby/runtime/lang/RubyProgram",		// superName
+                null										// interface
+                );
 
         // set source file's name, for debug
         if(fileName != null) {
@@ -48,64 +44,64 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
         }
 
         createImplicitConstructor(cv_);
-		createStaticVoidMain(cv_);
+        createStaticVoidMain(cv_);
 
-		//Implement RubyProgram
-		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
-				cv_,
-				binding,
-				null,
-				false);
-	}
+        //Implement RubyProgram
+        return new MethodGenerator(Opcodes.ACC_PROTECTED,
+                Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
+                cv_,
+                binding,
+                null,
+                false);
+    }
 
-	private void createImplicitConstructor(ClassVisitor cw) {
-		Method m = Method.getMethod("void <init> ()");
-		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
-				m,
-				cw,
-				null,
-				null,
-				false);
-		mg.loadThis();
-		mg.invokeConstructor(Type.getType(Types.RubyProgramClass), m);
-		mg.returnValue();
-		mg.endMethod();
-	}
+    private void createImplicitConstructor(ClassVisitor cw) {
+        Method m = Method.getMethod("void <init> ()");
+        MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
+                m,
+                cw,
+                null,
+                null,
+                false);
+        mg.loadThis();
+        mg.invokeConstructor(Type.getType(Types.RubyProgramClass), m);
+        mg.returnValue();
+        mg.endMethod();
+    }
 
-	private void createStaticVoidMain(ClassVisitor cv) {
-		MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
-				Method.getMethod("void main (String[])"),
-				cv,
-				null,
-				null,
-				false);
+    private void createStaticVoidMain(ClassVisitor cv) {
+        MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
+                Method.getMethod("void main (String[])"),
+                cv,
+                null,
+                null,
+                false);
 
-		mg.loadArg(0);
-		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),
-				Method.getMethod("void init(String[])"));
+        mg.loadArg(0);
+        mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),
+                Method.getMethod("void init(String[])"));
 
-		Type program = Type.getType("L" + name_ + ";");
-		mg.newInstance(program);
-		mg.dup();
-		mg.invokeConstructor(program,
-				Method.getMethod("void <init> ()"));
-		mg.invokeVirtual(program,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue invoke()"));
-		mg.pop();
+        Type program = Type.getType("L" + name_ + ";");
+        mg.newInstance(program);
+        mg.dup();
+        mg.invokeConstructor(program,
+                Method.getMethod("void <init> ()"));
+        mg.invokeVirtual(program,
+                Method.getMethod("com.xruby.runtime.lang.RubyValue invoke()"));
+        mg.pop();
 
-		mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),
-				Method.getMethod("void fini()"));
+        mg.invokeStatic(Type.getType(Types.RubyRuntimeClass),
+                Method.getMethod("void fini()"));
 
-		mg.returnValue();
-		mg.endMethod();
-	}
+        mg.returnValue();
+        mg.endMethod();
+    }
 
-	public void storeVariable(String name) {
-		updateBinding(binding_, name);
+    public void storeVariable(String name) {
+        updateBinding(binding_, name);
 
-		super.storeVariable(name);
-	}
+        super.storeVariable(name);
+    }
 
 }
 
