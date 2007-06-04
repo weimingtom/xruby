@@ -28,6 +28,8 @@ Here is a list of things we are going to do
 = Wild Ideas? =
   * Compile code that uses JRuby's runtime and lib
   * Bring better concurrency to ruby (Borrow ideas from Erlang)
+  * Functional programming in ruby.(Lazy,Single assignment,Pattern matching, etc..)
+  * Prototype based programming in ruby.(Borrow ideas from Io,JS)
   * Aggressive type inference (Borrow ideas from Strongtalk)
   * Rewrite compiler in pure ruby
   
