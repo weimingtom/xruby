@@ -693,7 +693,7 @@ arg_value
 	
 arg	:	assignmentExpression;
 
-trailer       : /* none */ | '\n' | ',';
+trailer!       : /* none */ | LINE_BREAK | ',';
 
 REGEX	:	'/abc/';
 SYMBOL	:	':abc';
