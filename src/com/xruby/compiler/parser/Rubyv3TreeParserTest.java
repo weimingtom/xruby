@@ -331,6 +331,30 @@ public class Rubyv3TreeParserTest extends TestCase {
         hash.add(ObjectFactory.createFixnum(1), ObjectFactory.createFixnum(2));
         compile_run_and_compare_result(hash, "{1,2}");
 
+        hash = ObjectFactory.createHash();
+        hash.add(ObjectFactory.createFixnum(1), ObjectFactory.createFixnum(2));
+        hash.add(ObjectFactory.createFixnum(3), ObjectFactory.createFixnum(4));
+
+        compile_run_and_compare_result(hash, "{1,2,3,4}");
+
+        hash = ObjectFactory.createHash();
+        hash.add(ObjectFactory.createFixnum(1), ObjectFactory.createFixnum(2));
+        compile_run_and_compare_result(hash, "{1=>2}");
+
+        hash = ObjectFactory.createHash();
+        hash.add(ObjectFactory.createFixnum(1), ObjectFactory.createFixnum(2));
+        hash.add(ObjectFactory.createFixnum(3), ObjectFactory.createFixnum(4));
+
+        compile_run_and_compare_result(hash, "{1=>2,3=>4}");
+
+        hash = ObjectFactory.createHash();
+        hash.add(ObjectFactory.createFixnum(1), ObjectFactory.createFixnum(2));
+        compile_run_and_compare_result(hash, "{1,2,}");
+
+        hash = ObjectFactory.createHash();
+        hash.add(ObjectFactory.createFixnum(1), ObjectFactory.createFixnum(2));
+        compile_run_and_compare_result(hash, "{1=>2,}");
+
         //compile_run_and_compare_result(hash, "{1}");
     }
 
