@@ -12,7 +12,7 @@ We appreciate *clean code with tests*. When you fix a bug or add a new feature, 
 
 The other set of tests are written in Ruby, and you run them by doing:
 
->*java -jar xruby-0.1.4.jar sample\test.rb*
+>*java -jar xruby-0.2.0.jar sample\test.rb*
 
 While it is impossible to implement something perfectly at the first attempt, we encourage refactoring. If the change may affect the work of other contributors, an email to xruby-devel malilist would be great.
 
