@@ -230,8 +230,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 		cg_.addParameter(name);
 	}
 
-	public void visitMethodDefinationAsteriskParameter(String name) {
-		cg_.setAsteriskParameter(name);
+	public void visitMethodDefinationAsteriskParameter(String name, int argc) {
+		cg_.setAsteriskParameter(name, argc);
 	}
 
 	public void visitMethodDefinationBlockParameter(String name) {

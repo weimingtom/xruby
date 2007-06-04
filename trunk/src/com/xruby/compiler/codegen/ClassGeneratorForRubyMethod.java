@@ -68,10 +68,6 @@ class ClassGeneratorForRubyMethod extends ClassGenerator {
         return is_singleton_method_;
     }
 
-    protected Class getCurrentType() {
-        return Types.RubyMethodClass;
-    }
-
     private MethodGenerator visitRubyVarArgMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
         cv_.visit(Opcodes.V1_5,
                 0,		//No modifier

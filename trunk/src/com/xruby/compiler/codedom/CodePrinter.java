@@ -488,7 +488,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("\n");
 	}
 
-	public void visitMethodDefinationAsteriskParameter(String name) {
+	public void visitMethodDefinationAsteriskParameter(String name, int argc) {
 		result_.append("*parameter:");
 		result_.append(name);
 		result_.append("\n");

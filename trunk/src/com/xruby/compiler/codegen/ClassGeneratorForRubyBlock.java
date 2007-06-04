@@ -82,10 +82,6 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 					this);
 	}
 
-	protected Class getCurrentType() {
-		return Types.RubyBlockClass;
-	}
-
 	private void loadField(String name) {
 		mg_for_run_method_.loadThis();
 		mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Type.getType(Types.RubyValueClass));
@@ -154,8 +150,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		initialFiledUsingBlockParameter(name);
 	}
 
-	public void setAsteriskParameter(String name) {
-		super.setAsteriskParameter(name);
+	public void setAsteriskParameter(String name, int argc) {
+		super.setAsteriskParameter(name, argc);
 		initialFiledUsingBlockParameter(name);
 	}
 

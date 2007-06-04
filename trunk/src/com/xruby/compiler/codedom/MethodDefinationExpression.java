@@ -66,7 +66,7 @@ public class MethodDefinationExpression extends Expression {
 		}
 
 		if (null != asterisk_parameter_) {
-			visitor.visitMethodDefinationAsteriskParameter(asterisk_parameter_);
+			visitor.visitMethodDefinationAsteriskParameter(asterisk_parameter_, parameters_.size());
 		}
 
 		if (null != block_parameter_) {
