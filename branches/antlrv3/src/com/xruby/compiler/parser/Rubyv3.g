@@ -356,7 +356,7 @@ methodDefinationArgument
 methodDefinationArgumentWithoutParen
 	:	normalMethodDefinationArgument -> ^(ARG normalMethodDefinationArgument);
 normalMethodDefinationArgument
-	:	ID ( '=' expression);
+	:	ID ( '=' expression)?;
 variable:	id=ID {addVariable($id.text);};	
 bodyStatement
 	:	statement_list -> ^(BODY statement_list);
