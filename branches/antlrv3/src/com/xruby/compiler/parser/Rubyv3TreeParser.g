@@ -47,7 +47,7 @@ expression returns[Expression e]
 	|       ^(POWER_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("**", left, right));}
 	
 	|       ^(LEFT_SHIFT lhs0=expression rhs=expression) {e=new BinaryOperatorExpression("<<", lhs0, rhs);}
-	|       ^(VARIABLE ID) {e=new LocalVariableExpression($ID.text, false);} //todo examine this
+	|       e1=variableExpression {e=e1;}
 	|       'true' {e = new TrueExpression();}
 	|       'false'{e = new FalseExpression();}
 	|       'nil'{e = new NilExpression();}
@@ -63,7 +63,8 @@ expression returns[Expression e]
 	|       ^(CALL methodName=ID) {e = new MethodCallExpression(null, $ID.text, null, null);} 
 	|       ^('{' {e = new HashExpression();} (e1=expression e2=expression {((HashExpression)e).addElement(e1,e2);})*)
 	;
-
+variableExpression returns [LocalVariableExpression e]
+	:	^(VARIABLE ID) {e=new LocalVariableExpression($ID.text, false);};
 methodDefinition
 returns [MethodDefinationExpression e]
         :	^('def' name=ID (^(ARG ID))* ^(BODY sl=statement_list)) {e = new MethodDefinationExpression($name.text); e.setBody(new BodyStatement(sl));};

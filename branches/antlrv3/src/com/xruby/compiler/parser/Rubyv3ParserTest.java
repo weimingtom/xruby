@@ -95,27 +95,27 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("09;", "(STATEMENT_LIST (STATEMENT 09))");
 
         assert_parse("0d099", "(STATEMENT_LIST (STATEMENT 0d099))");
-        //assert_parse("?a;", "(STATEMENT_LIST (STATEMENT 7))");
+        assert_parse("1;?a;", "(STATEMENT_LIST (STATEMENT 1) (STATEMENT ?a))");
     }
     public void test_tenary_if_expression() throws Exception {
         //assert_parse("5?3:2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
         //assert_parse("5**3?3:2", "(STATEMENT_LIST (STATEMENT (? (** 5 3) 3 2)))");
         //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");
-        assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (** 5 3) 3 2)))");
+        assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (CALL x) 3 2)))");
     }
     public void test_assignment() throws Exception {
-        assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= x 1)))");
-        assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< (VARIABLE x) 1)))");
+        assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)))");
+        assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)) (STATEMENT (<< (VARIABLE x) 1)))");
 
-        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
+        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE x) 1)))");
 
-        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
+        /*assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
 
         assert_parse("%Q{a#{x=1}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
 
         assert_parse("a=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= a (? 5 3 2))) (STATEMENT a))");
 
-        assert_parse("a=1;a+=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= a 1)) (STATEMENT (+= a (? 5 3 2))) (STATEMENT a))");
+        assert_parse("a=1;a+=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= a 1)) (STATEMENT (+= a (? 5 3 2))) (STATEMENT a))");*/
         //assert_parse("x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
         /*assert_parse("x <<1\n" +
                 "\n"
