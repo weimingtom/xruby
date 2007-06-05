@@ -153,11 +153,7 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("def test\n 3 end \ntest", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT test))");
         assert_parse("def test\n 3 end;test", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT test))");
     }
-    public void test_method() throws Exception {
-        assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
-        assert_parse("t=1;t", "(STATEMENT_LIST (STATEMENT (= t 1)) (STATEMENT (VARIABLE t)))");
-    }
-
+    
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
 
     {
