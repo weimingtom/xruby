@@ -407,7 +407,7 @@ assignmentExpression
 	           ternaryIfThenElseExpression {addVariable($lhs.text);};
 
 ternaryIfThenElseExpression
-		:	rangeExpression ( |  QUESTION^ rangeExpression ':'! rangeExpression)
+		:	r=rangeExpression ( |  QUESTION^ rangeExpression ':'! rangeExpression)
 		;
 //= += -= *= /= %= **= &= ^= |= <<= >>= &&= ||=
 //.. ...
@@ -544,7 +544,7 @@ bnotExpression
 			command
 		;
 command
-@after{tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
+//@after{tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
 	:('expression0' | 'expression1' | 'expression2'|literal|boolean_expression| block_expression|if_expression|unless_expression|atom)
 	; //|       lhs SHIFT^ rhs ;	
 atom	:	methodExpression;
@@ -553,7 +553,7 @@ methodExpression
 variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
 method	:	{!isDefinedVar(input.LT(1).getText())}? ID -> ^(CALL ID);
 	
-lhs	:	ID;
+lhs	:	ID -> ^(VARIABLE ID); //todo: see this
 rhs	:	expression;
 
 //primary	:	literal| 'begin' program 'end'; //todo:more on this later

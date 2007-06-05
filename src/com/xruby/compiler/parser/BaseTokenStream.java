@@ -87,11 +87,9 @@ public class BaseTokenStream implements TokenStream {
                 ((MyToken) token).expression = expression;
             } //todo: else , is not actually heredoc
         } else if(token.getType() == Rubyv3Lexer.QUESTION) { //see if we are in escape_int
-            VirtualToken virtualToken = getPreviousVirtualToken(token);
-            if(virtualToken != null && virtualToken == VirtualToken.EXPR_END) {
-                System.out.println("previous virtualToken is EXPR_END");
-                //do nothing, we are QEUSTION
-            } else {
+            //VirtualToken virtualToken = getPreviousVirtualToken(token);
+            Token token1 = getPreviousToken(token);
+            if(isExpressionBegin(token1)) {
                 try {
                     token.setType(Rubyv3Lexer.INT);
                     int beginIndex = tokenSource.index();  //charIndex in CharStream
@@ -101,8 +99,29 @@ public class BaseTokenStream implements TokenStream {
                 } catch (RecognitionException e) {
                     throw new SyntaxException(e);
                 }
+                System.out.println("previous token:" + token1);
+
+            } else {
+                //do nothing, we are QEUSTION
+                System.out.println("previous token:" + token1);
             }
         }
+    }
+
+    private boolean isExpressionBegin(Token token) {
+        return token == null || token.getType() == Rubyv3Lexer.POWER || token.getType() == Rubyv3Lexer.SEMI; //todo: add more to this
+    }
+
+    /*private boolean isExpressionEnd(Token token) {
+        return token == null || token.getType() == Rubyv3Lexer.SEMI;
+    }*/
+
+    private Token getPreviousToken(Token token) {
+        int index = token.getTokenIndex() - 1;
+        if (index >= 0) {
+            return (Token) tokens.get(index);
+        }
+        return null;
     }
 
     private VirtualToken getPreviousVirtualToken(Token token) {
