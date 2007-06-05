@@ -362,8 +362,9 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createString(""), "alias test1 test");
     }
     public void test_method() throws Exception {
-        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test\n end");
-        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test\n end test");
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test\n 3 end");
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test\n 3 end \ntest");
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test\n 3 end;test");
     }
 
     public void test_method_invocation() throws Exception {
