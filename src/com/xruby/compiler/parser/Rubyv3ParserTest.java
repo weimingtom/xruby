@@ -98,12 +98,14 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("?a;", "(STATEMENT_LIST (STATEMENT 7))");
     }
     public void test_tenary_if_expression() throws Exception {
-        assert_parse("5?3:2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
-        assert_parse("5**3?3:2", "(STATEMENT_LIST (STATEMENT (? (** 5 3) 3 2)))");
+        //assert_parse("5?3:2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
+        //assert_parse("5**3?3:2", "(STATEMENT_LIST (STATEMENT (? (** 5 3) 3 2)))");
+        //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");
+        assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (** 5 3) 3 2)))");
     }
     public void test_assignment() throws Exception {
-        //assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= x 1)))");
-        assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
+        assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= x 1)))");
+        assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< (VARIABLE x) 1)))");
 
         assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
 
@@ -149,9 +151,9 @@ public class Rubyv3ParserTest extends TestCase {
 
     }
     public void test_method() throws Exception {
-        assert_parse("test", "(STATEMENT_LIST (STATEMENT test))");
-        assert_parse("def test\n 3 end \ntest", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT test))");
-        assert_parse("def test\n 3 end;test", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT test))");
+        assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
+        assert_parse("def test\n 3 end \ntest", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");
+        assert_parse("def test\n 3 end;test", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");
     }
     
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException

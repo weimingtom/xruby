@@ -22,7 +22,9 @@ tokens {
 	
 	CONSTANT;
 	FID;
+	VARIABLE;
 	CALL;
+	
 	
 	//COMPSTMT;
 	SYMBOL;
@@ -357,7 +359,7 @@ methodDefinationArgumentWithoutParen
 	:	normalMethodDefinationArgument -> ^(ARG normalMethodDefinationArgument);
 normalMethodDefinationArgument
 	:	ID ( '=' expression)?;
-variable:	id=ID {addVariable($id.text);};	
+	
 bodyStatement
 	:	statement_list -> ^(BODY statement_list);
 	
@@ -390,11 +392,9 @@ notExpression
 		|	definedExpression
 		;
 definedExpression
-	:	methodExpression;
-methodExpression
-	:      method|	
-	assignmentExpression;
-method	:	ID;
+	:	'defined' assignmentExpression
+	|       assignmentExpression;
+
 	/*|	ID '(' ')'
 	|	ID args;
 args	:	pure_args_one_or_more | '(' pure_args_one_or_more ')';
@@ -545,8 +545,13 @@ bnotExpression
 		;
 command
 @after{tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
-	:('expression0' | 'expression1' | 'expression2'|literal|boolean_expression| block_expression|if_expression|unless_expression)
+	:('expression0' | 'expression1' | 'expression2'|literal|boolean_expression| block_expression|if_expression|unless_expression|atom)
 	; //|       lhs SHIFT^ rhs ;	
+atom	:	methodExpression;
+methodExpression
+	:      variable|method;
+variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
+method	:	{!isDefinedVar(input.LT(1).getText())}? ID -> ^(CALL ID);
 	
 lhs	:	ID;
 rhs	:	expression;
@@ -691,7 +696,7 @@ arg_value
 	
 arg	:	assignmentExpression;
 
-trailer!       : /* none */ | LINE_BREAK | ',';
+trailer!       : /* none */ | LINE_BREAK! | ','!;
 
 REGEX	:	'/abc/';
 SYMBOL	:	':abc';
