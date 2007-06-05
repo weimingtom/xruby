@@ -116,10 +116,17 @@ class Kernel_singleton_methods extends RubyVarArgMethod {
         }
 
         RubyArray a = new RubyArray();
-        if (all) {
-            receiver.getSingletonClass().collectClassMethodNames(a, RubyMethod.PUBLIC);
-        } else {
-            receiver.getSingletonClass().collectOwnMethodNames(a, RubyMethod.PUBLIC);
+        if(receiver.getRubyClass().isSingleton()) {
+            RubyClass rubyClass = receiver.getRubyClass();    
+            rubyClass.collectOwnMethodNames(a, RubyMethod.PUBLIC);
+            rubyClass = rubyClass.getSuperClass();
+
+            if (all) {
+                while(rubyClass != null && rubyClass.isSingleton()) {
+                    rubyClass.collectOwnMethodNames(a, RubyMethod.PUBLIC);
+                    rubyClass = rubyClass.getSuperClass();
+                }
+            }
         }
         return a;
     }
