@@ -42,6 +42,7 @@ public class Program extends Expression implements Visitable {
     }
 
     public void setStatementList(StatementList statementList) {
+        this.compoundStatement_ = statementList;
         this.statementList = statementList;
     }
 }

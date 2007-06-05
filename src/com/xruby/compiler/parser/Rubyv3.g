@@ -22,7 +22,6 @@ tokens {
 	
 	CONSTANT;
 	FID;
-	VARIABLE;
 	CALL;
 	
 	//COMPSTMT;
@@ -352,15 +351,15 @@ methodDefinition
 methodName
 	:	id=ID;  //todo:or constant
 methodDefinationArgument
-	:	'(' (methodDefinationArgumentWithoutParen)? ')' (terminal)?
-	|       (methodDefinationArgumentWithoutParen)? terminal;
+	:	'('! (methodDefinationArgumentWithoutParen)? ')'! (terminal!)?
+	|       (methodDefinationArgumentWithoutParen)? terminal!;
 methodDefinationArgumentWithoutParen
-	:	normalMethodDefinationArgument;
+	:	normalMethodDefinationArgument -> ^(ARG normalMethodDefinationArgument);
 normalMethodDefinationArgument
-	:	variable {addVariable($variable.text);}( '=' expression);
-
+	:	ID ( '=' expression);
+variable:	id=ID {addVariable($id.text);};	
 bodyStatement
-	:	statement_list;
+	:	statement_list -> ^(BODY statement_list);
 	
 
 fitem	:	fname;// | symbol;
@@ -393,10 +392,9 @@ notExpression
 definedExpression
 	:	methodExpression;
 methodExpression
-	:      variable|method|	
+	:      method|	
 	assignmentExpression;
-variable:	{isDefinedVar(input.LT(1).getText())}? => ID -> ^(VARIABLE ID);
-method	:	{!isDefinedVar(input.LT(1).getText())}? => ID -> ^(CALL ID);
+method	:	ID;
 	/*|	ID '(' ')'
 	|	ID args;
 args	:	pure_args_one_or_more | '(' pure_args_one_or_more ')';
