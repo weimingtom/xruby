@@ -47,7 +47,7 @@ expression returns[Expression e]
 	|       ^(POWER_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("**", left, right));}
 	
 	|       ^(LEFT_SHIFT lhs0=expression rhs=expression) {e=new BinaryOperatorExpression("<<", lhs0, rhs);}
-	|       ID {e=new LocalVariableExpression($ID.text, false);} //todo examine this
+	|       ^(VARIABLE ID) {e=new LocalVariableExpression($ID.text, false);} //todo examine this
 	|       'true' {e = new TrueExpression();}
 	|       'false'{e = new FalseExpression();}
 	|       'nil'{e = new NilExpression();}

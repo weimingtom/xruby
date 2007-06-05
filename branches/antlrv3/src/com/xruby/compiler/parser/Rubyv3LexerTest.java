@@ -112,12 +112,18 @@ public class Rubyv3LexerTest extends TestCaseExtend {
                 "It is #{Time.now}\n" +
                 "HERE", new int[]{ANY, Rubyv3Lexer.LEFT_SHIFT});*/
     }
+
     public void test_CONSTANT() throws Exception {
         assert_lex("MY_CONST", Rubyv3Lexer.CONSTANT);
     }
+
     public void test_FID() throws Exception {
         assert_lex("a?", Rubyv3Lexer.FID);
         assert_lex("a!", Rubyv3Lexer.FID);
+    }
+
+    public void test_ternary_if_expression() throws Exception {
+        //assert_lex("x ? 3 : 2", new int[] {});
     }
 
     private TokenStream lex(String text) throws IOException {
