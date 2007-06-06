@@ -30,7 +30,7 @@ ruby\test_exception.rb
 ruby\test_gc.rb
 ruby\test_ifunless.rb
 ruby\test_io.rb
-ruby\test_path.rb
+ruby\test_path.rb (only work on unix?)
 ruby\test_math.rb
 ruby\test_method.rb
 ruby\test_range.rb
@@ -69,7 +69,7 @@ ruby\test_rand.rb
 ruby\test_readpartial.rb
 ruby\test_settracefunc.rb
 ruby\test_signal.rb
-ruby\test_super.rb  # made someprogress, still have a VerifyError
+ruby\test_super.rb  # made some progress, still have a VerifyError
 ruby\test_system.rb
 ruby\test_time.rb
 ruby\test_whileuntil.rb
