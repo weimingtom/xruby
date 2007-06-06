@@ -360,12 +360,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_double_quote_string() {
         String[] program_texts = {
+                "print \"\\56\"",
                 "print \"\\x63\"",
                 "print \"\\142\"",
                 "print \"\\142\\102\"",
         };
 
         String[] outputs = {
+                ".",
                 "c",
                 "b",
                 "bB",
@@ -1447,8 +1449,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_exception() {
         String[] program_texts = {
-				"begin; throw TypeError;rescue Exception =>e; print e; end",
-				
+                "begin; throw TypeError;rescue Exception =>e; print e; end",
+
                 "def f\n" +
                 "  begin\n" +
                 "    a=1\n" +
@@ -1526,7 +1528,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-				"TypeError is not a symbol",		
+                "TypeError is not a symbol",
                 "1",
                 "www",
                 "uncaught throw `vvv'",
