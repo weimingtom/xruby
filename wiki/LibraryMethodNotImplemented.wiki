@@ -30,6 +30,7 @@ ruby\test_exception.rb
 ruby\test_gc.rb
 ruby\test_ifunless.rb
 ruby\test_io.rb
+ruby\test_path.rb
 ruby\test_math.rb
 ruby\test_method.rb
 ruby\test_range.rb
@@ -61,7 +62,6 @@ ruby\test_iterator.rb	#treeparser problem
 ruby\test_marshal.rb
 ruby\test_objectspace.rb
 ruby\test_pack.rb
-ruby\test_path.rb
 ruby\test_pipe.rb
 ruby\test_proc.rb
 ruby\test_process.rb
