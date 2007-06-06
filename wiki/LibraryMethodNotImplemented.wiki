@@ -53,7 +53,7 @@ ruby\test_beginendblock.rb
 ruby\test_bignum.rb
 ruby\test_defined.rb
 ruby\test_dir.rb		#require 'fileutil'
-ruby\test_env.rb
+ruby\test_env.rb          # need to implement several singleton methods for ENV
 ruby\test_eval.rb
 ruby\test_file.rb	
 ruby\test_float.rb
