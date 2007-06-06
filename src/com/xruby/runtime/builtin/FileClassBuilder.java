@@ -22,9 +22,14 @@ class File_basename extends RubyVarArgMethod {
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         String fileName = RubyTypesUtil.convertToString(args.get(0)).toString();
-        String basename = new File(fileName).getName();
-        if (0 == basename.length()) {
-            basename = "/";
+        String basename;
+        if ("".equals(fileName)) {
+            basename = "";
+        } else {
+            basename = new File(fileName).getName();
+            if (0 == basename.length()) {
+                basename = "/";
+            }
         }
 
         if (args.size() == 1) {
@@ -134,7 +139,7 @@ class File_dirname extends RubyOneArgMethod {
         File file = new File(fileName);
         String parent = file.getParent();
         if (parent == null) {
-            return ObjectFactory.createString(fileName.equals("/") ? "/" : ".");
+            return ObjectFactory.createString(fileName.matches("\\/+") ? "/" : ".");
         }
 
         //Java's File.getParent() always converts '/' to '\\' on windows. This is not

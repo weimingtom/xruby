@@ -38,7 +38,7 @@ public class RubyIOPipeSinkExecutor implements RubyIOExecutor {
     }
 
     public void flush() {
-        // TODO: I don't know how to dear with this
+        // FIXME: may be not used for the java NIO pipe implementation..
     }
 
     public RubyValue gets(RubyValue seperator) {
