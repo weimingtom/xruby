@@ -57,7 +57,7 @@ ruby\test_env.rb
 ruby\test_eval.rb
 ruby\test_file.rb	
 ruby\test_float.rb
-ruby\test_hash.rb		#tough to deal with...
+ruby\test_hash.rb		#tough to deal with...will work on it this weekend
 ruby\test_iterator.rb	#treeparser problem
 ruby\test_marshal.rb
 ruby\test_objectspace.rb
@@ -78,7 +78,7 @@ testunit\test_assertions.rb
 testunit\test_testcase.rb
 testunit\test_testsuite.rb
 testunit\test_testresult.rb
-testunit\util\test_observable.rb
+testunit\util\test_observable.rb  #tough to deal with...will work on it this weekend
 testunit\collector\test_dir.rb
 testunit\collector\test_objectspace.rb
 }}}
