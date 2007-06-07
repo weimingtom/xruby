@@ -7,7 +7,9 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.*;
+
 import com.xruby.runtime.lang.RubyBinding;
+
 import java.util.*;
 
 class FieldManager {
@@ -60,6 +62,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	private final RubyBinding binding_;
 	private final FieldManager field_manager_;
     private final String fileName;
+    private final ClassGeneratorForRubyBlockHelper helper;
 
 	public ClassGeneratorForRubyBlock(String name, String fileName,
 			int argc,
@@ -67,8 +70,10 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 			int default_argc,
 			ClassGenerator owner,
 			boolean is_for_in_expression,
+			boolean has_extra_comma,
 			RubyBinding binding) {
 		super(name);
+		this.helper = ClassGeneratorForRubyBlockHelper.getHelper(argc, has_asterisk_parameter, is_for_in_expression, has_extra_comma);
         this.fileName = fileName;
 		symbol_table_of_the_current_scope_ = owner.getSymbolTable();
 		mg_for_run_method_ = visitRubyBlock();
@@ -160,22 +165,22 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 		initialFiledUsingBlockParameter(name);
 	}
 
-	private MethodGenerator visitRubyBlock() {
+	private MethodGenerator visitRubyBlock() {		
 		cv_.visit(Opcodes.V1_5,
 				Opcodes.ACC_PUBLIC,		//need to modify fields when doing Proc#call, see RubyProc.java
 				name_,
 				null,								// signature
-				"com/xruby/runtime/lang/RubyBlock",	// superName
+				this.helper.getSuperName(),	// superName
 				null								// interface
 				);
-
-        // set source file's name, for debug
-        if(fileName != null) {
-            cv_.visitSource(fileName, null);
-        }
-
+		
+		// set source file's name, for debug
+		if(fileName != null) {
+		    cv_.visitSource(fileName, null);
+		}
+		
 		return new MethodGenerator(Opcodes.ACC_PROTECTED,
-				Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"),
+				Method.getMethod(this.helper.getRunMethodName()),
 				cv_,
 				null,
 				symbol_table_of_the_current_scope_,
@@ -183,7 +188,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 	}
 
 	static String buildContructorSignature(int size) {
-		StringBuilder method_name = new StringBuilder("void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule");
+		String defaultMethodName = "void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule";
+		StringBuilder method_name = new StringBuilder(defaultMethodName);
 		for (int i = 0; i < size; ++i) {
 			method_name.append(", ");
 			method_name.append("com.xruby.runtime.lang.RubyValue");
@@ -221,15 +227,16 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 				false);
 
 		mg.loadThis();
-		mg.push(argc_);
-		mg.push(has_asterisk_parameter_);
-		mg.push(default_argc_);
+		
+		this.helper.pushBasciArgForSuperArg(mg, argc_, has_asterisk_parameter_, default_argc_);
+		
 		mg.loadArg(0);
 		mg.loadArg(1);
 		mg.loadArg(2);
 		mg.loadArg(3);
-		mg.invokeConstructor(Type.getType(Types.RubyBlockClass),
-						Method.getMethod("void <init> (int, boolean, int, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"));
+		
+		mg.invokeConstructor(Type.getType(this.helper.getSuperClass()),
+				Method.getMethod(this.helper.getSuperCtorName()));
 
 		for (int i = 0; i < commons.length; ++i) {
 			mg.loadThis();

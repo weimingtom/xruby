@@ -140,7 +140,7 @@ class Dir_glob extends RubyOneArgMethod {
         String[] files = file.list(new GlobFilenameFilter(pattern));
         if (null != files) {
             for (String f : files) {
-                block.invoke(receiver, new RubyArray(ObjectFactory.createString(dir + "/" + f)));
+                block.invoke(receiver, ObjectFactory.createString(dir + "/" + f));
             }
         }
         return ObjectFactory.NIL_VALUE;
@@ -254,7 +254,7 @@ class Dir_open extends RubyOneArgMethod {
         if (null == block) {
             return dir;
         } else {
-            RubyValue v = block.invoke(receiver, new RubyArray(dir));
+            RubyValue v = block.invoke(receiver, dir);
             dir.close();
             return v;
         }

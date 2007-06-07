@@ -139,6 +139,12 @@ class Kernel_eval extends RubyVarArgMethod {
         RubyCompiler compiler = new RubyCompiler(binding, false);
         try {
             CompilationResults codes = compiler.compile(file_name, new StringReader(program_text.toString()));
+            
+            /*
+            try {
+            codes.save("eval");
+            } catch (Exception e) {}
+            */
             RubyProgram p = codes.getRubyProgram();
             if (null != binding) {
                 return p.invoke(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
@@ -493,7 +499,7 @@ class Kernel_open extends RubyVarArgMethod {
         if (null == block) {
             return io;
         } else {
-            RubyValue v = block.invoke(receiver, new RubyArray(io));
+            RubyValue v = block.invoke(receiver, io);
             io.close();
             return v;
         }
@@ -665,7 +671,7 @@ class Kernel_catch extends RubyOneArgMethod {
         }
 
         try {
-            block.invoke(receiver, null);
+            block.invoke(receiver);
         } catch (RubyException e) {
             RubyValue ev = RubyAPI.convertRubyException2RubyValue(e);
             if (ev instanceof RubyExceptionValueForThrow) {
@@ -762,7 +768,7 @@ class Kernel_instance_eval extends RubyVarArgMethod {
             return Kernel_eval.eval(program_text, binding, null);
         } else {
             block.setSelf(receiver);
-            return block.invoke(receiver, null);
+            return block.invoke(receiver);
         }
     }
 }

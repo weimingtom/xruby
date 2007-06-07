@@ -11,9 +11,7 @@ public class YieldExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 			"yield\n" +
-			"[:1:1:false\n" +
 			"nil\n" +
-			"]!\n" +
 			"end yield\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);
@@ -32,5 +30,4 @@ public class YieldExpressionTest extends TestingAstTestCase {
 			"EOF";
 		assertAstOutput(program_text, expected_result);
 	}
-	
 }

@@ -18,7 +18,7 @@ public class AtExitBlocks {
 
     static void invokeAll() {
         for (RubyBlock block : registgered_blocks_) {
-            block.invoke(ObjectFactory.TOP_LEVEL_SELF_VALUE, null);
+            block.invoke(ObjectFactory.TOP_LEVEL_SELF_VALUE);
         }
     }
 }

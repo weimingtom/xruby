@@ -1,13 +1,11 @@
 /** 
- * Copyright 2005-2007 Xue Yong Zhi, Yu Su
+ * Copyright 2005-2007 Xue Yong Zhi, Yu Su, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.compiler.codedom;
 
 import java.util.*;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 class Pair {
 	String name;
@@ -19,6 +17,7 @@ public class Block {
 	private CompoundStatement bodyStatement_ = null;
 	private ArrayList<ParameterVariableExpression> parameters_ = new ArrayList<ParameterVariableExpression>();
 	private ParameterVariableExpression asterisk_parameter_ = null;
+	private boolean asterisk = false;
 	private ArrayList<Expression> default_parameters_ = new ArrayList<Expression>();
 	private boolean should_validate_argument_length_ = false;
 	private boolean is_for_in_expression_ = false;
@@ -77,6 +76,11 @@ public class Block {
 	public void setAsteriskParameter(ParameterVariableExpression name) {
 		assert(null == asterisk_parameter_);
 		asterisk_parameter_ = name;
+		asterisk = true;
+	}
+	
+	public void setAsterisk() {
+		this.asterisk = true;
 	}
 
 	private ArrayList<Expression> buildLhs() {
@@ -88,27 +92,38 @@ public class Block {
 	}
 
 	public Pair accept(CodeVisitor visitor) {
+		// f{|x, |} = f{|x, *|}
+		if (this.asterisk && this.asterisk_parameter_ == null) {
+			this.has_extra_comma_ = true;
+		}
+		
+		boolean has_body = null != bodyStatement_;
+		name = visitor.visitBlock(parameters_.size(),
+				asterisk,
+				default_parameters_.size(),
+				is_for_in_expression_,
+				has_extra_comma_,
+				has_body);
+		/*
 		name = visitor.visitBlock((should_validate_argument_length_ ? parameters_.size() : -1),
 									(null != asterisk_parameter_),
 									default_parameters_.size(),
 									is_for_in_expression_);
-
-		MultipleAssignmentStatement.acceptMLhs(visitor, buildLhs(), asterisk_parameter_, has_extra_comma_);
-		visitor.visitTerminal();
-		
-		//TODO support default_value
-
-		if (null != bodyStatement_) {
+									*/
+		if (has_body) {
+			boolean is_multi_rhs = (parameters_.size() > 1) || asterisk || is_for_in_expression_ || has_extra_comma_;
+			MultipleAssignmentStatement.acceptMLhs(visitor, buildLhs(), asterisk_parameter_, has_extra_comma_, is_multi_rhs);
+			visitor.visitTerminal();
+			//	TODO support default_value
 			bodyStatement_.accept(visitor);
             setEndPosition(bodyStatement_.getLastLine());
-        }
-        else {
+        } else {
             setEndPosition(startPosition);
         }
 
 		Pair p = new Pair();
 		p.name = name;
-		p.value = visitor.visitBlockEnd(name, (null != bodyStatement_) ?
+		p.value = visitor.visitBlockEnd(name, (has_body) ?
 										bodyStatement_.lastStatementHasReturnValue() : false);
 		if(name != null) {
             BlockFarm.markBlock(this);

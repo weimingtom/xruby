@@ -704,7 +704,7 @@ returns [Block b]
 							((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	default_value=expression)?
 							{b.addParameter(var, default_value);}
 						)*
-						(	REST_ARG_PREFIX
+						(	REST_ARG_PREFIX {b.setAsterisk();}
 							(
 								var=local_variable	{b.setAsteriskParameter(var);}
 							)?

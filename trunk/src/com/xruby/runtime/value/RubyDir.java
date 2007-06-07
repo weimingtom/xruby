@@ -72,7 +72,7 @@ public class RubyDir extends RubyBasic{
     
     public RubyValue each(RubyBlock block){
         for (String item : list) {
-            RubyValue v = block.invoke(this, new RubyArray(ObjectFactory.createString(item)));
+            RubyValue v = block.invoke(this, ObjectFactory.createString(item));
             if (block.breakedOrReturned()) {
                 return v;
             }

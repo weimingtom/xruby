@@ -277,7 +277,22 @@ public class RubyAPI {
             throw new RubyException(RubyRuntime.ExceptionClass, e.toString());
         }
     }
-
+    
+    public static RubyValue getSingleValue(RubyValue v) {
+    	/*
+    	if (v instanceof RubyArray) {
+    		RubyArray a = (RubyArray)v;
+    		int size = a.size();
+			if (size == 0) {
+				return ObjectFactory.NIL_VALUE;
+			} else if (size >= 1) {
+				return a.get(0);
+			}
+    	}*/
+    	
+    	return v;
+    }
+    
     public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyArray a) {
         if (a.size() <= 1) {
             return a.get(0);

@@ -12,8 +12,8 @@ public class BlockTest extends TestingAstTestCase {
 
 		String expected_result =
 			"self\n" +
-			"block:3:false:0\n" +
-			"MultipleAssignment:false:true\n" +
+			"block:3:false:0:false:true\n" +
+			"MultipleAssignment:false:true:true\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +
 			"mrhs:2\n" +
@@ -35,8 +35,8 @@ public class BlockTest extends TestingAstTestCase {
 
 		String expected_result =
 			"3\n" +
-			"block:-1:false:0\n" +
-			"MultipleAssignment:false:false\n" +
+			"block:0:false:0:false:true\n" +
+			"MultipleAssignment:false:false:false\n" +
 			";\n" +
 			"self\n" +
 			"Ho!\n" +
@@ -52,8 +52,8 @@ public class BlockTest extends TestingAstTestCase {
 
 		String expected_result =
 			"self\n" +
-			"block:2:true:0\n" +
-			"MultipleAssignment:false:true\n" +
+			"block:2:true:0:false:true\n" +
+			"MultipleAssignment:false:true:true\n" +
 			"mrhs:0\n" +
 			"mrhs:1\n" +
 			"mrhs:2*\n" +
@@ -75,8 +75,9 @@ public class BlockTest extends TestingAstTestCase {
 
 		String expected_result =
 			"self\n" +
-			"block:1:false:0\n" +
-			"MultipleAssignment:true:true\n" +
+			"block:1:true:0:true:true\n" +
+			"MultipleAssignment:false:true:true\n" +
+			"mrhs:0\n" +
 			"a //=\n" +
 			";\n" +
 			"self\n" +
@@ -93,8 +94,8 @@ public class BlockTest extends TestingAstTestCase {
 
 		String expected_result =
 			"self\n" +
-			"block:-1:false:0\n" +
-			"MultipleAssignment:false:false\n" +
+			"block:0:false:0:false:true\n" +
+			"MultipleAssignment:false:false:false\n" +
 			";\n" +
 			"nil\n" +
 			"break\n" +

@@ -360,7 +360,7 @@ class Module_module_eval extends RubyVarArgMethod {
         } else {
         	block.setScope((RubyModule)receiver);
             block.setSelf(receiver);
-            return block.invoke(receiver, null);
+            return block.invoke(receiver);
         }
     }
 }

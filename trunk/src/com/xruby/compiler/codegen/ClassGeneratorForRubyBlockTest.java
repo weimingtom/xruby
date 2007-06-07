@@ -35,6 +35,7 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 				0, //default_argc,
 				p, //owner,
 				false, //is_for_in_expression,
+				false,
 				null //binding
 				);
 
@@ -71,6 +72,7 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 				0, //default_argc,
 				p, //owner,
 				false, //is_for_in_expression,
+				false,// has_extra_comma
 				null //binding
 				);
 
@@ -98,6 +100,7 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 				0, //default_argc,
 				p, //owner,
 				false, //is_for_in_expression,
+				false, // has_extra_comma
 				null //binding
 				);
 
@@ -124,6 +127,7 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 				0, //default_argc,
 				p, //owner,
 				false, //is_for_in_expression,
+				false, // has_extra_comma
 				null //binding
 				);
 
@@ -138,6 +142,7 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 				0, //default_argc,
 				cg1, //owner,
 				false, //is_for_in_expression,
+				false, // has_extra_comma
 				null //binding
 				);
 

@@ -20,7 +20,7 @@ public class ObjectSpace {
         int i = 0;
         for (RubyValue v : map_.keySet()) {
             if (null == m || RubyAPI.isKindOf(m, v)) {
-                block.invoke(receiver, new RubyArray(v));
+                block.invoke(receiver, v);
                 ++i;
             }
         }

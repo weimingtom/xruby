@@ -147,7 +147,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     public RubyValue delete_if(RubyBlock block) {
         for (int i = 0; i < array_.size();) {
-            RubyValue r = block.invoke(this, new RubyArray(array_.get(i)));
+            RubyValue r = block.invoke(this, array_.get(i));
             if (RubyAPI.testTrueFalse(r)) {
                 array_.remove(i);
             } else {
@@ -389,7 +389,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     public RubyValue each(RubyValue receiver, RubyBlock block) {
         for (RubyValue item : array_) {
-            RubyValue v = block.invoke(receiver, new RubyArray(item));
+            RubyValue v = block.invoke(receiver, item);
             if (block.breakedOrReturned()) {
                 return v;
             }
@@ -399,7 +399,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     public RubyValue each_index(RubyValue receiver, RubyBlock block) {
         for (int i=0;i<size();i++) {
-            RubyValue v = block.invoke(receiver, new RubyArray(new RubyFixnum(i)));
+            RubyValue v = block.invoke(receiver, new RubyFixnum(i));
             if (block.breakedOrReturned()) {
                 return v;
             }
@@ -410,7 +410,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public RubyValue reverse_each(RubyValue receiver, RubyBlock block) {
         ListIterator<RubyValue> ite = array_.listIterator(array_.size());
         while (ite.hasPrevious()) {
-            RubyValue v = block.invoke(receiver, new RubyArray(ite.previous()));
+            RubyValue v = block.invoke(receiver, ite.previous());
             if (block.breakedOrReturned()) {
                 return v;
             }
@@ -473,7 +473,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
             public int compare(RubyValue arg0, RubyValue arg1) {
                 //TODO can not check if block return/break occured.
-                RubyValue v = block.invoke(self, new RubyArray(arg0, arg1));
+                RubyValue v = block.invoke(self, arg0, arg1);
                 return ((RubyFixnum) v).intValue();
             }
         }

@@ -9,10 +9,14 @@ import com.xruby.compiler.codedom.CodeVisitor;
 import com.xruby.compiler.codedom.Program;
 import com.xruby.runtime.lang.RubyBinding;
 import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.value.ObjectFactory;
+
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.commons.Method;
 
 import java.math.BigInteger;
 import java.util.Stack;
@@ -187,20 +191,33 @@ public class RubyCompilerImpl implements CodeVisitor {
         return uniqueMethodName;
     }
 
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression) {
+	public String visitBlock(int argc, 
+			boolean has_asterisk_parameter, 
+			int num_of_default_args, 
+			boolean is_for_in_expression, 
+			boolean has_extra_comma,
+			boolean has_body) {
 		String method_name = (cg_ instanceof ClassGeneratorForRubyMethod) ? ((ClassGeneratorForRubyMethod)cg_).getMethodName() : null;
 		String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_, method_name);
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
 		cg_ = new ClassGeneratorForRubyBlock(uniqueBlockName, script_name_,
-					num_of_args,
+					argc,
 					has_asterisk_parameter,
 					num_of_default_args,
 					cg_,
 					is_for_in_expression,
+					has_extra_comma,
 					binding_);
-		cg_.getMethodGenerator().loadArg(1);
+		if (has_body) {
+			if (argc >= 1 || has_asterisk_parameter) { 
+				// (is_for_in_expression || has_extra_comma) == (argc >= 1)  
+				cg_.getMethodGenerator().loadArg(1);
+			} else {
+				cg_.getMethodGenerator().getStatic(Type.getType(ObjectFactory.class), "NIL_VALUE", Type.getType(RubyValue.class));
+			}
+		}
 		return uniqueBlockName;
 	}
 
@@ -723,8 +740,19 @@ public class RubyCompilerImpl implements CodeVisitor {
 		visitSelfExpression();
 	}
 
-	public void visitYieldEnd() {
-		cg_.getMethodGenerator().RubyBlock_invoke(isInBlock());
+	public void visitYieldEnd(int argc) {
+		switch (argc) {
+		case 0:
+			cg_.getMethodGenerator().RubyBlock_invokeNoArg(isInBlock());
+			break;
+		case 1:
+			cg_.getMethodGenerator().RubyBlock_invokeOneArg(isInBlock());
+			break;
+		default:
+			cg_.getMethodGenerator().RubyBlock_invoke(isInBlock());
+			break;
+		}
+		
 		cg_.getMethodGenerator().checkBreakedOrReturned(isInBlock());
 	}
 
@@ -828,8 +856,12 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 
-	public int visitMultipleAssignment(boolean single_lhs, boolean has_mlhs) {
+	public int visitMultipleAssignment(boolean single_lhs, boolean has_mlhs, boolean has_mrhs) {
 		cg_.getMethodGenerator().dup();
+		
+		if (single_lhs && !has_mrhs) {
+			return 0;
+		}
 
 		if (single_lhs) {
 			cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue2();

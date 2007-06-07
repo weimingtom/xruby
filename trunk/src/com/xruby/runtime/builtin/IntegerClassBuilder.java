@@ -7,7 +7,6 @@ package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyFixnum;
 
 class Integer_get_bit extends RubyOneArgMethod {
@@ -50,7 +49,7 @@ class Integer_times extends RubyNoArgMethod {
         if (receiver instanceof RubyFixnum) {
             int value = ((RubyFixnum) receiver).intValue();
             for (int i = 0; i < value; ++i) {
-                RubyValue v = block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum(i)));
+                RubyValue v = block.invoke(receiver, ObjectFactory.createFixnum(i));
                 if (block.breakedOrReturned()) {
                     return v;
                 }
@@ -58,7 +57,7 @@ class Integer_times extends RubyNoArgMethod {
         } else {
             RubyValue a = ObjectFactory.FIXNUM0;
             while (RubyAPI.testTrueFalse(RubyAPI.callPublicOneArgMethod(a, receiver, null, CommonRubyID.lessID))) {
-                RubyValue v = block.invoke(receiver, new RubyArray(a));
+                RubyValue v = block.invoke(receiver, a);
                 if (block.breakedOrReturned()) {
                     return v;
                 }

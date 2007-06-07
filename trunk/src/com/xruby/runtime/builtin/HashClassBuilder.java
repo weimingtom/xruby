@@ -42,7 +42,7 @@ class Hash_fetch extends RubyVarArgMethod {
             } else if (args.size() >= 2) {
                 return args.get(1);//default_value
             } else if (null != block) {
-                return block.invoke(receiver, new RubyArray(key));
+                return block.invoke(receiver, key);
             } else {
             	throw new RubyException(RubyRuntime.IndexErrorClass, "key not found");
             }

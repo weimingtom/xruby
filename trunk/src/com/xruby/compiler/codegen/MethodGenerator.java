@@ -583,6 +583,11 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("boolean testExceptionType(com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyException)"));
     }
+    
+    public void RubyAPI_getSingleValue() {
+    	invokeStatic(Type.getType(RubyAPI.class),
+    			Method.getMethod("com.xruby.runtime.lang.RubyValue getSingleValue(com.xruby.runtime.lang.RubyValue)"));
+    }
 
     public void RubyAPI_expandArrayIfThereIsZeroOrOneValue() {
         invokeStatic(Type.getType(RubyAPI.class),
@@ -745,6 +750,16 @@ class MethodGenerator extends GeneratorAdapter {
         new_MethodClass(uniqueMethodName);
         invokeVirtual(Type.getType(RubyModule.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
+    }
+    
+    public void RubyBlock_invokeNoArg(boolean is_in_block) {
+        invokeVirtual(Type.getType(Types.RubyBlockClass),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue)"));
+    }
+    
+    public void RubyBlock_invokeOneArg(boolean is_in_block) {
+    	invokeVirtual(Type.getType(Types.RubyBlockClass),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
     }
 
     public void RubyBlock_invoke(boolean is_in_block) {

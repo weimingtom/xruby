@@ -123,7 +123,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitArrayElement(boolean asterisk, boolean is_method_call);
 	
 	public void visitYieldBegin();
-	public void visitYieldEnd();
+	public void visitYieldEnd(int argc);
 
 	public void visitSuperBegin();
 	public void visitSuperEnd(boolean has_no_arg, boolean has_one_arg);
@@ -152,11 +152,11 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitWhileConditionEnd(boolean is_until);
 	public void visitWhileBodyEnd(boolean has_body);
 	
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression);
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression, boolean has_extra_comma_, boolean has_body);
 	public String[] visitBlockEnd(String name, boolean last_statement_has_return_value);
 	
 	public void visitMrhs(int var, int index, boolean asterisk);
-	public int visitMultipleAssignment(boolean single_lhs, boolean has_mlhs);
+	public int visitMultipleAssignment(boolean single_lhs, boolean has_mlhs, boolean has_mrhs);
 	public void visitMultipleArrayAssign();
 	public int visitNestedVariable(boolean single_lhs, boolean has_mlhs);
 

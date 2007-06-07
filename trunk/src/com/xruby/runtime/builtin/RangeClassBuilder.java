@@ -92,7 +92,7 @@ class Range_each extends RubyNoArgMethod {
 
         while (true) {
             while (compare(ite, r.getRight())) {
-                RubyValue v = block.invoke(receiver, new RubyArray(ite));
+                RubyValue v = block.invoke(receiver, ite);
                 if (block.breakedOrReturned()) {
                     return v;
                 } else if (block.shouldRedo()) {
@@ -104,7 +104,7 @@ class Range_each extends RubyNoArgMethod {
             }
 
             if (!r.isExcludeEnd()) {
-                RubyValue v = block.invoke(receiver, new RubyArray(ite));
+                RubyValue v = block.invoke(receiver, ite);
                 if (block.breakedOrReturned()) {
                     return v;
                 } else if (block.shouldRedo()) {
