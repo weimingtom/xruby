@@ -35,7 +35,7 @@ public class BlockTest extends TestingAstTestCase {
 
 		String expected_result =
 			"3\n" +
-			"block:0:false:0:false:true\n" +
+			"block:-1:false:0:false:true\n" +
 			"MultipleAssignment:false:false:false\n" +
 			";\n" +
 			"self\n" +
@@ -94,7 +94,7 @@ public class BlockTest extends TestingAstTestCase {
 
 		String expected_result =
 			"self\n" +
-			"block:0:false:0:false:true\n" +
+			"block:-1:false:0:false:true\n" +
 			"MultipleAssignment:false:false:false\n" +
 			";\n" +
 			"nil\n" +

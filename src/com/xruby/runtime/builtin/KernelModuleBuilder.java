@@ -139,12 +139,7 @@ class Kernel_eval extends RubyVarArgMethod {
         RubyCompiler compiler = new RubyCompiler(binding, false);
         try {
             CompilationResults codes = compiler.compile(file_name, new StringReader(program_text.toString()));
-            
-            /*
-            try {
-            codes.save("eval");
-            } catch (Exception e) {}
-            */
+
             RubyProgram p = codes.getRubyProgram();
             if (null != binding) {
                 return p.invoke(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
