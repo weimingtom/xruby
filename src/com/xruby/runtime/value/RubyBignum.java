@@ -143,11 +143,11 @@ public class RubyBignum extends RubyBasic {
         BigInteger result;
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
-            result = value_.mod(bigValue.value_);
+            result = ruby_mod(value_, bigValue.value_);
         } else if (value instanceof RubyFixnum) {
             RubyFixnum intValue = (RubyFixnum) value;
             BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-            result = value_.mod(bigValue);
+            result = ruby_mod(value_, bigValue);
         } else if (value instanceof RubyFloat) {
             double floatValue1 = value_.doubleValue();
             double floatValue2 = ((RubyFloat) value).doubleValue();
@@ -158,6 +158,31 @@ public class RubyBignum extends RubyBasic {
                     + " not expected");
         }
         return bignorm(result);
+    }
+    
+    private static BigInteger ruby_mod(BigInteger a, BigInteger b) {
+        BigInteger modValue = a.abs().mod(b.abs());
+        if (modValue.signum() == 0) {
+            return modValue;
+        }
+        
+        BigInteger result = modValue;
+        if (a.signum() > 0) {
+            if (b.signum() < 0) {
+                result = b.add(modValue);
+            }
+        }
+        
+        if (a.signum() < 0) {
+            if (b.signum() > 0) {
+                result = b.add(modValue.negate());
+            }
+            
+            if (b.signum() < 0) {
+                result = modValue.negate();
+            }
+        }
+        return result;
     }
 
     public RubyValue op_band(RubyValue value) {

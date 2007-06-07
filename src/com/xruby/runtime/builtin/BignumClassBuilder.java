@@ -110,11 +110,12 @@ class Bignum_operator_right_shift extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyBignum value1 = (RubyBignum) receiver;
         RubyFixnum value2 = (RubyFixnum) arg;
-        if (value2.intValue() < 0) {
-            BigInteger bigValue1 = value1.getInternal().shiftLeft(-value2.intValue());
-            return RubyBignum.bignorm(bigValue1);
+        BigInteger bigValue = value1.getInternal().shiftRight(value2.intValue());
+        if (value1.getInternal().signum() < 0) {
+            //FIXME: 
+            bigValue = bigValue.add(new BigInteger("1"));
         }
-        return RubyBignum.bignorm(value1.getInternal().shiftRight(value2.intValue()));
+        return RubyBignum.bignorm(bigValue);
     }
 }
 
@@ -122,9 +123,6 @@ class Bignum_operator_left_shift extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyBignum value1 = (RubyBignum) receiver;
         RubyFixnum value2 = (RubyFixnum) arg;
-        if (value2.intValue() <= 0) {
-            return RubyBignum.bignorm(value1.getInternal().shiftRight(-value2.intValue()));
-        }
         return RubyBignum.bignorm(value1.getInternal().shiftLeft(value2.intValue()));
     }
 }
@@ -138,10 +136,8 @@ class Bignum_operator_compare extends RubyOneArgMethod {
             BigInteger bigValue2 = ((RubyBignum) value2).getInternal();
             result = value1.getInternal().compareTo(bigValue2);
         } else if (value2 instanceof RubyFixnum) {
-            if (value1.getInternal().signum() < 0) {
-                result = -1;
-            }
-            result = 1;
+            String v2 = new Integer(((RubyFixnum)value2).intValue()).toString();
+            result = value1.getInternal().compareTo(new BigInteger(v2));
         } else if (value2 instanceof RubyFloat) {
             double floatValue1 = value1.getInternal().doubleValue();
             double floatValue2 = ((RubyFloat) value2).doubleValue();
