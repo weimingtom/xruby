@@ -10,29 +10,29 @@ import java.util.ArrayList;
 
 public class ForInExpression extends Expression {
 
-	private Expression exp_;
-	private Block block_;
+    private Expression exp_;
+    private Block block_;
 
-	public ForInExpression(Expression exp, Block block) {
-		exp_ = exp;
-		block_= block;
-		block_.setIsForInExpression();
-	}
+    public ForInExpression(Expression exp, Block block) {
+        exp_ = exp;
+        block_= block;
+        block_.setIsForInExpression();
+    }
 
-	public void accept(CodeVisitor visitor) {
-		block_.initAllParametersToNil(visitor);
+    public void accept(CodeVisitor visitor) {
+        block_.initAllParametersToNil(visitor);
         block_.setStartPosition(position);
 
         MethodCallExpression e;
-		try {
-			e = new MethodCallExpression(exp_, "each", null, block_);
+        try {
+            e = new MethodCallExpression(exp_, "each", null, block_);
         } catch (RecognitionException e1) {
-			throw new Error(e1);
-		}
-		e.accept(visitor);
-	}
+            throw new Error(e1);
+        }
+        e.accept(visitor);
+    }
 
-	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
-		block_.getNewlyAssignedVariables(symboltable, result);
-	}
+    void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+        block_.getNewlyAssignedVariables(symboltable, result);
+    }
 }
