@@ -131,6 +131,36 @@ public abstract class RubyMethod extends MethodBlockBase {
 	 * @throws RubyException
 	 */
 	protected abstract RubyValue run(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block);
+	
+	// no arg invocation
+	public RubyValue invoke(RubyValue receiver, RubyBlock block) {
+		RubyValue v = run(receiver, block);
+		if (null != block) {
+			v.setReturnedInBlock(block.returned(), block.breakedOrReturned(), false);
+		} else {
+			v.setReturnedInBlock(false, false, false);
+		}
+		return v;
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		return this.run(receiver, ObjectFactory.NIL_VALUE, block);
+	}
+	
+	// one arg invocation
+	public RubyValue invoke(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyValue v = run(receiver, arg, block);
+		if (null != block) {
+			v.setReturnedInBlock(block.returned(), block.breakedOrReturned(), false);
+		} else {
+			v.setReturnedInBlock(false, false, false);
+		}
+		return v;
+	}
+	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return this.run(receiver, arg, null, block);
+	}
 }
 
 /**

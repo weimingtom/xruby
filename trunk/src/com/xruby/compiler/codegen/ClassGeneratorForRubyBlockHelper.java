@@ -1,5 +1,5 @@
 /** 
- * Copyright 2006-2007 Ye Zheng
+ * Copyright 2007 Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 

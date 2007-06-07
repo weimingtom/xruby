@@ -17,7 +17,7 @@ public class YieldExpression extends Expression {
 		visitor.visitYieldBegin();
 
 		int argc = getArgc();
-		if (null == arguments_) {
+		if (argc == 0) {
 			//visitor.visitNoParameter();
 		} else if (argc == 1) {
 			arguments_.getFirstExpression().accept(visitor);
