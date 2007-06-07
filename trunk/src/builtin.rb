@@ -868,6 +868,9 @@ class File < IO
     def self.split(filename)
         [dirname(filename), basename(filename)]
     end
+    
+    module Constants
+    end
 end
 
 class Time
