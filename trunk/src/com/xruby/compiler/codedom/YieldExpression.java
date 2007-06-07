@@ -17,14 +17,16 @@ public class YieldExpression extends Expression {
 		visitor.visitYieldBegin();
 
 		int argc = getArgc();
-		if (argc == 0) {
-			//visitor.visitNoParameter();
-		} else if (argc == 1) {
+		switch (argc) {
+		case 0:
+			break;
+		case 1:
 			arguments_.getFirstExpression().accept(visitor);
-		} else {
+			break;
+		default:
 			arguments_.accept(visitor);
-		}
-		
+			break;
+		}		
 		
 		visitor.visitYieldEnd(argc);
 	}

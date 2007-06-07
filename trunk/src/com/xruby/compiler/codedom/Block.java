@@ -98,7 +98,7 @@ public class Block {
 		}
 		
 		boolean has_body = null != bodyStatement_;
-		name = visitor.visitBlock(parameters_.size(),
+		name = visitor.visitBlock(should_validate_argument_length_ ? parameters_.size() : -1,
 				asterisk,
 				default_parameters_.size(),
 				is_for_in_expression_,

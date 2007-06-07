@@ -144,7 +144,7 @@ public class GlobalVariables {
                 List<RubyProc> set = traces_procs_.get(name);
                 if (null != set) {
                     for (RubyProc p : set) {
-                        p.getBlock().invoke(value, new RubyArray(value));//TODO What the receiver should be?
+                        p.getBlock().invoke(value, value);//TODO What the receiver should be?
                     }
                 }
             } finally {

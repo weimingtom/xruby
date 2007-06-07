@@ -16,7 +16,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
 
 import java.math.BigInteger;
 import java.util.Stack;
@@ -211,8 +210,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 					has_extra_comma,
 					binding_);
 		if (has_body) {
-			if (argc >= 1 || has_asterisk_parameter) { 
-				// (is_for_in_expression || has_extra_comma) == (argc >= 1)  
+			if (argc >= 1 || has_asterisk_parameter || is_for_in_expression) { 
+				// has_extra_comma == (argc >= 1)  
 				cg_.getMethodGenerator().loadArg(1);
 			} else {
 				cg_.getMethodGenerator().getStatic(Type.getType(ObjectFactory.class), "NIL_VALUE", Type.getType(RubyValue.class));

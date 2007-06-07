@@ -8,6 +8,7 @@ package com.xruby.compiler.codegen;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyNoArgBlock;
 import com.xruby.runtime.lang.RubyOneArgBlock;
+import com.xruby.runtime.lang.RubyVarArgBlock;
 
 public abstract class ClassGeneratorForRubyBlockHelper {
 	public abstract String getSuperName();	
@@ -26,6 +27,8 @@ public abstract class ClassGeneratorForRubyBlockHelper {
 				return NO_ARG_HELPER;
 			case 1:
 				return ONE_ARG_HELPER;
+			case -1:
+				return VAR_ARG_HELPER;
 			}			
 		}
 		
@@ -35,6 +38,7 @@ public abstract class ClassGeneratorForRubyBlockHelper {
 	private static ClassGeneratorForRubyBlockHelper DEFAULT_HELPER = new DefaultClassGeneratorForRubyBlockHelper();
 	private static ClassGeneratorForRubyBlockHelper NO_ARG_HELPER = new NoArgClassGeneratorForRubyBlockHelper();
 	private static ClassGeneratorForRubyBlockHelper ONE_ARG_HELPER = new OneArgClassGeneratorForRubyBlockHelper();
+	private static ClassGeneratorForRubyBlockHelper VAR_ARG_HELPER = new VarArgClassGeneratorForRubyBlockHelper();
 	
 	private static class DefaultClassGeneratorForRubyBlockHelper extends ClassGeneratorForRubyBlockHelper {
 		public String getSuperName() {
@@ -100,5 +104,26 @@ public abstract class ClassGeneratorForRubyBlockHelper {
 
 		public void pushBasciArgForSuperArg(MethodGenerator mg, int argc, boolean has_asterisk_parameter, int default_argc) {
 		}
+	}
+	
+	private static class VarArgClassGeneratorForRubyBlockHelper extends ClassGeneratorForRubyBlockHelper {
+		public String getSuperName() {
+			return "com/xruby/runtime/lang/RubyVarArgBlock";
+		}
+		
+		public String getRunMethodName() {
+			return "com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue)";
+		}
+
+		public Class getSuperClass() {
+			return RubyVarArgBlock.class;
+		}
+
+		public String getSuperCtorName() {
+			return "void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)";
+		}
+
+		public void pushBasciArgForSuperArg(MethodGenerator mg, int argc, boolean has_asterisk_parameter, int default_argc) {
+		}	
 	}
 }
