@@ -55,7 +55,7 @@ ruby\test_defined.rb
 ruby\test_dir.rb		#require 'fileutil'
 ruby\test_env.rb          # need to implement several singleton methods for ENV
 ruby\test_eval.rb
-ruby\test_file.rb	
+ruby\test_file.rb	#"require 'tempfile'" causes test::unit's runner fail to start
 ruby\test_float.rb
 ruby\test_hash.rb		#tough to deal with...will work on it this weekend
 ruby\test_iterator.rb	#VerifyError
