@@ -46,7 +46,7 @@ public class RubyThread extends RubyBasic {
             public void run() {
                 RubyThreadGroup.defaultThreadGroup.add(RubyThread.this);
                 activeThreads.add(RubyThread.this);
-                result = block.invoke(null, null);
+                result = block.invoke(ObjectFactory.NIL_VALUE);
                 activeThreads.remove(RubyThread.this);
                 RubyThreadGroup.defaultThreadGroup.add(RubyThread.this);
                 threadMapper.remove(RubyThread.this.thread_);

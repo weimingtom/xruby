@@ -72,7 +72,7 @@ public class MultipleAssignmentStatement extends Statement {
 	
 	public void accept(CodeVisitor visitor) {
 		acceptMrhs(visitor, mrhs_, asterisk_rhs_);
-		acceptMLhs(visitor, mlhs_, asterisk_lhs_, has_extra_comma_);
+		acceptMLhs(visitor, mlhs_, asterisk_lhs_, has_extra_comma_, true);
 	}
 
 	/*
@@ -90,14 +90,18 @@ public class MultipleAssignmentStatement extends Statement {
 	static void acceptMLhs(CodeVisitor visitor, 
 								ArrayList<Expression> mlhs,
 								VariableExpression asterisk_lhs,
-								boolean has_extra_comma) {
+								boolean has_extra_comma,
+								boolean is_multi_rhs) {
 		Collections.reverse(mlhs);
 
-		if (mlhs.size() == 1 && null == asterisk_lhs && !has_extra_comma) {
-			visitor.visitMultipleAssignment(true, true);
+		if (!is_multi_rhs && mlhs.size() == 1) {
+			visitor.visitMultipleAssignment(true, true, is_multi_rhs);
+			((VariableExpression)mlhs.get(0)).acceptAsAssignment(visitor, false, true);
+		} else if (mlhs.size() == 1 && null == asterisk_lhs && !has_extra_comma) {
+			visitor.visitMultipleAssignment(true, true, is_multi_rhs);
 			((VariableExpression)mlhs.get(0)).acceptAsAssignment(visitor, false, true);
 		} else {
-			int var = visitor.visitMultipleAssignment(false, mlhs.size() > 0);
+			int var = visitor.visitMultipleAssignment(false, mlhs.size() > 0, is_multi_rhs);
 		
 			for (int i = 0; i < mlhs.size(); ++i) {
 				visitor.visitMrhs(var, i, false);

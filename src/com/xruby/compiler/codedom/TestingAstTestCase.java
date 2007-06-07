@@ -39,7 +39,8 @@ class TestingAstTestCase extends TestCase {
 		CodePrinter cp = new CodePrinter();
 		p.accept(cp);
 
-		assertEquals(expected_result, cp.toString());
+		String result = cp.toString();
+		assertEquals(expected_result, result);
 	}
 
 	protected void assertAstEquals(String program_text1, String program_text2) {

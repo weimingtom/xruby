@@ -320,7 +320,7 @@ class Array_delete extends RubyOneArgMethod {
         RubyArray array = (RubyArray) receiver;
         RubyValue return_value = array.delete(arg);
         if (null != block && return_value == ObjectFactory.NIL_VALUE) {
-        	return block.invoke(receiver, new RubyArray(arg));
+        	return block.invoke(receiver, arg);
         } else {
         	return return_value;
         }
@@ -384,7 +384,7 @@ class Array_new extends RubyVarArgMethod {
         	RubyFixnum size = (RubyFixnum) args.get(0);
         	a  = new RubyArray();
         	for (int i=0; i<size.intValue(); i++) {
-        		RubyValue return_value = block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum(i)));
+        		RubyValue return_value = block.invoke(receiver, ObjectFactory.createFixnum(i));
         		a.add(return_value);
         	}
         }

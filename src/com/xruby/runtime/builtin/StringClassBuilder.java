@@ -645,7 +645,7 @@ class String_operator_star extends RubyOneArgMethod {
 
 class String_each extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        block.invoke(receiver, new RubyArray(receiver));
+        block.invoke(receiver, receiver);
         return receiver;
     }
 }
@@ -655,7 +655,7 @@ class String_each_byte extends RubyNoArgMethod {
         String string = ((RubyString) receiver).toString();
         for (int i = 0; i < string.length(); ++i) {
             char c = string.charAt(i);
-            block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum((int) c)));
+            block.invoke(receiver, ObjectFactory.createFixnum((int) c));
         }
         return receiver;
     }

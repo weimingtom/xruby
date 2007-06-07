@@ -1,11 +1,10 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
 class MethodBlockBase {
@@ -124,5 +123,65 @@ public abstract class RubyBlock extends MethodBlockBase {
     }
 
     protected abstract RubyValue run(RubyValue receiver, RubyArray args);
+    
+    // no arg invocation
+    public RubyValue invoke(RubyValue receiver) {
+        __break__ = false;
+        __return__ = false;
+        __redo__ = false;
+
+        RubyValue v = run(receiver);
+        //TODO Maybe we can just use the fields in BlockCallStatus, remove the
+        //__break__, __return__, __redo__ here
+        if (v.returnedInBlock()) {
+            __return__ = true;
+        }
+        return v;
+    }
+    
+    // no arg run
+    protected RubyValue run(RubyValue receiver) {  
+    	return this.run(receiver, new RubyArray(0));
+    }
+    
+    // one arg invocation
+    public RubyValue invoke(RubyValue receiver, RubyValue arg) {
+    	__break__ = false;
+        __return__ = false;
+        __redo__ = false;
+
+        RubyValue v = run(receiver, arg);
+        //TODO Maybe we can just use the fields in BlockCallStatus, remove the
+        //__break__, __return__, __redo__ here
+        if (v.returnedInBlock()) {
+            __return__ = true;
+        }
+        return v;
+    }
+    
+    // one arg run
+    protected RubyValue run(RubyValue receiver, RubyValue arg) {
+    	return this.run(receiver, new RubyArray(arg));
+    }
+    
+    // two args invocation
+    public RubyValue invoke(RubyValue receiver, RubyValue arg1, RubyValue arg2) {
+    	__break__ = false;
+        __return__ = false;
+        __redo__ = false;
+
+        RubyValue v = run(receiver, arg1, arg2);
+        //TODO Maybe we can just use the fields in BlockCallStatus, remove the
+        //__break__, __return__, __redo__ here
+        if (v.returnedInBlock()) {
+            __return__ = true;
+        }
+        return v;
+    }
+    
+    // two args run
+    protected RubyValue run(RubyValue receiver, RubyValue arg0, RubyValue arg1) {
+    	return this.run(receiver, new RubyArray(arg0, arg1));
+    }
 }
 

@@ -449,7 +449,7 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("yield\n");
 	}
 
-	public void visitYieldEnd() {
+	public void visitYieldEnd(int argc) {
 		result_.append("end yield\n");
 	}
 
@@ -574,13 +574,19 @@ public class CodePrinter implements CodeVisitor {
 		result_.append("self\n");
 	}
 
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression) {
+	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, 
+			int num_of_default_args, boolean is_for_in_expression, 
+			boolean has_extra_comma, boolean has_body) {
 		result_.append("block:");
 		result_.append(num_of_args);
 		result_.append(":");
 		result_.append(has_asterisk_parameter);
 		result_.append(":");
 		result_.append(num_of_default_args);
+		result_.append(":");
+		result_.append(has_extra_comma);
+		result_.append(":");
+		result_.append(has_body);
 		result_.append("\n");
 		return null;
 	}
@@ -600,12 +606,15 @@ public class CodePrinter implements CodeVisitor {
 		}
 		result_.append("\n");
 	}
+	
 
-	public int visitMultipleAssignment(boolean single_lhs, boolean has_mlhs) {
+	public int visitMultipleAssignment(boolean single_lhs, boolean has_mlhs, boolean has_mrhs) {
 		result_.append("MultipleAssignment:");
 		result_.append(single_lhs);
 		result_.append(":");
 		result_.append(has_mlhs);
+		result_.append(":");
+		result_.append(has_mrhs);
 		result_.append("\n");
 		return 0;
 	}

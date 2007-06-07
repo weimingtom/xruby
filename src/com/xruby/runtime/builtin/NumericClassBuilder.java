@@ -49,14 +49,14 @@ class Numeric_step extends RubyTwoArgMethod {
             int step = ((RubyFixnum) arg2).intValue();
             if (step > 0) {
                 for (int i = from; i < to; i += step) {
-                    RubyValue v = block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum(i)));
+                    RubyValue v = block.invoke(receiver, ObjectFactory.createFixnum(i));
                     if (block.breakedOrReturned()) {
                         return v;
                     }
                 }
             } else {
                 for (int i = from; i >= to; i += step) {
-                    RubyValue v = block.invoke(receiver, new RubyArray(ObjectFactory.createFixnum(i)));
+                    RubyValue v = block.invoke(receiver, ObjectFactory.createFixnum(i));
                     if (block.breakedOrReturned()) {
                         return v;
                     }

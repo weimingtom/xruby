@@ -115,7 +115,7 @@ public class RubyRegexp extends RubyBasic {
             end = m.end();
             GlobalVariables.set(ObjectFactory.createString(g), "$&");
             RubyString match = new RubyString(g);
-            RubyValue v = block.invoke(this, new RubyArray(match));
+            RubyValue v = block.invoke(this, match);
             r.appendString(v);
         }
 
@@ -146,7 +146,7 @@ public class RubyRegexp extends RubyBasic {
             end = m.end();
             GlobalVariables.set(ObjectFactory.createString(g), "$&");
             RubyString match = new RubyString(g);
-            RubyValue v = block.invoke(this, new RubyArray(match));
+            RubyValue v = block.invoke(this, match);
             r.appendString(v);
         }
 
