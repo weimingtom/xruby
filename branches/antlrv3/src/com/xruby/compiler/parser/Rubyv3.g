@@ -557,25 +557,25 @@ methodExpression
 	:      variable|method;
 variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
 method	:	{!isDefinedVar(input.LT(1).getText())}? ID -> ^(CALL ID)
-		|command_call -> ^(CALL command_call);
+        |       ID open_args -> ^(CALL ID open_args);
 	
 command_call
 	:	command1;
 	//|       'return'^ call_args
 	//|       'break'^ call_args
 	//|       'next'^ call_args;
-command1:	operation1 command_args;
+command1:	operation1 (command_args);
 		
 command_args
 	:	open_args;
 open_args
-	:	//call_args
-	       '('! ')'!
+	:	call_args
+	|      '('! ')'!
 	|       '('! call_args /*call_args2*/ ')'!;
 call_args
 	:	args -> ^(ARG args);
 	
-args	:	arg (','! arg)*;
+args	:	arg; //(','! arg)*;
 	
 arg	:	definedExpression;
 //call_args2

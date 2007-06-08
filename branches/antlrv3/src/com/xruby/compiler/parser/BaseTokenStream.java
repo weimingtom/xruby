@@ -89,6 +89,7 @@ public class BaseTokenStream implements TokenStream {
         } else if(token.getType() == Rubyv3Lexer.QUESTION) { //see if we are in escape_int
             //VirtualToken virtualToken = getPreviousVirtualToken(token);
             Token token1 = getPreviousToken(token);
+            System.out.println("previous token:" + token1);
             if(isExpressionBegin(token1)) {
                 try {
                     token.setType(Rubyv3Lexer.INT);
@@ -99,11 +100,10 @@ public class BaseTokenStream implements TokenStream {
                 } catch (RecognitionException e) {
                     throw new SyntaxException(e);
                 }
-                System.out.println("previous token:" + token1);
+
 
             } else { //judge in arg , arg_end etc
                 //do nothing, we are QEUSTION
-                System.out.println("previous token:" + token1);
             }
         }
     }
