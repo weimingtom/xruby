@@ -349,16 +349,21 @@ expression
 primaryExpression
 	:	methodDefinition;
 methodDefinition
-	:	'def'^ (LINE_BREAK!)* methodName {enterScope();} methodDefinationArgument (bodyStatement)? 'end'! {leaveScope();};
+	:	'def'^ (LINE_BREAK!)* methodName {enterScope();} f_arglist (terminal!)*  bodyStatement 'end'! {leaveScope();};
 methodName
 	:	id=ID;  //todo:or constant
-methodDefinationArgument
-	:	'('! (methodDefinationArgumentWithoutParen)? ')'! (terminal!)?
-	|       (methodDefinationArgumentWithoutParen)? terminal!;
-methodDefinationArgumentWithoutParen
-	:	normalMethodDefinationArgument -> ^(ARG normalMethodDefinationArgument);
-normalMethodDefinationArgument
-	:	ID ( '=' expression)?;
+f_arglist
+	:	'('! f_args  (LINE_BREAK!)* ')'! 
+	|       f_args terminal!;
+f_args	:	f_norm_args | f_norm_args ',' f_opt_args|;
+f_norm_args
+	:       //CONSTANT{throw new SyntaxException("formal argument cannot be a constant");}
+	//|       INSTANCE_VARIABLE {throw new SyntaxException("formal argument cannot be an instance variable");}
+	//|       CLASS_VARIABLE {throw new SyntaxException("formal argument cannot be an class variable");}
+	//|       ID;
+	ID;
+f_opt_args
+	:	;	
 	
 bodyStatement
 	:	statement_list -> ^(BODY statement_list);
@@ -551,7 +556,39 @@ atom	:	methodExpression;
 methodExpression
 	:      variable|method;
 variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
-method	:	{!isDefinedVar(input.LT(1).getText())}? ID -> ^(CALL ID);
+method	:	{!isDefinedVar(input.LT(1).getText())}? ID -> ^(CALL ID)
+		|command_call -> ^(CALL command_call);
+	
+command_call
+	:	command1;
+	//|       'return'^ call_args
+	//|       'break'^ call_args
+	//|       'next'^ call_args;
+command1:	operation1 command_args;
+		
+command_args
+	:	open_args;
+open_args
+	:	//call_args
+	       '('! ')'!
+	|       '('! call_args /*call_args2*/ ')'!;
+call_args
+	:	args -> ^(ARG args);
+	
+args	:	arg (','! arg)*;
+	
+arg	:	definedExpression;
+//call_args2
+//	:	command1 | args;
+
+operation1     : ID | CONSTANT | FID
+    ;
+
+operation2    : ID | CONSTANT | FID | op
+    ;
+
+operation3    : ID | FID | op
+    ;
 	
 lhs	:	ID -> ^(VARIABLE ID); //todo: see this
 rhs	:	expression;
@@ -566,8 +603,23 @@ INT
 	        )//|ESCAPE_INT)
 	;
 
-ID	:	('a'..'z' | 'A'..'Z'{$type = CONSTANT;} | '_') (('a'..'z' | 'A'..'Z') | ('0'..'9'))* (/*none*/ | ('?'|'!') {$type=FID;})
+ID	:	('a'..'z' | 'A'..'Z'{$type = CONSTANT;} | '_') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
 	;
+FID	:	ID ('?' | '!');
+INSTANCE_VARIABLE
+	:	'@' IDENTIFIER_CONSTANT_AND_KEYWORD;
+CLASS_VARIABLE
+	:	'@' INSTANCE_VARIABLE;
+
+GLOBAL_VARIABLE 
+		:	'$'	('-')?	IDENTIFIER_CONSTANT_AND_KEYWORD
+		|	'$'	(options{greedy=true;}:'0'..'9')+
+		|	'$'	('!'|'@'|'&'|'`'|'\''|'+'|'~'|'='|'/'|'\\'|','|';'|'.'|'<'|'>'|'*'|'$'|'?'|':'|'\"')
+		;
+protected
+IDENTIFIER_CONSTANT_AND_KEYWORD
+		:	('a'..'z'|'A'..'Z'|'_')	(options{greedy=true;}:	'a'..'z'|'A'..'Z'|'_'|'0'..'9')*
+		;
 
 //fragment
 //FLOAT_WITH_DIRECT_EXPPART
@@ -687,14 +739,9 @@ assoc_list
 	:	assocs trailer /*| args trailer*/;
 assocs	:	assoc ( ','! assoc)*;
 
-assoc         : arg_value (ASSOC|',')! arg_value;
+assoc         : arg (ASSOC|',')! arg;
 
-args	:	arg_value (','! arg_value)*;
 
-arg_value
-	:	arg;
-	
-arg	:	assignmentExpression;
 
 trailer!       : /* none */ | LINE_BREAK! | ','!;
 

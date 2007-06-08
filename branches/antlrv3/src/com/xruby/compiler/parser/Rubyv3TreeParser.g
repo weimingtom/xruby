@@ -60,7 +60,7 @@ expression returns[Expression e]
 	|       ^(EXCLUSIVE_RANGE		left=expression	right=expression)	{e = new RangeOperatorExpression("...", left, right);}
 	
 	|       e1=methodDefinition {e=e1;} 
-	|       ^(CALL methodName=ID) {e = new MethodCallExpression(null, $ID.text, null, null);} 
+	|       ^(CALL methodName=ID  (arg=arguments)? {e = new MethodCallExpression(null, $ID.text, arg, null);})
 	|       ^('{' {e = new HashExpression();} (e1=expression e2=expression {((HashExpression)e).addElement(e1,e2);})*)
 	;
 variableExpression returns [LocalVariableExpression e]
@@ -68,6 +68,17 @@ variableExpression returns [LocalVariableExpression e]
 methodDefinition
 returns [MethodDefinationExpression e]
         :	^('def' name=ID (^(ARG ID))* ^(BODY sl=statement_list)) {e = new MethodDefinationExpression($name.text); e.setBody(new BodyStatement(sl));};
+        
+arguments
+returns [MethodCallArguments args]
+@init{
+	args = new MethodCallArguments();
+	Expression e = null;
+}
+		:	^(ARG
+			(e1 = expression	{args.addArgument(e1);})*
+			)
+		;
 
 	
 
