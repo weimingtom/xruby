@@ -52,6 +52,10 @@ class Float_operator_compare extends RubyOneArgMethod {
         } else {
             return ObjectFactory.NIL_VALUE;
         }
+        if (Double.isNaN(value1.doubleValue()) || Double.isNaN(floatValue2)) {
+            return ObjectFactory.NIL_VALUE;
+        }
+        
         double floatValue1 = value1.doubleValue();
         if (floatValue1 < floatValue2) {
             return ObjectFactory.FIXNUM_NEGATIVE_ONE;
@@ -120,8 +124,9 @@ class Float_operator_mod extends RubyOneArgMethod {
         } else {
             throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
         }
-        double value3 = floatValue1 / floatValue2;
-        double result = floatValue1 - Math.floor(floatValue2 * value3);
+        
+        double value3 = Math.floor(floatValue1 / floatValue2);
+        double result = floatValue1 - (floatValue2 * value3);
         return ObjectFactory.createFloat(result);
     }
 }

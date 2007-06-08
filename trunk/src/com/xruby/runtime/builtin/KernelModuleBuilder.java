@@ -7,9 +7,11 @@ package com.xruby.runtime.builtin;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -266,6 +268,19 @@ class Kernel_printf extends RubyVarArgMethod {
         String fmt = ((RubyString) args.get(0)).toString();
         System.out.printf(fmt, buildFormatArg(args, 1));
         return ObjectFactory.NIL_VALUE;
+    }
+}
+
+class Kernel_sprintf extends Kernel_printf {
+
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        String fmt = ((RubyString) args.get(0)).toString();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        ps.printf(fmt, buildFormatArg(args, 1));
+        ps.flush();
+        ps.close();
+        return ObjectFactory.createString(baos.toString());
     }
 }
 
@@ -891,6 +906,7 @@ public class KernelModuleBuilder {
         m.getSingletonClass().defineMethod("puts", new Kernel_puts());
         m.getSingletonClass().defineMethod("print", new Kernel_print());
         m.getSingletonClass().defineMethod("printf", new Kernel_printf());
+        m.getSingletonClass().defineMethod("sprintf", new Kernel_sprintf());
         m.getSingletonClass().defineMethod("p", new Kernel_p());
         m.getSingletonClass().defineMethod("gets", new Kernel_gets());
 
@@ -899,6 +915,7 @@ public class KernelModuleBuilder {
         m.defineMethod("puts", new Kernel_puts());
         m.defineMethod("print", new Kernel_print());
         m.defineMethod("printf", new Kernel_printf());
+        m.defineMethod("sprintf", new Kernel_sprintf());
         m.defineMethod("p", new Kernel_p());
         m.defineMethod("gets", new Kernel_gets());
 

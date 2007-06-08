@@ -170,7 +170,11 @@ class Fixnum_operator_greater_than extends RubyOneArgMethod {
         } else if (arg instanceof RubyFloat) {
             double floatValue1 = value1.intValue();
             double floatValue2 = ((RubyFloat) arg).doubleValue();
-            result = (floatValue1 > floatValue2);
+            if (Double.isNaN(floatValue2)) {
+                result = false;
+            } else {
+                result = (floatValue1 > floatValue2);
+            }
         } else {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "comparison of Fixnum with " + arg.getRubyClass().getName() + " failed");
         }
