@@ -153,6 +153,10 @@ public class Rubyv3ParserTest extends TestCase {
 
     }
     public void test_method() throws Exception {
+        //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");
+        //DFA.debug = true;
+        assert_parse("5 ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
+        assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (CALL x) 3 2)))");
         //assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
         //assert_parse("def test\n 3 end \ntest", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");
         //assert_parse("def test\n 3 end;test", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");

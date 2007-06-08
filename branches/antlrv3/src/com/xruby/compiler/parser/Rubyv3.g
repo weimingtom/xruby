@@ -412,7 +412,7 @@ assignmentExpression
 	           ternaryIfThenElseExpression {addVariable($lhs.text);};
 
 ternaryIfThenElseExpression
-		:	r=rangeExpression ( |  QUESTION^ rangeExpression ':'! rangeExpression)
+		:	r=rangeExpression ( QUESTION^ rangeExpression ':'! rangeExpression |)
 		;
 //= += -= *= /= %= **= &= ^= |= <<= >>= &&= ||=
 //.. ...
@@ -549,7 +549,7 @@ bnotExpression
 			command
 		;
 command
-//@after{tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
+@after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
 	:('expression0' | 'expression1' | 'expression2'|literal|boolean_expression| block_expression|if_expression|unless_expression|atom)
 	; //|       lhs SHIFT^ rhs ;	
 atom	:	methodExpression;
@@ -614,7 +614,7 @@ CLASS_VARIABLE
 GLOBAL_VARIABLE 
 		:	'$'	('-')?	IDENTIFIER_CONSTANT_AND_KEYWORD
 		|	'$'	(options{greedy=true;}:'0'..'9')+
-		|	'$'	('!'|'@'|'&'|'`'|'\''|'+'|'~'|'='|'/'|'\\'|','|';'|'.'|'<'|'>'|'*'|'$'|'?'|':'|'\"')
+		|	'$'	('!'|'@'|'&'|'`'|'\''|'+'|'~'|'='|'/'|'\\'|','|';'|'.'|'<'|'>'|'*'|'$'|'?'|/*':'|*/'\"')
 		;
 protected
 IDENTIFIER_CONSTANT_AND_KEYWORD

@@ -87,10 +87,12 @@ public class BaseTokenStream implements TokenStream {
                 ((MyToken) token).expression = expression;
             } //todo: else , is not actually heredoc
         } else if(token.getType() == Rubyv3Lexer.QUESTION) { //see if we are in escape_int
-            //VirtualToken virtualToken = getPreviousVirtualToken(token);
+            VirtualToken virtualToken = getPreviousVirtualToken(token);
             Token token1 = getPreviousToken(token);
             System.out.println("previous token:" + token1);
-            if(isExpressionBegin(token1)) {
+            if(virtualToken == VirtualToken.EXPR_END) {
+              //do nothing, we are QEUSTION  
+            } else if(isExpressionBegin(token1)) {
                 try {
                     token.setType(Rubyv3Lexer.INT);
                     int beginIndex = tokenSource.index();  //charIndex in CharStream
