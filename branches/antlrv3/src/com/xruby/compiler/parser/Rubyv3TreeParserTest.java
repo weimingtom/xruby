@@ -372,6 +372,7 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts(1)");
         compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts 2**3");
         compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts x='abc'");
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts 5?3:2");
     }
 
     public void setUp() {
