@@ -160,8 +160,15 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("def test(A)\n 3 end", ""); //error
         //assert_parse("def test(@x)\n 3 end", ""); //error
         //assert_parse("def test(@@x)\n 3 end", ""); //error
-        assert_parse("def test(x)\n 3 end", "(STATEMENT_LIST (STATEMENT (def test x (BODY (STATEMENT_LIST (STATEMENT 3))))))");
-        assert_parse("puts(3)", "(STATEMENT_LIST (STATEMENT (CALL puts (ARG 3))))");
+        //assert_parse("def test(x)\n 3 end", "(STATEMENT_LIST (STATEMENT (def test x (BODY (STATEMENT_LIST (STATEMENT 3))))))");
+        //assert_parse("puts(3)", "(STATEMENT_LIST (STATEMENT (CALL puts (ARG 3))))");
+
+        //assert_parse("test 2**3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
+//        assert_parse("test 5?3:2", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
+        //assert_parse("puts \"abc\"?3:5", "");
+        assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (= (VARIABLE a) 1)))))");
+
+
     }
     
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException

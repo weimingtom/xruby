@@ -1,4 +1,4 @@
-// $ANTLR 3.0 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-06-08 16:46:11
+// $ANTLR 3.0 F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2007-06-08 21:45:20
 
 package com.xruby.compiler.parser;
 
@@ -145,7 +145,7 @@ public class Rubyv3Parser extends Parser {
     }
 
     public String[] getTokenNames() { return tokenNames; }
-    public String getGrammarFileName() { return "C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g"; }
+    public String getGrammarFileName() { return "F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g"; }
 
     
       private Rubyv3Parser parent = null;
@@ -212,7 +212,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start program
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:259:1: program : ( ( terminal )* | statement_list ( terminal )* );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:259:1: program : ( ( terminal )* | statement_list ( terminal )* );
     public final program_return program() throws RecognitionException {
         program_return retval = new program_return();
         retval.start = input.LT(1);
@@ -228,14 +228,14 @@ public class Rubyv3Parser extends Parser {
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:19: ( ( terminal )* | statement_list ( terminal )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:19: ( ( terminal )* | statement_list ( terminal )* )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
             if ( (LA3_0==EOF||(LA3_0>=SEMI && LA3_0<=LINE_BREAK)) ) {
                 alt3=1;
             }
-            else if ( ((LA3_0>=HEREDOC_STRING && LA3_0<=FID)||LA3_0==SYMBOL||(LA3_0>=IF_MODIFIER && LA3_0<=UNLESS_MODIFIER)||LA3_0==ID||(LA3_0>=BNOT && LA3_0<=REGEX)||(LA3_0>=SINGLE_QUOTE_STRING && LA3_0<=DOUBLE_QUOTE_STRING)||LA3_0==LCURLY||LA3_0==117||(LA3_0>=119 && LA3_0<=121)||(LA3_0>=125 && LA3_0<=126)||(LA3_0>=130 && LA3_0<=134)) ) {
+            else if ( ((LA3_0>=HEREDOC_STRING && LA3_0<=FLOAT)||LA3_0==SYMBOL||(LA3_0>=IF_MODIFIER && LA3_0<=UNLESS_MODIFIER)||LA3_0==ID||(LA3_0>=BNOT && LA3_0<=REGEX)||(LA3_0>=SINGLE_QUOTE_STRING && LA3_0<=DOUBLE_QUOTE_STRING)||LA3_0==LCURLY||LA3_0==117||(LA3_0>=119 && LA3_0<=121)||(LA3_0>=125 && LA3_0<=126)||(LA3_0>=130 && LA3_0<=134)) ) {
                 alt3=2;
             }
             else {
@@ -246,11 +246,11 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt3) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:19: ( terminal )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:19: ( terminal )*
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:19: ( terminal )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:19: ( terminal )*
                     loop1:
                     do {
                         int alt1=2;
@@ -263,7 +263,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt1) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:19: terminal
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:19: terminal
                     	    {
                     	    pushFollow(FOLLOW_terminal_in_program223);
                     	    terminal1=terminal();
@@ -283,7 +283,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:30: statement_list ( terminal )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:30: statement_list ( terminal )*
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -292,7 +292,7 @@ public class Rubyv3Parser extends Parser {
                     _fsp--;
 
                     adaptor.addChild(root_0, statement_list2.getTree());
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:45: ( terminal )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:45: ( terminal )*
                     loop2:
                     do {
                         int alt2=2;
@@ -305,7 +305,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt2) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:45: terminal
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:260:45: terminal
                     	    {
                     	    pushFollow(FOLLOW_terminal_in_program229);
                     	    terminal3=terminal();
@@ -348,7 +348,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start statement_list
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:263:1: statement_list : statement ( ( terminal )+ statement )* -> ^( STATEMENT_LIST ( statement )* ) ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:263:1: statement_list : statement ( ( terminal )+ statement )* -> ^( STATEMENT_LIST ( statement )* ) ;
     public final statement_list_return statement_list() throws RecognitionException {
         statement_list_return retval = new statement_list_return();
         retval.start = input.LT(1);
@@ -365,24 +365,24 @@ public class Rubyv3Parser extends Parser {
         RewriteRuleSubtreeStream stream_statement=new RewriteRuleSubtreeStream(adaptor,"rule statement");
         RewriteRuleSubtreeStream stream_terminal=new RewriteRuleSubtreeStream(adaptor,"rule terminal");
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:5: ( statement ( ( terminal )+ statement )* -> ^( STATEMENT_LIST ( statement )* ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:5: statement ( ( terminal )+ statement )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:5: ( statement ( ( terminal )+ statement )* -> ^( STATEMENT_LIST ( statement )* ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:5: statement ( ( terminal )+ statement )*
             {
             pushFollow(FOLLOW_statement_in_statement_list243);
             statement4=statement();
             _fsp--;
 
             stream_statement.add(statement4.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:15: ( ( terminal )+ statement )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:15: ( ( terminal )+ statement )*
             loop5:
             do {
                 int alt5=2;
                 alt5 = dfa5.predict(input);
                 switch (alt5) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:16: ( terminal )+ statement
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:16: ( terminal )+ statement
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:16: ( terminal )+
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:16: ( terminal )+
             	    int cnt4=0;
             	    loop4:
             	    do {
@@ -396,7 +396,7 @@ public class Rubyv3Parser extends Parser {
 
             	        switch (alt4) {
             	    	case 1 :
-            	    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:16: terminal
+            	    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:16: terminal
             	    	    {
             	    	    pushFollow(FOLLOW_terminal_in_statement_list246);
             	    	    terminal5=terminal();
@@ -443,12 +443,12 @@ public class Rubyv3Parser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 264:38: -> ^( STATEMENT_LIST ( statement )* )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:41: ^( STATEMENT_LIST ( statement )* )
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:41: ^( STATEMENT_LIST ( statement )* )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot(adaptor.create(STATEMENT_LIST, "STATEMENT_LIST"), root_1);
 
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:58: ( statement )*
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:264:58: ( statement )*
                 while ( stream_statement.hasNext() ) {
                     adaptor.addChild(root_1, stream_statement.next());
 
@@ -486,7 +486,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start statement
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:271:1: statement : expression ( modifier_line )* -> ^( STATEMENT expression ( modifier_line )* ) ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:271:1: statement : expression ( modifier_line )* -> ^( STATEMENT expression ( modifier_line )* ) ;
     public final statement_return statement() throws RecognitionException {
         statement_return retval = new statement_return();
         retval.start = input.LT(1);
@@ -501,15 +501,15 @@ public class Rubyv3Parser extends Parser {
         RewriteRuleSubtreeStream stream_modifier_line=new RewriteRuleSubtreeStream(adaptor,"rule modifier_line");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:4: ( expression ( modifier_line )* -> ^( STATEMENT expression ( modifier_line )* ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:4: expression ( modifier_line )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:4: ( expression ( modifier_line )* -> ^( STATEMENT expression ( modifier_line )* ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:4: expression ( modifier_line )*
             {
             pushFollow(FOLLOW_expression_in_statement275);
             expression7=expression();
             _fsp--;
 
             stream_expression.add(expression7.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:15: ( modifier_line )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:15: ( modifier_line )*
             loop6:
             do {
                 int alt6=2;
@@ -522,7 +522,7 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt6) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:16: modifier_line
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:16: modifier_line
             	    {
             	    pushFollow(FOLLOW_modifier_line_in_statement278);
             	    modifier_line8=modifier_line();
@@ -540,7 +540,7 @@ public class Rubyv3Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: expression, modifier_line
+            // elements: modifier_line, expression
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -551,13 +551,13 @@ public class Rubyv3Parser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 272:33: -> ^( STATEMENT expression ( modifier_line )* )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:36: ^( STATEMENT expression ( modifier_line )* )
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:36: ^( STATEMENT expression ( modifier_line )* )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot(adaptor.create(STATEMENT, "STATEMENT"), root_1);
 
                 adaptor.addChild(root_1, stream_expression.next());
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:59: ( modifier_line )*
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:272:59: ( modifier_line )*
                 while ( stream_modifier_line.hasNext() ) {
                     adaptor.addChild(root_1, stream_modifier_line.next());
 
@@ -595,7 +595,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start modifier_line
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:275:1: modifier_line : ( IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER ) ( line_break )* expression ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:275:1: modifier_line : ( IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER ) ( line_break )* expression ;
     public final modifier_line_return modifier_line() throws RecognitionException {
         modifier_line_return retval = new modifier_line_return();
         retval.start = input.LT(1);
@@ -611,8 +611,8 @@ public class Rubyv3Parser extends Parser {
         Object set9_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:276:3: ( ( IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER ) ( line_break )* expression )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:276:3: ( IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER ) ( line_break )* expression
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:276:3: ( ( IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER ) ( line_break )* expression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:276:3: ( IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER ) ( line_break )* expression
             {
             root_0 = (Object)adaptor.nil();
 
@@ -628,7 +628,7 @@ public class Rubyv3Parser extends Parser {
                 recoverFromMismatchedSet(input,mse,FOLLOW_set_in_modifier_line318);    throw mse;
             }
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:276:80: ( line_break )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:276:80: ( line_break )*
             loop7:
             do {
                 int alt7=2;
@@ -641,7 +641,7 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt7) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:276:81: line_break
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:276:81: line_break
             	    {
             	    pushFollow(FOLLOW_line_break_in_modifier_line332);
             	    line_break10=line_break();
@@ -687,7 +687,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start block_expression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:1: block_expression : 'begin' body 'end' ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:294:1: block_expression : 'begin' body 'end' ;
     public final block_expression_return block_expression() throws RecognitionException {
         block_expression_return retval = new block_expression_return();
         retval.start = input.LT(1);
@@ -703,8 +703,8 @@ public class Rubyv3Parser extends Parser {
         Object string_literal14_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:295:4: ( 'begin' body 'end' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:295:4: 'begin' body 'end'
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:295:4: ( 'begin' body 'end' )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:295:4: 'begin' body 'end'
             {
             root_0 = (Object)adaptor.nil();
 
@@ -748,7 +748,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start body
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:1: body : ( ( SEMI )* | statement_list ( terminal )* );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:1: body : ( ( SEMI )* | statement_list ( terminal )* );
     public final body_return body() throws RecognitionException {
         body_return retval = new body_return();
         retval.start = input.LT(1);
@@ -764,14 +764,14 @@ public class Rubyv3Parser extends Parser {
         Object SEMI15_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:8: ( ( SEMI )* | statement_list ( terminal )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:8: ( ( SEMI )* | statement_list ( terminal )* )
             int alt10=2;
             int LA10_0 = input.LA(1);
 
             if ( (LA10_0==SEMI||LA10_0==118||(LA10_0>=122 && LA10_0<=123)) ) {
                 alt10=1;
             }
-            else if ( ((LA10_0>=HEREDOC_STRING && LA10_0<=FID)||LA10_0==SYMBOL||(LA10_0>=IF_MODIFIER && LA10_0<=UNLESS_MODIFIER)||LA10_0==ID||(LA10_0>=BNOT && LA10_0<=REGEX)||(LA10_0>=SINGLE_QUOTE_STRING && LA10_0<=DOUBLE_QUOTE_STRING)||LA10_0==LCURLY||LA10_0==117||(LA10_0>=119 && LA10_0<=121)||(LA10_0>=125 && LA10_0<=126)||(LA10_0>=130 && LA10_0<=134)) ) {
+            else if ( ((LA10_0>=HEREDOC_STRING && LA10_0<=FLOAT)||LA10_0==SYMBOL||(LA10_0>=IF_MODIFIER && LA10_0<=UNLESS_MODIFIER)||LA10_0==ID||(LA10_0>=BNOT && LA10_0<=REGEX)||(LA10_0>=SINGLE_QUOTE_STRING && LA10_0<=DOUBLE_QUOTE_STRING)||LA10_0==LCURLY||LA10_0==117||(LA10_0>=119 && LA10_0<=121)||(LA10_0>=125 && LA10_0<=126)||(LA10_0>=130 && LA10_0<=134)) ) {
                 alt10=2;
             }
             else {
@@ -782,11 +782,11 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt10) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:8: ( SEMI )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:8: ( SEMI )*
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:8: ( SEMI )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:8: ( SEMI )*
                     loop8:
                     do {
                         int alt8=2;
@@ -799,7 +799,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt8) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:8: SEMI
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:8: SEMI
                     	    {
                     	    SEMI15=(Token)input.LT(1);
                     	    match(input,SEMI,FOLLOW_SEMI_in_body422); 
@@ -819,7 +819,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:15: statement_list ( terminal )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:15: statement_list ( terminal )*
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -828,7 +828,7 @@ public class Rubyv3Parser extends Parser {
                     _fsp--;
 
                     adaptor.addChild(root_0, statement_list16.getTree());
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:30: ( terminal )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:30: ( terminal )*
                     loop9:
                     do {
                         int alt9=2;
@@ -841,7 +841,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt9) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:30: terminal
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:296:30: terminal
                     	    {
                     	    pushFollow(FOLLOW_terminal_in_body428);
                     	    terminal17=terminal();
@@ -884,7 +884,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start boolean_expression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:297:1: boolean_expression : ( 'false' | 'nil' | 'true' );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:297:1: boolean_expression : ( 'false' | 'nil' | 'true' );
     public final boolean_expression_return boolean_expression() throws RecognitionException {
         boolean_expression_return retval = new boolean_expression_return();
         retval.start = input.LT(1);
@@ -896,8 +896,8 @@ public class Rubyv3Parser extends Parser {
         Object set18_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:4: ( 'false' | 'nil' | 'true' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:298:4: ( 'false' | 'nil' | 'true' )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
             {
             root_0 = (Object)adaptor.nil();
 
@@ -938,7 +938,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start if_expression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:299:1: if_expression : 'if' e0= expression seperator body0= body ( 'elsif' e1= expression seperator body1+= body )* ( 'else' body2= body )? 'end' -> ^( IF $e0 $body0 ( $e1)* ( $body1)* ( $body2)? ) ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:299:1: if_expression : 'if' e0= expression seperator body0= body ( 'elsif' e1= expression seperator body1+= body )* ( 'else' body2= body )? 'end' -> ^( IF $e0 $body0 ( $e1)* ( $body1)* ( $body2)? ) ;
     public final if_expression_return if_expression() throws RecognitionException {
         if_expression_return retval = new if_expression_return();
         retval.start = input.LT(1);
@@ -975,8 +975,8 @@ public class Rubyv3Parser extends Parser {
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         RewriteRuleSubtreeStream stream_body=new RewriteRuleSubtreeStream(adaptor,"rule body");
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:4: ( 'if' e0= expression seperator body0= body ( 'elsif' e1= expression seperator body1+= body )* ( 'else' body2= body )? 'end' -> ^( IF $e0 $body0 ( $e1)* ( $body1)* ( $body2)? ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:4: 'if' e0= expression seperator body0= body ( 'elsif' e1= expression seperator body1+= body )* ( 'else' body2= body )? 'end'
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:4: ( 'if' e0= expression seperator body0= body ( 'elsif' e1= expression seperator body1+= body )* ( 'else' body2= body )? 'end' -> ^( IF $e0 $body0 ( $e1)* ( $body1)* ( $body2)? ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:300:4: 'if' e0= expression seperator body0= body ( 'elsif' e1= expression seperator body1+= body )* ( 'else' body2= body )? 'end'
             {
             string_literal19=(Token)input.LT(1);
             match(input,IF_MODIFIER,FOLLOW_IF_MODIFIER_in_if_expression451); 
@@ -997,7 +997,7 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             stream_body.add(body0.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:301:21: ( 'elsif' e1= expression seperator body1+= body )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:301:21: ( 'elsif' e1= expression seperator body1+= body )*
             loop11:
             do {
                 int alt11=2;
@@ -1010,7 +1010,7 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt11) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:301:22: 'elsif' e1= expression seperator body1+= body
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:301:22: 'elsif' e1= expression seperator body1+= body
             	    {
             	    string_literal21=(Token)input.LT(1);
             	    match(input,122,FOLLOW_122_in_if_expression474); 
@@ -1043,7 +1043,7 @@ public class Rubyv3Parser extends Parser {
                 }
             } while (true);
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:10: ( 'else' body2= body )?
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:10: ( 'else' body2= body )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1052,7 +1052,7 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt12) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:11: 'else' body2= body
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:302:11: 'else' body2= body
                     {
                     string_literal23=(Token)input.LT(1);
                     match(input,123,FOLLOW_123_in_if_expression498); 
@@ -1075,7 +1075,7 @@ public class Rubyv3Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: body2, e0, body0, body1, e1
+            // elements: body0, body1, e1, body2, e0
             // token labels: 
             // rule labels: e0, e1, body0, retval, body2
             // token list labels: 
@@ -1090,26 +1090,26 @@ public class Rubyv3Parser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 303:16: -> ^( IF $e0 $body0 ( $e1)* ( $body1)* ( $body2)? )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:303:19: ^( IF $e0 $body0 ( $e1)* ( $body1)* ( $body2)? )
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:303:19: ^( IF $e0 $body0 ( $e1)* ( $body1)* ( $body2)? )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot(adaptor.create(IF, "IF"), root_1);
 
                 adaptor.addChild(root_1, stream_e0.next());
                 adaptor.addChild(root_1, stream_body0.next());
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:303:35: ( $e1)*
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:303:35: ( $e1)*
                 while ( stream_e1.hasNext() ) {
                     adaptor.addChild(root_1, stream_e1.next());
 
                 }
                 stream_e1.reset();
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:303:40: ( $body1)*
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:303:40: ( $body1)*
                 while ( stream_body1.hasNext() ) {
                     adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_body1.next()).getTree());
 
                 }
                 stream_body1.reset();
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:303:48: ( $body2)?
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:303:48: ( $body2)?
                 if ( stream_body2.hasNext() ) {
                     adaptor.addChild(root_1, stream_body2.next());
 
@@ -1147,7 +1147,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start seperator
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:306:1: seperator : ( ( LINE_BREAK )+ | ':' ( LINE_BREAK )* | ( LINE_BREAK )* 'then' ( LINE_BREAK )* );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:306:1: seperator : ( ( LINE_BREAK )+ | ':' ( LINE_BREAK )* | ( LINE_BREAK )* 'then' ( LINE_BREAK )* );
     public final seperator_return seperator() throws RecognitionException {
         seperator_return retval = new seperator_return();
         retval.start = input.LT(1);
@@ -1169,16 +1169,16 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK30_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:3: ( ( LINE_BREAK )+ | ':' ( LINE_BREAK )* | ( LINE_BREAK )* 'then' ( LINE_BREAK )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:3: ( ( LINE_BREAK )+ | ':' ( LINE_BREAK )* | ( LINE_BREAK )* 'then' ( LINE_BREAK )* )
             int alt17=3;
             alt17 = dfa17.predict(input);
             switch (alt17) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:3: ( LINE_BREAK )+
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:3: ( LINE_BREAK )+
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:3: ( LINE_BREAK )+
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:3: ( LINE_BREAK )+
                     int cnt13=0;
                     loop13:
                     do {
@@ -1192,7 +1192,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt13) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:3: LINE_BREAK
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:3: LINE_BREAK
                     	    {
                     	    LINE_BREAK25=(Token)input.LT(1);
                     	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_seperator567); 
@@ -1216,7 +1216,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:15: ':' ( LINE_BREAK )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:15: ':' ( LINE_BREAK )*
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -1225,7 +1225,7 @@ public class Rubyv3Parser extends Parser {
                     char_literal26_tree = (Object)adaptor.create(char_literal26);
                     adaptor.addChild(root_0, char_literal26_tree);
 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:19: ( LINE_BREAK )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:19: ( LINE_BREAK )*
                     loop14:
                     do {
                         int alt14=2;
@@ -1238,7 +1238,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt14) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:19: LINE_BREAK
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:19: LINE_BREAK
                     	    {
                     	    LINE_BREAK27=(Token)input.LT(1);
                     	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_seperator572); 
@@ -1258,11 +1258,11 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:33: ( LINE_BREAK )* 'then' ( LINE_BREAK )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:33: ( LINE_BREAK )* 'then' ( LINE_BREAK )*
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:33: ( LINE_BREAK )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:33: ( LINE_BREAK )*
                     loop15:
                     do {
                         int alt15=2;
@@ -1275,7 +1275,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt15) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:33: LINE_BREAK
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:33: LINE_BREAK
                     	    {
                     	    LINE_BREAK28=(Token)input.LT(1);
                     	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_seperator577); 
@@ -1296,7 +1296,7 @@ public class Rubyv3Parser extends Parser {
                     string_literal29_tree = (Object)adaptor.create(string_literal29);
                     adaptor.addChild(root_0, string_literal29_tree);
 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:52: ( LINE_BREAK )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:52: ( LINE_BREAK )*
                     loop16:
                     do {
                         int alt16=2;
@@ -1309,7 +1309,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt16) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:52: LINE_BREAK
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:307:52: LINE_BREAK
                     	    {
                     	    LINE_BREAK30=(Token)input.LT(1);
                     	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_seperator582); 
@@ -1352,7 +1352,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start unless_expression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:308:1: unless_expression : 'unless' boolean_expression ( 'then' | ':' | line_break ) body ( 'else' body )? 'end' ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:308:1: unless_expression : 'unless' boolean_expression ( 'then' | ':' | line_break ) body ( 'else' body )? 'end' ;
     public final unless_expression_return unless_expression() throws RecognitionException {
         unless_expression_return retval = new unless_expression_return();
         retval.start = input.LT(1);
@@ -1380,8 +1380,8 @@ public class Rubyv3Parser extends Parser {
         Object string_literal39_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:4: ( 'unless' boolean_expression ( 'then' | ':' | line_break ) body ( 'else' body )? 'end' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:4: 'unless' boolean_expression ( 'then' | ':' | line_break ) body ( 'else' body )? 'end'
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:4: ( 'unless' boolean_expression ( 'then' | ':' | line_break ) body ( 'else' body )? 'end' )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:4: 'unless' boolean_expression ( 'then' | ':' | line_break ) body ( 'else' body )? 'end'
             {
             root_0 = (Object)adaptor.nil();
 
@@ -1395,7 +1395,7 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, boolean_expression32.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:32: ( 'then' | ':' | line_break )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:32: ( 'then' | ':' | line_break )
             int alt18=3;
             switch ( input.LA(1) ) {
             case 124:
@@ -1422,7 +1422,7 @@ public class Rubyv3Parser extends Parser {
 
             switch (alt18) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:33: 'then'
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:33: 'then'
                     {
                     string_literal33=(Token)input.LT(1);
                     match(input,124,FOLLOW_124_in_unless_expression597); 
@@ -1433,7 +1433,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:40: ':'
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:40: ':'
                     {
                     char_literal34=(Token)input.LT(1);
                     match(input,COLON,FOLLOW_COLON_in_unless_expression599); 
@@ -1444,7 +1444,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:44: line_break
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:44: line_break
                     {
                     pushFollow(FOLLOW_line_break_in_unless_expression601);
                     line_break35=line_break();
@@ -1462,7 +1462,7 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, body36.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:10: ( 'else' body )?
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:10: ( 'else' body )?
             int alt19=2;
             int LA19_0 = input.LA(1);
 
@@ -1471,7 +1471,7 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt19) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:11: 'else' body
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:11: 'else' body
                     {
                     string_literal37=(Token)input.LT(1);
                     match(input,123,FOLLOW_123_in_unless_expression626); 
@@ -1519,7 +1519,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start terminal
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:1: terminal : ( SEMI | line_break );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:1: terminal : ( SEMI | line_break );
     public final terminal_return terminal() throws RecognitionException {
         terminal_return retval = new terminal_return();
         retval.start = input.LT(1);
@@ -1533,7 +1533,7 @@ public class Rubyv3Parser extends Parser {
         Object SEMI40_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:11: ( SEMI | line_break )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:11: ( SEMI | line_break )
             int alt20=2;
             int LA20_0 = input.LA(1);
 
@@ -1551,7 +1551,7 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt20) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:11: SEMI
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:11: SEMI
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -1561,7 +1561,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:17: line_break
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:17: line_break
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -1597,7 +1597,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start line_break
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:314:1: line_break : LINE_BREAK ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:314:1: line_break : LINE_BREAK ;
     public final line_break_return line_break() throws RecognitionException {
         line_break_return retval = new line_break_return();
         retval.start = input.LT(1);
@@ -1609,8 +1609,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK42_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:5: ( LINE_BREAK )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:5: LINE_BREAK
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:5: ( LINE_BREAK )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:5: LINE_BREAK
             {
             root_0 = (Object)adaptor.nil();
 
@@ -1641,7 +1641,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start expression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:347:1: expression : ( 'alias' fitem fitem | andorExpression | primaryExpression );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:347:1: expression : ( 'alias' fitem fitem | andorExpression | primaryExpression );
     public final expression_return expression() throws RecognitionException {
         expression_return retval = new expression_return();
         retval.start = input.LT(1);
@@ -1661,7 +1661,7 @@ public class Rubyv3Parser extends Parser {
         Object string_literal43_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:5: ( 'alias' fitem fitem | andorExpression | primaryExpression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:5: ( 'alias' fitem fitem | andorExpression | primaryExpression )
             int alt21=3;
             switch ( input.LA(1) ) {
             case 125:
@@ -1671,8 +1671,6 @@ public class Rubyv3Parser extends Parser {
                 break;
             case HEREDOC_STRING:
             case FLOAT:
-            case CONSTANT:
-            case FID:
             case SYMBOL:
             case IF_MODIFIER:
             case UNLESS_MODIFIER:
@@ -1712,7 +1710,7 @@ public class Rubyv3Parser extends Parser {
 
             switch (alt21) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:5: 'alias' fitem fitem
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:5: 'alias' fitem fitem
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -1735,7 +1733,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:26: andorExpression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:26: andorExpression
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -1748,7 +1746,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:42: primaryExpression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:42: primaryExpression
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -1784,7 +1782,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start primaryExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:349:1: primaryExpression : methodDefinition ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:349:1: primaryExpression : methodDefinition ;
     public final primaryExpression_return primaryExpression() throws RecognitionException {
         primaryExpression_return retval = new primaryExpression_return();
         retval.start = input.LT(1);
@@ -1796,8 +1794,8 @@ public class Rubyv3Parser extends Parser {
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:4: ( methodDefinition )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:4: methodDefinition
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:4: ( methodDefinition )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:4: methodDefinition
             {
             root_0 = (Object)adaptor.nil();
 
@@ -1831,7 +1829,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start methodDefinition
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:351:1: methodDefinition : 'def' ( LINE_BREAK )* methodName f_arglist ( terminal )* bodyStatement 'end' ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:351:1: methodDefinition : 'def' ( LINE_BREAK )* methodName f_arglist ( terminal )* bodyStatement 'end' ;
     public final methodDefinition_return methodDefinition() throws RecognitionException {
         methodDefinition_return retval = new methodDefinition_return();
         retval.start = input.LT(1);
@@ -1855,8 +1853,8 @@ public class Rubyv3Parser extends Parser {
         Object string_literal55_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:4: ( 'def' ( LINE_BREAK )* methodName f_arglist ( terminal )* bodyStatement 'end' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:4: 'def' ( LINE_BREAK )* methodName f_arglist ( terminal )* bodyStatement 'end'
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:4: ( 'def' ( LINE_BREAK )* methodName f_arglist ( terminal )* bodyStatement 'end' )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:4: 'def' ( LINE_BREAK )* methodName f_arglist ( terminal )* bodyStatement 'end'
             {
             root_0 = (Object)adaptor.nil();
 
@@ -1865,7 +1863,7 @@ public class Rubyv3Parser extends Parser {
             string_literal49_tree = (Object)adaptor.create(string_literal49);
             root_0 = (Object)adaptor.becomeRoot(string_literal49_tree, root_0);
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:11: ( LINE_BREAK )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:11: ( LINE_BREAK )*
             loop22:
             do {
                 int alt22=2;
@@ -1878,7 +1876,7 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt22) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:12: LINE_BREAK
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:12: LINE_BREAK
             	    {
             	    LINE_BREAK50=(Token)input.LT(1);
             	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_methodDefinition734); 
@@ -1902,7 +1900,7 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, f_arglist52.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:63: ( terminal )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:63: ( terminal )*
             loop23:
             do {
                 int alt23=2;
@@ -1915,7 +1913,7 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt23) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:64: terminal
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:352:64: terminal
             	    {
             	    pushFollow(FOLLOW_terminal_in_methodDefinition746);
             	    terminal53=terminal();
@@ -1963,7 +1961,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start methodName
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:353:1: methodName : id= ID ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:353:1: methodName : id= ID ;
     public final methodName_return methodName() throws RecognitionException {
         methodName_return retval = new methodName_return();
         retval.start = input.LT(1);
@@ -1975,8 +1973,8 @@ public class Rubyv3Parser extends Parser {
         Object id_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:354:4: (id= ID )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:354:4: id= ID
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:354:4: (id= ID )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:354:4: id= ID
             {
             root_0 = (Object)adaptor.nil();
 
@@ -2010,7 +2008,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start f_arglist
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:355:1: f_arglist : ( '(' f_args ( LINE_BREAK )* ')' | f_args terminal );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:355:1: f_arglist : ( '(' f_args ( LINE_BREAK )* ')' | f_args terminal );
     public final f_arglist_return f_arglist() throws RecognitionException {
         f_arglist_return retval = new f_arglist_return();
         retval.start = input.LT(1);
@@ -2032,7 +2030,7 @@ public class Rubyv3Parser extends Parser {
         Object char_literal59_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:4: ( '(' f_args ( LINE_BREAK )* ')' | f_args terminal )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:4: ( '(' f_args ( LINE_BREAK )* ')' | f_args terminal )
             int alt25=2;
             int LA25_0 = input.LA(1);
 
@@ -2050,7 +2048,7 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt25) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:4: '(' f_args ( LINE_BREAK )* ')'
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:4: '(' f_args ( LINE_BREAK )* ')'
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2061,7 +2059,7 @@ public class Rubyv3Parser extends Parser {
                     _fsp--;
 
                     adaptor.addChild(root_0, f_args57.getTree());
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:17: ( LINE_BREAK )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:17: ( LINE_BREAK )*
                     loop24:
                     do {
                         int alt24=2;
@@ -2074,7 +2072,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt24) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:18: LINE_BREAK
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:356:18: LINE_BREAK
                     	    {
                     	    LINE_BREAK58=(Token)input.LT(1);
                     	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_f_arglist784); 
@@ -2093,7 +2091,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:357:10: f_args terminal
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:357:10: f_args terminal
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2133,7 +2131,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start f_args
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:1: f_args : ( f_norm_args | f_norm_args ',' f_opt_args | );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:1: f_args : ( f_norm_args | f_norm_args ',' f_opt_args | );
     public final f_args_return f_args() throws RecognitionException {
         f_args_return retval = new f_args_return();
         retval.start = input.LT(1);
@@ -2151,7 +2149,7 @@ public class Rubyv3Parser extends Parser {
         Object char_literal64_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:10: ( f_norm_args | f_norm_args ',' f_opt_args | )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:10: ( f_norm_args | f_norm_args ',' f_opt_args | )
             int alt26=3;
             int LA26_0 = input.LA(1);
 
@@ -2182,7 +2180,7 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt26) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:10: f_norm_args
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:10: f_norm_args
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2195,7 +2193,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:24: f_norm_args ',' f_opt_args
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:24: f_norm_args ',' f_opt_args
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2218,7 +2216,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:51: 
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:358:51: 
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2248,7 +2246,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start f_norm_args
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:359:1: f_norm_args : ID ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:359:1: f_norm_args : ID ;
     public final f_norm_args_return f_norm_args() throws RecognitionException {
         f_norm_args_return retval = new f_norm_args_return();
         retval.start = input.LT(1);
@@ -2260,8 +2258,8 @@ public class Rubyv3Parser extends Parser {
         Object ID66_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:364:2: ( ID )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:364:2: ID
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:364:2: ( ID )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:364:2: ID
             {
             root_0 = (Object)adaptor.nil();
 
@@ -2295,7 +2293,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start f_opt_args
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:365:1: f_opt_args : ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:365:1: f_opt_args : ;
     public final f_opt_args_return f_opt_args() throws RecognitionException {
         f_opt_args_return retval = new f_opt_args_return();
         retval.start = input.LT(1);
@@ -2303,8 +2301,8 @@ public class Rubyv3Parser extends Parser {
         Object root_0 = null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:366:4: ()
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:366:4: 
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:366:4: ()
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:366:4: 
             {
             root_0 = (Object)adaptor.nil();
 
@@ -2328,7 +2326,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start bodyStatement
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:368:1: bodyStatement : statement_list -> ^( BODY statement_list ) ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:368:1: bodyStatement : statement_list -> ^( BODY statement_list ) ;
     public final bodyStatement_return bodyStatement() throws RecognitionException {
         bodyStatement_return retval = new bodyStatement_return();
         retval.start = input.LT(1);
@@ -2340,8 +2338,8 @@ public class Rubyv3Parser extends Parser {
 
         RewriteRuleSubtreeStream stream_statement_list=new RewriteRuleSubtreeStream(adaptor,"rule statement_list");
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:369:4: ( statement_list -> ^( BODY statement_list ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:369:4: statement_list
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:369:4: ( statement_list -> ^( BODY statement_list ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:369:4: statement_list
             {
             pushFollow(FOLLOW_statement_list_in_bodyStatement861);
             statement_list67=statement_list();
@@ -2361,7 +2359,7 @@ public class Rubyv3Parser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 369:19: -> ^( BODY statement_list )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:369:22: ^( BODY statement_list )
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:369:22: ^( BODY statement_list )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot(adaptor.create(BODY, "BODY"), root_1);
@@ -2399,7 +2397,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start fitem
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:372:1: fitem : fname ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:372:1: fitem : fname ;
     public final fitem_return fitem() throws RecognitionException {
         fitem_return retval = new fitem_return();
         retval.start = input.LT(1);
@@ -2411,8 +2409,8 @@ public class Rubyv3Parser extends Parser {
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:372:9: ( fname )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:372:9: fname
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:372:9: ( fname )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:372:9: fname
             {
             root_0 = (Object)adaptor.nil();
 
@@ -2446,7 +2444,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start fname
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:1: fname : ( ID | CONSTANT | FID | op );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:1: fname : ( ID | CONSTANT | FID | op );
     public final fname_return fname() throws RecognitionException {
         fname_return retval = new fname_return();
         retval.start = input.LT(1);
@@ -2464,7 +2462,7 @@ public class Rubyv3Parser extends Parser {
         Object FID71_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:9: ( ID | CONSTANT | FID | op )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:9: ( ID | CONSTANT | FID | op )
             int alt27=4;
             switch ( input.LA(1) ) {
             case ID:
@@ -2517,7 +2515,7 @@ public class Rubyv3Parser extends Parser {
 
             switch (alt27) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:9: ID
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:9: ID
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2530,7 +2528,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:12: CONSTANT
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:12: CONSTANT
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2543,7 +2541,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:21: FID
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:21: FID
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2556,7 +2554,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:25: op
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:373:25: op
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2592,7 +2590,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start op
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:1: op : ( '|' | '^' | '&' | COMPARE | EQUAL | CASE_EQUAL | MATCH | GREATER_THAN | GREATER_OR_EQUAL | LESS_THAN | LESS_OR_EQUAL | LEFT_SHIFT | RIGHT_SHIFT | PLUS | MINUS | STAR | DIV | MOD | POWER | '~' | '[]' | '[]=' );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:1: op : ( '|' | '^' | '&' | COMPARE | EQUAL | CASE_EQUAL | MATCH | GREATER_THAN | GREATER_OR_EQUAL | LESS_THAN | LESS_OR_EQUAL | LEFT_SHIFT | RIGHT_SHIFT | PLUS | MINUS | STAR | DIV | MOD | POWER | '~' | '[]' | '[]=' );
     public final op_return op() throws RecognitionException {
         op_return retval = new op_return();
         retval.start = input.LT(1);
@@ -2604,8 +2602,8 @@ public class Rubyv3Parser extends Parser {
         Object set73_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:17: ( '|' | '^' | '&' | COMPARE | EQUAL | CASE_EQUAL | MATCH | GREATER_THAN | GREATER_OR_EQUAL | LESS_THAN | LESS_OR_EQUAL | LEFT_SHIFT | RIGHT_SHIFT | PLUS | MINUS | STAR | DIV | MOD | POWER | '~' | '[]' | '[]=' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:381:17: ( '|' | '^' | '&' | COMPARE | EQUAL | CASE_EQUAL | MATCH | GREATER_THAN | GREATER_OR_EQUAL | LESS_THAN | LESS_OR_EQUAL | LEFT_SHIFT | RIGHT_SHIFT | PLUS | MINUS | STAR | DIV | MOD | POWER | '~' | '[]' | '[]=' )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
             {
             root_0 = (Object)adaptor.nil();
 
@@ -2646,7 +2644,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start andorExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:385:1: andorExpression : notExpression ( ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:385:1: andorExpression : notExpression ( ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression )* ;
     public final andorExpression_return andorExpression() throws RecognitionException {
         andorExpression_return retval = new andorExpression_return();
         retval.start = input.LT(1);
@@ -2668,8 +2666,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK78_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:386:5: ( notExpression ( ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:386:5: notExpression ( ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:386:5: ( notExpression ( ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:386:5: notExpression ( ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -2678,7 +2676,7 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, notExpression74.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:386:19: ( ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:386:19: ( ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression )*
             loop31:
             do {
                 int alt31=2;
@@ -2691,9 +2689,9 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt31) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:5: ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:5: ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* ) notExpression
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:5: ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* )
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:5: ( 'and' ( LINE_BREAK )* | 'or' ( LINE_BREAK )* )
             	    int alt30=2;
             	    int LA30_0 = input.LA(1);
 
@@ -2711,14 +2709,14 @@ public class Rubyv3Parser extends Parser {
             	    }
             	    switch (alt30) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:7: 'and' ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:7: 'and' ( LINE_BREAK )*
             	            {
             	            string_literal75=(Token)input.LT(1);
             	            match(input,128,FOLLOW_128_in_andorExpression1063); 
             	            string_literal75_tree = (Object)adaptor.create(string_literal75);
             	            root_0 = (Object)adaptor.becomeRoot(string_literal75_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:15: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:15: ( LINE_BREAK )*
             	            loop28:
             	            do {
             	                int alt28=2;
@@ -2731,7 +2729,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt28) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:16: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:387:16: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK76=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_andorExpression1068); 
@@ -2748,14 +2746,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:388:7: 'or' ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:388:7: 'or' ( LINE_BREAK )*
             	            {
             	            string_literal77=(Token)input.LT(1);
             	            match(input,129,FOLLOW_129_in_andorExpression1079); 
             	            string_literal77_tree = (Object)adaptor.create(string_literal77);
             	            root_0 = (Object)adaptor.becomeRoot(string_literal77_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:388:14: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:388:14: ( LINE_BREAK )*
             	            loop29:
             	            do {
             	                int alt29=2;
@@ -2768,7 +2766,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt29) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:388:15: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:388:15: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK78=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_andorExpression1084); 
@@ -2826,7 +2824,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start notExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:393:1: notExpression : ( 'not' ( LINE_BREAK )* notExpression | definedExpression );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:393:1: notExpression : ( 'not' ( LINE_BREAK )* notExpression | definedExpression );
     public final notExpression_return notExpression() throws RecognitionException {
         notExpression_return retval = new notExpression_return();
         retval.start = input.LT(1);
@@ -2844,14 +2842,14 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK81_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:394:5: ( 'not' ( LINE_BREAK )* notExpression | definedExpression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:394:5: ( 'not' ( LINE_BREAK )* notExpression | definedExpression )
             int alt33=2;
             int LA33_0 = input.LA(1);
 
             if ( (LA33_0==130) ) {
                 alt33=1;
             }
-            else if ( ((LA33_0>=HEREDOC_STRING && LA33_0<=FID)||LA33_0==SYMBOL||(LA33_0>=IF_MODIFIER && LA33_0<=UNLESS_MODIFIER)||LA33_0==ID||(LA33_0>=BNOT && LA33_0<=REGEX)||(LA33_0>=SINGLE_QUOTE_STRING && LA33_0<=DOUBLE_QUOTE_STRING)||LA33_0==LCURLY||LA33_0==117||(LA33_0>=119 && LA33_0<=121)||(LA33_0>=131 && LA33_0<=134)) ) {
+            else if ( ((LA33_0>=HEREDOC_STRING && LA33_0<=FLOAT)||LA33_0==SYMBOL||(LA33_0>=IF_MODIFIER && LA33_0<=UNLESS_MODIFIER)||LA33_0==ID||(LA33_0>=BNOT && LA33_0<=REGEX)||(LA33_0>=SINGLE_QUOTE_STRING && LA33_0<=DOUBLE_QUOTE_STRING)||LA33_0==LCURLY||LA33_0==117||(LA33_0>=119 && LA33_0<=121)||(LA33_0>=131 && LA33_0<=134)) ) {
                 alt33=2;
             }
             else {
@@ -2862,7 +2860,7 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt33) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:394:5: 'not' ( LINE_BREAK )* notExpression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:394:5: 'not' ( LINE_BREAK )* notExpression
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2871,7 +2869,7 @@ public class Rubyv3Parser extends Parser {
                     string_literal80_tree = (Object)adaptor.create(string_literal80);
                     root_0 = (Object)adaptor.becomeRoot(string_literal80_tree, root_0);
 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:395:4: ( LINE_BREAK )*
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:395:4: ( LINE_BREAK )*
                     loop32:
                     do {
                         int alt32=2;
@@ -2884,7 +2882,7 @@ public class Rubyv3Parser extends Parser {
 
                         switch (alt32) {
                     	case 1 :
-                    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:395:5: LINE_BREAK
+                    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:395:5: LINE_BREAK
                     	    {
                     	    LINE_BREAK81=(Token)input.LT(1);
                     	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_notExpression1124); 
@@ -2906,7 +2904,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:397:5: definedExpression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:397:5: definedExpression
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2942,7 +2940,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start definedExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:399:1: definedExpression : ( 'defined' assignmentExpression | assignmentExpression );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:399:1: definedExpression : ( 'defined' assignmentExpression | assignmentExpression );
     public final definedExpression_return definedExpression() throws RecognitionException {
         definedExpression_return retval = new definedExpression_return();
         retval.start = input.LT(1);
@@ -2958,14 +2956,14 @@ public class Rubyv3Parser extends Parser {
         Object string_literal84_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:400:4: ( 'defined' assignmentExpression | assignmentExpression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:400:4: ( 'defined' assignmentExpression | assignmentExpression )
             int alt34=2;
             int LA34_0 = input.LA(1);
 
             if ( (LA34_0==131) ) {
                 alt34=1;
             }
-            else if ( ((LA34_0>=HEREDOC_STRING && LA34_0<=FID)||LA34_0==SYMBOL||(LA34_0>=IF_MODIFIER && LA34_0<=UNLESS_MODIFIER)||LA34_0==ID||(LA34_0>=BNOT && LA34_0<=REGEX)||(LA34_0>=SINGLE_QUOTE_STRING && LA34_0<=DOUBLE_QUOTE_STRING)||LA34_0==LCURLY||LA34_0==117||(LA34_0>=119 && LA34_0<=121)||(LA34_0>=132 && LA34_0<=134)) ) {
+            else if ( ((LA34_0>=HEREDOC_STRING && LA34_0<=FLOAT)||LA34_0==SYMBOL||(LA34_0>=IF_MODIFIER && LA34_0<=UNLESS_MODIFIER)||LA34_0==ID||(LA34_0>=BNOT && LA34_0<=REGEX)||(LA34_0>=SINGLE_QUOTE_STRING && LA34_0<=DOUBLE_QUOTE_STRING)||LA34_0==LCURLY||LA34_0==117||(LA34_0>=119 && LA34_0<=121)||(LA34_0>=132 && LA34_0<=134)) ) {
                 alt34=2;
             }
             else {
@@ -2976,7 +2974,7 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt34) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:400:4: 'defined' assignmentExpression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:400:4: 'defined' assignmentExpression
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -2994,7 +2992,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:401:10: assignmentExpression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:401:10: assignmentExpression
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -3030,7 +3028,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start assignmentExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:409:1: assignmentExpression : ( ternaryIfThenElseExpression | lhs ( ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | DIV_ASSIGN | MINUS_ASSIGN | PLUS_ASSIGN | BOR_ASSIGN | BAND_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | STAR_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | POWER_ASSIGN ) ternaryIfThenElseExpression );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:409:1: assignmentExpression : ( ternaryIfThenElseExpression | lhs ( ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | DIV_ASSIGN | MINUS_ASSIGN | PLUS_ASSIGN | BOR_ASSIGN | BAND_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | STAR_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | POWER_ASSIGN ) ternaryIfThenElseExpression );
     public final assignmentExpression_return assignmentExpression() throws RecognitionException {
         assignmentExpression_return retval = new assignmentExpression_return();
         retval.start = input.LT(1);
@@ -3048,17 +3046,17 @@ public class Rubyv3Parser extends Parser {
         Object set89_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:410:4: ( ternaryIfThenElseExpression | lhs ( ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | DIV_ASSIGN | MINUS_ASSIGN | PLUS_ASSIGN | BOR_ASSIGN | BAND_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | STAR_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | POWER_ASSIGN ) ternaryIfThenElseExpression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:410:4: ( ternaryIfThenElseExpression | lhs ( ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | DIV_ASSIGN | MINUS_ASSIGN | PLUS_ASSIGN | BOR_ASSIGN | BAND_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | STAR_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | POWER_ASSIGN ) ternaryIfThenElseExpression )
             int alt35=2;
             int LA35_0 = input.LA(1);
 
-            if ( ((LA35_0>=HEREDOC_STRING && LA35_0<=FID)||LA35_0==SYMBOL||(LA35_0>=IF_MODIFIER && LA35_0<=UNLESS_MODIFIER)||(LA35_0>=BNOT && LA35_0<=REGEX)||(LA35_0>=SINGLE_QUOTE_STRING && LA35_0<=DOUBLE_QUOTE_STRING)||LA35_0==LCURLY||LA35_0==117||(LA35_0>=119 && LA35_0<=121)||(LA35_0>=132 && LA35_0<=134)) ) {
+            if ( ((LA35_0>=HEREDOC_STRING && LA35_0<=FLOAT)||LA35_0==SYMBOL||(LA35_0>=IF_MODIFIER && LA35_0<=UNLESS_MODIFIER)||(LA35_0>=BNOT && LA35_0<=REGEX)||(LA35_0>=SINGLE_QUOTE_STRING && LA35_0<=DOUBLE_QUOTE_STRING)||LA35_0==LCURLY||LA35_0==117||(LA35_0>=119 && LA35_0<=121)||(LA35_0>=132 && LA35_0<=134)) ) {
                 alt35=1;
             }
             else if ( (LA35_0==ID) ) {
                 int LA35_2 = input.LA(2);
 
-                if ( (LA35_2==EOF||LA35_2==LEFT_SHIFT||(LA35_2>=DIV && LA35_2<=LINE_BREAK)||(LA35_2>=COMPARE && LA35_2<=POWER)||(LA35_2>=QUESTION && LA35_2<=BAND)||LA35_2==RCURLY||LA35_2==ASSOC||(LA35_2>=LPAREN && LA35_2<=RPAREN)||(LA35_2>=COMMA && LA35_2<=COLON)||LA35_2==118||(LA35_2>=122 && LA35_2<=124)||(LA35_2>=128 && LA35_2<=129)) ) {
+                if ( (LA35_2==EOF||(LA35_2>=LEFT_SHIFT && LA35_2<=FLOAT)||LA35_2==SYMBOL||(LA35_2>=DIV && LA35_2<=LINE_BREAK)||(LA35_2>=ID && LA35_2<=POWER)||(LA35_2>=QUESTION && LA35_2<=REGEX)||(LA35_2>=SINGLE_QUOTE_STRING && LA35_2<=DOUBLE_QUOTE_STRING)||(LA35_2>=LCURLY && LA35_2<=RCURLY)||LA35_2==ASSOC||(LA35_2>=LPAREN && LA35_2<=RPAREN)||(LA35_2>=COMMA && LA35_2<=COLON)||(LA35_2>=117 && LA35_2<=124)||(LA35_2>=128 && LA35_2<=129)||(LA35_2>=131 && LA35_2<=134)) ) {
                     alt35=1;
                 }
                 else if ( ((LA35_2>=ASSIGN && LA35_2<=POWER_ASSIGN)) ) {
@@ -3079,7 +3077,7 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt35) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:410:4: ternaryIfThenElseExpression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:410:4: ternaryIfThenElseExpression
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -3092,7 +3090,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:411:13: lhs ( ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | DIV_ASSIGN | MINUS_ASSIGN | PLUS_ASSIGN | BOR_ASSIGN | BAND_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | STAR_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | POWER_ASSIGN ) ternaryIfThenElseExpression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:411:13: lhs ( ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | DIV_ASSIGN | MINUS_ASSIGN | PLUS_ASSIGN | BOR_ASSIGN | BAND_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | STAR_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | POWER_ASSIGN ) ternaryIfThenElseExpression
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -3146,7 +3144,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start ternaryIfThenElseExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:414:1: ternaryIfThenElseExpression : r= rangeExpression ( | QUESTION rangeExpression ':' rangeExpression ) ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:414:1: ternaryIfThenElseExpression : r= rangeExpression ( | QUESTION rangeExpression ':' rangeExpression ) ;
     public final ternaryIfThenElseExpression_return ternaryIfThenElseExpression() throws RecognitionException {
         ternaryIfThenElseExpression_return retval = new ternaryIfThenElseExpression_return();
         retval.start = input.LT(1);
@@ -3166,8 +3164,8 @@ public class Rubyv3Parser extends Parser {
         Object char_literal93_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:5: (r= rangeExpression ( | QUESTION rangeExpression ':' rangeExpression ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:5: r= rangeExpression ( | QUESTION rangeExpression ':' rangeExpression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:5: (r= rangeExpression ( | QUESTION rangeExpression ':' rangeExpression ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:5: r= rangeExpression ( | QUESTION rangeExpression ':' rangeExpression )
             {
             root_0 = (Object)adaptor.nil();
 
@@ -3176,15 +3174,15 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, r.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:23: ( | QUESTION rangeExpression ':' rangeExpression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:23: ( | QUESTION rangeExpression ':' rangeExpression )
             int alt36=2;
             int LA36_0 = input.LA(1);
 
-            if ( (LA36_0==EOF||(LA36_0>=IF_MODIFIER && LA36_0<=LINE_BREAK)||LA36_0==RCURLY||LA36_0==ASSOC||LA36_0==RPAREN||(LA36_0>=COMMA && LA36_0<=COLON)||LA36_0==118||(LA36_0>=122 && LA36_0<=124)||(LA36_0>=128 && LA36_0<=129)) ) {
+            if ( (LA36_0==EOF||LA36_0==LEFT_SHIFT||(LA36_0>=DIV && LA36_0<=LINE_BREAK)||(LA36_0>=COMPARE && LA36_0<=POWER)||(LA36_0>=INCLUSIVE_RANGE && LA36_0<=BAND)||LA36_0==COLON||LA36_0==118||(LA36_0>=122 && LA36_0<=124)||(LA36_0>=128 && LA36_0<=129)) ) {
                 alt36=1;
             }
-            else if ( (LA36_0==QUESTION) ) {
-                alt36=2;
+            else if ( (LA36_0==QUESTION||LA36_0==RCURLY||LA36_0==ASSOC||LA36_0==RPAREN||LA36_0==COMMA) ) {
+                alt36=1;
             }
             else {
                 NoViableAltException nvae =
@@ -3194,12 +3192,12 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt36) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:25: 
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:25: 
                     {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:28: QUESTION rangeExpression ':' rangeExpression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:415:28: QUESTION rangeExpression ':' rangeExpression
                     {
                     QUESTION91=(Token)input.LT(1);
                     match(input,QUESTION,FOLLOW_QUESTION_in_ternaryIfThenElseExpression1257); 
@@ -3249,7 +3247,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start rangeExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:419:1: rangeExpression : logicalOrExpression ( ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:419:1: rangeExpression : logicalOrExpression ( ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression )* ;
     public final rangeExpression_return rangeExpression() throws RecognitionException {
         rangeExpression_return retval = new rangeExpression_return();
         retval.start = input.LT(1);
@@ -3271,8 +3269,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK99_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:420:5: ( logicalOrExpression ( ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:420:5: logicalOrExpression ( ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:420:5: ( logicalOrExpression ( ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:420:5: logicalOrExpression ( ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -3281,22 +3279,25 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, logicalOrExpression95.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:421:10: ( ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:421:10: ( ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression )*
             loop40:
             do {
                 int alt40=2;
                 int LA40_0 = input.LA(1);
 
-                if ( ((LA40_0>=INCLUSIVE_RANGE && LA40_0<=EXCLUSIVE_RANGE)) ) {
+                if ( (LA40_0==INCLUSIVE_RANGE) ) {
+                    alt40=1;
+                }
+                else if ( (LA40_0==EXCLUSIVE_RANGE) ) {
                     alt40=1;
                 }
 
 
                 switch (alt40) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:5: ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:5: ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* ) logicalOrExpression
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:5: ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* )
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:5: ( INCLUSIVE_RANGE ( LINE_BREAK )* | EXCLUSIVE_RANGE ( LINE_BREAK )* )
             	    int alt39=2;
             	    int LA39_0 = input.LA(1);
 
@@ -3314,14 +3315,14 @@ public class Rubyv3Parser extends Parser {
             	    }
             	    switch (alt39) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:7: INCLUSIVE_RANGE ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:7: INCLUSIVE_RANGE ( LINE_BREAK )*
             	            {
             	            INCLUSIVE_RANGE96=(Token)input.LT(1);
             	            match(input,INCLUSIVE_RANGE,FOLLOW_INCLUSIVE_RANGE_in_rangeExpression1299); 
             	            INCLUSIVE_RANGE96_tree = (Object)adaptor.create(INCLUSIVE_RANGE96);
             	            root_0 = (Object)adaptor.becomeRoot(INCLUSIVE_RANGE96_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:24: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:24: ( LINE_BREAK )*
             	            loop37:
             	            do {
             	                int alt37=2;
@@ -3334,7 +3335,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt37) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:25: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:422:25: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK97=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_rangeExpression1303); 
@@ -3351,14 +3352,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:423:7: EXCLUSIVE_RANGE ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:423:7: EXCLUSIVE_RANGE ( LINE_BREAK )*
             	            {
             	            EXCLUSIVE_RANGE98=(Token)input.LT(1);
             	            match(input,EXCLUSIVE_RANGE,FOLLOW_EXCLUSIVE_RANGE_in_rangeExpression1314); 
             	            EXCLUSIVE_RANGE98_tree = (Object)adaptor.create(EXCLUSIVE_RANGE98);
             	            root_0 = (Object)adaptor.becomeRoot(EXCLUSIVE_RANGE98_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:423:24: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:423:24: ( LINE_BREAK )*
             	            loop38:
             	            do {
             	                int alt38=2;
@@ -3371,7 +3372,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt38) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:423:25: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:423:25: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK99=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_rangeExpression1318); 
@@ -3429,7 +3430,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start logicalOrExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:430:1: logicalOrExpression : logicalAndExpression ( LOGICAL_OR ( LINE_BREAK )* logicalAndExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:430:1: logicalOrExpression : logicalAndExpression ( LOGICAL_OR ( LINE_BREAK )* logicalAndExpression )* ;
     public final logicalOrExpression_return logicalOrExpression() throws RecognitionException {
         logicalOrExpression_return retval = new logicalOrExpression_return();
         retval.start = input.LT(1);
@@ -3447,8 +3448,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK103_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:431:5: ( logicalAndExpression ( LOGICAL_OR ( LINE_BREAK )* logicalAndExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:431:5: logicalAndExpression ( LOGICAL_OR ( LINE_BREAK )* logicalAndExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:431:5: ( logicalAndExpression ( LOGICAL_OR ( LINE_BREAK )* logicalAndExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:431:5: logicalAndExpression ( LOGICAL_OR ( LINE_BREAK )* logicalAndExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -3457,7 +3458,7 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, logicalAndExpression101.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:432:25: ( LOGICAL_OR ( LINE_BREAK )* logicalAndExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:432:25: ( LOGICAL_OR ( LINE_BREAK )* logicalAndExpression )*
             loop42:
             do {
                 int alt42=2;
@@ -3470,14 +3471,14 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt42) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:433:5: LOGICAL_OR ( LINE_BREAK )* logicalAndExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:433:5: LOGICAL_OR ( LINE_BREAK )* logicalAndExpression
             	    {
             	    LOGICAL_OR102=(Token)input.LT(1);
             	    match(input,LOGICAL_OR,FOLLOW_LOGICAL_OR_in_logicalOrExpression1385); 
             	    LOGICAL_OR102_tree = (Object)adaptor.create(LOGICAL_OR102);
             	    root_0 = (Object)adaptor.becomeRoot(LOGICAL_OR102_tree, root_0);
 
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:433:18: ( LINE_BREAK )*
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:433:18: ( LINE_BREAK )*
             	    loop41:
             	    do {
             	        int alt41=2;
@@ -3490,7 +3491,7 @@ public class Rubyv3Parser extends Parser {
 
             	        switch (alt41) {
             	    	case 1 :
-            	    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:433:19: LINE_BREAK
+            	    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:433:19: LINE_BREAK
             	    	    {
             	    	    LINE_BREAK103=(Token)input.LT(1);
             	    	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_logicalOrExpression1390); 
@@ -3542,7 +3543,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start logicalAndExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:439:1: logicalAndExpression : equalityExpression ( LOGICAL_AND ( LINE_BREAK )* equalityExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:439:1: logicalAndExpression : equalityExpression ( LOGICAL_AND ( LINE_BREAK )* equalityExpression )* ;
     public final logicalAndExpression_return logicalAndExpression() throws RecognitionException {
         logicalAndExpression_return retval = new logicalAndExpression_return();
         retval.start = input.LT(1);
@@ -3560,8 +3561,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK107_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:440:5: ( equalityExpression ( LOGICAL_AND ( LINE_BREAK )* equalityExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:440:5: equalityExpression ( LOGICAL_AND ( LINE_BREAK )* equalityExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:440:5: ( equalityExpression ( LOGICAL_AND ( LINE_BREAK )* equalityExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:440:5: equalityExpression ( LOGICAL_AND ( LINE_BREAK )* equalityExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -3570,7 +3571,7 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, equalityExpression105.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:441:25: ( LOGICAL_AND ( LINE_BREAK )* equalityExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:441:25: ( LOGICAL_AND ( LINE_BREAK )* equalityExpression )*
             loop44:
             do {
                 int alt44=2;
@@ -3583,14 +3584,14 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt44) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:442:5: LOGICAL_AND ( LINE_BREAK )* equalityExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:442:5: LOGICAL_AND ( LINE_BREAK )* equalityExpression
             	    {
             	    LOGICAL_AND106=(Token)input.LT(1);
             	    match(input,LOGICAL_AND,FOLLOW_LOGICAL_AND_in_logicalAndExpression1451); 
             	    LOGICAL_AND106_tree = (Object)adaptor.create(LOGICAL_AND106);
             	    root_0 = (Object)adaptor.becomeRoot(LOGICAL_AND106_tree, root_0);
 
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:442:19: ( LINE_BREAK )*
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:442:19: ( LINE_BREAK )*
             	    loop43:
             	    do {
             	        int alt43=2;
@@ -3603,7 +3604,7 @@ public class Rubyv3Parser extends Parser {
 
             	        switch (alt43) {
             	    	case 1 :
-            	    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:442:20: LINE_BREAK
+            	    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:442:20: LINE_BREAK
             	    	    {
             	    	    LINE_BREAK107=(Token)input.LT(1);
             	    	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_logicalAndExpression1456); 
@@ -3655,7 +3656,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start equalityExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:448:1: equalityExpression : relationalExpression ( ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:448:1: equalityExpression : relationalExpression ( ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression )* ;
     public final equalityExpression_return equalityExpression() throws RecognitionException {
         equalityExpression_return retval = new equalityExpression_return();
         retval.start = input.LT(1);
@@ -3693,8 +3694,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK121_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:449:5: ( relationalExpression ( ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:449:5: relationalExpression ( ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:449:5: ( relationalExpression ( ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:449:5: relationalExpression ( ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -3703,22 +3704,49 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, relationalExpression109.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:450:25: ( ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:450:25: ( ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression )*
             loop52:
             do {
                 int alt52=2;
-                int LA52_0 = input.LA(1);
-
-                if ( ((LA52_0>=COMPARE && LA52_0<=MATCH)||(LA52_0>=NOT_EQUAL && LA52_0<=NOT_MATCH)) ) {
+                switch ( input.LA(1) ) {
+                case COMPARE:
+                    {
                     alt52=1;
-                }
+                    }
+                    break;
+                case EQUAL:
+                    {
+                    alt52=1;
+                    }
+                    break;
+                case CASE_EQUAL:
+                    {
+                    alt52=1;
+                    }
+                    break;
+                case NOT_EQUAL:
+                    {
+                    alt52=1;
+                    }
+                    break;
+                case MATCH:
+                    {
+                    alt52=1;
+                    }
+                    break;
+                case NOT_MATCH:
+                    {
+                    alt52=1;
+                    }
+                    break;
 
+                }
 
                 switch (alt52) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:5: ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:5: ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* ) relationalExpression
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:5: ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* )
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:5: ( COMPARE ( LINE_BREAK )* | EQUAL ( LINE_BREAK )* | CASE_EQUAL ( LINE_BREAK )* | NOT_EQUAL ( LINE_BREAK )* | MATCH ( LINE_BREAK )* | NOT_MATCH ( LINE_BREAK )* )
             	    int alt51=6;
             	    switch ( input.LA(1) ) {
             	    case COMPARE:
@@ -3760,14 +3788,14 @@ public class Rubyv3Parser extends Parser {
 
             	    switch (alt51) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:7: COMPARE ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:7: COMPARE ( LINE_BREAK )*
             	            {
             	            COMPARE110=(Token)input.LT(1);
             	            match(input,COMPARE,FOLLOW_COMPARE_in_equalityExpression1519); 
             	            COMPARE110_tree = (Object)adaptor.create(COMPARE110);
             	            root_0 = (Object)adaptor.becomeRoot(COMPARE110_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:17: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:17: ( LINE_BREAK )*
             	            loop45:
             	            do {
             	                int alt45=2;
@@ -3780,7 +3808,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt45) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:18: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:451:18: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK111=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_equalityExpression1524); 
@@ -3797,14 +3825,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:452:7: EQUAL ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:452:7: EQUAL ( LINE_BREAK )*
             	            {
             	            EQUAL112=(Token)input.LT(1);
             	            match(input,EQUAL,FOLLOW_EQUAL_in_equalityExpression1535); 
             	            EQUAL112_tree = (Object)adaptor.create(EQUAL112);
             	            root_0 = (Object)adaptor.becomeRoot(EQUAL112_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:452:16: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:452:16: ( LINE_BREAK )*
             	            loop46:
             	            do {
             	                int alt46=2;
@@ -3817,7 +3845,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt46) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:452:17: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:452:17: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK113=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_equalityExpression1541); 
@@ -3834,14 +3862,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 3 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:453:7: CASE_EQUAL ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:453:7: CASE_EQUAL ( LINE_BREAK )*
             	            {
             	            CASE_EQUAL114=(Token)input.LT(1);
             	            match(input,CASE_EQUAL,FOLLOW_CASE_EQUAL_in_equalityExpression1552); 
             	            CASE_EQUAL114_tree = (Object)adaptor.create(CASE_EQUAL114);
             	            root_0 = (Object)adaptor.becomeRoot(CASE_EQUAL114_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:453:19: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:453:19: ( LINE_BREAK )*
             	            loop47:
             	            do {
             	                int alt47=2;
@@ -3854,7 +3882,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt47) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:453:20: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:453:20: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK115=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_equalityExpression1556); 
@@ -3871,14 +3899,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 4 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:454:7: NOT_EQUAL ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:454:7: NOT_EQUAL ( LINE_BREAK )*
             	            {
             	            NOT_EQUAL116=(Token)input.LT(1);
             	            match(input,NOT_EQUAL,FOLLOW_NOT_EQUAL_in_equalityExpression1567); 
             	            NOT_EQUAL116_tree = (Object)adaptor.create(NOT_EQUAL116);
             	            root_0 = (Object)adaptor.becomeRoot(NOT_EQUAL116_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:454:19: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:454:19: ( LINE_BREAK )*
             	            loop48:
             	            do {
             	                int alt48=2;
@@ -3891,7 +3919,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt48) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:454:20: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:454:20: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK117=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_equalityExpression1572); 
@@ -3908,14 +3936,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 5 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:455:7: MATCH ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:455:7: MATCH ( LINE_BREAK )*
             	            {
             	            MATCH118=(Token)input.LT(1);
             	            match(input,MATCH,FOLLOW_MATCH_in_equalityExpression1583); 
             	            MATCH118_tree = (Object)adaptor.create(MATCH118);
             	            root_0 = (Object)adaptor.becomeRoot(MATCH118_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:455:16: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:455:16: ( LINE_BREAK )*
             	            loop49:
             	            do {
             	                int alt49=2;
@@ -3928,7 +3956,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt49) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:455:17: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:455:17: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK119=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_equalityExpression1589); 
@@ -3945,14 +3973,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 6 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:456:7: NOT_MATCH ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:456:7: NOT_MATCH ( LINE_BREAK )*
             	            {
             	            NOT_MATCH120=(Token)input.LT(1);
             	            match(input,NOT_MATCH,FOLLOW_NOT_MATCH_in_equalityExpression1600); 
             	            NOT_MATCH120_tree = (Object)adaptor.create(NOT_MATCH120);
             	            root_0 = (Object)adaptor.becomeRoot(NOT_MATCH120_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:456:19: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:456:19: ( LINE_BREAK )*
             	            loop50:
             	            do {
             	                int alt50=2;
@@ -3965,7 +3993,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt50) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:456:20: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:456:20: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK121=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_equalityExpression1605); 
@@ -4023,7 +4051,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start relationalExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:464:1: relationalExpression : orExpression ( ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:464:1: relationalExpression : orExpression ( ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression )* ;
     public final relationalExpression_return relationalExpression() throws RecognitionException {
         relationalExpression_return retval = new relationalExpression_return();
         retval.start = input.LT(1);
@@ -4053,8 +4081,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK131_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:465:5: ( orExpression ( ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:465:5: orExpression ( ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:465:5: ( orExpression ( ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:465:5: orExpression ( ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -4063,22 +4091,39 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, orExpression123.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:466:25: ( ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:466:25: ( ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression )*
             loop58:
             do {
                 int alt58=2;
-                int LA58_0 = input.LA(1);
-
-                if ( ((LA58_0>=GREATER_THAN && LA58_0<=LESS_OR_EQUAL)) ) {
+                switch ( input.LA(1) ) {
+                case LESS_THAN:
+                    {
                     alt58=1;
-                }
+                    }
+                    break;
+                case GREATER_THAN:
+                    {
+                    alt58=1;
+                    }
+                    break;
+                case LESS_OR_EQUAL:
+                    {
+                    alt58=1;
+                    }
+                    break;
+                case GREATER_OR_EQUAL:
+                    {
+                    alt58=1;
+                    }
+                    break;
 
+                }
 
                 switch (alt58) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:5: ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:5: ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* ) orExpression
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:5: ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* )
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:5: ( LESS_THAN ( LINE_BREAK )* | GREATER_THAN ( LINE_BREAK )* | LESS_OR_EQUAL ( LINE_BREAK )* | GREATER_OR_EQUAL ( LINE_BREAK )* )
             	    int alt57=4;
             	    switch ( input.LA(1) ) {
             	    case LESS_THAN:
@@ -4110,14 +4155,14 @@ public class Rubyv3Parser extends Parser {
 
             	    switch (alt57) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:7: LESS_THAN ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:7: LESS_THAN ( LINE_BREAK )*
             	            {
             	            LESS_THAN124=(Token)input.LT(1);
             	            match(input,LESS_THAN,FOLLOW_LESS_THAN_in_relationalExpression1675); 
             	            LESS_THAN124_tree = (Object)adaptor.create(LESS_THAN124);
             	            root_0 = (Object)adaptor.becomeRoot(LESS_THAN124_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:20: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:20: ( LINE_BREAK )*
             	            loop53:
             	            do {
             	                int alt53=2;
@@ -4130,7 +4175,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt53) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:21: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:467:21: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK125=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_relationalExpression1681); 
@@ -4147,14 +4192,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:468:7: GREATER_THAN ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:468:7: GREATER_THAN ( LINE_BREAK )*
             	            {
             	            GREATER_THAN126=(Token)input.LT(1);
             	            match(input,GREATER_THAN,FOLLOW_GREATER_THAN_in_relationalExpression1692); 
             	            GREATER_THAN126_tree = (Object)adaptor.create(GREATER_THAN126);
             	            root_0 = (Object)adaptor.becomeRoot(GREATER_THAN126_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:468:22: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:468:22: ( LINE_BREAK )*
             	            loop54:
             	            do {
             	                int alt54=2;
@@ -4167,7 +4212,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt54) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:468:23: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:468:23: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK127=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_relationalExpression1697); 
@@ -4184,14 +4229,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 3 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:469:7: LESS_OR_EQUAL ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:469:7: LESS_OR_EQUAL ( LINE_BREAK )*
             	            {
             	            LESS_OR_EQUAL128=(Token)input.LT(1);
             	            match(input,LESS_OR_EQUAL,FOLLOW_LESS_OR_EQUAL_in_relationalExpression1708); 
             	            LESS_OR_EQUAL128_tree = (Object)adaptor.create(LESS_OR_EQUAL128);
             	            root_0 = (Object)adaptor.becomeRoot(LESS_OR_EQUAL128_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:469:23: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:469:23: ( LINE_BREAK )*
             	            loop55:
             	            do {
             	                int alt55=2;
@@ -4204,7 +4249,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt55) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:469:24: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:469:24: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK129=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_relationalExpression1713); 
@@ -4221,14 +4266,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 4 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:470:7: GREATER_OR_EQUAL ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:470:7: GREATER_OR_EQUAL ( LINE_BREAK )*
             	            {
             	            GREATER_OR_EQUAL130=(Token)input.LT(1);
             	            match(input,GREATER_OR_EQUAL,FOLLOW_GREATER_OR_EQUAL_in_relationalExpression1724); 
             	            GREATER_OR_EQUAL130_tree = (Object)adaptor.create(GREATER_OR_EQUAL130);
             	            root_0 = (Object)adaptor.becomeRoot(GREATER_OR_EQUAL130_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:470:25: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:470:25: ( LINE_BREAK )*
             	            loop56:
             	            do {
             	                int alt56=2;
@@ -4241,7 +4286,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt56) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:470:26: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:470:26: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK131=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_relationalExpression1728); 
@@ -4299,7 +4344,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start orExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:477:1: orExpression : andExpression ( ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:477:1: orExpression : andExpression ( ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression )* ;
     public final orExpression_return orExpression() throws RecognitionException {
         orExpression_return retval = new orExpression_return();
         retval.start = input.LT(1);
@@ -4321,8 +4366,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK137_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:478:5: ( andExpression ( ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:478:5: andExpression ( ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:478:5: ( andExpression ( ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:478:5: andExpression ( ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -4331,22 +4376,25 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, andExpression133.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:479:25: ( ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:479:25: ( ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression )*
             loop62:
             do {
                 int alt62=2;
                 int LA62_0 = input.LA(1);
 
-                if ( ((LA62_0>=BXOR && LA62_0<=BOR)) ) {
+                if ( (LA62_0==BXOR) ) {
+                    alt62=1;
+                }
+                else if ( (LA62_0==BOR) ) {
                     alt62=1;
                 }
 
 
                 switch (alt62) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:5: ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:5: ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* ) andExpression
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:5: ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* )
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:5: ( BXOR ( LINE_BREAK )* | BOR ( LINE_BREAK )* )
             	    int alt61=2;
             	    int LA61_0 = input.LA(1);
 
@@ -4364,14 +4412,14 @@ public class Rubyv3Parser extends Parser {
             	    }
             	    switch (alt61) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:7: BXOR ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:7: BXOR ( LINE_BREAK )*
             	            {
             	            BXOR134=(Token)input.LT(1);
             	            match(input,BXOR,FOLLOW_BXOR_in_orExpression1797); 
             	            BXOR134_tree = (Object)adaptor.create(BXOR134);
             	            root_0 = (Object)adaptor.becomeRoot(BXOR134_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:15: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:15: ( LINE_BREAK )*
             	            loop59:
             	            do {
             	                int alt59=2;
@@ -4384,7 +4432,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt59) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:16: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:480:16: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK135=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_orExpression1803); 
@@ -4401,14 +4449,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:481:7: BOR ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:481:7: BOR ( LINE_BREAK )*
             	            {
             	            BOR136=(Token)input.LT(1);
             	            match(input,BOR,FOLLOW_BOR_in_orExpression1814); 
             	            BOR136_tree = (Object)adaptor.create(BOR136);
             	            root_0 = (Object)adaptor.becomeRoot(BOR136_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:481:14: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:481:14: ( LINE_BREAK )*
             	            loop60:
             	            do {
             	                int alt60=2;
@@ -4421,7 +4469,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt60) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:481:15: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:481:15: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK137=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_orExpression1820); 
@@ -4479,7 +4527,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start andExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:488:1: andExpression : shiftExpression ( BAND ( LINE_BREAK )* shiftExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:488:1: andExpression : shiftExpression ( BAND ( LINE_BREAK )* shiftExpression )* ;
     public final andExpression_return andExpression() throws RecognitionException {
         andExpression_return retval = new andExpression_return();
         retval.start = input.LT(1);
@@ -4497,8 +4545,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK141_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:489:5: ( shiftExpression ( BAND ( LINE_BREAK )* shiftExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:489:5: shiftExpression ( BAND ( LINE_BREAK )* shiftExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:489:5: ( shiftExpression ( BAND ( LINE_BREAK )* shiftExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:489:5: shiftExpression ( BAND ( LINE_BREAK )* shiftExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -4507,7 +4555,7 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, shiftExpression139.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:490:25: ( BAND ( LINE_BREAK )* shiftExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:490:25: ( BAND ( LINE_BREAK )* shiftExpression )*
             loop64:
             do {
                 int alt64=2;
@@ -4520,14 +4568,14 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt64) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:491:5: BAND ( LINE_BREAK )* shiftExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:491:5: BAND ( LINE_BREAK )* shiftExpression
             	    {
             	    BAND140=(Token)input.LT(1);
             	    match(input,BAND,FOLLOW_BAND_in_andExpression1887); 
             	    BAND140_tree = (Object)adaptor.create(BAND140);
             	    root_0 = (Object)adaptor.becomeRoot(BAND140_tree, root_0);
 
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:491:13: ( LINE_BREAK )*
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:491:13: ( LINE_BREAK )*
             	    loop63:
             	    do {
             	        int alt63=2;
@@ -4540,7 +4588,7 @@ public class Rubyv3Parser extends Parser {
 
             	        switch (alt63) {
             	    	case 1 :
-            	    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:491:14: LINE_BREAK
+            	    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:491:14: LINE_BREAK
             	    	    {
             	    	    LINE_BREAK141=(Token)input.LT(1);
             	    	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_andExpression1893); 
@@ -4592,7 +4640,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start shiftExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:499:1: shiftExpression : additiveExpression ( ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:499:1: shiftExpression : additiveExpression ( ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression )* ;
     public final shiftExpression_return shiftExpression() throws RecognitionException {
         shiftExpression_return retval = new shiftExpression_return();
         retval.start = input.LT(1);
@@ -4614,8 +4662,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK147_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:500:5: ( additiveExpression ( ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:500:5: additiveExpression ( ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:500:5: ( additiveExpression ( ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:500:5: additiveExpression ( ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -4624,22 +4672,25 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, additiveExpression143.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:501:25: ( ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:501:25: ( ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression )*
             loop68:
             do {
                 int alt68=2;
                 int LA68_0 = input.LA(1);
 
-                if ( (LA68_0==LEFT_SHIFT||LA68_0==RIGHT_SHIFT) ) {
+                if ( (LA68_0==LEFT_SHIFT) ) {
+                    alt68=1;
+                }
+                else if ( (LA68_0==RIGHT_SHIFT) ) {
                     alt68=1;
                 }
 
 
                 switch (alt68) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:5: ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:5: ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* ) additiveExpression
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:5: ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* )
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:5: ( LEFT_SHIFT ( LINE_BREAK )* | RIGHT_SHIFT ( LINE_BREAK )* )
             	    int alt67=2;
             	    int LA67_0 = input.LA(1);
 
@@ -4657,14 +4708,14 @@ public class Rubyv3Parser extends Parser {
             	    }
             	    switch (alt67) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:7: LEFT_SHIFT ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:7: LEFT_SHIFT ( LINE_BREAK )*
             	            {
             	            LEFT_SHIFT144=(Token)input.LT(1);
             	            match(input,LEFT_SHIFT,FOLLOW_LEFT_SHIFT_in_shiftExpression1958); 
             	            LEFT_SHIFT144_tree = (Object)adaptor.create(LEFT_SHIFT144);
             	            root_0 = (Object)adaptor.becomeRoot(LEFT_SHIFT144_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:20: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:20: ( LINE_BREAK )*
             	            loop65:
             	            do {
             	                int alt65=2;
@@ -4677,7 +4728,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt65) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:21: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:502:21: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK145=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_shiftExpression1963); 
@@ -4694,14 +4745,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:503:7: RIGHT_SHIFT ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:503:7: RIGHT_SHIFT ( LINE_BREAK )*
             	            {
             	            RIGHT_SHIFT146=(Token)input.LT(1);
             	            match(input,RIGHT_SHIFT,FOLLOW_RIGHT_SHIFT_in_shiftExpression1974); 
             	            RIGHT_SHIFT146_tree = (Object)adaptor.create(RIGHT_SHIFT146);
             	            root_0 = (Object)adaptor.becomeRoot(RIGHT_SHIFT146_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:503:20: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:503:20: ( LINE_BREAK )*
             	            loop66:
             	            do {
             	                int alt66=2;
@@ -4714,7 +4765,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt66) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:503:21: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:503:21: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK147=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_shiftExpression1978); 
@@ -4772,7 +4823,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start additiveExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:512:1: additiveExpression : multiplicativeExpression ( ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:512:1: additiveExpression : multiplicativeExpression ( ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression )* ;
     public final additiveExpression_return additiveExpression() throws RecognitionException {
         additiveExpression_return retval = new additiveExpression_return();
         retval.start = input.LT(1);
@@ -4794,8 +4845,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK153_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:513:5: ( multiplicativeExpression ( ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:513:5: multiplicativeExpression ( ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:513:5: ( multiplicativeExpression ( ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:513:5: multiplicativeExpression ( ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -4804,22 +4855,25 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, multiplicativeExpression149.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:514:25: ( ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:514:25: ( ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression )*
             loop72:
             do {
                 int alt72=2;
                 int LA72_0 = input.LA(1);
 
-                if ( ((LA72_0>=PLUS && LA72_0<=MINUS)) ) {
+                if ( (LA72_0==PLUS) ) {
+                    alt72=1;
+                }
+                else if ( (LA72_0==MINUS) ) {
                     alt72=1;
                 }
 
 
                 switch (alt72) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:5: ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:5: ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* ) multiplicativeExpression
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:5: ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* )
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:5: ( PLUS ( LINE_BREAK )* | MINUS ( LINE_BREAK )* )
             	    int alt71=2;
             	    int LA71_0 = input.LA(1);
 
@@ -4837,14 +4891,14 @@ public class Rubyv3Parser extends Parser {
             	    }
             	    switch (alt71) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:7: PLUS ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:7: PLUS ( LINE_BREAK )*
             	            {
             	            PLUS150=(Token)input.LT(1);
             	            match(input,PLUS,FOLLOW_PLUS_in_additiveExpression2049); 
             	            PLUS150_tree = (Object)adaptor.create(PLUS150);
             	            root_0 = (Object)adaptor.becomeRoot(PLUS150_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:16: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:16: ( LINE_BREAK )*
             	            loop69:
             	            do {
             	                int alt69=2;
@@ -4857,7 +4911,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt69) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:17: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:515:17: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK151=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_additiveExpression2056); 
@@ -4874,14 +4928,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:516:7: MINUS ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:516:7: MINUS ( LINE_BREAK )*
             	            {
             	            MINUS152=(Token)input.LT(1);
             	            match(input,MINUS,FOLLOW_MINUS_in_additiveExpression2067); 
             	            MINUS152_tree = (Object)adaptor.create(MINUS152);
             	            root_0 = (Object)adaptor.becomeRoot(MINUS152_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:516:17: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:516:17: ( LINE_BREAK )*
             	            loop70:
             	            do {
             	                int alt70=2;
@@ -4894,7 +4948,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt70) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:516:18: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:516:18: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK153=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_additiveExpression2074); 
@@ -4952,7 +5006,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start multiplicativeExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:523:1: multiplicativeExpression : powerExpression ( ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:523:1: multiplicativeExpression : powerExpression ( ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression )* ;
     public final multiplicativeExpression_return multiplicativeExpression() throws RecognitionException {
         multiplicativeExpression_return retval = new multiplicativeExpression_return();
         retval.start = input.LT(1);
@@ -4978,8 +5032,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK161_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:524:5: ( powerExpression ( ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:524:5: powerExpression ( ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:524:5: ( powerExpression ( ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:524:5: powerExpression ( ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -4988,22 +5042,34 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, powerExpression155.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:525:25: ( ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:525:25: ( ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression )*
             loop77:
             do {
                 int alt77=2;
-                int LA77_0 = input.LA(1);
-
-                if ( ((LA77_0>=DIV && LA77_0<=MOD)||LA77_0==STAR) ) {
+                switch ( input.LA(1) ) {
+                case STAR:
+                    {
                     alt77=1;
-                }
+                    }
+                    break;
+                case DIV:
+                    {
+                    alt77=1;
+                    }
+                    break;
+                case MOD:
+                    {
+                    alt77=1;
+                    }
+                    break;
 
+                }
 
                 switch (alt77) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:5: ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:5: ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* ) powerExpression
             	    {
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:5: ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* )
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:5: ( STAR ( LINE_BREAK )* | DIV ( LINE_BREAK )* | MOD ( LINE_BREAK )* )
             	    int alt76=3;
             	    switch ( input.LA(1) ) {
             	    case STAR:
@@ -5030,14 +5096,14 @@ public class Rubyv3Parser extends Parser {
 
             	    switch (alt76) {
             	        case 1 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:7: STAR ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:7: STAR ( LINE_BREAK )*
             	            {
             	            STAR156=(Token)input.LT(1);
             	            match(input,STAR,FOLLOW_STAR_in_multiplicativeExpression2143); 
             	            STAR156_tree = (Object)adaptor.create(STAR156);
             	            root_0 = (Object)adaptor.becomeRoot(STAR156_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:15: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:15: ( LINE_BREAK )*
             	            loop73:
             	            do {
             	                int alt73=2;
@@ -5050,7 +5116,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt73) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:16: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:526:16: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK157=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_multiplicativeExpression2149); 
@@ -5067,14 +5133,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:527:7: DIV ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:527:7: DIV ( LINE_BREAK )*
             	            {
             	            DIV158=(Token)input.LT(1);
             	            match(input,DIV,FOLLOW_DIV_in_multiplicativeExpression2160); 
             	            DIV158_tree = (Object)adaptor.create(DIV158);
             	            root_0 = (Object)adaptor.becomeRoot(DIV158_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:527:14: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:527:14: ( LINE_BREAK )*
             	            loop74:
             	            do {
             	                int alt74=2;
@@ -5087,7 +5153,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt74) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:527:15: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:527:15: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK159=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_multiplicativeExpression2166); 
@@ -5104,14 +5170,14 @@ public class Rubyv3Parser extends Parser {
             	            }
             	            break;
             	        case 3 :
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:7: MOD ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:7: MOD ( LINE_BREAK )*
             	            {
             	            MOD160=(Token)input.LT(1);
             	            match(input,MOD,FOLLOW_MOD_in_multiplicativeExpression2177); 
             	            MOD160_tree = (Object)adaptor.create(MOD160);
             	            root_0 = (Object)adaptor.becomeRoot(MOD160_tree, root_0);
 
-            	            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:14: ( LINE_BREAK )*
+            	            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:14: ( LINE_BREAK )*
             	            loop75:
             	            do {
             	                int alt75=2;
@@ -5124,7 +5190,7 @@ public class Rubyv3Parser extends Parser {
 
             	                switch (alt75) {
             	            	case 1 :
-            	            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:15: LINE_BREAK
+            	            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:528:15: LINE_BREAK
             	            	    {
             	            	    LINE_BREAK161=(Token)input.LT(1);
             	            	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_multiplicativeExpression2183); 
@@ -5182,7 +5248,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start powerExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:536:1: powerExpression : bnotExpression ( POWER ( LINE_BREAK )* bnotExpression )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:536:1: powerExpression : bnotExpression ( POWER ( LINE_BREAK )* bnotExpression )* ;
     public final powerExpression_return powerExpression() throws RecognitionException {
         powerExpression_return retval = new powerExpression_return();
         retval.start = input.LT(1);
@@ -5200,8 +5266,8 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK165_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:537:5: ( bnotExpression ( POWER ( LINE_BREAK )* bnotExpression )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:537:5: bnotExpression ( POWER ( LINE_BREAK )* bnotExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:537:5: ( bnotExpression ( POWER ( LINE_BREAK )* bnotExpression )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:537:5: bnotExpression ( POWER ( LINE_BREAK )* bnotExpression )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -5210,7 +5276,7 @@ public class Rubyv3Parser extends Parser {
             _fsp--;
 
             adaptor.addChild(root_0, bnotExpression163.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:538:25: ( POWER ( LINE_BREAK )* bnotExpression )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:538:25: ( POWER ( LINE_BREAK )* bnotExpression )*
             loop79:
             do {
                 int alt79=2;
@@ -5223,14 +5289,14 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt79) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:539:5: POWER ( LINE_BREAK )* bnotExpression
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:539:5: POWER ( LINE_BREAK )* bnotExpression
             	    {
             	    POWER164=(Token)input.LT(1);
             	    match(input,POWER,FOLLOW_POWER_in_powerExpression2254); 
             	    POWER164_tree = (Object)adaptor.create(POWER164);
             	    root_0 = (Object)adaptor.becomeRoot(POWER164_tree, root_0);
 
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:539:14: ( LINE_BREAK )*
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:539:14: ( LINE_BREAK )*
             	    loop78:
             	    do {
             	        int alt78=2;
@@ -5243,7 +5309,7 @@ public class Rubyv3Parser extends Parser {
 
             	        switch (alt78) {
             	    	case 1 :
-            	    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:539:15: LINE_BREAK
+            	    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:539:15: LINE_BREAK
             	    	    {
             	    	    LINE_BREAK165=(Token)input.LT(1);
             	    	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_powerExpression2260); 
@@ -5295,7 +5361,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start bnotExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:545:1: bnotExpression : ( BNOT ( LINE_BREAK )* | NOT ( LINE_BREAK )* )* command ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:545:1: bnotExpression : ( BNOT ( LINE_BREAK )* | NOT ( LINE_BREAK )* )* command ;
     public final bnotExpression_return bnotExpression() throws RecognitionException {
         bnotExpression_return retval = new bnotExpression_return();
         retval.start = input.LT(1);
@@ -5315,12 +5381,12 @@ public class Rubyv3Parser extends Parser {
         Object LINE_BREAK170_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:5: ( ( BNOT ( LINE_BREAK )* | NOT ( LINE_BREAK )* )* command )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:5: ( BNOT ( LINE_BREAK )* | NOT ( LINE_BREAK )* )* command
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:5: ( ( BNOT ( LINE_BREAK )* | NOT ( LINE_BREAK )* )* command )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:5: ( BNOT ( LINE_BREAK )* | NOT ( LINE_BREAK )* )* command
             {
             root_0 = (Object)adaptor.nil();
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:5: ( BNOT ( LINE_BREAK )* | NOT ( LINE_BREAK )* )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:5: ( BNOT ( LINE_BREAK )* | NOT ( LINE_BREAK )* )*
             loop82:
             do {
                 int alt82=3;
@@ -5336,14 +5402,14 @@ public class Rubyv3Parser extends Parser {
 
                 switch (alt82) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:7: BNOT ( LINE_BREAK )*
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:7: BNOT ( LINE_BREAK )*
             	    {
             	    BNOT167=(Token)input.LT(1);
             	    match(input,BNOT,FOLLOW_BNOT_in_bnotExpression2291); 
             	    BNOT167_tree = (Object)adaptor.create(BNOT167);
             	    root_0 = (Object)adaptor.becomeRoot(BNOT167_tree, root_0);
 
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:15: ( LINE_BREAK )*
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:15: ( LINE_BREAK )*
             	    loop80:
             	    do {
             	        int alt80=2;
@@ -5356,7 +5422,7 @@ public class Rubyv3Parser extends Parser {
 
             	        switch (alt80) {
             	    	case 1 :
-            	    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:16: LINE_BREAK
+            	    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:546:16: LINE_BREAK
             	    	    {
             	    	    LINE_BREAK168=(Token)input.LT(1);
             	    	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_bnotExpression2297); 
@@ -5373,14 +5439,14 @@ public class Rubyv3Parser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:547:6: NOT ( LINE_BREAK )*
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:547:6: NOT ( LINE_BREAK )*
             	    {
             	    NOT169=(Token)input.LT(1);
             	    match(input,NOT,FOLLOW_NOT_in_bnotExpression2307); 
             	    NOT169_tree = (Object)adaptor.create(NOT169);
             	    root_0 = (Object)adaptor.becomeRoot(NOT169_tree, root_0);
 
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:547:13: ( LINE_BREAK )*
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:547:13: ( LINE_BREAK )*
             	    loop81:
             	    do {
             	        int alt81=2;
@@ -5393,7 +5459,7 @@ public class Rubyv3Parser extends Parser {
 
             	        switch (alt81) {
             	    	case 1 :
-            	    	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:547:14: LINE_BREAK
+            	    	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:547:14: LINE_BREAK
             	    	    {
             	    	    LINE_BREAK170=(Token)input.LT(1);
             	    	    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_bnotExpression2313); 
@@ -5445,7 +5511,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start command
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:551:1: command : ( 'expression0' | 'expression1' | 'expression2' | literal | boolean_expression | block_expression | if_expression | unless_expression | atom ) ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:551:1: command : ( 'expression0' | 'expression1' | 'expression2' | literal | boolean_expression | block_expression | if_expression | unless_expression | atom ) ;
     public final command_return command() throws RecognitionException {
         command_return retval = new command_return();
         retval.start = input.LT(1);
@@ -5473,12 +5539,12 @@ public class Rubyv3Parser extends Parser {
         Object string_literal174_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:3: ( ( 'expression0' | 'expression1' | 'expression2' | literal | boolean_expression | block_expression | if_expression | unless_expression | atom ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:3: ( 'expression0' | 'expression1' | 'expression2' | literal | boolean_expression | block_expression | if_expression | unless_expression | atom )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:3: ( ( 'expression0' | 'expression1' | 'expression2' | literal | boolean_expression | block_expression | if_expression | unless_expression | atom ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:3: ( 'expression0' | 'expression1' | 'expression2' | literal | boolean_expression | block_expression | if_expression | unless_expression | atom )
             {
             root_0 = (Object)adaptor.nil();
 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:3: ( 'expression0' | 'expression1' | 'expression2' | literal | boolean_expression | block_expression | if_expression | unless_expression | atom )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:3: ( 'expression0' | 'expression1' | 'expression2' | literal | boolean_expression | block_expression | if_expression | unless_expression | atom )
             int alt83=9;
             switch ( input.LA(1) ) {
             case 132:
@@ -5531,8 +5597,6 @@ public class Rubyv3Parser extends Parser {
                 alt83=8;
                 }
                 break;
-            case CONSTANT:
-            case FID:
             case ID:
                 {
                 alt83=9;
@@ -5547,7 +5611,7 @@ public class Rubyv3Parser extends Parser {
 
             switch (alt83) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:4: 'expression0'
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:4: 'expression0'
                     {
                     string_literal172=(Token)input.LT(1);
                     match(input,132,FOLLOW_132_in_command2339); 
@@ -5558,7 +5622,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:20: 'expression1'
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:20: 'expression1'
                     {
                     string_literal173=(Token)input.LT(1);
                     match(input,133,FOLLOW_133_in_command2343); 
@@ -5569,7 +5633,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:36: 'expression2'
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:36: 'expression2'
                     {
                     string_literal174=(Token)input.LT(1);
                     match(input,134,FOLLOW_134_in_command2347); 
@@ -5580,7 +5644,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:50: literal
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:50: literal
                     {
                     pushFollow(FOLLOW_literal_in_command2349);
                     literal175=literal();
@@ -5591,7 +5655,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 5 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:58: boolean_expression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:58: boolean_expression
                     {
                     pushFollow(FOLLOW_boolean_expression_in_command2351);
                     boolean_expression176=boolean_expression();
@@ -5602,7 +5666,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 6 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:78: block_expression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:78: block_expression
                     {
                     pushFollow(FOLLOW_block_expression_in_command2354);
                     block_expression177=block_expression();
@@ -5613,7 +5677,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 7 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:95: if_expression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:95: if_expression
                     {
                     pushFollow(FOLLOW_if_expression_in_command2356);
                     if_expression178=if_expression();
@@ -5624,7 +5688,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 8 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:109: unless_expression
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:109: unless_expression
                     {
                     pushFollow(FOLLOW_unless_expression_in_command2358);
                     unless_expression179=unless_expression();
@@ -5635,7 +5699,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 9 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:127: atom
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:553:127: atom
                     {
                     pushFollow(FOLLOW_atom_in_command2360);
                     atom180=atom();
@@ -5673,7 +5737,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start atom
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:555:1: atom : methodExpression ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:555:1: atom : methodExpression ;
     public final atom_return atom() throws RecognitionException {
         atom_return retval = new atom_return();
         retval.start = input.LT(1);
@@ -5685,8 +5749,8 @@ public class Rubyv3Parser extends Parser {
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:555:8: ( methodExpression )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:555:8: methodExpression
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:555:8: ( methodExpression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:555:8: methodExpression
             {
             root_0 = (Object)adaptor.nil();
 
@@ -5720,7 +5784,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start methodExpression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:556:1: methodExpression : ( variable | method );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:556:1: methodExpression : ( variable | method );
     public final methodExpression_return methodExpression() throws RecognitionException {
         methodExpression_return retval = new methodExpression_return();
         retval.start = input.LT(1);
@@ -5734,7 +5798,7 @@ public class Rubyv3Parser extends Parser {
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:9: ( variable | method )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:9: ( variable | method )
             int alt84=2;
             int LA84_0 = input.LA(1);
 
@@ -5754,9 +5818,6 @@ public class Rubyv3Parser extends Parser {
                     throw nvae;
                 }
             }
-            else if ( ((LA84_0>=CONSTANT && LA84_0<=FID)) ) {
-                alt84=2;
-            }
             else {
                 NoViableAltException nvae =
                     new NoViableAltException("556:1: methodExpression : ( variable | method );", 84, 0, input);
@@ -5765,7 +5826,7 @@ public class Rubyv3Parser extends Parser {
             }
             switch (alt84) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:9: variable
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:9: variable
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -5778,7 +5839,7 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:18: method
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:557:18: method
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -5814,7 +5875,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start variable
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:558:1: variable : {...}? ID -> ^( VARIABLE ID ) ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:558:1: variable : {...}? ID -> ^( VARIABLE ID ) ;
     public final variable_return variable() throws RecognitionException {
         variable_return retval = new variable_return();
         retval.start = input.LT(1);
@@ -5827,8 +5888,8 @@ public class Rubyv3Parser extends Parser {
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:558:11: ({...}? ID -> ^( VARIABLE ID ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:558:11: {...}? ID
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:558:11: ({...}? ID -> ^( VARIABLE ID ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:558:11: {...}? ID
             {
             if ( !(isDefinedVar(input.LT(1).getText())) ) {
                 throw new FailedPredicateException(input, "variable", "isDefinedVar(input.LT(1).getText())");
@@ -5850,7 +5911,7 @@ public class Rubyv3Parser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 558:53: -> ^( VARIABLE ID )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:558:56: ^( VARIABLE ID )
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:558:56: ^( VARIABLE ID )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot(adaptor.create(VARIABLE, "VARIABLE"), root_1);
@@ -5888,7 +5949,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start method
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:559:1: method : ({...}? ID -> ^( CALL ID ) | command_call -> ^( CALL command_call ) );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:559:1: method : ({...}? ID -> ^( CALL ID ) | ID open_args -> ^( CALL ID open_args ) );
     public final method_return method() throws RecognitionException {
         method_return retval = new method_return();
         retval.start = input.LT(1);
@@ -5896,45 +5957,21 @@ public class Rubyv3Parser extends Parser {
         Object root_0 = null;
 
         Token ID185=null;
-        command_call_return command_call186 = null;
+        Token ID186=null;
+        open_args_return open_args187 = null;
 
 
         Object ID185_tree=null;
+        Object ID186_tree=null;
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
-        RewriteRuleSubtreeStream stream_command_call=new RewriteRuleSubtreeStream(adaptor,"rule command_call");
+        RewriteRuleSubtreeStream stream_open_args=new RewriteRuleSubtreeStream(adaptor,"rule open_args");
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:559:10: ({...}? ID -> ^( CALL ID ) | command_call -> ^( CALL command_call ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:559:10: ({...}? ID -> ^( CALL ID ) | ID open_args -> ^( CALL ID open_args ) )
             int alt85=2;
-            int LA85_0 = input.LA(1);
-
-            if ( (LA85_0==ID) ) {
-                int LA85_1 = input.LA(2);
-
-                if ( (LA85_1==EOF||LA85_1==LEFT_SHIFT||(LA85_1>=DIV && LA85_1<=LINE_BREAK)||(LA85_1>=COMPARE && LA85_1<=POWER)||(LA85_1>=QUESTION && LA85_1<=BAND)||LA85_1==RCURLY||LA85_1==ASSOC||LA85_1==RPAREN||(LA85_1>=COMMA && LA85_1<=COLON)||LA85_1==118||(LA85_1>=122 && LA85_1<=124)||(LA85_1>=128 && LA85_1<=129)) ) {
-                    alt85=1;
-                }
-                else if ( (LA85_1==LPAREN) ) {
-                    alt85=2;
-                }
-                else {
-                    NoViableAltException nvae =
-                        new NoViableAltException("559:1: method : ({...}? ID -> ^( CALL ID ) | command_call -> ^( CALL command_call ) );", 85, 1, input);
-
-                    throw nvae;
-                }
-            }
-            else if ( ((LA85_0>=CONSTANT && LA85_0<=FID)) ) {
-                alt85=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("559:1: method : ({...}? ID -> ^( CALL ID ) | command_call -> ^( CALL command_call ) );", 85, 0, input);
-
-                throw nvae;
-            }
+            alt85 = dfa85.predict(input);
             switch (alt85) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:559:10: {...}? ID
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:559:10: {...}? ID
                     {
                     if ( !(!isDefinedVar(input.LT(1).getText())) ) {
                         throw new FailedPredicateException(input, "method", "!isDefinedVar(input.LT(1).getText())");
@@ -5956,7 +5993,7 @@ public class Rubyv3Parser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 559:53: -> ^( CALL ID )
                     {
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:559:56: ^( CALL ID )
+                        // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:559:56: ^( CALL ID )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot(adaptor.create(CALL, "CALL"), root_1);
@@ -5973,16 +6010,20 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:4: command_call
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:17: ID open_args
                     {
-                    pushFollow(FOLLOW_command_call_in_method2424);
-                    command_call186=command_call();
+                    ID186=(Token)input.LT(1);
+                    match(input,ID,FOLLOW_ID_in_method2437); 
+                    stream_ID.add(ID186);
+
+                    pushFollow(FOLLOW_open_args_in_method2439);
+                    open_args187=open_args();
                     _fsp--;
 
-                    stream_command_call.add(command_call186.getTree());
+                    stream_open_args.add(open_args187.getTree());
 
                     // AST REWRITE
-                    // elements: command_call
+                    // elements: ID, open_args
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -5991,14 +6032,15 @@ public class Rubyv3Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 560:17: -> ^( CALL command_call )
+                    // 560:30: -> ^( CALL ID open_args )
                     {
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:20: ^( CALL command_call )
+                        // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:560:33: ^( CALL ID open_args )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot(adaptor.create(CALL, "CALL"), root_1);
 
-                        adaptor.addChild(root_1, stream_command_call.next());
+                        adaptor.addChild(root_1, stream_ID.next());
+                        adaptor.addChild(root_1, stream_open_args.next());
 
                         adaptor.addChild(root_0, root_1);
                         }
@@ -6033,28 +6075,28 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start command_call
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:562:1: command_call : command1 ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:562:1: command_call : command1 ;
     public final command_call_return command_call() throws RecognitionException {
         command_call_return retval = new command_call_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        command1_return command1187 = null;
+        command1_return command1188 = null;
 
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:563:4: ( command1 )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:563:4: command1
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:563:4: ( command1 )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:563:4: command1
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_command1_in_command_call2442);
-            command1187=command1();
+            pushFollow(FOLLOW_command1_in_command_call2459);
+            command1188=command1();
             _fsp--;
 
-            adaptor.addChild(root_0, command1187.getTree());
+            adaptor.addChild(root_0, command1188.getTree());
 
             }
 
@@ -6080,35 +6122,41 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start command1
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:1: command1 : operation1 command_args ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:1: command1 : operation1 ( command_args ) ;
     public final command1_return command1() throws RecognitionException {
         command1_return retval = new command1_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        operation1_return operation1188 = null;
+        operation1_return operation1189 = null;
 
-        command_args_return command_args189 = null;
+        command_args_return command_args190 = null;
 
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:11: ( operation1 command_args )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:11: operation1 command_args
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:11: ( operation1 ( command_args ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:11: operation1 ( command_args )
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_operation1_in_command12454);
-            operation1188=operation1();
+            pushFollow(FOLLOW_operation1_in_command12471);
+            operation1189=operation1();
             _fsp--;
 
-            adaptor.addChild(root_0, operation1188.getTree());
-            pushFollow(FOLLOW_command_args_in_command12456);
-            command_args189=command_args();
+            adaptor.addChild(root_0, operation1189.getTree());
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:22: ( command_args )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:567:23: command_args
+            {
+            pushFollow(FOLLOW_command_args_in_command12474);
+            command_args190=command_args();
             _fsp--;
 
-            adaptor.addChild(root_0, command_args189.getTree());
+            adaptor.addChild(root_0, command_args190.getTree());
+
+            }
+
 
             }
 
@@ -6134,28 +6182,28 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start command_args
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:569:1: command_args : open_args ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:569:1: command_args : open_args ;
     public final command_args_return command_args() throws RecognitionException {
         command_args_return retval = new command_args_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        open_args_return open_args190 = null;
+        open_args_return open_args191 = null;
 
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:570:4: ( open_args )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:570:4: open_args
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:570:4: ( open_args )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:570:4: open_args
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_open_args_in_command_args2467);
-            open_args190=open_args();
+            pushFollow(FOLLOW_open_args_in_command_args2486);
+            open_args191=open_args();
             _fsp--;
 
-            adaptor.addChild(root_0, open_args190.getTree());
+            adaptor.addChild(root_0, open_args191.getTree());
 
             }
 
@@ -6181,79 +6229,97 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start open_args
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:571:1: open_args : ( '(' ')' | '(' call_args ')' );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:571:1: open_args : ( call_args | '(' ')' | '(' call_args ')' );
     public final open_args_return open_args() throws RecognitionException {
         open_args_return retval = new open_args_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token char_literal191=null;
-        Token char_literal192=null;
         Token char_literal193=null;
+        Token char_literal194=null;
         Token char_literal195=null;
-        call_args_return call_args194 = null;
+        Token char_literal197=null;
+        call_args_return call_args192 = null;
+
+        call_args_return call_args196 = null;
 
 
-        Object char_literal191_tree=null;
-        Object char_literal192_tree=null;
         Object char_literal193_tree=null;
+        Object char_literal194_tree=null;
         Object char_literal195_tree=null;
+        Object char_literal197_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:573:9: ( '(' ')' | '(' call_args ')' )
-            int alt86=2;
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:572:4: ( call_args | '(' ')' | '(' call_args ')' )
+            int alt86=3;
             int LA86_0 = input.LA(1);
 
-            if ( (LA86_0==LPAREN) ) {
-                int LA86_1 = input.LA(2);
+            if ( ((LA86_0>=HEREDOC_STRING && LA86_0<=FLOAT)||LA86_0==SYMBOL||(LA86_0>=IF_MODIFIER && LA86_0<=UNLESS_MODIFIER)||LA86_0==ID||(LA86_0>=BNOT && LA86_0<=REGEX)||(LA86_0>=SINGLE_QUOTE_STRING && LA86_0<=DOUBLE_QUOTE_STRING)||LA86_0==LCURLY||LA86_0==117||(LA86_0>=119 && LA86_0<=121)||(LA86_0>=131 && LA86_0<=134)) ) {
+                alt86=1;
+            }
+            else if ( (LA86_0==LPAREN) ) {
+                int LA86_2 = input.LA(2);
 
-                if ( (LA86_1==RPAREN) ) {
-                    alt86=1;
-                }
-                else if ( ((LA86_1>=HEREDOC_STRING && LA86_1<=FID)||LA86_1==SYMBOL||(LA86_1>=IF_MODIFIER && LA86_1<=UNLESS_MODIFIER)||LA86_1==ID||(LA86_1>=BNOT && LA86_1<=REGEX)||(LA86_1>=SINGLE_QUOTE_STRING && LA86_1<=DOUBLE_QUOTE_STRING)||LA86_1==LCURLY||LA86_1==117||(LA86_1>=119 && LA86_1<=121)||(LA86_1>=131 && LA86_1<=134)) ) {
+                if ( (LA86_2==RPAREN) ) {
                     alt86=2;
+                }
+                else if ( ((LA86_2>=HEREDOC_STRING && LA86_2<=FLOAT)||LA86_2==SYMBOL||(LA86_2>=IF_MODIFIER && LA86_2<=UNLESS_MODIFIER)||LA86_2==ID||(LA86_2>=BNOT && LA86_2<=REGEX)||(LA86_2>=SINGLE_QUOTE_STRING && LA86_2<=DOUBLE_QUOTE_STRING)||LA86_2==LCURLY||LA86_2==117||(LA86_2>=119 && LA86_2<=121)||(LA86_2>=131 && LA86_2<=134)) ) {
+                    alt86=3;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("571:1: open_args : ( '(' ')' | '(' call_args ')' );", 86, 1, input);
+                        new NoViableAltException("571:1: open_args : ( call_args | '(' ')' | '(' call_args ')' );", 86, 2, input);
 
                     throw nvae;
                 }
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("571:1: open_args : ( '(' ')' | '(' call_args ')' );", 86, 0, input);
+                    new NoViableAltException("571:1: open_args : ( call_args | '(' ')' | '(' call_args ')' );", 86, 0, input);
 
                 throw nvae;
             }
             switch (alt86) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:573:9: '(' ')'
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:572:4: call_args
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    char_literal191=(Token)input.LT(1);
-                    match(input,LPAREN,FOLLOW_LPAREN_in_open_args2484); 
-                    char_literal192=(Token)input.LT(1);
-                    match(input,RPAREN,FOLLOW_RPAREN_in_open_args2487); 
+                    pushFollow(FOLLOW_call_args_in_open_args2494);
+                    call_args192=call_args();
+                    _fsp--;
+
+                    adaptor.addChild(root_0, call_args192.getTree());
 
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:574:10: '(' call_args ')'
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:573:9: '(' ')'
                     {
                     root_0 = (Object)adaptor.nil();
 
                     char_literal193=(Token)input.LT(1);
-                    match(input,LPAREN,FOLLOW_LPAREN_in_open_args2499); 
-                    pushFollow(FOLLOW_call_args_in_open_args2502);
-                    call_args194=call_args();
+                    match(input,LPAREN,FOLLOW_LPAREN_in_open_args2504); 
+                    char_literal194=(Token)input.LT(1);
+                    match(input,RPAREN,FOLLOW_RPAREN_in_open_args2507); 
+
+                    }
+                    break;
+                case 3 :
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:574:10: '(' call_args ')'
+                    {
+                    root_0 = (Object)adaptor.nil();
+
+                    char_literal195=(Token)input.LT(1);
+                    match(input,LPAREN,FOLLOW_LPAREN_in_open_args2519); 
+                    pushFollow(FOLLOW_call_args_in_open_args2522);
+                    call_args196=call_args();
                     _fsp--;
 
-                    adaptor.addChild(root_0, call_args194.getTree());
-                    char_literal195=(Token)input.LT(1);
-                    match(input,RPAREN,FOLLOW_RPAREN_in_open_args2506); 
+                    adaptor.addChild(root_0, call_args196.getTree());
+                    char_literal197=(Token)input.LT(1);
+                    match(input,RPAREN,FOLLOW_RPAREN_in_open_args2526); 
 
                     }
                     break;
@@ -6281,26 +6347,26 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start call_args
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:575:1: call_args : args -> ^( ARG args ) ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:575:1: call_args : args -> ^( ARG args ) ;
     public final call_args_return call_args() throws RecognitionException {
         call_args_return retval = new call_args_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        args_return args196 = null;
+        args_return args198 = null;
 
 
         RewriteRuleSubtreeStream stream_args=new RewriteRuleSubtreeStream(adaptor,"rule args");
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:576:4: ( args -> ^( ARG args ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:576:4: args
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:576:4: ( args -> ^( ARG args ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:576:4: args
             {
-            pushFollow(FOLLOW_args_in_call_args2515);
-            args196=args();
+            pushFollow(FOLLOW_args_in_call_args2535);
+            args198=args();
             _fsp--;
 
-            stream_args.add(args196.getTree());
+            stream_args.add(args198.getTree());
 
             // AST REWRITE
             // elements: args
@@ -6314,7 +6380,7 @@ public class Rubyv3Parser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 576:9: -> ^( ARG args )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:576:12: ^( ARG args )
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:576:12: ^( ARG args )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot(adaptor.create(ARG, "ARG"), root_1);
@@ -6352,63 +6418,28 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start args
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:578:1: args : arg ( ',' arg )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:578:1: args : arg ;
     public final args_return args() throws RecognitionException {
         args_return retval = new args_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token char_literal198=null;
-        arg_return arg197 = null;
-
         arg_return arg199 = null;
 
 
-        Object char_literal198_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:578:8: ( arg ( ',' arg )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:578:8: arg ( ',' arg )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:578:8: ( arg )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:578:8: arg
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_arg_in_args2532);
-            arg197=arg();
+            pushFollow(FOLLOW_arg_in_args2552);
+            arg199=arg();
             _fsp--;
 
-            adaptor.addChild(root_0, arg197.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:578:12: ( ',' arg )*
-            loop87:
-            do {
-                int alt87=2;
-                int LA87_0 = input.LA(1);
-
-                if ( (LA87_0==COMMA) ) {
-                    alt87=1;
-                }
-
-
-                switch (alt87) {
-            	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:578:13: ',' arg
-            	    {
-            	    char_literal198=(Token)input.LT(1);
-            	    match(input,COMMA,FOLLOW_COMMA_in_args2535); 
-            	    pushFollow(FOLLOW_arg_in_args2538);
-            	    arg199=arg();
-            	    _fsp--;
-
-            	    adaptor.addChild(root_0, arg199.getTree());
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop87;
-                }
-            } while (true);
-
+            adaptor.addChild(root_0, arg199.getTree());
 
             }
 
@@ -6434,7 +6465,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start arg
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:580:1: arg : definedExpression ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:580:1: arg : definedExpression ;
     public final arg_return arg() throws RecognitionException {
         arg_return retval = new arg_return();
         retval.start = input.LT(1);
@@ -6446,12 +6477,12 @@ public class Rubyv3Parser extends Parser {
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:580:7: ( definedExpression )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:580:7: definedExpression
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:580:7: ( definedExpression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:580:7: definedExpression
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_definedExpression_in_arg2549);
+            pushFollow(FOLLOW_definedExpression_in_arg2562);
             definedExpression200=definedExpression();
             _fsp--;
 
@@ -6481,7 +6512,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start operation1
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:584:1: operation1 : ( ID | CONSTANT | FID );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:584:1: operation1 : ( ID | CONSTANT | FID );
     public final operation1_return operation1() throws RecognitionException {
         operation1_return retval = new operation1_return();
         retval.start = input.LT(1);
@@ -6493,8 +6524,8 @@ public class Rubyv3Parser extends Parser {
         Object set201_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:584:18: ( ID | CONSTANT | FID )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:584:18: ( ID | CONSTANT | FID )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
             {
             root_0 = (Object)adaptor.nil();
 
@@ -6535,7 +6566,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start operation2
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:1: operation2 : ( ID | CONSTANT | FID | op );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:1: operation2 : ( ID | CONSTANT | FID | op );
     public final operation2_return operation2() throws RecognitionException {
         operation2_return retval = new operation2_return();
         retval.start = input.LT(1);
@@ -6553,22 +6584,22 @@ public class Rubyv3Parser extends Parser {
         Object FID204_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:17: ( ID | CONSTANT | FID | op )
-            int alt88=4;
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:17: ( ID | CONSTANT | FID | op )
+            int alt87=4;
             switch ( input.LA(1) ) {
             case ID:
                 {
-                alt88=1;
+                alt87=1;
                 }
                 break;
             case CONSTANT:
                 {
-                alt88=2;
+                alt87=2;
                 }
                 break;
             case FID:
                 {
-                alt88=3;
+                alt87=3;
                 }
                 break;
             case LEFT_SHIFT:
@@ -6594,24 +6625,24 @@ public class Rubyv3Parser extends Parser {
             case EMPTY_ARRAY:
             case 127:
                 {
-                alt88=4;
+                alt87=4;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("587:1: operation2 : ( ID | CONSTANT | FID | op );", 88, 0, input);
+                    new NoViableAltException("587:1: operation2 : ( ID | CONSTANT | FID | op );", 87, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt88) {
+            switch (alt87) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:17: ID
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:17: ID
                     {
                     root_0 = (Object)adaptor.nil();
 
                     ID202=(Token)input.LT(1);
-                    match(input,ID,FOLLOW_ID_in_operation22587); 
+                    match(input,ID,FOLLOW_ID_in_operation22600); 
                     ID202_tree = (Object)adaptor.create(ID202);
                     adaptor.addChild(root_0, ID202_tree);
 
@@ -6619,12 +6650,12 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:22: CONSTANT
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:22: CONSTANT
                     {
                     root_0 = (Object)adaptor.nil();
 
                     CONSTANT203=(Token)input.LT(1);
-                    match(input,CONSTANT,FOLLOW_CONSTANT_in_operation22591); 
+                    match(input,CONSTANT,FOLLOW_CONSTANT_in_operation22604); 
                     CONSTANT203_tree = (Object)adaptor.create(CONSTANT203);
                     adaptor.addChild(root_0, CONSTANT203_tree);
 
@@ -6632,12 +6663,12 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:33: FID
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:33: FID
                     {
                     root_0 = (Object)adaptor.nil();
 
                     FID204=(Token)input.LT(1);
-                    match(input,FID,FOLLOW_FID_in_operation22595); 
+                    match(input,FID,FOLLOW_FID_in_operation22608); 
                     FID204_tree = (Object)adaptor.create(FID204);
                     adaptor.addChild(root_0, FID204_tree);
 
@@ -6645,11 +6676,11 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:39: op
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:587:39: op
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_op_in_operation22599);
+                    pushFollow(FOLLOW_op_in_operation22612);
                     op205=op();
                     _fsp--;
 
@@ -6681,7 +6712,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start operation3
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:1: operation3 : ( ID | FID | op );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:1: operation3 : ( ID | FID | op );
     public final operation3_return operation3() throws RecognitionException {
         operation3_return retval = new operation3_return();
         retval.start = input.LT(1);
@@ -6697,17 +6728,17 @@ public class Rubyv3Parser extends Parser {
         Object FID207_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:17: ( ID | FID | op )
-            int alt89=3;
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:17: ( ID | FID | op )
+            int alt88=3;
             switch ( input.LA(1) ) {
             case ID:
                 {
-                alt89=1;
+                alt88=1;
                 }
                 break;
             case FID:
                 {
-                alt89=2;
+                alt88=2;
                 }
                 break;
             case LEFT_SHIFT:
@@ -6733,24 +6764,24 @@ public class Rubyv3Parser extends Parser {
             case EMPTY_ARRAY:
             case 127:
                 {
-                alt89=3;
+                alt88=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("590:1: operation3 : ( ID | FID | op );", 89, 0, input);
+                    new NoViableAltException("590:1: operation3 : ( ID | FID | op );", 88, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt89) {
+            switch (alt88) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:17: ID
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:17: ID
                     {
                     root_0 = (Object)adaptor.nil();
 
                     ID206=(Token)input.LT(1);
-                    match(input,ID,FOLLOW_ID_in_operation32615); 
+                    match(input,ID,FOLLOW_ID_in_operation32628); 
                     ID206_tree = (Object)adaptor.create(ID206);
                     adaptor.addChild(root_0, ID206_tree);
 
@@ -6758,12 +6789,12 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:22: FID
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:22: FID
                     {
                     root_0 = (Object)adaptor.nil();
 
                     FID207=(Token)input.LT(1);
-                    match(input,FID,FOLLOW_FID_in_operation32619); 
+                    match(input,FID,FOLLOW_FID_in_operation32632); 
                     FID207_tree = (Object)adaptor.create(FID207);
                     adaptor.addChild(root_0, FID207_tree);
 
@@ -6771,11 +6802,11 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:28: op
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:590:28: op
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_op_in_operation32623);
+                    pushFollow(FOLLOW_op_in_operation32636);
                     op208=op();
                     _fsp--;
 
@@ -6807,7 +6838,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start lhs
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:593:1: lhs : ID -> ^( VARIABLE ID ) ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:593:1: lhs : ID -> ^( VARIABLE ID ) ;
     public final lhs_return lhs() throws RecognitionException {
         lhs_return retval = new lhs_return();
         retval.start = input.LT(1);
@@ -6820,11 +6851,11 @@ public class Rubyv3Parser extends Parser {
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:593:7: ( ID -> ^( VARIABLE ID ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:593:7: ID
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:593:7: ( ID -> ^( VARIABLE ID ) )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:593:7: ID
             {
             ID209=(Token)input.LT(1);
-            match(input,ID,FOLLOW_ID_in_lhs2637); 
+            match(input,ID,FOLLOW_ID_in_lhs2650); 
             stream_ID.add(ID209);
 
 
@@ -6840,7 +6871,7 @@ public class Rubyv3Parser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 593:10: -> ^( VARIABLE ID )
             {
-                // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:593:13: ^( VARIABLE ID )
+                // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:593:13: ^( VARIABLE ID )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot(adaptor.create(VARIABLE, "VARIABLE"), root_1);
@@ -6878,7 +6909,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start rhs
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:594:1: rhs : expression ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:594:1: rhs : expression ;
     public final rhs_return rhs() throws RecognitionException {
         rhs_return retval = new rhs_return();
         retval.start = input.LT(1);
@@ -6890,12 +6921,12 @@ public class Rubyv3Parser extends Parser {
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:594:7: ( expression )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:594:7: expression
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:594:7: ( expression )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:594:7: expression
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_expression_in_rhs2653);
+            pushFollow(FOLLOW_expression_in_rhs2666);
             expression210=expression();
             _fsp--;
 
@@ -6925,7 +6956,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start literal
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:1: literal : ( INT | FLOAT | string | ARRAY | hash | SYMBOL | REGEX );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:1: literal : ( INT | FLOAT | string | ARRAY | hash | SYMBOL | REGEX );
     public final literal_return literal() throws RecognitionException {
         literal_return retval = new literal_return();
         retval.start = input.LT(1);
@@ -6949,61 +6980,61 @@ public class Rubyv3Parser extends Parser {
         Object REGEX217_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:11: ( INT | FLOAT | string | ARRAY | hash | SYMBOL | REGEX )
-            int alt90=7;
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:11: ( INT | FLOAT | string | ARRAY | hash | SYMBOL | REGEX )
+            int alt89=7;
             switch ( input.LA(1) ) {
             case INT:
                 {
-                alt90=1;
+                alt89=1;
                 }
                 break;
             case FLOAT:
                 {
-                alt90=2;
+                alt89=2;
                 }
                 break;
             case HEREDOC_STRING:
             case SINGLE_QUOTE_STRING:
             case DOUBLE_QUOTE_STRING:
                 {
-                alt90=3;
+                alt89=3;
                 }
                 break;
             case ARRAY:
                 {
-                alt90=4;
+                alt89=4;
                 }
                 break;
             case LCURLY:
                 {
-                alt90=5;
+                alt89=5;
                 }
                 break;
             case SYMBOL:
                 {
-                alt90=6;
+                alt89=6;
                 }
                 break;
             case REGEX:
                 {
-                alt90=7;
+                alt89=7;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("598:1: literal : ( INT | FLOAT | string | ARRAY | hash | SYMBOL | REGEX );", 90, 0, input);
+                    new NoViableAltException("598:1: literal : ( INT | FLOAT | string | ARRAY | hash | SYMBOL | REGEX );", 89, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt90) {
+            switch (alt89) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:11: INT
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:11: INT
                     {
                     root_0 = (Object)adaptor.nil();
 
                     INT211=(Token)input.LT(1);
-                    match(input,INT,FOLLOW_INT_in_literal2663); 
+                    match(input,INT,FOLLOW_INT_in_literal2676); 
                     INT211_tree = (Object)adaptor.create(INT211);
                     adaptor.addChild(root_0, INT211_tree);
 
@@ -7011,12 +7042,12 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:15: FLOAT
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:15: FLOAT
                     {
                     root_0 = (Object)adaptor.nil();
 
                     FLOAT212=(Token)input.LT(1);
-                    match(input,FLOAT,FOLLOW_FLOAT_in_literal2665); 
+                    match(input,FLOAT,FOLLOW_FLOAT_in_literal2678); 
                     FLOAT212_tree = (Object)adaptor.create(FLOAT212);
                     adaptor.addChild(root_0, FLOAT212_tree);
 
@@ -7024,11 +7055,11 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:21: string
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:21: string
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_string_in_literal2667);
+                    pushFollow(FOLLOW_string_in_literal2680);
                     string213=string();
                     _fsp--;
 
@@ -7037,12 +7068,12 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:28: ARRAY
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:28: ARRAY
                     {
                     root_0 = (Object)adaptor.nil();
 
                     ARRAY214=(Token)input.LT(1);
-                    match(input,ARRAY,FOLLOW_ARRAY_in_literal2669); 
+                    match(input,ARRAY,FOLLOW_ARRAY_in_literal2682); 
                     ARRAY214_tree = (Object)adaptor.create(ARRAY214);
                     adaptor.addChild(root_0, ARRAY214_tree);
 
@@ -7050,11 +7081,11 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 5 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:34: hash
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:34: hash
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_hash_in_literal2671);
+                    pushFollow(FOLLOW_hash_in_literal2684);
                     hash215=hash();
                     _fsp--;
 
@@ -7063,12 +7094,12 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 6 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:39: SYMBOL
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:39: SYMBOL
                     {
                     root_0 = (Object)adaptor.nil();
 
                     SYMBOL216=(Token)input.LT(1);
-                    match(input,SYMBOL,FOLLOW_SYMBOL_in_literal2673); 
+                    match(input,SYMBOL,FOLLOW_SYMBOL_in_literal2686); 
                     SYMBOL216_tree = (Object)adaptor.create(SYMBOL216);
                     adaptor.addChild(root_0, SYMBOL216_tree);
 
@@ -7076,12 +7107,12 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 7 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:46: REGEX
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:598:46: REGEX
                     {
                     root_0 = (Object)adaptor.nil();
 
                     REGEX217=(Token)input.LT(1);
-                    match(input,REGEX,FOLLOW_REGEX_in_literal2675); 
+                    match(input,REGEX,FOLLOW_REGEX_in_literal2688); 
                     REGEX217_tree = (Object)adaptor.create(REGEX217);
                     adaptor.addChild(root_0, REGEX217_tree);
 
@@ -7112,7 +7143,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start string
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:666:1: string : ( SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | HEREDOC_STRING );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:666:1: string : ( SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | HEREDOC_STRING );
     public final string_return string() throws RecognitionException {
         string_return retval = new string_return();
         retval.start = input.LT(1);
@@ -7124,8 +7155,8 @@ public class Rubyv3Parser extends Parser {
         Object set218_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:666:10: ( SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | HEREDOC_STRING )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:666:10: ( SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING | HEREDOC_STRING )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
             {
             root_0 = (Object)adaptor.nil();
 
@@ -7166,7 +7197,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start hash
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:737:1: hash : '{' assoc_list '}' ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:737:1: hash : '{' assoc_list '}' ;
     public final hash_return hash() throws RecognitionException {
         hash_return retval = new hash_return();
         retval.start = input.LT(1);
@@ -7182,23 +7213,23 @@ public class Rubyv3Parser extends Parser {
         Object char_literal221_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:737:8: ( '{' assoc_list '}' )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:737:8: '{' assoc_list '}'
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:737:8: ( '{' assoc_list '}' )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:737:8: '{' assoc_list '}'
             {
             root_0 = (Object)adaptor.nil();
 
             char_literal219=(Token)input.LT(1);
-            match(input,LCURLY,FOLLOW_LCURLY_in_hash3634); 
+            match(input,LCURLY,FOLLOW_LCURLY_in_hash3647); 
             char_literal219_tree = (Object)adaptor.create(char_literal219);
             root_0 = (Object)adaptor.becomeRoot(char_literal219_tree, root_0);
 
-            pushFollow(FOLLOW_assoc_list_in_hash3637);
+            pushFollow(FOLLOW_assoc_list_in_hash3650);
             assoc_list220=assoc_list();
             _fsp--;
 
             adaptor.addChild(root_0, assoc_list220.getTree());
             char_literal221=(Token)input.LT(1);
-            match(input,RCURLY,FOLLOW_RCURLY_in_hash3639); 
+            match(input,RCURLY,FOLLOW_RCURLY_in_hash3652); 
 
             }
 
@@ -7224,7 +7255,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start assoc_list
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:738:1: assoc_list : assocs trailer ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:738:1: assoc_list : assocs trailer ;
     public final assoc_list_return assoc_list() throws RecognitionException {
         assoc_list_return retval = new assoc_list_return();
         retval.start = input.LT(1);
@@ -7238,17 +7269,17 @@ public class Rubyv3Parser extends Parser {
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:739:4: ( assocs trailer )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:739:4: assocs trailer
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:739:4: ( assocs trailer )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:739:4: assocs trailer
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_assocs_in_assoc_list3648);
+            pushFollow(FOLLOW_assocs_in_assoc_list3661);
             assocs222=assocs();
             _fsp--;
 
             adaptor.addChild(root_0, assocs222.getTree());
-            pushFollow(FOLLOW_trailer_in_assoc_list3650);
+            pushFollow(FOLLOW_trailer_in_assoc_list3663);
             trailer223=trailer();
             _fsp--;
 
@@ -7278,7 +7309,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start assocs
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:1: assocs : assoc ( ',' assoc )* ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:1: assocs : assoc ( ',' assoc )* ;
     public final assocs_return assocs() throws RecognitionException {
         assocs_return retval = new assocs_return();
         retval.start = input.LT(1);
@@ -7294,40 +7325,40 @@ public class Rubyv3Parser extends Parser {
         Object char_literal225_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:10: ( assoc ( ',' assoc )* )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:10: assoc ( ',' assoc )*
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:10: ( assoc ( ',' assoc )* )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:10: assoc ( ',' assoc )*
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_assoc_in_assocs3659);
+            pushFollow(FOLLOW_assoc_in_assocs3672);
             assoc224=assoc();
             _fsp--;
 
             adaptor.addChild(root_0, assoc224.getTree());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:16: ( ',' assoc )*
-            loop91:
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:16: ( ',' assoc )*
+            loop90:
             do {
-                int alt91=2;
-                int LA91_0 = input.LA(1);
+                int alt90=2;
+                int LA90_0 = input.LA(1);
 
-                if ( (LA91_0==COMMA) ) {
-                    int LA91_2 = input.LA(2);
+                if ( (LA90_0==COMMA) ) {
+                    int LA90_2 = input.LA(2);
 
-                    if ( ((LA91_2>=HEREDOC_STRING && LA91_2<=FID)||LA91_2==SYMBOL||(LA91_2>=IF_MODIFIER && LA91_2<=UNLESS_MODIFIER)||LA91_2==ID||(LA91_2>=BNOT && LA91_2<=REGEX)||(LA91_2>=SINGLE_QUOTE_STRING && LA91_2<=DOUBLE_QUOTE_STRING)||LA91_2==LCURLY||LA91_2==117||(LA91_2>=119 && LA91_2<=121)||(LA91_2>=131 && LA91_2<=134)) ) {
-                        alt91=1;
+                    if ( ((LA90_2>=HEREDOC_STRING && LA90_2<=FLOAT)||LA90_2==SYMBOL||(LA90_2>=IF_MODIFIER && LA90_2<=UNLESS_MODIFIER)||LA90_2==ID||(LA90_2>=BNOT && LA90_2<=REGEX)||(LA90_2>=SINGLE_QUOTE_STRING && LA90_2<=DOUBLE_QUOTE_STRING)||LA90_2==LCURLY||LA90_2==117||(LA90_2>=119 && LA90_2<=121)||(LA90_2>=131 && LA90_2<=134)) ) {
+                        alt90=1;
                     }
 
 
                 }
 
 
-                switch (alt91) {
+                switch (alt90) {
             	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:18: ',' assoc
+            	    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:18: ',' assoc
             	    {
             	    char_literal225=(Token)input.LT(1);
-            	    match(input,COMMA,FOLLOW_COMMA_in_assocs3663); 
-            	    pushFollow(FOLLOW_assoc_in_assocs3666);
+            	    match(input,COMMA,FOLLOW_COMMA_in_assocs3676); 
+            	    pushFollow(FOLLOW_assoc_in_assocs3679);
             	    assoc226=assoc();
             	    _fsp--;
 
@@ -7337,7 +7368,7 @@ public class Rubyv3Parser extends Parser {
             	    break;
 
             	default :
-            	    break loop91;
+            	    break loop90;
                 }
             } while (true);
 
@@ -7366,7 +7397,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start assoc
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:742:1: assoc : arg ( ASSOC | ',' ) arg ;
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:742:1: assoc : arg ( ASSOC | ',' ) arg ;
     public final assoc_return assoc() throws RecognitionException {
         assoc_return retval = new assoc_return();
         retval.start = input.LT(1);
@@ -7382,12 +7413,12 @@ public class Rubyv3Parser extends Parser {
         Object set228_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:742:17: ( arg ( ASSOC | ',' ) arg )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:742:17: arg ( ASSOC | ',' ) arg
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:742:17: ( arg ( ASSOC | ',' ) arg )
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:742:17: arg ( ASSOC | ',' ) arg
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_arg_in_assoc3684);
+            pushFollow(FOLLOW_arg_in_assoc3697);
             arg227=arg();
             _fsp--;
 
@@ -7400,10 +7431,10 @@ public class Rubyv3Parser extends Parser {
             else {
                 MismatchedSetException mse =
                     new MismatchedSetException(null,input);
-                recoverFromMismatchedSet(input,mse,FOLLOW_set_in_assoc3686);    throw mse;
+                recoverFromMismatchedSet(input,mse,FOLLOW_set_in_assoc3699);    throw mse;
             }
 
-            pushFollow(FOLLOW_arg_in_assoc3693);
+            pushFollow(FOLLOW_arg_in_assoc3706);
             arg229=arg();
             _fsp--;
 
@@ -7433,7 +7464,7 @@ public class Rubyv3Parser extends Parser {
     };
 
     // $ANTLR start trailer
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:1: trailer : ( | LINE_BREAK | ',' );
+    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:1: trailer : ( | LINE_BREAK | ',' );
     public final trailer_return trailer() throws RecognitionException {
         trailer_return retval = new trailer_return();
         retval.start = input.LT(1);
@@ -7447,56 +7478,56 @@ public class Rubyv3Parser extends Parser {
         Object char_literal231_tree=null;
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:29: ( | LINE_BREAK | ',' )
-            int alt92=3;
+            // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:29: ( | LINE_BREAK | ',' )
+            int alt91=3;
             switch ( input.LA(1) ) {
             case RCURLY:
                 {
-                alt92=1;
+                alt91=1;
                 }
                 break;
             case LINE_BREAK:
                 {
-                alt92=2;
+                alt91=2;
                 }
                 break;
             case COMMA:
                 {
-                alt92=3;
+                alt91=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("746:1: trailer : ( | LINE_BREAK | ',' );", 92, 0, input);
+                    new NoViableAltException("746:1: trailer : ( | LINE_BREAK | ',' );", 91, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt92) {
+            switch (alt91) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:29: 
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:29: 
                     {
                     root_0 = (Object)adaptor.nil();
 
                     }
                     break;
                 case 2 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:31: LINE_BREAK
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:31: LINE_BREAK
                     {
                     root_0 = (Object)adaptor.nil();
 
                     LINE_BREAK230=(Token)input.LT(1);
-                    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_trailer3714); 
+                    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_trailer3727); 
 
                     }
                     break;
                 case 3 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:45: ','
+                    // F:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:45: ','
                     {
                     root_0 = (Object)adaptor.nil();
 
                     char_literal231=(Token)input.LT(1);
-                    match(input,COMMA,FOLLOW_COMMA_in_trailer3719); 
+                    match(input,COMMA,FOLLOW_COMMA_in_trailer3732); 
 
                     }
                     break;
@@ -7521,6 +7552,7 @@ public class Rubyv3Parser extends Parser {
 
     protected DFA5 dfa5 = new DFA5(this);
     protected DFA17 dfa17 = new DFA17(this);
+    protected DFA85 dfa85 = new DFA85(this);
     static final String DFA5_eotS =
         "\5\uffff";
     static final String DFA5_eofS =
@@ -7535,10 +7567,10 @@ public class Rubyv3Parser extends Parser {
         "\5\uffff}>";
     static final String[] DFA5_transitionS = {
             "\1\1\1\2\121\uffff\1\3\3\uffff\2\3",
-            "\4\4\2\uffff\1\4\13\uffff\2\4\3\uffff\1\1\1\2\1\uffff\1\4\45"+
+            "\2\4\4\uffff\1\4\13\uffff\2\4\3\uffff\1\1\1\2\1\uffff\1\4\45"+
             "\uffff\5\4\20\uffff\2\4\2\uffff\1\4\17\uffff\1\4\1\3\3\4\2\3"+
             "\1\uffff\2\4\3\uffff\5\4",
-            "\4\4\2\uffff\1\4\13\uffff\2\4\3\uffff\1\1\1\2\1\uffff\1\4\45"+
+            "\2\4\4\uffff\1\4\13\uffff\2\4\3\uffff\1\1\1\2\1\uffff\1\4\45"+
             "\uffff\5\4\20\uffff\2\4\2\uffff\1\4\17\uffff\1\4\1\3\3\4\2\3"+
             "\1\uffff\2\4\3\uffff\5\4",
             "",
@@ -7592,7 +7624,7 @@ public class Rubyv3Parser extends Parser {
         "\5\uffff}>";
     static final String[] DFA17_transitionS = {
             "\1\1\114\uffff\1\2\12\uffff\1\3",
-            "\4\4\2\uffff\1\4\13\uffff\2\4\3\uffff\1\4\1\1\1\uffff\1\4\45"+
+            "\2\4\4\uffff\1\4\13\uffff\2\4\3\uffff\1\4\1\1\1\uffff\1\4\45"+
             "\uffff\5\4\20\uffff\2\4\2\uffff\1\4\17\uffff\7\4\1\3\2\4\3\uffff"+
             "\5\4",
             "",
@@ -7633,35 +7665,174 @@ public class Rubyv3Parser extends Parser {
             return "306:1: seperator : ( ( LINE_BREAK )+ | ':' ( LINE_BREAK )* | ( LINE_BREAK )* 'then' ( LINE_BREAK )* );";
         }
     }
+    static final String DFA85_eotS =
+        "\112\uffff";
+    static final String DFA85_eofS =
+        "\1\uffff\1\2\110\uffff";
+    static final String DFA85_minS =
+        "\1\46\1\13\1\uffff\1\14\1\uffff\1\14\1\13\3\14\100\0";
+    static final String DFA85_maxS =
+        "\1\46\1\u0086\1\uffff\1\u0086\1\uffff\1\u0086\1\177\3\u0086\100"+
+        "\0";
+    static final String DFA85_acceptS =
+        "\2\uffff\1\1\1\uffff\1\2\105\uffff";
+    static final String DFA85_specialS =
+        "\112\uffff}>";
+    static final String[] DFA85_transitionS = {
+            "\1\1",
+            "\1\2\2\4\4\uffff\1\4\11\uffff\2\2\1\3\1\5\5\2\1\uffff\1\4\15"+
+            "\2\16\uffff\12\2\5\4\20\uffff\2\4\2\uffff\1\4\1\2\2\uffff\1"+
+            "\2\1\uffff\1\4\1\2\3\uffff\2\2\3\uffff\1\4\1\2\3\4\3\2\3\uffff"+
+            "\2\2\1\uffff\4\4",
+            "",
+            "\1\20\1\17\4\uffff\1\23\13\uffff\1\27\1\30\4\uffff\1\2\1\uffff"+
+            "\1\31\45\uffff\1\11\1\12\1\16\1\21\1\24\20\uffff\2\20\2\uffff"+
+            "\1\22\17\uffff\1\26\1\uffff\3\25\3\uffff\1\6\1\32\3\uffff\1"+
+            "\7\1\10\1\13\1\14\1\15",
+            "",
+            "\2\2\4\uffff\1\2\13\uffff\2\2\4\uffff\1\2\1\uffff\1\2\45\uffff"+
+            "\5\2\20\uffff\2\2\2\uffff\1\2\17\uffff\1\2\1\uffff\3\33\3\uffff"+
+            "\2\2\3\uffff\5\2",
+            "\1\37\2\uffff\1\35\1\36\14\uffff\2\37\10\uffff\1\34\15\37\25"+
+            "\uffff\4\37\42\uffff\1\37\17\uffff\1\37",
+            "\1\52\1\51\4\uffff\1\55\13\uffff\1\61\1\62\4\uffff\1\40\1\uffff"+
+            "\1\63\45\uffff\1\43\1\44\1\50\1\53\1\56\20\uffff\2\52\2\uffff"+
+            "\1\54\17\uffff\1\60\1\uffff\3\57\10\uffff\1\41\1\42\1\45\1\46"+
+            "\1\47",
+            "\1\73\1\72\4\uffff\1\76\13\uffff\1\102\1\103\6\uffff\1\104\45"+
+            "\uffff\1\64\1\65\1\71\1\74\1\77\20\uffff\2\73\2\uffff\1\75\17"+
+            "\uffff\1\101\1\uffff\3\100\12\uffff\1\66\1\67\1\70",
+            "\1\20\1\17\4\uffff\1\23\13\uffff\1\27\1\30\4\uffff\1\105\1\uffff"+
+            "\1\107\45\uffff\1\110\1\111\1\16\1\21\1\24\20\uffff\2\20\2\uffff"+
+            "\1\106\17\uffff\1\26\1\uffff\3\25\12\uffff\1\13\1\14\1\15",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff"
+    };
+
+    static final short[] DFA85_eot = DFA.unpackEncodedString(DFA85_eotS);
+    static final short[] DFA85_eof = DFA.unpackEncodedString(DFA85_eofS);
+    static final char[] DFA85_min = DFA.unpackEncodedStringToUnsignedChars(DFA85_minS);
+    static final char[] DFA85_max = DFA.unpackEncodedStringToUnsignedChars(DFA85_maxS);
+    static final short[] DFA85_accept = DFA.unpackEncodedString(DFA85_acceptS);
+    static final short[] DFA85_special = DFA.unpackEncodedString(DFA85_specialS);
+    static final short[][] DFA85_transition;
+
+    static {
+        int numStates = DFA85_transitionS.length;
+        DFA85_transition = new short[numStates][];
+        for (int i=0; i<numStates; i++) {
+            DFA85_transition[i] = DFA.unpackEncodedString(DFA85_transitionS[i]);
+        }
+    }
+
+    class DFA85 extends DFA {
+
+        public DFA85(BaseRecognizer recognizer) {
+            this.recognizer = recognizer;
+            this.decisionNumber = 85;
+            this.eot = DFA85_eot;
+            this.eof = DFA85_eof;
+            this.min = DFA85_min;
+            this.max = DFA85_max;
+            this.accept = DFA85_accept;
+            this.special = DFA85_special;
+            this.transition = DFA85_transition;
+        }
+        public String getDescription() {
+            return "559:1: method : ({...}? ID -> ^( CALL ID ) | ID open_args -> ^( CALL ID open_args ) );";
+        }
+    }
  
 
     public static final BitSet FOLLOW_terminal_in_program223 = new BitSet(new long[]{0x0000001800000002L});
     public static final BitSet FOLLOW_statement_list_in_program227 = new BitSet(new long[]{0x0000001800000002L});
     public static final BitSet FOLLOW_terminal_in_program229 = new BitSet(new long[]{0x0000001800000002L});
     public static final BitSet FOLLOW_statement_in_statement_list243 = new BitSet(new long[]{0x0000001800000002L});
-    public static final BitSet FOLLOW_terminal_in_statement_list246 = new BitSet(new long[]{0x00000058C004F000L,0x63A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_terminal_in_statement_list246 = new BitSet(new long[]{0x00000058C0043000L,0x63A000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_statement_in_statement_list249 = new BitSet(new long[]{0x0000001800000002L});
     public static final BitSet FOLLOW_expression_in_statement275 = new BitSet(new long[]{0x00000007C0000002L});
     public static final BitSet FOLLOW_modifier_line_in_statement278 = new BitSet(new long[]{0x00000007C0000002L});
-    public static final BitSet FOLLOW_set_in_modifier_line318 = new BitSet(new long[]{0x00000050C004F000L,0x63A000260001F000L,0x000000000000007CL});
-    public static final BitSet FOLLOW_line_break_in_modifier_line332 = new BitSet(new long[]{0x00000050C004F000L,0x63A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_set_in_modifier_line318 = new BitSet(new long[]{0x00000050C0043000L,0x63A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_line_break_in_modifier_line332 = new BitSet(new long[]{0x00000050C0043000L,0x63A000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_expression_in_modifier_line336 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_117_in_block_expression411 = new BitSet(new long[]{0x00000048C004F000L,0x63E000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_117_in_block_expression411 = new BitSet(new long[]{0x00000048C0043000L,0x63E000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_body_in_block_expression413 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_118_in_block_expression415 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_SEMI_in_body422 = new BitSet(new long[]{0x0000000800000002L});
     public static final BitSet FOLLOW_statement_list_in_body426 = new BitSet(new long[]{0x0000001800000002L});
     public static final BitSet FOLLOW_terminal_in_body428 = new BitSet(new long[]{0x0000001800000002L});
     public static final BitSet FOLLOW_set_in_boolean_expression0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IF_MODIFIER_in_if_expression451 = new BitSet(new long[]{0x00000040C004F000L,0x63A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_IF_MODIFIER_in_if_expression451 = new BitSet(new long[]{0x00000040C0043000L,0x63A000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_expression_in_if_expression456 = new BitSet(new long[]{0x0000001000000000L,0x1002000000000000L});
-    public static final BitSet FOLLOW_seperator_in_if_expression458 = new BitSet(new long[]{0x00000048C004F000L,0x6FE000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_seperator_in_if_expression458 = new BitSet(new long[]{0x00000048C0043000L,0x6FE000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_body_in_if_expression471 = new BitSet(new long[]{0x0000000000000000L,0x0C40000000000000L});
-    public static final BitSet FOLLOW_122_in_if_expression474 = new BitSet(new long[]{0x00000040C004F000L,0x63A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_122_in_if_expression474 = new BitSet(new long[]{0x00000040C0043000L,0x63A000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_expression_in_if_expression478 = new BitSet(new long[]{0x0000001000000000L,0x1002000000000000L});
-    public static final BitSet FOLLOW_seperator_in_if_expression480 = new BitSet(new long[]{0x00000048C004F000L,0x6FE000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_seperator_in_if_expression480 = new BitSet(new long[]{0x00000048C0043000L,0x6FE000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_body_in_if_expression484 = new BitSet(new long[]{0x0000000000000000L,0x0C40000000000000L});
-    public static final BitSet FOLLOW_123_in_if_expression498 = new BitSet(new long[]{0x00000048C004F000L,0x63E000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_123_in_if_expression498 = new BitSet(new long[]{0x00000048C0043000L,0x63E000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_body_in_if_expression502 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_118_in_if_expression515 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_LINE_BREAK_in_seperator567 = new BitSet(new long[]{0x0000001000000002L});
@@ -7672,11 +7843,11 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_LINE_BREAK_in_seperator582 = new BitSet(new long[]{0x0000001000000002L});
     public static final BitSet FOLLOW_UNLESS_MODIFIER_in_unless_expression592 = new BitSet(new long[]{0x0000000000000000L,0x0380000000000000L});
     public static final BitSet FOLLOW_boolean_expression_in_unless_expression594 = new BitSet(new long[]{0x0000001000000000L,0x1002000000000000L});
-    public static final BitSet FOLLOW_124_in_unless_expression597 = new BitSet(new long[]{0x00000048C004F000L,0x6BE000260001F000L,0x000000000000007CL});
-    public static final BitSet FOLLOW_COLON_in_unless_expression599 = new BitSet(new long[]{0x00000048C004F000L,0x6BE000260001F000L,0x000000000000007CL});
-    public static final BitSet FOLLOW_line_break_in_unless_expression601 = new BitSet(new long[]{0x00000048C004F000L,0x6BE000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_124_in_unless_expression597 = new BitSet(new long[]{0x00000048C0043000L,0x6BE000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_COLON_in_unless_expression599 = new BitSet(new long[]{0x00000048C0043000L,0x6BE000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_line_break_in_unless_expression601 = new BitSet(new long[]{0x00000048C0043000L,0x6BE000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_body_in_unless_expression613 = new BitSet(new long[]{0x0000000000000000L,0x0840000000000000L});
-    public static final BitSet FOLLOW_123_in_unless_expression626 = new BitSet(new long[]{0x00000048C004F000L,0x63E000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_123_in_unless_expression626 = new BitSet(new long[]{0x00000048C0043000L,0x63E000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_body_in_unless_expression628 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_118_in_unless_expression641 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_SEMI_in_terminal647 = new BitSet(new long[]{0x0000000000000002L});
@@ -7691,8 +7862,8 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_126_in_methodDefinition730 = new BitSet(new long[]{0x0000005000000000L});
     public static final BitSet FOLLOW_LINE_BREAK_in_methodDefinition734 = new BitSet(new long[]{0x0000005000000000L});
     public static final BitSet FOLLOW_methodName_in_methodDefinition739 = new BitSet(new long[]{0x0000005800000000L,0x0000080000000000L});
-    public static final BitSet FOLLOW_f_arglist_in_methodDefinition743 = new BitSet(new long[]{0x00000058C004F000L,0x63A000260001F000L,0x000000000000007CL});
-    public static final BitSet FOLLOW_terminal_in_methodDefinition746 = new BitSet(new long[]{0x00000058C004F000L,0x63A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_f_arglist_in_methodDefinition743 = new BitSet(new long[]{0x00000058C0043000L,0x63A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_terminal_in_methodDefinition746 = new BitSet(new long[]{0x00000058C0043000L,0x63A000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_bodyStatement_in_methodDefinition752 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_118_in_methodDefinition754 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ID_in_methodName767 = new BitSet(new long[]{0x0000000000000002L});
@@ -7715,103 +7886,103 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_op_in_fname892 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_op0 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_notExpression_in_andorExpression1053 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000000003L});
-    public static final BitSet FOLLOW_128_in_andorExpression1063 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x000000000000007CL});
-    public static final BitSet FOLLOW_LINE_BREAK_in_andorExpression1068 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x000000000000007CL});
-    public static final BitSet FOLLOW_129_in_andorExpression1079 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x000000000000007CL});
-    public static final BitSet FOLLOW_LINE_BREAK_in_andorExpression1084 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_128_in_andorExpression1063 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_LINE_BREAK_in_andorExpression1068 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_129_in_andorExpression1079 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_LINE_BREAK_in_andorExpression1084 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_notExpression_in_andorExpression1099 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000000003L});
-    public static final BitSet FOLLOW_130_in_notExpression1117 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x000000000000007CL});
-    public static final BitSet FOLLOW_LINE_BREAK_in_notExpression1124 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_130_in_notExpression1117 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x000000000000007CL});
+    public static final BitSet FOLLOW_LINE_BREAK_in_notExpression1124 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x000000000000007CL});
     public static final BitSet FOLLOW_notExpression_in_notExpression1132 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_definedExpression_in_notExpression1138 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_131_in_definedExpression1149 = new BitSet(new long[]{0x00000040C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_131_in_definedExpression1149 = new BitSet(new long[]{0x00000040C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_assignmentExpression_in_definedExpression1151 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assignmentExpression_in_definedExpression1162 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ternaryIfThenElseExpression_in_assignmentExpression1176 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_lhs_in_assignmentExpression1190 = new BitSet(new long[]{0xFFF0000000000000L,0x0000000000000003L});
-    public static final BitSet FOLLOW_set_in_assignmentExpression1192 = new BitSet(new long[]{0x00000040C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_set_in_assignmentExpression1192 = new BitSet(new long[]{0x00000040C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_ternaryIfThenElseExpression_in_assignmentExpression1236 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rangeExpression_in_ternaryIfThenElseExpression1250 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000004L});
-    public static final BitSet FOLLOW_QUESTION_in_ternaryIfThenElseExpression1257 = new BitSet(new long[]{0x00000040C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_QUESTION_in_ternaryIfThenElseExpression1257 = new BitSet(new long[]{0x00000040C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_rangeExpression_in_ternaryIfThenElseExpression1260 = new BitSet(new long[]{0x0000000000000000L,0x0002000000000000L});
-    public static final BitSet FOLLOW_COLON_in_ternaryIfThenElseExpression1262 = new BitSet(new long[]{0x00000040C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_COLON_in_ternaryIfThenElseExpression1262 = new BitSet(new long[]{0x00000040C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_rangeExpression_in_ternaryIfThenElseExpression1265 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_logicalOrExpression_in_rangeExpression1280 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000018L});
-    public static final BitSet FOLLOW_INCLUSIVE_RANGE_in_rangeExpression1299 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_rangeExpression1303 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_EXCLUSIVE_RANGE_in_rangeExpression1314 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_rangeExpression1318 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_INCLUSIVE_RANGE_in_rangeExpression1299 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_rangeExpression1303 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_EXCLUSIVE_RANGE_in_rangeExpression1314 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_rangeExpression1318 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_logicalOrExpression_in_rangeExpression1333 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000018L});
     public static final BitSet FOLLOW_logicalAndExpression_in_logicalOrExpression1353 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000020L});
-    public static final BitSet FOLLOW_LOGICAL_OR_in_logicalOrExpression1385 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_logicalOrExpression1390 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LOGICAL_OR_in_logicalOrExpression1385 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_logicalOrExpression1390 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_logicalAndExpression_in_logicalOrExpression1399 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000020L});
     public static final BitSet FOLLOW_equalityExpression_in_logicalAndExpression1419 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000040L});
-    public static final BitSet FOLLOW_LOGICAL_AND_in_logicalAndExpression1451 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_logicalAndExpression1456 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LOGICAL_AND_in_logicalAndExpression1451 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_logicalAndExpression1456 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_equalityExpression_in_logicalAndExpression1465 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000040L});
     public static final BitSet FOLLOW_relationalExpression_in_equalityExpression1485 = new BitSet(new long[]{0x0000078000000002L,0x0000000000000180L});
-    public static final BitSet FOLLOW_COMPARE_in_equalityExpression1519 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1524 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_EQUAL_in_equalityExpression1535 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1541 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_CASE_EQUAL_in_equalityExpression1552 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1556 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_NOT_EQUAL_in_equalityExpression1567 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1572 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_MATCH_in_equalityExpression1583 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1589 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_NOT_MATCH_in_equalityExpression1600 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1605 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_COMPARE_in_equalityExpression1519 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1524 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_EQUAL_in_equalityExpression1535 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1541 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_CASE_EQUAL_in_equalityExpression1552 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1556 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_NOT_EQUAL_in_equalityExpression1567 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1572 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_MATCH_in_equalityExpression1583 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1589 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_NOT_MATCH_in_equalityExpression1600 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_equalityExpression1605 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_relationalExpression_in_equalityExpression1620 = new BitSet(new long[]{0x0000078000000002L,0x0000000000000180L});
     public static final BitSet FOLLOW_orExpression_in_relationalExpression1641 = new BitSet(new long[]{0x0000780000000002L});
-    public static final BitSet FOLLOW_LESS_THAN_in_relationalExpression1675 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_relationalExpression1681 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_GREATER_THAN_in_relationalExpression1692 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_relationalExpression1697 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LESS_OR_EQUAL_in_relationalExpression1708 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_relationalExpression1713 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_GREATER_OR_EQUAL_in_relationalExpression1724 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_relationalExpression1728 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LESS_THAN_in_relationalExpression1675 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_relationalExpression1681 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_GREATER_THAN_in_relationalExpression1692 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_relationalExpression1697 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LESS_OR_EQUAL_in_relationalExpression1708 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_relationalExpression1713 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_GREATER_OR_EQUAL_in_relationalExpression1724 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_relationalExpression1728 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_orExpression_in_relationalExpression1743 = new BitSet(new long[]{0x0000780000000002L});
     public static final BitSet FOLLOW_andExpression_in_orExpression1763 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000600L});
-    public static final BitSet FOLLOW_BXOR_in_orExpression1797 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_orExpression1803 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_BOR_in_orExpression1814 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_orExpression1820 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_BXOR_in_orExpression1797 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_orExpression1803 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_BOR_in_orExpression1814 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_orExpression1820 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_andExpression_in_orExpression1835 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000600L});
     public static final BitSet FOLLOW_shiftExpression_in_andExpression1855 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000800L});
-    public static final BitSet FOLLOW_BAND_in_andExpression1887 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_andExpression1893 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_BAND_in_andExpression1887 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_andExpression1893 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_shiftExpression_in_andExpression1902 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000800L});
     public static final BitSet FOLLOW_additiveExpression_in_shiftExpression1924 = new BitSet(new long[]{0x0000800000000802L});
-    public static final BitSet FOLLOW_LEFT_SHIFT_in_shiftExpression1958 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_shiftExpression1963 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_RIGHT_SHIFT_in_shiftExpression1974 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_shiftExpression1978 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LEFT_SHIFT_in_shiftExpression1958 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_shiftExpression1963 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_RIGHT_SHIFT_in_shiftExpression1974 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_shiftExpression1978 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_additiveExpression_in_shiftExpression1993 = new BitSet(new long[]{0x0000800000000802L});
     public static final BitSet FOLLOW_multiplicativeExpression_in_additiveExpression2015 = new BitSet(new long[]{0x0003000000000002L});
-    public static final BitSet FOLLOW_PLUS_in_additiveExpression2049 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_additiveExpression2056 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_MINUS_in_additiveExpression2067 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_additiveExpression2074 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_PLUS_in_additiveExpression2049 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_additiveExpression2056 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_MINUS_in_additiveExpression2067 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_additiveExpression2074 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_multiplicativeExpression_in_additiveExpression2089 = new BitSet(new long[]{0x0003000000000002L});
     public static final BitSet FOLLOW_powerExpression_in_multiplicativeExpression2109 = new BitSet(new long[]{0x0004000030000002L});
-    public static final BitSet FOLLOW_STAR_in_multiplicativeExpression2143 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_multiplicativeExpression2149 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_DIV_in_multiplicativeExpression2160 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_multiplicativeExpression2166 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_MOD_in_multiplicativeExpression2177 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_multiplicativeExpression2183 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_STAR_in_multiplicativeExpression2143 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_multiplicativeExpression2149 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_DIV_in_multiplicativeExpression2160 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_multiplicativeExpression2166 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_MOD_in_multiplicativeExpression2177 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_multiplicativeExpression2183 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_powerExpression_in_multiplicativeExpression2198 = new BitSet(new long[]{0x0004000030000002L});
     public static final BitSet FOLLOW_bnotExpression_in_powerExpression2219 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_POWER_in_powerExpression2254 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_powerExpression2260 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_POWER_in_powerExpression2254 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_powerExpression2260 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_bnotExpression_in_powerExpression2269 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_BNOT_in_bnotExpression2291 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_bnotExpression2297 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_NOT_in_bnotExpression2307 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_bnotExpression2313 = new BitSet(new long[]{0x00000050C004F000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_BNOT_in_bnotExpression2291 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_bnotExpression2297 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_NOT_in_bnotExpression2307 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_bnotExpression2313 = new BitSet(new long[]{0x00000050C0043000L,0x03A000260001F000L,0x0000000000000070L});
     public static final BitSet FOLLOW_command_in_bnotExpression2327 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_132_in_command2339 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_133_in_command2343 = new BitSet(new long[]{0x0000000000000002L});
@@ -7827,51 +7998,51 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_method_in_methodExpression2386 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ID_in_variable2394 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ID_in_method2411 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_command_call_in_method2424 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_command1_in_command_call2442 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_operation1_in_command12454 = new BitSet(new long[]{0x0000000000000000L,0x0000080000000000L});
-    public static final BitSet FOLLOW_command_args_in_command12456 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_open_args_in_command_args2467 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_open_args2484 = new BitSet(new long[]{0x0000000000000000L,0x0000100000000000L});
-    public static final BitSet FOLLOW_RPAREN_in_open_args2487 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_open_args2499 = new BitSet(new long[]{0x00000040C004F000L,0x03A000260001F000L,0x0000000000000078L});
-    public static final BitSet FOLLOW_call_args_in_open_args2502 = new BitSet(new long[]{0x0000000000000000L,0x0000100000000000L});
-    public static final BitSet FOLLOW_RPAREN_in_open_args2506 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_args_in_call_args2515 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_arg_in_args2532 = new BitSet(new long[]{0x0000000000000002L,0x0001000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_args2535 = new BitSet(new long[]{0x00000040C004F000L,0x03A000260001F000L,0x0000000000000078L});
-    public static final BitSet FOLLOW_arg_in_args2538 = new BitSet(new long[]{0x0000000000000002L,0x0001000000000000L});
-    public static final BitSet FOLLOW_definedExpression_in_arg2549 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_method2437 = new BitSet(new long[]{0x00000040C0043000L,0x03A008260001F000L,0x0000000000000078L});
+    public static final BitSet FOLLOW_open_args_in_method2439 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_command1_in_command_call2459 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_operation1_in_command12471 = new BitSet(new long[]{0x00000040C0043000L,0x03A008260001F000L,0x0000000000000078L});
+    public static final BitSet FOLLOW_command_args_in_command12474 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_open_args_in_command_args2486 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_call_args_in_open_args2494 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAREN_in_open_args2504 = new BitSet(new long[]{0x0000000000000000L,0x0000100000000000L});
+    public static final BitSet FOLLOW_RPAREN_in_open_args2507 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAREN_in_open_args2519 = new BitSet(new long[]{0x00000040C0043000L,0x03A000260001F000L,0x0000000000000078L});
+    public static final BitSet FOLLOW_call_args_in_open_args2522 = new BitSet(new long[]{0x0000000000000000L,0x0000100000000000L});
+    public static final BitSet FOLLOW_RPAREN_in_open_args2526 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_args_in_call_args2535 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arg_in_args2552 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_definedExpression_in_arg2562 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_operation10 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_operation22587 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONSTANT_in_operation22591 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FID_in_operation22595 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_op_in_operation22599 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_operation32615 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FID_in_operation32619 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_op_in_operation32623 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_lhs2637 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_expression_in_rhs2653 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INT_in_literal2663 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FLOAT_in_literal2665 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_string_in_literal2667 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ARRAY_in_literal2669 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_hash_in_literal2671 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SYMBOL_in_literal2673 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_REGEX_in_literal2675 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_operation22600 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CONSTANT_in_operation22604 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FID_in_operation22608 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_op_in_operation22612 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_operation32628 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FID_in_operation32632 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_op_in_operation32636 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_lhs2650 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_expression_in_rhs2666 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INT_in_literal2676 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FLOAT_in_literal2678 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_string_in_literal2680 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ARRAY_in_literal2682 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_hash_in_literal2684 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SYMBOL_in_literal2686 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_REGEX_in_literal2688 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_string0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LCURLY_in_hash3634 = new BitSet(new long[]{0x00000040C004F000L,0x03A000260001F000L,0x0000000000000078L});
-    public static final BitSet FOLLOW_assoc_list_in_hash3637 = new BitSet(new long[]{0x0000000000000000L,0x0000004000000000L});
-    public static final BitSet FOLLOW_RCURLY_in_hash3639 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_assocs_in_assoc_list3648 = new BitSet(new long[]{0x0000001000000002L,0x0001000000000000L});
-    public static final BitSet FOLLOW_trailer_in_assoc_list3650 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_assoc_in_assocs3659 = new BitSet(new long[]{0x0000000000000002L,0x0001000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_assocs3663 = new BitSet(new long[]{0x00000040C004F000L,0x03A000260001F000L,0x0000000000000078L});
-    public static final BitSet FOLLOW_assoc_in_assocs3666 = new BitSet(new long[]{0x0000000000000002L,0x0001000000000000L});
-    public static final BitSet FOLLOW_arg_in_assoc3684 = new BitSet(new long[]{0x0000000000000000L,0x0001020000000000L});
-    public static final BitSet FOLLOW_set_in_assoc3686 = new BitSet(new long[]{0x00000040C004F000L,0x03A000260001F000L,0x0000000000000078L});
-    public static final BitSet FOLLOW_arg_in_assoc3693 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_trailer3714 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_COMMA_in_trailer3719 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LCURLY_in_hash3647 = new BitSet(new long[]{0x00000040C0043000L,0x03A000260001F000L,0x0000000000000078L});
+    public static final BitSet FOLLOW_assoc_list_in_hash3650 = new BitSet(new long[]{0x0000000000000000L,0x0000004000000000L});
+    public static final BitSet FOLLOW_RCURLY_in_hash3652 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_assocs_in_assoc_list3661 = new BitSet(new long[]{0x0000001000000002L,0x0001000000000000L});
+    public static final BitSet FOLLOW_trailer_in_assoc_list3663 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_assoc_in_assocs3672 = new BitSet(new long[]{0x0000000000000002L,0x0001000000000000L});
+    public static final BitSet FOLLOW_COMMA_in_assocs3676 = new BitSet(new long[]{0x00000040C0043000L,0x03A000260001F000L,0x0000000000000078L});
+    public static final BitSet FOLLOW_assoc_in_assocs3679 = new BitSet(new long[]{0x0000000000000002L,0x0001000000000000L});
+    public static final BitSet FOLLOW_arg_in_assoc3697 = new BitSet(new long[]{0x0000000000000000L,0x0001020000000000L});
+    public static final BitSet FOLLOW_set_in_assoc3699 = new BitSet(new long[]{0x00000040C0043000L,0x03A000260001F000L,0x0000000000000078L});
+    public static final BitSet FOLLOW_arg_in_assoc3706 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_trailer3727 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_COMMA_in_trailer3732 = new BitSet(new long[]{0x0000000000000002L});
 
 }
