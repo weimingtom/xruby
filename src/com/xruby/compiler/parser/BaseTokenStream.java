@@ -101,7 +101,7 @@ public class BaseTokenStream implements TokenStream {
                 }
                 System.out.println("previous token:" + token1);
 
-            } else {
+            } else { //judge in arg , arg_end etc
                 //do nothing, we are QEUSTION
                 System.out.println("previous token:" + token1);
             }
@@ -109,7 +109,11 @@ public class BaseTokenStream implements TokenStream {
     }
 
     private boolean isExpressionBegin(Token token) {
-        return token == null || token.getType() == Rubyv3Lexer.POWER || token.getType() == Rubyv3Lexer.SEMI; //todo: add more to this
+        return token == null || token.getType() == Rubyv3Lexer.POWER || token.getType() == Rubyv3Lexer.SEMI || token.getType() == Rubyv3Lexer.LINE_BREAK
+                || token.getType() == Rubyv3Lexer.ASSIGN || token.getType() == Rubyv3Lexer.MOD_ASSIGN|| token.getType() == Rubyv3Lexer.COMPLEMENT_ASSIGN||token.getType() == Rubyv3Lexer.DIV_ASSIGN
+                ||token.getType() == Rubyv3Lexer.MINUS_ASSIGN||token.getType() == Rubyv3Lexer.PLUS_ASSIGN||token.getType() == Rubyv3Lexer.BOR_ASSIGN||token.getType() == Rubyv3Lexer.BAND_ASSIGN
+                ||token.getType() == Rubyv3Lexer.LEFT_SHIFT_ASSIGN||token.getType() == Rubyv3Lexer.RIGHT_SHIFT_ASSIGN||token.getType() == Rubyv3Lexer.STAR_ASSIGN||token.getType() == Rubyv3Lexer.LOGICAL_AND_ASSIGN
+                ||token.getType() == Rubyv3Lexer.LOGICAL_OR_ASSIGN||token.getType() == Rubyv3Lexer.POWER_ASSIGN; //todo: add more to this or simplify this
     }
 
     /*private boolean isExpressionEnd(Token token) {
