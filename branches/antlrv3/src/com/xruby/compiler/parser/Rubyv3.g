@@ -575,7 +575,7 @@ open_args
 call_args
 	:	args -> ^(ARG args);
 	
-args	:	arg; //(','! arg)*;
+args	:	arg (','! arg)*;
 	
 arg	:	definedExpression;
 //call_args2
@@ -816,3 +816,7 @@ fragment
 ANYTHING_OTHER_THAN_LINE_FEED
 		:	(~('\r'|'\n'))*
 		;
+		
+//		ML_COMMENT
+//: '/*' ( options {greedy=false;} : . )* '*/'
+//;
