@@ -111,9 +111,8 @@ abstract class ClassGenerator {
     }
 
     public void storeVariable(String name) {
-        int i = getSymbolTable().getLocalVariable(name);
-        if (i >= 0) {
-            getMethodGenerator().storeLocal(i);
+        if (getSymbolTable().getLocalVariable(name) >= 0) {
+            getMethodGenerator().storeRubyLocalVariable(name);
             return;
         }
 
@@ -129,7 +128,7 @@ abstract class ClassGenerator {
     public void loadVariable(String name) {
         //check if this is local variable
         if (getSymbolTable().getLocalVariable(name) >= 0) {
-            getMethodGenerator().loadLocal(getMethodGenerator().getLocalVariable(name));
+            getMethodGenerator().loadRubyLocalVariable(name);
             return;
         }
 
