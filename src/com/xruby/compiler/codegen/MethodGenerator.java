@@ -89,6 +89,14 @@ class MethodGenerator extends GeneratorAdapter {
         visitInsn(Opcodes.ACONST_NULL);
     }
 
+    public void loadRubyLocalVariable(String name) {
+        loadLocal(getSymbolTable().getLocalVariable(name));
+    }
+
+    public void storeRubyLocalVariable(String name) {
+        storeLocal(getSymbolTable().getLocalVariable(name));
+    }
+
     public int getLocalVariable(String name) {
         int i = getSymbolTable().getLocalVariable(name);
         if (i >= 0) {
@@ -583,10 +591,10 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("boolean testExceptionType(com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyException)"));
     }
-    
+
     public void RubyAPI_getSingleValue() {
-    	invokeStatic(Type.getType(RubyAPI.class),
-    			Method.getMethod("com.xruby.runtime.lang.RubyValue getSingleValue(com.xruby.runtime.lang.RubyValue)"));
+        invokeStatic(Type.getType(RubyAPI.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue getSingleValue(com.xruby.runtime.lang.RubyValue)"));
     }
 
     public void RubyAPI_expandArrayIfThereIsZeroOrOneValue() {
@@ -751,14 +759,14 @@ class MethodGenerator extends GeneratorAdapter {
         invokeVirtual(Type.getType(RubyModule.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue defineMethod(String, com.xruby.runtime.lang.RubyMethod)"));
     }
-    
+
     public void RubyBlock_invokeNoArg(boolean is_in_block) {
         invokeVirtual(Type.getType(Types.RubyBlockClass),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue)"));
     }
-    
+
     public void RubyBlock_invokeOneArg(boolean is_in_block) {
-    	invokeVirtual(Type.getType(Types.RubyBlockClass),
+        invokeVirtual(Type.getType(Types.RubyBlockClass),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
     }
 
