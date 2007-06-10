@@ -166,7 +166,7 @@ class MethodGenerator extends GeneratorAdapter {
         if (is_in_block) {
             loadBlockOfCurrentMethod();
         } else {
-            loadArg(2);
+            loadCurrentBlock();
         }
     }
 
@@ -196,6 +196,10 @@ class MethodGenerator extends GeneratorAdapter {
     /// @return true if in global scope
     public void loadCurrentClass() {
         loadArg(3);
+    }
+    
+    public void loadMethodArg() {
+    	loadArg(1);
     }
 
     public void breakFromBlock() {
@@ -531,6 +535,12 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
     }
+    
+    public void RubyAPI_callPublicNoArgMethod(String methodName) {
+        loadRubyID(methodName);
+        invokeStatic(Type.getType(RubyAPI.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicNoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
+    }
 
     public void RubyAPI_callPublicOneArgMethod(String methodName) {
         loadRubyID(methodName);
@@ -542,6 +552,12 @@ class MethodGenerator extends GeneratorAdapter {
         loadRubyID(methodName);
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
+    }
+    
+    public void RubyAPI_callNoArgMethod(String methodName) {
+    	loadRubyID(methodName);
+        invokeStatic(Type.getType(RubyAPI.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callNoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
     }
 
     public void RubyAPI_callOneArgMethod(String methodName) {
@@ -555,6 +571,13 @@ class MethodGenerator extends GeneratorAdapter {
         loadThis();
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.RubyMethod)"));
+    }
+    
+    public void RubyAPI_callSuperNoArgMethod(String methodName) {
+        loadRubyID(methodName);
+        loadThis();
+        invokeStatic(Type.getType(RubyAPI.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperNoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.RubyMethod)"));
     }
 
     public void RubyAPI_callSuperOneArgMethod(String methodName) {
@@ -715,7 +738,7 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void RubyAPI_initializeBlockParameter() {
-        loadArg(2);
+        this.loadCurrentBlock();
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue initializeBlockParameter(com.xruby.runtime.lang.RubyBlock)"));
     }

@@ -230,7 +230,7 @@ public class TestingPerformance {
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < LOOP; ++i) {
-            m.invoke(ObjectFactory.FIXNUM1, ObjectFactory.FIXNUM1, null, null);
+            m.invoke(ObjectFactory.FIXNUM1, ObjectFactory.FIXNUM1, null);
         }
         long end = System.currentTimeMillis();
         return end - start;

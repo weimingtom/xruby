@@ -5,6 +5,7 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
 public abstract class RubyOneArgMethod extends RubyMethod {
@@ -16,5 +17,13 @@ public abstract class RubyOneArgMethod extends RubyMethod {
 	
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block) {
 		return this.run(receiver, arg, block);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
+		return this.run(receiver, args.get(0), block);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		return super.run(receiver, ObjectFactory.NIL_VALUE, block);
 	}
 }

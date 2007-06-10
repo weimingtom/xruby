@@ -29,6 +29,7 @@ l = []
 10000.times {
   l.push([l])
 }
+
 GC.start
 test_ok true   # reach here or dumps core
 
