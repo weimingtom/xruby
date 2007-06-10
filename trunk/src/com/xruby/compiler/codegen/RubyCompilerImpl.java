@@ -180,7 +180,16 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 		//Save the current state and sart a new class file to write.
 		suspended_cgs_.push(cg_);
+		/*
 		cg_ = new ClassGeneratorForRubyMethod(methodName, script_name_,
+								uniqueMethodName,
+								num_of_args,
+								has_asterisk_parameter,
+								num_of_default_args,
+								is_singleton_method || cg_.getMethodGenerator().isSingleton());
+								*/
+		cg_ = ClassGeneratorForRubyMethodFactory.createClassGeneratorForRubyMethod(methodName, 
+								script_name_,
 								uniqueMethodName,
 								num_of_args,
 								has_asterisk_parameter,
@@ -301,7 +310,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitNoParameterForSuper() {
-		cg_.getMethodGenerator().loadArg(1);
+		cg_.getMethodGenerator().loadMethodArg();
 	}
 
 	public void visitNoBlock(boolean is_super_or_block_given_call) {
@@ -336,20 +345,33 @@ public class RubyCompilerImpl implements CodeVisitor {
 		}
 	}
 
-	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, boolean single_arg) {
+	public void visitMethodCallEnd(String methodName, boolean hasReceiver, 
+			String[] assignedCommons, String blockName, int argc) {
 		cg_.getMethodGenerator().removeCurrentVariablesOnStack();
 
 		if (hasReceiver) {
-			if (single_arg) {
+			switch (argc) {
+			case 0:
+				cg_.getMethodGenerator().RubyAPI_callPublicNoArgMethod(methodName);
+				break;
+			case 1:
 				cg_.getMethodGenerator().RubyAPI_callPublicOneArgMethod(methodName);
-			} else {
+				break;
+			default:
 				cg_.getMethodGenerator().RubyAPI_callPublicMethod(methodName);
+				break;
 			}
 		} else {
-			if (single_arg) {
+			switch (argc) {
+			case 0:
+				cg_.getMethodGenerator().RubyAPI_callNoArgMethod(methodName);
+				break;
+			case 1:
 				cg_.getMethodGenerator().RubyAPI_callOneArgMethod(methodName);
-			} else {
+				break;
+			default:
 				cg_.getMethodGenerator().RubyAPI_callMethod(methodName);
+			    break;
 			}
 		}
 
@@ -760,6 +782,10 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitSuperEnd(boolean has_no_arg, boolean has_one_arg) {
+		((ClassGeneratorForRubyMethod)cg_).callSuperMethod();
+		
+		
+		/*
 		if (has_no_arg &&
 			cg_ instanceof ClassGeneratorForRubyMethod &&
 			((ClassGeneratorForRubyMethod)cg_).hasOnlyOneArg()) {
@@ -768,7 +794,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 			cg_.getMethodGenerator().RubyAPI_callSuperOneArgMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
 		} else {
 			cg_.getMethodGenerator().RubyAPI_callSuperMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
-		}
+		}*/
 	}
 
 	public void visitGlobalVariableExpression(String value) {
@@ -1039,7 +1065,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
 	public void visitDefinedYield() {
 		if (cg_ instanceof ClassGeneratorForRubyMethod) {
-			cg_.getMethodGenerator().loadArg(2);
+			cg_.getMethodGenerator().loadCurrentBlock();//.loadArg(2);
 			cg_.getMethodGenerator().RubyAPI_isDefinedYield();
 		} else {
 			visitNilExpression();

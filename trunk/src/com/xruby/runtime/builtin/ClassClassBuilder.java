@@ -14,21 +14,17 @@ class Class_new extends RubyVarArgMethod {
         RubyClass r = (RubyClass) receiver;
         RubyValue v = r.allocObject(block);
         
-        if (null != args && args.size() == 1) {
-            callInitializeMethod(v, args.get(0), null, block);
-        } else {
-            callInitializeMethod(v, null, args, block);
-        }
+        callInitializeMethod(v, args, block);
         
         return v;
     }
 
-    private void callInitializeMethod(RubyValue v, RubyValue arg, RubyArray args, RubyBlock block) {
-        RubyMethod m = v.findMethod(CommonRubyID.initializeId);
+	private void callInitializeMethod(RubyValue v, RubyArray args, RubyBlock block) {
+		RubyMethod m = v.findMethod(CommonRubyID.initializeId);
         if (m != null) {
-            m.invoke(v, arg, args, block);
+            m.invoke(v, args, block);
         }
-    }
+	}
 }
 
 class Class_superclass extends RubyNoArgMethod {

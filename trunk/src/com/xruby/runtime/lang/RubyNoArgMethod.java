@@ -22,4 +22,14 @@ public abstract class RubyNoArgMethod extends RubyMethod {
 	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block) {
 		return this.run(receiver, block);
 	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+		return this.run(receiver, block);
+	}
+
+	public RubyValue invoke(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + this.getName() + "': wrong number of arguments (1 for 0)");
+	}
+
+	
 }

@@ -127,28 +127,30 @@ public class MethodCallExpression extends Expression {
 		} else {
 			visitor.visitSelfExpression();
 		}
-
-		boolean single_arg = (null != arguments_) && 
-									(arguments_.size() == 1) &&
-									(null == arguments_.getAsteriskArgument()) &&
-									!is_eval;
+		
+		int argc = is_eval ? -1 : getArgc();
 
 		if (null == arguments_) {
 			if (is_eval) {
 				visitor.visitBinding(true);
-				single_arg = true;
-			} else {
-				visitor.visitNoParameter();
+				argc = 1;
 			}
-		} else if (single_arg) {
-			arguments_.getFirstExpression().accept(visitor);
 		} else {
-			arguments_.accept(visitor);
-			if (is_eval && arguments_.size() <= 1) {
-				visitor.visitBinding(false);
+			switch (argc) {
+			case 0:
+				break;
+			case 1:
+				arguments_.getFirstExpression().accept(visitor);
+				break;
+			default:
+				arguments_.accept(visitor);
+				if (is_eval && arguments_.size() <= 1) {
+					visitor.visitBinding(false);
+				}
+				break;
 			}
 		}
-
+			
 		String name = null;
 		String[] assignedCommons = null;
 		if (null != block_) {
@@ -175,9 +177,21 @@ public class MethodCallExpression extends Expression {
 							(null != receiver_),
 							assignedCommons,
 							name,
-							single_arg);
+							argc);
 	}
-
+	
+	private int getArgc() {
+		if (arguments_ == null) {
+			return 0;
+		}
+		
+		if (arguments_.getAsteriskArgument() == null) {
+			return arguments_.size();
+		}
+		
+		return -1;
+	}
+	
 	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
 		if (null != receiver_) {
 			receiver_.getFrequentlyUsedIntegers(result);

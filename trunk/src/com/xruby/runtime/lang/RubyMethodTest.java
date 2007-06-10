@@ -36,7 +36,7 @@ public class RubyMethodTest extends TestCase {
         System.setOut(new PrintStream(output));
 
         f m = new f();
-        m.invoke(null, null, null, null);
+        m.invoke(null, null);
 
         System.setOut(original);
 

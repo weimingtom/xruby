@@ -12,14 +12,8 @@ class Proc_call extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         throw new Error("we overided invoke, so this method should never be called");
     }
-
-    public RubyValue invoke(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block) {
-        if (null != arg) {
-            assert(null == args);
-            args = ObjectFactory.createArray(1, 0, true);
-            args.add(arg);
-        }
-
+    
+    public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyValue v = ((RubyProc)receiver).call(args);
         block = ((RubyProc)receiver).getBlock();
         if (null != block) {
@@ -29,6 +23,16 @@ class Proc_call extends RubyVarArgMethod {
         }
         return v;
     }
+
+	public RubyValue invoke(RubyValue receiver, RubyBlock block) {
+		return this.invoke(receiver, (RubyArray)null, block);
+	}
+
+	public RubyValue invoke(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyArray args = ObjectFactory.createArray(1, 0, true);
+        args.add(arg);
+		return this.invoke(receiver, args, block);
+	}
 }
 
 class Proc_arity extends RubyNoArgMethod {

@@ -27,7 +27,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitTopLevelConstant(String name);
 
 	public void visitMethodCallBegin();
-	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, boolean single_arg);
+	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, int argc);
 	
 	public void visitDefinedPublicMethod(String name);
 	public void visitDefinedMethod(String name);

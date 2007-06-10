@@ -25,4 +25,12 @@ public abstract class RubyVarArgMethod extends RubyMethod {
 			return this.run(receiver, args, block);
 		}
 	}
+
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		return this.run(receiver, (RubyArray)null, block);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return this.run(receiver, new RubyArray(arg), block);
+	}
 }
