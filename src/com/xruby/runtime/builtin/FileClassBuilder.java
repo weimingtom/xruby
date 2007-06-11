@@ -103,16 +103,18 @@ class File_expand_path extends RubyVarArgMethod {
         }
 
         String file_name = RubyTypesUtil.convertToString(args.get(0)).toString();
+
         if (file_name.equals(".")) {
             file_name = "";
-        } else if ('/' == file_name.charAt(0)) {
-            file_name = ".." + file_name;
-        }
+        }  
 
         if (args.size() == 1) {
             File file = new File(file_name);
             return ObjectFactory.createString(file.getAbsolutePath().replace('\\', '/'));
         } else {
+            if (file_name.startsWith("/")) {
+                file_name = ".." + file_name;
+            }
             StringBuilder dir_string = new StringBuilder(RubyTypesUtil.convertToString(args.get(1)).toString());
             if (dir_string.toString().equals("/")) {
                 dir_string = new StringBuilder((new File("/")).getAbsolutePath().replace('\\', '/'));
