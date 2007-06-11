@@ -40,7 +40,7 @@ public class ClassGeneratorForOneArgRubyMethod extends ClassGeneratorForRubyMeth
 		getMethodGenerator().storeArg(1);
 	}
 	
-	public void callSuperMethod() {
+	public void callSuperMethod(boolean has_no_arg, boolean has_one_arg) {
 		this.getMethodGenerator().RubyAPI_callSuperOneArgMethod(this.getMethodName());
 	}
 }

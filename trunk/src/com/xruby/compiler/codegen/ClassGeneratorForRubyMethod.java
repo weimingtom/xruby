@@ -16,7 +16,7 @@ abstract class ClassGeneratorForRubyMethod extends ClassGenerator {
 	public abstract String getSuperCtorName();
 	public abstract void pushBasciArgForSuperArg(MethodGenerator mg, int argc, 
 			boolean has_asterisk_parameter, int default_argc);
-	public abstract void callSuperMethod();
+	public abstract void callSuperMethod(boolean has_no_arg, boolean has_one_arg);
 
     private final String method_name_;//this name is saved for 'super'
     private final boolean is_singleton_method_;
