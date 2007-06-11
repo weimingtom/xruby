@@ -349,9 +349,15 @@ expression
 primaryExpression
 	:	methodDefinition;
 methodDefinition
-	:	'def'^ (LINE_BREAK!)* methodName {enterScope();} f_arglist (terminal!)*  bodyStatement 'end'! {leaveScope();};
+	:	'def'^ (LINE_BREAK!)* (singleton dot_or_colon)? methodName {enterScope();} f_arglist (terminal!)*  bodyStatement 'end'! {leaveScope();};
+singleton
+	:	variable|'('! expression opt_nl ')'!;
+opt_nl        : /* none */ | LINE_BREAK!
+    ;
+dot_or_colon
+	:	'.'|COLON2;
 methodName
-	:	id=ID;  //todo:or constant
+	:	ID|CONSTANT|FID;  //todo:or constant
 f_arglist
 	:	'('! f_args  (LINE_BREAK!)* ')'! 
 	|       f_args terminal!;
