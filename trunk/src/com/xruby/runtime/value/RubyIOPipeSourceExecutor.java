@@ -55,7 +55,7 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
         }
 
         try {
-            while (avaliable = (source.read(buffer) != -1)) {
+            while (avaliable = (source.read(buffer) > 0)) {
                 String string = new String(buffer.array(), 0, buffer.position());
                 result.append(string);
                 buffer.clear();
@@ -83,22 +83,37 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
     }
 
     public RubyValue read(long length) {
+        
+        if (length == 0) {
+            if (avaliable) {
+                return ObjectFactory.createString("");
+            } else {
+                return ObjectFactory.NIL_VALUE;
+            }
+        }
+        
         ByteBuffer buffer = ByteBuffer.allocate((int) length);
         try {
-            avaliable = source.read(buffer) != -1;
+            avaliable = source.read(buffer) > 0;
         } catch (IOException e) {
             throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
         }
+        
+        if (!avaliable) {
+            return ObjectFactory.NIL_VALUE;
+        }
+        
         return ObjectFactory.createString(new String(buffer.array()));
     }
 
     public RubyValue read(int length, int offset) {
         ByteBuffer buffer = ByteBuffer.allocate(offset);
         try {
-            avaliable = source.read(buffer) != -1;
+            avaliable = source.read(buffer) > 0;
         } catch (IOException e) {
             throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
         }
+        
         return read(length);
     }
 
