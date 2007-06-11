@@ -33,7 +33,11 @@ public class ClassGeneratorForVarArgRubyMethod extends ClassGeneratorForRubyMeth
 		mg.push(default_argc);			
 	}
 	
-	public void callSuperMethod() {
-		this.getMethodGenerator().RubyAPI_callSuperMethod(this.getMethodName());
+	public void callSuperMethod(boolean has_no_arg, boolean has_one_arg) {
+		if (has_one_arg) {
+			this.getMethodGenerator().RubyAPI_callSuperOneArgMethod(this.getMethodName());
+		} else {
+			this.getMethodGenerator().RubyAPI_callSuperMethod(this.getMethodName());
+		}
 	}
 }

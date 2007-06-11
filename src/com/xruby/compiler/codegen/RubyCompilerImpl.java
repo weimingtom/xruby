@@ -782,7 +782,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 	}
 
 	public void visitSuperEnd(boolean has_no_arg, boolean has_one_arg) {
-		((ClassGeneratorForRubyMethod)cg_).callSuperMethod();
+		((ClassGeneratorForRubyMethod)cg_).callSuperMethod(has_no_arg, has_one_arg);
 		
 		
 		/*

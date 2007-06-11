@@ -55,12 +55,11 @@ public class ClassGeneratorForNoArgRubyMethod extends ClassGeneratorForRubyMetho
 			}
 			
 			public void loadMethodArg() {
-//				this.pushNull();
 			}
 		};
 	}
 
-	public void callSuperMethod() {
+	public void callSuperMethod(boolean has_no_arg, boolean has_one_arg) {
 		this.getMethodGenerator().RubyAPI_callSuperNoArgMethod(this.getMethodName());
 	}
 }
