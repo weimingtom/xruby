@@ -120,6 +120,7 @@ public class Rubyv3LexerTest extends TestCaseExtend {
     public void test_FID() throws Exception {
         assert_lex("a?", Rubyv3Lexer.FID);
         assert_lex("a!", Rubyv3Lexer.FID);
+        assert_lex("3.class", new int[]{Rubyv3Lexer.INT, Rubyv3Lexer.DOT, Rubyv3Lexer.ID});
     }
 
     public void test_ternary_if_expression() throws Exception {
