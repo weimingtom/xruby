@@ -285,7 +285,7 @@ public class RubyAPI {
         }
     }
 
-    static boolean isWindows() {
+    public static boolean isWindows() {
         return (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") >= 0);	
     }
 
