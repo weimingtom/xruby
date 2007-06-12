@@ -47,7 +47,12 @@ abstract class ClassGenerator {
     public void restoreLocalVariableFromBlock(String blockName, String name) {
         getMethodGenerator().loadLocal(getSymbolTable().getInternalBlockVar());
         getMethodGenerator().getField(Type.getType("L" + blockName + ";"), name, Type.getType(Types.RubyValueClass));
-        getMethodGenerator().storeLocal(getMethodGenerator().getLocalVariable(name));
+        if (getSymbolTable().getLocalVariable(name) >= 0) {
+            getMethodGenerator().storeRubyLocalVariable(name);
+        } else {
+            //TODO may happen in for..in, binding, not sure if this is a bug
+            getMethodGenerator().storeNewLocalVariable(name);
+        }
     }
 
     public void startClassBuilderMethod(String name, boolean is_singleton) {
@@ -94,12 +99,12 @@ abstract class ClassGenerator {
         //But doing it here has a little advantage (optimazation): if the
         //asterisk parameter is not used, we'd better avoid calling initializeAsteriskParameter().
         getMethodGenerator().RubyAPI_initializeAsteriskParameter(argc);
-        getMethodGenerator().storeLocal(getMethodGenerator().getNewLocalVariable(name));
+        getMethodGenerator().storeNewLocalVariable(name);
     }
 
     public void setBlockParameter(String name) {
         getMethodGenerator().RubyAPI_initializeBlockParameter();
-        getMethodGenerator().storeLocal(getMethodGenerator().getNewLocalVariable(name));
+        getMethodGenerator().storeNewLocalVariable(name);
     }
 
     public void visitEnd() {
@@ -122,7 +127,8 @@ abstract class ClassGenerator {
             return;
         }
 
-        getMethodGenerator().storeLocal(getMethodGenerator().getNewLocalVariable(name));
+        getMethodGenerator().storeNewLocalVariable(name);
+
     }
 
     public void loadVariable(String name) {
