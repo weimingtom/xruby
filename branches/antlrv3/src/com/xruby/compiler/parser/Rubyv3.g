@@ -556,14 +556,14 @@ bnotExpression
 		;
 command
 @after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
-	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom) (DOT^ method)*
+	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true]) (DOT^ method[false])*
 	; //|       lhs SHIFT^ rhs ;	
-atom	:	methodExpression;
-methodExpression
-	:      variable|method;
+atom[boolean topLevel]	:	methodExpression[topLevel];
+methodExpression[boolean topLevel]
+	:      variable|method[topLevel];
 variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
-method	:	{!isDefinedVar(input.LT(1).getText())}? ID
-        |       ID open_args
+method[boolean topLevel]	:	{!isDefinedVar(input.LT(1).getText())}? ID -> ^(CALL ID)
+        |       ID open_args -> ^(CALL ID open_args)
         ;
 primary	:	literal;
 	
