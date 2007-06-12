@@ -91,6 +91,7 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_fixnum() throws Exception {
+        assert_parse("7", "(STATEMENT_LIST (STATEMENT 7))");
         assert_parse("7;", "(STATEMENT_LIST (STATEMENT 7))");
         //assert_parse("09;", "(STATEMENT_LIST (STATEMENT 09))");
 
@@ -149,14 +150,20 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_def_method() throws Exception {
-        //assert_parse("def test \n end", "(STATEMENT_LIST (STATEMENT (def test)))");
+        assert_parse("def test \n end", "(STATEMENT_LIST (STATEMENT (def test)))");
+        assert_parse("obj=1;def obj.test \n end", "(STATEMENT_LIST (STATEMENT (= (VARIABLE obj) 1)) (STATEMENT (def (VARIABLE obj) . test)))");
+        assert_parse("def (1.class).test \n end", "(STATEMENT_LIST (STATEMENT (= (VARIABLE obj) 1)) (STATEMENT (def (VARIABLE obj) . test)))");
 
     }
     public void test_method() throws Exception {
         //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");
         //DFA.debug = true;
-        assert_parse("5 ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
-        assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (CALL x) 3 2)))");
+        //assert_parse("5 ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
+        //assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (CALL x) 3 2)))");
+        //assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
+        assert_parse("1.test1.test2", "(STATEMENT_LIST (STATEMENT (. (. 1 test1) test2)))");
+        assert_parse("1.class", "(STATEMENT_LIST (STATEMENT (. 1 class)))");
+        assert_parse("1.class 3", "(STATEMENT_LIST (STATEMENT (. 1 class (ARG 3))))");
         //assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
         //assert_parse("def test\n 3 end \ntest", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");
         //assert_parse("def test\n 3 end;test", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");
@@ -170,7 +177,7 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("test 2**3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
 //        assert_parse("test 5?3:2", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
         //assert_parse("puts \"abc\"?3:5", "");
-        assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (= (VARIABLE a) 1)))))");
+        //assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (= (VARIABLE a) 1)))))");
         assert_parse("test 5, test 2,3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 5 (CALL test (ARG 2 3))))))");
 
 

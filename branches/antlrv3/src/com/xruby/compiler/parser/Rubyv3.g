@@ -349,13 +349,13 @@ expression
 primaryExpression
 	:	methodDefinition;
 methodDefinition
-	:	'def'^ (LINE_BREAK!)* (singleton dot_or_colon)? methodName {enterScope();} f_arglist (terminal!)*  bodyStatement 'end'! {leaveScope();};
+	:	'def'^ (LINE_BREAK!)* (singleton dot_or_colon)? methodName {enterScope();} f_arglist (terminal!)*  bodyStatement? 'end'! {leaveScope();};
 singleton
 	:	variable|'('! expression opt_nl ')'!;
 opt_nl        : /* none */ | LINE_BREAK!
     ;
 dot_or_colon
-	:	'.'|COLON2;
+	:	DOT|COLON2;
 methodName
 	:	ID|CONSTANT|FID;  //todo:or constant
 f_arglist
@@ -556,14 +556,16 @@ bnotExpression
 		;
 command
 @after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
-	:('expression0' | 'expression1' | 'expression2'|literal|boolean_expression| block_expression|if_expression|unless_expression|atom)
+	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom) (DOT^ method)*
 	; //|       lhs SHIFT^ rhs ;	
 atom	:	methodExpression;
 methodExpression
 	:      variable|method;
 variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
-method	:	{!isDefinedVar(input.LT(1).getText())}? ID -> ^(CALL ID)
-        |       ID open_args -> ^(CALL ID open_args);
+method	:	{!isDefinedVar(input.LT(1).getText())}? ID
+        |       ID open_args
+        ;
+primary	:	literal;
 	
 command_call
 	:	command1;
@@ -574,12 +576,13 @@ command1:	operation1 (command_args);
 		
 command_args
 	:	open_args;
+/* mandatory open_args*/
 open_args
 	:	call_args
 	|      '('! ')'!
 	|       '('! call_args /*call_args2*/ ')'!;
 call_args
-	:	args -> ^(ARG args);
+	:	args  -> ^(ARG args);
 	
 args	:	arg (','! arg)*;
 	
@@ -601,7 +604,7 @@ rhs	:	expression;
 
 //primary	:	literal| 'begin' program 'end'; //todo:more on this later
 
-literal	:	INT|FLOAT|string|ARRAY|hash|SYMBOL|REGEX;
+literal	:	INT|FLOAT|string|ARRAY|SYMBOL|REGEX;
 INT
 	:	'-'?
 	        (OCTAL|HEX|BINARY|LEADING_MARK_DECIMAL
@@ -622,9 +625,9 @@ GLOBAL_VARIABLE
 		|	'$'	(options{greedy=true;}:'0'..'9')+
 		|	'$'	('!'|'@'|'&'|'`'|'\''|'+'|'~'|'='|'/'|'\\'|','|';'|'.'|'<'|'>'|'*'|'$'|'?'|/*':'|*/'\"')
 		;
-protected
+fragment
 IDENTIFIER_CONSTANT_AND_KEYWORD
-		:	('a'..'z'|'A'..'Z'|'_')	(options{greedy=true;}:	'a'..'z'|'A'..'Z'|'_'|'0'..'9')*
+		:	('a'..'z'|'A'..'Z'|'_')	('a'..'z'|'A'..'Z'|'_'|'0'..'9')*
 		;
 
 //fragment
@@ -786,6 +789,7 @@ EMPTY_ARRAY		:	'[]'		;
 //RCURLY				:	'}'		;
 COMMA				:	','		;
 COLON				:	':'		;
+DOT	:	'.';
 COLON2				:	'::'	;
 
 NOT					:	'!'		;
