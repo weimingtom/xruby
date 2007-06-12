@@ -177,6 +177,7 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("test 2**3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
 //        assert_parse("test 5?3:2", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
         //assert_parse("puts \"abc\"?3:5", "");
+        assert_parse("1.class.class.test 1,2.class", "(STATEMENT_LIST (STATEMENT (. (. (. 1 (CALL class)) (CALL class)) (CALL test (ARG 1 (. 2 (CALL class)))))))");
         assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (= (VARIABLE a) 1)))))");
         assert_parse("test 5, test 2,3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 5 (CALL test (ARG 2 3))))))");
 
