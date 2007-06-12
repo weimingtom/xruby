@@ -160,10 +160,10 @@ public class Rubyv3ParserTest extends TestCase {
         //DFA.debug = true;
         //assert_parse("5 ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
         //assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (CALL x) 3 2)))");
-        //assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
-        assert_parse("1.test1.test2", "(STATEMENT_LIST (STATEMENT (. (. 1 test1) test2)))");
-        assert_parse("1.class", "(STATEMENT_LIST (STATEMENT (. 1 class)))");
-        assert_parse("1.class 3", "(STATEMENT_LIST (STATEMENT (. 1 class (ARG 3))))");
+        assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
+        assert_parse("1.test1.test2", "(STATEMENT_LIST (STATEMENT (. (. 1 (CALL test1)) (CALL test2))))");
+        assert_parse("1.class", "(STATEMENT_LIST (STATEMENT (. 1 (CALL class))))");
+        assert_parse("1.class 3", "(STATEMENT_LIST (STATEMENT (. 1 (CALL class (ARG 3)))))");
         //assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
         //assert_parse("def test\n 3 end \ntest", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");
         //assert_parse("def test\n 3 end;test", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");
@@ -177,7 +177,7 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("test 2**3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
 //        assert_parse("test 5?3:2", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
         //assert_parse("puts \"abc\"?3:5", "");
-        //assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (= (VARIABLE a) 1)))))");
+        assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (= (VARIABLE a) 1)))))");
         assert_parse("test 5, test 2,3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 5 (CALL test (ARG 2 3))))))");
 
 
