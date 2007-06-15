@@ -98,7 +98,7 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void storeNewLocalVariable(String name) {
-        int i = newLocal(Type.getType(Types.RubyValueClass));
+        int i = newLocal(Types.RUBY_VALUE_TYPE);
         getSymbolTable().addLocalVariable(name, i);
         storeLocal(i);
     }
@@ -107,7 +107,7 @@ class MethodGenerator extends GeneratorAdapter {
         dup();
         int i = symbol_table_.getInternalBlockVar();
         if (i < 0) {
-            i = newLocal(Type.getType(Types.RubyBlockClass));
+            i = newLocal(Types.RUBY_BLOCK_TYPE);
             symbol_table_.setInternalBlockVar(i);
         }
         storeLocal(i);
@@ -115,7 +115,7 @@ class MethodGenerator extends GeneratorAdapter {
 
     public void returnIfBlockReturned() {
         dup();
-        invokeVirtual(Type.getType(Types.RubyValueClass),
+        invokeVirtual(Types.RUBY_VALUE_TYPE,
                 Method.getMethod("boolean returnedInBlock()"));
         Label after_return = new Label();
         ifZCmp(GeneratorAdapter.EQ, after_return);
@@ -134,23 +134,23 @@ class MethodGenerator extends GeneratorAdapter {
     public void store_asterisk_parameter_(Class c) {
         loadThis();
         swap();
-        putField(Type.getType(c), "asterisk_parameter_", Type.getType(Types.RubyValueClass));
+        putField(Type.getType(c), "asterisk_parameter_", Types.RUBY_VALUE_TYPE);
     }
 
     public void store_block_parameter_(Class c) {
         loadThis();
         swap();
-        putField(Type.getType(c), "block_parameter_", Type.getType(Types.RubyValueClass));
+        putField(Type.getType(c), "block_parameter_", Types.RUBY_VALUE_TYPE);
     }
 
     public void load_asterisk_parameter_(Class c) {
         loadThis();
-        getField(Type.getType(c), "asterisk_parameter_", Type.getType(Types.RubyValueClass));
+        getField(Type.getType(c), "asterisk_parameter_", Types.RUBY_VALUE_TYPE);
     }
 
     public void load_block_parameter_(Class c) {
         loadThis();
-        getField(Type.getType(c), "block_parameter_", Type.getType(Types.RubyValueClass));
+        getField(Type.getType(c), "block_parameter_", Types.RUBY_VALUE_TYPE);
     }
 
     public void loadBlock(boolean is_in_block) {
@@ -164,7 +164,7 @@ class MethodGenerator extends GeneratorAdapter {
     public void loadMethodPrameterLength() {
         //This is only called for methods with default args
         loadArg(1);
-        invokeVirtual(Type.getType(Types.RubyArrayClass),
+        invokeVirtual(Types.RUBY_ARRAY_TYPE,
                 Method.getMethod("int size()"));
     }
 
@@ -173,7 +173,7 @@ class MethodGenerator extends GeneratorAdapter {
             loadCurrentClass();
         } else if (is_in_singleton_method) {
             loadSelf(is_in_block);
-            checkCast(Type.getType(Types.RubyModuleClass));
+            checkCast(Types.RUBY_MODULE_TYPE);
         } else if (is_in_global_scope) {
             loadArg(3);
         } else if (is_in_block) {
@@ -196,32 +196,32 @@ class MethodGenerator extends GeneratorAdapter {
     public void breakFromBlock() {
         loadThis();
         push(true);
-        putField(Type.getType(Types.RubyBlockClass), "__break__", Type.getType(boolean.class));
+        putField(Types.RUBY_BLOCK_TYPE, "__break__", Type.getType(boolean.class));
         returnValue();
     }
 
     public void returnFromBlock() {
         loadThis();
         push(true);
-        putField(Type.getType(Types.RubyBlockClass), "__return__", Type.getType(boolean.class));
+        putField(Types.RUBY_BLOCK_TYPE, "__return__", Type.getType(boolean.class));
         returnValue();
     }
 
     public void redoFromBlock() {
         loadThis();
         push(true);
-        putField(Type.getType(Types.RubyBlockClass), "__redo__", Type.getType(boolean.class));
+        putField(Types.RUBY_BLOCK_TYPE, "__redo__", Type.getType(boolean.class));
         returnValue();
     }
 
     public int saveRubyArrayAsLocalVariable() {
-        int var = newLocal(Type.getType(Types.RubyArrayClass));
+        int var = newLocal(Types.RUBY_ARRAY_TYPE);
         storeLocal(var);
         return var;
     }
 
     public int saveRubyValueAsLocalVariable() {
-        int var = newLocal(Type.getType(Types.RubyValueClass));
+        int var = newLocal(Types.RUBY_VALUE_TYPE);
         storeLocal(var);
         return var;
     }
@@ -234,17 +234,17 @@ class MethodGenerator extends GeneratorAdapter {
 
     public void loadBlockOfCurrentMethod() {
         loadThis();
-        getField(Type.getType(Types.RubyBlockClass), "blockOfCurrentMethod_", Type.getType(Types.RubyBlockClass));
+        getField(Types.RUBY_BLOCK_TYPE, "blockOfCurrentMethod_", Types.RUBY_BLOCK_TYPE);
     }
 
     public void loadSelfOfCurrentMethod() {
         loadThis();
-        getField(Type.getType(Types.RubyBlockClass), "selfOfCurrentMethod_", Type.getType(Types.RubyValueClass));
+        getField(Types.RUBY_BLOCK_TYPE, "selfOfCurrentMethod_", Types.RUBY_VALUE_TYPE);
     }
 
     public void loadScopeOfCurrentMethod() {
         loadThis();
-        getField(Type.getType(Types.RubyBlockClass), "scopeOfCurrentMethod_", Type.getType(Types.RubyModuleClass));
+        getField(Types.RUBY_BLOCK_TYPE, "scopeOfCurrentMethod_", Types.RUBY_MODULE_TYPE);
     }
 
     public void loadSelf(boolean is_in_block) {
@@ -303,7 +303,7 @@ class MethodGenerator extends GeneratorAdapter {
             invokeStatic(Type.getType(RubyAPI.class),
                     Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
         }
-        invokeVirtual(Type.getType(Types.RubyArrayClass),
+        invokeVirtual(Types.RUBY_ARRAY_TYPE,
                 Method.getMethod("com.xruby.runtime.value.RubyArray add(com.xruby.runtime.lang.RubyValue)"));
     }
 
@@ -313,19 +313,19 @@ class MethodGenerator extends GeneratorAdapter {
                     Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsZeroOrOneValue(com.xruby.runtime.lang.RubyValue)"));
         }
 
-        invokeVirtual(Type.getType(Types.RubyArrayClass),
+        invokeVirtual(Types.RUBY_ARRAY_TYPE,
                 Method.getMethod("com.xruby.runtime.value.RubyArray expand(com.xruby.runtime.lang.RubyValue)"));
     }
 
     public void RubyArray_get(int index) {
         push(index);
-        invokeVirtual(Type.getType(Types.RubyArrayClass),
+        invokeVirtual(Types.RUBY_ARRAY_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyValue get(int)"));
     }
 
     public void RubyArray_collect(int index) {
         push(index);
-        invokeVirtual(Type.getType(Types.RubyArrayClass),
+        invokeVirtual(Types.RUBY_ARRAY_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyValue collect(int)"));
     }
 
@@ -341,7 +341,7 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void RubyHash_addValue() {
-        invokeVirtual(Type.getType(Types.RubyHashClass),
+        invokeVirtual(Types.RUBY_HASH_TYPE,
                 Method.getMethod("com.xruby.runtime.value.RubyHash add(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
     }
 
@@ -349,7 +349,7 @@ class MethodGenerator extends GeneratorAdapter {
         if (RubyRuntime.isBuiltinClass(className)) {
             getStatic(Type.getType(RubyRuntime.class),
                     className + "Class",
-                    Type.getType(Types.RubyClassClass));
+                    Types.RUBY_CLASS_TYPE);
             return true;
         } else {
             return false;
@@ -360,7 +360,7 @@ class MethodGenerator extends GeneratorAdapter {
         if (RubyRuntime.isBuiltinModule(name)) {
             getStatic(Type.getType(RubyRuntime.class),
                     name + "Module",
-                    Type.getType(Types.RubyModuleClass));
+                    Types.RUBY_MODULE_TYPE);
             return true;
         } else {
             return false;
@@ -378,7 +378,7 @@ class MethodGenerator extends GeneratorAdapter {
         }
 
         ObjectFactory_createFixnum(value);
-        int var = newLocal(Type.getType(Types.RubyValueClass));
+        int var = newLocal(Types.RUBY_VALUE_TYPE);
         storeLocal(var);
         integer_table_.addInteger(value, var);
     }
@@ -447,19 +447,19 @@ class MethodGenerator extends GeneratorAdapter {
     public void ObjectFactory_nilValue() {
         getStatic(Type.getType(ObjectFactory.class),
                 "NIL_VALUE",
-                Type.getType(Types.RubyValueClass));
+                Types.RUBY_VALUE_TYPE);
     }
 
     public void ObjectFactory_trueValue() {
         getStatic(Type.getType(ObjectFactory.class),
                 "TRUE_VALUE",
-                Type.getType(Types.RubyValueClass));
+                Types.RUBY_VALUE_TYPE);
     }
 
     public void ObjectFactory_falseValue() {
         getStatic(Type.getType(ObjectFactory.class),
                 "FALSE_VALUE",
-                Type.getType(Types.RubyValueClass));
+                Types.RUBY_VALUE_TYPE);
     }
 
     public void ObjectFactory_createArray(int size, int rhs_size, boolean has_single_asterisk) {
@@ -775,32 +775,32 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void RubyBlock_invokeNoArg(boolean is_in_block) {
-        invokeVirtual(Type.getType(Types.RubyBlockClass),
+        invokeVirtual(Types.RUBY_BLOCK_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue)"));
     }
 
     public void RubyBlock_invokeOneArg(boolean is_in_block) {
-        invokeVirtual(Type.getType(Types.RubyBlockClass),
+        invokeVirtual(Types.RUBY_BLOCK_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
     }
 
     public void RubyBlock_invoke(boolean is_in_block) {
-        invokeVirtual(Type.getType(Types.RubyBlockClass),
+        invokeVirtual(Types.RUBY_BLOCK_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray)"));
     }
 
     public void checkBreakedOrReturned(boolean is_in_block) {
-        int value = newLocal(Type.getType(Types.RubyValueClass));
+        int value = newLocal(Types.RUBY_VALUE_TYPE);
         storeLocal(value);
 
-        invokeVirtual(Type.getType(Types.RubyBlockClass),
+        invokeVirtual(Types.RUBY_BLOCK_TYPE,
                 Method.getMethod("boolean breakedOrReturned()"));
         Label after_return = new Label();
         ifZCmp(GeneratorAdapter.EQ, after_return);
         if (is_in_block) {
             loadThis();
             push(true);
-            putField(Type.getType(Types.RubyBlockClass), "__break__", Type.getType(boolean.class));
+            putField(Types.RUBY_BLOCK_TYPE, "__break__", Type.getType(boolean.class));
         }
         loadLocal(value);
         returnValue();//TODO more error checking, may not in the method context
@@ -809,36 +809,36 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void RubyValue_getRubyClass() {
-        invokeVirtual(Type.getType(Types.RubyValueClass),
+        invokeVirtual(Types.RUBY_VALUE_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyClass getRubyClass()"));
     }
 
     public void RubyValue_getSingletonClass() {
-        invokeVirtual(Type.getType(Types.RubyValueClass),
+        invokeVirtual(Types.RUBY_VALUE_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyClass getSingletonClass()"));
     }
 
     public void RubyValue_getInstanceVariable(String name) {
         //push(name);
         RubyIDClassGenerator.getField(this, name);
-        invokeVirtual(Type.getType(Types.RubyValueClass),
+        invokeVirtual(Types.RUBY_VALUE_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyValue getInstanceVariable(com.xruby.runtime.lang.RubyID)"));
     }
 
     public void RubyValue_setInstanceVariable(String name) {
         RubyIDClassGenerator.getField(this, name);
         //push(name);
-        invokeVirtual(Type.getType(Types.RubyValueClass),
+        invokeVirtual(Types.RUBY_VALUE_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyID)"));
     }
 
     public void RubyMethod_getOwner() {
-        invokeVirtual(Type.getType(Types.RubyMethodClass),
+        invokeVirtual(Types.RUBY_METHOD_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyModule getOwner()"));
     }
 
     public void RubyProc_isDefinedInAnotherBlock() {
-        invokeVirtual(Type.getType(Types.RubyProcClass),
+        invokeVirtual(Types.RUBY_PROC_TYPE,
                 Method.getMethod("boolean isDefinedInAnotherBlock()"));
     }
 

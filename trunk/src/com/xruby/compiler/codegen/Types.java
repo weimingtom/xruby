@@ -7,9 +7,9 @@ package com.xruby.compiler.codegen;
 
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyData;
 import com.xruby.runtime.value.RubyHash;
 import com.xruby.runtime.value.RubyProc;
+import org.objectweb.asm.Type;
 
 /*
  * This class is created to control the dependency between "compiler" and "runtime" package
@@ -21,19 +21,27 @@ import com.xruby.runtime.value.RubyProc;
  * If you use the last one, than your code depends on runtime directly. The first one add a thin layer.
  * It is really nothing for know, but later we are going to more more to there, like method signatures
  * */
-public class Types {
-    public static Class RubyProgramClass = RubyProgram.class;
-    public static Class RubyBlockClass = RubyBlock.class;
-    public static Class RubyValueClass = RubyValue.class;
-    public static Class RubyClassClass = RubyClass.class;
-    public static Class RubyModuleClass = RubyModule.class;
-    public static Class RubyDataClass = RubyData.class;
-    public static Class RubyMethodClass = RubyMethod.class;
-    public static Class RubyVarArgMethodClass = RubyVarArgMethod.class;
-    public static Class RubyOneArgMethodClass = RubyOneArgMethod.class;
-    public static Class RubyRuntimeClass = RubyRuntime.class;
-    public static Class RubyArrayClass = RubyArray.class;
-    public static Class RubyHashClass = RubyHash.class;
-    public static Class RubyBindingClass = RubyBinding.class;
-    public static Class RubyProcClass = RubyProc.class;
+interface Types {
+    static final Class RUBY_ARRAY_CLASS = RubyArray.class;
+    static final Class RUBY_VALUE_CLASS = RubyValue.class;
+
+    static final Type RUBY_NOARGMETHOD_TYPE = Type.getType(RubyNoArgMethod.class);
+    static final Type RUBY_ONEARGMETHOD_TYPE = Type.getType(RubyOneArgMethod.class);
+    static final Type RUBY_VARARGMETHOD_TYPE = Type.getType(RubyVarArgMethod.class);
+
+    static final Type RUBY_NOARGBLOCK_TYPE = Type.getType(RubyNoArgBlock.class);
+    static final Type RUBY_ONEARGBLOCK_TYPE = Type.getType(RubyOneArgBlock.class);
+    static final Type RUBY_VARARGBLOCK_TYPE = Type.getType(RubyVarArgBlock.class);
+
+    static final Type RUBY_RUNTIME_TYPE = Type.getType(RubyRuntime.class);
+    static final Type RUBY_PROGRAM_TYPE = Type.getType(RubyProgram.class);
+    static final Type RUBY_BLOCK_TYPE = Type.getType(RubyBlock.class);
+    static final Type RUBY_CLASS_TYPE = Type.getType(RubyClass.class);
+    static final Type RUBY_MODULE_TYPE = Type.getType(RubyModule.class);
+    static final Type RUBY_METHOD_TYPE = Type.getType(RubyMethod.class);
+    static final Type RUBY_ARRAY_TYPE = Type.getType(RubyArray.class);
+    static final Type RUBY_VALUE_TYPE = Type.getType(RubyValue.class);
+    static final Type RUBY_PROC_TYPE = Type.getType(RubyProc.class);
+    static final Type RUBY_BINDING_TYPE = Type.getType(RubyBinding.class);
+    static final Type RUBY_HASH_TYPE = Type.getType(RubyHash.class);
 }

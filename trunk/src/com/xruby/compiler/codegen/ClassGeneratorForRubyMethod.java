@@ -10,13 +10,13 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.Method;
 
 abstract class ClassGeneratorForRubyMethod extends ClassGenerator {
-	public abstract String getSuperName();	
-	public abstract String getRunMethodName();
-	public abstract Class getSuperClass();
-	public abstract String getSuperCtorName();
-	public abstract void pushBasciArgForSuperArg(MethodGenerator mg, int argc, 
-			boolean has_asterisk_parameter, int default_argc);
-	public abstract void callSuperMethod(boolean has_no_arg, boolean has_one_arg);
+    public abstract String getSuperName();
+    public abstract String getRunMethodName();
+    public abstract Type getSuperClassType();
+    public abstract String getSuperCtorName();
+    public abstract void pushBasciArgForSuperArg(MethodGenerator mg, int argc,
+            boolean has_asterisk_parameter, int default_argc);
+    public abstract void callSuperMethod(boolean has_no_arg, boolean has_one_arg);
 
     private final String method_name_;//this name is saved for 'super'
     private final boolean is_singleton_method_;
@@ -40,30 +40,30 @@ abstract class ClassGeneratorForRubyMethod extends ClassGenerator {
     boolean isSingletonMethod() {
         return is_singleton_method_;
     }
-    
-    private MethodGenerator visitRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {    	
-		cv_.visit(Opcodes.V1_5,
+
+    private MethodGenerator visitRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
+        cv_.visit(Opcodes.V1_5,
                 0,		//No modifier
                 name_,
                 null,								// signature
                 this.getSuperName(),	// superName
                 null								// interface
                 );
-		
-		createCtorForRubyMethod(argc, has_asterisk_parameter, default_argc);
-		
-		return createMethodGenerator();
+
+        createCtorForRubyMethod(argc, has_asterisk_parameter, default_argc);
+
+        return createMethodGenerator();
     }
-    
-	protected MethodGenerator createMethodGenerator() {
-		return new MethodGenerator(Opcodes.ACC_PROTECTED,
+
+    protected MethodGenerator createMethodGenerator() {
+        return new MethodGenerator(Opcodes.ACC_PROTECTED,
                 Method.getMethod(this.getRunMethodName()),
                 cv_,
                 null,
                 null,
                 false);
-	}
-    
+    }
+
     private void createCtorForRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
         MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
                 Method.getMethod("void <init> ()"),
@@ -72,13 +72,13 @@ abstract class ClassGeneratorForRubyMethod extends ClassGenerator {
                 null,
                 false);
         mg.loadThis();
-        
+
         this.pushBasciArgForSuperArg(mg, argc, has_asterisk_parameter, default_argc);
-        
-		mg.invokeConstructor(Type.getType(this.getSuperClass()),
+
+        mg.invokeConstructor(getSuperClassType(),
                         Method.getMethod(this.getSuperCtorName()));
         mg.returnValue();
-        mg.endMethod();    	
+        mg.endMethod();
     }
 }
 

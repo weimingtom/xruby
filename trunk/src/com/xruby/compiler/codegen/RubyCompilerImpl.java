@@ -102,7 +102,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
         //The class body may refer the constant, so save it before class builder starts.
         cg_.getMethodGenerator().dup();
-        int i = cg_.getMethodGenerator().newLocal(Type.getType(Types.RubyValueClass));
+        int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
         cg_.getMethodGenerator().storeLocal(i);
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().pushNull();
@@ -119,7 +119,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     public void visitSingletonClassDefination2() {
         cg_.getMethodGenerator().RubyValue_getSingletonClass();
         cg_.getMethodGenerator().dup();
-        int i = cg_.getMethodGenerator().newLocal(Type.getType(Types.RubyClassClass));
+        int i = cg_.getMethodGenerator().newLocal(Types.RUBY_CLASS_TYPE);
         cg_.getMethodGenerator().storeLocal(i);
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().pushNull();
@@ -141,7 +141,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     public void visitModuleDefination2(String moduleName, boolean has_scope) {
         if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(moduleName)) {
             if (has_scope) {
-                cg_.getMethodGenerator().checkCast(Type.getType(Types.RubyModuleClass));
+                cg_.getMethodGenerator().checkCast(Types.RUBY_MODULE_TYPE);
                 cg_.getMethodGenerator().RubyModule_defineModule(moduleName);
             } else if (isInGlobalScope()) {
                 cg_.getMethodGenerator().RubyAPI_defineModule(moduleName);
@@ -152,7 +152,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         }
 
         cg_.getMethodGenerator().dup();
-        int i = cg_.getMethodGenerator().newLocal(Type.getType(Types.RubyValueClass));
+        int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
         cg_.getMethodGenerator().storeLocal(i);
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().pushNull();
@@ -334,7 +334,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitMethodCallBegin() {
-        cg_.getMethodGenerator().addCurrentVariablesOnStack(Types.RubyValueClass);
+        cg_.getMethodGenerator().addCurrentVariablesOnStack(Types.RUBY_VALUE_CLASS);
     }
 
     private void transferValueFromBlock(String blockName, String[] assignedCommons) {
@@ -721,7 +721,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitArrayBegin(int size, int rhs_size, boolean has_single_asterisk) {
         cg_.getMethodGenerator().ObjectFactory_createArray(size, rhs_size, has_single_asterisk);
-        cg_.getMethodGenerator().addCurrentVariablesOnStack(Types.RubyArrayClass);
+        cg_.getMethodGenerator().addCurrentVariablesOnStack(Types.RUBY_ARRAY_CLASS);
     }
 
     public void visitHashBegin() {
@@ -1087,13 +1087,13 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitPotentialProcCall() {
         cg_.getMethodGenerator().dup();
-        cg_.getMethodGenerator().instanceOf(Type.getType(Types.RubyProcClass));
+        cg_.getMethodGenerator().instanceOf(Types.RUBY_PROC_TYPE);
 
         Label label1 = new Label();
         cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label1);
 
         cg_.getMethodGenerator().dup();
-        cg_.getMethodGenerator().checkCast(Type.getType(Types.RubyProcClass));
+        cg_.getMethodGenerator().checkCast(Types.RUBY_PROC_TYPE);
 
         //check if in the right context
         //TODO have not considered all the situations
