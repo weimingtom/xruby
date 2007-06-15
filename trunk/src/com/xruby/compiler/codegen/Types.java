@@ -17,7 +17,7 @@ import org.objectweb.asm.Type;
  * other classes in 'codegen' package decoupled from the runtime, so that the
  * changes in 'runtime' package can have minimal impact on the 'codegen'.
  *
- * for example, in codegen, you can either use Types.RubyProgramClass, or use RubyProgram.class directly.
+ * for example, in codegen, you can either use Types.RubyValueClass, or use RubyValue.class directly.
  * If you use the last one, than your code depends on runtime directly. The first one add a thin layer.
  * It is really nothing for know, but later we are going to more more to there, like method signatures
  * */
