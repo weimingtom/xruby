@@ -110,8 +110,8 @@ class SymbolTable {
 class SymbolTableForBlock extends SymbolTable {
     private SymbolTable owner_;
 
-    public SymbolTableForBlock(ArrayList<String> binging, SymbolTable owner) {
-        super(binging);
+    public SymbolTableForBlock(ArrayList<String> binding, SymbolTable owner) {
+        super(binding);
         owner_ = owner;
     }
 
