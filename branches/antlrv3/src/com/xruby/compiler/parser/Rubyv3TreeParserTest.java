@@ -461,6 +461,11 @@ public class Rubyv3TreeParserTest extends TestCase {
                 " p x\n" +
                 "end\n test");
 
+        compile_run_and_compare_output("1\n1\n", "def test(x=y=1)\n" +
+                " p x\n" +
+                " p x\n" +
+                "end\n test");
+
     }
 
     public void test_method() throws Exception {
