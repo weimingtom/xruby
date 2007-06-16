@@ -417,17 +417,40 @@ public class Rubyv3TreeParserTest extends TestCase {
     }
 
     public void test_def_method() throws Exception {
-        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test3(x)\n" +
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test(x)\n" +
                 " p x \n" +
                 "end\n" );
 
-        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test3(x)\n" +
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test(x)\n" +
                 " p x ;;;" +
                 "end\n" );
-        /*compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test(*args)\n" +
+        compile_run_and_compare_output("1\n", "x=1; puts x");
+
+        compile_run_and_compare_output("3\n", "def test(x)\n" +
+                " puts x \n" +
+                "end\n test(3)" );
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test(*args)\n" +
                 " p args\n" +
-                "end\n" +
-                "test(1,2,3)");*/
+                "end");
+
+        compile_run_and_compare_output("[1, 2, 3]\n", "def test(*args)\n" +
+                " p args\n" +
+                "end\n test(1,2,3)");
+        compile_run_and_compare_output("[1, 2, 3]\n", "def test(*args)\n" +
+                " p args\n" +
+                "end\n test 1,2,3");
+
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test(*)\n" +
+                " puts 5919332\n" +
+                "end");
+
+        compile_run_and_compare_output("5919332\n", "def test(*)\n" +
+                " puts 5919332\n" +
+                "end\n test(1,2,3)");
+
+        compile_run_and_compare_output("5919332\n", "def test(*)\n" +
+                " puts 5919332\n" +
+                "end\n test 1,2,3");
     }
 
     public void test_method() throws Exception {
