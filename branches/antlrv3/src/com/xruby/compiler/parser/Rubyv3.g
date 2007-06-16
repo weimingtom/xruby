@@ -375,7 +375,7 @@ f_norm_args
 f_rest_arg
 	:	'*'^ ID{addVariable($ID.text);} | '*' -> ^('*' REST_UNUSE);
 f_opt_args
-	:	ID '='^ arg;	
+	:	ID '='^ arg{addVariable($ID.text);};	
 	
 bodyStatement
 	:	statement_list -> ^(BODY statement_list);

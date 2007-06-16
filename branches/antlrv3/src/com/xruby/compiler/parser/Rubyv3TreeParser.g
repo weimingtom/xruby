@@ -70,7 +70,7 @@ variableExpression returns [LocalVariableExpression e]
 methodDefinition
 returns [MethodDefinationExpression e]
         :	^('def' name=ID{e = new MethodDefinationExpression($name.text);} 
-                   (^(ARG (name1=ID{e.addParameter($name1.text, null);})* (^('=' name2=ID expression))* 
+                   (^(ARG (name1=ID{e.addParameter($name1.text, null);})* (^('=' name2=ID e1=expression{e.addParameter($name2.text, e1);}))* 
                    (^('*' (name3=ID{e.setAsteriskParameter($name3.text);} | REST_UNUSE{e.setAsteriskParameter(null);}  )
                           )
                      )? 
