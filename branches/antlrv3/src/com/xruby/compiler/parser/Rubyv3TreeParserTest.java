@@ -1,9 +1,12 @@
 package com.xruby.compiler.parser;
 
+import com.xruby.compiler.RubyCompiler;
 import com.xruby.compiler.codedom.Program;
 import com.xruby.compiler.codegen.CompilationResults;
 import com.xruby.compiler.codegen.CompilerException;
 import com.xruby.compiler.codegen.RubyCompilerImpl;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyProgram;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.ObjectFactory;
@@ -13,6 +16,9 @@ import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 /**
  * Copyright 2005-2007 femto
@@ -41,6 +47,47 @@ public class Rubyv3TreeParserTest extends TestCase {
         CompilationResults results = new RubyCompilerImpl("abc").compile(program, null);
         RubyValue value = results.getRubyProgram().invoke();
         assertEquals(expectedResult, value);
+    }
+
+    private void compile_run_and_compare_output(String expectedOutput, String program_texts) throws RecognitionException, CompilerException, InstantiationException, IllegalAccessException {
+        // FIXME: temp code here
+        RubyClass.resetCache();
+
+        RubyCompiler compiler = new RubyCompiler(null, false);
+
+        ANTLRStringStream input =
+                new ANTLRStringStream(program_texts);
+
+        Rubyv3Lexer lexer = new Rubyv3Lexer(input);
+        //BaseTokenStream tokens = new BaseTokenStream(lexer);
+        BaseTokenStream tokens = new BaseTokenStream(lexer);
+        Rubyv3Parser parser = new Rubyv3Parser(tokens, null);
+        Rubyv3Parser.program_return result = null;
+
+        result = parser.program(); //this line may produce RecognitionException
+
+        CommonTreeNodeStream nodes = new CommonTreeNodeStream(result.getTree());
+        System.out.println(((CommonTree) result.getTree()).toStringTree());
+        // AST nodes have payloads that point into token stream
+        nodes.setTokenStream(tokens);
+        Rubyv3TreeParser treeParser = new Rubyv3TreeParser(nodes);
+        Program program = treeParser.program();
+
+        CompilationResults results = new RubyCompilerImpl("abc").compile(program, null);
+        assertTrue(null != results);
+        RubyProgram p = results.getRubyProgram();
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        PrintStream original = System.out;
+        System.setOut(new PrintStream(output));
+
+        p.invoke();
+
+        System.setOut(original);
+
+        assertEquals(expectedOutput, output.toString());
+
+
     }
 
     public void test_fixnum() throws Exception {
@@ -82,11 +129,12 @@ public class Rubyv3TreeParserTest extends TestCase {
 
         compile_run_and_compare_result(ObjectFactory.createFixnum(32), "? ");
     }
+
     public void test_float() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFloat(1.0), "1.0");
         compile_run_and_compare_result(ObjectFactory.createFloat(0.0), "0.0");
         compile_run_and_compare_result(ObjectFactory.createFloat(0.1), "0.1");
-         compile_run_and_compare_result(ObjectFactory.createFloat(0.01), "0.01");
+        compile_run_and_compare_result(ObjectFactory.createFloat(0.01), "0.01");
         compile_run_and_compare_result(ObjectFactory.createFloat(1.0), "1e0");
         compile_run_and_compare_result(ObjectFactory.createFloat(10.0), "1e1");
         compile_run_and_compare_result(ObjectFactory.createFloat(0.1), "1e-1");
@@ -95,7 +143,7 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createFloat(0.0), "0e-1");
         compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.createFloat(0.1), ObjectFactory.createFixnum(3), false), "0.1..3");
         compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.createFloat(0.1), ObjectFactory.createFloat(3.2), false), "0.1..3.2");
-        
+
     }
 
     public void test_string() throws Exception {
@@ -314,15 +362,18 @@ public class Rubyv3TreeParserTest extends TestCase {
         compile_run_and_compare_result(ObjectFactory.createFixnum(3), "5**3?3:2");
         compile_run_and_compare_result(ObjectFactory.createFixnum(3), "5**?3?3:2");
     }
+
     public void test_range_expression() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.FIXNUM2, ObjectFactory.FIXNUM3, false), "2..3");
         compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.FIXNUM2, ObjectFactory.FIXNUM3, true), "2...3");
         compile_run_and_compare_result(ObjectFactory.createRange(ObjectFactory.FIXNUM2, ObjectFactory.FIXNUM3, false), "1?2..3:4...5");
     }
+
     public void test_power() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createFixnum(128), "2**7");
         //compile_run_and_compare_result(ObjectFactory.createFixnum(new BigInteger("444089209850062616169452667236328125)"), "5**?3");
     }
+
     public void test_value() throws Exception {
         compile_run_and_compare_result(ObjectFactory.TRUE_VALUE, "true");
         compile_run_and_compare_result(ObjectFactory.FALSE_VALUE, "false");
@@ -364,22 +415,34 @@ public class Rubyv3TreeParserTest extends TestCase {
     public void test_alias() throws Exception {
         compile_run_and_compare_result(ObjectFactory.createString(""), "alias test1 test");
     }
+
+    public void test_def_method() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test(*args)\n" +
+                " p args\n" +
+                "end\n" +
+                "test(1,2,3)");
+    }
+
     public void test_method() throws Exception {
         //compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test\n 3 end");
         //compile_run_and_compare_result(ObjectFactory.createFixnum(3), "def test\n 3 end \ntest");
         //compile_run_and_compare_result(ObjectFactory.createFixnum(3), "def test\n 3 end;test");
         //compile_run_and_compare_result(null, "def test(*args) \n puts args \n end; test");
-        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts(1)");
-        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts 2**3");
-        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts x='abc'");
-        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts 5?3:2");
+        //compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts(1)");
+        compile_run_and_compare_output("1\n", "puts(1)");
+        compile_run_and_compare_output("8\n", "puts 2**3");
+        compile_run_and_compare_output("3\n", "puts 5?3:2");
+
+        //compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts 2**3");
+        //compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts x='abc'");
+        //compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "puts 5?3:2");
         //RubyClass rubyClass =  RubyRuntime.FixnumClass
         compile_run_and_compare_result(RubyRuntime.FixnumClass, "1.class");
         compile_run_and_compare_result(RubyRuntime.ClassClass, "1.class.class");
     }
 
     public void setUp() {
-        RubyRuntime.init(new String[] {"my_arg"});
+        RubyRuntime.init(new String[]{"my_arg"});
     }
 
     public void test_method_invocation() throws Exception {
