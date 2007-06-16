@@ -417,10 +417,17 @@ public class Rubyv3TreeParserTest extends TestCase {
     }
 
     public void test_def_method() throws Exception {
-        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test(*args)\n" +
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test3(x)\n" +
+                " p x \n" +
+                "end\n" );
+
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test3(x)\n" +
+                " p x ;;;" +
+                "end\n" );
+        /*compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test(*args)\n" +
                 " p args\n" +
                 "end\n" +
-                "test(1,2,3)");
+                "test(1,2,3)");*/
     }
 
     public void test_method() throws Exception {
