@@ -69,7 +69,12 @@ variableExpression returns [LocalVariableExpression e]
 	:	^(VARIABLE ID) {e=new LocalVariableExpression($ID.text, false);};
 methodDefinition
 returns [MethodDefinationExpression e]
-        :	^('def' name=ID{e = new MethodDefinationExpression($name.text);} (^(ARG (name1=ID{e.addParameter($name1.text, null);})*))? ^(BODY sl=statement_list))  {e.setBody(new BodyStatement(sl));};
+        :	^('def' name=ID{e = new MethodDefinationExpression($name.text);} 
+                   (^(ARG (name1=ID{e.addParameter($name1.text, null);})* (^('=' name2=ID expression))* 
+                   (^('*' (name3=ID{e.setAsteriskParameter($name3.text);} | REST_UNUSE{e.setAsteriskParameter(null);}  )
+                          )
+                     )? 
+                   ))? ^(BODY sl=statement_list))  {e.setBody(new BodyStatement(sl));};
 method	
 returns [MethodCallExpression e]
 :

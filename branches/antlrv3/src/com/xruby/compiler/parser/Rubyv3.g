@@ -37,6 +37,7 @@ tokens {
 	NESTED_LHS;
 	SINGLETON_METHOD;
 	STRING;
+	REST_UNUSE;
 	
 	DIV;
 	MOD;
@@ -362,17 +363,19 @@ f_arglist
 	:	'(' f_args  (LINE_BREAK)* ')' -> ^(ARG f_args)
 	|       f_args terminal!;
 f_args	:	f_norm_args | f_norm_args ',' f_opt_args| /*none*/
-	|	f_rest_arg;
+	|       f_opt_args (',' f_rest_arg)?
+	|	f_rest_arg
+        ;
 f_norm_args
 	:       //CONSTANT{throw new SyntaxException("formal argument cannot be a constant");}
 	//|       INSTANCE_VARIABLE {throw new SyntaxException("formal argument cannot be an instance variable");}
 	//|       CLASS_VARIABLE {throw new SyntaxException("formal argument cannot be an class variable");}
 	//|       ID;
-	ID;
+	ID {addVariable($ID.text);};
 f_rest_arg
-	:	'*'^ ID;
+	:	'*'^ ID{addVariable($ID.text);} | '*' -> ^('*' REST_UNUSE);
 f_opt_args
-	:	;	
+	:	ID '='^ arg;	
 	
 bodyStatement
 	:	statement_list -> ^(BODY statement_list);
@@ -418,7 +421,7 @@ pure_args_one_or_more
 assignmentExpression
 	:	ternaryIfThenElseExpression
 	        |  lhs (ASSIGN|MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
-	           ternaryIfThenElseExpression {addVariable($lhs.text);};
+	           assignmentExpression {addVariable($lhs.text);};
 
 ternaryIfThenElseExpression
 		:	r=rangeExpression ( QUESTION^ rangeExpression ':'! rangeExpression |)
