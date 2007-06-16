@@ -452,6 +452,16 @@ public class Rubyv3TreeParserTest extends TestCase {
                 " puts 5919332\n" +
                 "end\n test 1,2,3");
     }
+    public void test_method_opt_arg() throws Exception {
+        compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test(x=1)\n" +
+                " p x\n" +
+                "end");
+
+        compile_run_and_compare_output("1\n", "def test(x=1)\n" +
+                " p x\n" +
+                "end\n test");
+
+    }
 
     public void test_method() throws Exception {
         //compile_run_and_compare_result(ObjectFactory.NIL_VALUE, "def test\n 3 end");

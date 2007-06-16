@@ -1,4 +1,4 @@
-// $ANTLR 3.0 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g 2007-06-16 19:14:05
+// $ANTLR 3.0 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g 2007-06-16 20:24:02
 
 package com.xruby.compiler.parser;
 
@@ -10,7 +10,7 @@ import org.antlr.runtime.tree.TreeParser;
 
 public class Rubyv3TreeParser extends TreeParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "STATEMENT_LIST", "STATEMENT", "MODIFIER_LINE", "IF", "RPAREN_IN_METHOD_DEFINATION", "BODY", "ARG", "LEFT_SHIFT", "HEREDOC_STRING", "FLOAT", "CONSTANT", "FID", "VARIABLE", "CALL", "SYMBOL", "BLOCK", "MULTIPLE_ASSIGN", "MULTIPLE_ASSIGN_WITH_EXTRA_COMMA", "BLOCK_ARG", "BLOCK_ARG_WITH_EXTRA_COMMA", "MRHS", "NESTED_LHS", "SINGLETON_METHOD", "STRING", "REST_UNUSE", "DIV", "MOD", "IF_MODIFIER", "UNLESS_MODIFIER", "WHILE_MODIFIER", "UNTIL_MODIFIER", "RESCUE_MODIFIER", "SEMI", "LINE_BREAK", "WS", "DOT", "COLON2", "ID", "COMPARE", "EQUAL", "CASE_EQUAL", "MATCH", "GREATER_THAN", "GREATER_OR_EQUAL", "LESS_THAN", "LESS_OR_EQUAL", "RIGHT_SHIFT", "PLUS", "MINUS", "STAR", "POWER", "ASSIGN", "MOD_ASSIGN", "COMPLEMENT_ASSIGN", "DIV_ASSIGN", "MINUS_ASSIGN", "PLUS_ASSIGN", "BOR_ASSIGN", "BAND_ASSIGN", "LEFT_SHIFT_ASSIGN", "RIGHT_SHIFT_ASSIGN", "STAR_ASSIGN", "LOGICAL_AND_ASSIGN", "LOGICAL_OR_ASSIGN", "POWER_ASSIGN", "QUESTION", "INCLUSIVE_RANGE", "EXCLUSIVE_RANGE", "LOGICAL_OR", "LOGICAL_AND", "NOT_EQUAL", "NOT_MATCH", "BXOR", "BOR", "BAND", "BNOT", "NOT", "INT", "ARRAY", "REGEX", "OCTAL", "HEX", "BINARY", "LEADING_MARK_DECIMAL", "EXP_PART", "LEADING0_NUMBER", "IDENTIFIER_CONSTANT_AND_KEYWORD", "INSTANCE_VARIABLE", "CLASS_VARIABLE", "GLOBAL_VARIABLE", "HEX_PART", "CONTROL_PART", "META_PART", "ESCAPE_INT_PART", "ESCAPE_INT", "NON_LEADING0_NUMBER", "SINGLE_QUOTE_STRING", "DOUBLE_QUOTE_STRING", "SINGLE_STRING_CHAR", "DOUBLE_STRING_CHAR", "LCURLY", "RCURLY", "HEREDOC_BEGIN", "HEREDOC_INDENT_BEGIN", "ASSOC", "BXOR_ASSIGN", "LPAREN", "RPAREN", "LBRACK", "RBRACK", "EMPTY_ARRAY", "COMMA", "COLON", "ANYTHING_OTHER_THAN_LINE_FEED", "COMMENT", "'begin'", "'end'", "'false'", "'nil'", "'true'", "'elsif'", "'else'", "'then'", "'alias'", "'def'", "'[]='", "'and'", "'or'", "'not'", "'defined'", "'expression0'", "'expression1'", "'&&'", "'||'", "'='"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "STATEMENT_LIST", "STATEMENT", "MODIFIER_LINE", "IF", "RPAREN_IN_METHOD_DEFINATION", "BODY", "ARG", "LEFT_SHIFT", "HEREDOC_STRING", "FLOAT", "CONSTANT", "FID", "VARIABLE", "CALL", "SYMBOL", "BLOCK", "MULTIPLE_ASSIGN", "MULTIPLE_ASSIGN_WITH_EXTRA_COMMA", "BLOCK_ARG", "BLOCK_ARG_WITH_EXTRA_COMMA", "MRHS", "NESTED_LHS", "SINGLETON_METHOD", "STRING", "REST_UNUSE", "DIV", "MOD", "IF_MODIFIER", "UNLESS_MODIFIER", "WHILE_MODIFIER", "UNTIL_MODIFIER", "RESCUE_MODIFIER", "SEMI", "LINE_BREAK", "WS", "DOT", "COLON2", "ID", "COMPARE", "EQUAL", "CASE_EQUAL", "MATCH", "GREATER_THAN", "GREATER_OR_EQUAL", "LESS_THAN", "LESS_OR_EQUAL", "RIGHT_SHIFT", "PLUS", "MINUS", "STAR", "POWER", "ASSIGN", "MOD_ASSIGN", "COMPLEMENT_ASSIGN", "DIV_ASSIGN", "MINUS_ASSIGN", "PLUS_ASSIGN", "BOR_ASSIGN", "BAND_ASSIGN", "LEFT_SHIFT_ASSIGN", "RIGHT_SHIFT_ASSIGN", "STAR_ASSIGN", "LOGICAL_AND_ASSIGN", "LOGICAL_OR_ASSIGN", "POWER_ASSIGN", "QUESTION", "INCLUSIVE_RANGE", "EXCLUSIVE_RANGE", "LOGICAL_OR", "LOGICAL_AND", "NOT_EQUAL", "NOT_MATCH", "BXOR", "BOR", "BAND", "BNOT", "NOT", "INT", "ARRAY", "REGEX", "OCTAL", "HEX", "BINARY", "LEADING_MARK_DECIMAL", "EXP_PART", "LEADING0_NUMBER", "IDENTIFIER_CONSTANT_AND_KEYWORD", "INSTANCE_VARIABLE", "CLASS_VARIABLE", "GLOBAL_VARIABLE", "HEX_PART", "CONTROL_PART", "META_PART", "ESCAPE_INT_PART", "ESCAPE_INT", "NON_LEADING0_NUMBER", "SINGLE_QUOTE_STRING", "DOUBLE_QUOTE_STRING", "SINGLE_STRING_CHAR", "DOUBLE_STRING_CHAR", "LCURLY", "RCURLY", "HEREDOC_BEGIN", "HEREDOC_INDENT_BEGIN", "ASSOC", "BXOR_ASSIGN", "LPAREN", "RPAREN", "LBRACK", "RBRACK", "EMPTY_ARRAY", "COMMA", "COLON", "ANYTHING_OTHER_THAN_LINE_FEED", "COMMENT", "'begin'", "'end'", "'false'", "'nil'", "'true'", "'elsif'", "'else'", "'then'", "'alias'", "'def'", "'[]='", "'and'", "'or'", "'not'", "'defined'", "'expression0'", "'expression1'", "'&&'", "'||'"
     };
     public static final int COMMA=115;
     public static final int INSTANCE_VARIABLE=91;
@@ -1189,7 +1189,7 @@ public class Rubyv3TreeParser extends TreeParser {
 
 
     // $ANTLR start methodDefinition
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:70:1: methodDefinition returns [MethodDefinationExpression e] : ^( 'def' name= ID ( ^( ARG (name1= ID )* ( ^( '=' name2= ID expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? ) )? ^( BODY sl= statement_list ) ) ;
+    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:70:1: methodDefinition returns [MethodDefinationExpression e] : ^( 'def' name= ID ( ^( ARG (name1= ID )* ( ^( '=' name2= ID e1= expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? ) )? ^( BODY sl= statement_list ) ) ;
     public final MethodDefinationExpression methodDefinition() throws RecognitionException {
         MethodDefinationExpression e = null;
 
@@ -1197,12 +1197,14 @@ public class Rubyv3TreeParser extends TreeParser {
         CommonTree name1=null;
         CommonTree name2=null;
         CommonTree name3=null;
+        Expression e1 = null;
+
         StatementList sl = null;
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:11: ( ^( 'def' name= ID ( ^( ARG (name1= ID )* ( ^( '=' name2= ID expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? ) )? ^( BODY sl= statement_list ) ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:11: ^( 'def' name= ID ( ^( ARG (name1= ID )* ( ^( '=' name2= ID expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? ) )? ^( BODY sl= statement_list ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:11: ( ^( 'def' name= ID ( ^( ARG (name1= ID )* ( ^( '=' name2= ID e1= expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? ) )? ^( BODY sl= statement_list ) ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:11: ^( 'def' name= ID ( ^( ARG (name1= ID )* ( ^( '=' name2= ID e1= expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? ) )? ^( BODY sl= statement_list ) )
             {
             match(input,128,FOLLOW_128_in_methodDefinition912); 
 
@@ -1210,7 +1212,7 @@ public class Rubyv3TreeParser extends TreeParser {
             name=(CommonTree)input.LT(1);
             match(input,ID,FOLLOW_ID_in_methodDefinition916); 
             e = new MethodDefinationExpression(name.getText());
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:73:20: ( ^( ARG (name1= ID )* ( ^( '=' name2= ID expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? ) )?
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:73:20: ( ^( ARG (name1= ID )* ( ^( '=' name2= ID e1= expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? ) )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -1219,7 +1221,7 @@ public class Rubyv3TreeParser extends TreeParser {
             }
             switch (alt9) {
                 case 1 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:73:21: ^( ARG (name1= ID )* ( ^( '=' name2= ID expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:73:21: ^( ARG (name1= ID )* ( ^( '=' name2= ID e1= expression ) )* ( ^( '*' (name3= ID | REST_UNUSE ) ) )? )
                     {
                     match(input,ARG,FOLLOW_ARG_in_methodDefinition941); 
 
@@ -1252,30 +1254,31 @@ public class Rubyv3TreeParser extends TreeParser {
                             }
                         } while (true);
 
-                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:73:75: ( ^( '=' name2= ID expression ) )*
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:73:75: ( ^( '=' name2= ID e1= expression ) )*
                         loop6:
                         do {
                             int alt6=2;
                             int LA6_0 = input.LA(1);
 
-                            if ( (LA6_0==138) ) {
+                            if ( (LA6_0==ASSIGN) ) {
                                 alt6=1;
                             }
 
 
                             switch (alt6) {
                         	case 1 :
-                        	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:73:76: ^( '=' name2= ID expression )
+                        	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:73:76: ^( '=' name2= ID e1= expression )
                         	    {
-                        	    match(input,138,FOLLOW_138_in_methodDefinition953); 
+                        	    match(input,ASSIGN,FOLLOW_ASSIGN_in_methodDefinition953); 
 
                         	    match(input, Token.DOWN, null); 
                         	    name2=(CommonTree)input.LT(1);
                         	    match(input,ID,FOLLOW_ID_in_methodDefinition957); 
-                        	    pushFollow(FOLLOW_expression_in_methodDefinition959);
-                        	    expression();
+                        	    pushFollow(FOLLOW_expression_in_methodDefinition961);
+                        	    e1=expression();
                         	    _fsp--;
 
+                        	    e.addParameter(name2.getText(), e1);
 
                         	    match(input, Token.UP, null); 
 
@@ -1298,7 +1301,7 @@ public class Rubyv3TreeParser extends TreeParser {
                             case 1 :
                                 // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:74:21: ^( '*' (name3= ID | REST_UNUSE ) )
                                 {
-                                match(input,STAR,FOLLOW_STAR_in_methodDefinition986); 
+                                match(input,STAR,FOLLOW_STAR_in_methodDefinition989); 
 
                                 match(input, Token.DOWN, null); 
                                 // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:74:27: (name3= ID | REST_UNUSE )
@@ -1322,7 +1325,7 @@ public class Rubyv3TreeParser extends TreeParser {
                                         // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:74:28: name3= ID
                                         {
                                         name3=(CommonTree)input.LT(1);
-                                        match(input,ID,FOLLOW_ID_in_methodDefinition991); 
+                                        match(input,ID,FOLLOW_ID_in_methodDefinition994); 
                                         e.setAsteriskParameter(name3.getText());
 
                                         }
@@ -1330,7 +1333,7 @@ public class Rubyv3TreeParser extends TreeParser {
                                     case 2 :
                                         // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:74:77: REST_UNUSE
                                         {
-                                        match(input,REST_UNUSE,FOLLOW_REST_UNUSE_in_methodDefinition996); 
+                                        match(input,REST_UNUSE,FOLLOW_REST_UNUSE_in_methodDefinition999); 
                                         e.setAsteriskParameter(null);
 
                                         }
@@ -1355,10 +1358,10 @@ public class Rubyv3TreeParser extends TreeParser {
 
             }
 
-            match(input,BODY,FOLLOW_BODY_in_methodDefinition1079); 
+            match(input,BODY,FOLLOW_BODY_in_methodDefinition1082); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_statement_list_in_methodDefinition1083);
+            pushFollow(FOLLOW_statement_list_in_methodDefinition1086);
             sl=statement_list();
             _fsp--;
 
@@ -1395,11 +1398,11 @@ public class Rubyv3TreeParser extends TreeParser {
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:81:1: ( ^( CALL methodName= ID (arg= arguments )? ) )
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:81:1: ^( CALL methodName= ID (arg= arguments )? )
             {
-            match(input,CALL,FOLLOW_CALL_in_method1101); 
+            match(input,CALL,FOLLOW_CALL_in_method1104); 
 
             match(input, Token.DOWN, null); 
             methodName=(CommonTree)input.LT(1);
-            match(input,ID,FOLLOW_ID_in_method1105); 
+            match(input,ID,FOLLOW_ID_in_method1108); 
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:81:23: (arg= arguments )?
             int alt10=2;
             int LA10_0 = input.LA(1);
@@ -1411,7 +1414,7 @@ public class Rubyv3TreeParser extends TreeParser {
                 case 1 :
                     // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:81:24: arg= arguments
                     {
-                    pushFollow(FOLLOW_arguments_in_method1111);
+                    pushFollow(FOLLOW_arguments_in_method1114);
                     arg=arguments();
                     _fsp--;
 
@@ -1455,7 +1458,7 @@ public class Rubyv3TreeParser extends TreeParser {
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:89:5: ( ^( ARG (e1= expression )* ) )
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:89:5: ^( ARG (e1= expression )* )
             {
-            match(input,ARG,FOLLOW_ARG_in_arguments1143); 
+            match(input,ARG,FOLLOW_ARG_in_arguments1146); 
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); 
@@ -1474,7 +1477,7 @@ public class Rubyv3TreeParser extends TreeParser {
                 	case 1 :
                 	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:90:5: e1= expression
                 	    {
-                	    pushFollow(FOLLOW_expression_in_arguments1153);
+                	    pushFollow(FOLLOW_expression_in_arguments1156);
                 	    e1=expression();
                 	    _fsp--;
 
@@ -1601,19 +1604,19 @@ public class Rubyv3TreeParser extends TreeParser {
     public static final BitSet FOLLOW_128_in_methodDefinition912 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_ID_in_methodDefinition916 = new BitSet(new long[]{0x0000000000000600L});
     public static final BitSet FOLLOW_ARG_in_methodDefinition941 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_methodDefinition946 = new BitSet(new long[]{0x0020020000000008L,0x0000000000000000L,0x0000000000000400L});
-    public static final BitSet FOLLOW_138_in_methodDefinition953 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_methodDefinition946 = new BitSet(new long[]{0x00A0020000000008L});
+    public static final BitSet FOLLOW_ASSIGN_in_methodDefinition953 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_ID_in_methodDefinition957 = new BitSet(new long[]{0xFDC0008000033800L,0x8E000130000200FFL,0x000000000000031DL});
-    public static final BitSet FOLLOW_expression_in_methodDefinition959 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_STAR_in_methodDefinition986 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_methodDefinition991 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_REST_UNUSE_in_methodDefinition996 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_BODY_in_methodDefinition1079 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_statement_list_in_methodDefinition1083 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_CALL_in_method1101 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_method1105 = new BitSet(new long[]{0x0000000000000408L});
-    public static final BitSet FOLLOW_arguments_in_method1111 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ARG_in_arguments1143 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expression_in_arguments1153 = new BitSet(new long[]{0xFDC0008000033808L,0x8E000130000200FFL,0x000000000000031DL});
+    public static final BitSet FOLLOW_expression_in_methodDefinition961 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_STAR_in_methodDefinition989 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_methodDefinition994 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_REST_UNUSE_in_methodDefinition999 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_BODY_in_methodDefinition1082 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_statement_list_in_methodDefinition1086 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_CALL_in_method1104 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_method1108 = new BitSet(new long[]{0x0000000000000408L});
+    public static final BitSet FOLLOW_arguments_in_method1114 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ARG_in_arguments1146 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expression_in_arguments1156 = new BitSet(new long[]{0xFDC0008000033808L,0x8E000130000200FFL,0x000000000000031DL});
 
 }
