@@ -349,7 +349,7 @@ expression
 primaryExpression
 	:	methodDefinition;
 methodDefinition
-	:	'def'^ (LINE_BREAK!)* (singleton dot_or_colon)? methodName {enterScope();} f_arglist (terminal!)*  bodyStatement? 'end'! {leaveScope();};
+	:	'def'^ (LINE_BREAK!)* (singleton dot_or_colon)? methodName {enterScope();} f_arglist (terminal!)*  bodyStatement? (terminal!)* 'end'! {leaveScope();};
 singleton
 	:	variable|'('! expression opt_nl ')'!;
 opt_nl        : /* none */ | LINE_BREAK!
@@ -359,15 +359,18 @@ dot_or_colon
 methodName
 	:	ID|CONSTANT|FID;  //todo:or constant
 f_arglist
-	:	'('! f_args  (LINE_BREAK!)* ')'! 
+	:	'(' f_args  (LINE_BREAK)* ')' -> ^(ARG f_args)
 	|       f_args terminal!;
-f_args	:	f_norm_args | f_norm_args ',' f_opt_args|;
+f_args	:	f_norm_args | f_norm_args ',' f_opt_args| /*none*/
+	|	f_rest_arg;
 f_norm_args
 	:       //CONSTANT{throw new SyntaxException("formal argument cannot be a constant");}
 	//|       INSTANCE_VARIABLE {throw new SyntaxException("formal argument cannot be an instance variable");}
 	//|       CLASS_VARIABLE {throw new SyntaxException("formal argument cannot be an class variable");}
 	//|       ID;
 	ID;
+f_rest_arg
+	:	'*'^ ID;
 f_opt_args
 	:	;	
 	
