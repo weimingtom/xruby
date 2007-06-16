@@ -362,8 +362,9 @@ methodName
 f_arglist
 	:	'(' f_args  (LINE_BREAK)* ')' -> ^(ARG f_args)
 	|       f_args terminal!;
-f_args	:	f_norm_args | f_norm_args ',' f_opt_args| /*none*/
-	|       f_opt_args (',' f_rest_arg)?
+f_args	:	f_norm_args | f_norm_args ','! f_opt_args (','! f_rest_arg)?| /*none*/
+	|	f_norm_args ','! f_rest_arg
+	|       f_opt_args (','! f_rest_arg)?
 	|	f_rest_arg
         ;
 f_norm_args

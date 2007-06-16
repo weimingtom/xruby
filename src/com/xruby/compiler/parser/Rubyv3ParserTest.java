@@ -165,6 +165,11 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("obj=1;def obj.test \n end", "(STATEMENT_LIST (STATEMENT (= (VARIABLE obj) 1)) (STATEMENT (def (VARIABLE obj) . test)))");
         assert_parse("def (1.class).test \n end", "(STATEMENT_LIST (STATEMENT (def (. 1 (CALL class)) . test)))");
 
+        //all combination
+        assert_parse("def test(x, y=1, *args)\n" +
+                " p x\n" +
+                "end", "(STATEMENT_LIST (STATEMENT (def test (ARG x (= y 1) (* args)) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE x)))))))))");
+
     }
     public void test_method() throws Exception {
         //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");
