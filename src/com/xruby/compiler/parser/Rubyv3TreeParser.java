@@ -1,4 +1,4 @@
-// $ANTLR 3.0 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g 2007-06-12 14:34:07
+// $ANTLR 3.0 C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g 2007-06-16 18:39:02
 
 package com.xruby.compiler.parser;
 
@@ -273,7 +273,7 @@ public class Rubyv3TreeParser extends TreeParser {
 
 
     // $ANTLR start expression
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:25:1: expression returns [Expression e] : (value= INT | value= FLOAT | value= SINGLE_QUOTE_STRING | value= DOUBLE_QUOTE_STRING | value= HEREDOC_STRING | ^( 'alias' newName= . oldName= . ) | ^( ASSIGN left= expression right= expression ) | ^( MOD_ASSIGN left= expression right= expression ) | ^( DIV_ASSIGN left= expression right= expression ) | ^( MINUS_ASSIGN left= expression right= expression ) | ^( PLUS_ASSIGN left= expression right= expression ) | ^( BOR_ASSIGN left= expression right= expression ) | ^( BAND_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT_ASSIGN left= expression right= expression ) | ^( RIGHT_SHIFT_ASSIGN left= expression right= expression ) | ^( STAR_ASSIGN left= expression right= expression ) | ^( LOGICAL_AND_ASSIGN left= expression right= expression ) | ^( LOGICAL_OR_ASSIGN left= expression right= expression ) | ^( POWER_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT lhs0= expression rhs= expression ) | e1= variableExpression | 'true' | 'false' | 'nil' | ^( QUESTION condition= expression left= expression right= expression ) | ^( POWER left= expression right= expression ) | ^(op= ( 'and' | '&&' ) left= expression right= expression ) | ^(op= ( 'or' | '||' ) left= expression right= expression ) | ^(op= 'not' left= expression ) | ^( INCLUSIVE_RANGE left= expression right= expression ) | ^( EXCLUSIVE_RANGE left= expression right= expression ) | e1= methodDefinition | e1= method | ^( DOT left= expression ^( CALL methodName= ID (arg= arguments ) ) ) | ^( '{' (e1= expression e2= expression )* ) );
+    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:25:1: expression returns [Expression e] : (value= INT | value= FLOAT | value= SINGLE_QUOTE_STRING | value= DOUBLE_QUOTE_STRING | value= HEREDOC_STRING | ^( 'alias' newName= . oldName= . ) | ^( ASSIGN left= expression right= expression ) | ^( MOD_ASSIGN left= expression right= expression ) | ^( DIV_ASSIGN left= expression right= expression ) | ^( MINUS_ASSIGN left= expression right= expression ) | ^( PLUS_ASSIGN left= expression right= expression ) | ^( BOR_ASSIGN left= expression right= expression ) | ^( BAND_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT_ASSIGN left= expression right= expression ) | ^( RIGHT_SHIFT_ASSIGN left= expression right= expression ) | ^( STAR_ASSIGN left= expression right= expression ) | ^( LOGICAL_AND_ASSIGN left= expression right= expression ) | ^( LOGICAL_OR_ASSIGN left= expression right= expression ) | ^( POWER_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT lhs0= expression rhs= expression ) | e1= variableExpression | 'true' | 'false' | 'nil' | ^( QUESTION condition= expression left= expression right= expression ) | ^( POWER left= expression right= expression ) | ^(op= ( 'and' | '&&' ) left= expression right= expression ) | ^(op= ( 'or' | '||' ) left= expression right= expression ) | ^(op= 'not' left= expression ) | ^( INCLUSIVE_RANGE left= expression right= expression ) | ^( EXCLUSIVE_RANGE left= expression right= expression ) | e1= methodDefinition | e1= method | ^( DOT left= expression ^( CALL methodName= ID (arg= arguments )? ) ) | ^( '{' (e1= expression e2= expression )* ) );
     public final Expression expression() throws RecognitionException {
         Expression e = null;
 
@@ -300,194 +300,194 @@ public class Rubyv3TreeParser extends TreeParser {
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:26:4: (value= INT | value= FLOAT | value= SINGLE_QUOTE_STRING | value= DOUBLE_QUOTE_STRING | value= HEREDOC_STRING | ^( 'alias' newName= . oldName= . ) | ^( ASSIGN left= expression right= expression ) | ^( MOD_ASSIGN left= expression right= expression ) | ^( DIV_ASSIGN left= expression right= expression ) | ^( MINUS_ASSIGN left= expression right= expression ) | ^( PLUS_ASSIGN left= expression right= expression ) | ^( BOR_ASSIGN left= expression right= expression ) | ^( BAND_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT_ASSIGN left= expression right= expression ) | ^( RIGHT_SHIFT_ASSIGN left= expression right= expression ) | ^( STAR_ASSIGN left= expression right= expression ) | ^( LOGICAL_AND_ASSIGN left= expression right= expression ) | ^( LOGICAL_OR_ASSIGN left= expression right= expression ) | ^( POWER_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT lhs0= expression rhs= expression ) | e1= variableExpression | 'true' | 'false' | 'nil' | ^( QUESTION condition= expression left= expression right= expression ) | ^( POWER left= expression right= expression ) | ^(op= ( 'and' | '&&' ) left= expression right= expression ) | ^(op= ( 'or' | '||' ) left= expression right= expression ) | ^(op= 'not' left= expression ) | ^( INCLUSIVE_RANGE left= expression right= expression ) | ^( EXCLUSIVE_RANGE left= expression right= expression ) | e1= methodDefinition | e1= method | ^( DOT left= expression ^( CALL methodName= ID (arg= arguments ) ) ) | ^( '{' (e1= expression e2= expression )* ) )
-            int alt3=35;
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:26:4: (value= INT | value= FLOAT | value= SINGLE_QUOTE_STRING | value= DOUBLE_QUOTE_STRING | value= HEREDOC_STRING | ^( 'alias' newName= . oldName= . ) | ^( ASSIGN left= expression right= expression ) | ^( MOD_ASSIGN left= expression right= expression ) | ^( DIV_ASSIGN left= expression right= expression ) | ^( MINUS_ASSIGN left= expression right= expression ) | ^( PLUS_ASSIGN left= expression right= expression ) | ^( BOR_ASSIGN left= expression right= expression ) | ^( BAND_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT_ASSIGN left= expression right= expression ) | ^( RIGHT_SHIFT_ASSIGN left= expression right= expression ) | ^( STAR_ASSIGN left= expression right= expression ) | ^( LOGICAL_AND_ASSIGN left= expression right= expression ) | ^( LOGICAL_OR_ASSIGN left= expression right= expression ) | ^( POWER_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT lhs0= expression rhs= expression ) | e1= variableExpression | 'true' | 'false' | 'nil' | ^( QUESTION condition= expression left= expression right= expression ) | ^( POWER left= expression right= expression ) | ^(op= ( 'and' | '&&' ) left= expression right= expression ) | ^(op= ( 'or' | '||' ) left= expression right= expression ) | ^(op= 'not' left= expression ) | ^( INCLUSIVE_RANGE left= expression right= expression ) | ^( EXCLUSIVE_RANGE left= expression right= expression ) | e1= methodDefinition | e1= method | ^( DOT left= expression ^( CALL methodName= ID (arg= arguments )? ) ) | ^( '{' (e1= expression e2= expression )* ) )
+            int alt4=35;
             switch ( input.LA(1) ) {
             case INT:
                 {
-                alt3=1;
+                alt4=1;
                 }
                 break;
             case FLOAT:
                 {
-                alt3=2;
+                alt4=2;
                 }
                 break;
             case SINGLE_QUOTE_STRING:
                 {
-                alt3=3;
+                alt4=3;
                 }
                 break;
             case DOUBLE_QUOTE_STRING:
                 {
-                alt3=4;
+                alt4=4;
                 }
                 break;
             case HEREDOC_STRING:
                 {
-                alt3=5;
+                alt4=5;
                 }
                 break;
             case 126:
                 {
-                alt3=6;
+                alt4=6;
                 }
                 break;
             case ASSIGN:
                 {
-                alt3=7;
+                alt4=7;
                 }
                 break;
             case MOD_ASSIGN:
                 {
-                alt3=8;
+                alt4=8;
                 }
                 break;
             case DIV_ASSIGN:
                 {
-                alt3=9;
+                alt4=9;
                 }
                 break;
             case MINUS_ASSIGN:
                 {
-                alt3=10;
+                alt4=10;
                 }
                 break;
             case PLUS_ASSIGN:
                 {
-                alt3=11;
+                alt4=11;
                 }
                 break;
             case BOR_ASSIGN:
                 {
-                alt3=12;
+                alt4=12;
                 }
                 break;
             case BAND_ASSIGN:
                 {
-                alt3=13;
+                alt4=13;
                 }
                 break;
             case LEFT_SHIFT_ASSIGN:
                 {
-                alt3=14;
+                alt4=14;
                 }
                 break;
             case RIGHT_SHIFT_ASSIGN:
                 {
-                alt3=15;
+                alt4=15;
                 }
                 break;
             case STAR_ASSIGN:
                 {
-                alt3=16;
+                alt4=16;
                 }
                 break;
             case LOGICAL_AND_ASSIGN:
                 {
-                alt3=17;
+                alt4=17;
                 }
                 break;
             case LOGICAL_OR_ASSIGN:
                 {
-                alt3=18;
+                alt4=18;
                 }
                 break;
             case POWER_ASSIGN:
                 {
-                alt3=19;
+                alt4=19;
                 }
                 break;
             case LEFT_SHIFT:
                 {
-                alt3=20;
+                alt4=20;
                 }
                 break;
             case VARIABLE:
                 {
-                alt3=21;
+                alt4=21;
                 }
                 break;
             case 122:
                 {
-                alt3=22;
+                alt4=22;
                 }
                 break;
             case 120:
                 {
-                alt3=23;
+                alt4=23;
                 }
                 break;
             case 121:
                 {
-                alt3=24;
+                alt4=24;
                 }
                 break;
             case QUESTION:
                 {
-                alt3=25;
+                alt4=25;
                 }
                 break;
             case POWER:
                 {
-                alt3=26;
+                alt4=26;
                 }
                 break;
             case 129:
             case 135:
                 {
-                alt3=27;
+                alt4=27;
                 }
                 break;
             case 130:
             case 136:
                 {
-                alt3=28;
+                alt4=28;
                 }
                 break;
             case 131:
                 {
-                alt3=29;
+                alt4=29;
                 }
                 break;
             case INCLUSIVE_RANGE:
                 {
-                alt3=30;
+                alt4=30;
                 }
                 break;
             case EXCLUSIVE_RANGE:
                 {
-                alt3=31;
+                alt4=31;
                 }
                 break;
             case 127:
                 {
-                alt3=32;
+                alt4=32;
                 }
                 break;
             case CALL:
                 {
-                alt3=33;
+                alt4=33;
                 }
                 break;
             case DOT:
                 {
-                alt3=34;
+                alt4=34;
                 }
                 break;
             case LCURLY:
                 {
-                alt3=35;
+                alt4=35;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("25:1: expression returns [Expression e] : (value= INT | value= FLOAT | value= SINGLE_QUOTE_STRING | value= DOUBLE_QUOTE_STRING | value= HEREDOC_STRING | ^( 'alias' newName= . oldName= . ) | ^( ASSIGN left= expression right= expression ) | ^( MOD_ASSIGN left= expression right= expression ) | ^( DIV_ASSIGN left= expression right= expression ) | ^( MINUS_ASSIGN left= expression right= expression ) | ^( PLUS_ASSIGN left= expression right= expression ) | ^( BOR_ASSIGN left= expression right= expression ) | ^( BAND_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT_ASSIGN left= expression right= expression ) | ^( RIGHT_SHIFT_ASSIGN left= expression right= expression ) | ^( STAR_ASSIGN left= expression right= expression ) | ^( LOGICAL_AND_ASSIGN left= expression right= expression ) | ^( LOGICAL_OR_ASSIGN left= expression right= expression ) | ^( POWER_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT lhs0= expression rhs= expression ) | e1= variableExpression | 'true' | 'false' | 'nil' | ^( QUESTION condition= expression left= expression right= expression ) | ^( POWER left= expression right= expression ) | ^(op= ( 'and' | '&&' ) left= expression right= expression ) | ^(op= ( 'or' | '||' ) left= expression right= expression ) | ^(op= 'not' left= expression ) | ^( INCLUSIVE_RANGE left= expression right= expression ) | ^( EXCLUSIVE_RANGE left= expression right= expression ) | e1= methodDefinition | e1= method | ^( DOT left= expression ^( CALL methodName= ID (arg= arguments ) ) ) | ^( '{' (e1= expression e2= expression )* ) );", 3, 0, input);
+                    new NoViableAltException("25:1: expression returns [Expression e] : (value= INT | value= FLOAT | value= SINGLE_QUOTE_STRING | value= DOUBLE_QUOTE_STRING | value= HEREDOC_STRING | ^( 'alias' newName= . oldName= . ) | ^( ASSIGN left= expression right= expression ) | ^( MOD_ASSIGN left= expression right= expression ) | ^( DIV_ASSIGN left= expression right= expression ) | ^( MINUS_ASSIGN left= expression right= expression ) | ^( PLUS_ASSIGN left= expression right= expression ) | ^( BOR_ASSIGN left= expression right= expression ) | ^( BAND_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT_ASSIGN left= expression right= expression ) | ^( RIGHT_SHIFT_ASSIGN left= expression right= expression ) | ^( STAR_ASSIGN left= expression right= expression ) | ^( LOGICAL_AND_ASSIGN left= expression right= expression ) | ^( LOGICAL_OR_ASSIGN left= expression right= expression ) | ^( POWER_ASSIGN left= expression right= expression ) | ^( LEFT_SHIFT lhs0= expression rhs= expression ) | e1= variableExpression | 'true' | 'false' | 'nil' | ^( QUESTION condition= expression left= expression right= expression ) | ^( POWER left= expression right= expression ) | ^(op= ( 'and' | '&&' ) left= expression right= expression ) | ^(op= ( 'or' | '||' ) left= expression right= expression ) | ^(op= 'not' left= expression ) | ^( INCLUSIVE_RANGE left= expression right= expression ) | ^( EXCLUSIVE_RANGE left= expression right= expression ) | e1= methodDefinition | e1= method | ^( DOT left= expression ^( CALL methodName= ID (arg= arguments )? ) ) | ^( '{' (e1= expression e2= expression )* ) );", 4, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt3) {
+            switch (alt4) {
                 case 1 :
                     // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:26:4: value= INT
                     {
@@ -1048,7 +1048,7 @@ public class Rubyv3TreeParser extends TreeParser {
                     }
                     break;
                 case 34 :
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:64:10: ^( DOT left= expression ^( CALL methodName= ID (arg= arguments ) ) )
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:64:10: ^( DOT left= expression ^( CALL methodName= ID (arg= arguments )? ) )
                     {
                     match(input,DOT,FOLLOW_DOT_in_expression812); 
 
@@ -1062,13 +1062,24 @@ public class Rubyv3TreeParser extends TreeParser {
                     match(input, Token.DOWN, null); 
                     methodName=(CommonTree)input.LT(1);
                     match(input,ID,FOLLOW_ID_in_expression823); 
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:64:54: (arg= arguments )
-                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:64:55: arg= arguments
-                    {
-                    pushFollow(FOLLOW_arguments_in_expression829);
-                    arg=arguments();
-                    _fsp--;
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:64:54: (arg= arguments )?
+                    int alt2=2;
+                    int LA2_0 = input.LA(1);
 
+                    if ( (LA2_0==ARG) ) {
+                        alt2=1;
+                    }
+                    switch (alt2) {
+                        case 1 :
+                            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:64:55: arg= arguments
+                            {
+                            pushFollow(FOLLOW_arguments_in_expression829);
+                            arg=arguments();
+                            _fsp--;
+
+
+                            }
+                            break;
 
                     }
 
@@ -1083,32 +1094,32 @@ public class Rubyv3TreeParser extends TreeParser {
                 case 35 :
                     // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:66:10: ^( '{' (e1= expression e2= expression )* )
                     {
-                    match(input,LCURLY,FOLLOW_LCURLY_in_expression855); 
+                    match(input,LCURLY,FOLLOW_LCURLY_in_expression856); 
 
                     e = new HashExpression();
 
                     if ( input.LA(1)==Token.DOWN ) {
                         match(input, Token.DOWN, null); 
                         // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:66:44: (e1= expression e2= expression )*
-                        loop2:
+                        loop3:
                         do {
-                            int alt2=2;
-                            int LA2_0 = input.LA(1);
+                            int alt3=2;
+                            int LA3_0 = input.LA(1);
 
-                            if ( ((LA2_0>=LEFT_SHIFT && LA2_0<=FLOAT)||(LA2_0>=VARIABLE && LA2_0<=CALL)||LA2_0==DOT||(LA2_0>=POWER && LA2_0<=MOD_ASSIGN)||(LA2_0>=DIV_ASSIGN && LA2_0<=EXCLUSIVE_RANGE)||LA2_0==INT||(LA2_0>=SINGLE_QUOTE_STRING && LA2_0<=DOUBLE_QUOTE_STRING)||LA2_0==LCURLY||(LA2_0>=120 && LA2_0<=122)||(LA2_0>=126 && LA2_0<=127)||(LA2_0>=129 && LA2_0<=131)||(LA2_0>=135 && LA2_0<=136)) ) {
-                                alt2=1;
+                            if ( ((LA3_0>=LEFT_SHIFT && LA3_0<=FLOAT)||(LA3_0>=VARIABLE && LA3_0<=CALL)||LA3_0==DOT||(LA3_0>=POWER && LA3_0<=MOD_ASSIGN)||(LA3_0>=DIV_ASSIGN && LA3_0<=EXCLUSIVE_RANGE)||LA3_0==INT||(LA3_0>=SINGLE_QUOTE_STRING && LA3_0<=DOUBLE_QUOTE_STRING)||LA3_0==LCURLY||(LA3_0>=120 && LA3_0<=122)||(LA3_0>=126 && LA3_0<=127)||(LA3_0>=129 && LA3_0<=131)||(LA3_0>=135 && LA3_0<=136)) ) {
+                                alt3=1;
                             }
 
 
-                            switch (alt2) {
+                            switch (alt3) {
                         	case 1 :
                         	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:66:45: e1= expression e2= expression
                         	    {
-                        	    pushFollow(FOLLOW_expression_in_expression862);
+                        	    pushFollow(FOLLOW_expression_in_expression863);
                         	    e1=expression();
                         	    _fsp--;
 
-                        	    pushFollow(FOLLOW_expression_in_expression866);
+                        	    pushFollow(FOLLOW_expression_in_expression867);
                         	    e2=expression();
                         	    _fsp--;
 
@@ -1118,7 +1129,7 @@ public class Rubyv3TreeParser extends TreeParser {
                         	    break;
 
                         	default :
-                        	    break loop2;
+                        	    break loop3;
                             }
                         } while (true);
 
@@ -1153,11 +1164,11 @@ public class Rubyv3TreeParser extends TreeParser {
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:69:4: ( ^( VARIABLE ID ) )
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:69:4: ^( VARIABLE ID )
             {
-            match(input,VARIABLE,FOLLOW_VARIABLE_in_variableExpression886); 
+            match(input,VARIABLE,FOLLOW_VARIABLE_in_variableExpression887); 
 
             match(input, Token.DOWN, null); 
             ID1=(CommonTree)input.LT(1);
-            match(input,ID,FOLLOW_ID_in_variableExpression888); 
+            match(input,ID,FOLLOW_ID_in_variableExpression889); 
 
             match(input, Token.UP, null); 
             e=new LocalVariableExpression(ID1.getText(), false);
@@ -1177,57 +1188,80 @@ public class Rubyv3TreeParser extends TreeParser {
 
 
     // $ANTLR start methodDefinition
-    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:70:1: methodDefinition returns [MethodDefinationExpression e] : ^( 'def' name= ID ( ^( ARG ID ) )* ^( BODY sl= statement_list ) ) ;
+    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:70:1: methodDefinition returns [MethodDefinationExpression e] : ^( 'def' name= ID ( ^( ARG (name1= ID )* ) )? ^( BODY sl= statement_list ) ) ;
     public final MethodDefinationExpression methodDefinition() throws RecognitionException {
         MethodDefinationExpression e = null;
 
         CommonTree name=null;
+        CommonTree name1=null;
         StatementList sl = null;
 
 
         try {
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:11: ( ^( 'def' name= ID ( ^( ARG ID ) )* ^( BODY sl= statement_list ) ) )
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:11: ^( 'def' name= ID ( ^( ARG ID ) )* ^( BODY sl= statement_list ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:11: ( ^( 'def' name= ID ( ^( ARG (name1= ID )* ) )? ^( BODY sl= statement_list ) ) )
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:11: ^( 'def' name= ID ( ^( ARG (name1= ID )* ) )? ^( BODY sl= statement_list ) )
             {
-            match(input,127,FOLLOW_127_in_methodDefinition911); 
+            match(input,127,FOLLOW_127_in_methodDefinition912); 
 
             match(input, Token.DOWN, null); 
             name=(CommonTree)input.LT(1);
-            match(input,ID,FOLLOW_ID_in_methodDefinition915); 
-            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:27: ( ^( ARG ID ) )*
-            loop4:
-            do {
-                int alt4=2;
-                int LA4_0 = input.LA(1);
+            match(input,ID,FOLLOW_ID_in_methodDefinition916); 
+            e = new MethodDefinationExpression(name.getText());
+            // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:76: ( ^( ARG (name1= ID )* ) )?
+            int alt6=2;
+            int LA6_0 = input.LA(1);
 
-                if ( (LA4_0==ARG) ) {
-                    alt4=1;
-                }
+            if ( (LA6_0==ARG) ) {
+                alt6=1;
+            }
+            switch (alt6) {
+                case 1 :
+                    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:77: ^( ARG (name1= ID )* )
+                    {
+                    match(input,ARG,FOLLOW_ARG_in_methodDefinition921); 
+
+                    if ( input.LA(1)==Token.DOWN ) {
+                        match(input, Token.DOWN, null); 
+                        // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:83: (name1= ID )*
+                        loop5:
+                        do {
+                            int alt5=2;
+                            int LA5_0 = input.LA(1);
+
+                            if ( (LA5_0==ID) ) {
+                                alt5=1;
+                            }
 
 
-                switch (alt4) {
-            	case 1 :
-            	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:28: ^( ARG ID )
-            	    {
-            	    match(input,ARG,FOLLOW_ARG_in_methodDefinition919); 
+                            switch (alt5) {
+                        	case 1 :
+                        	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:72:84: name1= ID
+                        	    {
+                        	    name1=(CommonTree)input.LT(1);
+                        	    match(input,ID,FOLLOW_ID_in_methodDefinition926); 
+                        	    e.addParameter(name1.getText(), null);
 
-            	    match(input, Token.DOWN, null); 
-            	    match(input,ID,FOLLOW_ID_in_methodDefinition921); 
+                        	    }
+                        	    break;
 
-            	    match(input, Token.UP, null); 
+                        	default :
+                        	    break loop5;
+                            }
+                        } while (true);
 
-            	    }
-            	    break;
 
-            	default :
-            	    break loop4;
-                }
-            } while (true);
+                        match(input, Token.UP, null); 
+                    }
 
-            match(input,BODY,FOLLOW_BODY_in_methodDefinition927); 
+                    }
+                    break;
+
+            }
+
+            match(input,BODY,FOLLOW_BODY_in_methodDefinition935); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_statement_list_in_methodDefinition931);
+            pushFollow(FOLLOW_statement_list_in_methodDefinition939);
             sl=statement_list();
             _fsp--;
 
@@ -1235,7 +1269,7 @@ public class Rubyv3TreeParser extends TreeParser {
             match(input, Token.UP, null); 
 
             match(input, Token.UP, null); 
-            e = new MethodDefinationExpression(name.getText()); e.setBody(new BodyStatement(sl));
+            e.setBody(new BodyStatement(sl));
 
             }
 
@@ -1264,23 +1298,23 @@ public class Rubyv3TreeParser extends TreeParser {
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:76:1: ( ^( CALL methodName= ID (arg= arguments )? ) )
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:76:1: ^( CALL methodName= ID (arg= arguments )? )
             {
-            match(input,CALL,FOLLOW_CALL_in_method948); 
+            match(input,CALL,FOLLOW_CALL_in_method957); 
 
             match(input, Token.DOWN, null); 
             methodName=(CommonTree)input.LT(1);
-            match(input,ID,FOLLOW_ID_in_method952); 
+            match(input,ID,FOLLOW_ID_in_method961); 
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:76:23: (arg= arguments )?
-            int alt5=2;
-            int LA5_0 = input.LA(1);
+            int alt7=2;
+            int LA7_0 = input.LA(1);
 
-            if ( (LA5_0==ARG) ) {
-                alt5=1;
+            if ( (LA7_0==ARG) ) {
+                alt7=1;
             }
-            switch (alt5) {
+            switch (alt7) {
                 case 1 :
                     // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:76:24: arg= arguments
                     {
-                    pushFollow(FOLLOW_arguments_in_method958);
+                    pushFollow(FOLLOW_arguments_in_method967);
                     arg=arguments();
                     _fsp--;
 
@@ -1324,26 +1358,26 @@ public class Rubyv3TreeParser extends TreeParser {
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:84:5: ( ^( ARG (e1= expression )* ) )
             // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:84:5: ^( ARG (e1= expression )* )
             {
-            match(input,ARG,FOLLOW_ARG_in_arguments990); 
+            match(input,ARG,FOLLOW_ARG_in_arguments999); 
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); 
                 // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:85:4: (e1= expression )*
-                loop6:
+                loop8:
                 do {
-                    int alt6=2;
-                    int LA6_0 = input.LA(1);
+                    int alt8=2;
+                    int LA8_0 = input.LA(1);
 
-                    if ( ((LA6_0>=LEFT_SHIFT && LA6_0<=FLOAT)||(LA6_0>=VARIABLE && LA6_0<=CALL)||LA6_0==DOT||(LA6_0>=POWER && LA6_0<=MOD_ASSIGN)||(LA6_0>=DIV_ASSIGN && LA6_0<=EXCLUSIVE_RANGE)||LA6_0==INT||(LA6_0>=SINGLE_QUOTE_STRING && LA6_0<=DOUBLE_QUOTE_STRING)||LA6_0==LCURLY||(LA6_0>=120 && LA6_0<=122)||(LA6_0>=126 && LA6_0<=127)||(LA6_0>=129 && LA6_0<=131)||(LA6_0>=135 && LA6_0<=136)) ) {
-                        alt6=1;
+                    if ( ((LA8_0>=LEFT_SHIFT && LA8_0<=FLOAT)||(LA8_0>=VARIABLE && LA8_0<=CALL)||LA8_0==DOT||(LA8_0>=POWER && LA8_0<=MOD_ASSIGN)||(LA8_0>=DIV_ASSIGN && LA8_0<=EXCLUSIVE_RANGE)||LA8_0==INT||(LA8_0>=SINGLE_QUOTE_STRING && LA8_0<=DOUBLE_QUOTE_STRING)||LA8_0==LCURLY||(LA8_0>=120 && LA8_0<=122)||(LA8_0>=126 && LA8_0<=127)||(LA8_0>=129 && LA8_0<=131)||(LA8_0>=135 && LA8_0<=136)) ) {
+                        alt8=1;
                     }
 
 
-                    switch (alt6) {
+                    switch (alt8) {
                 	case 1 :
                 	    // C:\\toolset\\ruby\\xruby-trunk\\src\\com\\xruby\\compiler\\parser\\Rubyv3TreeParser.g:85:5: e1= expression
                 	    {
-                	    pushFollow(FOLLOW_expression_in_arguments1000);
+                	    pushFollow(FOLLOW_expression_in_arguments1009);
                 	    e1=expression();
                 	    _fsp--;
 
@@ -1353,7 +1387,7 @@ public class Rubyv3TreeParser extends TreeParser {
                 	    break;
 
                 	default :
-                	    break loop6;
+                	    break loop8;
                     }
                 } while (true);
 
@@ -1460,23 +1494,23 @@ public class Rubyv3TreeParser extends TreeParser {
     public static final BitSet FOLLOW_DOT_in_expression812 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_expression_in_expression816 = new BitSet(new long[]{0x0000000000020000L});
     public static final BitSet FOLLOW_CALL_in_expression819 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_expression823 = new BitSet(new long[]{0x0000000000000400L});
+    public static final BitSet FOLLOW_ID_in_expression823 = new BitSet(new long[]{0x0000000000000408L});
     public static final BitSet FOLLOW_arguments_in_expression829 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_LCURLY_in_expression855 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expression_in_expression862 = new BitSet(new long[]{0xFEE0004000033800L,0xC70000980001007FL,0x000000000000018EL});
-    public static final BitSet FOLLOW_expression_in_expression866 = new BitSet(new long[]{0xFEE0004000033808L,0xC70000980001007FL,0x000000000000018EL});
-    public static final BitSet FOLLOW_VARIABLE_in_variableExpression886 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_variableExpression888 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_127_in_methodDefinition911 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_methodDefinition915 = new BitSet(new long[]{0x0000000000000600L});
-    public static final BitSet FOLLOW_ARG_in_methodDefinition919 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_methodDefinition921 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_BODY_in_methodDefinition927 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_statement_list_in_methodDefinition931 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_CALL_in_method948 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_method952 = new BitSet(new long[]{0x0000000000000408L});
-    public static final BitSet FOLLOW_arguments_in_method958 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ARG_in_arguments990 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expression_in_arguments1000 = new BitSet(new long[]{0xFEE0004000033808L,0xC70000980001007FL,0x000000000000018EL});
+    public static final BitSet FOLLOW_LCURLY_in_expression856 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expression_in_expression863 = new BitSet(new long[]{0xFEE0004000033800L,0xC70000980001007FL,0x000000000000018EL});
+    public static final BitSet FOLLOW_expression_in_expression867 = new BitSet(new long[]{0xFEE0004000033808L,0xC70000980001007FL,0x000000000000018EL});
+    public static final BitSet FOLLOW_VARIABLE_in_variableExpression887 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_variableExpression889 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_127_in_methodDefinition912 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_methodDefinition916 = new BitSet(new long[]{0x0000000000000600L});
+    public static final BitSet FOLLOW_ARG_in_methodDefinition921 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_methodDefinition926 = new BitSet(new long[]{0x0000010000000008L});
+    public static final BitSet FOLLOW_BODY_in_methodDefinition935 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_statement_list_in_methodDefinition939 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_CALL_in_method957 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_method961 = new BitSet(new long[]{0x0000000000000408L});
+    public static final BitSet FOLLOW_arguments_in_method967 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ARG_in_arguments999 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expression_in_arguments1009 = new BitSet(new long[]{0xFEE0004000033808L,0xC70000980001007FL,0x000000000000018EL});
 
 }

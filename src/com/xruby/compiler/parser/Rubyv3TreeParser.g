@@ -61,7 +61,7 @@ expression returns[Expression e]
 	
 	|       e1=methodDefinition {e=e1;}
 	|       e1=method{e=e1;}
-	|       ^(DOT left=expression ^(CALL methodName=ID  (arg=arguments)) {e = new MethodCallExpression(left, $ID.text, arg, null);})
+	|       ^(DOT left=expression ^(CALL methodName=ID  (arg=arguments)?) {e = new MethodCallExpression(left, $ID.text, arg, null);})
 	       
 	|       ^('{' {e = new HashExpression();} (e1=expression e2=expression {((HashExpression)e).addElement(e1,e2);})*)
 	;
@@ -69,7 +69,7 @@ variableExpression returns [LocalVariableExpression e]
 	:	^(VARIABLE ID) {e=new LocalVariableExpression($ID.text, false);};
 methodDefinition
 returns [MethodDefinationExpression e]
-        :	^('def' name=ID (^(ARG ID))* ^(BODY sl=statement_list)) {e = new MethodDefinationExpression($name.text); e.setBody(new BodyStatement(sl));};
+        :	^('def' name=ID{e = new MethodDefinationExpression($name.text);} (^(ARG (name1=ID{e.addParameter($name1.text, null);})*))? ^(BODY sl=statement_list))  {e.setBody(new BodyStatement(sl));};
 method	
 returns [MethodCallExpression e]
 :
