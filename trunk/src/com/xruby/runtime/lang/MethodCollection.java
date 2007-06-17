@@ -44,7 +44,7 @@ abstract class MethodCollection extends ConstantCollection {
             
             if (RubyMethod.ALL == mode ||
                 methods_.get(id).getAccess() == mode) {
-                a.add(ObjectFactory.createString(StringMap.id2name(id)));
+                a.add(ObjectFactory.createString(id.toString()));
             }
         }
     }
@@ -59,7 +59,7 @@ abstract class MethodCollection extends ConstantCollection {
     public void undefMethod(String method_name) {
         RubyID mid = StringMap.intern(method_name);
         if (findOwnMethod(mid) == null) {
-            throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + StringMap.id2name(mid) + " for class `Object'");
+            throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + mid.toString() + " for class `Object'");
         }
 
         addMethod(mid, UndefMethod.getInstance());

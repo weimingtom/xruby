@@ -16,8 +16,8 @@ class RubyIDGenerator {
 	
 	private static AtomicLong lastId = new AtomicLong(2);
 	
-	public static RubyID nextId() {
-		return new RubyID(lastId.getAndIncrement());
+	public static RubyID nextId(String name) {
+		return new RubyID(lastId.getAndIncrement(), name);
 	}
 }
 
@@ -25,10 +25,16 @@ public class RubyID {
 	public static RubyID ID_ALLOCATOR = new RubyID(1);
 	
 	private long id;
+	private String name;
 	private RubySymbol symbol;
 	
 	RubyID(long id) {
+		this(id, null);
+	}
+	
+	RubyID(long id, String name) {
 		this.id = id;
+		this.name = name;
 	}
 
 	public long getId() {
@@ -37,6 +43,10 @@ public class RubyID {
 
 	public int hashCode() {
 		return (int)this.id;
+	}
+	
+	public String toString() {
+		return this.name;
 	}
 	
 	public RubySymbol toSymbol() {

@@ -12,7 +12,7 @@ public class StringMapTest extends TestCase {
 		String text = "test";
 		
 		RubyID id = StringMap.intern(text);
-		assertEquals(text, StringMap.id2name(id));		
+		assertEquals(text, id.toString());		
 		assertEquals(id, StringMap.intern(text));
 	}
 }

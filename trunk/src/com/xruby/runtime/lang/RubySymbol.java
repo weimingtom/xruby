@@ -17,7 +17,7 @@ public class RubySymbol extends RubySpecialValue {
     }
 
     public String toString() {
-        return StringMap.id2name(this.id);
+        return id.toString();
     }
 
     public int hashCode() {
