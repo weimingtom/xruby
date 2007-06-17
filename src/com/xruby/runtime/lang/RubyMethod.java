@@ -27,7 +27,7 @@ public abstract class RubyMethod extends MethodBlockBase {
     }
 
     String getName() {
-        return StringMap.id2name(id_);
+        return id_.toString();
     }
 
 	public RubyBlock convertToRubyBolck(RubyValue self) {
@@ -59,7 +59,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 		assert(expected_argc > 0);
 		if (null == args || args.size() < expected_argc) {
 			int actual_argc = (null == args ) ? 0 : args.size();
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
 		}
 	}
 
@@ -67,7 +67,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 		assert(expected_argc > 0);
 		if (null == args || args.size() != expected_argc) {
 			int actual_argc = (null == args ) ? 0 : args.size();
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
 		}
 	}
 
@@ -92,10 +92,10 @@ public abstract class RubyMethod extends MethodBlockBase {
 		if (argc_ >= 0) {
 			final int args_length = (null != args) ? args.size() : 0;
 			if (0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) {
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
 			} else if (args_length < (argc_ - default_argc_)) {
 				//number of arguments falls short anyway
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
 			}
 		}
 
@@ -116,10 +116,10 @@ public abstract class RubyMethod extends MethodBlockBase {
 		if (argc_ >= 0) {
 			final int args_length = 0;
 			if (0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) {
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
 			} else if (args_length < (argc_ - default_argc_)) {
 				//number of arguments falls short anyway
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
 			}
 		}
 		
@@ -142,10 +142,10 @@ public abstract class RubyMethod extends MethodBlockBase {
 		if (argc_ >= 0) {
 			final int args_length = 1;
 			if (0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) {
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
 			} else if (args_length < (argc_ - default_argc_)) {
 				//number of arguments falls short anyway
-				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + StringMap.id2name(id_) + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
+				throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
 			}
 		}
 		

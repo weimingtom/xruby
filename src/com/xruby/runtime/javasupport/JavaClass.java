@@ -78,7 +78,7 @@ public class JavaClass extends RubyClass {
         String fullName = clazz.getName();
         //TODO: The naming mechanism is not quite appropriate
         if(fullName.equals("java.lang.Object")){
-            //When class name collision occurs,append 'J¡¯ to class name.
+            //When class name collision occurs,append 'Jï¿½ï¿½ to class name.
             RubyAPI.setTopLevelConstant(jClass, "JObject");
             RubyAPI.setTopLevelConstant(jClass, "java.lang.JObject");
         }else{
@@ -181,7 +181,7 @@ public class JavaClass extends RubyClass {
      */
     @Override
     public RubyMethod findPublicMethod(RubyID mid) {
-        String methodName = StringMap.id2name(mid);
+        String methodName = mid.toString();
         if(methodName == null) {
             return null;
         }

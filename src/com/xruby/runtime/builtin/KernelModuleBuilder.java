@@ -98,7 +98,7 @@ class Kernel_inspect extends RubyNoArgMethod {
                 RubyID id = (RubyID)iter.next();
                 sb.append(sep);
                 sb.append(" ");
-                sb.append(StringMap.id2name(id));
+                sb.append(id.toString());
                 sb.append("=");
                 sb.append(((RubyString)RubyAPI.callPublicMethod((RubyValue)vars.get(id), null, null, StringMap.intern("inspect")))).toString();
                 sep = ",";

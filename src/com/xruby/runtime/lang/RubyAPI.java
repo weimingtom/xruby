@@ -155,7 +155,7 @@ public class RubyAPI {
 
         RubyClass klass = receiver.getRubyClass();
         klass = (klass != null) ? klass.getRealClass() : null;
-        throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + StringMap.id2name(mid) + "' for " + klass.getName());
+        throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + mid.toString() + "' for " + klass.getName());
     }
 
     //receiver is implicit self
@@ -226,7 +226,7 @@ public class RubyAPI {
     	RubyClass c = (RubyClass) current_method.getOwner();
         RubyMethod m = c.findSuperMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
-            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + StringMap.id2name(mid) + "' can not be found in '" + c.getName() + "'");
+            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mid.toString() + "' can not be found in '" + c.getName() + "'");
         }
 
         return invokeMethod(m, mid, receiver, block);
@@ -237,7 +237,7 @@ public class RubyAPI {
         RubyClass c = (RubyClass) current_method.getOwner();
         RubyMethod m = c.findSuperMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
-            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + StringMap.id2name(mid) + "' can not be found in '" + c.getName() + "'");
+            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mid.toString() + "' can not be found in '" + c.getName() + "'");
         }
 
         return invokeMethod(m, mid, receiver, arg, block);
@@ -248,7 +248,7 @@ public class RubyAPI {
         RubyClass c = (RubyClass) current_method.getOwner();
         RubyMethod m = c.findSuperMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
-            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + StringMap.id2name(mid) + "' can not be found in '" + c.getName() + "'");
+            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mid.toString() + "' can not be found in '" + c.getName() + "'");
         }
 
         return invokeMethod(m, mid, receiver, args, block);
