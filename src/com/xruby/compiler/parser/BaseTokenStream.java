@@ -48,6 +48,9 @@ public class BaseTokenStream implements TokenStream {
 
                 //modify token in place.
                 //affect tokens collection
+                if(k>=2) {
+                    log("we are in lookahead with k bigger than 2, k:" + k);
+                }
                 inPlaceModifying(token);
 
             }
@@ -63,7 +66,12 @@ public class BaseTokenStream implements TokenStream {
         return (Token) tokens.get(p + k);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    private void log(String str) {
+        System.out.println(str);
+    }
+
     private void inPlaceModifying(Token token) {
+        
         if (token.getType() == Rubyv3Lexer.HEREDOC_BEGIN) {
             int index = token.getTokenIndex() - 1;
             if (index >= 0) {
