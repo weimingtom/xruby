@@ -2,6 +2,8 @@ grammar Rubyv3;
 
 options {
         output=AST;
+        //k=3; actually we don't use k=* in parser, many left refactor to avoid that,just need k=3 till now...
+        //k=2 for assignment: ternaryExpression|lhs '=' ternaryExpression; k=3 for f_args:f_norm_args ',' f_opt_args 
         
 }
 
@@ -563,7 +565,7 @@ bnotExpression
 		;
 command
 @after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
-	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true]) (DOT^ method[false])*
+	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' expression ')' ) (DOT^ method[false])*
 	; //|       lhs SHIFT^ rhs ;	
 atom[boolean topLevel]	:	methodExpression[topLevel];
 methodExpression[boolean topLevel]
@@ -572,7 +574,7 @@ variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
 method[boolean topLevel]	:	{!isDefinedVar(input.LT(1).getText())}? ID -> ^(CALL ID)
         |       ID open_args -> ^(CALL ID open_args)
         ;
-primary	:	literal;
+/*primary	:	literal;
 	
 command_call
 	:	command1;
@@ -582,12 +584,21 @@ command_call
 command1:	operation1 (command_args);
 		
 command_args
-	:	open_args;
+	:	open_args;*/
 /* mandatory open_args*/
-open_args
-	:	call_args
-	|      '('! ')'!
-	|       '('! call_args /*call_args2*/ ')'!;
+open_args options {backtrack=true;}
+	:	'('! call_args ')'!
+	|	'('! ')'!
+	|	call_args 
+        ;  //silence warnings :http://www.antlr.org:8888/browse/ANTLR-139
+
+//paren_args
+//	:	paren_args1
+//	'('! arg ','! arg (','! arg)* /*call_args2*/ ')'!
+//	;
+//paren_args1
+//	:	'(' arg ')';
+
 call_args
 	:	args  -> ^(ARG args);
 	

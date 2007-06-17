@@ -176,6 +176,9 @@ public class Rubyv3ParserTest extends TestCase {
         //DFA.debug = true;
         //assert_parse("5 ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
         //assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (CALL x) 3 2)))");
+
+        assert_parse("test (1)", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1))))");
+
         assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
         assert_parse("1.test1.test2", "(STATEMENT_LIST (STATEMENT (. (. 1 (CALL test1)) (CALL test2))))");
         assert_parse("1.class", "(STATEMENT_LIST (STATEMENT (. 1 (CALL class))))");
@@ -197,7 +200,9 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (= (VARIABLE a) 1)))))");
         assert_parse("test 5, test 2,3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 5 (CALL test (ARG 2 3))))))");
 
-
+        assert_parse("3*2", "(STATEMENT_LIST (STATEMENT (* 3 2)))");
+        assert_parse("test*2", "(STATEMENT_LIST (STATEMENT (* (CALL test) 2)))");
+        assert_parse("test*a", "(STATEMENT_LIST (STATEMENT (* (CALL test) (CALL a))))");
     }
     
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
