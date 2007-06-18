@@ -7,7 +7,7 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.Type;
 
-public class ClassGeneratorForOneArgRubyMethod extends ClassGeneratorForRubyMethod {
+class ClassGeneratorForOneArgRubyMethod extends ClassGeneratorForRubyMethod {
     public ClassGeneratorForOneArgRubyMethod(String method_name, String fileName, String name, int argc, boolean has_asterisk_parameter, int default_argc, boolean is_singleton_method) {
         super(method_name, fileName, name, argc, has_asterisk_parameter, default_argc,
                 is_singleton_method);

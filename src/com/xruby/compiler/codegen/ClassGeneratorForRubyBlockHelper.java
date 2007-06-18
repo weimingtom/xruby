@@ -7,7 +7,7 @@ package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.Type;
 
-public abstract class ClassGeneratorForRubyBlockHelper {
+abstract class ClassGeneratorForRubyBlockHelper {
     public abstract String getSuperName();
     public abstract String getRunMethodName();
     public abstract Type getSuperClassType();
