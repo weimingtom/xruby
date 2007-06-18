@@ -57,7 +57,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         return false;
     }
 
-    public CompilationResults compile(Program program, RubyBinding binding) throws CompilerException {
+    public CompilationResults compile(Program program, RubyBinding binding) {
         binding_ = binding;
         RubyIDClassGenerator.initScript(script_name_);
         String className = NameFactory.createClassName(script_name_, null);
