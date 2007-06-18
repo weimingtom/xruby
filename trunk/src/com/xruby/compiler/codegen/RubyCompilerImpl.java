@@ -9,8 +9,6 @@ import com.xruby.compiler.codedom.CodeVisitor;
 import com.xruby.compiler.codedom.Program;
 import com.xruby.runtime.lang.RubyBinding;
 import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.value.ObjectFactory;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -209,7 +207,7 @@ public class RubyCompilerImpl implements CodeVisitor {
                 // has_extra_comma == (argc >= 1)
                 cg_.getMethodGenerator().loadArg(1);
             } else {
-                cg_.getMethodGenerator().getStatic(Type.getType(ObjectFactory.class), "NIL_VALUE", Type.getType(RubyValue.class));
+                cg_.getMethodGenerator().ObjectFactory_nilValue();
             }
         }
         return uniqueBlockName;
