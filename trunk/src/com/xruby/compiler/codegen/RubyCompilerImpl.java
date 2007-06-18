@@ -8,7 +8,6 @@ package com.xruby.compiler.codegen;
 import com.xruby.compiler.codedom.CodeVisitor;
 import com.xruby.compiler.codedom.Program;
 import com.xruby.runtime.lang.RubyBinding;
-import com.xruby.runtime.lang.RubyRuntime;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -1003,7 +1002,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitDefinedCurrentNamespaceConstant(String name) {
-        if (RubyRuntime.isBuiltinClass(name) || RubyRuntime.isBuiltinModule(name)) {
+        if (Types.isBuiltinClass(name) || Types.isBuiltinModule(name)) {
             visitStringExpression("constant");
             return;
         }
@@ -1013,7 +1012,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitDefinedTopLevelConstant(String name) {
-        if (RubyRuntime.isBuiltinClass(name) || RubyRuntime.isBuiltinModule(name)) {
+        if (Types.isBuiltinClass(name) || Types.isBuiltinModule(name)) {
             visitStringExpression("constant");
             return;
         }

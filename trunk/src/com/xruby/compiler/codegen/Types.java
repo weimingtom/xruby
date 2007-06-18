@@ -21,7 +21,7 @@ import org.objectweb.asm.Type;
  * If you use the last one, than your code depends on runtime directly. The first one add a thin layer.
  * It is really nothing for know, but later we are going to more more to there, like method signatures
  * */
-interface Types {
+abstract class Types {
     static final Class RUBY_ARRAY_CLASS = RubyArray.class;
     static final Class RUBY_VALUE_CLASS = RubyValue.class;
 
@@ -44,4 +44,52 @@ interface Types {
     static final Type RUBY_PROC_TYPE = Type.getType(RubyProc.class);
     static final Type RUBY_BINDING_TYPE = Type.getType(RubyBinding.class);
     static final Type RUBY_HASH_TYPE = Type.getType(RubyHash.class);
+
+    public static boolean isBuiltinClass(String name) {
+        final String[] builtin_classes = {
+                "Array", "Bignum", "Binding", "Class",
+                //"Continuation",
+                "Dir", "Exception",
+                //"File::Stat",
+                "FalseClass", "File", "Fixnum", "Float", "Hash", "Integer", "IO", "MatchData", "Method",
+                "Module", "NilClass", "Numeric", "Object", "Proc", "Range", "Regexp", "String", "Struct",
+                //"Struct::Tms"
+                "Symbol", "ThreadGroup", "Thread", "ArgumentError",
+                "Time", "TrueClass", "UnboundMethod",
+
+                "Exception", "StandardError", "TypeError", "IndexError", "RangeError", "NameError", "NoMethodError", "IOError", "RuntimeError", "LocalJumpError","SystemCallError",
+                "ScriptError", "SyntaxError", "LoadError", "NotImplementedError","ThreadError",
+        };
+
+        for (String s : builtin_classes) {
+            if (s.equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isBuiltinModule(String name) {
+        final String[] builtin_classes = {
+                "Comparable",
+                "Enumerable",
+                "Errno",
+                "FileTest",
+                "GC",
+                "Kernel",
+                "Marshal",
+                "Math",
+                "ObjectSpace",
+                "Process ",
+        };
+
+        for (String s : builtin_classes) {
+            if (s.equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
