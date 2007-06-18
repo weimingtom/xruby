@@ -8,7 +8,6 @@ package com.xruby.compiler;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 import com.xruby.compiler.codegen.CompilationResults;
-import com.xruby.compiler.codegen.CompilerException;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 import junit.framework.TestCase;
@@ -36,8 +35,6 @@ class CompilerTestCase extends TestCase {
                 assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
             } catch (TokenStreamException e) {
                 assertTrue("TokenStreamException at " + i + ": " + e.toString(), false);
-            } catch (CompilerException e) {
-                assertTrue("CompilerException at " + i + ": " + e.toString(), false);
             } catch (InstantiationException e) {
                 assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
             } catch (IllegalAccessException e) {
@@ -70,8 +67,6 @@ class CompilerTestCase extends TestCase {
                 assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
             } catch (TokenStreamException e) {
                 assertTrue("TokenStreamException at " + i + ": " + e.toString(), false);
-            } catch (CompilerException e) {
-                assertTrue("CompilerException at " + i + ": " + e.toString(), false);
             } catch (InstantiationException e) {
                 assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
             } catch (IllegalAccessException e) {
@@ -103,8 +98,6 @@ class CompilerTestCase extends TestCase {
                 assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
             } catch (TokenStreamException e) {
                 assertTrue("TokenStreamException at " + i + ": " + e.toString(), false);
-            } catch (CompilerException e) {
-                assertTrue("CompilerException at " + i + ": " + e.toString(), false);
             } catch (InstantiationException e) {
                 assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
             } catch (IllegalAccessException e) {
@@ -142,8 +135,6 @@ class CompilerTestCase extends TestCase {
                 assertTrue("RecognitionException at " + i + ": " + e.toString(), false);
             } catch (TokenStreamException e) {
                 assertTrue("TokenStreamException at " + i + ": " + e.toString(), false);
-            } catch (CompilerException e) {
-                assertTrue("CompilerException at " + i + ": " + e.toString(), false);
             } catch (InstantiationException e) {
                 assertTrue("InstantiationException at " + i + ": " + e.toString(), false);
             } catch (IllegalAccessException e) {
@@ -187,8 +178,6 @@ class CompilerTestCase extends TestCase {
                 fail("RecognitionException at " + i + ": " + e.toString());
             } catch (TokenStreamException e) {
                 fail("TokenStreamException at " + i + ": " + e.toString());
-            } catch (CompilerException e) {
-                fail("CompilerException at " + i + ": " + e.toString());
             } catch (InstantiationException e) {
                 fail("InstantiationException at " + i + ": " + e.toString());
             } catch (IllegalAccessException e) {
@@ -209,7 +198,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyRuntime.init(new String[] {"my_arg"});
     }
 
-    public void test_raise() throws RecognitionException, TokenStreamException, CompilerException, InstantiationException, IllegalAccessException {
+    public void test_raise() throws RecognitionException, TokenStreamException, InstantiationException, IllegalAccessException {
         String program_texts = "raise 'test'";
         RubyCompiler compiler = new RubyCompiler(null, false);
         CompilationResults codes = compiler.compile(new StringReader(program_texts));
@@ -1815,7 +1804,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_catch_exception(program_texts, exceptions);
     }
 
-    public void test_require() throws RecognitionException, TokenStreamException, CompilerException, FileNotFoundException, IOException {
+    public void test_require() throws RecognitionException, TokenStreamException, FileNotFoundException, IOException {
         String program_text = "print 'xxxxx'";
         RubyCompiler compiler = new RubyCompiler(null, false);
         CompilationResults codes = compiler.compile(new StringReader(program_text));
@@ -1839,7 +1828,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         }
     }
 
-    public void test_require_2_files() throws RecognitionException, TokenStreamException, CompilerException, FileNotFoundException, IOException {
+    public void test_require_2_files() throws RecognitionException, TokenStreamException, FileNotFoundException, IOException {
         String program_text1 = "print 'xxxxx'; REQUIRE_2_FILES = 1";
         RubyCompiler compiler1 = new RubyCompiler(null, false);
         CompilationResults codes1 = compiler1.compile(new StringReader(program_text1));
@@ -1872,7 +1861,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         }
     }
 
-    public void test_require_2_files_with_global() throws RecognitionException, TokenStreamException, CompilerException, FileNotFoundException, IOException {
+    public void test_require_2_files_with_global() throws RecognitionException, TokenStreamException, FileNotFoundException, IOException {
         String program_text1 = "$G010 = 'cccc'";
         RubyCompiler compiler1 = new RubyCompiler(null, false);
         CompilationResults codes1 = compiler1.compile(new StringReader(program_text1));

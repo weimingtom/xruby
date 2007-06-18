@@ -26,7 +26,6 @@ import antlr.TokenStreamException;
 
 import com.xruby.compiler.RubyCompiler;
 import com.xruby.compiler.codegen.CompilationResults;
-import com.xruby.compiler.codegen.CompilerException;
 import com.xruby.compiler.codegen.NameFactory;
 import com.xruby.runtime.javasupport.JavaClass;
 import com.xruby.runtime.lang.AtExitBlocks;
@@ -119,7 +118,7 @@ class Kernel_singleton_methods extends RubyVarArgMethod {
 
         RubyArray a = new RubyArray();
         if(receiver.getRubyClass().isSingleton()) {
-            RubyClass rubyClass = receiver.getRubyClass();    
+            RubyClass rubyClass = receiver.getRubyClass();
             rubyClass.collectOwnMethodNames(a, RubyMethod.PUBLIC);
             rubyClass = rubyClass.getSuperClass();
 
@@ -152,8 +151,6 @@ class Kernel_eval extends RubyVarArgMethod {
             throw new RubyException(RubyRuntime.SyntaxErrorClass, e.toString());
         } catch (TokenStreamException e) {
             throw new RubyException(RubyRuntime.SyntaxErrorClass, e.toString());
-        } catch (CompilerException e) {
-            throw new RubyException(e.toString());
         } catch (InstantiationException e) {
             throw new RubyException(e.toString());
         } catch (IllegalAccessException e) {
