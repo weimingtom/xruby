@@ -346,7 +346,7 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public boolean RubyRuntime_getBuiltinClass(String className) {
-        if (RubyRuntime.isBuiltinClass(className)) {
+        if (Types.isBuiltinClass(className)) {
             getStatic(Type.getType(RubyRuntime.class),
                     className + "Class",
                     Types.RUBY_CLASS_TYPE);
@@ -357,7 +357,7 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public boolean RubyRuntime_getBuiltinModule(String name) {
-        if (RubyRuntime.isBuiltinModule(name)) {
+        if (Types.isBuiltinModule(name)) {
             getStatic(Type.getType(RubyRuntime.class),
                     name + "Module",
                     Types.RUBY_MODULE_TYPE);
