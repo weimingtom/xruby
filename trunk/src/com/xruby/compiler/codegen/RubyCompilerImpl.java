@@ -101,15 +101,18 @@ public class RubyCompilerImpl implements CodeVisitor {
         }
 
         //The class body may refer the constant, so save it before class builder starts.
+        callClassModuleBuilder(NameFactory.createMethodnameForClassBuilder(className), false);
+    }
+
+    private void callClassModuleBuilder(String name, boolean is_singleton) {
         cg_.getMethodGenerator().dup();
         int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
         cg_.getMethodGenerator().storeLocal(i);
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().loadLocal(i);
-        String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(className);
-        cg_.callClassBuilderMethod(method_name_for_class_builder);
-        cg_.startClassBuilderMethod(method_name_for_class_builder, false);
+        cg_.callClassBuilderMethod(name);
+        cg_.startClassBuilderMethod(name, is_singleton);
     }
 
     public void visitSingletonClassDefination1() {
@@ -118,16 +121,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitSingletonClassDefination2() {
         cg_.getMethodGenerator().RubyValue_getSingletonClass();
-        cg_.getMethodGenerator().dup();
-        int i = cg_.getMethodGenerator().newLocal(Types.RUBY_CLASS_TYPE);
-        cg_.getMethodGenerator().storeLocal(i);
-        cg_.getMethodGenerator().pushNull();
-        cg_.getMethodGenerator().pushNull();
-        cg_.getMethodGenerator().loadLocal(i);
-
-        String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder("SIGLETON");
-        cg_.callClassBuilderMethod(method_name_for_class_builder);
-        cg_.startClassBuilderMethod(method_name_for_class_builder, true);
+        callClassModuleBuilder(NameFactory.createMethodnameForClassBuilder("SIGLETON"), true);
     }
 
     public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
@@ -151,15 +145,7 @@ public class RubyCompilerImpl implements CodeVisitor {
             }
         }
 
-        cg_.getMethodGenerator().dup();
-        int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
-        cg_.getMethodGenerator().storeLocal(i);
-        cg_.getMethodGenerator().pushNull();
-        cg_.getMethodGenerator().pushNull();
-        cg_.getMethodGenerator().loadLocal(i);
-        String method_name_for_class_builder = NameFactory.createMethodnameForClassBuilder(moduleName);
-        cg_.callClassBuilderMethod(method_name_for_class_builder);
-        cg_.startClassBuilderMethod(method_name_for_class_builder, false);
+        callClassModuleBuilder(NameFactory.createMethodnameForClassBuilder(moduleName), false);
     }
 
     public void visitModuleDefinationEnd(boolean last_statement_has_return_value) {
