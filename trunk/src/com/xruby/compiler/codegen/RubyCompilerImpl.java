@@ -146,7 +146,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitModuleDefinationEnd(boolean last_statement_has_return_value) {
-        visitClassDefinationEnd(last_statement_has_return_value);//TODO
+        visitClassDefinationEnd(last_statement_has_return_value);
     }
 
     public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
@@ -163,14 +163,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 
         //Save the current state and sart a new class file to write.
         suspended_cgs_.push(cg_);
-        /*
-        cg_ = new ClassGeneratorForRubyMethod(methodName, script_name_,
-                                uniqueMethodName,
-                                num_of_args,
-                                has_asterisk_parameter,
-                                num_of_default_args,
-                                is_singleton_method || cg_.getMethodGenerator().isSingleton());
-                                */
         cg_ = ClassGeneratorForRubyMethodFactory.createClassGeneratorForRubyMethod(methodName,
                                 script_name_,
                                 uniqueMethodName,
@@ -212,23 +204,28 @@ public class RubyCompilerImpl implements CodeVisitor {
         return uniqueBlockName;
     }
 
-    public String[] visitBlockEnd(String uniqueBlockName, boolean last_statement_has_return_value) {
+    private void switchToPreviousClassGenerator(boolean last_statement_has_return_value) {
         if (!last_statement_has_return_value) {
             cg_.getMethodGenerator().ObjectFactory_nilValue();
         }
 
         cg_.getMethodGenerator().returnValue();
         cg_.getMethodGenerator().endMethod();
-
-        String[] commons = ((ClassGeneratorForRubyBlock)cg_).createFieldsAndConstructorOfRubyBlock();
-        String[] assigned_commons = ((ClassGeneratorForRubyBlock)cg_).getAssignedFields();
-
         cg_.visitEnd();
+
         compilation_results_.add(cg_.getCompilationResult());
         cg_ = suspended_cgs_.pop();
+    }
+
+    public String[] visitBlockEnd(String uniqueBlockName, boolean last_statement_has_return_value) {
+
+        ClassGeneratorForRubyBlock block_cg = (ClassGeneratorForRubyBlock)cg_;
+        String[] commons = block_cg.createFieldsAndConstructorOfRubyBlock();
+        String[] assigned_commons = block_cg.getAssignedFields();
+
+        switchToPreviousClassGenerator(last_statement_has_return_value);
 
         cg_.getMethodGenerator().new_BlockClass(cg_, uniqueBlockName, commons, cg_.isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
-
         cg_.getMethodGenerator().storeBlockForFutureRestoreAndCheckReturned();
 
         return assigned_commons;
@@ -247,16 +244,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitMethodDefinationEnd(boolean last_statement_has_return_value) {
-        if (!last_statement_has_return_value) {
-            cg_.getMethodGenerator().ObjectFactory_nilValue();
-        }
-
-        cg_.getMethodGenerator().returnValue();
-        cg_.getMethodGenerator().endMethod();
-        cg_.visitEnd();
-
-        compilation_results_.add(cg_.getCompilationResult());
-        cg_ = suspended_cgs_.pop();
+        switchToPreviousClassGenerator(last_statement_has_return_value);
     }
 
     public void visitMethodDefinationDefaultParameters(int size) {
