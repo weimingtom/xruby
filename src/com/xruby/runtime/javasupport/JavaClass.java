@@ -22,9 +22,9 @@ import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubySingletonClass;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
-import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.RubyArray;
 
 /**
@@ -66,25 +66,40 @@ public class JavaClass extends RubyClass {
         super(clazz.getName(),superclass,null);
         
         this.orginJavaClass = clazz;
-        //Initialize public constructors and methods
-        initConstructors(clazz);
-        initMethods(clazz);
-        initFields(clazz);
+        if(!clazz.isInterface()){
+            //Initialize public constructors and methods
+            initConstructors(clazz);
+            initMethods(clazz);
+            initFields(clazz);
+        }        
     }
 
     
     private static JavaClass newJavaClass(Class clazz,RubyClass parent){
         JavaClass jClass = new JavaClass(clazz,parent);
         String fullName = clazz.getName();
-        //TODO: The naming mechanism is not quite appropriate
+        
+        //Use the Java class name prefixed 'J' if not sure that the class
+        //name collision will        
+        RubyAPI.setTopLevelConstant(jClass, fullName);
         if(fullName.equals("java.lang.Object")){
-            //When class name collision occurs,append 'J�� to class name.
+            //Ensure that Object class will not be override!
             RubyAPI.setTopLevelConstant(jClass, "JObject");
-            RubyAPI.setTopLevelConstant(jClass, "java.lang.JObject");
         }else{
-            RubyAPI.setTopLevelConstant(jClass, fullName);
             RubyAPI.setTopLevelConstant(jClass, fullName.substring(fullName.lastIndexOf('.')+1));
-        }        
+            RubyAPI.setTopLevelConstant(jClass, "J"+fullName.substring(fullName.lastIndexOf('.')+1));
+        }
+        return jClass;
+    }
+    
+    private static JavaClass newClass(Class clazz,RubyClass parent){
+        JavaClass jClass = new JavaClass(clazz,parent); 
+        jClass.setRubyClass(RubyRuntime.ClassClass);
+        new RubySingletonClass(jClass, parent.getRubyClass());
+        
+        String fullName = clazz.getName();
+        RubyAPI.setTopLevelConstant(jClass, fullName.substring(fullName.lastIndexOf('.')+1));
+        RubyAPI.setTopLevelConstant(jClass, "J"+fullName.substring(fullName.lastIndexOf('.')+1));
         return jClass;
     }
     
@@ -94,8 +109,13 @@ public class JavaClass extends RubyClass {
             JavaClass parentClass = createJavaClass(superClass);
             return newJavaClass(clazz,parentClass);
         }else{
-            //Only deal with Object
-            JavaClass jClass = newJavaClass(Object.class,RubyRuntime.ObjectClass);        
+            JavaClass jClass = null;
+            if(clazz.isInterface()){
+                jClass = newClass(clazz,RubyRuntime.ObjectClass);
+            }else{
+                //Only deal with Object
+                jClass = newJavaClass(Object.class,RubyRuntime.ObjectClass);   
+            }                 
             return jClass;
         }
     }
@@ -130,13 +150,21 @@ public class JavaClass extends RubyClass {
         for(Field f : fields){
             String name = f.getName();
             int modifiers = f.getModifiers();
-            if(Modifier.isStatic(modifiers)){
-                
-            }else{
-                fieldNames.put(name, f);
-                if(!Modifier.isFinal(modifiers)){
-                    String setterName = name+"=";
-                    fieldNames.put(setterName,f);
+            fieldNames.put(name, f);
+            if(!Modifier.isFinal(modifiers)){
+                String setterName = name+"=";
+                fieldNames.put(setterName,f);
+            }
+            
+            if(Modifier.isStatic(modifiers)&&Modifier.isPublic(modifiers)){
+                if(Modifier.isFinal(modifiers)){
+                    try {
+                        setConstant(name,JavaUtil.convertToRubyValue(f.get(null)));
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -280,9 +308,8 @@ public class JavaClass extends RubyClass {
             if (tmpList.size() == 1) {
                 return getJavaMethod(tmpList.get(0));
             } else {
-                // Go on Analyzing args
-
-                return null;
+                //Analyzing args
+                return getJavaMethod(JavaUtil.matchMethod(tmpList, args));
             }
         }
     }
@@ -363,7 +390,14 @@ public class JavaClass extends RubyClass {
         }
         
         protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-            JavaClass clazz = (JavaClass) receiver.getRubyClass();
+            JavaClass clazz = null;
+            //This is a trick.Because no creating the metaclass for every Java
+            //class,deal with the static methods as follows:
+            if(receiver instanceof JavaClass){
+                clazz = (JavaClass)receiver;
+            }else{
+                clazz = (JavaClass) receiver.getRubyClass();
+            } 
             JavaMethod method = null;
             boolean flag = false;
             do{
