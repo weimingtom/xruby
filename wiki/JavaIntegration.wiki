@@ -2,6 +2,14 @@
 
 Currently xruby provides some ways to make use of the many Java libraries available.You can import Java packages,create a Java object,implement a Java interface,etc.We will list all available features as follows.
   * Importing Java packages and classes
+  ** Use require_java keywords,of course also can use import with which most Java programmers are familiar.
+{{{
+#import the specific class
+require_java javax.swing.JFrame
+
+#import the Java packages
+require_java javax.swing.*
+}}}
   * Creating a Java object
   * Calling instance methods
   * Calling static methods
