@@ -1,13 +1,9 @@
 #summary Java Integration
 
-= Introduction =
-
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Currently xruby provides some ways to make use of the many Java libraries available.You can import Java packages,create a Java object,implement a Java interface,etc.We will list all available features as follows.
+  * Importing Java packages and classes
+  * Creating a Java object
+  * Calling instance methods
+  * Calling static methods
+  * JavaBean support
+  * Implementing a Java interface
