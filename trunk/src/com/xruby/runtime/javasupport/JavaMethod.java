@@ -71,6 +71,9 @@ public class JavaMethod extends RubyVarArgMethod {
                 
                 Object retValue = null;
                 if(isField){
+                    if(!(Modifier.isStatic(field.getModifiers())) && object == null){
+                        throw new RubyException("The Instance variable "+field.getName()+"doesn't exists or can't be accessed!");
+                    }
                     if(isGetter){
                         retValue = method.invoke(null, new Object[]{field,object});
                     }else{

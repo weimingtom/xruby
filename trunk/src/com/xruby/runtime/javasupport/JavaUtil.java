@@ -6,13 +6,18 @@
 package com.xruby.runtime.javasupport;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.math.BigInteger;
 import java.util.List;
 
+import com.xruby.runtime.lang.RubyAPI;
+import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyBignum;
@@ -67,13 +72,26 @@ public class JavaUtil {
         return new RubyJavaObject<Object>(JavaClass.createJavaClass(value.getClass()), value);
     }
 
-    public static RubyArray convertToRubyValues(Object[] value) {
-        return null;
+    public static RubyArray convertToRubyValues(Object[] values) {
+        if (null == values) {
+            return new RubyArray(0);
+        }
+
+        int size = values.length;
+        RubyArray retArray = new RubyArray(size);
+        for (int i = 0; i < size; ++i) {
+            Object obj = values[i];
+            RubyValue value = convertToRubyValue(obj);
+            retArray.add(value);
+        }
+
+        return retArray;        
     }
 
     @SuppressWarnings("unchecked")
     public static Object convertToJavaValue(RubyValue value) {
-        String className = value.getRubyClass().getName();
+        RubyClass klass = value.getRubyClass();
+        String className = klass.getName();
 
         if (className.equals("String")) {
             return ((RubyString) value).toString();
@@ -96,7 +114,27 @@ public class JavaUtil {
         } else if (className.equals("Regexp")) {
             // TODO:Convert to Java's regular expression
         }
-
+        
+        //Convert Ruby class that implements Java interface to Java class
+        while(!klass.getName().equals("Object")){
+            if(klass instanceof JavaClass){
+                final RubyValue tmp = value;
+                Class clazz = ((JavaClass)klass).getOriginJavaClass();
+                
+                if(clazz.isInterface()){
+                    return Proxy.newProxyInstance(JavaUtil.class.getClassLoader(),new Class[]{clazz},new InvocationHandler(){
+                        public Object invoke(Object proxy, Method method, Object[] nargs) throws Throwable {
+                            return RubyAPI.callPublicMethod(tmp,convertToRubyValues(nargs),null,StringMap.intern(method.getName()));
+                        }
+                    });
+                }
+               
+                break;
+            }else{
+                klass = klass.getSuperClass();
+            }
+        }        
+        
         if(value instanceof RubyJavaObject){
             return ((RubyJavaObject<Object>) value).getData();
         }else{
@@ -127,7 +165,17 @@ public class JavaUtil {
         int i = 0;
 
         for (RubyValue value : args) {
-            String className = value.getRubyClass().getName();
+            RubyClass klass = value.getRubyClass();            
+            String className = klass.getName();
+            
+            while(!klass.getName().equals("Object")){
+                if(klass instanceof JavaClass){
+                    className = ((JavaClass)klass).getOriginJavaClass().getName();
+                    break;
+                }else{
+                    klass = klass.getSuperClass();
+                }
+            }
             tmp[i] = className;
             ++i;
         }
@@ -164,6 +212,9 @@ public class JavaUtil {
                 return true;
             }
         }
+        if(type.equals(clazz.getName())){
+            return true;
+        }
         //TODO More type
         return false;
     }
@@ -172,11 +223,18 @@ public class JavaUtil {
         String[] types = collectTypes(args);
 
         for (Method method : methods) {
-            for (String type : types) {
+            Class[] params = method.getParameterTypes();
+            boolean match = true;
 
+            for (int i = 0; i < types.length && match; i++) {
+                if (!matchNativeTye(types[i], params[i])) {
+                    match = false;
+                }
             }
 
-            return method;
+            if (match) {
+                return method;
+            }
         }
 
         throw new RubyException("Couldn't find method ");
