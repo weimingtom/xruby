@@ -177,16 +177,16 @@ abstract class ClassGenerator {
         }
     }
 
-    public void createBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
+    public void createBinding(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {
         int i = getSymbolTable().getInternalBindingVar();
         if (i >= 0) {
             getMethodGenerator().loadLocal(i);
-            updateBinding(isInSingletonMethod, isInGlobalScope, is_in_block);
+            updateBinding(isInClassBuilder, isInSingletonMethod, isInGlobalScope, isInBlock);
             return;
         }
 
         newBinding();
-        updateBinding(isInSingletonMethod, isInGlobalScope, is_in_block);
+        updateBinding(isInClassBuilder, isInSingletonMethod, isInGlobalScope, isInBlock);
 
         getMethodGenerator().dup();
         i = getMethodGenerator().newLocal(Types.RUBY_BINDING_TYPE);
@@ -201,21 +201,21 @@ abstract class ClassGenerator {
                 Method.getMethod("void <init> ()"));
     }
 
-    private void updateBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
-        getMethodGenerator().loadSelf(is_in_block);
+    private void updateBinding(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {
+        getMethodGenerator().loadSelf(isInBlock);
         getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
             Method.getMethod("com.xruby.runtime.lang.RubyBinding setSelf(com.xruby.runtime.lang.RubyValue)"));
 
-        if (isInClassBuilder()) {
+        if (isInClassBuilder) {
             getMethodGenerator().pushNull();
         } else {
-            getMethodGenerator().loadBlock(is_in_block);
+            getMethodGenerator().loadBlock(isInBlock);
         }
         getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
             Method.getMethod("com.xruby.runtime.lang.RubyBinding setBlock(com.xruby.runtime.lang.RubyBlock)"));
 
-        if (!is_in_block) {
-            getMethodGenerator().loadCurrentClass(isInClassBuilder(), isInSingletonMethod, isInGlobalScope, is_in_block);
+        if (!isInBlock) {
+            getMethodGenerator().loadCurrentClass(isInClassBuilder(), isInSingletonMethod, isInGlobalScope, isInBlock);
         } else {
             getMethodGenerator().pushNull();//TODO fix this and loadCurrentClass
         }

@@ -256,8 +256,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
                 Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
     }
 
-    public void createBinding(boolean isInSingletonMethod, boolean isInGlobalScope, boolean is_in_block) {
-        super.createBinding(isInSingletonMethod, isInGlobalScope, is_in_block);
+    public void createBinding(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {
+        super.createBinding(isInClassBuilder, isInSingletonMethod, isInGlobalScope, isInBlock);
 
         //TODO one level look up is not enough
         Collection<String> vars = symbol_table_of_the_current_scope_.getLocalVariables();
