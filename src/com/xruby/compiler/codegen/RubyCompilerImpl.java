@@ -20,11 +20,11 @@ import java.util.Stack;
 public class RubyCompilerImpl implements CodeVisitor {
 
     private ClassGenerator cg_;
-    private Stack<ClassGenerator> suspended_cgs_ = new Stack<ClassGenerator>();
-    private CompilationResults compilation_results_ = new CompilationResults();
-    private String script_name_;
-    private LabelManager labelManager_ = new LabelManager();
-    private EnsureLabelManager ensureLabelManager_ = new EnsureLabelManager();
+    private final Stack<ClassGenerator> suspended_cgs_ = new Stack<ClassGenerator>();
+    private final CompilationResults compilation_results_ = new CompilationResults();
+    private final String script_name_;
+    private final LabelManager labelManager_ = new LabelManager();
+    private final EnsureLabelManager ensureLabelManager_ = new EnsureLabelManager();
     private RubyBinding binding_;
 
     private Label currentLineLabel;
@@ -52,6 +52,24 @@ public class RubyCompilerImpl implements CodeVisitor {
         }
 
         return false;
+    }
+
+    private void switchToNewClassGenerator(ClassGenerator cg) {
+        suspended_cgs_.push(cg_);
+        cg_ = cg;
+    }
+
+    private void switchToPreviousClassGenerator(boolean last_statement_has_return_value) {
+        if (!last_statement_has_return_value) {
+            cg_.getMethodGenerator().ObjectFactory_nilValue();
+        }
+
+        cg_.getMethodGenerator().returnValue();
+        cg_.getMethodGenerator().endMethod();
+        cg_.visitEnd();
+
+        compilation_results_.add(cg_.getCompilationResult());
+        cg_ = suspended_cgs_.pop();
     }
 
     public CompilationResults compile(Program program, RubyBinding binding) {
@@ -162,14 +180,13 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().RubyModule_defineMethod(methodName, uniqueMethodName);
 
         //Save the current state and sart a new class file to write.
-        suspended_cgs_.push(cg_);
-        cg_ = ClassGeneratorForRubyMethodFactory.createClassGeneratorForRubyMethod(methodName,
+        switchToNewClassGenerator(ClassGeneratorForRubyMethodFactory.createClassGeneratorForRubyMethod(methodName,
                                 script_name_,
                                 uniqueMethodName,
                                 num_of_args,
                                 has_asterisk_parameter,
                                 num_of_default_args,
-                                is_singleton_method || cg_.getMethodGenerator().isSingleton());
+                                is_singleton_method || cg_.getMethodGenerator().isSingleton()));
 
         return uniqueMethodName;
     }
@@ -184,15 +201,14 @@ public class RubyCompilerImpl implements CodeVisitor {
         String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_, method_name);
 
         //Save the current state and sart a new class file to write.
-        suspended_cgs_.push(cg_);
-        cg_ = new ClassGeneratorForRubyBlock(uniqueBlockName, script_name_,
+        switchToNewClassGenerator(new ClassGeneratorForRubyBlock(uniqueBlockName, script_name_,
                     argc,
                     has_asterisk_parameter,
                     num_of_default_args,
                     cg_,
                     is_for_in_expression,
                     has_extra_comma,
-                    binding_);
+                    binding_));
         if (has_body) {
             if (argc >= 1 || has_asterisk_parameter || is_for_in_expression) {
                 // has_extra_comma == (argc >= 1)
@@ -202,19 +218,6 @@ public class RubyCompilerImpl implements CodeVisitor {
             }
         }
         return uniqueBlockName;
-    }
-
-    private void switchToPreviousClassGenerator(boolean last_statement_has_return_value) {
-        if (!last_statement_has_return_value) {
-            cg_.getMethodGenerator().ObjectFactory_nilValue();
-        }
-
-        cg_.getMethodGenerator().returnValue();
-        cg_.getMethodGenerator().endMethod();
-        cg_.visitEnd();
-
-        compilation_results_.add(cg_.getCompilationResult());
-        cg_ = suspended_cgs_.pop();
     }
 
     public String[] visitBlockEnd(String uniqueBlockName, boolean last_statement_has_return_value) {
