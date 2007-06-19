@@ -10,26 +10,21 @@ import org.objectweb.asm.commons.Method;
 import com.xruby.runtime.lang.RubyBinding;
 
 class ClassGeneratorForRubyProgram extends ClassGenerator {
-    private RubyBinding binding_;
-    private String fileName;
+    private final RubyBinding binding_;
+    private final String fileName;
 
-    public ClassGeneratorForRubyProgram(String name, String fileName, RubyBinding binding) {
+    public ClassGeneratorForRubyProgram(String name, String fileName, RubyBinding binding, boolean create_main) {
         super(name);
         this.fileName = fileName;
-        mg_for_run_method_ = visitRubyProgram(binding, fileName);
+        mg_for_run_method_ = visitRubyProgram(binding, fileName, create_main);
         binding_ = binding;
     }
-
 
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName) {
+    private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName, boolean create_main) {
         cv_.visit(Opcodes.V1_5,
                 Opcodes.ACC_PUBLIC,
                 name_,
@@ -39,12 +34,15 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
                 );
 
         // set source file's name, for debug
-        if(fileName != null) {
+        if (fileName != null) {
             cv_.visitSource(fileName, null);
         }
 
         createImplicitConstructor(cv_);
-        createStaticVoidMain(cv_);
+
+        if (create_main) {
+            createStaticVoidMain(cv_);
+        }
 
         //Implement RubyProgram
         return new MethodGenerator(Opcodes.ACC_PROTECTED,
