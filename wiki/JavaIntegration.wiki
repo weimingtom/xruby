@@ -3,35 +3,50 @@
 Currently xruby provides some ways to make use of the many Java libraries available.You can import Java packages,create a Java object,implement a Java interface,etc.We will list all available features as follows.
   * Importing Java packages and classes
    * Use require_java keywords,of course also can use import with which most Java programmers are familiar.
+   * When not ensure that whether class name collision will occur or not,access the Java class prefixing with a 'J' char.
 {{{
 #import the specific class
-require_java javax.swing.JFrame
+require_java 'javax.swing.JFrame'
 
 #import the Java packages
-require_java javax.swing.*
+require_java 'javax.swing.*'
 }}}
   * Creating a Java object
 {{{
-require_java javax.swing.JFrame
+require_java 'javax.swing.JFrame'
 f = JFrame.new('hello')
 }}}
   * Calling instance methods
 {{{
-require_java javax.swing.JFrame
+require_java 'javax.swing.JFrame'
 f = JFrame.new('hello')
 f.pack
 f.setVisible(true)
 }}}
   * Calling static methods
 {{{
-import java.lang.System
+import 'java.lang.System'
 System.exit(0)
 }}}
+  * Accessing static fields
+{{{
+require_java 'java.lang.System'
+out = System::out
+out.println('ok!')
+}}}
   * JavaBean support
+{{{
+import 'javax.swing.JFrame'
+f = JFrame.new("hello");
+# calls setVisible
+f.visible= true
+# calls getTitle
+puts f.title
+}}}
   * Implementing a Java interface
 {{{
-import java.lang.Runnable
-import java.lang.Thread
+import 'java.lang.Runnable'
+import 'java.lang.Thread'
 
 class MyRunnable < Runnable
     def run
@@ -40,8 +55,11 @@ class MyRunnable < Runnable
 end
 
 r = MyRunnable.new
+#prefix a 'J' char in order to escape from name collision 
 thread = JThread.new(r)
 thread.start()
 }}}
 
-
+===Reference===
+# [http://blogs.sun.com/sundararajan/entry/java_integration_javascript_groovy_and Java Integration: JavaScript, Groovy and JRuby]
+# [http://www.mozilla.org/rhino/ScriptingJava.html Scripting Java]
