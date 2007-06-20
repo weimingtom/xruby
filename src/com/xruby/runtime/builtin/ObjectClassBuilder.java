@@ -12,6 +12,7 @@ import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyNoArgMethod;
+import com.xruby.runtime.lang.RubyOneArgMethod;
 import com.xruby.runtime.lang.RubyObject;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
@@ -67,6 +68,19 @@ class Object_frozen_question extends RubyNoArgMethod {
     }
 }
 
+//TODO compiler should be able to use EmptyMethod to avoid generating some class file
+class EmptyMethod extends RubyOneArgMethod {
+
+   public static final EmptyMethod INSTANCE = new EmptyMethod();
+   
+    	private EmptyMethod() {
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return ObjectFactory.NIL_VALUE;
+	}
+}
+
 public class ObjectClassBuilder {
 
     public static void initialize() {
@@ -80,7 +94,6 @@ public class ObjectClassBuilder {
         c.defineMethod("object_id", object_id);
         c.defineMethod("__id__", object_id);
         c.defineMethod("hash", new Object_hash());
-		
-        
+        c.defineMethod("inherited", EmptyMethod.INSTANCE);
     }
 }
