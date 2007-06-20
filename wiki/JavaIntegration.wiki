@@ -43,6 +43,14 @@ out.println('ok!')
 require_java 'java.lang.Math'
 puts JMath.PI
 }}}
+  * Java overloaded resolution
+   * Select the first applicable method which is enumerated by the JVM.This means that as long as the ruby arguments can be converted to corresponding Java type listed in the method's signature,this method will be chosen. 
+{{{
+require_java 'java.lang.System'
+out = System::out
+out.println('ok!')
+out.println(123)
+}}}
   * JavaBean support
 {{{
 import 'javax.swing.JFrame'
