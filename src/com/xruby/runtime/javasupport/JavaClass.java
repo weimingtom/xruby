@@ -77,46 +77,32 @@ public class JavaClass extends RubyClass {
     
     private static JavaClass newJavaClass(Class clazz,RubyClass parent){
         JavaClass jClass = new JavaClass(clazz,parent);
-        String fullName = clazz.getName();
-        
-        //Use the Java class name prefixed 'J' if not sure that the class
-        //name collision will        
-        RubyAPI.setTopLevelConstant(jClass, fullName);
-        if(fullName.equals("java.lang.Object")){
-            //Ensure that Object class will not be override!
-            RubyAPI.setTopLevelConstant(jClass, "JObject");
-        }else{
-            RubyAPI.setTopLevelConstant(jClass, fullName.substring(fullName.lastIndexOf('.')+1));
-            RubyAPI.setTopLevelConstant(jClass, "J"+fullName.substring(fullName.lastIndexOf('.')+1));
+        if(clazz.isInterface()){
+            jClass.setRubyClass(RubyRuntime.ClassClass);
+            new RubySingletonClass(jClass, parent.getRubyClass());
         }
-        return jClass;
-    }
-    
-    private static JavaClass newClass(Class clazz,RubyClass parent){
-        JavaClass jClass = new JavaClass(clazz,parent); 
-        jClass.setRubyClass(RubyRuntime.ClassClass);
-        new RubySingletonClass(jClass, parent.getRubyClass());
         
         String fullName = clazz.getName();
-        RubyAPI.setTopLevelConstant(jClass, fullName.substring(fullName.lastIndexOf('.')+1));
-        RubyAPI.setTopLevelConstant(jClass, "J"+fullName.substring(fullName.lastIndexOf('.')+1));
+        //Replace new Java class name prefixed 'J' with orginal class name 
+        //if the class name collision occurs       
+        RubyAPI.setTopLevelConstant(jClass, fullName);
+        String name = fullName.substring(fullName.lastIndexOf('.')+1);
+        //Check that the class named <code>name</code> exists or not
+        RubyValue value = RubyRuntime.ObjectClass.getConstant(name);
+        if(value == null)
+            RubyAPI.setTopLevelConstant(jClass, name);
+        RubyAPI.setTopLevelConstant(jClass, "J"+name);
         return jClass;
     }
     
+    //Import Java class,the parent class,etc. recursively
     public static JavaClass createJavaClass(Class clazz){
         Class superClass = clazz.getSuperclass();
         if(superClass != null){
             JavaClass parentClass = createJavaClass(superClass);
             return newJavaClass(clazz,parentClass);
         }else{
-            JavaClass jClass = null;
-            if(clazz.isInterface()){
-                jClass = newClass(clazz,RubyRuntime.ObjectClass);
-            }else{
-                //Only deal with Object
-                jClass = newJavaClass(Object.class,RubyRuntime.ObjectClass);   
-            }                 
-            return jClass;
+            return newJavaClass(clazz,RubyRuntime.ObjectClass);
         }
     }
 
@@ -150,6 +136,8 @@ public class JavaClass extends RubyClass {
         for(Field f : fields){
             String name = f.getName();
             int modifiers = f.getModifiers();
+            //Unlike the constructor and method,it's impossible
+            //to have two or more fields with the same name
             fieldNames.put(name, f);
             if(!Modifier.isFinal(modifiers)){
                 String setterName = name+"=";
@@ -159,6 +147,7 @@ public class JavaClass extends RubyClass {
             if(Modifier.isStatic(modifiers)&&Modifier.isPublic(modifiers)){
                 if(Modifier.isFinal(modifiers)){
                     try {
+                        //Java class's constant fields.
                         setConstant(name,JavaUtil.convertToRubyValue(f.get(null)));
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
@@ -392,7 +381,7 @@ public class JavaClass extends RubyClass {
         protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
             JavaClass clazz = null;
             //This is a trick.Because no creating the metaclass for every Java
-            //class,deal with the static methods as follows:
+            //class,deal with the static fields as follows:
             if(receiver instanceof JavaClass){
                 clazz = (JavaClass)receiver;
             }else{
