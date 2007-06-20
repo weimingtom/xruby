@@ -52,6 +52,15 @@ f.visible= true
 # calls getTitle
 puts f.title
 }}}
+  * instanceof check
+{{{
+require_java 'javax.swing.JFrame'
+f = JFrame.new("hello");
+# print true
+puts f.kind_of?(JFrame)
+# print true
+puts f.kind_of?(Frame)
+}}}
   * Implementing a Java interface
 {{{
 import 'java.lang.Runnable'
