@@ -103,9 +103,6 @@ class Object
 
     alias type :class 
     
-    def inherited(sub_class)
-    end
-
     private
     def initialize
     end
@@ -117,9 +114,6 @@ class Module
     end
 
     def extended a_module
-    end
-
-    def method_added symbol
     end
 
     def method_removed symbol

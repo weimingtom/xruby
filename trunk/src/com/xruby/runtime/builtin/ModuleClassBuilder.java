@@ -415,8 +415,8 @@ public class ModuleClassBuilder {
         c.defineMethod("const_get", new Module_const_get());
         c.defineMethod("const_set", new Module_const_set());
 
-
         c.setAccessPrivate();
+        c.defineMethod("method_added", EmptyMethod.INSTANCE);
         c.defineMethod("attr_reader", new Module_attr_reader());
         c.defineMethod("attr_writer", new Module_attr_writer());
         c.defineMethod("attr_accessor", new Module_attr_accessor());
