@@ -17,22 +17,31 @@ require_java 'javax.swing.JFrame'
 f = JFrame.new('hello')
 }}}
   * Calling instance methods
+   * Not only the methods defined in the own class are available,the methods inherited from the parent also are available.
 {{{
 require_java 'javax.swing.JFrame'
 f = JFrame.new('hello')
 f.pack
 f.setVisible(true)
+#invoke the method defined in Object class
+f.toString
 }}}
   * Calling static methods
 {{{
 import 'java.lang.System'
 System.exit(0)
+
+require_java 'java.lang.Math'
+JMath.cos(0)
 }}}
   * Accessing static fields
 {{{
 require_java 'java.lang.System'
 out = System::out
 out.println('ok!')
+
+require_java 'java.lang.Math'
+puts JMath.PI
 }}}
   * JavaBean support
 {{{
@@ -63,4 +72,3 @@ thread.start()
 ===Reference===
  # [http://blogs.sun.com/sundararajan/entry/java_integration_javascript_groovy_and Java Integration: JavaScript, Groovy and JRuby]
  # [http://www.mozilla.org/rhino/ScriptingJava.html Scripting Java]
-
