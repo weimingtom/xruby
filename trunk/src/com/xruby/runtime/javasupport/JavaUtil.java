@@ -5,11 +5,13 @@
 
 package com.xruby.runtime.javasupport;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.List;
 
 import com.xruby.runtime.lang.RubyAPI;
@@ -37,8 +39,16 @@ public class JavaUtil {
             return ObjectFactory.NIL_VALUE;
         }
 
-        if (value.getClass().equals(Integer.class)) {
-            return ObjectFactory.createFixnum((Integer) value);
+        if (value.getClass().equals(Integer.class) || value.getClass().equals(Byte.class) || value.getClass().equals(Short.class)) {
+            int tmpVal;
+            if(value instanceof Integer){
+                tmpVal = ((Integer)value).intValue();
+            }else if(value instanceof Byte){
+                tmpVal = ((Byte)value).byteValue();
+            }else {
+                tmpVal = ((Short)value).shortValue();
+            }
+            return ObjectFactory.createFixnum(tmpVal);
         }
 
         if (value.getClass().equals(Double.class)) {
@@ -63,6 +73,14 @@ public class JavaUtil {
         
         if(value.getClass().equals(String.class)){
             return ObjectFactory.createString((String)value);
+        }
+        
+        if(value.getClass().isArray()){
+            RubyArray array = new RubyArray();
+            for(Object o : (Object[])value){
+                array.add(convertToRubyValue(o));
+            }
+            return array;
         }
 
         // TODO: Support more data types: Hash, Array, File etc.
@@ -90,13 +108,29 @@ public class JavaUtil {
 
     @SuppressWarnings("unchecked")
     public static Object convertToJavaValue(RubyValue value) {
-        RubyClass klass = value.getRubyClass();
+        RubyClass klass;
+        if(value instanceof JavaClass){
+            klass = (JavaClass)value;
+        }else{
+            klass = value.getRubyClass();
+        }
+        
         String className = klass.getName();
 
         if (className.equals("String")) {
             return ((RubyString) value).toString();
         } else if (className.equals("Fixnum")) {
-            return ((RubyFixnum) value).intValue();
+            //A trick:Because don't know Fixnum actually represent
+            //which Java type(byte,short,int),decide the value's type in 
+            //terms of the value's range.Then it can work correctly because
+            //of Java's upcasting feature.
+            
+            int tmpVal = ((RubyFixnum) value).intValue();
+            if(tmpVal <= Byte.MAX_VALUE && tmpVal >= Byte.MIN_VALUE)
+                return (byte)tmpVal;
+            if(tmpVal <= Short.MAX_VALUE && tmpVal >= Short.MIN_VALUE)
+                return (short)tmpVal;
+            return tmpVal;
         } else if (className.equals("Bignum")) {
             return ((RubyBignum) value).getInternal();
         } else if (className.equals("TrueClass")) {
@@ -111,6 +145,22 @@ public class JavaUtil {
             return new Exception(value.toString());
         } else if (className.equals("Float")) {
             return ((RubyFloat)value).doubleValue();
+        } else if (className.equals("Array")){
+            RubyArray array = (RubyArray)value;
+            boolean first = true;
+            Object[] objs = null;
+            int i = 0;
+            Iterator<RubyValue> iterator = array.iterator();
+            while(iterator.hasNext()){
+                Object obj = convertToJavaValue(iterator.next());
+                if(first){
+                    objs = (Object[])Array.newInstance(obj.getClass(),array.size());
+                    first = false;
+                }
+                objs[i++] = obj;                
+            }
+            return objs;
+            
         } else if (className.equals("Regexp")) {
             // TODO:Convert to Java's regular expression
         }
@@ -127,9 +177,10 @@ public class JavaUtil {
                             return RubyAPI.callPublicMethod(tmp,convertToRubyValues(nargs),null,StringMap.intern(method.getName()));
                         }
                     });
+                }else{
+                    return ((JavaClass)klass).getOriginJavaClass();
                 }
                
-                break;
             }else{
                 klass = klass.getSuperClass();
             }
@@ -165,17 +216,22 @@ public class JavaUtil {
         int i = 0;
 
         for (RubyValue value : args) {
-            RubyClass klass = value.getRubyClass();            
-            String className = klass.getName();
-            
-            while(!klass.getName().equals("Object")){
-                if(klass instanceof JavaClass){
-                    className = ((JavaClass)klass).getOriginJavaClass().getName();
-                    break;
-                }else{
-                    klass = klass.getSuperClass();
-                }
-            }
+            String className;
+            if(value instanceof JavaClass){
+                className = "java.lang.Class"; 
+            }else{
+                RubyClass klass = value.getRubyClass();            
+                className = klass.getName();
+                
+                while(!klass.getName().equals("Object")){
+                    if(klass instanceof JavaClass){
+                        className = ((JavaClass)klass).getOriginJavaClass().getName();
+                        break;
+                    }else{
+                        klass = klass.getSuperClass();
+                    }
+                } 
+            }            
             tmp[i] = className;
             ++i;
         }
@@ -195,6 +251,14 @@ public class JavaUtil {
         if(type.equals("Fixnum")) {
             if (clazz.equals(Integer.class)) {
                 return true;
+            }
+            
+            //Fixnum presents int,short,byte because of the range of 
+            //Fixnum is same as int in Java
+            if(clazz.isPrimitive()){
+                if(clazz.equals(Integer.TYPE) || clazz.equals(Short.TYPE) || clazz.equals(Byte.TYPE)){
+                    return true;
+                }
             }
         }
         if(type.equals("Bignum")) {
