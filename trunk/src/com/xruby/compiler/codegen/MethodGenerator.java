@@ -176,11 +176,9 @@ class MethodGenerator extends GeneratorAdapter {
             checkCast(Types.RUBY_MODULE_TYPE);
         } else if (is_in_global_scope) {
             loadArg(3);
-        } else if (is_in_block) {
-            loadScopeOfCurrentMethod();
         } else {
             loadThis();
-            RubyMethod_getScope();
+            MethodBlockBase_getScope();
         }
     }
 
@@ -240,11 +238,6 @@ class MethodGenerator extends GeneratorAdapter {
     public void loadSelfOfCurrentMethod() {
         loadThis();
         getField(Types.RUBY_BLOCK_TYPE, "selfOfCurrentMethod_", Types.RUBY_VALUE_TYPE);
-    }
-
-    public void loadScopeOfCurrentMethod() {
-        loadThis();
-        getField(Types.RUBY_BLOCK_TYPE, "scopeOfCurrentMethod_", Types.RUBY_MODULE_TYPE);
     }
 
     public void loadSelf(boolean is_in_block) {
@@ -832,8 +825,8 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyID)"));
     }
 
-    private void RubyMethod_getScope() {
-        invokeVirtual(Types.RUBY_METHOD_TYPE,
+    private void MethodBlockBase_getScope() {
+        invokeVirtual(Types.METHOD_BLOCK_BASE_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyModule getScope()"));
     }
 

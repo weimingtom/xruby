@@ -7,28 +7,6 @@ package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.RubyArray;
 
-class MethodBlockBase {
-    protected int argc_;
-    protected boolean has_asterisk_parameter_;
-    protected int default_argc_;
-    protected RubyValue[] default_values_ = null;
-
-    protected MethodBlockBase(int argc, boolean has_asterisk_parameter, int default_argc) {
-        argc_ = argc;
-        has_asterisk_parameter_ = has_asterisk_parameter;
-        default_argc_ = default_argc;
-    }
-
-    public int arity() {
-        if (has_asterisk_parameter_ || default_argc_ > 0) {
-            return -(argc_ - default_argc_) - 1;
-        } else {
-            return argc_;
-        }
-    }
-
-}
-
 public abstract class RubyBlock extends MethodBlockBase {
 
     // if run finished, and __break__ is not true, it indicated break happend
@@ -51,27 +29,19 @@ public abstract class RubyBlock extends MethodBlockBase {
     private boolean created_by_lambda_ = false;
 
     public RubyBlock(int argc,
-						boolean has_asterisk_parameter,
-						int default_argc,
-						RubyBlock block,
-						RubyValue self,
-						RubyBlock owner,
-						RubyModule scope) {
+                        boolean has_asterisk_parameter,
+                        int default_argc,
+                        RubyBlock block,
+                        RubyValue self,
+                        RubyBlock owner,
+                        RubyModule scope) {
         super(argc, has_asterisk_parameter, default_argc);
         blockOfCurrentMethod_ = block;
         selfOfCurrentMethod_ = self;
         ownerBlock_ = owner;
-        scopeOfCurrentMethod_ = scope;
+        setScope(scope);
     }
 
-	public void setScope(RubyModule m) {
-        scopeOfCurrentMethod_ = m;
-    }
-
-	public RubyModule getScope() {
-		return scopeOfCurrentMethod_;
-	}
-	
     public void setSelf(RubyValue v) {
         selfOfCurrentMethod_ = v;
     }
@@ -133,7 +103,7 @@ public abstract class RubyBlock extends MethodBlockBase {
     }
 
     protected abstract RubyValue run(RubyValue receiver, RubyArray args);
-    
+
     // no arg invocation
     public RubyValue invoke(RubyValue receiver) {
         __break__ = false;
@@ -148,15 +118,15 @@ public abstract class RubyBlock extends MethodBlockBase {
         }
         return v;
     }
-    
+
     // no arg run
-    protected RubyValue run(RubyValue receiver) {  
-    	return this.run(receiver, new RubyArray(0));
+    protected RubyValue run(RubyValue receiver) {
+        return this.run(receiver, new RubyArray(0));
     }
-    
+
     // one arg invocation
     public RubyValue invoke(RubyValue receiver, RubyValue arg) {
-    	__break__ = false;
+        __break__ = false;
         __return__ = false;
         __redo__ = false;
 
@@ -168,15 +138,15 @@ public abstract class RubyBlock extends MethodBlockBase {
         }
         return v;
     }
-    
+
     // one arg run
     protected RubyValue run(RubyValue receiver, RubyValue arg) {
-    	return this.run(receiver, new RubyArray(arg));
+        return this.run(receiver, new RubyArray(arg));
     }
-    
+
     // two args invocation
     public RubyValue invoke(RubyValue receiver, RubyValue arg1, RubyValue arg2) {
-    	__break__ = false;
+        __break__ = false;
         __return__ = false;
         __redo__ = false;
 
@@ -188,10 +158,10 @@ public abstract class RubyBlock extends MethodBlockBase {
         }
         return v;
     }
-    
+
     // two args run
     protected RubyValue run(RubyValue receiver, RubyValue arg0, RubyValue arg1) {
-    	return this.run(receiver, new RubyArray(arg0, arg1));
+        return this.run(receiver, new RubyArray(arg0, arg1));
     }
 }
 
