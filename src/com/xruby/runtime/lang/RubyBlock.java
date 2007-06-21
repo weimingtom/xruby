@@ -45,22 +45,32 @@ public abstract class RubyBlock extends MethodBlockBase {
     //we we convert Method to Proc, need to keep the 'receiver' -- that what selfOfCurrentMethod_ is for.
     //TODO can we just remove the 'receiver' parameter of invoke() method???
     protected RubyValue selfOfCurrentMethod_;
-    private RubyBlock owner_;//not null if defined in another block
+    private RubyBlock ownerBlock_;//not null if defined in another block
     protected RubyModule scopeOfCurrentMethod_;
 
     private boolean created_by_lambda_ = false;
 
-    public RubyBlock(int argc, boolean has_asterisk_parameter, int default_argc, RubyBlock block, RubyValue self, RubyBlock owner, RubyModule scope) {
+    public RubyBlock(int argc,
+						boolean has_asterisk_parameter,
+						int default_argc,
+						RubyBlock block,
+						RubyValue self,
+						RubyBlock owner,
+						RubyModule scope) {
         super(argc, has_asterisk_parameter, default_argc);
         blockOfCurrentMethod_ = block;
         selfOfCurrentMethod_ = self;
-        owner_ = owner;
+        ownerBlock_ = owner;
         scopeOfCurrentMethod_ = scope;
     }
 
 	public void setScope(RubyModule m) {
         scopeOfCurrentMethod_ = m;
     }
+
+	public RubyModule getScope() {
+		return scopeOfCurrentMethod_;
+	}
 	
     public void setSelf(RubyValue v) {
         selfOfCurrentMethod_ = v;
@@ -71,7 +81,7 @@ public abstract class RubyBlock extends MethodBlockBase {
     }
 
     public boolean isDefinedInAnotherBlock() {
-        return null != owner_;
+        return null != ownerBlock_;
     }
 
     public boolean breakedOrReturned() {
