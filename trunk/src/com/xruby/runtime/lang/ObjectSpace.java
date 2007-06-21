@@ -6,7 +6,6 @@
 package com.xruby.runtime.lang;
 
 import java.util.WeakHashMap;
-import com.xruby.runtime.value.RubyArray;
 
 //we are using map as list here.
 public class ObjectSpace {
