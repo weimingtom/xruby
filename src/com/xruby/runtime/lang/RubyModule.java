@@ -18,7 +18,7 @@ public class RubyModule extends MethodCollection {
         owner_ = owner;
     }
     
-    void setOwner(RubyModule owner) {
+    void setScope(RubyModule owner) {
     	this.owner_ = owner;
     }
 
@@ -31,7 +31,7 @@ public class RubyModule extends MethodCollection {
     }
 
     public RubyValue defineMethod(String name, RubyMethod m) {
-        m.setOwner(this);
+        m.setScope(this);
         RubyID mid = StringMap.intern(name);
         return addMethod(mid, m);
     }
@@ -53,7 +53,7 @@ public class RubyModule extends MethodCollection {
         }
         
         RubyClass klass = ClassFactory.makeRubyClass(parent);
-        klass.setOwner(this);
+        klass.setScope(this);
         klass.setName(name);
         constants_.put(name, klass);
         ClassFactory.inheritedClass(parent, klass);        

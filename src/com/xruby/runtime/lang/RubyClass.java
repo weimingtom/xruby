@@ -199,12 +199,12 @@ public class RubyClass extends RubyModule {
 
 	public RubyValue defineMethod(String name, RubyMethod m) {
 		RubyID mid = StringMap.intern(name);
-		m.setOwner(this);
+		m.setScope(this);
 		return addMethod(mid, m);
 	}
 
 	public RubyValue defineMethod(RubyID mid, RubyMethod m) {
-		m.setOwner(this);
+		m.setScope(this);
 		return addMethod(mid, m);
 	}
 

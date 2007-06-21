@@ -180,7 +180,7 @@ class MethodGenerator extends GeneratorAdapter {
             loadScopeOfCurrentMethod();
         } else {
             loadThis();
-            RubyMethod_getOwner();
+            RubyMethod_getScope();
         }
     }
 
@@ -832,9 +832,9 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyID)"));
     }
 
-    public void RubyMethod_getOwner() {
+    private void RubyMethod_getScope() {
         invokeVirtual(Types.RUBY_METHOD_TYPE,
-                Method.getMethod("com.xruby.runtime.lang.RubyModule getOwner()"));
+                Method.getMethod("com.xruby.runtime.lang.RubyModule getScope()"));
     }
 
     public void RubyProc_isDefinedInAnotherBlock() {

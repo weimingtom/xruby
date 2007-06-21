@@ -32,7 +32,7 @@ public abstract class RubyMethod extends MethodBlockBase {
 
 	public RubyBlock convertToRubyBolck(RubyValue self) {
 		final RubyMethod m = this;
-		return new RubyBlock(argc_, has_asterisk_parameter_, default_argc_, null, self, null, getOwner()) {
+		return new RubyBlock(argc_, has_asterisk_parameter_, default_argc_, null, self, null, getScope()) {
 			protected RubyValue run(RubyValue receiver, RubyArray args) {
 				return m.invoke(receiver, args, null);
 			}
@@ -47,11 +47,11 @@ public abstract class RubyMethod extends MethodBlockBase {
 		access_ = access;
 	}
 
-	protected void setOwner(RubyModule c) {
+	protected void setScope(RubyModule c) {
 		owner_ = c;
 	}
 
-	protected RubyModule getOwner() {
+	protected RubyModule getScope() {
 		return owner_;
 	}
 
