@@ -222,8 +222,8 @@ public class RubyAPI {
         return callMethodMissing(receiver, args, block, mid);
     }
     
-    public static RubyValue callSuperNoArgMethod(RubyValue receiver, RubyBlock block, RubyID mid, RubyMethod current_method) {
-    	RubyClass c = (RubyClass) current_method.getScope();
+    public static RubyValue callSuperNoArgMethod(RubyValue receiver, RubyBlock block, RubyID mid, MethodBlockBase mbb) {
+    	RubyClass c = (RubyClass) mbb.getScope();
         RubyMethod m = c.findSuperMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
             throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mid.toString() + "' can not be found in '" + c.getName() + "'");
@@ -232,9 +232,9 @@ public class RubyAPI {
         return invokeMethod(m, mid, receiver, block);
     }
 
-    public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid, RubyMethod current_method) {
+    public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid, MethodBlockBase mbb) {
         assert(null != arg);
-        RubyClass c = (RubyClass) current_method.getScope();
+        RubyClass c = (RubyClass) mbb.getScope();
         RubyMethod m = c.findSuperMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
             throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mid.toString() + "' can not be found in '" + c.getName() + "'");
@@ -243,9 +243,9 @@ public class RubyAPI {
         return invokeMethod(m, mid, receiver, arg, block);
     }
 
-    public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid, RubyMethod current_method) {
+    public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid, MethodBlockBase mbb) {
         assert(null == args || args.size() > 1);//use callSuperOneArgMethod if has only one arg
-        RubyClass c = (RubyClass) current_method.getScope();
+        RubyClass c = (RubyClass) mbb.getScope();
         RubyMethod m = c.findSuperMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
             throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mid.toString() + "' can not be found in '" + c.getName() + "'");
