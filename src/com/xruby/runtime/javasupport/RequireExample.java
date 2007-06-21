@@ -49,13 +49,23 @@ public class RequireExample {
                 "require_java 'java.lang.Thread'\n"+
                 "class MyRunnable < Runnable\n"+
                 "   def run\n"+
-                "       puts 'ok'\n"+
+                "       puts 'Thread is running!'\n"+
                 "   end\n"+
                 "end\n"+
                 "r = MyRunnable.new\n"+
                 "thread = JThread.new(r)\n"+
                 "thread.start()\n"+
-
+                
+                //Creating Java Arrays and accessing Java Arrays
+                "import 'com.xruby.runtime.javasupport.AssistantTester'\n" +               
+                "import 'java.lang.reflect.Array'\n"+
+                "import 'java.lang.String'\n"+
+                "s = JArray.newInstance(JString, 2)\n"+
+                "s[0]='Hello '\n"+
+                "s[1]='World!'\n"+
+                "AssistantTester.echo(s)\n"+
+                
+                
                 "array = ArrayList.new\n" +
                 "array.add 1\n" +
                 "array.add 2\n" +
@@ -81,6 +91,15 @@ public class RequireExample {
 		p.invoke();
 		RubyRuntime.fini();
 
+    }
+}
+
+class AssistantTester{
+    public static void echo(String[] str){
+        for(String s : str){
+            System.out.print(s);
+        }
+        System.out.println();
     }
 }
 
