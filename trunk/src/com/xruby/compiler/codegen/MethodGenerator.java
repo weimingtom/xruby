@@ -554,21 +554,21 @@ class MethodGenerator extends GeneratorAdapter {
         loadRubyID(methodName);
         loadThis();
         invokeStatic(Type.getType(RubyAPI.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.RubyMethod)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.MethodBlockBase)"));
     }
 
     public void RubyAPI_callSuperNoArgMethod(String methodName) {
         loadRubyID(methodName);
         loadThis();
         invokeStatic(Type.getType(RubyAPI.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperNoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.RubyMethod)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperNoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.MethodBlockBase)"));
     }
 
     public void RubyAPI_callSuperOneArgMethod(String methodName) {
         loadRubyID(methodName);
         loadThis();
         invokeStatic(Type.getType(RubyAPI.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.RubyMethod)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.MethodBlockBase)"));
     }
 
     public void RubyAPI_operatorNot() {
