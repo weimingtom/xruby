@@ -6,7 +6,6 @@
 package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyProc;
 
 import java.util.List;
