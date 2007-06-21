@@ -4527,7 +4527,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_super() {
         String [] program_texts = {
-/*                "class TestSuper1; def f; 2 end; end\n" +
+/* TODO               "class TestSuper1; def f; 2 end; end\n" +
                 "class TestSuper2 < TestSuper1; def f; 1.times {return super} end end\n" +
                 "print TestSuper2.new.f",
 
@@ -4623,8 +4623,9 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-                "2",
+/*                "2",
                 "3",
+*/
                 "1",
                 "456",
                 "333",
