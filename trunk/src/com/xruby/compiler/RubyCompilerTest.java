@@ -1022,7 +1022,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void zeritence() {
+    public void test_inheritence() {
         String[] program_texts = {
             "class B\n" +
             "	def say\n" +
@@ -4527,6 +4527,15 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_super() {
         String [] program_texts = {
+/*                "class TestSuper1; def f; 2 end; end\n" +
+                "class TestSuper2 < TestSuper1; def f; 1.times {return super} end end\n" +
+                "print TestSuper2.new.f",
+
+                "class TestSuper1; def f x; x end; end\n" +
+                "class TestSuper2 < TestSuper1; def f x; 1.times {return super} end end\n" +
+                "print TestSuper2.new.f(3)",
+*/
+
                 "class C; def initialize x = 1; super(); print x; end; end; C.new",
 
                 "class TestSuperSingleton;  def TestSuperSingleton.f x; print x; end;  end\n" +
@@ -4614,6 +4623,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "2",
+                "3",
                 "1",
                 "456",
                 "333",
