@@ -8,7 +8,6 @@ package com.xruby.runtime.lang;
 import com.xruby.runtime.value.*;
 
 public abstract class RubyMethod extends MethodBlockBase {
-	private RubyModule owner_;//save a reference of the class/module to implement 'super' and class variable
 	private int access_;
 	private RubyID id_; //its own id, saved to build better error message
 
@@ -45,14 +44,6 @@ public abstract class RubyMethod extends MethodBlockBase {
 
 	public void setAccess(int access) {
 		access_ = access;
-	}
-
-	protected void setScope(RubyModule c) {
-		owner_ = c;
-	}
-
-	protected RubyModule getScope() {
-		return owner_;
 	}
 
 	protected void assertArgNumberAtLeast(RubyArray args, int expected_argc) {
