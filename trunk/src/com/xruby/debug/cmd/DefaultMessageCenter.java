@@ -7,7 +7,6 @@ package com.xruby.debug.cmd;
 import com.xruby.debug.MessageCenter;
 
 import static java.lang.System.out;
-import static java.lang.System.err;
 
 /**
  * Output all the message to the stdout/err
