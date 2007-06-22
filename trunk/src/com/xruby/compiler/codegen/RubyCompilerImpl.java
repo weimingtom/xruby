@@ -54,7 +54,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     private boolean isInClassBuilder() {
         return cg_.isInClassBuilder();
     }
-    
+
     public void enableDebug() {
         enableDebug = true;
     }
@@ -289,6 +289,11 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitNoParameterForSuper() {
+        if (cg_ instanceof ClassGeneratorForRubyBlock) {
+            //TODO
+            return;
+        }
+
         cg_.getMethodGenerator().loadMethodArg();
     }
 
@@ -761,19 +766,11 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitSuperEnd(boolean has_no_arg, boolean has_one_arg) {
-        ((ClassGeneratorForRubyMethod)cg_).callSuperMethod(has_no_arg, has_one_arg);
-
-
-        /*
-        if (has_no_arg &&
-            cg_ instanceof ClassGeneratorForRubyMethod &&
-            ((ClassGeneratorForRubyMethod)cg_).hasOnlyOneArg()) {
-            cg_.getMethodGenerator().RubyAPI_callSuperOneArgMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
-        } else if (has_one_arg) {
-            cg_.getMethodGenerator().RubyAPI_callSuperOneArgMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
+        if (cg_ instanceof ClassGeneratorForRubyMethod) {
+            ((ClassGeneratorForRubyMethod)cg_).callSuperMethod(has_no_arg, has_one_arg);
         } else {
-            cg_.getMethodGenerator().RubyAPI_callSuperMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
-        }*/
+            ((ClassGeneratorForRubyBlock)cg_).callSuperMethod(has_no_arg, has_one_arg);
+        }
     }
 
     public void visitGlobalVariableExpression(String value) {
