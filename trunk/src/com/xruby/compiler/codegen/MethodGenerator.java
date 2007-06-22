@@ -230,12 +230,12 @@ class MethodGenerator extends GeneratorAdapter {
                 Type.getType(RubyException.class));
     }
 
-    public void loadBlockOfCurrentMethod() {
+    private void loadBlockOfCurrentMethod() {
         loadThis();
         getField(Types.RUBY_BLOCK_TYPE, "blockOfCurrentMethod_", Types.RUBY_BLOCK_TYPE);
     }
 
-    public void loadSelfOfCurrentMethod() {
+    private void loadSelfOfCurrentMethod() {
         loadThis();
         getField(Types.RUBY_BLOCK_TYPE, "selfOfCurrentMethod_", Types.RUBY_VALUE_TYPE);
     }
