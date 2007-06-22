@@ -150,7 +150,7 @@ abstract class ClassGenerator {
     }
 
     public void loadMethodPrameter(int index) {
-        //signatiure:
+        //signature:
         //run(RubyValue reciever, RubyArray args, RubyBlock block)
         getMethodGenerator().loadArg(1);
         getMethodGenerator().push(index);
