@@ -60,6 +60,41 @@ f.visible= true
 # calls getTitle
 puts f.title
 }}}
+  * Creating Java Arrays and accessing Java Arrays
+{{{
+import 'com.xruby.runtime.javasupport.AssistantTester'             
+import 'java.lang.reflect.Array'
+import 'java.lang.String'
+
+s = JArray.newInstance(JString, 2)
+s[0]='Hello '
+s[1]='World!'
+AssistantTester.echo(s)
+
+#Suppose that the code of AssistantTester is as follows:
+class AssistantTester{
+    public static void echo(String[] str){
+        for(String s : str){
+            System.out.print(s);
+        }
+        System.out.println();
+    }
+}
+}}}
+  * Handling Java exceptions
+{{{
+import 'java.io.FileInputStream'
+import 'java.io.FileNotFoundException'
+import 'java.io.IOException'
+
+begin
+    f = FileInputStream.new('myfile')
+rescue FileNotFoundException=>fnfe
+    puts fnfe.getMessage
+rescue IOException=>ioe
+    puts ioe
+end
+}}}
   * instanceof check
 {{{
 require_java 'javax.swing.JFrame'
