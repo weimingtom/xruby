@@ -109,10 +109,12 @@ public class JavaUtil {
     @SuppressWarnings("unchecked")
     public static Object convertToJavaValue(RubyValue value) {
         RubyClass klass;
+        boolean flag = false;
         if(value instanceof JavaClass){
             klass = (JavaClass)value;
         }else{
             klass = value.getRubyClass();
+            flag = true;
         }
         
         String className = klass.getName();
@@ -172,11 +174,16 @@ public class JavaUtil {
                 Class clazz = ((JavaClass)klass).getOriginJavaClass();
                 
                 if(clazz.isInterface()){
-                    return Proxy.newProxyInstance(JavaUtil.class.getClassLoader(),new Class[]{clazz},new InvocationHandler(){
-                        public Object invoke(Object proxy, Method method, Object[] nargs) throws Throwable {
-                            return RubyAPI.callPublicMethod(tmp,convertToRubyValues(nargs),null,StringMap.intern(method.getName()));
-                        }
-                    });
+                    if(flag){
+                        return Proxy.newProxyInstance(JavaUtil.class.getClassLoader(),new Class[]{clazz},new InvocationHandler(){
+                            public Object invoke(Object proxy, Method method, Object[] nargs) throws Throwable {
+                                return RubyAPI.callPublicMethod(tmp,convertToRubyValues(nargs),null,StringMap.intern(method.getName()));
+                            }
+                        }); 
+                    }else{
+                        return clazz;
+                    }
+                    
                 }else{
                     return ((JavaClass)klass).getOriginJavaClass();
                 }
