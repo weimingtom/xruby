@@ -15,6 +15,7 @@ public class RubyExceptionValue extends RubyBasic {
 
     private RubyException exception_;
     private String message_;
+    private Throwable throwable_;
 
     public RubyExceptionValue(RubyClass c) {
         super(c);
@@ -24,6 +25,13 @@ public class RubyExceptionValue extends RubyBasic {
     public RubyExceptionValue(RubyClass c, String message) {
         super(c);
         message_ = message;
+        GlobalVariables.set(this, "$!");
+    }
+    
+    public RubyExceptionValue(RubyClass c, String message, Throwable t) {
+        super(c);
+        message_ = message;
+        throwable_ = t;
         GlobalVariables.set(this, "$!");
     }
 
@@ -49,5 +57,9 @@ public class RubyExceptionValue extends RubyBasic {
             }
         }
         return a;
+    }
+    
+    public Throwable getThrowable(){
+        return throwable_;
     }
 }
