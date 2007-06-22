@@ -17,15 +17,15 @@ public abstract class RubyBlock extends MethodBlockBase {
     protected boolean __break__ = false;
     protected boolean __return__ = false;
     protected boolean __redo__ = false;
-    protected RubyBlock blockOfCurrentMethod_;
+	//protected RubyArray argsOfCurrentMethod_;//need this for {super}
+    protected RubyBlock blockOfCurrentMethod_;//need this for {yield}
 
     //consider MethodValue: it has a 'receiver' field to remember the the receivre should be.
     //we we convert Method to Proc, need to keep the 'receiver' -- that what selfOfCurrentMethod_ is for.
     //TODO can we just remove the 'receiver' parameter of invoke() method???
     protected RubyValue selfOfCurrentMethod_;
     private RubyBlock ownerBlock_;//not null if defined in another block
-    protected RubyModule scopeOfCurrentMethod_;
-
+    
     private boolean created_by_lambda_ = false;
 
     public RubyBlock(int argc,
