@@ -65,6 +65,18 @@ public class RequireExample {
                 "s[1]='World!'\n"+
                 "AssistantTester.echo(s)\n"+
                 
+                //Handling Java exceptions
+                "import 'java.io.FileInputStream'\n"+
+                "import 'java.io.FileNotFoundException'\n"+
+                "import 'java.io.IOException'\n"+
+
+                "begin\n"+
+                "   f = FileInputStream.new('myfile')\n"+
+                "rescue FileNotFoundException=>fnfe\n"+
+                "   puts fnfe.getMessage\n"+
+                "rescue IOException=>ioe\n"+
+                "   puts ioe\n"+
+                "end\n"+
                 
                 "array = ArrayList.new\n" +
                 "array.add 1\n" +
