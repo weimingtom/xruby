@@ -63,6 +63,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
     private final FieldManager field_manager_;
     private final String fileName;
     private final ClassGeneratorForRubyBlockHelper helper;
+    private final ClassGenerator owner_;
 
     public ClassGeneratorForRubyBlock(String name, String fileName,
             int argc,
@@ -85,6 +86,50 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         field_manager_ = new FieldManager(
             (owner instanceof ClassGeneratorForRubyBlock) ? ((ClassGeneratorForRubyBlock)owner).field_manager_ : null,
                     this);
+        owner_ = owner;
+    }
+
+    public void callSuperMethod(boolean has_no_arg, boolean has_one_arg) {
+        if (has_one_arg ||
+            (has_no_arg && OwnerHasOneArg())) {
+            getMethodGenerator().RubyAPI_callSuperOneArgMethod(getMethodName());
+        } else if (has_no_arg && OwnerHasNoArg()) {
+            getMethodGenerator().RubyAPI_callSuperNoArgMethod(getMethodName());
+        } else {
+            getMethodGenerator().RubyAPI_callSuperMethod(getMethodName());
+        }
+    }
+
+    private String getMethodName() {
+        if (owner_ instanceof ClassGeneratorForRubyMethod) {
+            return ((ClassGeneratorForRubyMethod)owner_).getMethodName();
+        } else if (owner_ instanceof ClassGeneratorForRubyBlock) {
+            return ((ClassGeneratorForRubyBlock)owner_).getMethodName();
+        } else {
+            throw new Error("Wrong context");
+        }
+    }
+
+    private boolean OwnerHasOneArg() {
+        if (owner_ instanceof ClassGeneratorForRubyBlock) {
+            return ((ClassGeneratorForRubyBlock)owner_).OwnerHasOneArg();
+        } else if (owner_ instanceof ClassGeneratorForOneArgRubyMethod) {
+            return true;
+        } else {
+            assert(owner_ instanceof ClassGeneratorForRubyMethod);
+            return false;
+        }
+    }
+
+    private boolean OwnerHasNoArg() {
+        if (owner_ instanceof ClassGeneratorForRubyBlock) {
+            return ((ClassGeneratorForRubyBlock)owner_).OwnerHasNoArg();
+        } else if (owner_ instanceof ClassGeneratorForNoArgRubyMethod) {
+            return true;
+        } else {
+            assert(owner_ instanceof ClassGeneratorForRubyMethod);
+            return false;
+        }
     }
 
     private void loadField(String name) {
