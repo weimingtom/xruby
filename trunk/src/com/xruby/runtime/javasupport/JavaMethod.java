@@ -14,6 +14,7 @@ import java.lang.reflect.Modifier;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyExceptionValue;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
@@ -65,8 +66,12 @@ public class JavaMethod extends RubyVarArgMethod {
         try {
             if(!isConstructor) {                
                 Object object = null;
-                if(!(receiver instanceof JavaClass)){
-                    object = ((RubyData<Object>)receiver).getData();
+                if(!(receiver instanceof JavaClass)){                    
+                    if(receiver instanceof RubyExceptionValue){
+                        object = ((RubyExceptionValue)receiver).getThrowable();
+                    }else{
+                        object = ((RubyData<Object>)receiver).getData();
+                    }
                 } 
                 
                 Object retValue = null;
@@ -101,7 +106,13 @@ public class JavaMethod extends RubyVarArgMethod {
         } catch (IllegalAccessException e) {
             throw new RubyException(e.getMessage());
         } catch (InvocationTargetException e) {
-            throw new RubyException(e.getMessage());
+            Throwable t = e.getTargetException();
+            if(t != null){
+                RubyExceptionValue exp;
+                exp = new RubyExceptionValue((RubyClass)RubyRuntime.ObjectClass.getConstant(t.getClass().getName()), t.getLocalizedMessage(), t);
+                throw new RubyException(exp);
+            }else
+                throw new RubyException(e.getMessage());
         }
 
     }
