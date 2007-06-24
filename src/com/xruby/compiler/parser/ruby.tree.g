@@ -618,6 +618,7 @@ returns [ModuleDefinationExpression e]
 	BodyStatement body = null;
 }
 		:	#("module"
+			(LEADING_COLON2)?
 			(name=moduleName
 			|#(COLON2	exp=expression	name=moduleName)
 			)
