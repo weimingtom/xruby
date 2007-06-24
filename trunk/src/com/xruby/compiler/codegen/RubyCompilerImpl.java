@@ -290,8 +290,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitNoParameterForSuper() {
         if (cg_ instanceof ClassGeneratorForRubyBlock) {
-			//TODO sometime we should load args!
-            cg_.getMethodGenerator().RubyBlock_argOfCurrentMethod_();
+			((ClassGeneratorForRubyBlock)cg_).loadNoParameterForSuper();
         } else {
         	cg_.getMethodGenerator().loadMethodArg();
         }
