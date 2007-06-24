@@ -596,6 +596,7 @@ returns [ClassDefinationExpression e]
 	BodyStatement body = null;
 }
 		:	#("class"
+			(LEADING_COLON2)?
 			(name=className	(LESS_THAN	super_class=expression)?
 			|LEFT_SHIFT	exp=expression
 			)
