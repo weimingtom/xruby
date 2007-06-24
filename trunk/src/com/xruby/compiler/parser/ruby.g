@@ -808,6 +808,7 @@ moduleDefination
 
 moduleName
 		:	CONSTANT	(COLON2^ CONSTANT)*
+		| 	(LEADING_COLON2	CONSTANT)	(COLON2^ CONSTANT)*
 		;
 
 classDefination
