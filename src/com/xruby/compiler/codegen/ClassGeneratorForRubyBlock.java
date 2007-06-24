@@ -100,6 +100,14 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         }
     }
 
+	public void loadNoParameterForSuper() {
+		if (OwnerHasOneArg()) {
+			getMethodGenerator().RubyBlock_argOfCurrentMethod_();
+		} else {
+			getMethodGenerator().RubyBlock_argsOfCurrentMethod_();
+		}
+	}
+
     private String getMethodName() {
         if (owner_ instanceof ClassGeneratorForRubyMethod) {
             return ((ClassGeneratorForRubyMethod)owner_).getMethodName();
