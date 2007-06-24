@@ -24,6 +24,8 @@ abstract class ClassGenerator {
     private Stack<MethodGenerator> suspended_mgs_for_class_builder_method_ = new Stack<MethodGenerator>();
     private MethodGenerator current_mg_for_class_builder_method_ = null;//TODO should be a queue
 
+	public abstract void loadArgOfMethodForBlock();
+
     protected ClassGenerator(String name) {
         name_ = name;
     }
@@ -215,7 +217,7 @@ abstract class ClassGenerator {
             Method.getMethod("com.xruby.runtime.lang.RubyBinding setBlock(com.xruby.runtime.lang.RubyBlock)"));
 
         if (!isInBlock) {
-            getMethodGenerator().loadCurrentClass(isInClassBuilder(), isInSingletonMethod, isInGlobalScope, isInBlock);
+            getMethodGenerator().loadCurrentScope(isInClassBuilder(), isInSingletonMethod, isInGlobalScope, isInBlock);
         } else {
             getMethodGenerator().pushNull();//TODO fix this and loadCurrentClass
         }

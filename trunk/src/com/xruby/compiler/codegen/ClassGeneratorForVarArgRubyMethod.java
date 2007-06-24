@@ -42,4 +42,9 @@ class ClassGeneratorForVarArgRubyMethod extends ClassGeneratorForRubyMethod {
             this.getMethodGenerator().RubyAPI_callSuperMethod(this.getMethodName());
         }
     }
+
+	public void loadArgOfMethodForBlock() {
+		getMethodGenerator().pushNull();
+		getMethodGenerator().loadArg(1);
+	}
 }

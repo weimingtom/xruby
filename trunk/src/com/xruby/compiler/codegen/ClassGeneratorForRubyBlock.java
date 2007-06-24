@@ -233,7 +233,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
     }
 
     static String buildContructorSignature(int size) {
-        String defaultMethodName = "void <init> (com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule";
+        String defaultMethodName = "void <init> (com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, boolean";
         StringBuilder method_name = new StringBuilder(defaultMethodName);
         for (int i = 0; i < size; ++i) {
             method_name.append(", ");
@@ -279,13 +279,15 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         mg.loadArg(1);
         mg.loadArg(2);
         mg.loadArg(3);
+		mg.loadArg(4);
+		mg.loadArg(5);
 
         mg.invokeConstructor(this.helper.getSuperClassType(),
                 Method.getMethod(this.helper.getSuperCtorName()));
 
         for (int i = 0; i < commons.length; ++i) {
             mg.loadThis();
-            mg.loadArg(i + 4);
+            mg.loadArg(i + 6);
             mg.putField(Type.getType("L" + name_ + ";"), commons[i], Types.RUBY_VALUE_TYPE);
         }
 
@@ -328,5 +330,10 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
             return super.isDefinedInCurrentScope(name);
         }
     }
+
+	public void loadArgOfMethodForBlock() {
+		getMethodGenerator().RubyBlock_argOfCurrentMethod_();
+		getMethodGenerator().RubyBlock_argsOfCurrentMethod_();
+	}
 }
 

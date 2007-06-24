@@ -4530,11 +4530,10 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "class TestSuper1; def f; 2 end; end\n" +
                 "class TestSuper2 < TestSuper1; def f; 1.times {return super} end end\n" +
                 "print TestSuper2.new.f",
-/*TODO
+
                 "class TestSuper1; def f x; x end; end\n" +
                 "class TestSuper2 < TestSuper1; def f x; 1.times {return super} end end\n" +
                 "print TestSuper2.new.f(3)",
-*/
 
                 "class C; def initialize x = 1; super(); print x; end; end; C.new",
 
@@ -4624,7 +4623,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         String[] outputs = {
                 "2",
-//                "3",
+                "3",
                 "1",
                 "456",
                 "333",
