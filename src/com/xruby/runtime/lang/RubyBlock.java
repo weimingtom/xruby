@@ -17,29 +17,32 @@ public abstract class RubyBlock extends MethodBlockBase {
     protected boolean __break__ = false;
     protected boolean __return__ = false;
     protected boolean __redo__ = false;
-	//protected RubyArray argsOfCurrentMethod_;//need this for {super}
-    protected RubyBlock blockOfCurrentMethod_;//need this for {yield}
 
-    //consider MethodValue: it has a 'receiver' field to remember the the receivre should be.
-    //we we convert Method to Proc, need to keep the 'receiver' -- that what selfOfCurrentMethod_ is for.
-    //TODO can we just remove the 'receiver' parameter of invoke() method???
-    protected RubyValue selfOfCurrentMethod_;
-    private RubyBlock ownerBlock_;//not null if defined in another block
-    
+    protected RubyValue selfOfCurrentMethod_;//need this for {self} TODO why do we need 'receiver' for run method?
+    protected final RubyArray argsOfCurrentMethod_;//need this for {super}
+    protected final RubyValue argOfCurrentMethod_;//need this for {super}
+    protected final RubyBlock blockOfCurrentMethod_;//need this for {yield}
+
+    private final boolean definedInAnotherBlock_;//not null if defined in another block
+
     private boolean created_by_lambda_ = false;
 
     public RubyBlock(int argc,
                         boolean has_asterisk_parameter,
                         int default_argc,
-                        RubyBlock block,
                         RubyValue self,
-                        RubyBlock owner,
-                        RubyModule scope) {
+                        RubyValue arg,//not null for one arg method
+                        RubyArray args,//not null for var arg method
+                        RubyBlock block,
+                        RubyModule scope,
+                        boolean definedInAnotherBlock) {
         super(argc, has_asterisk_parameter, default_argc);
-        blockOfCurrentMethod_ = block;
         selfOfCurrentMethod_ = self;
-        ownerBlock_ = owner;
+        argOfCurrentMethod_ = arg;
+        argsOfCurrentMethod_ = args;
+        blockOfCurrentMethod_ = block;
         setScope(scope);
+        definedInAnotherBlock_ = definedInAnotherBlock;
     }
 
     public void setSelf(RubyValue v) {
@@ -51,7 +54,7 @@ public abstract class RubyBlock extends MethodBlockBase {
     }
 
     public boolean isDefinedInAnotherBlock() {
-        return null != ownerBlock_;
+        return definedInAnotherBlock_;
     }
 
     public boolean breakedOrReturned() {

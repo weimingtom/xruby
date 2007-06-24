@@ -155,7 +155,7 @@ class MethodGenerator extends GeneratorAdapter {
 
     public void loadBlock(boolean is_in_block) {
         if (is_in_block) {
-            loadBlockOfCurrentMethod();
+            RubyBlock_blockOfCurrentMethod_();
         } else {
             loadCurrentBlock();
         }
@@ -168,7 +168,7 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("int size()"));
     }
 
-    public void loadCurrentClass(boolean is_in_class_builder, boolean is_in_singleton_method, boolean is_in_global_scope, boolean is_in_block) {
+    public void loadCurrentScope(boolean is_in_class_builder, boolean is_in_singleton_method, boolean is_in_global_scope, boolean is_in_block) {
         if (is_in_class_builder) {
             loadCurrentClass();
         } else if (is_in_singleton_method) {
@@ -191,27 +191,6 @@ class MethodGenerator extends GeneratorAdapter {
         loadArg(1);
     }
 
-    public void breakFromBlock() {
-        loadThis();
-        push(true);
-        putField(Types.RUBY_BLOCK_TYPE, "__break__", Type.getType(boolean.class));
-        returnValue();
-    }
-
-    public void returnFromBlock() {
-        loadThis();
-        push(true);
-        putField(Types.RUBY_BLOCK_TYPE, "__return__", Type.getType(boolean.class));
-        returnValue();
-    }
-
-    public void redoFromBlock() {
-        loadThis();
-        push(true);
-        putField(Types.RUBY_BLOCK_TYPE, "__redo__", Type.getType(boolean.class));
-        returnValue();
-    }
-
     public int saveRubyArrayAsLocalVariable() {
         int var = newLocal(Types.RUBY_ARRAY_TYPE);
         storeLocal(var);
@@ -230,19 +209,50 @@ class MethodGenerator extends GeneratorAdapter {
                 Type.getType(RubyException.class));
     }
 
-    private void loadBlockOfCurrentMethod() {
+	public void RubyBlock_argOfCurrentMethod_() {
+        loadThis();
+        getField(Types.RUBY_BLOCK_TYPE, "argOfCurrentMethod_", Types.RUBY_VALUE_TYPE);
+    }
+
+	public void RubyBlock_argsOfCurrentMethod_() {
+        loadThis();
+        getField(Types.RUBY_BLOCK_TYPE, "argsOfCurrentMethod_", Types.RUBY_ARRAY_TYPE);
+    }
+	
+    private void RubyBlock_blockOfCurrentMethod_() {
         loadThis();
         getField(Types.RUBY_BLOCK_TYPE, "blockOfCurrentMethod_", Types.RUBY_BLOCK_TYPE);
     }
 
-    private void loadSelfOfCurrentMethod() {
+    private void RubyBlock_selfOfCurrentMethod_() {
         loadThis();
         getField(Types.RUBY_BLOCK_TYPE, "selfOfCurrentMethod_", Types.RUBY_VALUE_TYPE);
     }
 
+	public void RubyBlock__break__() {
+        loadThis();
+        push(true);
+        putField(Types.RUBY_BLOCK_TYPE, "__break__", Type.getType(boolean.class));
+        returnValue();
+    }
+
+    public void RubyBlock__return__() {
+        loadThis();
+        push(true);
+        putField(Types.RUBY_BLOCK_TYPE, "__return__", Type.getType(boolean.class));
+        returnValue();
+    }
+
+    public void RubyBlock__redo__() {
+        loadThis();
+        push(true);
+        putField(Types.RUBY_BLOCK_TYPE, "__redo__", Type.getType(boolean.class));
+        returnValue();
+    }
+
     public void loadSelf(boolean is_in_block) {
         if (is_in_block) {
-            loadSelfOfCurrentMethod();
+            RubyBlock_selfOfCurrentMethod_();
         } else {
             loadArg(0);
         }
@@ -265,24 +275,24 @@ class MethodGenerator extends GeneratorAdapter {
         newInstance(methodNameType);
         dup();
 
+		loadSelf(is_in_block);
+
+		cg.loadArgOfMethodForBlock();
+
         if (is_in_global_scope) {
             pushNull();
-        } else if (is_in_block) {
-            loadBlockOfCurrentMethod();
         } else {
-            loadCurrentBlock();
+            loadBlock(is_in_block);
         }
 
-        loadSelf(is_in_block);
+		loadCurrentScope(is_in_class_builder, is_in_singleton_method, is_in_global_scope, is_in_block);
 
         if (is_in_block) {
-            loadThis();
+            push(true);
         } else {
-            pushNull();
+            push(false);
         }
-
-        loadCurrentClass(is_in_class_builder, is_in_singleton_method, is_in_global_scope, is_in_block);
-
+        
         for (String name : commons) {
             cg.loadVariable(name);
         }

@@ -101,5 +101,9 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
         super.storeVariable(name);
     }
 
+	public void loadArgOfMethodForBlock() {
+		getMethodGenerator().pushNull();
+		getMethodGenerator().loadArg(1);
+	}
 }
 
