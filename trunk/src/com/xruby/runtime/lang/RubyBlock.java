@@ -18,6 +18,9 @@ public abstract class RubyBlock extends MethodBlockBase {
     protected boolean __return__ = false;
     protected boolean __redo__ = false;
 
+    // Normally RubyBlock was created in one place, invoked(yield) later in another
+    // place. The block needs to keep the context of its creator(self, arg, block arg,
+    // scope etc).
     protected RubyValue selfOfCurrentMethod_;//need this for {self} TODO why do we need 'receiver' for run method?
     protected final RubyArray argsOfCurrentMethod_;//need this for {super}
     protected final RubyValue argOfCurrentMethod_;//need this for {super}
@@ -25,7 +28,7 @@ public abstract class RubyBlock extends MethodBlockBase {
 
     private final boolean definedInAnotherBlock_;//not null if defined in another block
 
-    private boolean created_by_lambda_ = false;
+    private boolean createdByLambda_ = false;
 
     public RubyBlock(int argc,
                         boolean has_asterisk_parameter,
@@ -70,11 +73,11 @@ public abstract class RubyBlock extends MethodBlockBase {
     }
 
     public void setCreatedByLambda() {
-        created_by_lambda_ = true;
+        createdByLambda_ = true;
     }
 
     public boolean createdByLambda() {
-        return created_by_lambda_;
+        return createdByLambda_;
     }
 
     private void validateParameterForProcCall(RubyArray args) {
@@ -88,7 +91,7 @@ public abstract class RubyBlock extends MethodBlockBase {
     }
 
     public RubyValue invoke(RubyValue receiver, RubyArray args) {
-        if (created_by_lambda_) {
+        if (createdByLambda_) {
             validateParameterForProcCall(args);
         }
 
