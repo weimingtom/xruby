@@ -125,9 +125,10 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     private void callClassModuleBuilder(String name, boolean is_singleton) {
-        cg_.getMethodGenerator().dup();
-        int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
+		int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
         cg_.getMethodGenerator().storeLocal(i);
+        
+		cg_.getMethodGenerator().loadLocal(i);
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().loadLocal(i);
