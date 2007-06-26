@@ -7,8 +7,8 @@ package com.xruby.compiler.codedom;
 
 public class ClassDefinationExpression extends Expression {
 
-	private String className_;
-	private Expression exp_;
+	private String className_;//e.g. class C
+	private Expression exp_;//e.g. class << self
 	private Expression superClass_;
 	private BodyStatement bodyStatement_;
 	
