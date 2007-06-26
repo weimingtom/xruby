@@ -121,19 +121,21 @@ public class RubyCompilerImpl implements CodeVisitor {
         }
 
         //The class body may refer the constant, so save it before class builder starts.
-        callClassModuleBuilder(NameFactory.createMethodnameForClassBuilder(className), false);
+        callClassModuleBuilder(className, false);
     }
 
     private void callClassModuleBuilder(String name, boolean is_singleton) {
 		int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
         cg_.getMethodGenerator().storeLocal(i);
+
+        String uniqueName = NameFactory.createMethodnameForClassBuilder(name);
         
-		cg_.getMethodGenerator().loadLocal(i);
+        cg_.getMethodGenerator().loadLocal(i);
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().loadLocal(i);
-        cg_.callClassBuilderMethod(name);
-        cg_.startClassBuilderMethod(name, is_singleton);
+        cg_.callClassBuilderMethod(uniqueName);
+        cg_.startClassBuilderMethod(uniqueName, is_singleton);
     }
 
     public void visitSingletonClassDefination1() {
@@ -142,7 +144,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitSingletonClassDefination2() {
         cg_.getMethodGenerator().RubyValue_getSingletonClass();
-        callClassModuleBuilder(NameFactory.createMethodnameForClassBuilder("SIGLETON"), true);
+        callClassModuleBuilder("SIGLETON", true);
     }
 
     public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
@@ -166,7 +168,7 @@ public class RubyCompilerImpl implements CodeVisitor {
             }
         }
 
-        callClassModuleBuilder(NameFactory.createMethodnameForClassBuilder(moduleName), false);
+        callClassModuleBuilder(moduleName, false);
     }
 
     public void visitModuleDefinationEnd(boolean last_statement_has_return_value) {
