@@ -217,7 +217,7 @@ abstract class ClassGenerator {
             Method.getMethod("com.xruby.runtime.lang.RubyBinding setBlock(com.xruby.runtime.lang.RubyBlock)"));
 
         if (!isInBlock) {
-            getMethodGenerator().loadCurrentScope(isInClassBuilder(), isInSingletonMethod, isInGlobalScope, isInBlock);
+            getMethodGenerator().loadCurrentScope(isInClassBuilder, isInSingletonMethod, isInGlobalScope, isInBlock);
         } else {
             getMethodGenerator().pushNull();//TODO fix this and loadCurrentClass
         }
