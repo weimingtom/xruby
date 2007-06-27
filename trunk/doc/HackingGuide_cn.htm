@@ -224,7 +224,7 @@ class Fixnum_operator_plus extends RubyMethod {
 
 ...
 RubyClass c = RubyRuntime.GlobalScope.defineNewClass("Fixnum", RubyRuntime.IntegerClass);
-c.defineMethod("+", new Fixnum_operator_plus());
+c.defineMethod(CommonRubyID.plusID, new Fixnum_operator_plus());
 ...
 </pre>
 
