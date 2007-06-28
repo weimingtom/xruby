@@ -182,7 +182,6 @@ class MethodGenerator extends GeneratorAdapter {
         }
     }
 
-    /// @return true if in global scope
     public void loadCurrentClass() {
         loadArg(3);
     }
