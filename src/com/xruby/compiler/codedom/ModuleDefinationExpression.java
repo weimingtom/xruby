@@ -17,13 +17,11 @@ public class ModuleDefinationExpression extends Expression {
     }
 
     public void accept(CodeVisitor visitor) {
-        visitor.visitModuleDefination1();
-
         if (null != exp_) {
             exp_.accept(visitor);
         }
 
-        visitor.visitModuleDefination2(moduleName_, null != exp_);
+        visitor.visitModuleDefination(moduleName_, null != exp_);
 
         if (null != bodyStatement_) {
             bodyStatement_.accept(visitor);

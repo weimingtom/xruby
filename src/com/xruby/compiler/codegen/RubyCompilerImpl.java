@@ -102,8 +102,6 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitClassDefination1(String className) {
 
-        cg_.getMethodGenerator().loadThis();
-
         if (!isInGlobalScope()) {
             cg_.getMethodGenerator().loadArg(3);
         }
@@ -129,7 +127,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().storeLocal(i);
 
         String uniqueName = NameFactory.createMethodnameForClassBuilder(name);
-        
+        cg_.getMethodGenerator().loadThis();        
         cg_.getMethodGenerator().loadLocal(i);
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().pushNull();
@@ -138,11 +136,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.startClassBuilderMethod(uniqueName, is_singleton);
     }
 
-    public void visitSingletonClassDefination1() {
-        cg_.getMethodGenerator().loadThis();
-    }
-
-    public void visitSingletonClassDefination2() {
+    public void visitSingletonClassDefination() {
         cg_.getMethodGenerator().RubyValue_getSingletonClass();
         callClassModuleBuilder("SIGLETON", true);
     }
@@ -151,11 +145,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.endClassBuilderMethod(last_statement_has_return_value);
     }
 
-    public void visitModuleDefination1() {
-        cg_.getMethodGenerator().loadThis();
-    }
-
-    public void visitModuleDefination2(String moduleName, boolean has_scope) {
+    public void visitModuleDefination(String moduleName, boolean has_scope) {
         if (!cg_.getMethodGenerator().RubyRuntime_getBuiltinModule(moduleName)) {
             if (has_scope) {
                 cg_.getMethodGenerator().checkCast(Types.RUBY_MODULE_TYPE);
