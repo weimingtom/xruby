@@ -21,10 +21,8 @@ abstract class ClassGenerator {
 
     protected final String name_;
     protected MethodGenerator mg_for_run_method_ = null;
-    private Stack<MethodGenerator> suspended_mgs_for_class_builder_method_ = new Stack<MethodGenerator>();
-    private MethodGenerator current_mg_for_class_builder_method_ = null;//TODO should be a queue
 
-	public abstract void loadArgOfMethodForBlock();
+    public abstract void loadArgOfMethodForBlock();
 
     protected ClassGenerator(String name) {
         name_ = name;
@@ -38,14 +36,6 @@ abstract class ClassGenerator {
         return getMethodGenerator().getSymbolTable();
     }
 
-    public boolean isInClassBuilder() {
-        if (null != current_mg_for_class_builder_method_) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public void restoreLocalVariableFromBlock(String blockName, String name) {
         getMethodGenerator().loadLocal(getSymbolTable().getInternalBlockVar());
         getMethodGenerator().getField(Type.getType("L" + blockName + ";"), name, Types.RUBY_VALUE_TYPE);
@@ -55,41 +45,6 @@ abstract class ClassGenerator {
             //TODO may happen in for..in, binding, not sure if this is a bug
             getMethodGenerator().storeNewLocalVariable(name);
         }
-    }
-
-    public void startClassBuilderMethod(String name, boolean is_singleton) {
-        if (null != current_mg_for_class_builder_method_) {
-            suspended_mgs_for_class_builder_method_.push(current_mg_for_class_builder_method_);
-        }
-
-        current_mg_for_class_builder_method_ = new MethodGenerator(
-                Opcodes.ACC_PRIVATE,
-                Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
-                cv_,
-                null,
-                null,
-                is_singleton);
-    }
-
-    public void endClassBuilderMethod(boolean last_statement_has_return_value) {
-        if (last_statement_has_return_value) {
-            current_mg_for_class_builder_method_.pop();
-        }
-
-        current_mg_for_class_builder_method_.loadArg(0);
-        current_mg_for_class_builder_method_.returnValue();
-
-        current_mg_for_class_builder_method_.endMethod();
-        if (!suspended_mgs_for_class_builder_method_.empty()) {
-            current_mg_for_class_builder_method_ = suspended_mgs_for_class_builder_method_.pop();
-        } else {
-            current_mg_for_class_builder_method_ = null;
-        }
-    }
-
-    public void callClassBuilderMethod(String name) {
-        getMethodGenerator().invokeConstructor(Type.getType("L" + name_ + ";"),
-            Method.getMethod("com.xruby.runtime.lang.RubyValue " + name + "(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"));
     }
 
     public void addParameter(String name) {
@@ -172,11 +127,7 @@ abstract class ClassGenerator {
     }
 
     public MethodGenerator getMethodGenerator() {
-        if (null != current_mg_for_class_builder_method_) {
-            return current_mg_for_class_builder_method_;
-        } else {
-            return mg_for_run_method_;
-        }
+        return mg_for_run_method_;
     }
 
     public void createBinding(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {

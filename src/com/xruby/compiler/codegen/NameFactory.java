@@ -75,10 +75,10 @@ public class NameFactory {
             count_.getAndIncrement();
     }
 
-    public static String createMethodnameForClassBuilder(String class_name) {
-        return class_name + "$" + count_.getAndIncrement();
+    public static String createClassnameForClassModuleBuilder(String script_name, String class_name) {
+        return createClassName(script_name, class_name);
     }
-
+    
     public static String createMainClass(String script_name) {
         return getNameWithoutSufix(script_name) + "." + DefaultName;
     }

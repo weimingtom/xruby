@@ -23,7 +23,7 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
          other = 2;
          f { first = 3; second = 4}
          */
-        ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null, true);
+        ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null, true, false);
         p.storeVariable("first");
         p.storeVariable("other");
 
@@ -61,7 +61,7 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
          x = 1
          1.times {|x|}
          */
-        ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null, true);
+        ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null, true, false);
         p.storeVariable("x");
 
         ClassGeneratorForRubyBlock cg = new ClassGeneratorForRubyBlock(
@@ -90,7 +90,7 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 
          1.times {|x|}
          */
-        ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null, true);
+        ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null, true, false);
 
         ClassGeneratorForRubyBlock cg = new ClassGeneratorForRubyBlock(
                 "BLOCK$0", //name,
@@ -117,7 +117,7 @@ public class ClassGeneratorForRubyBlockTest extends TestCase {
 
          1.times {|var| 1.times {|var|}}
          */
-        ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null, true);
+        ClassGeneratorForRubyProgram p = new ClassGeneratorForRubyProgram("test", "", null, true, false);
 
         ClassGeneratorForRubyBlock cg1 = new ClassGeneratorForRubyBlock(
                 "BLOCK$0", //name,
