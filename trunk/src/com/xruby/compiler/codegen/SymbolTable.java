@@ -14,6 +14,7 @@ class SymbolTable {
     private final Map<String, Label> localVariableRange = new HashMap<String, Label>();
     private final List<String> declarationSeq = new ArrayList<String>();
     private final ArrayList<String> method_parameters_;
+    private final Map<String, Integer> asterisk_or_block_method_parameter_ = new HashMap<String, Integer>();
 
     private static final String NAME_FOR_INTERNAL_BLOCK_VAR = "block$";
     private static final String NAME_FOR_INTERNAL_BINDING_VAR = "binding$";
@@ -61,8 +62,21 @@ class SymbolTable {
         localVariableRange.put(name, null);
     }
 
+    public void addAsteriskOrBlockMethodParameter(String name, int i) {
+        asterisk_or_block_method_parameter_.put(name, i);
+    }
+
     public int getLocalVariable(String name) {
         Integer i = local_variables_.get(name);
+        if (null == i) {
+            return -1;
+        } else {
+            return i.intValue();
+        }
+    }
+
+    public int getAsteriskOrBlockMethodParameter(String name) {
+        Integer i = asterisk_or_block_method_parameter_.get(name);
         if (null == i) {
             return -1;
         } else {
@@ -80,6 +94,8 @@ class SymbolTable {
 
     public boolean isDefinedInCurrentScope(String name) {
         if (getLocalVariable(name) >= 0) {
+            return true;
+        } else if (getAsteriskOrBlockMethodParameter(name) >= 0) {
             return true;
         } else if (getMethodParameter(name) >= 0) {
             return true;
