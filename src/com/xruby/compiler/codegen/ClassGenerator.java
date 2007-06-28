@@ -56,12 +56,16 @@ abstract class ClassGenerator {
         //But doing it here has a little advantage (optimazation): if the
         //asterisk parameter is not used, we'd better avoid calling initializeAsteriskParameter().
         getMethodGenerator().RubyAPI_initializeAsteriskParameter(argc);
-        getMethodGenerator().storeNewLocalVariable(name);
+        int i = getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
+        getSymbolTable().addAsteriskOrBlockMethodParameter(name, i);
+        getMethodGenerator().storeLocal(i);
     }
 
     public void setBlockParameter(String name) {
         getMethodGenerator().RubyAPI_initializeBlockParameter();
-        getMethodGenerator().storeNewLocalVariable(name);
+        int i = getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
+        getSymbolTable().addAsteriskOrBlockMethodParameter(name, i);
+        getMethodGenerator().storeLocal(i);
     }
 
     public void visitEnd() {
@@ -78,6 +82,12 @@ abstract class ClassGenerator {
             return;
         }
 
+        int i = getSymbolTable().getAsteriskOrBlockMethodParameter(name);
+        if (i >= 0) {
+            getMethodGenerator().storeLocal(i);
+            return;
+        }
+        
         int index = getSymbolTable().getMethodParameter(name);
         if (index >= 0) {
             storeMethodParameter(index);
@@ -85,13 +95,18 @@ abstract class ClassGenerator {
         }
 
         getMethodGenerator().storeNewLocalVariable(name);
-
     }
 
     public void loadVariable(String name) {
         //check if this is local variable
         if (getSymbolTable().getLocalVariable(name) >= 0) {
             getMethodGenerator().loadRubyLocalVariable(name);
+            return;
+        }
+
+        int i = getSymbolTable().getAsteriskOrBlockMethodParameter(name);
+        if (i >= 0) {
+            getMethodGenerator().loadLocal(i);
             return;
         }
 
