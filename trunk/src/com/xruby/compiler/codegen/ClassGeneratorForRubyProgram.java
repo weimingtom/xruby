@@ -13,10 +13,10 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
     private final RubyBinding binding_;
     private final String fileName;
 
-    public ClassGeneratorForRubyProgram(String name, String fileName, RubyBinding binding, boolean create_main) {
+    public ClassGeneratorForRubyProgram(String name, String fileName, RubyBinding binding, boolean create_main, boolean is_singleton) {
         super(name);
         this.fileName = fileName;
-        mg_for_run_method_ = visitRubyProgram(binding, fileName, create_main);
+        mg_for_run_method_ = visitRubyProgram(binding, fileName, create_main, is_singleton);
         binding_ = binding;
     }
 
@@ -24,7 +24,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
         return fileName;
     }
 
-    private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName, boolean create_main) {
+    private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName, boolean create_main, boolean is_singleton) {
         cv_.visit(Opcodes.V1_5,
                 Opcodes.ACC_PUBLIC,
                 name_,
@@ -50,7 +50,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
                 cv_,
                 binding,
                 null,
-                false);
+                is_singleton);
     }
 
     private void createImplicitConstructor(ClassVisitor cw) {

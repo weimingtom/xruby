@@ -52,7 +52,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     private boolean isInClassBuilder() {
-        return cg_.isInClassBuilder();
+        return (cg_ instanceof ClassGeneratorForClassModuleBuilder);
     }
 
     public void enableDebug() {
@@ -81,7 +81,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         binding_ = binding;
         RubyIDClassGenerator.initScript(script_name_);
         String className = NameFactory.createClassName(script_name_, null);
-        cg_ = new ClassGeneratorForRubyProgram(className, script_name_, binding, true);
+        cg_ = new ClassGeneratorForRubyProgram(className, script_name_, binding, true, false);
         MethodGenerator mg = cg_.getMethodGenerator();
 
         // Start compiling
@@ -123,17 +123,23 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     private void callClassModuleBuilder(String name, boolean is_singleton) {
-		int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
+        int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
         cg_.getMethodGenerator().storeLocal(i);
 
-        String uniqueName = NameFactory.createMethodnameForClassBuilder(name);
-        cg_.getMethodGenerator().loadThis();        
+        String uniqueName = NameFactory.createClassnameForClassModuleBuilder(script_name_, name);
+        Type builder = Type.getType("L" + uniqueName + ";");
+        cg_.getMethodGenerator().newInstance(builder);
+        cg_.getMethodGenerator().dup();
+        cg_.getMethodGenerator().invokeConstructor(builder,
+                Method.getMethod("void <init> ()"));
         cg_.getMethodGenerator().loadLocal(i);
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().loadLocal(i);
-        cg_.callClassBuilderMethod(uniqueName);
-        cg_.startClassBuilderMethod(uniqueName, is_singleton);
+        cg_.getMethodGenerator().invokeVirtual(builder,
+                Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"));
+
+        switchToNewClassGenerator(new ClassGeneratorForClassModuleBuilder(uniqueName, script_name_, null, is_singleton));
     }
 
     public void visitSingletonClassDefination() {
@@ -142,7 +148,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
-        cg_.endClassBuilderMethod(last_statement_has_return_value);
+        switchToPreviousClassGenerator(last_statement_has_return_value);
     }
 
     public void visitModuleDefination(String moduleName, boolean has_scope) {
@@ -162,7 +168,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitModuleDefinationEnd(boolean last_statement_has_return_value) {
-        visitClassDefinationEnd(last_statement_has_return_value);
+        switchToPreviousClassGenerator(last_statement_has_return_value);
     }
 
     public String visitBlock(int argc,
@@ -283,9 +289,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitNoParameterForSuper() {
         if (cg_ instanceof ClassGeneratorForRubyBlock) {
-			((ClassGeneratorForRubyBlock)cg_).loadNoParameterForSuper();
+            ((ClassGeneratorForRubyBlock)cg_).loadNoParameterForSuper();
         } else {
-        	cg_.getMethodGenerator().loadMethodArg();
+            cg_.getMethodGenerator().loadMethodArg();
         }
     }
 
