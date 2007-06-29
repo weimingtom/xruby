@@ -145,6 +145,14 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Types.RUBY_VALUE_TYPE);
     }
 
+    private void storeField(String name) {
+        super.storeVariable(SymbolTable.NAME_FOR_INTERNAL_TMP_VAR);
+
+        getMethodGenerator().loadThis();
+        loadVariable(SymbolTable.NAME_FOR_INTERNAL_TMP_VAR);
+        getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Types.RUBY_VALUE_TYPE);
+    }
+        
     public String[] getAssignedFields() {
         return field_manager_.getAssignedFields();
     }
@@ -158,14 +166,6 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         }
     }
 
-    private void storeField(String name) {
-        super.storeVariable(SymbolTable.NAME_FOR_INTERNAL_TMP_VAR);
-
-        getMethodGenerator().loadThis();
-        loadVariable(SymbolTable.NAME_FOR_INTERNAL_TMP_VAR);
-        getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Types.RUBY_VALUE_TYPE);
-    }
-
     public void storeVariable(String name) {
         if (is_for_in_expression_ || isDefinedInOwnerScope(name)) {
             field_manager_.addAssignedField(name, is_for_in_expression_);
@@ -176,6 +176,16 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         } else {
             super.storeVariable(name);
         }
+    }
+
+    private void addNewFieldToClass(String name) {
+        FieldVisitor fv = cv_.visitField(Opcodes.ACC_PUBLIC,
+            name,
+            Type.getDescriptor(Types.RUBY_VALUE_CLASS),
+            null,
+            null
+            );
+        fv.visitEnd();
     }
 
     private void initialFiledUsingBlockParameter(String name) {
@@ -254,20 +264,10 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
     public String[] createFieldsAndConstructorOfRubyBlock() {
         String[] commons = field_manager_.getFields();
         createConstructorOfRubyBlock(commons);
-        createFields(commons);
-        return commons;
-    }
-
-    private void createFields(final String[] commons) {
         for (String name : commons) {
-            FieldVisitor fv = cv_.visitField(Opcodes.ACC_PUBLIC,
-                    name,
-                    Type.getDescriptor(Types.RUBY_VALUE_CLASS),
-                    null,
-                    null
-                    );
-            fv.visitEnd();
+            addNewFieldToClass(name);
         }
+        return commons;
     }
 
     private void createConstructorOfRubyBlock(final String[] commons) {
