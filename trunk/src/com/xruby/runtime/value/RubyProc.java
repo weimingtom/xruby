@@ -43,7 +43,14 @@ public class RubyProc extends RubyBinding {
     private void setUpCallContext() {
         Field[] fields = value_.getClass().getFields();
         for (Field f : fields) {
-            RubyValue v = getVariable(f.getName());
+            String name = f.getName();
+            
+            if ('$' != name.charAt(0)) {
+                continue;
+            }
+            name = name.substring(1);//remove '$'
+            
+            RubyValue v = getVariable(name);
             if (null != v) {
                 try {
                     f.set(value_, v);

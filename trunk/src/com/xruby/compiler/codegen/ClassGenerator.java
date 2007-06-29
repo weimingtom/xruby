@@ -37,7 +37,7 @@ abstract class ClassGenerator {
     }
 
     String decorateName(String name) {
-        return name;
+        return "$" + name;
     }
 
     public void restoreLocalVariableFromBlock(String blockName, String name) {
