@@ -142,7 +142,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
     private void loadField(String name) {
         mg_for_run_method_.loadThis();
-        mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), name, Types.RUBY_VALUE_TYPE);
+        mg_for_run_method_.getField(Type.getType("L" + name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
     }
 
     private void storeField(String name) {
@@ -150,7 +150,17 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
         getMethodGenerator().loadThis();
         loadVariable(SymbolTable.NAME_FOR_INTERNAL_TMP_VAR);
-        getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Types.RUBY_VALUE_TYPE);
+        getMethodGenerator().putField(Type.getType("L" + name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
+    }
+
+    private void addNewFieldToClass(String name) {
+        FieldVisitor fv = cv_.visitField(Opcodes.ACC_PUBLIC,
+            decorateName(name),
+            Type.getDescriptor(Types.RUBY_VALUE_CLASS),
+            null,
+            null
+            );
+        fv.visitEnd();
     }
         
     public String[] getAssignedFields() {
@@ -178,22 +188,12 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         }
     }
 
-    private void addNewFieldToClass(String name) {
-        FieldVisitor fv = cv_.visitField(Opcodes.ACC_PUBLIC,
-            name,
-            Type.getDescriptor(Types.RUBY_VALUE_CLASS),
-            null,
-            null
-            );
-        fv.visitEnd();
-    }
-
     private void initialFiledUsingBlockParameter(String name) {
         if (isDefinedInOwnerScope(name)) {
             field_manager_.addAssignedField(name, false);
             getMethodGenerator().loadThis();
             super.loadVariable(name);
-            getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Types.RUBY_VALUE_TYPE);
+            getMethodGenerator().putField(Type.getType("L" + name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
         }
     }
 
@@ -204,10 +204,10 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         }
 
         getMethodGenerator().loadLocal(getSymbolTable().getInternalBlockVar());
-        getMethodGenerator().getField(Type.getType("L" + blockName + ";"), name, Types.RUBY_VALUE_TYPE);
+        getMethodGenerator().getField(Type.getType("L" + blockName + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
 
         if (i < 0) {
-            getMethodGenerator().putField(Type.getType("L" + name_ + ";"), name, Types.RUBY_VALUE_TYPE);
+            getMethodGenerator().putField(Type.getType("L" + name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
         } else {
             getMethodGenerator().storeLocal(i);
         }
@@ -296,7 +296,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         for (int i = 0; i < commons.length; ++i) {
             mg.loadThis();
             mg.loadArg(i + 6);
-            mg.putField(Type.getType("L" + name_ + ";"), commons[i], Types.RUBY_VALUE_TYPE);
+            mg.putField(Type.getType("L" + name_ + ";"), decorateName(commons[i]), Types.RUBY_VALUE_TYPE);
         }
 
         mg.returnValue();
