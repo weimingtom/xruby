@@ -36,9 +36,13 @@ abstract class ClassGenerator {
         return getMethodGenerator().getSymbolTable();
     }
 
+    String decorateName(String name) {
+        return name;
+    }
+
     public void restoreLocalVariableFromBlock(String blockName, String name) {
         getMethodGenerator().loadLocal(getSymbolTable().getInternalBlockVar());
-        getMethodGenerator().getField(Type.getType("L" + blockName + ";"), name, Types.RUBY_VALUE_TYPE);
+        getMethodGenerator().getField(Type.getType("L" + blockName + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
         if (getSymbolTable().getLocalVariable(name) >= 0) {
             getMethodGenerator().storeRubyLocalVariable(name);
         } else {
@@ -87,7 +91,7 @@ abstract class ClassGenerator {
             getMethodGenerator().storeLocal(i);
             return;
         }
-        
+
         int index = getSymbolTable().getMethodParameter(name);
         if (index >= 0) {
             storeMethodParameter(index);
