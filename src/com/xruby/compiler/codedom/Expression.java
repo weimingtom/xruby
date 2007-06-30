@@ -7,7 +7,7 @@ package com.xruby.compiler.codedom;
 
 import java.util.ArrayList;
 
-public abstract class Expression implements Visitable {
+public abstract class Expression extends Node implements Visitable {
 	protected int position;
 	protected boolean newLine = false;
 
