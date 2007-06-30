@@ -184,6 +184,8 @@ class CompilerTestCase extends TestCase {
                 fail("IllegalAccessException at " + i + ": " + e.toString());
             } catch (VerifyError e) {
                 fail("VerifyError at " + i + ": " + e.toString());
+            } catch (NoSuchFieldError e) {
+                fail("NoSuchFieldError at " + i + ": " + e.toString());
             } /*catch (NullPointerException e) {
                 assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
             }*/
@@ -2022,7 +2024,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_block_binding_scope() {
         String[] program_texts = {
-                //TODO"a = 1; print self, a; 1.times {print self, a; 1.times {print self, a}}",
+                "a = 1; print self, a; 1.times {print self, a; 1.times {print self, a}}",
 
                 "a=1;   4.times {print a}",
                 "def f(a); 1.times {print a} end; f 101",
@@ -2068,7 +2070,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-                //"main1main1main1",
+                "main1main1main1",
 
                 "1111",
                 "101",
