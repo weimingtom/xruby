@@ -201,7 +201,7 @@ abstract class ClassGenerator {
         Collection<String> vars = getSymbolTable().getLocalVariables();
         for (String s : vars) {
             getMethodGenerator().push(s);
-            getMethodGenerator().loadLocal(getSymbolTable().getLocalVariable(s));
+            getMethodGenerator().loadRubyLocalVariable(s);
             getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
         }
