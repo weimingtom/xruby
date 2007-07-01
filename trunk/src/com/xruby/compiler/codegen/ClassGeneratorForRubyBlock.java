@@ -100,13 +100,13 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         }
     }
 
-	public void loadNoParameterForSuper() {
-		if (OwnerHasOneArg()) {
-			getMethodGenerator().RubyBlock_argOfCurrentMethod_();
-		} else {
-			getMethodGenerator().RubyBlock_argsOfCurrentMethod_();
-		}
-	}
+    public void loadNoParameterForSuper() {
+        if (OwnerHasOneArg()) {
+            getMethodGenerator().RubyBlock_argOfCurrentMethod_();
+        } else {
+            getMethodGenerator().RubyBlock_argsOfCurrentMethod_();
+        }
+    }
 
     private String getMethodName() {
         if (owner_ instanceof ClassGeneratorForRubyMethod) {
@@ -162,7 +162,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
             );
         fv.visitEnd();
     }
-        
+
     public String[] getAssignedFields() {
         return field_manager_.getAssignedFields();
     }
@@ -287,8 +287,8 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         mg.loadArg(1);
         mg.loadArg(2);
         mg.loadArg(3);
-		mg.loadArg(4);
-		mg.loadArg(5);
+        mg.loadArg(4);
+        mg.loadArg(5);
 
         mg.invokeConstructor(this.helper.getSuperClassType(),
                 Method.getMethod(this.helper.getSuperCtorName()));
@@ -320,6 +320,11 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
             addVariableToBinding(s);
         }
 
+        int i = symbol_table_of_the_current_scope_.getInternalBindingVar();
+        if (i >= 0) {
+            addVariableToBinding(SymbolTable.NAME_FOR_INTERNAL_BINDING_VAR);
+        }
+
         Collection<String> params = symbol_table_of_the_current_scope_.getParameters();
         for (String s : params) {
             addVariableToBinding(s);
@@ -339,9 +344,9 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         }
     }
 
-	public void loadArgOfMethodForBlock() {
-		getMethodGenerator().RubyBlock_argOfCurrentMethod_();
-		getMethodGenerator().RubyBlock_argsOfCurrentMethod_();
-	}
+    public void loadArgOfMethodForBlock() {
+        getMethodGenerator().RubyBlock_argOfCurrentMethod_();
+        getMethodGenerator().RubyBlock_argsOfCurrentMethod_();
+    }
 }
 
