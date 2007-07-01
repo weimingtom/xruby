@@ -5,7 +5,16 @@
 
 package com.xruby.runtime.value;
 
-import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyConstant;
+import com.xruby.runtime.lang.RubyID;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyObject;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubySymbol;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.StringMap;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -80,12 +89,12 @@ public class ObjectFactory {
     }
 
     public static RubySymbol createSymbol(String value) {
-    	RubyID id = StringMap.intern(value);
+        RubyID id = StringMap.intern(value);
         return id.toSymbol();
     }
-    
+
     public static RubySymbol createSymbol(RubyID id) {
-    	return id.toSymbol();
+        return id.toSymbol();
     }
 
     public static RubyFloat createFloat(double value) {
