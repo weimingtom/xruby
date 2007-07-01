@@ -1583,6 +1583,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_eval() {
         String[] program_texts = {
+                //TODO remove the 'binding;' the test will fail in xruby
+                "binding;begin;eval '';rescue;end\n" +
+                "i = 5;print(eval('i'))",
+
                 "b = binding; eval('test_eval2 = 6', b); eval('print test_eval2')",
                 "eval('print nil'); test_eval1 = 5; eval('print test_eval1')",
 
@@ -1595,6 +1599,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "5",
                 "6",
                 "nil5",
 
