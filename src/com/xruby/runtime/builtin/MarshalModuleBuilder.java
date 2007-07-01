@@ -5,8 +5,23 @@
 
 package com.xruby.runtime.builtin;
 
-import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.*;
+import com.xruby.runtime.lang.RubyAPI;
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyModule;
+import com.xruby.runtime.lang.RubyOneArgMethod;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubySymbol;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyBignum;
+import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.value.RubyFloat;
+import com.xruby.runtime.value.RubyHash;
+import com.xruby.runtime.value.RubyString;
 
 import java.math.BigInteger;
 
@@ -225,27 +240,27 @@ class MarshalLoader {
         char c = v.charAt(current_index_);
         ++current_index_;
         switch (c) {
-            case'\0':
+            case '\0':
                 return ObjectFactory.NIL_VALUE;
-            case'T':
+            case 'T':
                 return ObjectFactory.TRUE_VALUE;
-            case'F':
+            case 'F':
                 return ObjectFactory.FALSE_VALUE;
-            case'i':
+            case 'i':
                 return ObjectFactory.createFixnum(loadInteger(v));
-            case'"':
+            case '"':
                 return loadString(v);
-            case':':
+            case ':':
                 return loadSymbol(v);
-            case'[':
+            case '[':
                 return loadArray(v);
-            case'{':
+            case '{':
                 return loadHash(v);
-            case'f':
+            case 'f':
                 return loadFloat(v);
-            case'l':
+            case 'l':
                 return loadBignum(v);
-            case'C':
+            case 'C':
                 return loadObject(v);
             default:
                 throw new RubyException("not implemented " + c);
