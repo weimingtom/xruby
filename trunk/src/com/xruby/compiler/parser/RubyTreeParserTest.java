@@ -15,9 +15,10 @@ import junit.framework.TestCase;
 public class RubyTreeParserTest extends TestCase {
     public void test_ast() throws RecognitionException, TokenStreamException {
         String[] program_texts = {
+                "BEGIN {}",
                 "'xxx' rescue $!",
                 "begin 'yyy'; rescue $!; end",
-        		
+
                 "module Kernel::M2;end",
                 "super",
                 "super()",
@@ -124,7 +125,8 @@ public class RubyTreeParserTest extends TestCase {
                 };
 
         String[] expected_texts = {
-        		" ( COMPSTMT ( begin ( BODY ( COMPSTMT ( STRING xxx ) ) rescue $! ) ) )",
+                " ( COMPSTMT BEGIN { } )",
+                " ( COMPSTMT ( begin ( BODY ( COMPSTMT ( STRING xxx ) ) rescue $! ) ) )",
                 " ( COMPSTMT ( begin ( BODY ( COMPSTMT ( STRING yyy ) ) rescue $! ) ) )",
                 " ( COMPSTMT ( module ( :: Kernel M2 ) ) )",
                 " ( COMPSTMT ( CALL super ) )",
