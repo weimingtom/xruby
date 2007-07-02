@@ -1440,6 +1440,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_exception() {
         String[] program_texts = {
+                "begin\n" +
+                "eval(\"def foo; BEGIN {}; end\")\n" +
+                "rescue SyntaxError=>e\n" +
+                "print e.class\n" +
+                "end",
+
                 "begin; throw TypeError;rescue Exception =>e; print e; end",
 
                 "def f\n" +
@@ -1519,6 +1525,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "SyntaxError",
                 "TypeError is not a symbol",
                 "1",
                 "www",

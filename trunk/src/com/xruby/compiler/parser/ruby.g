@@ -42,6 +42,7 @@ tokens {
 
 {
 	private int can_be_command_ = 0;
+	private int is_in_method_defination = 0;
 
 	protected void enterScope()	{assert(false);}
 	protected void enterBlockScope()	{assert(false);}
@@ -129,8 +130,8 @@ statementWithoutModifier
 }
 		:	(aliasStatement
 			|	undefStatement
-			|	keyword_BEGIN 	LCURLY_BLOCK (compoundStatement)? RCURLY
-			|	keyword_END 	LCURLY_BLOCK (compoundStatement)? RCURLY
+			|	keyword_BEGIN 	LCURLY_BLOCK (compoundStatement)? RCURLY	{if (is_in_method_defination>0) {throw new RecognitionException("BEGIN in method");}}
+			|	keyword_END 	LCURLY_BLOCK (compoundStatement)? RCURLY		{if (is_in_method_defination>0) {throw new RecognitionException("END in method");}}
 			|	expression
 				(options{greedy=true;}:
 					COMMA!
@@ -838,11 +839,12 @@ className
 		;
 
 methodDefination
-		:	"def"^		(options{greedy=true;}:LINE_BREAK!)?
+		:	"def"^		{++is_in_method_defination;}		
+			(options{greedy=true;}:LINE_BREAK!)?
 			methodName	{enterScope();}
 			methodDefinationArgument
 			(bodyStatement)?
-			"end"!		{leaveScope();}
+			"end"!		{leaveScope();--is_in_method_defination;}
 		;
 
 protected
