@@ -55,7 +55,7 @@ testunit\util\test_procwrapper.rb
 ruby\test_beginendblock.rbrequire #"require 'tempfile'" causes test::unit's runner fail to start
 ruby\test_dir.rb		#require 'fileutil'
 ruby\test_env.rb          # need to implement several singleton methods for ENV
-ruby\test_eval.rb
+ruby\test_eval.rb       #VerifyError
 ruby\test_file.rb	#"require 'tempfile'" causes test::unit's runner fail to start
 ruby\test_float.rb   (PASSED all the float related tests, but the sprintf has not been implemented)
 ruby\test_hash.rb		#tough to deal with...will work on it this weekend
