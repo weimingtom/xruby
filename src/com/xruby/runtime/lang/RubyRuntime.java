@@ -206,10 +206,10 @@ public class RubyRuntime {
 
         initARGV(args);
 
-        RubyAPI.setTopLevelConstant(new RubyObject(RubyRuntime.ObjectClass), "ENV");
         RubyAPI.setTopLevelConstant(new RubyObject(RubyRuntime.IOClass), "STDOUT");
         RubyAPI.setTopLevelConstant(RubyAPI.isWindows() ? ObjectFactory.createString("mswin32") : ObjectFactory.createString("java"), "RUBY_PLATFORM");
-        
+
+        ENVInitializer.initialize();
         TopLevelSelfInitializer.initialize();
         GlobalVariables.initialize();
 
