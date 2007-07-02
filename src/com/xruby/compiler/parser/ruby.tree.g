@@ -61,6 +61,30 @@ returns [Statement s]
 		|	s=alias
 		|	s=undef
 		|	s=multipleAssignment
+		|	s=beginBlock
+		|	s=endBlock
+		;
+
+beginBlock
+returns [BEGINBlock b]
+{
+	CompoundStatement cs=null;
+}
+		:	"BEGIN"	LCURLY_BLOCK	(cs=compoundStatement)?	RCURLY
+			{
+				b = new BEGINBlock(cs);
+			}
+		;
+
+endBlock
+returns [ENDBlock b]
+{
+	CompoundStatement cs=null;
+}
+		:	"END"	LCURLY_BLOCK	(cs=compoundStatement)?	RCURLY
+			{
+				b = new ENDBlock(cs);
+			}
 		;
 
 expressionStatement

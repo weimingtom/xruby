@@ -10,6 +10,8 @@ import antlr.RecognitionException;
 
 public class CompoundStatement implements Visitable {
 	protected ArrayList<Statement> statements_ = new ArrayList<Statement>();
+    private ArrayList<BEGINBlock> beginblocks_ = new ArrayList<BEGINBlock>();
+    private ArrayList<ENDBlock> endblocks_ = new ArrayList<ENDBlock>();
     private int lastLine = 0;
 
     public void addStatement(Statement statement) {
@@ -23,6 +25,10 @@ public class CompoundStatement implements Visitable {
                 if(expression.shouldlabelNewLine() && expression.getPosition() > 0) {
                     lastLine = expression.getPosition();
                 }
+			} else if (statement instanceof BEGINBlock) {
+			    beginblocks_.add((BEGINBlock)statement);
+			} else if (statement instanceof ENDBlock) {
+			    endblocks_.add(0, (ENDBlock)statement);
 			} else {
 				statements_.add(statement);
 			}
@@ -84,13 +90,18 @@ public class CompoundStatement implements Visitable {
 	}
 
 	public void accept(CodeVisitor visitor) {
+        statements_.addAll(0, beginblocks_);
+        statements_.addAll(endblocks_);
 
 		int i = 0;
 		for (Statement statement : statements_) {
 			++i;
 			statement.accept(visitor);
 
-			if ((statement instanceof ExpressionStatement || statement instanceof MultipleAssignmentStatement) && (i != statements_.size())) {
+			if ((statement instanceof ExpressionStatement ||
+                statement instanceof MultipleAssignmentStatement ||
+                statement instanceof BEGINBlock||
+                statement instanceof ENDBlock) && (i != statements_.size())) {
 				visitor.visitTerminal();
 			}
 		}
