@@ -52,7 +52,7 @@ testunit\util\test_procwrapper.rb
 
 =Failed Tests=
 {{{
-ruby\test_beginendblock.rb
+ruby\test_beginendblock.rbrequire #"require 'tempfile'" causes test::unit's runner fail to start
 ruby\test_dir.rb		#require 'fileutil'
 ruby\test_env.rb          # need to implement several singleton methods for ENV
 ruby\test_eval.rb
