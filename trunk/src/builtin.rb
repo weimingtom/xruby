@@ -330,24 +330,28 @@ class Symbol
     alias to_s id2name
 end
 
-def self.to_s
-    return "main"
+class << self
+    def to_s
+        return "main"
+    end
+
+    def public
+        Object.public
+    end
+
+    def private
+        Object.private
+    end
+
+    def protected
+        Object.protected
+    end
 end
 
-def self.public
-    Object.public
-end
-
-def self.private
-    Object.private
-end
-
-def self.protected
-    Object.protected
-end
-
-def ENV.to_s
-    return "ENV"
+class <<ENV
+    def to_s
+        return "ENV"
+    end
 end
 
 class Fixnum
