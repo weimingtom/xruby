@@ -6,9 +6,9 @@
 package com.xruby.compiler.codegen;
 
 import com.xruby.compiler.codedom.CodeVisitor;
+import com.xruby.compiler.codedom.Node;
 import com.xruby.compiler.codedom.Program;
 import com.xruby.runtime.lang.RubyBinding;
-
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -21,6 +21,7 @@ import java.util.Stack;
 public class RubyCompilerImpl implements CodeVisitor {
 
     private ClassGenerator cg_;
+
     private final Stack<ClassGenerator> suspended_cgs_ = new Stack<ClassGenerator>();
     private final CompilationResults compilation_results_ = new CompilationResults();
     private final String script_name_;
@@ -86,6 +87,29 @@ public class RubyCompilerImpl implements CodeVisitor {
 
         // Start compiling
         program.accept(this);
+
+        // Record the local variables' range, if user enables debug
+        if (enableDebug) {
+            mg.writeLocalVariableInfo();
+        }
+
+        mg.endMethod();
+        cg_.visitEnd();
+        compilation_results_.add(RubyIDClassGenerator.getCompilationResult());
+//		RubyIDClassGenerator.clear();
+        compilation_results_.add(cg_.getCompilationResult());
+        return compilation_results_;
+    }
+    //temporary for test
+    public CompilationResults compile2(Node node, RubyBinding binding) {
+       binding_ = binding;
+        RubyIDClassGenerator.initScript(script_name_);
+        String className = NameFactory.createClassName(script_name_, null);
+        cg_ = new ClassGeneratorForRubyProgram(className, script_name_, binding, true, false);
+        MethodGenerator mg = cg_.getMethodGenerator();
+
+        // Start compiling
+        node.accept(this);
 
         // Record the local variables' range, if user enables debug
         if (enableDebug) {
