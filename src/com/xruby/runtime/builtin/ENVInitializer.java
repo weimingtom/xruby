@@ -5,6 +5,8 @@
 
 package com.xruby.runtime.builtin;
 
+import java.util.Map;
+
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyObject;
@@ -26,9 +28,28 @@ class ENV_array_get extends RubyOneArgMethod {
     }
 }
 
+class ENV_index extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        String s = RubyTypesUtil.convertToJavaString(arg);
+        Map<String, String> map = System.getenv();
+
+        if (map.containsValue(s)) {
+            for (String k : map.keySet()) {
+                String v = map.get(k);
+                if (s.equals(v)) {
+                    return ObjectFactory.createString(k);
+                }
+            }
+        }
+
+        return ObjectFactory.NIL_VALUE;
+    }
+}
+
 public class ENVInitializer {
     public static void initialize() {
         RubyValue v = RubyAPI.setTopLevelConstant(new RubyObject(RubyRuntime.ObjectClass), "ENV");
         v.getSingletonClass().defineMethod("[]", new ENV_array_get());
+        v.getSingletonClass().defineMethod("index", new ENV_index());
     }
 }
