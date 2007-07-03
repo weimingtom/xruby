@@ -408,13 +408,12 @@ class String
         end
     end
 
-
-    def succ
+    def succ!
         if self == ""
             return ""
         end
 
-        result = self.dup  #may be dup?
+        result = self
         index = self.length - 1
 
         if (last_index = __last_alpha_numeric__) == -1
@@ -425,6 +424,11 @@ class String
         carry_type = nil
 
         return __add_nocarry__(result, last_index)
+    end 
+
+    def succ
+        result = self.dup  #may be dup?
+        return result.succ!
     end
 
     def upto(end_str)
@@ -441,7 +445,7 @@ class String
 
     #add a carry to postion index, with carry_type
     def __add__(str, index, carry, carry_type)
-        result = str.dup
+        result = str
         char = str[index]
         if carry
             if index == -1 || str[0, str.length-1].__last_alpha_numeric__(index) == -1 #no char beforehand
@@ -462,7 +466,7 @@ class String
 
     def __add_nocarry__(str, index)
         char = str[index]
-        result = str.dup
+        result = str
         if char == ?9 || char == ?z
             carry = true
             if char == ?9

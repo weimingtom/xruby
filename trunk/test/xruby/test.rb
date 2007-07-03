@@ -22,5 +22,19 @@ class XRubyTest < Test::Unit::TestCase
     def test_Enumerable_any?
         assert(%w{ ant bear cat}.any? {|word| word.length >= 3})
     end
+    
+    def test_String_succ
+        assert_equal 'a'.succ, "b"
+        assert_equal '0'.succ, "1"
+        assert_equal ' '.succ, "!"
+        assert_equal 'z'.succ, "aa"
+        assert_equal '9'.succ, "10"
+        assert_equal '***'.succ, "**+"
+        assert_equal '<<koala>>'.succ, "<<koalb>>"
+        assert_equal 'z>>'.succ, "aa>>"
+        assert_equal 'zz>>'.succ, "aaa>>"
+        assert_equal '1999zzz'.succ, "2000aaa"
+        assert_equal '>z>>'.succ, ">aa>>"
+    end
   
 end
