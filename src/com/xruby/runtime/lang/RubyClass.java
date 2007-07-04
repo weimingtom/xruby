@@ -197,17 +197,6 @@ public class RubyClass extends RubyModule {
 		return value;
 	}
 
-	public RubyValue defineMethod(String name, RubyMethod m) {
-		RubyID mid = StringMap.intern(name);
-		m.setScope(this);
-		return addMethod(mid, m);
-	}
-
-	public RubyValue defineMethod(RubyID mid, RubyMethod m) {
-		m.setScope(this);
-		return addMethod(mid, m);
-	}
-
 	protected RubyValue addMethod(RubyID id, RubyMethod method) {
 		cache.removeMethod(id);
 		return super.addMethod(id, method);
