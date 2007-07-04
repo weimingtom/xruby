@@ -320,11 +320,6 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
             addVariableToBinding(s);
         }
 
-        int i = symbol_table_of_the_current_scope_.getInternalBindingVar();
-        if (i >= 0) {
-            addVariableToBinding(SymbolTable.NAME_FOR_INTERNAL_BINDING_VAR);
-        }
-
         Collection<String> params = symbol_table_of_the_current_scope_.getParameters();
         for (String s : params) {
             addVariableToBinding(s);
