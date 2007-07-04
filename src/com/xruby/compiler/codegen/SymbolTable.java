@@ -17,7 +17,7 @@ class SymbolTable {
     private final Map<String, Integer> asterisk_or_block_method_parameter_ = new HashMap<String, Integer>();
 
     private static final String NAME_FOR_INTERNAL_BLOCK_VAR = "block$";
-    static final String NAME_FOR_INTERNAL_BINDING_VAR = "binding$";
+    private static final String NAME_FOR_INTERNAL_BINDING_VAR = "binding$";
     static final String NAME_FOR_INTERNAL_TMP_VAR = "tmp$";
 
     // SymbolTable may have preloaded values (eval, commandline etc)
@@ -48,7 +48,7 @@ class SymbolTable {
     public Collection<String> getLocalVariables() {
         Collection<String> r = local_variables_.keySet();
         r.remove(NAME_FOR_INTERNAL_BLOCK_VAR);
-        r.remove(NAME_FOR_INTERNAL_BINDING_VAR);
+        //r.remove(NAME_FOR_INTERNAL_BINDING_VAR);
         r.remove(NAME_FOR_INTERNAL_TMP_VAR);
         return r;
     }

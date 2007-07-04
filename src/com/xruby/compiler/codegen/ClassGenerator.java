@@ -206,14 +206,6 @@ abstract class ClassGenerator {
                 Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
         }
 
-        int i = getSymbolTable().getInternalBindingVar();
-        if (i >= 0) {
-            getMethodGenerator().push(SymbolTable.NAME_FOR_INTERNAL_BINDING_VAR);
-            getMethodGenerator().loadLocal(i);
-            getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
-                Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
-        }
-
         Collection<String> params = getSymbolTable().getParameters();
         for (String s : params) {
             getMethodGenerator().push(s);
