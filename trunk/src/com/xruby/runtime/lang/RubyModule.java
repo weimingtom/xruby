@@ -17,9 +17,9 @@ public class RubyModule extends MethodCollection {
         super.name_ = name;
         owner_ = owner;
     }
-    
+
     void setScope(RubyModule owner) {
-    	this.owner_ = owner;
+        this.owner_ = owner;
     }
 
     public boolean isRealModule() {
@@ -31,17 +31,22 @@ public class RubyModule extends MethodCollection {
     }
 
     public RubyValue defineMethod(String name, RubyMethod m) {
-        m.setScope(this);
         RubyID mid = StringMap.intern(name);
+        m.setScope(this);
         return addMethod(mid, m);
     }
-    
+
+    public RubyValue defineMethod(RubyID mid, RubyMethod m) {
+        m.setScope(this);
+        return addMethod(mid, m);
+    }
+
     protected RubyValue addMethod(RubyID id, RubyMethod m) {
-    	RubyValue v = super.addMethod(id, m);
-    	if (RubyRuntime.running && id != RubyID.ID_ALLOCATOR) {
-    		RubyAPI.callOneArgMethod(this, id.toSymbol(), null, CommonRubyID.methodAddedID);
-    	}
-    	return v;
+        RubyValue v = super.addMethod(id, m);
+        if (RubyRuntime.running && id != RubyID.ID_ALLOCATOR) {
+            RubyAPI.callOneArgMethod(this, id.toSymbol(), null, CommonRubyID.methodAddedID);
+        }
+        return v;
     }
 
     /// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
@@ -51,13 +56,13 @@ public class RubyModule extends MethodCollection {
         if (parent == null) {
             parent = RubyRuntime.ObjectClass;
         }
-        
+
         RubyClass klass = ClassFactory.makeRubyClass(parent);
         klass.setScope(this);
         klass.setName(name);
         constants_.put(name, klass);
-        ClassFactory.inheritedClass(parent, klass);        
-        
+        ClassFactory.inheritedClass(parent, klass);
+
         ObjectSpace.add(klass);
         return klass;
     }
@@ -229,7 +234,7 @@ public class RubyModule extends MethodCollection {
         if (null == m || UndefMethod.isUndef(m)) {
             throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
         }
-        getSingletonClass().defineMethod(method_name, m);
+        defineSingletonMethod(method_name, m);
     }
 
 }
