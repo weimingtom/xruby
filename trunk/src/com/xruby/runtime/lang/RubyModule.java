@@ -234,7 +234,7 @@ public class RubyModule extends MethodCollection {
         if (null == m || UndefMethod.isUndef(m)) {
             throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
         }
-        defineSingletonMethod(method_name, m);
+        getSingletonClass().defineMethod(method_name, m);
     }
 
 }
