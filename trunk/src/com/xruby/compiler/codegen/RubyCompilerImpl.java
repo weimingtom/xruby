@@ -144,7 +144,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitSingletonClassDefination() {
         cg_.getMethodGenerator().RubyValue_getSingletonClass();
-        callClassModuleBuilder("SIGLETON", true);
+        callClassModuleBuilder("SINGLETON", true);
     }
 
     public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
