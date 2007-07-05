@@ -111,6 +111,8 @@ public class RubyCompilerImpl implements CodeVisitor {
         // Start compiling
         node.accept(this);
 
+        visitEof(true);//HACK, for test only
+
         // Record the local variables' range, if user enables debug
         if (enableDebug) {
             mg.writeLocalVariableInfo();
