@@ -9,9 +9,7 @@ import org.objectweb.asm.Label;
 
 import java.math.BigInteger;
 
-interface ISymbolTable {
-	public boolean isDefinedInCurrentScope(String name);
-}
+
 
 public interface CodeVisitor extends ISymbolTable {
 	public void visitBinaryOperator(String operator);
