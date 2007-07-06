@@ -59,12 +59,12 @@ public class RubyAPI {
     }
 
     public static boolean testCaseEqual(RubyValue value1, RubyValue value2) {
-        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, CommonRubyID.longEqualID);
+        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.longEqualID);
         return testTrueFalse(r);
     }
 
     public static boolean testEqual(RubyValue value1, RubyValue value2) {
-        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, CommonRubyID.equalID);
+        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.equalID);
         return testTrueFalse(r);
     }
 
@@ -97,7 +97,7 @@ public class RubyAPI {
     //e.g. defined? super
     public static RubyValue isDefinedSuperMethod(RubyValue receiver, String method_name, RubyMethod current_method) {
         RubyClass c = (RubyClass) current_method.getScope();
-        RubyID mid = StringMap.intern(method_name);
+        RubyID mid = RubyID.intern(method_name);
         RubyMethod m = c.findSuperMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
             return ObjectFactory.NIL_VALUE;
@@ -114,7 +114,7 @@ public class RubyAPI {
             return isDefinedMethod(receiver, method_name);
         }
 
-        RubyID mid = StringMap.intern(method_name);
+        RubyID mid = RubyID.intern(method_name);
         RubyMethod m = receiver.findPublicMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
             return ObjectFactory.NIL_VALUE;
@@ -125,7 +125,7 @@ public class RubyAPI {
 
     //e.g. defined? f
     public static RubyValue isDefinedMethod(RubyValue receiver, String method_name) {
-        RubyID mid = StringMap.intern(method_name);
+        RubyID mid = RubyID.intern(method_name);
         RubyMethod m = receiver.findMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
             return ObjectFactory.NIL_VALUE;
@@ -143,7 +143,7 @@ public class RubyAPI {
     }
 
     private static RubyValue callMethodMissing(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid) {
-        RubyMethod m = receiver.findMethod(CommonRubyID.methodMissingId);
+        RubyMethod m = receiver.findMethod(RubyID.methodMissingId);
         if (null != m && !UndefMethod.isUndef(m)) {
             if (null == args) {
                 args = new RubyArray(ObjectFactory.createSymbol(mid));
@@ -456,7 +456,7 @@ public class RubyAPI {
     private static void throwTypeErrorIfNotClassModule(RubyValue receiver) {
         if (!(receiver instanceof RubyClass) &&
                 !(receiver instanceof RubyModule)) {
-            RubyValue v = RubyAPI.callPublicMethod(receiver, null, null, CommonRubyID.toSID);
+            RubyValue v = RubyAPI.callPublicMethod(receiver, null, null, RubyID.toSID);
             String s = v.toString();
             throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
         }
@@ -464,7 +464,7 @@ public class RubyAPI {
 
     public static void callArraySet(RubyValue value, RubyValue index, RubyValue receiver) {
         RubyArray args = new RubyArray(index, value);
-        callPublicMethod(receiver, args, null, StringMap.intern("[]="));
+        callPublicMethod(receiver, args, null, RubyID.intern("[]="));
     }
 
     public static RubyValue initializeAsteriskParameter(RubyArray args, int argc) {

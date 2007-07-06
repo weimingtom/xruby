@@ -13,7 +13,7 @@ public class RubySingletonClass extends RubyClass {
         super(null, superclass, null);
         owner_ = obj;
         obj.setRubyClass(this);
-        this.setInstanceVariable(obj, CommonRubyID.attachedID);
+        this.setInstanceVariable(obj, RubyID.attachedID);
 
         if (obj instanceof RubySingletonClass) {
             RubySingletonClass klass = (RubySingletonClass)obj;

@@ -31,7 +31,7 @@ public class RubyModule extends MethodCollection {
     }
 
     public RubyValue defineMethod(String name, RubyMethod m) {
-        RubyID mid = StringMap.intern(name);
+        RubyID mid = RubyID.intern(name);
         m.setScope(this);
         return addMethod(mid, m);
     }
@@ -44,7 +44,7 @@ public class RubyModule extends MethodCollection {
     protected RubyValue addMethod(RubyID id, RubyMethod m) {
         RubyValue v = super.addMethod(id, m);
         if (RubyRuntime.running && id != RubyID.ID_ALLOCATOR) {
-            RubyAPI.callOneArgMethod(this, id.toSymbol(), null, CommonRubyID.methodAddedID);
+            RubyAPI.callOneArgMethod(this, id.toSymbol(), null, RubyID.methodAddedID);
         }
         return v;
     }
@@ -229,12 +229,48 @@ public class RubyModule extends MethodCollection {
     }
 
     public void module_function(String method_name) {
-        RubyID mid = StringMap.intern(method_name);
+        RubyID mid = RubyID.intern(method_name);
         RubyMethod m = findOwnMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
             throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
         }
         getSingletonClass().defineMethod(method_name, m);
     }
-
+    
+    // Class Variable    
+    public RubyValue getClassVariable(String name) {
+		RubyModule klass = this;
+		RubyID id = RubyID.intern(name);
+		
+		while (klass != null) {
+			if (klass.instance_varibles_ != null) {
+				RubyValue v = klass.instance_varibles_.get(id);
+				if (v != null) {
+					return v;
+				}
+			}
+			
+			klass = klass.superclass_;
+		}
+		
+		throw new RubyException(RubyRuntime.NameErrorClass,
+				"uninitialized class variable " + name + " in " + (null == name_ ? "Object" : name_)); 
+	}
+    
+    public RubyValue setClassVariable(RubyValue value, String name) {
+    	RubyModule klass = this;
+		RubyID id = RubyID.intern(name);
+		
+		while (klass != null) {
+			if (klass.instance_varibles_ != null) {
+				klass.instance_varibles_.put(id, value);
+				return value;
+			}
+			
+			klass = klass.superclass_;
+		}
+		
+		this.setInstanceVariable(value, id);
+		return value;
+    }
 }

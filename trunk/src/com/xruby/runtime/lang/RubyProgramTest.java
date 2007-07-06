@@ -25,7 +25,7 @@ class TestingProgram extends RubyProgram {
 
     public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block, RubyModule scope) {
         //puts nil, "abC", "5432"
-        RubyID printID = StringMap.intern("print");
+        RubyID printID = RubyID.intern("print");
 
         RubyArray a = new RubyArray(3);
         a.add(ObjectFactory.NIL_VALUE);
@@ -58,7 +58,7 @@ class TestingProgram extends RubyProgram {
         return RubyAPI.callPublicOneArgMethod(ObjectFactory.createFixnum(123),
                 ObjectFactory.createFixnum(456),
                 null,
-                CommonRubyID.plusID);
+                RubyID.plusID);
     }
 }
 

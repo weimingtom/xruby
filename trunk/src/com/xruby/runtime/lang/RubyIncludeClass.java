@@ -13,10 +13,12 @@ public class RubyIncludeClass extends RubyClass {
         if (module instanceof RubyIncludeClass) {
             module = ((RubyIncludeClass)module).module;
         }
+        this.setRubyClass(RubyRuntime.ClassClass);
         this.module = module;
         this.methods_ = module.methods_;
         this.constants_ = module.constants_;
-        this.class_varibles_ = module.class_varibles_;
+        this.instance_varibles_ = module.instance_varibles_;
+//        this.class_varibles_ = module.class_varibles_;
     }
 
     public boolean isRealClass() {

@@ -57,7 +57,7 @@ abstract class MethodCollection extends ConstantCollection {
     }
 
     public void undefMethod(String method_name) {
-        RubyID mid = StringMap.intern(method_name);
+        RubyID mid = RubyID.intern(method_name);
         if (findOwnMethod(mid) == null) {
             throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + mid.toString() + " for class `Object'");
         }
@@ -66,7 +66,7 @@ abstract class MethodCollection extends ConstantCollection {
     }
 
     public void aliasMethod(String newName, String oldName) {
-        RubyID oldId = StringMap.intern(oldName);
+        RubyID oldId = RubyID.intern(oldName);
         RubyMethod m = findOwnMethod(oldId);
         if (null == m) {
             if (this instanceof RubyModule) {
@@ -78,7 +78,7 @@ abstract class MethodCollection extends ConstantCollection {
             }
         }
 
-        RubyID newId = StringMap.intern(newName);
+        RubyID newId = RubyID.intern(newName);
         addMethod(newId, m);
     }
 

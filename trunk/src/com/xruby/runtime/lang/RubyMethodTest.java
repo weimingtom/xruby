@@ -13,7 +13,7 @@ import java.io.PrintStream;
 
 
 class f extends RubyNoArgMethod {
-    private RubyID printID = StringMap.intern("print");
+    private RubyID printID = RubyID.intern("print");
 
     public RubyValue run(RubyValue receiver, RubyBlock block) {
         return RubyAPI.callOneArgMethod(ObjectFactory.TOP_LEVEL_SELF_VALUE,

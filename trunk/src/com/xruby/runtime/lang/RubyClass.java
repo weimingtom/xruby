@@ -65,7 +65,7 @@ public class RubyClass extends RubyModule {
 	}
     
     public void setInherited(RubyClass klass) {
-    	RubyAPI.callOneArgMethod(this, klass, null, CommonRubyID.inheritedID);
+    	RubyAPI.callOneArgMethod(this, klass, null, RubyID.inheritedID);
     }
 
 	public RubyValue allocObject(RubyBlock block) {
@@ -154,47 +154,6 @@ public class RubyClass extends RubyModule {
 		if (null != superclass_){
 			superclass_.collectClassMethodNames(a, mode);
 		}
-	}
-
-	protected RubyValue findClassVariable(String name) {
-		RubyValue v = null;
-		if (null != superclass_){
-			v = superclass_.findClassVariable(name);
-		}
-
-		if (null != v) {
-			return v;
-		}
-
-		return super.findClassVariable(name);
-	}
-
-	private RubyClass findWhereIsClassVariableDefined(String name) {
-		RubyValue v = super.findClassVariable(name);
-		if (null != v) {
-			return this;
-		}
-
-		if (null != superclass_){
-			return superclass_.findWhereIsClassVariableDefined(name);
-		}
-
-		return null;
-	}
-
-	private void setOwnClassVariable(RubyValue value, String name) {
-		super.setClassVariable(value, name);
-	}
-
-	public RubyValue setClassVariable(RubyValue value, String name) {
-		RubyClass c = findWhereIsClassVariableDefined(name);
-		if (null == c) {
-			setOwnClassVariable(value, name);
-		} else {
-			c.setOwnClassVariable(value, name);
-		}
-
-		return value;
 	}
 
 	protected RubyValue addMethod(RubyID id, RubyMethod method) {

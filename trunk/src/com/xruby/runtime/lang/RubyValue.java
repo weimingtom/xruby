@@ -48,7 +48,7 @@ abstract class BlockCallStatus {
 
 public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     private boolean frozen_ = false;
-    private Map<RubyID, RubyValue> instance_varibles_ = null;
+    protected Map<RubyID, RubyValue> instance_varibles_ = null;
 
     public abstract void setRubyClass(RubyClass klass);
     public abstract RubyClass getRubyClass();
@@ -67,7 +67,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     	if (this == o) {
     		return true;
     	} else if (o instanceof RubyValue) {
-    		RubyValue v = RubyAPI.callPublicOneArgMethod(this, (RubyValue)o, null, CommonRubyID.equalID);
+    		RubyValue v = RubyAPI.callPublicOneArgMethod(this, (RubyValue)o, null, RubyID.equalID);
     		return RubyAPI.testTrueFalse(v);
     	} else {
     		return false;
@@ -112,7 +112,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
         RubyClass klass = this.getRubyClass();
 
         if (klass.isSingleton()
-                && klass.getInstanceVariable(CommonRubyID.attachedID) == this) {
+                && klass.getInstanceVariable(RubyID.attachedID) == this) {
             return klass;
         } else {
             return new RubySingletonClass(this, this.getRubyClass());
