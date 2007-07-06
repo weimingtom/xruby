@@ -29,7 +29,6 @@ import com.xruby.compiler.codegen.CompilationResults;
 import com.xruby.compiler.codegen.NameFactory;
 import com.xruby.runtime.javasupport.JavaClass;
 import com.xruby.runtime.lang.AtExitBlocks;
-import com.xruby.runtime.lang.CommonRubyID;
 import com.xruby.runtime.lang.FrameManager;
 import com.xruby.runtime.lang.GlobalVariables;
 import com.xruby.runtime.lang.RubyAPI;
@@ -50,7 +49,6 @@ import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
-import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyBignum;
@@ -79,7 +77,7 @@ class Kernel_clone extends RubyNoArgMethod {
 class Kernel_inspect extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         if (!(receiver instanceof RubyObject)) {
-            return RubyAPI.callPublicMethod(receiver, null, null, CommonRubyID.toSID);
+            return RubyAPI.callPublicMethod(receiver, null, null, RubyID.toSID);
         }
 
         StringBuffer sb = new StringBuffer();
@@ -99,7 +97,7 @@ class Kernel_inspect extends RubyNoArgMethod {
                 sb.append(" ");
                 sb.append(id.toString());
                 sb.append("=");
-                sb.append(((RubyString)RubyAPI.callPublicMethod((RubyValue)vars.get(id), null, null, StringMap.intern("inspect")))).toString();
+                sb.append(((RubyString)RubyAPI.callPublicMethod((RubyValue)vars.get(id), null, null, RubyID.intern("inspect")))).toString();
                 sep = ",";
             }
         }
@@ -190,7 +188,7 @@ class Kernel_puts extends RubyVarArgMethod {
 
     protected RubyValue _run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (null == args) {
-            RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("\n"), null, CommonRubyID.writeID);
+            RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("\n"), null, RubyID.writeID);
             return ObjectFactory.NIL_VALUE;
         }
 
@@ -202,13 +200,13 @@ class Kernel_puts extends RubyVarArgMethod {
                 value = (RubyString) arg;
                 value.appendString("\n");
             } else {
-                RubyValue str = RubyAPI.callPublicMethod(arg, null, null, CommonRubyID.toSID);
+                RubyValue str = RubyAPI.callPublicMethod(arg, null, null, RubyID.toSID);
                 value = (RubyString) str;
                 value.appendString("\n");
             }
         }
 
-        RubyAPI.callPublicOneArgMethod(receiver, value, null, CommonRubyID.writeID);
+        RubyAPI.callPublicOneArgMethod(receiver, value, null, RubyID.writeID);
         return ObjectFactory.NIL_VALUE;
     }
 }
@@ -227,19 +225,19 @@ class Kernel_print extends RubyVarArgMethod {
         for (int i = 0; i < args.size(); ++i) {
             // insert the output field separator($,) if not nil
             if (i > 0 && GlobalVariables.get("$,") != ObjectFactory.NIL_VALUE) {
-                RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$,"), null, CommonRubyID.writeID);
+                RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$,"), null, RubyID.writeID);
             }
 
             if (args.get(i) == ObjectFactory.NIL_VALUE) {
-                RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("nil"), null, CommonRubyID.writeID);
+                RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("nil"), null, RubyID.writeID);
             } else {
-                RubyAPI.callPublicOneArgMethod(receiver, args.get(i), null, CommonRubyID.writeID);
+                RubyAPI.callPublicOneArgMethod(receiver, args.get(i), null, RubyID.writeID);
             }
         }
 
         // if the output record separator($\) is not nil, it will be appended to the output.
         if (GlobalVariables.get("$\\") != ObjectFactory.NIL_VALUE) {
-            RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$\\"), null, CommonRubyID.writeID);
+            RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$\\"), null, RubyID.writeID);
         }
 
         return ObjectFactory.NIL_VALUE;
@@ -286,7 +284,7 @@ class Kernel_p extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (null != args) {
             for (RubyValue arg : args) {
-                RubyValue str = RubyAPI.callPublicMethod(arg, null, null, CommonRubyID.inspectID);
+                RubyValue str = RubyAPI.callPublicMethod(arg, null, null, RubyID.inspectID);
                 RubyString value = (RubyString) str;
                 value.appendString("\n");
                 System.out.print(value.toString());
@@ -308,7 +306,7 @@ class Kernel_operator_case_equal extends RubyOneArgMethod {
         if (receiver == arg) {
             return ObjectFactory.TRUE_VALUE;
         } else {
-            return RubyAPI.callPublicOneArgMethod(receiver, arg, block, CommonRubyID.equalID);
+            return RubyAPI.callPublicOneArgMethod(receiver, arg, block, RubyID.equalID);
         }
     }
 }
@@ -538,7 +536,7 @@ class Kernel_respond_to extends RubyVarArgMethod {
         assertArgNumberAtLeast(args, 1);
 
         boolean include_private = (ObjectFactory.TRUE_VALUE == args.get(1));
-        RubyID mid = StringMap.intern(convertToString(args.get(0)));
+        RubyID mid = RubyID.intern(convertToString(args.get(0)));
         if (hasMethod(receiver, mid, include_private)) {
             return ObjectFactory.TRUE_VALUE;
         } else {
@@ -562,7 +560,7 @@ class Kernel_send extends RubyVarArgMethod {
         }
 
         RubyValue method_name = args.delete_at(0);
-        RubyID mid = StringMap.intern(convertToString(method_name));
+        RubyID mid = RubyID.intern(convertToString(method_name));
         if (args.size() == 0) {
             return RubyAPI.callMethod(receiver, null, block, mid);
         } else if (args.size() == 1) {
@@ -577,7 +575,7 @@ class Kernel_send extends RubyVarArgMethod {
 class Kernel_method extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String method_name = convertToString(arg);
-        RubyID mid = StringMap.intern(method_name);
+        RubyID mid = RubyID.intern(method_name);
         RubyMethod m = receiver.findMethod(mid);
         if (null == m) {
             throw new RubyException(RubyRuntime.NameErrorClass, "public method '" + method_name + "' can not be found in '" + receiver.getRubyClass().getName() + "'");

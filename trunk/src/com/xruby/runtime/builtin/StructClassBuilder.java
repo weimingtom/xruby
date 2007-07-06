@@ -36,7 +36,7 @@ class Struct_new extends RubyVarArgMethod {
             protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
                 RubyValue v = new RubyObject((RubyClass) receiver);
                 for (int i = 0; i < args.size(); ++i) {
-                    RubyID id = StringMap.intern("@" + RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString());
+                    RubyID id = RubyID.intern("@" + RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString());
                     v.setInstanceVariable(args.get(i), id);
                 }
                 return v;
@@ -59,7 +59,7 @@ class Struct_new extends RubyVarArgMethod {
                     throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
                 }
 
-                return receiver.getInstanceVariable(StringMap.intern("@" + name));
+                return receiver.getInstanceVariable(RubyID.intern("@" + name));
             }
         }
         );
@@ -78,7 +78,7 @@ class Struct_new extends RubyVarArgMethod {
                     throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg1.getRubyClass().getName() + " into Integer");
                 }
 
-                return receiver.setInstanceVariable(arg2, StringMap.intern("@" + name));
+                return receiver.setInstanceVariable(arg2, RubyID.intern("@" + name));
             }
         }
         );
@@ -88,7 +88,7 @@ class Struct_new extends RubyVarArgMethod {
                 RubyArray a = new RubyArray(super_args.size() - 1);
                 for (int i = 1; i < super_args.size(); ++i) {
                     String name = RubyTypesUtil.convertToSymbol(super_args.get(i)).toString();
-                    a.add(receiver.getInstanceVariable(StringMap.intern("@" + name)));
+                    a.add(receiver.getInstanceVariable(RubyID.intern("@" + name)));
                 }
                 return a;
             }
@@ -101,6 +101,6 @@ public class StructClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.StructClass;
         c.getSingletonClass().defineMethod("new", new Struct_new());
-        //c.defineMethod(CommonRubyID.toSID, new Struct_to_s());
+        //c.defineMethod(RubyID.toSID, new Struct_to_s());
     }
 }

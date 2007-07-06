@@ -5,11 +5,11 @@
 
 package com.xruby.runtime.builtin;
 
-import com.xruby.runtime.lang.CommonRubyID;
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyOneArgMethod;
@@ -27,7 +27,7 @@ class Object_extend extends RubyVarArgMethod {
         }
 
         for (RubyValue v : args) {
-            RubyAPI.callPublicOneArgMethod(v, receiver, null, CommonRubyID.extendObjectID);
+            RubyAPI.callPublicOneArgMethod(v, receiver, null, RubyID.extendObjectID);
         }
 
         return receiver;

@@ -13,17 +13,17 @@ import com.xruby.runtime.value.RubyString;
 import junit.framework.TestCase;
 
 public class StringClassBuilderTest extends TestCase {
-    private RubyID upcaseID = StringMap.intern("upcase");
-    private RubyID dangerousUpcaseID = StringMap.intern("upcase!");
-    private RubyID downcaseID = StringMap.intern("downcase");
-    private RubyID dangerousDowncaseID = StringMap.intern("downcase!");
-    private RubyID capitalizeID = StringMap.intern("capitalize");
+    private RubyID upcaseID = RubyID.intern("upcase");
+    private RubyID dangerousUpcaseID = RubyID.intern("upcase!");
+    private RubyID downcaseID = RubyID.intern("downcase");
+    private RubyID dangerousDowncaseID = RubyID.intern("downcase!");
+    private RubyID capitalizeID = RubyID.intern("capitalize");
 
     public void test_to_i() {
         RubyValue str = ObjectFactory.createString("1234");
         RubyString value = (RubyString) str;
         assertEquals("1234", value.toString());
-        RubyValue result = RubyAPI.callMethod(str, null, null, CommonRubyID.toIID);
+        RubyValue result = RubyAPI.callMethod(str, null, null, RubyID.toIID);
         RubyFixnum result_value = (RubyFixnum) result;
         assertEquals(1234, result_value.intValue());
     }
@@ -32,7 +32,7 @@ public class StringClassBuilderTest extends TestCase {
         RubyValue str = ObjectFactory.createString("0.1234");
         RubyString value = (RubyString) str;
         assertEquals("0.1234", value.toString());
-        RubyValue result = RubyAPI.callMethod(str, null, null, CommonRubyID.toFID);
+        RubyValue result = RubyAPI.callMethod(str, null, null, RubyID.toFID);
         RubyFloat result_value = (RubyFloat) result;
         assertEquals((double) 0.1234, result_value.doubleValue());
     }
@@ -133,7 +133,7 @@ public class StringClassBuilderTest extends TestCase {
         assertEquals("Hello", ((RubyString) result).toString());
     }
 
-    private RubyID dangerousCapitalizeID = StringMap.intern("capitalize!");
+    private RubyID dangerousCapitalizeID = RubyID.intern("capitalize!");
 
     public void test_capitalize_danger() {
 
@@ -161,26 +161,26 @@ public class StringClassBuilderTest extends TestCase {
     public void test_operator_compare() {
         RubyValue str1 = ObjectFactory.createString("abc");
         RubyValue str2 = ObjectFactory.createString("abd");
-        RubyValue result = RubyAPI.callOneArgMethod(str1, str2, null, CommonRubyID.unequalID);
+        RubyValue result = RubyAPI.callOneArgMethod(str1, str2, null, RubyID.unequalID);
         assertEquals(result, ObjectFactory.FIXNUM_NEGATIVE_ONE);
 
         str2 = ObjectFactory.createString("abb");
-        result = RubyAPI.callOneArgMethod(str1, str2, null, CommonRubyID.unequalID);
+        result = RubyAPI.callOneArgMethod(str1, str2, null, RubyID.unequalID);
         assertEquals(result, ObjectFactory.FIXNUM1);
 
         str2 = ObjectFactory.createString("abc");
-        result = RubyAPI.callOneArgMethod(str1, str2, null, CommonRubyID.unequalID);
+        result = RubyAPI.callOneArgMethod(str1, str2, null, RubyID.unequalID);
         assertEquals(result, ObjectFactory.FIXNUM0);
 
         str2 = ObjectFactory.createString("a");
-        result = RubyAPI.callOneArgMethod(str1, str2, null, CommonRubyID.unequalID);
+        result = RubyAPI.callOneArgMethod(str1, str2, null, RubyID.unequalID);
         assertEquals(result, ObjectFactory.FIXNUM1);
 
         str2 = ObjectFactory.createString("b");
-        result = RubyAPI.callOneArgMethod(str1, str2, null, CommonRubyID.unequalID);
+        result = RubyAPI.callOneArgMethod(str1, str2, null, RubyID.unequalID);
         assertEquals(result, ObjectFactory.FIXNUM_NEGATIVE_ONE);
 
-        result = RubyAPI.callOneArgMethod(str1, ObjectFactory.FIXNUM1, null, CommonRubyID.unequalID);
+        result = RubyAPI.callOneArgMethod(str1, ObjectFactory.FIXNUM1, null, RubyID.unequalID);
         assertTrue(result == ObjectFactory.NIL_VALUE);
     }
 }

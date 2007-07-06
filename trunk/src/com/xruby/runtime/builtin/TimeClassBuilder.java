@@ -9,10 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import com.xruby.runtime.lang.CommonRubyID;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyOneArgMethod;
@@ -165,9 +165,9 @@ public class TimeClassBuilder {
 		RubyMethod usec = new Time_usec();
 		c.defineMethod("tv_usec", usec);
 		c.defineMethod("usec", usec);
-        c.defineMethod(CommonRubyID.toSID, new Time_to_s());
-        c.defineMethod(CommonRubyID.plusID, new Time_plus());
-        c.defineMethod(CommonRubyID.subID, new Time_minus());
+        c.defineMethod(RubyID.toSID, new Time_to_s());
+        c.defineMethod(RubyID.plusID, new Time_plus());
+        c.defineMethod(RubyID.subID, new Time_minus());
         c.defineMethod("<=>", new Time_operator_compare());
         c.defineAllocMethod(new Time_new());
 

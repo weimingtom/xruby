@@ -20,7 +20,7 @@ class Class_new extends RubyVarArgMethod {
     }
 
 	private void callInitializeMethod(RubyValue v, RubyArray args, RubyBlock block) {
-		RubyMethod m = v.findMethod(CommonRubyID.initializeId);
+		RubyMethod m = v.findMethod(RubyID.initializeId);
         if (m != null) {
             m.invoke(v, args, block);
         }

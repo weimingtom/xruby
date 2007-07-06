@@ -130,10 +130,10 @@ public class TestingPerformance {
         return end - start;
     }
 
-    private static long test_StringMap_intern() {
+    private static long test_RubyID_intern() {
         long start = System.currentTimeMillis();
         for (int i = 0; i < LOOP; ++i) {
-            StringMap.intern("+");
+            RubyID.intern("+");
         }
         long end = System.currentTimeMillis();
         return end - start;
@@ -200,7 +200,7 @@ public class TestingPerformance {
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < LOOP; ++i) {
-            c.findOwnMethod(CommonRubyID.plusID);//will return null (find nothing)
+            c.findOwnMethod(RubyID.plusID);//will return null (find nothing)
         }
         long end = System.currentTimeMillis();
         return end - start;
@@ -209,7 +209,7 @@ public class TestingPerformance {
     private static long test_findMethodForFixnum() {
         long start = System.currentTimeMillis();
         for (int i = 0; i < LOOP; ++i) {
-            ObjectFactory.FIXNUM1.findMethod(CommonRubyID.plusID);
+            ObjectFactory.FIXNUM1.findMethod(RubyID.plusID);
         }
         long end = System.currentTimeMillis();
         return end - start;
@@ -219,14 +219,14 @@ public class TestingPerformance {
         RubyString s = ObjectFactory.createString("xxx");
         long start = System.currentTimeMillis();
         for (int i = 0; i < LOOP; ++i) {
-            s.findMethod(CommonRubyID.plusID);
+            s.findMethod(RubyID.plusID);
         }
         long end = System.currentTimeMillis();
         return end - start;
     }
 
     private static long test_invokeMethod() {
-        RubyMethod m = ObjectFactory.FIXNUM1.findMethod(CommonRubyID.plusID);
+        RubyMethod m = ObjectFactory.FIXNUM1.findMethod(RubyID.plusID);
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < LOOP; ++i) {
@@ -239,7 +239,7 @@ public class TestingPerformance {
     private static long test_callMethodForFixnum() {
         long start = System.currentTimeMillis();
         for (int i = 0; i < 30000000; ++i) {
-            RubyAPI.callPublicOneArgMethod(ObjectFactory.FIXNUM1, ObjectFactory.FIXNUM1, null, CommonRubyID.plusID);
+            RubyAPI.callPublicOneArgMethod(ObjectFactory.FIXNUM1, ObjectFactory.FIXNUM1, null, RubyID.plusID);
         }
         long end = System.currentTimeMillis();
         return end - start;
@@ -249,7 +249,7 @@ public class TestingPerformance {
         RubyString s = ObjectFactory.createString("");
         long start = System.currentTimeMillis();
         for (int i = 0; i < 30000000; ++i) {
-            RubyAPI.callPublicMethod(s, null, null, CommonRubyID.lengthID);
+            RubyAPI.callPublicMethod(s, null, null, RubyID.lengthID);
         }
         long end = System.currentTimeMillis();
         return end - start;
@@ -292,7 +292,7 @@ public class TestingPerformance {
         System.out.println("Do Nothing: " + test_nothing());
         System.out.println("HashMap Lookup: " + test_hashMapLookup());
         System.out.println("Java String.intern: " + test_javaString_intern());
-        System.out.println("StringMap.intern: " + test_StringMap_intern());
+        System.out.println("RubyID.intern: " + test_RubyID_intern());
         System.out.println("Iterating Empty ArrayList: " + test_iteratingEmptyArrayList());
         System.out.println("Iterator Creation: " + test_iteratorCreation());
         System.out.println("ArrayList.isEmpty: " + test_ArrayList_isEmpty());
@@ -305,5 +305,4 @@ public class TestingPerformance {
         System.out.println("Method Calling for Fixnum: " + test_callMethodForFixnum());
         System.out.println("Method Calling for String: " + test_callMethodForString());
     }
-
 }
