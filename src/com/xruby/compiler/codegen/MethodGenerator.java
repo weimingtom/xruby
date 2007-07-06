@@ -171,9 +171,6 @@ class MethodGenerator extends GeneratorAdapter {
     public void loadCurrentScope(boolean is_in_class_builder, boolean is_in_singleton_method, boolean is_in_global_scope, boolean is_in_block) {
         if (is_in_class_builder) {
             loadCurrentClass();
-        } else if (is_in_singleton_method) {
-            loadSelf(is_in_block);
-            checkCast(Types.RUBY_MODULE_TYPE);
         } else if (is_in_global_scope) {
             loadArg(3);
         } else {
