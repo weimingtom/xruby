@@ -7,12 +7,12 @@ package com.xruby.runtime.lang;
 
 import junit.framework.TestCase;
 
-public class StringMapTest extends TestCase {
+public class RubyIDTest extends TestCase {
 	public void testIntern() {
 		String text = "test";
 		
-		RubyID id = StringMap.intern(text);
+		RubyID id = RubyID.intern(text);
 		assertEquals(text, id.toString());		
-		assertEquals(id, StringMap.intern(text));
+		assertEquals(id, RubyID.intern(text));
 	}
 }
