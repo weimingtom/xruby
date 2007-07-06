@@ -3027,6 +3027,24 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_class_variable() {
         String[] program_texts = {
+                "class TestClassVariableB1\n" +
+                "	@@var__1 = 777\n" +
+                "	def TestClassVariableB1.f\n" +
+                "		@@var__1\n" +
+                "	end\n" +
+                "end\n" +
+                "\n" +
+                "module TestClassVariableM1\n" +
+                "	@@var__1 = 666\n" +
+                "end\n" +
+                "\n" +
+                "class TestClassVariableC1 < TestClassVariableB1\n" +
+                "	include TestClassVariableM1\n" +
+                "	\n" +
+                "end\n" +
+                "\n" +
+                "print TestClassVariableC1.f",
+
                 "class TestClassVariable2\n" +
                 "	@@test_class_variable = \"xxx\"\n" +
                 "	def test_class_variable1\n" +
@@ -3123,24 +3141,6 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "\n" +
                 "print TestClassVariableC.new.f",
 
-                "class TestClassVariableB1\n" +
-                "	@@var = 777\n" +
-                "	def TestClassVariableB1.f\n" +
-                "		@@var\n" +
-                "	end\n" +
-                "end\n" +
-                "\n" +
-                "module TestClassVariableM1\n" +
-                "	@@var = 666\n" +
-                "end\n" +
-                "\n" +
-                "class TestClassVariableC1 < TestClassVariableB1\n" +
-                "	include TestClassVariableM1\n" +
-                "	\n" +
-                "end\n" +
-                "\n" +
-                "print TestClassVariableC1.f",
-
                 "class TestClassVariableB2\n" +
                 "	@@var = 777\n" +
                 "	def g1\n" +
@@ -3165,6 +3165,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "777",
                 "xxx",
                 "567",
                 "123",
@@ -3175,7 +3176,6 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "zzz",
                 "ppp",
                 "999",
-                "777",
 
                 "777999",
         };
@@ -3990,6 +3990,18 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "MCf2",
                 "0TestM1TestM1::TestM2TestM1::TestM2::TestM31",
                 "TestConst1::TestConst2",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
+    public void test_constant_in_singletonmethod() {
+        String [] program_texts = {
+                "a='x';def a.f;print String;end;a.f",
+        };
+
+        String[] outputs = {
+                "String",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
