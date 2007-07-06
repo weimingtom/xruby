@@ -5,7 +5,6 @@
 
 package com.xruby.runtime.builtin;
 
-import com.xruby.runtime.lang.CommonRubyID;
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
@@ -14,7 +13,6 @@ import com.xruby.runtime.lang.RubyNoArgMethod;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
-import com.xruby.runtime.lang.StringMap;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyFixnum;
@@ -79,10 +77,10 @@ class Range_new extends RubyNoArgMethod {
 		self
 */
 class Range_each extends RubyNoArgMethod {
-    private RubyID succID = StringMap.intern("succ");
+    private RubyID succID = RubyID.intern("succ");
 
     private boolean compare(RubyValue value1, RubyValue value2) {
-        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, CommonRubyID.unequalID);
+        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.unequalID);
         return !RubyAPI.testEqual(r, ObjectFactory.FIXNUM0);
     }
 
@@ -126,8 +124,8 @@ class Range_hash extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyRange rr = (RubyRange)receiver;
         int baseHash = rr.isExcludeEnd()?1:0;
-        int beginHash = ((RubyFixnum)RubyAPI.callPublicMethod(rr.getLeft(),null,null, StringMap.intern("hash"))).intValue();
-        int endHash = ((RubyFixnum)RubyAPI.callPublicMethod(rr.getRight(),null,null, StringMap.intern("hash"))).intValue();
+        int beginHash = ((RubyFixnum)RubyAPI.callPublicMethod(rr.getLeft(),null,null, RubyID.intern("hash"))).intValue();
+        int endHash = ((RubyFixnum)RubyAPI.callPublicMethod(rr.getRight(),null,null, RubyID.intern("hash"))).intValue();
         
         int hash = baseHash;
         hash = hash ^ (beginHash << 1);

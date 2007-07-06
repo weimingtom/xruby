@@ -5,9 +5,9 @@
 
 package com.xruby.runtime.builtin;
 
-import com.xruby.runtime.lang.CommonRubyID;
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
@@ -35,7 +35,7 @@ public class RubyTypesUtil {
         } else if (arg instanceof RubyFixnum) {
             return ObjectFactory.createFloat(((RubyFixnum) arg).intValue());
         } else {
-            RubyValue v = RubyAPI.callPublicMethod(arg, null, null, CommonRubyID.toFID);
+            RubyValue v = RubyAPI.callPublicMethod(arg, null, null, RubyID.toFID);
             return (RubyFloat) v;
         }
     }

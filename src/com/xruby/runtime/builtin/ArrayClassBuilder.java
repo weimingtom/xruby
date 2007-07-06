@@ -239,7 +239,7 @@ class Array_minus extends RubyOneArgMethod {
 }
 
 class Array_times extends RubyOneArgMethod {
-    private RubyID joinID = StringMap.intern("join");
+    private RubyID joinID = RubyID.intern("join");
 
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
@@ -607,7 +607,7 @@ class Array_flatten_danger extends RubyNoArgMethod {
 
 class Array_collect_danger extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray a = (RubyArray)RubyAPI.callPublicMethod(receiver, null, block, StringMap.intern("collect"));
+        RubyArray a = (RubyArray)RubyAPI.callPublicMethod(receiver, null, block, RubyID.intern("collect"));
         RubyArray array = (RubyArray) receiver;        
         array.clear();
         for(int i=0;i<a.size();i++){
@@ -666,7 +666,7 @@ public class ArrayClassBuilder {
         c.getSingletonClass().defineMethod("[]", new Array_new_with_given_objects());
         c.defineMethod("length", new Array_length());
         c.defineMethod("clear", new Array_clear());
-        c.defineMethod(CommonRubyID.toSID, new Array_to_s());
+        c.defineMethod(RubyID.toSID, new Array_to_s());
         c.defineMethod("[]", new Array_array_access());
         c.defineMethod("first", new Array_array_first());
         c.defineMethod("last", new Array_array_last());
@@ -676,8 +676,8 @@ public class ArrayClassBuilder {
         c.defineMethod("<=>", new Array_compare());
         c.defineMethod("<<", new Array_left_shift_operator());
         c.defineMethod("concat", new Array_concat());
-        c.defineMethod(CommonRubyID.plusID, new Array_plus());
-        c.defineMethod(CommonRubyID.subID, new Array_minus());
+        c.defineMethod(RubyID.plusID, new Array_plus());
+        c.defineMethod(RubyID.subID, new Array_minus());
         c.defineMethod("*", new Array_times());
         c.defineMethod("&", new Array_operator_and());
         c.defineMethod("|", new Array_operator_or());

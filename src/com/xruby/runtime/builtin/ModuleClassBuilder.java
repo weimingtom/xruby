@@ -27,7 +27,7 @@ class Module_AccessControl {
                 throw new RubyException(RubyRuntime.TypeErrorClass, arg.toString() + " is not a symbol");
             }
 
-            RubyID mid = StringMap.intern(method_name);
+            RubyID mid = RubyID.intern(method_name);
 
             if (c.setAccess(mid, access) == null) {
                 throw new RubyException(RubyRuntime.NameErrorClass, "undefined method '" + method_name + "' for " + c.getName());
@@ -91,7 +91,7 @@ class Module_name extends RubyNoArgMethod {
 
 class Module_inspect extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        return RubyAPI.callPublicMethod(receiver, args, block, CommonRubyID.toSID);
+        return RubyAPI.callPublicMethod(receiver, args, block, RubyID.toSID);
     }
 }
 
@@ -99,7 +99,7 @@ class AttrReader extends RubyNoArgMethod {
     private RubyID attrName;
 
     public AttrReader(String methodName) {
-        attrName = StringMap.intern("@" + methodName);
+        attrName = RubyID.intern("@" + methodName);
     }
 
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
@@ -124,7 +124,7 @@ class AttrWriter extends RubyOneArgMethod {
     private RubyID attrName;
 
     public AttrWriter(String methodName) {
-        attrName = StringMap.intern("@" + methodName);
+        attrName = RubyID.intern("@" + methodName);
     }
 
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
@@ -394,7 +394,7 @@ public class ModuleClassBuilder {
         c.defineMethod("private", new Module_private());
         c.defineMethod("private_class_method", new Module_private_class_method());
         RubyMethod name = new Module_name();
-        c.defineMethod(CommonRubyID.toSID, name);
+        c.defineMethod(RubyID.toSID, name);
         c.defineMethod("name", name);
         c.defineMethod("inspect", new Module_inspect());
         c.defineMethod("include", new Module_include());

@@ -47,7 +47,7 @@ public class ExceptionClassBuilder {
 		RubyClass c = RubyRuntime.ExceptionClass;
 		c.defineMethod("initialize", new Exception_initialize());
 		RubyMethod to_s = new Exception_to_s();
-		c.defineMethod(CommonRubyID.toSID, to_s);
+		c.defineMethod(RubyID.toSID, to_s);
 		c.defineMethod("message", to_s);
 		c.defineMethod("to_str", to_s);
         c.defineMethod("backtrace", new Exception_backtrace());

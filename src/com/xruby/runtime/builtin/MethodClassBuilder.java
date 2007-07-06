@@ -49,7 +49,7 @@ public class MethodClassBuilder {
         c.defineMethod("call", new Method_call());
         c.defineMethod("to_proc", new Method_to_proc());
         RubyMethod to_s = new Method_to_s();
-        c.defineMethod(CommonRubyID.toSID, to_s);
+        c.defineMethod(RubyID.toSID, to_s);
         c.defineMethod("inspect", to_s);
         c.defineMethod("arity", new Method_arity());
         c.defineMethod("unbind", new Method_unbind());

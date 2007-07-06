@@ -18,6 +18,6 @@ class MatchData_to_s extends RubyNoArgMethod {
 public class MatchDataClassBuilder {
 	public static void initialize() {
 		RubyClass c = RubyRuntime.MatchDataClass;
-		c.defineMethod(CommonRubyID.toSID, new MatchData_to_s());
+		c.defineMethod(RubyID.toSID, new MatchData_to_s());
 	}
 }

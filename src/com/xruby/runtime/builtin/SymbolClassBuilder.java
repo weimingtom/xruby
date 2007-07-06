@@ -256,7 +256,7 @@ public class SymbolClassBuilder {
         c.defineMethod("to_i", new Symbol_toI());
         c.defineMethod("to_int", new Symbol_toI());
         c.defineMethod("inspect", new Symbol_inspect());
-        c.defineMethod(CommonRubyID.toSID, new Symbol_toS());
+        c.defineMethod(RubyID.toSID, new Symbol_toS());
         c.defineMethod("id2name", new Symbol_id2name());
         c.defineMethod("to_sym", new Symbol_toSym());
     }

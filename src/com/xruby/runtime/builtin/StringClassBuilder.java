@@ -468,7 +468,7 @@ class String_operator_match extends RubyOneArgMethod {
                 return ObjectFactory.NIL_VALUE;
             }
         } else {
-            return RubyAPI.callPublicOneArgMethod(arg, receiver, null, CommonRubyID.matchID);
+            return RubyAPI.callPublicOneArgMethod(arg, receiver, null, RubyID.matchID);
         }
     }
 }
@@ -837,7 +837,7 @@ class String_intern extends RubyNoArgMethod {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "interning empty string");
 		}
 		
-		RubyID id = StringMap.intern(s.toString());		
+		RubyID id = RubyID.intern(s.toString());		
 		return id.toSymbol();
 	}
 }
@@ -866,11 +866,11 @@ public class StringClassBuilder {
         c.defineMethod("to_f", new String_to_f());
         c.defineMethod("to_i", new String_to_i());
         c.defineMethod("hex", new String_hex());
-        c.defineMethod(CommonRubyID.toSID, new String_to_s());
+        c.defineMethod(RubyID.toSID, new String_to_s());
         c.defineMethod("length", new String_length());
         c.defineMethod("initialize_copy", new String_initialize());
         c.defineMethod("initialize", new String_initialize());
-        c.defineMethod(CommonRubyID.plusID, new String_plus());
+        c.defineMethod(RubyID.plusID, new String_plus());
         c.defineMethod("gsub", new String_gsub());
         c.defineMethod("gsub!", new String_gsub_danger());
         c.defineMethod("sub", new String_sub());

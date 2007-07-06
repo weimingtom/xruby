@@ -7,7 +7,8 @@ package com.xruby.runtime.lang;
 
 import java.util.*;
 
-abstract class ConstantCollection extends ClassVariableCollection {
+abstract class ConstantCollection extends RubyBasic {
+	protected String name_;
 	protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
 
 	ConstantCollection(RubyClass c) {
@@ -25,5 +26,13 @@ abstract class ConstantCollection extends ClassVariableCollection {
 			((RubyModule)value).setName(name);
 		}
 		return value;
+	}
+	
+	public String getName() {
+        return name_;
+	}
+
+	public void setName(String name) {
+		name_ = name;
 	}
 }
