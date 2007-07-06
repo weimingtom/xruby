@@ -36,5 +36,9 @@ class XRubyTest < Test::Unit::TestCase
         assert_equal '1999zzz'.succ, "2000aaa"
         assert_equal '>z>>'.succ, ">aa>>"
     end
+    
+    def test_String_misc
+        assert_equal 'a'[0...-1], ""
+    end
   
 end
