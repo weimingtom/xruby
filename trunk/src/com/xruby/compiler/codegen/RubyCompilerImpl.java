@@ -972,7 +972,7 @@ public class RubyCompilerImpl implements CodeVisitor {
             return;
         }
 
-        visitSelfExpression();
+        cg_.getMethodGenerator().loadCurrentScope(isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
         visitConstantAssignmentOperator(name, rhs_is_method_call, is_multiple_assign);
     }
 
