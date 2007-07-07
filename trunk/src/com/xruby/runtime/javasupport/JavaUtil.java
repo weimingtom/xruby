@@ -19,6 +19,7 @@ import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyBignum;
