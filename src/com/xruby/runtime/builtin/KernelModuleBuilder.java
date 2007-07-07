@@ -254,7 +254,7 @@ class Kernel_printf extends RubyVarArgMethod {
             if (v instanceof RubyFixnum) {
                 raw_args[i] = new Integer(((RubyFixnum) v).intValue());
             } else if (v instanceof RubyFloat) {
-                raw_args[i] = new Float(((RubyFloat) v).doubleValue());
+                raw_args[i] = new Double(((RubyFloat) v).doubleValue());
             } else {
                 raw_args[i] = v;
             }
