@@ -14,7 +14,6 @@ import com.xruby.runtime.lang.RubyObject;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.StringMap;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -89,7 +88,7 @@ public class ObjectFactory {
     }
 
     public static RubySymbol createSymbol(String value) {
-        RubyID id = StringMap.intern(value);
+        RubyID id = RubyID.intern(value);
         return id.toSymbol();
     }
 

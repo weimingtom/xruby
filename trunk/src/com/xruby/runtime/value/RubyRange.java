@@ -20,7 +20,7 @@ public class RubyRange extends RubyBasic {
     public void setValue(RubyValue left, RubyValue right, boolean isExclusive) {
         if(!(left instanceof RubyFixnum && right instanceof RubyFixnum)){
             try {
-                RubyValue result = RubyAPI.callOneArgMethod(left, right, null, CommonRubyID.unequalID);
+                RubyValue result = RubyAPI.callOneArgMethod(left, right, null, RubyID.unequalID);
                 if (result == ObjectFactory.NIL_VALUE) {
                     throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
                 }
