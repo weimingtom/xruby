@@ -1118,7 +1118,7 @@ class <<ENV
     end
     
     def index x
-        r = @fake_ev.index(x)
+        v = @fake_ev.index(x)
         if v != nil
             return v
         else
