@@ -68,15 +68,6 @@ class Hash_to_s extends RubyNoArgMethod {
     }
 }
 
-class Hash_each extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyHash hash = (RubyHash) receiver;
-        hash.each(receiver, block);
-
-        return receiver;
-    }
-}
-
 class Hash_initialize extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyHash hash = (RubyHash) receiver;
@@ -192,9 +183,6 @@ public class HashClassBuilder {
         c.defineMethod("[]", new Hash_hash_access());
         c.defineMethod("[]=", new Hash_hash_set());
         c.defineMethod("fetch", new Hash_fetch());
-        RubyMethod each = new Hash_each();
-        c.defineMethod("each", each);
-        c.defineMethod("each_pair", each);
         c.defineMethod(RubyID.toSID, new Hash_to_s());
         c.defineMethod("initialize", new Hash_initialize());
         c.defineMethod("has_key?", new Hash_has_key_question());

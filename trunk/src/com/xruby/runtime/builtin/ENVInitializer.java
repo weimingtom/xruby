@@ -49,7 +49,7 @@ class ENV_index extends RubyOneArgMethod {
 public class ENVInitializer {
     public static void initialize() {
         RubyValue v = RubyAPI.setTopLevelConstant(new RubyObject(RubyRuntime.ObjectClass), "ENV");
-        v.getSingletonClass().defineMethod("[]", new ENV_array_get());
-        v.getSingletonClass().defineMethod("index", new ENV_index());
+        v.getSingletonClass().defineMethod("__get_os_ev__", new ENV_array_get());
+        v.getSingletonClass().defineMethod("__os_ev_index__", new ENV_index());
     }
 }
