@@ -46,5 +46,12 @@ class XRubyTest < Test::Unit::TestCase
         assert_equal h.index(2), 1
         assert_equal h.index(3), nil
     end
+    
+    def test_ENV
+        assert_equal ENV.to_s, "ENV"
+        ENV['xxx']='yyy'
+        assert_equal ENV['xxx'], "yyy"
+    end
+    
   
 end
