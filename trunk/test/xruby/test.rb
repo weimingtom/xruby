@@ -59,6 +59,7 @@ class XRubyTest < Test::Unit::TestCase
     
     def test_Numeric_div
         assert_equal 4.2.div(2), 2
+        assert_equal -4.2.div(2), -3
     end
     
 end

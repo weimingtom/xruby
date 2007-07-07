@@ -604,7 +604,7 @@ class Numeric
     end
     
     def div x
-        (self/x).to_i
+        (self/x).floor
     end
 
     def coerce(value)
