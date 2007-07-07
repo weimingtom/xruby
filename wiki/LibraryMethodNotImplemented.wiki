@@ -30,6 +30,7 @@ ruby\test_const.rb
 ruby\test_defined.rb
 ruby\test_env.rb
 ruby\test_exception.rb
+ruby\test_float.rb
 ruby\test_gc.rb
 ruby\test_ifunless.rb
 ruby\test_io.rb
@@ -57,7 +58,6 @@ ruby\test_beginendblock.rb #"require 'tempfile'" causes test::unit's runner fail
 ruby\test_dir.rb		#require 'fileutil'
 ruby\test_eval.rb       #VerifyError
 ruby\test_file.rb	#"require 'tempfile'" causes test::unit's runner fail to start
-ruby\test_float.rb   (PASSED all the float related tests, but the sprintf has not been implemented)
 ruby\test_hash.rb		#tough to deal with...will work on it this weekend
 ruby\test_iterator.rb	#VerifyError
 ruby\test_marshal.rb
