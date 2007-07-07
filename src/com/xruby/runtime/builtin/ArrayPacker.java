@@ -11,8 +11,49 @@ import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.*;
 
 class ArrayPacker {
-    private static String uv_to_utf8(char[] str) {
-        throw new RubyException("Not implemented");
+    //uv_to_utf8:
+    //Copyright (C) 1993-2003 Yukihiro Matsumoto
+    private static int uv_to_utf8(char[] buf, int uv) {
+        if (uv <= 0x7f) {
+        buf[0] = (char)uv;
+        return 1;
+        }
+        if (uv <= 0x7ff) {
+        buf[0] = (char)(((uv>>6)&0xff)|0xc0);
+        buf[1] = (char)((uv&0x3f)|0x80);
+        return 2;
+        }
+        if (uv <= 0xffff) {
+        buf[0] = (char)(((uv>>12)&0xff)|0xe0);
+        buf[1] = (char)(((uv>>6)&0x3f)|0x80);
+        buf[2] = (char)((uv&0x3f)|0x80);
+        return 3;
+        }
+        if (uv <= 0x1fffff) {
+        buf[0] = (char)(((uv>>18)&0xff)|0xf0);
+        buf[1] = (char)(((uv>>12)&0x3f)|0x80);
+        buf[2] = (char)(((uv>>6)&0x3f)|0x80);
+        buf[3] = (char)((uv&0x3f)|0x80);
+        return 4;
+        }
+        if (uv <= 0x3ffffff) {
+        buf[0] = (char)(((uv>>24)&0xff)|0xf8);
+        buf[1] = (char)(((uv>>18)&0x3f)|0x80);
+        buf[2] = (char)(((uv>>12)&0x3f)|0x80);
+        buf[3] = (char)(((uv>>6)&0x3f)|0x80);
+        buf[4] = (char)((uv&0x3f)|0x80);
+        return 5;
+        }
+        if (uv <= 0x7fffffff) {
+        buf[0] = (char)(((uv>>30)&0xff)|0xfc);
+        buf[1] = (char)(((uv>>24)&0x3f)|0x80);
+        buf[2] = (char)(((uv>>18)&0x3f)|0x80);
+        buf[3] = (char)(((uv>>12)&0x3f)|0x80);
+        buf[4] = (char)(((uv>>6)&0x3f)|0x80);
+        buf[5] = (char)((uv&0x3f)|0x80);
+        return 6;
+        }
+        throw new RubyException(RubyRuntime.RangeErrorClass, "pack(U): value out of range");
     }
 
     private static String qpencode(String str, int len) {
@@ -25,7 +66,7 @@ class ArrayPacker {
 
     public static RubyArray unpack(String str, String format) {
         int len;
-        int star;
+        //int star;
         int s = 0;
         char type;
         final int send = str.length();
@@ -51,7 +92,7 @@ class ArrayPacker {
             else
                 t = format.charAt(p);
 
-            star = 0;
+            //star = 0;
             if (t == '_' || t == '!') {
                 final String natstr = "sSiIlL";
                 if (natstr.indexOf(type) >= 0) {
@@ -64,7 +105,7 @@ class ArrayPacker {
             if (p > format.length()) {
                 len = 1;
             } else if (t == '*') {
-                star = 1;
+                //star = 1;
                 len = send - s;
                 p++;
             } else if (Character.isDigit(t)) {
@@ -586,7 +627,8 @@ class ArrayPacker {
                         if (l < 0) {
                             throw new RubyException(RubyRuntime.RangeErrorClass, "pack(U): value (" + from + ") out of range");
                         }
-                        result.append(uv_to_utf8(buf));
+                        int le = uv_to_utf8(buf, l);
+                        result.append(buf, 0, le);
                     }
                     break;
 
