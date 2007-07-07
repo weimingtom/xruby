@@ -56,4 +56,9 @@ class XRubyTest < Test::Unit::TestCase
     def test_Kernel_sprintf
         assert_equal sprintf("%f", 1.1), "1.100000"
     end
+    
+    def test_Numeric_div
+        assert_equal 4.2.div(2), 2
+    end
+    
 end

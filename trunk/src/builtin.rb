@@ -602,6 +602,10 @@ class Numeric
         return -self if (self <=> 0) == -1
         self
     end
+    
+    def div x
+        (self/x).to_i
+    end
 
     def coerce(value)
         [self, value]
