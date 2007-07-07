@@ -72,7 +72,7 @@ public class RubyHash extends RubyBasic {
         return r;
     }
 
-    private RubyID defaultID = StringMap.intern("default");
+    private RubyID defaultID = RubyID.intern("default");
 
     public RubyValue get(RubyValue k) {
         RubyValue v = map_.get(k);
@@ -120,11 +120,11 @@ public class RubyHash extends RubyBasic {
     }
 
     public RubyValue delete(RubyValue k) {
-    	RubyValue v = map_.remove(k);
+        RubyValue v = map_.remove(k);
         if (null != v) {
             return v;
         } else {
-        	return RubyAPI.callOneArgMethod(this, k, null, defaultID);
+            return RubyAPI.callOneArgMethod(this, k, null, defaultID);
         }
     }
 

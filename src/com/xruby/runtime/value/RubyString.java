@@ -69,7 +69,7 @@ public class RubyString extends RubyBasic {
         if (v instanceof RubyString) {
             return appendString((RubyString)v);
         } else {
-            RubyValue r = RubyAPI.callPublicMethod(v, null, null, CommonRubyID.toSID);
+            RubyValue r = RubyAPI.callPublicMethod(v, null, null, RubyID.toSID);
             return appendString((RubyString)r);
         }
     }
@@ -208,8 +208,8 @@ public class RubyString extends RubyBasic {
     }
 
     public boolean delete(String from) {
-		if (null != from && from.length() == 3 && from.charAt(1) == '-' ) {
-			char from_start = from.charAt(0);
+        if (null != from && from.length() == 3 && from.charAt(1) == '-' ) {
+            char from_start = from.charAt(0);
             char from_end = from.charAt(2);
             for (int i = 0; i < sb_.length(); ++i) {
                 char current_char = sb_.charAt(i);
@@ -219,15 +219,15 @@ public class RubyString extends RubyBasic {
                 }
             }
             return true;
-		} else {
-	        int index = sb_.indexOf(from);
-	        if (index < 0) {
-	            return false;
-	        }
+        } else {
+            int index = sb_.indexOf(from);
+            if (index < 0) {
+                return false;
+            }
 
-	        sb_.delete(index, index + from.length());
-	        return true;
-		}
+            sb_.delete(index, index + from.length());
+            return true;
+        }
     }
 
     public int count(String s) {
@@ -250,101 +250,101 @@ public class RubyString extends RubyBasic {
             } else if (Character.isLowerCase(c)) {
                 sb.append(Character.toUpperCase(c));
             } else {
-            	sb.append(c);
+                sb.append(c);
             }
         }
 
         return sb;
     }
-    
-    public void chop() {
-    	int length = this.sb_.length();
-    	
-    	if (length > 0) {
-    		int orgLength = length;
-    		length--;
-    		if (this.sb_.charAt(length) == '\n') {
-    			if (length > 0 && this.sb_.charAt(length - 1) == '\r') {
-    				length--;
-    			}
-    		}
 
-    		this.sb_.delete(length, orgLength);
-    	}
+    public void chop() {
+        int length = this.sb_.length();
+
+        if (length > 0) {
+            int orgLength = length;
+            length--;
+            if (this.sb_.charAt(length) == '\n') {
+                if (length > 0 && this.sb_.charAt(length - 1) == '\r') {
+                    length--;
+                }
+            }
+
+            this.sb_.delete(length, orgLength);
+        }
     }
-    
+
     private boolean isEvstr(char c, int current, int end) {
-    	return (current < end) && (c == '$') && (c == '@') && (c == '{');
+        return (current < end) && (c == '$') && (c == '@') && (c == '{');
     }
-    
+
     private boolean isAscii(char c) {
-    	return c <= 0x7F;
+        return c <= 0x7F;
     }
-    
+
     private boolean isPrint(char c) {
-    	return isAscii(c) && c > 0x1F;
+        return isAscii(c) && c > 0x1F;
     }
-    
+
     private static Formatter formatter;
-    
+
     private String formatForDump(String format, char c) {
-    	if (RubyString.formatter == null) {
-    		RubyString.formatter = new Formatter();
-    	}
-    	
-    	return RubyString.formatter.format(format, c).toString();
+        if (RubyString.formatter == null) {
+            RubyString.formatter = new Formatter();
+        }
+
+        return RubyString.formatter.format(format, c).toString();
     }
-    
+
     public String dump() {
-    	int length = this.sb_.length();
-    	StringBuilder buf = new StringBuilder();
-    	buf.append('"');
-    	
-    	for (int i = 0; i < length; i++) {
-    		char c = this.sb_.charAt(i);
-    		
-    		if (c == '"' || c == '\\') {
-    			buf.append('\\');
-    			buf.append(c);
-    		} else if (c == '#') {
-    			if (isEvstr(c, i, length - 1)) {
-    				buf.append('\\');
-    			}
-    			buf.append('#');
-    		} else if (isPrint(c)) {
-    			buf.append(c);
-    		} else if (c == '\n') {
-    			buf.append('\\');
-    			buf.append('n');
-    		} else if (c == '\r') {
-    			buf.append('\\');
-    			buf.append('r');
-    		} else if (c == '\t') {
-    			buf.append('\\');
-    			buf.append('t');
-    		} else if (c == '\f') {
-    			buf.append('\\');
-    			buf.append('f');
-    		} else if (c == '\013') {
-    			buf.append('\\');
-    			buf.append('v');
-    		} else if (c == '\010') {
-    			buf.append('\\');
-    			buf.append('b');
-    		} else if (c == '\007') {
-    			buf.append('\\');
-    			buf.append('a');
-    		} else if (c == '\033') {
-    			buf.append('\\');
-    			buf.append('e');
-    		} else {
-    			buf.append('\\');
-    			buf.append(formatForDump("%03o", c));
-    		}
-    	}
-    	
-    	buf.append('"');
-    	
-    	return buf.toString();
+        int length = this.sb_.length();
+        StringBuilder buf = new StringBuilder();
+        buf.append('"');
+
+        for (int i = 0; i < length; i++) {
+            char c = this.sb_.charAt(i);
+
+            if (c == '"' || c == '\\') {
+                buf.append('\\');
+                buf.append(c);
+            } else if (c == '#') {
+                if (isEvstr(c, i, length - 1)) {
+                    buf.append('\\');
+                }
+                buf.append('#');
+            } else if (isPrint(c)) {
+                buf.append(c);
+            } else if (c == '\n') {
+                buf.append('\\');
+                buf.append('n');
+            } else if (c == '\r') {
+                buf.append('\\');
+                buf.append('r');
+            } else if (c == '\t') {
+                buf.append('\\');
+                buf.append('t');
+            } else if (c == '\f') {
+                buf.append('\\');
+                buf.append('f');
+            } else if (c == '\013') {
+                buf.append('\\');
+                buf.append('v');
+            } else if (c == '\010') {
+                buf.append('\\');
+                buf.append('b');
+            } else if (c == '\007') {
+                buf.append('\\');
+                buf.append('a');
+            } else if (c == '\033') {
+                buf.append('\\');
+                buf.append('e');
+            } else {
+                buf.append('\\');
+                buf.append(formatForDump("%03o", c));
+            }
+        }
+
+        buf.append('"');
+
+        return buf.toString();
     }
 }
