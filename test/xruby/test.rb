@@ -62,4 +62,9 @@ class XRubyTest < Test::Unit::TestCase
         assert_equal -4.2.div(2), -3
     end
     
+    def test_Float_compare
+        assert_equal (0.0/0 <=> 0.0/0), nil
+        assert !(0.0/0 <= 0.0/0)
+    end
+    
 end

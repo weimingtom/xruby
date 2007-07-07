@@ -567,7 +567,7 @@ end
 module Comparable
     def >=(value)
         compare = (self <=> value)
-        return compare != -1
+        return compare != -1 and compare != nil
     end
 
     def ==(value)
@@ -577,7 +577,7 @@ module Comparable
 
     def <=(value)
         compare = (self <=> value)
-        return compare != 1
+        return compare != 1 and compare != nil
     end
 
     def >(value)
