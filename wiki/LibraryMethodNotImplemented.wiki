@@ -56,7 +56,7 @@ testunit\util\test_procwrapper.rb
 {{{
 ruby\test_beginendblock.rb #"require 'tempfile'" causes test::unit's runner fail to start
 ruby\test_dir.rb		#require 'fileutil'
-ruby\test_eval.rb       #VerifyError
+ruby\test_eval.rb       #Kernel_instance_eval ClassCastException
 ruby\test_file.rb	#"require 'tempfile'" causes test::unit's runner fail to start
 ruby\test_hash.rb		#tough to deal with...will work on it this weekend
 ruby\test_iterator.rb	#VerifyError
@@ -70,9 +70,9 @@ ruby\test_rand.rb
 ruby\test_readpartial.rb
 ruby\test_settracefunc.rb
 ruby\test_signal.rb
-ruby\test_super.rb  # made some progress, still have a VerifyError
+ruby\test_super.rb  # 'Wrong context' exception
 ruby\test_system.rb
-ruby\test_whileuntil.rb
+ruby\test_whileuntil.rb #infinite loop
 
 testunit\test_assertions.rb
 testunit\test_testcase.rb
