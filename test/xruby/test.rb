@@ -40,5 +40,11 @@ class XRubyTest < Test::Unit::TestCase
     def test_String_misc
         assert_equal 'a'[0...-1], ""
     end
+    
+    def test_Hash_index
+        h = {1=>2}
+        assert_equal h.index(2), 1
+        assert_equal h.index(3), nil
+    end
   
 end

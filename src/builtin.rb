@@ -297,6 +297,13 @@ class Array
 end
 
 class Hash
+    def each
+        ks = keys
+        ks.each {|k| yield(k, self[k])}
+    end
+    
+    alias each_pair each
+    
     def inspect
       r = '{'
       is_first = true
@@ -324,6 +331,11 @@ class Hash
     end
     
     alias merge! update
+    
+    def index value
+        each {|k, v| return k if value == v }
+        return nil
+    end
 end
 
 class Symbol
@@ -345,12 +357,6 @@ class << self
 
     def protected
         Object.protected
-    end
-end
-
-class <<ENV
-    def to_s
-        return "ENV"
     end
 end
 
@@ -1077,6 +1083,51 @@ class Float
     def to_f
         self
     end
+end
+
+class <<ENV
+    def to_s
+        return "ENV"
+    end
     
+    #As we can not modify environment variable in java, 
+    #we just store it in @fake_ev
+    def delete x
+        return if @fake_ev == nil
+        @fake_ev.delete x
+    end
+
+    def [](x)
+        raise TypeError.new("[] can't convert into String") if !(x.instance_of?(String))
+        
+        return __get_os_ev__(x) if @fake_ev == nil
+        
+        v = @fake_ev[x.upcase]
+        if v == nil
+            return __get_os_ev__(x)
+        else
+            return v
+        end    
+    end
+    
+    def []=(x, y)
+        raise TypeError.new("[]= can't convert into String") if !(x.instance_of?(String))
+        raise TypeError.new("[]= can't convert value into String") if !(y.instance_of?(String))
+        @fake_ev = {} if @fake_ev == nil
+        @fake_ev[x.upcase]=y
+    end
+    
+    def index x
+        r = @fake_ev.index(x)
+        if v != nil
+            return v
+        else
+            return __os_ev_index__(x)
+        end
+    end
+    
+    def has_value? x
+        return (self.index(x) != nil)
+    end
 end
 

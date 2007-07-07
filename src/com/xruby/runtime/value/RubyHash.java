@@ -85,17 +85,6 @@ public class RubyHash extends RubyBasic {
         }
     }
 
-    public void each(RubyValue receiver, RubyBlock block) {
-        for (RubyValue key : keys_) {
-            RubyValue value = map_.get(key);
-            RubyArray args = new RubyArray();
-            args.add(key);
-            args.add(value);
-
-            block.invoke(receiver, args);
-        }
-    }
-
     public RubyArray to_a() {
         RubyArray array = new RubyArray();
         for (RubyValue key : keys_) {
