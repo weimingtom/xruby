@@ -603,8 +603,8 @@ class Numeric
         self
     end
     
-    def div x
-        (self/x).floor
+    def div value
+        (self/value).floor
     end
 
     def coerce(value)
@@ -612,7 +612,7 @@ class Numeric
     end
 
     def divmod(value)
-        [self / value, self % value]
+        [(self/value).floor, self % value]
     end
 
     def integer?
