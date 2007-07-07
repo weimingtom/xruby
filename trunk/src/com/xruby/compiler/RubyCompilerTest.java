@@ -5625,6 +5625,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_pack() {
         String [] program_texts = {
+                "print [97, 98].pack('UU')",
                 "print [\"abcd\"].pack('x3a4').length",
                 "print [-1].pack('s_')[0]",
                 "print [-32767].pack('s_')[1]",
@@ -5639,6 +5640,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "ab",
                 "7",
                 "255",
                 "128",
