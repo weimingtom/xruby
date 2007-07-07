@@ -53,6 +53,7 @@ import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyBignum;
 import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.value.RubyFloat;
 import com.xruby.runtime.value.RubyIO;
 import com.xruby.runtime.value.RubyProc;
 import com.xruby.runtime.value.RubyString;
@@ -252,6 +253,8 @@ class Kernel_printf extends RubyVarArgMethod {
             Object v = args.get(i + start);
             if (v instanceof RubyFixnum) {
                 raw_args[i] = new Integer(((RubyFixnum) v).intValue());
+            } else if (v instanceof RubyFloat) {
+                raw_args[i] = new Float(((RubyFloat) v).doubleValue());
             } else {
                 raw_args[i] = v;
             }

@@ -53,5 +53,7 @@ class XRubyTest < Test::Unit::TestCase
         assert_equal ENV['xxx'], "yyy"
     end
     
-  
+    def test_Kernel_sprintf
+        assert_equal sprintf("%f", 1.1), "1.100000"
+    end
 end
