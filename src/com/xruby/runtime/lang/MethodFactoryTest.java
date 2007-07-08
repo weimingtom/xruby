@@ -83,8 +83,8 @@ public class MethodFactoryTest extends TestCase {
 			return RubyConstant.QNIL;
 		}
 		
-		public RubyValue oneArgMethod(RubyValue v) {
-			return v;
+		public RubyTestValue oneArgMethod(RubyValue v) {
+			return (RubyTestValue)v;
 		}
 		
 		public RubyValue noArgMethod(RubyBlock block) {

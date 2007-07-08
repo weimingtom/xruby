@@ -53,11 +53,11 @@ public class MethodFactory {
 	private RubyMethod loadMethod(String name, int argc, boolean block) {
 		String invokerName = getInvokerName(name, block);
 		Class klass = tryClass(invokerName);
-		if (klass == null) {
-			klass = createMethodClass(invokerName, name, argc, block);
-		}
-		
 		try {
+			if (klass == null) {
+				klass = createMethodClass(invokerName, name, argc, block);
+			}
+			
 			return (RubyMethod)klass.newInstance();
 		} catch (Exception e) {
 			return null;
@@ -72,13 +72,13 @@ public class MethodFactory {
 		}
 	}
 
-	private Class createMethodClass(String invokerName, String name, int argc, boolean block) {
+	private Class createMethodClass(String invokerName, String name, int argc, boolean block) throws Exception {
 		MethodFactoryHelper helper = MethodFactoryHelper.getHelper(argc);		
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		ClassVisitor cv = new CheckClassAdapter(cw);
 		
 		startInvoker(cv, helper, invokerName);
-		helper.createRunMethod(cv, Type.getType(this.klass), name, block);
+		helper.createRunMethod(cv, this.klass, name, block);
 		endInvoker(cv);
 		
 		return loadClass(invokerName, cw);
@@ -136,10 +136,14 @@ public class MethodFactory {
 		public abstract Type getSuperType();
 		protected abstract String getRunName();
 		protected abstract void loadBlock(GeneratorAdapter mg);
-		protected abstract String getMethodName(String name, boolean block);
 		protected abstract void loadArgs(GeneratorAdapter mg);
+		protected abstract Class[] getParams(boolean block);
 		
-		public void createRunMethod(ClassVisitor cv, Type type, String name, boolean block) {
+		public void createRunMethod(ClassVisitor cv, Class klass, String name, boolean block) throws Exception {
+			Type type = Type.getType(klass);
+			Class[] params = getParams(block);
+			Class returnClass = klass.getMethod(name, params).getReturnType();
+			String methodName = CgUtil.getMethodName(name, returnClass, params);
 			GeneratorAdapter mg = startRun(getRunName(), cv);
 			loadReceiver(mg, type);	
 			loadArgs(mg);
@@ -147,7 +151,6 @@ public class MethodFactory {
 			if (block) {	
 				this.loadBlock(mg);
 			}
-			String methodName = this.getMethodName(name, block);
 			mg.invokeVirtual(type, Method.getMethod(methodName));
 			endRun(mg);
 		}
@@ -184,9 +187,8 @@ public class MethodFactory {
 				mg.loadArg(1);
 			}
 			
-			protected String getMethodName(String name, boolean block) {
-				return block ? CgUtil.getMethodName(name, RubyValue.class, RubyBlock.class) 
-						: CgUtil.getMethodName(name, RubyValue.class);
+			protected Class[] getParams(boolean block) {
+				return block ? new Class[] {RubyBlock.class} : new Class[0];
 			}
 
 			protected void loadArgs(GeneratorAdapter mg) {
@@ -207,11 +209,10 @@ public class MethodFactory {
 				mg.loadArg(2);
 			}
 			
-			protected String getMethodName(String name, boolean block) {
-				return block ? CgUtil.getMethodName(name, RubyValue.class, RubyValue.class, RubyBlock.class) 
-						: CgUtil.getMethodName(name, RubyValue.class, RubyValue.class);
+			protected Class[] getParams(boolean block) {
+				return block ? new Class[] {RubyValue.class, RubyBlock.class} : new Class[] {RubyValue.class};
 			}
-
+			
 			protected void loadArgs(GeneratorAdapter mg) {
 				mg.loadArg(1);
 			}
@@ -230,10 +231,9 @@ public class MethodFactory {
 			protected void loadBlock(GeneratorAdapter mg) {
 				mg.loadArg(2);
 			}
-
-			protected String getMethodName(String name, boolean block) {
-				return block ? CgUtil.getMethodName(name, RubyValue.class, RubyArray.class, RubyBlock.class) 
-						: CgUtil.getMethodName(name, RubyValue.class, RubyArray.class);
+			
+			protected Class[] getParams(boolean block) {
+				return block ? new Class[] {RubyArray.class, RubyBlock.class} : new Class[] {RubyArray.class};
 			}
 
 			protected void loadArgs(GeneratorAdapter mg) {
