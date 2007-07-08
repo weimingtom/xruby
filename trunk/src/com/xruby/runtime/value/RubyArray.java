@@ -78,7 +78,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this;
     }
 
-    public RubyValue clear() {
+    public RubyArray clear() {
         array_.clear();
         return this;
     }
