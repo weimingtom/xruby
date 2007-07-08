@@ -65,7 +65,22 @@
 		</javac>
 	</target>
 
-	<target name="builtin" depends="compile" description="compile builtin.rb" >
+        <target name="generate-method-classes" depends="compile" description="generate method class" >		
+                <java classname="${main-class}" fork="true" failonerror="true">
+                        <classpath>
+				<pathelement location="${antlr.jar}" />
+				<pathelement location="${asm.jar}" />
+				<pathelement location="${commons-cli.jar}" />
+				<pathelement location="${jakarta-oro.jar}" />
+				<pathelement location="${build.dir}" />
+			</classpath>
+                        <sysproperty key="xruby.method.dump" value="true"/>
+                        <sysproperty key="xruby.method.dump_path" value="${build.dir}"/>
+                        <arg value="-e 'puts'"/>
+                </java>
+	</target>
+
+	<target name="builtin" depends="generate-method-classes" description="compile builtin.rb" >
 		<java classname="${main-class}" fork="true" failonerror="true">
 			<classpath>
 				<pathelement location="${antlr.jar}" />

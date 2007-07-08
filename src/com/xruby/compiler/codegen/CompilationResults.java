@@ -13,12 +13,6 @@ import com.xruby.compiler.*;
 import com.xruby.compiler.codedom.BlockFarm;
 import com.xruby.runtime.lang.RubyProgram;
 
-class CompilationResultLoader extends ClassLoader {
-	public Class load(String name, byte[] b) {
-		return defineClass(NameFactory.convertSlashToDot(name), b, 0, b.length);
-	}
-}
-
 class CompilationResult {
 
     private final String name_;
@@ -37,7 +31,7 @@ class CompilationResult {
 		jarstream.write(code_);
 	}
 
-	public Class load(CompilationResultLoader loader) {
+	public Class load(XRubyClassLoader loader) {
 		return loader.load(name_, code_);
 	}
 }
@@ -114,7 +108,7 @@ public class CompilationResults {
 	 */
 	public RubyProgram getRubyProgram() throws InstantiationException, IllegalAccessException {
 
-		CompilationResultLoader loader = new CompilationResultLoader();
+		XRubyClassLoader loader = new XRubyClassLoader();
 		Class classToRun = null;
 		for (CompilationResult result : results_) {
 			classToRun = result.load(loader);

@@ -15,12 +15,14 @@ class Array_length extends RubyNoArgMethod {
     }
 }
 
+
 class Array_clear extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyArray value = (RubyArray) receiver;
         return value.clear();
     }
 }
+
 
 class Array_to_s extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
@@ -665,8 +667,14 @@ public class ArrayClassBuilder {
         c.getSingletonClass().defineMethod("new", new Array_new());
         c.getSingletonClass().defineMethod("[]", new Array_new_with_given_objects());
         c.defineMethod("length", new Array_length());
-        c.defineMethod("clear", new Array_clear());
-        c.defineMethod(RubyID.toSID, new Array_to_s());
+        
+        MethodFactory factory = MethodFactory.createMethodFactory(RubyArray.class);
+        c.defineMethod("clear", factory.getMethod("clear", 0));
+        //c.defineMethod("clear", new Array_clear());
+        
+        c.defineMethod(RubyID.toSID, factory.getMethod("to_s", 0));        
+        //c.defineMethod(RubyID.toSID, new Array_to_s());
+        
         c.defineMethod("[]", new Array_array_access());
         c.defineMethod("first", new Array_array_first());
         c.defineMethod("last", new Array_array_last());
