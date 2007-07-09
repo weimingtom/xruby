@@ -56,6 +56,66 @@ class ArrayPacker {
         throw new RubyException(RubyRuntime.RangeErrorClass, "pack(U): value out of range");
     }
 
+    private static final long utf8_limits[] = {
+        0x0,            /* 1 */
+        0x80,           /* 2 */
+        0x800,          /* 3 */
+        0x10000,            /* 4 */
+        0x200000,           /* 5 */
+        0x4000000,          /* 6 */
+        0x80000000,         /* 7 */
+    };
+
+    //utf8_to_uv:
+    //Copyright (C) 1993-2003 Yukihiro Matsumoto
+    private static long[] utf8_to_uv(String str, int p, long lenp)
+    {
+        int c = str.charAt(p++) & 0xff;
+        long uv = c;
+        long n;
+
+        if (0 == (uv & 0x80)) {
+            lenp = 1;
+            return new long[] {uv, lenp};
+        }
+        if (0 == (uv & 0x40)) {
+            lenp = 1;
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "malformed UTF-8 character");
+        }
+
+        if      (0 == (uv & 0x20)) { n = 2; uv &= 0x1f; }
+        else if (0 == (uv & 0x10)) { n = 3; uv &= 0x0f; }
+        else if (0 == (uv & 0x08)) { n = 4; uv &= 0x07; }
+        else if (0 == (uv & 0x04)) { n = 5; uv &= 0x03; }
+        else if (0 == (uv & 0x02)) { n = 6; uv &= 0x01; }
+        else {
+            lenp = 1;
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "malformed UTF-8 character");
+        }
+        if (n > lenp) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "malformed UTF-8 character (expected " + n + " bytes, given " + lenp + "bytes)");
+        }
+        lenp = n--;
+        if (n != 0) {
+        while (n-- != 0) {
+            c = str.charAt(p++) & 0xff;
+            if ((c & 0xc0) != 0x80) {
+            lenp -= n + 1;
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "malformed UTF-8 character");
+            }
+            else {
+            c &= 0x3f;
+            uv = uv << 6 | c;
+            }
+        }
+        }
+        n = lenp - 1;
+        if (uv < utf8_limits[(int)n]) {
+        throw new RubyException(RubyRuntime.ArgumentErrorClass, "redundant UTF-8 sequence");
+        }
+        return new long[] {uv, lenp};
+    }
+
     private static String qpencode(String str, int len) {
         throw new RubyException("Not implemented");
     }
@@ -197,6 +257,20 @@ class ArrayPacker {
                             tmp += (c << (j * 8));
                         }
                         ary.add(ObjectFactory.createFloat(Double.longBitsToDouble(tmp)));
+                    }
+                    break;
+
+                case 'U':
+                    if (len > send - s) len = send - s;
+                    while (len > 0 && s < send) {
+                        long alen = send - s;
+                        long l;
+
+                        long[] r = utf8_to_uv(str, s, alen);
+                        l = r[0];
+                        alen = r[1];
+                        s += alen; len--;
+                        ary.add(ObjectFactory.createFixnum((int) l));
                     }
                     break;
 
