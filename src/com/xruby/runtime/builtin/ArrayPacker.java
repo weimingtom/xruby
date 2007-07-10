@@ -69,8 +69,7 @@ class ArrayPacker {
 
     //utf8_to_uv:
     //Copyright (C) 1993-2003 Yukihiro Matsumoto
-    private static long[] utf8_to_uv(String str, int p, long lenp)
-    {
+    private static long[] utf8_to_uv(String str, int p, long lenp) {
         int c = str.charAt(p++) & 0xff;
         long uv = c;
         long n;
@@ -276,7 +275,7 @@ class ArrayPacker {
                     break;
 
                 case 'N':
-                    while (len-- > 0) {
+                    while (len-- > 0 && s < send) {
                         long tmp = 0;
                         for (int j = Integer.SIZE / Byte.SIZE - 1; j >= 0; --j) {
                             long c = str.charAt(s++);
