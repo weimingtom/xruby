@@ -34,7 +34,7 @@ ruby\test_float.rb
 ruby\test_gc.rb
 ruby\test_ifunless.rb
 ruby\test_io.rb
-ruby\test_path.rb (only work on unix?)
+ruby\test_pack.rb
 ruby\test_math.rb
 ruby\test_method.rb
 ruby\test_range.rb
@@ -62,7 +62,7 @@ ruby\test_hash.rb		#tough to deal with...will work on it this weekend
 ruby\test_iterator.rb	#VerifyError
 ruby\test_marshal.rb
 ruby\test_objectspace.rb
-ruby\test_pack.rb
+ruby\test_path.rb (only work on unix?)
 ruby\test_pipe.rb
 ruby\test_proc.rb
 ruby\test_process.rb
