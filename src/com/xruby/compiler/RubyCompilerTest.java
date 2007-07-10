@@ -5659,6 +5659,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_unpack() {
         String [] program_texts = {
+                "print \"\377\377\377\377\".unpack('N')",
                 "print 'ab'.unpack('UU')",
                 "print \">a\221E\312\300\\#@\".unpack('d')",
                 "print \"\000\000\000abcd\".unpack('x3a4')",
@@ -5673,6 +5674,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "4294967295",
                 "9798",
                 "9.87654321098",
                 "abcd",

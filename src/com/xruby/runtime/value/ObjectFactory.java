@@ -63,6 +63,10 @@ public class ObjectFactory {
         return new RubyFixnum(value);
     }
 
+    public static RubyValue createInteger(long value) {
+        return RubyBignum.bignorm(value);
+    }
+
     public static RubyString createString(String value) {
         return new RubyString(value);
     }

@@ -13,7 +13,8 @@ import com.xruby.runtime.value.*;
 class ArrayPacker {
     //uv_to_utf8:
     //Copyright (C) 1993-2003 Yukihiro Matsumoto
-    private static int uv_to_utf8(char[] buf, int uv) {
+    //TODO java may has library to do this.
+    private static int uv_to_utf8(char[] buf, long uv) {
         if (uv <= 0x7f) {
         buf[0] = (char)uv;
         return 1;
@@ -179,16 +180,16 @@ class ArrayPacker {
             }
 
             switch (type) {
-                case'%':
+                case '%':
                     throw new RubyException(RubyRuntime.ArgumentErrorClass, "%% is not supported");
 
-                case'a':
+                case 'a':
                     if (len > send - s) len = send - s;
                     ary.add(ObjectFactory.createString(str.substring(s, s + len)));
                     s += len;
                     break;
 
-                case'c':
+                case 'c':
                     while (len-- > 0) {
                         int c = str.charAt(s++);
                         if (c > 127)
@@ -197,14 +198,14 @@ class ArrayPacker {
                     }
                     break;
 
-                case'C':
+                case 'C':
                     while (len-- > 0) {
                         char c = str.charAt(s++);
                         ary.add(ObjectFactory.createFixnum(c));
                     }
                     break;
 
-                case's':
+                case 's':
                     while (len-- > 0) {
                         short tmp = 0;
                         for (int j = 0; j < Short.SIZE / Byte.SIZE; ++j) {
@@ -216,8 +217,8 @@ class ArrayPacker {
 
                     break;
 
-                case'i':
-                case'l':
+                case 'i':
+                case 'l':
                     while (len-- > 0) {
                         int tmp = 0;
                         for (int j = 0; j < Integer.SIZE / Byte.SIZE; ++j) {
@@ -229,7 +230,7 @@ class ArrayPacker {
 
                     break;
 
-                case'q':
+                case 'q':
                     if (str.length() < Long.SIZE / Byte.SIZE) {
                         ary.add(ObjectFactory.NIL_VALUE);
                     } else {
@@ -238,18 +239,18 @@ class ArrayPacker {
                             long c = str.charAt(s++);
                             l += (c << (j * 8));
                         }
-                        ary.add(ObjectFactory.createFixnum((int) l));
+                        ary.add(ObjectFactory.createInteger(l));
                     }
                     break;
 
-                case'x':
+                case 'x':
                     if (len > send - s)
                         throw new RubyException(RubyRuntime.ArgumentErrorClass, "x outside of string");
                     s += len;
                     break;
 
-                case'D':
-                case'd':
+                case 'D':
+                case 'd':
                     while (len-- > 0) {
                         long tmp = 0;
                         for (int j = 0; j < Long.SIZE / Byte.SIZE; ++j) {
@@ -270,7 +271,18 @@ class ArrayPacker {
                         l = r[0];
                         alen = r[1];
                         s += alen; len--;
-                        ary.add(ObjectFactory.createFixnum((int) l));
+                        ary.add(ObjectFactory.createInteger(l));
+                    }
+                    break;
+
+                case 'N':
+                    while (len-- > 0) {
+                        long tmp = 0;
+                        for (int j = Integer.SIZE / Byte.SIZE - 1; j >= 0; --j) {
+                            long c = str.charAt(s++);
+                            tmp += (c << (j * 8));
+                        }
+                        ary.add(ObjectFactory.createInteger(tmp));
                     }
                     break;
 
@@ -334,13 +346,13 @@ class ArrayPacker {
             }
 
             switch (type) {
-                case'A':
-                case'a':
-                case'Z':
-                case'B':
-                case'b':
-                case'H':
-                case'h':
+                case 'A':
+                case 'a':
+                case 'Z':
+                case 'B':
+                case 'b':
+                case 'H':
+                case 'h':
                     if (items-- > 0)
                         from = array.get(idx++);
                     else
@@ -359,9 +371,9 @@ class ArrayPacker {
                     }
 
                     switch (type) {
-                        case'a':
-                        case'A':
-                        case'Z': {
+                        case 'a':
+                        case 'A':
+                        case 'Z': {
                             if (plen >= len) {
                                 result.append(ptr.substring(0, len));
                                 if (format.charAt(p - 1) == '*' && type == 'Z')
@@ -376,7 +388,7 @@ class ArrayPacker {
                         }
                         break;
 
-                        case'b': {
+                        case 'b': {
                             int byte_ = 0;
                             int i, j = 0;
 
@@ -413,7 +425,7 @@ class ArrayPacker {
                         }
                         break;
 
-                        case'B': {
+                        case 'B': {
                             int byte_ = 0;
                             int i, j = 0;
 
@@ -448,7 +460,7 @@ class ArrayPacker {
                         }
                         break;
 
-                        case'h': {
+                        case 'h': {
                             int byte_ = 0;
                             int i, j = 0;
                             if (len > plen) {
@@ -485,7 +497,7 @@ class ArrayPacker {
                         }
                         break;
 
-                        case'H': {
+                        case 'H': {
                             int byte_ = 0;
                             int i, j = 0;
 
@@ -525,8 +537,8 @@ class ArrayPacker {
                     }
                     break;
 
-                case'c':
-                case'C':
+                case 'c':
+                case 'C':
                     while (len-- > 0) {
                         if (items-- > 0)
                             from = array.get(idx++);
@@ -538,8 +550,8 @@ class ArrayPacker {
                     }
                     break;
 
-                case's':
-                case'S':
+                case 's':
+                case 'S':
                     while (len-- > 0) {
 
 
@@ -555,10 +567,10 @@ class ArrayPacker {
                     }
                     break;
 
-                case'i':
-                case'I':
-                case'l':
-                case'L':
+                case 'i':
+                case 'I':
+                case 'l':
+                case 'L':
                     while (len-- > 0) {
                         if (items-- > 0)
                             from = array.get(idx++);
@@ -572,8 +584,8 @@ class ArrayPacker {
                     }
                     break;
 
-                case'q':
-                case'Q':
+                case 'q':// signed quad (64bit) int
+                case 'Q'://unsigned quad (64bit) int
                     while (len-- > 0) {
                         if (items-- > 0)
                             from = array.get(idx++);
@@ -588,20 +600,32 @@ class ArrayPacker {
                     }
                     break;
 
-                case'n': // short (network byte-order)
+                case 'n': // short (network byte-order)
                     break;
 
-                case'N': // int (network byte-order)
+                case 'N': // int (network byte-order)
+                    while (len-- > 0) {
+                        if (items-- > 0)
+                            from = array.get(idx++);
+                        else
+                            throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
+
+                        long l = RubyTypesUtil.convertToJavaLong(from);
+
+                        for (int i = Integer.SIZE / Byte.SIZE - 1; i >= 0 ; --i) {
+                            result.append((char) ((l >> (i * 8) & 0xff)));
+                        }
+                    }
                     break;
 
-                case'v': // short (VAX byte-order)
+                case 'v': // short (VAX byte-order)
                     break;
 
-                case'V': // long (VAX byte-order)
+                case 'V': // long (VAX byte-order)
                     break;
 
-                case'f':
-                case'F':
+                case 'f':
+                case 'F':
                     while (len-- > 0) {
                         float f;
 
@@ -627,14 +651,14 @@ class ArrayPacker {
                     }
                     break;
 
-                case'e': // single precision float in VAX byte-order
+                case 'e': // single precision float in VAX byte-order
                     break;
 
-                case'E': // double precision float in VAX byte-order
+                case 'E': // double precision float in VAX byte-order
                     break;
 
-                case'd':
-                case'D':
+                case 'd':
+                case 'D':
                     while (len-- > 0) {
                         if (items-- > 0)
                             from = array.get(idx++);
@@ -651,19 +675,19 @@ class ArrayPacker {
                     }
                     break;
 
-                case'g': // single precision float in network byte-order
+                case 'g': // single precision float in network byte-order
                     break;
 
-                case'G': // double precision float in network byte-order
+                case 'G': // double precision float in network byte-order
                     break;
 
-                case'x': // null byte
+                case 'x': // null byte
                     while (len-- > 0) {
                         result.append('\0');
                     }
                     break;
 
-                case'X': // back up byte
+                case 'X': // back up byte
                     plen = result.length();
                     if (plen < len) {
                         throw new RubyException(RubyRuntime.ArgumentErrorClass, "X outside of string");
@@ -671,7 +695,7 @@ class ArrayPacker {
                     result.delete(plen - len, plen);
                     break;
 
-                case'@':
+                case '@':
                     len -= result.length();
                     if (len > 0) {
                         while (len-- > 0) {
@@ -689,15 +713,15 @@ class ArrayPacker {
                     }
                     break;
 
-                case'%':
+                case '%':
                     throw new RubyException(RubyRuntime.ArgumentErrorClass, "% is not supported");
 
-                case'U':
+                case 'U':
                     while (len-- > 0) {
                         char[] buf = new char[8];
 
                         from = array.get(idx++);
-                        int l = RubyTypesUtil.convertToJavaInt(from);
+                        long l = RubyTypesUtil.convertToJavaLong(from);
                         if (l < 0) {
                             throw new RubyException(RubyRuntime.RangeErrorClass, "pack(U): value (" + from + ") out of range");
                         }
@@ -706,8 +730,8 @@ class ArrayPacker {
                     }
                     break;
 
-                case'u': // uuencoded string
-                case'm': // base64 encoded string
+                case 'u': // uuencoded string
+                case 'm': // base64 encoded string
                     from = array.get(idx++);
                     ptr = from.toString();
                     plen = ptr.length();
@@ -732,7 +756,7 @@ class ArrayPacker {
                     }
                     break;
 
-                case'M': // quoted-printable encoded string
+                case 'M': // quoted-printable encoded string
                 {
                     String str = ((RubyString) array.get(idx++)).toString();
                     if (len <= 1) {
@@ -743,11 +767,11 @@ class ArrayPacker {
                 }
                 break;
 
-                case'P': // pointer to packed byte string
-                case'p': // pointer to string
+                case 'P': // pointer to packed byte string
+                case 'p': // pointer to string
                     throw new RubyException("Not implemented");
 
-                case'w': // BER compressed integer
+                case 'w': // BER compressed integer
                     break;
 
                 default:

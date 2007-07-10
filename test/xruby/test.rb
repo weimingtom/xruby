@@ -5,7 +5,10 @@ require 'test/unit'
 
 class XRubyTest < Test::Unit::TestCase
 
-    def test_array_pack
+    def test_Array_pack
+        assert_equal('a', [97].pack('U'))
+        assert_equal([97], [97].pack('U').unpack('U'))
+        
         a = [ "a", "b", "c" ]
         #TODO
         #assert_equal("a\000\000b\000\000c\000\000", a.pack("a3a3a3"))
