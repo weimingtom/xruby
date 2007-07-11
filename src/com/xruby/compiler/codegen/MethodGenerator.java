@@ -229,21 +229,18 @@ class MethodGenerator extends GeneratorAdapter {
         loadThis();
         push(true);
         putField(Types.RUBY_BLOCK_TYPE, "__break__", Type.getType(boolean.class));
-        returnValue();
     }
 
     public void RubyBlock__return__() {
         loadThis();
         push(true);
         putField(Types.RUBY_BLOCK_TYPE, "__return__", Type.getType(boolean.class));
-        returnValue();
     }
 
     public void RubyBlock__redo__() {
         loadThis();
         push(true);
         putField(Types.RUBY_BLOCK_TYPE, "__redo__", Type.getType(boolean.class));
-        returnValue();
     }
 
     public void loadSelf(boolean is_in_block) {

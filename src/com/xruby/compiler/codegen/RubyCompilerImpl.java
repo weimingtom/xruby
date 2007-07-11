@@ -793,6 +793,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         if (isInBlock()) {
             invokeFinallyIfExist();
             cg_.getMethodGenerator().RubyBlock__return__();
+            cg_.getMethodGenerator().returnValue();
         } else {
             invokeFinallyIfExist();
             cg_.getMethodGenerator().returnValue();
@@ -889,6 +890,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         if (isInBlock()) {
             invokeFinallyIfExist();
             cg_.getMethodGenerator().RubyBlock__break__();
+            cg_.getMethodGenerator().returnValue();
         } else {
             invokeFinallyIfExist();
             cg_.getMethodGenerator().goTo(labelManager_.getCurrentBreak());
@@ -906,8 +908,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitRedo() {
         if (isInBlock()) {
-            cg_.getMethodGenerator().ObjectFactory_nilValue();
             cg_.getMethodGenerator().RubyBlock__redo__();
+            cg_.getMethodGenerator().ObjectFactory_nilValue();
+            cg_.getMethodGenerator().returnValue();
         } else {
             cg_.getMethodGenerator().goTo(labelManager_.getCurrentRedo());
         }
@@ -915,8 +918,9 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitRetry() {
         if (isInBlock()) {
-            cg_.getMethodGenerator().ObjectFactory_nilValue();
             cg_.getMethodGenerator().RubyBlock__redo__();
+            cg_.getMethodGenerator().ObjectFactory_nilValue();
+            cg_.getMethodGenerator().returnValue();
         } else {
             cg_.getMethodGenerator().goTo(ensureLabelManager_.getCurrentRetry());
         }
