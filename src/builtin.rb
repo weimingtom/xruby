@@ -598,6 +598,10 @@ end
 class Numeric
     include Comparable
 
+    def floor
+        self.to_f.floor
+    end
+
     def abs
         return -self if (self <=> 0) == -1
         self
