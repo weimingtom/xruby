@@ -8,53 +8,6 @@ package com.xruby.runtime.builtin;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.*;
 
-class Array_length extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray value = (RubyArray) receiver;
-        return ObjectFactory.createFixnum(value.size());
-    }
-}
-
-
-class Array_clear extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray value = (RubyArray) receiver;
-        return value.clear();
-    }
-}
-
-
-class Array_to_s extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray value = (RubyArray) receiver;
-        return value.to_s();
-    }
-}
-
-class Array_array_first extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyArray a = (RubyArray) receiver;
-        if (null == args) {
-            return a.get(0);
-        } else {
-            RubyFixnum n = (RubyFixnum) args.get(0);
-            return a.subarray(0, n.intValue());
-        }
-    }
-}
-
-class Array_array_last extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyArray a = (RubyArray) receiver;
-        if (null == args) {
-            return a.get(-1);
-        } else {
-            RubyFixnum n = (RubyFixnum) args.get(0);
-            return a.subarray(a.size() - n.intValue(), n.intValue());
-        }
-    }
-}
-
 class Array_array_access extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyArray value = (RubyArray) receiver;
@@ -660,24 +613,23 @@ class Array_rassoc extends RubyOneArgMethod {
     }
 }
 
-
 public class ArrayClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.ArrayClass;
+        MethodFactory factory = MethodFactory.createMethodFactory(RubyArray.class);
+        
         c.getSingletonClass().defineMethod("new", new Array_new());
         c.getSingletonClass().defineMethod("[]", new Array_new_with_given_objects());
-        c.defineMethod("length", new Array_length());
         
-        MethodFactory factory = MethodFactory.createMethodFactory(RubyArray.class);
-        c.defineMethod("clear", factory.getMethod("clear", 0));
-        //c.defineMethod("clear", new Array_clear());
-        
-        c.defineMethod(RubyID.toSID, factory.getMethod("to_s", 0));        
-        //c.defineMethod(RubyID.toSID, new Array_to_s());
+        c.defineMethod("length", factory.getMethod("length", MethodFactory.NO_ARG));
+        c.defineMethod("clear", factory.getMethod("clear", MethodFactory.NO_ARG));
+        c.defineMethod(RubyID.toSID, factory.getMethod("to_s", MethodFactory.NO_ARG));        
         
         c.defineMethod("[]", new Array_array_access());
-        c.defineMethod("first", new Array_array_first());
-        c.defineMethod("last", new Array_array_last());
+        
+        c.defineMethod("first", factory.getMethod("first", MethodFactory.VAR_ARG));
+        c.defineMethod("last", factory.getMethod("last", MethodFactory.VAR_ARG));
+        
         c.defineMethod("at", new Array_array_at());
         c.defineMethod("[]=", new Array_array_set());
         c.defineMethod("==", new Array_equal());

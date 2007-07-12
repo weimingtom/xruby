@@ -77,6 +77,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         array_.add(v);
         return this;
     }
+    
+    public RubyFixnum length() {
+    	return ObjectFactory.createFixnum(this.array_.size());
+    }
 
     public RubyArray clear() {
         array_.clear();
@@ -98,6 +102,25 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     public int size() {
         return array_.size();
+    }
+    
+    public RubyValue first(RubyArray args) {
+        if (null == args) {
+            return this.get(0);
+        } else {
+            RubyFixnum n = (RubyFixnum) args.get(0);
+            return this.subarray(0, n.intValue());
+        }
+    }
+    
+    public RubyValue last(RubyArray args) {
+    	if (null == args) {
+            return this.get(-1);
+        } else {
+            RubyFixnum n = (RubyFixnum) args.get(0);
+            int value = n.intValue();
+			return this.subarray(this.size() - value, value);
+        }
     }
 
     public RubyValue delete_at(int index) {
