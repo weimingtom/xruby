@@ -24,6 +24,11 @@ public class MethodFactory {
 	private static String dumpPath;
 	private static ClassFileWriter cfw;
 	
+	public static final int NO_ARG = 1;
+	public static final int ONE_ARG = 2;
+	public static final int TWO_ARG = 4;
+	public static final int VAR_ARG = 8;
+	
 	static {
 		dump = Boolean.getBoolean("xruby.method.dump");
 		if (dump) {
@@ -243,9 +248,9 @@ public class MethodFactory {
 		
 		public static final MethodFactoryHelper getHelper(int argc) {
 			switch (argc) {
-			case 0:
+			case NO_ARG:
 				return NO_ARG_HELPER;
-			case 1:
+			case ONE_ARG:
 				return ONE_ARG_HELPER;
 			default:
 				return DEFAULT_ARG_HELPER;

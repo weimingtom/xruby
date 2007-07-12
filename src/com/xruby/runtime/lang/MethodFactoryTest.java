@@ -22,35 +22,35 @@ public class MethodFactoryTest extends TestCase {
 	}
 	
 	public void testNoArgMethod() {
-		RubyMethod m = f.getMethod("noArgMethod", 0);
+		RubyMethod m = f.getMethod("noArgMethod", MethodFactory.NO_ARG);
 		RubyTestValue v = new RubyTestValue();
 		RubyValue result = m.invoke(v, null);
 		assertEquals(RubyConstant.QNIL, result);
 	}
 	
 	public void testOneArgMethod() {
-		RubyMethod m = f.getMethod("oneArgMethod", 1);
+		RubyMethod m = f.getMethod("oneArgMethod", MethodFactory.ONE_ARG);
 		RubyTestValue v = new RubyTestValue();
 		RubyValue result = m.invoke(v, v, null);
 		assertEquals(v, result);
 	}
 	
 	public void testNoArgMethodWithBlock() {	
-		RubyMethod m = f.getMethodWithBlock("noArgMethod", 0);
+		RubyMethod m = f.getMethodWithBlock("noArgMethod", MethodFactory.NO_ARG);
 		RubyTestValue v = new RubyTestValue();
 		RubyValue result = m.invoke(v, new RubyTestBlock());
 		assertEquals(RubyConstant.QNIL, result);		
 	}
 	
 	public void testOneArgMethodWithBlock() {
-		RubyMethod m = f.getMethodWithBlock("oneArgMethod", 1);
+		RubyMethod m = f.getMethodWithBlock("oneArgMethod", MethodFactory.ONE_ARG);
 		RubyTestValue v = new RubyTestValue();
 		RubyValue result = m.invoke(v, v, new RubyTestBlock());
 		assertEquals(v, result);
 	}
 	
 	public void testVarArgMethod() {
-		RubyMethod m = f.getMethod("varArgMethod", -1);
+		RubyMethod m = f.getMethod("varArgMethod", MethodFactory.VAR_ARG);
 		RubyTestValue v = new RubyTestValue();
 		RubyArray a = ObjectFactory.createArray(1, v);
 		RubyValue result = m.invoke(v, a, null);
@@ -58,7 +58,7 @@ public class MethodFactoryTest extends TestCase {
 	}
 	
 	public void testVarArgMethodWithBlock() {
-		RubyMethod m = f.getMethodWithBlock("varArgMethod", -1);
+		RubyMethod m = f.getMethodWithBlock("varArgMethod", MethodFactory.VAR_ARG);
 		RubyTestValue v = new RubyTestValue();
 		RubyArray a = ObjectFactory.createArray(1, v);
 		RubyValue result = m.invoke(v, a, null);
@@ -66,8 +66,8 @@ public class MethodFactoryTest extends TestCase {
 	}
 	
 	public void testTryLoadMethodTwice() {
-		RubyMethod m0 = f.getMethod("loadTwiceMethod", 0);
-		RubyMethod m1 = f.getMethod("loadTwiceMethod", 0);
+		RubyMethod m0 = f.getMethod("loadTwiceMethod", MethodFactory.NO_ARG);
+		RubyMethod m1 = f.getMethod("loadTwiceMethod", MethodFactory.NO_ARG);
 		assertNotSame(m0, m1);
 	}
 	
