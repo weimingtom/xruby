@@ -521,8 +521,13 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().mark(labelManager_.getCurrentNext());
     }
 
-    public void visitWhileConditionEnd(boolean is_until) {
-        cg_.getMethodGenerator().RubyAPI_testTrueFalse();
+    public void visitWhileConditionEnd(boolean always_true, boolean is_until) {
+        if (always_true) {
+            cg_.getMethodGenerator().push(true);
+        } else {
+            cg_.getMethodGenerator().RubyAPI_testTrueFalse();
+        }
+        
         if (is_until) {
             cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, labelManager_.getCurrentX());
         } else {
