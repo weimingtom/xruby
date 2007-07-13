@@ -3,7 +3,7 @@
  * Distributed under the GNU General Public License 2.0
  */
 
-package com.xruby.runtime.lang;
+package com.xruby.runtime.lang.util;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -16,7 +16,7 @@ import org.objectweb.asm.util.CheckClassAdapter;
 import com.xruby.compiler.XRubyClassLoader;
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.ClassFileWriter;
-import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.lang.RubyMethod;
 
 public class MethodFactory {
 	private static final XRubyClassLoader cl = new XRubyClassLoader();
@@ -26,6 +26,7 @@ public class MethodFactory {
 	
 	public static final int NO_ARG = 1;
 	public static final int ONE_ARG = 2;
+	public static final int NO_OR_ONE_ARG = 3;
 	public static final int TWO_ARG = 4;
 	public static final int VAR_ARG = 8;
 	
@@ -136,125 +137,4 @@ public class MethodFactory {
         mg.returnValue();
         mg.endMethod();
     }
-	
-	private static abstract class MethodFactoryHelper {
-		public abstract Type getSuperType();
-		protected abstract String getRunName();
-		protected abstract void loadBlock(GeneratorAdapter mg);
-		protected abstract void loadArgs(GeneratorAdapter mg);
-		protected abstract Class[] getParams(boolean block);
-		
-		public void createRunMethod(ClassVisitor cv, Class klass, String name, boolean block) throws Exception {
-			Type type = Type.getType(klass);
-			Class[] params = getParams(block);
-			Class returnClass = klass.getMethod(name, params).getReturnType();
-			String methodName = CgUtil.getMethodName(name, returnClass, params);
-			GeneratorAdapter mg = startRun(getRunName(), cv);
-			loadReceiver(mg, type);	
-			loadArgs(mg);
-			
-			if (block) {	
-				this.loadBlock(mg);
-			}
-			mg.invokeVirtual(type, Method.getMethod(methodName));
-			endRun(mg);
-		}
-		
-		private GeneratorAdapter startRun(String runName, ClassVisitor cv) {
-			Method m = Method.getMethod(runName);
-			GeneratorAdapter mg = new GeneratorAdapter(Opcodes.ACC_PROTECTED,
-	                m, null, null, cv);
-			mg.visitCode();		
-			return mg;
-		}
-		
-		private void loadReceiver(GeneratorAdapter mg, Type type) {
-			mg.loadArg(0);
-			mg.checkCast(type);
-		}
-		
-		private void endRun(GeneratorAdapter mg) {
-			mg.returnValue();
-			mg.endMethod();	
-		}
-		
-		private static final MethodFactoryHelper NO_ARG_HELPER = new MethodFactoryHelper() {
-			public Type getSuperType() {
-				return Type.getType(RubyNoArgMethod.class);
-			}
-			
-			protected String getRunName() {
-				return CgUtil.getMethodName("run", RubyValue.class, 
-						RubyValue.class, RubyBlock.class);
-			}
-			
-			protected void loadBlock(GeneratorAdapter mg) {
-				mg.loadArg(1);
-			}
-			
-			protected Class[] getParams(boolean block) {
-				return block ? new Class[] {RubyBlock.class} : new Class[0];
-			}
-
-			protected void loadArgs(GeneratorAdapter mg) {
-			}
-		};
-		
-		private static final MethodFactoryHelper ONE_ARG_HELPER = new MethodFactoryHelper() {
-			public Type getSuperType() {
-				return Type.getType(RubyOneArgMethod.class);
-			}
-			
-			protected String getRunName() {
-				return CgUtil.getMethodName("run", RubyValue.class, 
-						RubyValue.class, RubyValue.class, RubyBlock.class);
-			}
-			
-			protected void loadBlock(GeneratorAdapter mg) {
-				mg.loadArg(2);
-			}
-			
-			protected Class[] getParams(boolean block) {
-				return block ? new Class[] {RubyValue.class, RubyBlock.class} : new Class[] {RubyValue.class};
-			}
-			
-			protected void loadArgs(GeneratorAdapter mg) {
-				mg.loadArg(1);
-			}
-		};
-		
-		private static final MethodFactoryHelper DEFAULT_ARG_HELPER = new MethodFactoryHelper() {
-			public Type getSuperType() {
-				return Type.getType(RubyVarArgMethod.class);
-			}
-			
-			protected String getRunName() {
-				return CgUtil.getMethodName("run", RubyValue.class, 
-						RubyValue.class, RubyArray.class, RubyBlock.class);
-			}
-			
-			protected void loadBlock(GeneratorAdapter mg) {
-				mg.loadArg(2);
-			}
-			
-			protected Class[] getParams(boolean block) {
-				return block ? new Class[] {RubyArray.class, RubyBlock.class} : new Class[] {RubyArray.class};
-			}
-
-			protected void loadArgs(GeneratorAdapter mg) {
-				mg.loadArg(1);
-			}
-		};
-		
-		public static final MethodFactoryHelper getHelper(int argc) {
-			switch (argc) {
-			case NO_ARG:
-				return NO_ARG_HELPER;
-			case ONE_ARG:
-				return ONE_ARG_HELPER;
-			default:
-				return DEFAULT_ARG_HELPER;
-			}
-		}
-	}
 }

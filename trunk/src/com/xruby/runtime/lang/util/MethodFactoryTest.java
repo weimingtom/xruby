@@ -3,8 +3,14 @@
  * Distributed under the GNU General Public License 2.0
  */
 
-package com.xruby.runtime.lang;
+package com.xruby.runtime.lang.util;
 
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyConstant;
+import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.RubyNoArgBlock;
+import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
@@ -71,6 +77,15 @@ public class MethodFactoryTest extends TestCase {
 		assertNotSame(m0, m1);
 	}
 	
+	public void testNoOrOneArgMethod() {
+		RubyMethod m = f.getMethod("noOrOneArg", MethodFactory.NO_OR_ONE_ARG);
+		RubyTestValue v = new RubyTestValue();
+		RubyValue noArgResult = m.invoke(v, null);
+		assertEquals(RubyConstant.QNIL, noArgResult);
+		RubyValue oneArgResult = m.invoke(v, v, null);
+		assertEquals(v, oneArgResult);
+	}
+	
 	public static class RubyTestValue extends RubyValue {
 		public RubyClass getRubyClass() {
 			return null;
@@ -105,6 +120,14 @@ public class MethodFactoryTest extends TestCase {
 		
 		public RubyValue loadTwiceMethod() {
 			return RubyConstant.QNIL;
+		}
+		
+		public RubyValue noOrOneArg() {
+			return RubyConstant.QNIL;
+		}
+		
+		public RubyValue noOrOneArg(RubyValue v) {
+			return v;
 		}
 	}
 	

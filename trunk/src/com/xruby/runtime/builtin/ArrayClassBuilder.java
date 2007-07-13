@@ -6,6 +6,7 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.util.MethodFactory;
 import com.xruby.runtime.value.*;
 
 class Array_array_access extends RubyVarArgMethod {
@@ -627,8 +628,8 @@ public class ArrayClassBuilder {
         
         c.defineMethod("[]", new Array_array_access());
         
-        c.defineMethod("first", factory.getMethod("first", MethodFactory.VAR_ARG));
-        c.defineMethod("last", factory.getMethod("last", MethodFactory.VAR_ARG));
+        c.defineMethod("first", factory.getMethod("first", MethodFactory.NO_OR_ONE_ARG));
+        c.defineMethod("last", factory.getMethod("last", MethodFactory.NO_OR_ONE_ARG));
         
         c.defineMethod("at", new Array_array_at());
         c.defineMethod("[]=", new Array_array_set());
