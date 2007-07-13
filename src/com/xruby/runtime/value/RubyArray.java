@@ -104,25 +104,53 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return array_.size();
     }
     
-    public RubyValue first(RubyArray args) {
-        if (null == args) {
-            return this.get(0);
-        } else {
-            RubyFixnum n = (RubyFixnum) args.get(0);
-            return this.subarray(0, n.intValue());
-        }
+    public RubyValue first() {
+    	if (this.array_.size() == 0) {
+    		return RubyConstant.QNIL;
+    	} else {  	
+    		return this.array_.get(0);
+    	}
     }
     
-    public RubyValue last(RubyArray args) {
-    	if (null == args) {
-            return this.get(-1);
-        } else {
-            RubyFixnum n = (RubyFixnum) args.get(0);
-            int value = n.intValue();
-			return this.subarray(this.size() - value, value);
-        }
+    public RubyValue first(RubyValue v) {
+    	int n = ((RubyFixnum)v).intValue();
+    	int size = this.array_.size();
+    	if (n > size) {    		
+    		n = size;
+    	}
+    	RubyArray a = new RubyArray(size);
+    	
+    	for (int i = 0; i < n; i++) {
+    		a.add(this.array_.get(i));
+    	}
+    	
+        return a;
     }
-
+    
+    public RubyValue last() {
+    	if (this.array_.size() == 0) {
+    		return RubyConstant.QNIL;
+    	} else {
+    		return this.array_.get(this.size() - 1);
+    	}
+    }
+    
+    public RubyValue last(RubyValue v) {
+        int n = ((RubyFixnum)v).intValue();
+        int size = this.array_.size();
+		if (n > size) {
+        	n = size;
+        }
+		
+		RubyArray a = new RubyArray(size);
+    	
+    	for (int i = size - n; n-- > 0; i++) {
+    		a.add(this.array_.get(i));
+    	}
+    	
+        return a;
+    }
+    
     public RubyValue delete_at(int index) {
         if (index >= size()) {
             return ObjectFactory.NIL_VALUE;
