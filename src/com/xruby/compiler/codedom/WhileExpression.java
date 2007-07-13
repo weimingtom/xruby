@@ -51,8 +51,11 @@ public class WhileExpression extends Expression {
 		}
 		
 		visitor.visitWhileConditionBegin();
-		condition_.accept(visitor);
-		visitor.visitWhileConditionEnd(is_until_);
+        boolean always_true = conditionIsAlwayTrue(condition_);
+        if (!always_true) {
+		    condition_.accept(visitor);
+        }
+		visitor.visitWhileConditionEnd(always_true, is_until_);
 
 		if (null != body_) {
 			body_.accept(visitor);

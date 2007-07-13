@@ -560,7 +560,7 @@ public class CodePrinter implements CodeVisitor {
         result_.append("while condition\n");
     }
 
-    public void visitWhileConditionEnd(boolean is_until) {
+    public void visitWhileConditionEnd(boolean always_true, boolean is_until) {
         result_.append("end while condition\n");
     }
 
