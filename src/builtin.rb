@@ -31,6 +31,10 @@ module Kernel
     def nil?
         false
     end
+    
+    def fork
+        raise NotImplementedError, "the fork() function is unimplemented on this machine"
+    end
 
     def =~ x
         false
@@ -907,6 +911,11 @@ module Process
     def Process.setrlimit *x
         raise NotImplementedError, "the setrlimit() function is unimplemented on this machine"
     end
+    
+    def Process.fork
+        raise NotImplementedError, "the fork() function is unimplemented on this machine"
+    end
+    
 end
 
 class ThreadError < StandardError
@@ -1152,3 +1161,8 @@ class <<ENV
     end
 end
 
+class SignalException < Exception
+end
+
+class Interrupt < SignalException
+end
