@@ -24,8 +24,6 @@ public class RubyCompilerImpl implements CodeVisitor {
     private final Stack<ClassGenerator> suspended_cgs_ = new Stack<ClassGenerator>();
     private final CompilationResults compilation_results_ = new CompilationResults();
     private final String script_name_;
-    private final LabelManager labelManager_ = new LabelManager();
-    private final EnsureLabelManager ensureLabelManager_ = new EnsureLabelManager();
     private RubyBinding binding_;
 
     private Label currentLineLabel;
@@ -517,8 +515,8 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitWhileConditionBegin() {
-        labelManager_.openNewScope();
-        cg_.getMethodGenerator().mark(labelManager_.getCurrentNext());
+        cg_.getMethodGenerator().getLabelManager().openNewScope();
+        cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getLabelManager().getCurrentNext());
     }
 
     public void visitWhileConditionEnd(boolean always_true, boolean is_until) {
@@ -527,14 +525,14 @@ public class RubyCompilerImpl implements CodeVisitor {
         } else {
             cg_.getMethodGenerator().RubyAPI_testTrueFalse();
         }
-        
+
         if (is_until) {
-            cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, labelManager_.getCurrentX());
+            cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, cg_.getMethodGenerator().getLabelManager().getCurrentX());
         } else {
-            cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, labelManager_.getCurrentX());
+            cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, cg_.getMethodGenerator().getLabelManager().getCurrentX());
         }
 
-        cg_.getMethodGenerator().mark(labelManager_.getCurrentRedo());
+        cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getLabelManager().getCurrentRedo());
     }
 
     public void visitWhileBodyEnd(boolean has_body) {
@@ -542,13 +540,13 @@ public class RubyCompilerImpl implements CodeVisitor {
             cg_.getMethodGenerator().pop();
         }
 
-        cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
+        cg_.getMethodGenerator().goTo(cg_.getMethodGenerator().getLabelManager().getCurrentNext());
 
-        cg_.getMethodGenerator().mark(labelManager_.getCurrentX());
+        cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getLabelManager().getCurrentX());
         visitNilExpression();//this is the value of while expression if no break is called.
 
-        cg_.getMethodGenerator().mark(labelManager_.getCurrentBreak());
-        labelManager_.closeCurrentScope();
+        cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getLabelManager().getCurrentBreak());
+        cg_.getMethodGenerator().getLabelManager().closeCurrentScope();
     }
 
     public Object visitAfterIfBody(Object next_label, Object end_label) {
@@ -613,12 +611,12 @@ public class RubyCompilerImpl implements CodeVisitor {
         //in the method parameter. e.g. f(..., begin ..end, ...), the method receiver and parameter is already on the list.
         cg_.getMethodGenerator().saveCurrentVariablesOnStack();
 
-        ensureLabelManager_.openNewScope();
+        cg_.getMethodGenerator().getEnsureLabelManager().openNewScope();
         if (has_ensure) {
-            ensureLabelManager_.setCurrentFinally(new Label());
+            cg_.getMethodGenerator().getEnsureLabelManager().setCurrentFinally(new Label());
         }
-        cg_.getMethodGenerator().mark(ensureLabelManager_.getCurrentRetry());
-        return ensureLabelManager_.getCurrentRetry();
+        cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getEnsureLabelManager().getCurrentRetry());
+        return cg_.getMethodGenerator().getEnsureLabelManager().getCurrentRetry();
     }
 
     public Object visitBodyAfter() {
@@ -627,13 +625,13 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void visitBodyEnd(Object label) {
         cg_.getMethodGenerator().mark((Label)label);
-        ensureLabelManager_.closeCurrentScope();
+        cg_.getMethodGenerator().getEnsureLabelManager().closeCurrentScope();
 
         cg_.getMethodGenerator().restoreCurrentVariablesOnStack();
     }
 
     public int visitEnsureBodyBegin() {
-        cg_.getMethodGenerator().mark(ensureLabelManager_.getCurrentFinally());
+        cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getEnsureLabelManager().getCurrentFinally());
         int var = cg_.getMethodGenerator().newLocal(Type.getType(Object.class));
         cg_.getMethodGenerator().storeLocal(var);
         return var;
@@ -646,13 +644,13 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public Object visitPrepareEnsure1() {
         Label label = new Label();
-        cg_.getMethodGenerator().visitJumpInsn(Opcodes.JSR, ensureLabelManager_.getCurrentFinally());
+        cg_.getMethodGenerator().visitJumpInsn(Opcodes.JSR, cg_.getMethodGenerator().getEnsureLabelManager().getCurrentFinally());
         return label;
     }
 
     public void visitEnsure(int exception_var) {
         if (exception_var >= 0) {
-            Label l = ensureLabelManager_.getCurrentFinally();
+            Label l = cg_.getMethodGenerator().getEnsureLabelManager().getCurrentFinally();
             if (null != l) {
                 cg_.getMethodGenerator().visitJumpInsn(Opcodes.JSR, l);
             }
@@ -785,7 +783,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     private void invokeFinallyIfExist() {
-        Label l = ensureLabelManager_.getCurrentFinally();
+        Label l = cg_.getMethodGenerator().getEnsureLabelManager().getCurrentFinally();
         if (null != l) {
             int tmp = cg_.getAnonymousLocalVariable();
             cg_.getMethodGenerator().storeLocal(tmp);//store then load to make stack size always equals 1
@@ -898,7 +896,7 @@ public class RubyCompilerImpl implements CodeVisitor {
             cg_.getMethodGenerator().returnValue();
         } else {
             invokeFinallyIfExist();
-            cg_.getMethodGenerator().goTo(labelManager_.getCurrentBreak());
+            cg_.getMethodGenerator().goTo(cg_.getMethodGenerator().getLabelManager().getCurrentBreak());
         }
     }
 
@@ -907,7 +905,7 @@ public class RubyCompilerImpl implements CodeVisitor {
             cg_.getMethodGenerator().returnValue();
         } else {
             cg_.getMethodGenerator().pop();
-            cg_.getMethodGenerator().goTo(labelManager_.getCurrentNext());
+            cg_.getMethodGenerator().goTo(cg_.getMethodGenerator().getLabelManager().getCurrentNext());
         }
     }
 
@@ -917,7 +915,7 @@ public class RubyCompilerImpl implements CodeVisitor {
             cg_.getMethodGenerator().ObjectFactory_nilValue();
             cg_.getMethodGenerator().returnValue();
         } else {
-            cg_.getMethodGenerator().goTo(labelManager_.getCurrentRedo());
+            cg_.getMethodGenerator().goTo(cg_.getMethodGenerator().getLabelManager().getCurrentRedo());
         }
     }
 
@@ -927,7 +925,7 @@ public class RubyCompilerImpl implements CodeVisitor {
             cg_.getMethodGenerator().ObjectFactory_nilValue();
             cg_.getMethodGenerator().returnValue();
         } else {
-            cg_.getMethodGenerator().goTo(ensureLabelManager_.getCurrentRetry());
+            cg_.getMethodGenerator().goTo(cg_.getMethodGenerator().getEnsureLabelManager().getCurrentRetry());
         }
     }
 
