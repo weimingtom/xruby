@@ -16,7 +16,7 @@ public abstract class RubyBlock extends MethodBlockBase {
     // end
     protected boolean __break__ = false;
     protected boolean __return__ = false;
-    protected boolean __redo__ = false;
+    protected boolean __retry__ = false;
 
     // Normally RubyBlock was created in one place, invoked(yield) later in another
     // place. The block needs to keep the context of its creator(self, arg, block arg,
@@ -68,8 +68,8 @@ public abstract class RubyBlock extends MethodBlockBase {
         return __return__;
     }
 
-    public boolean shouldRedo() {
-        return __redo__;
+    public boolean shouldRetry() {
+        return __retry__;
     }
 
     public void setCreatedByLambda() {
@@ -97,11 +97,11 @@ public abstract class RubyBlock extends MethodBlockBase {
 
         __break__ = false;
         __return__ = false;
-        __redo__ = false;
+        __retry__ = false;
 
         RubyValue v = run(receiver, null != args ? args : new RubyArray(0));
         //TODO Maybe we can just use the fields in BlockCallStatus, remove the
-        //__break__, __return__, __redo__ here
+        //__break__, __return__, __retry__ here
         if (v.returnedInBlock()) {
             __return__ = true;
         }
@@ -114,11 +114,11 @@ public abstract class RubyBlock extends MethodBlockBase {
     public RubyValue invoke(RubyValue receiver) {
         __break__ = false;
         __return__ = false;
-        __redo__ = false;
+        __retry__ = false;
 
         RubyValue v = run(receiver);
         //TODO Maybe we can just use the fields in BlockCallStatus, remove the
-        //__break__, __return__, __redo__ here
+        //__break__, __return__, __retry__ here
         if (v.returnedInBlock()) {
             __return__ = true;
         }
@@ -134,11 +134,11 @@ public abstract class RubyBlock extends MethodBlockBase {
     public RubyValue invoke(RubyValue receiver, RubyValue arg) {
         __break__ = false;
         __return__ = false;
-        __redo__ = false;
+        __retry__ = false;
 
         RubyValue v = run(receiver, arg);
         //TODO Maybe we can just use the fields in BlockCallStatus, remove the
-        //__break__, __return__, __redo__ here
+        //__break__, __return__, __retry__ here
         if (v.returnedInBlock()) {
             __return__ = true;
         }
@@ -154,11 +154,11 @@ public abstract class RubyBlock extends MethodBlockBase {
     public RubyValue invoke(RubyValue receiver, RubyValue arg1, RubyValue arg2) {
         __break__ = false;
         __return__ = false;
-        __redo__ = false;
+        __retry__ = false;
 
         RubyValue v = run(receiver, arg1, arg2);
         //TODO Maybe we can just use the fields in BlockCallStatus, remove the
-        //__break__, __return__, __redo__ here
+        //__break__, __return__, __retry__ here
         if (v.returnedInBlock()) {
             __return__ = true;
         }

@@ -247,10 +247,10 @@ class MethodGenerator extends GeneratorAdapter {
         putField(Types.RUBY_BLOCK_TYPE, "__return__", Type.getType(boolean.class));
     }
 
-    public void RubyBlock__redo__() {
+    public void RubyBlock__retry__() {
         loadThis();
         push(true);
-        putField(Types.RUBY_BLOCK_TYPE, "__redo__", Type.getType(boolean.class));
+        putField(Types.RUBY_BLOCK_TYPE, "__retry__", Type.getType(boolean.class));
     }
 
     public void loadSelf(boolean is_in_block) {

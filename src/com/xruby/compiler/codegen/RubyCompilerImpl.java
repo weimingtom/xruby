@@ -195,6 +195,9 @@ public class RubyCompilerImpl implements CodeVisitor {
                 cg_.getMethodGenerator().ObjectFactory_nilValue();
             }
         }
+
+        cg_.getMethodGenerator().getLabelManager().openNewScope();
+
         return uniqueBlockName;
     }
 
@@ -204,12 +207,18 @@ public class RubyCompilerImpl implements CodeVisitor {
         String[] commons = block_cg.createFieldsAndConstructorOfRubyBlock();
         String[] assigned_commons = block_cg.getAssignedFields();
 
+        cg_.getMethodGenerator().getLabelManager().closeCurrentScope();
+
         switchToPreviousClassGenerator(last_statement_has_return_value);
 
         cg_.getMethodGenerator().new_BlockClass(cg_, uniqueBlockName, commons, isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
         cg_.getMethodGenerator().storeBlockForFutureRestoreAndCheckReturned();
 
         return assigned_commons;
+    }
+
+    public void visitBlockBody() {
+        cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getLabelManager().getCurrentRedo());
     }
 
     public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
@@ -890,7 +899,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitBreak() {
-        if (isInBlock() && cg_.getMethodGenerator().getLabelManager().isEmpty()) {
+        if (isInBlock() && cg_.getMethodGenerator().getLabelManager().isAtTopLevel()) {
             invokeFinallyIfExist();
             cg_.getMethodGenerator().RubyBlock__break__();
             cg_.getMethodGenerator().returnValue();
@@ -901,7 +910,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitNext() {
-        if (isInBlock() && cg_.getMethodGenerator().getLabelManager().isEmpty()) {
+        if (isInBlock() && cg_.getMethodGenerator().getLabelManager().isAtTopLevel()) {
             cg_.getMethodGenerator().returnValue();
         } else {
             cg_.getMethodGenerator().pop();
@@ -910,18 +919,12 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitRedo() {
-        if (isInBlock() && cg_.getMethodGenerator().getLabelManager().isEmpty()) {
-            cg_.getMethodGenerator().RubyBlock__redo__();
-            cg_.getMethodGenerator().ObjectFactory_nilValue();
-            cg_.getMethodGenerator().returnValue();
-        } else {
-            cg_.getMethodGenerator().goTo(cg_.getMethodGenerator().getLabelManager().getCurrentRedo());
-        }
+        cg_.getMethodGenerator().goTo(cg_.getMethodGenerator().getLabelManager().getCurrentRedo());
     }
 
     public void visitRetry() {
-        if (isInBlock() && cg_.getMethodGenerator().getLabelManager().isEmpty()) {
-            cg_.getMethodGenerator().RubyBlock__redo__();
+        if (isInBlock() && cg_.getMethodGenerator().getLabelManager().isAtTopLevel()) {
+            cg_.getMethodGenerator().RubyBlock__retry__();
             cg_.getMethodGenerator().ObjectFactory_nilValue();
             cg_.getMethodGenerator().returnValue();
         } else {

@@ -2598,6 +2598,16 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_retry() {
         String[] program_texts = {
+                "  sum=0\n" +
+                "    for i in 1..10\n" +
+                "      sum += i\n" +
+                "      i -= 1\n" +
+                "      print i\n" +
+                "      if i > 0 && sum < 5\n" +
+                "        retry\n" +
+                "      end\n" +
+                "  end",
+
                 "count = 1;\n" +
                 "for i in 1..9\n" +
                 "	print i\n" +
@@ -2608,6 +2618,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "010123456789",
                 "1111",
         };
 
@@ -5061,6 +5072,16 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_for_in() {
         String [] program_texts = {
+                "   sum=0\n" +
+                "    for i in 1..10\n" +
+                "      sum += i\n" +
+                "      i -= 1\n" +
+                "      print i\n" +
+                "      if i > 0\n" +
+                "        redo\n" +
+                "      end\n" +
+                "  end",
+
                 "for x, (y, z) in [1, [2, [3, 4]]]; print x,y,z; end",
 
                 "for i_test_for_in in 1..1; j_test_for_in=3; end; print i_test_for_in, j_test_for_in",
@@ -5072,6 +5093,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "0102103210432105432106543210765432108765432109876543210",
                 "1nilnil234",
 
                 "13",
