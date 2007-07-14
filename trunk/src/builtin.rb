@@ -894,6 +894,19 @@ class Time
 end
 
 class Dir
+    def Dir.chroot
+        raise NotImplementedError, "the chroot() function is unimplemented on this machine"
+    end
+end
+
+module Process
+    def Process.getrlimit x
+        raise NotImplementedError, "the getrlimit() function is unimplemented on this machine"
+    end
+    
+    def Process.setrlimit *x
+        raise NotImplementedError, "the setrlimit() function is unimplemented on this machine"
+    end
 end
 
 class ThreadError < StandardError

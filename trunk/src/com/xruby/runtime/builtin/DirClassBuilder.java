@@ -147,12 +147,6 @@ class Dir_glob extends RubyOneArgMethod {
     }
 }
 
-class Dir_chroot extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        throw new RubyException(RubyRuntime.NotImplementedErrorClass,"chroot is not portable and is unimplemented.");
-    }
-}
-
 class Dir_new extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String path = RubyTypesUtil.convertToString(arg).toString();
@@ -267,7 +261,6 @@ public class DirClassBuilder {
 
         c.getSingletonClass().defineMethod("new",new Dir_new());     
         c.getSingletonClass().defineMethod("foreach",new Dir_foreach());
-        c.getSingletonClass().defineMethod("chroot",new Dir_chroot());
         c.getSingletonClass().defineMethod("chdir", new Dir_chdir());
         RubyMethod getwd = new Dir_getwd();
         c.getSingletonClass().defineMethod("getwd", getwd);
