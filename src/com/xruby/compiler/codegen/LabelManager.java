@@ -13,7 +13,7 @@ class LabelManager {
 		public Label break_ = new Label();
 		public Label next_ = new Label();
 		public Label redo_ = new Label();
-		public Label x_ = new Label();//general purpose label
+		public Label x_ = new Label();//general purpose labelzz
 	}
 	
 	private Stack<LabelGroup> labels_ = new Stack<LabelGroup>();
@@ -33,7 +33,11 @@ class LabelManager {
 	public Label getCurrentX() {
 		return labels_.peek().x_;
 	}
-	
+    
+    public boolean isEmpty() {
+        return labels_.isEmpty();
+    }
+    
 	public void openNewScope() {
 		labels_.add(new LabelGroup());
 	}

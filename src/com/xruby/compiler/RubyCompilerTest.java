@@ -2514,6 +2514,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_break_in_block() {
         String[] program_texts = {
+//                "3.times {|x| print x;while true; break;end}",
+
                 "i =0\n" +
                 "def f\n" +
                 "  1.upto(10) {|i|\n" +
@@ -2526,6 +2528,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+//                "012",
+
                 "5",
         };
 

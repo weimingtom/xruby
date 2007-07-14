@@ -29,6 +29,8 @@ class MethodGenerator extends GeneratorAdapter {
     private ArrayList<Class> current_types_on_stack_ = new ArrayList<Class>();
     private ArrayList<Integer> saved_vars_ = new ArrayList<Integer>();//may be have same length of current_types_on_stack_
     private final boolean is_singleton_;
+    private final LabelManager label_manager_ = new LabelManager();
+    private final EnsureLabelManager ensure_label_manager_ = new EnsureLabelManager();
 
     public MethodGenerator(final int arg0, final Method arg1, final ClassVisitor cv, RubyBinding binding, SymbolTable st, boolean is_singleton) {
         super(arg0, arg1, null, null, cv);
@@ -39,6 +41,18 @@ class MethodGenerator extends GeneratorAdapter {
         }
         is_singleton_ = is_singleton;
         visitCode();
+    }
+
+    public SymbolTable getSymbolTable() {
+           return symbol_table_;
+    }
+
+    public LabelManager getLabelManager() {
+        return label_manager_;
+    }
+
+    public EnsureLabelManager getEnsureLabelManager() {
+        return ensure_label_manager_;
     }
 
     public boolean isSingleton() {
@@ -79,10 +93,6 @@ class MethodGenerator extends GeneratorAdapter {
 
     public void removeCurrentVariablesOnStack() {
         current_types_on_stack_.remove(current_types_on_stack_.size() - 1);
-    }
-
-    public SymbolTable getSymbolTable() {
-        return symbol_table_;
     }
 
     public void pushNull() {
@@ -205,16 +215,16 @@ class MethodGenerator extends GeneratorAdapter {
                 Type.getType(RubyException.class));
     }
 
-	public void RubyBlock_argOfCurrentMethod_() {
+    public void RubyBlock_argOfCurrentMethod_() {
         loadThis();
         getField(Types.RUBY_BLOCK_TYPE, "argOfCurrentMethod_", Types.RUBY_VALUE_TYPE);
     }
 
-	public void RubyBlock_argsOfCurrentMethod_() {
+    public void RubyBlock_argsOfCurrentMethod_() {
         loadThis();
         getField(Types.RUBY_BLOCK_TYPE, "argsOfCurrentMethod_", Types.RUBY_ARRAY_TYPE);
     }
-	
+
     private void RubyBlock_blockOfCurrentMethod_() {
         loadThis();
         getField(Types.RUBY_BLOCK_TYPE, "blockOfCurrentMethod_", Types.RUBY_BLOCK_TYPE);
@@ -225,7 +235,7 @@ class MethodGenerator extends GeneratorAdapter {
         getField(Types.RUBY_BLOCK_TYPE, "selfOfCurrentMethod_", Types.RUBY_VALUE_TYPE);
     }
 
-	public void RubyBlock__break__() {
+    public void RubyBlock__break__() {
         loadThis();
         push(true);
         putField(Types.RUBY_BLOCK_TYPE, "__break__", Type.getType(boolean.class));
@@ -268,9 +278,9 @@ class MethodGenerator extends GeneratorAdapter {
         newInstance(methodNameType);
         dup();
 
-		loadSelf(is_in_block);
+        loadSelf(is_in_block);
 
-		cg.loadArgOfMethodForBlock();
+        cg.loadArgOfMethodForBlock();
 
         if (is_in_global_scope) {
             pushNull();
@@ -278,14 +288,14 @@ class MethodGenerator extends GeneratorAdapter {
             loadBlock(is_in_block);
         }
 
-		loadCurrentScope(is_in_class_builder, is_in_singleton_method, is_in_global_scope, is_in_block);
+        loadCurrentScope(is_in_class_builder, is_in_singleton_method, is_in_global_scope, is_in_block);
 
         if (is_in_block) {
             push(true);
         } else {
             push(false);
         }
-        
+
         for (String name : commons) {
             cg.loadVariable(name);
         }
