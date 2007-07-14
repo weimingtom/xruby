@@ -39,6 +39,7 @@ ruby\test_process.rb
 ruby\test_math.rb
 ruby\test_method.rb
 ruby\test_range.rb
+ruby\test_signal.rb
 ruby\test_struct.rb
 ruby\test_string.rb
 ruby\test_stringchar.rb
@@ -70,7 +71,6 @@ ruby\test_proc.rb
 ruby\test_rand.rb
 ruby\test_readpartial.rb
 ruby\test_settracefunc.rb
-ruby\test_signal.rb
 ruby\test_super.rb  # 'Wrong context' exception
 ruby\test_system.rb
 
