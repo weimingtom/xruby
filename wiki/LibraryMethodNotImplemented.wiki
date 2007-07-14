@@ -35,6 +35,7 @@ ruby\test_gc.rb
 ruby\test_ifunless.rb
 ruby\test_io.rb
 ruby\test_pack.rb
+ruby\test_process.rb
 ruby\test_math.rb
 ruby\test_method.rb
 ruby\test_range.rb
@@ -66,7 +67,6 @@ ruby\test_objectspace.rb
 ruby\test_path.rb (only work on unix?)
 ruby\test_pipe.rb
 ruby\test_proc.rb
-ruby\test_process.rb
 ruby\test_rand.rb
 ruby\test_readpartial.rb
 ruby\test_settracefunc.rb
