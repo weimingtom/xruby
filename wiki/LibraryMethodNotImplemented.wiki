@@ -45,6 +45,7 @@ ruby\test_symbol.rb
 ruby\test_time.rb
 ruby\test_trace.rb
 ruby\test_variable.rb
+ruby\test_whileuntil.rb
 
 testunit\test_error.rb
 testunit\test_failure.rb
@@ -72,7 +73,6 @@ ruby\test_settracefunc.rb
 ruby\test_signal.rb
 ruby\test_super.rb  # 'Wrong context' exception
 ruby\test_system.rb
-ruby\test_whileuntil.rb #infinite loop
 
 testunit\test_assertions.rb
 testunit\test_testcase.rb
