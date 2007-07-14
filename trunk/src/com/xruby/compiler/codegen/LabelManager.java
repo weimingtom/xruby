@@ -34,8 +34,8 @@ class LabelManager {
 		return labels_.peek().x_;
 	}
     
-    public boolean isEmpty() {
-        return labels_.isEmpty();
+    public boolean isAtTopLevel() {
+        return labels_.size() == 1;
     }
     
 	public void openNewScope() {

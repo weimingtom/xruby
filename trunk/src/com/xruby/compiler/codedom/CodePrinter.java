@@ -592,6 +592,9 @@ public class CodePrinter implements CodeVisitor {
         return null;
     }
 
+    public void visitBlockBody() {
+    }
+
     public void visitMrhs(int var, int index, boolean asterisk) {
         result_.append("mrhs:");
         result_.append(index);

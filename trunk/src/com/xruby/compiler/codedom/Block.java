@@ -115,6 +115,7 @@ public class Block {
 			MultipleAssignmentStatement.acceptMLhs(visitor, buildLhs(), asterisk_parameter_, has_extra_comma_, is_multi_rhs);
 			visitor.visitTerminal();
 			//	TODO support default_value
+			visitor.visitBlockBody();
 			bodyStatement_.accept(visitor);
             setEndPosition(bodyStatement_.getLastLine());
         } else {

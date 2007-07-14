@@ -93,7 +93,7 @@ class Range_each extends RubyNoArgMethod {
                 RubyValue v = block.invoke(receiver, ite);
                 if (block.breakedOrReturned()) {
                     return v;
-                } else if (block.shouldRedo()) {
+                } else if (block.shouldRetry()) {
                     ite = r.getLeft();
                     continue;
                 } else {
@@ -105,7 +105,7 @@ class Range_each extends RubyNoArgMethod {
                 RubyValue v = block.invoke(receiver, ite);
                 if (block.breakedOrReturned()) {
                     return v;
-                } else if (block.shouldRedo()) {
+                } else if (block.shouldRetry()) {
                     ite = r.getLeft();
                     continue;
                 } else {
