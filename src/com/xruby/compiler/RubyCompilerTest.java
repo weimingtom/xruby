@@ -1271,6 +1271,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_ensure() {
         String[] program_texts = {
+                "def f;print 1;ensure; print 2;return; end; f",
+
                 "while true\n" +
                 "  begin\n" +
                 "    break\n" +
@@ -1341,6 +1343,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "12",
                 "break",
                 "nil",
                 "xxxensure",
