@@ -641,6 +641,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public int visitEnsureBodyBegin() {
         cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getEnsureLabelManager().getCurrentFinally());
+        cg_.getMethodGenerator().getEnsureLabelManager().setCurrentFinally(null);//finished using it
+        
         int var = cg_.getMethodGenerator().newLocal(Type.getType(Object.class));
         cg_.getMethodGenerator().storeLocal(var);
         return var;
