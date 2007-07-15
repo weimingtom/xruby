@@ -62,7 +62,7 @@ ruby\test_dir.rb		#require 'fileutil'
 ruby\test_eval.rb       #Kernel_instance_eval ClassCastException
 ruby\test_file.rb	#"require 'tempfile'" causes test::unit's runner fail to start
 ruby\test_hash.rb		#tough to deal with...will work on it this weekend
-ruby\test_iterator.rb	#VerifyError
+ruby\test_iterator.rb
 ruby\test_marshal.rb
 ruby\test_objectspace.rb
 ruby\test_path.rb (only work on unix?)
