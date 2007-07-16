@@ -513,7 +513,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public Object visitAfterIfCondition() {
-        cg_.getMethodGenerator().RubyAPI_testTrueFalse();
+        cg_.getMethodGenerator().RubyValue_isTrue();
         Label label = new Label();
         cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
         return label;
@@ -532,7 +532,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         if (always_true) {
             cg_.getMethodGenerator().push(true);
         } else {
-            cg_.getMethodGenerator().RubyAPI_testTrueFalse();
+            cg_.getMethodGenerator().RubyValue_isTrue();
         }
 
         if (is_until) {
@@ -605,7 +605,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public Object visitAfterUnlessCondition() {
-        cg_.getMethodGenerator().RubyAPI_testTrueFalse();
+        cg_.getMethodGenerator().RubyValue_isTrue();
         Label label = new Label();
         cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.NE, label);
         return label;

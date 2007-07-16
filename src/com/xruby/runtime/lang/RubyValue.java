@@ -67,8 +67,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     	if (this == o) {
     		return true;
     	} else if (o instanceof RubyValue) {
-    		RubyValue v = RubyAPI.callPublicOneArgMethod(this, (RubyValue)o, null, RubyID.equalID);
-    		return RubyAPI.testTrueFalse(v);
+    		return RubyAPI.callPublicOneArgMethod(this, (RubyValue)o, null, RubyID.equalID).isTrue();
     	} else {
     		return false;
     	}
@@ -118,9 +117,59 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
             return new RubySingletonClass(this, this.getRubyClass());
         }
     }
+    
+    public boolean respondTo(RubyID id) {
+    	if (this.getRubyClass().findMethod(RubyID.RESPOND_TO_P) == RubyRuntime.getRubyMethod()) {
+    		return this.getRubyClass().isMethodBound(id, false);
+    	} else {
+    		return RubyAPI.callOneArgMethod(this, id.toSymbol(), null, RubyID.RESPOND_TO_P).isTrue();
+    	}
+    }
+    
+    public boolean isTrue() {
+    	return true;
+    }
+    
+    public boolean isKindOf(RubyModule m) {
+    	return m.isKindOf(this.getRubyClass());
+    }
 
     public String toString() {
         return getRubyClass().getName() + super.toString();
+    }
+    
+    public int toInt() {
+    	return this.convertToInteger().toInt();
+    }
+    
+    public RubyArray toAry() {
+    	return this.contertToArray().toAry();
+    }
+    
+    private RubyValue convertToInteger() {
+    	return convertToType(RubyRuntime.IntegerClass, RubyID.toIntID);
+    }
+    
+    private RubyValue contertToArray() {
+    	return convertToType(RubyRuntime.ArrayClass, RubyID.toAryID);
+    }
+    
+    private RubyValue convertToType(RubyClass klass, RubyID id) {
+    	if (this.isKindOf(klass)) {
+    		return this;
+    	}
+    	
+    	if (!this.respondTo(id)) {
+    		throw new RubyException("can't convert " + this.getRubyClass().getName() + " into " + klass.getName());
+    	}
+    	
+    	RubyValue v = RubyAPI.callNoArgMethod(this, null, id);
+    	
+    	if (v.isKindOf(klass)) {
+    		throw new RubyException(this.getRubyClass().getName() + "#" + id.toString() + " should return " + klass.getName());
+    	}
+    	
+		return v;
     }
 
     public RubyMethod findPublicMethod(RubyID mid) {

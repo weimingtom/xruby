@@ -48,6 +48,29 @@ public class RubyModule extends MethodCollection {
         }
         return v;
     }
+    
+    public boolean isMethodBound(RubyID id, boolean check) {
+    	RubyMethod m = this.findMethod(id);
+    	if (null != m && !UndefMethod.isUndef(m)) {
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    public boolean isKindOf(RubyClass klass) {
+		RubyModule m = this;
+		
+		while (m != null) {
+			if (m == klass || m.methods_ == klass.methods_) {
+				return true;
+			}
+			
+			m = m.superclass_;
+		}
+		
+		return false;
+	}
 
     /// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
     /// It has less overhead than 'defineClass' (no hash table lookup).

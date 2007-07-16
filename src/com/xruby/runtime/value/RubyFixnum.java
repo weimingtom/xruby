@@ -17,8 +17,16 @@ public class RubyFixnum extends RubySpecialValue {
     public int intValue() {
         return value_;
     }
+    
+	public int toInt() {
+		return value_;
+	}
+	
+	public RubyFixnum convertToInteger() {
+		return this;
+    }
 
-    public int hashCode() {
+	public int hashCode() {
         return value_;
     }
 

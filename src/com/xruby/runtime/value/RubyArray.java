@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 
 /**
  * @breif Internal representation of a ruby array
  */
 public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
-    private ArrayList<RubyValue> array_;
+    private List<RubyValue> array_;
 
     //MRHS will be converted to a RubyArray, but its original form need to be saved
     //to handle multiple assignment
@@ -34,13 +35,13 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     public RubyArray(RubyValue v) {
         this(1);
-        add(v);
+        this.array_.add(v);
     }
 
     public RubyArray(RubyValue value1, RubyValue value2) {
         this(2);
-        add(value1);
-        add(value2);
+        this.array_.add(value1);
+        this.array_.add(value2);
     }
 
     RubyArray(int size, RubyValue default_value) {
@@ -57,11 +58,19 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         rhs_size_ = rhs_size;
         has_single_asterisk_or_call_ = has_single_asterisk_or_call;
     }
+    
+    private RubyArray(List<RubyValue> array) {
+    	super(RubyRuntime.ArrayClass);
+    	this.array_ = array;
+    	
+    	rhs_size_ = 0;
+        has_single_asterisk_or_call_ = false;
+    }
 
     @SuppressWarnings("unchecked")
     public RubyArray clone() {
         RubyArray v = (RubyArray) super.clone();
-        v.array_ = (ArrayList<RubyValue>) array_.clone();
+        v.array_ = new ArrayList<RubyValue>(this.array_);
         return v;
     }
 
@@ -113,18 +122,13 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     }
     
     public RubyValue first(RubyValue v) {
-    	int n = ((RubyFixnum)v).intValue();
+    	int n = v.toInt();
     	int size = this.array_.size();
     	if (n > size) {    		
     		n = size;
     	}
-    	RubyArray a = new RubyArray(size);
     	
-    	for (int i = 0; i < n; i++) {
-    		a.add(this.array_.get(i));
-    	}
-    	
-        return a;
+        return new RubyArray(this.array_.subList(0, n));
     }
     
     public RubyValue last() {
@@ -136,19 +140,35 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     }
     
     public RubyValue last(RubyValue v) {
-        int n = ((RubyFixnum)v).intValue();
+        int n = v.toInt();
         int size = this.array_.size();
 		if (n > size) {
         	n = size;
         }
 		
-		RubyArray a = new RubyArray(size);
-    	
-    	for (int i = size - n; n-- > 0; i++) {
-    		a.add(this.array_.get(i));
-    	}
-    	
-        return a;
+		return new RubyArray(this.array_.subList(size - n, size));
+    }
+    
+    public RubyValue at(RubyValue value) {
+        return this.get(value.toInt());
+    }
+    
+    public RubyArray push(RubyArray args) {
+    	if (null != args) {
+            for (RubyValue v : args) {
+            	this.array_.add(v);
+            }
+        }
+        return this;
+    }
+    
+    public RubyValue pop() {
+    	int size = this.array_.size();
+    	return this.array_.remove(size - 1);
+    }
+    
+    public RubyValue deleteAt(RubyValue v) {
+    	return this.delete_at(v.toInt());
     }
     
     public RubyValue delete_at(int index) {
@@ -199,7 +219,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public RubyValue delete_if(RubyBlock block) {
         for (int i = 0; i < array_.size();) {
             RubyValue r = block.invoke(this, array_.get(i));
-            if (RubyAPI.testTrueFalse(r)) {
+            if (r.isTrue()) {
                 array_.remove(i);
             } else {
                 ++i;
@@ -240,7 +260,6 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         if (index < array_.size()) {
             array_.set(index, value);
         } else {
-            array_.ensureCapacity(index + 1);
             for (int i = array_.size(); i < index; ++i) {
                 array_.add(ObjectFactory.NIL_VALUE);
             }
@@ -343,28 +362,47 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         if (length == 0) {
             return new RubyArray(0);
         }
-
-        RubyArray resultArray = new RubyArray(length);
-        int last = begin + length;
-        for (int i = begin; i < last; i++) {
-            resultArray.add(array_.get(i));
-        }
-
-        return resultArray;
+        
+        return new RubyArray(array_.subList(begin, begin + length));
     }
-
-    public boolean equals(RubyArray that) {
-        if (array_.size() != that.size()) {
-            return false;
-        }
-
-        for (int i = 0; i < array_.size(); ++i) {
-            if (!RubyAPI.testEqual(this.get(i), that.get(i))) {
+    
+    public RubyValue opEquals(RubyValue v) {
+    	return ObjectFactory.createBoolean(equals(v));
+    }
+    
+    public boolean equals(Object o) {
+    	if (this == o) {
+    		return true;
+    	}
+    	
+    	if (o instanceof RubyArray) {
+    		RubyArray that = (RubyArray)o;
+    		int size = array_.size();
+    		if (size != that.size()) {
                 return false;
             }
-        }
 
-        return true;
+            for (int i = 0; i < size; ++i) {
+            	if (!this.get(i).equals(that.get(i))) {
+            		return false;
+            	}
+            }
+
+            return true;
+    	} else if (o instanceof RubyValue) {
+    		RubyValue v = (RubyValue)o;
+    		if (!v.respondTo(RubyID.toAryID)) {
+    			return false;
+    		} else {
+    			return v.equals(this);
+    		}
+    	} else {
+    		return false;
+    	}
+    }
+    
+    public RubyArray toAry() {
+    	return this;
     }
 
     public RubyValue to_s() {
@@ -388,6 +426,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
         array_.addAll(((RubyArray) v).array_);
     }
+    
+    public RubyArray plus(RubyValue v) {
+    	return this.plus(v.toAry());
+    }
 
     public RubyArray plus(RubyArray v) {
         int size = array_.size() + v.size();
@@ -396,6 +438,18 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         resultArray.array_.addAll(v.array_);
         return resultArray;
     }
+    
+    public RubyArray minus(RubyValue v) {
+    	return this.minus(v.toAry());
+    }
+    
+    public RubyArray minus(RubyArray other) {
+        RubyArray a = this.copy();
+        for (RubyValue v : other) {
+            a.remove(v);
+        }
+        return a;
+    }
 
     private boolean remove(RubyValue v) {
         boolean r = false;
@@ -403,14 +457,6 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
             r = true;
         }
         return r;
-    }
-
-    public RubyArray minus(RubyArray other) {
-        RubyArray a = this.copy();
-        for (RubyValue v : other) {
-            a.remove(v);
-        }
-        return a;
     }
 
     public RubyArray times(int times) {
@@ -535,7 +581,9 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return array_.hashCode();
     }
 
-    public RubyArray and(RubyArray other) {
+    public RubyArray and(RubyValue value) {
+    	RubyArray other = value.toAry();
+    	
         RubyArray a = new RubyArray();
         for (RubyValue v : array_) {
             if (other.include(v) && !a.include(v)) {
@@ -545,7 +593,8 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return a;
     }
 
-    public RubyArray or(RubyArray other) {
+    public RubyArray or(RubyValue value) {
+    	RubyArray other = value.toAry();
         RubyArray a = new RubyArray();
         for (RubyValue v : array_) {
             if (!a.include(v)) {

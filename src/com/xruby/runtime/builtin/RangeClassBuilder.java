@@ -86,11 +86,38 @@ class Range_each extends RubyNoArgMethod {
 
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyRange r = (RubyRange) receiver;
-        RubyValue ite = r.getLeft();
+        
+        RubyValue left = r.getLeft();
+        RubyValue right = r.getRight();
+        if (left instanceof RubyFixnum && right instanceof RubyFixnum) {
+        	int limit = right.toInt();
+        	if (!r.isExcludeEnd()) {
+        		limit++;
+        	}
+        	
+        	int begin = left.toInt();
+        	for (int i = begin; i < limit; i++) {
+        		RubyValue v = block.invoke(r, ObjectFactory.createFixnum(i));
+        		if (block.breakedOrReturned()) {
+        			return v;
+        		} else if (block.shouldRetry()) {
+        			i = begin - 1;
+        			continue;
+        		}
+        	}
+        	
+        	return r;
+        }
+        
+        return rangeEach(r, block);
+    }
+
+	private RubyValue rangeEach(RubyRange r, RubyBlock block) {
+		RubyValue ite = r.getLeft();
 
         while (true) {
             while (compare(ite, r.getRight())) {
-                RubyValue v = block.invoke(receiver, ite);
+                RubyValue v = block.invoke(r, ite);
                 if (block.breakedOrReturned()) {
                     return v;
                 } else if (block.shouldRetry()) {
@@ -102,7 +129,7 @@ class Range_each extends RubyNoArgMethod {
             }
 
             if (!r.isExcludeEnd()) {
-                RubyValue v = block.invoke(receiver, ite);
+                RubyValue v = block.invoke(r, ite);
                 if (block.breakedOrReturned()) {
                     return v;
                 } else if (block.shouldRetry()) {
@@ -116,8 +143,8 @@ class Range_each extends RubyNoArgMethod {
             break;
         }
 
-        return receiver;
-    }
+        return r;
+	}
 }
 
 class Range_hash extends RubyNoArgMethod {

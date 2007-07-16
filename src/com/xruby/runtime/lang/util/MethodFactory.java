@@ -28,6 +28,7 @@ public class MethodFactory {
 	public static final int ONE_ARG = 2;
 	public static final int NO_OR_ONE_ARG = 3;
 	public static final int TWO_ARG = 4;
+	public static final int ONE_OR_TWO_ARG = 6;
 	public static final int VAR_ARG = 8;
 	
 	static {
