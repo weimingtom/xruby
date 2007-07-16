@@ -392,6 +392,134 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_text, token_types);
     }
 
+    public void test_COMMENT() {
+        String[] program_texts = {
+            "#",
+            "# ",
+            "#             ",
+            "#12424scvdsfv",
+            "#4r fgr rt",
+            "#winClicker",
+        };
+
+        String[] expected_texts = {
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.EOF, expected_texts);
+    }
+
+    public void test_WHITE_SPACE() {
+        String[] program_texts = {
+            " ",
+            "\t",
+            "            ",
+            "\t\t\t\t\t",
+            " \t\t         \t",
+        };
+
+        String[] expected_texts = {
+            null,
+            null,
+            null,
+            null,
+            null,
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.EOF, expected_texts);
+    }
+
+    public void test_LINE_CONTINUATION() {
+        String[] program_texts = {
+            "\\\n",
+        };
+
+        String[] expected_texts = {
+            null,
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.EOF, expected_texts);
+    }
+
+    public void test_RDOC() {
+        String[] program_texts = {
+            "=begin\n=end",
+            "=begin\nwhatever\n=end",
+            "=begin\nwha\n\n%^$%^$%$^&$%\n\n&tever\n=end",
+        };
+
+        String[] expected_texts = {
+            null,
+            null,
+            null,
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.EOF, expected_texts);
+    }
+
+    /*TODO
+    public void test_W_ARRAY() {
+        String[] program_texts = {
+            "%w(folder openfold)",
+            "%w/test string/",
+            "%W!test string!",
+            "%w\ntest string\n",
+            "%W&Seconds/day: #{24*60*60}&",
+
+            "%w//",
+            "%w# #",
+            "%w$string$'",
+            "%W^ this is a string ^",
+            "%W*2*",
+            "%W(\\\\)",
+            "%w{\\\\}",
+            "%w[\\\\]",
+            "%w]\\\\]",
+            "%w}\\\\}",
+            "%w)\\\\)",
+            "%W!\\n!",
+        };
+
+        String[] expected_texts = {
+            "folder openfold",
+            "test string",
+            "test string",
+            "test string",
+            "Seconds/day: #{24*60*60}",
+
+            "",
+            " ",
+            "string",
+            " this is a string ",
+            "2",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\n",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.W_ARRAY, expected_texts);
+    }
+
+    public void test_END_OF_FILE() {
+        String[] program_texts = {
+            "\0",
+            "\004",
+            "\032",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.EOF);
+    }
+    */
+
     public void test_EMPTY_ARRAY() {
         String[] program_texts = {
             "[]",
