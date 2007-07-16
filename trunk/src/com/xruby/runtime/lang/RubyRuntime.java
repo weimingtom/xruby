@@ -69,6 +69,8 @@ public class RubyRuntime {
     public static RubyClass LoadErrorClass;
     public static RubyClass NotImplementedErrorClass;
     
+    private static RubyMethod respondToMethod;
+    
     public static boolean running = false;
 
     static {
@@ -228,5 +230,13 @@ public class RubyRuntime {
     
     public static void setJavaSupported(boolean val){
         supported = val;
+    }
+    
+    public static void setRespondToMethod(RubyMethod method) {
+    	respondToMethod = method;
+    }
+    
+    public static RubyMethod getRubyMethod() {
+    	return respondToMethod;
     }
 }

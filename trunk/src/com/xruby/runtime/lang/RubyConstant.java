@@ -4,6 +4,10 @@ public abstract class RubyConstant extends RubySpecialValue {
 	public static RubyConstant QFALSE = new RubyConstant() {
 		public RubyClass getRubyClass() {
 			return RubyRuntime.FalseClassClass;
+		}
+
+		public boolean isTrue() {
+			return false;
 		}		
 	};
 	
@@ -16,6 +20,10 @@ public abstract class RubyConstant extends RubySpecialValue {
 	public static RubyConstant QNIL = new RubyConstant() {
 		public RubyClass getRubyClass() {
 			return RubyRuntime.NilClassClass;
+		}
+		
+		public boolean isTrue() {
+			return false;
 		}
 	};
 	

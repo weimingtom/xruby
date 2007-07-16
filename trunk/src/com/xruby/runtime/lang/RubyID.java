@@ -61,11 +61,14 @@ public class RubyID {
 	public static final RubyID toFID = intern("to_f");
 	public static final RubyID toIID = intern("to_i");
 	public static final RubyID toSID = intern("to_s");
+	public static final RubyID toIntID = intern("to_int");
+	public static final RubyID toAryID = intern("to_ary");
 
 	public static final RubyID methodAddedID = intern("method_added");
 	public static final RubyID methodMissingId = intern("method_missing");
 	public static final RubyID extendObjectID = intern("extend_object");
 
+	public static final RubyID RESPOND_TO_P = intern("respond_to?");
 	public static final RubyID writeID = intern("write");
 	public static final RubyID lengthID = intern("length");
 	public static final RubyID eachID = intern("each");

@@ -518,9 +518,8 @@ class MethodGenerator extends GeneratorAdapter {
                 Type.getType(RubyClass.class));
     }
 
-    public void RubyAPI_testTrueFalse() {
-        invokeStatic(Type.getType(RubyAPI.class),
-                Method.getMethod("boolean testTrueFalse(com.xruby.runtime.lang.RubyValue)"));
+    public void RubyValue_isTrue() {
+    	invokeVirtual(Type.getType(RubyValue.class), Method.getMethod("boolean isTrue()"));
     }
 
     private void loadRubyID(String s) {

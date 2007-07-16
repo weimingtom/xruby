@@ -318,7 +318,7 @@ class Module_public_instance_methods extends RubyVarArgMethod {
 
     RubyValue get_instance_methods(RubyValue receiver, RubyArray args, RubyBlock block, int mode) {
         boolean include_super = false;
-        if (args != null && RubyAPI.testTrueFalse(args.get(0))) {
+        if (args != null && args.get(0).isTrue()) {
             include_super = true;
         }
 

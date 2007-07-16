@@ -6,6 +6,8 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
+import com.xruby.runtime.lang.RubyValue;
+
 abstract class MethodFactoryHelper {
 	public abstract Type getSuperType();
 	public abstract void createRunMethod(ClassVisitor cv, Class klass, String name, boolean block) throws Exception;
@@ -20,7 +22,10 @@ abstract class MethodFactoryHelper {
 
 	protected void loadReceiver(GeneratorAdapter mg, Type type) {
 		mg.loadArg(0);
-		mg.checkCast(type);
+		
+		if (!Type.getType(RubyValue.class).equals(type)) {
+			mg.checkCast(type);
+		}
 	}
 
 	protected void endRun(GeneratorAdapter mg) {

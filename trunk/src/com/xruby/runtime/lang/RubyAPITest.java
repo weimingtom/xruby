@@ -10,16 +10,6 @@ import com.xruby.runtime.value.RubyArray;
 import junit.framework.TestCase;
 
 public class RubyAPITest extends TestCase {
-    public void test_testTrueFalse() {
-        assertTrue(RubyAPI.testTrueFalse(ObjectFactory.TRUE_VALUE));
-        assertFalse(RubyAPI.testTrueFalse(ObjectFactory.FALSE_VALUE));
-        assertFalse(RubyAPI.testTrueFalse(ObjectFactory.NIL_VALUE));
-        assertTrue(RubyAPI.testTrueFalse(ObjectFactory.FIXNUM0));
-        assertTrue(RubyAPI.testTrueFalse(ObjectFactory.FIXNUM1));
-        assertTrue(RubyAPI.testTrueFalse(ObjectFactory.createString("")));
-        assertTrue(RubyAPI.testTrueFalse(ObjectFactory.createString("XXX")));
-    }
-
     public void test_testCaseEqual() {
         assertTrue(RubyAPI.testCaseEqual(ObjectFactory.TRUE_VALUE, ObjectFactory.TRUE_VALUE));
         assertTrue(RubyAPI.testCaseEqual(ObjectFactory.FALSE_VALUE, ObjectFactory.FALSE_VALUE));

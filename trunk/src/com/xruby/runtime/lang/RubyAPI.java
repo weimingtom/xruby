@@ -53,19 +53,12 @@ public class RubyAPI {
         return ClassFactory.defineModule(name);
     }
 
-    public static boolean testTrueFalse(RubyValue value) {
-        //only 'nil' and 'false' is false.
-        return value != ObjectFactory.FALSE_VALUE && value != ObjectFactory.NIL_VALUE;
-    }
-
     public static boolean testCaseEqual(RubyValue value1, RubyValue value2) {
-        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.longEqualID);
-        return testTrueFalse(r);
+        return RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.longEqualID).isTrue();
     }
 
     public static boolean testEqual(RubyValue value1, RubyValue value2) {
-        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.equalID);
-        return testTrueFalse(r);
+        return RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.equalID).isTrue();
     }
 
     public static boolean testExceptionType(RubyArray classes_to_compare, RubyException e) {
@@ -278,11 +271,7 @@ public class RubyAPI {
     }
 
     public static RubyValue operatorNot(RubyValue value) {
-        if (testTrueFalse(value)) {
-            return ObjectFactory.FALSE_VALUE;
-        } else {
-            return ObjectFactory.TRUE_VALUE;
-        }
+    	return value.isTrue() ? RubyConstant.QFALSE : RubyConstant.QTRUE;
     }
 
     public static boolean isWindows() {

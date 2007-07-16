@@ -111,7 +111,7 @@ class Kernel_inspect extends RubyNoArgMethod {
 class Kernel_singleton_methods extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         boolean all = true;
-        if (args != null && !RubyAPI.testTrueFalse(args.get(0))) {
+        if (args != null && !args.get(0).isTrue()) {
             all = false;
         }
 
@@ -879,7 +879,10 @@ public class KernelModuleBuilder {
         m.defineMethod("open", new Kernel_open());
         m.defineMethod("kind_of?", new Kernel_kind_of());
         m.defineMethod("instance_of?", new Kernel_instance_of());
-        m.defineMethod("respond_to?", new Kernel_respond_to());
+        
+        RubyMethod repondToMethod = new Kernel_respond_to();
+        m.defineMethod("respond_to?", repondToMethod);
+        RubyRuntime.setRespondToMethod(repondToMethod);
         RubyMethod send = new Kernel_send();
         m.defineMethod("send", send);
         m.defineMethod("__send__", send);

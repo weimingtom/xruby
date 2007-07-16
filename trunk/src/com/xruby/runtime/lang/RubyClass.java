@@ -81,16 +81,6 @@ public class RubyClass extends RubyModule {
 		return superclass_ == superclass;
 	}
 
-	public boolean isKindOf(RubyClass value) {
-		if (value == this) {
-			return true;
-		} else if (null != superclass_) {
-			return superclass_.isKindOf(value);
-		} else {
-			return false;
-		}
-	}
-
 	protected RubyMethod findSuperMethod(RubyID mid) {
         return null != this.superclass_
                 ? this.superclass_.findOwnMethod(mid)
