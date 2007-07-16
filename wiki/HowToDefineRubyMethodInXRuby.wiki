@@ -1,0 +1,53 @@
+#summary How to define Ruby method in XRuby.
+
+= Authors =
+  * Ye Zheng(dreamhead.cn@gmail.com)
+
+= Introduction =
+The goal of this article is to help users/deverlopers understand how to define Ruby method in XRuby.
+
+
+= Define a Ruby Method =
+You've got an idea which implements "clear" method for Array. Here's your code:
+{{{
+public class RubyArray extends RubyBasic {
+    ...
+
+    public RubyArray clear() {
+        array_.clear();
+        return this;
+    }
+
+    ...
+}
+}}}
+
+Now, you have the Java-level code. Of course, you want the code to work in Ruby level. In XRuby, you must provide a method wrapper for the Ruby method like this:
+
+{{{
+public class ArrayClear extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyArray array = (RubyArray)receiver;
+        return array.clear();
+    }
+}
+}}}
+
+The rest is very simple. Add this wrapper into XRuby runtime.
+{{{
+RubyClass c = RubyRuntime.ArrayClass;
+c.defineMethod("clear", new RubyClear());
+}}}
+
+= Another Way to Definition =
+But you finally find that it's very boring to write a wrapper for every Ruby method which has a similar structure. On the other hand, it's a little confusing where the code should be. Actually, we could implement the method both in Java-level method and wrapper.
+
+Yes, you're right. In fact, we have another way to Ruby method which could reduce this confusion. You can define Ruby method like this:
+{{{
+MethodFactory factory = MethodFactory.createMethodFactory(RubyArray.class);
+c.defineMethod("clear", factory.getMethod("clear", MethodFactory.NO_ARG));
+}}}
+
+The code means you create method wrapper for "clear" method of "RubyArray". With this way, method wrapper could be generated dynamically, so a lot of trivial and confusing code could be saved.
+
+
