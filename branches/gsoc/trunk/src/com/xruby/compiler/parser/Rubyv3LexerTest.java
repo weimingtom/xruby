@@ -392,6 +392,311 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_text, token_types);
     }
 
+    /*TODO
+    public void test_GLOBAL_VARIABLE () {
+        String[] program_texts = {
+            "$-#",
+            "$-",
+            "$-K",
+            "$A",
+            "$a",
+            "$aBC12_",
+            "$_",
+            "$__",
+            "$a234",
+
+            "$&",
+            "$`",
+            "$\\",
+            "$+",
+
+            "$1",
+            "$2",
+            "$3",
+            "$4",
+            "$5",
+            "$6",
+            "$7",
+            "$8",
+            "$9",
+            "$123456",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.GLOBAL_VARIABLE );
+    }*/
+
+    public void test_INSTANCE_VARIABLE() {
+        String[] program_texts = {
+            "@A",
+            "@a",
+            "@aBC12_",
+            "@_",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.INSTANCE_VARIABLE);
+    }
+
+    public void test_CLASS_VARIABLE() {
+        String[] program_texts = {
+            "@@A",
+            "@@a",
+            "@@aBC12_",
+            "@@_",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.CLASS_VARIABLE);
+    }
+
+    public void test_CONSTANT() {
+        String[] program_texts = {
+            "A",
+            "Z",
+            "A_",
+            "Abc",
+            "B2",
+            "PI",
+            "MyClass3",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.CONSTANT);
+    }
+
+    /*
+    public void test_INTEGER() {
+        String[] program_texts = {
+            "123456",
+            "1",
+            "543",
+            "0",
+            "123_456",
+            "123_456_789_123_345_789",
+        };
+
+        String[] expected_texts = {
+            "123456",
+            "1",
+            "543",
+            "0",
+            "123456",
+            "123456789123345789",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.INTEGER, expected_texts);
+    }
+
+    public void test_HEX() {
+        String[] program_texts = {
+            "0xaabbC",
+            "0X0abb1",
+        };
+
+        String[] expected_texts = {
+            "aabbC",
+            "0abb1",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.HEX, expected_texts);
+    }
+
+    public void test_OCTAL() {
+        String[] program_texts = {
+            "0377",
+        };
+
+        String[] expected_texts = {
+            "377",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.OCTAL, expected_texts);
+    }
+
+    public void test_BINARY() {
+        String[] program_texts = {
+            "0b1010",
+            "0B0100",
+            "0b001_001",
+        };
+
+        String[] expected_texts = {
+            "1010",
+            "0100",
+            "001001",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.BINARY, expected_texts);
+    }
+
+    public void test_ASCII_VALUE() {
+        String[] program_texts = {
+                "?&",
+                "?a",
+                "?\"",
+                "?\\n",
+                "?\\s",
+                "?\\C-a",
+                "?\\M-a",
+                "?\\M-\\C-a",
+                "?\\C-?",
+            };
+
+            assert_type(program_texts, Rubyv3Lexer.ASCII_VALUE);
+    }*/
+
+    public void test_FLOAT() {
+        String[] program_texts = {
+            ".1",
+            ".00",
+            "12.34",
+            "12.0",
+            "0.2E2",
+            ".1234E2",
+            ".0234E+2",
+            ".1234e-2",
+            "1234e-2",
+            "1234E-21",
+            "0.0",
+            "1e3",
+            "2e18",
+            "2E-18",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.FLOAT);
+    }
+
+    public void test_DOT() {
+        String[] program_texts = {"."};
+
+        assert_type(program_texts, Rubyv3Lexer.DOT);
+    }
+
+    public void test_DOUBLE_QUOTE_STRING_LITERAL() {
+
+        String[] program_texts = {
+            "\"Rational(%s, %s)\"",
+            "\"%Y-%m-%d %H:%M:%S\"",
+            "\"\"",
+            "\" \"",
+            "\"string\"",
+            "\"hello\"",
+            "\" this is a string \"",
+            "\"2\"",
+            "\"\\\\\"",
+            "\"\\n\"",
+            "\"/usr/local\"",
+            "\"\\360\"",
+            "\"hello\n    world\"",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.DOUBLE_QUOTE_STRING);
+    }
+
+    public void test_COMMAND_OUTPUT() {
+
+        String[] program_texts = {
+            "``",
+            "` `",
+            "`command`",
+            "` this is a command `",
+            "`2`",
+            "`\\\\`",
+            "`\\n`",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.COMMAND_OUTPUT);
+    }
+
+    /*TODO
+    public void test_X_COMMAND_OUTPUT() {
+        String[] program_texts = {
+            "%x/^Ruby the OOPL/",
+            "%x|ruby|",
+            "%x/test|test/",
+            "%x{test|test}",
+            "%x(test|test)",
+            "%x[test|test]",
+        };
+
+        String[] expected_texts = {
+            "^Ruby the OOPL",
+            "ruby",
+            "test|test",
+            "test|test",
+            "test|test",
+            "test|test",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.COMMAND_OUTPUT, expected_texts);
+    }*/
+
+    public void test_SINGLE_QUOTE_STRING_LITERAL() {
+
+        String[] program_texts = {
+            "\'\'",
+            "\' \'",
+            "\'string\'",
+            "\' this is a #@string \'",
+            "\'2\'",
+            "\'\\\\\'",
+            "\'\\n\'",
+            "\'hello\n    #{world}\'",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.SINGLE_QUOTE_STRING);
+    }
+
+    /*TODO
+    public void test_q_STRING() {
+        String[] program_texts = {
+            "%q!test string!",
+            "%q//",
+            "%q# #",
+            "%q$string$'",
+            "%q^ this is a string ^",
+        };
+
+        String[] expected_texts = {
+            "test string",
+            "",
+            " ",
+            "string",
+            " this is a string ",
+        };
+
+        assert_type(program_texts, SINGLE_QUOTE_STRING, expected_texts);
+    }
+
+    public void test_Q_STRING() {
+        String[] program_texts = {
+            "%/test string/",
+            "%Q/test string/",
+            "%Q\ntest string\n",
+            "%Q*2*",
+            "%Q(\\\\)",
+            "%Q{\\\\}",
+            "%Q[\\\\]",
+            "%Q]\\\\]",
+            "%Q}\\\\}",
+            "%Q)\\\\)",
+            "%Q!\\n!",
+        };
+
+        String[] expected_texts = {
+            "test string",
+            "test string",
+            "test string",
+            "2",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\n",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.DOUBLE_QUOTE_STRING, expected_texts);
+    }*/
+
     public void test_COMMENT() {
         String[] program_texts = {
             "#",
