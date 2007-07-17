@@ -5,9 +5,7 @@
 
 package com.xruby.compiler.codegen;
 
-import com.xruby.compiler.codedom.CodeVisitor;
-import com.xruby.compiler.codedom.Node;
-import com.xruby.compiler.codedom.Program;
+import com.xruby.compiler.codedom.*;
 import com.xruby.runtime.lang.RubyBinding;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -1126,6 +1124,14 @@ public class RubyCompilerImpl implements CodeVisitor {
         }
 
         return null;
+    }
+
+    public void visitBackrefNode(BackRefNode backRefNode) {
+
+    }
+
+    public void visitNthRefNode(NthRefNode nthRefNode) {
+
     }
 
 }

@@ -644,4 +644,12 @@ public class CodePrinter implements CodeVisitor {
     public Label visitLineLabel(int lineNumber) {
         return null;
     }
+
+    public void visitBackrefNode(BackRefNode backRefNode) {
+
+    }
+
+    public void visitNthRefNode(NthRefNode nthRefNode) {
+
+    }
 }
