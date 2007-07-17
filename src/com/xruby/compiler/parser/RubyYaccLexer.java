@@ -34,9 +34,7 @@
  ***** END LICENSE BLOCK *****/
 package com.xruby.compiler.parser;
 
-import com.xruby.compiler.codedom.BignumNode;
-import com.xruby.compiler.codedom.CommentNode;
-import com.xruby.compiler.codedom.FixnumNode;
+import com.xruby.compiler.codedom.*;
 
 import java.io.IOException;
 import java.math.BigInteger;

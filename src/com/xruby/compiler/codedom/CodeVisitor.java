@@ -167,4 +167,8 @@ public interface CodeVisitor extends ISymbolTable {
     //   Interfaces for debugger
     // ---------------------------
     public Label visitLineLabel(int lineNumber);
+
+    void visitBackrefNode(BackRefNode backRefNode);
+
+    void visitNthRefNode(NthRefNode nthRefNode);
 }
