@@ -4461,6 +4461,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_block_arg() {
         String [] program_texts = {
+                "def bar(&blk); blk.call([:key, :value]);end\n" +
+                "bar{|k,v| print k, v}",
+            
                 "def f(x, &block); if x; block = 1; end;   print block;  end;  f true",
 
                 "def f(x); x; end;  print f(33, &nil)",
@@ -4488,6 +4491,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "keyvalue",
+                    
                 "1",
                 "33",
 

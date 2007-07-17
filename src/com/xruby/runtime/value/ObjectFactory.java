@@ -108,8 +108,8 @@ public class ObjectFactory {
         return new RubyArray(size, default_value);
     }
 
-    public static RubyArray createArray(int size, int rhs_size, boolean has_single_asteriskor_or_call) {
-        return new RubyArray(size, rhs_size, has_single_asteriskor_or_call);
+    public static RubyArray createArray(int size, int rhs_size, boolean has_single_asterisk_or_lambda_call) {
+        return new RubyArray(size, rhs_size, has_single_asterisk_or_lambda_call);
     }
 
     public static RubyHash createHash() {
