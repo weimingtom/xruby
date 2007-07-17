@@ -5,10 +5,13 @@
 
 package com.xruby.runtime.value;
 
+import com.xruby.runtime.lang.RubyBasic;
+import com.xruby.runtime.lang.RubyException;
+import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
-import com.xruby.runtime.lang.*;
 
 public class RubyBignum extends RubyBasic {
     private static final BigInteger FIXNUM_MAX = BigInteger.valueOf(Integer.MAX_VALUE);
@@ -258,5 +261,21 @@ public class RubyBignum extends RubyBasic {
         if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE)
             return ObjectFactory.createBignum(BigInteger.valueOf(value));
         return ObjectFactory.createFixnum((int) value);
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        //if (!super.equals(o)) return false;
+
+        RubyBignum that = (RubyBignum) o;
+
+        if (value_ != null ? !value_.equals(that.value_) : that.value_ != null) return false;
+
+        return true;
+    }
+
+    public int hashCode() {
+        return (value_ != null ? value_.hashCode() : 0);
     }
 }
