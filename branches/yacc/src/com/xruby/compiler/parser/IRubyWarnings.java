@@ -38,5 +38,5 @@ public interface IRubyWarnings {
     public abstract boolean isVerbose();
     public abstract void warn(String message);
     public abstract void warning(String message);
-    //public abstract void warning(ISourcePosition position, String message);
+    public abstract void warning(ISourcePosition position, String message);
 }

@@ -35,6 +35,7 @@
 package com.xruby.compiler.parser;
 
 import com.xruby.compiler.codedom.BignumNode;
+import com.xruby.compiler.codedom.CommentNode;
 import com.xruby.compiler.codedom.FixnumNode;
 
 import java.io.IOException;
