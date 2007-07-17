@@ -27,6 +27,7 @@
  ***** END LICENSE BLOCK *****/
 package com.xruby.compiler.parser;
 
+import com.xruby.compiler.codedom.Node;
 import org.jruby.ast.AssignableNode;
 import org.jruby.ast.Node;
 import org.jruby.lexer.yacc.ISourcePosition;
