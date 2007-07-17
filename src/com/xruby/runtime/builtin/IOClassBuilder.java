@@ -90,7 +90,7 @@ class IO_eof extends RubyNoArgMethod {
 class IO_read extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyIO io = (RubyIO) receiver;
-        if (null == args) {
+        if ((null == args) || (ObjectFactory.NIL_VALUE == args.get(0))) {
             return io.read();
         } else {
             return io.read(((RubyFixnum) args.get(0)).intValue());
