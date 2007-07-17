@@ -1011,12 +1011,12 @@ module Enumerable
         if args.size == 0 then
             vals = to_a
             memo = vals[0]
-            vals[1..vals.size-1].each {|obj| memo = yield(memo, obj)}
-            return memo
+            r = vals[1..vals.size-1].each {|obj| memo = yield(memo, obj)}
+            return r
         elsif args.size == 1 then
             memo = args[0]
-            each {|obj| memo = yield(memo, obj)}
-            return memo
+            r = each {|obj| memo = yield(memo, obj)}
+            return r
         else
             nil
         end
