@@ -303,7 +303,7 @@ end
 class Hash
     def each
         ks = keys
-        ks.each {|k| yield(k, self[k])}
+        ks.each {|k| yield([k, self[k]])}
     end
     
     alias each_pair each
