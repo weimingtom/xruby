@@ -80,9 +80,8 @@ public abstract class RubyBlock extends MethodBlockBase {
         return createdByLambda_;
     }
 
-    private void validateParameterForProcCall(RubyArray args) {
+    private void validateParameterForProcCall(int actual_args_length) {
         if (argc_ >= 0 && !has_asterisk_parameter_) {
-            int actual_args_length = (null == args) ? 0 : args.size();
             int required_args_length = argc_ - default_argc_;
             if (actual_args_length != required_args_length) {
                 throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + actual_args_length + " for " + required_args_length + ")");
@@ -92,7 +91,7 @@ public abstract class RubyBlock extends MethodBlockBase {
 
     public RubyValue invoke(RubyValue receiver, RubyArray args) {
         if (createdByLambda_) {
-            validateParameterForProcCall(args);
+            validateParameterForProcCall((null == args) ? 0 : args.size());
         }
 
         __break__ = false;
@@ -112,6 +111,10 @@ public abstract class RubyBlock extends MethodBlockBase {
 
     // no arg invocation
     public RubyValue invoke(RubyValue receiver) {
+        if (createdByLambda_) {
+            validateParameterForProcCall(0);
+        }
+
         __break__ = false;
         __return__ = false;
         __retry__ = false;
@@ -132,6 +135,10 @@ public abstract class RubyBlock extends MethodBlockBase {
 
     // one arg invocation
     public RubyValue invoke(RubyValue receiver, RubyValue arg) {
+        if (createdByLambda_) {
+            validateParameterForProcCall(1);
+        }
+
         __break__ = false;
         __return__ = false;
         __retry__ = false;
@@ -152,6 +159,10 @@ public abstract class RubyBlock extends MethodBlockBase {
 
     // two args invocation
     public RubyValue invoke(RubyValue receiver, RubyValue arg1, RubyValue arg2) {
+        if (createdByLambda_) {
+            validateParameterForProcCall(2);
+        }
+
         __break__ = false;
         __return__ = false;
         __retry__ = false;
