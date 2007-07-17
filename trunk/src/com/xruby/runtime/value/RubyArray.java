@@ -164,6 +164,9 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     public RubyValue pop() {
         int size = this.array_.size();
+        if (0 == size) {
+            return ObjectFactory.NIL_VALUE;
+        }
         return this.array_.remove(size - 1);
     }
 
