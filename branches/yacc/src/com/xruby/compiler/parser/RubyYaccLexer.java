@@ -34,6 +34,8 @@
  ***** END LICENSE BLOCK *****/
 package com.xruby.compiler.parser;
 
+import com.xruby.compiler.codedom.FixnumNode;
+
 import java.io.IOException;
 import java.math.BigInteger;
 
@@ -215,7 +217,7 @@ public class RubyYaccLexer {
 
     private Object getInteger(String value, int radix) {
         try {
-            return new FixnumNode(getPosition(), Long.parseLong(value, radix));
+            return new FixnumNode(getPosition(), Integer.parseInt(value, radix)); //jruby uses long here
         } catch (NumberFormatException e) {
             return new BignumNode(getPosition(), new BigInteger(value, radix));
         }

@@ -30,6 +30,7 @@
  ***** END LICENSE BLOCK *****/
 package com.xruby.compiler.codedom;
 
+import com.xruby.compiler.parser.ISourcePosition;
 
 
 /** Represents an integer literal.
@@ -42,7 +43,8 @@ public class FixnumNode extends Node implements ILiteralNode {
     private int value;
 
 
-    public FixnumNode(int value) {
+    public FixnumNode(ISourcePosition position, int value) { //don't know why jruby use long here
+        this.position = position;
         this.value = value;
     }
 
@@ -54,7 +56,7 @@ public class FixnumNode extends Node implements ILiteralNode {
      * Gets the value.
      * @return Returns a long
      */
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 
