@@ -13,6 +13,10 @@ class XRubyTest < Test::Unit::TestCase
         #TODO
         #assert_equal("a\000\000b\000\000c\000\000", a.pack("a3a3a3"))
     end
+    
+    def test_Array_pop
+        assert_equal(nil, [].pop)
+    end
 
     require 'delegate'
     def test_SimpleDelegator
