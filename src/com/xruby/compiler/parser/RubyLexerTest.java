@@ -31,15 +31,15 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 		for (int i = 0; i < program_texts.length; ++i) {
 			try {
 				SymbolTableManager stm = new SymbolTableManager(null);
-				RubyLexer lexter = new RubyLexer(new StringReader(program_texts[i]), stm, false);
-				Token token = lexter.nextToken();
+				RubyLexer lexer = new RubyLexer(new StringReader(program_texts[i]), stm, false);
+				Token token = lexer.nextToken();
 				assertEquals(program_texts[i], expected_type, token.getType());
 
 				assertEquals(program_texts[i], expected_texts[i], token.getText());
 
 				// should contain only one token
 				if (Token.EOF_TYPE == token.getType()) {
-					Token next_token = lexter.nextToken();
+					Token next_token = lexer.nextToken();
 					assertEquals(program_texts[i] + "contains multiple tokens!", Token.EOF_TYPE, next_token.getType());
 				}
 			} catch (TokenStreamException e) {
@@ -55,8 +55,8 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 	private void assert_type(String program_text, int expected_type, String expected_text) {
 		try {
 			SymbolTableManager stm = new SymbolTableManager(null);
-			RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm, false);
-			Token token = lexter.nextToken();
+			RubyLexer lexer = new RubyLexer(new StringReader(program_text), stm, false);
+			Token token = lexer.nextToken();
 			assertEquals(program_text, expected_type, token.getType());
 			assertEquals(program_text, expected_text, token.getText());
 		} catch (TokenStreamException e) {
@@ -68,16 +68,16 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 	private void assert_type(String program_text, TestingCommonToken[] tokens) {
 		try {
 			SymbolTableManager stm = new SymbolTableManager(null);
-			RubyLexer lexter = new RubyLexer(new StringReader(program_text), stm, false);
+			RubyLexer lexer = new RubyLexer(new StringReader(program_text), stm, false);
 
 			for (int i = 0; i < tokens.length; ++i) {
-				Token token = lexter.nextToken();
+				Token token = lexer.nextToken();
 				assertEquals(i + " " + token.getText() + " has wrong type!", tokens[i].getType(), token.getType());
 				assertEquals(i + " " + token.getText() + " has wrong text!", tokens[i].getText(), token.getText());
 				assertEquals(i + " " + token.getText() + " has wrong position!", tokens[i].getLine(), token.getLine());
 			}
 
-			Token token = lexter.nextToken();
+			Token token = lexer.nextToken();
 			assertEquals("should have no token left!", token.getType(), Token.EOF_TYPE);
 		} catch (TokenStreamException e) {
 			assertTrue(program_text + e.toString(), false);
