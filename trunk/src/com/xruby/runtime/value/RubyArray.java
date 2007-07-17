@@ -23,7 +23,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     //MRHS will be converted to a RubyArray, but its original form need to be saved
     //to handle multiple assignment
     private final int rhs_size_;
-    private final boolean has_single_asterisk_or_call_;
+    private final boolean has_single_asterisk_or_lambda_call_;
 
     public RubyArray() {
         this(0);
@@ -51,12 +51,12 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
     }
 
-    RubyArray(int size, int rhs_size, boolean has_single_asterisk_or_call) {
+    RubyArray(int size, int rhs_size, boolean has_single_asterisk_or_lambda_call) {
         super(RubyRuntime.ArrayClass);
         array_ = new ArrayList<RubyValue>(size);
 
         rhs_size_ = rhs_size;
-        has_single_asterisk_or_call_ = has_single_asterisk_or_call;
+        has_single_asterisk_or_lambda_call_ = has_single_asterisk_or_lambda_call;
     }
     
     private RubyArray(List<RubyValue> array) {
@@ -75,11 +75,11 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     }
 
     public boolean isSingleAsterisk() {
-        return (0 == rhs_size_) && has_single_asterisk_or_call_;
+        return (0 == rhs_size_) && has_single_asterisk_or_lambda_call_;
     }
 
     public boolean isSingleRhs() {
-        return (rhs_size_ <= 1) && !has_single_asterisk_or_call_;
+        return (rhs_size_ <= 1) && !has_single_asterisk_or_lambda_call_;
     }
 
     public RubyArray add(RubyValue v) {

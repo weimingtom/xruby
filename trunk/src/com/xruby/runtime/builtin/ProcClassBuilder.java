@@ -29,7 +29,8 @@ class Proc_call extends RubyVarArgMethod {
 	}
 
 	public RubyValue invoke(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		RubyArray args = ObjectFactory.createArray(1, 0, true);
+        block = ((RubyProc)receiver).getBlock();
+		RubyArray args = ObjectFactory.createArray(1, 0, block.createdByLambda());
         args.add(arg);
 		return this.invoke(receiver, args, block);
 	}
