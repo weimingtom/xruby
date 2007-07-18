@@ -93,17 +93,19 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
         }
 
         ByteBuffer buffer = ByteBuffer.allocate((int) length);
+        int n = 0;
         try {
-            avaliable = source.read(buffer) > 0;
+            n = source.read(buffer);
         } catch (IOException e) {
             throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
         }
 
+        avaliable = (n > 0);
         if (!avaliable) {
             return null;
         }
 
-        return new String(buffer.array());
+        return new String(buffer.array(), 0, n);
     }
 
     public String read(int length, int offset) {
