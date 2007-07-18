@@ -30,7 +30,7 @@ public class RubyIO extends RubyBasic {
         executor.flush();
     }
 
-    public RubyValue gets(RubyValue seperator) {
+    public String gets(RubyValue seperator) {
         return executor.gets(seperator);
     }
 
@@ -38,15 +38,15 @@ public class RubyIO extends RubyBasic {
         executor.print(s);
     }
 
-    public RubyValue read() {
+    public String read() {
         return executor.read();
     }
 
-    public RubyValue read(int length, int offset) {
+    public String read(int length, int offset) {
         return executor.read(length, offset);
     }
 
-    public RubyValue read(long length) {
+    public String read(long length) {
         return executor.read(length);
     }
 

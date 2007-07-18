@@ -19,12 +19,12 @@ public interface RubyIOExecutor {
 
     void print(String s);
 
-    RubyValue gets(RubyValue seperator);
+    String gets(RubyValue seperator);
 
-    RubyValue read();
+    String read();
 
-    RubyValue read(long length);
+    String read(long length);
 
-    RubyValue read(int length, int offset);
+    String read(int length, int offset);
 
 }

@@ -45,7 +45,7 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
         return new RubyException(RubyRuntime.IOErrorClass, "not opened for writing");
     }
 
-    public RubyValue gets(RubyValue separator) {
+    public String gets(RubyValue separator) {
         StringBuffer result = new StringBuffer();
         ByteBuffer buffer;
         if (ObjectFactory.NIL_VALUE == separator) {
@@ -68,7 +68,7 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
                     break;
                 }
             }
-            return ObjectFactory.createString(result.toString());
+            return result.toString();
         } catch (IOException e) {
             throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
         }
@@ -78,42 +78,42 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
         throw notAllowed();
     }
 
-    public RubyValue read() {
+    public String read() {
         return gets(ObjectFactory.NIL_VALUE);
     }
 
-    public RubyValue read(long length) {
-        
+    public String read(long length) {
+
         if (length == 0) {
             if (avaliable) {
-                return ObjectFactory.createString("");
+                return "";
             } else {
-                return ObjectFactory.NIL_VALUE;
+                return null;
             }
         }
-        
+
         ByteBuffer buffer = ByteBuffer.allocate((int) length);
         try {
             avaliable = source.read(buffer) > 0;
         } catch (IOException e) {
             throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
         }
-        
+
         if (!avaliable) {
-            return ObjectFactory.NIL_VALUE;
+            return null;
         }
-        
-        return ObjectFactory.createString(new String(buffer.array()));
+
+        return new String(buffer.array());
     }
 
-    public RubyValue read(int length, int offset) {
+    public String read(int length, int offset) {
         ByteBuffer buffer = ByteBuffer.allocate(offset);
         try {
             avaliable = source.read(buffer) > 0;
         } catch (IOException e) {
             throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
         }
-        
+
         return read(length);
     }
 

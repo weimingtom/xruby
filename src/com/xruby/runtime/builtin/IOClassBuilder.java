@@ -66,7 +66,9 @@ class IO_gets extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (receiver instanceof RubyIO) {
             RubyValue seperator = (null == args) ? GlobalVariables.get("$/") : args.get(0);
-            GlobalVariables.set(((RubyIO) receiver).gets(seperator), "$_");
+            String s = ((RubyIO) receiver).gets(seperator);
+            RubyValue v = (null == s) ? ObjectFactory.NIL_VALUE : ObjectFactory.createString(s);
+            GlobalVariables.set(v, "$_");
         } else {
             //TODO stdout, stderr, stdin
             GlobalVariables.set(ObjectFactory.NIL_VALUE, "$_");
@@ -90,10 +92,30 @@ class IO_eof extends RubyNoArgMethod {
 class IO_read extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyIO io = (RubyIO) receiver;
+
+        RubyString buffer = null;
+        if (null != args && args.size() > 1) {
+            buffer = (RubyString)args.get(1);
+        }
+
         if ((null == args) || (ObjectFactory.NIL_VALUE == args.get(0))) {
-            return io.read();
+            return buildResult(io.read(), buffer);
         } else {
-            return io.read(((RubyFixnum) args.get(0)).intValue());
+            return buildResult(io.read(((RubyFixnum) args.get(0)).intValue()), buffer);
+        }
+    }
+
+    static RubyValue buildResult(String s, RubyString buffer) {
+        if (null == s) {
+            if (null != buffer) {
+                buffer.setString("");
+            }
+            return ObjectFactory.NIL_VALUE;
+        } else if (null != buffer) {
+            buffer.setString(s);
+            return buffer;
+        } else {
+            return ObjectFactory.createString(s);
         }
     }
 }
@@ -108,15 +130,16 @@ class IO_read_singleton extends RubyVarArgMethod {
         RubyIO io = ObjectFactory.createFile(fileName.toString(), "r");
         int offset;
         int length;
+
         if (args.size() == 1) {
-            return io.read();
+            return IO_read.buildResult(io.read(), null);
         } else {
             length = ((RubyFixnum) args.get(1)).intValue();
             if (args.size() == 2) {
-                return io.read(length);
+                return IO_read.buildResult(io.read(length), null);
             } else {
                 offset = ((RubyFixnum) args.get(2)).intValue();
-                return io.read(length, offset);
+                return IO_read.buildResult(io.read(length, offset), null);
             }
         }
     }
