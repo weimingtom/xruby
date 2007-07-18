@@ -27,11 +27,6 @@
  ***** END LICENSE BLOCK *****/
 package com.xruby.compiler.parser;
 
-import org.jruby.ast.StrNode;
-import org.jruby.parser.Tokens;
-import org.jruby.util.ByteList;
-
-
 public class HeredocTerm extends StrTerm {
 	private final String eos;
 	private final int func;
