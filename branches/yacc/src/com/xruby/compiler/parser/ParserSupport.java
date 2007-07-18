@@ -34,13 +34,9 @@
  ***** END LICENSE BLOCK *****/
 package com.xruby.compiler.parser;
 
-import org.jruby.ast.*;
-import org.jruby.ast.types.ILiteralNode;
-import org.jruby.common.IRubyWarnings;
-import org.jruby.lexer.yacc.*;
-import org.jruby.runtime.DynamicScope;
-import org.jruby.util.ByteList;
-import org.jruby.util.IdUtil;
+
+import com.xruby.compiler.codedom.FixnumNode;
+import com.xruby.compiler.codedom.Node;
 
 /**
  *
