@@ -87,27 +87,27 @@ public class RubyIOFileExecutor implements RubyIOExecutor {
         }
     }
 
-    private RubyValue readsTheEntireContents() throws IOException {
+    private String readsTheEntireContents() throws IOException {
         int size = (int) file_.length();// TODO converted long to int
         byte[] buffer = new byte[size];
         if (file_.read(buffer) < 0) {
-            return ObjectFactory.createString("");
+            return "";
         } else {
-            return ObjectFactory.createString(new String(buffer));
+            return new String(buffer);
         }
     }
 
-    private RubyValue readUntilSeperator(String separator) throws IOException {
+    private String readUntilSeperator(String separator) throws IOException {
         // FIXME This is cheating, should read until separator
         String s = file_.readLine();
         if (null == s) {
-            return ObjectFactory.NIL_VALUE;
+            return null;
         } else {
-            return ObjectFactory.createString(s + "\n");
+            return s + "\n";
         }
     }
 
-    public RubyValue gets(RubyValue separator) {
+    public String gets(RubyValue separator) {
         if (null == file_) {
             throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
         }
@@ -130,7 +130,7 @@ public class RubyIOFileExecutor implements RubyIOExecutor {
         }
     }
 
-    public RubyValue read() {
+    public String read() {
         if (null == file_) {
             throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
         }
@@ -142,7 +142,7 @@ public class RubyIOFileExecutor implements RubyIOExecutor {
         }
     }
 
-    public RubyValue read(long length) {
+    public String read(long length) {
         if (null == file_) {
             throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
         }
@@ -152,16 +152,16 @@ public class RubyIOFileExecutor implements RubyIOExecutor {
             size = Math.min(length, size);
             byte[] buffer = new byte[(int) size];
             if (file_.read(buffer) < 0) {
-                return ObjectFactory.NIL_VALUE;
+                return null;
             } else {
-                return ObjectFactory.createString(new String(buffer));
+                return new String(buffer);
             }
         } catch (IOException e) {
             throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
         }
     }
 
-    public RubyValue read(int length, int offset) {
+    public String read(int length, int offset) {
         if (null == file_) {
             throw new RubyException(RubyRuntime.IOErrorClass, "file is not opened");
         }

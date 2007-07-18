@@ -41,7 +41,7 @@ public class RubyIOPipeSinkExecutor implements RubyIOExecutor {
         // FIXME: may be not used for the java NIO pipe implementation..
     }
 
-    public RubyValue gets(RubyValue seperator) {
+    public String gets(RubyValue seperator) {
         throw notAllowed();
     }
 
@@ -54,15 +54,15 @@ public class RubyIOPipeSinkExecutor implements RubyIOExecutor {
         }
     }
 
-    public RubyValue read() {
+    public String read() {
         throw notAllowed();
     }
 
-    public RubyValue read(long length) {
+    public String read(long length) {
         throw notAllowed();
     }
 
-    public RubyValue read(int length, int offset) {
+    public String read(int length, int offset) {
         throw notAllowed();
     }
 
