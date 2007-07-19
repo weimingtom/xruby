@@ -358,9 +358,29 @@ class Module_module_eval extends RubyVarArgMethod {
             binding.setSelf(receiver);
             return Kernel_eval.eval(program_text, binding, null);
         } else {
-        	block.setScope((RubyModule)receiver);
+            block.setScope((RubyModule)receiver);
             block.setSelf(receiver);
             return block.invoke(receiver);
+        }
+    }
+}
+
+class Module_define_method extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+
+        if (null != args && args.size() == 1 && null != block) {
+            RubyString s = RubyTypesUtil.convertToString(args.get(0));
+            RubyModule m = (RubyModule)receiver;
+            final RubyBlock b = block;
+            RubyMethod method = new RubyVarArgMethod() {
+                protected RubyValue run(RubyValue _receiver, RubyArray _args, RubyBlock _block) {
+                    return b.invoke(_receiver, _args);
+                }
+            };
+
+            return m.defineMethod(s.toString(), method);
+        } else {
+            throw new RubyException("not implemented");
         }
     }
 }
@@ -414,6 +434,7 @@ public class ModuleClassBuilder {
         c.defineMethod("class_eval", module_eval);
         c.defineMethod("const_get", new Module_const_get());
         c.defineMethod("const_set", new Module_const_set());
+        c.defineMethod("define_method", new Module_define_method());
 
         c.setAccessPrivate();
         c.defineMethod("method_added", EmptyMethod.INSTANCE);

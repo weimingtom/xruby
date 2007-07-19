@@ -74,4 +74,12 @@ class XRubyTest < Test::Unit::TestCase
         assert !(0.0/0 <= 0.0/0)
     end
     
+    class DefMethod
+            define_method("def_method_x") {2}
+    end
+    def test_Module_define_method
+        assert_equal 2, DefMethod.new.def_method_x
+    end
+    
+    
 end
