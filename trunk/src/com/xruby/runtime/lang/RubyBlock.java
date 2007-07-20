@@ -22,13 +22,15 @@ public abstract class RubyBlock extends MethodBlockBase {
     // place. The block needs to keep the context of its creator(self, arg, block arg,
     // scope etc).
     protected RubyValue selfOfCurrentMethod_;//need this for {self} TODO why do we need 'receiver' for run method?
-    protected final RubyArray argsOfCurrentMethod_;//need this for {super}
+    protected RubyArray argsOfCurrentMethod_;//need this for {super}
     protected final RubyValue argOfCurrentMethod_;//need this for {super}
     protected final RubyBlock blockOfCurrentMethod_;//need this for {yield}
 
     private final boolean definedInAnotherBlock_;//not null if defined in another block
 
     private boolean createdByLambda_ = false;
+
+    private RubyMethod currentMethod_;
 
     public RubyBlock(int argc,
                         boolean has_asterisk_parameter,
@@ -38,6 +40,7 @@ public abstract class RubyBlock extends MethodBlockBase {
                         RubyArray args,//not null for var arg method
                         RubyBlock block,
                         RubyModule scope,
+                        RubyMethod currentMethod,
                         boolean definedInAnotherBlock) {
         super(argc, has_asterisk_parameter, default_argc);
         selfOfCurrentMethod_ = self;
@@ -45,7 +48,24 @@ public abstract class RubyBlock extends MethodBlockBase {
         argsOfCurrentMethod_ = args;
         blockOfCurrentMethod_ = block;
         setScope(scope);
+        currentMethod_ = currentMethod;
         definedInAnotherBlock_ = definedInAnotherBlock;
+    }
+
+    public void setArgsOfCurrentMethod(RubyArray args) {
+        argsOfCurrentMethod_ = args;
+    }
+
+    public void setCurrentMethod(RubyMethod m) {
+        currentMethod_ = m;
+    }
+
+    public RubyMethod getCurrentMethod() {
+        return currentMethod_;
+    }
+
+    public RubyID getID() {
+        return currentMethod_.getID();
     }
 
     public void setSelf(RubyValue v) {

@@ -369,16 +369,18 @@ class Module_define_method extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 
         if (null != args && args.size() == 1 && null != block) {
-            RubyString s = RubyTypesUtil.convertToString(args.get(0));
+            String name = RubyTypesUtil.convertToJavaString(args.get(0));
             RubyModule m = (RubyModule)receiver;
             final RubyBlock b = block;
             RubyMethod method = new RubyVarArgMethod() {
                 protected RubyValue run(RubyValue _receiver, RubyArray _args, RubyBlock _block) {
+                    b.setArgsOfCurrentMethod(_args);
                     return b.invoke(_receiver, _args);
                 }
             };
 
-            return m.defineMethod(s.toString(), method);
+            block.setCurrentMethod(method);
+            return m.defineMethod(name, method);
         } else {
             throw new RubyException("not implemented");
         }

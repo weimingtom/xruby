@@ -8,8 +8,8 @@ package com.xruby.runtime.lang;
 import com.xruby.runtime.value.RubyArray;
 
 public abstract class RubyVarArgBlock extends RubyBlock {
-    public RubyVarArgBlock(RubyValue self, RubyValue arg, RubyArray args, RubyBlock block, RubyModule scope, boolean definedInAnotherBlock) {
-        super(-1, false, 0, self, arg, args, block, scope, definedInAnotherBlock);
+    public RubyVarArgBlock(RubyValue self, RubyValue arg, RubyArray args, RubyBlock block, RubyModule scope, RubyMethod owner, boolean definedInAnotherBlock) {
+        super(-1, false, 0, self, arg, args, block, scope, owner, definedInAnotherBlock);
     }
 
     protected RubyValue run(RubyValue receiver, RubyArray args) {

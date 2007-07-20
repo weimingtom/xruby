@@ -253,6 +253,11 @@ class MethodGenerator extends GeneratorAdapter {
         putField(Types.RUBY_BLOCK_TYPE, "__retry__", Type.getType(boolean.class));
     }
 
+    public void RubyBlock_getCurrentMethod() {
+        invokeVirtual(Types.RUBY_BLOCK_TYPE,
+                Method.getMethod("com.xruby.runtime.lang.RubyMethod getCurrentMethod()"));
+    }
+
     public void loadSelf(boolean is_in_block) {
         if (is_in_block) {
             RubyBlock_selfOfCurrentMethod_();
@@ -291,8 +296,14 @@ class MethodGenerator extends GeneratorAdapter {
         loadCurrentScope(is_in_class_builder, is_in_singleton_method, is_in_global_scope, is_in_block);
 
         if (is_in_block) {
+            loadThis();
+            RubyBlock_getCurrentMethod();
             push(true);
+        } else if (is_in_global_scope || is_in_class_builder) {
+            pushNull();
+            push(false);
         } else {
+            loadThis();
             push(false);
         }
 
@@ -562,25 +573,22 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
     }
 
-    public void RubyAPI_callSuperMethod(String methodName) {
-        loadRubyID(methodName);
+    public void RubyAPI_callSuperMethod() {
         loadThis();
         invokeStatic(Type.getType(RubyAPI.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.MethodBlockBase)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.MethodBlockBase)"));
     }
 
-    public void RubyAPI_callSuperNoArgMethod(String methodName) {
-        loadRubyID(methodName);
+    public void RubyAPI_callSuperNoArgMethod() {
         loadThis();
         invokeStatic(Type.getType(RubyAPI.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperNoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.MethodBlockBase)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperNoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.MethodBlockBase)"));
     }
 
-    public void RubyAPI_callSuperOneArgMethod(String methodName) {
-        loadRubyID(methodName);
+    public void RubyAPI_callSuperOneArgMethod() {
         loadThis();
         invokeStatic(Type.getType(RubyAPI.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID, com.xruby.runtime.lang.MethodBlockBase)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.MethodBlockBase)"));
     }
 
     public void RubyAPI_operatorNot() {
