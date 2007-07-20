@@ -3783,7 +3783,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
             new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (2 for 0)"),
 
-            new RubyException(RubyRuntime.ArgumentErrorClass, "in `test_wrong_number_of_arguments': wrong number of arguments (0 for 1)"),
+            new RubyException(RubyRuntime.ArgumentErrorClass, "in `f=': wrong number of arguments (0 for 1)"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);
@@ -4465,7 +4465,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         String [] program_texts = {
                 "def bar(&blk); blk.call([:key, :value]);end\n" +
                 "bar{|k,v| print k, v}",
-            
+
                 "def f(x, &block); if x; block = 1; end;   print block;  end;  f true",
 
                 "def f(x); x; end;  print f(33, &nil)",
@@ -4494,7 +4494,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         String[] outputs = {
                 "keyvalue",
-                    
+
                 "1",
                 "33",
 
