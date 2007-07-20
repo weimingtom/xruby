@@ -3751,6 +3751,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_wrong_number_of_arguments() {
         String[] program_texts = {
+                "def f(a = 0) end; f 5, 6, 7",
                 "def f(a) end; f 1, 2",
                 "def f() end; f 1",
                 "def f(a) end; f",
@@ -3769,6 +3770,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
+            new RubyException(RubyRuntime.ArgumentErrorClass, "in `f': wrong number of arguments (3 for 1)"),
             new RubyException(RubyRuntime.ArgumentErrorClass, "in `f': wrong number of arguments (2 for 1)"),
             new RubyException(RubyRuntime.ArgumentErrorClass, "in `f': wrong number of arguments (1 for 0)"),
             new RubyException(RubyRuntime.ArgumentErrorClass, "in `f': wrong number of arguments (0 for 1)"),
