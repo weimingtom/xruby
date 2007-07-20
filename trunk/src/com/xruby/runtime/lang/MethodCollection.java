@@ -79,7 +79,7 @@ abstract class MethodCollection extends ConstantCollection {
         }
 
         RubyID newId = RubyID.intern(newName);
-        addMethod(newId, m);
+        methods_.put(newId, m);
     }
 
     public void setAccessPublic() {
