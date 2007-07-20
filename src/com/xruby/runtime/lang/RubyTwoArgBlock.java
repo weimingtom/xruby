@@ -9,8 +9,8 @@ import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
 public abstract class RubyTwoArgBlock extends RubyBlock {
-    public RubyTwoArgBlock(RubyValue self, RubyValue arg, RubyArray args, RubyBlock block, RubyModule scope, boolean definedInAnotherBlock) {
-        super(2, false, 0, self, arg, args, block, scope, definedInAnotherBlock);
+    public RubyTwoArgBlock(RubyValue self, RubyValue arg, RubyArray args, RubyBlock block, RubyModule scope, RubyMethod owner, boolean definedInAnotherBlock) {
+        super(2, false, 0, self, arg, args, block, scope, owner, definedInAnotherBlock);
     }
 
     protected RubyValue run(RubyValue receiver, RubyArray args) {

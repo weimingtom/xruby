@@ -5,7 +5,7 @@
 
 package com.xruby.runtime.lang;
 
-public class MethodBlockBase {
+public abstract class MethodBlockBase {
     protected int argc_;
     protected boolean has_asterisk_parameter_;
     protected int default_argc_;
@@ -33,5 +33,7 @@ public class MethodBlockBase {
     public void setScope(RubyModule m) {
         scopeOfCurrentMethod_ = m;
     }
+
+    abstract public RubyID getID();
 }
 

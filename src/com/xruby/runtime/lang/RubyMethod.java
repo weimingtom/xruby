@@ -25,13 +25,13 @@ public abstract class RubyMethod extends MethodBlockBase {
         id_ = id;
     }
 
-    String getName() {
-        return id_.toString();
+    public RubyID getID() {
+        return id_;
     }
 
     public RubyBlock convertToRubyBolck(RubyValue self) {
         final RubyMethod m = this;
-        return new RubyBlock(argc_, has_asterisk_parameter_, default_argc_, self, null, null, null, getScope(), false) {
+        return new RubyBlock(argc_, has_asterisk_parameter_, default_argc_, self, null, null, null, getScope(), this, false) {
             protected RubyValue run(RubyValue receiver, RubyArray args) {
                 return m.invoke(receiver, args, null);
             }

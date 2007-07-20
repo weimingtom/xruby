@@ -156,16 +156,16 @@ public class RubyAPI {
         assert(null == args || args.size() > 1);//use callOneArgMethod if has only one arg
         RubyMethod m = receiver.findMethod(mid);
         if (null != m && !UndefMethod.isUndef(m)) {
-            return invokeMethod(m, mid, receiver, args, block);
+            return invokeMethod(m, receiver, args, block);
         }
 
         return callMethodMissing(receiver, args, block, mid);
     }
-    
+
     public static RubyValue callNoArgMethod(RubyValue receiver, RubyBlock block, RubyID mid) {
         RubyMethod m = receiver.findMethod(mid);
         if (null != m && !UndefMethod.isUndef(m)) {
-            return invokeMethod(m, mid, receiver, block);
+            return invokeMethod(m, receiver, block);
         }
 
         return callMethodMissing(receiver, null, block, mid);
@@ -177,16 +177,16 @@ public class RubyAPI {
         assert(null != arg);
         RubyMethod m = receiver.findMethod(mid);
         if (null != m && !UndefMethod.isUndef(m)) {
-            return invokeMethod(m, mid, receiver, arg, block);
+            return invokeMethod(m, receiver, arg, block);
         }
 
         return callMethodMissing(receiver, new RubyArray(arg), block, mid);
     }
-    
+
     public static RubyValue callPublicNoArgMethod(RubyValue receiver, RubyBlock block, RubyID mid) {
         RubyMethod m = receiver.findPublicMethod(mid);
         if (null != m && !UndefMethod.isUndef(m)) {
-            return invokeMethod(m, mid, receiver, block);
+            return invokeMethod(m, receiver, block);
         }
 
         return callMethodMissing(receiver, null, block, mid);
@@ -198,7 +198,7 @@ public class RubyAPI {
         assert(null != arg);
         RubyMethod m = receiver.findPublicMethod(mid);
         if (null != m && !UndefMethod.isUndef(m)) {
-            return invokeMethod(m, mid, receiver, arg, block);
+            return invokeMethod(m, receiver, arg, block);
         }
 
         return callMethodMissing(receiver, new RubyArray(arg), block, mid);
@@ -209,61 +209,61 @@ public class RubyAPI {
         assert(null == args || args.size() > 1);//use callPublicOneArgMethod if has only one arg
         RubyMethod m = receiver.findPublicMethod(mid);
         if (null != m && !UndefMethod.isUndef(m)) {
-            return invokeMethod(m, mid, receiver, args, block);
+            return invokeMethod(m, receiver, args, block);
         }
 
         return callMethodMissing(receiver, args, block, mid);
     }
-    
-    public static RubyValue callSuperNoArgMethod(RubyValue receiver, RubyBlock block, RubyID mid, MethodBlockBase mbb) {
-    	RubyClass c = (RubyClass) mbb.getScope();
-        RubyMethod m = c.findSuperMethod(mid);
+
+    public static RubyValue callSuperNoArgMethod(RubyValue receiver, RubyBlock block, MethodBlockBase mbb) {
+        RubyClass c = (RubyClass) mbb.getScope();
+        RubyMethod m = c.findSuperMethod(mbb.getID());
         if (null == m || UndefMethod.isUndef(m)) {
-            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mid.toString() + "' can not be found in '" + c.getName() + "'");
+            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mbb.getID() + "' can not be found in '" + c.getName() + "'");
         }
 
-        return invokeMethod(m, mid, receiver, block);
+        return invokeMethod(m, receiver, block);
     }
 
-    public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid, MethodBlockBase mbb) {
+    public static RubyValue callSuperOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, MethodBlockBase mbb) {
         assert(null != arg);
         RubyClass c = (RubyClass) mbb.getScope();
-        RubyMethod m = c.findSuperMethod(mid);
+        RubyMethod m = c.findSuperMethod(mbb.getID());
         if (null == m || UndefMethod.isUndef(m)) {
-            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mid.toString() + "' can not be found in '" + c.getName() + "'");
+            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mbb.getID() + "' can not be found in '" + c.getName() + "'");
         }
 
-        return invokeMethod(m, mid, receiver, arg, block);
+        return invokeMethod(m, receiver, arg, block);
     }
 
-    public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, RubyID mid, MethodBlockBase mbb) {
+    public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, MethodBlockBase mbb) {
         assert(null == args || args.size() > 1);//use callSuperOneArgMethod if has only one arg
         RubyClass c = (RubyClass) mbb.getScope();
-        RubyMethod m = c.findSuperMethod(mid);
+        RubyMethod m = c.findSuperMethod(mbb.getID());
         if (null == m || UndefMethod.isUndef(m)) {
-            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mid.toString() + "' can not be found in '" + c.getName() + "'");
+            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mbb.getID() + "' can not be found in '" + c.getName() + "'");
         }
 
-        return invokeMethod(m, mid, receiver, args, block);
+        return invokeMethod(m, receiver, args, block);
     }
-    
+
     // no arg
-    private static RubyValue invokeMethod(RubyMethod m, RubyID mid, RubyValue receiver, RubyBlock block) {
+    private static RubyValue invokeMethod(RubyMethod m, RubyValue receiver, RubyBlock block) {
         //FrameManager.pushRecord(method_name);
         RubyValue v = m.invoke(receiver, block);
         //FrameManager.popRecord();
         return v;
     }
-    
+
     // one arg
-    private static RubyValue invokeMethod(RubyMethod m, RubyID mid, RubyValue receiver, RubyValue arg, RubyBlock block) {
+    private static RubyValue invokeMethod(RubyMethod m, RubyValue receiver, RubyValue arg, RubyBlock block) {
         //FrameManager.pushRecord(method_name);
         RubyValue v = m.invoke(receiver, arg, block);
         //FrameManager.popRecord();
         return v;
     }
 
-    private static RubyValue invokeMethod(RubyMethod m, RubyID mid, RubyValue receiver, RubyArray args, RubyBlock block) {
+    private static RubyValue invokeMethod(RubyMethod m, RubyValue receiver, RubyArray args, RubyBlock block) {
         //FrameManager.pushRecord(method_name);
         RubyValue v = m.invoke(receiver, args, block);
         //FrameManager.popRecord();
@@ -271,11 +271,11 @@ public class RubyAPI {
     }
 
     public static RubyValue operatorNot(RubyValue value) {
-    	return value.isTrue() ? RubyConstant.QFALSE : RubyConstant.QTRUE;
+        return value.isTrue() ? RubyConstant.QFALSE : RubyConstant.QTRUE;
     }
 
     public static boolean isWindows() {
-        return (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") >= 0);	
+        return (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") >= 0);
     }
 
     public static RubyValue runCommandAndCaptureOutput(String value) {
@@ -310,7 +310,7 @@ public class RubyAPI {
             throw new RubyException(RubyRuntime.ExceptionClass, e.toString());
         }
     }
-    
+
     public static RubyValue expandArrayIfThereIsZeroOrOneValue(RubyArray a) {
         if (a.size() <= 1) {
             return a.get(0);
