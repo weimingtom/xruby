@@ -82,7 +82,8 @@ public abstract class RubyMethod extends MethodBlockBase {
         //TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect
         if (argc_ >= 0) {
             final int args_length = (null != args) ? args.size() : 0;
-            if (0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) {
+            if ((0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) ||
+                (0 != default_argc_ && !has_asterisk_parameter_ && args_length > argc_)) {
                 throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
             } else if (args_length < (argc_ - default_argc_)) {
                 //number of arguments falls short anyway
