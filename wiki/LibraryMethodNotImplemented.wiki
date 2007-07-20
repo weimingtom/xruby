@@ -44,6 +44,7 @@ ruby\test_struct.rb
 ruby\test_string.rb
 ruby\test_stringchar.rb
 ruby\test_symbol.rb
+ruby\test_super.rb
 ruby\test_time.rb
 ruby\test_trace.rb
 ruby\test_variable.rb
@@ -71,7 +72,6 @@ ruby\test_proc.rb
 ruby\test_rand.rb
 ruby\test_readpartial.rb
 ruby\test_settracefunc.rb
-ruby\test_super.rb  # 'Wrong context' exception
 ruby\test_system.rb
 
 testunit\test_assertions.rb
