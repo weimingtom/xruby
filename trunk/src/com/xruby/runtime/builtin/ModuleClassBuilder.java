@@ -9,6 +9,7 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyString;
+import com.xruby.runtime.value.RubyProc;
 
 class Module_AccessControl {
     static void run(int access, RubyModule c, RubyArray args, RubyBlock block) {
@@ -368,22 +369,24 @@ class Module_module_eval extends RubyVarArgMethod {
 class Module_define_method extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
 
+        final RubyBlock b;
         if (null != args && args.size() == 1 && null != block) {
-            String name = RubyTypesUtil.convertToJavaString(args.get(0));
-            RubyModule m = (RubyModule)receiver;
-            final RubyBlock b = block;
-            RubyMethod method = new RubyVarArgMethod() {
-                protected RubyValue run(RubyValue _receiver, RubyArray _args, RubyBlock _block) {
-                    b.setArgsOfCurrentMethod(_args);
-                    return b.invoke(_receiver, _args);
-                }
-            };
-
-            block.setCurrentMethod(method);
-            return m.defineMethod(name, method);
+            b = block;
         } else {
-            throw new RubyException("not implemented");
+            b = ((RubyProc)args.get(1)).getBlock();
         }
+
+        String name = RubyTypesUtil.convertToJavaString(args.get(0));
+        RubyModule m = (RubyModule)receiver;
+        RubyMethod method = new RubyVarArgMethod() {
+            protected RubyValue run(RubyValue _receiver, RubyArray _args, RubyBlock _block) {
+                b.setArgsOfCurrentMethod(_args);
+                return b.invoke(_receiver, _args);
+            }
+        };
+
+        b.setCurrentMethod(method);
+        return m.defineMethod(name, method);
     }
 }
 

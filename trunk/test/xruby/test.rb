@@ -75,10 +75,12 @@ class XRubyTest < Test::Unit::TestCase
     end
     
     class DefMethod
-            define_method("def_method_x") {2}
+            define_method("def_method_x1") {1}
+            define_method("def_method_x2", proc {2})
     end
     def test_Module_define_method
-        assert_equal 2, DefMethod.new.def_method_x
+        assert_equal 1, DefMethod.new.def_method_x1
+        assert_equal 2, DefMethod.new.def_method_x2
     end
     
     
