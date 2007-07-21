@@ -88,6 +88,22 @@ class File_file_question extends RubyOneArgMethod {
     }
 }
 
+class File_writable_question extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        String fileName = RubyTypesUtil.convertToString(arg).toString();
+        File file = new File(fileName);
+        return file.canWrite() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+    }
+}
+
+class File_readable_question extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        String fileName = RubyTypesUtil.convertToString(arg).toString();
+        File file = new File(fileName);
+        return file.canRead() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+    }
+}
+
 class File_exist_question extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String fileName = RubyTypesUtil.convertToString(arg).toString();
@@ -114,7 +130,7 @@ class File_expand_path extends RubyVarArgMethod {
 
         if (file_name.equals(".")) {
             file_name = "";
-        }  
+        }
 
         if (args.size() == 1) {
             File file = new File(file_name);
@@ -215,6 +231,8 @@ public class FileClassBuilder {
         //c.defineMethod("id2name", new Symbol_id2name());
 
         c.getSingletonClass().defineMethod("file?", new File_file_question());
+        c.getSingletonClass().defineMethod("writable?", new File_writable_question());
+        c.getSingletonClass().defineMethod("readable?", new File_readable_question());
         c.getSingletonClass().defineMethod("exist?", new File_exist_question());
         c.getSingletonClass().defineMethod("directory?", new File_directory_question());
         c.getSingletonClass().defineMethod("expand_path", new File_expand_path());
