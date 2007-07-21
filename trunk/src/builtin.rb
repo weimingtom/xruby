@@ -15,8 +15,8 @@
 
 $: = ["./lib/ruby/1.8", "."]
 $__loaded_libraries = []
-
 $* = ARGV
+$SAFE = 0
 
 TRUE = true
 FALSE = false
