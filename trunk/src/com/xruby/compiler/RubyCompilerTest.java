@@ -4018,6 +4018,19 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+    public void test_colon2_as_method_call() {
+        String [] program_texts = {
+                "def Dir.test_colon2_as_method_call; print 'xxx'; end\n" +
+                "Dir::test_colon2_as_method_call",
+        };
+
+        String[] outputs = {
+                "xxx",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
     public void test_constant_in_singletonmethod() {
         String [] program_texts = {
                 "a='x';def a.f;print String;end;a.f",
