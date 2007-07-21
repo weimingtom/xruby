@@ -1377,6 +1377,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_exception() {
         String[] program_texts = {
+                "begin; require 'XXXXX'; rescue LoadError; end;   print $!",
+
                 "begin\n" +
                 "eval(\"def foo; BEGIN {}; end\")\n" +
                 "rescue SyntaxError=>e\n" +
@@ -1462,6 +1464,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "nil",
                 "SyntaxError",
                 "TypeError is not a symbol",
                 "1",
