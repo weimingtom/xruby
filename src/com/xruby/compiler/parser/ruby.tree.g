@@ -260,8 +260,10 @@ returns [Expression e]
 									{	if (null != right) {
 											MethodCallExpression mc = (MethodCallExpression)right;
 											e = new MethodCallExpression(left, mc.getName(), mc.getArguments(), mc.getBlock());
+										} else if (null != constant) {
+											e = new Colon2Expression(left, constant.getText());
 										} else {
-											e = new Colon2Expression(left, (null != constant) ? constant.getText() : function.getText());
+											e = new MethodCallExpression(left, function.getText(), null, null);
 										}
 									}
 		|	e=primaryExpression
