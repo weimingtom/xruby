@@ -7,7 +7,6 @@ package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyFixnum;
 
 class Numeric_unary_plus extends RubyNoArgMethod {
@@ -25,17 +24,17 @@ class Numeric_unary_minus extends RubyNoArgMethod {
 /*
 def step(limit, step)
    if step > 0
-	 i = self
-	 while i < limit
-	   yield i
-	   i += step
-	 end
+     i = self
+     while i < limit
+       yield i
+       i += step
+     end
    elsif step < 0
-	  i = self
-	 while i >= limit
-	   yield i
-	   i += step
-	 end
+      i = self
+     while i >= limit
+       yield i
+       i += step
+     end
    end
  end
 */
