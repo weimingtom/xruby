@@ -7,6 +7,8 @@ package com.xruby.compiler.codedom;
 
 import java.util.*;
 
+import antlr.RecognitionException;
+
 class Rescue {
     private final ExceptionList condition_;
     private final CompoundStatement body_;
@@ -27,6 +29,16 @@ class Rescue {
         if (has_ensure) {
             visitor.visitEnsure(-1);
         }
+
+        //insert "$! = nil;"
+        AssignmentOperatorExpression exp = null;
+        try {
+            exp = new AssignmentOperatorExpression(new GlobalVariableExpression("$!"), new NilExpression());
+        } catch (RecognitionException e) {
+            throw new Error(e);
+        }
+        exp.accept(visitor);
+        visitor.visitTerminal();
 
         visitor.visitAfterRescueBody(next_label, end_label);
     }
