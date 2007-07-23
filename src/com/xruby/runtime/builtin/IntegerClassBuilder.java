@@ -6,7 +6,9 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.util.MethodFactory;
 import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyFixnum;
 
 class Integer_get_bit extends RubyOneArgMethod {

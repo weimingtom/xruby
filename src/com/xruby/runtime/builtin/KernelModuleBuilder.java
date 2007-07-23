@@ -789,7 +789,7 @@ class Kernel_Float extends RubyOneArgMethod {
 
 class Kernel_Integer extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        return RubyTypesUtil.convertToFixnum(arg);
+        return ObjectFactory.createFixnum(arg.toInt());
     }
 }
 

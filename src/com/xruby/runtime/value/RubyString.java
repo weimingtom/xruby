@@ -36,6 +36,10 @@ public class RubyString extends RubyBasic {
     public String toString() {
         return sb_.toString();
     }
+    
+    public int toInt() {
+    	return Integer.valueOf(sb_.toString());
+    }
 
     public boolean equals(Object obj) {
         if (!(obj instanceof RubyString)) {
