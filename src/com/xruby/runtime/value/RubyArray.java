@@ -73,6 +73,23 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         v.array_ = new ArrayList<RubyValue>(this.array_);
         return v;
     }
+    
+    public RubyArray toAry() {
+        return this;
+    }
+
+    public RubyValue to_s() {
+        RubyString r = ObjectFactory.createString();
+
+        for (RubyValue v : array_) {
+            r.appendString(v);
+
+            // TODO: The output of to_s is not as the same as cruby, we should solve this issue
+            // TODO: and change the corresponding testcases in RubyCompilerTest, such as test_array_expand.
+        }
+
+        return r;
+    }
 
     public boolean isSingleAsterisk() {
         return (0 == rhs_size_) && has_single_asterisk_or_lambda_call_;
@@ -134,6 +151,24 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     	
         RubyArray resultValue = this.subarray(begin.toInt(), length.toInt());
         return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+    }
+    
+    public RubyArray insert(RubyArray ary) {
+    	int argc = ary.size();
+		if (argc == 1) {
+    		return this;
+    	}
+		
+		if (argc < 1) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass,  "wrong number of arguments (at least 1)");
+		}
+    	
+    	int pos = ary.get(0).toInt();
+    	if (pos < 0) {
+    		pos += this.array_.size() + 1;
+        }
+    	
+    	return this.insert(pos, ary.subarray(1, ary.size() - 1));
     }
 
     public RubyArray insert(int index, RubyArray a) {
@@ -218,6 +253,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public RubyValue deleteAt(RubyValue v) {
         return this.delete_at(v.toInt());
     }
+    
+    public RubyValue shift() {
+    	return this.delete_at(0);
+    }
 
     public RubyValue delete_at(int index) {
         if (index >= size()) {
@@ -275,14 +314,18 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
         return this;
     }
-
-    public RubyValue delete(RubyValue arg) {
-        boolean found = false;
-        while (array_.remove(arg)) {
+    
+    public RubyValue delete(RubyValue item, RubyBlock block) {
+    	boolean found = false;
+    	while (array_.remove(item)) {
             found = true;
         }
-
-        return found ? arg : ObjectFactory.NIL_VALUE;
+    	
+    	if (block != null && !found) {
+    		return block.invoke(item);
+    	} else {
+    		return found ? item : RubyConstant.QNIL;
+    	}
     }
 
     public Iterator<RubyValue> iterator() {
@@ -453,30 +496,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
     }
 
-    public RubyArray toAry() {
+    public RubyArray concat(RubyValue v) {
+    	RubyArray ary = v.toAry();
+        array_.addAll(ary.array_);
         return this;
-    }
-
-    public RubyValue to_s() {
-        RubyString r = ObjectFactory.createString();
-
-        for (RubyValue v : array_) {
-            r.appendString(v);
-
-            // TODO: The output of to_s is not as the same as cruby, we should solve this issue
-            // TODO: and change the corresponding testcases in RubyCompilerTest, such as test_array_expand.
-        }
-
-        return r;
-    }
-
-    public void concat(RubyValue v) {
-        if (!(v instanceof RubyArray)) {
-            throw new RubyException(RubyRuntime.TypeErrorClass,
-                    "can't convert " + v.getRubyClass().toString() + " into Array");
-        }
-
-        array_.addAll(((RubyArray) v).array_);
     }
 
     public RubyArray plus(RubyValue v) {
@@ -536,9 +559,9 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return false;
     }
 
-    public RubyValue each(RubyValue receiver, RubyBlock block) {
+    public RubyValue each(RubyBlock block) {
         for (RubyValue item : array_) {
-            RubyValue v = block.invoke(receiver, item);
+            RubyValue v = block.invoke(this, item);
             if (block.breakedOrReturned()) {
                 return v;
             }
@@ -546,9 +569,9 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this;
     }
 
-    public RubyValue each_index(RubyValue receiver, RubyBlock block) {
+    public RubyValue each_index(RubyBlock block) {
         for (int i=0;i<size();i++) {
-            RubyValue v = block.invoke(receiver, new RubyFixnum(i));
+            RubyValue v = block.invoke(this, new RubyFixnum(i));
             if (block.breakedOrReturned()) {
                 return v;
             }
@@ -556,10 +579,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this;
     }
 
-    public RubyValue reverse_each(RubyValue receiver, RubyBlock block) {
+    public RubyValue reverse_each(RubyBlock block) {
         ListIterator<RubyValue> ite = array_.listIterator(array_.size());
         while (ite.hasPrevious()) {
-            RubyValue v = block.invoke(receiver, ite.previous());
+            RubyValue v = block.invoke(this, ite.previous());
             if (block.breakedOrReturned()) {
                 return v;
             }
@@ -680,8 +703,15 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return b;
     }
 
-    public void reverse() {
-        Collections.reverse(array_);
+    public RubyArray reverse() {
+    	RubyArray array = this.copy();
+        Collections.reverse(array.array_);
+        return array;
+    }
+    
+    public RubyArray reverseBang() {
+    	Collections.reverse(array_);
+    	return this;
     }
 }
 
