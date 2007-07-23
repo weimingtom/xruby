@@ -62,6 +62,24 @@ public class CgUtil {
 		return sb.toString();
 	}
 	
+	public static String getMethodName(String method, Class returnType, Class param0, Class param1, Class param2, Class param3) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(returnType.getName());
+		sb.append(" ");
+		sb.append(method);
+		sb.append("(");
+		sb.append(param0.getName());
+		sb.append(", ");
+		sb.append(param1.getName());
+		sb.append(", ");
+		sb.append(param2.getName());
+		sb.append(", ");
+		sb.append(param3.getName());
+		sb.append(")");
+		
+		return sb.toString();
+	}
+	
 	public static String getMethodName(String method, Class returnType, Class[] params) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(returnType.getName());

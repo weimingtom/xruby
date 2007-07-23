@@ -170,7 +170,7 @@ class Bignum_size extends RubyNoArgMethod {
 class Bignum_get_bit extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyBignum value1 = (RubyBignum) receiver;
-        int index = RubyTypesUtil.convertToFixnum(arg).intValue();
+        int index = arg.toInt();
         boolean flag = value1.getInternal().testBit(index);
         if (flag) {
             return ObjectFactory.FIXNUM1;

@@ -1,5 +1,5 @@
 /**
- * Copyright 2006-2007 Ye Zheng
+ * Copyright 2007 Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -85,6 +85,25 @@ public class MethodFactoryTest extends TestCase {
         RubyValue oneArgResult = m.invoke(v, v, null);
         assertEquals(v, oneArgResult);
     }
+    
+    public void testTwoArgMethod() {
+    	RubyMethod m = f.getMethod("twoArgMethod", MethodFactory.TWO_ARG);
+    	RubyTestValue v0 = new RubyTestValue();
+    	RubyTestValue v1 = new RubyTestValue();
+    	RubyValue twoArgResult = m.invoke(v0, v0, v1, null);
+    	assertEquals(v1, twoArgResult);
+    }
+    
+    public void testOneOrTwoArgMethod() {
+    	RubyMethod m = f.getMethod("oneOrTwoArg", MethodFactory.ONE_OR_TWO_ARG);
+    	RubyTestValue v0 = new RubyTestValue();
+    	RubyValue oneArgResult = m.invoke(v0, v0, null);
+    	assertEquals(v0, oneArgResult);
+    	
+    	RubyTestValue v1 = new RubyTestValue();
+    	RubyValue twoArgResult = m.invoke(v0, v0, v1, null);
+    	assertEquals(v1, twoArgResult);
+    }
 
     public static class RubyTestValue extends RubyValue {
         public RubyClass getRubyClass() {
@@ -128,6 +147,18 @@ public class MethodFactoryTest extends TestCase {
 
         public RubyValue noOrOneArg(RubyValue v) {
             return v;
+        }
+        
+        public RubyValue twoArgMethod(RubyValue value0, RubyValue value1) {
+        	return value1;
+        }
+        
+        public RubyValue oneOrTwoArg(RubyValue v) {
+        	return v;
+        }
+        
+        public RubyValue oneOrTwoArg(RubyValue v0, RubyValue v1) {
+        	return v1;
         }
     }
 

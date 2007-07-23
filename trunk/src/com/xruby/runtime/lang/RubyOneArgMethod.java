@@ -5,7 +5,6 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
 public abstract class RubyOneArgMethod extends RubyMethod {
@@ -15,15 +14,15 @@ public abstract class RubyOneArgMethod extends RubyMethod {
 
 	protected abstract RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block);
 	
-	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyArray args, RubyBlock block) {
-		return this.run(receiver, arg, block);
-	}
+	public RubyValue invoke(RubyValue receiver, RubyBlock block) {
+        throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + this.getID() + "': wrong number of arguments (0 for 1)");
+    }
+	
+	public RubyValue invoke(RubyValue receiver, RubyValue arg0, RubyValue arg1, RubyBlock block) {
+        throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + this.getID() + "': wrong number of arguments (2 for 1)");
+    }
 
 	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {		
 		return this.run(receiver, args.get(0), block);
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyBlock block) {
-		return super.run(receiver, ObjectFactory.NIL_VALUE, block);
 	}
 }

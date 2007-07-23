@@ -17,6 +17,11 @@ public class RubyStringTest extends TestCase {
 		assertTrue(!a.equals(c));
 	}
 	
+	public void testToInt() {
+		RubyString a = new RubyString("5");
+		assertEquals(5, a.toInt());
+	}
+	
 	public void test_chop() {
 		RubyString x = new RubyString("x");
 		x.chop();

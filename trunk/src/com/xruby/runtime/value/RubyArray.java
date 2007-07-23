@@ -95,6 +95,46 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         array_.clear();
         return this;
     }
+    
+    public RubyValue aref(RubyValue arg) {
+    	if (arg instanceof RubyFixnum) {
+            return this.get(arg.toInt());
+        }
+    	
+    	if (arg instanceof RubySymbol) {
+    		throw new RubyException(RubyRuntime.TypeErrorClass, "Symbol as array index");
+    	}
+    	
+    	if (arg instanceof RubyRange) {
+        	RubyRange range = (RubyRange)arg;
+            int begin = range.getLeft().toInt(); 
+            int end = range.getRight().toInt();
+            if (begin < 0) {
+                begin = this.size() + begin;
+            }
+            if (end < 0) {
+                end = this.size() + end;
+            }
+
+            if (!range.isExcludeEnd()) {
+                ++end;
+            }
+
+            RubyArray resultValue = this.subarray(begin, end - begin);
+            return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+        }
+    	
+    	return this.get(arg.toInt());
+    }
+    
+    public RubyValue aref(RubyValue begin, RubyValue length) {
+    	if (begin instanceof RubySymbol) {
+    		throw new RubyException(RubyRuntime.TypeErrorClass, "Symbol as array index");
+    	}
+    	
+        RubyArray resultValue = this.subarray(begin.toInt(), length.toInt());
+        return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+    }
 
     public RubyArray insert(int index, RubyArray a) {
         for (int i = array_.size(); i < index; ++i) {
@@ -148,12 +188,17 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
         return new RubyArray(this.array_.subList(size - n, size));
     }
-
+    
     public RubyValue at(RubyValue value) {
         return this.get(value.toInt());
     }
+    
+    public RubyArray push(RubyValue v) {
+    	this.array_.add(v);
+    	return this;
+    }
 
-    public RubyArray push(RubyArray args) {
+    public RubyArray multiPush(RubyArray args) {
         if (null != args) {
             for (RubyValue v : args) {
                 this.array_.add(v);
@@ -321,6 +366,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
 
         return resultArray;
+    }
+    
+    public RubyValue compare(RubyValue v) {
+    	return this.compare(v.toAry());
     }
 
     public RubyValue compare(RubyArray other_array) {

@@ -9,43 +9,6 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.util.MethodFactory;
 import com.xruby.runtime.value.*;
 
-class Array_array_access extends RubyOneOrTwoArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-		RubyArray value = (RubyArray) receiver;
-        if (arg instanceof RubyFixnum) {
-            return value.get(arg.toInt());
-        } else if (arg instanceof RubyRange) {
-        	RubyRange range = (RubyRange)arg;
-            int begin = range.getLeft().toInt(); 
-            int end = range.getRight().toInt();
-            if (begin < 0) {
-                begin = value.size() + begin;
-            }
-            if (end < 0) {
-                end = value.size() + end;
-            }
-
-            if (!range.isExcludeEnd()) {
-                ++end;
-            }
-
-            RubyArray resultValue = value.subarray(begin, end - begin);
-            return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
-        }
-        
-        // FIXME: Exception should be thrown
-		return null;
-	}
-
-	protected RubyValue run(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
-		RubyArray value = (RubyArray) receiver;
-		int begin = arg1.toInt();
-        int length = arg2.toInt();
-        RubyArray resultValue = value.subarray(begin, length);
-        return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
-	}	
-}
-
 class Array_slice_danger extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyArray value = (RubyArray) receiver;
@@ -127,29 +90,10 @@ class Array_array_set extends RubyVarArgMethod {
     }
 }
 
-class Array_compare extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyArray left = (RubyArray) receiver;
-        Object right = arg;
-        if (!(right instanceof RubyArray)) {
-            throw new RubyException(RubyRuntime.TypeErrorClass, "Can't convert " + arg.getRubyClass().getName() + " into Array");
-        }
-        return left.compare((RubyArray) right);
-    }
-}
-
 class Array_concat extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyArray left = (RubyArray) receiver;
         left.concat(arg);
-        return receiver;
-    }
-}
-
-class Array_left_shift_operator extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyArray left = (RubyArray) receiver;
-        left.add(arg);
         return receiver;
     }
 }
@@ -545,15 +489,15 @@ public class ArrayClassBuilder {
         c.defineMethod("clear", factory.getMethod("clear", MethodFactory.NO_ARG));
         c.defineMethod(RubyID.toSID, factory.getMethod("to_s", MethodFactory.NO_ARG));        
         
-        c.defineMethod("[]", new Array_array_access());
+        c.defineMethod("[]", factory.getMethod("aref", MethodFactory.ONE_OR_TWO_ARG));
         
         c.defineMethod("first", factory.getMethod("first", MethodFactory.NO_OR_ONE_ARG));
         c.defineMethod("last", factory.getMethod("last", MethodFactory.NO_OR_ONE_ARG));
         c.defineMethod("at", factory.getMethod("at", MethodFactory.ONE_ARG));
         c.defineMethod("[]=", new Array_array_set());
         c.defineMethod("==", factory.getMethod("opEquals", MethodFactory.ONE_ARG));
-        c.defineMethod("<=>", new Array_compare());
-        c.defineMethod("<<", new Array_left_shift_operator());
+        c.defineMethod("<=>", factory.getMethod("compare", MethodFactory.ONE_ARG));
+        c.defineMethod("<<", factory.getMethod("push", MethodFactory.ONE_ARG));
         c.defineMethod("concat", new Array_concat());
         c.defineMethod(RubyID.plusID, factory.getMethod("plus", MethodFactory.ONE_ARG));
         c.defineMethod(RubyID.subID, factory.getMethod("minus", MethodFactory.ONE_ARG));
@@ -561,7 +505,7 @@ public class ArrayClassBuilder {
         c.defineMethod("&", factory.getMethod("and", MethodFactory.ONE_ARG));
         c.defineMethod("|", factory.getMethod("or", MethodFactory.ONE_ARG));
         c.defineMethod("insert", new Array_insert());
-        c.defineMethod("push", factory.getMethod("push", MethodFactory.VAR_ARG));
+        c.defineMethod("push", factory.getMethod("multiPush", MethodFactory.VAR_ARG));
         c.defineMethod("pop", factory.getMethod("pop", MethodFactory.NO_ARG));
         c.defineMethod("delete", new Array_delete());
         c.defineMethod("delete_at", factory.getMethod("deleteAt", MethodFactory.ONE_ARG));
@@ -581,7 +525,7 @@ public class ArrayClassBuilder {
         c.defineMethod("uniq", new Array_uniq());
         c.defineMethod("reverse!", new Array_reverse_danger());
         c.defineMethod("reverse", new Array_reverse());
-        c.defineMethod("slice", new Array_array_access());
+        c.defineMethod("slice", factory.getMethod("aref", MethodFactory.ONE_OR_TWO_ARG));
         c.defineMethod("slice!", new Array_slice_danger());
         c.defineMethod("index",new Array_index());
         c.defineMethod("rindex",new Array_rindex());
@@ -600,4 +544,3 @@ public class ArrayClassBuilder {
         c.includeModule(RubyRuntime.EnumerableModule);
     }
 }
-

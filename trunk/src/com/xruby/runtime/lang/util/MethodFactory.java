@@ -1,5 +1,5 @@
 /**
- * Copyright 2006-2007 Ye Zheng
+ * Copyright 2007 Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -49,20 +49,20 @@ public class MethodFactory {
 		this.klass = klass;
 	}	
 
-	public RubyMethod getMethod(String name, int argc) {
-		return loadMethod(name, argc, false);
+	public RubyMethod getMethod(String name, int type) {
+		return loadMethod(name, type, false);
 	}
 	
-	public RubyMethod getMethodWithBlock(String name, int argc) {
-		return loadMethod(name, argc, true);
+	public RubyMethod getMethodWithBlock(String name, int type) {
+		return loadMethod(name, type, true);
 	}
 
-	private RubyMethod loadMethod(String name, int argc, boolean block) {
+	private RubyMethod loadMethod(String name, int type, boolean block) {
 		String invokerName = getInvokerName(name, block);
 		Class klass = tryClass(invokerName);
 		try {
 			if (klass == null) {
-				klass = createMethodClass(invokerName, name, argc, block);
+				klass = createMethodClass(invokerName, name, type, block);
 			}
 			
 			return (RubyMethod)klass.newInstance();
@@ -79,8 +79,8 @@ public class MethodFactory {
 		}
 	}
 
-	private Class createMethodClass(String invokerName, String name, int argc, boolean block) throws Exception {
-		MethodFactoryHelper helper = MethodFactoryHelper.getHelper(argc);		
+	private Class createMethodClass(String invokerName, String name, int type, boolean block) throws Exception {
+		MethodFactoryHelper helper = MethodFactoryHelper.getHelper(type);		
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		ClassVisitor cv = new CheckClassAdapter(cw);
 		

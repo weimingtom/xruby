@@ -76,19 +76,23 @@ public abstract class RubyMethod extends MethodBlockBase {
         RubyValue v = RubyAPI.callPublicMethod(value, null, null, RubyID.inspectID);
         return ((RubyString)v).toString();
     }
+    
+    private void validateArgSize(int args_length) {
+    	// TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect
+    	if ((0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) ||
+    			(0 != default_argc_ && !has_asterisk_parameter_ && args_length > argc_)) {
+    		throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
+    	} else if (args_length < (argc_ - default_argc_)) {
+    		//number of arguments falls short anyway
+    		throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
+    	}
+    }
 
     // multi arg invocation
     public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
-        //TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect
         if (argc_ >= 0) {
             final int args_length = (null != args) ? args.size() : 0;
-            if ((0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) ||
-                (0 != default_argc_ && !has_asterisk_parameter_ && args_length > argc_)) {
-                throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
-            } else if (args_length < (argc_ - default_argc_)) {
-                //number of arguments falls short anyway
-                throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
-            }
+            validateArgSize(args_length);
         }
 
         RubyValue v = run(receiver, args, block);
@@ -104,15 +108,9 @@ public abstract class RubyMethod extends MethodBlockBase {
 
     // no arg invocation
     public RubyValue invoke(RubyValue receiver, RubyBlock block) {
-//		TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect
+    	// TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect
         if (argc_ >= 0) {
-            final int args_length = 0;
-            if (0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) {
-                throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
-            } else if (args_length < (argc_ - default_argc_)) {
-                //number of arguments falls short anyway
-                throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
-            }
+        	validateArgSize(0);
         }
 
         RubyValue v = run(receiver, block);
@@ -130,15 +128,8 @@ public abstract class RubyMethod extends MethodBlockBase {
 
     // one arg invocation
     public RubyValue invoke(RubyValue receiver, RubyValue arg, RubyBlock block) {
-//		TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect
         if (argc_ >= 0) {
-            final int args_length = 1;
-            if (0 == default_argc_ && !has_asterisk_parameter_ && args_length != argc_) {
-                throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + argc_ + ")");
-            } else if (args_length < (argc_ - default_argc_)) {
-                //number of arguments falls short anyway
-                throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + args_length + " for " + (argc_ - default_argc_) + ")");
-            }
+        	validateArgSize(1);
         }
 
         RubyValue v = run(receiver, arg, block);
@@ -152,6 +143,25 @@ public abstract class RubyMethod extends MethodBlockBase {
 
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         return this.run(receiver, new RubyArray(arg), block);
+    }
+    
+    // two arg invocation
+    public RubyValue invoke(RubyValue receiver, RubyValue arg0, RubyValue arg1, RubyBlock block) {
+        if (argc_ >= 0) {
+        	validateArgSize(2);
+        }
+
+        RubyValue v = run(receiver, arg0, arg1, block);
+        if (null != block) {
+            v.setReturnedInBlock(block.returned(), block.breakedOrReturned(), false);
+        } else {
+            v.setReturnedInBlock(false, false, false);
+        }
+        return v;
+    }
+
+    protected RubyValue run(RubyValue receiver, RubyValue arg0, RubyValue arg1, RubyBlock block) {
+        return this.run(receiver, new RubyArray(arg0, arg1), block);
     }
 }
 

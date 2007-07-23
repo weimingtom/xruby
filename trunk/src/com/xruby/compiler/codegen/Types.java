@@ -27,6 +27,7 @@ abstract class Types {
 
     static final Type RUBY_NOARGMETHOD_TYPE = Type.getType(RubyNoArgMethod.class);
     static final Type RUBY_ONEARGMETHOD_TYPE = Type.getType(RubyOneArgMethod.class);
+    static final Type RUBY_TWOARGMETHOD_TYPE = Type.getType(RubyTwoArgMethod.class);
     static final Type RUBY_VARARGMETHOD_TYPE = Type.getType(RubyVarArgMethod.class);
 
     static final Type RUBY_NOARGBLOCK_TYPE = Type.getType(RubyNoArgBlock.class);
