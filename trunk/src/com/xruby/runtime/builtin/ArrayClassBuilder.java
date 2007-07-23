@@ -90,14 +90,6 @@ class Array_array_set extends RubyVarArgMethod {
     }
 }
 
-class Array_concat extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyArray left = (RubyArray) receiver;
-        left.concat(arg);
-        return receiver;
-    }
-}
-
 class Array_times extends RubyOneArgMethod {
     private RubyID joinID = RubyID.intern("join");
 
@@ -115,37 +107,6 @@ class Array_times extends RubyOneArgMethod {
     }
 }
 
-class Array_insert extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        RubyFixnum index = (RubyFixnum) args.get(0);
-        int start = index.intValue();
-        if (start < 0) {
-        	start+=array.size()+1;
-        }
-        return array.insert(start, args.subarray(1, args.size()-1));
-    }
-}
-
-class Array_delete_if extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        return array.delete_if(block);
-    }
-}
-
-class Array_delete extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        RubyValue return_value = array.delete(arg);
-        if (null != block && return_value == ObjectFactory.NIL_VALUE) {
-        	return block.invoke(receiver, arg);
-        } else {
-        	return return_value;
-        }
-    }
-}
-
 class Array_include extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyArray array = (RubyArray) receiver;
@@ -154,35 +115,6 @@ class Array_include extends RubyOneArgMethod {
         } else {
             return ObjectFactory.FALSE_VALUE;
         }
-    }
-}
-
-class Array_each extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        return array.each(receiver, block);
-    }
-}
-
-class Array_each_index extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        return array.each_index(receiver, block);
-    }
-}
-
-
-class Array_reverse_each extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        return array.reverse_each(receiver, block);
-    }
-}
-
-class Array_unshift extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        return array.unshift(args);
     }
 }
 
@@ -222,13 +154,6 @@ class Array_new_with_given_objects extends RubyVarArgMethod {
         }
         a.setRubyClass((RubyClass) receiver);
         return a;
-    }
-}
-
-class Array_shift extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        return array.delete_at(0);
     }
 }
 
@@ -288,22 +213,6 @@ class Array_uniq extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyArray array = ((RubyArray) receiver).copy();
         return array.uniq() ? array : ObjectFactory.NIL_VALUE;
-    }
-}
-
-class Array_reverse_danger extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        array.reverse();
-        return array;
-    }
-}
-
-class Array_reverse extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyArray array = ((RubyArray) receiver).copy();
-        array.reverse();
-        return array;
     }
 }
 
@@ -498,24 +407,24 @@ public class ArrayClassBuilder {
         c.defineMethod("==", factory.getMethod("opEquals", MethodFactory.ONE_ARG));
         c.defineMethod("<=>", factory.getMethod("compare", MethodFactory.ONE_ARG));
         c.defineMethod("<<", factory.getMethod("push", MethodFactory.ONE_ARG));
-        c.defineMethod("concat", new Array_concat());
+        c.defineMethod("concat", factory.getMethod("concat", MethodFactory.ONE_ARG));
         c.defineMethod(RubyID.plusID, factory.getMethod("plus", MethodFactory.ONE_ARG));
         c.defineMethod(RubyID.subID, factory.getMethod("minus", MethodFactory.ONE_ARG));
         c.defineMethod("*", new Array_times());
         c.defineMethod("&", factory.getMethod("and", MethodFactory.ONE_ARG));
         c.defineMethod("|", factory.getMethod("or", MethodFactory.ONE_ARG));
-        c.defineMethod("insert", new Array_insert());
+        c.defineMethod("insert", factory.getMethod("insert", MethodFactory.VAR_ARG));
         c.defineMethod("push", factory.getMethod("multiPush", MethodFactory.VAR_ARG));
         c.defineMethod("pop", factory.getMethod("pop", MethodFactory.NO_ARG));
-        c.defineMethod("delete", new Array_delete());
+        c.defineMethod("delete", factory.getMethodWithBlock("delete", MethodFactory.ONE_ARG));
         c.defineMethod("delete_at", factory.getMethod("deleteAt", MethodFactory.ONE_ARG));
-        c.defineMethod("delete_if", new Array_delete_if());
+        c.defineMethod("delete_if", factory.getMethodWithBlock("delete_if", MethodFactory.NO_ARG));
         c.defineMethod("include?", new Array_include());
-        c.defineMethod("unshift", new Array_unshift());
-        c.defineMethod("each", new Array_each());
-        c.defineMethod("reverse_each", new Array_reverse_each());
+        c.defineMethod("unshift", factory.getMethod("unshift", MethodFactory.VAR_ARG));
+        c.defineMethod("each", factory.getMethodWithBlock("each", MethodFactory.NO_ARG));
+        c.defineMethod("reverse_each", factory.getMethodWithBlock("reverse_each", MethodFactory.NO_ARG));
         c.defineMethod("pack", new Array_pack());
-        c.defineMethod("shift", new Array_shift());
+        c.defineMethod("shift", factory.getMethod("shift", MethodFactory.NO_ARG));
         c.defineMethod("sort!", new Array_sort_dangers());
         c.defineMethod("sort", new Array_sort());
         c.defineMethod("hash", new Array_hash());
@@ -523,8 +432,8 @@ public class ArrayClassBuilder {
         c.defineMethod("compact", new Array_compact());
         c.defineMethod("uniq!", new Array_uniq_danger());
         c.defineMethod("uniq", new Array_uniq());
-        c.defineMethod("reverse!", new Array_reverse_danger());
-        c.defineMethod("reverse", new Array_reverse());
+        c.defineMethod("reverse!", factory.getMethod("reverseBang", MethodFactory.NO_ARG));
+        c.defineMethod("reverse", factory.getMethod("reverse", MethodFactory.NO_ARG));
         c.defineMethod("slice", factory.getMethod("aref", MethodFactory.ONE_OR_TWO_ARG));
         c.defineMethod("slice!", new Array_slice_danger());
         c.defineMethod("index",new Array_index());
@@ -536,7 +445,7 @@ public class ArrayClassBuilder {
         c.defineMethod("nitems",new Array_nitems());
         c.defineMethod("flatten", new Array_flatten());
         c.defineMethod("flatten!", new Array_flatten_danger());
-        c.defineMethod("each_index", new Array_each_index());
+        c.defineMethod("each_index", factory.getMethodWithBlock("each_index", MethodFactory.NO_ARG));
         c.defineMethod("collect!", new Array_collect_danger());
         c.defineMethod("assoc", new Array_assoc());
         c.defineMethod("rassoc", new Array_rassoc());
