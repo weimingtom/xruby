@@ -7,6 +7,7 @@ package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.util.MethodFactory;
+import com.xruby.runtime.lang.util.MethodType;
 import com.xruby.runtime.value.*;
 
 import java.math.BigDecimal;
@@ -429,9 +430,9 @@ public class FixnumClassBuilder {
         c.defineMethod("<<", new Fixnum_operator_left_shift());
         c.defineMethod("==", new Fixnum_operator_equal());
         c.defineMethod("===", new Fixnum_operator_case_equal());
-        c.defineMethod(RubyID.plusID, factory.getMethod("opPlus", MethodFactory.ONE_ARG));
+        c.defineMethod(RubyID.plusID, factory.getMethod("opPlus", MethodType.ONE_ARG));
         c.defineMethod("<=", new Fixnum_operator_less_or_equal());
-        c.defineMethod(RubyID.subID, factory.getMethod("opMinus", MethodFactory.ONE_ARG));
+        c.defineMethod(RubyID.subID, factory.getMethod("opMinus", MethodType.ONE_ARG));
         c.defineMethod("/", new Fixnum_operator_div());
         c.defineMethod(RubyID.toSID, new Fixnum_to_s());
         c.defineMethod("%", new Fixnum_operator_mod());
@@ -443,10 +444,10 @@ public class FixnumClassBuilder {
         c.defineMethod("^", new Fixnum_operator_bxor());
         c.defineMethod(">", new Fixnum_operator_greater_than());
         c.defineMethod(">=", new Fixnum_operator_greater_or_equal());
-        c.defineMethod("*", factory.getMethod("opMul", MethodFactory.ONE_ARG));
-        c.defineMethod("to_f", factory.getMethod("convertToFloat", MethodFactory.NO_ARG));
+        c.defineMethod("*", factory.getMethod("opMul", MethodType.ONE_ARG));
+        c.defineMethod("to_f", factory.getMethod("convertToFloat", MethodType.NO_ARG));
         c.defineMethod("**", new Fixnum_operator_star_star());
-        c.defineMethod("~", factory.getMethod("opRev", MethodFactory.NO_ARG));
+        c.defineMethod("~", factory.getMethod("opRev", MethodType.NO_ARG));
         c.defineMethod("quo", new Fixnum_quo());
     }
 }
