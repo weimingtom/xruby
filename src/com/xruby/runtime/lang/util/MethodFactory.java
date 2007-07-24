@@ -24,13 +24,6 @@ public class MethodFactory {
 	private static String dumpPath;
 	private static ClassFileWriter cfw;
 	
-	public static final int NO_ARG = 1;
-	public static final int ONE_ARG = 2;
-	public static final int NO_OR_ONE_ARG = 3;
-	public static final int TWO_ARG = 4;
-	public static final int ONE_OR_TWO_ARG = 6;
-	public static final int VAR_ARG = 8;
-	
 	static {
 		dump = Boolean.getBoolean("xruby.method.dump");
 		if (dump) {
@@ -49,15 +42,15 @@ public class MethodFactory {
 		this.klass = klass;
 	}	
 
-	public RubyMethod getMethod(String name, int type) {
+	public RubyMethod getMethod(String name, MethodType type) {
 		return loadMethod(name, type, false);
 	}
 	
-	public RubyMethod getMethodWithBlock(String name, int type) {
+	public RubyMethod getMethodWithBlock(String name, MethodType type) {
 		return loadMethod(name, type, true);
 	}
 
-	private RubyMethod loadMethod(String name, int type, boolean block) {
+	private RubyMethod loadMethod(String name, MethodType type, boolean block) {
 		String invokerName = getInvokerName(name, block);
 		Class klass = tryClass(invokerName);
 		try {
@@ -79,7 +72,7 @@ public class MethodFactory {
 		}
 	}
 
-	private Class createMethodClass(String invokerName, String name, int type, boolean block) throws Exception {
+	private Class createMethodClass(String invokerName, String name, MethodType type, boolean block) throws Exception {
 		MethodFactoryHelper helper = MethodFactoryHelper.getHelper(type);		
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		ClassVisitor cv = new CheckClassAdapter(cw);

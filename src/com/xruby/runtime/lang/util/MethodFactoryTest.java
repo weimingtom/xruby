@@ -28,35 +28,35 @@ public class MethodFactoryTest extends TestCase {
     }
 
     public void testNoArgMethod() {
-        RubyMethod m = f.getMethod("noArgMethod", MethodFactory.NO_ARG);
+        RubyMethod m = f.getMethod("noArgMethod", MethodType.NO_ARG);
         RubyTestValue v = new RubyTestValue();
         RubyValue result = m.invoke(v, null);
         assertEquals(RubyConstant.QNIL, result);
     }
 
     public void testOneArgMethod() {
-        RubyMethod m = f.getMethod("oneArgMethod", MethodFactory.ONE_ARG);
+        RubyMethod m = f.getMethod("oneArgMethod", MethodType.ONE_ARG);
         RubyTestValue v = new RubyTestValue();
         RubyValue result = m.invoke(v, v, null);
         assertEquals(v, result);
     }
 
     public void testNoArgMethodWithBlock() {
-        RubyMethod m = f.getMethodWithBlock("noArgMethod", MethodFactory.NO_ARG);
+        RubyMethod m = f.getMethodWithBlock("noArgMethod", MethodType.NO_ARG);
         RubyTestValue v = new RubyTestValue();
         RubyValue result = m.invoke(v, new RubyTestBlock());
         assertEquals(RubyConstant.QNIL, result);
     }
 
     public void testOneArgMethodWithBlock() {
-        RubyMethod m = f.getMethodWithBlock("oneArgMethod", MethodFactory.ONE_ARG);
+        RubyMethod m = f.getMethodWithBlock("oneArgMethod", MethodType.ONE_ARG);
         RubyTestValue v = new RubyTestValue();
         RubyValue result = m.invoke(v, v, new RubyTestBlock());
         assertEquals(v, result);
     }
 
     public void testVarArgMethod() {
-        RubyMethod m = f.getMethod("varArgMethod", MethodFactory.VAR_ARG);
+        RubyMethod m = f.getMethod("varArgMethod", MethodType.VAR_ARG);
         RubyTestValue v = new RubyTestValue();
         RubyArray a = ObjectFactory.createArray(1, v);
         RubyValue result = m.invoke(v, a, null);
@@ -64,7 +64,7 @@ public class MethodFactoryTest extends TestCase {
     }
 
     public void testVarArgMethodWithBlock() {
-        RubyMethod m = f.getMethodWithBlock("varArgMethod", MethodFactory.VAR_ARG);
+        RubyMethod m = f.getMethodWithBlock("varArgMethod", MethodType.VAR_ARG);
         RubyTestValue v = new RubyTestValue();
         RubyArray a = ObjectFactory.createArray(1, v);
         RubyValue result = m.invoke(v, a, null);
@@ -72,13 +72,13 @@ public class MethodFactoryTest extends TestCase {
     }
 
     public void testTryLoadMethodTwice() {
-        RubyMethod m0 = f.getMethod("loadTwiceMethod", MethodFactory.NO_ARG);
-        RubyMethod m1 = f.getMethod("loadTwiceMethod", MethodFactory.NO_ARG);
+        RubyMethod m0 = f.getMethod("loadTwiceMethod", MethodType.NO_ARG);
+        RubyMethod m1 = f.getMethod("loadTwiceMethod", MethodType.NO_ARG);
         assertNotSame(m0, m1);
     }
 
     public void testNoOrOneArgMethod() {
-        RubyMethod m = f.getMethod("noOrOneArg", MethodFactory.NO_OR_ONE_ARG);
+        RubyMethod m = f.getMethod("noOrOneArg", MethodType.NO_OR_ONE_ARG);
         RubyTestValue v = new RubyTestValue();
         RubyValue noArgResult = m.invoke(v, null);
         assertEquals(RubyConstant.QNIL, noArgResult);
@@ -87,7 +87,7 @@ public class MethodFactoryTest extends TestCase {
     }
     
     public void testTwoArgMethod() {
-    	RubyMethod m = f.getMethod("twoArgMethod", MethodFactory.TWO_ARG);
+    	RubyMethod m = f.getMethod("twoArgMethod", MethodType.TWO_ARG);
     	RubyTestValue v0 = new RubyTestValue();
     	RubyTestValue v1 = new RubyTestValue();
     	RubyValue twoArgResult = m.invoke(v0, v0, v1, null);
@@ -95,7 +95,7 @@ public class MethodFactoryTest extends TestCase {
     }
     
     public void testOneOrTwoArgMethod() {
-    	RubyMethod m = f.getMethod("oneOrTwoArg", MethodFactory.ONE_OR_TWO_ARG);
+    	RubyMethod m = f.getMethod("oneOrTwoArg", MethodType.ONE_OR_TWO_ARG);
     	RubyTestValue v0 = new RubyTestValue();
     	RubyValue oneArgResult = m.invoke(v0, v0, null);
     	assertEquals(v0, oneArgResult);

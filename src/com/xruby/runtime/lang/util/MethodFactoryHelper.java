@@ -40,26 +40,26 @@ class MethodFactoryHelper {
 		new MethodFactoryHelper(Type.getType(RubyOneArgMethod.class), new OneArgRunMethodHelper());
 	private static final MethodFactoryHelper NO_OR_ONE_ARG_HELPER = 
 		new MethodFactoryHelper(Type.getType(RubyNoOrOneArgMethod.class), 
-				new NoArgRunMethodHelper(),
-				new OneArgRunMethodHelper());
+				new NoArgRunMethodHelper(),	new OneArgRunMethodHelper());
 	private static final MethodFactoryHelper TWO_ARG_HELPER = 
 		new MethodFactoryHelper(Type.getType(RubyTwoArgMethod.class), new TwoArgRunMethodHelper());
 	private static final MethodFactoryHelper ONE_OR_TWO_ARG_HELPER = 
-		new MethodFactoryHelper(Type.getType(RubyOneOrTwoArgMethod.class), new OneArgRunMethodHelper(), new TwoArgRunMethodHelper());
+		new MethodFactoryHelper(Type.getType(RubyOneOrTwoArgMethod.class), 
+				new OneArgRunMethodHelper(), new TwoArgRunMethodHelper());
 	private static final MethodFactoryHelper DEFAULT_ARG_HELPER = 
 		new MethodFactoryHelper(Type.getType(RubyVarArgMethod.class), new VarArgRunMethodHelper());
 	
-	public static final MethodFactoryHelper getHelper(int type) {
+	public static final MethodFactoryHelper getHelper(MethodType type) {
 		switch (type) {
-		case MethodFactory.NO_ARG:
+		case NO_ARG:
 			return NO_ARG_HELPER;
-		case MethodFactory.ONE_ARG:
+		case ONE_ARG:
 			return ONE_ARG_HELPER;
-		case MethodFactory.NO_OR_ONE_ARG:
+		case NO_OR_ONE_ARG:
 			return NO_OR_ONE_ARG_HELPER;
-		case MethodFactory.TWO_ARG:
+		case TWO_ARG:
 			return TWO_ARG_HELPER;
-		case MethodFactory.ONE_OR_TWO_ARG:
+		case ONE_OR_TWO_ARG:
 			return ONE_OR_TWO_ARG_HELPER;
 		default:
 			return DEFAULT_ARG_HELPER;
