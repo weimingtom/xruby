@@ -147,8 +147,9 @@ import com.xruby.compiler.codedom.*;
 	protected void updateCurrentSpecialStringDelimiterCount(int delimiter_count)	{assert(false);}
 }
 
-program	:			;
-		
+program	:	;
+
+
 SEMI	:	';'		;
 
 LINE_BREAK	:	'\r'? '\n'	;
@@ -528,11 +529,11 @@ SPECIAL_STRING
 {
 	int delimiter_count = 1;
 }
-		: /*	'%'!	'q'!	delimiter1=.!
+		: 	'%'!	'q'!	delimiter1=.!
 			({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter1, delimiter_count)) != 0}?	STRING_CHAR)*
 			.!//skip delimiter
 			{$type=SINGLE_QUOTE_STRING;}
-		|	'%'!	'Q'!	delimiter2=.!
+		|	/*'%'!	'Q'!	delimiter2=.!
 			({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter2, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
 			{
 				//match and skip delimiter
@@ -587,11 +588,11 @@ SPECIAL_STRING
 					setCurrentSpecialStringDelimiter((char)delimiter4, delimiter_count);
 				}
 			} 
-		|	'%'! ('w'!|'W'!)	delimiter5=.!
+		|*/	'%'! ('w'!|'W'!)	delimiter5=.!
 			({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter5, delimiter_count)) != 0}?	STRING_CHAR)*
 			.!	//skip delimiter
 			{$type=W_ARRAY;}
-		|	{!expectOperator(2)}?	'%'!
+		|	/*{!expectOperator(2)}?	'%'!
 			{_saveIndex=text.length();}					//Ignore delimiter2 (for unknown reason, antlr does not do it for us, even if we specified !)
 			delimiter6=~('=' | 'a'..'z' | 'A'..'Z' | '0'..'9')		//"%=" is always MOD_ASSIGN. English character is not allowed to avoid collison with %q %Q etc.
 			{text.setLength(_saveIndex);}
