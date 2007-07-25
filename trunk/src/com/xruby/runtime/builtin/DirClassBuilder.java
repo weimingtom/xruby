@@ -265,7 +265,7 @@ public class DirClassBuilder {
         RubyMethod getwd = new Dir_getwd();
         c.getSingletonClass().defineMethod("getwd", getwd);
         c.getSingletonClass().defineMethod("pwd", getwd);
-        c.defineMethod("mkdir", new Dir_mkdir());
+        c.getSingletonClass().defineMethod("mkdir", new Dir_mkdir());
         RubyMethod rmdir = new Dir_rmdir();
         c.getSingletonClass().defineMethod("rmdir", rmdir);
         c.getSingletonClass().defineMethod("delete", rmdir);
