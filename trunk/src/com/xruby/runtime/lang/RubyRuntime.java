@@ -79,6 +79,8 @@ public class RubyRuntime {
         ObjectClass = ClassFactory.defineBootClass("Object", null);
         ModuleClass = ClassFactory.defineBootClass("Module", RubyRuntime.ObjectClass);
         ClassClass = ClassFactory.defineBootClass("Class", RubyRuntime.ModuleClass);
+        
+        ClassClass.setRubyClass(ClassClass);        
 
         RubySingletonClass metaClass = new RubySingletonClass(ObjectClass, ClassClass);
         metaClass = new RubySingletonClass(ModuleClass, metaClass);
