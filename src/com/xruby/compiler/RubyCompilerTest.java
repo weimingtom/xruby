@@ -2461,9 +2461,13 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_while() {
+    public void test_while_until() {
 
         String[] program_texts = {
+                "print 7 while false",
+                "begin; print 5; end while false",
+                "begin; print 6; end until true",
+
                 "i = 0\n" +
                 "while i<20; i+=1; result = i; end\n" +
                 "print result",
@@ -2490,6 +2494,9 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "",
+                "5",
+                "6",
                 "20",
                 "3",
                 "1",

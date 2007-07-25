@@ -566,9 +566,13 @@ returns [WhileExpression e]
 	Expression condition = null;
 	CompoundStatement body = null;
 }
-		:	#(	"while"	condition=expression	(body=compoundStatement)?			{e = new WhileExpression(condition, body, false);}
+		:	#(	"while"	condition=expression	(body=compoundStatement)?			{e = new WhileExpression(condition, body, false, false);}
 			)
-		|	#(	"until"	condition=expression	(body=compoundStatement)?			{e = new WhileExpression(condition, body, true);}
+		|	#(	"until"	condition=expression	(body=compoundStatement)?			{e = new WhileExpression(condition, body, true, false);}
+			)
+		|	#(	WHILE_MODIFIER	condition=expression	(body=compoundStatement)?			{e = new WhileExpression(condition, body, false, true);}
+			)
+		|	#(	UNTIL_MODIFIER	condition=expression	(body=compoundStatement)?			{e = new WhileExpression(condition, body, true, true);}
 			)
 		;
 

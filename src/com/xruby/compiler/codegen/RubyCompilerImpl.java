@@ -523,8 +523,11 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().createFrequentlyUsedInteger(i);
     }
 
-    public void visitWhileConditionBegin() {
+    public void visitWhileConditionBegin(boolean do_first) {
         cg_.getMethodGenerator().getLabelManager().openNewScope();
+        if (do_first) {
+            cg_.getMethodGenerator().goTo(cg_.getMethodGenerator().getLabelManager().getCurrentRedo());
+        }
         cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getLabelManager().getCurrentNext());
     }
 
@@ -642,7 +645,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     public int visitEnsureBodyBegin() {
         cg_.getMethodGenerator().mark(cg_.getMethodGenerator().getEnsureLabelManager().getCurrentFinally());
         cg_.getMethodGenerator().getEnsureLabelManager().setCurrentFinally(null);//finished using it
-        
+
         int var = cg_.getMethodGenerator().newLocal(Type.getType(Object.class));
         cg_.getMethodGenerator().storeLocal(var);
         return var;
