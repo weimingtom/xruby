@@ -20,20 +20,17 @@ class Bignum_initialize extends RubyVarArgMethod {
     }
 }
 
-class Bignum_to_s extends RubyVarArgMethod {
-    public Bignum_to_s() {
-        super(0, false, 1);
-    }
+class Bignum_to_s extends RubyNoOrOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		RubyBignum value = (RubyBignum) receiver;
+		return ObjectFactory.createString(value.to_s());
+	}
 
-    public RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyBignum value = (RubyBignum) receiver;
-        if (null == args) {
-            return ObjectFactory.createString(value.to_s());
-        }
-
-        int radix = ((RubyFixnum) args.get(0)).intValue();
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		RubyBignum value = (RubyBignum) receiver;
+		int radix = arg.toInt();
         return ObjectFactory.createString(value.to_s(radix));
-    }
+	}
 }
 
 class Bignum_operator_star extends RubyOneArgMethod {
