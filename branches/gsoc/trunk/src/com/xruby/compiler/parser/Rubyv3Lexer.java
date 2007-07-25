@@ -17,25 +17,25 @@ public class Rubyv3Lexer extends Rubyv3BaseLexer {
 		super(input);
 	}
 	
-//	protected boolean isAsciiValueTerminator(char value) {
-//		switch (value) {
-//		case '\t':
-//		case ' ':
-//		case '\f':
-//		case '\13':
-//		case '\r':
-//		case '\n':
-//		//case EOF_CHAR:
-//		case ')': // while(ARGV[0] && ARGV[0][0] == ?-)
-//		case ',': // [?d, ?s, :date]
-//		case ']': // [?a]
-//		case ';': // $state[n*2] = ?|;
-//		case '.': // unless (?A..?Z) === klass[0]
-//			return true;
-//		default:
-//			return false;
-//		}
-//	}
+	protected boolean isAsciiValueTerminator(char value) {
+		switch (value) {
+		case '\t':
+		case ' ':
+		case '\f':
+		case '\13':
+		case '\r':
+		case '\n':
+		case (char)Rubyv3Lexer.EOF:
+		case ')': // while(ARGV[0] && ARGV[0][0] == ?-)
+		case ',': // [?d, ?s, :date]
+		case ']': // [?a]
+		case ';': // $state[n*2] = ?|;
+		case '.': // unless (?A..?Z) === klass[0]
+			return true;
+		default:
+			return false;
+		}
+	}
 	
 	protected int trackDelimiterCount(char next_char, char delimeter, int delimeter_count) {
 		if (delimeter == translateDelimiter(delimeter)) {

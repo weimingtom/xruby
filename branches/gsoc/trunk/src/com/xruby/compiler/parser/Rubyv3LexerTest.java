@@ -395,9 +395,10 @@ public class Rubyv3LexerTest extends TestCase {
     
     public void test_GLOBAL_VARIABLE () {
         String[] program_texts = {
-            //"$-#",
-            //"$-",
-            //"$-K",
+            "$-#",
+            "$-",
+            "$-a",
+            "$-K",
             "$A",
             "$a",
             "$aBC12_",
@@ -528,9 +529,9 @@ public class Rubyv3LexerTest extends TestCase {
     
     public void test_ASCII_VALUE() {
         String[] program_texts = {
-               // "?&",
-                //"?a",
-               // "?\"",
+                "?&",
+                "?a",
+                "?\"",
                 "?\\n",
                 "?\\s",
                 "?\\C-a",
@@ -650,7 +651,7 @@ public class Rubyv3LexerTest extends TestCase {
             "%q!test string!",
             "%q//",
             "%q# #",
-          //  "%q$string$'",
+            "%q$string$",
             "%q^ this is a string ^",
         };
 
@@ -658,7 +659,7 @@ public class Rubyv3LexerTest extends TestCase {
             "%q!test string!",
             "%q//",
             "%q# #",
-          //  "%q$string$",
+            "%q$string$",
             "%q^ this is a string ^",
         };
 
@@ -778,7 +779,7 @@ public class Rubyv3LexerTest extends TestCase {
 
             "%w//",
             "%w# #",
-           // "%w$string$'",
+            "%w$string$",
             "%W^ this is a string ^",
             "%W*2*",
             "%W(\\\\)",
@@ -790,33 +791,13 @@ public class Rubyv3LexerTest extends TestCase {
             "%W!\\n!",
         };
 
-        String[] expected_texts = {
-            "%w(folder openfold)",
-            "%w/test string/",
-            "%W!test string!",
-            "%w\ntest string\n",
-            "%W&Seconds/day: #{24*60*60}&",
 
-            "%w//",
-            "%w# #",
-            //"%w$string$",
-            "%W^ this is a string ^",
-            "%W*2*",
-            "%W(\\\\)",
-            "%w{\\\\}",
-            "%w[\\\\]",
-            "%w]\\\\]",
-            "%w}\\\\}",
-            "%w)\\\\)",
-            "%W!\\n!",
-        };
 
-        assert_type(program_texts, Rubyv3Lexer.W_ARRAY, expected_texts);
+        assert_type(program_texts, Rubyv3Lexer.W_ARRAY);
     }
     
-    /*TODO
 
-    public void test_END_OF_FILE() {
+    /*public void test_END_OF_FILE() {
         String[] program_texts = {
             "\0",
             "\004",
@@ -824,8 +805,7 @@ public class Rubyv3LexerTest extends TestCase {
         };
 
         assert_type(program_texts, Rubyv3Lexer.EOF);
-    }
- */ 
+    }*/
 
     public void test_EMPTY_ARRAY() {
         String[] program_texts = {
