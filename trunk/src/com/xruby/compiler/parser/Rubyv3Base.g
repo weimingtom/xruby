@@ -270,7 +270,7 @@ CONSTANT
 
 
 GLOBAL_VARIABLE 
-		:	'$'	('-')?	IDENTIFIER_CONSTANT_AND_KEYWORD
+		:	'$'	('-')?	IDENTIFIER_CONSTANT_AND_KEYWORD? '#'?
 		|	'$'	(options{greedy=true;}:'0'..'9')+
 		|	'$'	('!'|'@'|'&'|'`'|'\''|'+'|'~'|'='|'/'|'\\'|','|';'|'.'|'<'|'>'|'*'|'$'|'?'|':'|'\"')
 		;
