@@ -56,7 +56,7 @@ public class RubyFixnum extends RubySpecialValue {
     
     public RubyValue opPlus(RubyValue v) {
     	if (v instanceof RubyFixnum) {
-    		return RubyBignum.bignorm(this.value_ + v.toInt());
+    		return RubyBignum.bignorm((long)this.value_ + (long)v.toInt());
     	}
     	
     	if (v instanceof RubyFloat) {
@@ -75,7 +75,7 @@ public class RubyFixnum extends RubySpecialValue {
     
     public RubyValue opMinus(RubyValue v) {
     	if (v instanceof RubyFixnum) {
-    		return RubyBignum.bignorm(this.value_ - v.toInt());
+    		return RubyBignum.bignorm((long)this.value_ - (long)v.toInt());
     	}
     	
     	if (v instanceof RubyFloat) {
@@ -94,7 +94,7 @@ public class RubyFixnum extends RubySpecialValue {
     
     public RubyValue opMul(RubyValue v) {
     	if (v instanceof RubyFixnum) {
-    		return RubyBignum.bignorm(this.value_ * v.toInt());
+    		return RubyBignum.bignorm((long)this.value_ * (long)v.toInt());
     	}
     	
     	if (v instanceof RubyFloat) {
