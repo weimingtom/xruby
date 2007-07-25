@@ -17,6 +17,8 @@ public class ErrnoModuleBuilder {
         RubyModule m = RubyRuntime.ErrnoModule;
         RubyClass c = m.defineNewClass("ENOENT", RubyRuntime.SystemCallErrorClass);
         c.setConstant("Errno", ObjectFactory.createFixnum(IErrno.ENOENT));
+        c = m.defineNewClass("EACCES", RubyRuntime.SystemCallErrorClass);
+        c.setConstant("Errno", ObjectFactory.createFixnum(IErrno.EACCES));
     }
 
 }
