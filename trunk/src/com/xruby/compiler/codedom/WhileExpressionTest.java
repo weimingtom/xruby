@@ -10,10 +10,31 @@ public class WhileExpressionTest extends TestingAstTestCase {
         String program_text = "while true\n true end";
 
         String expected_result =
-            "while condition\n" +
+            "while condition:false\n" +
             "end while condition\n" +
             "true\n" +
             "end while\n" +
+            "EOF";
+        assertAstOutput(program_text, expected_result);
+    }
+
+    public void test_do_while() {
+        String program_text = "begin; true; end while false";
+
+        String expected_result =
+            "while condition:true\n" +
+            "false\n" +
+            "end while condition\n" +
+            "true\n" +
+            "end while\n" +
+            "EOF";
+        assertAstOutput(program_text, expected_result);
+    }
+
+    public void test_do_while2() {
+        String program_text = "true while false";
+
+        String expected_result =
             "EOF";
         assertAstOutput(program_text, expected_result);
     }
@@ -38,7 +59,7 @@ public class WhileExpressionTest extends TestingAstTestCase {
             "a =\n" +
             ";\n" +
             "FrequentlyUsedInteger:1\n" +
-            "while condition\n" +
+            "while condition:false\n" +
             "a\n" +
             "1\n" +
             ">\n" +

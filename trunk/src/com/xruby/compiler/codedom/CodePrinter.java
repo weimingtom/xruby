@@ -556,8 +556,10 @@ public class CodePrinter implements CodeVisitor {
         result_.append("\n");
     }
 
-    public void visitWhileConditionBegin() {
-        result_.append("while condition\n");
+    public void visitWhileConditionBegin(boolean do_first) {
+        result_.append("while condition:");
+        result_.append(do_first);
+        result_.append("\n");
     }
 
     public void visitWhileConditionEnd(boolean always_true, boolean is_until) {
