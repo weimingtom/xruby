@@ -26,6 +26,8 @@ public class RubyIOFileExecutor implements RubyIOExecutor {
             return "rw";
         } else if (mode.equals("rb")) {
             return "r";
+        } else if (mode.equals("r+")) {
+            return "r";
         } else {
             return mode;
         }
