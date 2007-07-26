@@ -27,7 +27,7 @@ public class RubyExceptionValue extends RubyBasic {
         message_ = message;
         GlobalVariables.set(this, "$!");
     }
-    
+
     public RubyExceptionValue(RubyClass c, String message, Throwable t) {
         super(c);
         message_ = message;
@@ -52,13 +52,14 @@ public class RubyExceptionValue extends RubyBasic {
         StackTraceElement[] trace = exception_.getStackTrace();
         for (StackTraceElement e : trace) {
             String s = e.getClassName();
-            if (!s.startsWith("com.xruby")) {//filter internal calls
+            if ((!s.startsWith("com.xruby"))||
+                s.startsWith("com.xruby.runtime.builtin")) {//filter internal calls
                 a.add(ObjectFactory.createString(s));
             }
         }
         return a;
     }
-    
+
     public Throwable getThrowable(){
         return throwable_;
     }
