@@ -166,11 +166,11 @@ terminal
 		;
 		
 statement
-		:	statementWithoutModifier (IF_MODIFIER		expression	
-									|UNLESS_MODIFIER	expression	
-									|WHILE_MODIFIER	expression	
-									|UNTIL_MODIFIER	expression	
-									|RESCUE_MODIFIER	expression	
+		:	statementWithoutModifier (IF_MODIFIER		//expression	
+									|UNLESS_MODIFIER	//expression	
+									|WHILE_MODIFIER	 //expression	
+									|UNTIL_MODIFIER	  //expression	
+									|RESCUE_MODIFIER	//expression	
 									)*
 		;
 		
@@ -179,7 +179,7 @@ statementWithoutModifier
 			|	undefStatement
 			|	keyword_BEGIN 	LCURLY_BLOCK compoundStatement? RCURLY	
 			|	keyword_END 	LCURLY_BLOCK compoundStatement? RCURLY	
-			|	expression
+			//|	expression
 			
 			
 		;
@@ -195,9 +195,9 @@ undef_parameter
 		:	IDENTIFIER	ASSIGN_WITH_NO_LEADING_SPACE?
 		|	CONSTANT	ASSIGN_WITH_NO_LEADING_SPACE?
 		|	FUNCTION	ASSIGN_WITH_NO_LEADING_SPACE?
-		//|	symbol
-		//|	keywordAsMethodName
-		//|	operatorAsMethodname
+		|	symbol
+		|	keywordAsMethodName
+		|	operatorAsMethodname
 		;
 
 undefStatement
@@ -210,6 +210,99 @@ aliasStatement
 			(GLOBAL_VARIABLE 	(LINE_BREAK)?	GLOBAL_VARIABLE 
 			|undef_parameter	(LINE_BREAK)?	undef_parameter
 			)
+		;
+		
+symbol
+		:	COLON_WITH_NO_FOLLOWING_SPACE
+					(IDENTIFIER	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+					|FUNCTION	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+					|CONSTANT	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+					|GLOBAL_VARIABLE 
+					|INSTANCE_VARIABLE
+					|CLASS_VARIABLE
+					|UNARY_PLUS_MINUS_METHOD_NAME
+					|operatorAsMethodname
+					|keyword
+					|string)
+			{tellLexerWeHaveFinishedParsingSymbol();}
+
+		;
+
+string
+		:	DOUBLE_QUOTE_STRING
+		|	SINGLE_QUOTE_STRING
+		;
+
+		
+keyword
+		:	keywordAsMethodName
+		|	'nil'
+		|	'self'
+		|	'true'
+		|	'false'
+		|	'__FILE__'
+		|	'__LINE__'
+		;
+operatorAsMethodname
+		:	LEFT_SHIFT
+		|	RIGHT_SHIFT
+		|	EQUAL
+		|	CASE_EQUAL
+		|	GREATER_THAN
+		|	GREATER_OR_EQUAL
+		|	LESS_THAN
+		|	LESS_OR_EQUAL
+		|	PLUS
+		|	MINUS
+		|	STAR
+		|	DIV
+		|	MOD
+		|	POWER
+		|	BAND
+		|	BOR
+		|	BXOR
+		|	(EMPTY_ARRAY	|EMPTY_ARRAY_ACCESS)	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+		|	MATCH
+		|	COMPARE
+		|	BNOT
+		|	SINGLE_QUOTE
+		;
+
+keywordAsMethodName
+		:	'and'
+		|	'def'
+		|	'end'
+		|	'in'
+		|	'or'
+		|	'unless'
+		|	'begin'
+		|	'defined?'
+		|	'ensure'
+		|	'module'
+		|	'redo'
+		|	'super'
+		|	'until'
+		|	'BEGIN'
+		|	'break'
+		|	'do'
+		|	'next'
+		|	'rescue'
+		|	'then'
+		|	'when'
+		|	'END'
+		|	'case'
+		|	'else'
+		|	'for'
+		|	'retry'
+		|	'while'
+		|	'alias'
+		|	'class'
+		|	'elsif'
+		|	'if'
+		|	'not'
+		|	'return'
+		|	'undef'
+		|	'yield'
 		;
 expression  :;
 
