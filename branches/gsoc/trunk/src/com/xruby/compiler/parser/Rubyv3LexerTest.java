@@ -78,9 +78,9 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream3() {
         String program_text = "/";//"$?/256";
         CommonToken[] token_types =  {
-                            //new CommonToken(Rubyv3Lexer.GLOBAL_VARIABLE , "$?"),
+                           // new CommonToken(Rubyv3Lexer.GLOBAL_VARIABLE , "$?"),
                             new CommonToken(Rubyv3Lexer.DIV, "/"),
-                            //new CommonToken(Rubyv3Lexer.INTEGER, "256"),
+                           // new CommonToken(Rubyv3Lexer.INTEGER, "256"),
         };
 
         assert_type(program_text, token_types);
@@ -655,15 +655,8 @@ public class Rubyv3LexerTest extends TestCase {
             "%q^ this is a string ^",
         };
 
-        String[] expected_texts = {
-            "%q!test string!",
-            "%q//",
-            "%q# #",
-            "%q$string$",
-            "%q^ this is a string ^",
-        };
 
-        assert_type(program_texts, Rubyv3Lexer.SINGLE_QUOTE_STRING, expected_texts);
+        assert_type(program_texts, Rubyv3Lexer.SINGLE_QUOTE_STRING);
     }
     /*TODO
     public void test_Q_STRING() {

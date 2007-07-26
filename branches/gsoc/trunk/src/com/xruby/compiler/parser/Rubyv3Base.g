@@ -147,8 +147,119 @@ import com.xruby.compiler.codedom.*;
 	protected void updateCurrentSpecialStringDelimiterCount(int delimiter_count)	{assert(false);}
 }
 
-program	:	;
+program	:	compoundStatement? EOF	
+		;
+		
+compoundStatement
 
+		:	terminal	statements  
+		|	statements
+		;
+
+statements
+		:	statement ( terminal statement )*
+		;
+
+terminal
+		:	SEMI
+		|	LINE_BREAK
+		;
+		
+statement
+		:	statementWithoutModifier (IF_MODIFIER		expression	
+									|UNLESS_MODIFIER	expression	
+									|WHILE_MODIFIER	expression	
+									|UNTIL_MODIFIER	expression	
+									|RESCUE_MODIFIER	expression	
+									)*
+		;
+		
+statementWithoutModifier
+		:		aliasStatement
+			|	undefStatement
+			|	keyword_BEGIN 	LCURLY_BLOCK compoundStatement? RCURLY	
+			|	keyword_END 	LCURLY_BLOCK compoundStatement? RCURLY	
+			|	expression
+			
+			
+		;
+		
+fragment
+lparen
+		:	LPAREN_WITH_NO_LEADING_SPACE
+		|	LPAREN
+		;
+		
+fragment
+undef_parameter
+		:	IDENTIFIER	ASSIGN_WITH_NO_LEADING_SPACE?
+		|	CONSTANT	ASSIGN_WITH_NO_LEADING_SPACE?
+		|	FUNCTION	ASSIGN_WITH_NO_LEADING_SPACE?
+		//|	symbol
+		//|	keywordAsMethodName
+		//|	operatorAsMethodname
+		;
+
+undefStatement
+		:	'undef'	(options{greedy=true;}:LINE_BREAK)?
+			undef_parameter	(COMMA	undef_parameter)*
+		;
+
+aliasStatement
+		:	'alias'	(options{greedy=true;}:LINE_BREAK)?
+			(GLOBAL_VARIABLE 	(LINE_BREAK)?	GLOBAL_VARIABLE 
+			|undef_parameter	(LINE_BREAK)?	undef_parameter
+			)
+		;
+expression  :;
+
+//LINE_BREAK is preserved after keyword, we have to do that because keyword can be used as function name.
+//for example:
+//  def class
+//        Registry
+//      end
+//So the following rules are created so that we do not hve to put (LINE_BREAK)? everywhere.
+//
+keyword_BEGIN	:	'BEGIN'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_END		:	'END'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword___FILE__	:	'__FILE__'	(options{greedy=true;}:LINE_BREAK!)?;
+keyword___LINE__	:	'__LINE__'	(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_alias		:	'alias'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_and		:	'and'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_begin	:	'begin'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_break	:	'break'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_case		:	'case'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_class	:	'class'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_def		:	'def'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_defined	:	'defined?'	(options{greedy=true;}:LINE_BREAK!)?;
+keyword_do		:	'do'			(options{greedy=true;}:LINE_BREAK!)?;
+keyword_else		:	'else'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_elsif		:	'elsif'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_end		:	'end'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_ensure	:	'ensure'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_false		:	'false'		(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_for	:	'for'			(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_if		:	'if'			(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_in		:	'in'			(options{greedy=true;}:LINE_BREAK!)?;
+keyword_module	:	'module'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_next		:	'next'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_nil		:	'nil'			(options{greedy=true;}:LINE_BREAK!)?;
+keyword_not		:	'not'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_or		:	'or'			(options{greedy=true;}:LINE_BREAK!)?;
+keyword_redo		:	'redo'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_rescue	:	'rescue'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_retry	:	'retry'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_return	:	'return'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_self		:	'self'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_super	:	'super'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_then		:	'then'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_true		:	'true'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_undef	:	'undef'		(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_unless	:	'unless'		(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_until	:	'until'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_when	:	'when'		(options{greedy=true;}:LINE_BREAK!)?;
+//keyword_while	:	'while'		(options{greedy=true;}:LINE_BREAK!)?;
+keyword_yield		:	'yield'		(options{greedy=true;}:LINE_BREAK!)?;
 
 SEMI	:	';'		;
 
@@ -409,8 +520,8 @@ STRING_BETWEEN_EXPRESSION_SUBSTITUTION[char delimiter, int delimiter_count]
 REGEX
 		:	{!expectOperator(2)}?
 			(delimiter='/')!
-			({input.LA(1) != delimiter && !expressionSubstitutionIsNext()}? =>	STRING_CHAR)*
-			(end=.)!//skip delimiter
+			({input.LA(1) != delimiter}? =>	STRING_CHAR)*
+			(end='/')!//skip delimiter
 			//{
 			//	if (end != delimiter)
 			//	{
