@@ -166,11 +166,11 @@ terminal
 		;
 		
 statement
-		:	statementWithoutModifier (IF_MODIFIER		//expression	
-									|UNLESS_MODIFIER	//expression	
-									|WHILE_MODIFIER	 //expression	
-									|UNTIL_MODIFIER	  //expression	
-									|RESCUE_MODIFIER	//expression	
+		:	statementWithoutModifier (IF_MODIFIER		expression	
+									|UNLESS_MODIFIER	expression	
+									|WHILE_MODIFIER	 expression	
+									|UNTIL_MODIFIER	  expression	
+									|RESCUE_MODIFIER	expression	
 									)*
 		;
 		
@@ -179,7 +179,7 @@ statementWithoutModifier
 			|	undefStatement
 			|	keyword_BEGIN 	LCURLY_BLOCK compoundStatement? RCURLY	
 			|	keyword_END 	LCURLY_BLOCK compoundStatement? RCURLY	
-			//|	expression
+			|	expression
 			
 			
 		;
@@ -189,6 +189,7 @@ lparen
 		:	LPAREN_WITH_NO_LEADING_SPACE
 		|	LPAREN
 		;
+		
 		
 fragment
 undef_parameter
@@ -212,6 +213,36 @@ aliasStatement
 			)
 		;
 		
+codeBlock
+		:	('do'	(options{greedy=true;}:LINE_BREAK!)?		{enterBlockScope();}
+				blockContent
+				'end'			{leaveScope();}
+			|	LCURLY_BLOCK!	{enterBlockScope();}
+				blockContent
+				RCURLY!			{leaveScope();}
+			)
+			
+		;
+		
+//TODO should be mlhs
+block_vars
+@init
+{
+	boolean has_extra_comma = false;
+}
+		:		
+REST_ARG_PREFIX	(dotColonOrArrayAccess)?
+
+
+		;
+
+fragment
+blockContent
+		:	(BOR	(block_vars)?	BOR!
+			|LOGICAL_OR
+			)?	(compoundStatement)?
+		
+		;
 symbol
 		:	COLON_WITH_NO_FOLLOWING_SPACE
 					(IDENTIFIER	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
@@ -228,10 +259,7 @@ symbol
 
 		;
 
-string
-		:	DOUBLE_QUOTE_STRING
-		|	SINGLE_QUOTE_STRING
-		;
+
 
 		
 keyword
@@ -304,8 +332,576 @@ keywordAsMethodName
 		|	'undef'
 		|	'yield'
 		;
-expression  :;
+expression  : andorExpression
+			;
+			
+//and or
+andorExpression
+		:	notExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	'and'		(options{greedy=true;}:LINE_BREAK!)?
+				|	'or'		(options{greedy=true;}:LINE_BREAK!)?
+				)
+				notExpression
+			)*
+		;
+		
+//not
+notExpression
+		:	'not'
+			(options{greedy=true;}:LINE_BREAK!)?
+			notExpression
+		|	ternaryIfThenElseExpression
+		;
+		
+ternaryIfThenElseExpression
+		:	assignmentExpression
+			(options{greedy=true;/*caused by command*/}:
+				QUESTION			(options{greedy=true;}:LINE_BREAK!)?
+				ternaryIfThenElseExpression
+				(COLON!|COLON_WITH_NO_FOLLOWING_SPACE!)				(options{greedy=true;}:LINE_BREAK!)?
+				ternaryIfThenElseExpression
+			)?
+		;
+		
+//= += -= *= /= %= **= &= ^= |= <<= >>= &&= ||=
+assignmentExpression
+		:	rangeExpression
+			(options{greedy=true;/*caused by command*/}:
+			//{REST_ARG_PREFIX != LA(2)}?
+				(	ASSIGN^				(options{greedy=true;}:LINE_BREAK!)?
+				//|	a=ASSIGN_WITH_NO_LEADING_SPACE^	{{#a.setType(ASSIGN);}}	(options{greedy=true;}:LINE_BREAK!)?
+				|	PLUS_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	MINUS_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	STAR_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	DIV_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	MOD_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	POWER_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	BAND_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	BXOR_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	BOR_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	LEFT_SHIFT_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
+				|	RIGHT_SHIFT_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
+				|	LOGICAL_AND_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
+				|	LOGICAL_OR_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				ternaryIfThenElseExpression
+			)*
+		;
+		
+//.. ...
+rangeExpression
+		:	logicalOrExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	INCLUSIVE_RANGE^	(options{greedy=true;}:LINE_BREAK!)?
+				|	EXCLUSIVE_RANGE^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				logicalOrExpression
+			)* 
+		;
 
+//||
+logicalOrExpression
+		:	logicalAndExpression
+			(options{greedy=true;/*caused by command*/}:
+				LOGICAL_OR^		(options{greedy=true;}:LINE_BREAK!)?
+				logicalAndExpression
+			)*
+		;
+
+//&&
+logicalAndExpression
+		:	equalityExpression
+			(options{greedy=true;/*caused by command*/}:
+				LOGICAL_AND^		(options{greedy=true;}:LINE_BREAK!)?
+				equalityExpression
+			)*
+		;
+		
+//<=> ==  === !=  =~  !~
+equalityExpression
+		:	relationalExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	COMPARE^		(options{greedy=true;}:LINE_BREAK!)?
+				|	EQUAL^			(options{greedy=true;}:LINE_BREAK!)?
+				|	CASE_EQUAL^	(options{greedy=true;}:LINE_BREAK!)?
+				|	NOT_EQUAL^		(options{greedy=true;}:LINE_BREAK!)?
+				|	MATCH^			(options{greedy=true;}:LINE_BREAK!)?
+				|	NOT_MATCH^		(options{greedy=true;}:LINE_BREAK!)?
+				)
+				relationalExpression
+			)*
+		;
+		
+//>  >=  <  <=
+relationalExpression
+		:	orExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	LESS_THAN^			(options{greedy=true;}:LINE_BREAK!)?
+				|	GREATER_THAN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	LESS_OR_EQUAL^		(options{greedy=true;}:LINE_BREAK!)?
+				|	GREATER_OR_EQUAL^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				orExpression
+			)*
+		;
+
+//|  ^
+orExpression
+		:	andExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	BXOR^			(options{greedy=true;}:LINE_BREAK!)?
+				|	BOR^			(options{greedy=true;}:LINE_BREAK!)?
+				)
+				andExpression
+			)*
+		;
+		
+//&
+andExpression
+		:	shiftExpression
+			(options{greedy=true;/*caused by command*/}:
+				BAND^			(options{greedy=true;}:LINE_BREAK!)?
+				shiftExpression
+			)*
+		;
+		
+//<<  >>
+shiftExpression
+		:	additiveExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	LEFT_SHIFT^		(options{greedy=true;}:LINE_BREAK!)?
+				|	RIGHT_SHIFT^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				additiveExpression
+			)*
+		;
+		
+//+  -
+additiveExpression
+		:	multiplicativeExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	PLUS^				(options{greedy=true;}:LINE_BREAK!)?
+				|	MINUS^				(options{greedy=true;}:LINE_BREAK!)?
+				)
+				multiplicativeExpression
+			)*
+		;
+		
+//*  /  %
+multiplicativeExpression
+		:	powerExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	STAR^			(options{greedy=true;}:LINE_BREAK!)?
+				|	DIV^			(options{greedy=true;}:LINE_BREAK!)?
+				|	MOD^			(options{greedy=true;}:LINE_BREAK!)?
+				)
+				powerExpression
+			)*
+		;
+		
+//**
+powerExpression
+		:	bnotExpression
+			(options{greedy=true;/*caused by command*/}:
+				POWER^			(options{greedy=true;}:LINE_BREAK!)?
+				bnotExpression
+			)*
+		;
+		
+//!  ~
+bnotExpression
+		:	(	BNOT^			(options{greedy=true;}:LINE_BREAK!)?
+			|	NOT^			(options{greedy=true;}:LINE_BREAK!)?
+			)*
+			command
+		;
+		
+command
+@init
+{
+	boolean seen_arguments = false;
+	boolean seen_block = false;
+	boolean is_function = false;
+}
+		:	dotColonOrArrayAccess	
+
+			(
+
+				codeBlock	//{seen_block = true;}
+			)?
+
+		|	('return'|'break'|'next')	//(options{greedy=true;/*caused by command*/}:methodInvocationArgumentWithoutParen[false])?
+		;
+		
+dotColonOrArrayAccess
+		:	unaryExpression
+			(options{greedy=true;/*caused by command*/}:
+				(DOT^		methodCall
+				|COLON2^	methodCall
+				|LBRACK_ARRAY_ACCESS^
+					(arrayReferenceArgument)?
+					RBRACK!
+				|EMPTY_ARRAY_ACCESS
+				)
+				{can_be_command_ = 1;}
+			)*
+		;
+
+//-(unary)  +(unary)
+unaryExpression
+		:	(	UNARY_PLUS^	(options{greedy=true;}:LINE_BREAK!)?
+			|	UNARY_MINUS^	(options{greedy=true;}:LINE_BREAK!)?
+			)*
+			(methodCall
+			|primaryExpressionThatCanNotBeMethodName	{can_be_command_ = 0;}
+			)
+		;
+		
+methodCall
+@init
+{
+	can_be_command_ = 1;
+	boolean seen_arguments = false;
+	boolean seen_block = false;
+	boolean is_function = false;
+}
+		:	primaryExpressionThatCanBeMethodName
+
+		;
+		
+//cruby can accept LPAREN in some situation but gives a warning:
+//"don't put space before argument parentheses"
+methodInvocationArgumentWithParen
+@init
+{
+//super and super() are different, the former takes implicit parameters from the calling method
+boolean has_arg = false;
+}
+		:	LPAREN_WITH_NO_LEADING_SPACE!
+				(methodInvocationArgumentWithoutParen[true]	{has_arg = true;})?
+				(LINE_BREAK!)?
+			RPAREN!
+	
+		;
+		
+methodInvocationArgumentWithoutParen[boolean should_ignore_line_break]
+@init
+{
+boolean seen_star_or_band = false;
+}
+		:	
+		;
+
+normalMethodInvocationArgument[boolean should_ignore_line_break]
+		:	expression	(options{greedy=true;/*caused by command*/}:ASSOC^	expression)?	({should_ignore_line_break}?	LINE_BREAK!)?
+		;
+		
+restMethodInvocationArgument
+		:	REST_ARG_PREFIX	expression	(options{greedy=true;/*caused by command*/}:COMMA!	blockMethodInvocationArgument)?
+		;
+
+blockMethodInvocationArgument
+		:	BLOCK_ARG_PREFIX	expression
+		;
+
+predefinedValue
+		:	'nil'
+		|	'true'
+		|	'false'
+		|	'__FILE__'
+		|	'__LINE__'
+		;
+		
+string
+		:	DOUBLE_QUOTE_STRING
+		|	SINGLE_QUOTE_STRING
+		;
+		
+regex
+		:	REGEX
+		
+		;
+		
+command_output
+		:	COMMAND_OUTPUT
+		;
+		
+literal
+		:	regex
+		//|	(options{greedy=true;/*caused by command*/}:string)+{ #literal = #([STRING, "STRING"], #literal); }
+		//|	heredoc
+		|	command_output
+		|	symbol
+		|	W_ARRAY
+		;
+		
+numeric
+		:	INTEGER
+		|	HEX		
+		|	BINARY
+		|	OCTAL
+		|	FLOAT
+		|	ASCII_VALUE
+		;
+		
+primaryExpressionThatCanBeMethodName
+		:	FUNCTION	{can_be_command_ = 2;}
+		|	IDENTIFIER		//this is OK: p = 1; p 1
+		|	'self'
+		|	'super'		{can_be_command_ = 2;}
+		|	CONSTANT
+		|	LEADING_COLON2	CONSTANT
+		|	'retry'
+		|	'yield'		{can_be_command_ = 2;}
+		|	keyword_defined
+		|	'redo'
+		|	EMPTY_ARRAY
+		|	EMPTY_ARRAY_ACCESS
+		|	UNARY_PLUS_MINUS_METHOD_NAME
+		;
+		
+primaryExpressionThatCanNotBeMethodName
+		:	INSTANCE_VARIABLE	
+		|	GLOBAL_VARIABLE 
+		|	CLASS_VARIABLE
+		|	predefinedValue
+		|	numeric
+		|	literal
+		|	arrayExpression
+		|	hashExpression
+		|	LPAREN^	compoundStatement RPAREN!
+		|	LPAREN_WITH_NO_LEADING_SPACE^ compoundStatement RPAREN!
+		|	ifExpression
+		|	unlessExpression
+		|	whileExpression			
+		|	untilExpression			
+		|	caseExpression		
+		|	forExpression			
+		|	exceptionHandlingExpression
+		|	moduleDefination
+		|	classDefination
+		|	methodDefination
+		;
+		
+primaryExpression
+		:	primaryExpressionThatCanNotBeMethodName
+		|	primaryExpressionThatCanBeMethodName	
+		;
+		
+arrayReferenceArgument
+		:	keyValuePair
+			
+		|	REST_ARG_PREFIX	expression	(LINE_BREAK!)?
+		;
+		
+arrayExpression
+		:	LBRACK^
+				(arrayReferenceArgument)?
+			RBRACK!
+		;
+		
+keyValuePair
+		:	expression	(ASSOC	expression)?	(LINE_BREAK!)?
+		;
+		
+hashExpression
+		:	LCURLY_HASH^
+				(
+					keyValuePair
+					(COMMA!	keyValuePair)*
+					(COMMA!)?
+				)?
+			RCURLY!
+		;
+		
+bodyStatement
+			:	(compoundStatement
+				('rescue' exceptionList thenOrTermialOrColon (compoundStatement)?)*
+				('else' (compoundStatement)?)?
+				('ensure' (compoundStatement)?)?
+			|	('rescue' exceptionList thenOrTermialOrColon (compoundStatement)?)+
+				('else' (compoundStatement)?)?
+				('ensure' (compoundStatement)?)?
+			|	('ensure' (compoundStatement)?)
+			)
+			
+		;
+		
+exceptionHandlingExpression
+		:	'begin'^
+			(bodyStatement)?
+			'end'!
+		;
+		
+exceptionList
+		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	variable)?
+		|	GLOBAL_VARIABLE
+		;
+		
+ifExpression
+		:	'if'^		(LINE_BREAK!)?
+			expression thenOrTermialOrColon (compoundStatement)?
+			('elsif' (expression)? thenOrTermialOrColon (compoundStatement)?)*
+			('else' (compoundStatement)?)?
+			'end'!
+		;
+		
+unlessExpression
+		:	'unless'^		(LINE_BREAK!)?
+			expression thenOrTermialOrColon (compoundStatement)?
+			('else' (compoundStatement)?)?
+			'end'!
+		;
+		
+caseExpression
+		:	'case'^ (expression)? thenOrTermialOrColon		//(compoundStatement)?
+			(keyword_when mrhs	thenOrTermialOrColon (compoundStatement)?)+
+			('else' (compoundStatement)?)?
+			'end'!
+		;
+		
+forExpression
+		:	'for'^	(LINE_BREAK!)?
+			block_vars
+			'in'		(LINE_BREAK!)?
+			expression doOrTermialOrColon
+			(compoundStatement)?
+			'end'!
+		;
+		
+whileExpression
+		:	'while'^	(LINE_BREAK!)?
+			expression doOrTermialOrColon
+			(compoundStatement)?
+			'end'!
+		;
+
+
+untilExpression
+		:	'until'^	(LINE_BREAK!)?
+			expression doOrTermialOrColon
+			(compoundStatement)?
+			'end'!
+		;
+		
+moduleDefination
+		:	'module'^	(LINE_BREAK!)?
+			moduleName (options {greedy=true;}:terminal)?	{enterScope();}
+			(bodyStatement)?
+			'end'!			{leaveScope();}
+		;
+		
+moduleName
+		:	CONSTANT	(COLON2^ CONSTANT)*
+		| 	(LEADING_COLON2	CONSTANT)	(COLON2^ CONSTANT)*
+		;
+
+classDefination
+		:	'class'^	(LINE_BREAK!)?
+			(	className	(LESS_THAN expression)?
+			|	LEFT_SHIFT	expression
+			)
+			terminal			{enterScope();}
+			(bodyStatement)?
+			'end'!			{leaveScope();}
+		;
+		
+	
+className
+		:	(CONSTANT|FUNCTION)	(COLON2^	CONSTANT)*
+		|	(LEADING_COLON2	CONSTANT)	(COLON2^	CONSTANT)*
+		;
+
+methodDefination
+		:	'def'^		{++is_in_method_defination;}		
+			(options{greedy=true;}:LINE_BREAK!)?
+			methodName	{enterScope();}
+			methodDefinationArgument
+			(bodyStatement)?
+			'end'!		{leaveScope();--is_in_method_defination;}
+		;
+		
+fragment
+methodNameSupplement
+		:	(DOT|COLON2)
+			(IDENTIFIER	(ASSIGN_WITH_NO_LEADING_SPACE)?
+			|FUNCTION	(ASSIGN_WITH_NO_LEADING_SPACE)?
+			|CONSTANT	(ASSIGN_WITH_NO_LEADING_SPACE)?
+			|operatorAsMethodname
+			|keyword
+			)
+		;
+		
+methodName
+@init
+{boolean is_singleton_method = false;}
+		:	(	operatorAsMethodname
+			|	keywordAsMethodName
+			|	(id=IDENTIFIER
+				|function=FUNCTION	
+				|constant=CONSTANT	
+				)
+				(methodNameSupplement{is_singleton_method = true;}|ASSIGN_WITH_NO_LEADING_SPACE)?
+			|	(LPAREN|LPAREN_WITH_NO_LEADING_SPACE)
+				expression	(LINE_BREAK!)?
+				RPAREN
+				methodNameSupplement{is_singleton_method = true;}
+			|	(INSTANCE_VARIABLE|CLASS_VARIABLE|GLOBAL_VARIABLE )	methodNameSupplement	{is_singleton_method = true;}
+			|	('nil'|'self'|'true'|'false'|'__FILE__'|'__LINE__')	methodNameSupplement	{is_singleton_method = true;}
+			|	UNARY_PLUS_MINUS_METHOD_NAME
+			)
+
+		;
+		
+methodDefinationArgument
+		:	lparen
+				(methodDefinationArgumentWithoutParen)?
+			RPAREN!	{tellLexerWeHaveFinishedParsingMethodparameters();}
+			(options {greedy=true;}:terminal)?
+		|	(methodDefinationArgumentWithoutParen)?	terminal
+		;
+		
+methodDefinationArgumentWithoutParen
+@init
+{boolean seen_star_or_band = false;}
+		:	normalMethodDefinationArgument
+
+		|	restMethodDefinationArgument
+		|	blockMethodDefinationArgument
+		;
+		
+normalMethodDefinationArgument
+		:	variable	((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	expression)?
+		;
+
+variable
+		:	id1=IDENTIFIER	{addVariable(id1);}
+		|	id2=FUNCTION		{addVariable(id2);}
+		;
+		
+restMethodDefinationArgument
+		:	REST_ARG_PREFIX	(variable	(COMMA!	blockMethodDefinationArgument)?)?
+		;
+
+blockMethodDefinationArgument
+		:	BLOCK_ARG_PREFIX	variable
+		;
+
+
+thenOrTermialOrColon
+		:	'then'!
+		|	terminal	('then'!)?
+		|	COLON!
+		;
+		
+doOrTermialOrColon
+		:	DO_IN_CONDITION!
+		|	terminal
+		|	COLON!
+		;
+
+operator_ASSIGN				:	(ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)				(options{greedy=true;}:LINE_BREAK!)?;
 //LINE_BREAK is preserved after keyword, we have to do that because keyword can be used as function name.
 //for example:
 //  def class
