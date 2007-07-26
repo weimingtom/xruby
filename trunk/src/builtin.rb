@@ -879,6 +879,10 @@ class Range
 end
 
 class File < IO
+    RDWR = 2
+    CREAT = 256
+    EXCL = 1024
+  
     SEPARATOR = separator
 
     def self.join(*strings)
