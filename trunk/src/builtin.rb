@@ -1111,6 +1111,12 @@ class IO
         write v
         return self
     end
+    
+    def rewind
+        seek(0)
+        return 0
+    end    
+
 end
 
 class Float
