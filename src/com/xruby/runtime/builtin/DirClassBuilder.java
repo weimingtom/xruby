@@ -39,12 +39,13 @@ class Dir_getwd extends RubyNoArgMethod {
         return ObjectFactory.createString(System.getProperty("user.dir"));
     }
 }
+
 //TODO deal with dir permission!
 class Dir_mkdir extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String dir = RubyTypesUtil.convertToString(arg).toString();
         File file = new File(dir);
-        if (file.mkdir()) {
+        if (file.isDirectory() || file.mkdir()) {
             return ObjectFactory.FIXNUM0;
         }
         throw new RubyException(RubyRuntime.RuntimeErrorClass, "Can't create directory - " + dir);
