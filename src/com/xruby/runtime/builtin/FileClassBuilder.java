@@ -210,32 +210,6 @@ class File_rename extends RubyTwoArgMethod {
     }
 }
 
-//TODO CRuby does not have this function: File.open == Kernel#open
-class File_open extends RubyVarArgMethod {
-    public File_open() {
-        super(3, false, 2);
-    }
-
-    private int RDWR = 2;
-    private int CREAT = 256;
-    private int EXCL = 1024;
-
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        String filename = RubyTypesUtil.convertToString(args.get(0)).toString();
-        String mode = "r";
-        RubyValue arg1 = args.get(1);
-        if (arg1 instanceof RubyFixnum) {
-            int i = ((RubyFixnum)arg1).intValue();
-            if ((i & RDWR) != 0) {
-                mode = mode + "w";
-            }
-        } else if (arg1 != ObjectFactory.NIL_VALUE) {
-            mode = RubyTypesUtil.convertToString(arg1).toString();
-        }
-        return ObjectFactory.createFile(filename, mode);
-    }
-}
-
 public class FileClassBuilder {
 
     public static void initialize() {
@@ -256,7 +230,7 @@ public class FileClassBuilder {
         c.getSingletonClass().defineMethod("separator", new File_separator());
         c.getSingletonClass().defineMethod("mtime", new File_mtime());
         c.getSingletonClass().defineMethod("size", new File_size());
-        c.getSingletonClass().defineMethod("open", new File_open());
+        c.getSingletonClass().defineMethod("open", new Kernel_open());//TODO normal methods in Kernel should be singleton method automaticlly
         c.getSingletonClass().defineMethod("rename", new File_rename());
 
     }
