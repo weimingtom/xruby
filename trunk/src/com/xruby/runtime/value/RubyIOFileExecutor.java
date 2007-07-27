@@ -189,4 +189,12 @@ class RubyIOFileExecutor implements RubyIOExecutor {
             throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
         }
     }
+
+    public void seek(long pos) {
+        try {
+            file_.seek(pos);
+        } catch (IOException e) {
+            throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
+        }
+    }
 }

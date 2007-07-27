@@ -58,4 +58,8 @@ public class RubyIO extends RubyBasic {
         executor.truncate(length);
     }
 
+    public void seek(long pos) {
+        executor.seek(pos);
+    }
+
 }

@@ -29,4 +29,6 @@ interface RubyIOExecutor {
 
     void truncate(int length);
 
+    void seek(long pos);
+
 }
