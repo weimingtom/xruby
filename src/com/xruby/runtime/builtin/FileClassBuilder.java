@@ -121,6 +121,12 @@ class File_directory_question extends RubyOneArgMethod {
     }
 }
 
+class File_executable_question extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        return ObjectFactory.TRUE_VALUE;
+    }
+}
+
 class File_expand_path extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (null == args) {
@@ -146,7 +152,10 @@ class File_expand_path extends RubyVarArgMethod {
             }
 
             while (file_name.startsWith("../")) {
-                dir_string.delete(dir_string.lastIndexOf("/"), dir_string.length());
+                int i = dir_string.lastIndexOf("/");
+                if (i >= 0) {
+                    dir_string.delete(i, dir_string.length());
+                }
                 file_name = file_name.substring(3, file_name.length());
             }
             if (file_name.length() > 0 || dir_string.toString().endsWith(":")) {
@@ -230,6 +239,7 @@ public class FileClassBuilder {
         c.getSingletonClass().defineMethod("readable?", new File_readable_question());
         c.getSingletonClass().defineMethod("exist?", new File_exist_question());
         c.getSingletonClass().defineMethod("directory?", new File_directory_question());
+        c.getSingletonClass().defineMethod("executable?", new File_executable_question());
         c.getSingletonClass().defineMethod("expand_path", new File_expand_path());
         c.getSingletonClass().defineMethod("dirname", new File_dirname());
         RubyMethod delete = new File_delete();
