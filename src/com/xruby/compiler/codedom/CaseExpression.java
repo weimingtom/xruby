@@ -29,6 +29,13 @@ class When {
 		}
 		return visitor.visitAfterWhenBody(next_label, end_label);
 	}
+
+    void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+        condition_.getNewlyAssignedVariables(symboltable, result);
+        if (null != body_) {
+            body_.getNewlyAssignedVariables(symboltable, result);
+        }
+    }
 }
 
 public class CaseExpression extends Expression {
@@ -81,4 +88,14 @@ public class CaseExpression extends Expression {
 		else_body_.accept(visitor);
 		visitor.visitAfterWhenBody(null, end_label);
 	}
+
+    void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+        condition_.getNewlyAssignedVariables(symboltable, result);
+        for (When when : whens_) {
+            when.getNewlyAssignedVariables(symboltable, result);
+        }
+        if (null != else_body_) {
+            else_body_.getNewlyAssignedVariables(symboltable, result);
+        }
+    }
 }
