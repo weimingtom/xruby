@@ -7,7 +7,7 @@ package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.RubyValue;
 
-public interface RubyIOExecutor {
+interface RubyIOExecutor {
 
     int write(String s);
 
@@ -26,5 +26,7 @@ public interface RubyIOExecutor {
     String read(long length);
 
     String read(int length, int offset);
+
+    void truncate(int length);
 
 }

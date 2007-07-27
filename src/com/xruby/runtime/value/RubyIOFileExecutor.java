@@ -13,7 +13,7 @@ import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 
-public class RubyIOFileExecutor implements RubyIOExecutor {
+class RubyIOFileExecutor implements RubyIOExecutor {
 
     private RandomAccessFile file_ = null;
 
@@ -180,5 +180,13 @@ public class RubyIOFileExecutor implements RubyIOExecutor {
     public int write(String s) {
         print(s);
         return s.length();
+    }
+
+    public void truncate(int length) {
+        try {
+            file_.setLength(length);
+        } catch (IOException e) {
+            throw new RubyException(RubyRuntime.IOErrorClass, e.toString());
+        }
     }
 }

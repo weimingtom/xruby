@@ -54,4 +54,8 @@ public class RubyIO extends RubyBasic {
         return executor.write(s);
     }
 
+    public void truncate(int length) {
+        executor.truncate(length);
+    }
+
 }
