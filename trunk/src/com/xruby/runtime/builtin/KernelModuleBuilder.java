@@ -494,14 +494,25 @@ class Kernel_loop extends RubyVarArgMethod {
 }
 
 class Kernel_open extends RubyVarArgMethod {
+    private int RDWR = 2;
+    private int CREAT = 256;
+    private int EXCL = 1024;
+    
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyString filename = (RubyString) args.get(0);
+        String filename = RubyTypesUtil.convertToString(args.get(0)).toString();
         RubyIO io;
         if (args.size() <= 1) {
-            io = ObjectFactory.createFile(filename.toString(), "r");
+            io = ObjectFactory.createFile(filename, "r");
+        } else if (args.get(1) instanceof RubyFixnum) {
+            String mode = "r";
+            int i = ((RubyFixnum)args.get(1)).intValue();
+            if ((i & RDWR) != 0) {
+                mode = mode + "w";
+            }
+            io = ObjectFactory.createFile(filename, mode);
         } else {
             RubyString mode = (RubyString) args.get(1);
-            io = ObjectFactory.createFile(filename.toString(), mode.toString());
+            io = ObjectFactory.createFile(filename, mode.toString());
         }
 
         if (null == block) {
