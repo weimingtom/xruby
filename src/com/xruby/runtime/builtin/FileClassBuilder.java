@@ -10,6 +10,7 @@ import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyBignum;
 import com.xruby.runtime.value.RubyFile;
+import com.xruby.runtime.value.RubyTime;
 
 import java.io.File;
 import java.math.BigInteger;
@@ -227,6 +228,24 @@ class File_truncate extends RubyOneArgMethod {
     }
 }
 
+class File_utime extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        if (args.size() < 3) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.length() + " for 2)");
+        }
+
+        //RubyTime atime = (RubyTime)args.get(0);
+        RubyTime mtime = (RubyTime)args.get(1);
+        for (int i = 2; i < args.size(); ++i) {
+            String filename = RubyTypesUtil.convertToJavaString(args.get(i));
+            File f = new File(filename);
+            f.setLastModified(mtime.getTime());
+        }
+
+        return ObjectFactory.createFixnum(args.size() - 2);
+    }
+}
+
 public class FileClassBuilder {
 
     public static void initialize() {
@@ -251,7 +270,7 @@ public class FileClassBuilder {
         c.getSingletonClass().defineMethod("size", new File_size());
         c.getSingletonClass().defineMethod("open", new Kernel_open());//TODO normal methods in Kernel should be singleton method automaticlly
         c.getSingletonClass().defineMethod("rename", new File_rename());
-
+        c.getSingletonClass().defineMethod("utime", new File_utime());
     }
 
 }
