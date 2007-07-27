@@ -1116,6 +1116,10 @@ class IO
         seek(0)
         return 0
     end    
+    
+    def getc
+        return read(1)
+    end
 
 end
 

@@ -74,4 +74,8 @@ public class RubyIOPipeSinkExecutor implements RubyIOExecutor {
     public void truncate(int length) {
         throw notAllowed();
     }
+
+    public void seek(long length) {
+        throw notAllowed();
+    }
 }

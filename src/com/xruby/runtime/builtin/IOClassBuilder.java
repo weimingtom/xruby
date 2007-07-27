@@ -89,6 +89,15 @@ class IO_eof extends RubyNoArgMethod {
     }
 }
 
+class IO_seek extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyIO io = (RubyIO) receiver;
+        long pos = RubyTypesUtil.convertToJavaLong(args.get(0));
+        io.seek(pos);
+        return ObjectFactory.FIXNUM0;
+    }
+}
+
 class IO_read extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyIO io = (RubyIO) receiver;
@@ -173,6 +182,7 @@ public class IOClassBuilder {
         c.defineMethod("gets", new IO_gets());
         c.defineMethod("close", new IO_close());
         c.defineMethod("flush", new IO_flush());
+        c.defineMethod("seek", new IO_seek());
         RubyMethod eof = new IO_eof();
         c.defineMethod("eof", eof);
         c.defineMethod("eof?", eof);

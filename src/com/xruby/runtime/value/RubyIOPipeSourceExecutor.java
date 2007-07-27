@@ -127,4 +127,7 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
         throw notAllowed();
     }
 
+    public void seek(long length) {
+        throw notAllowed();
+    }
 }
