@@ -9,8 +9,7 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyBignum;
-import com.xruby.runtime.value.RubyFixnum;
-
+import com.xruby.runtime.value.RubyFile;
 
 import java.io.File;
 import java.math.BigInteger;
@@ -210,12 +209,22 @@ class File_rename extends RubyTwoArgMethod {
     }
 }
 
+class File_truncate extends RubyOneArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        RubyFile f = (RubyFile)receiver;
+        int length = RubyTypesUtil.convertToJavaInt(arg);
+        f.truncate(length);
+        return ObjectFactory.FIXNUM0;
+    }
+}
+
 public class FileClassBuilder {
 
     public static void initialize() {
         RubyClass c = RubyRuntime.FileClass;
         //c.defineMethod("id2name", new Symbol_id2name());
 
+        c.defineMethod("truncate", new File_truncate());
         c.getSingletonClass().defineMethod("file?", new File_file_question());
         c.getSingletonClass().defineMethod("writable?", new File_writable_question());
         c.getSingletonClass().defineMethod("readable?", new File_readable_question());

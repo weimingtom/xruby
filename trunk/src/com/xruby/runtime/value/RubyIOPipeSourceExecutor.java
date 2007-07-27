@@ -123,4 +123,8 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
         throw notAllowed();
     }
 
+    public void truncate(int length) {
+        throw notAllowed();
+    }
+
 }
