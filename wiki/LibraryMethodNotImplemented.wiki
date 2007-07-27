@@ -27,6 +27,7 @@ ruby\test_call.rb
 ruby\test_clone.rb
 ruby\test_condition.rb
 ruby\test_const.rb
+ruby\test_dir.rb
 ruby\test_defined.rb
 ruby\test_env.rb
 ruby\test_exception.rb
@@ -58,18 +59,17 @@ testunit\util\test_procwrapper.rb
 
 =Failed Tests=
 {{{
-ruby\test_beginendblock.rb #"require 'tempfile'" causes test::unit's runner fail to start
-ruby\test_dir.rb
-ruby\test_eval.rb       #Kernel_instance_eval ClassCastException
-ruby\test_file.rb	#"require 'tempfile'" causes test::unit's runner fail to start
+ruby\test_beginendblock.rb	#need to popen(), system() methods
+ruby\test_eval.rb		#Kernel_instance_eval ClassCastException
+ruby\test_file.rb		#need add/fix some IO methods
 ruby\test_hash.rb		#tough to deal with...
-ruby\test_iterator.rb   #tough to deal with...
+ruby\test_iterator.rb	#tough to deal with...
 ruby\test_marshal.rb
 ruby\test_objectspace.rb
-ruby\test_path.rb (only work on unix?)
-ruby\test_pipe.rb (need to fix eof?)
+ruby\test_path.rb	#only work on unix
+ruby\test_pipe.rb	#need to fix eof?
 ruby\test_proc.rb
-ruby\test_rand.rb (need to fix some related methods)
+ruby\test_rand.rb		#need to fix some related methods)
 ruby\test_readpartial.rb
 ruby\test_settracefunc.rb
 ruby\test_system.rb
