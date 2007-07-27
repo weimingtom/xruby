@@ -306,6 +306,10 @@ class Hash
         ks.each {|k| yield([k, self[k]])}
     end
     
+    def empty?
+        length == 0
+    end
+    
     alias each_pair each
     
     def inspect
@@ -1180,3 +1184,5 @@ end
 
 class Interrupt < SignalException
 end
+
+ENV["RUBY"] = 'java -jar xruby-0.2.1.jar'
