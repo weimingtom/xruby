@@ -39,6 +39,7 @@ package com.xruby.compiler.parser;
 import java.io.IOException;
 
 import com.xruby.compiler.codedom.*;
+import com.xruby.Visibility;
 
 public class RubyJay {
     private ParserSupport support;
