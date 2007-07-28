@@ -1,5 +1,6 @@
 package com.xruby.compiler.codedom;
 
+import com.xruby.compiler.parser.ByteList;
 import com.xruby.compiler.parser.ISourcePosition;
 
 /** Representing a simple String literal.

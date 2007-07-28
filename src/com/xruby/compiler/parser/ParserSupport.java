@@ -35,8 +35,7 @@
 package com.xruby.compiler.parser;
 
 
-import com.xruby.compiler.codedom.FixnumNode;
-import com.xruby.compiler.codedom.Node;
+import com.xruby.compiler.codedom.*;
 
 /**
  *
