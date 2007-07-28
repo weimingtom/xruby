@@ -166,14 +166,10 @@ terminal
 		;
 		
 statement
-		:	statementWithoutModifier (IF_MODIFIER		expression	
-									|UNLESS_MODIFIER	expression	
-									|WHILE_MODIFIER	 expression	
-									|UNTIL_MODIFIER	  expression	
-									|RESCUE_MODIFIER	expression	
-									)*
+		:	statementWithoutModifier (IF_MODIFIER|UNLESS_MODIFIER|WHILE_MODIFIER|UNTIL_MODIFIER|RESCUE_MODIFIER) (line_break)* expression
 		;
 		
+fragment
 statementWithoutModifier
 		:		aliasStatement
 			|	undefStatement
@@ -182,6 +178,13 @@ statementWithoutModifier
 			|	expression
 			
 			
+		;
+		
+mrhs
+		:	(expression	COMMA expression
+			|	REST_ARG_PREFIX	expression
+			)
+		
 		;
 		
 fragment
@@ -590,7 +593,17 @@ methodInvocationArgumentWithoutParen[boolean should_ignore_line_break]
 {
 boolean seen_star_or_band = false;
 }
-		:	
+		:	(normalMethodInvocationArgument[should_ignore_line_break]
+			(options{greedy=true;/*caused by command*/}:
+				COMMA!	
+				normalMethodInvocationArgument[should_ignore_line_break]
+			)*
+			({seen_star_or_band}?	restMethodInvocationArgument
+			|{seen_star_or_band}?	blockMethodInvocationArgument
+			)?
+			|	restMethodInvocationArgument
+			|	blockMethodInvocationArgument
+			)
 		;
 
 normalMethodInvocationArgument[boolean should_ignore_line_break]
