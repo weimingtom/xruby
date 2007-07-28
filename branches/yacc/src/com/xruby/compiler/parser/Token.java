@@ -1,6 +1,6 @@
 package com.xruby.compiler.parser;
 
-public class Token {
+public class Token implements ISourcePositionHolder {
 	ISourcePosition position = null;
 	Object value;
 

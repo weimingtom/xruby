@@ -27,6 +27,7 @@
  ***** END LICENSE BLOCK *****/
 package com.xruby.compiler.parser;
 
+import com.xruby.compiler.codedom.AssignableNode;
 import com.xruby.compiler.codedom.Node;
 
 import java.io.Serializable;
