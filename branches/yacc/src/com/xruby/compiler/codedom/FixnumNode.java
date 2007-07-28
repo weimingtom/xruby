@@ -44,7 +44,7 @@ public class FixnumNode extends Node implements ILiteralNode {
 
 
     public FixnumNode(ISourcePosition position, int value) { //don't know why jruby use long here
-        this.position = position;
+        super(position, NodeTypes.FIXNUMNODE);
         this.value = value;
     }
 
@@ -60,8 +60,8 @@ public class FixnumNode extends Node implements ILiteralNode {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setValue(long value) {
+        this.value = (int) value;
     }
 
 }
