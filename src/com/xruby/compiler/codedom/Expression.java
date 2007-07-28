@@ -11,6 +11,8 @@ public abstract class Expression extends Node implements Visitable {
 	protected int position;
 	protected boolean newLine = false;
 
+    
+
     protected boolean conditionIsAlwayTrue(Expression e) {
 		if (e instanceof IntegerExpression) {
 			return true;
@@ -53,9 +55,9 @@ public abstract class Expression extends Node implements Visitable {
 		this.position = position;
 	}
 
-	public int getPosition() {
+	/*public int getPosition() {
 		return position;
-	}
+	}*/
 
 
     public boolean shouldlabelNewLine() {
