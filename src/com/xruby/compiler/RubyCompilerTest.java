@@ -9,7 +9,10 @@ import antlr.RecognitionException;
 import antlr.TokenStreamException;
 import com.xruby.compiler.codegen.CompilationResults;
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.*;
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.value.RubyIO;
+import com.xruby.runtime.value.RubyString;
 import junit.framework.TestCase;
 
 import java.io.*;
@@ -204,6 +207,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         CompilationResults codes = compiler.compile(new StringReader(program_texts));
         assertTrue(null != codes);
         RubyProgram p = codes.getRubyProgram();
+
         try {
             p.invoke();
         } catch (RubyException e) {

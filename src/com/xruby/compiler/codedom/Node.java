@@ -9,6 +9,14 @@ import com.xruby.compiler.parser.ISourcePosition;
  */
 public abstract class Node implements Visitable {
     protected ISourcePosition position;
+    public final int nodeId;
+
+
+    public Node(ISourcePosition position, int id) {
+        this.position = position;
+        this.nodeId = id;
+    }
+
 
     public ISourcePosition getPosition() {
         return position;
