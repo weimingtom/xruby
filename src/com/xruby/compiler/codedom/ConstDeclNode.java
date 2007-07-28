@@ -2,8 +2,6 @@ package com.xruby.compiler.codedom;
 
 import com.xruby.compiler.parser.ISourcePosition;
 
-import java.util.List;
-
 /**
  * Declaration (and assignment) of a Constant.
  *
@@ -46,10 +44,6 @@ public class ConstDeclNode extends AssignableNode implements INameNode {
      */
     public Node getConstNode() {
         return (Node) constNode;
-    }
-
-    public List childNodes() {
-        return createList(getValueNode());
     }
 
 }

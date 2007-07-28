@@ -5,8 +5,9 @@
 
 package com.xruby.compiler.codedom;
 
-import java.util.ArrayList;
 import antlr.RecognitionException;
+
+import java.util.ArrayList;
 
 public class CompoundStatement implements Visitable {
 	protected ArrayList<Statement> statements_ = new ArrayList<Statement>();
@@ -20,8 +21,10 @@ public class CompoundStatement implements Visitable {
 				if (!expression.willNotBeExecuted()) {
 					statements_.add(statement);
 				}
-                if(expression.shouldlabelNewLine() && expression.getPosition() > 0) {
-                    lastLine = expression.getPosition();
+                if(expression.shouldlabelNewLine() && expression.getPosition().getStartLine() > 0) {
+                    lastLine = expression.getPosition().getEndLine();
+                    //toexamine: femto changed expression.getPosition from int to IPosition, beanworms may need examine this
+                    System.err.print("changed expression.getPosition from int to IPosition, see in CompoundStatement.addStatement()");
                 }
 			} else {
 				statements_.add(statement);

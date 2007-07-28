@@ -13,7 +13,8 @@ public class RegexpNode extends Node implements ILiteralNode {
 
     private static final RegexpTranslator translator = new RegexpTranslator();
 
-    private Pattern pattern;
+    //todo:I comment out the code, need examine this
+    //private Pattern pattern;
     private int flags;
     private final ByteList value;
     private final int options;
@@ -45,7 +46,8 @@ public class RegexpNode extends Node implements ILiteralNode {
         return value;
     }
 
-    public int getFlags(int extra_options) {
+    //todo:I comment out the code, need examine this
+    /*public int getFlags(int extra_options) {
         if (pattern == null) {
             flags = RegexpTranslator.translateFlags(options | extra_options);
             pattern = translator.translate(value, options, flags);
@@ -59,7 +61,7 @@ public class RegexpNode extends Node implements ILiteralNode {
             pattern = translator.translate(value, options, flags);
         }
         return pattern;
-    }
+    }*/
 
     
 

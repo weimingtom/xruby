@@ -5,9 +5,11 @@
 
 package com.xruby.compiler.parser;
 
-import java.util.*;
-import java.io.Reader;
 import antlr.*;
+import antlr.Token;
+
+import java.io.Reader;
+import java.util.Stack;
 
 class StringDelimiter {
 	private char delimiter_;

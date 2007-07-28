@@ -1,6 +1,6 @@
 package com.xruby.compiler.parser;
 
-import com.xruby.runtime.lang.RubyValue;
+import com.xruby.IRubyObject;
 
 /**
  * Represents the the dynamic portion of scoping information.  The variableValues are the
@@ -20,7 +20,7 @@ import com.xruby.runtime.lang.RubyValue;
  */
 public class DynamicScope {
     // Our values holder (name of variables are kept in staticScope)
-    private RubyValue[] variableValues;
+    private IRubyObject[] variableValues;
 
     // Static scoping information for this scope
     private StaticScope staticScope;
