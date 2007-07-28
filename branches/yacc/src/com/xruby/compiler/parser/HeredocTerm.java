@@ -27,6 +27,8 @@
  ***** END LICENSE BLOCK *****/
 package com.xruby.compiler.parser;
 
+import com.xruby.compiler.codedom.StrNode;
+
 public class HeredocTerm extends StrTerm {
 	private final String eos;
 	private final int func;
