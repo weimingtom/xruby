@@ -166,7 +166,7 @@ terminal
 		;
 		
 statement
-		:	statementWithoutModifier (IF_MODIFIER|UNLESS_MODIFIER|WHILE_MODIFIER|UNTIL_MODIFIER|RESCUE_MODIFIER) (line_break)* expression
+		:	statementWithoutModifier (IF_MODIFIER|UNLESS_MODIFIER|WHILE_MODIFIER|UNTIL_MODIFIER|RESCUE_MODIFIER) (LINE_BREAK)* expression
 		;
 		
 fragment
