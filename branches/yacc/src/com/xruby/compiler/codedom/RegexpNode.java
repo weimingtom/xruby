@@ -1,5 +1,6 @@
 package com.xruby.compiler.codedom;
 
+import com.xruby.RegexpTranslator;
 import com.xruby.compiler.parser.ByteList;
 import com.xruby.compiler.parser.ISourcePosition;
 

@@ -12,6 +12,9 @@ public abstract class Node implements Visitable, ISourcePositionHolder {
     protected ISourcePosition position;
     public final int nodeId;
 
+    protected Node() {
+        nodeId = -99; //just for expression's part's subclass
+    }
 
     public Node(ISourcePosition position, int id) {
         this.position = position;

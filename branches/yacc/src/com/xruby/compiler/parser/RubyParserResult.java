@@ -1,5 +1,6 @@
 package com.xruby.compiler.parser;
 
+import com.xruby.compiler.codedom.BlockNode;
 import com.xruby.compiler.codedom.CommentNode;
 import com.xruby.compiler.codedom.Node;
 
