@@ -215,7 +215,8 @@ aliasStatement
 			|undef_parameter	(LINE_BREAK)?	undef_parameter
 			)
 		;
-		
+
+/*		
 codeBlock
 		:	('do'	(options{greedy=true;}:LINE_BREAK!)?		{enterBlockScope();}
 				blockContent
@@ -226,7 +227,7 @@ codeBlock
 			)
 			
 		;
-		
+*/		
 //TODO should be mlhs
 block_vars
 @init
@@ -529,10 +530,6 @@ command
 }
 		:	dotColonOrArrayAccess	
 
-			(
-
-				codeBlock	//{seen_block = true;}
-			)?
 
 		|	('return'|'break'|'next')	//(options{greedy=true;/*caused by command*/}:methodInvocationArgumentWithoutParen[false])?
 		;
@@ -800,7 +797,7 @@ untilExpression
 		
 moduleDefination
 		:	'module'^	(LINE_BREAK!)?
-			moduleName (options {greedy=true;}:terminal)?	{enterScope();}
+			moduleName 
 			(bodyStatement)?
 			'end'!			{leaveScope();}
 		;
@@ -870,8 +867,8 @@ methodName
 methodDefinationArgument
 		:	lparen
 				(methodDefinationArgumentWithoutParen)?
-			RPAREN!	{tellLexerWeHaveFinishedParsingMethodparameters();}
-			(options {greedy=true;}:terminal)?
+			RPAREN!	
+			
 		|	(methodDefinationArgumentWithoutParen)?	terminal
 		;
 		
