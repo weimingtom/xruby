@@ -2,12 +2,6 @@ package com.xruby.compiler.codedom;
 
 import com.xruby.compiler.parser.ISourcePosition;
 
-/**
- * All Nodes which have a list representation inherit this.  This is also used
- * as generic container for additional information that is not directly evaluated.
- * In particular, f_arg production rule uses this to capture arg information for
- * the editor projects who want position info saved.
- */
 public class ListNode extends Node {
     private static final long serialVersionUID = 1L;
 
@@ -26,11 +20,11 @@ public class ListNode extends Node {
     }
 
     public ListNode(ISourcePosition position, int id) {
-        this.position = position;
+        super(position, id);
     }
 
     public ListNode(ISourcePosition position) {
-        this.position = position;
+        super(position, NodeTypes.LISTNODE);
     }
 
     public ListNode add(Node node) {
@@ -128,9 +122,8 @@ public class ListNode extends Node {
     	return string + ": {" + b.toString() + "}";
     }
 
-
-    public void accept(CodeVisitor visitor) {
-        throw new RuntimeException("Base class ListNode should never be visisted");
+    public void accept(CodeVisitor iVisitor) {
+        throw new UnsupportedOperationException();
     }
 
     public Node get(int idx) {
