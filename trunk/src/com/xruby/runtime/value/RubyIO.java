@@ -12,10 +12,15 @@ import com.xruby.runtime.lang.RubyValue;
 public class RubyIO extends RubyBasic {
 
     private final RubyIOExecutor executor;
+    private boolean is_closed_ = false;
 
     public RubyIO(RubyIOExecutor executor) {
         super(RubyRuntime.IOClass);
         this.executor = executor;
+    }
+
+    public boolean isClosed() {
+        return is_closed_;
     }
 
     public void close() {

@@ -89,6 +89,17 @@ class IO_eof extends RubyNoArgMethod {
     }
 }
 
+class IO_closed_question extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        RubyIO io = (RubyIO) receiver;
+        if (io.isClosed()) {
+            return ObjectFactory.TRUE_VALUE;
+        } else {
+            return ObjectFactory.FALSE_VALUE;
+        }
+    }
+}
+
 class IO_seek extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyIO io = (RubyIO) receiver;
@@ -186,6 +197,7 @@ public class IOClassBuilder {
         RubyMethod eof = new IO_eof();
         c.defineMethod("eof", eof);
         c.defineMethod("eof?", eof);
+        c.defineMethod("closed?", new IO_closed_question());
         c.defineMethod("read", new IO_read());
 
         c.getSingletonClass().defineMethod("read", new IO_read_singleton());
