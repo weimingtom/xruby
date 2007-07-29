@@ -11,7 +11,7 @@ import junit.framework.TestCase;
  */
 public class FixnumNodeTest extends TestCase {
     public void test_fixnum() throws Exception {
-        FixnumNode fixnumNode = new FixnumNode(3);
+        FixnumNode fixnumNode = new FixnumNode(null, 3);
         RubyCompilerImpl rubyCompiler = new RubyCompilerImpl("abc");
         RubyProgram program = rubyCompiler.compile2(fixnumNode, null).getRubyProgram();
         RubyValue result = program.invoke();

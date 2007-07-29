@@ -5,8 +5,9 @@
 
 package com.xruby.compiler.parser;
 
-import antlr.*;
-import antlr.collections.*;
+import antlr.CommonAST;
+import antlr.Token;
+import antlr.collections.AST;
 
 /**
  * CommonAST(default) from Antlr does not store line information.

@@ -30,7 +30,7 @@ public class ExpressionStatement extends Statement {
     private void addLineNumberInfo(CodeVisitor visitor) {
         if(expression.shouldlabelNewLine()) {
             // TODO: Add Line Number info
-            int lineNumber = expression.getPosition();
+            int lineNumber = expression.getPosition().getStartLine();
             visitor.visitLineLabel(lineNumber);
         }
     }
