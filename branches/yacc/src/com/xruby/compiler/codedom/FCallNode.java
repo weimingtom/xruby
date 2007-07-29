@@ -3,7 +3,6 @@ package com.xruby.compiler.codedom;
 import com.xruby.compiler.parser.ISourcePosition;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Represents a method call with self as an implicit receiver.
@@ -81,10 +80,6 @@ public class FCallNode extends Node implements INameNode, IArgumentNode, BlockAc
      */
     public String getName() {
         return name;
-    }
-
-    public List childNodes() {
-        return createList(argsNode, iterNode);
     }
 
     public String toString() {

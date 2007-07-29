@@ -5,7 +5,8 @@
 
 package com.xruby.compiler.codedom;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class MethodDefinationExpression extends Expression {
     private String methodName_;
@@ -92,7 +93,7 @@ public class MethodDefinationExpression extends Expression {
 		visitor.visitMethodDefinationEnd((null != bodyStatement_) ?
 										bodyStatement_.lastStatementHasReturnValue() : false);
 
-        int firstLine = this.getPosition();
+        int firstLine = this.getPosition().getStartLine();
         int lastLine = firstLine;
         if(bodyStatement_ != null) {
             lastLine = bodyStatement_.getLastLine();

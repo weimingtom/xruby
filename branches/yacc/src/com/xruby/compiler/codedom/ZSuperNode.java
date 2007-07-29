@@ -2,8 +2,6 @@ package com.xruby.compiler.codedom;
 
 import com.xruby.compiler.parser.ISourcePosition;
 
-import java.util.List;
-
 /**
  * a call to 'super' with no arguments in a method.
  */
@@ -29,10 +27,6 @@ public class ZSuperNode extends Node implements IArityNode, BlockAcceptingNode {
 	public Arity getArity() {
 		return Arity.optional();
 	}
-
-    public List childNodes() {
-        return EMPTY_LIST;
-    }
 
     public Node getIterNode() {
         return iterNode;

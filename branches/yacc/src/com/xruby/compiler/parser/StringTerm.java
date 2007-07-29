@@ -27,7 +27,8 @@
  ***** END LICENSE BLOCK *****/
 package com.xruby.compiler.parser;
 
-
+import com.xruby.compiler.codedom.RegexpNode;
+import com.xruby.compiler.codedom.StrNode;
 
 
 public class StringTerm extends StrTerm {

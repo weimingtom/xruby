@@ -3,7 +3,6 @@ package com.xruby.compiler.codedom;
 import com.xruby.compiler.parser.ISourcePosition;
 
 import java.io.IOException;
-import java.util.List;
 
 /** Represents an alias of a global variable.
  *
@@ -51,10 +50,6 @@ public class VAliasNode extends Node {
      */
     public String getOldName() {
         return oldName;
-    }
-
-    public List childNodes() {
-        return EMPTY_LIST;
     }
 
 }
