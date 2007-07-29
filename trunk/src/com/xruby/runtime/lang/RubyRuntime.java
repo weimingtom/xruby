@@ -213,6 +213,10 @@ public class RubyRuntime {
         RubyAPI.setTopLevelConstant(new RubyObject(RubyRuntime.IOClass), "STDOUT");
         RubyAPI.setTopLevelConstant(RubyAPI.isWindows() ? ObjectFactory.createString("mswin32") : ObjectFactory.createString("java"), "RUBY_PLATFORM");
 
+        if (RubyAPI.isWindows()) {
+            RubyAPI.setConstant(ObjectFactory.createString("\\"), RubyRuntime.FileClass, "ALT_SEPARATOR");
+        }
+
         ENVInitializer.initialize();
         TopLevelSelfInitializer.initialize();
         GlobalVariables.initialize();
