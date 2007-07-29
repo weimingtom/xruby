@@ -1,0 +1,1 @@
+#not implemented (cruby has fcntl.so)
