@@ -69,7 +69,7 @@ ruby\test_marshal.rb		#need to improve Marshal
 ruby\test_objectspace.rb	#need to improve ObjectSpace
 ruby\test_path.rb			#only work on unix
 ruby\test_pipe.rb			#need to fix eof?()
-ruby\test_proc.rb
+ruby\test_proc.rb			#http://code.google.com/p/xruby/issues/detail?id=37
 ruby\test_rand.rb			#need to fix some Rand related methods
 ruby\test_readpartial.rb		#need to implement fcntl.so
 ruby\test_settracefunc.rb	#need to implement set_trace_func()
