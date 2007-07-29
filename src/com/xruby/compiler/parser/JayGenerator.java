@@ -11,7 +11,7 @@ public class JayGenerator {
         //System.out.println(System.getProperty("user.dir"));
         //System.setProperty("user.dir", "C:\\toolset\\ruby\\xruby-trunk\\");
         System.setOut(new PrintStream("src\\com\\xruby\\compiler\\parser\\RubyJay.java"));
-        args = new String[] {"-v", "-t", "-b", "output1", "src\\com\\xruby\\compiler\\parser\\jay.y"};
+        args = new String[] {"-v", /*"-t", debug*/ "-b", "output1", "src\\com\\xruby\\compiler\\parser\\jay.y"};
         jay.Main.main(args);
     }
 }

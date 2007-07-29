@@ -82,5 +82,9 @@ public class Arity {
     public static Arity twoArguments() {
         return TWO_ARGUMENTS;
     }
+
+    public static Arity optional() {
+        return OPTIONAL;
+    }
     //todo: add others in jruby, but we just need the Arity class as a placeholder here, don't we?
 }

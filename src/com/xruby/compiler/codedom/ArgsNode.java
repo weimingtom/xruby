@@ -1,5 +1,7 @@
 package com.xruby.compiler.codedom;
 
+import com.xruby.compiler.parser.ISourcePosition;
+
 /**
  * arguments for a function.
  *  this is used both in the function definition
@@ -36,7 +38,7 @@ public class ArgsNode extends Node {
      * 				(the array argument prefixed by a * which collects
      * 				all additional params)
      * 				or -1 if there is none.
-     * @param argsCount number of regular arguments
+     *         //@param argsCount number of regular arguments
      * @param restArgNode The rest argument (*args).
      * @param blockArgNode An optional block argument (&amp;arg).
      **/
@@ -63,8 +65,8 @@ public class ArgsNode extends Node {
      * Accept for the visitor pattern.
      * @param iVisitor the visitor
      **/
-    public Instruction accept(NodeVisitor iVisitor) {
-        return iVisitor.visitArgsNode(this);
+    public void accept(CodeVisitor iVisitor) {
+        throw new UnsupportedOperationException();
     }
 
     /**
