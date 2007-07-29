@@ -13,30 +13,28 @@ import com.xruby.runtime.value.RubyString;
 class Struct_new extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (!(args.get(0) instanceof RubyString)) {
-            //TODO It is almost impossible to implement this:
-            //Customer = Struct.new(:name, :address)
-            //a = Customer.new("Dave", "123 Main")
-            //print a.class
-            throw new RubyException("not implemented!");
+            RubyClass c = RubyRuntime.ObjectClass.defineClass(null, RubyRuntime.ObjectClass);
+            addMethods(c, args, 0);
+            return c;
         } else {
             RubyClass c = RubyRuntime.StructClass.defineClass(args.get(0).toString(), RubyRuntime.ObjectClass);
-            addMethods(c, args);
+            addMethods(c, args, 1);
             return c;
         }
     }
 
-    private void addMethods(RubyClass c, final RubyArray super_args) {
-        for (int i = 1; i < super_args.size(); ++i) {
-            String s = RubyTypesUtil.convertToSymbol(super_args.get(i)).toString();
+    private void addMethods(RubyClass c, final RubyArray super_args, final int offset) {
+        for (int i = offset; i < super_args.size(); ++i) {
+            String s = RubyTypesUtil.convertToJavaString(super_args.get(i));
             c.defineMethod(s, new AttrReader(s));
             c.defineMethod(s + "=", new AttrWriter(s));
         }
 
-        c.getSingletonClass().defineMethod("new", new RubyVarArgMethod(super_args.size() - 1, false, 0) {
+        c.getSingletonClass().defineMethod("new", new RubyVarArgMethod(super_args.size() - offset, false, 0) {
             protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
                 RubyValue v = new RubyObject((RubyClass) receiver);
                 for (int i = 0; i < args.size(); ++i) {
-                    RubyID id = RubyID.intern("@" + RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString());
+                    RubyID id = RubyID.intern("@" + RubyTypesUtil.convertToJavaString(super_args.get(i + offset)));
                     v.setInstanceVariable(args.get(i), id);
                 }
                 return v;

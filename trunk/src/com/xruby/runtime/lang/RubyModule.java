@@ -81,9 +81,12 @@ public class RubyModule extends MethodCollection {
         }
 
         RubyClass klass = ClassFactory.makeRubyClass(parent);
-        klass.setScope(this);
-        klass.setName(name);
-        constants_.put(name, klass);
+        if (null != name) {
+            //Class can be nameless when they are created by Struct.new (e.g. Struct.new(:name, :address))
+            klass.setScope(this);
+            klass.setName(name);
+            constants_.put(name, klass);
+        }
         ClassFactory.inheritedClass(parent, klass);
 
         ObjectSpace.add(klass);
@@ -91,9 +94,12 @@ public class RubyModule extends MethodCollection {
     }
 
     private RubyClass defineClass(String name, RubyClass parent) {
-        RubyValue v = constants_.get(name);
+        RubyValue v = null;
+        if (null != name) {
+            v = constants_.get(name);
+        }
         if (null == v) {
-            return defineNewClass(name, (null == parent) ? RubyRuntime.ObjectClass : parent);
+            return defineNewClass(name, parent);
         }
 
         if (!(v instanceof RubyClass)) {
@@ -119,22 +125,6 @@ public class RubyModule extends MethodCollection {
         }
 
         return defineClass(name, null == parent ? null : (RubyClass)parent);
-    }
-
-    /// For compile-time recognizable builtin class, just do sanity checks...
-    public RubyClass defineBuiltInClass(RubyClass c, RubyValue parent) {
-        if (null != parent) {
-            if (!(parent instanceof RubyClass)) {
-                throw new RubyException(RubyRuntime.TypeErrorClass, "superclass must be a Class (" + parent.getRubyClass().getName() + " given)");
-            }
-
-            if (!c.isMyParent((RubyClass)parent)){
-                throw new RubyException(RubyRuntime.TypeErrorClass, "superclass mismatch for class "+ c.getName());
-            }
-        }
-
-        c.setAccessPublic();
-        return c;
     }
 
     public RubyModule defineNewModule(String name) {

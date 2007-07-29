@@ -5591,6 +5591,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Struct_new() {
         String [] program_texts = {
+                "Customer = Struct.new(:name, :address);a = Customer.new('Dave', '123 Main');print a.class,a.name",
                 "Struct.new('TestStructNew6', :name); a = Struct::TestStructNew6.new('ppp'); a[0] = 'ooo'; print a.name",
                 "Struct.new('TestStructNew5', :name); a = Struct::TestStructNew5.new('zzz'); print a.to_a, a.to_a.class",
                 "Struct.new('TestStructNew4', :name); a = Struct::TestStructNew4.new('yyy'); print a[0]",
@@ -5602,6 +5603,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "CustomerDave",
                 "ooo",
                 "zzzArray",
                 "yyy",
