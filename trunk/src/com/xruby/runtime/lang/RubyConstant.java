@@ -1,31 +1,23 @@
 package com.xruby.runtime.lang;
 
-public abstract class RubyConstant extends RubySpecialValue {
-	public static RubyConstant QFALSE = new RubyConstant() {
-		public RubyClass getRubyClass() {
-			return RubyRuntime.FalseClassClass;
-		}
+public abstract class RubyConstant extends RubyBasic {
+    public static RubyConstant QFALSE = new RubyConstant(RubyRuntime.FalseClassClass) {
+        public boolean isTrue() {
+            return false;
+        }
+    };
 
-		public boolean isTrue() {
-			return false;
-		}		
-	};
-	
-	public static RubyConstant QTRUE = new RubyConstant() {
-		public RubyClass getRubyClass() {
-			return RubyRuntime.TrueClassClass;
-		}
-	};
-	
-	public static RubyConstant QNIL = new RubyConstant() {
-		public RubyClass getRubyClass() {
-			return RubyRuntime.NilClassClass;
-		}
-		
-		public boolean isTrue() {
-			return false;
-		}
-	};
-	
-	private RubyConstant() {}
+    public static RubyConstant QTRUE = new RubyConstant(RubyRuntime.TrueClassClass) {
+        public boolean isTrue() {
+            return true;
+        }
+    };
+
+    public static RubyConstant QNIL = new RubyConstant(RubyRuntime.NilClassClass) {
+        public boolean isTrue() {
+            return false;
+        }
+    };
+
+    private RubyConstant(RubyClass c) {super(c);}
 }
