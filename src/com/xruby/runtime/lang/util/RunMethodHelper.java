@@ -5,6 +5,9 @@
 
 package com.xruby.runtime.lang.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -12,28 +15,59 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
+import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.value.RubyArray;
 
 public abstract class RunMethodHelper {
 	protected abstract String getRunName();
 	protected abstract void loadBlock(GeneratorAdapter mg);
 	protected abstract void loadArgs(GeneratorAdapter mg);
-	protected abstract Class[] getParams(boolean block);
+	protected abstract int rubyArgSize();
 	
-	public void createRunMethod(ClassVisitor cv, Class klass, String name, boolean block) throws Exception {
+	public void createRunMethod(ClassVisitor cv, Class klass, String name, 
+			boolean staticMethod, boolean block) throws Exception {
 		Type type = Type.getType(klass);
-		Class[] params = getParams(block);
+		
+		Class[] params = getParamType(staticMethod, block);
 		Class returnClass = klass.getMethod(name, params).getReturnType();
 		String methodName = CgUtil.getMethodName(name, returnClass, params);
 		GeneratorAdapter mg = startRun(getRunName(), cv);
-		loadReceiver(mg, type);	
+		loadReceiver(mg, type, staticMethod);	
 		loadArgs(mg);
 		
 		if (block) {	
 			this.loadBlock(mg);
 		}
-		mg.invokeVirtual(type, Method.getMethod(methodName));
+		
+		if (staticMethod) {
+			mg.invokeStatic(type, Method.getMethod(methodName));
+		} else {
+			mg.invokeVirtual(type, Method.getMethod(methodName));
+		}
 		endRun(mg);
+	}
+	private Class[] getParamType(boolean staticMethod, boolean block) {
+		List<Class> javaArgList = new ArrayList<Class>();
+		if (staticMethod) {
+			// receiver
+			javaArgList.add(RubyValue.class);
+		}
+		
+		int size = rubyArgSize();
+		if (size >= 0) {
+			for (int i = 0; i < size; i++) {
+				javaArgList.add(RubyValue.class);
+			}
+		} else {
+			javaArgList.add(RubyArray.class);
+		}
+		
+		if (block) {
+			javaArgList.add(RubyBlock.class);
+		}
+		
+		return javaArgList.toArray(new Class[0]);
 	}
 	
 	protected GeneratorAdapter startRun(String runName, ClassVisitor cv) {
@@ -44,10 +78,10 @@ public abstract class RunMethodHelper {
 		return mg;
 	}
 
-	protected void loadReceiver(GeneratorAdapter mg, Type type) {
+	protected void loadReceiver(GeneratorAdapter mg, Type type, boolean module) {
 		mg.loadArg(0);
 		
-		if (!Type.getType(RubyValue.class).equals(type)) {
+		if (!module && !Type.getType(RubyValue.class).equals(type)) {
 			mg.checkCast(type);
 		}
 	}

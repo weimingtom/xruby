@@ -1,5 +1,11 @@
 package com.xruby.compiler.codegen;
 
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.commons.Method;
+
 public class CgUtil {
 	public static String getInternalName(Class klass) {
 		return klass.getName().replace(".", "/");
@@ -96,4 +102,17 @@ public class CgUtil {
 		
 		return sb.toString();
 	}
+	
+	public static void createImplicitConstructor(ClassVisitor cv, Type superType) {
+        Method m = Method.getMethod("void <init> ()");
+		GeneratorAdapter mg = new GeneratorAdapter(Opcodes.ACC_PUBLIC,
+                m, null, null, cv);
+		mg.visitCode();
+        mg.loadThis();
+        mg.invokeConstructor(superType, m);
+        mg.returnValue();
+        mg.endMethod();
+    }
+	
+	private CgUtil() {}
 }

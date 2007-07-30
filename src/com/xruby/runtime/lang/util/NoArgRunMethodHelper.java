@@ -21,8 +21,8 @@ class NoArgRunMethodHelper extends RunMethodHelper {
 		mg.loadArg(1);
 	}
 	
-	protected Class[] getParams(boolean block) {
-		return block ? new Class[] {RubyBlock.class} : new Class[0];
+	protected int rubyArgSize() {
+		return 0;
 	}
 
 	protected void loadArgs(GeneratorAdapter mg) {

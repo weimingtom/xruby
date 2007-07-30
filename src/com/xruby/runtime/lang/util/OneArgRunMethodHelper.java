@@ -21,8 +21,8 @@ class OneArgRunMethodHelper extends RunMethodHelper {
 		mg.loadArg(2);
 	}
 	
-	protected Class[] getParams(boolean block) {
-		return block ? new Class[] {RubyValue.class, RubyBlock.class} : new Class[] {RubyValue.class};
+	protected int rubyArgSize() {
+		return 1;
 	}
 	
 	protected void loadArgs(GeneratorAdapter mg) {

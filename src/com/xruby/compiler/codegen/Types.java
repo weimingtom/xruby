@@ -21,25 +21,29 @@ import org.objectweb.asm.Type;
  * If you use the last one, than your code depends on runtime directly. The first one add a thin layer.
  * It is really nothing for know, but later we are going to more more to there, like method signatures
  * */
-abstract class Types {
+public class Types {
     static final Class RUBY_ARRAY_CLASS = RubyArray.class;
     static final Class RUBY_VALUE_CLASS = RubyValue.class;
+    
+    public static final Type RUBY_API_TYPE = Type.getType(RubyAPI.class);
 
-    static final Type RUBY_NOARGMETHOD_TYPE = Type.getType(RubyNoArgMethod.class);
-    static final Type RUBY_ONEARGMETHOD_TYPE = Type.getType(RubyOneArgMethod.class);
-    static final Type RUBY_TWOARGMETHOD_TYPE = Type.getType(RubyTwoArgMethod.class);
-    static final Type RUBY_VARARGMETHOD_TYPE = Type.getType(RubyVarArgMethod.class);
+    public static final Type RUBY_NOARGMETHOD_TYPE = Type.getType(RubyNoArgMethod.class);
+    public static final Type RUBY_ONEARGMETHOD_TYPE = Type.getType(RubyOneArgMethod.class);
+    public static final Type RUBY_TWOARGMETHOD_TYPE = Type.getType(RubyTwoArgMethod.class);
+    public static final Type RUBY_VARARGMETHOD_TYPE = Type.getType(RubyVarArgMethod.class);
+    public static final Type RUBY_NOORONEARGMETHOD_TYPE = Type.getType(RubyNoOrOneArgMethod.class);
+    public static final Type RUBY_ONEORTWOARGMETHOD_TYPE = Type.getType(RubyOneOrTwoArgMethod.class);
 
     static final Type RUBY_NOARGBLOCK_TYPE = Type.getType(RubyNoArgBlock.class);
     static final Type RUBY_ONEARGBLOCK_TYPE = Type.getType(RubyOneArgBlock.class);
     static final Type RUBY_VARARGBLOCK_TYPE = Type.getType(RubyVarArgBlock.class);
 
-    static final Type RUBY_RUNTIME_TYPE = Type.getType(RubyRuntime.class);
+    public static final Type RUBY_RUNTIME_TYPE = Type.getType(RubyRuntime.class);
     static final Type RUBY_PROGRAM_TYPE = Type.getType(RubyProgram.class);
     static final Type RUBY_BLOCK_TYPE = Type.getType(RubyBlock.class);
-    static final Type RUBY_CLASS_TYPE = Type.getType(RubyClass.class);
-    static final Type RUBY_MODULE_TYPE = Type.getType(RubyModule.class);
-    static final Type RUBY_METHOD_TYPE = Type.getType(RubyMethod.class);
+    public static final Type RUBY_CLASS_TYPE = Type.getType(RubyClass.class);
+    public static final Type RUBY_MODULE_TYPE = Type.getType(RubyModule.class);
+    public static final Type RUBY_METHOD_TYPE = Type.getType(RubyMethod.class);
 	static final Type METHOD_BLOCK_BASE_TYPE = Type.getType(MethodBlockBase.class);
     static final Type RUBY_ARRAY_TYPE = Type.getType(RubyArray.class);
     static final Type RUBY_VALUE_TYPE = Type.getType(RubyValue.class);
@@ -94,4 +98,6 @@ abstract class Types {
 
         return false;
     }
+    
+    private Types() {}
 }

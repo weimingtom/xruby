@@ -6,8 +6,10 @@
 package com.xruby.runtime.lang;
 
 import com.xruby.runtime.builtin.*;
+import com.xruby.runtime.lang.util.RubyTypeFactory;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyMethodValue;
 
 public class RubyRuntime {
     public static RubyClass ObjectClass;
@@ -123,7 +125,7 @@ public class RubyRuntime {
         StructClass = RubyAPI.defineClass("Struct", RubyRuntime.ObjectClass);
         ThreadGroupClass = RubyAPI.defineClass("ThreadGroup", RubyRuntime.ObjectClass);
         ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);
-		UnboundMethodClass = RubyAPI.defineClass("UnboundMethod", RubyRuntime.ObjectClass);
+		UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);//RubyAPI.defineClass("UnboundMethod", RubyRuntime.ObjectClass);
 
         ExceptionClass = RubyAPI.defineClass("Exception", RubyRuntime.ObjectClass);
         StandardErrorClass = RubyAPI.defineClass("StandardError", ExceptionClass);
@@ -168,7 +170,7 @@ public class RubyRuntime {
         FileClassBuilder.initialize();
         MethodClassBuilder.initialize();
         TimeClassBuilder.initialize();
-		UnboundMethodClassBuilder.initialize();
+//		UnboundMethodClassBuilder.initialize();
         MatchDataClassBuilder.initialize();
         DirClassBuilder.initialize();
         StructClassBuilder.initialize();

@@ -6,7 +6,11 @@
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
+import com.xruby.runtime.lang.util.MethodType;
 
+@RubyLevelClass(name="UnboundMethod")
 public class RubyMethodValue extends RubyBasic {
 
     private RubyValue receiver_;
@@ -22,12 +26,6 @@ public class RubyMethodValue extends RubyBasic {
 
     public RubyValue call(RubyArray args, RubyBlock block) {
     	return method_.invoke(receiver_, args, block);
-    	/*
-        if (null != args && args.size() == 1) {
-            return method_.invoke(receiver_, args.get(0), null, block);
-        } else {
-            return method_.invoke(receiver_, null, args, block);
-        }*/
     }
 
     public RubyProc convertToRubyProc() {
@@ -38,6 +36,7 @@ public class RubyMethodValue extends RubyBasic {
         return method_.arity();
     }
 
+    @RubyLevelMethod(name="bind", type=MethodType.ONE_ARG)
     public RubyMethodValue bind(RubyValue receiver) {
 		if (receiver.getRubyClass() != receiver_.getRubyClass()) {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "bind argument must be an instance of " + receiver_.getRubyClass().getName());

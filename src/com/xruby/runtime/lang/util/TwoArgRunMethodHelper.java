@@ -16,14 +16,12 @@ public class TwoArgRunMethodHelper extends RunMethodHelper {
 		mg.loadArg(3);
 	}
 	
-	protected Class[] getParams(boolean block) {
-		return block ? new Class[] {RubyValue.class, RubyValue.class, RubyBlock.class} 
-		: new Class[] {RubyValue.class, RubyValue.class};
+	protected int rubyArgSize() {
+		return 2;
 	}
 	
 	protected void loadArgs(GeneratorAdapter mg) {
 		mg.loadArg(1);
 		mg.loadArg(2);
 	}
-
 }
