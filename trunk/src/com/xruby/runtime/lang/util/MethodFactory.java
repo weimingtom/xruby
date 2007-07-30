@@ -8,54 +8,59 @@ package com.xruby.runtime.lang.util;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
 import org.objectweb.asm.util.CheckClassAdapter;
 
 import com.xruby.compiler.XRubyClassLoader;
 import com.xruby.compiler.codegen.CgUtil;
-import com.xruby.compiler.codegen.ClassFileWriter;
+import com.xruby.compiler.codegen.ClassDumper;
 import com.xruby.runtime.lang.RubyMethod;
 
 public class MethodFactory {
 	private static final XRubyClassLoader cl = new XRubyClassLoader();
-	private static boolean dump;
-	private static String dumpPath;
-	private static ClassFileWriter cfw;
-	
-	static {
-		dump = Boolean.getBoolean("xruby.method.dump");
-		if (dump) {
-			dumpPath = System.getProperty("xruby.method.dump_path");
-			cfw = new ClassFileWriter();
-		}
-	}
+	private static final ClassDumper dumper = new ClassDumper();
 	
 	private Class klass;
+	private boolean module;
 	
 	public static MethodFactory createMethodFactory(Class klass) {
-		return new MethodFactory(klass);
+		return new MethodFactory(klass, false);
 	}
 	
-	private MethodFactory(Class klass) {
+	public static MethodFactory createModuleMethodFactory(Class klass) {
+		return new MethodFactory(klass, true);
+	}
+	
+	private MethodFactory(Class klass, boolean module) {
 		this.klass = klass;
-	}	
-
+		this.module = module;
+	}
+	
+	public RubyMethod getMethod(String name, MethodType type, boolean singleton, boolean block) {
+		return loadMethod(name, type, singleton, block);
+	}
+	
 	public RubyMethod getMethod(String name, MethodType type) {
-		return loadMethod(name, type, false);
+		return loadMethod(name, type, false, false);
 	}
 	
 	public RubyMethod getMethodWithBlock(String name, MethodType type) {
-		return loadMethod(name, type, true);
+		return loadMethod(name, type, false, true);
 	}
+	
+	public RubyMethod getSingletonMethod(String name, MethodType type) {
+		return loadMethod(name, type, true, false);
+	}
+	
+	public RubyMethod getSingletonMethodWithBlock(String name, MethodType type) {
+		return loadMethod(name, type, true, true);
+	} 
 
-	private RubyMethod loadMethod(String name, MethodType type, boolean block) {
+	private RubyMethod loadMethod(String name, MethodType type, boolean singleton, boolean block) {
 		String invokerName = getInvokerName(name, block);
 		Class klass = tryClass(invokerName);
 		try {
 			if (klass == null) {
-				klass = createMethodClass(invokerName, name, type, block);
+				klass = createMethodClass(invokerName, name, type, singleton, block);
 			}
 			
 			return (RubyMethod)klass.newInstance();
@@ -72,13 +77,14 @@ public class MethodFactory {
 		}
 	}
 
-	private Class createMethodClass(String invokerName, String name, MethodType type, boolean block) throws Exception {
+	private Class createMethodClass(String invokerName, String name, MethodType type, 
+			boolean singleton, boolean block) throws Exception {
 		MethodFactoryHelper helper = MethodFactoryHelper.getHelper(type);		
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		ClassVisitor cv = new CheckClassAdapter(cw);
 		
 		startInvoker(cv, helper, invokerName);
-		helper.createRunMethod(cv, this.klass, name, block);
+		helper.createRunMethod(cv, this.klass, name, (singleton | this.module), block);
 		endInvoker(cv);
 		
 		return loadClass(invokerName, cw);
@@ -99,7 +105,7 @@ public class MethodFactory {
 	private void startInvoker(ClassVisitor cv, MethodFactoryHelper helper, String invokerName) {
 		cv.visit(Opcodes.V1_5, Opcodes.ACC_PUBLIC, invokerName, 
 				null, helper.getSuperType().getInternalName(), null);		
-		createImplicitConstructor(cv, helper.getSuperType());
+		CgUtil.createImplicitConstructor(cv, helper.getSuperType());
 	}
 	
 	private void endInvoker(ClassVisitor cv) {
@@ -107,28 +113,7 @@ public class MethodFactory {
 	}
 	
 	private Class loadClass(String invokerName, ClassWriter cw) {
-		if (dump) {
-			try {
-				String separator = System.getProperty("file.separator");
-				if (!dumpPath.endsWith(separator)) {
-					dumpPath += separator;
-				}
-				String filename = dumpPath + invokerName + ".class";
-				cfw.write(filename, cw.toByteArray());
-			} catch (Exception e) {
-			}
-		}
+		dumper.dump(invokerName, cw.toByteArray());
 		return cl.load(invokerName, cw.toByteArray());
 	}
-	
-	private void createImplicitConstructor(ClassVisitor cv, Type superType) {
-        Method m = Method.getMethod("void <init> ()");
-		GeneratorAdapter mg = new GeneratorAdapter(Opcodes.ACC_PUBLIC,
-                m, null, null, cv);
-		mg.visitCode();
-        mg.loadThis();
-        mg.invokeConstructor(superType, m);
-        mg.returnValue();
-        mg.endMethod();
-    }
 }

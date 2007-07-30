@@ -104,7 +104,14 @@ public class MethodFactoryTest extends TestCase {
     	RubyValue twoArgResult = m.invoke(v0, v0, v1, null);
     	assertEquals(v1, twoArgResult);
     }
-
+    
+    public void testSingletonMethod() {
+    	RubyMethod m = f.getSingletonMethod("singleton", MethodType.NO_ARG);
+    	RubyTestValue v = new RubyTestValue();
+    	RubyValue result = m.invoke(v, null);
+    	assertEquals(RubyConstant.QNIL, result);
+    }
+    
     public static class RubyTestValue extends RubyValue {
         public RubyClass getRubyClass() {
             return null;
@@ -159,6 +166,10 @@ public class MethodFactoryTest extends TestCase {
         
         public RubyValue oneOrTwoArg(RubyValue v0, RubyValue v1) {
         	return v1;
+        }
+        
+        public static RubyValue singleton(RubyValue receiver) {
+        	return RubyConstant.QNIL;
         }
     }
 
