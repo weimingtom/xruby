@@ -62,6 +62,7 @@ public class RubyRuntime {
     public static RubyClass ThreadErrorClass;
     public static RubyClass NoMethodErrorClass;
     public static RubyClass IOErrorClass;
+    public static RubyClass EOFErrorClass;
     public static RubyClass RuntimeErrorClass;
     public static RubyClass LocalJumpErrorClass;
     public static RubyClass SystemCallErrorClass;
@@ -136,6 +137,7 @@ public class RubyRuntime {
         NameErrorClass = RubyAPI.defineClass("NameError", StandardErrorClass);
         ThreadErrorClass = RubyAPI.defineClass("ThreadError", StandardErrorClass);
         NoMethodErrorClass = RubyAPI.defineClass("NoMethodError", NameErrorClass);
+        EOFErrorClass = RubyAPI.defineClass("EOFError", IOErrorClass);
         IOErrorClass = RubyAPI.defineClass("IOError", StandardErrorClass);
         RuntimeErrorClass = RubyAPI.defineClass("RuntimeError", StandardErrorClass);
         LocalJumpErrorClass = RubyAPI.defineClass("LocalJumpError", StandardErrorClass);
