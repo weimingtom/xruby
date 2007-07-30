@@ -390,6 +390,18 @@ class Module_define_method extends RubyVarArgMethod {
     }
 }
 
+class Module_remove_method extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyModule m = (RubyModule)receiver;
+        for (RubyValue arg : args) {
+            String method_name = RubyTypesUtil.convertToJavaString(arg);
+            m.undefMethod(method_name);
+        }
+
+        return receiver;
+    }
+}
+
 class Module_const_get extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubySymbol s = RubyTypesUtil.convertToSymbol(arg);
@@ -440,6 +452,7 @@ public class ModuleClassBuilder {
         c.defineMethod("const_get", new Module_const_get());
         c.defineMethod("const_set", new Module_const_set());
         c.defineMethod("define_method", new Module_define_method());
+        c.defineMethod("remove_method", new Module_remove_method());
 
         c.setAccessPrivate();
         c.defineMethod("method_added", EmptyMethod.INSTANCE);
