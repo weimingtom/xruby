@@ -140,6 +140,17 @@ class IO_read extends RubyVarArgMethod {
     }
 }
 
+class IO_readpartial extends IO_read {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyValue v = super.run(receiver, args, block);
+        RubyIO io = (RubyIO) receiver;
+        if (io.eof()) {
+            throw new RubyException(RubyRuntime.EOFErrorClass, "end of file reached");
+        }
+        return v;
+    }
+}
+
 class IO_read_singleton extends RubyVarArgMethod {
     public IO_read_singleton() {
         super(3, false, 2);
@@ -199,6 +210,7 @@ public class IOClassBuilder {
         c.defineMethod("eof?", eof);
         c.defineMethod("closed?", new IO_closed_question());
         c.defineMethod("read", new IO_read());
+        c.defineMethod("readpartial", new IO_readpartial());
 
         c.getSingletonClass().defineMethod("read", new IO_read_singleton());
         c.getSingletonClass().defineMethod("pipe", new IO_pipe_singleton());
