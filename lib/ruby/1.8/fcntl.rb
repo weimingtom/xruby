@@ -1,1 +1,4 @@
-#not implemented (cruby has fcntl.so)
+#cruby implemented this module in c: fcntl.so
+
+module Fcntl
+end
