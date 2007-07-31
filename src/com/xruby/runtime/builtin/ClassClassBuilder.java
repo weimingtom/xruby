@@ -53,6 +53,18 @@ class Class_singleton_new extends RubyVarArgMethod {
 	}
 }
 
+class EmptyMethod extends RubyOneArgMethod {
+
+	public static final EmptyMethod INSTANCE = new EmptyMethod();
+
+	private EmptyMethod() {
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return ObjectFactory.NIL_VALUE;
+	}
+}
+
 public class ClassClassBuilder {
     static RubyMethod class_new_ = new Class_new();
 
@@ -61,6 +73,7 @@ public class ClassClassBuilder {
         c.defineMethod("new", class_new_);
         c.defineMethod("superclass", new Class_superclass());
 		c.getSingletonClass().defineMethod("new", new Class_singleton_new());
+		c.defineMethod("inherited", EmptyMethod.INSTANCE);
 
         /*
         c.setAccessPrivate();        

@@ -19,5 +19,7 @@ public abstract class RubyConstant extends RubyBasic {
         }
     };
 
-    private RubyConstant(RubyClass c) {super(c);}
+    private RubyConstant(RubyClass c) {
+    	super(c);
+    }
 }

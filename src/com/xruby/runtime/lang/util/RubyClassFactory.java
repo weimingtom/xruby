@@ -43,22 +43,30 @@ class RubyClassFactory extends RubyTypeFactory {
 		loadSuperClass(mg, klassAnnotation.superclass());
 		mg.invokeStatic(Types.RUBY_API_TYPE, 
 				Method.getMethod(CgUtil.getMethodName("defineClass", RubyClass.class, 
-						String.class, RubyClass.class)));
+						String.class, RubyValue.class)));
 
 		int rubyTypeIdx = mg.newLocal(Types.RUBY_CLASS_TYPE);
 		mg.storeLocal(rubyTypeIdx);
 
 		for (String moduleName : klassAnnotation.modules()) {
-			mg.loadLocal(rubyTypeIdx);
-			loadModule(mg, moduleName, rubyTypeIdx);
-			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method.getMethod(
-					CgUtil.getMethodName("includeModule", Void.TYPE, RubyModule.class)));
+			includeModule(mg, rubyTypeIdx, moduleName);
 		}
 
 		return rubyTypeIdx;
 	}
 
+	private void includeModule(GeneratorAdapter mg, int rubyTypeIdx, String moduleName) {
+		mg.loadLocal(rubyTypeIdx);
+		loadModule(mg, moduleName, rubyTypeIdx);
+		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method.getMethod(
+				CgUtil.getMethodName("includeModule", Void.TYPE, RubyModule.class)));
+	}
+
 	private static void loadSuperClass(GeneratorAdapter mg, String superclass) {
+		if (superclass == null || superclass.length() ==  0) {
+			mg.push((String)null);
+		}
+		
 		if (Types.isBuiltinClass(superclass)) {
 			mg.getStatic(Types.RUBY_RUNTIME_TYPE, 
 					superclass + "Class", Types.RUBY_CLASS_TYPE);

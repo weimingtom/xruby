@@ -186,21 +186,27 @@ public abstract class RubyTypeFactory {
 			String methodName = method.getName();
 			Annotation rawMethodAnnotation = method.getAnnotation(RubyLevelMethod.class);
 			if (rawMethodAnnotation != null) {				
-				defineRubyMethod(mg, methodName, 
-						(RubyLevelMethod)rawMethodAnnotation, rubyTypeIdx, factoryIdx);
+				defineRubyMethod(mg, rubyTypeIdx, factoryIdx, 
+						methodName, (RubyLevelMethod)rawMethodAnnotation);
 				continue;
 			}
 			
 			Annotation allocMethodAnnotation = method.getAnnotation(RubyAllocMethod.class);
 			if (allocMethodAnnotation != null) {
-				mg.loadLocal(rubyTypeIdx);
-				mg.loadLocal(factoryIdx);
-				getAllocMethod(mg, methodName, (RubyAllocMethod)allocMethodAnnotation);
-				mg.invokeVirtual(Types.RUBY_CLASS_TYPE, 
-						Method.getMethod(CgUtil.getMethodName("defineAllocMethod", Void.TYPE, RubyMethod.class)));
+				defineAllocMethod(mg, rubyTypeIdx, factoryIdx, 
+						methodName, (RubyAllocMethod)allocMethodAnnotation);
 				continue;
 			}
 		}
+	}
+
+	private void defineAllocMethod(GeneratorAdapter mg, int rubyTypeIdx, int factoryIdx, String methodName, RubyAllocMethod alloc) {
+		mg.loadLocal(rubyTypeIdx);
+		mg.loadLocal(factoryIdx);
+		
+		getAllocMethod(mg, methodName, alloc);
+		mg.invokeVirtual(Types.RUBY_CLASS_TYPE, 
+				Method.getMethod(CgUtil.getMethodName("defineAllocMethod", Void.TYPE, RubyMethod.class)));
 	}
 	
 	private int createLocalMethodFactory(GeneratorAdapter mg) {
@@ -210,8 +216,8 @@ public abstract class RubyTypeFactory {
 		return factoryIdx;
 	}
 
-	private void defineRubyMethod(GeneratorAdapter mg, String methodName, 
-			RubyLevelMethod methodAnnotation, int rubyTypeIdx, int factoryIdx) {
+	private void defineRubyMethod(GeneratorAdapter mg, int rubyTypeIdx, 
+			int factoryIdx, String methodName, RubyLevelMethod methodAnnotation) {
 		mg.loadLocal(rubyTypeIdx);
 		if (methodAnnotation.singleton()) {
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 

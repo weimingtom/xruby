@@ -20,7 +20,7 @@ public class RubyBinding extends RubyBasic {
 	}
 	
 	public RubyBinding() {
-		super(RubyRuntime.BingingClass);
+		super(RubyRuntime.BindingClass);
 	}
 
 	public boolean hasName(String name) {
