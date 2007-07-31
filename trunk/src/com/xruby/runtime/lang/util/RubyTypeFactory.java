@@ -22,6 +22,7 @@ import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelConstant;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
@@ -182,10 +183,21 @@ public abstract class RubyTypeFactory {
 		int factoryIdx = createLocalMethodFactory(mg);
 		
 		for (java.lang.reflect.Method method : klass.getMethods()) {
+			String methodName = method.getName();
 			Annotation rawMethodAnnotation = method.getAnnotation(RubyLevelMethod.class);
-			if (rawMethodAnnotation != null) {
-				defineRubyMethod(mg, method.getName(), 
+			if (rawMethodAnnotation != null) {				
+				defineRubyMethod(mg, methodName, 
 						(RubyLevelMethod)rawMethodAnnotation, rubyTypeIdx, factoryIdx);
+				continue;
+			}
+			
+			Annotation allocMethodAnnotation = method.getAnnotation(RubyAllocMethod.class);
+			if (allocMethodAnnotation != null) {
+				mg.loadLocal(rubyTypeIdx);
+				mg.loadLocal(factoryIdx);
+				getAllocMethod(mg, methodName, (RubyAllocMethod)allocMethodAnnotation);
+				mg.invokeVirtual(Types.RUBY_CLASS_TYPE, 
+						Method.getMethod(CgUtil.getMethodName("defineAllocMethod", Void.TYPE, RubyMethod.class)));
 				continue;
 			}
 		}
@@ -227,11 +239,19 @@ public abstract class RubyTypeFactory {
 		}
 	}
 	
-	private void getMethod(GeneratorAdapter mg, String methodName, RubyLevelMethod methodAnnotation) {
-		mg.push(methodName);			
-		mg.getStatic(methodTypeType, methodAnnotation.type().toString(), methodTypeType);
-		mg.push(methodAnnotation.singleton());
-		mg.push(methodAnnotation.block());
+	private void getMethod(GeneratorAdapter mg, String methodName, RubyLevelMethod method) {
+		getMethod(mg, methodName, method.type(), method.singleton(), method.block());
+	}
+	
+	private void getAllocMethod(GeneratorAdapter mg, String methodName, RubyAllocMethod method) {
+		getMethod(mg, methodName, method.type(), true, method.block());
+	}
+	
+	private void getMethod(GeneratorAdapter mg, String methodName, MethodType type, boolean singleton, boolean block) {
+		mg.push(methodName);
+		mg.getStatic(methodTypeType, type.toString(), methodTypeType);
+		mg.push(singleton);
+		mg.push(block);
 		mg.invokeVirtual(methodFactoryType, Method.getMethod(
 				CgUtil.getMethodName("getMethod", RubyMethod.class, String.class, MethodType.class, Boolean.TYPE, Boolean.TYPE)));
 	}

@@ -8,6 +8,7 @@ import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelConstant;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
@@ -54,6 +55,11 @@ public class RubyTypeFactoryTest extends TestCase {
 
         public void setRubyClass(RubyClass klass) {
         	
+        }
+        
+        @RubyAllocMethod
+        public static RubyValue alloc(RubyValue receiver) {
+        	return RubyConstant.QNIL;
         }
         
 		@RubyLevelMethod(name="test", type=MethodType.NO_ARG, alias="another_test")
