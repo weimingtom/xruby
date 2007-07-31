@@ -201,6 +201,10 @@ public abstract class RubyTypeFactory {
 	private void defineRubyMethod(GeneratorAdapter mg, String methodName, 
 			RubyLevelMethod methodAnnotation, int rubyTypeIdx, int factoryIdx) {
 		mg.loadLocal(rubyTypeIdx);
+		if (methodAnnotation.singleton()) {
+			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+					Method.getMethod(CgUtil.getMethodName("getSingletonClass", RubyClass.class)));
+		}
 		String annotationName = methodAnnotation.name();
 		mg.push(annotationName);
 
@@ -214,8 +218,8 @@ public abstract class RubyTypeFactory {
 	}
 
 	private void defineAlias(GeneratorAdapter mg, int rubyTypeIdx, String oldName, String[] aliases) {
-		mg.loadLocal(rubyTypeIdx);
 		for (String alias : aliases) {
+			mg.loadLocal(rubyTypeIdx);
 			mg.push(alias);
 			mg.push(oldName);
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
