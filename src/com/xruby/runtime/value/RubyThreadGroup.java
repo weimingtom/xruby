@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2007 Yu Zhang
+ * Copyright 2005-2007 Yu Zhang, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -11,16 +11,34 @@ import java.util.Vector;
 import com.xruby.runtime.lang.RubyBasic;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
+import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelConstant;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
+@RubyLevelClass(name="ThreadGroup")
 public class RubyThreadGroup extends RubyBasic{
     
     private boolean enclosed = false;
     private List<RubyThread> threads_ = new Vector<RubyThread>();
     
+    @RubyLevelConstant(name="Default")
     public static RubyThreadGroup defaultThreadGroup = new RubyThreadGroup();   
     
     public RubyThreadGroup(){
         super(RubyRuntime.ThreadGroupClass);
+    }
+    
+    @RubyLevelMethod(name="add", singleton=true)
+    public static RubyValue newThreadGroup(RubyValue receiver) {
+    	return new RubyThreadGroup();
+    }
+    
+    @RubyLevelMethod(name="add", type=MethodType.ONE_ARG)
+    public RubyValue add(RubyValue arg) {
+    	this.add((RubyThread)arg);
+        return this;
     }
     
     public void add(RubyThread thread){
@@ -44,11 +62,28 @@ public class RubyThreadGroup extends RubyBasic{
         return threads_;
     }
     
-    public void enclose(){
-        enclosed = true;
+    @RubyLevelMethod(name="list")
+    public RubyArray listAll() {
+    	RubyArray result = new RubyArray();
+    	for (RubyThread thread : this.threads_) {
+    		result.add(thread);
+    	}
+    	
+    	return result;
     }
     
-    public boolean isEnclosed(){
-        return enclosed;
+    @RubyLevelMethod(name="enclose")
+    public RubyValue enclose(){
+        enclosed = true;
+        return this;
+    }
+    
+    public boolean isEnclosed() {
+    	return this.enclosed;
+    }
+    
+    @RubyLevelMethod(name="enclosed?")
+    public RubyValue enclosed_p() {
+        return ObjectFactory.createBoolean(enclosed);
     }
 }

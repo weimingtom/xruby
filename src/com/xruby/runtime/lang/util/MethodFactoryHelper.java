@@ -9,6 +9,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Type;
 
 import com.xruby.compiler.codegen.Types;
+import com.xruby.runtime.lang.annotation.MethodType;
 
 class MethodFactoryHelper {
 	private Type superType;
@@ -24,7 +25,7 @@ class MethodFactoryHelper {
 	}
 	
 	public void createRunMethod(ClassVisitor cv, Class klass, String name, 
-			boolean staticMethod, boolean block) throws Exception {
+			boolean staticMethod, boolean block) {
 		for (RunMethodHelper helper : this.helpers) {
 			helper.createRunMethod(cv, klass, name, staticMethod, block);
 		}

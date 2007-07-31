@@ -26,11 +26,16 @@ public abstract class RunMethodHelper {
 	protected abstract int rubyArgSize();
 	
 	public void createRunMethod(ClassVisitor cv, Class klass, String name, 
-			boolean staticMethod, boolean block) throws Exception {
+			boolean staticMethod, boolean block) {
 		Type type = Type.getType(klass);
 		
 		Class[] params = getParamType(staticMethod, block);
-		Class returnClass = klass.getMethod(name, params).getReturnType();
+		Class returnClass;
+		try {
+			returnClass = klass.getMethod(name, params).getReturnType();
+		} catch (NoSuchMethodException nsme) {
+			throw new IllegalArgumentException("no such method: " + name);
+		}
 		String methodName = CgUtil.getMethodName(name, returnClass, params);
 		GeneratorAdapter mg = startRun(getRunName(), cv);
 		loadReceiver(mg, type, staticMethod);	

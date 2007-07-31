@@ -1,6 +1,8 @@
 package com.xruby.runtime.lang.util;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -19,6 +21,8 @@ import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.annotation.RubyLevelConstant;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
 public abstract class RubyTypeFactory {
@@ -28,11 +32,16 @@ public abstract class RubyTypeFactory {
 			return null; 
 		}
 		
+		return loadRubyClassBuilder(loadClass).createRubyClass();
+	}
+
+	private static RubyClassBuilder loadRubyClassBuilder(Class loadClass) {
 		try {
-			RubyClassBuilder classBuilder = (RubyClassBuilder)loadClass.newInstance();
-			return classBuilder.createRubyClass();
-		} catch (Exception e) {
-			return null;
+			return (RubyClassBuilder)loadClass.newInstance();
+		} catch (InstantiationException ie) {
+			throw new RuntimeException("fail to create Ruby class", ie);
+		} catch (IllegalAccessException iae) {
+			throw new RuntimeException("fail to create Ruby class", iae);
 		}
 	}
 	
@@ -42,11 +51,16 @@ public abstract class RubyTypeFactory {
 			return null; 
 		}
 		
+		return loadRubyModuleBuilder(loadClass).createRubyModule();
+	}
+	
+	private static RubyModuleBuilder loadRubyModuleBuilder(Class loadClass) {
 		try {
-			RubyModuleBuilder classBuilder = (RubyModuleBuilder)loadClass.newInstance();
-			return classBuilder.createRubyModule();
-		} catch (Exception e) {
-			return null;
+			return (RubyModuleBuilder)loadClass.newInstance();
+		} catch (InstantiationException ie) {
+			throw new RuntimeException("fail to create Ruby class", ie);
+		} catch (IllegalAccessException iae) {
+			throw new RuntimeException("fail to create Ruby class", iae);
 		}
 	}
 	
@@ -73,6 +87,12 @@ public abstract class RubyTypeFactory {
 		return loadBuidlerClass(name);
 	}
 	
+	private Class loadBuidlerClass(String name) {
+		byte[] content = cw.toByteArray();
+        dupmer.dump(name, content);
+		return cl.load(name, content);
+	}
+	
 	private Class tryClass(String name) {
 		try {
 			return cl.load(name);
@@ -80,7 +100,6 @@ public abstract class RubyTypeFactory {
 			return null;
 		}
 	}
-	
 	
 	private static final Type methodFactoryType = Type.getType(MethodFactory.class);
 	private static final Type methodTypeType = Type.getType(MethodType.class);
@@ -127,26 +146,48 @@ public abstract class RubyTypeFactory {
 		GeneratorAdapter mg = startBuilderMethod();
 		int rubyTypeIdx = createRubyType(mg, annotation);
 		generateMethod(mg, rubyTypeIdx);
+		generateConstant(mg, rubyTypeIdx);
+		
 		mg.loadLocal(rubyTypeIdx);		
         mg.returnValue();
         mg.endMethod();
 	}
 	
-	private Class loadBuidlerClass(String name) {
-		byte[] content = cw.toByteArray();
-        dupmer.dump(name, content);
-		return cl.load(name, content);
+	private void generateConstant(GeneratorAdapter mg, int rubyTypeIdx) {
+		for (Field field : klass.getFields()) {
+			int modifier = field.getModifiers();
+			if (!(Modifier.isStatic(modifier) || Modifier.isPublic(modifier))) {
+				continue;
+			}
+			
+			Annotation rawFieldAnnotation = field.getAnnotation(RubyLevelConstant.class);
+			if (rawFieldAnnotation == null) {
+				continue;
+			}
+			
+			defineRubyConstant(mg, field, (RubyLevelConstant)rawFieldAnnotation, rubyTypeIdx);
+		}
 	}
-	
+
+	private void defineRubyConstant(GeneratorAdapter mg, Field field, 
+			RubyLevelConstant constant, int rubyTypeIdx) {
+		mg.loadLocal(rubyTypeIdx);
+		mg.push(constant.name());
+		mg.getStatic(Type.getType(this.klass), field.getName(), Type.getType(field.getType()));
+		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method.getMethod(
+				CgUtil.getMethodName("setConstant", RubyValue.class, String.class, RubyValue.class)));
+	}
+
 	private void generateMethod(GeneratorAdapter mg, int rubyTypeIdx) {
 		int factoryIdx = createLocalMethodFactory(mg);
 		
 		for (java.lang.reflect.Method method : klass.getMethods()) {
 			Annotation rawMethodAnnotation = method.getAnnotation(RubyLevelMethod.class);
-			if (rawMethodAnnotation == null) {
+			if (rawMethodAnnotation != null) {
+				defineRubyMethod(mg, method.getName(), 
+						(RubyLevelMethod)rawMethodAnnotation, rubyTypeIdx, factoryIdx);
 				continue;
 			}
-			defineRubyMethod(mg, method.getName(), (RubyLevelMethod)rawMethodAnnotation, rubyTypeIdx, factoryIdx);
 		}
 	}
 	
@@ -157,15 +198,29 @@ public abstract class RubyTypeFactory {
 		return factoryIdx;
 	}
 
-	private void defineRubyMethod(GeneratorAdapter mg, String methodName, RubyLevelMethod methodAnnotation, int rubyTypeIdx, int factoryIdx) {
+	private void defineRubyMethod(GeneratorAdapter mg, String methodName, 
+			RubyLevelMethod methodAnnotation, int rubyTypeIdx, int factoryIdx) {
 		mg.loadLocal(rubyTypeIdx);
-		mg.push(methodAnnotation.name());
+		String annotationName = methodAnnotation.name();
+		mg.push(annotationName);
 
 		mg.loadLocal(factoryIdx);
 		getMethod(mg, methodName, methodAnnotation);
 		
 		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
 				Method.getMethod(CgUtil.getMethodName("defineMethod", RubyValue.class, String.class, RubyMethod.class)));
+		
+		defineAlias(mg, rubyTypeIdx, annotationName, methodAnnotation.alias());
+	}
+
+	private void defineAlias(GeneratorAdapter mg, int rubyTypeIdx, String oldName, String[] aliases) {
+		mg.loadLocal(rubyTypeIdx);
+		for (String alias : aliases) {
+			mg.push(alias);
+			mg.push(oldName);
+			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+					Method.getMethod(CgUtil.getMethodName("aliasMethod", Void.TYPE, String.class, String.class)));
+		}
 	}
 	
 	private void getMethod(GeneratorAdapter mg, String methodName, RubyLevelMethod methodAnnotation) {
