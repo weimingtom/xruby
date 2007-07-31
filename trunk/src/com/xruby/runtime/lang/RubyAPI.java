@@ -197,9 +197,6 @@ public class RubyAPI {
     public static RubyValue callPublicOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid) {
         assert(null != arg);
         RubyMethod m = receiver.findPublicMethod(mid);
-        if (mid == RubyID.toSID) {
-        	System.out.println();
-        }
         if (null != m && !UndefMethod.isUndef(m)) {
             return invokeMethod(m, receiver, arg, block);
         }

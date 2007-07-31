@@ -7,28 +7,28 @@ package com.xruby.runtime.lang;
 
 class ClassFactory {
     public static RubyClass defineClass(String name, RubyClass superclass) {
-        if (superclass == null) {
-          superclass = RubyRuntime.ObjectClass;
-        }
+    	if (superclass == null) {
+    		superclass = RubyRuntime.ObjectClass;
+    	}
 
-        RubyValue value = RubyRuntime.ObjectClass.getConstant(name);
-        if (value != null) {
-            if (!(value instanceof RubyClass)) {
-                throw new RubyException(RubyRuntime.TypeErrorClass, name + " is not a class");
-            }
+    	RubyValue value = RubyRuntime.ObjectClass.getConstant(name);
+    	if (value != null) {
+    		if (!(value instanceof RubyClass)) {
+    			throw new RubyException(RubyRuntime.TypeErrorClass, name + " is not a class");
+    		}
 
-            RubyClass klass = (RubyClass)value;
+    		RubyClass klass = (RubyClass)value;
 
-            if (klass.getSuperClass().getRealClass() != superclass) {
-                throw new RubyException(RubyRuntime.NameErrorClass, name + " is already defined");
-            }
+    		if (klass.getSuperClass().getRealClass() != superclass) {
+    			throw new RubyException(RubyRuntime.NameErrorClass, name + " is already defined");
+    		}
 
-            // FIXME: remove this method
-            klass.setAccessPublic();
+    		// FIXME: remove this method
+    		klass.setAccessPublic();
 
-            ObjectSpace.add(klass);
-            return klass;
-        }
+    		ObjectSpace.add(klass);
+    		return klass;
+    	}
 
         RubyClass klass = makeRubyClass(superclass);
         

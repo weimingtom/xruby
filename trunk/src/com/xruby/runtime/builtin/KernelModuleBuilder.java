@@ -863,6 +863,42 @@ class Kernel_sleep extends RubyOneArgMethod {
     }
 }
 
+class Kernel_freeze extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        receiver.freeze();
+        return receiver;
+    }
+}
+
+class Kernel_frozen_question extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        return receiver.frozen() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+    }
+}
+
+class Kernel_object_id extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        //Object.hashCode() javadoc:
+        //As much as is reasonably practical, the hashCode method defined
+        //by class Object does return distinct integers for distinct objects.
+        return ObjectFactory.createFixnum(receiver.hashCode());
+    }
+}
+
+class Kernel_extend extends RubyVarArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        if (null == args) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
+        }
+
+        for (RubyValue v : args) {
+            RubyAPI.callPublicOneArgMethod(v, receiver, null, RubyID.extendObjectID);
+        }
+
+        return receiver;
+    }
+}
+
 public class KernelModuleBuilder {
     public static void initialize() {
         RubyModule m = RubyRuntime.KernelModule;
@@ -946,6 +982,16 @@ public class KernelModuleBuilder {
         m.defineMethod("sub", new Kernel_gsub());//TODO sub != gsub
         m.defineMethod("sleep", new Kernel_sleep());
         m.setAccessPublic();
+        
+        m.defineMethod("freeze", new Kernel_freeze());
+        m.defineMethod("frozen?", new Kernel_frozen_question());
+        
+        RubyMethod object_id = new Kernel_object_id();
+        m.defineMethod("object_id", object_id);
+        m.defineMethod("__id__", object_id);
+        m.defineMethod("hash", object_id);
+        
+        m.defineMethod("extend", new Kernel_extend());
 
         RubyRuntime.ObjectClass.includeModule(m);
     }

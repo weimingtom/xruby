@@ -26,7 +26,7 @@ public class RubyRuntime {
     public static RubyModule MathModule;
     public static RubyModule ObjectSpaceModule;
     public static RubyModule ProcessModule;
-    public static RubyClass BingingClass;
+    public static RubyClass BindingClass;
     public static RubyClass NilClassClass;
     public static RubyClass TrueClassClass;
     public static RubyClass FalseClassClass;
@@ -91,7 +91,7 @@ public class RubyRuntime {
         metaClass = new RubySingletonClass(ClassClass, metaClass);
 
         KernelModule = RubyAPI.defineModule("Kernel");
-
+        
         ComparableModule = RubyAPI.defineModule("Comparable");
         EnumerableModule = RubyAPI.defineModule("Enumerable");
         ErrnoModule = RubyAPI.defineModule("Errno");
@@ -102,10 +102,13 @@ public class RubyRuntime {
         ObjectSpaceModule = RubyAPI.defineModule("ObjectSpace");
         ProcessModule = RubyAPI.defineModule("Process");
 
-        BingingClass = RubyAPI.defineClass("Binding", RubyRuntime.ObjectClass);
+        BindingClass = RubyAPI.defineClass("Binding", RubyRuntime.ObjectClass);
         NilClassClass = RubyAPI.defineClass("NilClass", RubyRuntime.ObjectClass);
         TrueClassClass = RubyAPI.defineClass("TrueClass", RubyRuntime.ObjectClass);
         FalseClassClass = RubyAPI.defineClass("FalseClass", RubyRuntime.ObjectClass);
+        
+        RubyTypeFactory.getClass(RubyObject.class);
+        
         NumericClass = RubyAPI.defineClass("Numeric", RubyRuntime.ObjectClass);
         IntegerClass = RubyAPI.defineClass("Integer", RubyRuntime.NumericClass);
         FixnumClass = RubyAPI.defineClass("Fixnum", RubyRuntime.IntegerClass);
@@ -149,7 +152,7 @@ public class RubyRuntime {
         LoadErrorClass = RubyAPI.defineClass("LoadError", ScriptErrorClass);
         NotImplementedErrorClass = RubyAPI.defineClass("NotImplementedError", ScriptErrorClass);
 
-        ObjectClassBuilder.initialize();
+//        ObjectClassBuilder.initialize();
         ModuleClassBuilder.initialize();
         ClassClassBuilder.initialize();
         KernelModuleBuilder.initialize();
