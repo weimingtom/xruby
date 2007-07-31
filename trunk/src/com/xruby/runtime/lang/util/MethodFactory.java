@@ -14,6 +14,7 @@ import com.xruby.compiler.XRubyClassLoader;
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.ClassDumper;
 import com.xruby.runtime.lang.RubyMethod;
+import com.xruby.runtime.lang.annotation.MethodType;
 
 public class MethodFactory {
 	private static final XRubyClassLoader cl = new XRubyClassLoader();
@@ -58,27 +59,29 @@ public class MethodFactory {
 	private RubyMethod loadMethod(String name, MethodType type, boolean singleton, boolean block) {
 		String invokerName = getInvokerName(name, block);
 		Class klass = tryClass(invokerName);
-		try {
-			if (klass == null) {
-				klass = createMethodClass(invokerName, name, type, singleton, block);
-			}
-			
+		if (klass == null) {
+			klass = createMethodClass(invokerName, name, type, singleton, block);
+		}
+		
+		try {	
 			return (RubyMethod)klass.newInstance();
-		} catch (Exception e) {
-			return null;
+		} catch (InstantiationException ie) {
+			throw new RuntimeException("fail to create Ruby method", ie);
+		} catch (IllegalAccessException iae) {
+			throw new RuntimeException("fail to create Ruby method", iae);
 		}
 	}
 	
 	private Class tryClass(String name) {
 		try {
 			return cl.load(name);
-		} catch (Exception e) {
+		} catch (ClassNotFoundException e) {
 			return null;
 		}
 	}
 
 	private Class createMethodClass(String invokerName, String name, MethodType type, 
-			boolean singleton, boolean block) throws Exception {
+			boolean singleton, boolean block) {
 		MethodFactoryHelper helper = MethodFactoryHelper.getHelper(type);		
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		ClassVisitor cv = new CheckClassAdapter(cw);

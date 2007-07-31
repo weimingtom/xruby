@@ -10,6 +10,7 @@ import com.xruby.runtime.lang.util.RubyTypeFactory;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyMethodValue;
+import com.xruby.runtime.value.RubyThreadGroup;
 
 public class RubyRuntime {
     public static RubyClass ObjectClass;
@@ -113,7 +114,7 @@ public class RubyRuntime {
         FloatClass = RubyAPI.defineClass("Float", RubyRuntime.NumericClass);
         ArrayClass = RubyAPI.defineClass("Array", RubyRuntime.ObjectClass);
         HashClass = RubyAPI.defineClass("Hash", RubyRuntime.ObjectClass);
-        SymbolClass = RubyAPI.defineClass("Symbol", RubyRuntime.ObjectClass);
+        SymbolClass = RubyTypeFactory.getClass(RubySymbol.class);// RubyAPI.defineClass("Symbol", RubyRuntime.ObjectClass);
         IOClass = RubyAPI.defineClass("IO", RubyRuntime.ObjectClass);
         ProcClass = RubyAPI.defineClass("Proc", RubyRuntime.ObjectClass);
         RangeClass = RubyAPI.defineClass("Range", RubyRuntime.ObjectClass);
@@ -124,7 +125,7 @@ public class RubyRuntime {
         MatchDataClass = RubyAPI.defineClass("MatchData", RubyRuntime.ObjectClass);
         DirClass = RubyAPI.defineClass("Dir", RubyRuntime.ObjectClass);
         StructClass = RubyAPI.defineClass("Struct", RubyRuntime.ObjectClass);
-        ThreadGroupClass = RubyAPI.defineClass("ThreadGroup", RubyRuntime.ObjectClass);
+        ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);//RubyAPI.defineClass("ThreadGroup", RubyRuntime.ObjectClass);
         ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);
 		UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);//RubyAPI.defineClass("UnboundMethod", RubyRuntime.ObjectClass);
 
@@ -164,7 +165,7 @@ public class RubyRuntime {
         FloatClassBuilder.initialize();
         ArrayClassBuilder.initialize();
         HashClassBuilder.initialize();
-        SymbolClassBuilder.initialize();
+//        SymbolClassBuilder.initialize();
         IOClassBuilder.initialize();
         ProcClassBuilder.initialize();
         RangeClassBuilder.initialize();
@@ -178,7 +179,7 @@ public class RubyRuntime {
         StructClassBuilder.initialize();
         ExceptionClassBuilder.initialize();
         ThreadClassBuilder.initialize();
-        ThreadGroupClassBuilder.initialize();
+//        ThreadGroupClassBuilder.initialize();
         FileTestModuleBuilder.initialize();
         ObjectSpaceModuleBuilder.initialize();
     }

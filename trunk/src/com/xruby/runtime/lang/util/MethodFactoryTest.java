@@ -11,6 +11,7 @@ import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyNoArgBlock;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 

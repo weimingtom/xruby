@@ -3,6 +3,7 @@ package com.xruby.runtime.lang.util;
 import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.annotation.MethodType;
 
 import junit.framework.TestCase;
 

@@ -1,4 +1,4 @@
-package com.xruby.runtime.lang.util;
+package com.xruby.runtime.lang.annotation;
 
 public enum MethodType {
 	NO_ARG, 

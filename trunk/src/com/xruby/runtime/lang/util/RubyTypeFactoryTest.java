@@ -7,7 +7,9 @@ import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelConstant;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelModule;
 
@@ -25,8 +27,14 @@ public class RubyTypeFactoryTest extends TestCase {
 		RubyValue result = RubyAPI.callNoArgMethod(value, null, RubyID.intern("test"));
 		assertEquals(RubyConstant.QNIL, result);
 		
+		result = RubyAPI.callNoArgMethod(value, null, RubyID.intern("another_test"));
+		assertEquals(RubyConstant.QNIL, result);
+		
 		result = RubyAPI.callNoArgMethod(value, null, RubyID.intern("test_module"));
 		assertEquals(result, result);
+		
+		RubyValue nil = value.getRubyClass().getConstant("NIL");
+		assertEquals(RubyConstant.QNIL, nil);
 	}
 	
 	public void testLoadFactoryTwice() {
@@ -36,6 +44,10 @@ public class RubyTypeFactoryTest extends TestCase {
 	
 	@RubyLevelClass(name="ClassFactory", modules="ClassFactoryModule")
 	public static class ClassFactoryValue extends RubyValue {
+		
+		@RubyLevelConstant(name="NIL")		
+		public static RubyValue nil = RubyConstant.QNIL;
+		
 		public RubyClass getRubyClass() {
             return (RubyClass)RubyRuntime.ObjectClass.getConstant("ClassFactory");
         }
@@ -44,7 +56,7 @@ public class RubyTypeFactoryTest extends TestCase {
         	
         }
         
-		@RubyLevelMethod(name="test", type=MethodType.NO_ARG)
+		@RubyLevelMethod(name="test", type=MethodType.NO_ARG, alias="another_test")
 		public RubyValue test() {
 			return RubyConstant.QNIL;
 		}
