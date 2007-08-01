@@ -13,14 +13,16 @@ import java.util.Map;
 
 /*
 'return' inside a block will cause return in the method, for example:
-	def f
-		1.times {return 1}
-	end
+    def f
+        1.times {return 1}
+    end
 Or worse (compile-time undetectable):
-	def f
-		Proc.new{return 1}.call()
-	end
+    def f block; block.call; print 'yyy'; end
+    def test_return2; a = Proc.new {return}; f a; end
+    test_return2
+
 so we need to check if this happend after each function call.
+
 As java does not support multiple return value, we made RubyValue
 subclass of BlockCallStatus. 	Should be replaced with a 'Context' object
 in the future.
