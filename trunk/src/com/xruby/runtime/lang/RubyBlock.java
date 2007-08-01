@@ -85,7 +85,7 @@ public abstract class RubyBlock extends MethodBlockBase {
     }
 
     public boolean returned() {
-        return __return__;
+        return createdByLambda_ ? false : __return__;
     }
 
     public boolean shouldRetry() {

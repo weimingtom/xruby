@@ -17,7 +17,7 @@ class Proc_call extends RubyVarArgMethod {
         RubyValue v = ((RubyProc)receiver).call(args);
         block = ((RubyProc)receiver).getBlock();
         if (null != block) {
-            v.setReturnedInBlock(block.createdByLambda() ? false : block.returned(), block.breakedOrReturned(), !block.createdByLambda());
+            v.setReturnedInBlock(block.returned(), block.breakedOrReturned(), !block.createdByLambda());
         } else {
             v.setReturnedInBlock(false, false, false);
         }
