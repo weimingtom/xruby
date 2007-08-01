@@ -141,7 +141,7 @@ class Thread_priority extends RubyNoArgMethod {
 
 class Thread_set_priority extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        int val = RubyTypesUtil.convertToJavaInt(arg);
+        int val = arg.toInt();
         if (val < Thread.MIN_PRIORITY) {
             val = Thread.MIN_PRIORITY;
         } else if (val > Thread.MAX_PRIORITY) {

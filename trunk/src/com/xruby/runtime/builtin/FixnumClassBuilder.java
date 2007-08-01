@@ -13,55 +13,10 @@ import com.xruby.runtime.value.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-class Fixnum_operator_right_shift extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyFixnum value1 = (RubyFixnum) receiver;
-        int value2 = arg.toInt();
-        if (value2 < 0) {
-            BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
-            bigValue1 = bigValue1.shiftLeft(-value2);
-            return RubyBignum.bignorm(bigValue1);
-        }
-        return ObjectFactory.createFixnum(value1.intValue() >> value2);
-    }
-}
-
-class Fixnum_operator_left_shift extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyFixnum value1 = (RubyFixnum) receiver;
-        int value2 = arg.toInt();
-        if (value2 <= 0) {
-            return ObjectFactory.createFixnum(value1.intValue() >> -value2);
-        }
-        BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
-        return RubyBignum.bignorm(bigValue1.shiftLeft(value2));
-    }
-}
-
-class Fixnum_operator_equal extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyFixnum value1 = (RubyFixnum) receiver;
-        boolean result = false;
-        if (arg instanceof RubyFloat) {
-            double floatValue1 = value1.intValue();
-            double floatValue2 = ((RubyFloat) arg).doubleValue();
-            result = (floatValue1 == floatValue2);
-        } else if (arg instanceof RubyFixnum) {
-            RubyFixnum value2 = (RubyFixnum) arg;
-            result = (value1.intValue() == value2.intValue());
-        }
-
-        if (result) {
-            return ObjectFactory.TRUE_VALUE;
-        }
-
-        return ObjectFactory.FALSE_VALUE;
-    }
-}
 
 //C Ruby does not need this function since it can compare integer directly
-class Fixnum_operator_case_equal extends Fixnum_operator_equal {
-}
+//class Fixnum_operator_case_equal extends Fixnum_operator_equal {
+//}
 
 class Fixnum_operator_less_or_equal extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
@@ -394,47 +349,20 @@ class Fixnum_operator_bxor extends RubyOneArgMethod {
     }
 }
 
-class Fixnum_quo extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyFixnum value1 = (RubyFixnum) receiver;
-        RubyFixnum value2 = (RubyFixnum) arg;
-        return ObjectFactory.createFloat(value1.intValue() / value2.intValue());
-    }
-}
-
-class Fixnum_to_s extends RubyVarArgMethod {
-    public Fixnum_to_s() {
-        super(1, false, 1);
-    }
-
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        int radix = 10;
-        if (null != args && args.size() == 1) {
-            radix = RubyTypesUtil.convertToJavaInt(args.get(0));
-            if (radix < 2 || radix > 36) {
-                throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
-            }
-        }
-
-        RubyFixnum value = (RubyFixnum) receiver;
-        return ObjectFactory.createString(value.toString(radix));
-    }
-}
-
 public class FixnumClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.FixnumClass;
         MethodFactory factory = MethodFactory.createMethodFactory(RubyFixnum.class);
         
-        c.defineMethod(">>", new Fixnum_operator_right_shift());
-        c.defineMethod("<<", new Fixnum_operator_left_shift());
-        c.defineMethod("==", new Fixnum_operator_equal());
-        c.defineMethod("===", new Fixnum_operator_case_equal());
+        c.defineMethod(">>", factory.getMethod("rshift", MethodType.ONE_ARG));//new Fixnum_operator_right_shift());
+        c.defineMethod("<<", factory.getMethod("lshift", MethodType.ONE_ARG));//new Fixnum_operator_left_shift());
+        c.defineMethod("==", factory.getMethod("opEqual", MethodType.ONE_ARG));//type)new Fixnum_operator_equal());
+        c.defineMethod("===", factory.getMethod("opEqual", MethodType.ONE_ARG));
         c.defineMethod(RubyID.plusID, factory.getMethod("opPlus", MethodType.ONE_ARG));
         c.defineMethod("<=", new Fixnum_operator_less_or_equal());
         c.defineMethod(RubyID.subID, factory.getMethod("opMinus", MethodType.ONE_ARG));
         c.defineMethod("/", new Fixnum_operator_div());
-        c.defineMethod(RubyID.toSID, new Fixnum_to_s());
+        c.defineMethod(RubyID.toSID, factory.getMethod("to_s", MethodType.NO_OR_ONE_ARG));
         c.defineMethod("%", new Fixnum_operator_mod());
         c.defineMethod("|", new Fixnum_operator_bor());
         c.defineMethod("&", new Fixnum_operator_band());
@@ -448,6 +376,6 @@ public class FixnumClassBuilder {
         c.defineMethod("to_f", factory.getMethod("convertToFloat", MethodType.NO_ARG));
         c.defineMethod("**", new Fixnum_operator_star_star());
         c.defineMethod("~", factory.getMethod("opRev", MethodType.NO_ARG));
-        c.defineMethod("quo", new Fixnum_quo());
+        c.defineMethod("quo", factory.getMethod("quo", MethodType.ONE_ARG));//new Fixnum_quo());
     }
 }

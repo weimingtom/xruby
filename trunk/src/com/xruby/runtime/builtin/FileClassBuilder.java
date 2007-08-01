@@ -222,7 +222,7 @@ class File_rename extends RubyTwoArgMethod {
 class File_truncate extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyFile f = (RubyFile)receiver;
-        int length = RubyTypesUtil.convertToJavaInt(arg);
+        int length = arg.toInt();
         f.truncate(length);
         return ObjectFactory.FIXNUM0;
     }

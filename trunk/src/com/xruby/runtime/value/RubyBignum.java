@@ -29,6 +29,10 @@ public class RubyBignum extends RubyBasic {
         super(RubyRuntime.BignumClass);
         value_ = value;
     }
+    
+    public int toInt() {
+		return this.value_.intValue();
+	}
 
     public String to_s() {
         return value_.toString(10);

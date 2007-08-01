@@ -18,4 +18,8 @@ public class RubyFloat extends RubyBasic {
 	public double doubleValue() {
 		return value_;
 	}
+	
+	public int toInt() {
+		return (int)this.value_;
+	}
 }
