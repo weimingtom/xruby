@@ -92,6 +92,10 @@ public class RubyRuntime {
 
         KernelModule = RubyAPI.defineModule("Kernel");
         
+        NilClassClass = RubyAPI.defineClass("NilClass", RubyRuntime.ObjectClass);
+        TrueClassClass = RubyAPI.defineClass("TrueClass", RubyRuntime.ObjectClass);
+        FalseClassClass = RubyAPI.defineClass("FalseClass", RubyRuntime.ObjectClass);
+        
         ComparableModule = RubyAPI.defineModule("Comparable");
         EnumerableModule = RubyAPI.defineModule("Enumerable");
         ErrnoModule = RubyAPI.defineModule("Errno");
@@ -99,13 +103,11 @@ public class RubyRuntime {
         GCModule = RubyAPI.defineModule("GC");
         MarshalModule = RubyAPI.defineModule("Marshal");
         MathModule = RubyAPI.defineModule("Math");
-        ObjectSpaceModule = RubyAPI.defineModule("ObjectSpace");
+        ObjectSpaceModule = RubyTypeFactory.getModule(ObjectSpace.class);//RubyAPI.defineModule("ObjectSpace");
         ProcessModule = RubyAPI.defineModule("Process");
 
         BindingClass = RubyAPI.defineClass("Binding", RubyRuntime.ObjectClass);
-        NilClassClass = RubyAPI.defineClass("NilClass", RubyRuntime.ObjectClass);
-        TrueClassClass = RubyAPI.defineClass("TrueClass", RubyRuntime.ObjectClass);
-        FalseClassClass = RubyAPI.defineClass("FalseClass", RubyRuntime.ObjectClass);
+        
         
         RubyTypeFactory.getClass(RubyObject.class);
         
@@ -184,7 +186,7 @@ public class RubyRuntime {
         ThreadClassBuilder.initialize();
 //        ThreadGroupClassBuilder.initialize();
         FileTestModuleBuilder.initialize();
-        ObjectSpaceModuleBuilder.initialize();
+//        ObjectSpaceModuleBuilder.initialize();
     }
 
     private static void initARGV(String[] args) {

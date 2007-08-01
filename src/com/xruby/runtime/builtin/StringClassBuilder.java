@@ -504,8 +504,8 @@ class String_access extends RubyVarArgMethod {
                 }
             } else if (arg instanceof RubyRange) {
                 RubyRange range = (RubyRange) arg;
-                int start = RubyTypesUtil.convertToJavaInt(range.getLeft());
-                int end = RubyTypesUtil.convertToJavaInt(range.getRight());
+                int start = range.getLeft().toInt();
+                int end = range.getRight().toInt();
                 return substring(string, start, end, range.isExcludeEnd());
             } else if (arg instanceof RubyRegexp) {
                 RubyRegexp regexp = (RubyRegexp) arg;
@@ -516,7 +516,7 @@ class String_access extends RubyVarArgMethod {
                     return ObjectFactory.NIL_VALUE;
                 }
             } else {
-                int index = RubyTypesUtil.convertToJavaInt(arg);
+                int index = arg.toInt();
                 if (index < 0) {
                     index = string.length() + index;
                 }
@@ -528,8 +528,8 @@ class String_access extends RubyVarArgMethod {
                 }
             }
         } else {
-            int start = RubyTypesUtil.convertToJavaInt(args.get(0));
-            int length = RubyTypesUtil.convertToJavaInt(args.get(1)) - 1;
+            int start = args.get(0).toInt();
+            int length = args.get(1).toInt() - 1;
 
             return substring(string, start, start + length, false);
         }
@@ -582,8 +582,8 @@ class String_access_set extends RubyVarArgMethod {
                 }
             } else if (arg instanceof RubyRange) {
                 RubyRange range = (RubyRange) arg;
-                start = RubyTypesUtil.convertToJavaInt(range.getLeft());
-                end = RubyTypesUtil.convertToJavaInt(range.getRight());
+                start = range.getLeft().toInt();
+                end = range.getRight().toInt();
                 if (start >= string.length()) {
                     throw new RubyException(RubyRuntime.RangeClass, range.toString() + " out of range");
                 }
@@ -598,14 +598,14 @@ class String_access_set extends RubyVarArgMethod {
                     throw new RubyException(RubyRuntime.IndexErrorClass, "regexp not matched");
                 }
             } else {
-                start = RubyTypesUtil.convertToJavaInt(arg);
+                start = arg.toInt();
                 end = start + 1;
             }
         } else {
             replacement = ((RubyString) args.get(2)).toString();
 
-            start = RubyTypesUtil.convertToJavaInt(args.get(0));
-            end = RubyTypesUtil.convertToJavaInt(args.get(1)) + start;
+            start = args.get(0).toInt();
+            end = args.get(1).toInt() + start;
             if (start >= string.length()) {
                 throw new RubyException(RubyRuntime.RangeClass, String.format("index %d out of string", start));
             }
@@ -631,7 +631,7 @@ class String_access_set extends RubyVarArgMethod {
 class String_operator_star extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String string = ((RubyString) receiver).toString();
-        int count = RubyTypesUtil.convertToJavaInt(arg);
+        int count = arg.toInt();
         if (count < 0) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
         }
