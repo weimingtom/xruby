@@ -46,7 +46,7 @@ public class Types {
     public static final Type RUBY_METHOD_TYPE = Type.getType(RubyMethod.class);
 	static final Type METHOD_BLOCK_BASE_TYPE = Type.getType(MethodBlockBase.class);
     static final Type RUBY_ARRAY_TYPE = Type.getType(RubyArray.class);
-    static final Type RUBY_VALUE_TYPE = Type.getType(RubyValue.class);
+    public static final Type RUBY_VALUE_TYPE = Type.getType(RubyValue.class);
     static final Type RUBY_PROC_TYPE = Type.getType(RubyProc.class);
     static final Type RUBY_BINDING_TYPE = Type.getType(RubyBinding.class);
     static final Type RUBY_HASH_TYPE = Type.getType(RubyHash.class);

@@ -20,8 +20,13 @@ public class MethodFactory {
 	private static final XRubyClassLoader cl = new XRubyClassLoader();
 	private static final ClassDumper dumper = new ClassDumper();
 	
-	private Class klass;
+	private Class hostClass;
+	private Class castClass;
 	private boolean module;
+	
+	public static MethodFactory createMethodFactory(Class hostClass, Class castClass) {
+		return new MethodFactory(hostClass, castClass, false);
+	}
 	
 	public static MethodFactory createMethodFactory(Class klass) {
 		return new MethodFactory(klass, false);
@@ -32,7 +37,12 @@ public class MethodFactory {
 	}
 	
 	private MethodFactory(Class klass, boolean module) {
-		this.klass = klass;
+		this(klass, klass, module);
+	}
+	
+	private MethodFactory(Class hostClass, Class castClass, boolean module) {
+		this.hostClass = hostClass;
+		this.castClass = castClass;
 		this.module = module;
 	}
 	
@@ -87,7 +97,7 @@ public class MethodFactory {
 		ClassVisitor cv = new CheckClassAdapter(cw);
 		
 		startInvoker(cv, helper, invokerName);
-		helper.createRunMethod(cv, this.klass, name, (singleton | this.module), block);
+		helper.createRunMethod(cv, this.hostClass, this.castClass, name, (singleton | this.module), block);
 		endInvoker(cv);
 		
 		return loadClass(invokerName, cw);
@@ -95,7 +105,7 @@ public class MethodFactory {
 
 	private String getInvokerName(String name, boolean block) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(klass.getName());
+		sb.append(hostClass.getName());
 		sb.append("$");
 		sb.append(name);
 		if (block) {

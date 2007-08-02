@@ -15,6 +15,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
+import com.xruby.compiler.codegen.Types;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.RubyArray;
@@ -25,19 +26,19 @@ public abstract class RunMethodHelper {
 	protected abstract void loadArgs(GeneratorAdapter mg);
 	protected abstract int rubyArgSize();
 	
-	public void createRunMethod(ClassVisitor cv, Class klass, String name, 
+	public void createRunMethod(ClassVisitor cv, Class hostClass, Class castClass, String name, 
 			boolean staticMethod, boolean block) {
-		Type type = Type.getType(klass);
-		
 		Class[] params = getParamType(staticMethod, block);
 		Class returnClass;
 		try {
-			returnClass = klass.getMethod(name, params).getReturnType();
+			returnClass = hostClass.getMethod(name, params).getReturnType();
 		} catch (NoSuchMethodException nsme) {
 			throw new IllegalArgumentException("no such method: " + name);
 		}
 		String methodName = CgUtil.getMethodName(name, returnClass, params);
 		GeneratorAdapter mg = startRun(getRunName(), cv);
+		
+		Type type = Type.getType(castClass);
 		loadReceiver(mg, type, staticMethod);	
 		loadArgs(mg);
 		
@@ -86,7 +87,7 @@ public abstract class RunMethodHelper {
 	protected void loadReceiver(GeneratorAdapter mg, Type type, boolean module) {
 		mg.loadArg(0);
 		
-		if (!module && !Type.getType(RubyValue.class).equals(type)) {
+		if (!module && !Types.RUBY_VALUE_TYPE.equals(type)) {
 			mg.checkCast(type);
 		}
 	}
