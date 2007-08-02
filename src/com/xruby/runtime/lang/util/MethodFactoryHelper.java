@@ -24,10 +24,10 @@ class MethodFactoryHelper {
 		return this.superType;
 	}
 	
-	public void createRunMethod(ClassVisitor cv, Class klass, String name, 
-			boolean staticMethod, boolean block) {
+	public void createRunMethod(ClassVisitor cv, Class hostClass, Class castClass, 
+			String name, boolean staticMethod, boolean block) {
 		for (RunMethodHelper helper : this.helpers) {
-			helper.createRunMethod(cv, klass, name, staticMethod, block);
+			helper.createRunMethod(cv, hostClass, castClass, name, staticMethod, block);
 		}
 	}
 
