@@ -57,6 +57,8 @@ public class RubyID {
 	public static final RubyID matchID = intern("=~");
 	public static final RubyID subID = intern("-");
 	public static final RubyID plusID = intern("+");
+	public static final RubyID mulID = intern("*");
+	public static final RubyID divID = intern("/");
 
 	public static final RubyID toFID = intern("to_f");
 	public static final RubyID toIID = intern("to_i");
@@ -75,6 +77,7 @@ public class RubyID {
 	public static final RubyID inspectID = intern("inspect");
 	public static final RubyID initializeId = intern("initialize");
 	public static final RubyID inheritedID = intern("inherited");
+	public static final RubyID coerceID = intern("coerce");
 	
 	private RubyID(long id) {
 		this(id, null);

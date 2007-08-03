@@ -255,6 +255,36 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
+    
+    public void test_Numeric_Coerce() {
+        String[] program_texts = {
+                "class A\n" 
+        		+ "def coerce other\n" 
+                + "if Integer === other\n" 
+                + "[other, 5]\n" 
+                + "else\n" 
+                + "[Float(other), 5.0]\n" 
+        		+ "end\n"
+                + "end\n"
+                + "end\n"
+                + "\n\n"
+                + "o = A.new\n"
+                + "print 1 + o\n"
+                + "print 1.0 + o\n"
+                + "print 5 - o\n"
+                + "print 5.0 - o\n"
+                + "print 1 * o\n"
+                + "print 1.0 * o\n"
+                + "print 1 / o\n"
+                + "print 1.0 / o\n"
+        };
+        
+        String[] outputs = {
+        		"66.000.055.000.2"
+        };
+        
+        compile_run_and_compare_output(program_texts, outputs);
+    }
 
     public void test_Float_Integer() {
         String[] program_texts = {
