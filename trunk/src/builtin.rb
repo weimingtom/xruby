@@ -619,10 +619,6 @@ class Numeric
         (self/value).floor
     end
 
-    def coerce(value)
-        [self, value]
-    end
-
     def divmod(value)
         [(self/value).floor, self % value]
     end

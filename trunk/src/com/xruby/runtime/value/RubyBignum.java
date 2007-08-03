@@ -10,31 +10,42 @@ import java.math.BigInteger;
 
 import com.xruby.runtime.lang.*;
 
-public class RubyBignum extends RubyBasic {
+public class RubyBignum extends RubyInteger {
     private static final BigInteger FIXNUM_MAX = BigInteger.valueOf(Integer.MAX_VALUE);
     private static final BigInteger FIXNUM_MIN = BigInteger.valueOf(Integer.MIN_VALUE);
     private BigInteger value_;
+    private RubyClass klass;
 
     RubyBignum(String value, int radix) {
-        super(RubyRuntime.BignumClass);
-        value_ = new BigInteger(value, radix);
+        this(new BigInteger(value, radix));
     }
 
     RubyBignum(String value) {
-        super(RubyRuntime.BignumClass);
-        value_ = new BigInteger(value);
+        this(new BigInteger(value));
     }
 
     RubyBignum(BigInteger value) {
-        super(RubyRuntime.BignumClass);
         value_ = value;
+        this.klass = RubyRuntime.BignumClass;
     }
+    
+	public RubyClass getRubyClass() {
+		return this.klass;
+	}
+
+	public void setRubyClass(RubyClass klass) {
+		this.klass = klass;
+	}
     
     public int toInt() {
 		return this.value_.intValue();
 	}
+    
+	public double toFloat() {
+		return this.value_.doubleValue();
+	}
 
-    public String to_s() {
+	public String to_s() {
         return value_.toString(10);
     }
 
@@ -58,8 +69,19 @@ public class RubyBignum extends RubyBasic {
         int alignedBytesCount = (((value_.bitLength() - 1) & -32) >> 3) + 4;
         return alignedBytesCount;
     }
+    
+	public RubyArray coerce(RubyValue v) {
+		if (v instanceof RubyFixnum) {
+			return new RubyArray(new RubyBignum(BigInteger.valueOf(v.toInt())), this);
+		} else if (v instanceof RubyBignum) {
+			return new RubyArray(v, this);
+		} 
+		
+		throw new RubyException(RubyRuntime.TypeErrorClass, 
+				"can't coerce " + v.getRubyClass().getName() + " to Bignum");
+	}
 
-    public RubyValue op_mul(RubyValue value) {
+	public RubyValue op_mul(RubyValue value) {
         BigInteger result;
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;

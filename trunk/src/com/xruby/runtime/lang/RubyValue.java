@@ -7,6 +7,7 @@ package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyFloat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -148,12 +149,24 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     	return this.contertToArray().toAry();
     }
     
+    public double toFloat() {
+    	return this.converToFloat().toFloat();
+    }
+    
+    public RubyFloat toRubyFloat() {
+    	return ObjectFactory.createFloat(this.toFloat());
+    }
+    
     private RubyValue convertToInteger() {
     	return convertToType(RubyRuntime.IntegerClass, RubyID.toIntID);
     }
     
     private RubyValue contertToArray() {
     	return convertToType(RubyRuntime.ArrayClass, RubyID.toAryID);
+    }
+    
+    private RubyValue converToFloat() {
+    	return convertToType(RubyRuntime.FloatClass, RubyID.toFID);
     }
     
     private RubyValue convertToType(RubyClass klass, RubyID id) {

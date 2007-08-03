@@ -173,51 +173,6 @@ class Fixnum_operator_greater_or_equal extends RubyOneArgMethod {
     }
 }
 
-class Fixnum_operator_minus extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyFixnum value1 = (RubyFixnum) receiver;
-        if (arg instanceof RubyBignum) {
-            BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
-            BigInteger bigValue2 = ((RubyBignum) arg).getInternal();
-            return RubyBignum.bignorm(bigValue1.subtract(bigValue2));
-        } else if (arg instanceof RubyFixnum) {
-            RubyFixnum fixnumValue2 = (RubyFixnum) arg;
-            long result = (long) value1.intValue() - (long) fixnumValue2.intValue();
-            return RubyBignum.bignorm(result);
-        } else if (arg instanceof RubyFloat) {
-            double floatValue1 = value1.intValue();
-            double floatValue2 = ((RubyFloat) arg).doubleValue();
-            return ObjectFactory.createFloat(floatValue1 - floatValue2);
-        }
-        throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Fixnum");
-    }
-}
-
-class Fixnum_operator_div extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyFixnum value1 = (RubyFixnum) receiver;
-        if (arg instanceof RubyBignum) {
-            BigInteger bigValue1 = BigInteger.valueOf(value1.intValue());
-            BigInteger bigValue2 = ((RubyBignum) arg).getInternal();
-            return RubyBignum.bignorm(bigValue1.divide(bigValue2));
-        } else if (arg instanceof RubyFixnum) {
-            int intValue1 = value1.intValue();
-            int intValue2 = ((RubyFixnum) arg).intValue();
-            int div = intValue1 / intValue2;
-            int mod = intValue1 - div * intValue2;
-            if (mod != 0 && div < 0) {
-                --div;
-            }
-            return RubyBignum.bignorm(div);
-        } else if (arg instanceof RubyFloat) {
-            double floatValue1 = value1.intValue();
-            double floatValue2 = ((RubyFloat) arg).doubleValue();
-            return ObjectFactory.createFloat(floatValue1 / floatValue2);
-        }
-        throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Fixnum");
-    }
-}
-
 class Fixnum_operator_mod extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyFixnum value1 = (RubyFixnum) receiver;
@@ -354,20 +309,20 @@ public class FixnumClassBuilder {
         RubyClass c = RubyRuntime.FixnumClass;
         MethodFactory factory = MethodFactory.createMethodFactory(RubyFixnum.class);
         
-        c.defineMethod(">>", factory.getMethod("rshift", MethodType.ONE_ARG));//new Fixnum_operator_right_shift());
-        c.defineMethod("<<", factory.getMethod("lshift", MethodType.ONE_ARG));//new Fixnum_operator_left_shift());
-        c.defineMethod("==", factory.getMethod("opEqual", MethodType.ONE_ARG));//type)new Fixnum_operator_equal());
+        c.defineMethod(">>", factory.getMethod("rshift", MethodType.ONE_ARG));
+        c.defineMethod("<<", factory.getMethod("lshift", MethodType.ONE_ARG));
+        c.defineMethod("==", factory.getMethod("opEqual", MethodType.ONE_ARG));
         c.defineMethod("===", factory.getMethod("opEqual", MethodType.ONE_ARG));
         c.defineMethod(RubyID.plusID, factory.getMethod("opPlus", MethodType.ONE_ARG));
         c.defineMethod("<=", new Fixnum_operator_less_or_equal());
         c.defineMethod(RubyID.subID, factory.getMethod("opMinus", MethodType.ONE_ARG));
-        c.defineMethod("/", new Fixnum_operator_div());
+        c.defineMethod("/", factory.getMethod("opDiv", MethodType.ONE_ARG));
         c.defineMethod(RubyID.toSID, factory.getMethod("to_s", MethodType.NO_OR_ONE_ARG));
         c.defineMethod("%", new Fixnum_operator_mod());
         c.defineMethod("|", new Fixnum_operator_bor());
         c.defineMethod("&", new Fixnum_operator_band());
         c.defineMethod("<", new Fixnum_operator_less_than());
-        c.defineMethod("div", new Fixnum_operator_div());
+        c.defineMethod("div", factory.getMethod("opDiv", MethodType.ONE_ARG));
         c.defineMethod("<=>", new Fixnum_operator_compare());
         c.defineMethod("^", new Fixnum_operator_bxor());
         c.defineMethod(">", new Fixnum_operator_greater_than());

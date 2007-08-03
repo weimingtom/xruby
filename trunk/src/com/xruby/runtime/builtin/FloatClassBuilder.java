@@ -6,6 +6,8 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.util.MethodFactory;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyBignum;
 import com.xruby.runtime.value.RubyFixnum;
@@ -17,24 +19,6 @@ class Float_to_s extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyFloat value = (RubyFloat) receiver;
         return ObjectFactory.createString(Double.toString(value.doubleValue()));
-    }
-}
-
-class Float_operator_minus extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        double floatValue1 = ((RubyFloat) receiver).doubleValue();
-        Object value2 = arg;
-        double floatValue2 = 0;
-        if (value2 instanceof RubyBignum) {
-            floatValue2 = ((RubyBignum) value2).getInternal().doubleValue();
-        } else if (value2 instanceof RubyFixnum) {
-            floatValue2 = ((RubyFixnum) value2).intValue();
-        } else if (value2 instanceof RubyFloat) {
-            floatValue2 = ((RubyFloat) value2).doubleValue();
-        } else {
-            throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
-        }
-        return ObjectFactory.createFloat(floatValue1 - floatValue2);
     }
 }
 
@@ -131,60 +115,6 @@ class Float_operator_mod extends RubyOneArgMethod {
     }
 }
 
-class Float_operator_plus extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        double floatValue1 = ((RubyFloat) receiver).doubleValue();
-        Object value2 = arg;
-        double floatValue2 = 0;
-        if (value2 instanceof RubyBignum) {
-            floatValue2 = ((RubyBignum) value2).getInternal().doubleValue();
-        } else if (value2 instanceof RubyFixnum) {
-            floatValue2 = ((RubyFixnum) value2).intValue();
-        } else if (value2 instanceof RubyFloat) {
-            floatValue2 = ((RubyFloat) value2).doubleValue();
-        } else {
-            throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
-        }
-        return ObjectFactory.createFloat(floatValue1 + floatValue2);
-    }
-}
-
-class Float_operator_star extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        double floatValue1 = ((RubyFloat) receiver).doubleValue();
-        Object value2 = arg;
-        double floatValue2 = 0;
-        if (value2 instanceof RubyBignum) {
-            floatValue2 = ((RubyBignum) value2).getInternal().doubleValue();
-        } else if (value2 instanceof RubyFixnum) {
-            floatValue2 = ((RubyFixnum) value2).intValue();
-        } else if (value2 instanceof RubyFloat) {
-            floatValue2 = ((RubyFloat) value2).doubleValue();
-        } else {
-            throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
-        }
-        return ObjectFactory.createFloat(floatValue1 * floatValue2);
-    }
-}
-
-class Float_operator_div extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        double floatValue1 = ((RubyFloat) receiver).doubleValue();
-        Object value2 = arg;
-        double floatValue2 = 0;
-        if (value2 instanceof RubyBignum) {
-            floatValue2 = ((RubyBignum) value2).getInternal().doubleValue();
-        } else if (value2 instanceof RubyFixnum) {
-            floatValue2 = ((RubyFixnum) value2).intValue();
-        } else if (value2 instanceof RubyFloat) {
-            floatValue2 = ((RubyFloat) value2).doubleValue();
-        } else {
-            throw new RubyException(RubyRuntime.TypeErrorClass, arg.getRubyClass().getName() + " can't be coersed into Float");
-        }
-        return ObjectFactory.createFloat(floatValue1 / floatValue2);
-    }
-}
-
 class Float_abs extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         double value = ((RubyFloat) receiver).doubleValue();
@@ -230,11 +160,12 @@ public class FloatClassBuilder {
 
     public static void initialize() {
         RubyClass c = RubyRuntime.FloatClass;
+        MethodFactory factory = MethodFactory.createMethodFactory(RubyFloat.class);
         c.defineMethod(RubyID.toSID, new Float_to_s());
-        c.defineMethod(RubyID.subID, new Float_operator_minus());
-        c.defineMethod(RubyID.plusID, new Float_operator_plus());
-        c.defineMethod("*", new Float_operator_star());
-        c.defineMethod("/", new Float_operator_div());
+        c.defineMethod(RubyID.subID, factory.getMethod("opMinus", MethodType.ONE_ARG));
+        c.defineMethod(RubyID.plusID, factory.getMethod("opPlus", MethodType.ONE_ARG));
+        c.defineMethod("*", factory.getMethod("opMul", MethodType.ONE_ARG));
+        c.defineMethod("/", factory.getMethod("opDiv", MethodType.ONE_ARG));
         c.defineMethod("<=>", new Float_operator_compare());
         c.defineMethod("floor", new Float_floor());
         c.defineMethod("ceil", new Float_ceil());
@@ -246,5 +177,6 @@ public class FloatClassBuilder {
         c.defineMethod("infinite?", new Float_infinite());
         c.defineMethod("nan?", new Float_nan());
         c.defineMethod("to_i", new Float_to_i());
+        c.defineMethod("coerce", factory.getMethod("coerce", MethodType.ONE_ARG));
     }
 }

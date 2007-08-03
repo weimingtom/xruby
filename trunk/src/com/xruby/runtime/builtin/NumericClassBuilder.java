@@ -6,8 +6,11 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.util.MethodFactory;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.value.RubyNumeric;
 
 class Numeric_unary_plus extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
@@ -73,8 +76,10 @@ public class NumericClassBuilder {
 
     public static void initialize() {
         RubyClass c = RubyRuntime.NumericClass;
+        MethodFactory factory = MethodFactory.createMethodFactory(RubyNumeric.class);
         c.defineMethod("+@", new Numeric_unary_plus());
         c.defineMethod("-@", new Numeric_unary_minus());
         c.defineMethod("step", new Numeric_step());
+        c.defineMethod("coerce", factory.getMethod("coerce", MethodType.ONE_ARG));
     }
 }

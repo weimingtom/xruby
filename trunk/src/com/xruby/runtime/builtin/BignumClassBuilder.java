@@ -6,6 +6,8 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.util.MethodFactory;
 import com.xruby.runtime.value.*;
 
 import java.math.BigInteger;
@@ -210,6 +212,7 @@ class Bignum_operator_star_star extends RubyOneArgMethod {
 public class BignumClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.BignumClass;
+        MethodFactory factory = MethodFactory.createMethodFactory(RubyBignum.class);
         c.defineMethod(RubyID.toSID, new Bignum_to_s());
         c.defineMethod("*", new Bignum_operator_star());
         c.defineMethod("/", new Bignum_operator_divide());
@@ -229,5 +232,6 @@ public class BignumClassBuilder {
         c.defineMethod("[]", new Bignum_get_bit());
         c.defineMethod("**", new Bignum_operator_star_star());
         c.defineMethod("initialize", new Bignum_initialize());
+        c.defineMethod("coerce", factory.getMethod("coerce", MethodType.ONE_ARG));
     }
 }

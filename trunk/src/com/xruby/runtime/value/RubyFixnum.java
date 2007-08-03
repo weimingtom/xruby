@@ -13,12 +13,24 @@ import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
 @RubyLevelClass(name="Fixnum", superclass="Integer")
-public class RubyFixnum extends RubySpecialValue {
+public class RubyFixnum extends RubyInteger {
     private final int value_;
 
     RubyFixnum(int i) {
         value_ = i;
     }
+    
+    public void setRubyClass(RubyClass klass) {
+		throw new RubyException(RubyRuntime.TypeErrorClass, this.getRubyClass().getName() + " can't be set class");
+	}
+	
+	public RubyClass getSingletonClass() {
+    	throw new RubyException(RubyRuntime.TypeErrorClass, this.getRubyClass().getName() + " can't define singleton");
+    }
+
+	public RubyValue clone() {
+		throw new RubyException(RubyRuntime.TypeErrorClass, "can't clone " + this.getRubyClass().getName());
+	}
 
     public int intValue() {
         return value_;
@@ -28,6 +40,10 @@ public class RubyFixnum extends RubySpecialValue {
 		return value_;
 	}
 	
+	public double toFloat() {
+		return this.value_;
+	}
+
 	public RubyFixnum convertToInteger() {
 		return this;
     }
@@ -68,14 +84,13 @@ public class RubyFixnum extends RubySpecialValue {
             return ObjectFactory.createFloat(value_ + ((RubyFloat)v).doubleValue());
     	}
     	
-    	// FIXME: should be coerced.
     	if (v instanceof RubyBignum) {
     		BigInteger bigValue1 = BigInteger.valueOf(value_);
     		BigInteger bigValue2 = ((RubyBignum)v).getInternal();
     		return RubyBignum.bignorm(bigValue1.add(bigValue2));
     	}
     	
-    	throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().getName() + " can't be coersed into Fixnum");
+    	return coerceBin(RubyID.plusID, v);
     }
     
     @RubyLevelMethod(name="-", type=MethodType.ONE_ARG)
@@ -88,14 +103,13 @@ public class RubyFixnum extends RubySpecialValue {
     		return ObjectFactory.createFloat(this.value_ - ((RubyFloat)v).doubleValue());
     	}
     	
-    	// FIXME: should be coerced.
     	if (v instanceof RubyBignum) {
     		BigInteger bigValue1 = BigInteger.valueOf(this.value_);
             BigInteger bigValue2 = ((RubyBignum)v).getInternal();
             return RubyBignum.bignorm(bigValue1.subtract(bigValue2));
     	}
     	
-        throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().getName() + " can't be coersed into Fixnum");
+    	return coerceBin(RubyID.subID, v);
     }
     
     @RubyLevelMethod(name="*", type=MethodType.ONE_ARG)
@@ -114,7 +128,29 @@ public class RubyFixnum extends RubySpecialValue {
             return RubyBignum.bignorm(bigValue1.multiply(bigValue2));
     	}
     	
-    	throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().getName() + " can't be coersed into Fixnum");
+    	return coerceBin(RubyID.mulID, v);
+    }
+    
+    @RubyLevelMethod(name="/", type=MethodType.ONE_ARG)
+    public RubyValue opDiv(RubyValue v) {
+    	if (v instanceof RubyFixnum) {
+    		int intValue1 = this.value_;
+            int intValue2 = v.toInt();
+    		int div = intValue1 / intValue2;
+            int mod = intValue1 - div * intValue2;
+            if (mod != 0 && div < 0) {
+                --div;
+            }
+            return RubyBignum.bignorm(div);
+    	} else if (v instanceof RubyFloat) {
+    		return ObjectFactory.createFloat(this.value_ / v.toFloat());
+    	} else if (v instanceof RubyBignum) {
+    		BigInteger bigValue1 = BigInteger.valueOf(this.value_);
+            BigInteger bigValue2 = ((RubyBignum)v).getInternal();
+            return RubyBignum.bignorm(bigValue1.divide(bigValue2));
+    	} else {
+    		return coerceBin(RubyID.divID, v);
+    	}
     }
     
     @RubyLevelMethod(name="~")
