@@ -86,26 +86,6 @@ public class Rubyv3Lexer extends Rubyv3BaseLexer implements TokenStream {
         return (Token) tokens.get(p + k);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Token get(int arg0) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public TokenSource getTokenSource() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String toString(int arg0, int arg1) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String toString(Token arg0, Token arg1) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public int LA(int i) {
         return LT(i).getType();
     }
@@ -113,40 +93,49 @@ public class Rubyv3Lexer extends Rubyv3BaseLexer implements TokenStream {
     public void consume() {
         p++;
     }
+    
+    public Token get(int arg0) {
+        throw new Error("get is not implemented");
+    }
+
+    public TokenSource getTokenSource() {
+        throw new Error("getTokenSource is not implemented");
+    }
+
+    public String toString(int arg0, int arg1) {
+        throw new Error("toString is not implemented");
+    }
+
+    public String toString(Token arg0, Token arg1) {
+        throw new Error("toString2 is not implemented");
+    }
 
     public int index() {
-        // TODO Auto-generated method stub
-        return 0;
+        throw new Error("release is not implemented");
     }
 
     public int mark() {
-        // TODO Auto-generated method stub
-        return 0;
+        throw new Error("release is not implemented");
     }
 
     public void release(int arg0) {
-        // TODO Auto-generated method stub
-
+        throw new Error("release is not implemented");
     }
 
     public void rewind() {
-        // TODO Auto-generated method stub
-
+        throw new Error("rewind is not implemented");
     }
 
     public void rewind(int arg0) {
-        // TODO Auto-generated method stub
-
+        throw new Error("rewind(int) is not implemented");
     }
 
     public void seek(int arg0) {
-        // TODO Auto-generated method stub
-
+        throw new Error("seek is not implemented");
     }
 
     public int size() {
-        // TODO Auto-generated method stub
-        return 0;
+        throw new Error("size is not implemented");
     }
 
 
