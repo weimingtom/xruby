@@ -1,12 +1,7 @@
 package com.xruby.compiler.parser;
 
-import java.io.StringReader;
-
 import junit.framework.TestCase;
-
 import org.antlr.runtime.*;
-
-
 
 public class Rubyv3LexerTest extends TestCase {
 
@@ -392,7 +387,7 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_text, token_types);
     }
 
-    
+
     public void test_GLOBAL_VARIABLE () {
         String[] program_texts = {
             "$-#",
@@ -462,7 +457,7 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_texts, Rubyv3Lexer.CONSTANT);
     }
 
-   
+
     public void test_INTEGER() {
         String[] program_texts = {
             "123456",
@@ -510,7 +505,7 @@ public class Rubyv3LexerTest extends TestCase {
 
         assert_type(program_texts, Rubyv3Lexer.OCTAL, expected_texts);
     }
-   
+
     public void test_BINARY() {
         String[] program_texts = {
             "0b1010",
@@ -526,7 +521,7 @@ public class Rubyv3LexerTest extends TestCase {
 
         assert_type(program_texts, Rubyv3Lexer.BINARY, expected_texts);
     }
-    
+
     public void test_ASCII_VALUE() {
         String[] program_texts = {
                 "?&",
@@ -645,7 +640,7 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_texts, Rubyv3Lexer.SINGLE_QUOTE_STRING);
     }
 
-   
+
     public void test_q_STRING() {
         String[] program_texts = {
             "%q!test string!",
@@ -761,7 +756,7 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_texts, Rubyv3Lexer.EOF, expected_texts);
     }
 
-   
+
     public void test_W_ARRAY() {
         String[] program_texts = {
             "%w(folder openfold)",
@@ -784,30 +779,30 @@ public class Rubyv3LexerTest extends TestCase {
             "%W!\\n!",
         };
 
-		String[] expected_texts = {
-			"folder openfold",
-			"test string",
-			"test string",
-			"test string",
-			"Seconds/day: #{24*60*60}",
+        String[] expected_texts = {
+            "folder openfold",
+            "test string",
+            "test string",
+            "test string",
+            "Seconds/day: #{24*60*60}",
 
-			"",
-			" ",
-			"string",
-			" this is a string ",
-			"2",
-			"\\\\",
-			"\\\\",
-			"\\\\",
-			"\\\\",
-			"\\\\",
-			"\\\\",
-			"\\n",
-		};
+            "",
+            " ",
+            "string",
+            " this is a string ",
+            "2",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\\\",
+            "\\n",
+        };
 
         assert_type(program_texts, Rubyv3Lexer.W_ARRAY);
     }
-    
+
 
     /*public void test_END_OF_FILE() {
         String[] program_texts = {
