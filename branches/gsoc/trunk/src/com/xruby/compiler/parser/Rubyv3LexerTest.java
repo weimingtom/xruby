@@ -784,7 +784,26 @@ public class Rubyv3LexerTest extends TestCase {
             "%W!\\n!",
         };
 
+		String[] expected_texts = {
+			"folder openfold",
+			"test string",
+			"test string",
+			"test string",
+			"Seconds/day: #{24*60*60}",
 
+			"",
+			" ",
+			"string",
+			" this is a string ",
+			"2",
+			"\\\\",
+			"\\\\",
+			"\\\\",
+			"\\\\",
+			"\\\\",
+			"\\\\",
+			"\\n",
+		};
 
         assert_type(program_texts, Rubyv3Lexer.W_ARRAY);
     }
