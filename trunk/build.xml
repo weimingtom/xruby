@@ -1,12 +1,12 @@
-<project name="xruby" default="dist" basedir=".">
+<project name="xruby" default="test" basedir=".">
 
 	<!-- Give user a chance to override without editing this file or typing -D -->
 	<property file="build.properties"/>
 	<property file="${user.home}/.ant.properties"/>
 
 	<!-- Name of project and version, used to create filenames -->
-	<property name="name" value="xruby"/>
-	<property name="version" value="0.2.1"/>
+	<property name="name" value="rubyfront"/>
+	<property name="version" value="0.0.1"/>
 
 	<!-- set global properties for this build -->
 	<property name="src.dir" location="src"/>
@@ -15,117 +15,60 @@
 	<property name="parser.dir" location="${src.dir}/com/xruby/compiler/parser"/>
 	<property name="rubycode.dir" location="c:\\ruby"/>
 	<property name="antlr.jar" location="${lib.dir}/antlr/antlr-2.7.6.jar"/>
+	<property name="antlrv3.jar" location="${lib.dir}/antlr/antlr-3.0.jar"/>
+	<property name="stringtemplate.jar" location="${lib.dir}/antlr/stringtemplate-3.0.jar"/>
 	<property name="jarjar.jar" location="${lib.dir}/jarjar/jarjar-0.7.jar"/>
-	<property name="asm.jar" location="${lib.dir}/asm/asm-all-3.0.jar"/>
-	<property name="commons-cli.jar" location="${lib.dir}/commons-cli/commons-cli-1.0.jar"/>
-	<property name="jakarta-oro.jar" location="${lib.dir}/jakarta-oro/jakarta-oro-2.0.8.jar"/>
-	<property name="xruby.jar"  location="${name}-${version}.jar"/>
-	<property name="main-class"  value="com.xruby.Main"/>
-
+	<property name="rubyfront.jar"  location="${name}-${version}.jar"/>
+	
 	<target name="clean" description="clean up" >
 		<!-- Delete the ${build} directory trees and jar file  -->
 		<delete dir="${build.dir}"/>
-		<delete file="${xruby.jar}"/>
+		<delete file="${rubyfront.jar}"/>
 
 		<delete>
-			<fileset dir="${parser.dir}" includes="RubyLexerBase.java"/>
-			<fileset dir="${parser.dir}" includes="RubyParserBase.java"/>
-			<fileset dir="${parser.dir}" includes="RubyTreeParser.java"/>
-			<fileset dir="${parser.dir}" includes="RubyTokenTypes.java"/>
-			<fileset dir="${parser.dir}" includes="RubyTokenTypes.txt"/>
-			<fileset dir="${parser.dir}" includes="RubyTreeParserTokenTypes.txt"/>
-			<fileset dir="${parser.dir}" includes="RubyTreeParserTokenTypes.java"/>
-			<fileset dir="${parser.dir}" includes="*.smap"/>
+			<fileset dir="${parser.dir}" includes="Rubyv3Base.tokens"/>
+			<fileset dir="${parser.dir}" includes="Rubyv3Base__.g"/>
+			<fileset dir="${parser.dir}" includes="Rubyv3BaseLexer.java"/>
+			<fileset dir="${parser.dir}" includes="Rubyv3BaseParser.java"/>
 		</delete>
 	</target>
 
 	<target name="parser" description="generate parser" >
-		<antlr target="${parser.dir}/ruby.g">
-		    <classpath path="${antlr.jar}" />
-		</antlr>
+		<java classname="org.antlr.Tool" fork="true">
+			<arg value="${parser.dir}/Rubyv3Base.g"/>
+			<classpath>
+				<pathelement location="${antlr.jar}" />
+				<pathelement location="${antlrv3.jar}" />
+				<pathelement location="${stringtemplate.jar}" />
+			</classpath>
+		</java>
 	</target>
 
-	<target name="treeparser" depends="parser" description="generate tree parser" >
-		<antlr target="${parser.dir}/ruby.tree.g">
-		    <classpath path="${antlr.jar}" />
-		</antlr>
-	</target>
-
-	<target name="compile" depends="treeparser" description="compile the source" >
+	<target name="compile" depends="parser" description="compile the source" >
 		<!-- Create the build directory structure used by compile -->
 		<mkdir dir="${build.dir}"/>
 
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="on">
 			<classpath path="${antlr.jar}" />
-			<classpath path="${asm.jar}" />
-			<classpath path="${commons-cli.jar}" />
-			<classpath path="${jakarta-oro.jar}" />
-			 <!--compilerarg value="-Xlint:unchecked"/-->
+			<classpath path="${antlrv3.jar}" />
+			<classpath path="${stringtemplate.jar}" />
+			<!--compilerarg value="-Xlint:unchecked"/-->
 		</javac>
 	</target>
 
-        <target name="generate-method-classes" depends="compile" description="generate method class" >		
-                <java classname="${main-class}" fork="true" failonerror="true">
-                        <classpath>
-				<pathelement location="${antlr.jar}" />
-				<pathelement location="${asm.jar}" />
-				<pathelement location="${commons-cli.jar}" />
-				<pathelement location="${jakarta-oro.jar}" />
-				<pathelement location="${build.dir}" />
-			</classpath>
-                        <sysproperty key="xruby.method.dump" value="true"/>
-                        <sysproperty key="xruby.method.dump_path" value="${build.dir}"/>
-                        <arg value="-e 'puts'"/>
-                </java>
-	</target>
-
-	<target name="builtin" depends="generate-method-classes" description="compile builtin.rb" >
-		<java classname="${main-class}" fork="true" failonerror="true">
-			<classpath>
-				<pathelement location="${antlr.jar}" />
-				<pathelement location="${asm.jar}" />
-				<pathelement location="${commons-cli.jar}" />
-				<pathelement location="${jakarta-oro.jar}" />
-				<pathelement location="${build.dir}" />
-			</classpath>
-
-			<arg value="-c"/>
-			<arg value="src/builtin.rb"/>
-		</java>
-	</target>
-
-	<target name="dist" depends="builtin" description="generate the distribution" >
-		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar.jar}"/>
-		<!-- Put everything except tests in ${build} into the jar file -->
-		<jarjar jarfile="${xruby.jar}">
-			<fileset dir="${build.dir}" excludes="**/*Test.class,**/Testing*.class"/>
-			<zipfileset src="${antlr.jar}"/>
-			<zipfileset src="${asm.jar}"/>
-			<zipfileset src="${commons-cli.jar}"/>
-			<zipfileset src="${jakarta-oro.jar}"/>
-			<zipfileset src="builtin.jar"/>
-			<manifest>
-				<attribute name="Main-Class" value="${main-class}"/>
-			</manifest>
-		</jarjar>
-		<!--delete file="builtin.jar"/-->
-	</target>
-
-	<target name="test" depends="dist" description="test" >
+	<target name="test" depends="compile" description="test" >
 		<junit haltonfailure="yes">
 			<classpath>
 				<pathelement location="${antlr.jar}" />
-				<pathelement location="${asm.jar}" />
-				<pathelement location="${commons-cli.jar}" />
-				<pathelement location="${jakarta-oro.jar}" />
-				<pathelement location="${build.dir}" />
-				<pathelement location="builtin.jar" />
+				<pathelement location="${antlrv3.jar}" />
+				<pathelement location="${stringtemplate.jar}" />
+				<pathelement location="${build.dir}"/>
 			</classpath>
 
 			<formatter type="brief" usefile="false"/>
 
-			<assertions><enable/></assertions>
+			<!--assertions><enable/></assertions-->
 
 			<batchtest fork="yes">
 				<fileset dir="${build.dir}" includes="**/*Test.class" excludes="**/*SmokeTest.class"/>
@@ -133,11 +76,24 @@
 		</junit>
 	</target>
 
+	<target name="dist" depends="compile" description="generate the distribution" >
+		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar.jar}"/>
+		<!-- Put everything except tests in ${build} into the jar file -->
+		<jarjar jarfile="${rubyfront.jar}">
+			<fileset dir="${build.dir}" excludes="**/*Test.class,**/Testing*.class"/>
+			<zipfileset src="${antlr.jar}"/>
+			<zipfileset src="${antlrv3.jar}"/>
+			<zipfileset src="${stringtemplate.jar}"/>
+		</jarjar>
+	</target>
+
 	<target name="lexersmoketest" depends="compile" description="run lexer smoke test">
 		<java classname="com.xruby.compiler.parser.RubyLexerSmokeTest">
 			<arg value="${rubycode.dir}"/>
 			<classpath>
 				<pathelement location="${antlr.jar}" />
+				<pathelement location="${antlrv3.jar}" />
+				<pathelement location="${stringtemplate.jar}" />
 				<pathelement location="${build.dir}"/>
 			</classpath>
 		</java>
@@ -148,6 +104,8 @@
 			<arg value="${rubycode.dir}"/>
 			<classpath>
 				<pathelement location="${antlr.jar}" />
+				<pathelement location="${antlrv3.jar}" />
+				<pathelement location="${stringtemplate.jar}" />
 				<pathelement location="${build.dir}"/>
 			</classpath>
 		</java>
