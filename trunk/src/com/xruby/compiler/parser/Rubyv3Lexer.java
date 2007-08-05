@@ -4,11 +4,7 @@ import org.antlr.runtime.*;
 
 public class Rubyv3Lexer extends Rubyv3BaseLexer {
 
-    public Rubyv3Lexer(ANTLRInputStream input, SymbolTableManager stm, boolean strip){
-        super(input);
-    }
-
-    public Rubyv3Lexer(ANTLRStringStream input, SymbolTableManager stm, boolean strip){
+    public Rubyv3Lexer(CharStream input, SymbolTableManager stm, boolean strip){
         super(input);
     }
 
