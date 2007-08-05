@@ -803,16 +803,18 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_texts, Rubyv3Lexer.W_ARRAY);
     }
 
-
-    /*public void test_END_OF_FILE() {
+    public void test_END_OF_FILE() {
         String[] program_texts = {
             "\0",
             "\004",
             "\032",
+            "\u0000",
+            "\u0004",
+            "\u001a",
         };
 
         assert_type(program_texts, Rubyv3Lexer.EOF);
-    }*/
+    }
 
     public void test_EMPTY_ARRAY() {
         String[] program_texts = {

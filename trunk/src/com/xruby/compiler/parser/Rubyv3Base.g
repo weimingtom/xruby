@@ -739,9 +739,9 @@ LINE_CONTINUATION
 //Except the pysical end of file(antlr will detect it for us),
 //the following special characters are treated as end of file as well.
 END_OF_FILE
-    :	('\0'		// NULL
-            |'\004'	// ^D
-            |'\032'	// ^Z
+    :	('\u0000'		// NULL
+            |'\u0004'	// ^D ('\004')
+            |'\u001a'	// ^Z ('\032')
             )
-            {$type=Token.EOF;}
+            {$type=EOF;}
     ;
