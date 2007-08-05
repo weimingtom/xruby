@@ -10,8 +10,8 @@ public class Rubyv3LexerTest extends TestCase {
         assertEquals("Length mismatch, setup expected_texts properly!", program_texts.length, expected_texts.length);
 
         for (int i = 0; i < program_texts.length; ++i) {
-
-                Rubyv3Lexer lexer = new Rubyv3Lexer(new ANTLRStringStream(program_texts[i]));
+                SymbolTableManager stm = new SymbolTableManager(null);
+                Rubyv3Lexer lexer = new Rubyv3Lexer(new ANTLRStringStream(program_texts[i]), stm, false);
                 Token token = lexer.nextToken();
                 assertEquals(program_texts[i], expected_type, token.getType());
 
@@ -31,8 +31,8 @@ public class Rubyv3LexerTest extends TestCase {
     }
 
     private void assert_type(String program_text, CommonToken[] tokens) {
-
-            Rubyv3Lexer lexer = new Rubyv3Lexer(new ANTLRStringStream(program_text));
+            SymbolTableManager stm = new SymbolTableManager(null);
+            Rubyv3Lexer lexer = new Rubyv3Lexer(new ANTLRStringStream(program_text), stm, false);
 
             for (int i = 0; i < tokens.length; ++i) {
                 Token token = lexer.nextToken();
