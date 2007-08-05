@@ -44,7 +44,7 @@ public class Rubyv3ParserTest  extends TestCase {
 
         TokenStream stm = new Rubyv3Lexer(new ANTLRStringStream(program_text), null, false);
         Rubyv3Parser parser = new Rubyv3Parser(stm);
-        Class c = parser.getClass();
+        Class<? extends Rubyv3Parser> c = parser.getClass();
 
         Method method = null;
         try {
