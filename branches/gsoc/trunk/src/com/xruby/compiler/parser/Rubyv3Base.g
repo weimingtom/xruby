@@ -171,11 +171,11 @@ notExpression
 ternaryIfThenElseExpression
 		:	assignmentExpression
 			(options{greedy=true;/*caused by command*/}:
-				QUESTION^			(options{greedy=true;}:LINE_BREAK!)?
+				QUESTION			(options{greedy=true;}:LINE_BREAK!)?
 				ternaryIfThenElseExpression
 				(COLON!|COLON_WITH_NO_FOLLOWING_SPACE!)				(options{greedy=true;}:LINE_BREAK!)?
 				ternaryIfThenElseExpression
-			)?
+			)
 		;
 		
 assignmentExpression
@@ -634,7 +634,7 @@ REGEX
      ;
      
   DIV_ASSIGN:	'/='	;
-   DIV :	'/'	;
+  DIV :	'/'	;
  
 
 COMMAND_OUTPUT
@@ -659,7 +659,7 @@ HERE_DOC_BEGIN
     :	{expectHeredoc()}?	'<<'!	HERE_DOC_DELIMITER
     ;
 
-    LEFT_SHIFT_ASSIGN:	'<<='	;
+   LEFT_SHIFT_ASSIGN:	'<<='	;
    LEFT_SHIFT:	'<<';
 /*
 fragment
@@ -708,12 +708,14 @@ INTEGER
     ;
     
    BINARY: '0'!	('b'!|'B'!)	BINARY_CONTENT	;
-        HEX:	'0'!	('x'!|'X'!)	HEX_CONTENT	;
-        FLOAT:	FLOAT_WITH_LEADING_DOT;
-        OCTAL:'0'!	OCTAL_CONTENT;
-    DOT:	'.'	;
-    INCLUSIVE_RANGE:	'..';
-    EXCLUSIVE_RANGE:	'...';
+   HEX:	'0'!	('x'!|'X'!)	HEX_CONTENT	;
+   FLOAT:	FLOAT_WITH_LEADING_DOT;
+   OCTAL:'0'!	OCTAL_CONTENT;
+   DOT:	'.'	;
+   INCLUSIVE_RANGE:	'..';
+   EXCLUSIVE_RANGE:	'...';
+    
+    
 
 EMPTY_ARRAY		:	'[]'		{if (expectArrayAccess()) {$type=EMPTY_ARRAY_ACCESS;}};
 
@@ -856,7 +858,7 @@ SPECIAL_STRING
       }*/
     ;
     
-       MOD_ASSIGN:	 '%='	;
+    MOD_ASSIGN:	 '%='	;
     MOD:	'%'		;
 
 fragment
