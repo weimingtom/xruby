@@ -156,9 +156,9 @@ terminal
     |	LINE_BREAK!
     ;
 
-SEMI	:	';'		;
+SEMI	:	';'		(options{greedy=true;}:(WHITE_SPACE_CAHR|SEMI))* {setText(";");};
 
-LINE_BREAK	:	'\r'? '\n'	;
+LINE_BREAK	:	'\r'? '\n'	(options{greedy=true;}:('\n'!|SEMI!))* {setText("\n");} ;
 
 LITERAL_undef	:	'undef'		;
 LITERAL_alias	:	'alias'		;
