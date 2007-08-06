@@ -3,6 +3,18 @@ package com.xruby.compiler.parser;
 import junit.framework.TestCase;
 import org.antlr.runtime.*;
 
+class TestingCommonToken extends CommonToken {
+    public TestingCommonToken(int t, String txt) {
+        super(t, txt);
+        setLine(1);
+    }
+
+    public TestingCommonToken(int t, String txt, int line) {
+        super(t, txt);
+        setLine(line);
+    }
+}
+
 public class Rubyv3LexerTest extends TestCase {
 
 
@@ -38,7 +50,7 @@ public class Rubyv3LexerTest extends TestCase {
                 Token token = lexer.nextToken();
                 assertEquals(i + " " + token.getText() + " has wrong type!", tokens[i].getType(), token.getType());
                 assertEquals(i + " " + token.getText() + " has wrong text!", tokens[i].getText(), token.getText());
-                //assertEquals(i + " " + token.getText() + " has wrong position!", tokens[i].getLine(), token.getLine());
+                assertEquals(i + " " + token.getText() + " has wrong position!", tokens[i].getLine(), token.getLine());
             }
 
             Token token = lexer.nextToken();
@@ -46,12 +58,16 @@ public class Rubyv3LexerTest extends TestCase {
 
     }
 
+    private void assert_type(String program_text, int expected_type) {
+        assert_type(new String[]{program_text}, expected_type);
+    }
+
     public void test_token_stream1() {
         String program_text = "puts \"hello\";";
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "puts"),
-                            new CommonToken(Rubyv3Lexer.DOUBLE_QUOTE_STRING, "\"hello\""),
-                            new CommonToken(Rubyv3Lexer.SEMI, ";"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "puts"),
+                            new TestingCommonToken(Rubyv3Lexer.DOUBLE_QUOTE_STRING, "hello"),
+                            new TestingCommonToken(Rubyv3Lexer.SEMI, ";"),
         };
 
         assert_type(program_text, token_types);
@@ -59,36 +75,34 @@ public class Rubyv3LexerTest extends TestCase {
 
     public void test_token_stream2() {
         String program_text = "0.step";
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.INTEGER, "0"),
-                            new CommonToken(Rubyv3Lexer.DOT, "."),
-                            //to do, change type to FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "step"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "0"),
+                            new TestingCommonToken(Rubyv3Lexer.DOT, "."),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "step"),
         };
 
         assert_type(program_text, token_types);
     }
 
-    //to do, need to add expectOperator(2) to Rubyv3Lexer, with last token etc
     public void test_token_stream3() {
-        String program_text = "/";//"$?/256";
-        CommonToken[] token_types =  {
-                           // new CommonToken(Rubyv3Lexer.GLOBAL_VARIABLE , "$?"),
-                            new CommonToken(Rubyv3Lexer.DIV, "/"),
-                           // new CommonToken(Rubyv3Lexer.INTEGER, "256"),
+        String program_text = "$?/256";
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.GLOBAL_VARIABLE , "$?"),
+                            new TestingCommonToken(Rubyv3Lexer.DIV, "/"),
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "256"),
         };
 
         assert_type(program_text, token_types);
     }
 
     public void test_token_stream4() {
-        String program_text = " def a(item)";//def /(item), need to fix the current REGEX
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.LITERAL_def, "def"),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "a"),
-                            new CommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "item"),
-                            new CommonToken(Rubyv3Lexer.RPAREN, ")"),
+        String program_text = " def /(item)";
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_def, "def"),
+                            new TestingCommonToken(Rubyv3Lexer.DIV, "/"),
+                            new TestingCommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "item"),
+                            new TestingCommonToken(Rubyv3Lexer.RPAREN, ")"),
         };
 
         assert_type(program_text, token_types);
@@ -96,31 +110,27 @@ public class Rubyv3LexerTest extends TestCase {
 
     public void test_token_stream5() {
         String program_text = "def -@(); end";
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.LITERAL_def, "def"),
-                            new CommonToken(Rubyv3Lexer.UNARY_PLUS_MINUS_METHOD_NAME, "-@"),
-                            new CommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
-                            new CommonToken(Rubyv3Lexer.RPAREN, ")"),
-                            new CommonToken(Rubyv3Lexer.SEMI, ";"),
-                            new CommonToken(Rubyv3Lexer.LITERAL_end, "end"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_def, "def"),
+                            new TestingCommonToken(Rubyv3Lexer.UNARY_PLUS_MINUS_METHOD_NAME, "-@"),
+                            new TestingCommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
+                            new TestingCommonToken(Rubyv3Lexer.RPAREN, ")"),
+                            new TestingCommonToken(Rubyv3Lexer.SEMI, ";"),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_end, "end"),
         };
 
         assert_type(program_text, token_types);
     }
 
-    //to do : treat multiple \n as one and the REGEX_MODIFIER
     public void test_token_stream9() {
         String program_text = "\n\n\nunless /{$1}\\z/o =~ s";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
-                            new CommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
-                            new CommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
-                            new CommonToken(Rubyv3Lexer.UNLESS_MODIFIER, "unless"),
-                            new CommonToken(Rubyv3Lexer.REGEX, "/{$1}\\z/"),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "o"),
-                            new CommonToken(Rubyv3Lexer.MATCH, "=~"),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "s"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n", 1),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_unless, "unless", 4),
+                            new TestingCommonToken(Rubyv3Lexer.REGEX, "{$1}\\z", 4),
+                            new TestingCommonToken(Rubyv3Lexer.MATCH, "=~", 4),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "s", 4),
         };
 
         assert_type(program_text, token_types);
@@ -130,12 +140,11 @@ public class Rubyv3LexerTest extends TestCase {
         String program_text = "  when /^#/" +
 "    raise \"unknown node type: '{ntype}'\"";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.LITERAL_when, "when"),
-                            new CommonToken(Rubyv3Lexer.REGEX, "/^#/"),
-                            //change to FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "raise"),
-                            new CommonToken(Rubyv3Lexer.DOUBLE_QUOTE_STRING, "\"unknown node type: '{ntype}'\""),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_when, "when"),
+                            new TestingCommonToken(Rubyv3Lexer.REGEX, "^#"),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "raise"),
+                            new TestingCommonToken(Rubyv3Lexer.DOUBLE_QUOTE_STRING, "unknown node type: '{ntype}'"),
         };
 
         assert_type(program_text, token_types);
@@ -144,40 +153,36 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream12() {
         String program_text = "1%200";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.INTEGER, "1"),
-                            new CommonToken(Rubyv3Lexer.MOD, "%"),
-                            new CommonToken(Rubyv3Lexer.INTEGER, "200"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "1"),
+                            new TestingCommonToken(Rubyv3Lexer.MOD, "%"),
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "200"),
         };
 
         assert_type(program_text, token_types);
     }
 
-    //to do, treat multiple semi as one
     public void test_token_stream13() {
         String program_text = "; ;\t   ;";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.SEMI, ";"),
-                            new CommonToken(Rubyv3Lexer.SEMI, ";"),
-                            new CommonToken(Rubyv3Lexer.SEMI, ";"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.SEMI, ";"),
         };
 
         assert_type(program_text, token_types);
     }
 
     public void test_token_stream14() {
-        String program_text = "a =1;a\n;";
+        String program_text = "a =1;a\n\n\n;;;;";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "a"),
-                            // to do, change this to ASSIGN
-                            new CommonToken(Rubyv3Lexer.ASSIGN_WITH_NO_LEADING_SPACE, "="),
-                            new CommonToken(Rubyv3Lexer.INTEGER, "1"),
-                            new CommonToken(Rubyv3Lexer.SEMI, ";"),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "a"),
-                            new CommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
-                            new CommonToken(Rubyv3Lexer.SEMI, ";"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.IDENTIFIER, "a"),
+                            new TestingCommonToken(Rubyv3Lexer.ASSIGN, "="),
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "1"),
+                            new TestingCommonToken(Rubyv3Lexer.SEMI, ";"),
+                            new TestingCommonToken(Rubyv3Lexer.IDENTIFIER, "a"),
+                            //new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
+                            new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n", 1),
         };
 
         assert_type(program_text, token_types);
@@ -186,19 +191,19 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream16() {
         String program_text = "sprintf(\"Rational(%s, %s)\", @numerator.inspect, @denominator.inspect)";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "sprintf"),
-                            new CommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
-                            new CommonToken(Rubyv3Lexer.DOUBLE_QUOTE_STRING, "\"Rational(%s, %s)\""),
-                            new CommonToken(Rubyv3Lexer.COMMA, ","),
-                            new CommonToken(Rubyv3Lexer.INSTANCE_VARIABLE, "@numerator"),
-                            new CommonToken(Rubyv3Lexer.DOT, "."),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "inspect"),
-                            new CommonToken(Rubyv3Lexer.COMMA, ","),
-                            new CommonToken(Rubyv3Lexer.INSTANCE_VARIABLE, "@denominator"),
-                            new CommonToken(Rubyv3Lexer.DOT, "."),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "inspect"),
-                            new CommonToken(Rubyv3Lexer.RPAREN, ")"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "sprintf"),
+                            new TestingCommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
+                            new TestingCommonToken(Rubyv3Lexer.DOUBLE_QUOTE_STRING, "Rational(%s, %s)"),
+                            new TestingCommonToken(Rubyv3Lexer.COMMA, ","),
+                            new TestingCommonToken(Rubyv3Lexer.INSTANCE_VARIABLE, "@numerator"),
+                            new TestingCommonToken(Rubyv3Lexer.DOT, "."),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "inspect"),
+                            new TestingCommonToken(Rubyv3Lexer.COMMA, ","),
+                            new TestingCommonToken(Rubyv3Lexer.INSTANCE_VARIABLE, "@denominator"),
+                            new TestingCommonToken(Rubyv3Lexer.DOT, "."),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "inspect"),
+                            new TestingCommonToken(Rubyv3Lexer.RPAREN, ")"),
         };
 
         assert_type(program_text, token_types);
@@ -207,35 +212,33 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream17() {
         String program_text = "subj.gsub! /\\n/, \"\"\n";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "subj"),
-                            new CommonToken(Rubyv3Lexer.DOT, "."),
-                            new CommonToken(Rubyv3Lexer.FUNCTION, "gsub!"),
-                            new CommonToken(Rubyv3Lexer.REGEX, "/\\n/"),
-                            new CommonToken(Rubyv3Lexer.COMMA, ","),
-                            new CommonToken(Rubyv3Lexer.DOUBLE_QUOTE_STRING, "\"\""),
-                            new CommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "subj"),
+                            new TestingCommonToken(Rubyv3Lexer.DOT, "."),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "gsub!"),
+                            new TestingCommonToken(Rubyv3Lexer.REGEX, "\\n"),
+                            new TestingCommonToken(Rubyv3Lexer.COMMA, ","),
+                            new TestingCommonToken(Rubyv3Lexer.DOUBLE_QUOTE_STRING, ""),
+                            new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
         };
 
         assert_type(program_text, token_types);
     }
 
     public void test_token_stream18() {
-        String program_text = "self * Rational.new!(a, 1)"; // to do /
+        String program_text = "self / Rational.new!(a, 1)";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.LITERAL_self, "self"),
-                            //to do /
-                            new CommonToken(Rubyv3Lexer.REST_ARG_PREFIX, "*"),
-                            new CommonToken(Rubyv3Lexer.CONSTANT, "Rational"),
-                            new CommonToken(Rubyv3Lexer.DOT, "."),
-                            new CommonToken(Rubyv3Lexer.FUNCTION, "new!"),
-                            //to do
-                            new CommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "a"),
-                            new CommonToken(Rubyv3Lexer.COMMA, ","),
-                            new CommonToken(Rubyv3Lexer.INTEGER, "1"),
-                            new CommonToken(Rubyv3Lexer.RPAREN, ")"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_self, "self"),
+                            new TestingCommonToken(Rubyv3Lexer.DIV, "/"),
+                            new TestingCommonToken(Rubyv3Lexer.CONSTANT, "Rational"),
+                            new TestingCommonToken(Rubyv3Lexer.DOT, "."),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "new!"),
+                            new TestingCommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
+                            new TestingCommonToken(Rubyv3Lexer.IDENTIFIER, "a"),
+                            new TestingCommonToken(Rubyv3Lexer.COMMA, ","),
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "1"),
+                            new TestingCommonToken(Rubyv3Lexer.RPAREN, ")"),
         };
 
         assert_type(program_text, token_types);
@@ -244,16 +247,13 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream19() {
         String program_text = "session['key'].class";
 
-        CommonToken[] token_types =  {
-                            //todo  FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "session"),
-                            //todo LBRACK_ARRAY_ACCESS
-                            new CommonToken(Rubyv3Lexer.LBRACK, "["),
-                            new CommonToken(Rubyv3Lexer.SINGLE_QUOTE_STRING, "\'key\'"),
-                            new CommonToken(Rubyv3Lexer.RBRACK, "]"),
-                            new CommonToken(Rubyv3Lexer.DOT, "."),
-                            //to do IDENTIFIER
-                            new CommonToken(Rubyv3Lexer.LITERAL_class, "class"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "session"),
+                            new TestingCommonToken(Rubyv3Lexer.LBRACK_ARRAY_ACCESS, "["),
+                            new TestingCommonToken(Rubyv3Lexer.SINGLE_QUOTE_STRING, "key"),
+                            new TestingCommonToken(Rubyv3Lexer.RBRACK, "]"),
+                            new TestingCommonToken(Rubyv3Lexer.DOT, "."),
+                            new TestingCommonToken(Rubyv3Lexer.IDENTIFIER, "class"),
         };
 
         assert_type(program_text, token_types);
@@ -265,32 +265,25 @@ public class Rubyv3LexerTest extends TestCase {
 "res\n" +
 "end";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.LITERAL_def, "def"),
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "check_response_auth"),
-                            new CommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "res"),
-                            new CommonToken(Rubyv3Lexer.RPAREN, ")"),
-                            new CommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "raise"),
-                            new CommonToken(Rubyv3Lexer.CONSTANT, "POPAuthenticationError"),
-                            new CommonToken(Rubyv3Lexer.COMMA, ","),
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "res"),
-                            new CommonToken(Rubyv3Lexer.UNLESS_MODIFIER, "unless"),
-                            new CommonToken(Rubyv3Lexer.REGEX, "/\\A\\+OK/"),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "i"),
-                            new CommonToken(Rubyv3Lexer.CASE_EQUAL, "==="),
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "res"),
-                            new CommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "res"),
-                            new CommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
-                            new CommonToken(Rubyv3Lexer.LITERAL_end, "end"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_def, "def"),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "check_response_auth"),
+                            new TestingCommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "res"),
+                            new TestingCommonToken(Rubyv3Lexer.RPAREN, ")"),
+                            new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "raise", 2),
+                            new TestingCommonToken(Rubyv3Lexer.CONSTANT, "POPAuthenticationError", 2),
+                            new TestingCommonToken(Rubyv3Lexer.COMMA, ",", 2),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "res", 2),
+                            new TestingCommonToken(Rubyv3Lexer.UNLESS_MODIFIER, "unless", 2),
+                            new TestingCommonToken(Rubyv3Lexer.REGEX, "\\A\\+OK", 2),
+                            new TestingCommonToken(Rubyv3Lexer.CASE_EQUAL, "===", 2),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "res", 2),
+                            new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n", 2),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "res", 3),
+                            new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n", 3),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_end, "end", 4),
         };
 
         assert_type(program_text, token_types);
@@ -299,18 +292,16 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream22() {
         String program_text = "res.split(/ /)[1]";
 
-        CommonToken[] token_types =  {
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "res"),
-                            new CommonToken(Rubyv3Lexer.DOT, "."),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "split"),
-                            new CommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
-                            new CommonToken(Rubyv3Lexer.REGEX, "/ /"),
-                            new CommonToken(Rubyv3Lexer.RPAREN, ")"),
-                            //todo LABRACK_ARRAY_ACCESS
-                            new CommonToken(Rubyv3Lexer.LBRACK, "["),
-                            new CommonToken(Rubyv3Lexer.INTEGER, "1"),
-                            new CommonToken(Rubyv3Lexer.RBRACK, "]"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "res"),
+                            new TestingCommonToken(Rubyv3Lexer.DOT, "."),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "split"),
+                            new TestingCommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
+                            new TestingCommonToken(Rubyv3Lexer.REGEX, " "),
+                            new TestingCommonToken(Rubyv3Lexer.RPAREN, ")"),
+                            new TestingCommonToken(Rubyv3Lexer.LBRACK_ARRAY_ACCESS, "["),
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "1"),
+                            new TestingCommonToken(Rubyv3Lexer.RBRACK, "]"),
         };
 
         assert_type(program_text, token_types);
@@ -319,14 +310,12 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream23() {
         String program_text = "f(*a)";
 
-        CommonToken[] token_types =  {
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "f"),
-                            new CommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
-                            new CommonToken(Rubyv3Lexer.REST_ARG_PREFIX, "*"),
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "a"),
-                            new CommonToken(Rubyv3Lexer.RPAREN, ")"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "f"),
+                            new TestingCommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "("),
+                            new TestingCommonToken(Rubyv3Lexer.REST_ARG_PREFIX, "*"),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "a"),
+                            new TestingCommonToken(Rubyv3Lexer.RPAREN, ")"),
         };
 
         assert_type(program_text, token_types);
@@ -335,27 +324,64 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream24() {
         String program_text = "puts puts = 1";
 
-        CommonToken[] token_types =  {
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "puts"),
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "puts"),
-                            //todo ASSIGN
-                            new CommonToken(Rubyv3Lexer.ASSIGN_WITH_NO_LEADING_SPACE, "="),
-                            new CommonToken(Rubyv3Lexer.INTEGER, "1"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "puts"),
+                            new TestingCommonToken(Rubyv3Lexer.IDENTIFIER, "puts"),
+                            new TestingCommonToken(Rubyv3Lexer.ASSIGN, "="),
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "1"),
         };
 
         assert_type(program_text, token_types);
     }
 
+    /*
+    public void test_token_stream25() {
+        String program_text = "def a; f do |element|\n"	+
+"          klass.module_eval(<<-EOC, __FILE__, __LINE__)\n"	+
+"          EOC\n"	+
+"         end\n"	+
+"     end";
+
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_def, "def"),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "a"),
+                            new TestingCommonToken(Rubyv3Lexer.SEMI, ";"),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "f"),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_do, "do"),
+                            new TestingCommonToken(Rubyv3Lexer.BOR, "|"),
+                            new TestingCommonToken(Rubyv3Lexer.IDENTIFIER, "element"),
+                            new TestingCommonToken(Rubyv3Lexer.BOR, "|"),
+                            new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "klass", 2),
+                            new TestingCommonToken(Rubyv3Lexer.DOT, ".", 2),
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "module_eval", 2),
+                            new TestingCommonToken(Rubyv3Lexer.LPAREN_WITH_NO_LEADING_SPACE, "(", 2),
+                            new TestingCommonToken(Rubyv3Lexer.HERE_DOC_BEGIN, "-EOC", 2),
+                            new TestingCommonToken(Rubyv3Lexer.HERE_DOC_CONTENT, "", 2),
+                            new TestingCommonToken(Rubyv3Lexer.COMMA, ",", 3),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL___FILE__, "__FILE__", 3),
+                            new TestingCommonToken(Rubyv3Lexer.COMMA, ",", 3),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL___LINE__, "__LINE__", 3),
+                            new TestingCommonToken(Rubyv3Lexer.RPAREN, ")", 3),
+                            new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n", 3),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_end, "end", 4),
+                            new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n", 4),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_end, "end", 5),
+        };
+
+        assert_type(program_text, token_types);
+    }*/
+
+
     public void test_token_stream26() {
         String program_text = ";if true then end";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.SEMI, ";"),
-                            new CommonToken(Rubyv3Lexer.IF_MODIFIER, "if"),
-                            new CommonToken(Rubyv3Lexer.LITERAL_true, "true"),
-                            new CommonToken(Rubyv3Lexer.LITERAL_then, "then"),
-                            new CommonToken(Rubyv3Lexer.LITERAL_end, "end"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.SEMI, ";"),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_if, "if"),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_true, "true"),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_then, "then"),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_end, "end"),
         };
 
         assert_type(program_text, token_types);
@@ -364,10 +390,10 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream28() {
         String program_text = "1...3";
 
-        CommonToken[] token_types =  {
-                            new CommonToken(Rubyv3Lexer.INTEGER, "1"),
-                            new CommonToken(Rubyv3Lexer.EXCLUSIVE_RANGE, "..."),
-                            new CommonToken(Rubyv3Lexer.INTEGER, "3"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "1"),
+                            new TestingCommonToken(Rubyv3Lexer.EXCLUSIVE_RANGE, "..."),
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "3"),
         };
 
         assert_type(program_text, token_types);
@@ -376,17 +402,415 @@ public class Rubyv3LexerTest extends TestCase {
     public void test_token_stream29() {
         String program_text = "puts 1 rescue true";
 
-        CommonToken[] token_types =  {
-                            //todo FUNCTION
-                            new CommonToken(Rubyv3Lexer.IDENTIFIER, "puts"),
-                            new CommonToken(Rubyv3Lexer.INTEGER, "1"),
-                            new CommonToken(Rubyv3Lexer.RESCUE_MODIFIER, "rescue"),
-                            new CommonToken(Rubyv3Lexer.LITERAL_true, "true"),
+        TestingCommonToken[] token_types =  {
+                            new TestingCommonToken(Rubyv3Lexer.FUNCTION, "puts"),
+                            new TestingCommonToken(Rubyv3Lexer.INTEGER, "1"),
+                            new TestingCommonToken(Rubyv3Lexer.RESCUE_MODIFIER, "rescue"),
+                            new TestingCommonToken(Rubyv3Lexer.LITERAL_true, "true"),
         };
 
         assert_type(program_text, token_types);
     }
 
+    public void test_REGEX() {
+        String[] program_texts = {
+            "/\\r\\n\\r\\n/s",
+            "/^#/",
+            "/^Ruby the OOPL/",
+            "/ruby/i",
+            "/test|test/x",
+            "/([\\300-\\367])/n",
+        };
+
+        String[] expected_texts = {
+            "\\r\\n\\r\\n",
+            "^#",
+            "^Ruby the OOPL",
+            "ruby",
+            "test|test",
+            "([\\300-\\367])",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.REGEX, expected_texts);
+    }
+
+    public void test_QUESTION() {
+        String program_text = "?";
+        assert_type(program_text, Rubyv3Lexer.QUESTION);
+    }
+
+    public void test_LPAREN() {
+        String program_text = "(";
+        assert_type(program_text, Rubyv3Lexer.LPAREN);
+    }
+
+    public void test_RPAREN() {
+        String program_text = ")";
+        assert_type(program_text, Rubyv3Lexer.RPAREN);
+    }
+
+    public void test_LBRACK() {
+        String program_text = "[";
+        assert_type(program_text, Rubyv3Lexer.LBRACK);
+    }
+
+    public void test_RBRACK() {
+        String program_text = "]";
+        assert_type(program_text, Rubyv3Lexer.RBRACK);
+    }
+
+    public void test_LCURLY() {
+        String program_text = "{";
+        assert_type(program_text, Rubyv3Lexer.LCURLY_HASH);
+    }
+
+    public void test_RCURLY() {
+        String program_text = "}";
+        assert_type(program_text, Rubyv3Lexer.RCURLY);
+    }
+
+    public void test_COLON() {
+        String program_text = ":";
+        assert_type(program_text, Rubyv3Lexer.COLON_WITH_NO_FOLLOWING_SPACE);
+    }
+
+    public void test_COMMA() {
+        String[] program_texts = {
+            ",",
+            ", ",
+            ",\n",
+            ",   \n\n     \n",
+        };
+
+        String[] expected_texts = {
+            ",",
+            ",",
+            ",",
+            ",",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.COMMA, expected_texts);
+    }
+
+    public void test_ASSIGN() {
+        String program_text = "=";
+        assert_type(program_text, Rubyv3Lexer.ASSIGN);
+    }
+
+    public void test_PLUS_ASSIGN() {
+        String program_text = "+=";
+        assert_type(program_text, Rubyv3Lexer.PLUS_ASSIGN);
+    }
+
+    public void test_MINUS_ASSIGN() {
+        String program_text = "-=";
+        assert_type(program_text, Rubyv3Lexer.MINUS_ASSIGN);
+    }
+
+    public void test_STAR_ASSIGN() {
+        String program_text = "*=";
+        assert_type(program_text, Rubyv3Lexer.STAR_ASSIGN);
+    }
+
+    /*
+    public void test_DIV_ASSIGN() {
+        String program_text = "/=";
+        assert_type(program_text, Rubyv3Lexer.DIV_ASSIGN);
+    }
+    */
+
+    public void test_MOD_ASSIGN() {
+        String program_text = "%=";
+        assert_type(program_text, Rubyv3Lexer.MOD_ASSIGN);
+    }
+
+    public void test_POWER_ASSIGN() {
+        String program_text = "**=";
+        assert_type(program_text, Rubyv3Lexer.POWER_ASSIGN);
+    }
+
+    public void test_BAND_ASSIGN() {
+        String program_text = "&=";
+        assert_type(program_text, Rubyv3Lexer.BAND_ASSIGN);
+    }
+
+    public void test_BXOR_ASSIGNN() {
+        String program_text = "^=";
+        assert_type(program_text, Rubyv3Lexer.BXOR_ASSIGN);
+    }
+
+    public void test_BOR_ASSIGNN() {
+        String program_text = "|=";
+        assert_type(program_text, Rubyv3Lexer.BOR_ASSIGN);
+    }
+
+    /*
+    public void test_LEFT_SHIFT_ASSIGN() {
+        String program_text = "<<=";
+        assert_type(program_text, Rubyv3Lexer.LEFT_SHIFT_ASSIGN);
+    }
+    */
+
+    public void test_RIGHT_SHIFT_ASSIGN() {
+        String program_text = ">>=";
+        assert_type(program_text, Rubyv3Lexer.RIGHT_SHIFT_ASSIGN);
+    }
+
+    public void test_LOGICAL_AND_ASSIGN() {
+        String program_text = "&&=";
+        assert_type(program_text, Rubyv3Lexer.LOGICAL_AND_ASSIGN);
+    }
+
+    public void test_LOGICAL_OR_ASSIGN() {
+        String program_text = "||=";
+        assert_type(program_text, Rubyv3Lexer.LOGICAL_OR_ASSIGN);
+    }
+
+    public void test_NOT() {
+        String program_text = "!";
+        assert_type(program_text, Rubyv3Lexer.NOT);
+    }
+
+    public void test_BNOT() {
+        String program_text = "~";
+        assert_type(program_text, Rubyv3Lexer.BNOT);
+    }
+
+    public void test_DIV() {
+        String program_text = "/";
+        assert_type(program_text, Rubyv3Lexer.DIV);
+    }
+
+    public void test_PLUS() {
+        String program_text = "+";
+        assert_type(program_text, Rubyv3Lexer.UNARY_PLUS);
+    }
+
+    /*
+    public void test_MOD() {
+        String program_text = "%";
+        assert_type(program_text, Rubyv3Lexer.MOD);
+    }
+    */
+
+    public void test_MINUS() {
+        String program_text = "-";
+        assert_type(program_text, Rubyv3Lexer.UNARY_MINUS);
+    }
+
+    public void test_STAR() {
+        String program_text = "*";
+        assert_type(program_text, Rubyv3Lexer.REST_ARG_PREFIX);
+    }
+
+    public void test_LESS_THAN() {
+        String program_text = "<";
+        assert_type(program_text, Rubyv3Lexer.LESS_THAN);
+    }
+
+    public void test_GREATER_THAN() {
+        String program_text = ">";
+        assert_type(program_text, Rubyv3Lexer.GREATER_THAN);
+    }
+
+    public void test_BXOR() {
+        String program_text = "^";
+        assert_type(program_text, Rubyv3Lexer.BXOR);
+    }
+
+    public void test_BOR() {
+        String program_text = "|";
+        assert_type(program_text, Rubyv3Lexer.BOR);
+    }
+
+    public void test_LOGICAL_OR() {
+        String program_text = "||";
+        assert_type(program_text, Rubyv3Lexer.LOGICAL_OR);
+    }
+
+    public void test_LOGICAL_AND() {
+        String program_text = "&&";
+        assert_type(program_text, Rubyv3Lexer.LOGICAL_AND);
+    }
+
+    public void test_BAND() {
+        String program_text = "&";
+        assert_type(program_text, Rubyv3Lexer.BLOCK_ARG_PREFIX);
+    }
+
+    public void test_SEMI() {
+        String[] program_texts = {
+            ";",
+            ";;;",
+        };
+
+        String[] expected_texts = {
+            ";",
+            ";",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.SEMI, expected_texts);
+    }
+
+    public void test_SEMI_as_LINEBREAK() {
+        String[] program_texts = {
+            "\n  \n\t\n\n;\n;",
+            ";\n\n\n",
+            ";;  ;;\n;;\n\n;;",
+        };
+
+        String[] expected_texts = {
+            "\n",
+            ";",
+            ";",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.LINE_BREAK, expected_texts);
+    }
+
+    public void test_ASSOC() {
+        String program_text = "=>";
+        assert_type(program_text, Rubyv3Lexer.ASSOC);
+    }
+
+    public void test_INCLUSIVE_RANGE() {
+        String program_text = "..";
+        assert_type(program_text, Rubyv3Lexer.INCLUSIVE_RANGE);
+    }
+
+    public void test_EXCLUSIVE_RANGE() {
+        String program_text = "...";
+        assert_type(program_text, Rubyv3Lexer.EXCLUSIVE_RANGE);
+    }
+
+    public void test_POWER() {
+        String program_text = "**";
+        assert_type(program_text, Rubyv3Lexer.POWER);
+    }
+
+    public void test_COMPARE() {
+        String program_text = "<=>";
+        assert_type(program_text, Rubyv3Lexer.COMPARE);
+    }
+
+    public void test_GREATER_OR_EQUAL() {
+        String program_text = ">=";
+        assert_type(program_text, Rubyv3Lexer.GREATER_OR_EQUAL);
+    }
+
+    public void test_LESS_OR_EQUAL() {
+        String program_text = "<=";
+        assert_type(program_text, Rubyv3Lexer.LESS_OR_EQUAL);
+    }
+
+    public void test_EQUAL() {
+        String program_text = "==";
+        assert_type(program_text, Rubyv3Lexer.EQUAL);
+    }
+
+    public void test_CASE_EQUAL() {
+        String program_text = "===";
+        assert_type(program_text, Rubyv3Lexer.CASE_EQUAL);
+    }
+
+    public void test_NOT_EQUAL() {
+        String program_text = "!=";
+        assert_type(program_text, Rubyv3Lexer.NOT_EQUAL);
+    }
+
+    public void test_MATCH() {
+        String program_text = "=~";
+        assert_type(program_text, Rubyv3Lexer.MATCH);
+    }
+
+    public void test_NOT_MATCH() {
+        String program_text = "!~";
+        assert_type(program_text, Rubyv3Lexer.NOT_MATCH);
+    }
+
+    public void test_LEFT_SHIFT() {
+        String program_text = "<<";
+        assert_type(program_text, Rubyv3Lexer.LEFT_SHIFT);
+    }
+
+    public void test_RIGHT_SHIFT() {
+        String program_text = ">>";
+        assert_type(program_text, Rubyv3Lexer.RIGHT_SHIFT);
+    }
+
+    public void test_COLON2() {
+        String program_text = "::";
+        assert_type(program_text, Rubyv3Lexer.LEADING_COLON2);
+    }
+
+    public void test_LINE_BREAK() {
+        String[] program_texts = {
+            "\r",
+            "\n",
+            "\r\n",
+            "\n\n\n\n\n",
+            "\r\n\n\r\n\n\n\r\n\r\n",
+        };
+
+        String[] expected_texts = {
+            "",
+            "\n",
+            "\n",
+            "\n",
+            "\n",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.LINE_BREAK, expected_texts);
+    }
+
+    public void test_FUNCTION() {
+        String[] program_texts = {
+            "puts",
+            "print",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.FUNCTION);
+    }
+
+    public void test_IDENTIFIER  () {
+        String[] program_texts = {
+            "hey",
+            "_",
+            "_1",
+            "_a",
+            "abc123",
+            "_________aaaaaaa11111111111____________ZZZZZZZZZ00000000000",
+            "_ab1",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.FUNCTION);
+    }
+
+    public void test_PREDICATE_FUNCTION() {
+        String[] program_texts = {
+            "hey?",
+            "_?",
+            "_1?",
+            "_a?",
+            "_________aaaaaaa11111111111____________ZZZZZZZZZ00000000000?",
+            "_2b2abC?",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.FUNCTION);
+    }
+
+    public void test_DESTRUCTIVE_FUNCTION() {
+        String[] program_texts = {
+            "hey!",
+            "_!",
+            "_1!",
+            "_a!",
+            "_________aaaaaaa11111111111____________ZZZZZZZZZ00000000000!",
+            "_1abC!",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.FUNCTION);
+    }
 
     public void test_GLOBAL_VARIABLE () {
         String[] program_texts = {
@@ -583,7 +1007,23 @@ public class Rubyv3LexerTest extends TestCase {
             "\"hello\n    world\"",
         };
 
-        assert_type(program_texts, Rubyv3Lexer.DOUBLE_QUOTE_STRING);
+        String[] expected_texts = {
+                "Rational(%s, %s)",
+                "%Y-%m-%d %H:%M:%S",
+                "",
+                " ",
+                "string",
+                "hello",
+                " this is a string ",
+                "2",
+                "\\\\",
+                "\\n",
+                "/usr/local",
+                "\\360",
+                "hello\n    world",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.DOUBLE_QUOTE_STRING, expected_texts);
     }
 
     public void test_COMMAND_OUTPUT() {
@@ -598,7 +1038,17 @@ public class Rubyv3LexerTest extends TestCase {
             "`\\n`",
         };
 
-        assert_type(program_texts, Rubyv3Lexer.COMMAND_OUTPUT);
+        String[] expected_texts = {
+                "",
+                " ",
+                "command",
+                " this is a command ",
+                "2",
+                "\\\\",
+                "\\n",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.COMMAND_OUTPUT, expected_texts);
     }
 
     /*TODO
@@ -637,7 +1087,18 @@ public class Rubyv3LexerTest extends TestCase {
             "\'hello\n    #{world}\'",
         };
 
-        assert_type(program_texts, Rubyv3Lexer.SINGLE_QUOTE_STRING);
+        String[] expected_texts = {
+                "",
+                " ",
+                "string",
+                " this is a #@string ",
+                "2",
+                "\\\\",
+                "\\n",
+                "hello\n    #{world}",
+        };
+
+        assert_type(program_texts, Rubyv3Lexer.SINGLE_QUOTE_STRING, expected_texts);
     }
 
 
@@ -653,10 +1114,11 @@ public class Rubyv3LexerTest extends TestCase {
 
         assert_type(program_texts, Rubyv3Lexer.SINGLE_QUOTE_STRING);
     }
-    /*TODO
+
+    /*
     public void test_Q_STRING() {
         String[] program_texts = {
-            "%/test string/",
+            TODO "%/test string/",
             "%Q/test string/",
             "%Q\ntest string\n",
             "%Q*2*",
@@ -684,8 +1146,8 @@ public class Rubyv3LexerTest extends TestCase {
         };
 
         assert_type(program_texts, Rubyv3Lexer.DOUBLE_QUOTE_STRING, expected_texts);
-    }
-*/
+    }*/
+
     public void test_COMMENT() {
         String[] program_texts = {
             "#",

@@ -62,6 +62,11 @@ tokens {
   SINGLE_QUOTE;
   DO_IN_CONDITION;
 
+  IF_MODIFIER;
+  UNLESS_MODIFIER;
+  WHILE_MODIFIER;
+  UNTIL_MODIFIER;
+  RESCUE_MODIFIER;
 }
 
 @rulecatch {
@@ -122,26 +127,26 @@ package com.xruby.compiler.parser;
 
 @lexer::members {
 
-  protected boolean expectOperator(int k)		{assert(false);return false;}
-  protected boolean expectUnary()			{assert(false);return false;}
-  protected boolean expectHash()					{assert(false);return false;}
-  protected boolean expectHeredoc()				{assert(false);return false;}
-  protected boolean expectLeadingColon2()		{assert(false);return false;}
-  protected boolean expectArrayAccess()				{assert(false);return false;}
-  protected boolean lastTokenIsDotOrColon2()		{assert(false);return false;}
-  protected boolean lastTokenIsSemi()				{assert(false);return false;}
-  protected boolean lastTokenIsKeywordDefOrColonWithNoFollowingSpace()			{assert(false);return false;}
-  protected boolean lastTokenIsColonWithNoFollowingSpace()			{assert(false);return false;}
-  protected boolean shouldIgnoreLinebreak()			{assert(false);return false;}
-  protected int trackDelimiterCount(char next_char, char delimeter, int delimeter_count)	{assert(false);return 0;}
-  protected boolean isDelimiter(String next_line, String delimiter)	{assert(false);return false;}
-  protected boolean isAsciiValueTerminator(char value)	{assert(false);return false;}
-  protected boolean justSeenWhitespace()	{assert(false);return false;}
-  protected void setSeenWhitespace()			{assert(false);}
-  protected boolean expressionSubstitutionIsNext()	{assert(false);;return false;}
-  protected boolean spaceIsNext()	{assert(false);return false;}
-  protected void setCurrentSpecialStringDelimiter(char delimiter, int delimiter_count)	{assert(false);}
-  protected void updateCurrentSpecialStringDelimiterCount(int delimiter_count)	{assert(false);}
+  protected boolean expectOperator(int k)		{throw new Error("use Rubyv3Lexer");}
+  protected boolean expectUnary()				{throw new Error("use Rubyv3Lexer");}
+  protected boolean expectHash()				{throw new Error("use Rubyv3Lexer");}
+  protected boolean expectHeredoc()				{throw new Error("use Rubyv3Lexer");}
+  protected boolean expectLeadingColon2()		{throw new Error("use Rubyv3Lexer");}
+  protected boolean expectArrayAccess()			{throw new Error("use Rubyv3Lexer");}
+  protected boolean lastTokenIsDotOrColon2()	{throw new Error("use Rubyv3Lexer");}
+  protected boolean lastTokenIsSemi()			{throw new Error("use Rubyv3Lexer");}
+  protected boolean lastTokenIsKeywordDefOrColonWithNoFollowingSpace()	{throw new Error("use Rubyv3Lexer");}
+  protected boolean lastTokenIsColonWithNoFollowingSpace()				{throw new Error("use Rubyv3Lexer");}
+  protected boolean shouldIgnoreLinebreak()								{throw new Error("use Rubyv3Lexer");}
+  protected int trackDelimiterCount(char next_char, char delimeter, int delimeter_count)	{throw new Error("use Rubyv3Lexer");}
+  protected boolean isDelimiter(String next_line, String delimiter)		{throw new Error("use Rubyv3Lexer");}
+  protected boolean isAsciiValueTerminator(int value)	{throw new Error("use Rubyv3Lexer");}
+  protected boolean justSeenWhitespace()				{throw new Error("use Rubyv3Lexer");}
+  protected void setSeenWhitespace()					{throw new Error("use Rubyv3Lexer");}
+  protected boolean expressionSubstitutionIsNext()		{throw new Error("use Rubyv3Lexer");}
+  protected boolean spaceIsNext()						{throw new Error("use Rubyv3Lexer");}
+  protected void setCurrentSpecialStringDelimiter(char delimiter, int delimiter_count)	{throw new Error("use Rubyv3Lexer");}
+  protected void updateCurrentSpecialStringDelimiterCount(int delimiter_count)			{throw new Error("use Rubyv3Lexer");}
 }
 
 program	:	;
@@ -155,94 +160,45 @@ SEMI	:	';'		;
 
 LINE_BREAK	:	'\r'? '\n'	;
 
-IF_MODIFIER	:	'if'	;
-
-UNLESS_MODIFIER	:	'unless'	;
-
-WHILE_MODIFIER	:	'while'		;
-
-UNTIL_MODIFIER	:	'until'		;
-
-RESCUE_MODIFIER	:	'rescue'	;
-
 LITERAL_undef	:	'undef'		;
-
 LITERAL_alias	:	'alias'		;
-
-LITERAL_do	: 	'do'		;
-
-LITERAL_end	:	'end'		;
-
-LITERAL_and	:	'and'		;
-
-LITERAL_or	:	'or'		;
-
-LITERAL_not	:	'not'		;
-
+LITERAL_do		: 	'do'		;
+LITERAL_end		:	'end'		;
+LITERAL_and		:	'and'		;
+LITERAL_or		:	'or'		;
+LITERAL_not		:	'not'		;
 LITERAL_return	:	'return'	;
-
 LITERAL_break	:	'break'		;
-
 LITERAL_next	:	'next'		;
-
-LITERAL_nil	:	'nil'		;
-
+LITERAL_nil		:	'nil'		;
 LITERAL_true	:	'true'		;
-
 LITERAL_false	:	'false'		;
-
 LITERAL_self	:	'self'		;
-
 LITERAL_super	:	'super'		;
-
 LITERAL_retry	:	'retry'		;
-
 LITERAL_yield	:	'yield'		;
-
 LITERAL_redo	:	'redo'		;
-
-//LITERAL_rescue	:	'rescue'		;
-
+LITERAL_rescue	:	'rescue'	;
 LITERAL_else	:	'else'		;
-
-LITERAL_ensure	:	'ensure'		;
-
+LITERAL_ensure	:	'ensure'	;
 LITERAL_begin	:	'begin'		;
-
-//LITERAL_if		:	'if'		;
-
+LITERAL_if		:	'if'		;
 LITERAL_elsif	:	'elsif'		;
-
-//LITERAL_unless	:	'unless'	;
-
+LITERAL_unless	:	'unless'	;
 LITERAL_case	:	'case'		;
-
-LITERAL_for	:	'for'		;
-
-LITERAL_in	:	'in'		;
-
-//LITERAL_while	:	'while'		;
-
-//LITERAL_until	:	'until'		;
-
+LITERAL_for		:	'for'		;
+LITERAL_in		:	'in'		;
+LITERAL_while	:	'while'		;
+LITERAL_until	:	'until'		;
 LITERAL_module	:	'module'	;
-
 LITERAL_class	:	'class'		;
-
 LITERAL_def		:	'def'		;
-
 LITERAL_defined :	'defined?'	;
-
 LITERAL_BEGIN	:	'BEGIN'		;
-
 LITERAL_then	:	'then'		;
-
 LITERAL_when	:	'when'		;
-
 LITERAL_END		:	'END'		;
-
 LITERAL___FILE__	:	'__FILE__'		;
-
 LITERAL___LINE__	:	'__LINE__'		;
 
 RCURLY	:	'}'		;
@@ -365,6 +321,8 @@ DOUBLE_QUOTE_STRING
       ({input.LA(1)!= delimiter && !expressionSubstitutionIsNext()}?=> STRING_CHAR)*
       (end=.)!
       {
+        setText(getText().substring(1, getText().length()-1));//discard '\"'
+        
         if (end != delimiter)
         {
           $type=STRING_BEFORE_EXPRESSION_SUBSTITUTION;
@@ -381,7 +339,11 @@ SINGLE_QUOTE_STRING
         |~('\''|'\\'|'\r'|'\n')
         )*
       '\''!
+      {
+      		setText(getText().substring(1, getText().length()-1));//discard '\''
+      }
     ;
+
 /*
 fragment
 STRING_BETWEEN_EXPRESSION_SUBSTITUTION[char delimiter, int delimiter_count]
@@ -406,23 +368,26 @@ STRING_BETWEEN_EXPRESSION_SUBSTITUTION[char delimiter, int delimiter_count]
       }
     ;
 */
+
 //DIVIDE and REGEX both starts with '/', here we use semantic predicate to disambiguate.
 REGEX
     :	{!expectOperator(2)}?
       (delimiter='/')!
       ({input.LA(1) != delimiter}? =>	STRING_CHAR)*
       (end='/')!//skip delimiter
-      //{
-      //	if (end != delimiter)
-      //	{
-      //		$type=REGEX_BEFORE_EXPRESSION_SUBSTITUTION;
-      //		setCurrentSpecialStringDelimiter((char)delimiter, 1);
-      //	}
-      //	else
-      //	{
-      //		mREGEX_MODIFIER();//(false);
-      //	}
-      //}
+      {
+      		setText(getText().substring(1, getText().length()-1));//discard '/'
+      		
+	      	if (end != delimiter)
+	      	{
+	      		$type=REGEX_BEFORE_EXPRESSION_SUBSTITUTION;
+	      		setCurrentSpecialStringDelimiter((char)delimiter, 1);
+	      	}
+	      	else
+	      	{
+	      		mREGEX_MODIFIER();
+	      	}
+      }
     |	'/='	{$type=DIV_ASSIGN;}
     |	'/'	{$type=DIV;}
     ;
@@ -433,6 +398,8 @@ COMMAND_OUTPUT
       ({input.LA(1) != delimiter && !expressionSubstitutionIsNext()}? =>	STRING_CHAR)*
       end=.!//skip delimiter
       {
+      	  setText(getText().substring(1, getText().length()-1));//discard '`'
+      	
         if (end != delimiter)
         {
           $type=COMMAND_OUTPUT_BEFORE_EXPRESSION_SUBSTITUTION;
@@ -493,7 +460,7 @@ INTEGER
     |	'..'	{$type=INCLUSIVE_RANGE;}
     |	'...'	{$type=EXCLUSIVE_RANGE;}
     |	'?'	(
-          {isAsciiValueTerminator((char)input.LA(2))}?	(~('\\'|' '|'\n'|'\r'))	{$type=ASCII_VALUE;}
+          {isAsciiValueTerminator(input.LA(2))}?	(~('\\'|' '|'\n'|'\r'))	{$type=ASCII_VALUE;}
           |'\\'		~('C' | 'M')	{$type=ASCII_VALUE;}
           |('\\'	('C'|'M') '-')+	('a'..'z' | '?')	{$type=ASCII_VALUE;}
           |{$type=QUESTION;}	//If it does not "look like"(not depend on context!) integer, then it is QUESTION operator.
@@ -525,6 +492,31 @@ REGEX_MODIFIER
     :	('o'!	|	'x'!	|	'p'!	|	'n'!	|	'i'!	|	'u'!	|	'm'!	|	's'!)*
     ;
 
+/*TODO
+fragment
+STRING_BETWEEN_EXPRESSION_SUBSTITUTION[char delimiter, int delimiter_count]
+    :	({(delimiter_count > 0) && (delimiter_count = trackDelimiterCount(input.LA(1), delimiter, delimiter_count)) != 0&& !expressionSubstitutionIsNext()}?	STRING_CHAR)*
+      {
+        //match and skip delimiter, there maybe no delimiter, e.g. ':#{cmd_name}'
+        if (LA(1) != EOF_CHAR)
+        {
+          int _saveIndex=text.length();
+          match(delimiter);
+          text.setLength(_saveIndex);
+        }
+
+        if (0 == delimiter_count)
+        {
+          $setType(STRING_AFTER_EXPRESSION_SUBSTITUTION);
+        }
+        else
+        {
+          updateCurrentSpecialStringDelimiterCount(delimiter_count);
+        }
+      }
+    ;
+*/
+
 SPECIAL_STRING
 @init
 {
@@ -534,13 +526,13 @@ SPECIAL_STRING
       ({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter1, delimiter_count)) != 0}?	STRING_CHAR)*
       .!//skip delimiter
       {$type=SINGLE_QUOTE_STRING;}
-    |	/*'%'!	'Q'!	delimiter2=.!
+    |	'%'!	'Q'!	delimiter2=.!
       ({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter2, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
       {
         //match and skip delimiter
-        _saveIndex=text.length();
-        matchNot(EOF);
-        text.setLength(_saveIndex);
+        int _saveIndex=text.length();
+        match(delimiter2);
+        text = text.substring(0, _saveIndex);
 
         if (0 == delimiter_count)
         {
@@ -552,7 +544,7 @@ SPECIAL_STRING
           setCurrentSpecialStringDelimiter((char)delimiter2, delimiter_count);
         }
       }
-    |	'%'!	'r'!	delimiter3=.!
+    |	/*'%'!	'r'!	delimiter3=.!
       ({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter3, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
       {
         //match and skip delimiter
@@ -624,6 +616,38 @@ STRING_CHAR
     |	LINE_FEED
     |	ESC
     ;
+
+/*TODO
+//The first '-' after "<<" is alway interpreted as heredoc's special meaning, so be greedy
+HERE_DOC_BEGIN
+    :	{expectHeredoc()}?	"<<"!	HERE_DOC_DELIMITER
+    |	"<<="	{$setType(LEFT_SHIFT_ASSIGN);}
+    |	"<<"		{$setType(LEFT_SHIFT);}
+    ;
+
+fragment
+HERE_DOC_CONTENT[String delimiter, int type1, int type2]
+    :	(next_line:ANYTHING_OTHER_THAN_LINE_FEED_AND_POUND	{if (expressionSubstitutionIsNext()) break;}
+      LINE_FEED	{if (isDelimiter(next_line.getText(), delimiter)) break;}
+      )+
+      {
+        if (expressionSubstitutionIsNext())
+        {
+          //eat '#'
+          _saveIndex=text.length();
+          match('#');
+          text.setLength(_saveIndex);
+          $setType(type1);
+        }
+        else
+        {
+          //skip delimiter
+          text.setLength(text.length() - next_line.getText().length() - 1);
+          $setType(type2);
+        }
+      }
+    ;
+*/
 
 fragment
 ANYTHING_OTHER_THAN_LINE_FEED_AND_POUND
