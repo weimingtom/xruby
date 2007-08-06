@@ -371,7 +371,7 @@ STRING_BETWEEN_EXPRESSION_SUBSTITUTION[char delimiter, int delimiter_count]
 
 //DIVIDE and REGEX both starts with '/', here we use semantic predicate to disambiguate.
 REGEX
-    :	{!expectOperator(2)}?
+    :	{!expectOperator(2)}?=>
       (delimiter='/')!
       ({input.LA(1) != delimiter}? =>	STRING_CHAR)*
       (end='/')!//skip delimiter
