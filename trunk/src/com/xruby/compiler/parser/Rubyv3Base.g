@@ -32,17 +32,15 @@ tokens {
   MOD_ASSIGN;
   MOD;
   LEFT_SHIFT_ASSIGN;
-  INCLUSIVE_RANGE;
-  EXCLUSIVE_RANGE;
+
   BLOCK_ARG_PREFIX;
   LEFT_SHIFT;
   UNARY_PLUS;
   UNARY_MINUS;
-  DOT;
+
   LEADING_COLON2;
   LBRACK_ARRAY_ACCESS;
   EMPTY_ARRAY_ACCESS;
-  UNARY_PLUS;
   UNARY_MINUS;
   BLOCK_ARG_PREFIX;
   STRING_BEFORE_EXPRESSION_SUBSTITUTION;
@@ -56,7 +54,6 @@ tokens {
   HEX;
   BINARY;
   OCTAL;
-  FLOAT;
   ASCII_VALUE;
   LEADING_COLON2;
   SINGLE_QUOTE;
@@ -149,11 +146,257 @@ package com.xruby.compiler.parser;
   protected void updateCurrentSpecialStringDelimiterCount(int delimiter_count)			{throw new Error("use Rubyv3Lexer");}
 }
 
-program	:	;
+program	:	expression;
 
+expression
+		:	andorExpression
+		;
+		
+andorExpression
+		:	notExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	'and'^		(options{greedy=true;}:LINE_BREAK!)?
+				|	'or'^		(options{greedy=true;}:LINE_BREAK!)?
+				)
+				notExpression
+			)*
+		;
+notExpression
+		:	'not'
+			(options{greedy=true;}:LINE_BREAK!)?
+			notExpression
+		|	ternaryIfThenElseExpression
+		;
+		
+ternaryIfThenElseExpression
+		:	assignmentExpression
+			(options{greedy=true;/*caused by command*/}:
+				QUESTION^			(options{greedy=true;}:LINE_BREAK!)?
+				ternaryIfThenElseExpression
+				(COLON!|COLON_WITH_NO_FOLLOWING_SPACE!)				(options{greedy=true;}:LINE_BREAK!)?
+				ternaryIfThenElseExpression
+			)?
+		;
+		
+assignmentExpression
+		:	rangeExpression
+			(options{greedy=true;/*caused by command*/}:
+			{REST_ARG_PREFIX != input.LA(2)}?
+				(	ASSIGN^				(options{greedy=true;}:LINE_BREAK!)?
+				|	ASSIGN_WITH_NO_LEADING_SPACE^		(options{greedy=true;}:LINE_BREAK!)?
+				|	PLUS_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	MINUS_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	STAR_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	DIV_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	MOD_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	POWER_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	BAND_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	BXOR_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	BOR_ASSIGN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	LEFT_SHIFT_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
+				|	RIGHT_SHIFT_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
+				|	LOGICAL_AND_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
+				|	LOGICAL_OR_ASSIGN^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				ternaryIfThenElseExpression
+			)*
+		;
+		
+rangeExpression
+		:	logicalOrExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	INCLUSIVE_RANGE^	(options{greedy=true;}:LINE_BREAK!)?
+				|	EXCLUSIVE_RANGE^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				logicalOrExpression
+			)* 
+		;
+		
+logicalOrExpression
+		:	logicalAndExpression
+			(options{greedy=true;/*caused by command*/}:
+				LOGICAL_OR^		(options{greedy=true;}:LINE_BREAK!)?
+				logicalAndExpression
+			)*
+		;
+		
+logicalAndExpression
+		:	equalityExpression
+			(options{greedy=true;/*caused by command*/}:
+				LOGICAL_AND^		(options{greedy=true;}:LINE_BREAK!)?
+				equalityExpression
+			)*
+		;
+		
+equalityExpression
+		:	relationalExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	COMPARE^		(options{greedy=true;}:LINE_BREAK!)?
+				|	EQUAL^			(options{greedy=true;}:LINE_BREAK!)?
+				|	CASE_EQUAL^	(options{greedy=true;}:LINE_BREAK!)?
+				|	NOT_EQUAL^		(options{greedy=true;}:LINE_BREAK!)?
+				|	MATCH^			(options{greedy=true;}:LINE_BREAK!)?
+				|	NOT_MATCH^		(options{greedy=true;}:LINE_BREAK!)?
+				)
+				relationalExpression
+			)*
+		;
+		
+relationalExpression
+		:	orExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	LESS_THAN^			(options{greedy=true;}:LINE_BREAK!)?
+				|	GREATER_THAN^		(options{greedy=true;}:LINE_BREAK!)?
+				|	LESS_OR_EQUAL^		(options{greedy=true;}:LINE_BREAK!)?
+				|	GREATER_OR_EQUAL^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				orExpression
+			)*
+		;
+		
+orExpression
+		:	andExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	BXOR^			(options{greedy=true;}:LINE_BREAK!)?
+				|	BOR^			(options{greedy=true;}:LINE_BREAK!)?
+				)
+				andExpression
+			)*
+		;
+		
+andExpression
+		:	shiftExpression
+			(options{greedy=true;/*caused by command*/}:
+				BAND^			(options{greedy=true;}:LINE_BREAK!)?
+				shiftExpression
+			)*
+		;
+		
+shiftExpression
+		:	additiveExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	LEFT_SHIFT^		(options{greedy=true;}:LINE_BREAK!)?
+				|	RIGHT_SHIFT^	(options{greedy=true;}:LINE_BREAK!)?
+				)
+				additiveExpression
+			)*
+		;
+		
+additiveExpression
+		:	multiplicativeExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	PLUS^				(options{greedy=true;}:LINE_BREAK!)?
+				|	MINUS^				(options{greedy=true;}:LINE_BREAK!)?
+				)
+				multiplicativeExpression
+			)*
+		;
+		
+multiplicativeExpression
+		:	powerExpression
+			(options{greedy=true;/*caused by command*/}:
+				(	STAR^			(options{greedy=true;}:LINE_BREAK!)?
+				|	DIV^			(options{greedy=true;}:LINE_BREAK!)?
+				|	MOD^			(options{greedy=true;}:LINE_BREAK!)?
+				)
+				powerExpression
+			)*
+		;
+
+
+//**
+powerExpression
+		:	bnotExpression
+			(options{greedy=true;/*caused by command*/}:
+				POWER^			(options{greedy=true;}:LINE_BREAK!)?
+				bnotExpression
+			)*
+		;
+
+//!  ~
+bnotExpression
+		:	(	BNOT^			(options{greedy=true;}:LINE_BREAK!)?
+			|	NOT^			(options{greedy=true;}:LINE_BREAK!)?
+			)*
+			command
+		;
+
+command:unaryExpression;
+
+//-(unary)  +(unary)
+unaryExpression
+		:	(	UNARY_PLUS^	(options{greedy=true;}:LINE_BREAK!)?
+			|	UNARY_MINUS^	(options{greedy=true;}:LINE_BREAK!)?
+			)*
+			
+			|primaryExpressionThatCanNotBeMethodName	
+			
+		;
+predefinedValue
+		:	'nil'
+		|	'true'
+		|	'false'
+		|	'__FILE__'
+		|	'__LINE__'
+		;
+
+
+numeric
+		:	INTEGER
+		|	HEX		
+		|	BINARY
+		|	OCTAL
+		|	FLOAT
+		|	ASCII_VALUE
+		;
+
+primaryExpressionThatCanBeMethodName
+		:	FUNCTION	
+		|	IDENTIFIER	
+		|	'self'
+		|	'super'
+		|	CONSTANT
+		|	LEADING_COLON2	CONSTANT
+		|	'retry'
+		|	'yield'
+		|	LITERAL_defined
+		|	'redo'
+		|	EMPTY_ARRAY
+		|	EMPTY_ARRAY_ACCESS
+		|	UNARY_PLUS_MINUS_METHOD_NAME
+		;
+				
+primaryExpressionThatCanNotBeMethodName
+		:	INSTANCE_VARIABLE	
+		|	GLOBAL_VARIABLE 
+		|	CLASS_VARIABLE
+		|	predefinedValue
+		|	numeric
+		/*|	literal
+		|	arrayExpression
+		|	hashExpression
+		|	LPAREN^	compoundStatement RPAREN!
+		|	LPAREN_WITH_NO_LEADING_SPACE^ compoundStatement RPAREN!
+		|	ifExpression
+		|	unlessExpression
+		|	whileExpression			
+		|	untilExpression			
+		|	caseExpression		
+		|	forExpression			
+		|	exceptionHandlingExpression
+		|	moduleDefination
+		|	classDefination
+		|	methodDefination*/
+		;
+
+primaryExpression
+		:	primaryExpressionThatCanNotBeMethodName
+		|	primaryExpressionThatCanBeMethodName	
+		;
+		
 terminal
-    :	SEMI!
-    |	LINE_BREAK!
+    :	SEMI
+    |	LINE_BREAK
     ;
 
 SEMI	:	';'		(options{greedy=true;}:(WHITE_SPACE_CAHR|SEMI))* {setText(";");};
@@ -388,9 +631,11 @@ REGEX
 	      		mREGEX_MODIFIER();
 	      	}
       }
-    |	'/='	{$type=DIV_ASSIGN;}
-    |	'/'	{$type=DIV;}
-    ;
+     ;
+     
+  DIV_ASSIGN:	'/='	;
+   DIV :	'/'	;
+ 
 
 COMMAND_OUTPUT
     :	{!lastTokenIsKeywordDefOrColonWithNoFollowingSpace()}?
@@ -412,10 +657,10 @@ COMMAND_OUTPUT
 //The first '-' after "<<" is alway interpreted as heredoc's special meaning, so be greedy
 HERE_DOC_BEGIN
     :	{expectHeredoc()}?	'<<'!	HERE_DOC_DELIMITER
-    |	'<<='	{$type=LEFT_SHIFT_ASSIGN;}
-    |	'<<'		{$type=LEFT_SHIFT;}
     ;
 
+    LEFT_SHIFT_ASSIGN:	'<<='	;
+   LEFT_SHIFT:	'<<';
 /*
 fragment
 HERE_DOC_CONTENT[String delimiter, int type1, int type2]
@@ -441,10 +686,8 @@ HERE_DOC_CONTENT[String delimiter, int type1, int type2]
     ;
 */
 INTEGER
-    :	'0'!	OCTAL_CONTENT			{$type=OCTAL;}
-    |	'0'!	('b'!|'B'!)	BINARY_CONTENT	{$type=BINARY;}
-    |	'0'!	('x'!|'X'!)	HEX_CONTENT	{$type=HEX;}
-    |	'0'	(
+    :	
+    		'0'	(
           //Use semantic prediction to avoid 0.times
           {(input.LA(2)>='0')&&(input.LA(2)<='9')}? => FLOAT_WITH_LEADING_DOT {$type=FLOAT;}
           |/*none*/
@@ -455,10 +698,7 @@ INTEGER
                   |EXPONENT {$type=FLOAT;}
                   |/*none*/
                 )
-    |	FLOAT_WITH_LEADING_DOT	{$type=FLOAT;}
-    |	'.'	{$type=DOT;}
-    |	'..'	{$type=INCLUSIVE_RANGE;}
-    |	'...'	{$type=EXCLUSIVE_RANGE;}
+
     |	'?'	(
           {isAsciiValueTerminator(input.LA(2))}?	(~('\\'|' '|'\n'|'\r'))	{$type=ASCII_VALUE;}
           |'\\'		~('C' | 'M')	{$type=ASCII_VALUE;}
@@ -466,6 +706,14 @@ INTEGER
           |{$type=QUESTION;}	//If it does not "look like"(not depend on context!) integer, then it is QUESTION operator.
         )
     ;
+    
+   BINARY: '0'!	('b'!|'B'!)	BINARY_CONTENT	;
+        HEX:	'0'!	('x'!|'X'!)	HEX_CONTENT	;
+        FLOAT:	FLOAT_WITH_LEADING_DOT;
+        OCTAL:'0'!	OCTAL_CONTENT;
+    DOT:	'.'	;
+    INCLUSIVE_RANGE:	'..';
+    EXCLUSIVE_RANGE:	'...';
 
 EMPTY_ARRAY		:	'[]'		{if (expectArrayAccess()) {$type=EMPTY_ARRAY_ACCESS;}};
 
@@ -605,10 +853,11 @@ SPECIAL_STRING
           $type=STRING_BEFORE_EXPRESSION_SUBSTITUTION;
           setCurrentSpecialStringDelimiter((char)delimiter6, delimiter_count);
         }
-      }
-    |	*/ '%='	{$type=MOD_ASSIGN;}
-    |	'%'		{$type=MOD;}
+      }*/
     ;
+    
+       MOD_ASSIGN:	 '%='	;
+    MOD:	'%'		;
 
 fragment
 STRING_CHAR
