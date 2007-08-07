@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
@@ -49,11 +48,12 @@ public class RubyBignum extends RubyInteger {
 		return this.value_.doubleValue();
 	}
 
-	@RubyLevelMethod(name="to_s", type=MethodType.NO_OR_ONE_ARG)
+	@RubyLevelMethod(name="to_s")
 	public RubyString to_s() {
         return ObjectFactory.createString(value_.toString(10));
     }
 
+	@RubyLevelMethod(name="to_s")
     public RubyString to_s(RubyValue radix) {
         return ObjectFactory.createString(value_.toString(radix.toInt()));
     }
@@ -80,7 +80,7 @@ public class RubyBignum extends RubyInteger {
         return alignedBytesCount;
     }
     
-    @RubyLevelMethod(name="coerce", type=MethodType.ONE_ARG)    
+    @RubyLevelMethod(name="coerce")    
 	public RubyArray coerce(RubyValue v) {
 		if (v instanceof RubyFixnum) {
 			return new RubyArray(new RubyBignum(BigInteger.valueOf(v.toInt())), this);
@@ -102,7 +102,7 @@ public class RubyBignum extends RubyInteger {
     	return bignorm(this.value_.not());
     }
     
-    @RubyLevelMethod(name="+", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="+")
     public RubyValue op_add(RubyValue value) {
         if (value instanceof RubyBignum) {
         	RubyBignum bigValue = (RubyBignum) value;
@@ -118,7 +118,7 @@ public class RubyBignum extends RubyInteger {
         }
     }
 
-	@RubyLevelMethod(name="-", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="-")
     public RubyValue op_sub(RubyValue value) {
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
@@ -134,7 +134,7 @@ public class RubyBignum extends RubyInteger {
         }
     }
 
-	@RubyLevelMethod(name="*", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="*")
 	public RubyValue op_mul(RubyValue value) {
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
@@ -150,7 +150,7 @@ public class RubyBignum extends RubyInteger {
         }
     }
 	
-	@RubyLevelMethod(name="/", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="/")
     public RubyValue op_div(RubyValue value) {
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
@@ -166,7 +166,7 @@ public class RubyBignum extends RubyInteger {
         }
     }
 	
-	@RubyLevelMethod(name="quo", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="quo")
 	public RubyValue quo(RubyValue v) {
 		double dx = this.value_.doubleValue();
 		double dy;
@@ -183,7 +183,7 @@ public class RubyBignum extends RubyInteger {
 		return ObjectFactory.createFloat(dx / dy);
 	}
 	
-	@RubyLevelMethod(name="**", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="**")
 	public RubyValue pow(RubyValue v) {
 		if (v.toInt() == 0) {
 			return ObjectFactory.FIXNUM1;
@@ -214,7 +214,7 @@ public class RubyBignum extends RubyInteger {
 		return ObjectFactory.createFloat(Math.pow(this.value_.doubleValue(), d));
 	}
 
-	@RubyLevelMethod(name="%", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="%")
     public RubyValue op_mod(RubyValue value) {
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
@@ -252,7 +252,7 @@ public class RubyBignum extends RubyInteger {
         return result;
     }
 
-    @RubyLevelMethod(name="&", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="&")
     public RubyValue op_band(RubyValue value) {
         BigInteger result;
         if (value instanceof RubyBignum) {
@@ -273,7 +273,7 @@ public class RubyBignum extends RubyInteger {
         return bignorm(result);
     }
 
-    @RubyLevelMethod(name="|", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="|")
     public RubyValue op_bor(RubyValue value) {
         BigInteger result;
         if (value instanceof RubyBignum) {
@@ -294,7 +294,7 @@ public class RubyBignum extends RubyInteger {
         return bignorm(result);
     }
 
-    @RubyLevelMethod(name="^", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="^")
     public RubyValue op_bxor(RubyValue value) {
         BigInteger result;
         if (value instanceof RubyBignum) {
@@ -315,7 +315,7 @@ public class RubyBignum extends RubyInteger {
         return bignorm(result);
     }
     
-    @RubyLevelMethod(name="<<", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="<<")
     public RubyValue lshift(RubyValue v) {
     	int shift = v.toInt();
     	if (shift < 0) {
@@ -325,7 +325,7 @@ public class RubyBignum extends RubyInteger {
     	return bignorm(this.value_.shiftLeft(shift));
     }
     
-    @RubyLevelMethod(name=">>", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name=">>")
     public RubyValue rshift(RubyValue v) {
     	int shift = v.toInt();
     	if (shift < 0) {
@@ -335,13 +335,13 @@ public class RubyBignum extends RubyInteger {
     	return bignorm(this.value_.shiftRight(shift));
     }
     
-    @RubyLevelMethod(name="[]", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="[]")
     public RubyFixnum aref(RubyValue v) {
         int index = v.toInt();
         return this.value_.testBit(index) ? ObjectFactory.FIXNUM1 : ObjectFactory.FIXNUM0;
     }
     
-    @RubyLevelMethod(name="<=>", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="<=>")
     public RubyValue cmp(RubyValue v) {
     	BigInteger b;
     	if (v instanceof RubyFixnum) {

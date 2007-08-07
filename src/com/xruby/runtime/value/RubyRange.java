@@ -6,7 +6,6 @@
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
@@ -46,7 +45,7 @@ public class RubyRange extends RubyBasic {
 		return ObjectFactory.createRange();
 	}
     
-    @RubyLevelMethod(name="initialize", type=MethodType.VAR_ARG)
+    @RubyLevelMethod(name="initialize")
     public RubyValue initialize(RubyArray args) {
     	RubyValue left = args.get(0);
         RubyValue right = args.get(1);
@@ -109,7 +108,7 @@ public class RubyRange extends RubyBasic {
         return ObjectFactory.createFixnum(hash);
     }
     
-    @RubyLevelMethod(name="each", block=true)
+    @RubyLevelMethod(name="each")
     public RubyValue each(RubyBlock block) {
         if (this.begin_ instanceof RubyFixnum && this.end_ instanceof RubyFixnum) {
         	return eachForFixnum(block);

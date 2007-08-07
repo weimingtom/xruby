@@ -8,7 +8,6 @@ package com.xruby.runtime.value;
 import java.math.BigInteger;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
@@ -75,7 +74,7 @@ public class RubyFixnum extends RubyInteger {
     	return ObjectFactory.createFixnum(-this.value_);
     }
     
-    @RubyLevelMethod(name="+", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="+")
     public RubyValue opPlus(RubyValue v) {
     	if (v instanceof RubyFixnum) {
     		return RubyBignum.bignorm((long)this.value_ + (long)v.toInt());
@@ -94,7 +93,7 @@ public class RubyFixnum extends RubyInteger {
     	return coerceBin(RubyID.plusID, v);
     }
     
-    @RubyLevelMethod(name="-", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="-")
     public RubyValue opMinus(RubyValue v) {
     	if (v instanceof RubyFixnum) {
     		return RubyBignum.bignorm((long)this.value_ - (long)v.toInt());
@@ -113,7 +112,7 @@ public class RubyFixnum extends RubyInteger {
     	return coerceBin(RubyID.subID, v);
     }
     
-    @RubyLevelMethod(name="*", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="*")
     public RubyValue opMul(RubyValue v) {
     	if (v instanceof RubyFixnum) {
     		return RubyBignum.bignorm((long)this.value_ * (long)v.toInt());
@@ -132,7 +131,7 @@ public class RubyFixnum extends RubyInteger {
     	return coerceBin(RubyID.mulID, v);
     }
     
-    @RubyLevelMethod(name="/", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="/")
     public RubyValue opDiv(RubyValue v) {
     	if (v instanceof RubyFixnum) {
     		int intValue1 = this.value_;
@@ -154,7 +153,7 @@ public class RubyFixnum extends RubyInteger {
     	}
     }
     
-    @RubyLevelMethod(name="%", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="%")
     public RubyValue mod(RubyValue v) {
     	if (v instanceof RubyFixnum) {
     		return RubyBignum.bignorm(this.value_ % v.toInt());
@@ -163,7 +162,7 @@ public class RubyFixnum extends RubyInteger {
     	return coerceBin(RubyID.modID, v);
     }
     
-    @RubyLevelMethod(name="**", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="**")
     public RubyValue pow(RubyValue v) {
     	if (v instanceof RubyFixnum) {
     		int p = v.toInt();
@@ -197,12 +196,12 @@ public class RubyFixnum extends RubyInteger {
     	return ObjectFactory.createFloat(this.value_);
     }
     
-    @RubyLevelMethod(name="<<", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="<<")
     public RubyValue lshift(RubyValue arg) {
     	return lshift(arg.toInt());
     }
     
-    @RubyLevelMethod(name=">>", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name=">>")
     public RubyValue rshift(RubyValue arg) {
     	return rshift(arg.toInt());
     }
@@ -238,7 +237,7 @@ public class RubyFixnum extends RubyInteger {
     	return ObjectFactory.createFixnum(this.value_ >> i);
 	}
 	
-	@RubyLevelMethod(name="==", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="==")
 	public RubyValue opEqual(RubyValue arg) {
 		if (arg == this) {
 			return RubyConstant.QTRUE;
@@ -251,7 +250,7 @@ public class RubyFixnum extends RubyInteger {
 		return RubyAPI.callOneArgMethod(arg, this, null, RubyID.equalID);
 	}
 	
-	@RubyLevelMethod(name="<=", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="<=")
 	public RubyValue opLe(RubyValue v) {
 		if (v instanceof RubyFixnum) {
 			return ObjectFactory.createBoolean(this.value_ <= v.toInt());
@@ -262,7 +261,7 @@ public class RubyFixnum extends RubyInteger {
 		return coerceRelop(RubyID.leID, v);
 	}
 	
-	@RubyLevelMethod(name="<", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="<")
 	public RubyValue opLt(RubyValue v) {
 		if (v instanceof RubyFixnum) {
 			return ObjectFactory.createBoolean(this.value_ < v.toInt());
@@ -273,7 +272,7 @@ public class RubyFixnum extends RubyInteger {
 		return coerceRelop(RubyID.ltID, v);
 	}
 	
-	@RubyLevelMethod(name=">=", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name=">=")
 	public RubyValue opGe(RubyValue v) {
 		if (v instanceof RubyFixnum) {
 			return ObjectFactory.createBoolean(this.value_ >= v.toInt());
@@ -284,7 +283,7 @@ public class RubyFixnum extends RubyInteger {
 		return coerceRelop(RubyID.geID, v);
 	}
 	
-	@RubyLevelMethod(name=">", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name=">")
 	public RubyValue opGt(RubyValue v) {
 		if (v instanceof RubyFixnum) {
 			return ObjectFactory.createBoolean(this.value_ > v.toInt());
@@ -295,7 +294,7 @@ public class RubyFixnum extends RubyInteger {
 		return coerceRelop(RubyID.gtID, v);
 	}
 	
-	@RubyLevelMethod(name="<=>", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="<=>")
 	public RubyValue opCmp(RubyValue v) {
 		if (this == v) {
 			return ObjectFactory.FIXNUM0;
@@ -315,7 +314,7 @@ public class RubyFixnum extends RubyInteger {
 		return coerceCmp(RubyID.unequalID, v);
 	}
 	
-	@RubyLevelMethod(name="|", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="|")
 	public RubyValue opOr(RubyValue v) {
 		if (v instanceof RubyBignum) {
 			return ((RubyBignum)v).op_bor(this);
@@ -324,7 +323,7 @@ public class RubyFixnum extends RubyInteger {
 		return RubyBignum.bignorm(this.value_ | v.toInt());
 	}
 	
-	@RubyLevelMethod(name="&", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="&")
 	public RubyValue opAnd(RubyValue v) {
 		if (v instanceof RubyBignum) {
 			return ((RubyBignum)v).op_band(this);
@@ -333,7 +332,7 @@ public class RubyFixnum extends RubyInteger {
 		return RubyBignum.bignorm(this.value_ & v.toInt());
 	}
 	
-	@RubyLevelMethod(name="^", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="^")
 	public RubyValue opXor(RubyValue v) {
 		if (v instanceof RubyBignum) {
 			return ((RubyBignum)v).op_bxor(this);
@@ -342,11 +341,12 @@ public class RubyFixnum extends RubyInteger {
 		return RubyBignum.bignorm(this.value_ ^ v.toInt());
 	}
 	
-	@RubyLevelMethod(name="to_s", type=MethodType.NO_OR_ONE_ARG)
+	@RubyLevelMethod(name="to_s")
 	public RubyString to_s() {
 		return ObjectFactory.createString(this.toString());
 	}
 	
+	@RubyLevelMethod(name="to_s")
 	public RubyString to_s(RubyValue v) {
 		 int radix = v.toInt();
          if (radix < 2 || radix > 36) {
@@ -356,7 +356,7 @@ public class RubyFixnum extends RubyInteger {
          return ObjectFactory.createString(this.toString(radix));
 	}
 	
-	@RubyLevelMethod(name="quo", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="quo")
 	public RubyFloat quo(RubyValue v) {
         if (v instanceof RubyFixnum) {
         	return ObjectFactory.createFloat(this.value_ / v.toInt());
@@ -366,7 +366,7 @@ public class RubyFixnum extends RubyInteger {
         throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().getName() + " can't be coersed into Fixnum");
 	}
 	
-	@RubyLevelMethod(name="[]", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="[]")
 	public RubyFixnum aref(RubyValue idx) {
 		if (idx instanceof RubyBignum) {
 			idx = RubyBignum.bignorm(idx);

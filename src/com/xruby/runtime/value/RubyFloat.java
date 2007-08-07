@@ -11,7 +11,6 @@ import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
@@ -73,12 +72,12 @@ public class RubyFloat extends RubyNumeric {
 		return ObjectFactory.createFixnum((int)this.value_);
 	}
 	
-	@RubyLevelMethod(name="coerce", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="coerce")
 	public RubyArray coerce(RubyValue v) {
 		return new RubyArray(v.toRubyFloat(), this);
 	}
 	
-	@RubyLevelMethod(name="+", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="+")
 	public RubyValue opPlus(RubyValue v) {
 		if (v instanceof RubyFixnum) {
 			return ObjectFactory.createFloat(this.value_ + v.toFloat());
@@ -91,7 +90,7 @@ public class RubyFloat extends RubyNumeric {
 		}
 	}
 	
-	@RubyLevelMethod(name="-", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="-")
 	public RubyValue opMinus(RubyValue v) {
 		if (v instanceof RubyFixnum) {
 			return ObjectFactory.createFloat(this.value_ - v.toFloat());
@@ -104,7 +103,7 @@ public class RubyFloat extends RubyNumeric {
 		}
 	}
 	
-	@RubyLevelMethod(name="*", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="*")
 	public RubyValue opMul(RubyValue v) {	
 		if (v instanceof RubyFixnum) {
 			return ObjectFactory.createFloat(this.value_ * v.toFloat());
@@ -117,7 +116,7 @@ public class RubyFloat extends RubyNumeric {
 		}
 	}
 	
-	@RubyLevelMethod(name="/", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="/")
 	public RubyValue opDiv(RubyValue v) {	
 		if (v instanceof RubyFixnum) {
 			return ObjectFactory.createFloat(this.value_ / v.toFloat());
@@ -130,7 +129,7 @@ public class RubyFloat extends RubyNumeric {
 		}
 	}
 	
-	@RubyLevelMethod(name="%", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="%")
 	public RubyValue opMod(RubyValue v) {
 		double fy;
 		if (v instanceof RubyFixnum) {
@@ -146,7 +145,7 @@ public class RubyFloat extends RubyNumeric {
 		return ObjectFactory.createFloat(this.value_ % fy);
 	}
 	
-	@RubyLevelMethod(name="<=>", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="<=>")
 	public RubyValue cmp(RubyValue v) {
 		double a = this.value_;
 		double b;

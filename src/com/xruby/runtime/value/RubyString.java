@@ -8,7 +8,6 @@ package com.xruby.runtime.value;
 import java.util.Formatter;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
@@ -113,7 +112,7 @@ public class RubyString extends RubyBasic {
 		return id.toSymbol();
     }
     
-    @RubyLevelMethod(name="+", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="+")
     public RubyString plus(RubyValue v) {
     	StringBuilder sb = new StringBuilder();
     	sb.append(this.sb_);
@@ -159,7 +158,7 @@ public class RubyString extends RubyBasic {
         return this;
     }
     
-    @RubyLevelMethod(name="==", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="==")
     public RubyValue opEqual(RubyValue v) {
     	if (this == v) {
     		return RubyConstant.QTRUE;
@@ -612,7 +611,7 @@ public class RubyString extends RubyBasic {
     	return ObjectFactory.createString(this.dump());
     }
     
-    @RubyLevelMethod(name="each", block=true, alias="each_line")
+    @RubyLevelMethod(name="each", alias="each_line")
     public RubyValue each(RubyBlock block) {
     	// FIXME: for each line
     	block.invoke(this, this);

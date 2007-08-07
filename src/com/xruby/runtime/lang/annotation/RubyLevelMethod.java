@@ -10,8 +10,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface RubyLevelMethod {
 	String name();
-	MethodType type() default MethodType.NO_ARG;
-	boolean block() default false;
-	boolean singleton() default false;
 	String[] alias() default {};
 }

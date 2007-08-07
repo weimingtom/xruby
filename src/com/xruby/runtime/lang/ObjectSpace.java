@@ -7,7 +7,6 @@ package com.xruby.runtime.lang;
 
 import java.util.WeakHashMap;
 
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelModule;
 import com.xruby.runtime.value.ObjectFactory;
@@ -23,7 +22,7 @@ public class ObjectSpace {
         map_.put(v, null);
     }
     
-    @RubyLevelMethod(name="each_object", type=MethodType.VAR_ARG, block=true, singleton=true)
+    @RubyLevelMethod(name="each_object")
     public static RubyFixnum each_object(RubyValue receiver, RubyArray args, RubyBlock block) {
     	int n = ObjectSpace.each_object(receiver, (null == args) ? null : (RubyModule)args.get(0), block);
         return ObjectFactory.createFixnum(n);

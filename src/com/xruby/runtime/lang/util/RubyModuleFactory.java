@@ -15,6 +15,10 @@ class RubyModuleFactory extends RubyTypeFactory {
 		super(klass);
 	}
 	
+	protected boolean isModule() {
+		return true;
+	}
+	
 	protected Class getTypeAnnotationClass() {
 		return RubyLevelModule.class;
 	}

@@ -23,7 +23,7 @@ import com.xruby.runtime.lang.annotation.UndefMethod;
 		}
 )
 public abstract class RubyInteger extends RubyNumeric {
-	@RubyLevelMethod(name="times", block=true)
+	@RubyLevelMethod(name="times")
 	public RubyValue times(RubyBlock block) {
 		RubyValue a = ObjectFactory.FIXNUM0;
         while (RubyAPI.callPublicOneArgMethod(a, this, null, RubyID.ltID).isTrue()) {
