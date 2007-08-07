@@ -65,7 +65,7 @@ class Time_at extends RubyOneArgMethod {
         Object value = arg;
         double time = 0;
         if (value instanceof RubyFixnum) {
-            time = ((RubyFixnum) value).intValue();
+            time = ((RubyFixnum) value).toInt();
         } else if (value instanceof RubyBignum) {
             time = ((RubyBignum) value).getInternal().longValue();
         } else if (value instanceof RubyFloat) {
@@ -83,7 +83,7 @@ class Time_plus extends RubyOneArgMethod {
         Object value = arg;
         double timeAdd = 0;
         if (value instanceof RubyFixnum) {
-            timeAdd = ((RubyFixnum) value).intValue();
+            timeAdd = ((RubyFixnum) value).toInt();
         } else if (value instanceof RubyBignum) {
             timeAdd = ((RubyBignum) value).getInternal().longValue();
         } else if (value instanceof RubyFloat) {
@@ -110,7 +110,7 @@ class Time_minus extends RubyOneArgMethod {
         Object value = arg;
         double time = 0;
         if (value instanceof RubyFixnum) {
-            time = ((RubyFixnum) value).intValue();
+            time = ((RubyFixnum) value).toInt();
         } else if (value instanceof RubyBignum) {
             time = ((RubyBignum) value).getInternal().longValue();
         } else if (value instanceof RubyFloat) {
@@ -142,12 +142,12 @@ class Time_utc extends RubyVarArgMethod {
         }
 
         int i = 0;
-        int year = ((RubyFixnum) args.get(i++)).intValue();
-        int month = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).intValue();
-        int day = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).intValue();
-        int hour = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).intValue();
-        int min = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).intValue();
-        int sec = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).intValue();
+        int year = ((RubyFixnum) args.get(i++)).toInt();
+        int month = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
+        int day = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
+        int hour = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
+        int min = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
+        int sec = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         calendar.clear();
         calendar.set(year, month-1, day, hour, min, sec); 

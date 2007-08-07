@@ -11,6 +11,7 @@ import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.UndefMethod;
 
 class RubyClassFactory extends RubyTypeFactory {
 	RubyClassFactory(Class klass) {
@@ -51,6 +52,10 @@ class RubyClassFactory extends RubyTypeFactory {
 		for (String moduleName : klassAnnotation.modules()) {
 			includeModule(mg, rubyTypeIdx, moduleName);
 		}
+		
+		for (UndefMethod method : klassAnnotation.undef()) {
+			undefMethod(mg, rubyTypeIdx, method);
+		}
 
 		return rubyTypeIdx;
 	}
@@ -60,6 +65,18 @@ class RubyClassFactory extends RubyTypeFactory {
 		loadModule(mg, moduleName, rubyTypeIdx);
 		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method.getMethod(
 				CgUtil.getMethodName("includeModule", Void.TYPE, RubyModule.class)));
+	}
+	
+	private void undefMethod(GeneratorAdapter mg, int rubyTypeIdx, UndefMethod method) {
+		mg.loadLocal(rubyTypeIdx);
+		if (method.classMethod()) {
+			mg.invokeVirtual(Types.RUBY_VALUE_TYPE, 
+					Method.getMethod(CgUtil.getMethodName("getRubyClass", RubyClass.class)));
+		}
+		
+		mg.push(method.name());
+		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method.getMethod(
+				CgUtil.getMethodName("undefMethod", Void.TYPE, String.class)));
 	}
 
 	private static void loadSuperClass(GeneratorAdapter mg, String superclass) {

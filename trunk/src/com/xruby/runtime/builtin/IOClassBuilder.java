@@ -26,7 +26,7 @@ class IO_write extends RubyOneArgMethod {
         } else {
             System.out.print(value.toString());//TODO this is a hack, better create a new class to represent STDOUT
         }
-        return ObjectFactory.createFixnum(value.length());
+        return value.rubyLength();
     }
 }
 
@@ -121,7 +121,7 @@ class IO_read extends RubyVarArgMethod {
         if ((null == args) || (ObjectFactory.NIL_VALUE == args.get(0))) {
             return buildResult(io.read(), buffer);
         } else {
-            return buildResult(io.read(((RubyFixnum) args.get(0)).intValue()), buffer);
+            return buildResult(io.read(((RubyFixnum) args.get(0)).toInt()), buffer);
         }
     }
 
@@ -165,11 +165,11 @@ class IO_read_singleton extends RubyVarArgMethod {
         if (args.size() == 1) {
             return IO_read.buildResult(io.read(), null);
         } else {
-            length = ((RubyFixnum) args.get(1)).intValue();
+            length = ((RubyFixnum) args.get(1)).toInt();
             if (args.size() == 2) {
                 return IO_read.buildResult(io.read(length), null);
             } else {
-                offset = ((RubyFixnum) args.get(2)).intValue();
+                offset = ((RubyFixnum) args.get(2)).toInt();
                 return IO_read.buildResult(io.read(length, offset), null);
             }
         }

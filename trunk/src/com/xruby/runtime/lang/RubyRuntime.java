@@ -9,7 +9,13 @@ import com.xruby.runtime.builtin.*;
 import com.xruby.runtime.lang.util.RubyTypeFactory;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyBignum;
+import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.value.RubyFloat;
+import com.xruby.runtime.value.RubyInteger;
 import com.xruby.runtime.value.RubyMethodValue;
+import com.xruby.runtime.value.RubyNumeric;
+import com.xruby.runtime.value.RubyRange;
 import com.xruby.runtime.value.RubyThreadGroup;
 
 public class RubyRuntime {
@@ -110,19 +116,22 @@ public class RubyRuntime {
         
         
         RubyTypeFactory.getClass(RubyObject.class);
+        ModuleClassBuilder.initialize();
+        ClassClassBuilder.initialize();
+        KernelModuleBuilder.initialize();
         
-        NumericClass = RubyAPI.defineClass("Numeric", RubyRuntime.ObjectClass);
-        IntegerClass = RubyAPI.defineClass("Integer", RubyRuntime.NumericClass);
-        FixnumClass = RubyAPI.defineClass("Fixnum", RubyRuntime.IntegerClass);
-        BignumClass = RubyAPI.defineClass("Bignum", RubyRuntime.IntegerClass);
+        NumericClass = RubyTypeFactory.getClass(RubyNumeric.class);
+        IntegerClass = RubyTypeFactory.getClass(RubyInteger.class);
+        FixnumClass = RubyTypeFactory.getClass(RubyFixnum.class);
+        BignumClass = RubyTypeFactory.getClass(RubyBignum.class);
         StringClass = RubyAPI.defineClass("String", RubyRuntime.ObjectClass);
-        FloatClass = RubyAPI.defineClass("Float", RubyRuntime.NumericClass);
+        FloatClass = RubyTypeFactory.getClass(RubyFloat.class);
         ArrayClass = RubyAPI.defineClass("Array", RubyRuntime.ObjectClass);
         HashClass = RubyAPI.defineClass("Hash", RubyRuntime.ObjectClass);
-        SymbolClass = RubyTypeFactory.getClass(RubySymbol.class);// RubyAPI.defineClass("Symbol", RubyRuntime.ObjectClass);
+        SymbolClass = RubyTypeFactory.getClass(RubySymbol.class);
         IOClass = RubyAPI.defineClass("IO", RubyRuntime.ObjectClass);
         ProcClass = RubyAPI.defineClass("Proc", RubyRuntime.ObjectClass);
-        RangeClass = RubyAPI.defineClass("Range", RubyRuntime.ObjectClass);
+        RangeClass = RubyTypeFactory.getClass(RubyRange.class);
         RegexpClass = RubyAPI.defineClass("Regexp", RubyRuntime.ObjectClass);
         FileClass = RubyAPI.defineClass("File", RubyRuntime.IOClass);
         MethodClass = RubyAPI.defineClass("Method", RubyRuntime.ObjectClass);
@@ -130,9 +139,9 @@ public class RubyRuntime {
         MatchDataClass = RubyAPI.defineClass("MatchData", RubyRuntime.ObjectClass);
         DirClass = RubyAPI.defineClass("Dir", RubyRuntime.ObjectClass);
         StructClass = RubyAPI.defineClass("Struct", RubyRuntime.ObjectClass);
-        ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);//RubyAPI.defineClass("ThreadGroup", RubyRuntime.ObjectClass);
+        ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);
         ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);
-		UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);//RubyAPI.defineClass("UnboundMethod", RubyRuntime.ObjectClass);
+		UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
 
         ExceptionClass = RubyAPI.defineClass("Exception", RubyRuntime.ObjectClass);
         StandardErrorClass = RubyAPI.defineClass("StandardError", ExceptionClass);
@@ -155,25 +164,23 @@ public class RubyRuntime {
         NotImplementedErrorClass = RubyAPI.defineClass("NotImplementedError", ScriptErrorClass);
 
 //        ObjectClassBuilder.initialize();
-        ModuleClassBuilder.initialize();
-        ClassClassBuilder.initialize();
-        KernelModuleBuilder.initialize();
+        
         GCModuleBuilder.initialize();
         MarshalModuleBuilder.initialize();
         MathModuleBuilder.initialize();
         ErrnoModuleBuilder.initialize();
-        NumericClassBuilder.initialize();
-        IntegerClassBuilder.initialize();
-        FixnumClassBuilder.initialize();
-        BignumClassBuilder.initialize();
+//        NumericClassBuilder.initialize();
+//        IntegerClassBuilder.initialize();
+//        FixnumClassBuilder.initialize();
+//        BignumClassBuilder.initialize();
         StringClassBuilder.initialize();
-        FloatClassBuilder.initialize();
+//        FloatClassBuilder.initialize();
         ArrayClassBuilder.initialize();
         HashClassBuilder.initialize();
 //        SymbolClassBuilder.initialize();
         IOClassBuilder.initialize();
         ProcClassBuilder.initialize();
-        RangeClassBuilder.initialize();
+//        RangeClassBuilder.initialize();
         RegexpClassBuilder.initialize();
         FileClassBuilder.initialize();
         MethodClassBuilder.initialize();

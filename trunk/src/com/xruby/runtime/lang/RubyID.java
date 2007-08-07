@@ -50,7 +50,10 @@ public class RubyID {
 	static final RubyID attachedID = intern("__attached__");
 	static final RubyID classidID = intern("__classid__");
 
-	public static final RubyID lessID = intern("<");
+	public static final RubyID ltID = intern("<");
+	public static final RubyID leID = intern("<=");
+	public static final RubyID gtID = intern(">");
+	public static final RubyID geID = intern(">=");
 	public static final RubyID unequalID = intern("<=>");
 	public static final RubyID longEqualID = intern("===");
 	public static final RubyID equalID = intern("==");
@@ -59,10 +62,14 @@ public class RubyID {
 	public static final RubyID plusID = intern("+");
 	public static final RubyID mulID = intern("*");
 	public static final RubyID divID = intern("/");
+	public static final RubyID modID = intern("%");
+	public static final RubyID powID = intern("**");
+	public static final RubyID quoID = RubyID.intern("quo");
 
 	public static final RubyID toFID = intern("to_f");
 	public static final RubyID toIID = intern("to_i");
 	public static final RubyID toSID = intern("to_s");
+	public static final RubyID toStrID = intern("to_str");
 	public static final RubyID toIntID = intern("to_int");
 	public static final RubyID toAryID = intern("to_ary");
 
@@ -78,6 +85,8 @@ public class RubyID {
 	public static final RubyID initializeId = intern("initialize");
 	public static final RubyID inheritedID = intern("inherited");
 	public static final RubyID coerceID = intern("coerce");
+	public static final RubyID succID = RubyID.intern("succ");
+	public static final RubyID hashID = RubyID.intern("hash");
 	
 	private RubyID(long id) {
 		this(id, null);

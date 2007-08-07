@@ -51,7 +51,7 @@ class Struct_new extends RubyVarArgMethod {
                 } else if (arg instanceof RubySymbol) {
                     name = arg.toString();
                 } else if (arg instanceof RubyFixnum) {
-                    int i = ((RubyFixnum) arg).intValue();
+                    int i = ((RubyFixnum) arg).toInt();
                     name = RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString();
                 } else {
                     throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
@@ -70,7 +70,7 @@ class Struct_new extends RubyVarArgMethod {
                 } else if (arg1 instanceof RubySymbol) {
                     name = arg1.toString();
                 } else if (arg1 instanceof RubyFixnum) {
-                    int i = ((RubyFixnum) arg1).intValue();
+                    int i = ((RubyFixnum) arg1).toInt();
                     name = RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString();
                 } else {
                     throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg1.getRubyClass().getName() + " into Integer");

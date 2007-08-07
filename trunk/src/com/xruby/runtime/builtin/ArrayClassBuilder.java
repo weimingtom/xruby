@@ -18,10 +18,10 @@ class Array_slice_danger extends RubyVarArgMethod {
             Object argValue = args.get(0);
             if (argValue instanceof RubyFixnum) {
                 RubyFixnum index = (RubyFixnum) argValue;
-                return value.delete_at(index.intValue());
+                return value.delete_at(index.toInt());
             } else if (args.get(0) instanceof RubyRange) {
-                int begin = ((RubyFixnum) ((RubyRange) args.get(0)).getLeft()).intValue();
-                int end = ((RubyFixnum) ((RubyRange) args.get(0)).getRight()).intValue();
+                int begin = ((RubyFixnum) ((RubyRange) args.get(0)).getLeft()).toInt();
+                int end = ((RubyFixnum) ((RubyRange) args.get(0)).getRight()).toInt();
                 if (begin < 0) {
                     begin = value.size() + begin;
                 }
@@ -40,8 +40,8 @@ class Array_slice_danger extends RubyVarArgMethod {
             Object arg0Value = args.get(0);
             Object arg1Value = args.get(1);
             if (arg0Value instanceof RubyFixnum && arg1Value instanceof RubyFixnum) {
-                int begin = ((RubyFixnum) arg0Value).intValue();
-                int length = ((RubyFixnum) arg1Value).intValue();
+                int begin = ((RubyFixnum) arg0Value).toInt();
+                int length = ((RubyFixnum) arg1Value).toInt();
                 RubyArray resultValue = value.delete_at(begin, length);
                 return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
             }
@@ -73,18 +73,18 @@ class Array_array_set extends RubyVarArgMethod {
         		RubyRange range = (RubyRange) args.get(0);
         		RubyFixnum left = (RubyFixnum)range.getLeft();
         		RubyFixnum right = (RubyFixnum)range.getRight();
-        		int l_index = getRealIndex(value.size(), left.intValue());
-        		int r_index = getRealIndex(value.size(), right.intValue());
+        		int l_index = getRealIndex(value.size(), left.toInt());
+        		int r_index = getRealIndex(value.size(), right.toInt());
         		int length = r_index-l_index+1;
         		return value.replace(l_index, length, args.get(1));
         	} else {
         		RubyFixnum index = (RubyFixnum) args.get(0);
-        		return value.set(index.intValue(), args.get(1));
+        		return value.set(index.toInt(), args.get(1));
         	}
         } else if (3 == args.size()) {
         	RubyFixnum index = (RubyFixnum) args.get(0);
             RubyFixnum length = (RubyFixnum) args.get(1);
-            return value.replace(index.intValue(), length.intValue(), args.get(2));
+            return value.replace(index.toInt(), length.toInt(), args.get(2));
         }
 
         throw new RubyException("not implemented");
@@ -98,7 +98,7 @@ class Array_times extends RubyOneArgMethod {
         RubyArray array = (RubyArray) receiver;
         if (arg instanceof RubyFixnum) {
             RubyFixnum times = (RubyFixnum) arg;
-            return array.times(times.intValue());
+            return array.times(times.toInt());
         } else if (arg instanceof RubyString) {
 
             return RubyAPI.callOneArgMethod(receiver, arg, block, joinID);
@@ -130,12 +130,12 @@ class Array_new extends RubyVarArgMethod {
         	} else {
         		RubyFixnum size = (RubyFixnum) args.get(0);
                 RubyValue default_value = args.get(1);
-                a = ObjectFactory.createArray(size.intValue(), default_value);
+                a = ObjectFactory.createArray(size.toInt(), default_value);
         	}
         } else {
         	RubyFixnum size = (RubyFixnum) args.get(0);
         	a  = new RubyArray();
-        	for (int i=0; i<size.intValue(); i++) {
+        	for (int i=0; i<size.toFloat(); i++) {
         		RubyValue return_value = block.invoke(receiver, ObjectFactory.createFixnum(i));
         		a.add(return_value);
         	}
@@ -268,7 +268,7 @@ class Array_indexes extends RubyVarArgMethod {
         RubyArray a = new RubyArray(args.size());
         for(int i=0;i<args.size();i++){
             RubyFixnum n = (RubyFixnum) args.get(i);
-            a.add(array.get(n.intValue()));
+            a.add(array.get(n.toInt()));
         }
         return a;
     }

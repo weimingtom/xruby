@@ -78,7 +78,7 @@ public class RubyProgramTest extends TestCase {
         System.setOut(original);
 
         RubyFixnum i = (RubyFixnum) r;
-        assertEquals(579, i.intValue());
+        assertEquals(579, i.toInt());
 
         String expected =
                 "nil" +

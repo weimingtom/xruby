@@ -252,7 +252,7 @@ class Kernel_printf extends RubyVarArgMethod {
         for (int i = 0; i < args.size() - start; ++i) {
             Object v = args.get(i + start);
             if (v instanceof RubyFixnum) {
-                raw_args[i] = new Integer(((RubyFixnum) v).intValue());
+                raw_args[i] = new Integer(((RubyFixnum) v).toInt());
             } else if (v instanceof RubyFloat) {
                 raw_args[i] = new Double(((RubyFloat) v).doubleValue());
             } else {
@@ -327,7 +327,7 @@ class Kernel_exit extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         int exit_code = 0;
         if (null != args && args.get(0) instanceof RubyFixnum) {
-            exit_code = ((RubyFixnum)args.get(0)).intValue();
+            exit_code = ((RubyFixnum)args.get(0)).toInt();
         }
         //TODO should raise SystemExit exception and call at_exit blocks
         System.exit(exit_code);
@@ -505,7 +505,7 @@ class Kernel_open extends RubyVarArgMethod {
             io = ObjectFactory.createFile(filename, "r");
         } else if (args.get(1) instanceof RubyFixnum) {
             String mode = "r";
-            int i = ((RubyFixnum)args.get(1)).intValue();
+            int i = ((RubyFixnum)args.get(1)).toInt();
             if ((i & RDWR) != 0) {
                 mode = mode + "w";
             }
@@ -618,7 +618,7 @@ class Kernel_caller extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         int skip = 1;
         if (null != args) {
-            skip = ((RubyFixnum) args.get(0)).intValue();
+            skip = ((RubyFixnum) args.get(0)).toInt();
         }
 
         return FrameManager.caller(skip);
@@ -811,7 +811,7 @@ class Kernel_rand extends RubyVarArgMethod {
             //TODO seeds the generator using a combination of the time, the process id, and a sequence number.
             max = 0;
         } else if (args.get(0) instanceof RubyFixnum) {
-            max = ((RubyFixnum)args.get(0)).intValue();
+            max = ((RubyFixnum)args.get(0)).toInt();
         } else {
             max = (int)((RubyBignum)args.get(0)).longValue();
         }
@@ -838,7 +838,7 @@ class Kernel_srand extends RubyVarArgMethod {
             //TODO seeds the generator using a combination of the time, the process id, and a sequence number.
             seed = 0;
         } else if (args.get(0) instanceof RubyFixnum) {
-            seed = ((RubyFixnum)args.get(0)).intValue();
+            seed = ((RubyFixnum)args.get(0)).toInt();
         } else {
             seed = ((RubyBignum)args.get(0)).longValue();
         }

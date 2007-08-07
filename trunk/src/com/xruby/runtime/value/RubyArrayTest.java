@@ -84,8 +84,8 @@ public class RubyArrayTest extends TestCase {
         // a[1, 2]
         RubyArray b = a.subarray(1, 2);
         assertEquals(2, b.size());
-        assertEquals(2, ((RubyFixnum) b.get(0)).intValue());
-        assertEquals(3, ((RubyFixnum) b.get(1)).intValue());
+        assertEquals(2, ((RubyFixnum) b.get(0)).toInt());
+        assertEquals(3, ((RubyFixnum) b.get(1)).toInt());
 
         // begin > array size
         b = a.subarray(4, 2);
@@ -94,7 +94,7 @@ public class RubyArrayTest extends TestCase {
         // begin < 0
         b = a.subarray(-1, 1);
         assertEquals(1, b.size());
-        assertEquals(3, ((RubyFixnum) b.get(0)).intValue());
+        assertEquals(3, ((RubyFixnum) b.get(0)).toInt());
 
         // length < 0
         b = a.subarray(0, -1);
@@ -115,10 +115,10 @@ public class RubyArrayTest extends TestCase {
         // [1, 2, 3, 4]
         RubyArray newArray = a.plus(b);
         assertEquals(4, newArray.size());
-        assertEquals(1, ((RubyFixnum) newArray.get(0)).intValue());
-        assertEquals(2, ((RubyFixnum) newArray.get(1)).intValue());
-        assertEquals(3, ((RubyFixnum) newArray.get(2)).intValue());
-        assertEquals(4, ((RubyFixnum) newArray.get(3)).intValue());
+        assertEquals(1, ((RubyFixnum) newArray.get(0)).toInt());
+        assertEquals(2, ((RubyFixnum) newArray.get(1)).toInt());
+        assertEquals(3, ((RubyFixnum) newArray.get(2)).toInt());
+        assertEquals(4, ((RubyFixnum) newArray.get(3)).toInt());
     }
 
     public void test_times() {
@@ -130,10 +130,10 @@ public class RubyArrayTest extends TestCase {
         // [1, 2, 1, 2]
         RubyArray newArray = a.times(2);
         assertEquals(4, newArray.size());
-        assertEquals(1, ((RubyFixnum) newArray.get(0)).intValue());
-        assertEquals(2, ((RubyFixnum) newArray.get(1)).intValue());
-        assertEquals(1, ((RubyFixnum) newArray.get(2)).intValue());
-        assertEquals(2, ((RubyFixnum) newArray.get(3)).intValue());
+        assertEquals(1, ((RubyFixnum) newArray.get(0)).toInt());
+        assertEquals(2, ((RubyFixnum) newArray.get(1)).toInt());
+        assertEquals(1, ((RubyFixnum) newArray.get(2)).toInt());
+        assertEquals(2, ((RubyFixnum) newArray.get(3)).toInt());
 
         // []
         newArray = a.times(0);
@@ -154,8 +154,8 @@ public class RubyArrayTest extends TestCase {
 
         RubyValue v = a.delete_at(0);
         assertEquals(1, a.size());
-        assertEquals(1, ((RubyFixnum) v).intValue());
-        assertEquals(2, ((RubyFixnum) a.get(0)).intValue());
+        assertEquals(1, ((RubyFixnum) v).toInt());
+        assertEquals(2, ((RubyFixnum) a.get(0)).toInt());
 
         RubyArray b = new RubyArray();
         v = b.delete_at(1);

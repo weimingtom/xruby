@@ -28,7 +28,7 @@ class CompilerTestCase extends TestCase {
                 RubyProgram p = codes.getRubyProgram();
                 RubyValue v = p.invoke();
                 RubyFixnum r = (RubyFixnum)v;
-                assertEquals(results[i], r.intValue());
+                assertEquals(results[i], r.toInt());
             } catch (RubyException e) {
                 assertTrue("RubyException at " + i + ": " + e.toString(), false);
             } catch (RecognitionException e) {

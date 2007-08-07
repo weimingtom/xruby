@@ -17,31 +17,31 @@ public class RubyBignumTest extends TestCase {
 	public void testToStringLittle() throws Exception{
 		RubyBignum v = new RubyBignum("0");
 		for (int i=2; i<=36; ++i){
-			String s = v.to_s();
-			assertEquals(s, "0");
+			RubyString s = v.to_s();
+			assertEquals("0", s.toString());
 		}
 		
 		v = new RubyBignum("1");
 		for (int i=2; i<=36; ++i){
-			String s = v.to_s();
-			assertEquals(s, "1");
+			RubyString s = v.to_s();
+			assertEquals("1", s.toString());
 		}
 		
 		v = new RubyBignum("-1");
 		for (int i=2; i<=36; ++i){
-			String s = v.to_s();
-			assertEquals(s, "-1");
+			RubyString s = v.to_s();
+			assertEquals("-1", s.toString());
 		}
 	}
 	
 	public void testToStringBig(){
 		RubyBignum v = new RubyBignum("123456789abcdef0", 16);
-		String s = v.to_s();
-		assertEquals(s, "1311768467463790320");
+		RubyString s = v.to_s();
+		assertEquals(s.toString(), "1311768467463790320");
 		
 		v = new RubyBignum("123456789abcdef0987654321fedcab0", 16);
 		s = v.to_s();
-		assertEquals(s, "24197857203266734874467610118318836400");
+		assertEquals(s.toString(), "24197857203266734874467610118318836400");
 	}
 	
 	public void testMultiply() {
@@ -51,14 +51,14 @@ public class RubyBignumTest extends TestCase {
 		RubyValue result = v.op_mul(a);
 		assertEquals(result.getRubyClass(), RubyRuntime.FixnumClass);
 		RubyFixnum fixnumValue = (RubyFixnum)result;
-		assertEquals(fixnumValue.intValue(), 3000);
+		assertEquals(fixnumValue.toInt(), 3000);
 		
 		// Bignum * Bignum == Fixnum ( < Integer.MAX_VALUE )
 		a = ObjectFactory.createBignum(BigInteger.valueOf(30));
 		result = v.op_mul(a);
 		assertEquals(result.getRubyClass(), RubyRuntime.FixnumClass);
 		fixnumValue = (RubyFixnum)result;
-		assertEquals(fixnumValue.intValue(), 3000);
+		assertEquals(fixnumValue.toInt(), 3000);
 		
 		// Bignum * Fixnum == Bignum ( > Integer.MAX_VALUE )
 		a = ObjectFactory.createFixnum(0x7fffffff);

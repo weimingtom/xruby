@@ -9,7 +9,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
+@RubyLevelClass(name="Bignum", superclass="Integer")
 public class RubyBignum extends RubyInteger {
     private static final BigInteger FIXNUM_MAX = BigInteger.valueOf(Integer.MAX_VALUE);
     private static final BigInteger FIXNUM_MIN = BigInteger.valueOf(Integer.MIN_VALUE);
@@ -45,12 +49,13 @@ public class RubyBignum extends RubyInteger {
 		return this.value_.doubleValue();
 	}
 
-	public String to_s() {
-        return value_.toString(10);
+	@RubyLevelMethod(name="to_s", type=MethodType.NO_OR_ONE_ARG)
+	public RubyString to_s() {
+        return ObjectFactory.createString(value_.toString(10));
     }
 
-    public String to_s(int radix) {
-        return value_.toString(radix);
+    public RubyString to_s(RubyValue radix) {
+        return ObjectFactory.createString(value_.toString(radix.toInt()));
     }
 
     public BigInteger getInternal() {
@@ -64,12 +69,18 @@ public class RubyBignum extends RubyInteger {
     public void setValue(BigInteger value) {
         value_ = value;
     }
+    
+    @RubyLevelMethod(name="size")
+    public RubyFixnum rubySize() {
+    	return ObjectFactory.createFixnum(size());
+    }
 
     public int size() {
         int alignedBytesCount = (((value_.bitLength() - 1) & -32) >> 3) + 4;
         return alignedBytesCount;
     }
     
+    @RubyLevelMethod(name="coerce", type=MethodType.ONE_ARG)    
 	public RubyArray coerce(RubyValue v) {
 		if (v instanceof RubyFixnum) {
 			return new RubyArray(new RubyBignum(BigInteger.valueOf(v.toInt())), this);
@@ -80,110 +91,140 @@ public class RubyBignum extends RubyInteger {
 		throw new RubyException(RubyRuntime.TypeErrorClass, 
 				"can't coerce " + v.getRubyClass().getName() + " to Bignum");
 	}
-
-	public RubyValue op_mul(RubyValue value) {
-        BigInteger result;
-        if (value instanceof RubyBignum) {
-            RubyBignum bigValue = (RubyBignum) value;
-            result = value_.multiply(bigValue.value_);
-        } else if (value instanceof RubyFixnum) {
-            RubyFixnum intValue = (RubyFixnum) value;
-            BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-            result = value_.multiply(bigValue);
-        } else if (value instanceof RubyFloat) {
-            RubyFloat floatValue = (RubyFloat) value;
-            double ret = value_.doubleValue() * floatValue.doubleValue();
-            return ObjectFactory.createFloat(ret);
-        } else {
-            throw new RubyException(RubyRuntime.TypeErrorClass, value
-                    .getRubyClass().getName()
-                    + " not expected");
-        }
-        return bignorm(result);
+    
+    @RubyLevelMethod(name="-@")
+    public RubyBignum uminus() {
+    	return ObjectFactory.createBignum(this.value_.negate());
     }
-
-    public RubyValue op_div(RubyValue value) {
-        BigInteger result;
-        if (value instanceof RubyBignum) {
-            RubyBignum bigValue = (RubyBignum) value;
-            result = value_.divide(bigValue.value_);
-        } else if (value instanceof RubyFixnum) {
-            RubyFixnum intValue = (RubyFixnum) value;
-            BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-            result = value_.divide(bigValue);
-        } else if (value instanceof RubyFloat) {
-            RubyFloat floatValue = (RubyFloat) value;
-            double ret = value_.doubleValue() / floatValue.doubleValue();
-            return ObjectFactory.createFloat(ret);
-        } else {
-            throw new RubyException(RubyRuntime.TypeErrorClass, value
-                    .getRubyClass().toString()
-                    + " not expected");
-        }
-        return bignorm(result);
+    
+    @RubyLevelMethod(name="~")
+    public RubyValue op_neg() {
+    	return bignorm(this.value_.not());
     }
-
+    
+    @RubyLevelMethod(name="+", type=MethodType.ONE_ARG)
     public RubyValue op_add(RubyValue value) {
-        BigInteger result;
         if (value instanceof RubyBignum) {
-            RubyBignum bigValue = (RubyBignum) value;
-            result = value_.add(bigValue.value_);
+        	RubyBignum bigValue = (RubyBignum) value;
+        	return bignorm(value_.add(bigValue.value_));
         } else if (value instanceof RubyFixnum) {
-            RubyFixnum intValue = (RubyFixnum) value;
-            BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-            result = value_.add(bigValue);
+            BigInteger bigValue = BigInteger.valueOf(value.toInt());
+            return bignorm(value_.add(bigValue));
         } else if (value instanceof RubyFloat) {
-            RubyFloat floatValue = (RubyFloat) value;
-            double ret = value_.doubleValue() + floatValue.doubleValue();
+            double ret = value_.doubleValue() + value.toFloat();
             return ObjectFactory.createFloat(ret);
         } else {
-            throw new RubyException(RubyRuntime.TypeErrorClass, value
-                    .getRubyClass().toString()
-                    + " not expected");
+        	return coerceBin(RubyID.plusID, value);
         }
-        return bignorm(result);
     }
 
+	@RubyLevelMethod(name="-", type=MethodType.ONE_ARG)
     public RubyValue op_sub(RubyValue value) {
-        BigInteger result;
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
-            result = value_.subtract(bigValue.value_);
+            return bignorm(value_.subtract(bigValue.value_));
         } else if (value instanceof RubyFixnum) {
-            RubyFixnum intValue = (RubyFixnum) value;
-            BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-            result = value_.subtract(bigValue);
+            BigInteger bigValue = BigInteger.valueOf(value.toInt());
+            return bignorm(value_.subtract(bigValue));
         } else if (value instanceof RubyFloat) {
-            RubyFloat floatValue = (RubyFloat) value;
-            double ret = value_.doubleValue() - floatValue.doubleValue();
+            double ret = value_.doubleValue() - value.toFloat();
             return ObjectFactory.createFloat(ret);
         } else {
-            throw new RubyException(RubyRuntime.TypeErrorClass, value
-                    .getRubyClass().toString()
-                    + " not expected");
+        	return coerceBin(RubyID.subID, value);
         }
-        return bignorm(result);
     }
 
-    public RubyValue op_mod(RubyValue value) {
-        BigInteger result;
+	@RubyLevelMethod(name="*", type=MethodType.ONE_ARG)
+	public RubyValue op_mul(RubyValue value) {
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
-            result = ruby_mod(value_, bigValue.value_);
+            return bignorm(value_.multiply(bigValue.value_));
         } else if (value instanceof RubyFixnum) {
-            RubyFixnum intValue = (RubyFixnum) value;
-            BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
-            result = ruby_mod(value_, bigValue);
+            BigInteger bigValue = BigInteger.valueOf(value.toInt());
+            return bignorm(value_.multiply(bigValue));
         } else if (value instanceof RubyFloat) {
-            double floatValue1 = value_.doubleValue();
-            double floatValue2 = ((RubyFloat) value).doubleValue();
-            return ObjectFactory.createFloat(floatValue1 % floatValue2);
+            double ret = value_.doubleValue() * value.toFloat();
+            return ObjectFactory.createFloat(ret);
         } else {
-            throw new RubyException(RubyRuntime.TypeErrorClass, value
-                    .getRubyClass().toString()
-                    + " not expected");
+        	return coerceBin(RubyID.mulID, value);
         }
-        return bignorm(result);
+    }
+	
+	@RubyLevelMethod(name="/", type=MethodType.ONE_ARG)
+    public RubyValue op_div(RubyValue value) {
+        if (value instanceof RubyBignum) {
+            RubyBignum bigValue = (RubyBignum) value;
+            return bignorm(value_.divide(bigValue.value_));
+        } else if (value instanceof RubyFixnum) {
+            BigInteger bigValue = BigInteger.valueOf(value.toInt());
+            return bignorm(value_.divide(bigValue));
+        } else if (value instanceof RubyFloat) {
+            double ret = value_.doubleValue() / value.toFloat();
+            return ObjectFactory.createFloat(ret);
+        } else {
+        	return coerceBin(RubyID.divID, value);
+        }
+    }
+	
+	@RubyLevelMethod(name="quo", type=MethodType.ONE_ARG)
+	public RubyValue quo(RubyValue v) {
+		double dx = this.value_.doubleValue();
+		double dy;
+		if (v instanceof RubyFixnum) {
+			dy = v.toInt();
+		} else if (v instanceof RubyBignum) {
+			dy = v.toFloat();
+		} else if (v instanceof RubyFloat) {
+			dy = v.toFloat();
+		} else {
+			return coerceBin(RubyID.quoID, v);
+		}
+		
+		return ObjectFactory.createFloat(dx / dy);
+	}
+	
+	@RubyLevelMethod(name="**", type=MethodType.ONE_ARG)
+	public RubyValue pow(RubyValue v) {
+		if (v.toInt() == 0) {
+			return ObjectFactory.FIXNUM1;
+		}
+		
+		double d;
+		
+		if (v instanceof RubyFloat) {
+			d = v.toFloat();
+		} else if (v instanceof RubyBignum) {
+			// TODO: rb_warn("in a**b, b may be too big");
+			d = v.toFloat();
+		} else if (v instanceof RubyFixnum) {
+			int yy = v.toInt();
+			if (yy > 0) {
+                if (this.value_.bitLength() * yy > 1024 * 1024) {
+                    // TODO: output wraning: "in a**b, b may be too big"
+                } else {
+                    return bignorm(this.value_.pow(yy));
+                }
+            }
+			
+			d = yy;
+		} else {
+			return coerceBin(RubyID.powID, v);
+		}
+		
+		return ObjectFactory.createFloat(Math.pow(this.value_.doubleValue(), d));
+	}
+
+	@RubyLevelMethod(name="%", type=MethodType.ONE_ARG)
+    public RubyValue op_mod(RubyValue value) {
+        if (value instanceof RubyBignum) {
+            RubyBignum bigValue = (RubyBignum) value;
+            return bignorm(ruby_mod(value_, bigValue.value_));
+        } else if (value instanceof RubyFixnum) {
+            BigInteger bigValue = BigInteger.valueOf(value.toInt());
+            return bignorm(ruby_mod(value_, bigValue));
+        } else {
+        	return coerceBin(RubyID.modID, value);
+        }
     }
     
     private static BigInteger ruby_mod(BigInteger a, BigInteger b) {
@@ -211,14 +252,14 @@ public class RubyBignum extends RubyInteger {
         return result;
     }
 
+    @RubyLevelMethod(name="&", type=MethodType.ONE_ARG)
     public RubyValue op_band(RubyValue value) {
         BigInteger result;
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
             result = value_.and(bigValue.value_);
         } else if (value instanceof RubyFixnum) {
-            RubyFixnum intValue = (RubyFixnum) value;
-            BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
+            BigInteger bigValue = BigInteger.valueOf(value.toInt());
             result = value_.and(bigValue);
         } else if (value instanceof RubyFloat) {
             double floatValue = ((RubyFloat) value).doubleValue();
@@ -232,14 +273,14 @@ public class RubyBignum extends RubyInteger {
         return bignorm(result);
     }
 
+    @RubyLevelMethod(name="|", type=MethodType.ONE_ARG)
     public RubyValue op_bor(RubyValue value) {
         BigInteger result;
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
             result = value_.or(bigValue.value_);
         } else if (value instanceof RubyFixnum) {
-            RubyFixnum intValue = (RubyFixnum) value;
-            BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
+            BigInteger bigValue = BigInteger.valueOf(value.toInt());
             result = value_.or(bigValue);
         } else if (value instanceof RubyFloat) {
             double floatValue = ((RubyFloat) value).doubleValue();
@@ -253,14 +294,14 @@ public class RubyBignum extends RubyInteger {
         return bignorm(result);
     }
 
+    @RubyLevelMethod(name="^", type=MethodType.ONE_ARG)
     public RubyValue op_bxor(RubyValue value) {
         BigInteger result;
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
             result = value_.xor(bigValue.value_);
         } else if (value instanceof RubyFixnum) {
-            RubyFixnum intValue = (RubyFixnum) value;
-            BigInteger bigValue = BigInteger.valueOf(intValue.intValue());
+            BigInteger bigValue = BigInteger.valueOf(value.toInt());
             result = value_.xor(bigValue);
         } else if (value instanceof RubyFloat) {
             double floatValue = ((RubyFloat) value).doubleValue();
@@ -272,6 +313,67 @@ public class RubyBignum extends RubyInteger {
                     + " not expected");
         }
         return bignorm(result);
+    }
+    
+    @RubyLevelMethod(name="<<", type=MethodType.ONE_ARG)
+    public RubyValue lshift(RubyValue v) {
+    	int shift = v.toInt();
+    	if (shift < 0) {
+    		return rshift(bignorm(-shift));
+    	}
+    	
+    	return bignorm(this.value_.shiftLeft(shift));
+    }
+    
+    @RubyLevelMethod(name=">>", type=MethodType.ONE_ARG)
+    public RubyValue rshift(RubyValue v) {
+    	int shift = v.toInt();
+    	if (shift < 0) {
+    		return lshift(ObjectFactory.createFixnum(-shift));
+    	}
+    	
+    	return bignorm(this.value_.shiftRight(shift));
+    }
+    
+    @RubyLevelMethod(name="[]", type=MethodType.ONE_ARG)
+    public RubyFixnum aref(RubyValue v) {
+        int index = v.toInt();
+        return this.value_.testBit(index) ? ObjectFactory.FIXNUM1 : ObjectFactory.FIXNUM0;
+    }
+    
+    @RubyLevelMethod(name="<=>", type=MethodType.ONE_ARG)
+    public RubyValue cmp(RubyValue v) {
+    	BigInteger b;
+    	if (v instanceof RubyFixnum) {
+    		b = BigInteger.valueOf(v.toInt());
+    	} else if (v instanceof RubyBignum) {
+    		b = ((RubyBignum)v).value_;
+    	} else if (v instanceof RubyFloat) {
+    		return this.toRubyFloat().cmp(v);
+    	} else {
+    		return coerceCmp(RubyID.unequalID, v);
+    	}
+    	
+    	int result = this.value_.compareTo(b);
+    	if (result == 0) {
+    		return ObjectFactory.FIXNUM0;
+    	} else if (result > 0) {
+    		return ObjectFactory.FIXNUM1;
+    	} else {
+    		return ObjectFactory.FIXNUM_NEGATIVE_ONE;
+    	}
+    }
+    
+    public static RubyValue bignorm(RubyValue v) {
+    	if (v instanceof RubyFixnum) {
+    		return v;
+    	}
+    	
+    	if (v instanceof RubyBignum) {
+    		return bignorm(((RubyBignum)v).value_);
+    	}
+    	
+    	return v;
     }
 
     public static RubyValue bignorm(BigInteger value) {
