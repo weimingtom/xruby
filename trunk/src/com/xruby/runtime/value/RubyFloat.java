@@ -185,7 +185,7 @@ public class RubyFloat extends RubyNumeric {
 	
 	@RubyLevelMethod(name="round")
 	public RubyInteger round() {
-		return createRubyInteger(Math.floor(this.value_));
+		return createRubyInteger(Math.round(this.value_));
 	}
 	
 	@RubyLevelMethod(name="abs")

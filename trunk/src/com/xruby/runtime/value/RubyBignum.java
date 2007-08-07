@@ -57,6 +57,11 @@ public class RubyBignum extends RubyInteger {
     public RubyString to_s(RubyValue radix) {
         return ObjectFactory.createString(value_.toString(radix.toInt()));
     }
+	
+	@RubyLevelMethod(name="to_f")
+	public RubyFloat to_f() {
+		return ObjectFactory.createFloat(this.value_.doubleValue());
+	}
 
     public BigInteger getInternal() {
         return value_;
@@ -185,8 +190,10 @@ public class RubyBignum extends RubyInteger {
 	
 	@RubyLevelMethod(name="**")
 	public RubyValue pow(RubyValue v) {
-		if (v.toInt() == 0) {
-			return ObjectFactory.FIXNUM1;
+		if (v instanceof RubyFixnum) {
+			if (v.toInt() == 0) {
+				return ObjectFactory.FIXNUM1;
+			}
 		}
 		
 		double d;
