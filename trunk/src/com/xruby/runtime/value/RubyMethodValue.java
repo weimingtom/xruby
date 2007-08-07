@@ -6,7 +6,6 @@
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
@@ -36,7 +35,7 @@ public class RubyMethodValue extends RubyBasic {
         return method_.arity();
     }
 
-    @RubyLevelMethod(name="bind", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="bind")
     public RubyMethodValue bind(RubyValue receiver) {
 		if (receiver.getRubyClass() != receiver_.getRubyClass()) {
 			throw new RubyException(RubyRuntime.TypeErrorClass, "bind argument must be an instance of " + receiver_.getRubyClass().getName());

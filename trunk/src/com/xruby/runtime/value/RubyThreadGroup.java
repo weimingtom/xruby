@@ -12,7 +12,6 @@ import com.xruby.runtime.lang.RubyBasic;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelConstant;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
@@ -30,12 +29,12 @@ public class RubyThreadGroup extends RubyBasic{
         super(RubyRuntime.ThreadGroupClass);
     }
     
-    @RubyLevelMethod(name="add", singleton=true)
+    @RubyLevelMethod(name="new")
     public static RubyValue newThreadGroup(RubyValue receiver) {
     	return new RubyThreadGroup();
     }
     
-    @RubyLevelMethod(name="add", type=MethodType.ONE_ARG)
+    @RubyLevelMethod(name="add")
     public RubyValue add(RubyValue arg) {
     	this.add((RubyThread)arg);
         return this;

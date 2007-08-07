@@ -8,6 +8,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface RubyAllocMethod {
-	MethodType type() default MethodType.NO_ARG;
-	boolean block() default false;
 }

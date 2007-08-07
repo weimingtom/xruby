@@ -12,7 +12,6 @@ import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
@@ -29,11 +28,12 @@ public abstract class RubyNumeric extends RubyValue {
 		return RubyAPI.callOneArgMethod(array.get(0), array.get(1), null, RubyID.subID);
 	}
 	
-	@RubyLevelMethod(name="step", type=MethodType.ONE_OR_TWO_ARG, block=true)
+	@RubyLevelMethod(name="step")
 	public final RubyValue step(RubyValue v, RubyBlock block) {
 		return doStep(v, ObjectFactory.FIXNUM1, block);
 	}
 	
+	@RubyLevelMethod(name="step")
 	public final RubyValue step(RubyValue toArg, RubyValue stepArg, RubyBlock block) {
 		if (ObjectFactory.FIXNUM0.equals(stepArg)) {
 			throw new RubyException(RubyRuntime.ArgumentErrorClass, "step can't be 0");
@@ -46,7 +46,7 @@ public abstract class RubyNumeric extends RubyValue {
 		throw new RubyException("not implemented!");
 	}
 	
-	@RubyLevelMethod(name="coerce", type=MethodType.ONE_ARG)
+	@RubyLevelMethod(name="coerce")
 	public RubyArray coerce(RubyValue v) {
 		if (this.getRubyClass() == v.getRubyClass()) {
 			return new RubyArray(v, this);
