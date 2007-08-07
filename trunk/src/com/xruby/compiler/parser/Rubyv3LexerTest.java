@@ -753,7 +753,7 @@ public class Rubyv3LexerTest extends TestCase {
         };
 
         String[] expected_texts = {
-            "",
+            "\n",
             "\n",
             "\n",
             "\n",
