@@ -5,9 +5,9 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
+import com.xruby.runtime.lang.util.MethodType;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyFixnum;
 import com.xruby.runtime.value.RubyString;

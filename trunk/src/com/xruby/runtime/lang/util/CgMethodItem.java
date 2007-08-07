@@ -1,6 +1,9 @@
-package com.xruby.runtime.lang.util;
+/**
+ * Copyright 2007 Ye Zheng
+ * Distributed under the GNU General Public License 2.0
+ */
 
-import com.xruby.runtime.lang.annotation.MethodType;
+package com.xruby.runtime.lang.util;
 
 class CgMethodItem {
 	public String name;
