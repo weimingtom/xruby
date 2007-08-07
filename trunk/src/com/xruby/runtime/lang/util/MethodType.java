@@ -16,7 +16,7 @@ public enum MethodType {
 	
 	private int value;
 	
-	MethodType(int value) {
+	private MethodType(int value) {
 		this.value = value;
 	}
 	
@@ -24,7 +24,7 @@ public enum MethodType {
 		return this.value;
 	}
 	
-	public static MethodType valueOf(int value) {
+	static MethodType valueOf(int value) {
 		switch(value) {
 		case -1:
 			return UNKNOWN;
