@@ -17,6 +17,7 @@ import com.xruby.runtime.value.RubyMethodValue;
 import com.xruby.runtime.value.RubyNumeric;
 import com.xruby.runtime.value.RubyRange;
 import com.xruby.runtime.value.RubyThreadGroup;
+import com.xruby.runtime.value.RubyTime;
 
 public class RubyRuntime {
     public static RubyClass ObjectClass;
@@ -135,7 +136,7 @@ public class RubyRuntime {
         RegexpClass = RubyAPI.defineClass("Regexp", RubyRuntime.ObjectClass);
         FileClass = RubyAPI.defineClass("File", RubyRuntime.IOClass);
         MethodClass = RubyAPI.defineClass("Method", RubyRuntime.ObjectClass);
-        TimeClass = RubyAPI.defineClass("Time", RubyRuntime.ObjectClass);
+        TimeClass = RubyTypeFactory.getClass(RubyTime.class);
         MatchDataClass = RubyAPI.defineClass("MatchData", RubyRuntime.ObjectClass);
         DirClass = RubyAPI.defineClass("Dir", RubyRuntime.ObjectClass);
         StructClass = RubyAPI.defineClass("Struct", RubyRuntime.ObjectClass);
@@ -184,7 +185,7 @@ public class RubyRuntime {
         RegexpClassBuilder.initialize();
         FileClassBuilder.initialize();
         MethodClassBuilder.initialize();
-        TimeClassBuilder.initialize();
+//        TimeClassBuilder.initialize();
 //		UnboundMethodClassBuilder.initialize();
         MatchDataClassBuilder.initialize();
         DirClassBuilder.initialize();

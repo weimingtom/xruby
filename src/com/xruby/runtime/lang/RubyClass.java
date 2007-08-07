@@ -46,6 +46,19 @@ public class RubyClass extends RubyModule {
 
         return klass;
     }
+    
+    public RubyValue newInstance(RubyArray args, RubyBlock block) {
+    	RubyValue v = this.allocObject(block);
+    	callInitializeMethod(v, args, block);
+    	return v;
+    }
+    
+    private void callInitializeMethod(RubyValue v, RubyArray args, RubyBlock block) {
+		RubyMethod m = v.findMethod(RubyID.initializeId);
+        if (m != null) {
+            m.invoke(v, args, block);
+        }
+	}
 
     public int objectAddress() {
 		return this.objectAddress;

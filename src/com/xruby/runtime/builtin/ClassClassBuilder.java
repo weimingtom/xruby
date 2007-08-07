@@ -6,6 +6,8 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.util.MethodFactory;
+import com.xruby.runtime.lang.util.MethodType;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
@@ -70,7 +72,8 @@ public class ClassClassBuilder {
 
     public static void initialize() {
         RubyClass c = RubyRuntime.ClassClass;
-        c.defineMethod("new", class_new_);
+        MethodFactory factory = MethodFactory.createMethodFactory(RubyClass.class);
+        c.defineMethod("new", factory.getMethodWithBlock("newInstance", MethodType.VAR_ARG));
         c.defineMethod("superclass", new Class_superclass());
 		c.getSingletonClass().defineMethod("new", new Class_singleton_new());
 		c.defineMethod("inherited", EmptyMethod.INSTANCE);
