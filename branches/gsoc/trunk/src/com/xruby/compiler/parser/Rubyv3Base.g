@@ -399,9 +399,6 @@ terminal
     |	LINE_BREAK
     ;
 
-SEMI	:	';'		(options{greedy=true;}:(WHITE_SPACE_CAHR|SEMI))* {setText(";");};
-
-LINE_BREAK	:	'\r'? '\n'	(options{greedy=true;}:('\n'!|SEMI!))* {setText("\n");} ;
 
 LITERAL_undef	:	'undef'		;
 LITERAL_alias	:	'alias'		;
@@ -492,6 +489,45 @@ UNARY_PLUS_MINUS_METHOD_NAME
     :	//{lastTokenIsKeywordDefOrColonWithNoFollowingSpace() ||lastTokenIsDotOrColon2()}?
       ('+@'|'-@')
     ;
+
+SEMI
+		:	';'	{boolean seen_line_feed = false;}
+			((WHITE_SPACE_CAHR!	|	LINE_FEED!{seen_line_feed = true;}	|	';'!))*
+			{
+				setText(";");
+				if (lastTokenIsSemi()) {
+					skip();
+				} else if (seen_line_feed) {
+					$type = LINE_BREAK;
+				}
+			}
+		;
+
+//treat "\n\n\n\n;" as one LINE_BREAK
+LINE_BREAK
+		:	PURE_LINE_BREAK	(SEMI)?
+			{
+				setText("\n");
+				if ((LINE_BREAK == _type) && shouldIgnoreLinebreak())
+				{
+					skip();
+				}
+			}
+		;
+
+//If we use "ignore=WHITE_SPACE_CAHR", can not shutdown the warnings.
+fragment
+PURE_LINE_BREAK
+		:	LINE_FEED	((LINE_FEED!|WHITE_SPACE_CAHR!))*
+		;
+
+//'\r' is no longer used as line break since Mac OSX, but still in use in  C:\ruby\samples\hello.rb
+fragment
+LINE_FEED
+		:	('\n'
+			|	'\r'!	('\n')?
+			)
+		;
 
 PLUS_ASSIGN			:	'+='	;
 
@@ -723,19 +759,6 @@ LBRACK			:	'['		{if (expectArrayAccess()) {$type=LBRACK_ARRAY_ACCESS;}};
 
 LCURLY_HASH		:	'{'		{if (!expectHash()) {$type=LCURLY_BLOCK;}};
 
-//If we use "ignore=WHITE_SPACE_CAHR", can not shutdown the warnings.
-fragment
-PURE_LINE_BREAK
-    :	LINE_FEED	(options{greedy=true;}:(LINE_FEED!|WHITE_SPACE_CAHR!))*
-    ;
-
-//'\r' is no longer used as line break since Mac OSX, but still in use in  C:\ruby\samples\hello.rb
-fragment
-LINE_FEED
-    :	('\n'
-      |	'\r'!	(options{greedy=true;}:'\n')?
-      )
-    ;
 
 fragment
 REGEX_MODIFIER
