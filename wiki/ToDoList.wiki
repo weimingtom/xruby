@@ -33,4 +33,4 @@ Here is a list of things we are going to do
   * Declarative ruby
   * Aggressive type inference (Borrow ideas from Strongtalk)
   * Rewrite compiler in pure ruby
-  
+  * Run under JDK 1.4 or lower.
