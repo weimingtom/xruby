@@ -14,7 +14,6 @@ import com.xruby.compiler.XRubyClassLoader;
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.ClassDumper;
 import com.xruby.runtime.lang.RubyMethod;
-import com.xruby.runtime.lang.annotation.MethodType;
 
 public class MethodFactory {
 	private static final XRubyClassLoader cl = new XRubyClassLoader();

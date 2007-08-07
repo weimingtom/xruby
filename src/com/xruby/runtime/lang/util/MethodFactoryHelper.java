@@ -9,7 +9,6 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Type;
 
 import com.xruby.compiler.codegen.Types;
-import com.xruby.runtime.lang.annotation.MethodType;
 
 class MethodFactoryHelper {
 	private Type superType;

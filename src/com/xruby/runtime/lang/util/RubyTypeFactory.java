@@ -1,3 +1,8 @@
+/**
+ * Copyright 2007 Ye Zheng
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.lang.util;
 
 import java.lang.annotation.Annotation;
@@ -24,7 +29,6 @@ import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.lang.annotation.MethodType;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelConstant;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;

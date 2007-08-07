@@ -7,8 +7,8 @@ package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.util.MethodFactory;
+import com.xruby.runtime.lang.util.MethodType;
 import com.xruby.runtime.value.*;
-import com.xruby.runtime.lang.annotation.MethodType;
 
 import java.math.BigInteger;
 import java.util.StringTokenizer;
