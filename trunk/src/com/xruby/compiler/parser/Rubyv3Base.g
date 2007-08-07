@@ -122,6 +122,8 @@ package com.xruby.compiler.parser;
   }
 }
 
+
+
 @lexer::members {
 
   protected boolean expectOperator(int k)		{throw new Error("use Rubyv3Lexer");}
@@ -135,7 +137,7 @@ package com.xruby.compiler.parser;
   protected boolean lastTokenIsKeywordDefOrColonWithNoFollowingSpace()	{throw new Error("use Rubyv3Lexer");}
   protected boolean lastTokenIsColonWithNoFollowingSpace()				{throw new Error("use Rubyv3Lexer");}
   protected boolean shouldIgnoreLinebreak()								{throw new Error("use Rubyv3Lexer");}
-  protected int trackDelimiterCount(char next_char, char delimeter, int delimeter_count)	{throw new Error("use Rubyv3Lexer");}
+  protected int trackDelimiterCount(int next_char, int delimeter, int delimeter_count)	{throw new Error("use Rubyv3Lexer");}
   protected boolean isDelimiter(String next_line, String delimiter)		{throw new Error("use Rubyv3Lexer");}
   protected boolean isAsciiValueTerminator(int value)	{throw new Error("use Rubyv3Lexer");}
   protected boolean justSeenWhitespace()				{throw new Error("use Rubyv3Lexer");}
@@ -441,49 +443,82 @@ LITERAL_END		:	'END'		;
 LITERAL___FILE__	:	'__FILE__'		;
 LITERAL___LINE__	:	'__LINE__'		;
 
-RCURLY	:	'}'		;
-
-COMMA	:	','		;
-
-COLON	:	':'		{if (!spaceIsNext()) {$type=COLON_WITH_NO_FOLLOWING_SPACE;}};
 
 
-ASSIGN	:	'='		{if (!justSeenWhitespace()) {$type=ASSIGN_WITH_NO_LEADING_SPACE;}};
+
+
+
+
+
+
 
 LPAREN	:	'('		{if (!justSeenWhitespace()) {$type=LPAREN_WITH_NO_LEADING_SPACE;}};
-
 RPAREN	:	')'		;
-
-IDENTIFIER
-    :	('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*		(	{if (lastTokenIsDotOrColon2()) {$type=FUNCTION;}}
-                        |'?'	{$type=FUNCTION;}	//PREDICATE_FUNCTION
-                        |'!'	{$type=FUNCTION;}	//DESTRUCTIVE_FUNCTION
-                        )
-    ;
-
-CONSTANT
-    :	('A'..'Z')	('a'..'z'|'A'..'Z'|'_'|'0'..'9')*
-    ;
+LBRACK			:	'['		{if (expectArrayAccess()) {$type=LBRACK_ARRAY_ACCESS;}};
 
 
-GLOBAL_VARIABLE
-    :	'$'	('-')?	IDENTIFIER_CONSTANT_AND_KEYWORD? '#'?
-    |	'$'	(options{greedy=true;}:'0'..'9')+
-    |	'$'	('!'|'@'|'&'|'`'|'\''|'+'|'~'|'='|'/'|'\\'|','|';'|'.'|'<'|'>'|'*'|'$'|'?'|':'|'\"')
-    ;
 
 
+
+
+
+
+
+
+RBRACK				:	']'		;
+EMPTY_ARRAY		:	'[]'		{if (expectArrayAccess()) {$type=EMPTY_ARRAY_ACCESS;}};
+
+
+LCURLY_HASH		:	'{'		{if (!expectHash()) {$type=LCURLY_BLOCK;}};
+
+
+
+
+RCURLY	:	'}'		;
+COMMA	:	','		;
+COLON	:	':'		{if (!spaceIsNext()) {$type=COLON_WITH_NO_FOLLOWING_SPACE;}};
+COLON2				:	'::'		{if (expectLeadingColon2())	{$type=LEADING_COLON2;}};
+
+NOT					:	'!'		;
+BNOT				:	'~'		;
+PLUS				:	'+'		{if (expectUnary())	{$type=UNARY_PLUS;}};
+MINUS				:	'-'		{if (expectUnary())	{$type=UNARY_MINUS;}};
+
+STAR	:	'*'		{if (!expectOperator(1)) {$type=REST_ARG_PREFIX;}};
+
+LESS_THAN			:	'<'		;
+GREATER_THAN		:	'>'		;
+BXOR				:	'^'		;
 BOR					:	'|'		;
+BAND				:	'&'		{if (!expectOperator(1)) {$type=BLOCK_ARG_PREFIX;}};
+POWER				:	'**'		;
+COMPARE				:	'<=>'	;
+GREATER_OR_EQUAL	:	'>='		;
+LESS_OR_EQUAL		:	'<='		;
+EQUAL				:	'=='		;
+CASE_EQUAL			:	'==='	;
+NOT_EQUAL			:	'!='		;
+MATCH				:	'=~'		;
+NOT_MATCH			:	'!~'		;
+RIGHT_SHIFT			:	'>>'		;
 
-LOGICAL_OR			:	'||'	;
+ASSOC				:	'=>'		;
+LOGICAL_AND			:	'&&'		;
+LOGICAL_OR			:	'||'		;
 
-INSTANCE_VARIABLE
-    :	'@'	IDENTIFIER_CONSTANT_AND_KEYWORD
-    ;
+ASSIGN	:	'='		{if (!justSeenWhitespace()) {$type=ASSIGN_WITH_NO_LEADING_SPACE;}};
+PLUS_ASSIGN			:	'+='	;
+MINUS_ASSIGN		:	'-='		;
+STAR_ASSIGN			:	'*='		;
+POWER_ASSIGN		:	'**='	;
+BAND_ASSIGN			:	'&='		;
+BXOR_ASSIGN			:	'^='		;
+BOR_ASSIGN			:	'|='		;
+RIGHT_SHIFT_ASSIGN	:	'>>='	;
+LOGICAL_AND_ASSIGN	:	'&&='	;
+LOGICAL_OR_ASSIGN	:	'||='	;
 
-CLASS_VARIABLE
-    :	'@'	INSTANCE_VARIABLE
-    ;
+
 
 UNARY_PLUS_MINUS_METHOD_NAME
     :	//{lastTokenIsKeywordDefOrColonWithNoFollowingSpace() ||lastTokenIsDotOrColon2()}?
@@ -529,71 +564,10 @@ LINE_FEED
 			)
 		;
 
-PLUS_ASSIGN			:	'+='	;
-
-MINUS_ASSIGN		:	'-='	;
-
-STAR_ASSIGN			:	'*='	;
-
-POWER_ASSIGN		:	'**='	;
-
-BAND_ASSIGN			:	'&='	;
-
-BXOR_ASSIGN			:	'^='	;
-
-BOR_ASSIGN			:	'|='	;
-
-RIGHT_SHIFT_ASSIGN	:	'>>='	;
-
-LOGICAL_AND_ASSIGN	:	'&&='	;
-
-LOGICAL_OR_ASSIGN	:	'||='	;
-
-LOGICAL_AND			:	'&&'	;
-
-COMPARE				:	'<=>'	;
-
-EQUAL				:	'=='	;
-
-CASE_EQUAL			:	'==='	;
-
-NOT_EQUAL			:	'!='	;
-
-MATCH				:	'=~'	;
-
-NOT_MATCH			:	'!~'	;
-
-LESS_THAN			:	'<'		;
-
-GREATER_THAN		:	'>'		;
-
-LESS_OR_EQUAL		:	'<='	;
-
-GREATER_OR_EQUAL	:	'>='	;
-
-BXOR				:	'^'		;
-
-BAND				:	'&'		{if (!expectOperator(1)) {$type=BLOCK_ARG_PREFIX;}};
-
-RIGHT_SHIFT			:	'>>'	;
-
-PLUS				:	'+'		{if (expectUnary())	{$type=UNARY_PLUS;}};
-
-MINUS				:	'-'		{if (expectUnary())	{$type=UNARY_MINUS;}};
-
-STAR	:	'*'		{if (!expectOperator(1)) {$type=REST_ARG_PREFIX;}};
-
-POWER				:	'**'	;
-
-BNOT				:	'~'		;
-
-NOT					:	'!'		;
-
-COLON2				:	'::'		{if (expectLeadingColon2())	{$type=LEADING_COLON2;}};
-
-RBRACK				:	']'		;
-
-ASSOC				:	'=>'	;
+fragment
+REGEX_MODIFIER
+    :	('o'!	|	'x'!	|	'p'!	|	'n'!	|	'i'!	|	'u'!	|	'm'!	|	's'!)*
+    ;
 
 DOUBLE_QUOTE_STRING
     :	(delimiter='"')!
@@ -623,31 +597,6 @@ SINGLE_QUOTE_STRING
       }
     ;
 
-/*
-fragment
-STRING_BETWEEN_EXPRESSION_SUBSTITUTION[char delimiter, int delimiter_count]
-    :	({(delimiter_count > 0) && (delimiter_count = trackDelimiterCount((char)input.LA(1), delimiter, delimiter_count)) != 0&& !expressionSubstitutionIsNext()}?	STRING_CHAR)*
-      {
-        //match and skip delimiter, there maybe no delimiter, e.g. ':#{cmd_name}'
-        if (input.LA(1) != EOF)
-        {
-          _saveIndex=text.length();
-          matchNot(EOF);
-          text.setLength(_saveIndex);
-        }
-
-        if (0 == delimiter_count)
-        {
-          $type=STRING_AFTER_EXPRESSION_SUBSTITUTION;
-        }
-        else
-        {
-          updateCurrentSpecialStringDelimiterCount(delimiter_count);
-        }
-      }
-    ;
-*/
-
 //DIVIDE and REGEX both starts with '/', here we use semantic predicate to disambiguate.
 REGEX
     :	{!expectOperator(2)}?=>
@@ -669,8 +618,8 @@ REGEX
       }
      ;
      
-  DIV_ASSIGN:	'/='	;
-  DIV :	'/'	;
+DIV_ASSIGN:	'/='	;
+DIV :	'/'	;
  
 
 COMMAND_OUTPUT
@@ -690,105 +639,34 @@ COMMAND_OUTPUT
     |	'`'	{$type=SINGLE_QUOTE;}
     ;
 
-//The first '-' after "<<" is alway interpreted as heredoc's special meaning, so be greedy
-HERE_DOC_BEGIN
-    :	{expectHeredoc()}?	'<<'!	HERE_DOC_DELIMITER
-    ;
+		
 
-   LEFT_SHIFT_ASSIGN:	'<<='	;
-   LEFT_SHIFT:	'<<';
-/*
-fragment
-HERE_DOC_CONTENT[String delimiter, int type1, int type2]
-    :	(next_line=ANYTHING_OTHER_THAN_LINE_FEED_AND_POUND	{if (expressionSubstitutionIsNext()) break;}
-      LINE_FEED	{if (isDelimiter(next_line.getText(), delimiter)) break;}
-      )+
-      {
-        if (expressionSubstitutionIsNext())
-        {
-          //eat '#'
-          _saveIndex=text.length();
-          matchNot(EOF);
-          text.setLength(_saveIndex);
-          $type=type1;
-        }
-        else
-        {
-          //skip delimiter
-          text.setLength(text.length() - next_line.getText().length() - 1);
-          $type=type2;
-        }
-      }
-    ;
-*/
-INTEGER
-    :	
-    		'0'	(
-          //Use semantic prediction to avoid 0.times
-          {(input.LA(2)>='0')&&(input.LA(2)<='9')}? => FLOAT_WITH_LEADING_DOT {$type=FLOAT;}
-          |/*none*/
-        )
-    |	NON_ZERO_DECIMAL	(
-                  //Use semantic prediction to avoid things like "2..3", "2...3", "2.times"
-                  {(input.LA(2)>='0')&&(input.LA(2)<='9')}? => FLOAT_WITH_LEADING_DOT {$type=FLOAT;}
-                  |EXPONENT {$type=FLOAT;}
-                  |/*none*/
-                )
 
-    |	'?'	(
-          {isAsciiValueTerminator(input.LA(2))}?	(~('\\'|' '|'\n'|'\r'))	{$type=ASCII_VALUE;}
-          |'\\'		~('C' | 'M')	{$type=ASCII_VALUE;}
-          |('\\'	('C'|'M') '-')+	('a'..'z' | '?')	{$type=ASCII_VALUE;}
-          |{$type=QUESTION;}	//If it does not "look like"(not depend on context!) integer, then it is QUESTION operator.
-        )
-    ;
-    
-   BINARY: '0'!	('b'!|'B'!)	BINARY_CONTENT	;
-   HEX:	'0'!	('x'!|'X'!)	HEX_CONTENT	;
-   FLOAT:	FLOAT_WITH_LEADING_DOT;
-   OCTAL:'0'!	OCTAL_CONTENT;
-   DOT:	'.'	;
-   INCLUSIVE_RANGE:	'..';
-   EXCLUSIVE_RANGE:	'...';
-    
     
 
-EMPTY_ARRAY		:	'[]'		{if (expectArrayAccess()) {$type=EMPTY_ARRAY_ACCESS;}};
-
-LBRACK			:	'['		{if (expectArrayAccess()) {$type=LBRACK_ARRAY_ACCESS;}};
-
-LCURLY_HASH		:	'{'		{if (!expectHash()) {$type=LCURLY_BLOCK;}};
-
-
-fragment
-REGEX_MODIFIER
-    :	('o'!	|	'x'!	|	'p'!	|	'n'!	|	'i'!	|	'u'!	|	'm'!	|	's'!)*
-    ;
-
-/*TODO
+    
 fragment
 STRING_BETWEEN_EXPRESSION_SUBSTITUTION[char delimiter, int delimiter_count]
-    :	({(delimiter_count > 0) && (delimiter_count = trackDelimiterCount(input.LA(1), delimiter, delimiter_count)) != 0&& !expressionSubstitutionIsNext()}?	STRING_CHAR)*
-      {
-        //match and skip delimiter, there maybe no delimiter, e.g. ':#{cmd_name}'
-        if (LA(1) != EOF_CHAR)
-        {
-          int _saveIndex=text.length();
-          match(delimiter);
-          text.setLength(_saveIndex);
-        }
+		:	({(delimiter_count > 0) && (delimiter_count = trackDelimiterCount(input.LA(1), delimiter, delimiter_count)) != 0&& !expressionSubstitutionIsNext()}?	STRING_CHAR)*
+			{
+				//match and skip delimiter, there maybe no delimiter, e.g. ':#{cmd_name}'
+				if (input.LA(1) != Token.EOF)
+				{
+					int _saveIndex=text.length();
+					match(delimiter);
+					text = text.substring(0, _saveIndex);
+				}
 
-        if (0 == delimiter_count)
-        {
-          $setType(STRING_AFTER_EXPRESSION_SUBSTITUTION);
-        }
-        else
-        {
-          updateCurrentSpecialStringDelimiterCount(delimiter_count);
-        }
-      }
-    ;
-*/
+				if (0 == delimiter_count)
+				{
+					type = STRING_AFTER_EXPRESSION_SUBSTITUTION;
+				}
+				else
+				{
+					updateCurrentSpecialStringDelimiterCount(delimiter_count);
+				}
+			}
+		;
 
 SPECIAL_STRING
 @init
@@ -796,11 +674,11 @@ SPECIAL_STRING
   int delimiter_count = 1;
 }
     : 	'%'!	'q'!	delimiter1=.!
-      ({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter1, delimiter_count)) != 0}?	STRING_CHAR)*
+      ({(delimiter_count = trackDelimiterCount(input.LA(1), (char)delimiter1, delimiter_count)) != 0}?	STRING_CHAR)*
       .!//skip delimiter
       {$type=SINGLE_QUOTE_STRING;}
     |	'%'!	'Q'!	delimiter2=.!
-      ({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter2, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
+      ({(delimiter_count = trackDelimiterCount(input.LA(1), (char)delimiter2, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
       {
         //match and skip delimiter
         int _saveIndex=text.length();
@@ -818,7 +696,7 @@ SPECIAL_STRING
         }
       }
     |	/*'%'!	'r'!	delimiter3=.!
-      ({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter3, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
+      ({(delimiter_count = trackDelimiterCount(input.LA(1), delimiter3, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
       {
         //match and skip delimiter
         _saveIndex=text.length();
@@ -837,7 +715,7 @@ SPECIAL_STRING
         }
       }
     |	'%'!	'x'!	delimiter4=.!
-      ({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter4, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
+      ({(delimiter_count = trackDelimiterCount(input.LA(1), delimiter4, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
       {
         //match and skip delimiter
         _saveIndex=text.length();
@@ -855,14 +733,14 @@ SPECIAL_STRING
         }
       }
     |*/	'%'! ('w'!|'W'!)	delimiter5=.!
-      ({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter5, delimiter_count)) != 0}?	STRING_CHAR)*
+      ({(delimiter_count = trackDelimiterCount(input.LA(1), delimiter5, delimiter_count)) != 0}?	STRING_CHAR)*
       .!	//skip delimiter
       {$type=W_ARRAY;}
     |	/*{!expectOperator(2)}?	'%'!
       {_saveIndex=text.length();}					//Ignore delimiter2 (for unknown reason, antlr does not do it for us, even if we specified !)
       delimiter6=~('=' | 'a'..'z' | 'A'..'Z' | '0'..'9')		//"%=" is always MOD_ASSIGN. English character is not allowed to avoid collison with %q %Q etc.
       {text.setLength(_saveIndex);}
-      ({(delimiter_count = trackDelimiterCount((char)input.LA(1), (char)delimiter6, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
+      ({(delimiter_count = trackDelimiterCount(input.LA(1), delimiter6, delimiter_count)) != 0 && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
       {
         //match and skip delimiter
         _saveIndex=text.length();
@@ -881,8 +759,8 @@ SPECIAL_STRING
       }*/
     ;
     
-    MOD_ASSIGN:	 '%='	;
-    MOD:	'%'		;
+MOD_ASSIGN:	 '%='	;
+MOD:	'%'		;
 
 fragment
 STRING_CHAR
@@ -891,37 +769,36 @@ STRING_CHAR
     |	ESC
     ;
 
-/*TODO
+
 //The first '-' after "<<" is alway interpreted as heredoc's special meaning, so be greedy
 HERE_DOC_BEGIN
-    :	{expectHeredoc()}?	"<<"!	HERE_DOC_DELIMITER
-    |	"<<="	{$setType(LEFT_SHIFT_ASSIGN);}
-    |	"<<"		{$setType(LEFT_SHIFT);}
+    :	{expectHeredoc()}?	'<<'!	HERE_DOC_DELIMITER
     ;
+
+LEFT_SHIFT_ASSIGN:	'<<='	;
+LEFT_SHIFT:	'<<';
 
 fragment
 HERE_DOC_CONTENT[String delimiter, int type1, int type2]
-    :	(next_line:ANYTHING_OTHER_THAN_LINE_FEED_AND_POUND	{if (expressionSubstitutionIsNext()) break;}
-      LINE_FEED	{if (isDelimiter(next_line.getText(), delimiter)) break;}
-      )+
-      {
-        if (expressionSubstitutionIsNext())
-        {
-          //eat '#'
-          _saveIndex=text.length();
-          match('#');
-          text.setLength(_saveIndex);
-          $setType(type1);
-        }
-        else
-        {
-          //skip delimiter
-          text.setLength(text.length() - next_line.getText().length() - 1);
-          $setType(type2);
-        }
-      }
-    ;
-*/
+		:	(next_line=ANYTHING_OTHER_THAN_LINE_FEED_AND_POUND	{if (expressionSubstitutionIsNext()) break;}
+			LINE_FEED	{if (isDelimiter(next_line.getText(), delimiter)) break;}
+			)+
+			{
+				if (expressionSubstitutionIsNext())
+				{
+					//eat '#'
+					match('#');
+					setText(getText().substring(0, getText().length() - 1));
+					type = type1;					
+				}
+				else
+				{
+					//skip delimiter
+					setText(getText().substring(getText().length() - next_line.getText().length() - 1));
+					type = type2;
+				}
+			}
+		;
 
 fragment
 ANYTHING_OTHER_THAN_LINE_FEED_AND_POUND
@@ -962,10 +839,72 @@ ESC
     :	'\\' .
     ;
 
+// An identifier.  Note that testLiterals is set to true!  This means
+// that after we match the rule, we look in the literals table to see
+// if it's a literal or really an identifer
+//Following this initial character, an identifier can be any combination
+//of letters, digits, and underscores
+IDENTIFIER
+    :	('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*		(	{if (lastTokenIsDotOrColon2()) {$type=FUNCTION;}}
+                        |'?'	{$type=FUNCTION;}	//PREDICATE_FUNCTION
+                        |'!'	{$type=FUNCTION;}	//DESTRUCTIVE_FUNCTION
+                        )
+    ;
+
+GLOBAL_VARIABLE
+    :	'$'	('-')?	IDENTIFIER_CONSTANT_AND_KEYWORD? '#'?
+    |	'$'	(options{greedy=true;}:'0'..'9')+
+    |	'$'	('!'|'@'|'&'|'`'|'\''|'+'|'~'|'='|'/'|'\\'|','|';'|'.'|'<'|'>'|'*'|'$'|'?'|':'|'\"')
+    ;
+
 fragment
 IDENTIFIER_CONSTANT_AND_KEYWORD
     :	('a'..'z'|'A'..'Z'|'_')	(options{greedy=true;}:	'a'..'z'|'A'..'Z'|'_'|'0'..'9')*
     ;
+
+INSTANCE_VARIABLE
+    :	'@'	IDENTIFIER_CONSTANT_AND_KEYWORD
+    ;
+
+CLASS_VARIABLE
+    :	'@'	INSTANCE_VARIABLE
+    ;
+
+CONSTANT
+    :	('A'..'Z')	('a'..'z'|'A'..'Z'|'_'|'0'..'9')*
+    ;
+
+INTEGER
+    :	
+    		'0'	(
+          //Use semantic prediction to avoid 0.times
+          {(input.LA(2)>='0')&&(input.LA(2)<='9')}? => FLOAT_WITH_LEADING_DOT {$type=FLOAT;}
+          |/*none*/
+        )
+    |	NON_ZERO_DECIMAL	(
+                  //Use semantic prediction to avoid things like "2..3", "2...3", "2.times"
+                  {(input.LA(2)>='0')&&(input.LA(2)<='9')}? => FLOAT_WITH_LEADING_DOT {$type=FLOAT;}
+                  |EXPONENT {$type=FLOAT;}
+                  |/*none*/
+                )
+
+    |	'?'	(
+          {isAsciiValueTerminator(input.LA(2))}?	(~('\\'|' '|'\n'|'\r'))	{$type=ASCII_VALUE;}
+          |'\\'		~('C' | 'M')	{$type=ASCII_VALUE;}
+          |('\\'	('C'|'M') '-')+	('a'..'z' | '?')	{$type=ASCII_VALUE;}
+          |{$type=QUESTION;}	//If it does not "look like"(not depend on context!) integer, then it is QUESTION operator.
+        )
+    ;
+    
+BINARY: '0'!	('b'!|'B'!)	BINARY_CONTENT	;
+HEX:	'0'!	('x'!|'X'!)	HEX_CONTENT	;
+FLOAT:	FLOAT_WITH_LEADING_DOT;
+OCTAL:'0'!	OCTAL_CONTENT;
+DOT:	'.'	;
+INCLUSIVE_RANGE:	'..';
+EXCLUSIVE_RANGE:	'...';
+    
+
 
 fragment
 UNDER_SCORE

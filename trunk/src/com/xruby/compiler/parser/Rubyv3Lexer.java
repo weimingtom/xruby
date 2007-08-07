@@ -72,7 +72,7 @@ public class Rubyv3Lexer extends Rubyv3BaseLexer implements TokenStream {
             }
 
             StringDelimiter delimiter = current_special_string_delimiter_.peek();
-            mSTRING_BETWEEN_EXPRESSION_SUBSTITUTION(true, delimiter.getDelimiter(), delimiter.getCount());
+            mSTRING_BETWEEN_EXPRESSION_SUBSTITUTION(delimiter.getDelimiter(), delimiter.getCount());
             Token t = _returnToken;
             // System.out.println(t.getText());
             if (STRING_AFTER_EXPRESSION_SUBSTITUTION == t.getType()) {
@@ -85,7 +85,7 @@ public class Rubyv3Lexer extends Rubyv3BaseLexer implements TokenStream {
             just_finished_parsing_regex_expression_substituation_ = false;
             return t;
         } else if (just_finished_parsing_heredoc_expression_substituation_) {
-            mHERE_DOC_CONTENT(true, current_heredoc_delimiter_,
+            mHERE_DOC_CONTENT(current_heredoc_delimiter_,
                                 HERE_DOC_BETWEEN_EXPRESSION_SUBSTITUTION,
                                 HERE_DOC_AFTER_EXPRESSION_SUBSTITUTION);
             just_finished_parsing_heredoc_expression_substituation_ = false;
@@ -99,7 +99,7 @@ public class Rubyv3Lexer extends Rubyv3BaseLexer implements TokenStream {
             // not have to parse it (but we'd better save it to
             // symbol table).
             current_heredoc_delimiter_ = last_token_.getText();
-            mHERE_DOC_CONTENT(true, current_heredoc_delimiter_,
+            mHERE_DOC_CONTENT(current_heredoc_delimiter_,
                                 HERE_DOC_BEFORE_EXPRESSION_SUBSTITUTION,
                                 HERE_DOC_CONTENT);
             if (HERE_DOC_CONTENT == _returnToken.getType()) {
@@ -108,7 +108,8 @@ public class Rubyv3Lexer extends Rubyv3BaseLexer implements TokenStream {
             return _returnToken;
         } else {
             return super.nextToken();
-        }*/
+        }
+        */
     }
 
     public Token nextToken() {
@@ -858,7 +859,7 @@ public class Rubyv3Lexer extends Rubyv3BaseLexer implements TokenStream {
         }
     }
 
-    protected int trackDelimiterCount(char next_char, char delimeter, int delimeter_count) {
+    protected int trackDelimiterCount(int next_char, int delimeter, int delimeter_count) {
         if (delimeter == translateDelimiter(delimeter)) {
             if (delimeter == next_char) {
                 --delimeter_count;
@@ -876,7 +877,7 @@ public class Rubyv3Lexer extends Rubyv3BaseLexer implements TokenStream {
         return delimeter_count;
     }
 
-    private char translateDelimiter(char in) {
+    private int translateDelimiter(int in) {
         switch (in) {
         case '{':
             return '}';
