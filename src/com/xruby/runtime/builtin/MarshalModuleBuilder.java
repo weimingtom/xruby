@@ -31,7 +31,7 @@ import java.math.BigInteger;
 class MarshalDumper {
     private static void packInteger(RubyFixnum v, StringBuilder sb) {
         sb.append('i');
-        packInteger(v.intValue(), sb);
+        packInteger(v.toInt(), sb);
     }
 
     private static void packInteger(int v, StringBuilder sb) {

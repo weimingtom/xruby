@@ -201,7 +201,7 @@ class Dir_seek extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyDir dir = (RubyDir)receiver;
         RubyFixnum pos = (RubyFixnum)arg;
-        dir.setPos(pos.intValue());
+        dir.setPos(pos.toInt());
         return dir;
     }
 }
@@ -210,7 +210,7 @@ class Dir_pos_eq extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyDir dir = (RubyDir)receiver;
         RubyFixnum pos = (RubyFixnum)arg;
-        dir.setPos(pos.intValue());
+        dir.setPos(pos.toInt());
         return pos;
     }
 }

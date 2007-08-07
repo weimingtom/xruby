@@ -33,7 +33,7 @@ public class RubyTypesUtil {
         if (arg instanceof RubyFloat) {
             return (RubyFloat) arg;
         } else if (arg instanceof RubyFixnum) {
-            return ObjectFactory.createFloat(((RubyFixnum) arg).intValue());
+            return ObjectFactory.createFloat(((RubyFixnum) arg).toInt());
         } else {
             RubyValue v = RubyAPI.callPublicMethod(arg, null, null, RubyID.toFID);
             return (RubyFloat) v;
@@ -78,7 +78,7 @@ public class RubyTypesUtil {
 
     public static long convertToJavaLong(RubyValue arg) {
         if (arg instanceof RubyFixnum) {
-            return ((RubyFixnum) arg).intValue();
+            return ((RubyFixnum) arg).toInt();
         } else if (arg instanceof RubyBignum) {
             return ((RubyBignum) arg).getInternal().longValue();
         } else if (arg instanceof RubyFloat) {
@@ -90,7 +90,7 @@ public class RubyTypesUtil {
 
     public static double convertToJavaDouble(RubyValue arg) {
         if (arg instanceof RubyFixnum) {
-            return ((RubyFixnum) arg).intValue();
+            return ((RubyFixnum) arg).toInt();
         } else if (arg instanceof RubyBignum) {
             return ((RubyBignum) arg).getInternal().longValue();
         } else if (arg instanceof RubyFloat) {
@@ -102,7 +102,7 @@ public class RubyTypesUtil {
 
     public static float convertToJavaFloat(RubyValue arg) {
         if (arg instanceof RubyFixnum) {
-            return ((RubyFixnum) arg).intValue();
+            return ((RubyFixnum) arg).toInt();
         } else if (arg instanceof RubyBignum) {
             return ((RubyBignum) arg).getInternal().longValue();
         } else if (arg instanceof RubyFloat) {

@@ -25,7 +25,7 @@ public class StringClassBuilderTest extends TestCase {
         assertEquals("1234", value.toString());
         RubyValue result = RubyAPI.callMethod(str, null, null, RubyID.toIID);
         RubyFixnum result_value = (RubyFixnum) result;
-        assertEquals(1234, result_value.intValue());
+        assertEquals(1234, result_value.toInt());
     }
 
     public void test_to_f() {

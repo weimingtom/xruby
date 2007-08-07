@@ -11,4 +11,5 @@ public @interface RubyLevelClass {
 	String name();
 	String superclass() default "Object";
 	String[] modules() default {};
+	UndefMethod[] undef() default {};
 }

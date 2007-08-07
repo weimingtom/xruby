@@ -1,12 +1,52 @@
+/**
+ * Copyright 2007 Xue Yong Zhi, Ye Zheng
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.RubyAPI;
+import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
+@RubyLevelClass(name="Numeric")
 public abstract class RubyNumeric extends RubyValue {
+	@RubyLevelMethod(name="+@")
+	public RubyNumeric uplus() {
+		return this;
+	}
+	
+	@RubyLevelMethod(name="-@")
+	public RubyValue uminus() {
+		RubyArray array = ObjectFactory.FIXNUM0.doDoerce(this, true);
+		return RubyAPI.callOneArgMethod(array.get(0), array.get(1), null, RubyID.subID);
+	}
+	
+	@RubyLevelMethod(name="step", type=MethodType.ONE_OR_TWO_ARG, block=true)
+	public final RubyValue step(RubyValue v, RubyBlock block) {
+		return doStep(v, ObjectFactory.FIXNUM1, block);
+	}
+	
+	public final RubyValue step(RubyValue toArg, RubyValue stepArg, RubyBlock block) {
+		if (ObjectFactory.FIXNUM0.equals(stepArg)) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, "step can't be 0");
+		}
+		
+		return doStep(toArg, stepArg, block);
+	}
+	
+	protected RubyValue doStep(RubyValue toArg, RubyValue stepArg, RubyBlock block) {
+		throw new RubyException("not implemented!");
+	}
+	
+	@RubyLevelMethod(name="coerce", type=MethodType.ONE_ARG)
 	public RubyArray coerce(RubyValue v) {
 		if (this.getRubyClass() == v.getRubyClass()) {
 			return new RubyArray(v, this);
@@ -20,7 +60,29 @@ public abstract class RubyNumeric extends RubyValue {
 		return RubyAPI.callOneArgMethod(array.get(0), array.get(1), null, id);
 	}
 	
-	private RubyArray doDoerce(RubyValue v, boolean err) {
+	protected final RubyValue coerceRelop(RubyID id, RubyValue v) {
+		RubyArray array = this.doDoerce(v, false);
+		if (array != null) {
+			RubyValue result = RubyAPI.callOneArgMethod(array.get(0), array.get(1), null, id);
+			if (result != RubyConstant.QNIL) {
+				return result;
+			}
+		}
+		
+		throw new RubyException(RubyRuntime.ArgumentErrorClass, 
+				"comparison of " + this.getRubyClass().getName() + " with " + v.getRubyClass().getName() + " failed");
+	}
+	
+	protected final RubyValue coerceCmp(RubyID id, RubyValue v) {
+		RubyArray array = doDoerce(v, false);
+		if (array != null) {
+			return RubyAPI.callOneArgMethod(array.get(0), array.get(1), null, id);
+		}
+		
+		return RubyConstant.QNIL;
+	}
+	
+	protected final RubyArray doDoerce(RubyValue v, boolean err) {
 		RubyValue result;
         try {
             result = coerceBody(v);

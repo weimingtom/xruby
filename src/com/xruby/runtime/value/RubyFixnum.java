@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng, Jie Li
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -31,10 +31,6 @@ public class RubyFixnum extends RubyInteger {
 	public RubyValue clone() {
 		throw new RubyException(RubyRuntime.TypeErrorClass, "can't clone " + this.getRubyClass().getName());
 	}
-
-    public int intValue() {
-        return value_;
-    }
     
 	public int toInt() {
 		return value_;
@@ -60,9 +56,9 @@ public class RubyFixnum extends RubyInteger {
         if (this == o) {
             return true;
         } else if (o instanceof RubyFixnum) {
-            return value_ == ((RubyFixnum)o).intValue();
+            return value_ == ((RubyFixnum)o).value_;
         } else {
-            return false;
+            return super.equals(o);
         }
     }
 
@@ -72,6 +68,11 @@ public class RubyFixnum extends RubyInteger {
 
     public String toString(int radix) {
         return Integer.toString(value_, radix);
+    }
+    
+    @RubyLevelMethod(name="-@")
+    public RubyValue uminus() {
+    	return ObjectFactory.createFixnum(-this.value_);
     }
     
     @RubyLevelMethod(name="+", type=MethodType.ONE_ARG)
@@ -153,6 +154,39 @@ public class RubyFixnum extends RubyInteger {
     	}
     }
     
+    @RubyLevelMethod(name="%", type=MethodType.ONE_ARG)
+    public RubyValue mod(RubyValue v) {
+    	if (v instanceof RubyFixnum) {
+    		return RubyBignum.bignorm(this.value_ % v.toInt());
+    	}
+    	
+    	return coerceBin(RubyID.modID, v);
+    }
+    
+    @RubyLevelMethod(name="**", type=MethodType.ONE_ARG)
+    public RubyValue pow(RubyValue v) {
+    	if (v instanceof RubyFixnum) {
+    		int p = v.toInt();
+    		if (p == 0) {
+    			return ObjectFactory.FIXNUM1;
+    		} else if (p == 1) {
+    			return this;
+    		}
+    		
+    		if (p > 0) {
+    			BigInteger b = BigInteger.valueOf(this.value_);
+    			return RubyBignum.bignorm(b.pow(p));
+    		}
+    		
+    		return ObjectFactory.createFloat(Math.pow(this.value_, p));
+    	} else if (v instanceof RubyFloat) {
+    		return ObjectFactory.createFloat(Math.pow(this.value_, v.toFloat()));
+    	}
+    	
+    	return coerceBin(RubyID.powID, v);
+    }
+    
+    
     @RubyLevelMethod(name="~")
     public RubyValue opRev() {
     	return RubyBignum.bignorm(~this.value_);
@@ -198,7 +232,7 @@ public class RubyFixnum extends RubyInteger {
     			return ObjectFactory.createFixnum(-1);
     		}
     		
-    		return ObjectFactory.createFixnum(0);
+    		return ObjectFactory.FIXNUM0;
     	}
     	
     	return ObjectFactory.createFixnum(this.value_ >> i);
@@ -215,6 +249,97 @@ public class RubyFixnum extends RubyInteger {
 		}
 		
 		return RubyAPI.callOneArgMethod(arg, this, null, RubyID.equalID);
+	}
+	
+	@RubyLevelMethod(name="<=", type=MethodType.ONE_ARG)
+	public RubyValue opLe(RubyValue v) {
+		if (v instanceof RubyFixnum) {
+			return ObjectFactory.createBoolean(this.value_ <= v.toInt());
+		} else if (v instanceof RubyFloat) {
+            return ObjectFactory.createBoolean(this.value_ <= v.toFloat());
+		}
+		
+		return coerceRelop(RubyID.leID, v);
+	}
+	
+	@RubyLevelMethod(name="<", type=MethodType.ONE_ARG)
+	public RubyValue opLt(RubyValue v) {
+		if (v instanceof RubyFixnum) {
+			return ObjectFactory.createBoolean(this.value_ < v.toInt());
+		} else if (v instanceof RubyFloat) {
+            return ObjectFactory.createBoolean(this.value_ < v.toFloat());
+		}
+		
+		return coerceRelop(RubyID.ltID, v);
+	}
+	
+	@RubyLevelMethod(name=">=", type=MethodType.ONE_ARG)
+	public RubyValue opGe(RubyValue v) {
+		if (v instanceof RubyFixnum) {
+			return ObjectFactory.createBoolean(this.value_ >= v.toInt());
+		} else if (v instanceof RubyFloat) {
+            return ObjectFactory.createBoolean(this.value_ >= v.toFloat());
+		}
+		
+		return coerceRelop(RubyID.geID, v);
+	}
+	
+	@RubyLevelMethod(name=">", type=MethodType.ONE_ARG)
+	public RubyValue opGt(RubyValue v) {
+		if (v instanceof RubyFixnum) {
+			return ObjectFactory.createBoolean(this.value_ > v.toInt());
+		} else if (v instanceof RubyFloat) {
+            return ObjectFactory.createBoolean(this.value_ > v.toFloat());
+		}
+		
+		return coerceRelop(RubyID.gtID, v);
+	}
+	
+	@RubyLevelMethod(name="<=>", type=MethodType.ONE_ARG)
+	public RubyValue opCmp(RubyValue v) {
+		if (this == v) {
+			return ObjectFactory.FIXNUM0;
+		}
+		
+		if (v instanceof RubyFixnum) {
+			int a = v.toInt();
+			if (this.value_ > a) {
+				return ObjectFactory.FIXNUM1;
+			} else if (this.value_ == a) {
+				return ObjectFactory.FIXNUM0;
+			} else {
+				return ObjectFactory.FIXNUM_NEGATIVE_ONE;
+			}
+		}
+		
+		return coerceCmp(RubyID.unequalID, v);
+	}
+	
+	@RubyLevelMethod(name="|", type=MethodType.ONE_ARG)
+	public RubyValue opOr(RubyValue v) {
+		if (v instanceof RubyBignum) {
+			return ((RubyBignum)v).op_bor(this);
+		}
+		
+		return RubyBignum.bignorm(this.value_ | v.toInt());
+	}
+	
+	@RubyLevelMethod(name="&", type=MethodType.ONE_ARG)
+	public RubyValue opAnd(RubyValue v) {
+		if (v instanceof RubyBignum) {
+			return ((RubyBignum)v).op_band(this);
+		}
+		
+		return RubyBignum.bignorm(this.value_ & v.toInt());
+	}
+	
+	@RubyLevelMethod(name="^", type=MethodType.ONE_ARG)
+	public RubyValue opXor(RubyValue v) {
+		if (v instanceof RubyBignum) {
+			return ((RubyBignum)v).op_bxor(this);
+		}
+		
+		return RubyBignum.bignorm(this.value_ ^ v.toInt());
 	}
 	
 	@RubyLevelMethod(name="to_s", type=MethodType.NO_OR_ONE_ARG)
@@ -239,5 +364,70 @@ public class RubyFixnum extends RubyInteger {
         
         // FIXME: should be coerced.
         throw new RubyException(RubyRuntime.TypeErrorClass, v.getRubyClass().getName() + " can't be coersed into Fixnum");
+	}
+	
+	@RubyLevelMethod(name="[]", type=MethodType.ONE_ARG)
+	public RubyFixnum aref(RubyValue idx) {
+		if (idx instanceof RubyBignum) {
+			idx = RubyBignum.bignorm(idx);
+			if (!(idx instanceof RubyFixnum)) {
+				if (this.value_ > 0 || ((RubyBignum)idx).getInternal().compareTo(BigInteger.ZERO) > 0) {
+					return ObjectFactory.FIXNUM0;
+				} else {
+					return ObjectFactory.FIXNUM1;
+				}
+			}
+		}
+		
+		int i = idx.toInt();
+		if (i < 0 || i > BIT_SIZE) {
+			return ObjectFactory.FIXNUM0;
+		}
+		
+		if ((this.value_ & (1l << i)) > 0) {
+			return ObjectFactory.FIXNUM1;
+		}
+		
+		return ObjectFactory.FIXNUM0;
+	}
+
+	protected RubyValue doStep(RubyValue toArg, RubyValue stepArg, RubyBlock block) {
+		if ((toArg instanceof RubyFixnum) && (stepArg instanceof RubyFixnum)) {
+			int i = this.value_;
+			int end = toArg.toInt();
+			int diff = stepArg.toInt();
+			if (diff > 0) {
+				while (i <= end) {
+					RubyValue v = block.invoke(this, ObjectFactory.createFixnum(i));
+                    if (block.breakedOrReturned()) {
+                        return v;
+                    }
+                    i += diff;
+				}
+			} else {
+				while (i >= end) {
+					RubyValue v = block.invoke(this, ObjectFactory.createFixnum(i));
+                    if (block.breakedOrReturned()) {
+                        return v;
+                    }
+                    i += diff;
+				}
+			}
+			
+			return this;
+		}
+		
+		return super.doStep(toArg, stepArg, block);
+	}
+
+	public RubyValue times(RubyBlock block) {
+        for (int i = 0; i < this.value_; ++i) {
+            RubyValue v = block.invoke(this, ObjectFactory.createFixnum(i));
+            if (block.breakedOrReturned()) {
+                return v;
+            }
+        }
+        
+        return this;
 	}
 }

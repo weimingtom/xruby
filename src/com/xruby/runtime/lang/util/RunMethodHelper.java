@@ -33,7 +33,7 @@ public abstract class RunMethodHelper {
 		try {
 			returnClass = hostClass.getMethod(name, params).getReturnType();
 		} catch (NoSuchMethodException nsme) {
-			throw new IllegalArgumentException("no such method: " + name);
+			throw new IllegalArgumentException("no such method: " + CgUtil.getMethodName(name, RubyValue.class, params));
 		}
 		String methodName = CgUtil.getMethodName(name, returnClass, params);
 		GeneratorAdapter mg = startRun(getRunName(), cv);

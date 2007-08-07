@@ -8,7 +8,12 @@ package com.xruby.runtime.value;
 import java.util.Formatter;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.annotation.RubyAllocMethod;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
+@RubyLevelClass(name="String")
 public class RubyString extends RubyBasic {
     private StringBuilder sb_;
 
@@ -26,7 +31,12 @@ public class RubyString extends RubyBasic {
         super(RubyRuntime.StringClass);
         sb_ = sb;
     }
-
+    
+    @RubyAllocMethod
+	public static RubyString alloc(RubyValue receiver) {
+    	return ObjectFactory.createString((RubyClass)receiver, "");
+	}
+    
     public RubyString clone() {
         RubyString s = (RubyString)super.clone();
         s.sb_ = new StringBuilder(sb_);
@@ -40,23 +50,75 @@ public class RubyString extends RubyBasic {
     public int toInt() {
     	return Integer.valueOf(sb_.toString());
     }
+    
+	public double toFloat() {
+		return Double.parseDouble(this.sb_.toString());
+	}
+	
+	public RubyString toRubyString() {
+		return this;
+	}
+
+	public String toStr() {
+		return this.sb_.toString();
+	}
+
+	@RubyLevelMethod(name="to_f")
+	public RubyFloat toRubyFloat() {
+		double d;
+		try {
+			d = this.toFloat();
+		} catch (NumberFormatException e) {
+			throw new RubyException(RubyRuntime.ArgumentErrorClass, e.toString());
+		}
+        return ObjectFactory.createFloat(d);
+    }
+	
+	@RubyLevelMethod(name="to_s")
+	public RubyString to_s() {
+		return ObjectFactory.createString(this.sb_.toString());
+	}
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof RubyString)) {
-            return false;
-        } else if (sb_.toString().equals(((RubyString)obj).toString())) {
-            return true;
-        } else {
-            return false;
-        }
+    	if (obj == this) {
+    		return true;
+    	} else if (obj instanceof RubyString) {
+    		RubyString s = (RubyString)obj;
+    		return this.sb_.toString().equals(s.sb_.toString());
+    	} else {
+    		return super.equals(obj);
+    	}
     }
 
     public int hashCode() {
         return sb_.toString().hashCode();
     }
 
+    @RubyLevelMethod(name="length")
+    public RubyFixnum rubyLength() {
+        return ObjectFactory.createFixnum(sb_.length());
+    }
+    
     public int length() {
         return sb_.length();
+    }
+    
+    @RubyLevelMethod(name="intern", alias="to_sym")
+    public RubySymbol intern() {
+    	if (this.sb_.length() <= 0) {
+    		throw new RubyException(RubyRuntime.ArgumentErrorClass, "interning empty string");
+    	}
+    	
+    	RubyID id = RubyID.intern(this.sb_.toString());		
+		return id.toSymbol();
+    }
+    
+    @RubyLevelMethod(name="+", type=MethodType.ONE_ARG)
+    public RubyString plus(RubyValue v) {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(this.sb_);
+		sb.append(v.toRubyString().sb_);
+    	return ObjectFactory.createString(sb);
     }
 
     public RubyString appendString(String v) {
@@ -78,37 +140,190 @@ public class RubyString extends RubyBasic {
         }
     }
 
+    @RubyLevelMethod(name="concat", alias="<<")
+    public RubyString concat(RubyValue v) {
+    	if (v instanceof RubyFixnum) {
+    		int i = v.toInt();
+    		if (i >= 0 && i <= 0xff) {
+    			this.sb_.append((char)i);
+    			return this;
+    		}
+    	}
+    	
+    	this.sb_.append(v.toRubyString().sb_);
+    	return this;
+    }
+
     public RubyString setString(String s) {
         sb_.replace(0, sb_.length(), s);
         return this;
     }
-
-    //Modifies str by converting the first character to uppercase and the remainder to lowercase.
-    //Returns false if no changes are made.
-    public boolean capitalize() {
-        StringBuilder new_sb = new StringBuilder(sb_.toString().toLowerCase());
-        char first = new_sb.charAt(0);
-        new_sb.setCharAt(0, Character.toUpperCase(first));
-
-        if (new_sb.toString().equals(sb_.toString())) {
-            new_sb = null;
-            return false;
-        } else {
-            sb_ = new_sb;
-            return true;
-        }
+    
+    @RubyLevelMethod(name="==", type=MethodType.ONE_ARG)
+    public RubyValue opEqual(RubyValue v) {
+    	if (this == v) {
+    		return RubyConstant.QTRUE;
+    	}
+    	
+    	if (v instanceof RubyString) {
+    		RubyString str = ((RubyString)v);
+    		if ((this.sb_.length() == str.sb_.length() && this.cmp(str) == 0)) {
+    			return RubyConstant.QTRUE;
+    		} else {
+    			return RubyConstant.QFALSE;
+    		}
+    	}
+    	
+    	if (v.respondTo(RubyID.toStrID)) {
+    		return ObjectFactory.createBoolean(v.equals(this));
+    	} else {
+    		return RubyConstant.QFALSE;
+    	}
     }
+    
+    private int cmp(RubyString s) {
+    	int result = this.sb_.toString().compareTo(s.sb_.toString());
+    	if (result == 0) {
+    		return 0;
+    	} else if (result > 0) {
+    		return 1;
+    	} else {
+    		return -1;
+    	}
+    }
+    
+    @RubyLevelMethod(name="strip")
+    public RubyString strip() {
+    	return ObjectFactory.createString(sb_.toString().trim());
+    }
+    
+    @RubyLevelMethod(name="strip!")
+    public RubyValue stripBang() {
+    	String str = this.sb_.toString();
+    	int orgSize = str.length();
+		str = str.trim();
+    	this.sb_ = new StringBuilder(str);
+    	if (str.length() == orgSize) {
+    		return RubyConstant.QNIL;
+    	}
+    	
+    	return this;
+    }
+    
+    @RubyLevelMethod(name="capitalize")
+    public RubyString capitalize() {
+    	int length = this.sb_.length();
+    	if (length == 0) {
+    		return ObjectFactory.createString();
+    	}
+    	
+		char[] ca = new char[length];
+    	this.sb_.getChars(0, length, ca, 0);
+    	
+    	ca[0] = Character.toUpperCase(ca[0]);
+    	for (int i = 1; i < length; i++) {
+    		ca[i] = Character.toLowerCase(ca[i]);
+    	}
+    	
+    	return ObjectFactory.createString(new StringBuilder().append(ca));
+    }
+    
+    @RubyLevelMethod(name="capitalize!")
+    public RubyValue capitalizeBang() {
+    	int length = this.sb_.length();
+    	if (length == 0) {
+    		return RubyConstant.QNIL;
+    	}
+    	
+    	boolean modify = false;
+		char[] ca = new char[length];
+    	this.sb_.getChars(0, length, ca, 0);
+    	
+    	if (Character.isLowerCase(ca[0])) {
+    		ca[0] = Character.toUpperCase(ca[0]);
+    		modify = true;
+    	}
+    	
+    	for (int i = 1; i < ca.length; i++) {
+    		char c = ca[i];
+    		if (Character.isUpperCase(c)) {
+    			ca[i] = Character.toLowerCase(c);
+    			modify = true;
+    		}
+    	}
+    	
+    	this.sb_.delete(0, ca.length).append(ca);
+    	return modify ? this : RubyConstant.QNIL;
+    }
+    
+    @RubyLevelMethod(name="upcase")
+    public RubyString upcase() {
+    	int length = this.sb_.length();
+    	if (length == 0) {
+    		return ObjectFactory.createString();
+    	}
+    	
+		char[] ca = new char[length];
+    	this.sb_.getChars(0, length, ca, 0);
+    	
+    	for (int i = 0; i < ca.length; i++) {
+    		ca[i] = Character.toUpperCase(ca[i]);
+    	}
+    	
+    	return ObjectFactory.createString(new StringBuilder().append(ca));
+    }
+    
+    @RubyLevelMethod(name="upcase!")
+    public RubyValue upcaseBang() {
+    	boolean modify = false;
 
-    public boolean strip() {
-        String new_str = sb_.toString().trim();
-
-        if (new_str.equals(sb_.toString())) {
-            new_str = null;
-            return false;
-        } else {
-            sb_ = new StringBuilder(new_str);
-            return true;
-        }
+    	int length = this.sb_.length();
+		char[] ca = new char[length];
+    	this.sb_.getChars(0, length, ca, 0);
+    	
+    	for (int i = 0; i < length; i++) {
+    		char c = ca[i];
+    		if (Character.isLowerCase(c)) {
+    			ca[i] = Character.toUpperCase(c);
+    			modify = true;
+    		}
+    	}
+    	this.sb_.delete(0, ca.length).append(ca);
+    	return modify ? this : RubyConstant.QNIL;
+    }
+    
+    @RubyLevelMethod(name="downcase")
+    public RubyString downcase() {
+    	int length = this.sb_.length();
+    	if (length == 0) {
+    		return ObjectFactory.createString();
+    	}
+    	
+    	char[] ca = new char[length];
+    	this.sb_.getChars(0, length, ca, 0);
+    	
+    	for (int i = 0; i < ca.length; i++) {
+    		ca[i] = Character.toLowerCase(ca[i]);
+    	}
+    	
+    	return ObjectFactory.createString(new StringBuilder().append(ca));
+    }
+    
+    @RubyLevelMethod(name="downcase!")
+    public RubyValue downcaseBang() {
+    	boolean modify = false;
+    	int length = this.sb_.length();
+    	char[] ca = new char[length];
+    	this.sb_.getChars(0, length, ca, 0);
+    	for (int i = 0; i < ca.length; i++) {
+    		char c = ca[i];
+    		if (Character.isUpperCase(c)) {
+    			ca[i] = Character.toLowerCase(c);
+    			modify = true;
+    		}
+    	}
+    	this.sb_.delete(0, ca.length).append(ca);
+    	return modify ? this : RubyConstant.QNIL;
     }
 
     public void reverse() {
@@ -244,27 +459,65 @@ public class RubyString extends RubyBasic {
         return n;
     }
 
-    public StringBuilder swapCase() {
-        StringBuilder sb = new StringBuilder(sb_.length());
+    @RubyLevelMethod(name="swapcase")
+    public RubyString swapcase() {
+    	int length = this.sb_.length();
+    	if (length == 0) {
+    		return ObjectFactory.createString();
+    	}
+    	
+    	char[] ca = new char[length];
+    	this.sb_.getChars(0, length, ca, 0);
+    	
+    	for (int i = 0; i < length; i++) {
+    		char c = ca[i];
+    		if (Character.isUpperCase(c)) {
+    			ca[i] = Character.toLowerCase(c);
+    		} else if (Character.isLowerCase(c)) {
+    			ca[i] = Character.toUpperCase(c);
+    		}
+    	}
 
-        for (int i = 0; i < sb_.length(); i++) {
-            char c = sb_.charAt(i);
-            if (Character.isUpperCase(c)) {
-                sb.append(Character.toLowerCase(c));
-            } else if (Character.isLowerCase(c)) {
-                sb.append(Character.toUpperCase(c));
-            } else {
-                sb.append(c);
-            }
-        }
-
-        return sb;
+        return ObjectFactory.createString(new StringBuilder().append(ca));
     }
-
-    public void chop() {
-        int length = this.sb_.length();
-
-        if (length > 0) {
+    
+    @RubyLevelMethod(name="swapcase!")
+    public RubyValue swapcaseBang() {
+    	int length = this.sb_.length();
+    	if (length == 0) {
+    		return RubyConstant.QNIL;
+    	}
+    	
+    	char[] ca = new char[length];
+    	this.sb_.getChars(0, length, ca, 0);
+    	boolean modify = false;
+    	
+    	for (int i = 0; i < length; i++) {
+    		char c = ca[i];
+    		if (Character.isUpperCase(c)) {
+    			ca[i] = Character.toLowerCase(c);
+    			modify = true;
+    		} else if (Character.isLowerCase(c)) {
+    			ca[i] = Character.toUpperCase(c);
+    			modify = true;
+    		}
+    	}
+    	
+    	this.sb_.delete(0, ca.length).append(ca);
+    	return modify ? this : RubyConstant.QNIL;
+    }
+    
+    @RubyLevelMethod(name="chop")
+    public RubyValue chop() {
+    	RubyString rs = this.clone();
+    	rs.chopBang();
+    	return rs;
+    }
+    
+    @RubyLevelMethod(name="chop!")
+    public RubyValue chopBang() {
+    	int length = this.sb_.length();
+    	if (length > 0) {
             int orgLength = length;
             length--;
             if (this.sb_.charAt(length) == '\n') {
@@ -275,6 +528,8 @@ public class RubyString extends RubyBasic {
 
             this.sb_.delete(length, orgLength);
         }
+    	
+    	return RubyConstant.QNIL;
     }
 
     private boolean isEvstr(char c, int current, int end) {
@@ -350,5 +605,17 @@ public class RubyString extends RubyBasic {
         buf.append('"');
 
         return buf.toString();
+    }
+    
+    @RubyLevelMethod(name="dump")
+    public RubyString rubyDump() {
+    	return ObjectFactory.createString(this.dump());
+    }
+    
+    @RubyLevelMethod(name="each", block=true, alias="each_line")
+    public RubyValue each(RubyBlock block) {
+    	// FIXME: for each line
+    	block.invoke(this, this);
+        return this;
     }
 }

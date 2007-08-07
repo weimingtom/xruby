@@ -430,7 +430,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         } else if (size() > other_array.size()) {
             return ObjectFactory.FIXNUM1;
         } else {
-            return ObjectFactory.createFixnum(-1);
+            return ObjectFactory.FIXNUM_NEGATIVE_ONE;
         }
     }
 
@@ -634,7 +634,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         Collections.sort(array_, new Comparator<RubyValue>() {
             public int compare(RubyValue arg0, RubyValue arg1) {
                 RubyValue v = RubyAPI.callPublicOneArgMethod(arg0, arg1, null, RubyID.unequalID);
-                return ((RubyFixnum) v).intValue();
+                return ((RubyFixnum) v).toInt();
             }
         }
         );
@@ -647,7 +647,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
             public int compare(RubyValue arg0, RubyValue arg1) {
                 //TODO can not check if block return/break occured.
                 RubyValue v = block.invoke(self, arg0, arg1);
-                return ((RubyFixnum) v).intValue();
+                return ((RubyFixnum) v).toInt();
             }
         }
         );

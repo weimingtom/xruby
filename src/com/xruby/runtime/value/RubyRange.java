@@ -6,8 +6,12 @@
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.MethodType;
+import com.xruby.runtime.lang.annotation.RubyAllocMethod;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
-
+@RubyLevelClass(name="Range")
 public class RubyRange extends RubyBasic {
     private RubyValue begin_;
     private RubyValue end_;
@@ -36,13 +40,41 @@ public class RubyRange extends RubyBasic {
         end_ = right;
         exclude_end_ = isExclusive;
     }
+    
+    @RubyAllocMethod
+	public static RubyRange alloc(RubyValue receiver) {
+		return ObjectFactory.createRange();
+	}
+    
+    @RubyLevelMethod(name="initialize", type=MethodType.VAR_ARG)
+    public RubyValue initialize(RubyArray args) {
+    	RubyValue left = args.get(0);
+        RubyValue right = args.get(1);
+        boolean isExclusive = false;
+        if (args.size() == 3) {
+            RubyValue exclusive = args.get(2);
+            if (exclusive != ObjectFactory.NIL_VALUE && exclusive != ObjectFactory.FALSE_VALUE) {
+                isExclusive = true;
+            }
+        }
+        
+        this.setValue(left, right, isExclusive);
+        return this;
+    }
 
+    @RubyLevelMethod(name="begin")
     public RubyValue getLeft() {
         return begin_;
     }
 
+    @RubyLevelMethod(name="end")
     public RubyValue getRight() {
         return end_;
+    }
+    
+    @RubyLevelMethod(name="exclude_end?")
+    public RubyValue excludeEndP() {
+    	return ObjectFactory.createBoolean(this.exclude_end_);
     }
 
     public boolean isExcludeEnd() {
@@ -51,8 +83,8 @@ public class RubyRange extends RubyBasic {
 
     public RubyArray to_a() {
         //TODO may not be RubyFixnum
-        int left = ((RubyFixnum) begin_).intValue();
-        int right = ((RubyFixnum) end_).intValue();
+        int left = ((RubyFixnum) begin_).toInt();
+        int right = ((RubyFixnum) end_).toInt();
         if (!exclude_end_) {
             ++right;
         }
@@ -63,4 +95,86 @@ public class RubyRange extends RubyBasic {
         }
         return a;
     }
+    
+    @RubyLevelMethod(name="hash")
+    public RubyFixnum hash() {
+        int baseHash = this.exclude_end_ ? 1 : 0;
+        int beginHash = RubyAPI.callPublicMethod(this.begin_, null, null, RubyID.hashID).toInt();
+        int endHash = RubyAPI.callPublicMethod(this.end_, null , null, RubyID.hashID).toInt();
+        
+        int hash = baseHash;
+        hash = hash ^ (beginHash << 1);
+        hash = hash ^ (endHash << 9);
+        hash = hash ^ (baseHash << 24);
+        return ObjectFactory.createFixnum(hash);
+    }
+    
+    @RubyLevelMethod(name="each", block=true)
+    public RubyValue each(RubyBlock block) {
+        if (this.begin_ instanceof RubyFixnum && this.end_ instanceof RubyFixnum) {
+        	return eachForFixnum(block);
+        }
+        // FIXME: for string
+        
+        return rangeEach(block);
+    }
+
+	private RubyValue eachForFixnum(RubyBlock block) {
+		int begin = this.begin_.toInt();
+		int limit = this.end_.toInt(); 
+		if (!this.exclude_end_) {
+			limit++;
+		}
+		
+		for (int i = begin; i < limit; i++) {
+			RubyValue v = block.invoke(this, ObjectFactory.createFixnum(i));
+			if (block.breakedOrReturned()) {
+				return v;
+			} else if (block.shouldRetry()) {
+				i = begin - 1;
+				continue;
+			}
+		}
+		
+		return this;
+	}
+	
+    private boolean compare(RubyValue value1, RubyValue value2) {
+        RubyValue r = RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.unequalID);
+        return !RubyAPI.testEqual(r, ObjectFactory.FIXNUM0);
+    }
+	
+	private RubyValue rangeEach(RubyBlock block) {
+		RubyValue ite = this.begin_;
+
+        while (true) {
+            while (compare(ite, this.end_)) {
+                RubyValue v = block.invoke(this, ite);
+                if (block.breakedOrReturned()) {
+                    return v;
+                } else if (block.shouldRetry()) {
+                    ite = this.begin_;
+                    continue;
+                } else {
+                    ite = RubyAPI.callPublicMethod(ite, null, null, RubyID.succID);
+                }
+            }
+
+            if (!this.exclude_end_) {
+                RubyValue v = block.invoke(this, ite);
+                if (block.breakedOrReturned()) {
+                    return v;
+                } else if (block.shouldRetry()) {
+                    ite = this.begin_;
+                    continue;
+                } else {
+                    break;
+                }
+            }
+
+            break;
+        }
+
+        return this;
+	}
 }

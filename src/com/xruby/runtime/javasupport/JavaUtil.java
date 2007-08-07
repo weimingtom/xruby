@@ -127,7 +127,7 @@ public class JavaUtil {
             //terms of the value's range.Then it can work correctly because
             //of Java's upcasting feature.
 
-            int tmpVal = ((RubyFixnum) value).intValue();
+            int tmpVal = ((RubyFixnum) value).toInt();
             if(tmpVal <= Byte.MAX_VALUE && tmpVal >= Byte.MIN_VALUE)
                 return (byte)tmpVal;
             if(tmpVal <= Short.MAX_VALUE && tmpVal >= Short.MIN_VALUE)

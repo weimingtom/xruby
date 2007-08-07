@@ -6,109 +6,12 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.util.MethodFactory;
 import com.xruby.runtime.value.*;
+import com.xruby.runtime.lang.annotation.MethodType;
 
 import java.math.BigInteger;
 import java.util.StringTokenizer;
-
-class String_capitalize extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        RubyString new_value = ObjectFactory.createString(value.toString());
-        new_value.capitalize();
-        return new_value;
-    }
-}
-
-class String_strip extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        RubyString new_value = ObjectFactory.createString(value.toString());
-        new_value.strip();
-        return new_value;
-    }
-}
-
-class String_operator_equal extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        if (!(arg instanceof RubyString)) {
-            return ObjectFactory.FALSE_VALUE;
-        }
-
-        RubyString a = (RubyString) receiver;
-        RubyString b = (RubyString) arg;
-        if (a.toString().equals(b.toString())) {
-            return ObjectFactory.TRUE_VALUE;
-        } else {
-            return ObjectFactory.FALSE_VALUE;
-        }
-    }
-}
-
-/// Upcases the contents of str, returning nil if no changes were made
-class String_upcase_danger extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        String new_value = value.toString().toUpperCase();
-        if (new_value.equals(value.toString())) {
-            //no changes
-            return ObjectFactory.NIL_VALUE;
-        } else {
-            return value.setString(new_value);
-        }
-    }
-}
-
-///Modifies str by converting the first character to uppercase and the remainder to lowercase. Returns nil if no changes are made.
-class String_capitalize_danger extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        boolean changed = value.capitalize();
-        if (changed) {
-            return receiver;
-        } else {
-            return ObjectFactory.NIL_VALUE;
-        }
-    }
-}
-
-class String_strip_danger extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        boolean changed = value.strip();
-        if (changed) {
-            return receiver;
-        } else {
-            return ObjectFactory.NIL_VALUE;
-        }
-    }
-}
-
-class String_upcase extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        return ObjectFactory.createString(value.toString().toUpperCase());
-    }
-}
-
-class String_swapcase extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        return ObjectFactory.createString(value.swapCase());
-    }
-}
-
-class String_swapcase_danger extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        String new_value = value.swapCase().toString();
-        if (new_value.equals(value.toString())) {
-            return ObjectFactory.NIL_VALUE;
-        } else {
-            return value.setString(new_value);
-        }
-    }
-}
 
 class String_downcase extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
@@ -130,18 +33,18 @@ class String_downcase_danger extends RubyNoArgMethod {
     }
 }
 
-class String_to_f extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-		double d;
-		try {
-			d = Double.parseDouble(value.toString());
-		} catch (NumberFormatException e) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, e.toString());
-		}
-        return ObjectFactory.createFloat(d);
-    }
-}
+//class String_to_f extends RubyNoArgMethod {
+//    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+//        RubyString value = (RubyString) receiver;
+//		double d;
+//		try {
+//			d = Double.parseDouble(value.toString());
+//		} catch (NumberFormatException e) {
+//			throw new RubyException(RubyRuntime.ArgumentErrorClass, e.toString());
+//		}
+//        return ObjectFactory.createFloat(d);
+//    }
+//}
 
 class String_hex extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
@@ -188,7 +91,7 @@ class String_to_i extends RubyVarArgMethod {
 
         int radix = 10;
         if (null != args) {
-            radix = ((RubyFixnum) args.get(0)).intValue();
+            radix = ((RubyFixnum) args.get(0)).toInt();
         }
 
         if (radix >= 2 && radix <= 36) {
@@ -202,20 +105,6 @@ class String_to_i extends RubyVarArgMethod {
         }
         throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
 
-    }
-}
-
-class String_to_s extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        return ObjectFactory.createString(value.toString());
-    }
-}
-
-class String_length extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        return ObjectFactory.createFixnum(value.length());
     }
 }
 
@@ -390,7 +279,7 @@ class String_split extends RubyVarArgMethod {
             return r.split(g.toString(), 0);
         } else {
             RubyFixnum i = (RubyFixnum) args.get(1);
-            return r.split(g.toString(), i.intValue());
+            return r.split(g.toString(), i.toInt());
         }
     }
 
@@ -643,13 +532,6 @@ class String_operator_star extends RubyOneArgMethod {
     }
 }
 
-class String_each extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        block.invoke(receiver, receiver);
-        return receiver;
-    }
-}
-
 class String_each_byte extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         String string = ((RubyString) receiver).toString();
@@ -791,13 +673,6 @@ class String_unpack extends RubyOneArgMethod {
     }
 }
 
-class String_concat extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyString s = (RubyString) receiver;
-        return s.appendString(arg);
-    }
-}
-
 class String_count extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyString s = (RubyString) receiver;
@@ -815,33 +690,6 @@ class String_count extends RubyVarArgMethod {
     }
 }
 
-class String_chop extends RubyNoArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyBlock block) {
-		RubyString s = ((RubyString)receiver).clone();
-		s.chop();
-		return s;
-	}
-}
-
-class String_chop_danger extends RubyNoArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyBlock block) {
-		((RubyString)receiver).chop();
-		return receiver;
-	}
-}
-
-class String_intern extends RubyNoArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyBlock block) {
-		RubyString s = (RubyString)receiver;
-		if (s.length() <= 0) {
-			throw new RubyException(RubyRuntime.ArgumentErrorClass, "interning empty string");
-		}
-		
-		RubyID id = RubyID.intern(s.toString());		
-		return id.toSymbol();
-	}
-}
-
 class String_dump extends RubyNoArgMethod {
 	protected RubyValue run(RubyValue receiver, RubyBlock block) {
 		RubyString s = (RubyString)receiver;
@@ -852,25 +700,26 @@ class String_dump extends RubyNoArgMethod {
 public class StringClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.StringClass;
-        c.defineMethod("strip", new String_strip());
-        c.defineMethod("strip!", new String_strip_danger());
-        c.defineMethod("==", new String_operator_equal());
-        c.defineMethod("capitalize", new String_capitalize());
-        c.defineMethod("capitalize!", new String_capitalize_danger());
-        c.defineMethod("upcase", new String_upcase());
-        c.defineMethod("upcase!", new String_upcase_danger());
-        c.defineMethod("downcase", new String_downcase());
-        c.defineMethod("downcase!", new String_downcase_danger());
-        c.defineMethod("swapcase", new String_swapcase());
-        c.defineMethod("swapcase!", new String_swapcase_danger());
-        c.defineMethod("to_f", new String_to_f());
+        MethodFactory factory = MethodFactory.createMethodFactory(RubyString.class);
+        c.defineMethod("strip", factory.getMethod("strip", MethodType.NO_ARG));
+        c.defineMethod("strip!", factory.getMethod("stripBang", MethodType.NO_ARG));
+        c.defineMethod("==", factory.getMethod("opEqual", MethodType.ONE_ARG));
+        c.defineMethod("capitalize", factory.getMethod("capitalize", MethodType.NO_ARG));
+        c.defineMethod("capitalize!", factory.getMethod("capitalizeBang", MethodType.NO_ARG));
+        c.defineMethod("upcase", factory.getMethod("upcase", MethodType.NO_ARG));
+        c.defineMethod("upcase!", factory.getMethod("upcaseBang", MethodType.NO_ARG));
+        c.defineMethod("downcase", factory.getMethod("downcase", MethodType.NO_ARG));
+        c.defineMethod("downcase!", factory.getMethod("downcaseBang", MethodType.NO_ARG));
+        c.defineMethod("swapcase", factory.getMethod("swapcase", MethodType.NO_ARG));
+        c.defineMethod("swapcase!", factory.getMethod("swapcaseBang", MethodType.NO_ARG));
+        c.defineMethod("to_f", factory.getMethod("toRubyFloat", MethodType.NO_ARG));
         c.defineMethod("to_i", new String_to_i());
         c.defineMethod("hex", new String_hex());
-        c.defineMethod(RubyID.toSID, new String_to_s());
-        c.defineMethod("length", new String_length());
+        c.defineMethod(RubyID.toSID, factory.getMethod("to_s", MethodType.NO_ARG));
+        c.defineMethod("length", factory.getMethod("rubyLength", MethodType.NO_ARG));
         c.defineMethod("initialize_copy", new String_initialize());
         c.defineMethod("initialize", new String_initialize());
-        c.defineMethod(RubyID.plusID, new String_plus());
+        c.defineMethod(RubyID.plusID, factory.getMethod("plus", MethodType.ONE_ARG));
         c.defineMethod("gsub", new String_gsub());
         c.defineMethod("gsub!", new String_gsub_danger());
         c.defineMethod("sub", new String_sub());
@@ -883,7 +732,7 @@ public class StringClassBuilder {
         c.defineMethod("%", new String_format());
         c.defineMethod("[]=", new String_access_set());
         c.defineMethod("*", new String_operator_star());
-        RubyMethod each = new String_each();
+        RubyMethod each = factory.getMethodWithBlock("each", MethodType.NO_ARG);
         c.defineMethod("each", each);
         c.defineMethod("each_line", each);
         c.defineMethod("each_byte", new String_each_byte());
@@ -901,16 +750,15 @@ public class StringClassBuilder {
         c.defineMethod("delete!", new String_delete_danger());
         c.defineMethod("delete", new String_delete());
         c.defineMethod("unpack", new String_unpack());
-        RubyMethod concat = new String_concat();
-        c.defineMethod("concat", concat);
-        c.defineMethod("<<", concat);
+        c.defineMethod("concat", factory.getMethod("concat", MethodType.ONE_ARG));
+        c.defineMethod("<<", factory.getMethod("concat", MethodType.ONE_ARG));
         c.defineMethod("count", new String_count());
-        c.defineMethod("chop", new String_chop());
-        c.defineMethod("chop!", new String_chop_danger());
-        c.defineMethod("intern", new String_intern());
-        c.defineMethod("to_sym", new String_intern());
-        c.defineMethod("dump", new String_dump());
-        c.defineAllocMethod(new String_new());
+        c.defineMethod("chop", factory.getMethod("chop", MethodType.NO_ARG));
+        c.defineMethod("chop!", factory.getMethod("chopBang", MethodType.NO_ARG));
+        c.defineMethod("intern", factory.getMethod("intern", MethodType.NO_ARG));
+        c.defineMethod("to_sym", factory.getMethod("intern", MethodType.NO_ARG));
+        c.defineMethod("dump", factory.getMethod("rubyDump", MethodType.NO_ARG));
+        c.defineAllocMethod(factory.getSingletonMethod("alloc", MethodType.NO_ARG));
     }
 }
 
