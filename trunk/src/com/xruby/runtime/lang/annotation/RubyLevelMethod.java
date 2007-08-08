@@ -15,4 +15,5 @@ import java.lang.annotation.Target;
 public @interface RubyLevelMethod {
 	String name();
 	String[] alias() default {};
+	boolean singleton() default false;
 }

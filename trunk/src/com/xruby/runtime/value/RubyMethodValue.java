@@ -23,16 +23,19 @@ public class RubyMethodValue extends RubyBasic {
         method_ = method;
     }
 
+    @RubyLevelMethod(name="call")
     public RubyValue call(RubyArray args, RubyBlock block) {
     	return method_.invoke(receiver_, args, block);
     }
 
+    @RubyLevelMethod(name="to_proc")
     public RubyProc convertToRubyProc() {
         return ObjectFactory.createProc(method_.convertToRubyBolck(receiver_));
     }
 
-    public int arity() {
-        return method_.arity();
+    @RubyLevelMethod(name="arity")
+    public RubyFixnum arity() {
+        return ObjectFactory.createFixnum(method_.arity());
     }
 
     @RubyLevelMethod(name="bind")
@@ -44,10 +47,16 @@ public class RubyMethodValue extends RubyBasic {
 		return m;
     }
 
+    @RubyLevelMethod(name="unbind")
     public RubyMethodValue unbind() {
 		RubyMethodValue m = new RubyMethodValue(receiver_, name_, method_);
         m.setRubyClass(RubyRuntime.UnboundMethodClass);
 		return m;
+    }
+    
+    @RubyLevelMethod(name="to_s", alias="inspect")
+    public RubyString to_s() {
+    	return ObjectFactory.createString(this.toString());
     }
 
     public String toString() {

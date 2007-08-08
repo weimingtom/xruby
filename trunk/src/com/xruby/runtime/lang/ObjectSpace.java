@@ -22,7 +22,7 @@ public class ObjectSpace {
         map_.put(v, null);
     }
     
-    @RubyLevelMethod(name="each_object")
+    @RubyLevelMethod(name="each_object", singleton=true)
     public static RubyFixnum each_object(RubyValue receiver, RubyArray args, RubyBlock block) {
     	int n = ObjectSpace.each_object(receiver, (null == args) ? null : (RubyModule)args.get(0), block);
         return ObjectFactory.createFixnum(n);

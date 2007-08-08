@@ -5,6 +5,7 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.value.*;
 
 public class RubyClass extends RubyModule {
@@ -47,6 +48,7 @@ public class RubyClass extends RubyModule {
         return klass;
     }
     
+    @RubyLevelMethod(name="new")
     public RubyValue newInstance(RubyArray args, RubyBlock block) {
     	RubyValue v = this.allocObject(block);
     	callInitializeMethod(v, args, block);
@@ -70,6 +72,17 @@ public class RubyClass extends RubyModule {
 
     public void setSuperClass(RubyClass superclass) {
         this.superclass_ = superclass;
+    }
+    
+    @RubyLevelMethod(name="superclass")
+    public RubyValue superclass() {
+        RubyClass c = this.superclass_;
+
+        if (null != c) {
+            c = c.getRealClass();
+        }
+
+        return (null == c) ? ObjectFactory.NIL_VALUE : c;
     }
 
     public void defineAllocMethod(RubyMethod m) {

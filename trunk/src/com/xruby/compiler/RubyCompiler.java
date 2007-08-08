@@ -21,7 +21,7 @@ import java.io.Reader;
 
 public class RubyCompiler {
 
-    public static final String VERSION = "0.2.1";
+    public static final String VERSION = "0.3.0";
 
     private RubyBinding binding_;
     private boolean strip_;

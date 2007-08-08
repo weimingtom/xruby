@@ -10,12 +10,15 @@ import com.xruby.runtime.lang.util.RubyTypeFactory;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyBignum;
+import com.xruby.runtime.value.RubyFileTestModule;
 import com.xruby.runtime.value.RubyFixnum;
 import com.xruby.runtime.value.RubyFloat;
 import com.xruby.runtime.value.RubyInteger;
+import com.xruby.runtime.value.RubyMatchData;
 import com.xruby.runtime.value.RubyMethodValue;
 import com.xruby.runtime.value.RubyNumeric;
 import com.xruby.runtime.value.RubyRange;
+import com.xruby.runtime.value.RubyRegexp;
 import com.xruby.runtime.value.RubyThreadGroup;
 import com.xruby.runtime.value.RubyTime;
 
@@ -106,7 +109,7 @@ public class RubyRuntime {
         ComparableModule = RubyAPI.defineModule("Comparable");
         EnumerableModule = RubyAPI.defineModule("Enumerable");
         ErrnoModule = RubyAPI.defineModule("Errno");
-        FileTestModule = RubyAPI.defineModule("FileTest");
+        FileTestModule = RubyTypeFactory.getModule(RubyFileTestModule.class);
         GCModule = RubyAPI.defineModule("GC");
         MarshalModule = RubyAPI.defineModule("Marshal");
         MathModule = RubyAPI.defineModule("Math");
@@ -133,18 +136,18 @@ public class RubyRuntime {
         IOClass = RubyAPI.defineClass("IO", RubyRuntime.ObjectClass);
         ProcClass = RubyAPI.defineClass("Proc", RubyRuntime.ObjectClass);
         RangeClass = RubyTypeFactory.getClass(RubyRange.class);
-        RegexpClass = RubyAPI.defineClass("Regexp", RubyRuntime.ObjectClass);
+        RegexpClass = RubyTypeFactory.getClass(RubyRegexp.class);
         FileClass = RubyAPI.defineClass("File", RubyRuntime.IOClass);
-        MethodClass = RubyAPI.defineClass("Method", RubyRuntime.ObjectClass);
+        MethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
         TimeClass = RubyTypeFactory.getClass(RubyTime.class);
-        MatchDataClass = RubyAPI.defineClass("MatchData", RubyRuntime.ObjectClass);
+        MatchDataClass = RubyTypeFactory.getClass(RubyMatchData.class);
         DirClass = RubyAPI.defineClass("Dir", RubyRuntime.ObjectClass);
         StructClass = RubyAPI.defineClass("Struct", RubyRuntime.ObjectClass);
         ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);
         ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);
 		UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
 
-        ExceptionClass = RubyAPI.defineClass("Exception", RubyRuntime.ObjectClass);
+        ExceptionClass = RubyTypeFactory.getClass(RubyExceptionValue.class);
         StandardErrorClass = RubyAPI.defineClass("StandardError", ExceptionClass);
         TypeErrorClass = RubyAPI.defineClass("TypeError", StandardErrorClass);
         ArgumentErrorClass = RubyAPI.defineClass("ArgumentError", StandardErrorClass);
@@ -182,18 +185,18 @@ public class RubyRuntime {
         IOClassBuilder.initialize();
         ProcClassBuilder.initialize();
 //        RangeClassBuilder.initialize();
-        RegexpClassBuilder.initialize();
+//        RegexpClassBuilder.initialize();
         FileClassBuilder.initialize();
-        MethodClassBuilder.initialize();
+//        MethodClassBuilder.initialize();
 //        TimeClassBuilder.initialize();
 //		UnboundMethodClassBuilder.initialize();
-        MatchDataClassBuilder.initialize();
+//        MatchDataClassBuilder.initialize();
         DirClassBuilder.initialize();
         StructClassBuilder.initialize();
-        ExceptionClassBuilder.initialize();
+//        ExceptionClassBuilder.initialize();
         ThreadClassBuilder.initialize();
 //        ThreadGroupClassBuilder.initialize();
-        FileTestModuleBuilder.initialize();
+//        FileTestModuleBuilder.initialize();
 //        ObjectSpaceModuleBuilder.initialize();
     }
 

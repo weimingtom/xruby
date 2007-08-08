@@ -5,12 +5,17 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.lang.annotation.RubyAllocMethod;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyString;
 
 /**
  * Java does not have multiple inheritance, and RubyException has to be inheritated from Exception.
  */
+@RubyLevelClass(name="Exception")
 public class RubyExceptionValue extends RubyBasic {
 
     private RubyException exception_;
@@ -42,11 +47,34 @@ public class RubyExceptionValue extends RubyBasic {
     void setException(RubyException exception) {
         exception_ = exception;
     }
-
+    
+    @RubyAllocMethod
+    public static RubyExceptionValue alloc(RubyValue receiver) {
+    	return new RubyExceptionValue((RubyClass)receiver);
+    }
+    
+    @RubyLevelMethod(name="initialize")
+    public RubyExceptionValue initialize() {
+    	this.setMessage("");
+    	return this;
+    }
+    
+    @RubyLevelMethod(name="initialize")
+    public RubyExceptionValue initialize(RubyValue v) {
+    	this.setMessage(v.toStr());
+    	return this;
+    }
+    
+    @RubyLevelMethod(name="to_s", alias={"message", "to_str"})
+    public RubyString to_s() {
+    	return ObjectFactory.createString(this.message_);
+    }
+    
     public String toString() {
         return message_;
     }
 
+    @RubyLevelMethod(name="backtrace")
     public RubyArray backtrace() {
         RubyArray a = new RubyArray();
         StackTraceElement[] trace = exception_.getStackTrace();

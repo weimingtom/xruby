@@ -6,10 +6,14 @@
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.RubyAllocMethod;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@RubyLevelClass(name="Regexp")
 public class RubyRegexp extends RubyBasic {
 
     private Pattern regex_;
@@ -26,6 +30,60 @@ public class RubyRegexp extends RubyBasic {
     public void setValue(String v) {
         regex_ = Pattern.compile(v, Pattern.MULTILINE);
     }
+    
+    @RubyAllocMethod
+    public static RubyRegexp alloc(RubyValue receiver) {
+    	return ObjectFactory.createRegexp();
+    }
+    
+    @RubyLevelMethod(name="===")
+    public RubyValue caseEqual(RubyValue arg) {
+    	if (!(arg instanceof RubyString)) {
+            //not comparable
+            return ObjectFactory.FALSE_VALUE;
+        }
+
+        if (this.caseEqual(arg.toStr())) {
+            return ObjectFactory.TRUE_VALUE;
+        } else {
+            return ObjectFactory.FALSE_VALUE;
+        }
+    }
+    
+    @RubyLevelMethod(name="match")
+    public RubyValue match(RubyValue arg) {
+    	if (!(arg instanceof RubyString)) {
+            //not comparable
+            return ObjectFactory.FALSE_VALUE;
+        }
+
+        RubyMatchData m = this.match(arg.toStr());
+        if (null == m) {
+            return ObjectFactory.NIL_VALUE;
+        } else {
+            return m;
+        }
+    }
+    
+    @RubyLevelMethod(name="=~")
+    public RubyValue opMatch(RubyValue arg) {
+    	if (!(arg instanceof RubyString)) {
+            //not comparable
+            return ObjectFactory.FALSE_VALUE;
+        }
+
+        int p = this.matchPosition(arg.toStr());
+        if (p < 0) {
+            return ObjectFactory.NIL_VALUE;
+        } else {
+            return ObjectFactory.createFixnum(p);
+        }
+    }
+    
+    @RubyLevelMethod(name="escape", alias="quote")
+    public static RubyString quote(RubyValue receiver, RubyValue arg) {
+        return ObjectFactory.createString(quote(arg.toStr()));
+    }
 
     public static String quote(String s) {
         String r = Pattern.quote(s);
@@ -41,7 +99,7 @@ public class RubyRegexp extends RubyBasic {
         r = r.replace("|", "\\|");
         return r.substring(2, r.length() - 2);
     }
-
+    
     public boolean caseEqual(String v) {
         return match(v) != null;
     }
@@ -162,7 +220,8 @@ public class RubyRegexp extends RubyBasic {
         return regex_.split(input, limit);
     }
 
-    public String source() {
-        return regex_.toString();
+    @RubyLevelMethod(name="source")
+    public RubyString source() {
+        return ObjectFactory.createString(regex_.toString());
     }
 }
