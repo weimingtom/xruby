@@ -36,6 +36,17 @@ public class RubyString extends RubyBasic {
     	return ObjectFactory.createString((RubyClass)receiver, "");
 	}
     
+    @RubyLevelMethod(name="initialize", alias="initialize_copy")
+    public RubyString initialize(RubyValue v) {
+    	this.setString(v.toStr());
+        return this;
+    }
+    
+    @RubyLevelMethod(name="initialize", alias="initialize_copy")
+    public RubyString initialize() {
+        return this;
+    }
+    
     public RubyString clone() {
         RubyString s = (RubyString)super.clone();
         s.sb_ = new StringBuilder(sb_);

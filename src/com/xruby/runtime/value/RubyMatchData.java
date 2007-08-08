@@ -7,7 +7,10 @@ package com.xruby.runtime.value;
 
 import java.util.regex.Matcher;
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
+@RubyLevelClass(name="MatchData")
 public class RubyMatchData extends RubyBasic {
 	private Matcher matcher_;
 	
@@ -16,7 +19,12 @@ public class RubyMatchData extends RubyBasic {
 		matcher_ = m;
 	}
 	
-	public String to_s() {
+	@RubyLevelMethod(name="to_s")
+	public RubyString to_s() {
+		return ObjectFactory.createString(this.matcher_.group());
+	}
+	
+	public String toString() {
 		return matcher_.group();
 	}
 	

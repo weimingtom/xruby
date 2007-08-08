@@ -13,39 +13,6 @@ import com.xruby.runtime.value.*;
 import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-class String_downcase extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        return ObjectFactory.createString(value.toString().toLowerCase());
-    }
-}
-
-/// Downcases the contents of str, returning nil if no changes were made.
-class String_downcase_danger extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyString value = (RubyString) receiver;
-        String new_value = value.toString().toLowerCase();
-        if (new_value.equals(value.toString())) {
-            return ObjectFactory.NIL_VALUE;
-        } else {
-            return value.setString(new_value);
-        }
-    }
-}
-
-//class String_to_f extends RubyNoArgMethod {
-//    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-//        RubyString value = (RubyString) receiver;
-//		double d;
-//		try {
-//			d = Double.parseDouble(value.toString());
-//		} catch (NumberFormatException e) {
-//			throw new RubyException(RubyRuntime.ArgumentErrorClass, e.toString());
-//		}
-//        return ObjectFactory.createFloat(d);
-//    }
-//}
-
 class String_hex extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyString value = (RubyString) receiver;
@@ -105,31 +72,6 @@ class String_to_i extends RubyVarArgMethod {
         }
         throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
 
-    }
-}
-
-class String_initialize extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        if (args != null) {
-            String new_value = RubyTypesUtil.convertToString(args.get(0)).toString();
-            ((RubyString) receiver).setString(new_value);
-        }
-
-        return receiver;
-    }
-}
-
-class String_new extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return ObjectFactory.createString((RubyClass) receiver, "");
-    }
-}
-
-class String_plus extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyString v1 = (RubyString) receiver;
-        RubyString v2 = (RubyString) arg;
-        return ObjectFactory.createString(v1.toString() + v2.toString());
     }
 }
 
@@ -400,7 +342,7 @@ class String_access extends RubyVarArgMethod {
                 RubyRegexp regexp = (RubyRegexp) arg;
                 RubyMatchData match = regexp.match(string);
                 if (match != null) {
-                    return ObjectFactory.createString(match.to_s());
+                    return ObjectFactory.createString(match.toString());
                 } else {
                     return ObjectFactory.NIL_VALUE;
                 }
@@ -480,7 +422,7 @@ class String_access_set extends RubyVarArgMethod {
                 RubyRegexp regexp = (RubyRegexp) arg;
                 RubyMatchData match = regexp.match(string);
                 if (match != null) {
-                    String matched = match.to_s();
+                    String matched = match.toString();
                     start = string.indexOf(matched);
                     end = matched.length() + start;
                 } else {
@@ -690,13 +632,6 @@ class String_count extends RubyVarArgMethod {
     }
 }
 
-class String_dump extends RubyNoArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyBlock block) {
-		RubyString s = (RubyString)receiver;
-		return ObjectFactory.createString(s.dump());
-	}
-}
-
 public class StringClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.StringClass;
@@ -717,8 +652,8 @@ public class StringClassBuilder {
         c.defineMethod("hex", new String_hex());
         c.defineMethod(RubyID.toSID, factory.getMethod("to_s", MethodType.NO_ARG));
         c.defineMethod("length", factory.getMethod("rubyLength", MethodType.NO_ARG));
-        c.defineMethod("initialize_copy", new String_initialize());
-        c.defineMethod("initialize", new String_initialize());
+        c.defineMethod("initialize_copy", factory.getMethod("initialize", MethodType.NO_OR_ONE_ARG));
+        c.defineMethod("initialize", factory.getMethod("initialize", MethodType.NO_OR_ONE_ARG));
         c.defineMethod(RubyID.plusID, factory.getMethod("plus", MethodType.ONE_ARG));
         c.defineMethod("gsub", new String_gsub());
         c.defineMethod("gsub!", new String_gsub_danger());

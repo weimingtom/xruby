@@ -110,7 +110,7 @@ public class RubyTime extends RubyBasic {
 	}
 	
 	@RubyLevelMethod(name="utc", alias="gm")
-	public RubyTime utc(RubyArray args) {
+	public static RubyTime utc(RubyValue receiver, RubyArray args) {
 		if (null == args || args.size() == 0) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
         }

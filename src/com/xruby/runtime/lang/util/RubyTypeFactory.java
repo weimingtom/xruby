@@ -86,7 +86,7 @@ public abstract class RubyTypeFactory {
 	private Class createClass(String name) {
 		Annotation annotation = klass.getAnnotation(this.getTypeAnnotationClass());
 		if (annotation == null) {
-			return null;
+			throw new RuntimeException("no annotation class:" + klass);
 		}
 		
 		startBuilder(name);
@@ -234,6 +234,9 @@ public abstract class RubyTypeFactory {
 		item.javaName = method.getName();
 		item.alias = annotation.alias();
 		makeItemPros(method, item);
+		if (annotation.singleton()) {
+			item.singleton = true;
+		}
 		
 		return item;
 	}
@@ -328,12 +331,17 @@ public abstract class RubyTypeFactory {
 		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
 				Method.getMethod(CgUtil.getMethodName("defineMethod", RubyValue.class, String.class, RubyMethod.class)));
 		
-		defineAlias(mg, rubyTypeIdx, annotationName, item.alias);
+		defineAlias(mg, rubyTypeIdx, annotationName, item.alias, item.singleton);
 	}
 
-	private void defineAlias(GeneratorAdapter mg, int rubyTypeIdx, String oldName, String[] aliases) {
+	private void defineAlias(GeneratorAdapter mg, int rubyTypeIdx, String oldName, 
+			String[] aliases, boolean singleton) {
 		for (String alias : aliases) {
 			mg.loadLocal(rubyTypeIdx);
+			if (singleton) {
+				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+						Method.getMethod(CgUtil.getMethodName("getSingletonClass", RubyClass.class)));
+			}
 			mg.push(alias);
 			mg.push(oldName);
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
