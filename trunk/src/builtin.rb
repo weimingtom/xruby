@@ -1181,4 +1181,4 @@ end
 class Interrupt < SignalException
 end
 
-ENV["RUBY"] = 'java -jar xruby-0.2.1.jar'
+ENV["RUBY"] = 'java -jar xruby-0.3.0.jar'
