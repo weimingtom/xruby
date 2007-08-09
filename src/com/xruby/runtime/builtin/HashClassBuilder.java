@@ -32,19 +32,19 @@ class Hash_hash_access extends RubyVarArgMethod {
 //TODO this should be implmented in ruby
 class Hash_fetch extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-    	RubyValue key = args.get(0);
+        RubyValue key = args.get(0);
 
         RubyHash value = (RubyHash) receiver;
         if (args.size() >= 1) {
             RubyValue v = value.get(key);
             if (v != ObjectFactory.NIL_VALUE) {
-            	return v;//found
+                return v;//found
             } else if (args.size() >= 2) {
                 return args.get(1);//default_value
             } else if (null != block) {
                 return block.invoke(receiver, key);
             } else {
-            	throw new RubyException(RubyRuntime.IndexErrorClass, "key not found");
+                throw new RubyException(RubyRuntime.IndexErrorClass, "key not found");
             }
         }
 
@@ -82,20 +82,6 @@ class Hash_initialize extends RubyVarArgMethod {
     }
 }
 
-class Hash_has_key_question extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyHash h = (RubyHash) receiver;
-        return h.has_key(arg) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
-    }
-}
-
-class Hash_has_value_question extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyHash h = (RubyHash) receiver;
-        return h.has_value(arg) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
-    }
-}
-
 class Hash_equal extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyHash left = (RubyHash) receiver;
@@ -109,9 +95,9 @@ class Hash_equal extends RubyOneArgMethod {
 
 class Hash_new extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-    	RubyHash h = ObjectFactory.createHash();
-    	h.setRubyClass((RubyClass) receiver);
-    	return h;
+        RubyHash h = ObjectFactory.createHash();
+        h.setRubyClass((RubyClass) receiver);
+        return h;
     }
 }
 
@@ -126,11 +112,7 @@ public class HashClassBuilder {
         c.defineMethod("[]=", new Hash_hash_set());
         c.defineMethod("fetch", new Hash_fetch());
         c.defineMethod("initialize", new Hash_initialize());
-        c.defineMethod("has_key?", new Hash_has_key_question());
-        c.defineMethod("has_value?", new Hash_has_value_question());
-        c.defineMethod("==", new Hash_equal());		
+        c.defineMethod("==", new Hash_equal());
         c.defineAllocMethod(new Hash_new());
-
-        c.includeModule(RubyRuntime.EnumerableModule);
     }
 }
