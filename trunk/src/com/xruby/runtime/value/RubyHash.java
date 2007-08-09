@@ -6,13 +6,13 @@
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * @breif Internal representation of a ruby hash
- */
+@RubyLevelClass(name="Hash")
 public class RubyHash extends RubyBasic {
     private HashMap<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
     private ArrayList<RubyValue> keys_ = new ArrayList<RubyValue>();// To ensure the order, for 'shift' ect
@@ -31,14 +31,16 @@ public class RubyHash extends RubyBasic {
         return h;
     }
 
-    // Getter and Setter for default value
-    public RubyValue getDefaultValue() {
+    @RubyLevelMethod(name="default")
+    public RubyValue getDefaultValue(RubyArray args) {
         return default_value_;
     }
 
-    public void setDefaultValue(RubyValue defaultValue) {
+    @RubyLevelMethod(name="default=")
+    public RubyValue setDefaultValue(RubyValue defaultValue) {
         default_value_as_block_ = null;
         default_value_ = defaultValue;
+        return this;
     }
 
     public RubyBlock getDefaultValueAsBlock() {
@@ -165,6 +167,7 @@ public class RubyHash extends RubyBasic {
         return true;
     }
 
+    @RubyLevelMethod(name="keys")
     public RubyArray keys() {
         RubyArray a = new RubyArray();
         for (RubyValue key : keys_) {
@@ -173,6 +176,7 @@ public class RubyHash extends RubyBasic {
         return a;
     }
 
+    @RubyLevelMethod(name="values")
     public RubyArray values() {
         RubyArray a = new RubyArray();
 
