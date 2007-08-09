@@ -61,13 +61,6 @@ class Hash_hash_set extends RubyVarArgMethod {
     }
 }
 
-class Hash_to_s extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyHash value = (RubyHash) receiver;
-        return value.to_s();
-    }
-}
-
 class Hash_initialize extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyHash hash = (RubyHash) receiver;
@@ -96,25 +89,10 @@ class Hash_has_key_question extends RubyOneArgMethod {
     }
 }
 
-class Hash_delete extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyHash h = (RubyHash) receiver;
-        //TODO hsh.delete( aKeyObject ) {| aKeyObject | block } 
-        return h.delete(arg);
-    }
-}
-
 class Hash_has_value_question extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         RubyHash h = (RubyHash) receiver;
         return h.has_value(arg) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
-    }
-}
-
-class Hash_values_at extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyHash h = (RubyHash) receiver;
-        return h.values_at(args);
     }
 }
 
@@ -126,13 +104,6 @@ class Hash_equal extends RubyOneArgMethod {
             return ObjectFactory.FALSE_VALUE;
         }
         return left.equals((RubyHash) right) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
-    }
-}
-
-class Hash_shift extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyHash h = (RubyHash) receiver;
-        return h.shift();
     }
 }
 
@@ -154,14 +125,10 @@ public class HashClassBuilder {
         c.defineMethod("[]", new Hash_hash_access());
         c.defineMethod("[]=", new Hash_hash_set());
         c.defineMethod("fetch", new Hash_fetch());
-        c.defineMethod(RubyID.toSID, new Hash_to_s());
         c.defineMethod("initialize", new Hash_initialize());
         c.defineMethod("has_key?", new Hash_has_key_question());
         c.defineMethod("has_value?", new Hash_has_value_question());
-        c.defineMethod("values_at", new Hash_values_at());
-        c.defineMethod("==", new Hash_equal());
-        c.defineMethod("shift", new Hash_shift());
-        c.defineMethod("delete", new Hash_delete());		
+        c.defineMethod("==", new Hash_equal());		
         c.defineAllocMethod(new Hash_new());
 
         c.includeModule(RubyRuntime.EnumerableModule);
