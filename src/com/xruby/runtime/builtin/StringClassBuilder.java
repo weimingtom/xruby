@@ -6,8 +6,6 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.lang.util.MethodFactory;
-import com.xruby.runtime.lang.util.MethodType;
 import com.xruby.runtime.value.*;
 
 import java.math.BigInteger;
@@ -635,26 +633,8 @@ class String_count extends RubyVarArgMethod {
 public class StringClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.StringClass;
-        MethodFactory factory = MethodFactory.createMethodFactory(RubyString.class);
-        c.defineMethod("strip", factory.getMethod("strip", MethodType.NO_ARG));
-        c.defineMethod("strip!", factory.getMethod("stripBang", MethodType.NO_ARG));
-        c.defineMethod("==", factory.getMethod("opEqual", MethodType.ONE_ARG));
-        c.defineMethod("capitalize", factory.getMethod("capitalize", MethodType.NO_ARG));
-        c.defineMethod("capitalize!", factory.getMethod("capitalizeBang", MethodType.NO_ARG));
-        c.defineMethod("upcase", factory.getMethod("upcase", MethodType.NO_ARG));
-        c.defineMethod("upcase!", factory.getMethod("upcaseBang", MethodType.NO_ARG));
-        c.defineMethod("downcase", factory.getMethod("downcase", MethodType.NO_ARG));
-        c.defineMethod("downcase!", factory.getMethod("downcaseBang", MethodType.NO_ARG));
-        c.defineMethod("swapcase", factory.getMethod("swapcase", MethodType.NO_ARG));
-        c.defineMethod("swapcase!", factory.getMethod("swapcaseBang", MethodType.NO_ARG));
-        c.defineMethod("to_f", factory.getMethod("toRubyFloat", MethodType.NO_ARG));
         c.defineMethod("to_i", new String_to_i());
         c.defineMethod("hex", new String_hex());
-        c.defineMethod(RubyID.toSID, factory.getMethod("to_s", MethodType.NO_ARG));
-        c.defineMethod("length", factory.getMethod("rubyLength", MethodType.NO_ARG));
-        c.defineMethod("initialize_copy", factory.getMethod("initialize", MethodType.NO_OR_ONE_ARG));
-        c.defineMethod("initialize", factory.getMethod("initialize", MethodType.NO_OR_ONE_ARG));
-        c.defineMethod(RubyID.plusID, factory.getMethod("plus", MethodType.ONE_ARG));
         c.defineMethod("gsub", new String_gsub());
         c.defineMethod("gsub!", new String_gsub_danger());
         c.defineMethod("sub", new String_sub());
@@ -667,9 +647,6 @@ public class StringClassBuilder {
         c.defineMethod("%", new String_format());
         c.defineMethod("[]=", new String_access_set());
         c.defineMethod("*", new String_operator_star());
-        RubyMethod each = factory.getMethodWithBlock("each", MethodType.NO_ARG);
-        c.defineMethod("each", each);
-        c.defineMethod("each_line", each);
         c.defineMethod("each_byte", new String_each_byte());
         c.defineMethod("reverse!", new String_reverse_danger());
         c.defineMethod("reverse", new String_reverse());
@@ -685,15 +662,7 @@ public class StringClassBuilder {
         c.defineMethod("delete!", new String_delete_danger());
         c.defineMethod("delete", new String_delete());
         c.defineMethod("unpack", new String_unpack());
-        c.defineMethod("concat", factory.getMethod("concat", MethodType.ONE_ARG));
-        c.defineMethod("<<", factory.getMethod("concat", MethodType.ONE_ARG));
         c.defineMethod("count", new String_count());
-        c.defineMethod("chop", factory.getMethod("chop", MethodType.NO_ARG));
-        c.defineMethod("chop!", factory.getMethod("chopBang", MethodType.NO_ARG));
-        c.defineMethod("intern", factory.getMethod("intern", MethodType.NO_ARG));
-        c.defineMethod("to_sym", factory.getMethod("intern", MethodType.NO_ARG));
-        c.defineMethod("dump", factory.getMethod("rubyDump", MethodType.NO_ARG));
-        c.defineAllocMethod(factory.getSingletonMethod("alloc", MethodType.NO_ARG));
     }
 }
 

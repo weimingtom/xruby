@@ -6,8 +6,6 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.lang.util.MethodFactory;
-import com.xruby.runtime.lang.util.MethodType;
 import com.xruby.runtime.value.*;
 
 class Array_slice_danger extends RubyVarArgMethod {
@@ -390,21 +388,12 @@ class Array_rassoc extends RubyOneArgMethod {
 public class ArrayClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.ArrayClass;
-        MethodFactory factory = MethodFactory.createMethodFactory(RubyArray.class);
         
         c.getSingletonClass().defineMethod("new", new Array_new());
         c.getSingletonClass().defineMethod("[]", new Array_new_with_given_objects());
-          
-        c.defineMethod("[]", factory.getMethod("aref", MethodType.ONE_OR_TWO_ARG));
-        
-        c.defineMethod("first", factory.getMethod("first", MethodType.NO_OR_ONE_ARG));
-        c.defineMethod("last", factory.getMethod("last", MethodType.NO_OR_ONE_ARG));
-        
         c.defineMethod("[]=", new Array_array_set());
-        c.defineMethod("<=>", factory.getMethod("compare", MethodType.ONE_ARG));
         c.defineMethod("*", new Array_times());
         c.defineMethod("include?", new Array_include());
-        c.defineMethod("unshift", factory.getMethod("unshift", MethodType.VAR_ARG));
         c.defineMethod("pack", new Array_pack());
         c.defineMethod("sort!", new Array_sort_dangers());
         c.defineMethod("sort", new Array_sort());
@@ -413,7 +402,6 @@ public class ArrayClassBuilder {
         c.defineMethod("compact", new Array_compact());
         c.defineMethod("uniq!", new Array_uniq_danger());
         c.defineMethod("uniq", new Array_uniq());
-        c.defineMethod("slice", factory.getMethod("aref", MethodType.ONE_OR_TWO_ARG));
         c.defineMethod("slice!", new Array_slice_danger());
         c.defineMethod("index",new Array_index());
         c.defineMethod("rindex",new Array_rindex());
@@ -426,6 +414,5 @@ public class ArrayClassBuilder {
         c.defineMethod("collect!", new Array_collect_danger());
         c.defineMethod("assoc", new Array_assoc());
         c.defineMethod("rassoc", new Array_rassoc());
-      
     }
 }
