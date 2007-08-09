@@ -291,4 +291,91 @@ public class Rubyv3ParserTest  extends TestCase {
 
             parse(program_texts, "primaryExpression");
     }
+    
+    public void test_regex() {
+    	String[] program_texts = {
+                "/fasdf/",
+                "//",
+            };
+
+            parse(program_texts, "regex");
+    }
+    
+    public void test_symbol() {
+    	String[] program_texts = {
+                ":if",
+            };
+
+            parse(program_texts, "symbol");
+    }
+    
+    public void test_string() {
+    	String[] program_texts = {
+                "\"a\"",
+                "\'b\'"
+            };
+
+            parse(program_texts, "string");
+    }
+    
+    public void test_operatorAsMethodname() {
+    	String[] program_texts = {
+                "/",
+                
+            };
+
+            parse(program_texts, "operatorAsMethodname");
+    }
+    
+    public void test_keyword() {
+    	String[] program_texts = {
+                "nil",
+                
+            };
+
+            parse(program_texts, "keyword");
+    }
+    
+    public void test_keywordAsMethodName() {
+    	String[] program_texts = {
+                "if",
+                
+            };
+
+            parse(program_texts, "keywordAsMethodName");
+    }
+    
+    public void test_literal() {
+    	String[] program_texts = {
+                "/fasdf/",
+                "//",
+            };
+
+            parse(program_texts, "literal");
+    }
+    
+    public void test_keyValuePair() {
+    	String[] program_texts = {
+                "1=>2"
+            };
+
+            parse(program_texts, "keyValuePair");
+    }
+    
+    
+    public void test_arrayReferenceArgument() {
+    	String[] program_texts = {
+                "1,2,3"
+            };
+
+            parse(program_texts, "arrayReferenceArgument");
+    }
+    
+//    public void test_arrayExpression() {
+//    	String[] program_texts = {
+//                "［］"
+//            };
+//
+//            parse(program_texts, "arrayExpression");
+//    }
 }
