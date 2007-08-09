@@ -129,39 +129,10 @@ class Hash_equal extends RubyOneArgMethod {
     }
 }
 
-class Hash_keys extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyHash h = (RubyHash) receiver;
-        return h.keys();
-    }
-}
-
-class Hash_values extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyHash h = (RubyHash) receiver;
-        return h.values();
-    }
-}
-
 class Hash_shift extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyHash h = (RubyHash) receiver;
         return h.shift();
-    }
-}
-
-class Hash_default extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyHash h = (RubyHash) receiver;
-        return h.getDefaultValue();
-    }
-}
-
-class Hash_default_assign extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyHash h = (RubyHash) receiver;
-        h.setDefaultValue(arg);
-        return h;
     }
 }
 
@@ -189,12 +160,8 @@ public class HashClassBuilder {
         c.defineMethod("has_value?", new Hash_has_value_question());
         c.defineMethod("values_at", new Hash_values_at());
         c.defineMethod("==", new Hash_equal());
-        c.defineMethod("keys", new Hash_keys());
-        c.defineMethod("values", new Hash_values());
         c.defineMethod("shift", new Hash_shift());
         c.defineMethod("delete", new Hash_delete());		
-        c.defineMethod("default", new Hash_default());
-        c.defineMethod("default=", new Hash_default_assign());
         c.defineAllocMethod(new Hash_new());
 
         c.includeModule(RubyRuntime.EnumerableModule);

@@ -7,20 +7,7 @@ package com.xruby.runtime.lang;
 
 import com.xruby.runtime.builtin.*;
 import com.xruby.runtime.lang.util.RubyTypeFactory;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyBignum;
-import com.xruby.runtime.value.RubyFileTestModule;
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyFloat;
-import com.xruby.runtime.value.RubyInteger;
-import com.xruby.runtime.value.RubyMatchData;
-import com.xruby.runtime.value.RubyMethodValue;
-import com.xruby.runtime.value.RubyNumeric;
-import com.xruby.runtime.value.RubyRange;
-import com.xruby.runtime.value.RubyRegexp;
-import com.xruby.runtime.value.RubyThreadGroup;
-import com.xruby.runtime.value.RubyTime;
+import com.xruby.runtime.value.*;
 
 public class RubyRuntime {
     public static RubyClass ObjectClass;
@@ -61,7 +48,7 @@ public class RubyRuntime {
     public static RubyClass StructClass;
     public static RubyClass ThreadGroupClass;
     public static RubyClass ThreadClass;
-	public static RubyClass UnboundMethodClass;
+    public static RubyClass UnboundMethodClass;
 
     public static RubyClass ExceptionClass;
     public static RubyClass StandardErrorClass;
@@ -82,9 +69,9 @@ public class RubyRuntime {
     public static RubyClass SyntaxErrorClass;
     public static RubyClass LoadErrorClass;
     public static RubyClass NotImplementedErrorClass;
-    
+
     private static RubyMethod respondToMethod;
-    
+
     public static boolean running = false;
 
     static {
@@ -93,19 +80,19 @@ public class RubyRuntime {
         ObjectClass = ClassFactory.defineBootClass("Object", null);
         ModuleClass = ClassFactory.defineBootClass("Module", RubyRuntime.ObjectClass);
         ClassClass = ClassFactory.defineBootClass("Class", RubyRuntime.ModuleClass);
-        
-        ClassClass.setRubyClass(ClassClass);        
+
+        ClassClass.setRubyClass(ClassClass);
 
         RubySingletonClass metaClass = new RubySingletonClass(ObjectClass, ClassClass);
         metaClass = new RubySingletonClass(ModuleClass, metaClass);
         metaClass = new RubySingletonClass(ClassClass, metaClass);
 
         KernelModule = RubyAPI.defineModule("Kernel");
-        
+
         NilClassClass = RubyAPI.defineClass("NilClass", RubyRuntime.ObjectClass);
         TrueClassClass = RubyAPI.defineClass("TrueClass", RubyRuntime.ObjectClass);
         FalseClassClass = RubyAPI.defineClass("FalseClass", RubyRuntime.ObjectClass);
-        
+
         ComparableModule = RubyAPI.defineModule("Comparable");
         EnumerableModule = RubyAPI.defineModule("Enumerable");
         ErrnoModule = RubyAPI.defineModule("Errno");
@@ -117,13 +104,13 @@ public class RubyRuntime {
         ProcessModule = RubyAPI.defineModule("Process");
 
         BindingClass = RubyAPI.defineClass("Binding", RubyRuntime.ObjectClass);
-        
-        
+
+
         RubyTypeFactory.getClass(RubyObject.class);
         ModuleClassBuilder.initialize();
         ClassClassBuilder.initialize();
         KernelModuleBuilder.initialize();
-        
+
         NumericClass = RubyTypeFactory.getClass(RubyNumeric.class);
         IntegerClass = RubyTypeFactory.getClass(RubyInteger.class);
         FixnumClass = RubyTypeFactory.getClass(RubyFixnum.class);
@@ -131,7 +118,7 @@ public class RubyRuntime {
         StringClass = RubyAPI.defineClass("String", RubyRuntime.ObjectClass);
         FloatClass = RubyTypeFactory.getClass(RubyFloat.class);
         ArrayClass = RubyAPI.defineClass("Array", RubyRuntime.ObjectClass);
-        HashClass = RubyAPI.defineClass("Hash", RubyRuntime.ObjectClass);
+        HashClass = RubyTypeFactory.getClass(RubyHash.class);
         SymbolClass = RubyTypeFactory.getClass(RubySymbol.class);
         IOClass = RubyAPI.defineClass("IO", RubyRuntime.ObjectClass);
         ProcClass = RubyAPI.defineClass("Proc", RubyRuntime.ObjectClass);
@@ -145,7 +132,7 @@ public class RubyRuntime {
         StructClass = RubyAPI.defineClass("Struct", RubyRuntime.ObjectClass);
         ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);
         ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);
-		UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
+        UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
 
         ExceptionClass = RubyTypeFactory.getClass(RubyExceptionValue.class);
         StandardErrorClass = RubyAPI.defineClass("StandardError", ExceptionClass);
@@ -168,7 +155,7 @@ public class RubyRuntime {
         NotImplementedErrorClass = RubyAPI.defineClass("NotImplementedError", ScriptErrorClass);
 
 //        ObjectClassBuilder.initialize();
-        
+
         GCModuleBuilder.initialize();
         MarshalModuleBuilder.initialize();
         MathModuleBuilder.initialize();
@@ -249,21 +236,21 @@ public class RubyRuntime {
     public static void fini() {
         AtExitBlocks.invokeAll();
     }
-    
+
     private static boolean supported;
     public static boolean javaIsSupported(){
         return supported;
     }
-    
+
     public static void setJavaSupported(boolean val){
         supported = val;
     }
-    
+
     public static void setRespondToMethod(RubyMethod method) {
-    	respondToMethod = method;
+        respondToMethod = method;
     }
-    
+
     public static RubyMethod getRubyMethod() {
-    	return respondToMethod;
+        return respondToMethod;
     }
 }
