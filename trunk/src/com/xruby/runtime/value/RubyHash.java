@@ -8,6 +8,7 @@ package com.xruby.runtime.value;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
+import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -258,6 +259,13 @@ public class RubyHash extends RubyBasic {
         RubyValue v = args.get(1);
         this.add(args.get(0), v);
         return v;
+    }
+
+    @RubyAllocMethod
+    public static RubyValue alloc(RubyValue receiver) {
+    	RubyHash h = ObjectFactory.createHash();
+        h.setRubyClass((RubyClass) receiver);
+        return h;
     }
 
 }

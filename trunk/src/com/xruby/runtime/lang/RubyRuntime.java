@@ -167,7 +167,7 @@ public class RubyRuntime {
         StringClassBuilder.initialize();
 //        FloatClassBuilder.initialize();
         ArrayClassBuilder.initialize();
-        HashClassBuilder.initialize();
+//        HashClassBuilder.initialize();
 //        SymbolClassBuilder.initialize();
         IOClassBuilder.initialize();
         ProcClassBuilder.initialize();
