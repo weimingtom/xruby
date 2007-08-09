@@ -121,7 +121,7 @@ public class RubyRuntime {
         HashClass = RubyTypeFactory.getClass(RubyHash.class);
         SymbolClass = RubyTypeFactory.getClass(RubySymbol.class);
         IOClass = RubyAPI.defineClass("IO", RubyRuntime.ObjectClass);
-        ProcClass = RubyAPI.defineClass("Proc", RubyRuntime.ObjectClass);
+        ProcClass = RubyTypeFactory.getClass(RubyProc.class);
         RangeClass = RubyTypeFactory.getClass(RubyRange.class);
         RegexpClass = RubyTypeFactory.getClass(RubyRegexp.class);
         FileClass = RubyAPI.defineClass("File", RubyRuntime.IOClass);

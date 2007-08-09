@@ -9,9 +9,13 @@ import com.xruby.runtime.lang.RubyBinding;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
+import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 
 import java.lang.reflect.Field;
 
+@RubyLevelClass(name="Proc")
 public class RubyProc extends RubyBinding {
     private final RubyBlock value_;
 
@@ -20,6 +24,21 @@ public class RubyProc extends RubyBinding {
         setSelf(ObjectFactory.TOP_LEVEL_SELF_VALUE);//TODO should not hardcode this
         setScope(RubyRuntime.ObjectClass);//TODO should not hardcode this
         value_ = v;
+    }
+
+    @RubyAllocMethod
+    public static RubyValue alloc(RubyValue receiver, RubyBlock block) {
+        return ObjectFactory.createProc(block);
+    }
+
+    @RubyLevelMethod(name="arity")
+    public RubyFixnum arity() {
+        return ObjectFactory.createFixnum(value_.arity());
+    }
+
+    @RubyLevelMethod(name="equal")
+    public RubyValue equal(RubyValue v) {
+        return equals(v) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
     }
 
     public boolean equals(Object o) {
