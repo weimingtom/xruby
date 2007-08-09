@@ -327,11 +327,12 @@ command:unaryExpression;
 
 //-(unary)  +(unary)
 unaryExpression
-		:	(	UNARY_PLUS^	(options{greedy=true;}:LINE_BREAK!)?
-			|	UNARY_MINUS^	(options{greedy=true;}:LINE_BREAK!)?
-			)*
+		:	(	UNARY_PLUS^	(options{greedy=true;}:LINE_BREAK!)
+			|	UNARY_MINUS^	(options{greedy=true;}:LINE_BREAK!)
+			)+
 			
-			|primaryExpressionThatCanNotBeMethodName	
+			|
+			primaryExpressionThatCanNotBeMethodName	
 			
 		;
 predefinedValue
@@ -342,6 +343,114 @@ predefinedValue
 		|	'__LINE__'
 		;
 
+regex
+		:	REGEX
+		;
+
+
+command_output
+		:	COMMAND_OUTPUT
+		;
+		
+symbol
+		:	COLON_WITH_NO_FOLLOWING_SPACE!
+					(IDENTIFIER	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+					|FUNCTION	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+					|CONSTANT	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+					|GLOBAL_VARIABLE 
+					|INSTANCE_VARIABLE
+					|CLASS_VARIABLE
+					|UNARY_PLUS_MINUS_METHOD_NAME
+					|operatorAsMethodname
+					|keyword
+					|string)
+		;
+		
+string
+		:	DOUBLE_QUOTE_STRING
+		|	SINGLE_QUOTE_STRING
+		;
+operatorAsMethodname
+		:	LEFT_SHIFT
+		|	RIGHT_SHIFT
+		|	EQUAL
+		|	CASE_EQUAL
+		|	GREATER_THAN
+		|	GREATER_OR_EQUAL
+		|	LESS_THAN
+		|	LESS_OR_EQUAL
+		|	PLUS
+		|	MINUS
+		|	STAR
+		|	DIV
+		|	MOD
+		|	POWER
+		|	BAND
+		|	BOR
+		|	BXOR
+		|	(EMPTY_ARRAY	|EMPTY_ARRAY_ACCESS)	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+		|	MATCH
+		|	COMPARE
+		|	BNOT
+		|	SINGLE_QUOTE
+		;
+		
+keyword
+		:	keywordAsMethodName
+		|	'nil'
+		|	'self'
+		|	'true'
+		|	'false'
+		|	'__FILE__'
+		|	'__LINE__'
+		;
+
+keywordAsMethodName
+		:	'and'
+		|	'def'
+		|	'end'
+		|	'in'
+		|	'or'
+		|	'unless'
+		|	'begin'
+		|	'defined?'
+		|	'ensure'
+		|	'module'
+		|	'redo'
+		|	'super'
+		|	'until'
+		|	'BEGIN'
+		|	'break'
+		|	'do'
+		|	'next'
+		|	'rescue'
+		|	'then'
+		|	'when'
+		|	'END'
+		|	'case'
+		|	'else'
+		|	'for'
+		|	'retry'
+		|	'while'
+		|	'alias'
+		|	'class'
+		|	'elsif'
+		|	'if'
+		|	'not'
+		|	'return'
+		|	'undef'
+		|	'yield'
+		;
+
+literal
+		:	regex
+		//|	(options{greedy=true;/*caused by command*/}:string)+{ #literal = #([STRING, "STRING"], #literal); }
+		//|	heredoc
+		|	command_output
+		|	symbol
+		|
+			W_ARRAY
+		;
 
 numeric
 		:	INTEGER
@@ -374,9 +483,9 @@ primaryExpressionThatCanNotBeMethodName
 		|	CLASS_VARIABLE
 		|	predefinedValue
 		|	numeric
-		/*|	literal
+		|	literal
 		|	arrayExpression
-		|	hashExpression
+		/*|	hashExpression
 		|	LPAREN^	compoundStatement RPAREN!
 		|	LPAREN_WITH_NO_LEADING_SPACE^ compoundStatement RPAREN!
 		|	ifExpression
@@ -395,6 +504,25 @@ primaryExpression
 		:	primaryExpressionThatCanNotBeMethodName
 		|	primaryExpressionThatCanBeMethodName	
 		;
+		
+arrayReferenceArgument
+		:	keyValuePair
+			(	COMMA! {if (ASSIGN == input.LA(1)||RBRACK == input.LA(1)) break;}
+				(seen_star=REST_ARG_PREFIX)?	keyValuePair	{if (null != seen_star) break;}
+			)*
+		|	REST_ARG_PREFIX	expression	(LINE_BREAK!)?
+		;
+
+arrayExpression
+		:	LBRACK^
+				(arrayReferenceArgument)?
+			RBRACK!
+		;
+		
+keyValuePair
+		:	expression	(ASSOC	expression)?	(LINE_BREAK!)?
+		;
+
 		
 terminal
     :	SEMI
