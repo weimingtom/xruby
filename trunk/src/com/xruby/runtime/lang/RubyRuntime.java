@@ -124,7 +124,7 @@ public class RubyRuntime {
         ProcClass = RubyTypeFactory.getClass(RubyProc.class);
         RangeClass = RubyTypeFactory.getClass(RubyRange.class);
         RegexpClass = RubyTypeFactory.getClass(RubyRegexp.class);
-        FileClass = RubyAPI.defineClass("File", RubyRuntime.IOClass);
+        FileClass = RubyTypeFactory.getClass(RubyFile.class);
         MethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
         TimeClass = RubyTypeFactory.getClass(RubyTime.class);
         MatchDataClass = RubyTypeFactory.getClass(RubyMatchData.class);
