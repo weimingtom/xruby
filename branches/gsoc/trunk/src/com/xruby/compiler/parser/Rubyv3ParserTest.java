@@ -94,4 +94,71 @@ public class Rubyv3ParserTest  extends TestCase {
 
         parse(program_texts, "terminal");
     }
+    
+    public void test_expression() {
+        String[] program_texts = {
+            "1+2",
+            "1*2",
+            "1/2",
+            "1-2"
+        };
+
+        parse(program_texts, "expression");
+    }
+   
+    
+    public void test_andorExpression() {
+        String[] program_texts = {
+            "1 and 2",
+        };
+
+        parse(program_texts, "andorExpression");
+    }
+    
+    public void test_notExpression() {
+        String[] program_texts = {
+            "not 2",
+        };
+
+        parse(program_texts, "notExpression");
+    }
+    
+    
+    public void test_ternaryIfThenElseExpression() {
+        String[] program_texts = {
+            "1 ? 2 : 3",
+        };
+
+        parse(program_texts, "ternaryIfThenElseExpression");
+    }
+
+    
+    public void test_assignmentExpression() {
+        String[] program_texts = {
+            "1 += 2",
+            //to do
+            //ava.lang.NullPointerException
+            //[junit]     at com.xruby.compiler.parser.Rubyv3Lexer.updateSymbolTable(Rubyv3Lexer.java:324)
+            //"a+=2"
+        };
+
+        parse(program_texts, "assignmentExpression");
+    }
+    
+    public void test_rangeExpression() {
+        String[] program_texts = {
+            "1..3",
+            "3...5"
+        };
+
+        parse(program_texts, "rangeExpression");
+    }
+    
+    public void test_logicalOrExpression() {
+    	String[] program_texts = {
+                "1||2",
+            };
+
+            parse(program_texts, "logicalOrExpression");
+    }
 }
