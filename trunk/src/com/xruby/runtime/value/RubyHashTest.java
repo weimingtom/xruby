@@ -26,17 +26,17 @@ public class RubyHashTest extends TestCase {
 
     public void test_add() {
         RubyHash h = new RubyHash();
-        assertEquals(0, h.size());
+        assertEquals(ObjectFactory.FIXNUM0, h.size());
 
         RubyValue v1 = ObjectFactory.createString("xxx");
         h.add(ObjectFactory.FIXNUM1, v1);
-        assertEquals(1, h.size());
+        assertEquals(ObjectFactory.FIXNUM1, h.size());
         RubyValue r1 = h.get(ObjectFactory.FIXNUM1);
         assertEquals(v1, r1);
 
         RubyValue v2 = ObjectFactory.createString("yyy");
         h.add(ObjectFactory.createString("abc"), v2);
-        assertEquals(2, h.size());
+        assertEquals(ObjectFactory.FIXNUM2, h.size());
         RubyValue r2 = h.get(ObjectFactory.createString("abc"));
         assertEquals(v2, r2);
     }

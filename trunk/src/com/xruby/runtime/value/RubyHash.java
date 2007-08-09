@@ -59,8 +59,9 @@ public class RubyHash extends RubyBasic {
         return this;
     }
 
-    public int size() {
-        return map_.size();
+    @RubyLevelMethod(name="size", alias="length")
+    public RubyFixnum size() {
+        return ObjectFactory.createFixnum(map_.size());
     }
 
     @RubyLevelMethod(name="to_s")
