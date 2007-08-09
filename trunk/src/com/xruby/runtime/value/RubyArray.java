@@ -116,6 +116,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this;
     }
 
+    @RubyLevelMethod(name="[]", alias="slice")
     public RubyValue aref(RubyValue arg) {
         if (arg instanceof RubyFixnum) {
             return this.get(arg.toInt());
@@ -147,6 +148,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this.get(arg.toInt());
     }
 
+    @RubyLevelMethod(name="[]", alias="slice")
     public RubyValue aref(RubyValue begin, RubyValue length) {
         if (begin instanceof RubySymbol) {
             throw new RubyException(RubyRuntime.TypeErrorClass, "Symbol as array index");
@@ -192,6 +194,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return array_.size();
     }
 
+    @RubyLevelMethod(name="first")
     public RubyValue first() {
         if (this.array_.size() == 0) {
             return RubyConstant.QNIL;
@@ -200,6 +203,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
     }
 
+    @RubyLevelMethod(name="first")
     public RubyValue first(RubyValue v) {
         int n = v.toInt();
         int size = this.array_.size();
@@ -210,6 +214,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return new RubyArray(this.array_.subList(0, n));
     }
 
+    @RubyLevelMethod(name="last")
     public RubyValue last() {
         if (this.array_.size() == 0) {
             return RubyConstant.QNIL;
@@ -218,6 +223,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
     }
 
+    @RubyLevelMethod(name="last")
     public RubyValue last(RubyValue v) {
         int n = v.toInt();
         int size = this.array_.size();
@@ -423,6 +429,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return resultArray;
     }
 
+    @RubyLevelMethod(name="<=>")
     public RubyValue compare(RubyValue v) {
         return this.compare(v.toAry());
     }
@@ -638,11 +645,13 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return a;
     }
 
+    @RubyLevelMethod(name="unshift")
     public RubyArray unshift(RubyValue value) {
         array_.add(0, value);
         return this;
     }
 
+    @RubyLevelMethod(name="unshift")
     public RubyArray unshift(RubyArray value) {
         array_.addAll(0, value.array_);
         return this;
