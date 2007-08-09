@@ -88,14 +88,15 @@ public class RubyHash extends RubyBasic {
         }
     }
 
-    public boolean has_key(RubyValue key) {
+    @RubyLevelMethod(name="has_key?")
+    public RubyValue has_key(RubyValue key) {
         for (RubyValue v : keys_) {
             if (RubyAPI.testEqual(key, v)) {
-                return true;
+                return ObjectFactory.TRUE_VALUE;
             }
         }
 
-        return false;
+        return ObjectFactory.FALSE_VALUE;
     }
 
     @RubyLevelMethod(name="delete")
@@ -108,15 +109,16 @@ public class RubyHash extends RubyBasic {
         }
     }
 
-    public boolean has_value(RubyValue value) {
+    @RubyLevelMethod(name="has_value?")
+    public RubyValue has_value(RubyValue value) {
         for (RubyValue key : keys_) {
             RubyValue v = map_.get(key);
             if (RubyAPI.testEqual(value, v)) {
-                return true;
+                return ObjectFactory.TRUE_VALUE;
             }
         }
 
-        return false;
+        return ObjectFactory.FALSE_VALUE;
     }
 
     @RubyLevelMethod(name="values_at")
