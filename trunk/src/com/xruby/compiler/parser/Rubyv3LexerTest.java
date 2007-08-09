@@ -181,7 +181,6 @@ public class Rubyv3LexerTest extends TestCase {
                             new TestingCommonToken(Rubyv3Lexer.INTEGER, "1"),
                             new TestingCommonToken(Rubyv3Lexer.SEMI, ";"),
                             new TestingCommonToken(Rubyv3Lexer.IDENTIFIER, "a"),
-                            //new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n"),
                             new TestingCommonToken(Rubyv3Lexer.LINE_BREAK, "\n", 1),
         };
 
@@ -512,12 +511,12 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_text, Rubyv3Lexer.STAR_ASSIGN);
     }
 
-    /*
+    
     public void test_DIV_ASSIGN() {
         String program_text = "/=";
         assert_type(program_text, Rubyv3Lexer.DIV_ASSIGN);
     }
-    */
+    
 
     public void test_MOD_ASSIGN() {
         String program_text = "%=";
@@ -544,12 +543,12 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_text, Rubyv3Lexer.BOR_ASSIGN);
     }
 
-    /*
+    
     public void test_LEFT_SHIFT_ASSIGN() {
         String program_text = "<<=";
         assert_type(program_text, Rubyv3Lexer.LEFT_SHIFT_ASSIGN);
     }
-    */
+    
 
     public void test_RIGHT_SHIFT_ASSIGN() {
         String program_text = ">>=";
@@ -586,12 +585,12 @@ public class Rubyv3LexerTest extends TestCase {
         assert_type(program_text, Rubyv3Lexer.UNARY_PLUS);
     }
 
-    /*
+    
     public void test_MOD() {
         String program_text = "%";
         assert_type(program_text, Rubyv3Lexer.MOD);
     }
-    */
+    
 
     public void test_MINUS() {
         String program_text = "-";

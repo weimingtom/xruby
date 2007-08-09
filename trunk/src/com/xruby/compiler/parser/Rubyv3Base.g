@@ -175,9 +175,9 @@ ternaryIfThenElseExpression
 			(options{greedy=true;/*caused by command*/}:
 				QUESTION			(options{greedy=true;}:LINE_BREAK!)?
 				ternaryIfThenElseExpression
-				(COLON!|COLON_WITH_NO_FOLLOWING_SPACE!)				(options{greedy=true;}:LINE_BREAK!)?
+				(COLON|COLON_WITH_NO_FOLLOWING_SPACE)				(options{greedy=true;}:LINE_BREAK!)?
 				ternaryIfThenElseExpression
-			)
+			)?
 		;
 		
 assignmentExpression
@@ -889,11 +889,10 @@ INTEGER
                 )
 
     |	'?'	(
-          {isAsciiValueTerminator(input.LA(2))}?	(~('\\'|' '|'\n'|'\r'))	{$type=ASCII_VALUE;}
-          |'\\'		~('C' | 'M')	{$type=ASCII_VALUE;}
-          |('\\'	('C'|'M') '-')+	('a'..'z' | '?')	{$type=ASCII_VALUE;}
-          |{$type=QUESTION;}	//If it does not "look like"(not depend on context!) integer, then it is QUESTION operator.
-        )
+          {isAsciiValueTerminator(input.LA(2))}?	(~('\\'|' '|'\n'|'\r'))	
+          |'\\'		~('C' | 'M')	
+          |('\\'	('C'|'M') '-')+	('a'..'z' | '?')	
+        ){$type=ASCII_VALUE;}
     ;
     
 BINARY: '0'!	('b'!|'B'!)	BINARY_CONTENT	;
@@ -903,7 +902,7 @@ OCTAL:'0'!	OCTAL_CONTENT;
 DOT:	'.'	;
 INCLUSIVE_RANGE:	'..';
 EXCLUSIVE_RANGE:	'...';
-    
+QUESTION: '?';
 
 
 fragment
