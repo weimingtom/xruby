@@ -96,18 +96,6 @@ class Module_inspect extends RubyVarArgMethod {
     }
 }
 
-class AttrReader extends RubyNoArgMethod {
-    private RubyID attrName;
-
-    public AttrReader(String methodName) {
-        attrName = RubyID.intern("@" + methodName);
-    }
-
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return receiver.getInstanceVariable(attrName);
-    }
-}
-
 class Module_attr_reader extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyModule m = (RubyModule) receiver;
@@ -118,18 +106,6 @@ class Module_attr_reader extends RubyVarArgMethod {
         }
 
         return ObjectFactory.NIL_VALUE;
-    }
-}
-
-class AttrWriter extends RubyOneArgMethod {
-    private RubyID attrName;
-
-    public AttrWriter(String methodName) {
-        attrName = RubyID.intern("@" + methodName);
-    }
-
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        return receiver.setInstanceVariable(arg, attrName);
     }
 }
 

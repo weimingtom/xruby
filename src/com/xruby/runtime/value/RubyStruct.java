@@ -3,15 +3,19 @@
  * Distributed under the GNU General Public License 2.0
  */
 
-package com.xruby.runtime.builtin;
+package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyString;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.builtin.AttrReader;
+import com.xruby.runtime.builtin.AttrWriter;
 
-class Struct_new extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+@RubyLevelClass(name="Struct")
+public class RubyStruct {
+
+    @RubyLevelMethod(name="new", singleton=true)
+    public static RubyValue alloc(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (!(args.get(0) instanceof RubyString)) {
             RubyClass c = RubyRuntime.ObjectClass.defineClass(null, RubyRuntime.ObjectClass);
             addMethods(c, args, 0);
@@ -23,9 +27,9 @@ class Struct_new extends RubyVarArgMethod {
         }
     }
 
-    private void addMethods(RubyClass c, final RubyArray super_args, final int offset) {
+    private static void addMethods(RubyClass c, final RubyArray super_args, final int offset) {
         for (int i = offset; i < super_args.size(); ++i) {
-            String s = RubyTypesUtil.convertToJavaString(super_args.get(i));
+            String s = super_args.get(i).toStr();
             c.defineMethod(s, new AttrReader(s));
             c.defineMethod(s + "=", new AttrWriter(s));
         }
@@ -34,7 +38,7 @@ class Struct_new extends RubyVarArgMethod {
             protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
                 RubyValue v = new RubyObject((RubyClass) receiver);
                 for (int i = 0; i < args.size(); ++i) {
-                    RubyID id = RubyID.intern("@" + RubyTypesUtil.convertToJavaString(super_args.get(i + offset)));
+                    RubyID id = RubyID.intern("@" + super_args.get(i + offset).toStr());
                     v.setInstanceVariable(args.get(i), id);
                 }
                 return v;
@@ -52,7 +56,7 @@ class Struct_new extends RubyVarArgMethod {
                     name = arg.toString();
                 } else if (arg instanceof RubyFixnum) {
                     int i = ((RubyFixnum) arg).toInt();
-                    name = RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString();
+                    name = super_args.get(i + 1).toStr();
                 } else {
                     throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg.getRubyClass().getName() + " into Integer");
                 }
@@ -71,7 +75,7 @@ class Struct_new extends RubyVarArgMethod {
                     name = arg1.toString();
                 } else if (arg1 instanceof RubyFixnum) {
                     int i = ((RubyFixnum) arg1).toInt();
-                    name = RubyTypesUtil.convertToSymbol(super_args.get(i + 1)).toString();
+                    name = super_args.get(i + 1).toStr();
                 } else {
                     throw new RubyException(RubyRuntime.TypeErrorClass, "can't convert " + arg1.getRubyClass().getName() + " into Integer");
                 }
@@ -85,20 +89,12 @@ class Struct_new extends RubyVarArgMethod {
             protected RubyValue run(RubyValue receiver, RubyBlock block) {
                 RubyArray a = new RubyArray(super_args.size() - 1);
                 for (int i = 1; i < super_args.size(); ++i) {
-                    String name = RubyTypesUtil.convertToSymbol(super_args.get(i)).toString();
+                    String name = super_args.get(i).toStr();
                     a.add(receiver.getInstanceVariable(RubyID.intern("@" + name)));
                 }
                 return a;
             }
         }
         );
-    }
-}
-
-public class StructClassBuilder {
-    public static void initialize() {
-        RubyClass c = RubyRuntime.StructClass;
-        c.getSingletonClass().defineMethod("new", new Struct_new());
-        //c.defineMethod(RubyID.toSID, new Struct_to_s());
     }
 }
