@@ -161,4 +161,134 @@ public class Rubyv3ParserTest  extends TestCase {
 
             parse(program_texts, "logicalOrExpression");
     }
+    
+    public void test_equalityExpression() {
+    	String[] program_texts = {
+                "1<=>2",
+            };
+
+            parse(program_texts, "equalityExpression");
+    }
+    
+    public void test_relationalExpression() {
+    	String[] program_texts = {
+                "1<2",
+            };
+
+            parse(program_texts, "relationalExpression");
+    }
+    
+    public void test_orExpression() {
+    	String[] program_texts = {
+                "1|2",
+            };
+
+            parse(program_texts, "orExpression");
+    }
+    
+    public void test_andExpression() {
+    	String[] program_texts = {
+                "1&2",
+            };
+
+            parse(program_texts, "andExpression");
+    }
+    
+    public void test_shiftExpression() {
+    	String[] program_texts = {
+                "1<<2",
+            };
+
+            parse(program_texts, "shiftExpression");
+    }
+    
+    
+    public void test_additiveExpression() {
+    	String[] program_texts = {
+                "1+19",
+            };
+
+            parse(program_texts, "additiveExpression");
+    }
+    
+    public void test_multiplicativeExpression() {
+    	String[] program_texts = {
+                "1*19",
+            };
+
+            parse(program_texts, "multiplicativeExpression");
+    }
+    
+    public void test_powerExpression() {
+    	String[] program_texts = {
+                "1**19",
+            };
+
+            parse(program_texts, "powerExpression");
+    }
+    
+    public void test_bnotExpression() {
+    	String[] program_texts = {
+                "~1",
+            };
+
+            parse(program_texts, "bnotExpression");
+    }
+    
+    public void test_command() {
+    	String[] program_texts = {
+                "nil",
+            };
+
+            parse(program_texts, "command");
+    }
+    
+    public void test_unaryExpression() {
+    	String[] program_texts = {
+                "nil",
+            };
+
+            parse(program_texts, "unaryExpression");
+    }
+    
+    public void test_predefinedValue() {
+    	String[] program_texts = {
+                "nil",
+            };
+
+            parse(program_texts, "predefinedValue");
+    }
+    
+    public void test_numeric() {
+    	String[] program_texts = {
+                "1213",
+            };
+
+            parse(program_texts, "numeric");
+    }
+    
+    public void test_primaryExpressionThatCanBeMethodName() {
+    	String[] program_texts = {
+                "[]",
+            };
+
+            parse(program_texts, "primaryExpressionThatCanBeMethodName");
+    }
+    
+    public void test_primaryExpressionThatCanNotBeMethodName() {
+    	String[] program_texts = {
+                "false",
+            };
+
+            parse(program_texts, "primaryExpressionThatCanNotBeMethodName");
+    }
+    
+    public void test_primaryExpression() {
+    	String[] program_texts = {
+                "false",
+                "[]",
+            };
+
+            parse(program_texts, "primaryExpression");
+    }
 }
