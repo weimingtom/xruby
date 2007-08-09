@@ -13,10 +13,10 @@ import com.xruby.runtime.value.RubyString;
 
 @RubyLevelClass(name="Symbol")
 public class RubySymbol extends RubySpecialValue {
-	private RubyID id;
-    
+    private RubyID id;
+
     public RubySymbol(RubyID id) {
-    	this.id = id;
+        this.id = id;
     }
 
     public RubyClass getRubyClass() {
@@ -27,32 +27,36 @@ public class RubySymbol extends RubySpecialValue {
         return id.toString();
     }
 
+    public String toStr() {
+        return id.toString();
+    }
+
     public int hashCode() {
         return this.id.hashCode();
     }
-    
+
     public RubyID toID() {
-    	return this.id;
+        return this.id;
     }
-    
+
     @RubyLevelMethod(name="to_i", alias="to_int")
     public RubyFixnum to_i() {
-    	return this.id.toFixnum();
+        return this.id.toFixnum();
     }
-    
+
     @RubyLevelMethod(name="to_s", alias="id2name")
     public RubyString to_s() {
-    	return ObjectFactory.createString(id.toString());
+        return ObjectFactory.createString(id.toString());
     }
-    
+
     @RubyLevelMethod(name="to_sym")
     public RubySymbol to_sym() {
-    	return this;
+        return this;
     }
-    
+
     @RubyLevelMethod(name="inspect")
     public RubyString inspect() {
-    	String value = this.toString();
+        String value = this.toString();
         RubyString str = ObjectFactory.createString(":" + value);
         if (!isSymname(value)) {
             String s = str.dump();
@@ -62,7 +66,7 @@ public class RubySymbol extends RubySpecialValue {
 
         return str;
     }
-    
+
     private boolean isSymname(String name) {
         if (name == null) {
             return false;
@@ -187,7 +191,7 @@ public class RubySymbol extends RubySpecialValue {
 
         return getChar(name, current) <= 0;
     }
-    
+
     private int getChar(String name, int index) {
         if (index >= name.length()) {
             return -1;
@@ -195,7 +199,7 @@ public class RubySymbol extends RubySpecialValue {
 
         return name.charAt(index);
     }
-    
+
     private boolean isUpper(int c) {
         return c >= 'A' && c <= 'Z';
     }
@@ -216,7 +220,7 @@ public class RubySymbol extends RubySpecialValue {
     private boolean isIdentChar(int c) {
         return isAlnum(c) || c == '_';
     }
-    
+
     private boolean isSpecialGlobalName(String name) {
         int current = 0;
         switch (getChar(name, current)) {

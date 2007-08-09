@@ -129,7 +129,7 @@ public class RubyRuntime {
         TimeClass = RubyTypeFactory.getClass(RubyTime.class);
         MatchDataClass = RubyTypeFactory.getClass(RubyMatchData.class);
         DirClass = RubyAPI.defineClass("Dir", RubyRuntime.ObjectClass);
-        StructClass = RubyAPI.defineClass("Struct", RubyRuntime.ObjectClass);
+        StructClass = RubyTypeFactory.getClass(RubyStruct.class);
         ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);
         ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);
         UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
@@ -179,7 +179,7 @@ public class RubyRuntime {
 //		UnboundMethodClassBuilder.initialize();
 //        MatchDataClassBuilder.initialize();
         DirClassBuilder.initialize();
-        StructClassBuilder.initialize();
+//        StructClassBuilder.initialize();
 //        ExceptionClassBuilder.initialize();
         ThreadClassBuilder.initialize();
 //        ThreadGroupClassBuilder.initialize();
