@@ -242,4 +242,22 @@ public class RubyHash extends RubyBasic {
 
         return this;
     }
+
+    @RubyLevelMethod(name="[]")
+    public RubyValue getValue(RubyArray args) {
+        if (1 == args.size()) {
+            return this.get(args.get(0));
+        }
+
+        //TODO
+        throw new RubyException("not implemented");
+    }
+
+    @RubyLevelMethod(name="[]=")
+    public RubyValue setValue(RubyArray args) {
+        RubyValue v = args.get(1);
+        this.add(args.get(0), v);
+        return v;
+    }
+
 }
