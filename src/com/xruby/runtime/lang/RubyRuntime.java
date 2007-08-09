@@ -117,7 +117,7 @@ public class RubyRuntime {
         BignumClass = RubyTypeFactory.getClass(RubyBignum.class);
         StringClass = RubyAPI.defineClass("String", RubyRuntime.ObjectClass);
         FloatClass = RubyTypeFactory.getClass(RubyFloat.class);
-        ArrayClass = RubyAPI.defineClass("Array", RubyRuntime.ObjectClass);
+        ArrayClass = RubyTypeFactory.getClass(RubyArray.class);
         HashClass = RubyTypeFactory.getClass(RubyHash.class);
         SymbolClass = RubyTypeFactory.getClass(RubySymbol.class);
         IOClass = RubyAPI.defineClass("IO", RubyRuntime.ObjectClass);

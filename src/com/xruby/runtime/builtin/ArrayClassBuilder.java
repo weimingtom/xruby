@@ -394,38 +394,18 @@ public class ArrayClassBuilder {
         
         c.getSingletonClass().defineMethod("new", new Array_new());
         c.getSingletonClass().defineMethod("[]", new Array_new_with_given_objects());
-        
-        c.defineMethod("length", factory.getMethod("length", MethodType.NO_ARG));
-        c.defineMethod("clear", factory.getMethod("clear", MethodType.NO_ARG));
-        c.defineMethod(RubyID.toSID, factory.getMethod("to_s", MethodType.NO_ARG));        
-        
+          
         c.defineMethod("[]", factory.getMethod("aref", MethodType.ONE_OR_TWO_ARG));
         
         c.defineMethod("first", factory.getMethod("first", MethodType.NO_OR_ONE_ARG));
         c.defineMethod("last", factory.getMethod("last", MethodType.NO_OR_ONE_ARG));
-        c.defineMethod("at", factory.getMethod("at", MethodType.ONE_ARG));
+        
         c.defineMethod("[]=", new Array_array_set());
-        c.defineMethod("==", factory.getMethod("opEquals", MethodType.ONE_ARG));
         c.defineMethod("<=>", factory.getMethod("compare", MethodType.ONE_ARG));
-        c.defineMethod("<<", factory.getMethod("push", MethodType.ONE_ARG));
-        c.defineMethod("concat", factory.getMethod("concat", MethodType.ONE_ARG));
-        c.defineMethod(RubyID.plusID, factory.getMethod("plus", MethodType.ONE_ARG));
-        c.defineMethod(RubyID.subID, factory.getMethod("minus", MethodType.ONE_ARG));
         c.defineMethod("*", new Array_times());
-        c.defineMethod("&", factory.getMethod("and", MethodType.ONE_ARG));
-        c.defineMethod("|", factory.getMethod("or", MethodType.ONE_ARG));
-        c.defineMethod("insert", factory.getMethod("insert", MethodType.VAR_ARG));
-        c.defineMethod("push", factory.getMethod("multiPush", MethodType.VAR_ARG));
-        c.defineMethod("pop", factory.getMethod("pop", MethodType.NO_ARG));
-        c.defineMethod("delete", factory.getMethodWithBlock("delete", MethodType.ONE_ARG));
-        c.defineMethod("delete_at", factory.getMethod("deleteAt", MethodType.ONE_ARG));
-        c.defineMethod("delete_if", factory.getMethodWithBlock("delete_if", MethodType.NO_ARG));
         c.defineMethod("include?", new Array_include());
         c.defineMethod("unshift", factory.getMethod("unshift", MethodType.VAR_ARG));
-        c.defineMethod("each", factory.getMethodWithBlock("each", MethodType.NO_ARG));
-        c.defineMethod("reverse_each", factory.getMethodWithBlock("reverse_each", MethodType.NO_ARG));
         c.defineMethod("pack", new Array_pack());
-        c.defineMethod("shift", factory.getMethod("shift", MethodType.NO_ARG));
         c.defineMethod("sort!", new Array_sort_dangers());
         c.defineMethod("sort", new Array_sort());
         c.defineMethod("hash", new Array_hash());
@@ -433,24 +413,19 @@ public class ArrayClassBuilder {
         c.defineMethod("compact", new Array_compact());
         c.defineMethod("uniq!", new Array_uniq_danger());
         c.defineMethod("uniq", new Array_uniq());
-        c.defineMethod("reverse!", factory.getMethod("reverseBang", MethodType.NO_ARG));
-        c.defineMethod("reverse", factory.getMethod("reverse", MethodType.NO_ARG));
         c.defineMethod("slice", factory.getMethod("aref", MethodType.ONE_OR_TWO_ARG));
         c.defineMethod("slice!", new Array_slice_danger());
         c.defineMethod("index",new Array_index());
         c.defineMethod("rindex",new Array_rindex());
         c.defineMethod("replace", new Array_replace());
-        c.defineMethod("eql?", factory.getMethod("opEquals", MethodType.ONE_ARG));
         c.defineMethod("indexes", new Array_indexes());
         c.defineMethod("indices", new Array_indexes());
         c.defineMethod("nitems",new Array_nitems());
         c.defineMethod("flatten", new Array_flatten());
         c.defineMethod("flatten!", new Array_flatten_danger());
-        c.defineMethod("each_index", factory.getMethodWithBlock("each_index", MethodType.NO_ARG));
         c.defineMethod("collect!", new Array_collect_danger());
         c.defineMethod("assoc", new Array_assoc());
         c.defineMethod("rassoc", new Array_rassoc());
-        
-        c.includeModule(RubyRuntime.EnumerableModule);
+      
     }
 }
