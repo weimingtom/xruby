@@ -13,7 +13,7 @@ import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@RubyLevelClass(name="Hash")
+@RubyLevelClass(name="Hash", modules="Enumerable")
 public class RubyHash extends RubyBasic {
     private HashMap<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
     private ArrayList<RubyValue> keys_ = new ArrayList<RubyValue>();// To ensure the order, for 'shift' ect
