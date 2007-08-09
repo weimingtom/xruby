@@ -63,6 +63,7 @@ public class RubyHash extends RubyBasic {
         return map_.size();
     }
 
+    @RubyLevelMethod(name="to_s")
     public RubyValue to_s() {
         RubyString r = ObjectFactory.createString();
 
@@ -74,7 +75,7 @@ public class RubyHash extends RubyBasic {
         return r;
     }
 
-    private RubyID defaultID = RubyID.intern("default");
+    private static RubyID defaultID = RubyID.intern("default");
 
     public RubyValue get(RubyValue k) {
         RubyValue v = map_.get(k);
@@ -87,19 +88,6 @@ public class RubyHash extends RubyBasic {
         }
     }
 
-    public RubyArray to_a() {
-        RubyArray array = new RubyArray();
-        for (RubyValue key : keys_) {
-            RubyValue value = map_.get(key);
-            RubyArray entry = new RubyArray();
-            entry.add(key);
-            entry.add(value);
-            array.add(entry);
-        }
-
-        return array;
-    }
-
     public boolean has_key(RubyValue key) {
         for (RubyValue v : keys_) {
             if (RubyAPI.testEqual(key, v)) {
@@ -110,6 +98,7 @@ public class RubyHash extends RubyBasic {
         return false;
     }
 
+    @RubyLevelMethod(name="delete")
     public RubyValue delete(RubyValue k) {
         RubyValue v = map_.remove(k);
         if (null != v) {
@@ -130,6 +119,7 @@ public class RubyHash extends RubyBasic {
         return false;
     }
 
+    @RubyLevelMethod(name="values_at")
     public RubyArray values_at(RubyArray keys) {
         RubyArray a = new RubyArray();
 
@@ -187,6 +177,7 @@ public class RubyHash extends RubyBasic {
         return a;
     }
 
+    @RubyLevelMethod(name="shift")
     public RubyValue shift() {
         if (keys_.isEmpty()) {
             return default_value_;
