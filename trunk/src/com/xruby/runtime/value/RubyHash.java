@@ -140,6 +140,14 @@ public class RubyHash extends RubyBasic {
         return a;
     }
 
+    @RubyLevelMethod(name="==")
+    public RubyValue equal(RubyValue arg) {
+        if (!(arg instanceof RubyHash)) {
+            return ObjectFactory.FALSE_VALUE;
+        }
+        return this.equals((RubyHash) arg) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+    }
+
     public boolean equals(RubyHash that) {
         if (this.size() != that.size()) {
             return false;
@@ -193,5 +201,45 @@ public class RubyHash extends RubyBasic {
         a.add(k);
         a.add(v);
         return a;
+    }
+
+    //TODO this should be implmented in ruby
+    @RubyLevelMethod(name="fetch")
+    public RubyValue fetch(RubyArray args, RubyBlock block) {
+        RubyValue key = args.get(0);
+
+        if (args.size() >= 1) {
+            RubyValue v = this.get(key);
+            if (v != ObjectFactory.NIL_VALUE) {
+                return v;//found
+            } else if (args.size() >= 2) {
+                return args.get(1);//default_value
+            } else if (null != block) {
+                return block.invoke(this, key);
+            } else {
+                throw new RubyException(RubyRuntime.IndexErrorClass, "key not found");
+            }
+        }
+
+        //TODO
+        throw new RubyException("not implemented");
+    }
+
+    @RubyLevelMethod(name="initialize")
+    public RubyValue initialize(RubyArray args, RubyBlock block) {
+        if (null != block && null != args) { // validation
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
+        }
+
+        if (null != args) {
+            RubyValue defaultValue = args.get(0);
+            this.setDefaultValue(defaultValue);
+        }
+
+        if (null != block) { // Hash.new {...}
+            this.setDefaultValueAsBlock(block);
+        }
+
+        return this;
     }
 }
