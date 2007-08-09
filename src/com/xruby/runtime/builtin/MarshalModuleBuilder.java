@@ -64,7 +64,7 @@ class MarshalDumper {
 
     private static void packHash(RubyHash v, StringBuilder sb) {
         sb.append('{');
-        packInteger(v.size(), sb);
+        packInteger(v.size().toInt(), sb);
         RubyArray keys = v.keys();
         for (RubyValue a : keys) {
             packValue(a, sb);

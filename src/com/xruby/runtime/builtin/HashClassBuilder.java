@@ -10,13 +10,6 @@ import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyHash;
 
-class Hash_length extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyHash value = (RubyHash) receiver;
-        return ObjectFactory.createFixnum(value.size());
-    }
-}
-
 class Hash_hash_access extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyHash value = (RubyHash) receiver;
@@ -105,9 +98,6 @@ public class HashClassBuilder {
 
     public static void initialize() {
         RubyClass c = RubyRuntime.HashClass;
-        RubyMethod length = new Hash_length();
-        c.defineMethod("length", length);
-        c.defineMethod("size", length);
         c.defineMethod("[]", new Hash_hash_access());
         c.defineMethod("[]=", new Hash_hash_set());
         c.defineMethod("fetch", new Hash_fetch());
