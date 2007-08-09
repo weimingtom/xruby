@@ -5,6 +5,7 @@
 
 package com.xruby.runtime.value;
 
+import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
@@ -22,47 +23,47 @@ public class RubyFile extends RubyIO {
     }
 
     @RubyLevelMethod(name="file?", singleton=true)
-    public static RubyValue file_question(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue file_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
         return file.isFile() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
     }
 
     @RubyLevelMethod(name="writable?", singleton=true)
-    public static RubyValue writable_question(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue writable_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
         return file.canWrite() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
     }
 
     @RubyLevelMethod(name="readable?", singleton=true)
-    public static RubyValue readable_question(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue readable_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
         return file.canRead() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
     }
 
     @RubyLevelMethod(name="exist?", singleton=true)
-    public static RubyValue exist_question(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue exist_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
         return file.exists() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
     }
 
     @RubyLevelMethod(name="directory?", singleton=true)
-    public static RubyValue directory_question(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue directory_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
         return file.isFile() ? ObjectFactory.FALSE_VALUE : ObjectFactory.TRUE_VALUE;
     }
 
     @RubyLevelMethod(name="executable?", singleton=true)
-    public static RubyValue executable_question(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue executable_question(RubyValue receiver, RubyValue arg) {
         return ObjectFactory.TRUE_VALUE;
     }
 
     @RubyLevelMethod(name="expand_path", singleton=true)
-    public static RubyValue expand_path(RubyValue receiver, RubyArray args, RubyBlock block) {
+    public static RubyValue expand_path(RubyValue receiver, RubyArray args) {
         if (null == args) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
         }
@@ -103,7 +104,7 @@ public class RubyFile extends RubyIO {
     }
 
     @RubyLevelMethod(name="dirname", singleton=true)
-    public static RubyValue dirname(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue dirname(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
         String parent = file.getParent();
@@ -117,7 +118,7 @@ public class RubyFile extends RubyIO {
     }
 
     @RubyLevelMethod(name="mtime", singleton=true)
-    public static RubyValue mtime(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue mtime(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
         if (!file.isFile() && !file.isDirectory()) {
@@ -127,7 +128,7 @@ public class RubyFile extends RubyIO {
     }
 
     @RubyLevelMethod(name="size", singleton=true)
-    public static RubyValue size(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue size(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
         if (!file.isFile() && !file.isDirectory()) {
@@ -137,7 +138,7 @@ public class RubyFile extends RubyIO {
     }
 
     @RubyLevelMethod(name="rename", singleton=true)
-    public static RubyValue rename(RubyValue receiver, RubyValue arg1, RubyValue arg2, RubyBlock block) {
+    public static RubyValue rename(RubyValue receiver, RubyValue arg1, RubyValue arg2) {
         String file1 = arg1.toStr();
         String file2 = arg2.toStr();
         File file = new File(file1);
@@ -148,7 +149,7 @@ public class RubyFile extends RubyIO {
     }
 
     @RubyLevelMethod(name="utime", singleton=true)
-    public static RubyValue utime(RubyValue receiver, RubyArray args, RubyBlock block) {
+    public static RubyValue utime(RubyValue receiver, RubyArray args) {
         if (args.size() < 3) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.length() + " for 2)");
         }
@@ -169,4 +170,30 @@ public class RubyFile extends RubyIO {
         truncate(arg.toInt());
         return ObjectFactory.FIXNUM0;
     }
+
+    @RubyLevelMethod(name="separator", singleton=true)
+    public static RubyValue separator(RubyValue receiver) {
+        return ObjectFactory.createString(File.separator);
+    }
+
+    @RubyLevelMethod(name="delete", alias="unlink", singleton=true)
+    public static RubyValue delete(RubyValue receiver, RubyArray args) {
+        int deleted = 0;
+        if (args != null) {
+            for (int i = 0; i < args.size(); ++i) {
+                String fileName = RubyTypesUtil.convertToString(args.get(i)).toString();
+                File file = new File(fileName);
+                if (file.isDirectory()) {
+                    throw new RubyException(RubyRuntime.RuntimeErrorClass, "Is a directory - " + fileName);
+                } else if (file.isFile()) {
+                    file.delete();
+                    ++deleted;
+                } else {
+                    throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such file or directory - " + fileName);
+                }
+            }
+        }
+        return ObjectFactory.createFixnum(deleted);
+    }
+
 }
