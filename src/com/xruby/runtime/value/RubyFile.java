@@ -196,4 +196,37 @@ public class RubyFile extends RubyIO {
         return ObjectFactory.createFixnum(deleted);
     }
 
+    @RubyLevelMethod(name="basename", singleton=true)
+    public static RubyValue basename(RubyValue receiver, RubyArray args) {
+        String fileName = args.get(0).toStr();
+        String basename;
+        if ("".equals(fileName)) {
+            basename = "";
+        } else {
+            basename = new File(fileName).getName();
+            if (0 == basename.length()) {
+                basename = "/";
+            }
+        }
+
+        if (args.size() == 1) {
+            return ObjectFactory.createString(basename);
+        }
+
+        String suffix = RubyTypesUtil.convertToString(args.get(1)).toString();
+        if (suffix.equals(".*")) {
+            int dot_position = basename.lastIndexOf('.');
+            if (dot_position < 0) {
+                return ObjectFactory.createString(basename);
+            } else {
+                return ObjectFactory.createString(basename.substring(0, dot_position));
+            }
+        }
+        if (basename.endsWith(suffix)) {
+            return ObjectFactory.createString(basename.substring(0, basename.length() - suffix.length()));
+        } else {
+            return ObjectFactory.createString(basename);
+        }
+    }
+
 }
