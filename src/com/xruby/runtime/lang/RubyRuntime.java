@@ -130,7 +130,7 @@ public class RubyRuntime {
         DirClass = RubyAPI.defineClass("Dir", RubyRuntime.ObjectClass);
         StructClass = RubyTypeFactory.getClass(RubyStruct.class);
         ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);
-        ThreadClass = RubyTypeFactory.getClass(RubyThread.class);
+        ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);;
         UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
 
         ExceptionClass = RubyTypeFactory.getClass(RubyExceptionValue.class);
