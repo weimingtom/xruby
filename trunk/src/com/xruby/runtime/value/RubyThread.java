@@ -6,17 +6,27 @@
 package com.xruby.runtime.value;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.xruby.runtime.lang.RubyBasic;
-import com.xruby.runtime.lang.RubyBlock;
-import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.builtin.RubyTypesUtil;
+import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
+/**
+ * Implement ruby thread in native thread,not green thread.As you
+ * know,YARV will make use of native thread too.
+ *
+ * Current implementation is not accurate.If you find any question,
+ * please don't hesitate to inform us.
+ */
+
+@RubyLevelClass(name="Thread")
 public class RubyThread extends RubyBasic {
 
     private final Thread thread_;
@@ -30,16 +40,16 @@ public class RubyThread extends RubyBasic {
     private static List<RubyThread> activeThreads = new Vector<RubyThread>();
     private static Map<Thread, RubyThread> threadMapper = new HashMap<Thread, RubyThread>();
     private static RubyThread mainThread;
-    
+
     private ReentrantLock lock = new ReentrantLock();
     private volatile boolean killed = false;
     private static volatile boolean stoped = false;
-    
-    public static final Object stopLock = new Object();
-    public static final ReentrantLock criticalLock = new ReentrantLock();
-    
+
+    private static final Object stopLock = new Object();
+    private static final ReentrantLock criticalLock = new ReentrantLock();
+
     private RubyValue result = ObjectFactory.NIL_VALUE;
-    
+
     RubyThread(final RubyBlock block) {
         super(RubyRuntime.ThreadClass);
         thread_ = new Thread(new Runnable() {
@@ -56,19 +66,299 @@ public class RubyThread extends RubyBasic {
         thread_.start();
         threadMapper.put(thread_, this);
     }
-    
+
     private RubyThread(Thread thread) {
         super(RubyRuntime.ThreadClass);
         thread_ = thread;
         threadMapper.put(thread_, this);
     }
-    
+
     //Only called from <code>ThreadClassBuilder</code> to add main thread.
     public static void init(){
         //Assume that this method is called from main thread
         mainThread = new RubyThread(Thread.currentThread());
         activeThreads.add(mainThread);
         RubyThreadGroup.defaultThreadGroup.add(mainThread);
+    }
+
+    //c ruby does not have this method, but since we wrapped java's Thread, can no longer use java's == operator
+    @RubyLevelMethod(name="==")
+    public RubyValue equal(RubyValue arg) {
+        if (equals(arg)) {
+            return ObjectFactory.TRUE_VALUE;
+        } else {
+            return ObjectFactory.FALSE_VALUE;
+        }
+    }
+
+
+
+    /*
+     * It is different from ruby impl.Default value is not zero,and it
+     * depends on OS.
+     */
+    @RubyLevelMethod(name="priority")
+    public RubyValue priority() {
+        return ObjectFactory.createFixnum(thread_.getPriority());
+    }
+
+    @RubyLevelMethod(name="priority=")
+    public RubyValue set_priority(RubyValue arg) {
+        int val = arg.toInt();
+        if (val < Thread.MIN_PRIORITY) {
+            val = Thread.MIN_PRIORITY;
+        } else if (val > Thread.MAX_PRIORITY) {
+            val = Thread.MAX_PRIORITY;
+        }
+        thread_.setPriority(val);
+        return this;
+    }
+
+    @RubyLevelMethod(name="alive?")
+    public RubyValue alive() {
+        if(thread_.isAlive()){
+            return ObjectFactory.TRUE_VALUE;
+        }else{
+            return ObjectFactory.FALSE_VALUE;
+        }
+    }
+
+    @RubyLevelMethod(name="join")
+    public RubyValue join(RubyArray args, RubyBlock block) {
+        long timeout = 0;
+        if(args != null){
+            if(args.size() == 1)
+                timeout = RubyTypesUtil.convertToJavaLong(args.get(0))*1000;
+        }
+
+        if(this.isCurrentThread()){
+            throw new RubyException(RubyRuntime.ThreadErrorClass,"Thread tried to join itself!");
+        }
+        if(RubyThread.criticalLock.isHeldByCurrentThread()){
+            thread_.interrupt();
+        }
+        join(timeout);
+        return this;
+    }
+
+    @RubyLevelMethod(name="current", singleton=true)
+    public static RubyThread current(RubyValue receiver) {
+        return threadMapper.get(Thread.currentThread());
+    }
+
+    @RubyLevelMethod(name="new", alias="fork", singleton=true)
+    public static RubyValue newThread(RubyValue receiver, RubyArray args, RubyBlock block) {
+        return ObjectFactory.createThread(block);
+    }
+
+    @RubyLevelMethod(name="[]")
+    public RubyValue getVariable(RubyValue name) {
+        RubyValue v = thread_local_variables_.get().get(name.toStr());
+        if (null == v) {
+            return ObjectFactory.NIL_VALUE;
+        }
+
+        return v;
+    }
+
+    @RubyLevelMethod(name="[]=")
+    public RubyValue setVariable(RubyValue arg1, RubyValue arg2) {
+        thread_local_variables_.get().put(arg1.toStr(), arg2);
+        return arg2;
+    }
+
+    @RubyLevelMethod(name="inspect")
+    public RubyValue inspect() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("#<");
+        sb.append(getRubyClass().getRealClass().getName());
+        sb.append(":0x");
+        int hash = hashCode();
+        sb.append(Integer.toHexString(hash));
+
+        sb.append(" ");
+        if(thread_.isAlive()){
+            if(getKilled()){
+                sb.append("dead");
+            }else{
+                sb.append("run");
+            }
+        }else{
+            sb.append("dead");
+        }
+        sb.append(">");
+        return ObjectFactory.createString(sb.toString());
+    }
+
+
+
+    @RubyLevelMethod(name="group")
+    public RubyValue getThreadGroup(){
+        if(threadGroup == null)
+            return ObjectFactory.NIL_VALUE;
+        else
+            return threadGroup;
+    }
+
+    /**
+     * Directly invoke native thread's destory method is not
+     * valid because this method is not implemented in JDK.
+     *
+     * Killing one thread leave its locks and resources in an
+     * unpredictable state is not advisable.It would be deadlock-prone.
+     * If the target thread held a lock protecting a critical system
+     * resource when it was killed, no thread could ever access this
+     * resource again.If another thread ever attempted to lock this
+     * resource, deadlock would result.
+     *
+     * Implements this by setting a kill flag on the target thread and
+     * waiting for it to die.Charles Nutter has discussed this question.
+     */
+    @RubyLevelMethod(name="kill", alias="exit")
+    public RubyValue kill() {
+        setKilled();
+        //make the thread escaping from wait or block status
+        thread_.interrupt();
+        try {
+            thread_.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
+
+    @RubyLevelMethod(name="pass", singleton=true)
+    public static RubyValue pass(RubyValue receiver) {
+        boolean critical = RubyThread.criticalLock.isHeldByCurrentThread();
+        RubyThread.setCritical(false);
+        Thread.yield();
+        RubyThread.setCritical(critical);
+        return ObjectFactory.NIL_VALUE;
+    }
+
+    @RubyLevelMethod(name="main", singleton=true)
+    public static RubyValue getMainThread(RubyValue receiver){
+        return mainThread;
+    }
+
+    @RubyLevelMethod(name="stop?")
+    public RubyValue getStoped(){
+        return stoped ? ObjectFactory.TRUE_VALUE: ObjectFactory.FALSE_VALUE;
+    }
+
+    @RubyLevelMethod(name="run")
+    public RubyValue run() {
+        synchronized(RubyThread.stopLock){
+            RubyThread.setStoped(false);
+            RubyThread.stopLock.notifyAll();
+        }
+        return this;
+    }
+
+    @RubyLevelMethod(name="status")
+    public RubyValue status() {
+        if (getStoped() == ObjectFactory.TRUE_VALUE){
+            return ObjectFactory.createString("sleep");
+        } else if(getKilled()){
+            return ObjectFactory.FALSE_VALUE;
+        } else{
+            return ObjectFactory.createString("run");
+        }
+    }
+
+    @RubyLevelMethod(name="wakup")
+    public RubyValue wakup() {
+        synchronized(RubyThread.stopLock){
+            RubyThread.setStoped(false);
+            RubyThread.stopLock.notifyAll();
+        }
+        return this;
+    }
+
+    @RubyLevelMethod(name="value")
+    public RubyValue value() {
+        join(0);
+        return getResult();
+    }
+
+    @RubyLevelMethod(name="key?")
+    public RubyValue is_key(RubyValue arg) {
+        String key = arg.toStr();
+        return ObjectFactory.createBoolean(getVariables().contains(key));
+    }
+
+    @RubyLevelMethod(name="keys")
+    public RubyValue keys() {
+        Set set = getVariables();
+        Iterator iter = set.iterator();
+        RubyArray result = new RubyArray(set.size());
+        while(iter.hasNext()){
+            result.add(ObjectFactory.createString((String)iter.next()));
+        }
+        return result;
+    }
+
+    @RubyLevelMethod(name="list", singleton=true)
+    public static RubyValue list(RubyValue receiver) {
+        List list = RubyThread.getThreadList();
+        Iterator iter = list.iterator();
+        RubyArray result = new RubyArray(0);
+        while(iter.hasNext()){
+            RubyThread rt = (RubyThread)iter.next();
+            if(rt.thread_.isAlive())
+                result.add(rt);
+        }
+        return result;
+    }
+
+    @RubyLevelMethod(name="stop", singleton=true)
+    public static RubyValue stop(RubyValue receiver) {
+        synchronized(RubyThread.stopLock){
+            RubyThread.setStoped(true);
+            try {
+                RubyThread.setCritical(false);
+                RubyThread.stopLock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        RubyThread.setStoped(false);
+        return ObjectFactory.NIL_VALUE;
+    }
+
+    @RubyLevelMethod(name="critical", singleton=true)
+    public static RubyValue critical(RubyValue receiver, RubyValue arg) {
+        return ObjectFactory.createBoolean(RubyThread.criticalLock.isHeldByCurrentThread());
+    }
+
+    @RubyLevelMethod(name="critical=", singleton=true)
+    public static RubyValue set_critical(RubyValue receiver, RubyValue arg) {
+        boolean critical = false;
+        if(arg == ObjectFactory.TRUE_VALUE){
+            critical = true;
+        }
+        RubyThread.setCritical(critical);
+        return arg;
+    }
+
+    public void setThreadGroup(RubyThreadGroup group){
+        threadGroup = group;
+    }
+
+    private static List getThreadList(){
+        return activeThreads;
+    }
+
+    private static void setCritical(boolean critical){
+        if (RubyThread.criticalLock.isHeldByCurrentThread()) {
+            if (!critical) {
+                RubyThread.criticalLock.unlock();
+            }
+        } else {
+            if (critical) {
+                RubyThread.criticalLock.lock();
+            }
+        }
     }
 
     public boolean equals(Object o) {
@@ -81,100 +371,6 @@ public class RubyThread extends RubyBasic {
         }
     }
 
-    public void join(long timeout) {
-        try {
-            thread_.join(timeout);
-        } catch (InterruptedException e) {
-            throw new Error(e);
-        }
-    }
-    
-    public boolean isCurrentThread(){
-        return thread_ == Thread.currentThread();
-    }
-
-    public static RubyThread current() {
-        return threadMapper.get(Thread.currentThread());
-    }
-
-    public RubyValue getVariable(String name) {
-        RubyValue v = thread_local_variables_.get().get(name);
-        if (null == v) {
-            return ObjectFactory.NIL_VALUE;
-        }
-
-        return v;
-    }
-
-    public RubyValue setVariable(String name, RubyValue value) {
-        thread_local_variables_.get().put(name, value);
-        return value;
-    }
-    
-    public Set getVariables(){
-        return thread_local_variables_.get().keySet();
-    }
-    
-    public RubyValue getThreadGroup(){
-        if(threadGroup == null)
-            return ObjectFactory.NIL_VALUE;
-        else
-            return threadGroup;
-    }
-    
-    public void setThreadGroup(RubyThreadGroup group){
-        threadGroup = group;
-    }  
-    
-    public static List getThreadList(){
-        return activeThreads;
-    }
-    
-    public static RubyValue getMainThread(){
-        return mainThread;
-    }
-    
-    public Thread getNativeThread(){
-        return thread_;
-    }
-    
-    public void setKilled(){
-        lock.lock();        
-        try{
-            killed = true;
-        }finally{
-            lock.unlock();
-        }        
-    }
-    
-    public boolean getKilled(){
-        return killed;
-    }
-    
-    public static void setStoped(boolean value){
-        stoped = value;
-    }
-    
-    public boolean getStoped(){
-        return stoped;
-    }
-    
-    public static void setCritical(boolean critical){
-        if (RubyThread.criticalLock.isHeldByCurrentThread()) {
-            if (!critical) {
-                RubyThread.criticalLock.unlock();
-            }
-        } else {
-            if (critical) {
-                RubyThread.criticalLock.lock();
-            }
-        }
-    }
-    
-    public RubyValue getResult(){
-        return result;
-    }
-    
     //Invoked by KernelModuleBuilder's sleep.
     public static void sleep(long milliseconds){
         synchronized(stopLock){
@@ -188,5 +384,42 @@ public class RubyThread extends RubyBasic {
             }
         }
     }
-    
+
+    private Set getVariables(){
+        return thread_local_variables_.get().keySet();
+    }
+
+    private RubyValue getResult(){
+        return result;
+    }
+
+    private void join(long timeout) {
+        try {
+            thread_.join(timeout);
+        } catch (InterruptedException e) {
+            throw new Error(e);
+        }
+    }
+
+    private boolean isCurrentThread(){
+        return thread_ == Thread.currentThread();
+    }
+
+    private void setKilled(){
+        lock.lock();
+        try{
+            killed = true;
+        }finally{
+            lock.unlock();
+        }
+    }
+
+    private boolean getKilled(){
+        return killed;
+    }
+
+    private static void setStoped(boolean value){
+        stoped = value;
+    }
+
 }
