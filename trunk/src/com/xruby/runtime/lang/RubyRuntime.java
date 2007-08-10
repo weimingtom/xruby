@@ -105,7 +105,6 @@ public class RubyRuntime {
 
         BindingClass = RubyAPI.defineClass("Binding", RubyRuntime.ObjectClass);
 
-
         RubyTypeFactory.getClass(RubyObject.class);
         ModuleClassBuilder.initialize();
         ClassClassBuilder.initialize();
@@ -131,7 +130,7 @@ public class RubyRuntime {
         DirClass = RubyAPI.defineClass("Dir", RubyRuntime.ObjectClass);
         StructClass = RubyTypeFactory.getClass(RubyStruct.class);
         ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);
-        ThreadClass = RubyAPI.defineClass("Thread", RubyRuntime.ObjectClass);
+        ThreadClass = RubyTypeFactory.getClass(RubyThread.class);
         UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
 
         ExceptionClass = RubyTypeFactory.getClass(RubyExceptionValue.class);
@@ -173,7 +172,7 @@ public class RubyRuntime {
         ProcClassBuilder.initialize();
 //        RangeClassBuilder.initialize();
 //        RegexpClassBuilder.initialize();
-        FileClassBuilder.initialize();
+//        FileClassBuilder.initialize();
 //        MethodClassBuilder.initialize();
 //        TimeClassBuilder.initialize();
 //		UnboundMethodClassBuilder.initialize();

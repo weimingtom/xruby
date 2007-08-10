@@ -49,15 +49,7 @@ import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyBignum;
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyFloat;
-import com.xruby.runtime.value.RubyIO;
-import com.xruby.runtime.value.RubyProc;
-import com.xruby.runtime.value.RubyString;
-import com.xruby.runtime.value.RubyThread;
+import com.xruby.runtime.value.*;
 
 class Kernel_operator_equal extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
@@ -494,34 +486,8 @@ class Kernel_loop extends RubyVarArgMethod {
 }
 
 class Kernel_open extends RubyVarArgMethod {
-    private int RDWR = 2;
-    private int CREAT = 256;
-    private int EXCL = 1024;
-    
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        String filename = RubyTypesUtil.convertToString(args.get(0)).toString();
-        RubyIO io;
-        if (args.size() <= 1) {
-            io = ObjectFactory.createFile(filename, "r");
-        } else if (args.get(1) instanceof RubyFixnum) {
-            String mode = "r";
-            int i = ((RubyFixnum)args.get(1)).toInt();
-            if ((i & RDWR) != 0) {
-                mode = mode + "w";
-            }
-            io = ObjectFactory.createFile(filename, mode);
-        } else {
-            RubyString mode = (RubyString) args.get(1);
-            io = ObjectFactory.createFile(filename, mode.toString());
-        }
-
-        if (null == block) {
-            return io;
-        } else {
-            RubyValue v = block.invoke(receiver, io);
-            io.close();
-            return v;
-        }
+        return RubyKernel.open(receiver, args, block);
     }
 }
 

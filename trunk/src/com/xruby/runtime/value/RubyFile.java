@@ -5,7 +5,6 @@
 
 package com.xruby.runtime.value;
 
-import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
@@ -181,7 +180,7 @@ public class RubyFile extends RubyIO {
         int deleted = 0;
         if (args != null) {
             for (int i = 0; i < args.size(); ++i) {
-                String fileName = RubyTypesUtil.convertToString(args.get(i)).toString();
+                String fileName = args.get(i).toStr();
                 File file = new File(fileName);
                 if (file.isDirectory()) {
                     throw new RubyException(RubyRuntime.RuntimeErrorClass, "Is a directory - " + fileName);
@@ -213,7 +212,7 @@ public class RubyFile extends RubyIO {
             return ObjectFactory.createString(basename);
         }
 
-        String suffix = RubyTypesUtil.convertToString(args.get(1)).toString();
+        String suffix = args.get(1).toStr();
         if (suffix.equals(".*")) {
             int dot_position = basename.lastIndexOf('.');
             if (dot_position < 0) {
@@ -227,6 +226,11 @@ public class RubyFile extends RubyIO {
         } else {
             return ObjectFactory.createString(basename);
         }
+    }
+
+    @RubyLevelMethod(name="open", singleton=true)
+    public static RubyValue open(RubyValue receiver, RubyArray args, RubyBlock block) {
+        return RubyKernel.open(receiver, args, block);
     }
 
 }
