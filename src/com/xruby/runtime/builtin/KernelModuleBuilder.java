@@ -53,11 +53,7 @@ import com.xruby.runtime.value.*;
 
 class Kernel_operator_equal extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        if (receiver == arg) {
-            return ObjectFactory.TRUE_VALUE;
-        } else {
-            return ObjectFactory.FALSE_VALUE;
-        }
+    	return ObjectFactory.createBoolean(receiver == arg);
     }
 }
 
@@ -493,21 +489,13 @@ class Kernel_open extends RubyVarArgMethod {
 
 class Kernel_kind_of extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        if (RubyAPI.isKindOf(arg, receiver)) {
-            return ObjectFactory.TRUE_VALUE;
-        } else {
-            return ObjectFactory.FALSE_VALUE;
-        }
+    	return ObjectFactory.createBoolean(RubyAPI.isKindOf(arg, receiver));
     }
 }
 
 class Kernel_instance_of extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        if (RubyAPI.isInstanceOf(arg, receiver)) {
-            return ObjectFactory.TRUE_VALUE;
-        } else {
-            return ObjectFactory.FALSE_VALUE;
-        }
+        return ObjectFactory.createBoolean(RubyAPI.isInstanceOf(arg, receiver));
     }
 }
 
@@ -517,11 +505,7 @@ class Kernel_respond_to extends RubyVarArgMethod {
 
         boolean include_private = (ObjectFactory.TRUE_VALUE == args.get(1));
         RubyID mid = RubyID.intern(convertToString(args.get(0)));
-        if (hasMethod(receiver, mid, include_private)) {
-            return ObjectFactory.TRUE_VALUE;
-        } else {
-            return ObjectFactory.FALSE_VALUE;
-        }
+        return ObjectFactory.createBoolean(hasMethod(receiver, mid, include_private));
     }
 
     private boolean hasMethod(RubyValue receiver, RubyID mid, boolean include_private) {
@@ -603,7 +587,6 @@ class Kernel_at_exit extends RubyNoArgMethod {
 }
 
 class Kernel_gsub extends String_gsub {
-
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (!(GlobalVariables.get("$_") instanceof RubyString)) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.get("$LAST_READ_LINE").getRubyClass().getName() + " given)");
@@ -838,7 +821,7 @@ class Kernel_freeze extends RubyNoArgMethod {
 
 class Kernel_frozen_question extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return receiver.frozen() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+    	return ObjectFactory.createBoolean(receiver.frozen());
     }
 }
 
