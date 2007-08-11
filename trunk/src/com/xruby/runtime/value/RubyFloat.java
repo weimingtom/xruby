@@ -84,7 +84,7 @@ public class RubyFloat extends RubyNumeric {
 		} else if (v instanceof RubyBignum) {
 			return ObjectFactory.createFloat(this.value_ + v.toFloat());
 		} else if (v instanceof RubyFloat) {
-			return ObjectFactory.createFloat(this.value_ + v.toFloat());
+			return ObjectFactory.createFloat(this.value_ + ((RubyFloat)v).value_);
 		} else {
 			return this.coerceBin(RubyID.plusID, v);
 		}
@@ -97,7 +97,7 @@ public class RubyFloat extends RubyNumeric {
 		} else if (v instanceof RubyBignum) {
 			return ObjectFactory.createFloat(this.value_ - v.toFloat());
 		} else if (v instanceof RubyFloat) {
-			return ObjectFactory.createFloat(this.value_ - v.toFloat());
+			return ObjectFactory.createFloat(this.value_ - ((RubyFloat)v).value_);
 		} else {
 			return this.coerceBin(RubyID.subID, v);
 		}
@@ -110,7 +110,7 @@ public class RubyFloat extends RubyNumeric {
 		} else if (v instanceof RubyBignum) {
 			return ObjectFactory.createFloat(this.value_ * v.toFloat());
 		} else if (v instanceof RubyFloat) {
-			return ObjectFactory.createFloat(this.value_ * v.toFloat());
+			return ObjectFactory.createFloat(this.value_ * ((RubyFloat)v).value_);
 		} else {
 			return this.coerceBin(RubyID.mulID, v);
 		}
@@ -123,7 +123,7 @@ public class RubyFloat extends RubyNumeric {
 		} else if (v instanceof RubyBignum) {
 			return ObjectFactory.createFloat(this.value_ / v.toFloat());
 		} else if (v instanceof RubyFloat) {
-			return ObjectFactory.createFloat(this.value_ / v.toFloat());
+			return ObjectFactory.createFloat(this.value_ / ((RubyFloat)v).value_);
 		} else {
 			return this.coerceBin(RubyID.divID, v);
 		}
@@ -137,7 +137,7 @@ public class RubyFloat extends RubyNumeric {
 		} else if (v instanceof RubyBignum) {
 			fy = v.toFloat();
 		} else if (v instanceof RubyFloat) {
-			fy = v.toFloat();
+			fy = ((RubyFloat)v).value_;
 		} else {
 			return coerceBin(RubyID.modID, v);
 		}
@@ -154,7 +154,7 @@ public class RubyFloat extends RubyNumeric {
 		} else if (v instanceof RubyBignum) {
 			b = v.toFloat();
 		} else if (v instanceof RubyFloat) {
-			b = v.toFloat();
+			b = ((RubyFloat)v).value_;
 		} else {
 			return this.coerceCmp(RubyID.unequalID, v);
 		}
