@@ -77,11 +77,11 @@ public class RubyFixnum extends RubyInteger {
     @RubyLevelMethod(name="+")
     public RubyValue opPlus(RubyValue v) {
     	if (v instanceof RubyFixnum) {
-    		return RubyBignum.bignorm((long)this.value_ + (long)v.toInt());
+    		return RubyBignum.bignorm((long)this.value_ + (long)((RubyFixnum)v).value_);
     	}
     	
     	if (v instanceof RubyFloat) {
-            return ObjectFactory.createFloat(value_ + ((RubyFloat)v).doubleValue());
+            return ObjectFactory.createFloat(value_ + v.toFloat());
     	}
     	
     	if (v instanceof RubyBignum) {
@@ -96,11 +96,11 @@ public class RubyFixnum extends RubyInteger {
     @RubyLevelMethod(name="-")
     public RubyValue opMinus(RubyValue v) {
     	if (v instanceof RubyFixnum) {
-    		return RubyBignum.bignorm((long)this.value_ - (long)v.toInt());
+    		return RubyBignum.bignorm((long)this.value_ - (long)((RubyFixnum)v).value_);
     	}
     	
     	if (v instanceof RubyFloat) {
-    		return ObjectFactory.createFloat(this.value_ - ((RubyFloat)v).doubleValue());
+    		return ObjectFactory.createFloat(this.value_ - v.toFloat());
     	}
     	
     	if (v instanceof RubyBignum) {
@@ -115,11 +115,11 @@ public class RubyFixnum extends RubyInteger {
     @RubyLevelMethod(name="*")
     public RubyValue opMul(RubyValue v) {
     	if (v instanceof RubyFixnum) {
-    		return RubyBignum.bignorm((long)this.value_ * (long)v.toInt());
+    		return RubyBignum.bignorm((long)this.value_ * (long)((RubyFixnum)v).value_);
     	}
     	
     	if (v instanceof RubyFloat) {
-    		return ObjectFactory.createFloat(this.value_ * ((RubyFloat)v).doubleValue());
+    		return ObjectFactory.createFloat(this.value_ * v.toFloat());
     	}
     	
     	if (v instanceof RubyBignum) {
@@ -135,7 +135,7 @@ public class RubyFixnum extends RubyInteger {
     public RubyValue opDiv(RubyValue v) {
     	if (v instanceof RubyFixnum) {
     		int intValue1 = this.value_;
-            int intValue2 = v.toInt();
+            int intValue2 = ((RubyFixnum)v).value_;
     		int div = intValue1 / intValue2;
             int mod = intValue1 - div * intValue2;
             if (mod != 0 && div < 0) {
@@ -156,7 +156,7 @@ public class RubyFixnum extends RubyInteger {
     @RubyLevelMethod(name="%")
     public RubyValue mod(RubyValue v) {
     	if (v instanceof RubyFixnum) {
-    		return RubyBignum.bignorm(this.value_ % v.toInt());
+    		return RubyBignum.bignorm(this.value_ % ((RubyFixnum)v).value_);
     	}
     	
     	return coerceBin(RubyID.modID, v);
@@ -165,7 +165,7 @@ public class RubyFixnum extends RubyInteger {
     @RubyLevelMethod(name="**")
     public RubyValue pow(RubyValue v) {
     	if (v instanceof RubyFixnum) {
-    		int p = v.toInt();
+    		int p = ((RubyFixnum)v).value_;
     		if (p == 0) {
     			return ObjectFactory.FIXNUM1;
     		} else if (p == 1) {
@@ -228,7 +228,7 @@ public class RubyFixnum extends RubyInteger {
 		
 		if (i >= BIT_SIZE - 1) {
     		if (this.value_ < 0) {
-    			return ObjectFactory.createFixnum(-1);
+    			return ObjectFactory.FIXNUM_NEGATIVE_ONE;
     		}
     		
     		return ObjectFactory.FIXNUM0;
@@ -253,7 +253,7 @@ public class RubyFixnum extends RubyInteger {
 	@RubyLevelMethod(name="<=")
 	public RubyValue opLe(RubyValue v) {
 		if (v instanceof RubyFixnum) {
-			return ObjectFactory.createBoolean(this.value_ <= v.toInt());
+			return ObjectFactory.createBoolean(this.value_ <= ((RubyFixnum)v).value_);
 		} else if (v instanceof RubyFloat) {
             return ObjectFactory.createBoolean(this.value_ <= v.toFloat());
 		}
@@ -264,7 +264,7 @@ public class RubyFixnum extends RubyInteger {
 	@RubyLevelMethod(name="<")
 	public RubyValue opLt(RubyValue v) {
 		if (v instanceof RubyFixnum) {
-			return ObjectFactory.createBoolean(this.value_ < v.toInt());
+			return ObjectFactory.createBoolean(this.value_ < ((RubyFixnum)v).value_);
 		} else if (v instanceof RubyFloat) {
             return ObjectFactory.createBoolean(this.value_ < v.toFloat());
 		}
@@ -275,7 +275,7 @@ public class RubyFixnum extends RubyInteger {
 	@RubyLevelMethod(name=">=")
 	public RubyValue opGe(RubyValue v) {
 		if (v instanceof RubyFixnum) {
-			return ObjectFactory.createBoolean(this.value_ >= v.toInt());
+			return ObjectFactory.createBoolean(this.value_ >= ((RubyFixnum)v).value_);
 		} else if (v instanceof RubyFloat) {
             return ObjectFactory.createBoolean(this.value_ >= v.toFloat());
 		}
@@ -286,7 +286,7 @@ public class RubyFixnum extends RubyInteger {
 	@RubyLevelMethod(name=">")
 	public RubyValue opGt(RubyValue v) {
 		if (v instanceof RubyFixnum) {
-			return ObjectFactory.createBoolean(this.value_ > v.toInt());
+			return ObjectFactory.createBoolean(this.value_ > ((RubyFixnum)v).value_);
 		} else if (v instanceof RubyFloat) {
             return ObjectFactory.createBoolean(this.value_ > v.toFloat());
 		}
@@ -301,7 +301,7 @@ public class RubyFixnum extends RubyInteger {
 		}
 		
 		if (v instanceof RubyFixnum) {
-			int a = v.toInt();
+			int a = ((RubyFixnum)v).value_;
 			if (this.value_ > a) {
 				return ObjectFactory.FIXNUM1;
 			} else if (this.value_ == a) {
@@ -359,7 +359,7 @@ public class RubyFixnum extends RubyInteger {
 	@RubyLevelMethod(name="quo")
 	public RubyFloat quo(RubyValue v) {
         if (v instanceof RubyFixnum) {
-        	return ObjectFactory.createFloat(this.value_ / v.toInt());
+        	return ObjectFactory.createFloat(this.value_ / ((RubyFixnum)v).value_);
         }
         
         // FIXME: should be coerced.
@@ -394,8 +394,8 @@ public class RubyFixnum extends RubyInteger {
 	protected RubyValue doStep(RubyValue toArg, RubyValue stepArg, RubyBlock block) {
 		if ((toArg instanceof RubyFixnum) && (stepArg instanceof RubyFixnum)) {
 			int i = this.value_;
-			int end = toArg.toInt();
-			int diff = stepArg.toInt();
+			int end = ((RubyFixnum)toArg).value_;
+			int diff = ((RubyFixnum)stepArg).value_;
 			if (diff > 0) {
 				while (i <= end) {
 					RubyValue v = block.invoke(this, ObjectFactory.createFixnum(i));
