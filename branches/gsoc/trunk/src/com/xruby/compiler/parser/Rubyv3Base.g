@@ -148,7 +148,23 @@ package com.xruby.compiler.parser;
   protected void updateCurrentSpecialStringDelimiterCount(int delimiter_count)			{throw new Error("use Rubyv3Lexer");}
 }
 
-program	:	expression;
+program	:	compoundStatement ;
+
+compoundStatement: terminal!	
+			|	statements	;
+			
+statements
+		:	statement
+			(
+				terminal
+				statement
+			)*
+		;
+
+statement
+		:	expression
+								
+		;
 
 expression
 		:	andorExpression
@@ -354,9 +370,9 @@ command_output
 		
 symbol
 		:	COLON_WITH_NO_FOLLOWING_SPACE!
-					(IDENTIFIER	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
-					|FUNCTION	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
-					|CONSTANT	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+					(IDENTIFIER	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)
+					|FUNCTION	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)
+					|CONSTANT	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)
 					|GLOBAL_VARIABLE 
 					|INSTANCE_VARIABLE
 					|CLASS_VARIABLE
@@ -388,7 +404,7 @@ operatorAsMethodname
 		|	BAND
 		|	BOR
 		|	BXOR
-		|	(EMPTY_ARRAY	|EMPTY_ARRAY_ACCESS)	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
+		|	(EMPTY_ARRAY	|EMPTY_ARRAY_ACCESS)	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)
 		|	MATCH
 		|	COMPARE
 		|	BNOT
@@ -485,10 +501,10 @@ primaryExpressionThatCanNotBeMethodName
 		|	numeric
 		|	literal
 		|	arrayExpression
-		/*|	hashExpression
-		|	LPAREN^	compoundStatement RPAREN!
-		|	LPAREN_WITH_NO_LEADING_SPACE^ compoundStatement RPAREN!
-		|	ifExpression
+		|	hashExpression
+		//|	LPAREN^	compoundStatement RPAREN!
+		//|	LPAREN_WITH_NO_LEADING_SPACE^ compoundStatement RPAREN!
+		/*|	ifExpression
 		|	unlessExpression
 		|	whileExpression			
 		|	untilExpression			
@@ -514,13 +530,21 @@ arrayReferenceArgument
 		;
 
 arrayExpression
-		:	LBRACK^
-				(arrayReferenceArgument)?
-			RBRACK!
+		:	LBRACK arrayReferenceArgument? RBRACK
 		;
 		
 keyValuePair
-		:	expression	(ASSOC	expression)?	(LINE_BREAK!)?
+		:	expression	(ASSOC	expression)?	(LINE_BREAK)?
+		;
+		
+hashExpression
+		:	LCURLY_HASH^
+				(
+					keyValuePair
+					(options{greedy=true;}:{RCURLY != input.LA(2)}?	COMMA!	keyValuePair)*
+					(COMMA!)?
+				)?
+			RCURLY!
 		;
 
 		
