@@ -437,6 +437,31 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return new RubyArray(array_.subList(begin, begin + length));
     }
 
+    @RubyLevelMethod(name="new", singleton=true)
+    public static RubyValue newArray(RubyValue receiver, RubyArray args, RubyBlock block) {
+        RubyArray a;
+        if (null == args) {
+            a = new RubyArray();
+        } else if (null == block) {
+            if (args.get(0) instanceof RubyArray) {
+                a = (RubyArray)args.get(0).clone();
+            } else {
+                RubyFixnum size = (RubyFixnum) args.get(0);
+                RubyValue default_value = args.get(1);
+                a = ObjectFactory.createArray(size.toInt(), default_value);
+            }
+        } else {
+            RubyFixnum size = (RubyFixnum) args.get(0);
+            a  = new RubyArray();
+            for (int i=0; i<size.toFloat(); i++) {
+                RubyValue return_value = block.invoke(receiver, ObjectFactory.createFixnum(i));
+                a.add(return_value);
+            }
+        }
+        a.setRubyClass((RubyClass) receiver);
+        return a;
+    }
+
     @RubyLevelMethod(name="to_s")
     public RubyValue to_s() {
         RubyString r = ObjectFactory.createString();

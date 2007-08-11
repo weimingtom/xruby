@@ -51,7 +51,7 @@ class Array_slice_danger extends RubyVarArgMethod {
 }
 
 class Array_array_set extends RubyVarArgMethod {
-	private int getRealIndex(int size,int i) {
+    private int getRealIndex(int size,int i) {
         int index = i;
         if (index < 0) {
             index = size + index;
@@ -65,22 +65,22 @@ class Array_array_set extends RubyVarArgMethod {
     }
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyArray value = (RubyArray) receiver;
-        
+
         if (2 == args.size()) {
-        	if (args.get(0) instanceof RubyRange) {
-        		RubyRange range = (RubyRange) args.get(0);
-        		RubyFixnum left = (RubyFixnum)range.getLeft();
-        		RubyFixnum right = (RubyFixnum)range.getRight();
-        		int l_index = getRealIndex(value.size(), left.toInt());
-        		int r_index = getRealIndex(value.size(), right.toInt());
-        		int length = r_index-l_index+1;
-        		return value.replace(l_index, length, args.get(1));
-        	} else {
-        		RubyFixnum index = (RubyFixnum) args.get(0);
-        		return value.set(index.toInt(), args.get(1));
-        	}
+            if (args.get(0) instanceof RubyRange) {
+                RubyRange range = (RubyRange) args.get(0);
+                RubyFixnum left = (RubyFixnum)range.getLeft();
+                RubyFixnum right = (RubyFixnum)range.getRight();
+                int l_index = getRealIndex(value.size(), left.toInt());
+                int r_index = getRealIndex(value.size(), right.toInt());
+                int length = r_index-l_index+1;
+                return value.replace(l_index, length, args.get(1));
+            } else {
+                RubyFixnum index = (RubyFixnum) args.get(0);
+                return value.set(index.toInt(), args.get(1));
+            }
         } else if (3 == args.size()) {
-        	RubyFixnum index = (RubyFixnum) args.get(0);
+            RubyFixnum index = (RubyFixnum) args.get(0);
             RubyFixnum length = (RubyFixnum) args.get(1);
             return value.replace(index.toInt(), length.toInt(), args.get(2));
         }
@@ -114,32 +114,6 @@ class Array_include extends RubyOneArgMethod {
         } else {
             return ObjectFactory.FALSE_VALUE;
         }
-    }
-}
-
-class Array_new extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyArray a;
-        if (null == args) {
-            a = new RubyArray();
-        } else if (null == block) {
-        	if (args.get(0) instanceof RubyArray) {
-        		a = (RubyArray)args.get(0).clone();
-        	} else {
-        		RubyFixnum size = (RubyFixnum) args.get(0);
-                RubyValue default_value = args.get(1);
-                a = ObjectFactory.createArray(size.toInt(), default_value);
-        	}
-        } else {
-        	RubyFixnum size = (RubyFixnum) args.get(0);
-        	a  = new RubyArray();
-        	for (int i=0; i<size.toFloat(); i++) {
-        		RubyValue return_value = block.invoke(receiver, ObjectFactory.createFixnum(i));
-        		a.add(return_value);
-        	}
-        }
-        a.setRubyClass((RubyClass) receiver);
-        return a;
     }
 }
 
@@ -251,7 +225,7 @@ class Array_replace extends RubyOneArgMethod {
         RubyArray anotherArray = (RubyArray)arg;
         if(array == anotherArray)
             return array;
-        
+
         array.clear();
         for(int i=0;i<anotherArray.size();i++){
             array.add(anotherArray.get(i));
@@ -291,7 +265,7 @@ class Array_flatten extends RubyNoArgMethod {
         recursiveAdd(a,array);
         return a;
     }
-    
+
     private void recursiveAdd(RubyArray receiver,RubyArray array){
         for(int i=0;i<array.size();i++){
             RubyValue val = array.get(i);
@@ -316,7 +290,7 @@ class Array_flatten_danger extends RubyNoArgMethod {
             return ObjectFactory.NIL_VALUE;
         }
     }
-    
+
     private boolean recursiveAdd(RubyArray receiver,RubyArray array){
         boolean flag = false;
         for(int i=0;i<array.size();i++){
@@ -335,7 +309,7 @@ class Array_flatten_danger extends RubyNoArgMethod {
 class Array_collect_danger extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyArray a = (RubyArray)RubyAPI.callPublicMethod(receiver, null, block, RubyID.intern("collect"));
-        RubyArray array = (RubyArray) receiver;        
+        RubyArray array = (RubyArray) receiver;
         array.clear();
         for(int i=0;i<a.size();i++){
             array.add(a.get(i));
@@ -356,7 +330,7 @@ class Array_assoc extends RubyOneArgMethod {
                     if(arg.equals(tmp)){
                         return val;
                     }
-                }                
+                }
             }
         }
 
@@ -377,7 +351,7 @@ class Array_rassoc extends RubyOneArgMethod {
                     if(arg.equals(tmp)){
                         return val;
                     }
-                }                
+                }
             }
         }
 
@@ -388,8 +362,7 @@ class Array_rassoc extends RubyOneArgMethod {
 public class ArrayClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.ArrayClass;
-        
-        c.getSingletonClass().defineMethod("new", new Array_new());
+
         c.getSingletonClass().defineMethod("[]", new Array_new_with_given_objects());
         c.defineMethod("[]=", new Array_array_set());
         c.defineMethod("*", new Array_times());
