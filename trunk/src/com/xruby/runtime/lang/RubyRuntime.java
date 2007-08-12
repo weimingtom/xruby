@@ -177,7 +177,7 @@ public class RubyRuntime {
 //        TimeClassBuilder.initialize();
 //		UnboundMethodClassBuilder.initialize();
 //        MatchDataClassBuilder.initialize();
-        DirClassBuilder.initialize();
+//        DirClassBuilder.initialize();
 //        StructClassBuilder.initialize();
 //        ExceptionClassBuilder.initialize();
 //        ThreadClassBuilder.initialize();
