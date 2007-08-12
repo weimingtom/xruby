@@ -85,6 +85,18 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public boolean isSingleRhs() {
         return (rhs_size_ <= 1) && !has_single_asterisk_or_lambda_call_;
     }
+    
+    @RubyLevelMethod(name="[]")
+    public static RubyValue create(RubyValue receiver, RubyArray args) {
+    	RubyArray a;
+        if (null == args) {
+            a = new RubyArray();
+        } else {
+            a = args.copy();
+        }
+        a.setRubyClass((RubyClass) receiver);
+        return a;
+    }
 
     public RubyArray add(RubyValue v) {
         array_.add(v);
