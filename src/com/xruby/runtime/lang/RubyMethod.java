@@ -46,22 +46,6 @@ public abstract class RubyMethod extends MethodBlockBase {
         access_ = access;
     }
 
-    protected void assertArgNumberAtLeast(RubyArray args, int expected_argc) {
-        assert(expected_argc > 0);
-        if (null == args || args.size() < expected_argc) {
-            int actual_argc = (null == args ) ? 0 : args.size();
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
-        }
-    }
-
-    protected void assertArgNumberEqual(RubyArray args, int expected_argc) {
-        assert(expected_argc > 0);
-        if (null == args || args.size() != expected_argc) {
-            int actual_argc = (null == args ) ? 0 : args.size();
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `" + id_.toString() + "': wrong number of arguments (" + actual_argc + " for " + expected_argc + ")");
-        }
-    }
-
     protected static String convertToString(RubyValue v) {
         if (v instanceof RubyString) {
             return ((RubyString)v).toString();

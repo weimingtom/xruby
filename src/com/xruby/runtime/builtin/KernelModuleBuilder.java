@@ -53,7 +53,7 @@ import com.xruby.runtime.value.*;
 
 class Kernel_operator_equal extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-    	return ObjectFactory.createBoolean(receiver == arg);
+        return ObjectFactory.createBoolean(receiver == arg);
     }
 }
 
@@ -489,7 +489,7 @@ class Kernel_open extends RubyVarArgMethod {
 
 class Kernel_kind_of extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-    	return ObjectFactory.createBoolean(RubyAPI.isKindOf(arg, receiver));
+        return ObjectFactory.createBoolean(RubyAPI.isKindOf(arg, receiver));
     }
 }
 
@@ -501,7 +501,10 @@ class Kernel_instance_of extends RubyOneArgMethod {
 
 class Kernel_respond_to extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        assertArgNumberAtLeast(args, 1);
+        if (null == args || args.size() < 1) {
+            int actual_argc = (null == args ) ? 0 : args.size();
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `respond_to': wrong number of arguments (" + actual_argc + " for 1)");
+        }
 
         boolean include_private = (ObjectFactory.TRUE_VALUE == args.get(1));
         RubyID mid = RubyID.intern(convertToString(args.get(0)));
@@ -586,25 +589,25 @@ class Kernel_at_exit extends RubyNoArgMethod {
     }
 }
 
-class Kernel_gsub extends String_gsub {
+class Kernel_gsub extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (!(GlobalVariables.get("$_") instanceof RubyString)) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.get("$LAST_READ_LINE").getRubyClass().getName() + " given)");
         }
 
-        GlobalVariables.set(super.run(GlobalVariables.get("$_"), args, block), "$_");
-        return GlobalVariables.get("$_");
+        RubyValue r = ((RubyString)GlobalVariables.get("$_")).gsub_danger(args, block);
+        return GlobalVariables.set(r, "$_");
     }
 }
 
-class Kernel_gsub_danger extends String_gsub_danger {
+class Kernel_gsub_danger extends RubyVarArgMethod {
 
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         if (!(GlobalVariables.get("$_") instanceof RubyString)) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "$_ value need to be String (" + GlobalVariables.get("$_").getRubyClass().getName() + " given)");
         }
 
-        RubyValue r = super.run(GlobalVariables.get("$_"), args, block);
+        RubyValue r = ((RubyString)GlobalVariables.get("$_")).gsub_danger(args, block);
         if (r != ObjectFactory.NIL_VALUE) {
             GlobalVariables.set(r, "$_");
         }
@@ -614,7 +617,10 @@ class Kernel_gsub_danger extends String_gsub_danger {
 
 class Kernel_throw extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        assertArgNumberAtLeast(args, 1);
+        if (null == args || args.size() < 1) {
+            int actual_argc = (null == args ) ? 0 : args.size();
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `throw': wrong number of arguments (" + actual_argc + " for 1)");
+        }
 
         RubyExceptionValue e;
         if (args.get(0) instanceof RubySymbol ||
@@ -657,7 +663,10 @@ class Kernel_catch extends RubyOneArgMethod {
 
 class Kernel_untrace_var extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        assertArgNumberAtLeast(args, 1);
+        if (null == args || args.size() < 1) {
+            int actual_argc = (null == args ) ? 0 : args.size();
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `untrace_var': wrong number of arguments (" + actual_argc + " for 1)");
+        }
 
         if (!(args.get(0) instanceof RubySymbol)) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
@@ -678,7 +687,10 @@ class Kernel_untrace_var extends RubyVarArgMethod {
 
 class Kernel_trace_var extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        assertArgNumberAtLeast(args, 1);
+        if (null == args || args.size() < 1) {
+            int actual_argc = (null == args ) ? 0 : args.size();
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `trace_var': wrong number of arguments (" + actual_argc + " for 1)");
+        }
 
         if (!(args.get(0) instanceof RubySymbol)) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
@@ -821,7 +833,7 @@ class Kernel_freeze extends RubyNoArgMethod {
 
 class Kernel_frozen_question extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-    	return ObjectFactory.createBoolean(receiver.frozen());
+        return ObjectFactory.createBoolean(receiver.frozen());
     }
 }
 
@@ -875,7 +887,7 @@ public class KernelModuleBuilder {
         m.defineMethod("open", new Kernel_open());
         m.defineMethod("kind_of?", new Kernel_kind_of());
         m.defineMethod("instance_of?", new Kernel_instance_of());
-        
+
         RubyMethod repondToMethod = new Kernel_respond_to();
         m.defineMethod("respond_to?", repondToMethod);
         RubyRuntime.setRespondToMethod(repondToMethod);
@@ -931,15 +943,15 @@ public class KernelModuleBuilder {
         m.defineMethod("sub", new Kernel_gsub());//TODO sub != gsub
         m.defineMethod("sleep", new Kernel_sleep());
         m.setAccessPublic();
-        
+
         m.defineMethod("freeze", new Kernel_freeze());
         m.defineMethod("frozen?", new Kernel_frozen_question());
-        
+
         RubyMethod object_id = new Kernel_object_id();
         m.defineMethod("object_id", object_id);
         m.defineMethod("__id__", object_id);
         m.defineMethod("hash", object_id);
-        
+
         m.defineMethod("extend", new Kernel_extend());
 
         RubyRuntime.ObjectClass.includeModule(m);
