@@ -5,6 +5,7 @@
 
 package com.xruby.runtime.value;
 
+import com.xruby.runtime.builtin.ArrayPacker;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
@@ -1022,6 +1023,11 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         throw new RubyException("not implemented");
     }
 
+    @RubyLevelMethod(name="pack")
+    public RubyValue pack(RubyValue arg) {
+        String format = ((RubyString) arg).toString();
+        return ObjectFactory.createString(ArrayPacker.pack(this, format));
+    }
 
 
 }

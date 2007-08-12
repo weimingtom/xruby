@@ -10,7 +10,7 @@ import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.value.*;
 
-class ArrayPacker {
+public class ArrayPacker {
     //uv_to_utf8:
     //Copyright (C) 1993-2003 Yukihiro Matsumoto
     //TODO java may has library to do this.
