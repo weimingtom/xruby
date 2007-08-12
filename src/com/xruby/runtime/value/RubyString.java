@@ -338,8 +338,10 @@ public class RubyString extends RubyBasic {
         return modify ? this : RubyConstant.QNIL;
     }
 
-    public void reverse() {
+    @RubyLevelMethod(name="reverse!")
+    public RubyString reverse_danger() {
         sb_.reverse();
+        return this;
     }
 
     public void chomp(String seperator) {
@@ -951,6 +953,36 @@ public class RubyString extends RubyBasic {
             s = String.format(format, RubyKernel.buildFormatArg(new RubyArray(arg), 0));
         }
         return ObjectFactory.createString(s);
+    }
+
+    @RubyLevelMethod(name="*")
+    public RubyValue operator_star(RubyValue arg) {
+        String string = toString();
+        int count = arg.toInt();
+        if (count < 0) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
+        }
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < count; ++i) {
+            result.append(string);
+        }
+        return ObjectFactory.createString(result);
+    }
+
+    @RubyLevelMethod(name="each_byte")
+    public RubyValue each_byte(RubyBlock block) {
+        String string = toString();
+        for (int i = 0; i < string.length(); ++i) {
+            char c = string.charAt(i);
+            block.invoke(this, ObjectFactory.createFixnum((int) c));
+        }
+        return this;
+    }
+
+    @RubyLevelMethod(name="reverse")
+    public RubyValue reverse() {
+        RubyString string = ObjectFactory.createString(toString());
+        return string.reverse_danger();
     }
 
     private String replace(String source, int start, int end, String replacement) {
