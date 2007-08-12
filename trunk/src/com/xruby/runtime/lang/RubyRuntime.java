@@ -163,7 +163,7 @@ public class RubyRuntime {
 //        IntegerClassBuilder.initialize();
 //        FixnumClassBuilder.initialize();
 //        BignumClassBuilder.initialize();
-        StringClassBuilder.initialize();
+//        StringClassBuilder.initialize();
 //        FloatClassBuilder.initialize();
         ArrayClassBuilder.initialize();
 //        HashClassBuilder.initialize();
