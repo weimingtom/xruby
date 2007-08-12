@@ -21,22 +21,9 @@ class Array_new_with_given_objects extends RubyVarArgMethod {
     }
 }
 
-class Array_pack extends RubyOneArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyArray array = (RubyArray) receiver;
-        String format = ((RubyString) arg).toString();
-        return ObjectFactory.createString(ArrayPacker.pack(array, format));
-    }
-}
-
-
 public class ArrayClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.ArrayClass;
-
         c.getSingletonClass().defineMethod("[]", new Array_new_with_given_objects());
-
-        c.defineMethod("pack", new Array_pack());
-
     }
 }
