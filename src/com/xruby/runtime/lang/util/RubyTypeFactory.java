@@ -197,11 +197,11 @@ public abstract class RubyTypeFactory {
 			Annotation rawMethodAnnotation = method.getAnnotation(RubyLevelMethod.class);
 			if (rawMethodAnnotation != null) {
 				CgMethodItem newItem = createNormalItem((RubyLevelMethod)rawMethodAnnotation, method);
-				CgMethodItem item = methodMap.get(newItem.name);
+				CgMethodItem item = methodMap.get(getItemName(newItem));
 				if (item != null) {
 					item.type = MethodType.valueOf((item.type.value() | newItem.type.value()));
 				} else {
-					methodMap.put(newItem.name, newItem);
+					methodMap.put(getItemName(newItem), newItem);
 				}
 				
 				continue;
@@ -226,6 +226,10 @@ public abstract class RubyTypeFactory {
 		if (allocItem != null) {
 			defineAllocMethod(mg, rubyTypeIdx, factoryIdx, allocItem);
 		}
+	}
+	
+	private String getItemName(CgMethodItem item) {
+		return (item.singleton) ? item.name + "Single" : item.name;
 	}
 	
 	private CgMethodItem createNormalItem(RubyLevelMethod annotation, java.lang.reflect.Method method) {
