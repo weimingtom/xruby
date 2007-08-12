@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
+ * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng, Jie Li, Yu Su
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -91,7 +91,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this;
     }
 
-    public RubyArray insert(int index, RubyArray a) {
+    private RubyArray insert(int index, RubyArray a) {
         for (int i = array_.size(); i < index; ++i) {
             array_.add(ObjectFactory.NIL_VALUE);
         }
@@ -124,7 +124,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return array_.remove(index);
     }
 
-    public RubyArray delete_at(int begin, int length) {
+    private RubyArray delete_at(int begin, int length) {
         final int arraySize = array_.size();
         if (begin > arraySize) {
             return null;
@@ -151,6 +151,73 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
 
         return this;
+    }
+
+    private RubyArray plus(RubyArray v) {
+        int size = array_.size() + v.size();
+        RubyArray resultArray = new RubyArray(size);
+        resultArray.array_.addAll(array_);
+        resultArray.array_.addAll(v.array_);
+        return resultArray;
+    }
+
+    private RubyArray minus(RubyArray other) {
+        RubyArray a = this.copy();
+        for (RubyValue v : other) {
+            a.remove(v);
+        }
+        return a;
+    }
+
+    private boolean remove(RubyValue v) {
+        boolean r = false;
+        while (array_.remove(v)) {
+            r = true;
+        }
+        return r;
+    }
+
+    public RubyArray times(int times) {
+        if (times < 0) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
+        }
+
+        int size = array_.size() * times;
+        RubyArray resultArray = new RubyArray(size);
+        for (int i = 0; i < times; i++) {
+            resultArray.array_.addAll(array_);
+        }
+
+        return resultArray;
+    }
+
+    public RubyArray expand(RubyValue v) {
+        if (v instanceof RubyArray) {
+            //[5,6,*[1, 2]]
+            array_.addAll(((RubyArray) v).array_);
+        } else {
+            //[5,6,*1], [5,6,*nil]
+            array_.add(v);
+        }
+
+        return this;
+    }
+
+    //create a new Array containing every element from index to the end
+    public RubyValue collect(int index) {
+        assert(index >= 0);
+
+        final int size = array_.size() - index;
+        if (size < 0) {
+            return new RubyArray();
+        }
+
+        RubyArray a = new RubyArray(size);
+        for (int i = index; i < array_.size(); ++i) {
+            a.add(array_.get(i));
+        }
+
+        return a;
     }
 
     public Iterator<RubyValue> iterator() {
@@ -236,162 +303,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return resultArray;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o instanceof RubyArray) {
-            RubyArray that = (RubyArray)o;
-            int size = array_.size();
-            if (size != that.size()) {
-                return false;
-            }
-
-            for (int i = 0; i < size; ++i) {
-                if (!this.get(i).equals(that.get(i))) {
-                    return false;
-                }
-            }
-
-            return true;
-        } else if (o instanceof RubyValue) {
-            RubyValue v = (RubyValue)o;
-            if (!v.respondTo(RubyID.toAryID)) {
-                return false;
-            } else {
-                return v.equals(this);
-            }
-        } else {
-            return false;
-        }
-    }
-
-    private RubyArray plus(RubyArray v) {
-        int size = array_.size() + v.size();
-        RubyArray resultArray = new RubyArray(size);
-        resultArray.array_.addAll(array_);
-        resultArray.array_.addAll(v.array_);
-        return resultArray;
-    }
-
-    private RubyArray minus(RubyArray other) {
-        RubyArray a = this.copy();
-        for (RubyValue v : other) {
-            a.remove(v);
-        }
-        return a;
-    }
-
-    private boolean remove(RubyValue v) {
-        boolean r = false;
-        while (array_.remove(v)) {
-            r = true;
-        }
-        return r;
-    }
-
-    public RubyArray times(int times) {
-        if (times < 0) {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "negative argument");
-        }
-
-        int size = array_.size() * times;
-        RubyArray resultArray = new RubyArray(size);
-        for (int i = 0; i < times; i++) {
-            resultArray.array_.addAll(array_);
-        }
-
-        return resultArray;
-    }
-
-    /// Returns true if the given object is present
-    public boolean include(RubyValue v) {
-        for (RubyValue value : array_) {
-            if (RubyAPI.testEqual(value, v)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public RubyArray expand(RubyValue v) {
-        if (v instanceof RubyArray) {
-            //[5,6,*[1, 2]]
-            array_.addAll(((RubyArray) v).array_);
-        } else {
-            //[5,6,*1], [5,6,*nil]
-            array_.add(v);
-        }
-
-        return this;
-    }
-
-    //create a new Array containing every element from index to the end
-    public RubyValue collect(int index) {
-        assert(index >= 0);
-
-        final int size = array_.size() - index;
-        if (size < 0) {
-            return new RubyArray();
-        }
-
-        RubyArray a = new RubyArray(size);
-        for (int i = index; i < array_.size(); ++i) {
-            a.add(array_.get(i));
-        }
-
-        return a;
-    }
-
-    public void sort() {
-        Collections.sort(array_, new Comparator<RubyValue>() {
-            public int compare(RubyValue arg0, RubyValue arg1) {
-                RubyValue v = RubyAPI.callPublicOneArgMethod(arg0, arg1, null, RubyID.unequalID);
-                return ((RubyFixnum) v).toInt();
-            }
-        }
-        );
-    }
-
-    public void sort(final RubyBlock block) {
-        final RubyArray self = this;
-        Collections.sort(array_, new Comparator<RubyValue>() {
-
-            public int compare(RubyValue arg0, RubyValue arg1) {
-                //TODO can not check if block return/break occured.
-                RubyValue v = block.invoke(self, arg0, arg1);
-                return ((RubyFixnum) v).toInt();
-            }
-        }
-        );
-    }
-
-    public int hash() {
-        return array_.hashCode();
-    }
-
-    public boolean compact() {
-        return remove(ObjectFactory.NIL_VALUE);
-    }
-
-    public boolean uniq() {
-        boolean b = false;
-        for (int i = 0; i < array_.size(); ++i) {
-            for (int j = i + 1; j < array_.size();) {
-                if (RubyAPI.testEqual(array_.get(i), array_.get(j))) {
-                    array_.remove(j);
-                    b = true;
-                } else {
-                    ++j;
-                }
-            }
-        }
-        return b;
-    }
-
-    public RubyValue compare(RubyArray other_array) {
+    private RubyValue compare(RubyArray other_array) {
         int length = (size() <= other_array.size()) ? size() : other_array.size();
         for (int i = 0; i < length; ++i) {
             RubyValue v = RubyAPI.callPublicOneArgMethod(get(i), other_array.get(i), null, RubyID.unequalID);
@@ -435,6 +347,87 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
 
         return new RubyArray(array_.subList(begin, begin + length));
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o instanceof RubyArray) {
+            RubyArray that = (RubyArray)o;
+            int size = array_.size();
+            if (size != that.size()) {
+                return false;
+            }
+
+            for (int i = 0; i < size; ++i) {
+                if (!this.get(i).equals(that.get(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        } else if (o instanceof RubyValue) {
+            RubyValue v = (RubyValue)o;
+            if (!v.respondTo(RubyID.toAryID)) {
+                return false;
+            } else {
+                return v.equals(this);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private void sort() {
+        Collections.sort(array_, new Comparator<RubyValue>() {
+            public int compare(RubyValue arg0, RubyValue arg1) {
+                RubyValue v = RubyAPI.callPublicOneArgMethod(arg0, arg1, null, RubyID.unequalID);
+                return ((RubyFixnum) v).toInt();
+            }
+        }
+        );
+    }
+
+    private void sort_with_block(final RubyBlock block) {
+        final RubyArray self = this;
+        Collections.sort(array_, new Comparator<RubyValue>() {
+
+            public int compare(RubyValue arg0, RubyValue arg1) {
+                //TODO can not check if block return/break occured.
+                RubyValue v = block.invoke(self, arg0, arg1);
+                return ((RubyFixnum) v).toInt();
+            }
+        }
+        );
+    }
+
+    private int getRealIndex(int size,int i) {
+        int index = i;
+        if (index < 0) {
+            index = size + index;
+        }
+
+        if (index < 0) {
+            throw new RubyException(RubyRuntime.IndexErrorClass, "index " + i + " out of array");
+        }
+
+        return index;
+    }
+
+    private boolean recursiveAdd(RubyArray receiver,RubyArray array){
+        boolean modified = false;
+        for (int i=0;i<array.size();i++) {
+            RubyValue val = array.get(i);
+            if (val instanceof RubyArray) {
+                modified = true;
+                recursiveAdd(receiver,(RubyArray)val);
+            } else {
+                receiver.add(val);
+            }
+        }
+        return modified;
     }
 
     @RubyLevelMethod(name="new", singleton=true)
@@ -628,8 +621,6 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this.delete_at(0);
     }
 
-
-
     @RubyLevelMethod(name="delete_if")
     public RubyValue delete_if(RubyBlock block) {
         for (int i = 0; i < array_.size();) {
@@ -684,6 +675,17 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this.minus(v.toAry());
     }
 
+    @RubyLevelMethod(name="include?")
+    public RubyValue include(RubyValue v) {
+        for (RubyValue value : array_) {
+            if (RubyAPI.testEqual(value, v)) {
+                return ObjectFactory.TRUE_VALUE;
+            }
+        }
+
+        return ObjectFactory.FALSE_VALUE;
+    }
+
     @RubyLevelMethod(name="each")
     public RubyValue each(RubyBlock block) {
         for (RubyValue item : array_) {
@@ -730,13 +732,19 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this;
     }
 
+    @RubyLevelMethod(name="hash")
+    public RubyFixnum hash() {
+        return ObjectFactory.createFixnum(array_.hashCode());
+    }
+
     @RubyLevelMethod(name="&")
     public RubyArray and(RubyValue value) {
         RubyArray other = value.toAry();
 
         RubyArray a = new RubyArray();
         for (RubyValue v : array_) {
-            if (other.include(v) && !a.include(v)) {
+            if (other.include(v) == ObjectFactory.TRUE_VALUE &&
+                    a.include(v) == ObjectFactory.FALSE_VALUE) {
                 a.add(v);
             }
         }
@@ -748,16 +756,51 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         RubyArray other = value.toAry();
         RubyArray a = new RubyArray();
         for (RubyValue v : array_) {
-            if (!a.include(v)) {
+            if (a.include(v)  == ObjectFactory.FALSE_VALUE) {
                 a.add(v);
             }
         }
         for (RubyValue v : other) {
-            if (!a.include(v)) {
+            if (a.include(v) == ObjectFactory.FALSE_VALUE) {
                 a.add(v);
             }
         }
         return a;
+    }
+
+    @RubyLevelMethod(name="compact")
+    public RubyValue compact() {
+        return copy().compact_danger();
+    }
+
+    @RubyLevelMethod(name="compact!")
+    public RubyValue compact_danger() {
+        if (remove(ObjectFactory.NIL_VALUE)) {
+            return this;
+        } else {
+            return ObjectFactory.NIL_VALUE;
+        }
+    }
+
+    @RubyLevelMethod(name="uniq")
+    public RubyValue uniq() {
+        return copy().uniq_danger();
+    }
+
+    @RubyLevelMethod(name="uniq!")
+    public RubyValue uniq_danger() {
+        boolean b = false;
+        for (int i = 0; i < array_.size(); ++i) {
+            for (int j = i + 1; j < array_.size();) {
+                if (RubyAPI.testEqual(array_.get(i), array_.get(j))) {
+                    array_.remove(j);
+                    b = true;
+                } else {
+                    ++j;
+                }
+            }
+        }
+        return b ? this : ObjectFactory.NIL_VALUE;
     }
 
     @RubyLevelMethod(name="reverse")
@@ -772,5 +815,214 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         Collections.reverse(array_);
         return this;
     }
+
+    @RubyLevelMethod(name="index")
+    public RubyValue index(RubyValue arg) {
+        for(int i=0; i<size(); i++){
+            if(get(i).equals(arg))
+                return ObjectFactory.createFixnum(i);
+        }
+        return ObjectFactory.NIL_VALUE;
+    }
+
+    @RubyLevelMethod(name="rindex")
+    public RubyValue rindex(RubyValue arg) {
+        for(int i=size()-1; i>=0; i--){
+            if(get(i).equals(arg))
+                return ObjectFactory.createFixnum(i);
+        }
+        return ObjectFactory.NIL_VALUE;
+    }
+
+    @RubyLevelMethod(name="replace")
+    public RubyValue replace(RubyValue arg) {
+        RubyArray anotherArray = (RubyArray)arg;
+        if(this == anotherArray)
+            return this;
+
+        clear();
+        for(int i=0;i<anotherArray.size();i++){
+            add(anotherArray.get(i));
+        }
+        return this;
+    }
+
+    @RubyLevelMethod(name="indexes", alias="indices")
+    public RubyValue indexes(RubyArray args) {
+        RubyArray a = new RubyArray(args.size());
+        for(int i=0;i<size();i++){
+            RubyFixnum n = (RubyFixnum) args.get(i);
+            a.add(get(n.toInt()));
+        }
+        return a;
+    }
+
+    @RubyLevelMethod(name="nitems")
+    public RubyValue nitems() {
+        int n = 0;
+        for(int i=0;i<size();i++){
+            if(get(i) != ObjectFactory.NIL_VALUE)
+                n++;
+        }
+        return ObjectFactory.createFixnum(n);
+    }
+
+    @RubyLevelMethod(name="flatten")
+    public RubyValue flatten() {
+        RubyArray a = new RubyArray();
+        recursiveAdd(a, this);
+        return a;
+    }
+
+    @RubyLevelMethod(name="flatten!")
+    public RubyValue flatten_danger() {
+        RubyArray copy = copy();
+        clear();
+        boolean hasModified = recursiveAdd(this, copy);
+        if (hasModified){
+            return this;
+        } else {
+            return ObjectFactory.NIL_VALUE;
+        }
+    }
+
+    @RubyLevelMethod(name="collect!")
+    public RubyValue collect_danger(RubyBlock block) {
+        RubyArray a = (RubyArray)RubyAPI.callPublicMethod(this, null, block, RubyID.intern("collect"));
+        clear();
+        for(int i=0;i<a.size();i++){
+            add(a.get(i));
+        }
+        return this;
+    }
+
+    @RubyLevelMethod(name="assoc")
+    public RubyValue assoc(RubyValue arg) {
+        RubyValue val = null;
+        for(int i=0;i<size();i++){
+            val = get(i);
+            if(val instanceof RubyArray){
+                if(((RubyArray)val).size() > 0){
+                    RubyValue tmp = ((RubyArray)val).get(0);
+                    if(arg.equals(tmp)){
+                        return val;
+                    }
+                }
+            }
+        }
+
+        return ObjectFactory.NIL_VALUE;
+    }
+
+    @RubyLevelMethod(name="rassoc")
+    public RubyValue rassoc(RubyValue arg) {
+        RubyValue val = null;
+        for(int i=0;i<size();i++){
+            val = get(i);
+            if(val instanceof RubyArray){
+                if(((RubyArray)val).size() > 1){
+                    RubyValue tmp = ((RubyArray)val).get(1);
+                    if(arg.equals(tmp)){
+                        return val;
+                    }
+                }
+            }
+        }
+
+        return ObjectFactory.NIL_VALUE;
+    }
+
+    @RubyLevelMethod(name="*")
+    public RubyValue run(RubyValue arg, RubyBlock block) {
+        if (arg instanceof RubyFixnum) {
+            RubyFixnum times = (RubyFixnum) arg;
+            return times(times.toInt());
+        } else if (arg instanceof RubyString) {
+            return RubyAPI.callOneArgMethod(this, arg, block, RubyID.joinID);
+        }
+
+        throw new RubyException(RubyRuntime.TypeErrorClass, "no implicit conversion from " + arg + " to integer");
+    }
+
+    @RubyLevelMethod(name="sort")
+    public RubyValue sort(RubyBlock block) {
+        return copy().sort_danger(block);
+    }
+
+    @RubyLevelMethod(name="sort!")
+    public RubyValue sort_danger(RubyBlock block) {
+        if (null == block) {
+            sort();
+        } else {
+            sort_with_block(block);
+        }
+        return this;
+    }
+
+    @RubyLevelMethod(name="[]=")
+    public RubyValue run(RubyArray args) {
+        if (2 == args.size()) {
+            if (args.get(0) instanceof RubyRange) {
+                RubyRange range = (RubyRange) args.get(0);
+                RubyFixnum left = (RubyFixnum)range.getLeft();
+                RubyFixnum right = (RubyFixnum)range.getRight();
+                int l_index = getRealIndex(size(), left.toInt());
+                int r_index = getRealIndex(size(), right.toInt());
+                int length = r_index-l_index+1;
+                return replace(l_index, length, args.get(1));
+            } else {
+                RubyFixnum index = (RubyFixnum) args.get(0);
+                return set(index.toInt(), args.get(1));
+            }
+        } else if (3 == args.size()) {
+            RubyFixnum index = (RubyFixnum) args.get(0);
+            RubyFixnum length = (RubyFixnum) args.get(1);
+            return replace(index.toInt(), length.toInt(), args.get(2));
+        }
+
+        throw new RubyException("not implemented");
+    }
+
+    @RubyLevelMethod(name="slice!")
+    public RubyValue slice_danger(RubyArray args) {
+        if (1 == args.size()) {
+            Object argValue = args.get(0);
+            if (argValue instanceof RubyFixnum) {
+                RubyFixnum index = (RubyFixnum) argValue;
+                return delete_at(index.toInt());
+            } else if (args.get(0) instanceof RubyRange) {
+                int begin = ((RubyFixnum) ((RubyRange) args.get(0)).getLeft()).toInt();
+                int end = ((RubyFixnum) ((RubyRange) args.get(0)).getRight()).toInt();
+                if (begin < 0) {
+                    begin = size() + begin;
+                }
+                if (end < 0) {
+                    end = size() + end;
+                }
+
+                if (!((RubyRange) args.get(0)).isExcludeEnd()) {
+                    ++end;
+                }
+
+                RubyArray resultValue = delete_at(begin, end - begin);
+                return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+            }
+        } else if (2 == args.size()) {
+            Object arg0Value = args.get(0);
+            Object arg1Value = args.get(1);
+            if (arg0Value instanceof RubyFixnum && arg1Value instanceof RubyFixnum) {
+                int begin = ((RubyFixnum) arg0Value).toInt();
+                int length = ((RubyFixnum) arg1Value).toInt();
+                RubyArray resultValue = delete_at(begin, length);
+                return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+            }
+        }
+
+        //TODO
+        throw new RubyException("not implemented");
+    }
+
+
+
 }
 

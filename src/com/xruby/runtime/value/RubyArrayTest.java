@@ -174,17 +174,17 @@ public class RubyArrayTest extends TestCase {
         RubyValue i3 = ObjectFactory.createFixnum(2);
         RubyValue i4 = ObjectFactory.createFixnum(4);
 
-        assertTrue(!a.include(i1));
-        assertTrue(!a.include(i2));
-        assertTrue(!a.include(i3));
-        assertTrue(!a.include(i4));
+        assertTrue(a.include(i1) == ObjectFactory.FALSE_VALUE);
+        assertTrue(a.include(i2) == ObjectFactory.FALSE_VALUE);
+        assertTrue(a.include(i3) == ObjectFactory.FALSE_VALUE);
+        assertTrue(a.include(i4) == ObjectFactory.FALSE_VALUE);
 
         a.add(i1);
         a.add(i2);
 
-        assertTrue(a.include(i1));
-        assertTrue(a.include(i2));
-        assertTrue(a.include(i3));
-        assertTrue(!a.include(i4));
+        assertTrue(a.include(i1) == ObjectFactory.TRUE_VALUE);
+        assertTrue(a.include(i2) == ObjectFactory.TRUE_VALUE);
+        assertTrue(a.include(i3) == ObjectFactory.TRUE_VALUE);
+        assertTrue(a.include(i4) == ObjectFactory.FALSE_VALUE);
     }
 }

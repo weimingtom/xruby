@@ -269,7 +269,7 @@ class Module_case_equal extends RubyOneArgMethod {
             RubyModule module = (RubyModule) receiver;
             RubyArray a = new RubyArray();
             module.collectIncludedModuleNames(a);
-            return a.include(arg.getRubyClass()) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+            return a.include(arg.getRubyClass());
         }
     }
 }
