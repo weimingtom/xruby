@@ -9,7 +9,6 @@ import java.math.BigInteger;
 import java.util.Formatter;
 import java.util.StringTokenizer;
 
-import com.xruby.runtime.builtin.ArrayPacker;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;

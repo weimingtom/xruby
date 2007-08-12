@@ -5,7 +5,6 @@
 
 package com.xruby.runtime.value;
 
-import com.xruby.runtime.builtin.ArrayPacker;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
