@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.util.Formatter;
 import java.util.StringTokenizer;
 
+import com.xruby.runtime.builtin.ArrayPacker;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
@@ -31,22 +32,6 @@ public class RubyString extends RubyBasic {
     RubyString(StringBuilder sb) {
         super(RubyRuntime.StringClass);
         sb_ = sb;
-    }
-
-    @RubyAllocMethod
-    public static RubyString alloc(RubyValue receiver) {
-        return ObjectFactory.createString((RubyClass)receiver, "");
-    }
-
-    @RubyLevelMethod(name="initialize", alias="initialize_copy")
-    public RubyString initialize(RubyValue v) {
-        this.setString(v.toStr());
-        return this;
-    }
-
-    @RubyLevelMethod(name="initialize", alias="initialize_copy")
-    public RubyString initialize() {
-        return this;
     }
 
     public RubyString clone() {
@@ -75,22 +60,6 @@ public class RubyString extends RubyBasic {
         return this.sb_.toString();
     }
 
-    @RubyLevelMethod(name="to_f")
-    public RubyFloat toRubyFloat() {
-        double d;
-        try {
-            d = this.toFloat();
-        } catch (NumberFormatException e) {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, e.toString());
-        }
-        return ObjectFactory.createFloat(d);
-    }
-
-    @RubyLevelMethod(name="to_s")
-    public RubyString to_s() {
-        return ObjectFactory.createString(this.sb_.toString());
-    }
-
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -106,31 +75,8 @@ public class RubyString extends RubyBasic {
         return sb_.toString().hashCode();
     }
 
-    @RubyLevelMethod(name="length")
-    public RubyFixnum rubyLength() {
-        return ObjectFactory.createFixnum(sb_.length());
-    }
-
     public int length() {
         return sb_.length();
-    }
-
-    @RubyLevelMethod(name="intern", alias="to_sym")
-    public RubySymbol intern() {
-        if (this.sb_.length() <= 0) {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "interning empty string");
-        }
-
-        RubyID id = RubyID.intern(this.sb_.toString());
-        return id.toSymbol();
-    }
-
-    @RubyLevelMethod(name="+")
-    public RubyString plus(RubyValue v) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.sb_);
-        sb.append(v.toRubyString().sb_);
-        return ObjectFactory.createString(sb);
     }
 
     public RubyString appendString(String v) {
@@ -152,6 +98,61 @@ public class RubyString extends RubyBasic {
         }
     }
 
+    @RubyAllocMethod
+    public static RubyString alloc(RubyValue receiver) {
+        return ObjectFactory.createString((RubyClass)receiver, "");
+    }
+
+    @RubyLevelMethod(name="initialize", alias="initialize_copy")
+    public RubyString initialize(RubyValue v) {
+        this.setString(v.toStr());
+        return this;
+    }
+
+    @RubyLevelMethod(name="initialize", alias="initialize_copy")
+    public RubyString initialize() {
+        return this;
+    }
+
+    @RubyLevelMethod(name="to_f")
+    public RubyFloat toRubyFloat() {
+        double d;
+        try {
+            d = this.toFloat();
+        } catch (NumberFormatException e) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, e.toString());
+        }
+        return ObjectFactory.createFloat(d);
+    }
+
+    @RubyLevelMethod(name="to_s")
+    public RubyString to_s() {
+        return ObjectFactory.createString(this.sb_.toString());
+    }
+
+    @RubyLevelMethod(name="length")
+    public RubyFixnum rubyLength() {
+        return ObjectFactory.createFixnum(sb_.length());
+    }
+
+    @RubyLevelMethod(name="intern", alias="to_sym")
+    public RubySymbol intern() {
+        if (this.sb_.length() <= 0) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "interning empty string");
+        }
+
+        RubyID id = RubyID.intern(this.sb_.toString());
+        return id.toSymbol();
+    }
+
+    @RubyLevelMethod(name="+")
+    public RubyString plus(RubyValue v) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.sb_);
+        sb.append(v.toRubyString().sb_);
+        return ObjectFactory.createString(sb);
+    }
+
     @RubyLevelMethod(name="concat", alias="<<")
     public RubyString concat(RubyValue v) {
         if (v instanceof RubyFixnum) {
@@ -169,6 +170,116 @@ public class RubyString extends RubyBasic {
     public RubyString setString(String s) {
         sb_.replace(0, sb_.length(), s);
         return this;
+    }
+
+    private int cmp(RubyString s) {
+        int result = this.sb_.toString().compareTo(s.sb_.toString());
+        if (result == 0) {
+            return 0;
+        } else if (result > 0) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+    private String replace(String source, int start, int end, String replacement) {
+        assert(start <= source.length() - 1);
+
+        if (end < start) {
+            end = start + 1;
+        }
+
+        StringBuffer result = new StringBuffer(source.substring(0, start));
+        result.append(replacement);
+        result.append(source.substring(end));
+        return result.toString();
+    }
+
+    private RubyValue substring(String string, int begin, int end, boolean isExcludeEnd) {
+
+        if (begin < 0) {
+            begin = string.length() + begin;
+        }
+
+        if (end < 0) {
+            end = string.length() + end;
+        }
+
+        if (!isExcludeEnd) {
+            ++end;
+        }
+
+        if (begin < 0 || end < 0 || begin > end || begin > string.length() || end > string.length()) {
+            return ObjectFactory.NIL_VALUE;
+        }
+
+        return ObjectFactory.createString(string.substring(begin, end));
+    }
+
+    private String gsub(RubyString g, RubyArray args) {
+        if (null == args || args.size() != 2) {
+            int actual_argc = (null == args ) ? 0 : args.size();
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `gsub': wrong number of arguments (" + actual_argc + " for 2)");
+        }
+
+        if (!(args.get(1) instanceof RubyString)) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "can't convert " + args.get(1).getRubyClass().getName() + " into String");
+        }
+
+        RubyString s = (RubyString) args.get(1);
+
+        if (args.get(0) instanceof RubyRegexp) {
+            RubyRegexp r = (RubyRegexp) args.get(0);
+            return r.gsub(g, s);
+        } else if (args.get(0) instanceof RubyString) {
+            RubyString r = (RubyString) args.get(0);
+            return g.toString().replaceAll(r.toString(), s.toString());
+        } else {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
+        }
+    }
+
+    private String sub(RubyString g, RubyArray args) {
+        if (null == args || args.size() != 2) {
+            int actual_argc = (null == args ) ? 0 : args.size();
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `sub': wrong number of arguments (" + actual_argc + " for 2)");
+        }
+
+        if (!(args.get(1) instanceof RubyString)) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "can't convert " + args.get(1).getRubyClass().getName() + " into String");
+        }
+
+        RubyString s = (RubyString) args.get(1);
+
+        if (args.get(0) instanceof RubyRegexp) {
+            RubyRegexp r = (RubyRegexp) args.get(0);
+            return r.sub(g, s);
+        } else if (args.get(0) instanceof RubyString) {
+            RubyString r = (RubyString) args.get(0);
+            return g.toString().replaceFirst(r.toString(), s.toString());
+        } else {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
+        }
+    }
+
+    private String[] split(RubyString s, String delimiter) {
+        StringTokenizer t = new StringTokenizer(s.toString(), delimiter);
+        int total = t.countTokens();
+        String[] r = new String[total];
+        for (int i = 0; i < total; ++i) {
+            r[i] = t.nextToken();
+        }
+        return r;
+    }
+
+    private String[] split(RubyString g, RubyRegexp r, RubyArray args) {
+        if (args.size() <= 1) {
+            return r.split(g.toString(), 0);
+        } else {
+            RubyFixnum i = (RubyFixnum) args.get(1);
+            return r.split(g.toString(), i.toInt());
+        }
     }
 
     @RubyLevelMethod(name="==")
@@ -193,16 +304,6 @@ public class RubyString extends RubyBasic {
         }
     }
 
-    private int cmp(RubyString s) {
-        int result = this.sb_.toString().compareTo(s.sb_.toString());
-        if (result == 0) {
-            return 0;
-        } else if (result > 0) {
-            return 1;
-        } else {
-            return -1;
-        }
-    }
 
     @RubyLevelMethod(name="strip")
     public RubyString strip() {
@@ -344,7 +445,7 @@ public class RubyString extends RubyBasic {
         return this;
     }
 
-    public void chomp(String seperator) {
+    private void chomp(String seperator) {
         if (!sb_.toString().endsWith(seperator)) {
             return;
         }
@@ -354,7 +455,9 @@ public class RubyString extends RubyBasic {
         sb_.delete(start, end);
     }
 
-    public RubyArray scan(RubyRegexp regex) {
+    @RubyLevelMethod(name="scan")
+    public RubyArray scan(RubyValue arg) {
+        RubyRegexp regex = (RubyRegexp)arg;
         RubyMatchData match = regex.match(sb_.toString());
         if (null != match) {
             return match.toArray();
@@ -409,15 +512,15 @@ public class RubyString extends RubyBasic {
         return !oldString.equals(sb_.toString());
     }
 
-    public boolean tr(String from, String to) {
+    private boolean tr(String from, String to) {
         return transform(from, to, false);
     }
 
-    public boolean tr_s(String from, String to) {
+    private boolean tr_s(String from, String to) {
         return transform(from, to, true);
     }
 
-    public boolean squeeze(String from) {
+    private boolean squeeze(String from) {
         if (null != from && from.length() == 3 && from.charAt(1) == '-' ) {
             char from_start = from.charAt(0);
             char from_end = from.charAt(2);
@@ -440,7 +543,7 @@ public class RubyString extends RubyBasic {
         return false;
     }
 
-    public boolean delete(String from) {
+    private boolean delete(String from) {
         if (null != from && from.length() == 3 && from.charAt(1) == '-' ) {
             char from_start = from.charAt(0);
             char from_end = from.charAt(2);
@@ -463,7 +566,7 @@ public class RubyString extends RubyBasic {
         }
     }
 
-    public int count(String s) {
+    private int count(String s) {
         int n = 0;
         for (int i = 0; i < sb_.length(); ++i) {
             if (s.indexOf(sb_.charAt(i)) >= 0) {
@@ -985,105 +1088,107 @@ public class RubyString extends RubyBasic {
         return string.reverse_danger();
     }
 
-    private String replace(String source, int start, int end, String replacement) {
-        assert(start <= source.length() - 1);
-
-        if (end < start) {
-            end = start + 1;
-        }
-
-        StringBuffer result = new StringBuffer(source.substring(0, start));
-        result.append(replacement);
-        result.append(source.substring(end));
-        return result.toString();
+    @RubyLevelMethod(name="chomp")
+    public RubyValue chomp(RubyArray args) {
+        RubyString string = ObjectFactory.createString(toString());
+        RubyValue separator = (null != args) ? args.get(0) : GlobalVariables.get("$/");
+        string.chomp(((RubyString) separator).toString());
+        return string;
     }
 
-    private RubyValue substring(String string, int begin, int end, boolean isExcludeEnd) {
-
-        if (begin < 0) {
-            begin = string.length() + begin;
-        }
-
-        if (end < 0) {
-            end = string.length() + end;
-        }
-
-        if (!isExcludeEnd) {
-            ++end;
-        }
-
-        if (begin < 0 || end < 0 || begin > end || begin > string.length() || end > string.length()) {
-            return ObjectFactory.NIL_VALUE;
-        }
-
-        return ObjectFactory.createString(string.substring(begin, end));
+    @RubyLevelMethod(name="chomp!")
+    public RubyValue chomp_danger(RubyArray args) {
+        RubyValue separator = (null == args) ? GlobalVariables.get("$/") : args.get(0);
+        chomp(((RubyString) separator).toString());
+        return this;
     }
 
-    private String gsub(RubyString g, RubyArray args) {
-        if (null == args || args.size() != 2) {
-            int actual_argc = (null == args ) ? 0 : args.size();
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `gsub': wrong number of arguments (" + actual_argc + " for 2)");
-        }
-
-        if (!(args.get(1) instanceof RubyString)) {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "can't convert " + args.get(1).getRubyClass().getName() + " into String");
-        }
-
-        RubyString s = (RubyString) args.get(1);
-
-        if (args.get(0) instanceof RubyRegexp) {
-            RubyRegexp r = (RubyRegexp) args.get(0);
-            return r.gsub(g, s);
-        } else if (args.get(0) instanceof RubyString) {
-            RubyString r = (RubyString) args.get(0);
-            return g.toString().replaceAll(r.toString(), s.toString());
-        } else {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
-        }
+    @RubyLevelMethod(name="tr!")
+    public RubyValue tr_danger(RubyValue arg1, RubyValue arg2) {
+        RubyString from = (RubyString) arg1;
+        RubyString to = (RubyString) arg2;
+        return tr(from.toString(), to.toString()) ? this : ObjectFactory.NIL_VALUE;
     }
 
-    private String sub(RubyString g, RubyArray args) {
-        if (null == args || args.size() != 2) {
-            int actual_argc = (null == args ) ? 0 : args.size();
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `sub': wrong number of arguments (" + actual_argc + " for 2)");
-        }
-
-        if (!(args.get(1) instanceof RubyString)) {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "can't convert " + args.get(1).getRubyClass().getName() + " into String");
-        }
-
-        RubyString s = (RubyString) args.get(1);
-
-        if (args.get(0) instanceof RubyRegexp) {
-            RubyRegexp r = (RubyRegexp) args.get(0);
-            return r.sub(g, s);
-        } else if (args.get(0) instanceof RubyString) {
-            RubyString r = (RubyString) args.get(0);
-            return g.toString().replaceFirst(r.toString(), s.toString());
-        } else {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
-        }
+    @RubyLevelMethod(name="tr")
+    public RubyValue tr(RubyValue arg1, RubyValue arg2) {
+        RubyString from = (RubyString) arg1;
+        RubyString to = (RubyString) arg2;
+        tr(from.toString(), to.toString());
+        return this;
     }
 
-    private String[] split(RubyString s, String delimiter) {
-        StringTokenizer t = new StringTokenizer(s.toString(), delimiter);
-        int total = t.countTokens();
-        String[] r = new String[total];
-        for (int i = 0; i < total; ++i) {
-            r[i] = t.nextToken();
-        }
-        return r;
+    @RubyLevelMethod(name="tr_s!")
+    public RubyValue trs_danger(RubyValue arg1, RubyValue arg2) {
+        RubyString from = (RubyString) arg1;
+        RubyString to = (RubyString) arg2;
+        return tr_s(from.toString(), to.toString()) ? this : ObjectFactory.NIL_VALUE;
     }
 
-    private String[] split(RubyString g, RubyRegexp r, RubyArray args) {
-        if (args.size() <= 1) {
-            return r.split(g.toString(), 0);
-        } else {
-            RubyFixnum i = (RubyFixnum) args.get(1);
-            return r.split(g.toString(), i.toInt());
-        }
+    @RubyLevelMethod(name="tr_s")
+    public RubyValue tr_s(RubyValue arg1, RubyValue arg2) {
+        RubyString string = ObjectFactory.createString(toString());
+        RubyString from = (RubyString) arg1;
+        RubyString to = (RubyString) arg2;
+        string.tr_s(from.toString(), to.toString());
+        return string;
     }
 
+    @RubyLevelMethod(name="squeeze!")
+    public RubyValue squeeze_danger(RubyArray args) {
+        String arg = ((null == args) ? null : ((RubyString) args.get(0)).toString());
+        return squeeze(arg) ? this : ObjectFactory.NIL_VALUE;
+    }
 
+    @RubyLevelMethod(name="squeeze")
+    public RubyValue squeeze(RubyArray args) {
+        RubyString string = ObjectFactory.createString(toString());
+        String arg = ((null == args) ? null : ((RubyString) args.get(0)).toString());
+        string.squeeze(arg);
+        return string;
+    }
+
+    @RubyLevelMethod(name="delete!")
+    public RubyValue delete_danger(RubyArray args) {
+        if (null == args) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
+        }
+
+        String arg = ((RubyString) args.get(0)).toString();
+        return delete(arg) ? this : ObjectFactory.NIL_VALUE;
+    }
+
+    @RubyLevelMethod(name="delete")
+    public RubyValue delete(RubyArray args) {
+        if (null == args) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
+        }
+
+        RubyString string = ObjectFactory.createString(toString());
+        String arg = ((RubyString) args.get(0)).toString();
+        string.delete(arg);
+        return string;
+    }
+
+    @RubyLevelMethod(name="count")
+    public RubyValue count(RubyArray args) {
+        if (null == args) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments");
+        }
+
+        //TODO incomplete
+        int n = 0;
+        for (RubyValue v : args) {
+            RubyString other_str = (RubyString) v;
+            n += count(other_str.toString());
+        }
+        return ObjectFactory.createFixnum(n);
+    }
+
+    @RubyLevelMethod(name="unpack")
+    public RubyValue unpack(RubyValue arg) {
+        RubyString format = ((RubyString) arg);
+        return ArrayPacker.unpack(toString(), format.toString());
+    }
 
 }
