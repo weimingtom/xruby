@@ -127,7 +127,7 @@ public class RubyRuntime {
         MethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
         TimeClass = RubyTypeFactory.getClass(RubyTime.class);
         MatchDataClass = RubyTypeFactory.getClass(RubyMatchData.class);
-        DirClass = RubyAPI.defineClass("Dir", RubyRuntime.ObjectClass);
+        DirClass = RubyTypeFactory.getClass(RubyDir.class);
         StructClass = RubyTypeFactory.getClass(RubyStruct.class);
         ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);
         ThreadClass = RubyTypeFactory.getClass(RubyThread.class);

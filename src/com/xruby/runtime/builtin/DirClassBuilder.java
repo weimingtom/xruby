@@ -160,33 +160,18 @@ class Dir_new extends RubyOneArgMethod {
     }
 }
 
-class Dir_close extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        ((RubyDir)receiver).close();
-        return ObjectFactory.NIL_VALUE;
-    }
-}
-
 class Dir_read extends RubyNoArgMethod {
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
         RubyDir dir = (RubyDir)receiver;
         if(!dir.isOpen()){
             throw new RubyException(RubyRuntime.IOErrorClass,"closed directory");
         }
-        
+
         String str = dir.read();
         if(str == null)
             return ObjectFactory.NIL_VALUE;
         else
             return ObjectFactory.createString(str);
-    }
-}
-
-class Dir_rewind extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyDir dir = (RubyDir)receiver;
-        dir.setPos(0);
-        return ObjectFactory.NIL_VALUE;
     }
 }
 
@@ -215,25 +200,11 @@ class Dir_pos_eq extends RubyOneArgMethod {
     }
 }
 
-class Dir_each extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyDir dir = (RubyDir)receiver;
-        return dir.each(block);
-    }
-}
-
 class Dir_foreach extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String path = RubyTypesUtil.convertToString(arg).toString();
         RubyDir dir = new RubyDir(path);
         return dir.each(block);
-    }
-}
-
-class Dir_path extends RubyNoArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        RubyDir dir = (RubyDir)receiver;
-        return ObjectFactory.createString(dir.getPath());
     }
 }
 
@@ -260,7 +231,7 @@ public class DirClassBuilder {
     public static void initialize() {
         RubyClass c = RubyRuntime.DirClass;
 
-        c.getSingletonClass().defineMethod("new",new Dir_new());     
+        c.getSingletonClass().defineMethod("new",new Dir_new());
         c.getSingletonClass().defineMethod("foreach",new Dir_foreach());
         c.getSingletonClass().defineMethod("chdir", new Dir_chdir());
         RubyMethod getwd = new Dir_getwd();
@@ -275,17 +246,12 @@ public class DirClassBuilder {
         c.getSingletonClass().defineMethod("[]", new Dir_array_access());
         c.getSingletonClass().defineMethod("glob", new Dir_glob());
         c.getSingletonClass().defineMethod("open", new Dir_open());
-        
-        c.defineMethod("close", new Dir_close());
+
         c.defineMethod("read", new Dir_read());
-        c.defineMethod("rewind", new Dir_rewind());
         c.defineMethod("tell", new Dir_tell());
         c.defineMethod("pos", new Dir_tell());
         c.defineMethod("seek", new Dir_seek());
         c.defineMethod("pos=", new Dir_pos_eq());
-        c.defineMethod("each", new Dir_each());
-        c.defineMethod("path", new Dir_path());
-        
-        c.includeModule(RubyRuntime.EnumerableModule);
+
     }
 }
