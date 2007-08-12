@@ -235,24 +235,9 @@ class Kernel_print extends RubyVarArgMethod {
 
 class Kernel_printf extends RubyVarArgMethod {
 
-    static Object[] buildFormatArg(RubyArray args, int start) {
-        Object[] raw_args = new Object[args.size() - start];
-        for (int i = 0; i < args.size() - start; ++i) {
-            Object v = args.get(i + start);
-            if (v instanceof RubyFixnum) {
-                raw_args[i] = new Integer(((RubyFixnum) v).toInt());
-            } else if (v instanceof RubyFloat) {
-                raw_args[i] = new Double(((RubyFloat) v).doubleValue());
-            } else {
-                raw_args[i] = v;
-            }
-        }
-        return raw_args;
-    }
-
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         String fmt = ((RubyString) args.get(0)).toString();
-        System.out.printf(fmt, buildFormatArg(args, 1));
+        System.out.printf(fmt, RubyKernel.buildFormatArg(args, 1));
         return ObjectFactory.NIL_VALUE;
     }
 }
@@ -263,7 +248,7 @@ class Kernel_sprintf extends Kernel_printf {
         String fmt = ((RubyString) args.get(0)).toString();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
-        ps.printf(fmt, buildFormatArg(args, 1));
+        ps.printf(fmt, RubyKernel.buildFormatArg(args, 1));
         ps.flush();
         ps.close();
         return ObjectFactory.createString(baos.toString());

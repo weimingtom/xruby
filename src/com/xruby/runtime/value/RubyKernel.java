@@ -37,4 +37,19 @@ public class RubyKernel {
             return v;
         }
     }
+
+    public static Object[] buildFormatArg(RubyArray args, int start) {
+        Object[] raw_args = new Object[args.size() - start];
+        for (int i = 0; i < args.size() - start; ++i) {
+            Object v = args.get(i + start);
+            if (v instanceof RubyFixnum) {
+                raw_args[i] = new Integer(((RubyFixnum) v).toInt());
+            } else if (v instanceof RubyFloat) {
+                raw_args[i] = new Double(((RubyFloat) v).doubleValue());
+            } else {
+                raw_args[i] = v;
+            }
+        }
+        return raw_args;
+    }
 }

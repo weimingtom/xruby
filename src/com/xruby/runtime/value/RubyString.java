@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi, Ye Zheng
+ * Copyright 2005-2007 Xue Yong Zhi, Jie Li, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -7,6 +7,7 @@ package com.xruby.runtime.value;
 
 import java.math.BigInteger;
 import java.util.Formatter;
+import java.util.StringTokenizer;
 
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
@@ -768,6 +769,224 @@ public class RubyString extends RubyBasic {
         }
     }
 
+    @RubyLevelMethod(name="split")
+    public RubyValue split(RubyArray args) {
+        RubyValue r = (null == args) ? GlobalVariables.get("$;") : args.get(0);
+
+        String[] splitResult;
+        if (r == ObjectFactory.NIL_VALUE) {
+            splitResult = split(this, " ");
+        } else if (r instanceof RubyRegexp) {
+            splitResult = split(this, (RubyRegexp) r, args);
+        } else if (r instanceof RubyString) {
+            splitResult = split(this, ((RubyString) r).toString());
+        } else {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + r.getRubyClass() + " (expected Regexp)");
+        }
+
+        RubyArray a = new RubyArray(splitResult.length);
+        int i = 0;
+        for (String str : splitResult) {
+            if (0 != i || !str.equals("")) {
+                //To conform ruby's behavior, discard the first empty element
+                a.add(ObjectFactory.createString(str));
+            }
+            ++i;
+        }
+        return a;
+    }
+
+    @RubyLevelMethod(name="<=>")
+    public RubyValue operator_compare(RubyValue arg) {
+        if (!(arg instanceof RubyString)) {
+            return ObjectFactory.NIL_VALUE;
+        }
+
+        RubyString value2 = (RubyString) arg;
+        int compare = toString().compareTo(value2.toString());
+        if (compare > 0) {
+            compare = 1;
+        } else if (compare < 0) {
+            compare = -1;
+        }
+        return ObjectFactory.createFixnum(compare);
+    }
+
+    @RubyLevelMethod(name="casecmp")
+    RubyValue run(RubyValue arg) {
+        if (!(arg instanceof RubyString)) {
+            return ObjectFactory.NIL_VALUE;
+        }
+
+        RubyString value2 = (RubyString) arg;
+        int compare = toString().toUpperCase().compareTo(value2.toString().toUpperCase());
+        if (compare > 0) {
+            compare = 1;
+        } else if (compare < 0) {
+            compare = -1;
+        }
+        return ObjectFactory.createFixnum(compare);
+    }
+
+    @RubyLevelMethod(name="=~")
+    public RubyValue operator_match(RubyValue arg) {
+        if (arg instanceof RubyRegexp) {
+            RubyRegexp reg = (RubyRegexp) arg;
+            int p = reg.matchPosition(toString());
+            if (p >= 0) {
+                return ObjectFactory.createFixnum(p);
+            } else {
+                return ObjectFactory.NIL_VALUE;
+            }
+        } else {
+            return RubyAPI.callPublicOneArgMethod(arg, this, null, RubyID.matchID);
+        }
+    }
+
+    @RubyLevelMethod(name="[]")
+    public RubyValue array_access(RubyArray args) {
+        String string = toString();
+        if (args.size() == 1) {
+            RubyValue arg = args.get(0);
+            if (arg instanceof RubyString) {
+                String str = ((RubyString) arg).toString();
+                if (string.indexOf(str) >= 0) {
+                    return ObjectFactory.createString(str);
+                } else {
+                    return ObjectFactory.NIL_VALUE;
+                }
+            } else if (arg instanceof RubyRange) {
+                RubyRange range = (RubyRange) arg;
+                int start = range.getLeft().toInt();
+                int end = range.getRight().toInt();
+                return substring(string, start, end, range.isExcludeEnd());
+            } else if (arg instanceof RubyRegexp) {
+                RubyRegexp regexp = (RubyRegexp) arg;
+                RubyMatchData match = regexp.match(string);
+                if (match != null) {
+                    return ObjectFactory.createString(match.toString());
+                } else {
+                    return ObjectFactory.NIL_VALUE;
+                }
+            } else {
+                int index = arg.toInt();
+                if (index < 0) {
+                    index = string.length() + index;
+                }
+
+                if (index < 0 || index >= string.length()) {
+                    return ObjectFactory.NIL_VALUE;
+                } else {
+                    return ObjectFactory.createFixnum(string.charAt(index));
+                }
+            }
+        } else {
+            int start = args.get(0).toInt();
+            int length = args.get(1).toInt() - 1;
+
+            return substring(string, start, start + length, false);
+        }
+    }
+
+    @RubyLevelMethod(name="[]=")
+    public RubyValue array_set(RubyArray args) {
+        String string = toString();
+        String replacement;
+
+        int start, end;
+
+        if (args.size() == 2) {
+            RubyValue arg = args.get(0);
+            replacement = ((RubyString) args.get(1)).toString();
+
+            if (arg instanceof RubyString) {
+                String str = ((RubyString) arg).toString();
+                start = string.indexOf(str);
+                if (start >= 0) {
+                    end = start + str.length();
+                } else {
+                    throw new RubyException(RubyRuntime.IndexErrorClass, "string not matched");
+                }
+            } else if (arg instanceof RubyRange) {
+                RubyRange range = (RubyRange) arg;
+                start = range.getLeft().toInt();
+                end = range.getRight().toInt();
+                if (start >= string.length()) {
+                    throw new RubyException(RubyRuntime.RangeClass, range.toString() + " out of range");
+                }
+            } else if (arg instanceof RubyRegexp) {
+                RubyRegexp regexp = (RubyRegexp) arg;
+                RubyMatchData match = regexp.match(string);
+                if (match != null) {
+                    String matched = match.toString();
+                    start = string.indexOf(matched);
+                    end = matched.length() + start;
+                } else {
+                    throw new RubyException(RubyRuntime.IndexErrorClass, "regexp not matched");
+                }
+            } else {
+                start = arg.toInt();
+                end = start + 1;
+            }
+        } else {
+            replacement = ((RubyString) args.get(2)).toString();
+
+            start = args.get(0).toInt();
+            end = args.get(1).toInt() + start;
+            if (start >= string.length()) {
+                throw new RubyException(RubyRuntime.RangeClass, String.format("index %d out of string", start));
+            }
+        }
+        setString(replace(string, start, end, replacement));
+        return ObjectFactory.createString(replacement);
+    }
+
+    @RubyLevelMethod(name="%")
+    public RubyValue format(RubyValue arg) {
+        String format = toString();
+        String s;
+        if (arg instanceof RubyArray) {
+            s = String.format(format, RubyKernel.buildFormatArg((RubyArray)arg, 0));
+        } else {
+            s = String.format(format, RubyKernel.buildFormatArg(new RubyArray(arg), 0));
+        }
+        return ObjectFactory.createString(s);
+    }
+
+    private String replace(String source, int start, int end, String replacement) {
+        assert(start <= source.length() - 1);
+
+        if (end < start) {
+            end = start + 1;
+        }
+
+        StringBuffer result = new StringBuffer(source.substring(0, start));
+        result.append(replacement);
+        result.append(source.substring(end));
+        return result.toString();
+    }
+
+    private RubyValue substring(String string, int begin, int end, boolean isExcludeEnd) {
+
+        if (begin < 0) {
+            begin = string.length() + begin;
+        }
+
+        if (end < 0) {
+            end = string.length() + end;
+        }
+
+        if (!isExcludeEnd) {
+            ++end;
+        }
+
+        if (begin < 0 || end < 0 || begin > end || begin > string.length() || end > string.length()) {
+            return ObjectFactory.NIL_VALUE;
+        }
+
+        return ObjectFactory.createString(string.substring(begin, end));
+    }
+
     private String gsub(RubyString g, RubyArray args) {
         if (null == args || args.size() != 2) {
             int actual_argc = (null == args ) ? 0 : args.size();
@@ -813,6 +1032,26 @@ public class RubyString extends RubyBasic {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
         }
     }
+
+    private String[] split(RubyString s, String delimiter) {
+        StringTokenizer t = new StringTokenizer(s.toString(), delimiter);
+        int total = t.countTokens();
+        String[] r = new String[total];
+        for (int i = 0; i < total; ++i) {
+            r[i] = t.nextToken();
+        }
+        return r;
+    }
+
+    private String[] split(RubyString g, RubyRegexp r, RubyArray args) {
+        if (args.size() <= 1) {
+            return r.split(g.toString(), 0);
+        } else {
+            RubyFixnum i = (RubyFixnum) args.get(1);
+            return r.split(g.toString(), i.toInt());
+        }
+    }
+
 
 
 }
