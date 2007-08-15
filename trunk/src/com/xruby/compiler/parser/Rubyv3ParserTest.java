@@ -4,6 +4,8 @@ import java.lang.reflect.*;
 import junit.framework.TestCase;
 import org.antlr.runtime.*;
 
+import com.xruby.compiler.parser.SymbolTableManager;
+
 public class Rubyv3ParserTest  extends TestCase {
 //	/ @param[in]e	Can be null
     private String build_error_string(String program_text, Exception exception) {
@@ -41,8 +43,8 @@ public class Rubyv3ParserTest  extends TestCase {
     private void invoke_method_with_reflection(String program_text, String method_name) throws RecognitionException {
         assert(null != program_text);
         assert(null != method_name);
-
-        TokenStream stm = new Rubyv3Lexer(new ANTLRStringStream(program_text), null, false);
+        SymbolTableManager st = new SymbolTableManager(null);
+        TokenStream stm = new Rubyv3Lexer(new ANTLRStringStream(program_text), st, false);
         Rubyv3Parser parser = new Rubyv3Parser(stm);
         Class<? extends Rubyv3Parser> c = parser.getClass();
 
@@ -135,11 +137,10 @@ public class Rubyv3ParserTest  extends TestCase {
     
     public void test_assignmentExpression() {
         String[] program_texts = {
-            "1 += 2",
+            "@b += 2",
+            "@a += 2",
             //to do
-            //ava.lang.NullPointerException
-            //[junit]     at com.xruby.compiler.parser.Rubyv3Lexer.updateSymbolTable(Rubyv3Lexer.java:324)
-            //"a+=2"
+            //"A = 1"
         };
 
         parse(program_texts, "assignmentExpression");
@@ -365,17 +366,147 @@ public class Rubyv3ParserTest  extends TestCase {
     
     public void test_arrayReferenceArgument() {
     	String[] program_texts = {
-                "1,2,3"
+                "1,2,3",
+    			"*2"
             };
 
             parse(program_texts, "arrayReferenceArgument");
     }
     
-//    public void test_arrayExpression() {
-//    	String[] program_texts = {
-//                "［］"
-//            };
-//
-//            parse(program_texts, "arrayExpression");
-//    }
+  /*  public void test_arrayExpression() {
+    	String[] program_texts = {
+                "［1］"
+            };
+
+            parse(program_texts, "arrayExpression");
+    }*/
+    
+    public void test_hashExpression() {
+    	String[] program_texts = {
+                "{1=>2,3=>4}",
+            };
+
+            parse(program_texts, "hashExpression");
+    }
+    
+    public void test_statementWithoutModifier() {
+    	String[] program_texts = {
+                "{1=>2,3=>4}",
+            };
+
+            parse(program_texts, "statementWithoutModifier");
+    }
+    
+    public void test_statement() {
+    	String[] program_texts = {
+                "{1=>2,3=>4}",
+            };
+
+            parse(program_texts, "statement");
+    }
+    
+    public void test_undef_parameter() {
+    	String[] program_texts = {
+                ":if",
+            };
+
+            parse(program_texts, "undef_parameter");
+    }
+    
+    
+    /*public void test_aliasStatementr() {
+    	String[] program_texts = {
+                "alias :if :then",
+            };
+
+            parse(program_texts, "aliasStatement");
+    }*/
+    
+    public void test_ifExpression() {
+    	String[] program_texts = {
+                "if 1 then 1 elsif 2 then 2 end",
+            };
+
+            parse(program_texts, "ifExpression");
+    }
+    
+    public void test_unlessExpression() {
+    	String[] program_texts = {
+                "unless 1 then 1 end",
+            };
+
+            parse(program_texts, "unlessExpression");
+    }
+    
+    public void test_whileExpression() {
+    	String[] program_texts = {
+                "while  1\n 1 end",
+            };
+
+            parse(program_texts, "whileExpression");
+    }
+    
+    public void test_untilExpression() {
+    	String[] program_texts = {
+                "until  1\n 1 end",
+            };
+
+            parse(program_texts, "untilExpression");
+    }
+    
+   /* public void test_caseExpression() {
+    	String[] program_texts = {
+                "case 1 \n when 1 then 2 end",
+            };
+
+            parse(program_texts, "untilExpression");
+    }*/
+    
+    public void test_forExpression() {
+    	String[] program_texts = {
+                "for 1 in 2\n end",
+            };
+
+            parse(program_texts, "forExpression");
+    }
+    
+    public void test_exceptionHandlingExpression() {
+    	String[] program_texts = {
+                "begin 1 end",
+            };
+
+            parse(program_texts, "exceptionHandlingExpression");
+    }
+    
+    public void test_bodyStatement() {
+    	String[] program_texts = {
+                "1 rescue 1 else 1 ensure 1",
+            };
+
+            parse(program_texts, "bodyStatement");
+    }
+    
+/*    public void test_exceptionList() {
+    	String[] program_texts = {
+                "1",
+            };
+
+            parse(program_texts, "exceptionList");
+    }*/
+    
+    public void test_className() {
+    	String[] program_texts = {
+                "::A",
+            };
+
+            parse(program_texts, "className");
+    }
+    
+    public void test_variable() {
+    	String[] program_texts = {
+                "a?",
+            };
+
+            parse(program_texts, "variable");
+    }
 }

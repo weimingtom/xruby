@@ -162,8 +162,36 @@ statements
 		;
 
 statement
-		:	expression
+		:	statementWithoutModifier ((IF_MODIFIER|UNLESS_MODIFIER|WHILE_MODIFIER|UNTIL_MODIFIER|RESCUE_MODIFIER) (LINE_BREAK)* expression)*
 								
+		;
+
+statementWithoutModifier:	aliasStatement 
+						|	undefStatement
+						|	LITERAL_begin 	LCURLY_BLOCK (compoundStatement)? RCURLY
+						| 	LITERAL_end 	LCURLY_BLOCK (compoundStatement)? RCURLY
+						|	expression
+						;
+						
+undef_parameter
+		:	IDENTIFIER	(ASSIGN_WITH_NO_LEADING_SPACE)?
+		|	CONSTANT	(ASSIGN_WITH_NO_LEADING_SPACE)?
+		|	FUNCTION	(ASSIGN_WITH_NO_LEADING_SPACE)?
+		|	symbol
+		|	keywordAsMethodName
+		|	operatorAsMethodname
+		;
+						
+undefStatement
+		:	'undef'	(options{greedy=true;}:LINE_BREAK)
+			undef_parameter	(COMMA	undef_parameter)*
+		;
+
+aliasStatement
+		:	'alias'	(options{greedy=true;}:LINE_BREAK!)
+			(GLOBAL_VARIABLE 	(LINE_BREAK!)	GLOBAL_VARIABLE 
+			|undef_parameter	(LINE_BREAK!)	undef_parameter
+			)
 		;
 
 expression
@@ -504,14 +532,14 @@ primaryExpressionThatCanNotBeMethodName
 		|	hashExpression
 		//|	LPAREN^	compoundStatement RPAREN!
 		//|	LPAREN_WITH_NO_LEADING_SPACE^ compoundStatement RPAREN!
-		/*|	ifExpression
+		|	ifExpression
 		|	unlessExpression
 		|	whileExpression			
 		|	untilExpression			
 		|	caseExpression		
 		|	forExpression			
 		|	exceptionHandlingExpression
-		|	moduleDefination
+		/*|	moduleDefination
 		|	classDefination
 		|	methodDefination*/
 		;
@@ -552,6 +580,97 @@ terminal
     :	SEMI
     |	LINE_BREAK
     ;
+    
+thenOrTermialOrColon
+		:	'then'
+		|	terminal	('then')?
+		|	COLON
+		;
+    
+ifExpression
+		:	'if'		(LINE_BREAK!)?
+			expression thenOrTermialOrColon (compoundStatement)?
+			('elsif' (expression)? thenOrTermialOrColon (compoundStatement)?)*
+			('else' (compoundStatement)?)?
+			'end'
+		;
+		
+unlessExpression
+		:	'unless'		(LINE_BREAK)?
+			expression thenOrTermialOrColon (compoundStatement)?
+			('else' (compoundStatement)?)?
+			'end'
+		;
+		
+whileExpression
+		:	'while'	(LINE_BREAK)?
+			expression doOrTermialOrColon
+			(compoundStatement)?
+			'end'
+		;
+		
+untilExpression
+		:	'until'	(LINE_BREAK!)?
+			expression doOrTermialOrColon
+			(compoundStatement)?
+			'end'
+		;
+		
+caseExpression
+		:	'case' (expression)? thenOrTermialOrColon		
+			('when' expression	thenOrTermialOrColon (compoundStatement)?)+
+			('else' (compoundStatement)?)?
+			'end'
+		;
+		
+forExpression
+		:	'for'	
+			expression
+			'in'		
+			expression LINE_BREAK
+			(compoundStatement)?
+			'end'
+		;
+		
+exceptionHandlingExpression
+		:	'begin'
+			(bodyStatement)?
+			'end'
+		;
+		
+bodyStatement
+			:	(compoundStatement
+				('rescue' exceptionList thenOrTermialOrColon (compoundStatement)?)*
+				('else' (compoundStatement)?)?
+				('ensure' (compoundStatement)?)?
+			|	('rescue' exceptionList thenOrTermialOrColon (compoundStatement)?)+
+				('else' (compoundStatement)?)?
+				('ensure' (compoundStatement)?)?
+			|	('ensure' (compoundStatement)?)
+			)
+			
+		;
+		
+exceptionList
+		:	((className|INSTANCE_VARIABLE|IDENTIFIER)	(COMMA!	(className|INSTANCE_VARIABLE|IDENTIFIER))*)?	(ASSOC	variable)?
+		|	GLOBAL_VARIABLE
+		;
+		
+variable
+		:	IDENTIFIER	
+		|	FUNCTION	
+		;
+		
+doOrTermialOrColon
+		:	DO_IN_CONDITION
+		|	terminal
+		|	COLON
+		;
+		
+className
+		:	(CONSTANT|FUNCTION)	(COLON2	CONSTANT)*
+		|	(LEADING_COLON2	CONSTANT)	(COLON2	CONSTANT)*
+		;
 
 
 LITERAL_undef	:	'undef'		;
