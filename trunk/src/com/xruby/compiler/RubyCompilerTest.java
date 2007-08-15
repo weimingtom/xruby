@@ -255,16 +255,16 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
-    
+
     public void test_Numeric_Coerce() {
         String[] program_texts = {
-                "class A\n" 
-        		+ "def coerce other\n" 
-                + "if Integer === other\n" 
-                + "[other, 5]\n" 
-                + "else\n" 
-                + "[Float(other), 5.0]\n" 
-        		+ "end\n"
+                "class A\n"
+                + "def coerce other\n"
+                + "if Integer === other\n"
+                + "[other, 5]\n"
+                + "else\n"
+                + "[Float(other), 5.0]\n"
+                + "end\n"
                 + "end\n"
                 + "end\n"
                 + "\n\n"
@@ -278,11 +278,11 @@ public class RubyCompilerTest extends CompilerTestCase {
                 + "print 1 / o\n"
                 + "print 1.0 / o\n"
         };
-        
+
         String[] outputs = {
-        		"66.000.055.000.2"
+                "66.000.055.000.2"
         };
-        
+
         compile_run_and_compare_output(program_texts, outputs);
     }
 
@@ -1162,6 +1162,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_if() {
         String[] program_texts = {
+                "if false;print 1; else; end",
                 "if true\n" +
                 "	print 1\n" +
                 "else\n" +
@@ -1188,6 +1189,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "",
                 "1",
                 "2",
                 "xxx",
@@ -2004,6 +2006,24 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+    public void test_No_VerifyError() {
+        String[] program_texts = {
+                "a=1\n" +
+                "if a\n" +
+                "    x=1\n" +
+                "    1.times {x=2}\n" +
+                "else\n" +
+                "    1.times {x=3}\n" +
+                "end",
+        };
+
+        String[] outputs = {
+                "55",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
     public void test_block_binding_scope() {
         String[] program_texts = {
                 "a = 1; print self, a; 1.times {print self, a; 1.times {print self, a}}",
@@ -2763,6 +2783,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_scope() {
         String[] program_texts = {
+                "x=0;1.times {x = 1};1.times {x = 2};print x",
                 "b = 1; 1.times {1.times {b=6}}; print b",
                 "a = 5; 1.times {1.times {print a}}",
 
@@ -2787,6 +2808,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "2",
                 "6",
                 "5",
 
@@ -5651,6 +5673,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "p = proc{test_proc = 0; proc{test_proc}}.call; test_proc=7; print p.call",
                 "test_proc4 = 0; p = proc{test_proc4}; test_proc4=7; print p.call",
 
+                "test_proc5 = 6; p=proc{test_proc5=77}; p.call; print test_proc5",
                 "test_proc3 = 6; proc{test_proc3=55}.call; print test_proc3",
                 "p = proc{test_proc2=55}; test_proc2 = 6;  p.call; print test_proc2",
 
@@ -5688,6 +5711,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "0",
                 "7",
 
+                "77",
                 "55",
                 "6",
                 "8",
