@@ -554,7 +554,7 @@ returns [IfExpression e]
 	Expression condition = null;
 	CompoundStatement body = null;
 }
-		:	#(	"if"	condition=expression	(body=compoundStatement)?			{e = new IfExpression(condition, body);}
+		:	#(	"if"	condition=expression	(body=compoundStatement)?			{e = new IfExpression(condition, body);condition=null;body=null;}
 				("elsif"	(condition=expression)?	(body=compoundStatement)?	{e.addElsif(condition, body);condition=null;body=null;})*
 				("else"	(body=compoundStatement)?							{e.addElse(body);})?
 			)
