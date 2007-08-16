@@ -36,7 +36,7 @@ abstract class ClassGenerator {
         return getMethodGenerator().getSymbolTable();
     }
 
-    String decorateName(String name) {
+    static String decorateName(String name) {
         return "$" + name;
     }
 

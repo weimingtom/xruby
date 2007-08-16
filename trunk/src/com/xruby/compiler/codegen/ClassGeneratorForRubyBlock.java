@@ -240,30 +240,26 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
                 false);
     }
 
-    static String buildContructorSignature(int size) {
+    static String buildContructorSignature() {
         String defaultMethodName = "void <init> (com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, com.xruby.runtime.lang.RubyMethod, boolean";
         StringBuilder method_name = new StringBuilder(defaultMethodName);
-        for (int i = 0; i < size; ++i) {
-            method_name.append(", ");
-            method_name.append("com.xruby.runtime.lang.RubyValue");
-        }
         method_name.append(")");
         return method_name.toString();
     }
 
     public String[] createFieldsAndConstructorOfRubyBlock() {
         String[] commons = field_manager_.getFields();
-        createConstructorOfRubyBlock(commons);
+        createConstructorOfRubyBlock();
         for (String name : commons) {
             addNewFieldToClass(name);
         }
         return commons;
     }
 
-    private void createConstructorOfRubyBlock(final String[] commons) {
+    private void createConstructorOfRubyBlock() {
 
         MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
-                Method.getMethod(buildContructorSignature(commons.length)),
+                Method.getMethod(buildContructorSignature()),
                 cv_,
                 null,
                 symbol_table_of_the_current_scope_,
@@ -280,12 +276,6 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
 
         mg.invokeConstructor(this.helper.getSuperClassType(),
                 Method.getMethod(this.helper.getSuperCtorName()));
-
-        for (int i = 0; i < commons.length; ++i) {
-            mg.loadThis();
-            mg.loadArg(i + FIXED_PARAMETERS);
-            mg.putField(Type.getType("L" + name_ + ";"), decorateName(commons[i]), Types.RUBY_VALUE_TYPE);
-        }
 
         mg.returnValue();
         mg.endMethod();
