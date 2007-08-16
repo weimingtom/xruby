@@ -307,12 +307,14 @@ class MethodGenerator extends GeneratorAdapter {
             push(false);
         }
 
-        for (String name : commons) {
-            cg.loadVariable(name);
-        }
-
         invokeConstructor(methodNameType,
-                Method.getMethod(ClassGeneratorForRubyBlock.buildContructorSignature(commons.length)));
+                Method.getMethod(ClassGeneratorForRubyBlock.buildContructorSignature()));
+
+        for (int i = 0; i < commons.length; ++i) {
+            dup();
+            cg.loadVariable(commons[i]);
+            putField(Type.getType("L" + methodName + ";"), ClassGenerator.decorateName(commons[i]), Types.RUBY_VALUE_TYPE);
+        }
     }
 
     public void RubyArray_add(boolean is_method_call) {
@@ -530,7 +532,7 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void RubyValue_isTrue() {
-    	invokeVirtual(Type.getType(RubyValue.class), Method.getMethod("boolean isTrue()"));
+        invokeVirtual(Type.getType(RubyValue.class), Method.getMethod("boolean isTrue()"));
     }
 
     private void loadRubyID(String s) {
