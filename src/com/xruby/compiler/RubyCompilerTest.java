@@ -1162,7 +1162,16 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_if() {
         String[] program_texts = {
+                "a=true\n" +
+                "if a\n" +
+                "elsif a\n" +
+                "    x=2\n" +
+                "end\n" +
+                "\n" +
+                "print x",
+            
                 "if false;print 1; else; end",
+                    
                 "if true\n" +
                 "	print 1\n" +
                 "else\n" +
@@ -1189,6 +1198,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "nil",
                 "",
                 "1",
                 "2",

@@ -7,34 +7,34 @@ package com.xruby.compiler.codedom;
 
 import java.util.*;
 
-class Elseif {
-
-    private final Expression condition_;
-    private final CompoundStatement body_;
-
-    Elseif(Expression condition, CompoundStatement body) {
-        condition_ = condition;
-        body_ = body;
-    }
-
-    public void accept(CodeVisitor visitor, Object end_label) {
-        condition_.accept(visitor);
-        Object next_label = visitor.visitAfterIfCondition();
-        if (null != body_) {
-            body_.accept(visitor);
-        } else {
-            visitor.visitNilExpression();
-        }
-        visitor.visitAfterIfBody(next_label, end_label);
-    }
-
-    void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
-        condition_.getNewlyAssignedVariables(symboltable, result);
-        body_.getNewlyAssignedVariables(symboltable, result);
-    }
-}
-
 public class IfExpression extends Expression {
+
+    private class Elseif {
+
+        private final Expression condition_;
+        private final CompoundStatement body_;
+
+        Elseif(Expression condition, CompoundStatement body) {
+            condition_ = condition;
+            body_ = body;
+        }
+
+        public void accept(CodeVisitor visitor, Object end_label) {
+            condition_.accept(visitor);
+            Object next_label = visitor.visitAfterIfCondition();
+            if (null != body_) {
+                body_.accept(visitor);
+            } else {
+                visitor.visitNilExpression();
+            }
+            visitor.visitAfterIfBody(next_label, end_label);
+        }
+
+        void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+            condition_.getNewlyAssignedVariables(symboltable, result);
+            body_.getNewlyAssignedVariables(symboltable, result);
+        }
+    }
 
     private final Expression if_condition_;
     private CompoundStatement if_body_;
@@ -78,6 +78,9 @@ public class IfExpression extends Expression {
         ensureIfBodyAndElseBodyAreNotEmpty();
 
         if_body_.ensureVariablesAreInitialized(visitor);
+        for (Elseif elsif : elsifs) {
+            elsif.body_.ensureVariablesAreInitialized(visitor);
+        }
         else_body_.ensureVariablesAreInitialized(visitor);
 
         //optimazation
