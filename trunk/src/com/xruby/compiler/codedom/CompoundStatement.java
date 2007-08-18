@@ -76,6 +76,12 @@ public class CompoundStatement implements Visitable {
         }
     }
 
+    void pullBlock(ArrayList<Block> result) {
+        for (Statement s : statements_) {
+            s.pullBlock(result);
+        }
+    }
+
     void ensureVariablesAreInitialized(CodeVisitor visitor) {
         //some vairiables appeare first in if's body, and they may not be excuted.
         ArrayList<String> vars = new ArrayList<String>();

@@ -44,6 +44,10 @@ public abstract class Expression implements Visitable {
 		//Default behavior is do nothing
 	}
 
+    void pullBlock(ArrayList<Block> result) {
+        //Default behavior is do nothing
+    }
+
 	public void getFrequentlyUsedIntegers(ArrayList<Integer> result) {
 		//Default behavior is do nothing
 	}

@@ -278,8 +278,8 @@ class MethodGenerator extends GeneratorAdapter {
         loadArg(2);
     }
 
-    public void new_BlockClass(ClassGenerator cg, String methodName, String[] commons, boolean is_in_class_builder, boolean is_in_singleton_method, boolean is_in_global_scope, boolean is_in_block) {
-        Type methodNameType = Type.getType("L" + methodName + ";");
+    public void new_BlockClass(ClassGenerator cg, String name, boolean is_in_class_builder, boolean is_in_singleton_method, boolean is_in_global_scope, boolean is_in_block) {
+        Type methodNameType = Type.getType("L" + name + ";");
         newInstance(methodNameType);
         dup();
 
@@ -310,11 +310,6 @@ class MethodGenerator extends GeneratorAdapter {
         invokeConstructor(methodNameType,
                 Method.getMethod(ClassGeneratorForRubyBlock.buildContructorSignature()));
 
-        for (int i = 0; i < commons.length; ++i) {
-            dup();
-            cg.loadVariable(commons[i]);
-            putField(Type.getType("L" + methodName + ";"), ClassGenerator.decorateName(commons[i]), Types.RUBY_VALUE_TYPE);
-        }
     }
 
     public void RubyArray_add(boolean is_method_call) {

@@ -12,5 +12,8 @@ public abstract class Statement implements Visitable {
 	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		//Default behavior is do nothing
 	}
-	
+
+    void pullBlock(ArrayList<Block> result) {
+        //Default behavior is do nothing
+    }
 }

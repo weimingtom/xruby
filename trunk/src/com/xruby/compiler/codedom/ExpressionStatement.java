@@ -27,6 +27,10 @@ public class ExpressionStatement extends Statement {
 		expression.getNewlyAssignedVariables(symboltable, result);
 	}
 
+    void pullBlock(ArrayList<Block> result) {
+        expression.pullBlock(result);
+    }
+
     private void addLineNumberInfo(CodeVisitor visitor) {
         if(expression.shouldlabelNewLine()) {
             // TODO: Add Line Number info

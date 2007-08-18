@@ -570,7 +570,11 @@ public class CodePrinter implements CodeVisitor {
         result_.append("self\n");
     }
 
-    public String visitBlock(int num_of_args, boolean has_asterisk_parameter,
+    public int visitBlockBegin(StringBuilder name, boolean pulled) {
+        return -1;
+    }
+    
+    public void visitBlockBodyBegin(String name, int num_of_args, boolean has_asterisk_parameter,
             int num_of_default_args, boolean is_for_in_expression,
             boolean has_extra_comma, boolean has_body) {
         result_.append("block:");
@@ -584,10 +588,9 @@ public class CodePrinter implements CodeVisitor {
         result_.append(":");
         result_.append(has_body);
         result_.append("\n");
-        return null;
     }
 
-    public String[] visitBlockEnd(String name, boolean last_statement_has_return_value) {
+    public String[] visitBlockBodyEnd(String name, boolean last_statement_has_return_value, int saved_as_pulled) {
         result_.append("end block:");
         result_.append(last_statement_has_return_value);
         result_.append("\n");

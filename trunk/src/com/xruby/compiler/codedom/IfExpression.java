@@ -83,6 +83,16 @@ public class IfExpression extends Expression {
         }
         else_body_.ensureVariablesAreInitialized(visitor);
 
+        ArrayList<Block> pulled_blocks = new ArrayList<Block>();
+        if_body_.pullBlock(pulled_blocks);
+        for (Elseif elsif : elsifs) {
+            elsif.body_.pullBlock(pulled_blocks);
+        }
+        else_body_.pullBlock(pulled_blocks);
+        for (Block block : pulled_blocks) {
+            block.acceptAsPulled(visitor);
+        }
+
         //optimazation
         //TODO add more optimazation
         //TODO maybe we should do this in treewalker?
