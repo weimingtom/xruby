@@ -169,14 +169,32 @@ public class RubyCompilerImpl implements CodeVisitor {
         switchToPreviousClassGenerator(last_statement_has_return_value);
     }
 
-    public String visitBlock(int argc,
+    public int visitBlockBegin(StringBuilder name, boolean pulled) {
+        String method_name = (cg_ instanceof ClassGeneratorForRubyMethod) ? ((ClassGeneratorForRubyMethod)cg_).getMethodName() : null;
+        String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_, method_name);
+
+        cg_.getMethodGenerator().new_BlockClass(cg_, uniqueBlockName, isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
+
+        assert(name.length() == 0);
+        name.insert(0, uniqueBlockName);
+
+        if (pulled) {
+            //saved the result to a local variable to retrieve later
+            int i = cg_.getMethodGenerator().newLocal(Type.getType("L" + uniqueBlockName + ";"));
+            cg_.getMethodGenerator().storeLocal(i);
+            return i;
+        }
+          
+        return -1;
+    }
+
+    public void visitBlockBodyBegin(String uniqueBlockName,
+            int argc,
             boolean has_asterisk_parameter,
             int num_of_default_args,
             boolean is_for_in_expression,
             boolean has_extra_comma,
             boolean has_body) {
-        String method_name = (cg_ instanceof ClassGeneratorForRubyMethod) ? ((ClassGeneratorForRubyMethod)cg_).getMethodName() : null;
-        String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_, method_name);
 
         //Save the current state and sart a new class file to write.
         switchToNewClassGenerator(new ClassGeneratorForRubyBlock(uniqueBlockName, script_name_,
@@ -197,11 +215,9 @@ public class RubyCompilerImpl implements CodeVisitor {
         }
 
         cg_.getMethodGenerator().getLabelManager().openNewScope();
-
-        return uniqueBlockName;
     }
 
-    public String[] visitBlockEnd(String uniqueBlockName, boolean last_statement_has_return_value) {
+    public String[] visitBlockBodyEnd(String uniqueBlockName, boolean last_statement_has_return_value, int saved_as_pulled) {
 
         ClassGeneratorForRubyBlock block_cg = (ClassGeneratorForRubyBlock)cg_;
         String[] commons = block_cg.createFieldsAndConstructorOfRubyBlock();
@@ -211,7 +227,16 @@ public class RubyCompilerImpl implements CodeVisitor {
 
         switchToPreviousClassGenerator(last_statement_has_return_value);
 
-        cg_.getMethodGenerator().new_BlockClass(cg_, uniqueBlockName, commons, isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
+        if (saved_as_pulled >= 0) {
+            cg_.getMethodGenerator().loadLocal(saved_as_pulled);
+        }
+
+        for (int i = 0; i < commons.length; ++i) {
+            cg_.getMethodGenerator().dup();
+            cg_.loadVariable(commons[i]);
+            cg_.getMethodGenerator().putField(Type.getType("L" + uniqueBlockName + ";"), ClassGenerator.decorateName(commons[i]), Types.RUBY_VALUE_TYPE);
+        }
+
         cg_.getMethodGenerator().storeBlockForFutureRestoreAndCheckReturned();
 
         return assigned_commons;

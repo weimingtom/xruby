@@ -149,9 +149,10 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitWhileConditionBegin(boolean do_first);
 	public void visitWhileConditionEnd(boolean always_true, boolean is_until);
 	public void visitWhileBodyEnd(boolean has_body);
-	
-	public String visitBlock(int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression, boolean has_extra_comma_, boolean has_body);
-	public String[] visitBlockEnd(String name, boolean last_statement_has_return_value);
+
+    public int visitBlockBegin(StringBuilder name, boolean pulled);
+	public void visitBlockBodyBegin(String name, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression, boolean has_extra_comma_, boolean has_body);
+	public String[] visitBlockBodyEnd(String name, boolean last_statement_has_return_value, int saved_as_pulled);
     public void visitBlockBody();
     
 	public void visitMrhs(int var, int index, boolean asterisk);

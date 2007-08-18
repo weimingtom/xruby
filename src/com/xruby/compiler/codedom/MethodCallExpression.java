@@ -200,4 +200,10 @@ public class MethodCallExpression extends Expression {
 			arguments_.getFrequentlyUsedIntegers(result);
 		}
 	}
+
+    void pullBlock(ArrayList<Block> result) {
+        if (null != block_) {
+            result.add(block_);
+        }
+    }
 }
