@@ -539,9 +539,9 @@ primaryExpressionThatCanNotBeMethodName
 		|	caseExpression		
 		|	forExpression			
 		|	exceptionHandlingExpression
-		/*|	moduleDefination
+		|	moduleDefination
 		|	classDefination
-		|	methodDefination*/
+		/*|	methodDefination*/
 		;
 
 primaryExpression
@@ -609,6 +609,11 @@ whileExpression
 			'end'
 		;
 		
+moduleName
+		:	CONSTANT	(COLON2^ CONSTANT)*
+		| 	(LEADING_COLON2	CONSTANT)	(COLON2^ CONSTANT)*
+		;
+		
 untilExpression
 		:	'until'	(LINE_BREAK!)?
 			expression doOrTermialOrColon
@@ -616,6 +621,24 @@ untilExpression
 			'end'
 		;
 		
+
+moduleDefination
+		:	'module'	(LINE_BREAK!)?
+			moduleName (options {greedy=true;}:terminal)	{enterScope();}
+			(bodyStatement)
+			'end'			{leaveScope();}
+		;
+		
+classDefination
+		:	'class'	(LINE_BREAK!)?
+			(	className	(LESS_THAN expression)?
+			|	LEFT_SHIFT	expression
+			)
+			terminal			{enterScope();}
+			(bodyStatement)?
+			'end'			{leaveScope();}
+		;
+
 caseExpression
 		:	'case' (expression)? thenOrTermialOrColon		
 			('when' expression	thenOrTermialOrColon (compoundStatement)?)+

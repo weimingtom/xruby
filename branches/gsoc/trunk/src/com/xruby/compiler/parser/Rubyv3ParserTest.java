@@ -509,4 +509,20 @@ public class Rubyv3ParserTest  extends TestCase {
 
             parse(program_texts, "variable");
     }
+    
+    public void test_moduleDefination() {
+    	String[] program_texts = {
+                "module ::A \n 1 rescue 1 else 1 ensure \n end",
+            };
+
+            parse(program_texts, "moduleDefination");
+    }
+    
+    public void test_classDefination() {
+    	String[] program_texts = {
+                "class ::A \n 1 rescue 1 else 1 ensure \n end",
+            };
+
+            parse(program_texts, "classDefination");
+    }
 }
