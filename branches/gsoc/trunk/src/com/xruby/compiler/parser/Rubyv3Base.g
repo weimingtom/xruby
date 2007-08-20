@@ -694,6 +694,17 @@ className
 		:	(CONSTANT|FUNCTION)	(COLON2	CONSTANT)*
 		|	(LEADING_COLON2	CONSTANT)	(COLON2	CONSTANT)*
 		;
+		
+methodDefination
+		:	'def'		
+			(options{greedy=true;}:LINE_BREAK!)?
+			//methodName	
+			//methodDefinationArgument
+			(bodyStatement)?
+			'end'!		
+		;
+		
+		
 
 
 LITERAL_undef	:	'undef'		;

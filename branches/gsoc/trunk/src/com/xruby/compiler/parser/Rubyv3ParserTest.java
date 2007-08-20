@@ -525,4 +525,12 @@ public class Rubyv3ParserTest  extends TestCase {
 
             parse(program_texts, "classDefination");
     }
+    
+    public void test_methodDefination() {
+    	String[] program_texts = {
+                "def  \n 1 rescue 1 else 1 ensure \n end",
+            };
+
+            parse(program_texts, "methodDefination");
+    }
 }
