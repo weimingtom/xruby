@@ -33,6 +33,7 @@ ruby\test_env.rb
 ruby\test_exception.rb
 ruby\test_float.rb
 ruby\test_gc.rb
+ruby\test_hash.rb
 ruby\test_ifunless.rb
 ruby\test_io.rb
 ruby\test_pack.rb
@@ -63,7 +64,6 @@ testunit\util\test_procwrapper.rb
 ruby\test_beginendblock.rb	#need to popen(), system() methods
 ruby\test_eval.rb			#Kernel_instance_eval ClassCastException
 ruby\test_file.rb			#need add/fix some IO methods
-ruby\test_hash.rb			#tough to deal with...
 ruby\test_iterator.rb		#tough to deal with...
 ruby\test_marshal.rb		#need to improve Marshal
 ruby\test_objectspace.rb	#need to improve ObjectSpace
