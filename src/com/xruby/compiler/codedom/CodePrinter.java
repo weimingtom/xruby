@@ -170,7 +170,7 @@ public class CodePrinter implements CodeVisitor {
     }
 
     public void visitMethodCallEnd(String methodName, boolean hasReceiver,
-            String[] assignedCommons, String blockName, int argc) {
+            String blockName, int argc) {
         result_.append(methodName);
         result_.append(":");
         result_.append(hasReceiver);
@@ -590,11 +590,10 @@ public class CodePrinter implements CodeVisitor {
         result_.append("\n");
     }
 
-    public String[] visitBlockBodyEnd(String name, boolean last_statement_has_return_value, int saved_as_pulled) {
+    public void visitBlockBodyEnd(String name, boolean last_statement_has_return_value, int saved_as_pulled) {
         result_.append("end block:");
         result_.append(last_statement_has_return_value);
         result_.append("\n");
-        return null;
     }
 
     public void visitBlockBody() {
@@ -637,7 +636,7 @@ public class CodePrinter implements CodeVisitor {
     public void visitSpecialLambdaCallBegin() {
     }
 
-    public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons) {
+    public void visitSpecialLambdaCallEnd() {
     }
 
     public void visitPotentialProcCall() {

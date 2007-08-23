@@ -32,6 +32,12 @@ public class ForInExpression extends Expression {
         e.accept(visitor);
     }
 
+    void pullBlock(ArrayList<Block> result) {
+        if (null != block_) {
+            result.add(block_);
+        }
+    }
+
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
         block_.getNewlyAssignedVariables(symboltable, result);
     }

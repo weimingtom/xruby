@@ -170,7 +170,12 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public int visitBlockBegin(StringBuilder name, boolean pulled) {
-        String method_name = (cg_ instanceof ClassGeneratorForRubyMethod) ? ((ClassGeneratorForRubyMethod)cg_).getMethodName() : null;
+        String method_name = null;
+        if (cg_ instanceof ClassGeneratorForRubyMethod) {
+            method_name = ((ClassGeneratorForRubyMethod)cg_).getOrginalMethodName();
+        } else if (cg_ instanceof ClassGeneratorForRubyBlock) {
+            method_name = ((ClassGeneratorForRubyBlock)cg_).getOrginalMethodName();
+        }
         String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_, method_name);
 
         cg_.getMethodGenerator().new_BlockClass(cg_, uniqueBlockName, isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
@@ -184,7 +189,7 @@ public class RubyCompilerImpl implements CodeVisitor {
             cg_.getMethodGenerator().storeLocal(i);
             return i;
         }
-          
+
         return -1;
     }
 
@@ -217,11 +222,13 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().getLabelManager().openNewScope();
     }
 
-    public String[] visitBlockBodyEnd(String uniqueBlockName, boolean last_statement_has_return_value, int saved_as_pulled) {
+    public void visitBlockBodyEnd(String uniqueBlockName, boolean last_statement_has_return_value, int saved_as_pulled) {
 
         ClassGeneratorForRubyBlock block_cg = (ClassGeneratorForRubyBlock)cg_;
-        String[] commons = block_cg.createFieldsAndConstructorOfRubyBlock();
+        String[] commons = block_cg.getFields();
         String[] assigned_commons = block_cg.getAssignedFields();
+        String[] blocks = block_cg.getPreviousBlocks();
+        block_cg.createFieldsAndConstructorOfRubyBlock(commons, blocks);
 
         cg_.getMethodGenerator().getLabelManager().closeCurrentScope();
 
@@ -237,9 +244,13 @@ public class RubyCompilerImpl implements CodeVisitor {
             cg_.getMethodGenerator().putField(Type.getType("L" + uniqueBlockName + ";"), ClassGenerator.decorateName(commons[i]), Types.RUBY_VALUE_TYPE);
         }
 
-        cg_.getMethodGenerator().storeBlockForFutureRestoreAndCheckReturned();
+        for (int i = 0; i < blocks.length; ++i) {
+            cg_.getMethodGenerator().dup();
+            cg_.getSharedBlock(blocks[i]);;
+            cg_.getMethodGenerator().putField(Type.getType("L" + uniqueBlockName + ";"), ClassGeneratorForRubyBlock.getNameFromFullpath(blocks[i]), Type.getType("L" + blocks[i] + ";"));
+        }
 
-        return assigned_commons;
+        cg_.getMethodGenerator().storeVariablesAssignedInBlock(uniqueBlockName, assigned_commons, saved_as_pulled);
     }
 
     public void visitBlockBody() {
@@ -351,16 +362,8 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().addCurrentVariablesOnStack(Types.RUBY_VALUE_CLASS);
     }
 
-    private void transferValueFromBlock(String blockName, String[] assignedCommons) {
-        if (null != assignedCommons) {
-            for (String name : assignedCommons) {
-                cg_.restoreLocalVariableFromBlock(blockName, name);
-            }
-        }
-    }
-
     public void visitMethodCallEnd(String methodName, boolean hasReceiver,
-            String[] assignedCommons, String blockName, int argc) {
+            String blockName, int argc) {
         cg_.getMethodGenerator().removeCurrentVariablesOnStack();
 
         if (hasReceiver) {
@@ -388,8 +391,6 @@ public class RubyCompilerImpl implements CodeVisitor {
                 break;
             }
         }
-
-        transferValueFromBlock(blockName, assignedCommons);
 
         cg_.getMethodGenerator().returnIfBlockReturned();
     }
@@ -1063,7 +1064,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     public void visitDefinedSuperMethod() {
         if (cg_ instanceof ClassGeneratorForRubyMethod) {
             visitSelfExpression();
-            cg_.getMethodGenerator().RubyAPI_isDefinedSuperMethod(((ClassGeneratorForRubyMethod)cg_).getMethodName());
+            cg_.getMethodGenerator().RubyAPI_isDefinedSuperMethod(((ClassGeneratorForRubyMethod)cg_).getOrginalMethodName());
         } else {
             visitNilExpression();
         }
@@ -1094,9 +1095,8 @@ public class RubyCompilerImpl implements CodeVisitor {
         visitSelfExpression();
     }
 
-    public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons) {
+    public void visitSpecialLambdaCallEnd() {
         cg_.getMethodGenerator().RubyBlock_invoke(isInBlock());
-        transferValueFromBlock(blockName, assignedCommons);
     }
 
     public void visitPotentialProcCall() {

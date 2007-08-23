@@ -40,17 +40,6 @@ abstract class ClassGenerator {
         return "$" + name;
     }
 
-    public void restoreLocalVariableFromBlock(String blockName, String name) {
-        getMethodGenerator().loadLocal(getSymbolTable().getInternalBlockVar());
-        getMethodGenerator().getField(Type.getType("L" + blockName + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
-        if (getSymbolTable().getLocalVariable(name) >= 0) {
-            getMethodGenerator().storeRubyLocalVariable(name);
-        } else {
-            //TODO may happen in for..in, binding, not sure if this is a bug
-            getMethodGenerator().storeNewLocalVariable(name);
-        }
-    }
-
     public void addParameter(String name) {
         getSymbolTable().addMethodParameter(name);
     }
@@ -80,7 +69,19 @@ abstract class ClassGenerator {
         return getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
     }
 
+    void getSharedBlock(String name) {
+        getMethodGenerator().loadLocal(getSymbolTable().getBlock(name));
+    }
+
     public void storeVariable(String name) {
+        SymbolTable.VariableAssignedInBlock record = getSymbolTable().getVariableAssignedInBlock(name);
+        if (null != record) {
+            getMethodGenerator().loadLocal(record.block_var_);
+            getMethodGenerator().swap();//TODO aoid using swap, jad does not unserstand this well.
+            getMethodGenerator().putField(Type.getType("L" + record.block_name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
+            return;
+        }
+
         if (getSymbolTable().getLocalVariable(name) >= 0) {
             getMethodGenerator().storeRubyLocalVariable(name);
             return;
@@ -102,6 +103,13 @@ abstract class ClassGenerator {
     }
 
     public void loadVariable(String name) {
+        SymbolTable.VariableAssignedInBlock record = getSymbolTable().getVariableAssignedInBlock(name);
+        if (null != record) {
+             getMethodGenerator().loadLocal(record.block_var_);
+             getMethodGenerator().getField(Type.getType("L" + record.block_name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
+             return;
+        }
+
         //check if this is local variable
         if (getSymbolTable().getLocalVariable(name) >= 0) {
             getMethodGenerator().loadRubyLocalVariable(name);
@@ -201,7 +209,7 @@ abstract class ClassGenerator {
         Collection<String> vars = getSymbolTable().getLocalVariables();
         for (String s : vars) {
             getMethodGenerator().push(s);
-            getMethodGenerator().loadRubyLocalVariable(s);
+            loadVariable(s);
             getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
         }

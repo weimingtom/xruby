@@ -27,7 +27,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitTopLevelConstant(String name);
 
 	public void visitMethodCallBegin();
-	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String[] assignedCommons, String blockName, int argc);
+	public void visitMethodCallEnd(String methodName, boolean hasReceiver, String blockName, int argc);
 	
 	public void visitDefinedPublicMethod(String name);
 	public void visitDefinedMethod(String name);
@@ -152,7 +152,7 @@ public interface CodeVisitor extends ISymbolTable {
 
     public int visitBlockBegin(StringBuilder name, boolean pulled);
 	public void visitBlockBodyBegin(String name, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_for_in_expression, boolean has_extra_comma_, boolean has_body);
-	public String[] visitBlockBodyEnd(String name, boolean last_statement_has_return_value, int saved_as_pulled);
+	public void visitBlockBodyEnd(String name, boolean last_statement_has_return_value, int saved_as_pulled);
     public void visitBlockBody();
     
 	public void visitMrhs(int var, int index, boolean asterisk);
@@ -161,7 +161,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public int visitNestedVariable(boolean single_lhs, boolean has_mlhs);
 
 	public void visitSpecialLambdaCallBegin();
-	public void visitSpecialLambdaCallEnd(String blockName, String[] assignedCommons);
+	public void visitSpecialLambdaCallEnd();
 
 	public void visitPotentialProcCall();
 

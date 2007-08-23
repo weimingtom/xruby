@@ -44,6 +44,13 @@ public class AndOrBinaryOperatorExpression extends BinaryOperatorExpression {
             visitor.visitAndBinaryOperatorRight(label);
         } else {
             ensureVariablesAreInitialized(visitor);
+
+            ArrayList<Block> pulled_blocks = new ArrayList<Block>();
+            right_.pullBlock(pulled_blocks);
+            for (Block block : pulled_blocks) {
+                block.acceptAsPulled(visitor);
+            }
+            
             left_.accept(visitor);
             Object label = visitor.visitOrBinaryOperatorLeft();
             right_.accept(visitor);

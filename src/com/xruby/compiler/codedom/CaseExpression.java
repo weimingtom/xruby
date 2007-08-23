@@ -30,6 +30,13 @@ class When {
 		return visitor.visitAfterWhenBody(next_label, end_label);
 	}
 
+    void pullBlock(ArrayList<Block> result) {
+        condition_.pullBlock(result);
+        if (null != body_) {
+            body_.pullBlock(result);
+        }
+    }
+    
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
         condition_.getNewlyAssignedVariables(symboltable, result);
         if (null != body_) {
@@ -70,8 +77,18 @@ public class CaseExpression extends Expression {
 				when.body_.ensureVariablesAreInitialized(visitor);
 			}
 		}
-		
 		else_body_.ensureVariablesAreInitialized(visitor);
+
+        ArrayList<Block> pulled_blocks = new ArrayList<Block>();
+        for (When when : whens_) {
+			if (null != when.body_) {
+                when.body_.pullBlock(pulled_blocks);
+			}
+        }
+        else_body_.pullBlock(pulled_blocks);
+        for (Block block : pulled_blocks) {
+            block.acceptAsPulled(visitor);
+        }
 
 		if (null == condition_) {
 			visitor.visitTrueExpression();
@@ -88,6 +105,16 @@ public class CaseExpression extends Expression {
 		else_body_.accept(visitor);
 		visitor.visitAfterWhenBody(null, end_label);
 	}
+
+    void pullBlock(ArrayList<Block> result) {
+        condition_.pullBlock(result);
+        for (When when : whens_) {
+            when.pullBlock(result);
+        }
+        if (null != else_body_) {
+            else_body_.pullBlock(result);
+        }
+    }
 
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
         condition_.getNewlyAssignedVariables(symboltable, result);

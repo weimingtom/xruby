@@ -1169,9 +1169,9 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "end\n" +
                 "\n" +
                 "print x",
-            
+
                 "if false;print 1; else; end",
-                    
+
                 "if true\n" +
                 "	print 1\n" +
                 "else\n" +
@@ -2018,6 +2018,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_No_VerifyError() {
         String[] program_texts = {
+                "x=1\n" +
+                "if x\n" +
+                "    s = 1.times {|s|  2}\n" +
+                "end\n" +
+                "s",
+
                 "a=1\n" +
                 "if a\n" +
                 "    x=1\n" +
@@ -2025,9 +2031,15 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "else\n" +
                 "    1.times {x=3}\n" +
                 "end",
+
+                "arg = nil\n" +
+                "nonopt ||= proc {|arg| arg}\n" +
+                "arg = nil",
         };
 
         String[] outputs = {
+                "",
+                "",
                 "",
         };
 
@@ -5683,7 +5695,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "p = proc{test_proc = 0; proc{test_proc}}.call; test_proc=7; print p.call",
                 "test_proc4 = 0; p = proc{test_proc4}; test_proc4=7; print p.call",
 
-                //TODO"test_proc5 = 6; p=proc{test_proc5=77}; p.call; print test_proc5",
+                "test_proc5 = 6; p=proc{test_proc5=77}; p.call; print test_proc5",
                 "test_proc3 = 6; proc{test_proc3=55}.call; print test_proc3",
                 "p = proc{test_proc2=55}; test_proc2 = 6;  p.call; print test_proc2",
 
@@ -5721,7 +5733,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "0",
                 "7",
 
-                //TODO"77",
+                "77",
                 "55",
                 "6",
                 "8",

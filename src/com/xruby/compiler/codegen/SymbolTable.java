@@ -10,15 +10,26 @@ import org.objectweb.asm.Label;
 import java.util.*;
 
 class SymbolTable {
+
+    class VariableAssignedInBlock {
+        final String block_name_;
+        final int block_var_;
+
+        VariableAssignedInBlock(String block_name, int block_var) {
+            block_name_ = block_name;
+            block_var_ = block_var;
+        }
+    }
+
     private final Map<String, Integer> local_variables_ = new HashMap<String, Integer>();
+    //all keys in local_variables_assigned_in_block_ also exist in local_variables_
+    private final Map<String, VariableAssignedInBlock> local_variables_assigned_in_block_ = new HashMap<String, VariableAssignedInBlock>();
     private final Map<String, Label> localVariableRange = new HashMap<String, Label>();
     private final List<String> declarationSeq = new ArrayList<String>();
     private final ArrayList<String> method_parameters_;
     private final Map<String, Integer> asterisk_or_block_method_parameter_ = new HashMap<String, Integer>();
 
-    private static final String NAME_FOR_INTERNAL_BLOCK_VAR = "block$";
     private static final String NAME_FOR_INTERNAL_BINDING_VAR = "binding$";
-    static final String NAME_FOR_INTERNAL_TMP_VAR = "tmp$";
 
     // SymbolTable may have preloaded values (eval, commandline etc)
     public SymbolTable(ArrayList<String> binging) {
@@ -29,12 +40,16 @@ class SymbolTable {
         }
     }
 
-    public void setInternalBlockVar(int i) {
-        addLocalVariable(NAME_FOR_INTERNAL_BLOCK_VAR, i);
+    public void addVariblesAssignedInBlock(String block_name, int block_var, String[] assigned_commons) {
+        for (String s : assigned_commons) {
+            if (!local_variables_assigned_in_block_.containsKey(s)) {
+                local_variables_assigned_in_block_.put(s, new VariableAssignedInBlock(block_name, block_var));
+            }
+        }
     }
 
-    public int getInternalBlockVar() {
-        return getLocalVariable(NAME_FOR_INTERNAL_BLOCK_VAR);
+    public VariableAssignedInBlock getVariableAssignedInBlock(String name) {
+        return local_variables_assigned_in_block_.get(name);
     }
 
     public void setInternalBindingVar(int i) {
@@ -47,9 +62,7 @@ class SymbolTable {
 
     public Collection<String> getLocalVariables() {
         Collection<String> r = local_variables_.keySet();
-        r.remove(NAME_FOR_INTERNAL_BLOCK_VAR);
         //r.remove(NAME_FOR_INTERNAL_BINDING_VAR);
-        r.remove(NAME_FOR_INTERNAL_TMP_VAR);
         return r;
     }
 
@@ -120,6 +133,16 @@ class SymbolTable {
     public List<String> getDeclarationSeq() {
         return declarationSeq;
     }
+
+    public int getBlock(String name) {
+        for (VariableAssignedInBlock record : local_variables_assigned_in_block_.values()) {
+            if (name.equals(record.block_name_)) {
+                return record.block_var_;
+            }
+        }
+
+        return -1;
+    }
 }
 
 
@@ -136,6 +159,15 @@ class SymbolTableForBlock extends SymbolTable {
             return true;
         } else {
             return owner_.isDefinedInCurrentScope(s);
+        }
+    }
+
+    public VariableAssignedInBlock getVariableAssignedInBlock(String name) {
+        VariableAssignedInBlock v = super.getVariableAssignedInBlock(name);
+        if (null != v) {
+            return v;
+        } else {
+            return owner_.getVariableAssignedInBlock(name);
         }
     }
 

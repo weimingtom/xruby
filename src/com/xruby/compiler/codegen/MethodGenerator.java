@@ -113,14 +113,18 @@ class MethodGenerator extends GeneratorAdapter {
         storeLocal(i);
     }
 
-    public void storeBlockForFutureRestoreAndCheckReturned() {
-        dup();
-        int i = symbol_table_.getInternalBlockVar();
+    public void storeVariablesAssignedInBlock(String block_name, String[] assigned_commons, int i) {
+        if (assigned_commons.length == 0) {
+            return;
+        }
+
         if (i < 0) {
             i = newLocal(Types.RUBY_BLOCK_TYPE);
-            symbol_table_.setInternalBlockVar(i);
+            dup();
+            storeLocal(i);
         }
-        storeLocal(i);
+
+        symbol_table_.addVariblesAssignedInBlock(block_name, i, assigned_commons);
     }
 
     public void returnIfBlockReturned() {
