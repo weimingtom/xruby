@@ -30,6 +30,11 @@ public class IfExpression extends Expression {
             visitor.visitAfterIfBody(next_label, end_label);
         }
 
+        void pullBlock(ArrayList<Block> result) {
+            condition_.pullBlock(result);
+            body_.pullBlock(result);
+        }
+
         void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
             condition_.getNewlyAssignedVariables(symboltable, result);
             body_.getNewlyAssignedVariables(symboltable, result);
@@ -124,6 +129,19 @@ public class IfExpression extends Expression {
 
         else_body_.accept(visitor);
         visitor.visitAfterIfBody(null, end_label);
+    }
+
+    void pullBlock(ArrayList<Block> result) {
+        if_condition_.pullBlock(result);
+        if (null != if_body_) {
+            if_body_.pullBlock(result);
+        }
+        for (Elseif elsif : elsifs) {
+            elsif.pullBlock(result);
+        }
+        if (null != else_body_) {
+            else_body_.pullBlock(result);
+        }
     }
 
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {

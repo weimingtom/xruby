@@ -7,11 +7,6 @@ package com.xruby.compiler.codedom;
 
 import java.util.*;
 
-class Pair {
-    String name;
-    String[] value;
-}
-
 public class Block {
 
     private CompoundStatement bodyStatement_ = null;
@@ -99,7 +94,7 @@ public class Block {
         name_ = name.toString();
     }
 
-    public Pair accept(CodeVisitor visitor) {
+    public String accept(CodeVisitor visitor) {
         // f{|x, |} = f{|x, *|}
         if (this.asterisk && this.asterisk_parameter_ == null) {
             this.has_extra_comma_ = true;
@@ -132,16 +127,14 @@ public class Block {
             setEndPosition(startPosition);
         }
 
-        Pair p = new Pair();
-        p.name = name_;
-        p.value = visitor.visitBlockBodyEnd(name_,
+        visitor.visitBlockBodyEnd(name_,
             (has_body) ? bodyStatement_.lastStatementHasReturnValue() : false,
             saved_as_pulled_);
         if (name_ != null) {
             BlockFarm.markBlock(this);
         }
 
-        return p;
+        return name_;
     }
 
 

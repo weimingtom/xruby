@@ -51,6 +51,10 @@ public class AssignmentOperatorExpression extends Expression {
 				rhs_ instanceof MethodCallExpression || rhs_ instanceof YieldExpression,
 				false);
 	}
+
+    void pullBlock(ArrayList<Block> result) {
+        rhs_.pullBlock(result);
+    }
 	
 	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 		if (lhs_ instanceof LocalVariableExpression) {

@@ -33,7 +33,7 @@ abstract class ClassGeneratorForRubyMethod extends ClassGenerator {
         }
     }
 
-    String getMethodName() {
+    String getOrginalMethodName() {
         return method_name_;
     }
 

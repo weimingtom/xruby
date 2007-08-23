@@ -18,6 +18,10 @@ public class ExceptionHandlingExpression extends Expression {
         bodyStatement_.accept(visitor);
     }
 
+    void pullBlock(ArrayList<Block> result) {
+        bodyStatement_.pullBlock(result);
+    }
+
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
         bodyStatement_.getNewlyAssignedVariables(symboltable, result);
     }

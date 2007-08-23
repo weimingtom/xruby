@@ -90,9 +90,7 @@ public class MethodCallExpression extends Expression {
 
 	public void acceptAsLambdaCall(CodeVisitor visitor) {
 		MethodCallExpression m = (MethodCallExpression)receiver_;
-		Pair p = m.block_.accept(visitor);
-		String name = p.name;
-		String[] assignedCommons = p.value;
+		m.block_.accept(visitor);
 
 		visitor.visitSpecialLambdaCallBegin();
 
@@ -102,7 +100,7 @@ public class MethodCallExpression extends Expression {
 			arguments_.accept(visitor);
 		}
 
-		visitor.visitSpecialLambdaCallEnd(name, assignedCommons);
+		visitor.visitSpecialLambdaCallEnd();
 	}
 	
 	public void accept(CodeVisitor visitor) {
@@ -152,11 +150,8 @@ public class MethodCallExpression extends Expression {
 		}
 			
 		String name = null;
-		String[] assignedCommons = null;
 		if (null != block_) {
-			Pair p = block_.accept(visitor);
-			name = p.name;
-			assignedCommons = p.value;
+			name = block_.accept(visitor);
 		} else if (null != arguments_ && null != arguments_.getBlockArgument()) {
 			arguments_.getBlockArgument().accept(visitor);
 			visitor.visitBlockArgument();
@@ -175,7 +170,6 @@ public class MethodCallExpression extends Expression {
 
 		visitor.visitMethodCallEnd(methodName_,
 							(null != receiver_),
-							assignedCommons,
 							name,
 							argc);
 	}

@@ -40,6 +40,12 @@ public class WhileExpression extends Expression {
 
         if (null != body_) {
             body_.ensureVariablesAreInitialized(visitor);
+
+            ArrayList<Block> pulled_blocks = new ArrayList<Block>();
+            body_.pullBlock(pulled_blocks);
+            for (Block block : pulled_blocks) {
+                block.acceptAsPulled(visitor);
+            }
         }
 
         //TODO apply this optimization to other places
@@ -64,6 +70,11 @@ public class WhileExpression extends Expression {
         }
 
         visitor.visitWhileBodyEnd(null != body_);
+    }
+
+    void pullBlock(ArrayList<Block> result) {
+        condition_.pullBlock(result);
+        body_.pullBlock(result);
     }
 
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {

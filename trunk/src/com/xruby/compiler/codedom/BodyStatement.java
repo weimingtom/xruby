@@ -125,6 +125,12 @@ public class BodyStatement implements Visitable {
 
         compoundStatement_.ensureVariablesAreInitialized(visitor);
 
+        ArrayList<Block> pulled_blocks = new ArrayList<Block>();
+        compoundStatement_.pullBlock(pulled_blocks);
+        for (Block block : pulled_blocks) {
+            block.acceptAsPulled(visitor);
+        }
+
         final Object begin_label = visitor.visitBodyBegin(null != ensure_);
         compoundStatement_.accept(visitor);
         final Object after_label = visitor.visitBodyAfter();
@@ -180,6 +186,10 @@ public class BodyStatement implements Visitable {
         }
 
         return lastLine;
+    }
+
+    void pullBlock(ArrayList<Block> result) {
+        compoundStatement_.pullBlock(result);
     }
 
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
