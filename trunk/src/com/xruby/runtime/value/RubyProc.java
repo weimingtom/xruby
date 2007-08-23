@@ -36,7 +36,7 @@ public class RubyProc extends RubyBinding {
         return ObjectFactory.createFixnum(value_.arity());
     }
 
-    @RubyLevelMethod(name="equal")
+    @RubyLevelMethod(name="==")
     public RubyValue equal(RubyValue v) {
         return equals(v) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
     }
