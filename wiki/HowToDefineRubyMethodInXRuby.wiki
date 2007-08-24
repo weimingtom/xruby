@@ -39,7 +39,7 @@ RubyClass c = RubyRuntime.ArrayClass;
 c.defineMethod("clear", new RubyClear());
 }}}
 
-= Another Way to Definition =
+= Another Way of Definition =
 But you finally find that it's very boring to write a wrapper for every Ruby method which has a similar structure. On the other hand, it's a little confusing where the code should be. Actually, we could implement the method both in Java-level method and wrapper.
 
 Yes, you're right. In fact, we have another way to Ruby method which could reduce this confusion. You can define Ruby method like this:
@@ -49,5 +49,4 @@ c.defineMethod("clear", factory.getMethod("clear", MethodFactory.NO_ARG));
 }}}
 
 The code means you create method wrapper for "clear" method of "RubyArray". With this way, method wrapper could be generated dynamically, so a lot of trivial and confusing code could be saved.
-
 
