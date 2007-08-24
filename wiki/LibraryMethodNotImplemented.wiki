@@ -55,7 +55,9 @@ ruby\test_whileuntil.rb
 
 testunit\test_error.rb
 testunit\test_failure.rb
+testunit\test_testresult.rb
 testunit\util\test_backtracefilter.rb
+testunit\util\test_observable.rb
 testunit\util\test_procwrapper.rb
 }}}
 
@@ -78,8 +80,6 @@ ruby\test_settracefunc.rb	#need to implement set_trace_func()
 testunit\test_assertions.rb
 testunit\test_testcase.rb
 testunit\test_testsuite.rb
-testunit\test_testresult.rb
-testunit\util\test_observable.rb
 testunit\collector\test_dir.rb
 testunit\collector\test_objectspace.rb
 }}}
