@@ -1419,7 +1419,7 @@ HERE_DOC_CONTENT[String delimiter, int type1, int type2]
 
 protected
 ANYTHING_OTHER_THAN_LINE_FEED_AND_POUND
-		:	({!expressionSubstitutionIsNext()}?	~('\r'|'\n'))*
+		:	({!expressionSubstitutionIsNext()}?	(~('\r'|'\n'|'\\')|ESC))*
 		;
 
 protected
