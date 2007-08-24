@@ -103,7 +103,14 @@ public class RubyHash extends RubyBasic {
 
     @RubyLevelMethod(name="delete")
     public RubyValue delete(RubyValue k) {
-        RubyValue v = map_.remove(k);
+        RubyValue v = null;
+        for (RubyValue key : keys_) {
+            if (RubyAPI.testEqual(key, k)) {
+                v = map_.remove(key);
+                break;
+            }
+        }
+
         if (null != v) {
             return v;
         } else {
@@ -263,7 +270,7 @@ public class RubyHash extends RubyBasic {
 
     @RubyAllocMethod
     public static RubyValue alloc(RubyValue receiver) {
-    	RubyHash h = ObjectFactory.createHash();
+        RubyHash h = ObjectFactory.createHash();
         h.setRubyClass((RubyClass) receiver);
         return h;
     }
