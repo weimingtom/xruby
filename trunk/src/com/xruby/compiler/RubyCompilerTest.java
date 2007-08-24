@@ -4761,6 +4761,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_heredoc() {
         String [] program_texts = {
+                "print <<EOF\n" +
+                "A\\#{\n" +
+                "EOF\n" +
+
                 "print <<END;\n" +
                 "ABCD\n" +
                 "END\n",
@@ -4791,6 +4795,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "A#{",
                 "ABCD\n",
 
                 "hey\n",
