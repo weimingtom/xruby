@@ -4763,7 +4763,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         String [] program_texts = {
                 "print <<EOF\n" +
                 "A\\#{\n" +
-                "EOF\n" +
+                "EOF\n",
 
                 "print <<END;\n" +
                 "ABCD\n" +
