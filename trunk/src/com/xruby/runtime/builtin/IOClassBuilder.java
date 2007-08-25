@@ -162,17 +162,21 @@ class IO_read_singleton extends RubyVarArgMethod {
         int offset;
         int length;
 
+        RubyValue r;
         if (args.size() == 1) {
-            return IO_read.buildResult(io.read(), null);
+            r = IO_read.buildResult(io.read(), null);
         } else {
             length = ((RubyFixnum) args.get(1)).toInt();
             if (args.size() == 2) {
-                return IO_read.buildResult(io.read(length), null);
+                r = IO_read.buildResult(io.read(length), null);
             } else {
                 offset = ((RubyFixnum) args.get(2)).toInt();
-                return IO_read.buildResult(io.read(length, offset), null);
+                r = IO_read.buildResult(io.read(length, offset), null);
             }
         }
+
+        io.close();
+        return r;
     }
 }
 
