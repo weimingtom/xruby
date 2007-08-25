@@ -4795,7 +4795,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-                "A#{",
+                "A#{\n",
                 "ABCD\n",
 
                 "hey\n",
