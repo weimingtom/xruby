@@ -42,6 +42,8 @@ class MethodFactoryHelper {
 	private static final MethodFactoryHelper ONE_OR_TWO_ARG_HELPER = 
 		new MethodFactoryHelper(Types.RUBY_ONEORTWOARGMETHOD_TYPE, 
 				new OneArgRunMethodHelper(), new TwoArgRunMethodHelper());
+	private static final MethodFactoryHelper NO_ONE_OR_VAR_HELPER =
+		new MethodFactoryHelper(Types.RUBY_VARARGMETHOD_TYPE, new NoArgRunMethodHelper(),	new OneArgRunMethodHelper(), new VarArgRunMethodHelper());
 	private static final MethodFactoryHelper DEFAULT_ARG_HELPER = 
 		new MethodFactoryHelper(Types.RUBY_VARARGMETHOD_TYPE, new VarArgRunMethodHelper());
 	
@@ -57,6 +59,8 @@ class MethodFactoryHelper {
 			return TWO_ARG_HELPER;
 		case ONE_OR_TWO_ARG:
 			return ONE_OR_TWO_ARG_HELPER;
+		case NO_ONE_OR_VAR:
+			return NO_ONE_OR_VAR_HELPER;
 		default:
 			return DEFAULT_ARG_HELPER;
 		}

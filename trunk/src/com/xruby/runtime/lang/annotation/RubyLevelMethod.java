@@ -16,4 +16,5 @@ public @interface RubyLevelMethod {
 	String name();
 	String[] alias() default {};
 	boolean singleton() default false;
+	boolean moduleMethod() default false;
 }

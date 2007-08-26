@@ -242,6 +242,10 @@ public abstract class RubyTypeFactory {
 			item.singleton = true;
 		}
 		
+		if (annotation.moduleMethod()) {
+			item.moduleMethod = true;
+		}
+		
 		return item;
 	}
 	
@@ -332,8 +336,13 @@ public abstract class RubyTypeFactory {
 		mg.loadLocal(factoryIdx);
 		getMethod(mg, item.javaName, item.type, item.singleton, item.block);
 		
-		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
-				Method.getMethod(CgUtil.getMethodName("defineMethod", RubyValue.class, String.class, RubyMethod.class)));
+		if (item.moduleMethod) {
+			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+					Method.getMethod(CgUtil.getMethodName("defineModuleMethod", Void.TYPE, String.class, RubyMethod.class)));
+		} else {
+			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+					Method.getMethod(CgUtil.getMethodName("defineMethod", RubyValue.class, String.class, RubyMethod.class)));
+		}
 		
 		defineAlias(mg, rubyTypeIdx, annotationName, item.alias, item.singleton);
 	}

@@ -467,6 +467,11 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return a;
     }
 
+    @RubyLevelMethod(name="empty?")
+    public RubyValue empty_p() {
+        return ObjectFactory.createBoolean(this.array_.isEmpty());
+    }
+
     @RubyLevelMethod(name="to_s")
     public RubyValue to_s() {
         RubyString r = ObjectFactory.createString();
@@ -603,6 +608,17 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         this.array_.add(v);
         return this;
     }
+    
+    @RubyLevelMethod(name="push")
+    public RubyArray multiPush() {
+        return this;
+    }
+    
+    @RubyLevelMethod(name="push")
+    public RubyArray multiPush(RubyValue v) {
+        this.array_.add(v);
+        return this;
+    }
 
     @RubyLevelMethod(name="push")
     public RubyArray multiPush(RubyArray args) {
@@ -630,7 +646,11 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     @RubyLevelMethod(name="shift")
     public RubyValue shift() {
-        return this.delete_at(0);
+    	if (this.array_.size() == 0) {
+    		return RubyConstant.QNIL;
+    	}
+    	
+        return this.array_.remove(0);
     }
 
     @RubyLevelMethod(name="delete_if")

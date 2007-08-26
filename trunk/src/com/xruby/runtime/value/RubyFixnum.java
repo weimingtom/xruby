@@ -421,7 +421,8 @@ public class RubyFixnum extends RubyInteger {
 	}
 
 	public RubyValue times(RubyBlock block) {
-        for (int i = 0; i < this.value_; ++i) {
+		int value = this.value_;
+        for (int i = 0; i < value; ++i) {
             RubyValue v = block.invoke(this, ObjectFactory.createFixnum(i));
             if (block.breakedOrReturned()) {
                 return v;

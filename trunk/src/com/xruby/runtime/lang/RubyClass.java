@@ -87,8 +87,12 @@ public class RubyClass extends RubyModule {
 
     public void defineAllocMethod(RubyMethod m) {
         m.setAccess(RubyMethod.PRIVATE);
-        this.getRubyClass().addMethod(RubyID.ID_ALLOCATOR, m);
+        this.getRubyClass().addMethod(RubyID.ID_ALLOCATOR, m, RubyMethod.PRIVATE);
 	}
+    
+    public void defineModuleMethod(String name, RubyMethod m) {
+    	throw new Error("should not reach here!");
+    }
     
     public void setInherited(RubyClass klass) {
     	RubyAPI.callOneArgMethod(this, klass, null, RubyID.inheritedID);
@@ -172,8 +176,8 @@ public class RubyClass extends RubyModule {
 		}
 	}
 
-	protected RubyValue addMethod(RubyID id, RubyMethod method) {
+	protected RubyValue addMethod(RubyID id, RubyMethod method, int attribute) {
 		cache.removeMethod(id);
-		return super.addMethod(id, method);
+		return super.addMethod(id, method, attribute);
 	}
 }

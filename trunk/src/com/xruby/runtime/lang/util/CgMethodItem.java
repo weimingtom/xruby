@@ -12,4 +12,5 @@ class CgMethodItem {
 	public boolean block;
 	public boolean singleton;
 	public String[] alias;
+	public boolean moduleMethod;
 }
