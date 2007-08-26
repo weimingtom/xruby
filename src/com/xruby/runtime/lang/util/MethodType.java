@@ -12,7 +12,8 @@ public enum MethodType {
 	NO_OR_ONE_ARG(3),
 	TWO_ARG(4), 
 	ONE_OR_TWO_ARG(6),
-	VAR_ARG(8);
+	VAR_ARG(8),
+	NO_ONE_OR_VAR(11);
 	
 	private int value;
 	
@@ -40,6 +41,8 @@ public enum MethodType {
 			return ONE_OR_TWO_ARG;
 		case 8:
 			return VAR_ARG;
+		case 11:
+			return NO_ONE_OR_VAR;
 		default:
 			return VAR_ARG;
 		}

@@ -13,7 +13,6 @@ import java.util.Map;
 
 abstract class MethodCollection extends ConstantCollection {
     protected Map<RubyID, RubyMethod> methods_ = new HashMap<RubyID, RubyMethod>();
-    private int current_access_mode_ = RubyMethod.PUBLIC;
 
     MethodCollection(RubyClass c) {
         super(c);
@@ -49,9 +48,9 @@ abstract class MethodCollection extends ConstantCollection {
         }
     }
 
-    protected RubyValue addMethod(RubyID id, RubyMethod m) {
-        m.setAccess(current_access_mode_);
+    protected RubyValue addMethod(RubyID id, RubyMethod m, int attribute) {
         m.setID(id);
+        m.setAccess(attribute);
         methods_.put(id, m);
         return ObjectFactory.NIL_VALUE;
     }
@@ -62,7 +61,7 @@ abstract class MethodCollection extends ConstantCollection {
             throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + mid.toString() + " for class `Object'");
         }
 
-        addMethod(mid, UndefMethod.getInstance());
+        addMethod(mid, UndefMethod.getInstance(), RubyMethod.PUBLIC);
     }
 
     public void aliasMethod(String newName, String oldName) {
@@ -80,18 +79,6 @@ abstract class MethodCollection extends ConstantCollection {
 
         RubyID newId = RubyID.intern(newName);
         methods_.put(newId, m);
-    }
-
-    public void setAccessPublic() {
-        current_access_mode_ = RubyMethod.PUBLIC;
-    }
-
-    public void setAccessPrivate() {
-        current_access_mode_ = RubyMethod.PRIVATE;
-    }
-
-    public void setAccessMode(int access) {
-        current_access_mode_ = access;
     }
 
     public RubyMethod setAccess(RubyID mid, int access) {

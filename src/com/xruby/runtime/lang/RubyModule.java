@@ -11,13 +11,13 @@ import com.xruby.runtime.value.RubyArray;
 public class RubyModule extends MethodCollection {
     private RubyModule owner_ = null;//owner is where is the module is defined under.
     protected RubyClass superclass_;
+    private int current_access_mode_ = RubyMethod.PUBLIC;
 
     public RubyModule(String name, RubyModule owner) {
         super(null);
         super.name_ = name;
         owner_ = owner;
     }
-
     void setScope(RubyModule owner) {
         this.owner_ = owner;
     }
@@ -29,20 +29,40 @@ public class RubyModule extends MethodCollection {
     public boolean isRealClass() {
         return false;
     }
+    
+    public void setAccessPublic() {
+        current_access_mode_ = RubyMethod.PUBLIC;
+    }
+
+    public void setAccessPrivate() {
+        current_access_mode_ = RubyMethod.PRIVATE;
+    }
+
+    public void setAccessMode(int access) {
+        current_access_mode_ = access;
+    }
 
     public RubyValue defineMethod(String name, RubyMethod m) {
-        RubyID mid = RubyID.intern(name);
-        m.setScope(this);
-        return addMethod(mid, m);
+        return addMethod(RubyID.intern(name), m, this.current_access_mode_);
     }
-
+    
     public RubyValue defineMethod(RubyID mid, RubyMethod m) {
-        m.setScope(this);
-        return addMethod(mid, m);
+        return addMethod(mid, m, this.current_access_mode_);
+    }
+    
+    public RubyValue definePrivateMethod(String name, RubyMethod m) {
+    	return addMethod(RubyID.intern(name), m, RubyMethod.PRIVATE);
+    }
+    
+    public void defineModuleMethod(String name, RubyMethod m) {
+    	this.definePrivateMethod(name, m);
+    	this.getSingletonClass().defineMethod(name, m);
     }
 
-    protected RubyValue addMethod(RubyID id, RubyMethod m) {
-        RubyValue v = super.addMethod(id, m);
+    protected RubyValue addMethod(RubyID id, RubyMethod m, int attribute) {
+    	m.setScope(this);
+    	
+        RubyValue v = super.addMethod(id, m, attribute);
         if (RubyRuntime.running && id != RubyID.ID_ALLOCATOR) {
             RubyAPI.callOneArgMethod(this, id.toSymbol(), null, RubyID.methodAddedID);
         }

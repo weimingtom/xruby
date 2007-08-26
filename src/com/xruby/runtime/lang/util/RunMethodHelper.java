@@ -53,6 +53,7 @@ public abstract class RunMethodHelper {
 		}
 		endRun(mg);
 	}
+	
 	private Class[] getParamType(boolean staticMethod, boolean block) {
 		List<Class> javaArgList = new ArrayList<Class>();
 		if (staticMethod) {
