@@ -340,77 +340,23 @@ class Kernel_raise extends RubyVarArgMethod {
     }
 }
 
-class JarLoader extends ClassLoader {
-    public RubyProgram load(File filename) {
-        JarFile jar = null;
-
-        try {
-            jar = new JarFile(filename);
-            return _load(jar);
-        } catch (IOException e) {
-            return null;
-        } catch (InstantiationException e) {
-            return null;
-        } catch (IllegalAccessException e) {
-            return null;
-        } finally {
-            if (null != jar) {
-                try {
-                    jar.close();
-                } catch (IOException e) {
-                }
-            }
-        }
-    }
-
-    private RubyProgram _load(JarFile jar) throws IOException, InstantiationException, IllegalAccessException {
-        RubyProgram p = null;
-
-        for (Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements();) {
-            JarEntry entry = e.nextElement();
-            if (!entry.getName().endsWith(".class")) {
-                continue;
-            }
-
-            BufferedInputStream stream = new BufferedInputStream(jar.getInputStream(entry));
-            byte[] buffer = new byte[(int) entry.getSize()];
-            stream.read(buffer);
-            Class c = defineClass(NameFactory.filename2classname(entry.getName()), buffer, 0, buffer.length);
-
-            if (entry.getName().endsWith("main.class")) {//FIXME better error checking
-                p = (RubyProgram) c.newInstance();
-            }
-        }
-
-        return p;
-    }
-}
-
-/*
-* Loads and executes the Ruby program in the file aFileName.
-* If the filename does not resolve to an absolute path, the
-* file is searched for in the library directories listed in $:.
-* If the optional wrap parameter is true, the loaded script will
-* be executed under an anonymous module, protecting the calling
-* program's global namespace. Any local variables in the loaded
-* file will not be propagated to the loading environment.
-*/
-class Kernel_load extends RubyOneArgMethod {
+class Kernel_load_with_reflection extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyString required_file = (RubyString) arg;
-        File filename = NameFactory.find_corresponding_jar_file(required_file.toString(), null);//TODO search $:
-        if (null == filename) {
-            throw new RubyException(RubyRuntime.LoadErrorClass, "no such file to load -- " + required_file);
+        String required_file = arg.toStr();
+        String name = NameFactory.createMainClassName(required_file);
+        try {
+            Class c = Class.forName(name);
+            Object o = c.newInstance();
+            RubyProgram p = (RubyProgram) o;
+            p.invoke();
+            return ObjectFactory.TRUE_VALUE;
+        } catch (ClassNotFoundException e) {
+            return ObjectFactory.FALSE_VALUE;
+        } catch (InstantiationException e) {
+            return ObjectFactory.FALSE_VALUE;
+        } catch (IllegalAccessException e) {
+            return ObjectFactory.FALSE_VALUE;
         }
-
-        JarLoader jarloader = new JarLoader();
-        RubyProgram p = jarloader.load(filename);
-        if (null == p) {
-            throw new RubyException(RubyRuntime.LoadErrorClass, "no such file to load -- " + required_file);
-        }
-
-        p.invoke();
-        return ObjectFactory.TRUE_VALUE;
     }
 }
 
@@ -918,7 +864,7 @@ public class KernelModuleBuilder {
         m.defineMethod("eval", new Kernel_eval());
         m.defineMethod("require_java", new Kernel_require_java());
         m.defineMethod("import", new Kernel_require_java());
-        m.defineMethod("load", new Kernel_load());
+        m.defineMethod("__load_with_reflection__", new Kernel_load_with_reflection());
         RubyMethod lambda = new Kernel_lambda();
         m.defineMethod("lambda", lambda);
         m.defineMethod("proc", lambda);

@@ -1800,13 +1800,13 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_catch_exception(program_texts, exceptions);
     }
 
-    public void test_require() throws RecognitionException, TokenStreamException, FileNotFoundException, IOException {
+    public void test_require() throws FileNotFoundException {
         String program_text = "print 'xxxxx'";
-        RubyCompiler compiler = new RubyCompiler(null, false);
-        CompilationResults codes = compiler.compile(new StringReader(program_text));
-        File file = new File("test_require.jar");
+        File file = new File("test_require.rb");
         file.delete();
-        codes.save("test_require");
+        PrintStream fstm = new PrintStream(file);
+        fstm.print(program_text);
+        fstm.close();
         assertTrue(file.exists());
 
         try {
@@ -1824,21 +1824,21 @@ public class RubyCompilerTest extends CompilerTestCase {
         }
     }
 
-    public void test_require_2_files() throws RecognitionException, TokenStreamException, FileNotFoundException, IOException {
+    public void test_require_2_files() throws FileNotFoundException {
         String program_text1 = "print 'xxxxx'; REQUIRE_2_FILES = 1";
-        RubyCompiler compiler1 = new RubyCompiler(null, false);
-        CompilationResults codes1 = compiler1.compile(new StringReader(program_text1));
-        File file1 = new File("test_require1.jar");
+        File file1 = new File("test_require1.rb");
         file1.delete();
-        codes1.save("test_require1");
+        PrintStream fstm1 = new PrintStream(file1);
+        fstm1.print(program_text1);
+        fstm1.close();
         assertTrue(file1.exists());
 
         String program_text2 = "print 'yyyyy', REQUIRE_2_FILES";
-        RubyCompiler compiler2 = new RubyCompiler(null, false);
-        CompilationResults codes2 = compiler2.compile(new StringReader(program_text2));
-        File file2 = new File("test_require2.jar");
+        File file2 = new File("test_require2.rb");
         file2.delete();
-        codes2.save("test_require2");
+        PrintStream fstm2 = new PrintStream(file2);
+        fstm2.print(program_text2);
+        fstm2.close();
         assertTrue(file2.exists());
 
         try {
@@ -1857,26 +1857,26 @@ public class RubyCompilerTest extends CompilerTestCase {
         }
     }
 
-    public void test_require_2_files_with_global() throws RecognitionException, TokenStreamException, FileNotFoundException, IOException {
+    public void test_require_2_files_with_global() throws FileNotFoundException {
         String program_text1 = "$G010 = 'cccc'";
-        RubyCompiler compiler1 = new RubyCompiler(null, false);
-        CompilationResults codes1 = compiler1.compile(new StringReader(program_text1));
-        File file1 = new File("test_require1.jar");
+        File file1 = new File("test_require3.rb");
         file1.delete();
-        codes1.save("test_require1");
+        PrintStream fstm1 = new PrintStream(file1);
+        fstm1.print(program_text1);
+        fstm1.close();
         assertTrue(file1.exists());
 
         String program_text2 = "print $G010";
-        RubyCompiler compiler2 = new RubyCompiler(null, false);
-        CompilationResults codes2 = compiler2.compile(new StringReader(program_text2));
-        File file2 = new File("test_require2.jar");
+        File file2 = new File("test_require4.rb");
         file2.delete();
-        codes2.save("test_require2");
+        PrintStream fstm2 = new PrintStream(file2);
+        fstm2.print(program_text2);
+        fstm2.close();
         assertTrue(file2.exists());
 
         try {
             String[] program_texts = {
-                    "require 'test_require1';  require 'test_require2'",
+                    "require 'test_require3';  require 'test_require4'",
             };
 
             String[] outputs = {

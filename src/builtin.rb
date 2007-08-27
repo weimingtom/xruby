@@ -14,7 +14,7 @@
 #
 
 $: = ["./lib/ruby/1.8", "."]
-$__loaded_libraries = []
+$" = []
 $* = ARGV
 $SAFE = 0
 
@@ -49,50 +49,41 @@ module Kernel
     def singleton_method_undefined symbol
     end
 
-    alias load__ load
-
     #private
-    def require(path)
-        $:.length.times do |index|
-            file_name = $:[index] + "/" + path
-            if path[-3..-1] != ".rb"
-                file_name << ".rb"
-            end
-            next unless ::File.file?(file_name)
-            return load_once(file_name)
-        end
-        load__(path)
+    def require(file_name)
+        return false if ($".include?(file_name) || $".include?(file_name + ".rb"))
+        
+        load(file_name);
     end
 
     #private
-    def load(path)
-        $:.length.times do |index|
-            file_name = $:[index] + "/" + path
-            if path[-3..-1] != ".rb"
-                file_name << ".rb"
-            end
-            next unless ::File.file?(file_name)
-            return load_file(file_name)
+    def load(file_name)
+        if __load_with_reflection__(file_name)
+            return true
         end
-        load__(path)
+        
+        $:.each do |path|
+            return true if load_rb_file(path, file_name)
+        end
+        
+        raise LoadError, "no such file to load -- " + file_name
     end
 
     private
-    def load_once(file_name)
-        absolute_path = ::File.expand_path(file_name)
-        return false if $__loaded_libraries.include?(absolute_path)
-        result = load_file(absolute_path)
-        result
-    end
+    def load_rb_file(path, file_name)
+        fullname = path + '/' + file_name
+        if fullname[-3..-1] != ".rb"
+            fullname << ".rb"
+        end
+        
+        if !::File.file?(fullname)
+            return false
+        end
 
-    private
-    def load_file(file_name)
-        #puts "[DEBUG] Loading library: #{file_name}"
-
-        content = ::IO.read(file_name)
-        $__loaded_libraries.push(file_name) unless $__loaded_libraries.include?(file_name)
+        content = ::IO.read(fullname)
+        $".push(file_name) unless $".include?(file_name)
         eval(content, nil, file_name)
-        true
+        return true
     end
 
     private
