@@ -95,6 +95,18 @@ public class NameFactory {
         }
     }
 
+    public static String createMainClassName(String required_file) {
+        //remove ".rb" if has one
+        if (required_file.endsWith(".rb")) {
+            required_file = required_file.substring(0, required_file.length() - 3);
+        }
+
+        required_file = required_file.replace('/', '.');
+        required_file = required_file.replace('\\', '.');
+        required_file += ".main";
+        return required_file;
+    }
+
     static String getNameWithoutSufix(String script_name) {
         File file = new File(script_name);
         String name = file.getName();
@@ -104,27 +116,6 @@ public class NameFactory {
         }
 
         return name.replace('-', '$');//'-' is not allowed for java
-    }
-
-    static File change_filename_suffix_to_jar(String filename) {
-        File file = new File(filename.toString());
-        String name = file.getName();
-        int position_of_first_dot = name.indexOf('.');
-        if (position_of_first_dot >= 0) {
-            name = name.substring(0, position_of_first_dot);
-        }
-        name += ".jar";
-        return new File(file.getParent(), name);
-    }
-
-    public static File find_corresponding_jar_file(String filename, final String searchpath) {
-        File file = change_filename_suffix_to_jar(filename);
-        if (file.isFile() && file.canRead()) {
-            return file;
-        }
-
-        //TODO search searchpath
-        return null;
     }
 
     /// @param name e.g. test/main.class
