@@ -9,18 +9,14 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.util.MethodFactory;
 import com.xruby.runtime.lang.util.MethodType;
 import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
 
-class Class_singleton_new extends RubyVarArgMethod {
-	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-		RubyClass superclass;
-		if (null == args) {
-			superclass = RubyRuntime.ObjectClass;
-		} else {
-			superclass = (RubyClass)args.get(0);
-		}
+class Class_singleton_new extends RubyNoOrOneArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		return RubyAPI.defineClass("", RubyRuntime.ObjectClass);
+	}
 
-		return RubyAPI.defineClass("", superclass);
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+		return RubyAPI.defineClass("", (RubyClass)arg);
 	}
 }
 
@@ -43,11 +39,6 @@ public class ClassClassBuilder {
         c.defineMethod("new", factory.getMethodWithBlock("newInstance", MethodType.VAR_ARG));
         c.defineMethod("superclass", factory.getMethod("superclass", MethodType.NO_ARG));
 		c.getSingletonClass().defineMethod("new", new Class_singleton_new());
-		c.defineMethod("inherited", EmptyMethod.INSTANCE);
-
-        /*
-        c.setAccessPrivate();        
-        c.defineMethod("inherited", new RubyDummyMethod());
-        */
+		c.definePrivateMethod("inherited", EmptyMethod.INSTANCE);
     }
 }

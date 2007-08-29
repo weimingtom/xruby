@@ -242,7 +242,7 @@ public abstract class RubyTypeFactory {
 			item.singleton = true;
 		}
 		
-		if (annotation.moduleMethod()) {
+		if (annotation.module()) {
 			item.moduleMethod = true;
 		}
 		

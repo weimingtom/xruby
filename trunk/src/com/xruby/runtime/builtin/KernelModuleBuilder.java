@@ -5,20 +5,15 @@
 
 package com.xruby.runtime.builtin;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.StringReader;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
 import antlr.RecognitionException;

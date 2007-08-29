@@ -1059,7 +1059,5 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         String format = ((RubyString) arg).toString();
         return ObjectFactory.createString(ArrayPacker.pack(this, format));
     }
-
-
 }
 

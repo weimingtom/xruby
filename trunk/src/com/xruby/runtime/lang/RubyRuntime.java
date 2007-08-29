@@ -99,7 +99,7 @@ public class RubyRuntime {
         FileTestModule = RubyTypeFactory.getModule(RubyFileTestModule.class);
         GCModule = RubyTypeFactory.getModule(RubyGC.class);
         MarshalModule = RubyAPI.defineModule("Marshal");
-        MathModule = RubyTypeFactory.getModule(RubyMathModule.class);//RubyAPI.defineModule("Math");
+        MathModule = RubyTypeFactory.getModule(RubyMathModule.class);
         ObjectSpaceModule = RubyTypeFactory.getModule(ObjectSpace.class);
         ProcessModule = RubyAPI.defineModule("Process");
 
