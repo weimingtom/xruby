@@ -78,7 +78,7 @@ public class RubyModule extends MethodCollection {
     	return false;
     }
     
-    public boolean isKindOf(RubyClass klass) {
+    public boolean isKindOf(RubyModule klass) {
 		RubyModule m = this;
 		
 		while (m != null) {
