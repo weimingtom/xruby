@@ -12,7 +12,6 @@ import com.xruby.runtime.value.ObjectFactory;
 
 
 public class ErrnoModuleBuilder {
-    
     public static void initialize() {
         RubyModule m = RubyRuntime.ErrnoModule;
         RubyClass c = m.defineNewClass("ENOENT", RubyRuntime.SystemCallErrorClass);
@@ -20,5 +19,4 @@ public class ErrnoModuleBuilder {
         c = m.defineNewClass("EACCES", RubyRuntime.SystemCallErrorClass);
         c.setConstant("Errno", ObjectFactory.createFixnum(IErrno.EACCES));
     }
-
 }

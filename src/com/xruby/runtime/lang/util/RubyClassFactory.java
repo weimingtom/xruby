@@ -7,12 +7,14 @@ package com.xruby.runtime.lang.util;
 
 import java.lang.annotation.Annotation;
 
+import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.Types;
 import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
@@ -64,6 +66,15 @@ class RubyClassFactory extends RubyTypeFactory {
 		
 		for (UndefMethod method : klassAnnotation.undef()) {
 			undefMethod(mg, rubyTypeIdx, method);
+		}
+		
+		for (String dummy : klassAnnotation.dummy()) {
+			mg.loadLocal(rubyTypeIdx);
+			mg.push(dummy);
+			Type type = Type.getType(DummyMethod.class);
+			mg.getStatic(type, "INSTANCE", type);
+			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+					Method.getMethod(CgUtil.getMethodName("defineMethod", RubyValue.class, String.class, RubyMethod.class)));
 		}
 
 		return rubyTypeIdx;
