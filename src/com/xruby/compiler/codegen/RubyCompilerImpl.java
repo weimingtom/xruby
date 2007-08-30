@@ -22,15 +22,16 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     private ClassGenerator cg_;
     private final Stack<ClassGenerator> suspended_cgs_ = new Stack<ClassGenerator>();
-    private final CompilationResults compilation_results_ = new CompilationResults();
+    private final CompilationResults compilation_results_;
     private final String script_name_;
     private RubyBinding binding_;
 
     private Label currentLineLabel;
     private boolean enableDebug = false;
 
-    public RubyCompilerImpl(String script_name) {
+    public RubyCompilerImpl(String script_name, CompilationResults compilation_results) {
         script_name_ = script_name;
+        compilation_results_ = compilation_results;
     }
 
     private boolean isInGlobalScope() {
@@ -75,7 +76,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_ = suspended_cgs_.pop();
     }
 
-    public CompilationResults compile(Program program, RubyBinding binding) {
+    public void compile(Program program, RubyBinding binding) {
         binding_ = binding;
         RubyIDClassGenerator.initScript(script_name_);
         String className = NameFactory.createClassName(script_name_, null);
@@ -95,7 +96,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         compilation_results_.add(RubyIDClassGenerator.getCompilationResult());
 //		RubyIDClassGenerator.clear();
         compilation_results_.add(cg_.getCompilationResult());
-        return compilation_results_;
+        return;
     }
 
     public void visitClassDefination1(String className) {
