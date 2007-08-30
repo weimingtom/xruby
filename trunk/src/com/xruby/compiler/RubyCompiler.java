@@ -26,6 +26,7 @@ public class RubyCompiler {
     private RubyBinding binding_;
     private boolean strip_;
     private boolean enableDebug = false;
+    private CompilationResults compilation_results_ = new CompilationResults();
 
     public RubyCompiler(RubyBinding binding, boolean strip) {
         binding_ = binding;
@@ -34,14 +35,25 @@ public class RubyCompiler {
 
     public CompilationResults compile(String filename) throws FileNotFoundException,
         RecognitionException, TokenStreamException {
-        Reader reader;
-        if (null != filename) {
-            reader = new FileReader(new File(filename));
-        } else {
-            reader = new InputStreamReader(System.in);
-        }
 
-        return compile(filename, new BufferedReader(reader));
+        if (null == filename) {
+            Reader reader = new InputStreamReader(System.in);
+            return compile(null, new BufferedReader(reader));
+        } else {
+            File f = new File(filename);
+            if (f.isDirectory()) {
+                for (String file : f.list()) {
+                    if (file.charAt(0) != '.' &&
+                        file.endsWith(".rb")) {
+                        compile(filename + "/" + file);
+                    }
+                }
+                return compilation_results_;
+            } else {
+                Reader reader = new FileReader(new File(filename));
+                return compile(filename, new BufferedReader(reader));
+            }
+        }
     }
 
     public CompilationResults compile(Reader reader)
@@ -53,14 +65,15 @@ public class RubyCompiler {
         throws RecognitionException, TokenStreamException {
         String [] pre_defined = (null == binding_) ? null : binding_.getVariableNames().toArray(new String[] {});
         RubyParser parser = new RubyParser(reader, pre_defined, strip_);
-        RubyCompilerImpl compiler = new RubyCompilerImpl(filename);
+        RubyCompilerImpl compiler = new RubyCompilerImpl(filename, compilation_results_);
 
         // Enable debug or not
         if (enableDebug) {
             compiler.enableDebug();
         }
 
-        return compiler.compile(parser.parse(filename), binding_);
+        compiler.compile(parser.parse(filename), binding_);
+        return compilation_results_;
     }
 
     public void enableDebug() {
