@@ -38,8 +38,6 @@ class CompilationResult {
 
 public class CompilationResults {
 
-    private static final String SMAP_SUFFIX = ".smap";
-
     private final ArrayList<CompilationResult> results_ = new ArrayList<CompilationResult>();
 
 	public void add(CompilationResult result) {
@@ -74,9 +72,7 @@ public class CompilationResults {
             smap = "0\n";
         }
 
-        String entryName =
-                NameFactory.getNameWithoutSufix(script_name) + "/" + script_name + SMAP_SUFFIX;
-        jarstream.putNextEntry(new JarEntry(entryName));
+        jarstream.putNextEntry(new JarEntry(NameFactory.createClassNameForSmap(script_name)));
         jarstream.write(smap.getBytes());
 
         jarstream.close();
