@@ -98,7 +98,7 @@ public class RubyRuntime {
         ErrnoModule = RubyAPI.defineModule("Errno");
         FileTestModule = RubyTypeFactory.getModule(RubyFileTestModule.class);
         GCModule = RubyTypeFactory.getModule(RubyGC.class);
-        MarshalModule = RubyAPI.defineModule("Marshal");
+        MarshalModule = RubyTypeFactory.getModule(RubyMarshalModule.class);//RubyAPI.defineModule("Marshal");
         MathModule = RubyTypeFactory.getModule(RubyMathModule.class);
         ObjectSpaceModule = RubyTypeFactory.getModule(ObjectSpace.class);
         ProcessModule = RubyAPI.defineModule("Process");
@@ -156,7 +156,7 @@ public class RubyRuntime {
 //        ObjectClassBuilder.initialize();
 
 //        GCModuleBuilder.initialize();
-        MarshalModuleBuilder.initialize();
+//        MarshalModuleBuilder.initialize();
 //        MathModuleBuilder.initialize();
         ErrnoModuleBuilder.initialize();
 //        NumericClassBuilder.initialize();
