@@ -246,6 +246,10 @@ public abstract class RubyTypeFactory {
 			item.moduleMethod = true;
 		}
 		
+		if (annotation.privateMethod()) {
+			item.privateMethod = true;
+		}
+		
 		return item;
 	}
 	
@@ -330,36 +334,54 @@ public abstract class RubyTypeFactory {
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
 					Method.getMethod(CgUtil.getMethodName("getSingletonClass", RubyClass.class)));
 		}
-		String annotationName = item.name;
-		mg.push(annotationName);
+		String rubyName = item.name;
+		defineMethod(mg, factoryIdx, rubyName, item);
+		defineAlias(mg, factoryIdx, rubyTypeIdx, item);
+	}
 
+	private void defineMethod(GeneratorAdapter mg, int factoryIdx, String rubyName, CgMethodItem item) {
+		mg.push(rubyName);
 		mg.loadLocal(factoryIdx);
-		getMethod(mg, item.javaName, item.type, item.singleton, item.block);
+		getMethod(mg, item);
 		
 		if (item.moduleMethod) {
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
 					Method.getMethod(CgUtil.getMethodName("defineModuleMethod", Void.TYPE, String.class, RubyMethod.class)));
+		} else if (item.privateMethod) {
+			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+					Method.getMethod(CgUtil.getMethodName("definePrivateMethod", RubyValue.class, String.class, RubyMethod.class)));
 		} else {
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
 					Method.getMethod(CgUtil.getMethodName("defineMethod", RubyValue.class, String.class, RubyMethod.class)));
 		}
-		
-		defineAlias(mg, rubyTypeIdx, annotationName, item.alias, item.singleton);
 	}
 
-	private void defineAlias(GeneratorAdapter mg, int rubyTypeIdx, String oldName, 
-			String[] aliases, boolean singleton) {
+	private void defineAlias(GeneratorAdapter mg, int factoryIdx, int rubyTypeIdx, CgMethodItem item) {
+		String oldName = item.name;
+		String[] aliases = item.alias;
+		boolean singleton = item.singleton;
+		
 		for (String alias : aliases) {
 			mg.loadLocal(rubyTypeIdx);
 			if (singleton) {
 				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
 						Method.getMethod(CgUtil.getMethodName("getSingletonClass", RubyClass.class)));
 			}
-			mg.push(alias);
-			mg.push(oldName);
-			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
-					Method.getMethod(CgUtil.getMethodName("aliasMethod", Void.TYPE, String.class, String.class)));
+			
+			if (item.moduleMethod) {
+				defineMethod(mg, factoryIdx, alias, item);
+			} else {
+				mg.push(alias);
+				mg.push(oldName);
+				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method
+						.getMethod(CgUtil.getMethodName("aliasMethod",
+								Void.TYPE, String.class, String.class)));
+			}
 		}
+	}
+	
+	private void getMethod(GeneratorAdapter mg, CgMethodItem item) {
+		getMethod(mg, item.javaName, item.type, item.singleton, item.block);
 	}
 	
 	private void getMethod(GeneratorAdapter mg, String methodName, MethodType type, boolean singleton, boolean block) {

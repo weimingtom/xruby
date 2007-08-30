@@ -25,7 +25,6 @@ public class RubyAPITest extends TestCase {
         assertFalse(RubyAPI.isKindOf(RubyRuntime.FalseClassClass, ObjectFactory.TRUE_VALUE));
         assertTrue(RubyAPI.isKindOf(RubyRuntime.FixnumClass, ObjectFactory.createFixnum(88)));
         assertFalse(RubyAPI.isKindOf(RubyRuntime.FloatClass, ObjectFactory.createFixnum(88)));
-        
         assertTrue(RubyAPI.isKindOf(RubyRuntime.KernelModule, RubyRuntime.ObjectClass));
     }
 

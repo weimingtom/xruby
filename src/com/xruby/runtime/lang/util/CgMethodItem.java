@@ -13,4 +13,5 @@ class CgMethodItem {
 	public boolean singleton;
 	public String[] alias;
 	public boolean moduleMethod;
+	public boolean privateMethod;
 }
