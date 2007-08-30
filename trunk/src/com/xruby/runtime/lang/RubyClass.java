@@ -5,9 +5,11 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.value.*;
 
+@RubyLevelClass(name="Class", superclass="Module", dummy="inherited")
 public class RubyClass extends RubyModule {
 	protected static MethodCache cache = new MethodCache();
 
@@ -47,6 +49,16 @@ public class RubyClass extends RubyModule {
 
         return klass;
     }
+    
+    @RubyLevelMethod(name="new")
+    public static RubyClass newClass(RubyValue receiver) {
+		return RubyAPI.defineClass("", RubyRuntime.ObjectClass);
+	}
+    
+    @RubyLevelMethod(name="new")
+    public static RubyClass newClass(RubyValue receiver, RubyValue arg) {
+		return RubyAPI.defineClass("", (RubyClass)arg);
+	}
     
     @RubyLevelMethod(name="new")
     public RubyValue newInstance(RubyArray args, RubyBlock block) {

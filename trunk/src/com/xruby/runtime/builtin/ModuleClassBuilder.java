@@ -6,6 +6,7 @@
 package com.xruby.runtime.builtin;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.util.DummyMethod;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyString;
@@ -431,7 +432,7 @@ public class ModuleClassBuilder {
         c.defineMethod("remove_method", new Module_remove_method());
 
         c.setAccessPrivate();
-        c.defineMethod("method_added", EmptyMethod.INSTANCE);
+        c.defineMethod("method_added", DummyMethod.INSTANCE);
         c.defineMethod("attr_reader", new Module_attr_reader());
         c.defineMethod("attr_writer", new Module_attr_writer());
         c.defineMethod("attr_accessor", new Module_attr_accessor());

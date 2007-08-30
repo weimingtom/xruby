@@ -86,6 +86,8 @@ public class RubyRuntime {
         RubySingletonClass metaClass = new RubySingletonClass(ObjectClass, ClassClass);
         metaClass = new RubySingletonClass(ModuleClass, metaClass);
         metaClass = new RubySingletonClass(ClassClass, metaClass);
+        
+        
 
         KernelModule = RubyAPI.defineModule("Kernel");
 
@@ -107,7 +109,8 @@ public class RubyRuntime {
 
         RubyTypeFactory.getClass(RubyObject.class);
         ModuleClassBuilder.initialize();
-        ClassClassBuilder.initialize();
+        RubyTypeFactory.getClass(RubyClass.class);
+//        ClassClassBuilder.initialize();
         KernelModuleBuilder.initialize();
 
         NumericClass = RubyTypeFactory.getClass(RubyNumeric.class);
