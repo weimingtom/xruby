@@ -15,10 +15,10 @@ public class NameFactoryTest extends TestCase {
     }
 
     public void test_createClassName() {
-        assertEquals("STDIN/main", NameFactory.createClassName(null, null));
-        assertEquals("test/main", NameFactory.createClassName("test.rb", null));
-        assertEquals("test/test$0", NameFactory.createClassName("test.rb", "test"));
-        assertEquals("builtin/test$1", NameFactory.createClassName("src/builtin.rb", "test"));
+        assertEquals("xruby/STDIN/main", NameFactory.createClassName(null, null));
+        assertEquals("xruby/test/main", NameFactory.createClassName("test.rb", null));
+        assertEquals("xruby/test/test$0", NameFactory.createClassName("test.rb", "test"));
+        assertEquals("xruby/builtin/test$1", NameFactory.createClassName("src/builtin.rb", "test"));
     }
 
     public void test_createMainClassName() {
@@ -28,8 +28,8 @@ public class NameFactoryTest extends TestCase {
     }
 
     public void test_createClassNameForBlock() {
-        assertEquals("test/BLOCK$0", NameFactory.createClassNameForBlock("test.rb", null));
-        assertEquals("test/BLOCK$1", NameFactory.createClassNameForBlock("test.rb", null));
+        assertEquals("xruby/test/BLOCK$0", NameFactory.createClassNameForBlock("test.rb", null));
+        assertEquals("xruby/test/BLOCK$1", NameFactory.createClassNameForBlock("test.rb", null));
     }
 
     public void test_createClassFileName () {
@@ -45,8 +45,8 @@ public class NameFactoryTest extends TestCase {
     }
 
     public void test_createMainClass() {
-        assertEquals("test.main", NameFactory.createMainClass("test.rb"));
-        assertEquals("builtin.main", NameFactory.createMainClass("src/builtin.rb"));
+        assertEquals("xruby.test.main", NameFactory.createMainClass("test.rb"));
+        assertEquals("xruby.builtin.main", NameFactory.createMainClass("src/builtin.rb"));
     }
 
     public void test_convertSlashToDot() {

@@ -13,6 +13,8 @@ public class NameFactory {
     private static AtomicInteger count_ = new AtomicInteger(0);
     private static final String DefaultName = "main";
 
+    public static String DEFAULT_RUBY_ID_CLASS_NAME = "RubyIDContainer"; 
+
     public static void reset() {
         count_.set(0);
     }
@@ -23,10 +25,18 @@ public class NameFactory {
         }
 
         if (null == method_name) {
-            return getNameWithoutSufix(script_name) + "/" + DefaultName;
+            return "xruby/" + getNameWithoutSufix(script_name) + "/" + DefaultName;
         } else {
-            return getNameWithoutSufix(script_name) + "/" + removeInvalidIdentifierPart(method_name) + "$" + count_.getAndIncrement();
+            return "xruby/" + getNameWithoutSufix(script_name) + "/" + removeInvalidIdentifierPart(method_name) + "$" + count_.getAndIncrement();
         }
+    }
+
+    public static String createClassNameForIDContainer(String script_name) {
+        if (null == script_name) {
+			script_name = "STDIN";
+		}
+
+        return "xruby/" + getNameWithoutSufix(script_name) + "/" + DEFAULT_RUBY_ID_CLASS_NAME;
     }
 
     public static String removeInvalidIdentifierPart(String method_name) {
@@ -68,7 +78,7 @@ public class NameFactory {
             script_name = "STDIN";
         }
 
-        return getNameWithoutSufix(script_name) +
+        return "xruby/" + getNameWithoutSufix(script_name) +
             "/BLOCK" +
             ((null == method_name) ? "" : "_" + removeInvalidIdentifierPart(method_name)) +
             "$" +
@@ -79,8 +89,12 @@ public class NameFactory {
         return createClassName(script_name, class_name);
     }
     
+    public static String createClassNameForSmap(String script_name) {
+        return "xruby/" + getNameWithoutSufix(script_name) + "/" + script_name + ".smap";
+    }
+
     public static String createMainClass(String script_name) {
-        return getNameWithoutSufix(script_name) + "." + DefaultName;
+        return "xruby." + getNameWithoutSufix(script_name) + "." + DefaultName;
     }
 
     public static String createClassFileName(String method_name) {
@@ -107,7 +121,7 @@ public class NameFactory {
         return required_file;
     }
 
-    static String getNameWithoutSufix(String script_name) {
+    private static String getNameWithoutSufix(String script_name) {
         File file = new File(script_name);
         String name = file.getName();
         int position_of_first_dot = name.indexOf('.');

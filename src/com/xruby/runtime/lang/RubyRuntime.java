@@ -201,7 +201,7 @@ public class RubyRuntime {
 
     private static void loadBuildinDotRb() {
         try {
-            Class c = Class.forName("builtin.main");
+            Class c = Class.forName("xruby.builtin.main");
             Object o = c.newInstance();
             RubyProgram p = (RubyProgram) o;
             p.invoke();
