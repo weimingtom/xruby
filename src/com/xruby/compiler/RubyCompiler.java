@@ -43,8 +43,8 @@ public class RubyCompiler {
             File f = new File(filename);
             if (f.isDirectory()) {
                 for (String file : f.list()) {
-                    if (file.charAt(0) != '.' &&
-                        file.endsWith(".rb")) {
+                    if ((file.charAt(0) != '.' && file.endsWith(".rb")) ||
+                        (new File(filename, file)).isDirectory()) {
                         compile(filename + "/" + file);
                     }
                 }
