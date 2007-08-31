@@ -16,54 +16,54 @@ import com.xruby.runtime.lang.RubyProgram;
 class CompilationResult {
 
     private final String name_;
-	private final byte[] code_;
+    private final byte[] code_;
 
-	public CompilationResult(String name, byte[] code) {
-		name_ = name;
-		code_ = code;
-	}
+    public CompilationResult(String name, byte[] code) {
+        name_ = name;
+        code_ = code;
+    }
 
-	public void save(JarOutputStream jarstream) throws FileNotFoundException, IOException {
-		String filename_to_save = NameFactory.createClassFileName(name_);
-		System.out.println("Added " + filename_to_save);
+    public void save(JarOutputStream jarstream) throws FileNotFoundException, IOException {
+        String filename_to_save = NameFactory.createClassFileName(name_);
+        System.out.println("Added " + filename_to_save);
 
-		jarstream.putNextEntry(new JarEntry(filename_to_save));
-		jarstream.write(code_);
-	}
+        jarstream.putNextEntry(new JarEntry(filename_to_save));
+        jarstream.write(code_);
+    }
 
-	public Class load(XRubyClassLoader loader) {
-		return loader.load(name_, code_);
-	}
+    public Class load(XRubyClassLoader loader) {
+        return loader.load(name_, code_);
+    }
 }
 
 public class CompilationResults {
 
     private final ArrayList<CompilationResult> results_ = new ArrayList<CompilationResult>();
 
-	public void add(CompilationResult result) {
-		results_.add(result);
-	}
+    public void add(CompilationResult result) {
+        results_.add(result);
+    }
 
-	public int size() {
-		return results_.size();
-	}
+    public int size() {
+        return results_.size();
+    }
 
-	public void save(String script_name) throws FileNotFoundException, IOException {
+    public void save(String script_name) throws FileNotFoundException, IOException {
+        File tarfilename = NameFactory.createJarFileName(script_name);
+        FileOutputStream fstream = new FileOutputStream(tarfilename);
+        JarOutputStream jarstream = new JarOutputStream(fstream, createManifest(script_name));
 
-		/*if (null != script_name) {
-			File save_location = NameFactory.createSaveLocation(script_name);
-			save_location.mkdir();
-		}*/
+        for (CompilationResult result : results_) {
+            result.save(jarstream);
+        }
 
-		File tarfilename = NameFactory.createJarFileName(script_name);
-		FileOutputStream fstream = new FileOutputStream(tarfilename);
-		JarOutputStream jarstream = new JarOutputStream(fstream, createManifest(script_name));
+        writeBlockInfo(script_name, jarstream);
 
-		for (CompilationResult result : results_) {
-			result.save(jarstream);
-		}
+        jarstream.close();
+        System.out.println("Generated " + tarfilename.toString());
+    }
 
-        // Write Block Info
+    private void writeBlockInfo(String script_name, JarOutputStream jarstream) throws IOException {
         // TODO: Add debug check here
         // TODO: We need a loop statement to support multiple files
         // if(is_debug?) {...}
@@ -74,43 +74,33 @@ public class CompilationResults {
 
         jarstream.putNextEntry(new JarEntry(NameFactory.createClassNameForSmap(script_name)));
         jarstream.write(smap.getBytes());
-
-        jarstream.close();
-		System.out.println("Generated " + tarfilename.toString());
-	}
-
-    private String combine(Map<String, int[]> blockMap, Map<String, int[]> methodMap) {
-        StringBuffer smap = new StringBuffer();
-        ArrayList list = new ArrayList<String>();
-
-        return smap.toString();
     }
 
     private Manifest createManifest(String script_name) {
-		Manifest manifest = new Manifest();
-		Attributes attrs = manifest.getMainAttributes();
-		attrs.putValue("Manifest-Version", "1.0");
-		attrs.putValue("Created-By", RubyCompiler.VERSION + " (XRuby)");
-		attrs.putValue("Main-Class", NameFactory.createMainClass(script_name));
-		//If use -jar on the java.exe command line, java.exe will quietly ignore
-		//the set environment classpath and any -classpath or -cp command line options.
-		//So have to mention them in the Class-Path manifest entry
-		attrs.putValue("Class-Path", "xruby-"+ RubyCompiler.VERSION + ".jar");
-		return manifest;
-	}
+        Manifest manifest = new Manifest();
+        Attributes attrs = manifest.getMainAttributes();
+        attrs.putValue("Manifest-Version", "1.0");
+        attrs.putValue("Created-By", RubyCompiler.VERSION + " (XRuby)");
+        attrs.putValue("Main-Class", NameFactory.createMainClass(script_name));
+        //If use -jar on the java.exe command line, java.exe will quietly ignore
+        //the set environment classpath and any -classpath or -cp command line options.
+        //So have to mention them in the Class-Path manifest entry
+        attrs.putValue("Class-Path", "xruby-"+ RubyCompiler.VERSION + ".jar");
+        return manifest;
+    }
 
-	/*
-	 * @return an instance of RubyProgram.
-	 */
-	public RubyProgram getRubyProgram() throws InstantiationException, IllegalAccessException {
+    /*
+     * @return an instance of RubyProgram.
+     */
+    public RubyProgram getRubyProgram() throws InstantiationException, IllegalAccessException {
 
-		XRubyClassLoader loader = new XRubyClassLoader();
-		Class classToRun = null;
-		for (CompilationResult result : results_) {
-			classToRun = result.load(loader);
-		}
+        XRubyClassLoader loader = new XRubyClassLoader();
+        Class classToRun = null;
+        for (CompilationResult result : results_) {
+            classToRun = result.load(loader);
+        }
 
-		//The "main program" is always the last one.
-		return (RubyProgram)classToRun.newInstance();
-	}
+        //The "main program" is always the last one.
+        return (RubyProgram)classToRun.newInstance();
+    }
 }
