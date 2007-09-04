@@ -7,7 +7,7 @@ package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.*;
 
-public abstract class RubyMethod extends MethodBlockBase {
+public abstract class RubyMethod extends MethodBlockBase implements Cloneable {
     private int access_;
     private RubyID id_; //its own id, saved to build better error message
 
@@ -19,6 +19,16 @@ public abstract class RubyMethod extends MethodBlockBase {
     protected RubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
         super(argc, has_asterisk_parameter, default_argc);
         access_ = PUBLIC;
+    }
+    
+    public RubyMethod clone() {
+    	RubyMethod v;
+        try {
+            v = (RubyMethod) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RubyException(RubyRuntime.ExceptionClass, e.toString());
+        }
+        return v;
     }
 
     void setID(RubyID id) {
@@ -107,7 +117,7 @@ public abstract class RubyMethod extends MethodBlockBase {
     }
 
     protected RubyValue run(RubyValue receiver, RubyBlock block) {
-        return this.run(receiver, new RubyArray(), block);
+        return this.run(receiver, (RubyArray)null, block);
     }
 
     // one arg invocation

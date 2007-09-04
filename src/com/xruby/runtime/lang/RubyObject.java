@@ -8,7 +8,7 @@ package com.xruby.runtime.lang;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 
-@RubyLevelClass(name="Object", superclass="")
+@RubyLevelClass(name="Object", superclass="", modules="Kernel")
 public class RubyObject extends RubyBasic {
 	public RubyObject(RubyClass c) {
 		super(c);

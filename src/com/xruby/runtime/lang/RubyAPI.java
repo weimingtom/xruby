@@ -83,9 +83,9 @@ public class RubyAPI {
         }
     }
 
-    public static boolean isInstanceOf(RubyValue class_to_compare, RubyValue value) {
-        return (value.getRubyClass() == class_to_compare);
-    }
+//    public static boolean isInstanceOf(RubyValue class_to_compare, RubyValue value) {
+//        return (value.getRubyClass() == class_to_compare);
+//    }
 
     //e.g. defined? super
     public static RubyValue isDefinedSuperMethod(RubyValue receiver, String method_name, RubyMethod current_method) {

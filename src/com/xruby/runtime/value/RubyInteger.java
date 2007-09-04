@@ -23,6 +23,10 @@ import com.xruby.runtime.lang.annotation.UndefMethod;
 		}
 )
 public abstract class RubyInteger extends RubyNumeric {
+	public RubyInteger toRubyInteger() {
+		return this;
+	}
+	
 	@RubyLevelMethod(name="times")
 	public RubyValue times(RubyBlock block) {
 		RubyValue a = ObjectFactory.FIXNUM0;

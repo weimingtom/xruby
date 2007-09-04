@@ -47,6 +47,10 @@ public class RubyBignum extends RubyInteger {
 	public double toFloat() {
 		return this.value_.doubleValue();
 	}
+	
+	public RubyFloat toRubyFloat() {
+		return ObjectFactory.createFloat(this.value_.doubleValue());
+	}
 
 	@RubyLevelMethod(name="to_s")
 	public RubyString to_s() {
@@ -383,13 +387,13 @@ public class RubyBignum extends RubyInteger {
     	return v;
     }
 
-    public static RubyValue bignorm(BigInteger value) {
+    public static RubyInteger bignorm(BigInteger value) {
         if (value.compareTo(FIXNUM_MAX) > 0 || value.compareTo(FIXNUM_MIN) < 0)
             return ObjectFactory.createBignum(value);
         return ObjectFactory.createFixnum(value.intValue());
     }
 
-    public static RubyValue bignorm(long value) {
+    public static RubyInteger bignorm(long value) {
         if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE)
             return ObjectFactory.createBignum(BigInteger.valueOf(value));
         return ObjectFactory.createFixnum((int) value);

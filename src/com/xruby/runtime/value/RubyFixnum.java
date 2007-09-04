@@ -38,6 +38,10 @@ public class RubyFixnum extends RubyInteger {
 	public double toFloat() {
 		return this.value_;
 	}
+	
+	public RubyFloat toRubyFloat() {
+		return ObjectFactory.createFloat(this.value_);
+	}
 
 	public RubyFixnum convertToInteger() {
 		return this;

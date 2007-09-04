@@ -56,7 +56,7 @@ public class RubyModule extends MethodCollection {
     
     public void defineModuleMethod(String name, RubyMethod m) {
     	this.definePrivateMethod(name, m);
-    	this.getSingletonClass().defineMethod(name, m);
+    	this.getSingletonClass().defineMethod(name, m.clone());
     }
 
     protected RubyValue addMethod(RubyID id, RubyMethod m, int attribute) {
@@ -70,7 +70,7 @@ public class RubyModule extends MethodCollection {
     }
     
     public boolean isMethodBound(RubyID id, boolean check) {
-    	RubyMethod m = this.findMethod(id);
+    	RubyMethod m = this.findOwnMethod(id);
     	if (null != m && !UndefMethod.isUndef(m)) {
     		return true;
     	}

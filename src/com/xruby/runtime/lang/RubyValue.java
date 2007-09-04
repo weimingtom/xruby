@@ -8,6 +8,7 @@ package com.xruby.runtime.lang;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyFloat;
+import com.xruby.runtime.value.RubyInteger;
 import com.xruby.runtime.value.RubyString;
 
 import java.util.HashMap;
@@ -123,8 +124,9 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     }
     
     public boolean respondTo(RubyID id) {
-    	if (this.getRubyClass().findMethod(RubyID.RESPOND_TO_P) == RubyRuntime.getRubyMethod()) {
-    		return this.getRubyClass().isMethodBound(id, false);
+    	RubyClass klass = this.getRubyClass();
+		if (klass.findMethod(RubyID.RESPOND_TO_P) == RubyRuntime.getRespondMethod()) {
+    		return klass.isMethodBound(id, false);
     	} else {
     		return RubyAPI.callOneArgMethod(this, id.toSymbol(), null, RubyID.RESPOND_TO_P).isTrue();
     	}
@@ -158,12 +160,16 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     	return this.convertToString().toStr();
     }
     
+    public RubyInteger toRubyInteger() {
+    	return this.convertToInteger().toRubyInteger();
+    }
+    
     public RubyFloat toRubyFloat() {
-    	return ObjectFactory.createFloat(this.toFloat());
+    	return this.convertToFloat().toRubyFloat();
     }
     
     public RubyString toRubyString() {
-    	return ObjectFactory.createString(this.toStr());
+    	return this.convertToString().toRubyString();
     }
     
     private RubyValue convertToInteger() {
@@ -193,7 +199,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     	
     	RubyValue v = RubyAPI.callNoArgMethod(this, null, id);
     	
-    	if (v.isKindOf(klass)) {
+    	if (!v.isKindOf(klass)) {
     		throw new RubyException(this.getRubyClass().getName() + "#" + id.toString() + " should return " + klass.getName());
     	}
     	

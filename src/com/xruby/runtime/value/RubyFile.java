@@ -230,7 +230,7 @@ public class RubyFile extends RubyIO {
 
     @RubyLevelMethod(name="open", singleton=true)
     public static RubyValue open(RubyValue receiver, RubyArray args, RubyBlock block) {
-        return RubyKernel.open(receiver, args, block);
+        return RubyKernelModule.open(receiver, args, block);
     }
 
 }

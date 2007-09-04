@@ -86,8 +86,6 @@ public class RubyRuntime {
         RubySingletonClass metaClass = new RubySingletonClass(ObjectClass, ClassClass);
         metaClass = new RubySingletonClass(ModuleClass, metaClass);
         metaClass = new RubySingletonClass(ClassClass, metaClass);
-        
-        
 
         KernelModule = RubyAPI.defineModule("Kernel");
 
@@ -111,7 +109,10 @@ public class RubyRuntime {
         ModuleClassBuilder.initialize();
         RubyTypeFactory.getClass(RubyClass.class);
 //        ClassClassBuilder.initialize();
-        KernelModuleBuilder.initialize();
+//        KernelModuleBuilder.initialize();
+        
+        RubyModule m = RubyTypeFactory.getModule(RubyKernelModule.class);
+        respondToMethod = m.findMethod(RubyID.RESPOND_TO_P);
 
         NumericClass = RubyTypeFactory.getClass(RubyNumeric.class);
         IntegerClass = RubyTypeFactory.getClass(RubyInteger.class);
@@ -250,11 +251,7 @@ public class RubyRuntime {
         supported = val;
     }
 
-    public static void setRespondToMethod(RubyMethod method) {
-        respondToMethod = method;
-    }
-
-    public static RubyMethod getRubyMethod() {
+    public static RubyMethod getRespondMethod() {
         return respondToMethod;
     }
 }
