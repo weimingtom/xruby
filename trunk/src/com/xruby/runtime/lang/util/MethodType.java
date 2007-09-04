@@ -5,15 +5,20 @@
 
 package com.xruby.runtime.lang.util;
 
-public enum MethodType {
-	UNKNOWN(-1),
-	NO_ARG(1), 
-	ONE_ARG(2), 
-	NO_OR_ONE_ARG(3),
-	TWO_ARG(4), 
-	ONE_OR_TWO_ARG(6),
-	VAR_ARG(8),
-	NO_ONE_OR_VAR(11);
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.commons.Method;
+
+import com.xruby.compiler.codegen.CgUtil;
+
+public class MethodType {
+	public static MethodType UNKNOWN = new FixedMethodType(-1, "UNKNOWN");
+	public static MethodType NO_ARG = new FixedMethodType(1, "NO_ARG");
+	public static MethodType ONE_ARG = new FixedMethodType(2, "ONE_ARG");
+	public static MethodType NO_OR_ONE_ARG = new FixedMethodType(3, "NO_OR_ONE_ARG");
+	public static MethodType TWO_ARG = new FixedMethodType(4, "TWO_ARG");
+	public static MethodType ONE_OR_TWO_ARG = new FixedMethodType(6, "ONE_OR_TWO_ARG");
+	public static MethodType VAR_ARG = new FixedMethodType(8, "VAR_ARG");
 	
 	private int value;
 	
@@ -25,7 +30,27 @@ public enum MethodType {
 		return this.value;
 	}
 	
-	static MethodType valueOf(int value) {
+	private static final Type methodTypeType = Type.getType(MethodType.class);
+
+	public void generateMethodType(GeneratorAdapter mg) {
+		mg.push(this.value);
+		mg.invokeStatic(methodTypeType, 
+				Method.getMethod(CgUtil.getMethodName("valueOf", MethodType.class, Integer.TYPE)));
+	}
+	
+	static boolean isNoArg(MethodType type) {
+		return (type.value & NO_ARG.value) != 0;
+	}
+	
+	static boolean isOneArg(MethodType type) {
+		return (type.value & ONE_ARG.value) != 0;
+	}
+	
+	static boolean isTwoArg(MethodType type) {
+		return (type.value & TWO_ARG.value) != 0;
+	}
+	
+	public static MethodType valueOf(int value) {
 		switch(value) {
 		case -1:
 			return UNKNOWN;
@@ -41,10 +66,21 @@ public enum MethodType {
 			return ONE_OR_TWO_ARG;
 		case 8:
 			return VAR_ARG;
-		case 11:
-			return NO_ONE_OR_VAR;
 		default:
-			return VAR_ARG;
+			return new MethodType(value);
+		}
+	}
+	
+	static class FixedMethodType extends MethodType {
+		private String str;
+		
+		private FixedMethodType(int value, String text) {
+			super(value);
+			this.str = text;
+		}
+
+		public void generateMethodType(GeneratorAdapter mg) {
+			mg.getStatic(methodTypeType, this.str, methodTypeType);
 		}
 	}
 }

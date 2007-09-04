@@ -62,6 +62,10 @@ public class RubyFloat extends RubyNumeric {
 		return this;
 	}
 	
+	public RubyInteger toRubyInteger() {
+		return RubyBignum.bignorm((int)this.value_);
+	}
+
 	@RubyLevelMethod(name="to_s")
 	public RubyString to_s() {
 		return ObjectFactory.createString(Double.toString(this.value_));

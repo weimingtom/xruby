@@ -46,11 +46,15 @@ public class RubyString extends RubyBasic {
     public int toInt() {
         return Integer.valueOf(sb_.toString());
     }
+    
+    public RubyInteger toRubyInteger() {
+    	return RubyBignum.bignorm(this.toInt());
+    }
 
     public double toFloat() {
         return Double.parseDouble(this.sb_.toString());
     }
-
+    
     public RubyString toRubyString() {
         return this;
     }
@@ -92,7 +96,7 @@ public class RubyString extends RubyBasic {
         if (v instanceof RubyString) {
             return appendString((RubyString)v);
         } else {
-            RubyValue r = RubyAPI.callPublicMethod(v, null, null, RubyID.toSID);
+            RubyValue r = RubyAPI.callPublicNoArgMethod(v, null, RubyID.toSID);
             return appendString((RubyString)r);
         }
     }
@@ -736,8 +740,17 @@ public class RubyString extends RubyBasic {
     }
 
     @RubyLevelMethod(name="to_i")
-    public RubyValue to_i(RubyArray args) {
-        String value = toString();
+    public RubyValue to_i() {
+    	return to_i(10);
+    }
+    
+    @RubyLevelMethod(name="to_i")
+    public RubyValue to_i(RubyValue arg) {
+        return to_i(arg.toInt());
+    }
+
+	private RubyValue to_i(int radix) {
+		String value = toString();
 
         value = value.replaceAll("[^+\\-a-zA-Z0-9]", "");
         int end = value.indexOf('+', 1);
@@ -757,11 +770,6 @@ public class RubyString extends RubyBasic {
 
         value = value.substring(0, end);
 
-        int radix = 10;
-        if (null != args) {
-            radix = ((RubyFixnum) args.get(0)).toInt();
-        }
-
         if (radix >= 2 && radix <= 36) {
             BigInteger bigint;
             try {
@@ -772,8 +780,7 @@ public class RubyString extends RubyBasic {
             return RubyBignum.bignorm(bigint);
         }
         throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
-
-    }
+	}
 
     @RubyLevelMethod(name="hex")
     public RubyValue hex() {
@@ -1050,9 +1057,9 @@ public class RubyString extends RubyBasic {
         String format = toString();
         String s;
         if (arg instanceof RubyArray) {
-            s = String.format(format, RubyKernel.buildFormatArg((RubyArray)arg, 0));
+            s = String.format(format, RubyKernelModule.buildFormatArg((RubyArray)arg, 0));
         } else {
-            s = String.format(format, RubyKernel.buildFormatArg(new RubyArray(arg), 0));
+            s = String.format(format, RubyKernelModule.buildFormatArg(new RubyArray(arg), 0));
         }
         return ObjectFactory.createString(s);
     }

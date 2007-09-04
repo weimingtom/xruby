@@ -111,7 +111,6 @@ public abstract class RubyTypeFactory {
 	}
 	
 	private static final Type methodFactoryType = Type.getType(MethodFactory.class);
-	private static final Type methodTypeType = Type.getType(MethodType.class);
 	private static final XRubyClassLoader cl = new XRubyClassLoader();
 	private static ClassDumper dupmer = new ClassDumper();
 	
@@ -386,7 +385,7 @@ public abstract class RubyTypeFactory {
 	
 	private void getMethod(GeneratorAdapter mg, String methodName, MethodType type, boolean singleton, boolean block) {
 		mg.push(methodName);
-		mg.getStatic(methodTypeType, type.toString(), methodTypeType);
+		type.generateMethodType(mg);
 		mg.push(singleton);
 		mg.push(block);
 		mg.invokeVirtual(methodFactoryType, Method.getMethod(

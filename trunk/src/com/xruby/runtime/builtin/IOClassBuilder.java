@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.channels.Pipe;
 
 import com.xruby.runtime.lang.*;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.value.*;
 
 class IO_write extends RubyOneArgMethod {
@@ -17,7 +18,7 @@ class IO_write extends RubyOneArgMethod {
         if (arg instanceof RubyString) {
             value = (RubyString) arg;
         } else {
-            RubyValue str = RubyAPI.callPublicMethod(arg, null, null, RubyID.toSID);
+            RubyValue str = RubyAPI.callPublicNoArgMethod(arg, null, RubyID.toSID);
             value = (RubyString) str;
         }
 
@@ -30,15 +31,23 @@ class IO_write extends RubyOneArgMethod {
     }
 }
 
-class IO_print extends Kernel_print {
+class IO_print extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        return RubyKernelModule._print(receiver);
+    }
+	
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        return _run(receiver, args, block);
+        return RubyKernelModule._print(receiver, args);
     }
 }
 
-class IO_puts extends Kernel_puts {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        return _run(receiver, args, block);
+class IO_puts extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+		return RubyKernelModule._puts(receiver);
+	}
+
+	protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+        return RubyKernelModule._puts(receiver, args);
     }
 }
 

@@ -9,6 +9,7 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.util.DummyMethod;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.value.RubyKernelModule;
 import com.xruby.runtime.value.RubyString;
 import com.xruby.runtime.value.RubyProc;
 
@@ -334,7 +335,7 @@ class Module_module_eval extends RubyVarArgMethod {
             RubyBinding binding = new RubyBinding();
             binding.setScope((RubyModule)receiver);
             binding.setSelf(receiver);
-            return Kernel_eval.eval(program_text, binding, null);
+            return RubyKernelModule.eval(program_text, binding, null);
         } else {
             block.setScope((RubyModule)receiver);
             block.setSelf(receiver);

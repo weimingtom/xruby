@@ -5,6 +5,9 @@
 
 package com.xruby.runtime.lang.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Type;
 
@@ -29,40 +32,54 @@ class MethodFactoryHelper {
 			helper.createRunMethod(cv, hostClass, castClass, name, staticMethod, block);
 		}
 	}
+	
+	private static final RunMethodHelper NO_ARG_RUN_HELPER = new NoArgRunMethodHelper();
+	private static final RunMethodHelper ONE_ARG_RUN_HELPER = new OneArgRunMethodHelper();
+	private static final RunMethodHelper TWO_ARG_RUN_HELPER = new TwoArgRunMethodHelper();
+	private static final RunMethodHelper VAR_ARG_RUN_HELPER = new VarArgRunMethodHelper();
 
 	private static final MethodFactoryHelper NO_ARG_HELPER =
-		new MethodFactoryHelper(Types.RUBY_NOARGMETHOD_TYPE, new NoArgRunMethodHelper());	
+		new MethodFactoryHelper(Types.RUBY_NOARGMETHOD_TYPE, NO_ARG_RUN_HELPER);	
 	private static final MethodFactoryHelper ONE_ARG_HELPER =
-		new MethodFactoryHelper(Types.RUBY_ONEARGMETHOD_TYPE, new OneArgRunMethodHelper());
+		new MethodFactoryHelper(Types.RUBY_ONEARGMETHOD_TYPE, ONE_ARG_RUN_HELPER);
 	private static final MethodFactoryHelper NO_OR_ONE_ARG_HELPER = 
 		new MethodFactoryHelper(Types.RUBY_NOORONEARGMETHOD_TYPE, 
-				new NoArgRunMethodHelper(),	new OneArgRunMethodHelper());
+				NO_ARG_RUN_HELPER,	ONE_ARG_RUN_HELPER);
 	private static final MethodFactoryHelper TWO_ARG_HELPER = 
-		new MethodFactoryHelper(Types.RUBY_TWOARGMETHOD_TYPE, new TwoArgRunMethodHelper());
+		new MethodFactoryHelper(Types.RUBY_TWOARGMETHOD_TYPE, TWO_ARG_RUN_HELPER);
 	private static final MethodFactoryHelper ONE_OR_TWO_ARG_HELPER = 
 		new MethodFactoryHelper(Types.RUBY_ONEORTWOARGMETHOD_TYPE, 
-				new OneArgRunMethodHelper(), new TwoArgRunMethodHelper());
-	private static final MethodFactoryHelper NO_ONE_OR_VAR_HELPER =
-		new MethodFactoryHelper(Types.RUBY_VARARGMETHOD_TYPE, new NoArgRunMethodHelper(),	new OneArgRunMethodHelper(), new VarArgRunMethodHelper());
-	private static final MethodFactoryHelper DEFAULT_ARG_HELPER = 
-		new MethodFactoryHelper(Types.RUBY_VARARGMETHOD_TYPE, new VarArgRunMethodHelper());
+				ONE_ARG_RUN_HELPER, TWO_ARG_RUN_HELPER);
 	
 	public static final MethodFactoryHelper getHelper(MethodType type) {
-		switch (type) {
-		case NO_ARG:
+		if (type == MethodType.NO_ARG) {
 			return NO_ARG_HELPER;
-		case ONE_ARG:
+		} else if (type == MethodType.ONE_ARG) {
 			return ONE_ARG_HELPER;
-		case NO_OR_ONE_ARG:
+		} else if (type == MethodType.NO_OR_ONE_ARG) {
 			return NO_OR_ONE_ARG_HELPER;
-		case TWO_ARG:
+		} else if (type == MethodType.TWO_ARG) {
 			return TWO_ARG_HELPER;
-		case ONE_OR_TWO_ARG:
+		} else if (type == MethodType.ONE_OR_TWO_ARG) {
 			return ONE_OR_TWO_ARG_HELPER;
-		case NO_ONE_OR_VAR:
-			return NO_ONE_OR_VAR_HELPER;
-		default:
-			return DEFAULT_ARG_HELPER;
+		} else {
+			List<RunMethodHelper> helpers = new ArrayList<RunMethodHelper>();
+			helpers.add(VAR_ARG_RUN_HELPER);
+			
+			if (MethodType.isNoArg(type)) {
+				helpers.add(NO_ARG_RUN_HELPER);
+			}
+			
+			if (MethodType.isOneArg(type)) {
+				helpers.add(ONE_ARG_RUN_HELPER);
+			}
+			
+			if (MethodType.isTwoArg(type)) {
+				helpers.add(TWO_ARG_RUN_HELPER);
+			}
+			
+			return new MethodFactoryHelper(Types.RUBY_VARARGMETHOD_TYPE, 
+					(RunMethodHelper[])helpers.toArray(new RunMethodHelper[0]));
 		}
 	}
 }
