@@ -95,7 +95,22 @@
 		</java>
 	</target>
 
-	<target name="dist" depends="builtin" description="generate the distribution" >
+	<target name="stdlib" depends="builtin" description="compile ruby stdlib" >
+		<java classname="${main-class}" fork="true" failonerror="true">
+			<classpath>
+				<pathelement location="${antlr.jar}" />
+				<pathelement location="${asm.jar}" />
+				<pathelement location="${commons-cli.jar}" />
+				<pathelement location="${jakarta-oro.jar}" />
+				<pathelement location="${build.dir}" />
+			</classpath>
+
+			<arg value="-c"/>
+			<arg value="lib/ruby/1.8"/>
+		</java>
+	</target>
+
+	<target name="dist" depends="stdlib" description="generate the distribution" >
 		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar.jar}"/>
 		<!-- Put everything except tests in ${build} into the jar file -->
 		<jarjar jarfile="${xruby.jar}">
@@ -105,6 +120,7 @@
 			<zipfileset src="${commons-cli.jar}"/>
 			<zipfileset src="${jakarta-oro.jar}"/>
 			<zipfileset src="builtin.jar"/>
+			<zipfileset src="1.8.jar"/>
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}"/>
 			</manifest>
@@ -112,6 +128,7 @@
 			<rule pattern="antlr.**" result="xruby.antlr.@1"/>
 		</jarjar>
 		<!--delete file="builtin.jar"/-->
+		<!--delete file="1.8.jar"/-->
 	</target>
 
 	<target name="test" depends="dist" description="test" >
