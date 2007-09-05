@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 
 public class RubyCompiler {
 
@@ -33,39 +34,55 @@ public class RubyCompiler {
         strip_ = strip;
     }
 
-    public CompilationResults compile(String filename) throws FileNotFoundException,
+    public CompilationResults compileFile(String filename) throws FileNotFoundException,
         RecognitionException, TokenStreamException {
 
         if (null == filename) {
             Reader reader = new InputStreamReader(System.in);
-            return compile(null, new BufferedReader(reader));
+            return compile(null, null, new BufferedReader(reader));
         } else {
             File f = new File(filename);
             if (f.isDirectory()) {
-                for (String file : f.list()) {
-                    if ((file.charAt(0) != '.' && file.endsWith(".rb")) ||
-                        (new File(filename, file)).isDirectory()) {
-                        compile(filename + "/" + file);
-                    }
-                }
-                return compilation_results_;
+                return compileFileOrDir(filename, filename);
             } else {
-                Reader reader = new FileReader(new File(filename));
-                return compile(filename, new BufferedReader(reader));
+                Reader reader = new FileReader(f);
+                return compile(null, filename, new BufferedReader(reader));
             }
         }
     }
 
-    public CompilationResults compile(Reader reader)
-        throws RecognitionException, TokenStreamException {
-        return compile(null, reader);
+    private CompilationResults compileFileOrDir(final String extra, String filename) throws FileNotFoundException,
+        RecognitionException, TokenStreamException {
+
+        File f = new File(filename);
+        if (f.isDirectory()) {
+            for (String file : f.list()) {
+                if (file.charAt(0) == '.') {
+                    continue;
+                }
+                
+                if (file.endsWith(".rb") || 
+                    (new File(filename, file)).isDirectory()) {
+                    compileFileOrDir(extra, filename + "/" + file);
+                }
+            }
+            return compilation_results_;
+        } else {
+            Reader reader = new FileReader(f);
+            return compile(extra, filename, new BufferedReader(reader));
+        }
     }
 
-    public CompilationResults compile(String filename, Reader reader)
+    public CompilationResults compileString(String filename, String text)
+        throws RecognitionException, TokenStreamException {
+        return compile(null, null, new StringReader(text));
+    }
+
+    private CompilationResults compile(String extra, String filename, Reader reader)
         throws RecognitionException, TokenStreamException {
         String [] pre_defined = (null == binding_) ? null : binding_.getVariableNames().toArray(new String[] {});
         RubyParser parser = new RubyParser(reader, pre_defined, strip_);
-        RubyCompilerImpl compiler = new RubyCompilerImpl(filename, compilation_results_);
+        RubyCompilerImpl compiler = new RubyCompilerImpl(extra, filename, compilation_results_);
 
         // Enable debug or not
         if (enableDebug) {

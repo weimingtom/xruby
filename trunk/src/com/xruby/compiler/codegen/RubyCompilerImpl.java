@@ -23,13 +23,15 @@ public class RubyCompilerImpl implements CodeVisitor {
     private ClassGenerator cg_;
     private final Stack<ClassGenerator> suspended_cgs_ = new Stack<ClassGenerator>();
     private final CompilationResults compilation_results_;
+    private final String extra_;
     private final String script_name_;
     private RubyBinding binding_;
 
     private Label currentLineLabel;
     private boolean enableDebug = false;
 
-    public RubyCompilerImpl(String script_name, CompilationResults compilation_results) {
+    public RubyCompilerImpl(String extra, String script_name, CompilationResults compilation_results) {
+        extra_ = extra;
         script_name_ = script_name;
         compilation_results_ = compilation_results;
     }
@@ -78,8 +80,8 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public void compile(Program program, RubyBinding binding) {
         binding_ = binding;
-        RubyIDClassGenerator.initScript(script_name_);
-        String className = NameFactory.createClassName(script_name_, null);
+        RubyIDClassGenerator.initScript(extra_, script_name_);
+        String className = NameFactory.createClassName(extra_, script_name_, null);
         cg_ = new ClassGeneratorForRubyProgram(className, script_name_, binding, true, false);
         MethodGenerator mg = cg_.getMethodGenerator();
 
@@ -125,7 +127,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         int i = cg_.getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
         cg_.getMethodGenerator().storeLocal(i);
 
-        String uniqueName = NameFactory.createClassnameForClassModuleBuilder(script_name_, name);
+        String uniqueName = NameFactory.createClassnameForClassModuleBuilder(extra_, script_name_, name);
         Type builder = Type.getType("L" + uniqueName + ";");
         cg_.getMethodGenerator().newInstance(builder);
         cg_.getMethodGenerator().dup();
@@ -177,7 +179,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         } else if (cg_ instanceof ClassGeneratorForRubyBlock) {
             method_name = ((ClassGeneratorForRubyBlock)cg_).getOrginalMethodName();
         }
-        String uniqueBlockName = NameFactory.createClassNameForBlock(script_name_, method_name);
+        String uniqueBlockName = NameFactory.createClassNameForBlock(extra_, script_name_, method_name);
 
         cg_.getMethodGenerator().new_BlockClass(cg_, uniqueBlockName, isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
 
@@ -260,7 +262,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
 
-        String uniqueMethodName = NameFactory.createClassName(script_name_, methodName);
+        String uniqueMethodName = NameFactory.createClassName(extra_, script_name_, methodName);
 
         if (!is_singleton_method) {
             cg_.getMethodGenerator().loadCurrentScope(isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());

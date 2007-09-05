@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2006-2007 Yu Su, Yu Zhang
  * Distributed under the GNU General Public License 2.0
  */
@@ -14,7 +14,7 @@ import java.io.StringReader;
  *
  */
 public class RequireExample {
-	public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         String program_text = "" +
                 "import 'java.util.*'\n" +
@@ -24,26 +24,26 @@ public class RequireExample {
                 "puts r.nextInt(3)\n" +
                 //call methods inherited superclass(for example:Object)
                 "puts r.toString\n" +
-                
-                
+
+
                 //call static methods and fields
                 "import 'java.lang.Math'\n"+
                 "puts JMath.PI\n"+
                 "puts JMath.cos(0)\n"+
-                
-                
+
+
                 //access Java constant variables
                 "import 'java.lang.System'\n"+
                 "out = System::out\n"+
                 "out.println('ok!')\n"+
-                
-                
+
+
                 //escape from name collision
                 "import 'java.lang.Object'\n"+
                 "o = JObject.new\n" +
                 "puts o.toString\n" +
-                
-                
+
+
                 //implement a Java interface
                 "require_java 'java.lang.Runnable'\n"+
                 "require_java 'java.lang.Thread'\n"+
@@ -55,16 +55,16 @@ public class RequireExample {
                 "r = MyRunnable.new\n"+
                 "thread = JThread.new(r)\n"+
                 "thread.start()\n"+
-                
+
                 //Creating Java Arrays and accessing Java Arrays
-                "import 'com.xruby.runtime.javasupport.AssistantTester'\n" +               
+                "import 'com.xruby.runtime.javasupport.AssistantTester'\n" +
                 "import 'java.lang.reflect.Array'\n"+
                 "import 'java.lang.String'\n"+
                 "s = JArray.newInstance(JString, 2)\n"+
                 "s[0]='Hello '\n"+
                 "s[1]='World!'\n"+
                 "AssistantTester.echo(s)\n"+
-                
+
                 //Handling Java exceptions
                 "import 'java.io.FileInputStream'\n"+
                 "import 'java.io.FileNotFoundException'\n"+
@@ -77,7 +77,7 @@ public class RequireExample {
                 "rescue IOException=>ioe\n"+
                 "   puts ioe\n"+
                 "end\n"+
-                
+
                 "array = ArrayList.new\n" +
                 "array.add 1\n" +
                 "array.add 2\n" +
@@ -85,7 +85,7 @@ public class RequireExample {
                 "for i in 1 ... 3\n" +
                 "    puts array.get(i)\n" +
                 "end\n"+
-                
+
                 //JavaBean support
                 "import 'javax.swing.JFrame'\n"+
                 "f = JFrame.new('hello')\n"+
@@ -94,14 +94,14 @@ public class RequireExample {
                 //calls getTitle
                 "puts f.title\n"+
                 "\n";
-        
-        RubyCompiler compiler = new RubyCompiler(null, false);
-		CompilationResults codes = compiler.compile(new StringReader(program_text));
-		RubyProgram p = codes.getRubyProgram();
 
-		RubyRuntime.init(args);
-		p.invoke();
-		RubyRuntime.fini();
+        RubyCompiler compiler = new RubyCompiler(null, false);
+        CompilationResults codes = compiler.compileString(null, program_text);
+        RubyProgram p = codes.getRubyProgram();
+
+        RubyRuntime.init(args);
+        p.invoke();
+        RubyRuntime.fini();
 
     }
 }

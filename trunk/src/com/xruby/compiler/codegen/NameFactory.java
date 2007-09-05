@@ -13,30 +13,47 @@ public class NameFactory {
     private static AtomicInteger count_ = new AtomicInteger(0);
     private static final String DefaultName = "main";
 
-    public static String DEFAULT_RUBY_ID_CLASS_NAME = "RubyIDContainer"; 
+    public static String DEFAULT_RUBY_ID_CLASS_NAME = "RubyIDContainer";
 
     public static void reset() {
         count_.set(0);
     }
 
-    public static String createClassName(String script_name, String method_name) {
+    /**
+     * About the @extra parameter:
+     * If you compile a dir, for example:
+     * dir
+     *  |- test.rb
+     *  |- subdir
+     *        |-test2.rb
+     * If the command line is 'ruby -c dir', it will generate the following class files:
+     * test/main.class
+     * subdir/test2/main.class
+     * ...
+     * In this case createClassName("dir", "dir/subdir/test.rb") will be called
+     */
+    public static String createClassName(String extra, String script_name, String method_name) {
         if (null == script_name) {
             script_name = "STDIN";
         }
 
         if (null == method_name) {
-            return "xruby/" + getNameWithoutSufix(script_name) + "/" + DefaultName;
+            return "xruby/" + getNameWithoutPrefixAndSufix(extra, script_name) + "/" + DefaultName;
         } else {
-            return "xruby/" + getNameWithoutSufix(script_name) + "/" + removeInvalidIdentifierPart(method_name) + "$" + count_.getAndIncrement();
+            return "xruby/" + getNameWithoutPrefixAndSufix(extra, script_name) + "/" + removeInvalidIdentifierPart(method_name) + "$" + count_.getAndIncrement();
         }
     }
 
-    public static String createClassNameForIDContainer(String script_name) {
-        if (null == script_name) {
-			script_name = "STDIN";
-		}
+    public static String createClassnameForClassModuleBuilder(String extra, String script_name, String class_name) {
+        return createClassName(extra, script_name, class_name);
+    }
 
-        return "xruby/" + getNameWithoutSufix(script_name) + "/" + DEFAULT_RUBY_ID_CLASS_NAME;
+    public static String createClassNameForIDContainer(String extra, String script_name) {
+        if (null == script_name) {
+            script_name = "STDIN";
+        }
+
+        return "xruby/" + getNameWithoutPrefixAndSufix(extra, script_name) + "/" + DEFAULT_RUBY_ID_CLASS_NAME;
     }
 
     public static String removeInvalidIdentifierPart(String method_name) {
@@ -73,22 +90,18 @@ public class NameFactory {
         }
     }
 
-    public static String createClassNameForBlock(String script_name, String method_name) {
+    public static String createClassNameForBlock(String extra, String script_name, String method_name) {
         if (null == script_name) {
             script_name = "STDIN";
         }
 
-        return "xruby/" + getNameWithoutSufix(script_name) +
+        return "xruby/" + getNameWithoutPrefixAndSufix(extra, script_name) +
             "/BLOCK" +
             ((null == method_name) ? "" : "_" + removeInvalidIdentifierPart(method_name)) +
             "$" +
             count_.getAndIncrement();
     }
 
-    public static String createClassnameForClassModuleBuilder(String script_name, String class_name) {
-        return createClassName(script_name, class_name);
-    }
-    
     public static String createClassNameForSmap(String script_name) {
         return "xruby/" + getNameWithoutSufix(script_name) + "/" + script_name + ".smap";
     }
@@ -130,6 +143,21 @@ public class NameFactory {
         }
 
         return name.replace('-', '$');//'-' is not allowed for java
+    }
+
+    private static String getNameWithoutPrefixAndSufix(String omit, String script_name) {
+        if (null == omit) {
+            return getNameWithoutSufix(script_name);
+        }
+
+        assert(script_name.startsWith(omit));
+        String extra = script_name.substring(omit.length() + 1);
+        int position_of_first_dot = extra.indexOf('.');
+        if (position_of_first_dot >= 0) {
+            extra = extra.substring(0, position_of_first_dot);
+        }
+
+        return extra.replace('-', '$');//'-' is not allowed for java
     }
 
     /// @param name e.g. test/main.class

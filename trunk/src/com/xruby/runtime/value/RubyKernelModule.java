@@ -277,7 +277,7 @@ public class RubyKernelModule {
 	public static RubyValue eval(RubyString program_text, RubyBinding binding, String file_name) {
         RubyCompiler compiler = new RubyCompiler(binding, false);
         try {
-            CompilationResults codes = compiler.compile(file_name, new StringReader(program_text.toString()));
+            CompilationResults codes = compiler.compileString(file_name, program_text.toString());
 
             RubyProgram p = codes.getRubyProgram();
             if (null != binding) {

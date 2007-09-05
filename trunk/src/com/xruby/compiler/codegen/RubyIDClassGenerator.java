@@ -48,8 +48,8 @@ public class RubyIDClassGenerator {
         return "ID" + counter++;
     }
 
-    public static void initScript(String script_name) {
-        RubyIDClassName = NameFactory.createClassNameForIDContainer(script_name);
+    public static void initScript(String extra, String script_name) {
+        RubyIDClassName = NameFactory.createClassNameForIDContainer(extra, script_name);
     }
 
     public static void clear() {
@@ -73,7 +73,7 @@ public class RubyIDClassGenerator {
 
     private static byte[] visitEnd() {
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-		cw.visit(Opcodes.V1_1, Opcodes.ACC_PUBLIC, RubyIDClassName, null, "java/lang/Object", null);
+        cw.visit(Opcodes.V1_1, Opcodes.ACC_PUBLIC, RubyIDClassName, null, "java/lang/Object", null);
         Method staticBlock = Method.getMethod("void <clinit> ()V");
         GeneratorAdapter staticBlockMg = new GeneratorAdapter(Opcodes.ACC_STATIC, staticBlock, null, null, cw);
 
@@ -95,6 +95,6 @@ public class RubyIDClassGenerator {
     }
 
     public static CompilationResult getCompilationResult() {
-		return new CompilationResult(RubyIDClassName, visitEnd());
+        return new CompilationResult(RubyIDClassName, visitEnd());
     }
 }

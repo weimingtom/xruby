@@ -23,7 +23,7 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
+                CompilationResults codes = compiler.compileString(null, program_texts[i]);
                 assertTrue(null != codes);
                 RubyProgram p = codes.getRubyProgram();
                 RubyValue v = p.invoke();
@@ -55,7 +55,7 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
+                CompilationResults codes = compiler.compileString(null, program_texts[i]);
                 assertTrue(null != codes);
                 RubyProgram p = codes.getRubyProgram();
                 RubyValue v = p.invoke();
@@ -87,7 +87,7 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
+                CompilationResults codes = compiler.compileString(null, program_texts[i]);
                 assertTrue(null != codes);
                 RubyProgram p = codes.getRubyProgram();
                 RubyValue v = p.invoke();
@@ -118,7 +118,7 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
+                CompilationResults codes = compiler.compileString(null, program_texts[i]);
                 assertTrue(null != codes);
                 RubyProgram p = codes.getRubyProgram();
                 p.invoke();
@@ -158,7 +158,7 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compile(new StringReader(program_texts[i]));
+                CompilationResults codes = compiler.compileString(null, program_texts[i]);
                 assertTrue(null != codes);
                 RubyProgram p = codes.getRubyProgram();
 
@@ -203,7 +203,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_raise() throws RecognitionException, TokenStreamException, InstantiationException, IllegalAccessException {
         String program_texts = "raise 'test'";
         RubyCompiler compiler = new RubyCompiler(null, false);
-        CompilationResults codes = compiler.compile(new StringReader(program_texts));
+        CompilationResults codes = compiler.compileString(null, program_texts);
         assertTrue(null != codes);
         RubyProgram p = codes.getRubyProgram();
         try {
@@ -784,7 +784,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyCompiler compiler = new RubyCompiler(null, false);
 
         try {
-            CompilationResults codes = compiler.compile(new StringReader(program_texts));
+            CompilationResults codes = compiler.compileString(null, program_texts);
             assertEquals(3, codes.size());
         } catch (Exception e) {
             assertTrue("Error : " + e.toString(), false);
