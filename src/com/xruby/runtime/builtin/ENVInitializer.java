@@ -18,7 +18,7 @@ import com.xruby.runtime.value.RubyString;
 
 class ENV_array_get extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        RubyString s = RubyTypesUtil.convertToString(arg);
+        RubyString s = arg.toRubyString();
         String v = System.getenv(s.toString());
         if (null == v) {
             return ObjectFactory.NIL_VALUE;

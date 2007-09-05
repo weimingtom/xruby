@@ -6,17 +6,20 @@
 package com.xruby.runtime.lang.util;
 
 import com.xruby.runtime.lang.RubyAPI;
+import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyVarArgMethod;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelConstant;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelModule;
+import com.xruby.runtime.value.RubyArray;
 
 import junit.framework.TestCase;
 
@@ -45,6 +48,13 @@ public class RubyTypeFactoryTest extends TestCase {
 	public void testLoadFactoryTwice() {
 		RubyTypeFactory.getModule(ClassFactoryModule.class);
 		RubyTypeFactory.getModule(ClassFactoryModule.class);
+	}
+	
+	public void testLoadKlassMethod() {
+		RubyTypeFactory.getClass(ClassFactoryValue.class);
+		ClassFactoryValue value = new ClassFactoryValue();
+		RubyValue result = RubyAPI.callNoArgMethod(value, null, RubyID.intern("klassMethod"));
+		assertEquals(RubyConstant.QNIL, result);
 	}
 	
 	@RubyLevelClass(name="ClassFactory", modules="ClassFactoryModule")
@@ -84,6 +94,13 @@ public class RubyTypeFactoryTest extends TestCase {
 		@RubyLevelMethod(name="noOrOne")
 		public RubyValue testNoOrOne(RubyValue v) {
 			return RubyConstant.QNIL;
+		}
+		
+		@RubyLevelMethod(name="klassMethod") 
+		public static class MethodClass extends RubyVarArgMethod {
+			protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+				return RubyConstant.QNIL;
+			}
 		}
 	}
 	
