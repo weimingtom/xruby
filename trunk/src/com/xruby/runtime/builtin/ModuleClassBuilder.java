@@ -401,7 +401,6 @@ class Module_singleton_new extends RubyNoArgMethod {
 }
 
 public class ModuleClassBuilder {
-
     public static void initialize() {
         RubyClass c = RubyRuntime.ModuleClass;
         c.defineMethod("public", new Module_public());

@@ -9,6 +9,7 @@ import com.xruby.runtime.lang.RubyBinding;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
+import com.xruby.runtime.lang.RubyVarArgMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
@@ -85,5 +86,51 @@ public class RubyProc extends RubyBinding {
     public RubyValue call(RubyArray args) {
         setUpCallContext();
         return value_.invoke(value_.getSelf(), args);
+    }
+    
+    public RubyValue call() {
+        setUpCallContext();
+        return value_.invoke(value_.getSelf());
+    }
+    
+    public RubyValue call(RubyValue arg) {
+        setUpCallContext();
+        return value_.invoke(value_.getSelf(), arg);
+    }
+    
+    @RubyLevelMethod(name="call", alias="[]")
+    public static class Invoke extends RubyVarArgMethod {
+        protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
+            throw new Error("we overided invoke, so this method should never be called");
+        }
+
+        public RubyValue invoke(RubyValue receiver, RubyArray args, RubyBlock block) {
+            RubyValue v = ((RubyProc)receiver).call(args);
+            RubyBlock anotherBlock = ((RubyProc)receiver).getBlock();
+            if (null != anotherBlock) {
+                v.setReturnedInBlock(anotherBlock.returned(), anotherBlock.breakedOrReturned(), !anotherBlock.createdByLambda());
+            } else {
+                v.setReturnedInBlock(false, false, false);
+            }
+            return v;
+        }
+
+        public RubyValue invoke(RubyValue receiver, RubyBlock block) {
+        	RubyValue v = ((RubyProc)receiver).call();
+        	RubyBlock anotherBlock = ((RubyProc)receiver).getBlock();
+            if (null != anotherBlock) {
+                v.setReturnedInBlock(anotherBlock.returned(), anotherBlock.breakedOrReturned(), !anotherBlock.createdByLambda());
+            } else {
+                v.setReturnedInBlock(false, false, false);
+            }
+            return v;
+        }
+
+        public RubyValue invoke(RubyValue receiver, RubyValue arg, RubyBlock block) {
+            RubyBlock anotherBlock = ((RubyProc)receiver).getBlock();
+            RubyArray args = ObjectFactory.createArray(1, 0, anotherBlock.createdByLambda());
+            args.add(arg);
+            return this.invoke(receiver, args, anotherBlock);
+        }
     }
 }

@@ -63,7 +63,7 @@ public class RubyDir extends RubyBasic {
     }
 
     private static RubyValue glob(RubyValue receiver, RubyValue arg) {
-        String s = RubyTypesUtil.convertToString(arg).toString();
+        String s = arg.toStr();
         String dir;
         String pattern;
         int index = s.lastIndexOf('/');
@@ -88,7 +88,7 @@ public class RubyDir extends RubyBasic {
     }
 
     private static RubyValue glob_with_block(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        String s = RubyTypesUtil.convertToString(arg).toString();
+        String s = arg.toStr();
         String dir;
         String pattern;
         int index = s.lastIndexOf('/');
@@ -172,8 +172,8 @@ public class RubyDir extends RubyBasic {
     }
 
     @RubyLevelMethod(name="new", singleton=true)
-    public static RubyValue run(RubyValue receiver, RubyValue arg) {
-        String path = RubyTypesUtil.convertToString(arg).toString();
+    public static RubyValue dirNew(RubyValue receiver, RubyValue arg) {
+        String path = arg.toStr();
         RubyDir dir = new RubyDir(path);
         if (!dir.isDirectory()) {
             throw new RubyException((RubyClass)RubyRuntime.ErrnoModule.getConstant("ENOENT"), "No such directory - " + path);
@@ -184,14 +184,14 @@ public class RubyDir extends RubyBasic {
 
     @RubyLevelMethod(name="foreach", singleton=true)
     public static RubyValue foreach(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        String path = RubyTypesUtil.convertToString(arg).toString();
+        String path = arg.toStr();
         RubyDir dir = new RubyDir(path);
         return dir.each(block);
     }
 
     @RubyLevelMethod(name="chdir", singleton=true)
     public static RubyValue chdir(RubyValue receiver, RubyValue arg) {
-        String dir = RubyTypesUtil.convertToString(arg).toString();
+        String dir = arg.toStr();
         File file = new File(dir);
         if (!file.isDirectory()) {
             throw new RubyException(RubyRuntime.RuntimeErrorClass, "No a directory - " + dir);
@@ -207,7 +207,7 @@ public class RubyDir extends RubyBasic {
 
     @RubyLevelMethod(name="mkdir", singleton=true)
     public static RubyValue mkdir(RubyValue receiver, RubyValue arg) {
-        String dir = RubyTypesUtil.convertToString(arg).toString();
+        String dir = arg.toStr();
         File file = new File(dir);
         if (file.isDirectory() || file.mkdir()) {
             return ObjectFactory.FIXNUM0;
@@ -217,7 +217,7 @@ public class RubyDir extends RubyBasic {
 
     @RubyLevelMethod(name="rmdir", alias={"delete", "unlink"}, singleton=true)
     public static RubyValue rmdir(RubyValue receiver, RubyValue arg) {
-        String dir = RubyTypesUtil.convertToString(arg).toString();
+        String dir = arg.toStr();
         File file = new File(dir);
         if (!file.isDirectory()) {
             throw new RubyException((RubyClass)RubyRuntime.ErrnoModule.getConstant("ENOENT"), "Not a directory - " + dir);
@@ -230,7 +230,7 @@ public class RubyDir extends RubyBasic {
 
     @RubyLevelMethod(name="entries", singleton=true)
     public static RubyValue entries(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        String dir = RubyTypesUtil.convertToString(arg).toString();
+        String dir = arg.toStr();
         File file = new File(dir);
         if (!file.isDirectory()) {
             throw new RubyException(RubyRuntime.RuntimeErrorClass, "Not a directory - " + dir);
@@ -246,7 +246,7 @@ public class RubyDir extends RubyBasic {
 
     @RubyLevelMethod(name="open", singleton=true)
     public static RubyValue open(RubyValue receiver, RubyValue arg, RubyBlock block) {
-        String path = RubyTypesUtil.convertToString(arg).toString();
+        String path = arg.toStr();
         RubyDir dir = new RubyDir(path);
         if (!dir.isDirectory()) {
             throw new RubyException((RubyClass)RubyRuntime.ErrnoModule.getConstant("ENOENT"), "No such directory - " + path);

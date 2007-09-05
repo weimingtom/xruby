@@ -173,7 +173,7 @@ public class RubyRuntime {
 //        HashClassBuilder.initialize();
 //        SymbolClassBuilder.initialize();
         IOClassBuilder.initialize();
-        ProcClassBuilder.initialize();
+//        ProcClassBuilder.initialize();
 //        RangeClassBuilder.initialize();
 //        RegexpClassBuilder.initialize();
 //        FileClassBuilder.initialize();

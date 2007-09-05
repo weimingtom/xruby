@@ -195,7 +195,7 @@ public abstract class RubyTypeFactory {
 		for (java.lang.reflect.Method method : klass.getMethods()) {
 			Annotation rawMethodAnnotation = method.getAnnotation(RubyLevelMethod.class);
 			if (rawMethodAnnotation != null) {
-				CgMethodItem newItem = createNormalItem((RubyLevelMethod)rawMethodAnnotation, method);
+				CgMethodItem newItem = createMethodItem((RubyLevelMethod)rawMethodAnnotation, method);
 				CgMethodItem item = methodMap.get(getItemName(newItem));
 				if (item != null) {
 					item.type = MethodType.valueOf((item.type.value() | newItem.type.value()));
@@ -225,44 +225,77 @@ public abstract class RubyTypeFactory {
 		if (allocItem != null) {
 			defineAllocMethod(mg, rubyTypeIdx, factoryIdx, allocItem);
 		}
+		
+		for (Class innerClass : klass.getClasses()) {
+			Annotation rawMethodAnnotation = innerClass.getAnnotation(RubyLevelMethod.class);
+			if (rawMethodAnnotation != null) {
+				if (!RubyMethod.class.isAssignableFrom(innerClass)) {
+					throw new RuntimeException(innerClass.getName() + " should be subclasss of RubyMethod");
+				}
+				
+				CgMethodItem item = createMethodItem((RubyLevelMethod)rawMethodAnnotation, innerClass);
+				defineRubyMethodWithClass(mg, rubyTypeIdx, factoryIdx, innerClass, item);
+			}
+		}
+	}
+
+	private void defineRubyMethodWithClass(GeneratorAdapter mg, int rubyTypeIdx, int factoryIdx, Class innerClass, CgMethodItem item) {
+		loadRubyType(mg, rubyTypeIdx, item);
+		mg.push(item.name);
+		Type type = Type.getType(innerClass);
+		mg.newInstance(type);
+		mg.dup();
+		mg.invokeConstructor(type, CgUtil.CONSTRUCTOR);
+		defineMethod(mg, item);
+		defineAlias(mg, factoryIdx, rubyTypeIdx, item);
 	}
 	
 	private String getItemName(CgMethodItem item) {
 		return (item.singleton) ? item.name + "Single" : item.name;
 	}
 	
-	private CgMethodItem createNormalItem(RubyLevelMethod annotation, java.lang.reflect.Method method) {
+	private CgMethodItem createMethodItem(RubyLevelMethod annotation, Class klass) {
 		CgMethodItem item = new CgMethodItem();
-		item.name = annotation.name();
-		item.javaName = method.getName();
-		item.alias = annotation.alias();
-		makeItemPros(method, item);
-		if (annotation.singleton()) {
-			item.singleton = true;
-		}
-		
-		if (annotation.module()) {
-			item.moduleMethod = true;
-		}
-		
-		if (annotation.privateMethod()) {
-			item.privateMethod = true;
-		}
-		
+		item.javaName = klass.getName();
+		makeGenneralItem(annotation, item);
 		return item;
 	}
 	
+	private CgMethodItem createMethodItem(RubyLevelMethod annotation, java.lang.reflect.Method method) {
+		CgMethodItem item = makeMethodItemPros(method);
+		item.javaName = method.getName();
+		makeGenneralItem(annotation, item);
+		return item;
+	}
+
+private void makeGenneralItem(RubyLevelMethod annotation, CgMethodItem item) {
+	item.name = annotation.name();
+	item.alias = annotation.alias();
+	
+	if (annotation.singleton()) {
+		item.singleton = true;
+	}
+	
+	if (annotation.module()) {
+		item.moduleMethod = true;
+	}
+	
+	if (annotation.privateMethod()) {
+		item.privateMethod = true;
+	}
+}
+	
 	private CgMethodItem createAllocItem(RubyAllocMethod annotation, java.lang.reflect.Method method) {
-		CgMethodItem item = new CgMethodItem();
+		CgMethodItem item = makeMethodItemPros(method);
 		item.name = null;
 		item.javaName = method.getName();
 		item.alias = null;
-		makeItemPros(method, item);
 		
 		return item;
 	}
 
-	private void makeItemPros(java.lang.reflect.Method method, CgMethodItem item) {
+	private CgMethodItem makeMethodItemPros(java.lang.reflect.Method method) {
+		CgMethodItem item = new CgMethodItem();
 		item.singleton = false;
 		Class[] paramTypes = method.getParameterTypes();
 		int start = 0;
@@ -289,6 +322,8 @@ public abstract class RubyTypeFactory {
 		if (item.type == MethodType.UNKNOWN) {
 			throw new IllegalArgumentException("unknown Ruby method specification:" + method);
 		}
+		
+		return item;
 	}
 
 	private MethodType getMethodType(Class[] paramTypes, int start, int end) {
@@ -326,13 +361,18 @@ public abstract class RubyTypeFactory {
 		return factoryIdx;
 	}
 	
-	private void defineRubyMethod(GeneratorAdapter mg, int rubyTypeIdx, 
-			int factoryIdx, CgMethodItem item) {
+	private void loadRubyType(GeneratorAdapter mg, int rubyTypeIdx, CgMethodItem item) {
 		mg.loadLocal(rubyTypeIdx);
 		if (item.singleton) {
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
 					Method.getMethod(CgUtil.getMethodName("getSingletonClass", RubyClass.class)));
 		}
+	}
+	
+	private void defineRubyMethod(GeneratorAdapter mg, int rubyTypeIdx, 
+			int factoryIdx, CgMethodItem item) {
+		loadRubyType(mg, rubyTypeIdx, item);
+		
 		String rubyName = item.name;
 		defineMethod(mg, factoryIdx, rubyName, item);
 		defineAlias(mg, factoryIdx, rubyTypeIdx, item);
@@ -343,6 +383,10 @@ public abstract class RubyTypeFactory {
 		mg.loadLocal(factoryIdx);
 		getMethod(mg, item);
 		
+		defineMethod(mg, item);
+	}
+
+	private void defineMethod(GeneratorAdapter mg, CgMethodItem item) {
 		if (item.moduleMethod) {
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
 					Method.getMethod(CgUtil.getMethodName("defineModuleMethod", Void.TYPE, String.class, RubyMethod.class)));

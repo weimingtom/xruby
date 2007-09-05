@@ -7,6 +7,8 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
 public class CgUtil {
+	public static Method CONSTRUCTOR = Method.getMethod("void <init> ()");
+	
 	public static String getInternalName(Class klass) {
 		return klass.getName().replace(".", "/");
 	}
@@ -103,13 +105,14 @@ public class CgUtil {
 		return sb.toString();
 	}
 	
+	
+	
 	public static void createImplicitConstructor(ClassVisitor cv, Type superType) {
-        Method m = Method.getMethod("void <init> ()");
 		GeneratorAdapter mg = new GeneratorAdapter(Opcodes.ACC_PUBLIC,
-                m, null, null, cv);
+                CONSTRUCTOR, null, null, cv);
 		mg.visitCode();
         mg.loadThis();
-        mg.invokeConstructor(superType, m);
+        mg.invokeConstructor(superType, CONSTRUCTOR);
         mg.returnValue();
         mg.endMethod();
     }

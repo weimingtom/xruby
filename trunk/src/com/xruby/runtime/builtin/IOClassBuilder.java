@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.channels.Pipe;
 
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.value.*;
 
 class IO_write extends RubyOneArgMethod {
