@@ -26,9 +26,9 @@ public class NameFactoryTest extends TestCase {
     }
 
     public void test_createMainClassName() {
-        assertEquals("test.main", NameFactory.createMainClassName("test"));
-        assertEquals("test.main", NameFactory.createMainClassName("test.rb"));
-        assertEquals("test1.test2.main", NameFactory.createMainClassName("test1/test2"));
+        assertEquals("xruby.test.main", NameFactory.createMainClassName("test"));
+        assertEquals("xruby.test.main", NameFactory.createMainClassName("test.rb"));
+        assertEquals("xruby.test1.test2.main", NameFactory.createMainClassName("test1/test2"));
     }
 
     public void test_createClassNameForBlock() {
@@ -43,7 +43,7 @@ public class NameFactoryTest extends TestCase {
     }
 
     public void test_createJarFileName() {
-        assertEquals((new File("test.jar")).toString(), NameFactory.createJarFileName("test.rb.bak").toString());
+        assertEquals((new File("1.8.jar")).toString(), NameFactory.createJarFileName("lib/ruby/1.8/").toString());
         assertEquals((new File("STDIN.jar")).toString(), NameFactory.createJarFileName(null).toString());
         assertEquals(new File("test.jar").toString(), NameFactory.createJarFileName("c:/ruby/lib/test.rb").toString());
     }
