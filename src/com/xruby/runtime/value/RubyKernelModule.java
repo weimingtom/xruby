@@ -708,6 +708,13 @@ public class RubyKernelModule {
             Class c = Class.forName(name);
             Object o = c.newInstance();
             RubyProgram p = (RubyProgram) o;
+
+            //$".push(file_name) unless $".include?(file_name)
+            RubyArray a = (RubyArray)GlobalVariables.get("$\"");
+            if (a.include(arg) == ObjectFactory.FALSE_VALUE) {
+                a.push(arg);
+            }
+            
             p.invoke();
             return ObjectFactory.TRUE_VALUE;
         } catch (ClassNotFoundException e) {
