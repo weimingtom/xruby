@@ -107,7 +107,9 @@ public class CaseExpression extends Expression {
 	}
 
     void pullBlock(ArrayList<Block> result) {
-        condition_.pullBlock(result);
+        if (null != condition_) {
+            condition_.pullBlock(result);
+        }
         for (When when : whens_) {
             when.pullBlock(result);
         }
@@ -117,7 +119,9 @@ public class CaseExpression extends Expression {
     }
 
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
-        condition_.getNewlyAssignedVariables(symboltable, result);
+        if (null != condition_) {
+            condition_.getNewlyAssignedVariables(symboltable, result);
+        }
         for (When when : whens_) {
             when.getNewlyAssignedVariables(symboltable, result);
         }
