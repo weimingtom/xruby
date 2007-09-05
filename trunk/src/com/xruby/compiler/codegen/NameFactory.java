@@ -131,15 +131,17 @@ public class NameFactory {
         required_file = required_file.replace('/', '.');
         required_file = required_file.replace('\\', '.');
         required_file += ".main";
-        return required_file;
+        return "xruby." + required_file;
     }
 
     private static String getNameWithoutSufix(String script_name) {
         File file = new File(script_name);
         String name = file.getName();
-        int position_of_first_dot = name.indexOf('.');
-        if (position_of_first_dot >= 0) {
-            name = name.substring(0, position_of_first_dot);
+        if (name.endsWith(".rb")) {
+            int position_of_last_dot = name.lastIndexOf('.');
+            if (position_of_last_dot >= 0) {
+                name = name.substring(0, position_of_last_dot);
+            }
         }
 
         return name.replace('-', '$');//'-' is not allowed for java
