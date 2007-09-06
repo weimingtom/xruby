@@ -8,6 +8,7 @@ package com.xruby.runtime.lang;
 import com.xruby.runtime.builtin.*;
 import com.xruby.runtime.lang.util.RubyTypeFactory;
 import com.xruby.runtime.value.*;
+import com.xruby.runtime.stdlib.*;
 
 public class RubyRuntime {
     public static RubyClass ObjectClass;
@@ -69,6 +70,8 @@ public class RubyRuntime {
     public static RubyClass SyntaxErrorClass;
     public static RubyClass LoadErrorClass;
     public static RubyClass NotImplementedErrorClass;
+
+    public static RubyClass StringIOClass;
 
     private static RubyMethod respondToMethod;
 
@@ -156,6 +159,8 @@ public class RubyRuntime {
         SyntaxErrorClass = RubyAPI.defineClass("SyntaxError", ScriptErrorClass);
         LoadErrorClass = RubyAPI.defineClass("LoadError", ScriptErrorClass);
         NotImplementedErrorClass = RubyAPI.defineClass("NotImplementedError", ScriptErrorClass);
+
+        StringIOClass = RubyTypeFactory.getClass(RubyStringIO.class);
 
 //        ObjectClassBuilder.initialize();
 
