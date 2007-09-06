@@ -27,6 +27,7 @@ public class RubyCompiler {
     private RubyBinding binding_;
     private boolean strip_;
     private boolean enableDebug = false;
+    private boolean verbose_ = false;
     private CompilationResults compilation_results_ = new CompilationResults();
 
     public RubyCompiler(RubyBinding binding, boolean strip) {
@@ -45,6 +46,9 @@ public class RubyCompiler {
             if (f.isDirectory()) {
                 return compileFileOrDir(filename, filename);
             } else {
+                if (verbose_) { 
+                    System.out.println("Compiling " + filename + "...");
+                }
                 Reader reader = new FileReader(f);
                 return compile(null, filename, new BufferedReader(reader));
             }
@@ -68,6 +72,9 @@ public class RubyCompiler {
             }
             return compilation_results_;
         } else {
+            if (verbose_) { 
+                System.out.println("Compiling " + filename + "...");
+            }
             Reader reader = new FileReader(f);
             return compile(extra, filename, new BufferedReader(reader));
         }
@@ -95,5 +102,9 @@ public class RubyCompiler {
 
     public void enableDebug() {
         enableDebug = true;
+    }
+
+    public void setVerbose() {
+        verbose_= true;
     }
 }

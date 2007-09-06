@@ -25,7 +25,7 @@ class CompilationResult {
 
     public void save(JarOutputStream jarstream) throws FileNotFoundException, IOException {
         String filename_to_save = NameFactory.createClassFileName(name_);
-        System.out.println("Added " + filename_to_save);
+        //System.out.println("Added " + filename_to_save);
 
         jarstream.putNextEntry(new JarEntry(filename_to_save));
         jarstream.write(code_);
