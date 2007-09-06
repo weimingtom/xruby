@@ -94,23 +94,15 @@ public class Main {
     }
 
     private static CompilationResults compile(String filename, boolean strip, boolean verbose, boolean debug) throws Exception {
-        if (verbose) {
-            System.out.println("Compilation of " + filename + " strarted");
-        }
-
         RubyCompiler compiler = new RubyCompiler(null, strip);
-        if(debug) {
-            // Enable debug
+        if (verbose) {
+            compiler.setVerbose();
+        }
+        if (debug) {
             compiler.enableDebug();
         }
 
-        CompilationResults results = compiler.compileFile(filename);
-
-        if (verbose) {
-            System.out.println("Compilation of " + filename + " finished successfully");
-        }
-
-        return results;
+        return compiler.compileFile(filename);
     }
 
     private static void run(CompilationResults results, String[] args) throws Exception {
