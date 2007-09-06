@@ -660,8 +660,8 @@ public class RubyKernelModule {
     }
     
     @RubyLevelMethod(name="method_missing", module=true)
-    public static RubyValue methodMissing(RubyValue receiver, RubyValue arg) {
-        RubySymbol method_name = (RubySymbol)arg;
+    public static RubyValue methodMissing(RubyValue receiver, RubyArray args) {
+        RubySymbol method_name = (RubySymbol)args.get(0);
         RubyClass klass = receiver.getRubyClass();
         klass = (klass != null) ? klass.getRealClass() : null;
         throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" + method_name.toString() + "' for " + klass.getName());
