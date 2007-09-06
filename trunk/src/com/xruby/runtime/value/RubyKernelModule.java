@@ -333,12 +333,12 @@ public class RubyKernelModule {
 	
 	@RubyLevelMethod(name="caller", module=true)
 	public static RubyValue call(RubyValue receiver) {
-        return FrameManager.caller(0);
+        return new RubyArray();//FIXME use a try/catch to get stacktrace
     }
 	
 	@RubyLevelMethod(name="caller", module=true)
 	public static RubyValue call(RubyValue receiver, RubyValue arg) {
-        return FrameManager.caller(arg.toInt());
+        return new RubyArray();//FIXME use a try/catch to get stacktrace
     }
 	
 	@RubyLevelMethod(name="throw", module=true)
