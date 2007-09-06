@@ -22,7 +22,7 @@ public class CommandLineOptionsTest extends TestCase {
 		assertEquals(null, options.getFilename());
 	}
 
-	public void test_compile_onlu() {
+	public void test_compile_only() {
 		CommandLineOptions options = new CommandLineOptions(new String[] {"-c"});
 		assertTrue(options.isCompileOnly());
 		assertTrue(!options.isHelp());
