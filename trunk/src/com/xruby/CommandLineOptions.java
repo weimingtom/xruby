@@ -215,10 +215,12 @@ class CommandLineOptions {
 		if (line.hasOption("c")) {
 			compileOnly_ = true;
 
-            // Check debug flag
             if (line.hasOption("g")) {
                 enableDebug = true;
             }
+            if (line.hasOption("v")) {
+    			verbose_ = true;
+    		} 
         } else if (line.hasOption("h")) {
 			help_ = true;
 		} else if (line.hasOption("v")) {
