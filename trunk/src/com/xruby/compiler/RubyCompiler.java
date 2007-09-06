@@ -75,7 +75,7 @@ public class RubyCompiler {
 
     public CompilationResults compileString(String filename, String text)
         throws RecognitionException, TokenStreamException {
-        return compile(null, null, new StringReader(text));
+        return compile(null, filename, new StringReader(text));
     }
 
     private CompilationResults compile(String extra, String filename, Reader reader)
