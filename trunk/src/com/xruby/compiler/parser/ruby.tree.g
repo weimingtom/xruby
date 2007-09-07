@@ -493,7 +493,10 @@ expression_substituation[ExpressionWithExpressionSubstitution e]
 
 symbol
 returns [SymbolExpression e]
-{String s = null;}
+{
+String s = null;
+StringExpressionWithExpressionSubstitution swes = null;
+}
 		:	#(SYMBOL
 				(id:IDENTIFIER		{e= new SymbolExpression(id.getText());}
 				|f:FUNCTION			{e= new SymbolExpression(f.getText());}
@@ -506,6 +509,7 @@ returns [SymbolExpression e]
 				|ss:SINGLE_QUOTE_STRING	{e= new SymbolExpression(ss.getText());}
 				|s=keyword			{e = new SymbolExpression(s);}
 				|s=operator			{e = new SymbolExpression(s);}
+				|swes=stringWithExpressionSubstituation	{e = new SymbolExpression(swes);}
 				)
 			)
 		;
