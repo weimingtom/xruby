@@ -15,6 +15,7 @@ import junit.framework.TestCase;
 public class RubyTreeParserTest extends TestCase {
     public void test_ast() throws RecognitionException, TokenStreamException {
         String[] program_texts = {
+                "File::SEPARATOR",
                 "BEGIN {}",
                 "'xxx' rescue $!",
                 "begin 'yyy'; rescue $!; end",
@@ -125,6 +126,7 @@ public class RubyTreeParserTest extends TestCase {
                 };
 
         String[] expected_texts = {
+                " ( COMPSTMT ( :: File SEPARATOR ) )",
                 " ( COMPSTMT BEGIN { } )",
                 " ( COMPSTMT ( begin ( BODY ( COMPSTMT ( STRING xxx ) ) rescue $! ) ) )",
                 " ( COMPSTMT ( begin ( BODY ( COMPSTMT ( STRING yyy ) ) rescue $! ) ) )",
