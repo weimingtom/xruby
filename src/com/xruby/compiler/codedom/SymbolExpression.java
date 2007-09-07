@@ -1,4 +1,4 @@
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi
  * Distributed under the GNU General Public License 2.0
  */
@@ -6,17 +6,28 @@
 package com.xruby.compiler.codedom;
 
 public class SymbolExpression extends Expression {
-	private final String value_;
+    private String value_;
+    private StringExpressionWithExpressionSubstitution str_;//e.g. :"#{1}"
 
-	public SymbolExpression(String value) {
-		value_ = value;
-	}
+    public SymbolExpression(String value) {
+        value_ = value;
+    }
 
-	public String getValue() {
-		return value_;
-	}
+    public SymbolExpression(StringExpressionWithExpressionSubstitution str) {
+        str_ = str;
+    }
 
-	public void accept(CodeVisitor visitor) {
-		visitor.visitSymbolExpression(value_.toString());
-	}
+    //FIXME value_ may be null, and in that case str_ should be used.
+    public String getValue() {
+        return value_;
+    }
+
+    public void accept(CodeVisitor visitor) {
+        if (null != value_) {
+            visitor.visitSymbolExpression(value_);
+        } else {
+            str_.accept(visitor);
+            visitor.visitSymbolExpression(null);
+        }
+    }
 }
