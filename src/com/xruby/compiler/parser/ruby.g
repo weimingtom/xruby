@@ -480,19 +480,19 @@ command
 {
 	boolean seen_arguments = false;
 	boolean seen_block = false;
-	boolean is_function = false;
+	int can_be_command = 0;
 }
-		:	dotColonOrArrayAccess	{is_function = (2 == can_be_command_);}
+		:	dotColonOrArrayAccess	{can_be_command = can_be_command_;}
 			(
-				{can_be_command_ > 0}?
+				{can_be_command > 0}?
 				methodInvocationArgumentWithoutParen[false]	{seen_arguments = true;}
 			)?
 			(
-				{is_function}?
+				{can_be_command > 1}?
 				codeBlock	{seen_block = true;}
 			)?
 			{
-				if (seen_arguments || seen_block || (is_function && isNotAssign(LA(1))))
+				if (seen_arguments || seen_block || ((2 == can_be_command) && isNotAssign(LA(1))))
 				{
 					#command = #(#[CALL, "CALL"], #command);
 				}
@@ -504,14 +504,13 @@ command
 dotColonOrArrayAccess
 		:	unaryExpression
 			(options{greedy=true;/*caused by command*/}:
-				(DOT^		methodCall
-				|COLON2^	methodCall
+				(DOT^		methodCall	{can_be_command_ = 3;}
+				|COLON2^	methodCall	{can_be_command_ = 1;}
 				|LBRACK_ARRAY_ACCESS^
 					(arrayReferenceArgument)?
-					RBRACK!
-				|EMPTY_ARRAY_ACCESS
+					RBRACK!				{can_be_command_ = 1;}
+				|EMPTY_ARRAY_ACCESS	{can_be_command_ = 1;}
 				)
-				{can_be_command_ = 1;}
 			)*
 		;
 

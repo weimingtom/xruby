@@ -1631,6 +1631,8 @@ public class RubyParserTest extends TestCase {
 
     public void test_command() {
         String[] program_texts = {
+            "Kernel.print 'xxx' do end",
+            //FIXME "Kernel::print 'xxx' do end",
             "yield 5",
             "printf 1+1",
             "printf id ? \":in `'\":\"\"",
