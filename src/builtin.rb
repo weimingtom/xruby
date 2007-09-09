@@ -1087,6 +1087,8 @@ module Enumerable
 end
 
 class Regexp
+    EXTENDED = 2
+    
     def ==(other)
         return false unless Regexp === other
         return inspect == other.inspect
