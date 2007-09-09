@@ -1654,9 +1654,23 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_and_or() {
+    public void test_precedence() {
         String[] program_texts = {
                 "false || b = 2;print b",
+                //TODO"1 + a = 3;print a",
+        };
+
+        String[] outputs = {
+                "2",
+                //"3",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
+    public void test_and_or() {
+        String[] program_texts = {
+
                 "false or a = 1; print a",
                 "print nil and 'xxx'",
                 "print true && 'xxx'",
@@ -1669,7 +1683,6 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-                "2",
                 "1",
                 "nil",
                 "xxx",
