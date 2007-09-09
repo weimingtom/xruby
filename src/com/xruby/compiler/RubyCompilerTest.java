@@ -1658,11 +1658,13 @@ public class RubyCompilerTest extends CompilerTestCase {
         String[] program_texts = {
                 "false || b = 2;print b",
                 "x=1;print(x << y = 2);print y",
+                //TODO"x=1;print(x + y = 2);print y",
         };
 
         String[] outputs = {
                 "2",
                 "42",
+                //"32",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
