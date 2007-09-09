@@ -27,13 +27,27 @@ public class RubyRegexp extends RubyBasic {
         super(RubyRuntime.RegexpClass);
     }
 
-    public void setValue(String v) {
+    private void setValue(String v) {
         regex_ = Pattern.compile(v, Pattern.MULTILINE);
     }
     
     @RubyAllocMethod
     public static RubyRegexp alloc(RubyValue receiver) {
     	return ObjectFactory.createRegexp();
+    }
+
+    @RubyLevelMethod(name="initialize")
+    public RubyValue initialize(RubyArray args) {
+        //TODO incomplete
+        
+        RubyValue pattern = args.get(0);
+        if (pattern instanceof RubyRegexp) {
+            regex_ = ((RubyRegexp)pattern).regex_;
+        } else {
+            setValue(pattern.toStr());
+        }
+        
+        return this;
     }
     
     @RubyLevelMethod(name="===")
@@ -119,7 +133,7 @@ public class RubyRegexp extends RubyBasic {
         }
     }
 
-    public int matchPosition(String v) {
+    int matchPosition(String v) {
         if (v.length() == 0) {
             v = "\n"; //TODO a hack to handle "" =~ /^$/, need a better solution
         }
