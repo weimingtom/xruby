@@ -470,8 +470,8 @@ powerExpression
 
 //!  ~
 bnotExpression
-		:	(	BNOT^			(options{greedy=true;}:LINE_BREAK!)?
-			|	NOT^			(options{greedy=true;}:LINE_BREAK!)?
+		:	(	BNOT			(options{greedy=true;}:LINE_BREAK!)?
+			|	NOT			(options{greedy=true;}:LINE_BREAK!)?
 			)*
 			command
 		;

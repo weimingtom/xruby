@@ -1684,12 +1684,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_not() {
         String[] program_texts = {
+                "print !!true",
                 "print !true",
                 "print !false",
                 "def f; false; end; print 33 if !f",
         };
 
         String[] outputs = {
+                "true",
                 "false",
                 "true",
                 "33",

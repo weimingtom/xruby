@@ -188,7 +188,7 @@ returns [Expression e]
 	ReturnArguments return_args = null;
 	CompoundStatement cs = null;
 	String method_name = null;
-	int lineNumber = _t.getLine();
+	int lineNumber = (null == _t) ? 0 : _t.getLine();
 	boolean startANewLine = false;
 
 	if (lineNumber != currentLineNumber) {
@@ -243,8 +243,8 @@ returns [Expression e]
 		|	#(POWER					left=expression	right=expression)	{e = new BinaryOperatorExpression("**", left, right);}
 		|	#(UNARY_PLUS			left=expression)					{e = new UnaryOperatorExpression("+@", left);}
 		|	#(UNARY_MINUS			left=expression)					{e = new UnaryOperatorExpression("-@", left);}
-		|	#(BNOT					left=expression)					{e = new UnaryOperatorExpression("~", left);}
-		|	#(NOT					left=expression)					{e = new UnaryOperatorExpression("!", left);}
+		|	BNOT					left=expression					{e = new UnaryOperatorExpression("~", left);}
+		|	NOT						left=expression					{e = new UnaryOperatorExpression("!", left);}
 		|	#(DOT					left=expression	(right=callExpression|method_name=methodCallName))
 									{
 										if (right != null) {
