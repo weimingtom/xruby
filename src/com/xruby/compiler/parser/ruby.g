@@ -429,7 +429,7 @@ shiftExpression
 				(	LEFT_SHIFT^		(options{greedy=true;}:LINE_BREAK!)?
 				|	RIGHT_SHIFT^	(options{greedy=true;}:LINE_BREAK!)?
 				)
-				additiveExpression
+				assignmentExpression
 			)*
 		;
 
