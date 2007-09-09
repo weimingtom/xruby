@@ -358,7 +358,7 @@ logicalOrExpression
 		:	logicalAndExpression
 			(options{greedy=true;/*caused by command*/}:
 				LOGICAL_OR^		(options{greedy=true;}:LINE_BREAK!)?
-				logicalAndExpression
+				assignmentExpression
 			)*
 		;
 
@@ -367,7 +367,7 @@ logicalAndExpression
 		:	equalityExpression
 			(options{greedy=true;/*caused by command*/}:
 				LOGICAL_AND^		(options{greedy=true;}:LINE_BREAK!)?
-				equalityExpression
+				assignmentExpression
 			)*
 		;
 

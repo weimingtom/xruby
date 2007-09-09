@@ -1656,6 +1656,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_and_or() {
         String[] program_texts = {
+                "false || b = 2;print b",
                 "false or a = 1; print a",
                 "print nil and 'xxx'",
                 "print true && 'xxx'",
@@ -1668,6 +1669,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "2",
                 "1",
                 "nil",
                 "xxx",
