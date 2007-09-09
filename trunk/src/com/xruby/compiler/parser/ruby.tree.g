@@ -847,6 +847,9 @@ returns [String s]
 		|	"return"				{s = "return";}
 		|	"undef"				{s = "undef";}
 		|	"yield"				{s = "yield";}
+		|	"true"				{s = "true";}
+		|	"false"				{s = "false";}
+		|	"self"				{s = "self";}
 		;
 
 bodyStatement
