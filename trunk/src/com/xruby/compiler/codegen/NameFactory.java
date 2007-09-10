@@ -40,7 +40,7 @@ public class NameFactory {
         if (null == method_name) {
             return "xruby/" + getNameWithoutPrefixAndSufix(extra, script_name) + "/" + DefaultName;
         } else {
-            return "xruby/" + getNameWithoutPrefixAndSufix(extra, script_name) + "/" + removeInvalidIdentifierPart(method_name) + "$" + count_.getAndIncrement();
+            return "xruby/" + getNameWithoutPrefixAndSufix(extra, script_name) + "/" + removeInvalidIdentifierPart(method_name, false) + "$" + count_.getAndIncrement();
         }
     }
 
@@ -56,20 +56,20 @@ public class NameFactory {
         return "xruby/" + getNameWithoutPrefixAndSufix(extra, script_name) + "/" + DEFAULT_RUBY_ID_CLASS_NAME;
     }
 
-    public static String removeInvalidIdentifierPart(String method_name) {
+    private static String removeInvalidIdentifierPart(String method_name, boolean ignore_back_slash_and_dot) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < method_name.length(); ++i) {
             char current_char = method_name.charAt(i);
             if (Character.isJavaIdentifierPart(current_char)) {
                 sb.append(current_char);
             } else {
-                sb.append(translateCommonChar(current_char));
+                sb.append(translateCommonChar(current_char, ignore_back_slash_and_dot));
             }
         }
         return sb.toString();
     }
 
-    private static String translateCommonChar(char v) {
+    private static String translateCommonChar(char v, boolean ignore_back_slash_and_dot) {
         switch (v) {
             case '+':
                 return "plus";
@@ -78,7 +78,17 @@ public class NameFactory {
             case '*':
                 return "star";
             case '/':
-                return "div";
+                if (ignore_back_slash_and_dot) {
+                    return "/";
+                } else {
+                    return "div";
+                }
+            case '.':
+                if (ignore_back_slash_and_dot) {
+                    return ".";
+                } else {
+                    return "dot";
+                }
             case '=':
                 return "equal";
             case '?':
@@ -97,7 +107,7 @@ public class NameFactory {
 
         return "xruby/" + getNameWithoutPrefixAndSufix(extra, script_name) +
             "/BLOCK" +
-            ((null == method_name) ? "" : "_" + removeInvalidIdentifierPart(method_name)) +
+            ((null == method_name) ? "" : "_" + removeInvalidIdentifierPart(method_name, false)) +
             "$" +
             count_.getAndIncrement();
     }
@@ -144,7 +154,7 @@ public class NameFactory {
             }
         }
 
-        return name.replace('-', '$');//'-' is not allowed for java
+        return removeInvalidIdentifierPart(name, true);
     }
 
     private static String getNameWithoutPrefixAndSufix(String omit, String script_name) {
@@ -159,7 +169,7 @@ public class NameFactory {
             extra = extra.substring(0, position_of_first_dot);
         }
 
-        return extra.replace('-', '$');//'-' is not allowed for java
+        return removeInvalidIdentifierPart(extra, true);
     }
 
     /// @param name e.g. test/main.class
