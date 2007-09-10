@@ -1572,6 +1572,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_eval() {
         String[] program_texts = {
+                "eval('print 7', nil,'(erb)')",
+
                 //TODO remove the 'binding;' the test will fail in xruby
                 "binding;begin;eval '';rescue;end\n" +
                 "i = 5;print(eval('i'))",
@@ -1588,6 +1590,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "7",
+
                 "5",
                 "6",
                 "nil5",
