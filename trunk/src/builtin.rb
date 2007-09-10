@@ -25,6 +25,8 @@ NIL = nil
 RUBY_VERSION = "1.8.5"
 VERSION = "1.8.5"
 
+TOPLEVEL_BINDING = self
+
 #Float::EPSILON = 2.2204460492503131e-16
 
 module Kernel   
