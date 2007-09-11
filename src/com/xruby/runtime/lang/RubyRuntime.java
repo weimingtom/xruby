@@ -149,8 +149,8 @@ public class RubyRuntime {
         NameErrorClass = RubyAPI.defineClass("NameError", StandardErrorClass);
         ThreadErrorClass = RubyAPI.defineClass("ThreadError", StandardErrorClass);
         NoMethodErrorClass = RubyAPI.defineClass("NoMethodError", NameErrorClass);
+        IOErrorClass = RubyAPI.defineClass("IOError", StandardErrorClass);        
         EOFErrorClass = RubyAPI.defineClass("EOFError", IOErrorClass);
-        IOErrorClass = RubyAPI.defineClass("IOError", StandardErrorClass);
         RuntimeErrorClass = RubyAPI.defineClass("RuntimeError", StandardErrorClass);
         LocalJumpErrorClass = RubyAPI.defineClass("LocalJumpError", StandardErrorClass);
         SystemCallErrorClass = RubyAPI.defineClass("SystemCallError", StandardErrorClass);
