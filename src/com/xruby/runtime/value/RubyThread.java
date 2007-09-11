@@ -146,7 +146,7 @@ public class RubyThread extends RubyBasic {
         return threadMapper.get(Thread.currentThread());
     }
 
-    @RubyLevelMethod(name="new", alias="fork", singleton=true)
+    @RubyLevelMethod(name="new", alias={"fork", "start"}, singleton=true)
     public static RubyValue newThread(RubyValue receiver, RubyArray args, RubyBlock block) {
         return ObjectFactory.createThread(block);
     }
