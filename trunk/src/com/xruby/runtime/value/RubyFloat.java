@@ -163,7 +163,9 @@ public class RubyFloat extends RubyNumeric {
 			return this.coerceCmp(RubyID.unequalID, v);
 		}
 		
-		if (a == b) {
+		if (Double.isNaN(a) || Double.isNaN(b)) {
+            return ObjectFactory.NIL_VALUE;
+        } else if (a == b) {
 			return ObjectFactory.FIXNUM0;
 		} else if (a > b) {
 			return ObjectFactory.FIXNUM1;
