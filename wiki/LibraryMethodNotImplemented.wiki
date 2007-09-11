@@ -41,6 +41,7 @@ ruby\test_process.rb
 ruby\test_math.rb
 ruby\test_method.rb
 ruby\test_range.rb
+ruby\test_readpartial.rb	
 ruby\test_signal.rb
 ruby\test_struct.rb
 ruby\test_string.rb
@@ -73,7 +74,6 @@ ruby\test_path.rb			#only work on unix
 ruby\test_pipe.rb			#need to fix eof?()
 ruby\test_proc.rb			#http://code.google.com/p/xruby/issues/detail?id=37
 ruby\test_rand.rb			#need to fix some Rand related methods
-ruby\test_readpartial.rb		#assert_raises does not work: assert_raises(EOFError) {raise EOFError.new }
 ruby\test_settracefunc.rb	#need to implement set_trace_func()
 
 
