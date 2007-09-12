@@ -249,7 +249,7 @@ public class TestingPerformance {
         RubyString s = ObjectFactory.createString("");
         long start = System.currentTimeMillis();
         for (int i = 0; i < 30000000; ++i) {
-            RubyAPI.callPublicMethod(s, null, null, RubyID.lengthID);
+            RubyAPI.callPublicNoArgMethod(s, null, RubyID.lengthID);
         }
         long end = System.currentTimeMillis();
         return end - start;

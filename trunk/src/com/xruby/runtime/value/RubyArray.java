@@ -920,7 +920,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     @RubyLevelMethod(name="collect!")
     public RubyValue collect_danger(RubyBlock block) {
-        RubyArray a = (RubyArray)RubyAPI.callPublicMethod(this, null, block, RubyID.intern("collect"));
+        RubyArray a = (RubyArray)RubyAPI.callPublicNoArgMethod(this, block, RubyID.intern("collect"));
         clear();
         for(int i=0;i<a.size();i++){
             add(a.get(i));

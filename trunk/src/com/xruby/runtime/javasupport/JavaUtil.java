@@ -174,7 +174,7 @@ public class JavaUtil {
                     if(flag){
                         return Proxy.newProxyInstance(JavaUtil.class.getClassLoader(),new Class[]{clazz},new InvocationHandler(){
                             public Object invoke(Object proxy, Method method, Object[] nargs) throws Throwable {
-                                return RubyAPI.callPublicMethod(tmp,convertToRubyValues(nargs),null,RubyID.intern(method.getName()));
+                                return RubyAPI.callPublicMethod(tmp, convertToRubyValues(nargs), null, RubyID.intern(method.getName()));
                             }
                         });
                     }else{

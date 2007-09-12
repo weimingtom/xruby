@@ -92,9 +92,9 @@ class Module_name extends RubyNoArgMethod {
     }
 }
 
-class Module_inspect extends RubyVarArgMethod {
-    protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
-        return RubyAPI.callPublicMethod(receiver, args, block, RubyID.toSID);
+class Module_inspect extends RubyNoArgMethod {
+    protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        return RubyAPI.callNoArgMethod(receiver, block, RubyID.toSID);
     }
 }
 

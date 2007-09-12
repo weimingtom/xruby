@@ -67,8 +67,8 @@ public abstract class RubyMethod extends MethodBlockBase implements Cloneable {
     }
 
     private static String inspect(RubyValue value) {
-        RubyValue v = RubyAPI.callPublicMethod(value, null, null, RubyID.inspectID);
-        return ((RubyString)v).toString();
+        RubyValue v = RubyAPI.callNoArgMethod(value, null, RubyID.inspectID);
+        return v.toStr();
     }
     
     private void validateArgSize(int args_length) {

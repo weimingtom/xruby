@@ -98,8 +98,8 @@ public class RubyRange extends RubyBasic {
     @RubyLevelMethod(name="hash")
     public RubyFixnum hash() {
         int baseHash = this.exclude_end_ ? 1 : 0;
-        int beginHash = RubyAPI.callPublicMethod(this.begin_, null, null, RubyID.hashID).toInt();
-        int endHash = RubyAPI.callPublicMethod(this.end_, null , null, RubyID.hashID).toInt();
+        int beginHash = RubyAPI.callPublicNoArgMethod(this.begin_, null, RubyID.hashID).toInt();
+        int endHash = RubyAPI.callPublicNoArgMethod(this.end_, null, RubyID.hashID).toInt();
         
         int hash = baseHash;
         hash = hash ^ (beginHash << 1);
@@ -155,7 +155,7 @@ public class RubyRange extends RubyBasic {
                     ite = this.begin_;
                     continue;
                 } else {
-                    ite = RubyAPI.callPublicMethod(ite, null, null, RubyID.succID);
+                    ite = RubyAPI.callPublicNoArgMethod(ite, null, RubyID.succID);
                 }
             }
 
