@@ -113,10 +113,11 @@ public abstract class RubyTypeFactory {
 	private static final Type methodFactoryType = Type.getType(MethodFactory.class);
 	private static final XRubyClassLoader cl = new XRubyClassLoader();
 	private static ClassDumper dupmer = new ClassDumper();
+	private static final Type OBJECT_TYPE = Type.getType(Object.class);
 	
-	Class klass;
-	ClassWriter cw;
-	ClassVisitor cv;
+	private Class klass;
+	private ClassWriter cw;
+	private ClassVisitor cv;
 	
 	RubyTypeFactory(Class klass) {
 		this.klass = klass;
@@ -136,7 +137,8 @@ public abstract class RubyTypeFactory {
 		this.cv.visit(CgConfig.TARGET_VERSION, Opcodes.ACC_PUBLIC, name, 
 				null, CgUtil.getInternalName(Object.class), new String[] { CgUtil.getInternalName(getInterface())});
 		
-		CgUtil.createImplicitConstructor(this.cv, Type.getType(Object.class));
+		
+		CgUtil.createImplicitConstructor(this.cv, OBJECT_TYPE);
 	}
 	
 	private GeneratorAdapter startBuilderMethod() {
