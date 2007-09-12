@@ -450,11 +450,14 @@ public class RubyCompilerImpl implements CodeVisitor {
         }
     }
 
-    public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
+    public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
         if (rhs_is_method_call) {
             cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue();
         }
         cg_.getMethodGenerator().GlobalVatiables_set(var);
+        if (is_multiple_assign) {
+            cg_.getMethodGenerator().pop();
+        }
     }
 
     public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
@@ -867,7 +870,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().RubyModule_getClassVariable(name);
     }
 
-    public void visitClassVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
+    public void visitClassVariableAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assign) {
         if (rhs_is_method_call) {
             cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue();
         }
@@ -875,6 +878,9 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().loadCurrentScope(isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
         cg_.getMethodGenerator().swap();
         cg_.getMethodGenerator().RubyModule_setClassVariable(name);
+        if (is_multiple_assign) {
+            cg_.getMethodGenerator().pop();
+        }
     }
 
     public void visitInstanceVariableExpression(String name) {
@@ -882,7 +888,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().RubyValue_getInstanceVariable(name);
     }
 
-    public void visitInstanceVariableAssignmentOperator(String name, boolean rhs_is_method_call) {
+    public void visitInstanceVariableAssignmentOperator(String name, boolean rhs_is_method_call, boolean is_multiple_assign) {
         if (rhs_is_method_call) {
             cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue();
         }
@@ -890,6 +896,9 @@ public class RubyCompilerImpl implements CodeVisitor {
         visitSelfExpression();
         cg_.getMethodGenerator().swap();
         cg_.getMethodGenerator().RubyValue_setInstanceVariable(name);
+        if (is_multiple_assign) {
+            cg_.getMethodGenerator().pop();
+        }
     }
 
     public void visitMrhs(int var, int index, boolean asterisk) {
