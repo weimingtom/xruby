@@ -19,6 +19,9 @@ class ClassGeneratorForRubyMethodFactory {
             case 1:
                 return new ClassGeneratorForOneArgRubyMethod(method_name, fileName,
                         name, argc, has_asterisk_parameter, default_argc, is_singleton_method);
+            case 2:
+                return new ClassGeneratorForTwoArgRubyMethod(method_name, fileName,
+                        name, argc, has_asterisk_parameter, default_argc, is_singleton_method);
             }
         }
         return new ClassGeneratorForVarArgRubyMethod(method_name, fileName,

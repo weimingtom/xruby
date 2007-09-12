@@ -377,6 +377,9 @@ public class RubyCompilerImpl implements CodeVisitor {
             case 1:
                 cg_.getMethodGenerator().RubyAPI_callPublicOneArgMethod(methodName);
                 break;
+            case 2:
+            	cg_.getMethodGenerator().RubyAPI_callPublicTwoArgMethod(methodName);
+            	break;
             default:
                 cg_.getMethodGenerator().RubyAPI_callPublicMethod(methodName);
                 break;
@@ -389,6 +392,9 @@ public class RubyCompilerImpl implements CodeVisitor {
             case 1:
                 cg_.getMethodGenerator().RubyAPI_callOneArgMethod(methodName);
                 break;
+            case 2:
+            	cg_.getMethodGenerator().RubyAPI_callTwoArgMethod(methodName);
+            	break;
             default:
                 cg_.getMethodGenerator().RubyAPI_callMethod(methodName);
                 break;

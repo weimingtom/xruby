@@ -132,5 +132,13 @@ public class RubyProc extends RubyBinding {
             args.add(arg);
             return this.invoke(receiver, args, anotherBlock);
         }
+        
+        public RubyValue invoke(RubyValue receiver, RubyValue arg0, RubyValue arg1, RubyBlock block) {
+            RubyBlock anotherBlock = ((RubyProc)receiver).getBlock();
+            RubyArray args = ObjectFactory.createArray(2, 0, anotherBlock.createdByLambda());
+            args.add(arg0);
+            args.add(arg1);
+            return this.invoke(receiver, args, anotherBlock);
+        }
     }
 }

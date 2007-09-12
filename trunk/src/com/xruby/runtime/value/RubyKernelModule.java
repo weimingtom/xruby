@@ -237,21 +237,17 @@ public class RubyKernelModule {
 		return RubyAPI.callNoArgMethod(receiver, block, mid);
 	}
 	
-//	@RubyLevelMethod(name="send", alias="__send__")
-//	public static RubyValue send(RubyValue receiver, RubyValue arg0, RubyValue arg1, RubyBlock block) {
-//        RubyID mid = RubyID.intern(arg0.toStr());
-//        return RubyAPI.callOneArgMethod(receiver, arg1, block, mid);
-//	}
+	@RubyLevelMethod(name="send", alias="__send__")
+	public static RubyValue send(RubyValue receiver, RubyValue arg0, RubyValue arg1, RubyBlock block) {
+        RubyID mid = RubyID.intern(arg0.toStr());
+        return RubyAPI.callOneArgMethod(receiver, arg1, block, mid);
+	}
 	
 	@RubyLevelMethod(name="send", alias="__send__")
 	public static RubyValue send(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyValue method_name = args.delete_at(0);
         RubyID mid = RubyID.intern(method_name.toStr());
-        if (args.size() == 1) {
-        	return RubyAPI.callOneArgMethod(receiver, args.get(0), block, mid);
-        } else {
-        	return RubyAPI.callMethod(receiver, args, block, mid);
-        }
+        return RubyAPI.callMethod(receiver, args, block, mid);
 	}
 	
 	@RubyLevelMethod(name="instance_eval")
