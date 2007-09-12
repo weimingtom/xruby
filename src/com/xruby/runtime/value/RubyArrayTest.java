@@ -5,6 +5,7 @@
 
 package com.xruby.runtime.value;
 
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyValue;
 import junit.framework.TestCase;
@@ -13,9 +14,9 @@ public class RubyArrayTest extends TestCase {
     public void test() {
         RubyArray a = new RubyArray(0);
         assertEquals(0, a.size());
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(-1));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(0));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(1));
+        assertEquals(RubyConstant.QNIL, a.get(-1));
+        assertEquals(RubyConstant.QNIL, a.get(0));
+        assertEquals(RubyConstant.QNIL, a.get(1));
 
         RubyValue i = ObjectFactory.createFixnum(999);
         assertEquals(i, a.set(0, i));
@@ -26,32 +27,32 @@ public class RubyArrayTest extends TestCase {
         assertEquals(5, a.size());
 
         assertEquals(i, a.get(0));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(1));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(2));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(3));
+        assertEquals(RubyConstant.QNIL, a.get(1));
+        assertEquals(RubyConstant.QNIL, a.get(2));
+        assertEquals(RubyConstant.QNIL, a.get(3));
         assertEquals(s, a.get(4));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(5));
+        assertEquals(RubyConstant.QNIL, a.get(5));
 
         assertEquals(s, a.get(-1));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(-2));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(-3));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(-4));
+        assertEquals(RubyConstant.QNIL, a.get(-2));
+        assertEquals(RubyConstant.QNIL, a.get(-3));
+        assertEquals(RubyConstant.QNIL, a.get(-4));
         assertEquals(i, a.get(-5));
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(-6));
+        assertEquals(RubyConstant.QNIL, a.get(-6));
 
-        RubyValue b = ObjectFactory.TRUE_VALUE;
+        RubyValue b = RubyConstant.QTRUE;
         assertEquals(b, a.set(-1, b));
         assertEquals(b, a.get(4));
     }
 
     public void test_collect() {
         RubyArray a = new RubyArray(1);
-        a.add(ObjectFactory.NIL_VALUE);
+        a.add(RubyConstant.QNIL);
 
         RubyValue v = a.collect(0);
         RubyArray r = (RubyArray) v;
         assertEquals(1, r.size());
-        assertEquals(ObjectFactory.NIL_VALUE, r.get(0));
+        assertEquals(RubyConstant.QNIL, r.get(0));
     }
 
     public void test_collect_empty() {
@@ -159,12 +160,12 @@ public class RubyArrayTest extends TestCase {
 
         RubyArray b = new RubyArray();
         v = b.delete_at(1);
-        assertEquals(ObjectFactory.NIL_VALUE, v);
+        assertEquals(RubyConstant.QNIL, v);
 
         // remove negative index
         RubyArray c = new RubyArray();
         v = c.delete_at(-1);
-        assertEquals(ObjectFactory.NIL_VALUE, v);
+        assertEquals(RubyConstant.QNIL, v);
     }
 
     public void test_includes() {
@@ -174,17 +175,17 @@ public class RubyArrayTest extends TestCase {
         RubyValue i3 = ObjectFactory.createFixnum(2);
         RubyValue i4 = ObjectFactory.createFixnum(4);
 
-        assertTrue(a.include(i1) == ObjectFactory.FALSE_VALUE);
-        assertTrue(a.include(i2) == ObjectFactory.FALSE_VALUE);
-        assertTrue(a.include(i3) == ObjectFactory.FALSE_VALUE);
-        assertTrue(a.include(i4) == ObjectFactory.FALSE_VALUE);
+        assertTrue(a.include(i1) == RubyConstant.QFALSE);
+        assertTrue(a.include(i2) == RubyConstant.QFALSE);
+        assertTrue(a.include(i3) == RubyConstant.QFALSE);
+        assertTrue(a.include(i4) == RubyConstant.QFALSE);
 
         a.add(i1);
         a.add(i2);
 
-        assertTrue(a.include(i1) == ObjectFactory.TRUE_VALUE);
-        assertTrue(a.include(i2) == ObjectFactory.TRUE_VALUE);
-        assertTrue(a.include(i3) == ObjectFactory.TRUE_VALUE);
-        assertTrue(a.include(i4) == ObjectFactory.FALSE_VALUE);
+        assertTrue(a.include(i1) == RubyConstant.QTRUE);
+        assertTrue(a.include(i2) == RubyConstant.QTRUE);
+        assertTrue(a.include(i3) == RubyConstant.QTRUE);
+        assertTrue(a.include(i4) == RubyConstant.QFALSE);
     }
 }

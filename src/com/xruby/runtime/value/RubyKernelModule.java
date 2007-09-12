@@ -10,7 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.io.StringReader;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
@@ -48,7 +47,7 @@ public class RubyKernelModule {
 	@RubyLevelMethod(name="class")
 	public static RubyValue objRubyClass(RubyValue receiver) {
 		RubyClass klass = receiver.getRubyClass();
-        return klass != null ? klass.getRealClass() : ObjectFactory.NIL_VALUE;
+        return klass != null ? klass.getRealClass() : RubyConstant.QNIL;
 	}
 	
 	// FIXME: Kernel_clone should be revised.
@@ -136,7 +135,7 @@ public class RubyKernelModule {
         if (null == args) {
             //With no arguments, raises the exception in $! or raises a RuntimeError if $! is nil.
             RubyValue v = GlobalVariables.get("$!");
-            if (ObjectFactory.NIL_VALUE == v) {
+            if (RubyConstant.QNIL == v) {
                 e = new RubyExceptionValue(RubyRuntime.RuntimeErrorClass, "");
             } else {
                 e = (RubyExceptionValue)v;
@@ -165,7 +164,7 @@ public class RubyKernelModule {
 	public static RubyValue exit(RubyValue receiver) {
 		// TODO should raise SystemExit exception and call at_exit blocks
 		System.exit(0);
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
 	}
 	
 	@RubyLevelMethod(name="exit", module=true)
@@ -180,7 +179,7 @@ public class RubyKernelModule {
 			status = arg.toInt();
 		}
 		System.exit(status);
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
 	}
 	
 	@RubyLevelMethod(name="loop", module=true)
@@ -203,7 +202,7 @@ public class RubyKernelModule {
 	}
 	
 	@RubyLevelMethod(name="instance_of?")
-	public static RubyValue instance_of(RubyValue receiver, RubyValue arg) {
+	public static RubyValue instanceOf(RubyValue receiver, RubyValue arg) {
 		return ObjectFactory.createBoolean(receiver.getRubyClass().getRealClass() == arg);
 	}
 	
@@ -214,7 +213,7 @@ public class RubyKernelModule {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `respond_to': wrong number of arguments (" + actual_argc + " for 1)");
         }
 		
-        boolean include_private = (ObjectFactory.TRUE_VALUE == args.get(1));
+        boolean include_private = (RubyConstant.QTRUE == args.get(1));
         RubyID mid = RubyID.intern(args.get(0).toStr());
         return ObjectFactory.createBoolean(hasMethod(receiver, mid, include_private));
 	}
@@ -382,7 +381,7 @@ public class RubyKernelModule {
             throw e;
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 	
 	@RubyLevelMethod(name="untrace_var", module=true)
@@ -399,13 +398,13 @@ public class RubyKernelModule {
         String name = ((RubySymbol) args.get(0)).toString();
 
         RubyValue v = args.get(1);
-        if (v == ObjectFactory.NIL_VALUE) {
+        if (v == RubyConstant.QNIL) {
             GlobalVariables.removeAllTraceProc(name);
         } else if (v instanceof RubyProc) {
             GlobalVariables.removeTraceProc(name, (RubyProc) v);
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 	
 	@RubyLevelMethod(name="trace_var", module=true)
@@ -430,12 +429,12 @@ public class RubyKernelModule {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "tried to create Proc object without a block");
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 	
 	@RubyLevelMethod(name="block_given?", alias="iterator?", module=true)
 	public static RubyValue blockGivenP(RubyValue receiver, RubyBlock block) {
-		return (null == block) ? ObjectFactory.FALSE_VALUE : ObjectFactory.TRUE_VALUE;
+		return ObjectFactory.createBoolean(null != block);
     }
 	
 	@RubyLevelMethod(name="Float", module=true)
@@ -504,81 +503,34 @@ public class RubyKernelModule {
 	
 	@RubyLevelMethod(name="puts", module=true)
 	public static RubyValue puts(RubyValue receiver) {
-		return _puts(GlobalVariables.get("$stdout"));
+		return RubyIO.STDOUT.puts();
     }
 	
 	@RubyLevelMethod(name="puts", module=true)
 	public static RubyValue puts(RubyValue receiver, RubyArray args) {
-        return _puts(GlobalVariables.get("$stdout"), args);
-    }
-	
-	public static RubyValue _puts(RubyValue receiver) {
-		RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("\n"), null, RubyID.writeID);
-        return ObjectFactory.NIL_VALUE;
-	}
-
-    public static RubyValue _puts(RubyValue receiver, RubyArray args) {
-        RubyString value = null;
-        for (RubyValue arg : args) {
-            if (ObjectFactory.NIL_VALUE == arg) {
-                value = ObjectFactory.createString("nil\n");
-            } else if (arg instanceof RubyString) {
-                value = (RubyString) arg;
-                value.appendString("\n");
-            } else {
-                RubyValue str = RubyAPI.callPublicNoArgMethod(arg, null, RubyID.toSID);
-                value = (RubyString) str;
-                value.appendString("\n");
-            }
-        }
-
-        RubyAPI.callPublicOneArgMethod(receiver, value, null, RubyID.writeID);
-        return ObjectFactory.NIL_VALUE;
+        return RubyIO.STDOUT.puts(args);
     }
     
     @RubyLevelMethod(name="print", module=true)
     public static RubyValue print(RubyValue receiver) {
-        return _print(GlobalVariables.get("$stdout"));
+        return RubyIO.STDOUT.print();
+    }
+    
+    @RubyLevelMethod(name="print", module=true)
+    public static RubyValue print(RubyValue receiver, RubyValue arg) {
+        return RubyIO.STDOUT.print(arg);
     }
     
     @RubyLevelMethod(name="print", module=true)
     public static RubyValue print(RubyValue receiver, RubyArray args) {
-        return _print(GlobalVariables.get("$stdout"), args);
-    }
-    
-    public static RubyValue _print(RubyValue receiver) {
-    	// if no argument given, print `$_'
-    	return _print(receiver, new RubyArray(GlobalVariables.get("$_")));
-    }
-    
-    public static RubyValue _print(RubyValue receiver, RubyArray args) {
-        int size = args.size();
-		for (int i = 0; i < size; ++i) {
-            // insert the output field separator($,) if not nil
-            if (i > 0 && GlobalVariables.get("$,") != ObjectFactory.NIL_VALUE) {
-                RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$,"), null, RubyID.writeID);
-            }
-
-            if (args.get(i) == ObjectFactory.NIL_VALUE) {
-                RubyAPI.callPublicOneArgMethod(receiver, ObjectFactory.createString("nil"), null, RubyID.writeID);
-            } else {
-                RubyAPI.callPublicOneArgMethod(receiver, args.get(i), null, RubyID.writeID);
-            }
-        }
-
-        // if the output record separator($\) is not nil, it will be appended to the output.
-        if (GlobalVariables.get("$\\") != ObjectFactory.NIL_VALUE) {
-            RubyAPI.callPublicOneArgMethod(receiver, GlobalVariables.get("$\\"), null, RubyID.writeID);
-        }
-
-        return ObjectFactory.NIL_VALUE;
+    	return RubyIO.STDOUT.print(args);
     }
     
     @RubyLevelMethod(name="printf", module=true)
     public static RubyValue printf(RubyValue receiver, RubyArray args) {
         String fmt = args.get(0).toStr();
         System.out.printf(fmt, RubyKernelModule.buildFormatArg(args, 1));
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
     
     @RubyLevelMethod(name="sprintf", module=true)
@@ -594,7 +546,7 @@ public class RubyKernelModule {
     
     @RubyLevelMethod(name="p", module=true)
     public static RubyValue p(RubyValue receiver) {
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
     
     @RubyLevelMethod(name="p", module=true)
@@ -605,7 +557,7 @@ public class RubyKernelModule {
     		value.appendString("\n");
     		System.out.print(value.toString());
     	}
-    	return ObjectFactory.NIL_VALUE;
+    	return RubyConstant.QNIL;
     }
     
     @RubyLevelMethod(name="gets", module=true)
@@ -616,7 +568,7 @@ public class RubyKernelModule {
             s = in.readLine();
         } catch (IOException e) {
         }
-        GlobalVariables.set((null == s ? ObjectFactory.NIL_VALUE : ObjectFactory.createString(s)), "$_");
+        GlobalVariables.set((null == s ? RubyConstant.QNIL : ObjectFactory.createString(s)), "$_");
         return GlobalVariables.get("$_");
     }
     
@@ -697,7 +649,7 @@ public class RubyKernelModule {
         }
 
         RubyRuntime.setJavaSupported(true);
-        return ObjectFactory.TRUE_VALUE;
+        return RubyConstant.QTRUE;
     }
     
     @RubyLevelMethod(name="__load_with_reflection__", module=true)
@@ -711,18 +663,18 @@ public class RubyKernelModule {
 
             //$".push(file_name) unless $".include?(file_name)
             RubyArray a = (RubyArray)GlobalVariables.get("$\"");
-            if (a.include(arg) == ObjectFactory.FALSE_VALUE) {
+            if (a.include(arg) == RubyConstant.QFALSE) {
                 a.push(arg);
             }
             
             p.invoke();
-            return ObjectFactory.TRUE_VALUE;
+            return RubyConstant.QTRUE;
         } catch (ClassNotFoundException e) {
-            return ObjectFactory.FALSE_VALUE;
+            return RubyConstant.QFALSE;
         } catch (InstantiationException e) {
-            return ObjectFactory.FALSE_VALUE;
+            return RubyConstant.QFALSE;
         } catch (IllegalAccessException e) {
-            return ObjectFactory.FALSE_VALUE;
+            return RubyConstant.QFALSE;
         }
     }
     
@@ -765,7 +717,7 @@ public class RubyKernelModule {
         }
 
         RubyValue r = ((RubyString)GlobalVariables.get("$_")).gsub_danger(args, block);
-        if (r != ObjectFactory.NIL_VALUE) {
+        if (r != RubyConstant.QNIL) {
             GlobalVariables.set(r, "$_");
         }
         return r;

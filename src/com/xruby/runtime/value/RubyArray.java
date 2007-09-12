@@ -105,7 +105,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     private RubyArray insert(int index, RubyArray a) {
         for (int i = array_.size(); i < index; ++i) {
-            array_.add(ObjectFactory.NIL_VALUE);
+            array_.add(RubyConstant.QNIL);
         }
         array_.addAll(index, a.array_);
         return this;
@@ -122,7 +122,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     public RubyValue delete_at(int index) {
         if (index >= size()) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         if(index < 0){
@@ -130,7 +130,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
 
         if(index < 0){
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         return array_.remove(index);
@@ -256,7 +256,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
             array_.set(index, value);
         } else {
             for (int i = array_.size(); i < index; ++i) {
-                array_.add(ObjectFactory.NIL_VALUE);
+                array_.add(RubyConstant.QNIL);
             }
             array_.add(value);
         }
@@ -266,7 +266,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     public RubyValue replace(int start, int length, RubyValue value) {
         int index = getRealIndex(start);
-        if (value == ObjectFactory.NIL_VALUE) {
+        if (value == RubyConstant.QNIL) {
             for(int i=0;i<length;i++) {
                 array_.remove(index);
             }
@@ -300,7 +300,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
 
         if (index < 0 || index >= size()) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         } else {
             return array_.get(index);
         }
@@ -523,7 +523,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
             }
 
             RubyArray resultValue = this.subarray(begin, end - begin);
-            return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+            return (null == resultValue ? RubyConstant.QNIL : resultValue);
         }
 
         return this.get(arg.toInt());
@@ -536,7 +536,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
 
         RubyArray resultValue = this.subarray(begin.toInt(), length.toInt());
-        return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+        return (null == resultValue ? RubyConstant.QNIL : resultValue);
     }
 
     @RubyLevelMethod(name="insert")
@@ -634,7 +634,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public RubyValue pop() {
         int size = this.array_.size();
         if (0 == size) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
         return this.array_.remove(size - 1);
     }
@@ -711,11 +711,11 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public RubyValue include(RubyValue v) {
         for (RubyValue value : array_) {
             if (RubyAPI.testEqual(value, v)) {
-                return ObjectFactory.TRUE_VALUE;
+                return RubyConstant.QTRUE;
             }
         }
 
-        return ObjectFactory.FALSE_VALUE;
+        return RubyConstant.QFALSE;
     }
 
     @RubyLevelMethod(name="each")
@@ -775,8 +775,8 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
         RubyArray a = new RubyArray();
         for (RubyValue v : array_) {
-            if (other.include(v) == ObjectFactory.TRUE_VALUE &&
-                    a.include(v) == ObjectFactory.FALSE_VALUE) {
+            if (other.include(v) == RubyConstant.QTRUE &&
+                    a.include(v) == RubyConstant.QFALSE) {
                 a.add(v);
             }
         }
@@ -788,12 +788,12 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         RubyArray other = value.toAry();
         RubyArray a = new RubyArray();
         for (RubyValue v : array_) {
-            if (a.include(v)  == ObjectFactory.FALSE_VALUE) {
+            if (a.include(v)  == RubyConstant.QFALSE) {
                 a.add(v);
             }
         }
         for (RubyValue v : other) {
-            if (a.include(v) == ObjectFactory.FALSE_VALUE) {
+            if (a.include(v) == RubyConstant.QFALSE) {
                 a.add(v);
             }
         }
@@ -807,10 +807,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     @RubyLevelMethod(name="compact!")
     public RubyValue compact_danger() {
-        if (remove(ObjectFactory.NIL_VALUE)) {
+        if (remove(RubyConstant.QNIL)) {
             return this;
         } else {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
     }
 
@@ -832,7 +832,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
                 }
             }
         }
-        return b ? this : ObjectFactory.NIL_VALUE;
+        return b ? this : RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="reverse")
@@ -854,7 +854,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
             if(get(i).equals(arg))
                 return ObjectFactory.createFixnum(i);
         }
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="rindex")
@@ -863,7 +863,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
             if(get(i).equals(arg))
                 return ObjectFactory.createFixnum(i);
         }
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="replace")
@@ -893,7 +893,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     public RubyValue nitems() {
         int n = 0;
         for(int i=0;i<size();i++){
-            if(get(i) != ObjectFactory.NIL_VALUE)
+            if(get(i) != RubyConstant.QNIL)
                 n++;
         }
         return ObjectFactory.createFixnum(n);
@@ -914,7 +914,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         if (hasModified){
             return this;
         } else {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
     }
 
@@ -943,7 +943,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
             }
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="rassoc")
@@ -961,7 +961,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
             }
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="*")
@@ -1037,7 +1037,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
                 }
 
                 RubyArray resultValue = delete_at(begin, end - begin);
-                return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+                return (null == resultValue ? RubyConstant.QNIL : resultValue);
             }
         } else if (2 == args.size()) {
             Object arg0Value = args.get(0);
@@ -1046,7 +1046,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
                 int begin = ((RubyFixnum) arg0Value).toInt();
                 int length = ((RubyFixnum) arg1Value).toInt();
                 RubyArray resultValue = delete_at(begin, length);
-                return (null == resultValue ? ObjectFactory.NIL_VALUE : resultValue);
+                return (null == resultValue ? RubyConstant.QNIL : resultValue);
             }
         }
 

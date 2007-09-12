@@ -5,7 +5,6 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
 public abstract class RubyOneArgBlock extends RubyBlock {
@@ -18,7 +17,7 @@ public abstract class RubyOneArgBlock extends RubyBlock {
         if (args != null && args.size() == 1) {
             arg = args.get(0);
         } else if (args == null || args.size() == 0) {
-            arg = ObjectFactory.NIL_VALUE;
+            arg = RubyConstant.QNIL;
         } else {
             // TO DO: rethinking
             // For code: yield 1, 2; f {|x|}
@@ -29,7 +28,7 @@ public abstract class RubyOneArgBlock extends RubyBlock {
     }
 
     protected RubyValue run(RubyValue receiver) {
-        return this.run(receiver, ObjectFactory.NIL_VALUE);
+        return this.run(receiver, RubyConstant.QNIL);
     }
 
     protected RubyValue run(RubyValue receiver, RubyValue arg0, RubyValue arg1) {

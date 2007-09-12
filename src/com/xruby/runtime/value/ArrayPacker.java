@@ -6,6 +6,7 @@
 package com.xruby.runtime.value;
 
 import com.xruby.runtime.builtin.RubyTypesUtil;
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
@@ -231,7 +232,7 @@ class ArrayPacker {
 
                 case 'q':
                     if (str.length() < Long.SIZE / Byte.SIZE) {
-                        ary.add(ObjectFactory.NIL_VALUE);
+                        ary.add(RubyConstant.QNIL);
                     } else {
                         long l = 0;
                         for (int j = 0; j < Long.SIZE / Byte.SIZE; ++j) {
@@ -357,7 +358,7 @@ class ArrayPacker {
                     else
                         throw new RubyException(RubyRuntime.RuntimeErrorClass, "too few for type " + type); // #TODO: message
 
-                    if (from == ObjectFactory.NIL_VALUE) {
+                    if (from == RubyConstant.QNIL) {
                         ptr = "";
                         plen = 0;
                     } else {

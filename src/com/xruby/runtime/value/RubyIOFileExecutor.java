@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
@@ -115,7 +116,7 @@ class RubyIOFileExecutor implements RubyIOExecutor {
         }
 
         try {
-            if (ObjectFactory.NIL_VALUE == separator) {
+            if (RubyConstant.QNIL == separator) {
                 return readsTheEntireContents();
             }
 

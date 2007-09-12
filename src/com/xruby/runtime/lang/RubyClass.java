@@ -94,7 +94,7 @@ public class RubyClass extends RubyModule {
             c = c.getRealClass();
         }
 
-        return (null == c) ? ObjectFactory.NIL_VALUE : c;
+        return (null == c) ? RubyConstant.QNIL : c;
     }
 
     public void defineAllocMethod(RubyMethod m) {

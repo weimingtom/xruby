@@ -8,7 +8,6 @@ package com.xruby.runtime.javasupport;
 import com.xruby.compiler.RubyCompiler;
 import com.xruby.compiler.codegen.CompilationResults;
 import com.xruby.runtime.lang.*;
-import java.io.StringReader;
 
 /**
  *

@@ -54,13 +54,13 @@ public class RubyRegexp extends RubyBasic {
     public RubyValue caseEqual(RubyValue arg) {
     	if (!(arg instanceof RubyString)) {
             //not comparable
-            return ObjectFactory.FALSE_VALUE;
+            return RubyConstant.QFALSE;
         }
 
         if (this.caseEqual(arg.toStr())) {
-            return ObjectFactory.TRUE_VALUE;
+            return RubyConstant.QTRUE;
         } else {
-            return ObjectFactory.FALSE_VALUE;
+            return RubyConstant.QFALSE;
         }
     }
     
@@ -68,12 +68,12 @@ public class RubyRegexp extends RubyBasic {
     public RubyValue match(RubyValue arg) {
     	if (!(arg instanceof RubyString)) {
             //not comparable
-            return ObjectFactory.FALSE_VALUE;
+            return RubyConstant.QFALSE;
         }
 
         RubyMatchData m = this.match(arg.toStr());
         if (null == m) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         } else {
             return m;
         }
@@ -83,12 +83,12 @@ public class RubyRegexp extends RubyBasic {
     public RubyValue opMatch(RubyValue arg) {
     	if (!(arg instanceof RubyString)) {
             //not comparable
-            return ObjectFactory.FALSE_VALUE;
+            return RubyConstant.QFALSE;
         }
 
         int p = this.matchPosition(arg.toStr());
         if (p < 0) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         } else {
             return ObjectFactory.createFixnum(p);
         }
@@ -128,7 +128,7 @@ public class RubyRegexp extends RubyBasic {
             return ObjectFactory.createMatchData(m);
         } else {
             GlobalVariables.set(ObjectFactory.createString(m.toString()), "$1");
-            GlobalVariables.set(ObjectFactory.NIL_VALUE, "$&");
+            GlobalVariables.set(RubyConstant.QNIL, "$&");
             return null;
         }
     }
@@ -143,7 +143,7 @@ public class RubyRegexp extends RubyBasic {
             GlobalVariables.set(ObjectFactory.createString(m.group()), "$&");
             return m.start();
         } else {
-            GlobalVariables.set(ObjectFactory.NIL_VALUE, "$&");
+            GlobalVariables.set(RubyConstant.QNIL, "$&");
             return -1;
         }
     }

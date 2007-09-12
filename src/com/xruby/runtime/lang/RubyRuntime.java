@@ -5,6 +5,9 @@
 
 package com.xruby.runtime.lang;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 import com.xruby.runtime.builtin.*;
 import com.xruby.runtime.lang.util.RubyTypeFactory;
 import com.xruby.runtime.value.*;
@@ -85,7 +88,7 @@ public class RubyRuntime {
         ClassClass = ClassFactory.defineBootClass("Class", RubyRuntime.ModuleClass);
 
         ClassClass.setRubyClass(ClassClass);
-
+        
         RubySingletonClass metaClass = new RubySingletonClass(ObjectClass, ClassClass);
         metaClass = new RubySingletonClass(ModuleClass, metaClass);
         metaClass = new RubySingletonClass(ClassClass, metaClass);
@@ -95,12 +98,13 @@ public class RubyRuntime {
         NilClassClass = RubyAPI.defineClass("NilClass", RubyRuntime.ObjectClass);
         TrueClassClass = RubyAPI.defineClass("TrueClass", RubyRuntime.ObjectClass);
         FalseClassClass = RubyAPI.defineClass("FalseClass", RubyRuntime.ObjectClass);
-
+        
         ComparableModule = RubyAPI.defineModule("Comparable");
         EnumerableModule = RubyAPI.defineModule("Enumerable");
         ErrnoModule = RubyAPI.defineModule("Errno");
         FileTestModule = RubyTypeFactory.getModule(RubyFileTestModule.class);
         GCModule = RubyTypeFactory.getModule(RubyGC.class);
+        
         MarshalModule = RubyTypeFactory.getModule(RubyMarshalModule.class);//RubyAPI.defineModule("Marshal");
         MathModule = RubyTypeFactory.getModule(RubyMathModule.class);
         ObjectSpaceModule = RubyTypeFactory.getModule(ObjectSpace.class);
@@ -111,12 +115,10 @@ public class RubyRuntime {
         RubyTypeFactory.getClass(RubyObject.class);
         ModuleClassBuilder.initialize();
         RubyTypeFactory.getClass(RubyClass.class);
-//        ClassClassBuilder.initialize();
-//        KernelModuleBuilder.initialize();
         
         RubyModule m = RubyTypeFactory.getModule(RubyKernelModule.class);
         respondToMethod = m.findMethod(RubyID.RESPOND_TO_P);
-
+        
         NumericClass = RubyTypeFactory.getClass(RubyNumeric.class);
         IntegerClass = RubyTypeFactory.getClass(RubyInteger.class);
         FixnumClass = RubyTypeFactory.getClass(RubyFixnum.class);
@@ -126,7 +128,7 @@ public class RubyRuntime {
         ArrayClass = RubyTypeFactory.getClass(RubyArray.class);
         HashClass = RubyTypeFactory.getClass(RubyHash.class);
         SymbolClass = RubyTypeFactory.getClass(RubySymbol.class);
-        IOClass = RubyAPI.defineClass("IO", RubyRuntime.ObjectClass);
+        IOClass = RubyTypeFactory.getClass(RubyIO.class);
         ProcClass = RubyTypeFactory.getClass(RubyProc.class);
         RangeClass = RubyTypeFactory.getClass(RubyRange.class);
         RegexpClass = RubyTypeFactory.getClass(RubyRegexp.class);
@@ -162,38 +164,6 @@ public class RubyRuntime {
 
         StringIOClass = RubyTypeFactory.getClass(RubyStringIO.class);
 
-//        ObjectClassBuilder.initialize();
-
-//        GCModuleBuilder.initialize();
-//        MarshalModuleBuilder.initialize();
-//        MathModuleBuilder.initialize();
-        ErrnoModuleBuilder.initialize();
-//        NumericClassBuilder.initialize();
-//        IntegerClassBuilder.initialize();
-//        FixnumClassBuilder.initialize();
-//        BignumClassBuilder.initialize();
-//        StringClassBuilder.initialize();
-//        FloatClassBuilder.initialize();
-//        ArrayClassBuilder.initialize();
-//        HashClassBuilder.initialize();
-//        SymbolClassBuilder.initialize();
-        IOClassBuilder.initialize();
-//        ProcClassBuilder.initialize();
-//        RangeClassBuilder.initialize();
-//        RegexpClassBuilder.initialize();
-//        FileClassBuilder.initialize();
-//        MethodClassBuilder.initialize();
-//        TimeClassBuilder.initialize();
-//		UnboundMethodClassBuilder.initialize();
-//        MatchDataClassBuilder.initialize();
-//        DirClassBuilder.initialize();
-//        StructClassBuilder.initialize();
-//        ExceptionClassBuilder.initialize();
-//        ThreadClassBuilder.initialize();
-//        ThreadGroupClassBuilder.initialize();
-//        FileTestModuleBuilder.initialize();
-//        ObjectSpaceModuleBuilder.initialize();
-
         RubyThread.init();
     }
 
@@ -227,8 +197,7 @@ public class RubyRuntime {
         }
 
         initARGV(args);
-
-        RubyAPI.setTopLevelConstant(new RubyObject(RubyRuntime.IOClass), "STDOUT");
+        
         RubyAPI.setTopLevelConstant(RubyAPI.isWindows() ? ObjectFactory.createString("mswin32") : ObjectFactory.createString("java"), "RUBY_PLATFORM");
 
         if (RubyAPI.isWindows()) {
@@ -238,7 +207,10 @@ public class RubyRuntime {
         ENVInitializer.initialize();
         TopLevelSelfInitializer.initialize();
         GlobalVariables.initialize();
+        
+        updateStdout();
 
+        RubyAPI.setTopLevelConstant(RubyConstant.QTRUE, "TRUE");
         loadBuildinDotRb();
         RubyRuntime.running = true;
     }
@@ -259,4 +231,20 @@ public class RubyRuntime {
     public static RubyMethod getRespondMethod() {
         return respondToMethod;
     }
+    
+    public static void setStdout(OutputStream os) {
+    	PrintStream ps = getPrintStream(os);
+    	System.setOut(ps);
+    	updateStdout();
+    }
+
+	private static void updateStdout() {
+		RubyIO newStdOut = new RubyFile(new OutputStreamExecutor(System.out), RubyRuntime.IOClass);
+    	RubyAPI.setTopLevelConstant(newStdOut, "STDOUT");
+    	GlobalVariables.set(newStdOut, "$stdout");
+	}
+
+	private static PrintStream getPrintStream(OutputStream os) {
+		return (os instanceof PrintStream) ? (PrintStream)os : new PrintStream(os);
+	}
 }

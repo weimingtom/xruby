@@ -5,7 +5,6 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 
 public abstract class RubyTwoArgBlock extends RubyBlock {
@@ -14,8 +13,8 @@ public abstract class RubyTwoArgBlock extends RubyBlock {
     }
 
     protected RubyValue run(RubyValue receiver, RubyArray args) {
-        RubyValue arg0 = ObjectFactory.NIL_VALUE;
-        RubyValue arg1 = ObjectFactory.NIL_VALUE;
+        RubyValue arg0 = RubyConstant.QNIL;
+        RubyValue arg1 = RubyConstant.QNIL;
 
         if (args != null) {
             int size = args.size();
@@ -32,11 +31,11 @@ public abstract class RubyTwoArgBlock extends RubyBlock {
     }
 
     protected RubyValue run(RubyValue receiver, RubyValue arg) {
-        return this.run(receiver, arg, ObjectFactory.NIL_VALUE);
+        return this.run(receiver, arg, RubyConstant.QNIL);
     }
 
     protected RubyValue run(RubyValue receiver) {
-        return this.run(receiver, ObjectFactory.NIL_VALUE, ObjectFactory.NIL_VALUE);
+        return this.run(receiver, RubyConstant.QNIL, RubyConstant.QNIL);
     }
 
     protected abstract RubyValue run(RubyValue receiver, RubyValue arg0, RubyValue arg1);

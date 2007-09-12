@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
@@ -101,11 +102,11 @@ class MarshalDumper {
     }
 
     private static void packValue(RubyValue v, StringBuilder sb) {
-        if (v == ObjectFactory.NIL_VALUE) {
+        if (v == RubyConstant.QNIL) {
             sb.append((char) 0);
-        } else if (v == ObjectFactory.TRUE_VALUE) {
+        } else if (v == RubyConstant.QTRUE) {
             sb.append('T');
-        } else if (v == ObjectFactory.FALSE_VALUE) {
+        } else if (v == RubyConstant.QFALSE) {
             sb.append('F');
         } else {
             RubyClass klass = v.getRubyClass().getRealClass();
@@ -227,11 +228,11 @@ class MarshalLoader {
         ++current_index_;
         switch (c) {
             case '\0':
-                return ObjectFactory.NIL_VALUE;
+                return RubyConstant.QNIL;
             case 'T':
-                return ObjectFactory.TRUE_VALUE;
+                return RubyConstant.QTRUE;
             case 'F':
-                return ObjectFactory.FALSE_VALUE;
+                return RubyConstant.QFALSE;
             case 'i':
                 return ObjectFactory.createFixnum(loadInteger(v));
             case '"':

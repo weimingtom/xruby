@@ -5,7 +5,6 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyFloat;
 import com.xruby.runtime.value.RubyInteger;
@@ -88,14 +87,15 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 
     public RubyValue getInstanceVariable(RubyID id) {
         if (null == instance_varibles_) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         RubyValue v = instance_varibles_.get(id);
+        
         if (null != v) {
             return v;
         } else {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
     }
 
@@ -158,6 +158,15 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     
     public String toStr() {
     	return this.convertToString().toStr();
+    }
+    
+    public String asString() {
+    	RubyValue value = RubyAPI.callPublicNoArgMethod(this, null, RubyID.toSID);
+    	if (value instanceof RubyString) {
+    		return value.toStr();
+    	}
+    	
+    	return "#<" + this.getRubyClass().getName() + ":0x" + Integer.toHexString(this.hashCode()) + "x>";
     }
     
     public RubyInteger toRubyInteger() {

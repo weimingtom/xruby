@@ -10,6 +10,7 @@ import java.nio.channels.Pipe;
 import java.nio.channels.Pipe.SinkChannel;
 import java.nio.channels.Pipe.SourceChannel;
 
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 
 import junit.framework.TestCase;
@@ -32,7 +33,7 @@ public class RubyIOPipeSourceExecutorTest extends TestCase {
     public void testGetsWithNilParamShouldReturnAllContents() throws Exception {
         sink.write(ByteBuffer.wrap("testdata".getBytes()));
         sink.close();
-        assertEquals("testdata", executor.gets(ObjectFactory.NIL_VALUE).toString());
+        assertEquals("testdata", executor.gets(RubyConstant.QNIL).toString());
     }
 
     public void testGetsWithSeparatorWillReturnPartial() throws Exception {
@@ -41,7 +42,7 @@ public class RubyIOPipeSourceExecutorTest extends TestCase {
         assertEquals("t", executor.gets(ObjectFactory.createString("t")).toString());
         assertEquals("est", executor.gets(ObjectFactory.createString("t")).toString());
         assertFalse(executor.eof());
-        assertEquals("data", executor.gets(ObjectFactory.NIL_VALUE).toString());
+        assertEquals("data", executor.gets(RubyConstant.QNIL).toString());
         assertTrue(executor.eof());
     }
 

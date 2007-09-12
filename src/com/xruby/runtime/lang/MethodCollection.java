@@ -52,7 +52,7 @@ abstract class MethodCollection extends ConstantCollection {
         m.setID(id);
         m.setAccess(attribute);
         methods_.put(id, m);
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     public void undefMethod(String method_name) {

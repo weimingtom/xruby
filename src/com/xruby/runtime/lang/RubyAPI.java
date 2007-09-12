@@ -93,7 +93,7 @@ public class RubyAPI {
         RubyID mid = RubyID.intern(method_name);
         RubyMethod m = c.findSuperMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         return ObjectFactory.createString("super");
@@ -110,7 +110,7 @@ public class RubyAPI {
         RubyID mid = RubyID.intern(method_name);
         RubyMethod m = receiver.findPublicMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         return ObjectFactory.createString("method");
@@ -121,7 +121,7 @@ public class RubyAPI {
         RubyID mid = RubyID.intern(method_name);
         RubyMethod m = receiver.findMethod(mid);
         if (null == m || UndefMethod.isUndef(m)) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         return ObjectFactory.createString("method");
@@ -129,7 +129,7 @@ public class RubyAPI {
 
     public static RubyValue isDefinedYield(RubyBlock block) {
         if (null == block) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         } else {
             return ObjectFactory.createString("yield");
         }
@@ -195,13 +195,13 @@ public class RubyAPI {
     //method call with *one* argument and no block (use the other one if no arg (arg == null)!)
     //This make code (especially reverse engineered ones) more readable.
     public static RubyValue callPublicOneArgMethod(RubyValue receiver, RubyValue arg, RubyBlock block, RubyID mid) {
-        assert(null != arg);
-        RubyMethod m = receiver.findPublicMethod(mid);
-        if (null != m && !UndefMethod.isUndef(m)) {
-            return m.invoke(receiver, arg, block);
-        }
+    	assert(null != arg);
+    	RubyMethod m = receiver.findPublicMethod(mid);
+    	if (null != m && !UndefMethod.isUndef(m)) {
+    		return m.invoke(receiver, arg, block);
+    	}
 
-        return callMethodMissing(receiver, new RubyArray(arg), block, mid);
+    	return callMethodMissing(receiver, new RubyArray(arg), block, mid);
     }
 
     //TODO should pass owner to work with protected method
@@ -337,7 +337,7 @@ public class RubyAPI {
     }
 
     public static RubyBlock convertRubyValue2RubyBlock(RubyValue v) {
-        if (ObjectFactory.NIL_VALUE == v) {
+        if (RubyConstant.QNIL == v) {
             return null;
         } else if (v instanceof RubyMethodValue) {
             return ((RubyMethodValue) v).convertToRubyProc().getBlock();
@@ -383,7 +383,7 @@ public class RubyAPI {
     public static RubyValue isDefinedCurrentNamespaceConstant(RubyValue receiver, String name) {
         RubyValue v = ((RubyModule) receiver).getConstant(name);
         if (null == v) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         return ObjectFactory.createString("constant");
@@ -443,7 +443,7 @@ public class RubyAPI {
 
     public static RubyValue initializeBlockParameter(RubyBlock block) {
         if (null == block) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         } else {
             return ObjectFactory.createProc(block);
         }
