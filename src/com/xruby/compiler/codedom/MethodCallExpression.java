@@ -140,6 +140,10 @@ public class MethodCallExpression extends Expression {
 			case 1:
 				arguments_.getFirstExpression().accept(visitor);
 				break;
+			case 2:
+				arguments_.getFirstExpression().accept(visitor);
+				arguments_.getSecondExpression().accept(visitor);
+				break;
 			default:
 				arguments_.accept(visitor);
 				if (is_eval && arguments_.size() <= 1) {

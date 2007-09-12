@@ -57,10 +57,8 @@ public class MethodCallExpressionTest extends TestingAstTestCase {
 		
 		String expected_result = 
 			"self\n" +
-			"[:2:2:false\n" +
 			"1\n" +
 			"2\n" +
-			"]!\n" +
 			"puts:false\n" +
 			"EOF";
 		assertAstOutput(program_text, expected_result);

@@ -35,6 +35,10 @@ public class MethodCallArguments implements Visitable {
 	Expression getFirstExpression() {
 		return arguments_.get(0);
 	}
+	
+	Expression getSecondExpression() {
+		return arguments_.get(1);
+	}
 
 	public MethodCallArguments clone() {
 		MethodCallArguments r = new MethodCallArguments();

@@ -554,6 +554,12 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
     }
+    
+    public void RubyAPI_callPublicTwoArgMethod(String methodName) {
+        loadRubyID(methodName);
+        invokeStatic(Type.getType(RubyAPI.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicTwoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
+    }
 
     public void RubyAPI_callMethod(String methodName) {
         loadRubyID(methodName);
@@ -572,6 +578,12 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
     }
+    
+    public void RubyAPI_callTwoArgMethod(String methodName) {
+        loadRubyID(methodName);
+        invokeStatic(Type.getType(RubyAPI.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callTwoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
+    }
 
     public void RubyAPI_callSuperMethod() {
         loadThis();
@@ -589,6 +601,12 @@ class MethodGenerator extends GeneratorAdapter {
         loadThis();
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.MethodBlockBase)"));
+    }
+    
+    public void RubyAPI_callSuperTwoArgMethod() {
+        loadThis();
+        invokeStatic(Type.getType(RubyAPI.class),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperTwoArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.MethodBlockBase)"));
     }
 
     public void RubyAPI_operatorNot() {
