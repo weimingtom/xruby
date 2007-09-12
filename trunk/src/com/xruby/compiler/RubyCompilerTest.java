@@ -164,11 +164,11 @@ class CompilerTestCase extends TestCase {
 
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 PrintStream original = System.out;
-                System.setOut(new PrintStream(output));
+                RubyRuntime.setStdout(output);
 
                 p.invoke();
 
-                System.setOut(original);
+                RubyRuntime.setStdout(original);
 
                 assertEquals("Failed at " + i, outputs[i], output.toString());
             } catch (RubyException e) {
@@ -434,7 +434,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_result(program_texts, results);
 
         program_texts = new String[]{"\"hello\".index('a')"};
-        RubyValue[] res = {ObjectFactory.NIL_VALUE};
+        RubyValue[] res = {RubyConstant.QNIL};
 
         compile_run_and_compare_result(program_texts, res);
 
@@ -457,7 +457,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_result(program_texts, res);
 
         program_texts = new String[]{"\"hll\".index(/[aeiou]/, -3)"};
-        res = new RubyValue[]{ObjectFactory.NIL_VALUE};
+        res = new RubyValue[]{RubyConstant.QNIL};
         compile_run_and_compare_result(program_texts, res);
     }
 
@@ -2148,7 +2148,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_alias_global_variable() {
         String[] program_texts = {
-                "$a = 1234; alias $b $a; print $a",
+                "$A = 1234; alias $B $A; print $A",
                 "$A = 'xyz'; alias $B $A; print $B",
                 "$A = 'xyz'; alias $B $A; print $C",
                 "$A = 'abcd'; alias $B $A; alias $C $B; print $C",
@@ -2162,7 +2162,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "nil",
                 "abcd",
                 "2345",
-                "1234",
+                "2345",
         };
 
         compile_run_and_compare_output(program_texts, outputs);

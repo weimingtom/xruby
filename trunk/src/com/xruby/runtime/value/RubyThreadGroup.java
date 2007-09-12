@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Vector;
 
 import com.xruby.runtime.lang.RubyBasic;
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
@@ -41,7 +42,7 @@ public class RubyThreadGroup extends RubyBasic{
     }
     
     public void add(RubyThread thread){
-        if(thread.getThreadGroup() != ObjectFactory.NIL_VALUE){
+        if(thread.getThreadGroup() != RubyConstant.QNIL){
             RubyThreadGroup group = (RubyThreadGroup)thread.getThreadGroup();
             if(group.isEnclosed())
                 throw new RubyException(RubyRuntime.ThreadErrorClass,"can't move from the enclosed thread group");

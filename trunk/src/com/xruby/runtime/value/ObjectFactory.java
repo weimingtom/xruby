@@ -20,10 +20,6 @@ import java.util.Date;
 import java.util.regex.Matcher;
 
 public class ObjectFactory {
-
-    public static final RubyValue TRUE_VALUE = RubyConstant.QTRUE;
-    public static final RubyValue FALSE_VALUE = RubyConstant.QFALSE;
-    public static final RubyValue NIL_VALUE = RubyConstant.QNIL;
     public static final RubyValue TOP_LEVEL_SELF_VALUE = new RubyObject(RubyRuntime.ObjectClass);
 
     //For preformance reason, some frequently used numbers are predefined here.
@@ -63,7 +59,7 @@ public class ObjectFactory {
         return new RubyFixnum(value);
     }
 
-    public static RubyValue createInteger(long value) {
+    public static RubyInteger createInteger(long value) {
         return RubyBignum.bignorm(value);
     }
 
@@ -159,7 +155,7 @@ public class ObjectFactory {
     }
 
     public static RubyValue createBoolean(boolean is_true) {
-        return is_true ? TRUE_VALUE : FALSE_VALUE;
+        return is_true ? RubyConstant.QTRUE : RubyConstant.QFALSE;
     }
 
     public static RubyThread createThread(RubyBlock block) {

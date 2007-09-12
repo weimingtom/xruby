@@ -11,10 +11,10 @@ import java.util.List;
 
 import org.apache.oro.io.GlobFilenameFilter;
 
-import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.lang.RubyBasic;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
@@ -108,19 +108,19 @@ public class RubyDir extends RubyBasic {
                 block.invoke(receiver, ObjectFactory.createString(dir + "/" + f));
             }
         }
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="close")
     public RubyValue close(){
         isOpen = false;
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="rewind")
     public RubyValue rewind() {
         setPos(0);
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="pos", alias="tell")
@@ -166,7 +166,7 @@ public class RubyDir extends RubyBasic {
 
         String str = read_dir();
         if(str == null)
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         else
             return ObjectFactory.createString(str);
     }

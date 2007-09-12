@@ -24,7 +24,7 @@ public class RubyRange extends RubyBasic {
         if(!(left instanceof RubyFixnum && right instanceof RubyFixnum)){
             try {
                 RubyValue result = RubyAPI.callOneArgMethod(left, right, null, RubyID.unequalID);
-                if (result == ObjectFactory.NIL_VALUE) {
+                if (result == RubyConstant.QNIL) {
                     throw new RubyException(RubyRuntime.ArgumentErrorClass, "bad value for range");
                 }
             } catch (RubyException e) {
@@ -52,7 +52,7 @@ public class RubyRange extends RubyBasic {
         boolean isExclusive = false;
         if (args.size() == 3) {
             RubyValue exclusive = args.get(2);
-            if (exclusive != ObjectFactory.NIL_VALUE && exclusive != ObjectFactory.FALSE_VALUE) {
+            if (exclusive != RubyConstant.QNIL && exclusive != RubyConstant.QFALSE) {
                 isExclusive = true;
             }
         }

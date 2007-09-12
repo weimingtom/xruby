@@ -28,7 +28,7 @@ class TestingProgram extends RubyProgram {
         RubyID printID = RubyID.intern("print");
 
         RubyArray a = new RubyArray(3);
-        a.add(ObjectFactory.NIL_VALUE);
+        a.add(RubyConstant.QNIL);
         a.add(ObjectFactory.createString("ABCD"));
         a.add(ObjectFactory.createFixnum(5432));
         RubyAPI.callMethod(ObjectFactory.TOP_LEVEL_SELF_VALUE,
@@ -70,12 +70,12 @@ public class RubyProgramTest extends TestCase {
     public void test_output() {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream original = System.out;
-        System.setOut(new PrintStream(output));
+        RubyRuntime.setStdout(output);
 
         RubyProgram p = new TestingProgram();
         RubyValue r = p.invoke();
 
-        System.setOut(original);
+        RubyRuntime.setStdout(original);
 
         RubyFixnum i = (RubyFixnum) r;
         assertEquals(579, i.toInt());

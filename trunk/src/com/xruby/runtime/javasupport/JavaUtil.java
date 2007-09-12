@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubySymbol;
@@ -36,7 +37,7 @@ public class JavaUtil {
 
     public static RubyValue convertToRubyValue(Object value) {
         if (null == value) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         if (value.getClass().equals(Integer.class) || value.getClass().equals(Byte.class) || value.getClass().equals(Short.class)) {
@@ -60,11 +61,7 @@ public class JavaUtil {
         }
 
         if (value.getClass().equals(Boolean.class)) {
-            if (value.equals(true)) {
-                return ObjectFactory.TRUE_VALUE;
-            } else {
-                return ObjectFactory.FALSE_VALUE;
-            }
+        	return ObjectFactory.createBoolean(value.equals(true));
         }
 
         if(value.getClass().equals(BigInteger.class)){

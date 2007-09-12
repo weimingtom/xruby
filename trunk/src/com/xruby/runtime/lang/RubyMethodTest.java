@@ -33,12 +33,12 @@ public class RubyMethodTest extends TestCase {
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream original = System.out;
-        System.setOut(new PrintStream(output));
+        RubyRuntime.setStdout(output);
 
         f m = new f();
         m.invoke(null, null);
 
-        System.setOut(original);
+        RubyRuntime.setStdout(original);
 
         String expected = "hello";
         assertEquals(expected, output.toString());

@@ -62,6 +62,10 @@ public class RubyString extends RubyBasic {
     public String toStr() {
         return this.sb_.toString();
     }
+    
+    public String asString() {
+    	return this.sb_.toString();
+    }
 
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -214,7 +218,7 @@ public class RubyString extends RubyBasic {
         }
 
         if (begin < 0 || end < 0 || begin > end || begin > string.length() || end > string.length()) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         return ObjectFactory.createString(string.substring(begin, end));
@@ -821,7 +825,7 @@ public class RubyString extends RubyBasic {
             String result = gsub(this, args);
 
             if (toString().equals(result)) {
-                return ObjectFactory.NIL_VALUE;
+                return RubyConstant.QNIL;
             } else {
                 return setString(result);
             }
@@ -862,7 +866,7 @@ public class RubyString extends RubyBasic {
         if (null == block) {
             String result = sub(this, args);
             if (toString().equals(result)) {
-                return ObjectFactory.NIL_VALUE;
+                return RubyConstant.QNIL;
             } else {
                 return setString(result);
             }
@@ -885,7 +889,7 @@ public class RubyString extends RubyBasic {
         RubyValue r = (null == args) ? GlobalVariables.get("$;") : args.get(0);
 
         String[] splitResult;
-        if (r == ObjectFactory.NIL_VALUE) {
+        if (r == RubyConstant.QNIL) {
             splitResult = split(this, " ");
         } else if (r instanceof RubyRegexp) {
             splitResult = split(this, (RubyRegexp) r, args);
@@ -910,7 +914,7 @@ public class RubyString extends RubyBasic {
     @RubyLevelMethod(name="<=>")
     public RubyValue operator_compare(RubyValue arg) {
         if (!(arg instanceof RubyString)) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         RubyString value2 = (RubyString) arg;
@@ -926,7 +930,7 @@ public class RubyString extends RubyBasic {
     @RubyLevelMethod(name="casecmp")
     RubyValue run(RubyValue arg) {
         if (!(arg instanceof RubyString)) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         RubyString value2 = (RubyString) arg;
@@ -947,7 +951,7 @@ public class RubyString extends RubyBasic {
             if (p >= 0) {
                 return ObjectFactory.createFixnum(p);
             } else {
-                return ObjectFactory.NIL_VALUE;
+                return RubyConstant.QNIL;
             }
         } else {
             return RubyAPI.callPublicOneArgMethod(arg, this, null, RubyID.matchID);
@@ -964,7 +968,7 @@ public class RubyString extends RubyBasic {
                 if (string.indexOf(str) >= 0) {
                     return ObjectFactory.createString(str);
                 } else {
-                    return ObjectFactory.NIL_VALUE;
+                    return RubyConstant.QNIL;
                 }
             } else if (arg instanceof RubyRange) {
                 RubyRange range = (RubyRange) arg;
@@ -977,7 +981,7 @@ public class RubyString extends RubyBasic {
                 if (match != null) {
                     return ObjectFactory.createString(match.toString());
                 } else {
-                    return ObjectFactory.NIL_VALUE;
+                    return RubyConstant.QNIL;
                 }
             } else {
                 int index = arg.toInt();
@@ -986,7 +990,7 @@ public class RubyString extends RubyBasic {
                 }
 
                 if (index < 0 || index >= string.length()) {
-                    return ObjectFactory.NIL_VALUE;
+                    return RubyConstant.QNIL;
                 } else {
                     return ObjectFactory.createFixnum(string.charAt(index));
                 }
@@ -1113,7 +1117,7 @@ public class RubyString extends RubyBasic {
     public RubyValue tr_danger(RubyValue arg1, RubyValue arg2) {
         RubyString from = (RubyString) arg1;
         RubyString to = (RubyString) arg2;
-        return tr(from.toString(), to.toString()) ? this : ObjectFactory.NIL_VALUE;
+        return tr(from.toString(), to.toString()) ? this : RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="tr")
@@ -1128,7 +1132,7 @@ public class RubyString extends RubyBasic {
     public RubyValue trs_danger(RubyValue arg1, RubyValue arg2) {
         RubyString from = (RubyString) arg1;
         RubyString to = (RubyString) arg2;
-        return tr_s(from.toString(), to.toString()) ? this : ObjectFactory.NIL_VALUE;
+        return tr_s(from.toString(), to.toString()) ? this : RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="tr_s")
@@ -1143,7 +1147,7 @@ public class RubyString extends RubyBasic {
     @RubyLevelMethod(name="squeeze!")
     public RubyValue squeeze_danger(RubyArray args) {
         String arg = ((null == args) ? null : ((RubyString) args.get(0)).toString());
-        return squeeze(arg) ? this : ObjectFactory.NIL_VALUE;
+        return squeeze(arg) ? this : RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="squeeze")
@@ -1161,7 +1165,7 @@ public class RubyString extends RubyBasic {
         }
 
         String arg = ((RubyString) args.get(0)).toString();
-        return delete(arg) ? this : ObjectFactory.NIL_VALUE;
+        return delete(arg) ? this : RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="delete")

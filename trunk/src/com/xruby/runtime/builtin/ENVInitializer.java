@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBlock;
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyObject;
 import com.xruby.runtime.lang.RubyOneArgMethod;
 import com.xruby.runtime.lang.RubyRuntime;
@@ -21,7 +22,7 @@ class ENV_array_get extends RubyOneArgMethod {
         RubyString s = arg.toRubyString();
         String v = System.getenv(s.toString());
         if (null == v) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         } else {
             return ObjectFactory.createString(v);
         }
@@ -42,7 +43,7 @@ class ENV_index extends RubyOneArgMethod {
             }
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 }
 

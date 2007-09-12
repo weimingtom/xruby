@@ -10,14 +10,14 @@ import junit.framework.TestCase;
 
 public class RubyValueTest extends TestCase {
     public void test_equals() {
-        assertFalse(ObjectFactory.FIXNUM1.equals(ObjectFactory.NIL_VALUE));
-        assertFalse(ObjectFactory.NIL_VALUE.equals(ObjectFactory.FIXNUM1));
+        assertFalse(ObjectFactory.FIXNUM1.equals(RubyConstant.QNIL));
+        assertFalse(RubyConstant.QNIL.equals(ObjectFactory.FIXNUM1));
     }
     
     public void testTrue() {
-    	assertTrue(ObjectFactory.TRUE_VALUE.isTrue());
-    	assertFalse(ObjectFactory.FALSE_VALUE.isTrue());
-    	assertFalse(ObjectFactory.NIL_VALUE.isTrue());
+    	assertTrue(RubyConstant.QTRUE.isTrue());
+    	assertFalse(RubyConstant.QFALSE.isTrue());
+    	assertFalse(RubyConstant.QNIL.isTrue());
     	assertTrue(ObjectFactory.FIXNUM0.isTrue());
     	assertTrue(ObjectFactory.FIXNUM1.isTrue());
     	assertTrue(ObjectFactory.createString("").isTrue());

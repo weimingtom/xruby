@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.Pipe.SourceChannel;
 
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
@@ -48,7 +49,7 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
     public String gets(RubyValue separator) {
         StringBuffer result = new StringBuffer();
         ByteBuffer buffer;
-        if (ObjectFactory.NIL_VALUE == separator) {
+        if (RubyConstant.QNIL == separator) {
             buffer = ByteBuffer.allocate(BUFFER_SIZE);
         } else {
             buffer = ByteBuffer.allocate(1);
@@ -60,7 +61,7 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
                 result.append(string);
                 buffer.clear();
 
-                if (ObjectFactory.NIL_VALUE == separator) {
+                if (RubyConstant.QNIL == separator) {
                     continue;
                 }
 
@@ -79,7 +80,7 @@ public class RubyIOPipeSourceExecutor implements RubyIOExecutor {
     }
 
     public String read() {
-        return gets(ObjectFactory.NIL_VALUE);
+        return gets(RubyConstant.QNIL);
     }
 
     public String read(long length) {

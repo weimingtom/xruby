@@ -14,6 +14,6 @@ public class RubyGC {
     @RubyLevelMethod(name="start", singleton=true)
     public static RubyValue start(RubyValue receiver) {
         System.gc();
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 }

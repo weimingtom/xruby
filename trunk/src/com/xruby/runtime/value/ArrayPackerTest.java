@@ -5,6 +5,7 @@
 
 package com.xruby.runtime.value;
 
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.value.ObjectFactory;
 import com.xruby.runtime.value.RubyArray;
 import junit.framework.TestCase;
@@ -19,7 +20,7 @@ public class ArrayPackerTest extends TestCase {
     public void test_unpack_empty() {
         RubyArray a = ArrayPacker.unpack("", "q");
         assertEquals(1, a.size());
-        assertEquals(ObjectFactory.NIL_VALUE, a.get(0));
+        assertEquals(RubyConstant.QNIL, a.get(0));
     }
 
     public void test_unpack() {

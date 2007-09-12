@@ -8,6 +8,7 @@ package com.xruby.runtime.value;
 import java.math.BigDecimal;
 
 import com.xruby.runtime.lang.RubyClass;
+import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
@@ -164,7 +165,7 @@ public class RubyFloat extends RubyNumeric {
 		}
 		
 		if (Double.isNaN(a) || Double.isNaN(b)) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         } else if (a == b) {
 			return ObjectFactory.FIXNUM0;
 		} else if (a > b) {
@@ -218,7 +219,7 @@ public class RubyFloat extends RubyNumeric {
         } else if (this.value_ == Double.POSITIVE_INFINITY) {
             return ObjectFactory.FIXNUM1;
         } else {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 	}
 	

@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class RubyHash extends RubyBasic {
     private HashMap<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
     private ArrayList<RubyValue> keys_ = new ArrayList<RubyValue>();// To ensure the order, for 'shift' ect
-    private RubyValue default_value_ = ObjectFactory.NIL_VALUE;
+    private RubyValue default_value_ = RubyConstant.QNIL;
     private RubyBlock default_value_as_block_ = null;
 
     RubyHash() {
@@ -94,11 +94,11 @@ public class RubyHash extends RubyBasic {
     public RubyValue has_key(RubyValue key) {
         for (RubyValue v : keys_) {
             if (RubyAPI.testEqual(key, v)) {
-                return ObjectFactory.TRUE_VALUE;
+                return RubyConstant.QTRUE;
             }
         }
 
-        return ObjectFactory.FALSE_VALUE;
+        return RubyConstant.QFALSE;
     }
 
     @RubyLevelMethod(name="delete")
@@ -123,11 +123,11 @@ public class RubyHash extends RubyBasic {
         for (RubyValue key : keys_) {
             RubyValue v = map_.get(key);
             if (RubyAPI.testEqual(value, v)) {
-                return ObjectFactory.TRUE_VALUE;
+                return RubyConstant.QTRUE;
             }
         }
 
-        return ObjectFactory.FALSE_VALUE;
+        return RubyConstant.QFALSE;
     }
 
     @RubyLevelMethod(name="values_at")
@@ -151,9 +151,9 @@ public class RubyHash extends RubyBasic {
     @RubyLevelMethod(name="==")
     public RubyValue equal(RubyValue arg) {
         if (!(arg instanceof RubyHash)) {
-            return ObjectFactory.FALSE_VALUE;
+            return RubyConstant.QFALSE;
         }
-        return this.equals((RubyHash) arg) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+        return ObjectFactory.createBoolean(this.equals((RubyHash) arg));
     }
 
     public boolean equals(RubyHash that) {
@@ -218,7 +218,7 @@ public class RubyHash extends RubyBasic {
 
         if (args.size() >= 1) {
             RubyValue v = this.get(key);
-            if (v != ObjectFactory.NIL_VALUE) {
+            if (v != RubyConstant.QNIL) {
                 return v;//found
             } else if (args.size() >= 2) {
                 return args.get(1);//default_value

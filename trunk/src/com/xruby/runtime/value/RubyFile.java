@@ -15,50 +15,52 @@ import java.util.Date;
 
 @RubyLevelClass(name="File", superclass="IO")
 public class RubyFile extends RubyIO {
-
     public RubyFile(String filename, String mode) {
-        super(new RubyIOFileExecutor(filename, mode));
-        setRubyClass(RubyRuntime.FileClass);
+        super(new RubyIOFileExecutor(filename, mode), RubyRuntime.FileClass);
+    }
+    
+    public RubyFile(RubyIOExecutor executor, RubyClass klass) {
+    	super(executor, klass);
     }
 
     @RubyLevelMethod(name="file?", singleton=true)
     public static RubyValue file_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
-        return file.isFile() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+        return ObjectFactory.createBoolean(file.isFile());
     }
 
     @RubyLevelMethod(name="writable?", singleton=true)
     public static RubyValue writable_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
-        return file.canWrite() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+        return ObjectFactory.createBoolean(file.canWrite());
     }
 
     @RubyLevelMethod(name="readable?", singleton=true)
     public static RubyValue readable_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
-        return file.canRead() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+        return ObjectFactory.createBoolean(file.canRead());
     }
 
     @RubyLevelMethod(name="exist?", singleton=true)
     public static RubyValue exist_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
-        return file.exists() ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+        return ObjectFactory.createBoolean(file.exists());
     }
 
     @RubyLevelMethod(name="directory?", singleton=true)
     public static RubyValue directory_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
-        return file.isFile() ? ObjectFactory.FALSE_VALUE : ObjectFactory.TRUE_VALUE;
+        return ObjectFactory.createBoolean(!file.isFile());
     }
 
     @RubyLevelMethod(name="executable?", singleton=true)
     public static RubyValue executable_question(RubyValue receiver, RubyValue arg) {
-        return ObjectFactory.TRUE_VALUE;
+        return RubyConstant.QTRUE;
     }
 
     @RubyLevelMethod(name="expand_path", singleton=true)

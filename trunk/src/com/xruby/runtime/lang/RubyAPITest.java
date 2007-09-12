@@ -11,18 +11,18 @@ import junit.framework.TestCase;
 
 public class RubyAPITest extends TestCase {
     public void test_testCaseEqual() {
-        assertTrue(RubyAPI.testCaseEqual(ObjectFactory.TRUE_VALUE, ObjectFactory.TRUE_VALUE));
-        assertTrue(RubyAPI.testCaseEqual(ObjectFactory.FALSE_VALUE, ObjectFactory.FALSE_VALUE));
-        assertFalse(RubyAPI.testCaseEqual(ObjectFactory.TRUE_VALUE, ObjectFactory.FALSE_VALUE));
+        assertTrue(RubyAPI.testCaseEqual(RubyConstant.QTRUE, RubyConstant.QTRUE));
+        assertTrue(RubyAPI.testCaseEqual(RubyConstant.QFALSE, RubyConstant.QFALSE));
+        assertFalse(RubyAPI.testCaseEqual(RubyConstant.QTRUE, RubyConstant.QFALSE));
         assertTrue(RubyAPI.testCaseEqual(ObjectFactory.createFixnum(88), ObjectFactory.createFixnum(88)));
         assertFalse(RubyAPI.testCaseEqual(ObjectFactory.createFixnum(88), ObjectFactory.createFixnum(89)));
     }
 
     public void test_isKindOf() {
-        assertTrue(RubyAPI.isKindOf(RubyRuntime.TrueClassClass, ObjectFactory.TRUE_VALUE));
-        assertTrue(RubyAPI.isKindOf(RubyRuntime.ObjectClass, ObjectFactory.TRUE_VALUE));
-        assertTrue(RubyAPI.isKindOf(RubyRuntime.FalseClassClass, ObjectFactory.FALSE_VALUE));
-        assertFalse(RubyAPI.isKindOf(RubyRuntime.FalseClassClass, ObjectFactory.TRUE_VALUE));
+        assertTrue(RubyAPI.isKindOf(RubyRuntime.TrueClassClass, RubyConstant.QTRUE));
+        assertTrue(RubyAPI.isKindOf(RubyRuntime.ObjectClass, RubyConstant.QTRUE));
+        assertTrue(RubyAPI.isKindOf(RubyRuntime.FalseClassClass, RubyConstant.QFALSE));
+        assertFalse(RubyAPI.isKindOf(RubyRuntime.FalseClassClass, RubyConstant.QTRUE));
         assertTrue(RubyAPI.isKindOf(RubyRuntime.FixnumClass, ObjectFactory.createFixnum(88)));
         assertFalse(RubyAPI.isKindOf(RubyRuntime.FloatClass, ObjectFactory.createFixnum(88)));
         assertTrue(RubyAPI.isKindOf(RubyRuntime.KernelModule, RubyRuntime.ObjectClass));

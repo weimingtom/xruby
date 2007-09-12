@@ -96,7 +96,7 @@ public class DebugCommandLineOptions {
             File file = new File(st.nextToken());
             if(file.exists()) {
                 try {
-                    list.add(file.toURL());
+                    list.add(file.toURI().toURL());
                 } catch (MalformedURLException e) {
                     // TODO: Handle this exception
                 }

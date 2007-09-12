@@ -295,7 +295,7 @@ public class RubyStringTest extends TestCase {
         assertEquals("ABC", value.toString());
         result = RubyAPI.callMethod(str, null, null, dangerousUpcaseID);
         assertEquals("ABC", value.toString());
-        assertEquals(ObjectFactory.NIL_VALUE, result);
+        assertEquals(RubyConstant.QNIL, result);
     }
 
     public void test_downcase() {
@@ -332,7 +332,7 @@ public class RubyStringTest extends TestCase {
         assertEquals("abc", value.toString());
         result = RubyAPI.callMethod(str, null, null, dangerousDowncaseID);
         assertEquals("abc", value.toString());
-        assertEquals(ObjectFactory.NIL_VALUE, result);
+        assertEquals(RubyConstant.QNIL, result);
     }
 
     public void test_capitalize() {
@@ -378,7 +378,7 @@ public class RubyStringTest extends TestCase {
 
         str = ObjectFactory.createString("Hello");
         result = RubyAPI.callMethod(str, null, null, dangerousCapitalizeID);
-        assertEquals(ObjectFactory.NIL_VALUE, result);
+        assertEquals(RubyConstant.QNIL, result);
         assertEquals("Hello", ((RubyString) str).toString());
     }
 
@@ -405,6 +405,6 @@ public class RubyStringTest extends TestCase {
         assertEquals(result, ObjectFactory.FIXNUM_NEGATIVE_ONE);
 
         result = RubyAPI.callOneArgMethod(str1, ObjectFactory.FIXNUM1, null, RubyID.unequalID);
-        assertTrue(result == ObjectFactory.NIL_VALUE);
+        assertTrue(result == RubyConstant.QNIL);
     }
 }

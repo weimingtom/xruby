@@ -48,7 +48,7 @@ public class RubyThread extends RubyBasic {
     private static final Object stopLock = new Object();
     private static final ReentrantLock criticalLock = new ReentrantLock();
 
-    private RubyValue result = ObjectFactory.NIL_VALUE;
+    private RubyValue result = RubyConstant.QNIL;
 
     RubyThread(final RubyBlock block) {
         super(RubyRuntime.ThreadClass);
@@ -56,7 +56,7 @@ public class RubyThread extends RubyBasic {
             public void run() {
                 RubyThreadGroup.defaultThreadGroup.add(RubyThread.this);
                 activeThreads.add(RubyThread.this);
-                result = block.invoke(ObjectFactory.NIL_VALUE);
+                result = block.invoke(RubyConstant.QNIL);
                 activeThreads.remove(RubyThread.this);
                 RubyThreadGroup.defaultThreadGroup.add(RubyThread.this);
                 threadMapper.remove(RubyThread.this.thread_);
@@ -84,11 +84,7 @@ public class RubyThread extends RubyBasic {
     //c ruby does not have this method, but since we wrapped java's Thread, can no longer use java's == operator
     @RubyLevelMethod(name="==")
     public RubyValue equal(RubyValue arg) {
-        if (equals(arg)) {
-            return ObjectFactory.TRUE_VALUE;
-        } else {
-            return ObjectFactory.FALSE_VALUE;
-        }
+        return ObjectFactory.createBoolean(equals(arg));
     }
 
 
@@ -116,11 +112,7 @@ public class RubyThread extends RubyBasic {
 
     @RubyLevelMethod(name="alive?")
     public RubyValue alive() {
-        if(thread_.isAlive()){
-            return ObjectFactory.TRUE_VALUE;
-        }else{
-            return ObjectFactory.FALSE_VALUE;
-        }
+        return ObjectFactory.createBoolean(thread_.isAlive());
     }
 
     @RubyLevelMethod(name="join")
@@ -155,7 +147,7 @@ public class RubyThread extends RubyBasic {
     public RubyValue getVariable(RubyValue name) {
         RubyValue v = thread_local_variables_.get().get(name.toStr());
         if (null == v) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         return v;
@@ -195,7 +187,7 @@ public class RubyThread extends RubyBasic {
     @RubyLevelMethod(name="group")
     public RubyValue getThreadGroup(){
         if(threadGroup == null)
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         else
             return threadGroup;
     }
@@ -233,7 +225,7 @@ public class RubyThread extends RubyBasic {
         RubyThread.setCritical(false);
         Thread.yield();
         RubyThread.setCritical(critical);
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="main", singleton=true)
@@ -243,7 +235,7 @@ public class RubyThread extends RubyBasic {
 
     @RubyLevelMethod(name="stop?")
     public RubyValue getStoped(){
-        return stoped ? ObjectFactory.TRUE_VALUE: ObjectFactory.FALSE_VALUE;
+        return ObjectFactory.createBoolean(stoped);
     }
 
     @RubyLevelMethod(name="run")
@@ -257,10 +249,10 @@ public class RubyThread extends RubyBasic {
 
     @RubyLevelMethod(name="status")
     public RubyValue status() {
-        if (getStoped() == ObjectFactory.TRUE_VALUE){
+        if (getStoped() == RubyConstant.QTRUE){
             return ObjectFactory.createString("sleep");
         } else if(getKilled()){
-            return ObjectFactory.FALSE_VALUE;
+            return RubyConstant.QFALSE;
         } else{
             return ObjectFactory.createString("run");
         }
@@ -323,7 +315,7 @@ public class RubyThread extends RubyBasic {
             }
         }
         RubyThread.setStoped(false);
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="critical", singleton=true)
@@ -334,7 +326,7 @@ public class RubyThread extends RubyBasic {
     @RubyLevelMethod(name="critical=", singleton=true)
     public static RubyValue set_critical(RubyValue receiver, RubyValue arg) {
         boolean critical = false;
-        if(arg == ObjectFactory.TRUE_VALUE){
+        if(arg == RubyConstant.QTRUE){
             critical = true;
         }
         RubyThread.setCritical(critical);

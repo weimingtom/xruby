@@ -107,7 +107,7 @@ class Module_attr_reader extends RubyVarArgMethod {
             m.defineMethod(s, new AttrReader(s));
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 }
 
@@ -120,7 +120,7 @@ class Module_attr_writer extends RubyVarArgMethod {
             m.defineMethod(s + "=", new AttrWriter(s));
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 }
 
@@ -134,7 +134,7 @@ class Module_attr_accessor extends RubyVarArgMethod {
             m.defineMethod(s + "=", new AttrWriter(s));
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 }
 
@@ -145,15 +145,25 @@ class Module_attr extends RubyVarArgMethod {
         String s = convertToString(args.get(0));
         m.defineMethod(s, new AttrReader(s));
 
-        if (args.get(1) == ObjectFactory.TRUE_VALUE) {
+        if (args.get(1) == RubyConstant.QTRUE) {
             m.defineMethod(s + "=", new AttrWriter(s));
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 }
 
 class Module_include extends RubyVarArgMethod {
+	protected RubyValue run(RubyValue receiver, RubyBlock block) {
+        return receiver;
+    }
+	
+	protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
+        RubyModule module = (RubyModule) receiver;
+        module.includeModule((RubyModule)arg);
+        return receiver;
+    }
+	
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyModule module = (RubyModule) receiver;
         if (args != null) {
@@ -193,20 +203,20 @@ class Module_operator_less_than extends RubyOneArgMethod {
 
     static RubyValue compareModule(RubyValue module, RubyValue other_module) {
         if (module == other_module) {
-           return ObjectFactory.FALSE_VALUE;
+           return RubyConstant.QFALSE;
         }
 
         if (module instanceof RubyClass && other_module instanceof RubyClass) {
             RubyClass c1 = (RubyClass) module;
             RubyClass c2 = (RubyClass) other_module;
             if (c1.isKindOf(c2)) {
-                return ObjectFactory.TRUE_VALUE;
+                return RubyConstant.QTRUE;
             } else if (c2.isKindOf(c1)) {
-                return ObjectFactory.FALSE_VALUE;
+                return RubyConstant.QFALSE;
             }
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
 
     }
 }
@@ -228,7 +238,7 @@ class Module_operator_greater_or_equal extends RubyOneArgMethod {
         }
 
         if (arg == receiver) {
-           return ObjectFactory.TRUE_VALUE;
+           return RubyConstant.QTRUE;
         }
 
         return Module_operator_less_than.compareModule(arg, receiver);
@@ -242,7 +252,7 @@ class Module_operator_compare extends RubyOneArgMethod {
         }
 
         if (!(arg instanceof RubyModule)) {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
 
         RubyModule module = (RubyModule) receiver;
@@ -258,14 +268,14 @@ class Module_operator_compare extends RubyOneArgMethod {
             }
         }
 
-        return ObjectFactory.NIL_VALUE;
+        return RubyConstant.QNIL;
     }
 }
 
 class Module_case_equal extends RubyOneArgMethod {
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {
         if (receiver instanceof RubyClass) {
-            return RubyAPI.isKindOf(receiver, arg) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+            return ObjectFactory.createBoolean(RubyAPI.isKindOf(receiver, arg));
         } else {
             //TODO does not work as expected
             RubyModule module = (RubyModule) receiver;

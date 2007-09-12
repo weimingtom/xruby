@@ -468,21 +468,21 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void ObjectFactory_nilValue() {
-        getStatic(Type.getType(ObjectFactory.class),
-                "NIL_VALUE",
-                Types.RUBY_VALUE_TYPE);
+        getStatic(Type.getType(RubyConstant.class),
+                "QNIL",
+                Types.RUBY_CONSTANT_TYPE);
     }
 
     public void ObjectFactory_trueValue() {
-        getStatic(Type.getType(ObjectFactory.class),
-                "TRUE_VALUE",
-                Types.RUBY_VALUE_TYPE);
+        getStatic(Type.getType(RubyConstant.class),
+                "QTRUE",
+                Types.RUBY_CONSTANT_TYPE);
     }
 
     public void ObjectFactory_falseValue() {
-        getStatic(Type.getType(ObjectFactory.class),
-                "FALSE_VALUE",
-                Types.RUBY_VALUE_TYPE);
+        getStatic(Type.getType(RubyConstant.class),
+                "QFALSE",
+                Types.RUBY_CONSTANT_TYPE);
     }
 
     public void ObjectFactory_createArray(int size, int rhs_size, boolean has_single_asterisk) {

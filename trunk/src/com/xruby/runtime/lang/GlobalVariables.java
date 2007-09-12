@@ -6,6 +6,7 @@
 package com.xruby.runtime.lang;
 
 import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyIO;
 import com.xruby.runtime.value.RubyProc;
 
 import java.util.List;
@@ -46,6 +47,27 @@ class MultipleMap<T> {
     }
 }
 
+class DefaultGlobalVariable implements GlobalVariable {
+	private RubyValue v;
+	
+	public DefaultGlobalVariable(RubyValue v) {
+		this.v = v;
+	}
+	public RubyValue get() {
+		return v;
+	}
+
+	public void set(RubyValue v) {
+		this.v = v;
+	}
+}
+
+interface GlobalVariable {
+	void set(RubyValue v);
+	
+	RubyValue get();
+}
+
 /*
 $* $ARGV
 $" $LOADED_FEATURES
@@ -76,16 +98,49 @@ $/ $RS
 $_ $LAST_READ_LINE
 */
 public class GlobalVariables {
-
-    private static ConcurrentHashMap<String, RubyValue> values_ = new ConcurrentHashMap<String, RubyValue>();
+	// $,
+	public static RubyValue OUTPUT_FS = RubyConstant.QNIL;
+	// $\
+	public static RubyValue OUTPUT_RS = RubyConstant.QNIL;
+	
+    private static ConcurrentHashMap<String, GlobalVariable> values_ = new ConcurrentHashMap<String, GlobalVariable>();
     private static MultipleMap<RubyProc> traces_procs_ = new MultipleMap<RubyProc>();
 
     private static boolean in_tracing_ = false;//TODO should this be global or per variable?
 
     public static void initialize() {
-        values_.put("$stdout", RubyRuntime.ObjectClass.getConstant("STDOUT"));
-        values_.put("$/", ObjectFactory.createString("\n"));
-        values_.put("$$", ObjectFactory.FIXNUM0);//no way to get pid in java
+    	values_.put("$,", new GlobalVariable() {
+			public RubyValue get() {
+				return OUTPUT_FS;
+			}
+
+			public void set(RubyValue v) {
+				OUTPUT_FS = v;
+			}
+    	});
+    	
+    	values_.put("$\\", new GlobalVariable() {
+			public RubyValue get() {
+				return OUTPUT_RS;
+			}
+
+			public void set(RubyValue v) {
+				OUTPUT_RS = v;
+			}
+    	});
+    	
+    	values_.put("$stdout", new GlobalVariable() {
+    		public RubyValue get() {
+				return RubyIO.STDOUT;
+			}
+
+			public void set(RubyValue v) {
+				RubyIO.STDOUT = (RubyIO)v;
+			}
+    	});
+    	
+        values_.put("$/", new DefaultGlobalVariable(ObjectFactory.createString("\n")));
+        values_.put("$$", new DefaultGlobalVariable(ObjectFactory.FIXNUM0));//no way to get pid in java
     }
 
     //e.g. 'ruby -s filename -xxx -yyy=555'
@@ -97,11 +152,11 @@ public class GlobalVariables {
                 throw new Error("bad format!");
             } else if (i < 0) {
                 //'-xxx'
-                values_.put("$" + s, ObjectFactory.TRUE_VALUE);
+                values_.put("$" + s, new DefaultGlobalVariable(RubyConstant.QTRUE));
             } else {
                 String name = "$" + s.substring(0, i);
                 String value = s.substring(i + 1);
-                values_.put(name, ObjectFactory.createString(value));
+                values_.put(name, new DefaultGlobalVariable(ObjectFactory.createString(value)));
             }
         }
     }
@@ -109,11 +164,11 @@ public class GlobalVariables {
     public static RubyValue get(String name) {
         assert('$' == name.charAt(0));
 
-        RubyValue v = values_.get(name);
+        GlobalVariable v = values_.get(name);
         if (null != v) {
-            return v;
+            return v.get();
         } else {
-            return ObjectFactory.NIL_VALUE;
+            return RubyConstant.QNIL;
         }
     }
 
@@ -134,7 +189,12 @@ public class GlobalVariables {
     //TODO '$! = 2'  should raise exception: assigning non-exception to $! (TypeError)
     public static RubyValue set(RubyValue value, String name) {
         assert('$' == name.charAt(0));
-        values_.put(name, value);
+        GlobalVariable gv = values_.get(name);
+        if (gv == null) {
+        	values_.put(name, new DefaultGlobalVariable(value));
+        } else {
+        	gv.set(value);
+        }
 
         if (!in_tracing_) {
             in_tracing_ = true;
@@ -158,7 +218,7 @@ public class GlobalVariables {
         assert('$' == newName.charAt(0));
         assert('$' == oldName.charAt(0));
 
-        RubyValue v = values_.get(oldName);
+        GlobalVariable v = values_.get(oldName);
         if (null != v) {
             values_.put(newName, v);
         }

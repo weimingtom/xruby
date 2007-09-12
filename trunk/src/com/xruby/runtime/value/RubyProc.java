@@ -39,7 +39,7 @@ public class RubyProc extends RubyBinding {
 
     @RubyLevelMethod(name="==")
     public RubyValue equal(RubyValue v) {
-        return equals(v) ? ObjectFactory.TRUE_VALUE : ObjectFactory.FALSE_VALUE;
+        return ObjectFactory.createBoolean(equals(v));
     }
 
     public boolean equals(Object o) {
