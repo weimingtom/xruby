@@ -21,6 +21,6 @@ public class GlobalVariableExpression extends VariableExpression {
 	}
 
 	public void acceptAsAssignment(CodeVisitor visitor, boolean rhs_is_method_call, boolean is_multiple_assign) {
-		visitor.visitGlobalVariableAssignmentOperator(value_, rhs_is_method_call);
+		visitor.visitGlobalVariableAssignmentOperator(value_, rhs_is_method_call, is_multiple_assign);
 	}
 }

@@ -21,6 +21,6 @@ public class InstanceVariableExpression extends VariableExpression {
 	}
 
 	public void acceptAsAssignment(CodeVisitor visitor, boolean rhs_is_method_call, boolean is_multiple_assign) {
-		visitor.visitInstanceVariableAssignmentOperator(value_, rhs_is_method_call);
+		visitor.visitInstanceVariableAssignmentOperator(value_, rhs_is_method_call, is_multiple_assign);
 	}
 }

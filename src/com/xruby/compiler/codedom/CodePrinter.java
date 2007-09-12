@@ -107,7 +107,7 @@ public class CodePrinter implements CodeVisitor {
         visitConstant(name);
     }
 
-    public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
+    public void visitGlobalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
         result_.append(var);
         if (rhs_is_method_call) {
             result_.append(" *=\n");
@@ -116,12 +116,12 @@ public class CodePrinter implements CodeVisitor {
         }
     }
 
-    public void visitInstanceVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
-        visitGlobalVariableAssignmentOperator(var, rhs_is_method_call);
+    public void visitInstanceVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
+        visitGlobalVariableAssignmentOperator(var, rhs_is_method_call, is_multiple_assign);
     }
 
-    public void visitClassVariableAssignmentOperator(String var, boolean rhs_is_method_call) {
-        visitGlobalVariableAssignmentOperator(var, rhs_is_method_call);
+    public void visitClassVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assign) {
+        visitGlobalVariableAssignmentOperator(var, rhs_is_method_call, is_multiple_assign);
     }
 
     public void visitLocalVariableAssignmentOperator(String var, boolean rhs_is_method_call, boolean is_multiple_assignment) {
