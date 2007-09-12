@@ -871,10 +871,9 @@ public class RubyCompilerImpl implements CodeVisitor {
         if (rhs_is_method_call) {
             cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue();
         }
-        int value = cg_.getMethodGenerator().saveRubyValueAsLocalVariable();
 
         cg_.getMethodGenerator().loadCurrentScope(isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
-        cg_.getMethodGenerator().loadLocal(value);
+        cg_.getMethodGenerator().swap();
         cg_.getMethodGenerator().RubyModule_setClassVariable(name);
     }
 
@@ -887,9 +886,9 @@ public class RubyCompilerImpl implements CodeVisitor {
         if (rhs_is_method_call) {
             cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue();
         }
-        int value = cg_.getMethodGenerator().saveRubyValueAsLocalVariable();
+        
         visitSelfExpression();
-        cg_.getMethodGenerator().loadLocal(value);
+        cg_.getMethodGenerator().swap();
         cg_.getMethodGenerator().RubyValue_setInstanceVariable(name);
     }
 
