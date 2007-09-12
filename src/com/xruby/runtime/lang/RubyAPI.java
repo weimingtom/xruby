@@ -83,10 +83,6 @@ public class RubyAPI {
         }
     }
 
-//    public static boolean isInstanceOf(RubyValue class_to_compare, RubyValue value) {
-//        return (value.getRubyClass() == class_to_compare);
-//    }
-
     //e.g. defined? super
     public static RubyValue isDefinedSuperMethod(RubyValue receiver, String method_name, RubyMethod current_method) {
         RubyClass c = (RubyClass) current_method.getScope();
@@ -182,6 +178,16 @@ public class RubyAPI {
 
         return callMethodMissing(receiver, new RubyArray(arg), block, mid);
     }
+    
+    public static RubyValue callTwoArgMethod(RubyValue receiver, RubyValue arg0, RubyValue arg1, RubyBlock block, RubyID mid) {
+        assert(null != arg0 && null != arg1);
+        RubyMethod m = receiver.findMethod(mid);
+        if (null != m && !UndefMethod.isUndef(m)) {
+            return m.invoke(receiver, arg0, arg1, block);
+        }
+
+        return callMethodMissing(receiver, new RubyArray(arg0, arg1), block, mid);
+    }
 
     public static RubyValue callPublicNoArgMethod(RubyValue receiver, RubyBlock block, RubyID mid) {
         RubyMethod m = receiver.findPublicMethod(mid);
@@ -202,6 +208,16 @@ public class RubyAPI {
     	}
 
     	return callMethodMissing(receiver, new RubyArray(arg), block, mid);
+    }
+    
+    public static RubyValue callPublicTwoArgMethod(RubyValue receiver, RubyValue arg0, RubyValue arg1, RubyBlock block, RubyID mid) {
+    	assert(null != arg0 && null != arg1);
+    	RubyMethod m = receiver.findPublicMethod(mid);
+    	if (null != m && !UndefMethod.isUndef(m)) {
+    		return m.invoke(receiver, arg0, arg1, block);
+    	}
+
+    	return callMethodMissing(receiver, new RubyArray(arg0, arg1), block, mid);
     }
 
     //TODO should pass owner to work with protected method
@@ -234,6 +250,17 @@ public class RubyAPI {
         }
 
         return m.invoke(receiver, arg, block);
+    }
+    
+    public static RubyValue callSuperTwoArgMethod(RubyValue receiver, RubyValue arg0, RubyValue arg1, RubyBlock block, MethodBlockBase mbb) {
+        assert(null != arg0 && null != arg1);
+        RubyClass c = (RubyClass) mbb.getScope();
+        RubyMethod m = c.findSuperMethod(mbb.getID());
+        if (null == m || UndefMethod.isUndef(m)) {
+            throw new RubyException(RubyRuntime.NoMethodErrorClass, "super method '" + mbb.getID() + "' can not be found in '" + c.getName() + "'");
+        }
+
+        return m.invoke(receiver, arg0, arg1, block);
     }
 
     public static RubyValue callSuperMethod(RubyValue receiver, RubyArray args, RubyBlock block, MethodBlockBase mbb) {
@@ -422,7 +449,7 @@ public class RubyAPI {
     private static void throwTypeErrorIfNotClassModule(RubyValue receiver) {
         if (!(receiver instanceof RubyClass) &&
                 !(receiver instanceof RubyModule)) {
-            RubyValue v = RubyAPI.callPublicMethod(receiver, null, null, RubyID.toSID);
+            RubyValue v = RubyAPI.callPublicNoArgMethod(receiver, null, RubyID.toSID);
             String s = v.toString();
             throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
         }

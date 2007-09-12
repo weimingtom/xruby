@@ -247,7 +247,7 @@ public class RubyStringTest extends TestCase {
         RubyValue str = ObjectFactory.createString("1234");
         RubyString value = (RubyString) str;
         assertEquals("1234", value.toString());
-        RubyValue result = RubyAPI.callMethod(str, null, null, RubyID.toIID);
+        RubyValue result = RubyAPI.callNoArgMethod(str, null, RubyID.toIID);
         RubyFixnum result_value = (RubyFixnum) result;
         assertEquals(1234, result_value.toInt());
     }
@@ -256,7 +256,7 @@ public class RubyStringTest extends TestCase {
         RubyValue str = ObjectFactory.createString("0.1234");
         RubyString value = (RubyString) str;
         assertEquals("0.1234", value.toString());
-        RubyValue result = RubyAPI.callMethod(str, null, null, RubyID.toFID);
+        RubyValue result = RubyAPI.callNoArgMethod(str, null, RubyID.toFID);
         RubyFloat result_value = (RubyFloat) result;
         assertEquals((double) 0.1234, result_value.doubleValue());
     }
@@ -265,7 +265,7 @@ public class RubyStringTest extends TestCase {
         RubyValue str = ObjectFactory.createString("abcDe");
         RubyString value = (RubyString) str;
         assertEquals(value.toString(), "abcDe");
-        RubyValue result = RubyAPI.callMethod(str, null, null, upcaseID);
+        RubyValue result = RubyAPI.callNoArgMethod(str, null, upcaseID);
         assertTrue(result != str);
         assertEquals("abcDe", value.toString());
         RubyString result_value = (RubyString) result;
@@ -274,7 +274,7 @@ public class RubyStringTest extends TestCase {
         str = ObjectFactory.createString("abcDe");
         value = (RubyString) str;
         assertEquals(value.toString(), "abcDe");
-        result = RubyAPI.callMethod(str, null, null, upcaseID);
+        result = RubyAPI.callNoArgMethod(str, null, upcaseID);
         assertTrue(result != str);
         assertEquals("abcDe", value.toString());
         result_value = (RubyString) result;
@@ -285,7 +285,7 @@ public class RubyStringTest extends TestCase {
         RubyValue str = ObjectFactory.createString("abcDe");
         RubyString value = (RubyString) str;
         assertEquals("abcDe", value.toString());
-        RubyValue result = RubyAPI.callMethod(str, null, null, dangerousUpcaseID);
+        RubyValue result = RubyAPI.callNoArgMethod(str, null, dangerousUpcaseID);
         assertTrue(result == str);
         RubyString result_value = (RubyString) result;
         assertEquals("ABCDE", result_value.toString());
@@ -293,7 +293,7 @@ public class RubyStringTest extends TestCase {
         str = ObjectFactory.createString("ABC");
         value = (RubyString) str;
         assertEquals("ABC", value.toString());
-        result = RubyAPI.callMethod(str, null, null, dangerousUpcaseID);
+        result = RubyAPI.callNoArgMethod(str, null, dangerousUpcaseID);
         assertEquals("ABC", value.toString());
         assertEquals(RubyConstant.QNIL, result);
     }
@@ -302,7 +302,7 @@ public class RubyStringTest extends TestCase {
         RubyValue str = ObjectFactory.createString("abcDe");
         RubyString value = (RubyString) str;
         assertEquals(value.toString(), "abcDe");
-        RubyValue result = RubyAPI.callMethod(str, null, null, downcaseID);
+        RubyValue result = RubyAPI.callNoArgMethod(str, null, downcaseID);
         assertTrue(result != str);
         assertEquals("abcDe", value.toString());
         RubyString result_value = (RubyString) result;
@@ -311,7 +311,7 @@ public class RubyStringTest extends TestCase {
         str = ObjectFactory.createString("abcDe");
         value = (RubyString) str;
         assertEquals(value.toString(), "abcDe");
-        result = RubyAPI.callMethod(str, null, null, downcaseID);
+        result = RubyAPI.callNoArgMethod(str, null, downcaseID);
         assertTrue(result != str);
         assertEquals("abcDe", value.toString());
         result_value = (RubyString) result;
@@ -322,7 +322,7 @@ public class RubyStringTest extends TestCase {
         RubyValue str = ObjectFactory.createString("abcDe");
         RubyString value = (RubyString) str;
         assertEquals("abcDe", value.toString());
-        RubyValue result = RubyAPI.callMethod(str, null, null, dangerousDowncaseID);
+        RubyValue result = RubyAPI.callNoArgMethod(str, null, dangerousDowncaseID);
         assertTrue(result == str);
         RubyString result_value = (RubyString) result;
         assertEquals("abcde", result_value.toString());
@@ -330,29 +330,29 @@ public class RubyStringTest extends TestCase {
         str = ObjectFactory.createString("abc");
         value = (RubyString) str;
         assertEquals("abc", value.toString());
-        result = RubyAPI.callMethod(str, null, null, dangerousDowncaseID);
+        result = RubyAPI.callNoArgMethod(str, null, dangerousDowncaseID);
         assertEquals("abc", value.toString());
         assertEquals(RubyConstant.QNIL, result);
     }
 
     public void test_capitalize() {
         RubyValue str = ObjectFactory.createString("abc");
-        RubyValue result = RubyAPI.callMethod(str, null, null, capitalizeID);
+        RubyValue result = RubyAPI.callNoArgMethod(str, null, capitalizeID);
         assertTrue(result != str);
         assertEquals("Abc", ((RubyString) result).toString());
 
         str = ObjectFactory.createString("HELLO");
-        result = RubyAPI.callMethod(str, null, null, capitalizeID);
+        result = RubyAPI.callNoArgMethod(str, null, capitalizeID);
         assertTrue(result != str);
         assertEquals("Hello", ((RubyString) result).toString());
 
         str = ObjectFactory.createString("123ABC");
-        result = RubyAPI.callMethod(str, null, null, capitalizeID);
+        result = RubyAPI.callNoArgMethod(str, null, capitalizeID);
         assertTrue(result != str);
         assertEquals("123abc", ((RubyString) result).toString());
 
         str = ObjectFactory.createString("Hello");
-        result = RubyAPI.callMethod(str, null, null, capitalizeID);
+        result = RubyAPI.callNoArgMethod(str, null, capitalizeID);
         assertTrue(result != str);
         assertEquals("Hello", ((RubyString) result).toString());
     }
@@ -362,22 +362,22 @@ public class RubyStringTest extends TestCase {
     public void test_capitalize_danger() {
 
         RubyValue str = ObjectFactory.createString("abc");
-        RubyValue result = RubyAPI.callMethod(str, null, null, dangerousCapitalizeID);
+        RubyValue result = RubyAPI.callNoArgMethod(str, null, dangerousCapitalizeID);
         assertTrue(result == str);
         assertEquals("Abc", ((RubyString) result).toString());
 
         str = ObjectFactory.createString("HELLO");
-        result = RubyAPI.callMethod(str, null, null, dangerousCapitalizeID);
+        result = RubyAPI.callNoArgMethod(str, null, dangerousCapitalizeID);
         assertTrue(result == str);
         assertEquals("Hello", ((RubyString) result).toString());
 
         str = ObjectFactory.createString("123ABC");
-        result = RubyAPI.callMethod(str, null, null, dangerousCapitalizeID);
+        result = RubyAPI.callNoArgMethod(str, null, dangerousCapitalizeID);
         assertTrue(result == str);
         assertEquals("123abc", ((RubyString) result).toString());
 
         str = ObjectFactory.createString("Hello");
-        result = RubyAPI.callMethod(str, null, null, dangerousCapitalizeID);
+        result = RubyAPI.callNoArgMethod(str, null, dangerousCapitalizeID);
         assertEquals(RubyConstant.QNIL, result);
         assertEquals("Hello", ((RubyString) str).toString());
     }
