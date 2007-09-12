@@ -108,7 +108,7 @@ public class Block {
         }
 
         boolean has_body = null != bodyStatement_;
-        visitor.visitBlockBodyBegin(name_, should_validate_argument_length_ ? parameters_.size() : -1,
+		visitor.visitBlockBodyBegin(name_, getArgc(),
                 asterisk,
                 default_parameters_.size(),
                 is_for_in_expression_,
@@ -136,6 +136,15 @@ public class Block {
 
         return name_;
     }
+
+	private int getArgc() {
+		int size = parameters_.size();
+		if (size == 0) {
+			return 0;
+		}
+		
+		return should_validate_argument_length_ ? parameters_.size() : -1;
+	}
 
 
     public int getStartPosition() {
