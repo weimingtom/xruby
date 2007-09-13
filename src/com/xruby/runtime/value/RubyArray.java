@@ -87,13 +87,15 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
     }
     
     @RubyLevelMethod(name="[]")
+    public static RubyValue create(RubyValue receiver) {
+    	RubyArray a = new RubyArray();
+    	a.setRubyClass((RubyClass) receiver);
+    	return a;
+    }
+    
+    @RubyLevelMethod(name="[]")
     public static RubyValue create(RubyValue receiver, RubyArray args) {
-    	RubyArray a;
-        if (null == args) {
-            a = new RubyArray();
-        } else {
-            a = args.copy();
-        }
+        RubyArray a = args.copy();
         a.setRubyClass((RubyClass) receiver);
         return a;
     }
@@ -622,12 +624,10 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     @RubyLevelMethod(name="push")
     public RubyArray multiPush(RubyArray args) {
-        if (null != args) {
-            for (RubyValue v : args) {
-                this.array_.add(v);
-            }
-        }
-        return this;
+    	for (RubyValue v : args) {
+    		this.array_.add(v);
+    	}
+    	return this;
     }
 
     @RubyLevelMethod(name="pop")
@@ -655,7 +655,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     @RubyLevelMethod(name="delete_if")
     public RubyValue delete_if(RubyBlock block) {
-        for (int i = 0; i < array_.size();) {
+		for (int i = 0; i < array_.size();) {
             RubyValue r = block.invoke(this, array_.get(i));
             if (r.isTrue()) {
                 array_.remove(i);
@@ -956,9 +956,9 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     @RubyLevelMethod(name="rassoc")
     public RubyValue rassoc(RubyValue arg) {
-        RubyValue val = null;
-        for(int i=0;i<size();i++){
-            val = get(i);
+        int size = this.array_.size();
+		for(int i=0; i < size; i++){
+			RubyValue val = get(i);
             if(val instanceof RubyArray){
                 if(((RubyArray)val).size() > 1){
                     RubyValue tmp = ((RubyArray)val).get(1);
@@ -998,29 +998,41 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
         return this;
     }
+    
+    @RubyLevelMethod(name="[]=")
+    public RubyValue aset() {
+        throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 2)");
+    }
+    
+    @RubyLevelMethod(name="[]=")
+    public RubyValue aset(RubyValue arg) {
+        throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (1 for 2)");
+    }
+    
+    @RubyLevelMethod(name="[]=")
+    public RubyValue aset(RubyValue arg0, RubyValue arg1) {
+    	if (arg0 instanceof RubyRange) {
+            RubyRange range = (RubyRange)arg0;
+            int left = range.getLeft().toInt();
+            int right = range.getRight().toInt();
+            int l_index = getRealIndex(size(), left);
+            int r_index = getRealIndex(size(), right);
+            int length = r_index - l_index + 1;
+            return replace(l_index, length, arg1);
+        } else {
+            return set(arg0.toInt(), arg1);
+        }
+    }
 
     @RubyLevelMethod(name="[]=")
-    public RubyValue run(RubyArray args) {
-        if (2 == args.size()) {
-            if (args.get(0) instanceof RubyRange) {
-                RubyRange range = (RubyRange) args.get(0);
-                RubyFixnum left = (RubyFixnum)range.getLeft();
-                RubyFixnum right = (RubyFixnum)range.getRight();
-                int l_index = getRealIndex(size(), left.toInt());
-                int r_index = getRealIndex(size(), right.toInt());
-                int length = r_index-l_index+1;
-                return replace(l_index, length, args.get(1));
-            } else {
-                RubyFixnum index = (RubyFixnum) args.get(0);
-                return set(index.toInt(), args.get(1));
-            }
-        } else if (3 == args.size()) {
-            RubyFixnum index = (RubyFixnum) args.get(0);
-            RubyFixnum length = (RubyFixnum) args.get(1);
-            return replace(index.toInt(), length.toInt(), args.get(2));
+    public RubyValue aset(RubyArray args) {
+        if (3 == args.size()) {
+            int index = args.get(0).toInt();
+            int length = args.get(1).toInt();
+            return replace(index, length, args.get(2));
         }
 
-        throw new RubyException("not implemented");
+        throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (" + args.size() + " for 2)");
     }
 
     @RubyLevelMethod(name="slice!")

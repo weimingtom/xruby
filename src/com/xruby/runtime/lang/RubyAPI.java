@@ -454,10 +454,11 @@ public class RubyAPI {
             throw new RubyException(RubyRuntime.TypeErrorClass, s + " is not a class/module");
         }
     }
+    
+    private static final RubyID ASERT = RubyID.intern("[]=");
 
     public static void callArraySet(RubyValue value, RubyValue index, RubyValue receiver) {
-        RubyArray args = new RubyArray(index, value);
-        callPublicMethod(receiver, args, null, RubyID.intern("[]="));
+    	callPublicTwoArgMethod(receiver, index, value, null, ASERT);
     }
 
     public static RubyValue initializeAsteriskParameter(RubyArray args, int argc) {
