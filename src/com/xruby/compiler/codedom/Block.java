@@ -137,12 +137,7 @@ public class Block {
         return name_;
     }
 
-	private int getArgc() {
-		int size = parameters_.size();
-		if (size == 0) {
-			return 0;
-		}
-		
+	private int getArgc() {	
 		return should_validate_argument_length_ ? parameters_.size() : -1;
 	}
 
