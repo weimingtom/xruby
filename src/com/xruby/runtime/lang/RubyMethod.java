@@ -55,21 +55,6 @@ public abstract class RubyMethod extends MethodBlockBase implements Cloneable {
     public void setAccess(int access) {
         access_ = access;
     }
-
-    protected static String convertToString(RubyValue v) {
-        if (v instanceof RubyString) {
-            return ((RubyString)v).toString();
-        } else if (v instanceof RubySymbol) {
-            return ((RubySymbol)v).toString();
-        } else {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, inspect(v) + " is not a symbol");
-        }
-    }
-
-    private static String inspect(RubyValue value) {
-        RubyValue v = RubyAPI.callNoArgMethod(value, null, RubyID.inspectID);
-        return v.toStr();
-    }
     
     private void validateArgSize(int args_length) {
     	// TODO parameter checking with 'has_asterisk_parameter_' maybe incorrect

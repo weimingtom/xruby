@@ -113,7 +113,7 @@ public class RubyRuntime {
         BindingClass = RubyAPI.defineClass("Binding", RubyRuntime.ObjectClass);
 
         RubyTypeFactory.getClass(RubyObject.class);
-        ModuleClassBuilder.initialize();
+        RubyTypeFactory.getClass(RubyModule.class);
         RubyTypeFactory.getClass(RubyClass.class);
         
         RubyModule m = RubyTypeFactory.getModule(RubyKernelModule.class);

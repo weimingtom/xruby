@@ -3,7 +3,7 @@
  * Distributed under the GNU General Public License 2.0
  */
 
-package com.xruby.runtime.builtin;
+package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyID;
@@ -15,6 +15,10 @@ public class AttrWriter extends RubyOneArgMethod {
 
     public AttrWriter(String methodName) {
         attrName = RubyID.intern("@" + methodName);
+    }
+    
+    public AttrWriter(RubyID id) {
+        attrName = RubyID.intern("@" + id.toString());
     }
 
     protected RubyValue run(RubyValue receiver, RubyValue arg, RubyBlock block) {

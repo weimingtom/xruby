@@ -66,6 +66,10 @@ public class RubyString extends RubyBasic {
     public String asString() {
     	return this.sb_.toString();
     }
+    
+    public RubyID toID() {
+    	return RubyID.intern(this.sb_.toString());
+    }
 
     public boolean equals(Object obj) {
         if (obj == this) {

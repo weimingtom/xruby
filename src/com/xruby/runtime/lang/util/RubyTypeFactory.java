@@ -195,6 +195,10 @@ public abstract class RubyTypeFactory {
 		CgMethodItem allocItem = null;
 		
 		for (java.lang.reflect.Method method : klass.getMethods()) {
+			if (method.getDeclaringClass() != klass) {
+				continue;
+			}
+			
 			Annotation rawMethodAnnotation = method.getAnnotation(RubyLevelMethod.class);
 			if (rawMethodAnnotation != null) {
 				CgMethodItem newItem = createMethodItem((RubyLevelMethod)rawMethodAnnotation, method);

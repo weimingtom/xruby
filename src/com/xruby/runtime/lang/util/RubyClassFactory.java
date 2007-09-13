@@ -68,13 +68,18 @@ class RubyClassFactory extends RubyTypeFactory {
 			undefMethod(mg, rubyTypeIdx, method);
 		}
 		
-		for (String dummy : klassAnnotation.dummy()) {
+		for (com.xruby.runtime.lang.annotation.DummyMethod dummy : klassAnnotation.dummy()) {
 			mg.loadLocal(rubyTypeIdx);
-			mg.push(dummy);
+			mg.push(dummy.name());
 			Type type = Type.getType(DummyMethod.class);
 			mg.getStatic(type, "INSTANCE", type);
-			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+			if (dummy.privateMethod()) {
+				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+						Method.getMethod(CgUtil.getMethodName("definePrivateMethod", RubyValue.class, String.class, RubyMethod.class)));
+			} else {
+				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
 					Method.getMethod(CgUtil.getMethodName("defineMethod", RubyValue.class, String.class, RubyMethod.class)));
+			}
 		}
 
 		return rubyTypeIdx;

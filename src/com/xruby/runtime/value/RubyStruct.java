@@ -8,8 +8,6 @@ package com.xruby.runtime.value;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
-import com.xruby.runtime.builtin.AttrReader;
-import com.xruby.runtime.builtin.AttrWriter;
 
 @RubyLevelClass(name="Struct")
 public class RubyStruct {

@@ -17,5 +17,5 @@ public @interface RubyLevelClass {
 	String superclass() default "Object";
 	String[] modules() default {};
 	UndefMethod[] undef() default {};
-	String[] dummy() default {};
+	DummyMethod[] dummy() default {};
 }
