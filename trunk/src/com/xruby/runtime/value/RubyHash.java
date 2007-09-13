@@ -10,7 +10,6 @@ import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @RubyLevelClass(name="Hash", modules="Enumerable")
@@ -29,9 +28,14 @@ public class RubyHash extends RubyBasic {
         h.map_ = (HashMap<RubyValue, RubyValue>) map_.clone();
         return h;
     }
+    
+    @RubyLevelMethod(name="default")
+    public RubyValue getDefaultValue() {
+        return default_value_;
+    }
 
     @RubyLevelMethod(name="default")
-    public RubyValue getDefaultValue(RubyArray args) {
+    public RubyValue getDefaultValue(RubyValue value) {
         return default_value_;
     }
 
@@ -61,7 +65,7 @@ public class RubyHash extends RubyBasic {
     }
 
     @RubyLevelMethod(name="to_s")
-    public RubyValue to_s() {
+    public RubyString to_s() {
         RubyString r = ObjectFactory.createString();
 
         for (RubyValue key : map_.keySet()) {
@@ -93,32 +97,34 @@ public class RubyHash extends RubyBasic {
     @RubyLevelMethod(name="delete")
     public RubyValue delete(RubyValue k) {
         RubyValue v = map_.remove(k);
-
-        if (null != v) {
-            return v;
-        } else {
-            return RubyAPI.callOneArgMethod(this, k, null, defaultID);
-        }
+        return (null != v) ? v : RubyAPI.callOneArgMethod(this, k, null, defaultID);
     }
 
     @RubyLevelMethod(name="has_value?")
     public RubyValue has_value(RubyValue value) {
         return ObjectFactory.createBoolean(map_.containsValue(value));
     }
+    
+    @RubyLevelMethod(name="values_at")
+    public RubyArray values_at() {
+        return new RubyArray();
+    }
+    
+    @RubyLevelMethod(name="values_at")
+    public RubyArray values_at(RubyValue arg) {
+        RubyArray a = new RubyArray();
+        RubyValue v = map_.get(arg);
+        a.add((null != v) ? v : RubyConstant.QNIL);
+        return a;
+    }
 
     @RubyLevelMethod(name="values_at")
     public RubyArray values_at(RubyArray keys) {
         RubyArray a = new RubyArray();
 
-        if (null == keys) {
-            return a;
-        }
-
         for (RubyValue key : keys) {
             RubyValue v = map_.get(key);
-            if (null != v) {
-                a.add(v);
-            }
+            a.add((null != v) ? v : RubyConstant.QNIL);
         }
 
         return a;
@@ -225,21 +231,16 @@ public class RubyHash extends RubyBasic {
         return this;
     }
 
+    // FIXME: another []
     @RubyLevelMethod(name="[]")
-    public RubyValue getValue(RubyArray args) {
-        if (1 == args.size()) {
-            return this.get(args.get(0));
-        }
-
-        //TODO
-        throw new RubyException("not implemented");
+    public RubyValue getValue(RubyValue arg) {
+    	return this.get(arg);
     }
 
     @RubyLevelMethod(name="[]=")
-    public RubyValue setValue(RubyArray args) {
-        RubyValue v = args.get(1);
-        this.add(args.get(0), v);
-        return v;
+    public RubyValue setValue(RubyValue arg0, RubyValue arg1) {
+        this.add(arg0, arg1);
+        return arg1;
     }
 
     @RubyAllocMethod
@@ -248,5 +249,4 @@ public class RubyHash extends RubyBasic {
         h.setRubyClass((RubyClass) receiver);
         return h;
     }
-
 }
