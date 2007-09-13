@@ -4296,7 +4296,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         RubyException[] exceptions = {
-            new RubyException(RubyRuntime.ArgumentErrorClass, "1 is not a symbol"),
+            new RubyException(RubyRuntime.TypeErrorClass, "1 is not a symbol"),
         };
 
         compile_run_and_catch_exception(program_texts, exceptions);

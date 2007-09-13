@@ -144,6 +144,14 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
         return getRubyClass().getName() + super.toString();
     }
     
+    private String inspect() {
+        return RubyAPI.callNoArgMethod(this, null, RubyID.toSID).toStr();
+    }
+    
+    public RubyID toID() {
+    	throw new RubyException(RubyRuntime.TypeErrorClass, this.inspect() + " is not a symbol");
+    }
+    
     public int toInt() {
     	return this.convertToInteger().toInt();
     }

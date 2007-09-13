@@ -31,6 +31,10 @@ public class RubySymbol extends RubySpecialValue {
         return id.toString();
     }
 
+    public String asString() {
+    	return id.toString();
+    }
+
     public int hashCode() {
         return this.id.hashCode();
     }

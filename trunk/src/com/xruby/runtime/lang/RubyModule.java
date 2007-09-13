@@ -5,9 +5,21 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.builtin.RubyTypesUtil;
+import com.xruby.runtime.lang.annotation.DummyMethod;
+import com.xruby.runtime.lang.annotation.RubyLevelClass;
+import com.xruby.runtime.lang.annotation.RubyLevelMethod;
+import com.xruby.runtime.value.AttrReader;
+import com.xruby.runtime.value.AttrWriter;
+import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.value.RubyKernelModule;
+import com.xruby.runtime.value.RubyProc;
 import com.xruby.runtime.value.RubyString;
 import com.xruby.runtime.value.RubyArray;
 
+@RubyLevelClass(name="Module", superclass="Object", dummy={ 
+		@DummyMethod(name="method_added", privateMethod=true) 
+})
 public class RubyModule extends MethodCollection {
     private RubyModule owner_ = null;//owner is where is the module is defined under.
     protected RubyClass superclass_;
@@ -305,5 +317,352 @@ public class RubyModule extends MethodCollection {
 		
 		this.setInstanceVariable(value, id);
 		return value;
+    }
+    
+    @RubyLevelMethod(name="attr_reader", privateMethod=true)
+    public RubyValue attrReader(RubyArray args) {
+        for (RubyValue v : args) {
+            RubyID id = v.toID();
+            this.defineMethod(id, new AttrReader(id));
+        }
+
+        return RubyConstant.QNIL;
+    }
+    
+    @RubyLevelMethod(name="attr_writer", privateMethod=true)
+    public RubyValue attrWriter(RubyArray args) {
+        for (RubyValue v : args) {
+            RubyID id = v.toID();
+            this.defineMethod(id + "=", new AttrWriter(id));
+        }
+
+        return RubyConstant.QNIL;
+    }
+    
+    @RubyLevelMethod(name="attr_accessor", privateMethod=true)
+    public RubyValue attrAccessor(RubyArray args) {
+        for (RubyValue v : args) {
+            RubyID id = v.toID();
+            this.defineMethod(id, new AttrReader(id));
+            this.defineMethod(id + "=", new AttrWriter(id));
+        }
+
+        return RubyConstant.QNIL;
+    }
+    
+    @RubyLevelMethod(name="attr", privateMethod=true)
+    public RubyValue attr(RubyValue arg) {
+        RubyID id = arg.toID();
+        this.defineMethod(id, new AttrReader(id));
+        return RubyConstant.QNIL;
+    }
+    
+    @RubyLevelMethod(name="attr", privateMethod=true)
+    public RubyValue attr(RubyValue arg0, RubyValue arg1) {
+        RubyID id = arg0.toID();
+        this.defineMethod(id, new AttrReader(id));
+
+        if (arg1 != RubyConstant.QFALSE && arg1 != RubyConstant.QNIL) {
+            this.defineMethod(id + "=", new AttrWriter(id));
+        }
+
+        return RubyConstant.QNIL;
+    }
+    
+    private static void setAccess(int access, RubyModule c, RubyArray args) {
+        if (null == args) {
+            c.setAccessMode(access);
+            return;
+        }
+
+        for (RubyValue arg : args) {
+            String method_name;
+            if (arg instanceof RubyString) {
+                method_name = arg.toString();
+            } else if (arg instanceof RubySymbol) {
+                method_name = arg.toString();
+            } else {
+                throw new RubyException(RubyRuntime.TypeErrorClass, arg.toString() + " is not a symbol");
+            }
+
+            RubyID mid = RubyID.intern(method_name);
+
+            if (c.setAccess(mid, access) == null) {
+                throw new RubyException(RubyRuntime.NameErrorClass, "undefined method '" + method_name + "' for " + c.getName());
+            }
+        }
+    }
+    
+    @RubyLevelMethod(name="public", privateMethod=true)
+    public RubyValue modPublic(RubyArray args) {
+        setAccess(RubyMethod.PUBLIC, this, args);
+        return this;
+    }
+    
+    @RubyLevelMethod(name="protected", privateMethod=true)
+    public RubyValue modProtected(RubyArray args) {
+        setAccess(RubyMethod.PROTECTED, this, args);
+        return this;
+    }
+    
+    @RubyLevelMethod(name="private", privateMethod=true)
+    public RubyValue modPrivate(RubyArray args) {
+        setAccess(RubyMethod.PRIVATE, this, args);
+        return this;
+    }
+    
+    @RubyLevelMethod(name="private_class_method")
+    public RubyValue run(RubyArray args) {
+    	setAccess(RubyMethod.PRIVATE, this.getRubyClass(), args);
+        return this;
+    }
+    
+    @RubyLevelMethod(name="to_s", alias="name")
+    public RubyValue modName() {
+        RubyString s = ObjectFactory.createString();
+        this.to_s(s);
+        return s;
+    }
+    
+    @RubyLevelMethod(name="inspect")
+    public RubyValue inspect() {
+        return RubyAPI.callNoArgMethod(this, null, RubyID.toSID);
+    }
+    
+    @RubyLevelMethod(name="include")
+    public RubyValue include() {
+        return this;
+    }
+	
+    @RubyLevelMethod(name="include")
+	public RubyValue include(RubyValue arg) {
+        this.includeModule((RubyModule)arg);
+        return this;
+    }
+	
+    @RubyLevelMethod(name="include")
+    public RubyValue include(RubyArray args) {
+    	for (RubyValue m : args) {
+    		this.includeModule((RubyModule) m);
+    	}
+
+        return this;
+    }
+    
+    @RubyLevelMethod(name="extend_object")
+    public RubyValue extendObject(RubyValue arg) {
+        arg.getSingletonClass().includeModule(this);
+        return arg;
+    }
+    
+    @RubyLevelMethod(name="<=>")
+    public RubyValue opSpaceship(RubyValue arg) {
+        if (this == arg) {
+            return ObjectFactory.FIXNUM0;
+        }
+
+        if (!(arg instanceof RubyModule)) {
+            return RubyConstant.QNIL;
+        }
+
+        RubyModule other_module = (RubyModule) arg;
+
+        // FIXME: could be Module
+        if (this instanceof RubyClass && other_module instanceof RubyClass) {
+            RubyClass c1 = (RubyClass) this;
+            RubyClass c2 = (RubyClass) other_module;
+            if (c1.isKindOf(c2)) {
+                return ObjectFactory.FIXNUM_NEGATIVE_ONE;
+            } else if (c2.isKindOf(c1)) {
+                return ObjectFactory.FIXNUM1;
+            }
+        }
+
+        return RubyConstant.QNIL;
+    }
+    
+    
+    @RubyLevelMethod(name="<")
+    public RubyValue opLt(RubyValue arg) {
+        if (!(arg instanceof RubyModule)) {
+            throw new RubyException(RubyRuntime.TypeErrorClass, "compared with non class/module");
+        }
+
+        return compareModule(this, arg);
+    }
+    
+    @RubyLevelMethod(name=">")
+    public RubyValue opGt(RubyValue arg) {
+        if (!(arg instanceof RubyModule)) {
+            throw new RubyException(RubyRuntime.TypeErrorClass, "compared with non class/module");
+        }
+
+        return compareModule(arg, this);
+    }
+    
+    @RubyLevelMethod(name=">=")
+    public RubyValue opGe(RubyValue arg) {
+        if (!(arg instanceof RubyModule)) {
+            throw new RubyException(RubyRuntime.TypeErrorClass, "compared with non class/module");
+        }
+
+        if (arg == this) {
+           return RubyConstant.QTRUE;
+        }
+
+        return compareModule(arg, this);
+    }
+    
+    private static RubyValue compareModule(RubyValue module, RubyValue other_module) {
+        if (module == other_module) {
+           return RubyConstant.QFALSE;
+        }
+
+        if (module instanceof RubyClass && other_module instanceof RubyClass) {
+            RubyClass c1 = (RubyClass) module;
+            RubyClass c2 = (RubyClass) other_module;
+            if (c1.isKindOf(c2)) {
+                return RubyConstant.QTRUE;
+            } else if (c2.isKindOf(c1)) {
+                return RubyConstant.QFALSE;
+            }
+        }
+
+        return RubyConstant.QNIL;
+    }
+    
+    @RubyLevelMethod(name="===")
+    public RubyValue caseEqual(RubyValue arg) {
+        if (this instanceof RubyClass) {
+        	// FIXME: Maybe Module
+            return ObjectFactory.createBoolean(RubyAPI.isKindOf(this, arg));
+        } else {
+            //TODO does not work as expected
+            RubyModule module = (RubyModule)this;
+            RubyArray a = new RubyArray();
+            module.collectIncludedModuleNames(a);
+            return a.include(arg.getRubyClass());
+        }
+    }
+    
+    @RubyLevelMethod(name="ancestors")
+    public RubyValue ancestors() {
+        RubyArray r = new RubyArray();
+        this.collectIncludedModuleNames(r);
+        return r;
+    }
+
+    @RubyLevelMethod(name="public_instance_methods")
+    public RubyValue public_instance_methods(RubyArray args) {
+    	return get_instance_methods(this, args, RubyMethod.PUBLIC);
+    }
+
+    @RubyLevelMethod(name="protected_instance_methods")
+    public RubyValue protected_instance_methods(RubyArray args) {
+    	return get_instance_methods(this, args, RubyMethod.PROTECTED);
+    }
+
+    @RubyLevelMethod(name="private_instance_methods")
+    public RubyValue private_instance_methods(RubyArray args) {
+    	return get_instance_methods(this, args, RubyMethod.PRIVATE);
+    }
+    
+    private RubyValue get_instance_methods(RubyValue receiver, RubyArray args, int mode) {
+        boolean include_super = false;
+        if (args != null && args.get(0).isTrue()) {
+            include_super = true;
+        }
+
+        RubyArray a = new RubyArray();
+        if (include_super) {
+            ((RubyClass)receiver).collectClassMethodNames(a, mode);
+        } else {
+            ((RubyModule)receiver).collectOwnMethodNames(a, mode);
+        }
+        return a;
+    }
+    
+    @RubyLevelMethod(name="module_function")
+    public RubyValue module_function() {
+        return this;
+    }
+    
+    @RubyLevelMethod(name="module_function")
+    public RubyValue module_function(RubyArray args) {
+    	for (RubyValue v : args) {
+    		RubySymbol s = (RubySymbol) v;
+    		this.module_function(s.toString());
+    	}
+
+    	return this;
+    }
+    
+    @RubyLevelMethod(name="module_eval", alias="class_eval")
+    public RubyValue module_eval(RubyArray args, RubyBlock block) {
+        //TODO duplicated code: instance_eval
+        if (null == args && null == block) {
+            throw new RubyException(RubyRuntime.ArgumentErrorClass, "block not supplied");
+        }
+
+        if (null != args) {
+            RubyString program_text = (RubyString) args.get(0);
+            RubyBinding binding = new RubyBinding();
+            binding.setScope(this);
+            binding.setSelf(this);
+            return RubyKernelModule.eval(program_text, binding, null);
+        } else {
+            block.setScope(this);
+            block.setSelf(this);
+            return block.invoke(this);
+        }
+    }
+    
+    @RubyLevelMethod(name="const_get")
+    public RubyValue constGet(RubyValue arg) {
+        RubySymbol s = RubyTypesUtil.convertToSymbol(arg);
+        return RubyAPI.getConstant(this, s.toString());
+    }
+    
+    @RubyLevelMethod(name="const_set")
+    public RubyValue constSet(RubyValue arg1, RubyValue arg2) {
+        RubySymbol s = RubyTypesUtil.convertToSymbol(arg1);
+        return RubyAPI.setConstant(arg2, this, s.toString());
+    }
+    
+    @RubyLevelMethod(name="define_method")
+    public RubyValue define_method(RubyArray args, RubyBlock block) {
+
+        final RubyBlock b;
+        if (null != args && args.size() == 1 && null != block) {
+            b = block;
+        } else {
+            b = ((RubyProc)args.get(1)).getBlock();
+        }
+
+        String name = RubyTypesUtil.convertToJavaString(args.get(0));
+        RubyMethod method = new RubyVarArgMethod() {
+            protected RubyValue run(RubyValue _receiver, RubyArray _args, RubyBlock _block) {
+                b.setArgsOfCurrentMethod(_args);
+                return b.invoke(_receiver, _args);
+            }
+        };
+
+        b.setCurrentMethod(method);
+        return this.defineMethod(name, method);
+    }
+    
+    @RubyLevelMethod(name="remove_method")
+    public RubyValue remove_method(RubyArray args) {
+        for (RubyValue arg : args) {
+            String method_name = RubyTypesUtil.convertToJavaString(arg);
+            this.undefMethod(method_name);
+        }
+
+        return this;
+    }
+    
+    @RubyLevelMethod(name="new")
+    public static RubyValue newModule(RubyValue receiver, RubyBlock block) {
+        return RubyAPI.defineModule("");
     }
 }
