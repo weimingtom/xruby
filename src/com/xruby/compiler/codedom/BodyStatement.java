@@ -189,11 +189,15 @@ public class BodyStatement implements Visitable {
     }
 
     void pullBlock(ArrayList<Block> result) {
-        compoundStatement_.pullBlock(result);
+        if (null != compoundStatement_) {
+            compoundStatement_.pullBlock(result);
+        }
     }
 
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
-        compoundStatement_.getNewlyAssignedVariables(symboltable, result);
+        if (null != compoundStatement_) {
+            compoundStatement_.getNewlyAssignedVariables(symboltable, result);
+        }
     }
 
 }
