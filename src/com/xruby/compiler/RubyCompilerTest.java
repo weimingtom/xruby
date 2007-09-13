@@ -2415,6 +2415,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Hash_misc() {
         String[] program_texts = {
+                "h={[1] => 1};print h[[1]]",
                 "h = {1=>2}; print h.delete(1); print h.delete(4); print h.size",
                 "a = {:s => 9}; print a[:s], a['s']",
                 "a = {1=>2}; a[1] = 3; p a",
@@ -2444,6 +2445,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "1",
                 "2nil0",
                 "9nil",
                 "{1=>3}\n",
@@ -2534,7 +2536,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Hash_keys_values() {
         String[] program_texts = {
-                "h = {'a' => 100, 'b' => 200, 'c' => 300, 'd' => 400}; print h.keys",
+                "h = {'a' => 100, 'b' => 200, 'c' => 300, 'd' => 400}; print h.keys.sort",
                 "h = {'a' => 100, 'b' => 200, 'c' => 300, 'd' => 400}; print h.values.sort",
         };
 
@@ -2548,12 +2550,12 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Hash_shift() {
         String[] program_texts = {
-                "h = {'a' => 100, 'b' => 200, 'c' => 300, 'd' => 400}; print h.shift, h.size",
+                "h = {'a' => 100}; print h.shift, h.size",
                 "h = {}; print h.shift, h.size",
         };
 
         String[] outputs = {
-                "a1003",
+                "a1000",
                 "nil0",
         };
 

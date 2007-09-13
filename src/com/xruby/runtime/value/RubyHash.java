@@ -16,7 +16,6 @@ import java.util.HashMap;
 @RubyLevelClass(name="Hash", modules="Enumerable")
 public class RubyHash extends RubyBasic {
     private HashMap<RubyValue, RubyValue> map_ = new HashMap<RubyValue, RubyValue>();
-    private ArrayList<RubyValue> keys_ = new ArrayList<RubyValue>();// To ensure the order, for 'shift' ect
     private RubyValue default_value_ = RubyConstant.QNIL;
     private RubyBlock default_value_as_block_ = null;
 
@@ -28,7 +27,6 @@ public class RubyHash extends RubyBasic {
     public RubyHash clone() {
         RubyHash h = (RubyHash) super.clone();
         h.map_ = (HashMap<RubyValue, RubyValue>) map_.clone();
-        h.keys_ = (ArrayList<RubyValue>) keys_.clone();
         return h;
     }
 
@@ -53,9 +51,6 @@ public class RubyHash extends RubyBasic {
     }
 
     public RubyHash add(RubyValue k, RubyValue v) {
-        if (!map_.containsKey(k)) {
-            keys_.add(k);
-        }
         map_.put(k, v);
         return this;
     }
@@ -92,24 +87,12 @@ public class RubyHash extends RubyBasic {
 
     @RubyLevelMethod(name="has_key?")
     public RubyValue has_key(RubyValue key) {
-        for (RubyValue v : keys_) {
-            if (RubyAPI.testEqual(key, v)) {
-                return RubyConstant.QTRUE;
-            }
-        }
-
-        return RubyConstant.QFALSE;
+        return ObjectFactory.createBoolean(map_.containsKey(key));
     }
 
     @RubyLevelMethod(name="delete")
     public RubyValue delete(RubyValue k) {
-        RubyValue v = null;
-        for (RubyValue key : keys_) {
-            if (RubyAPI.testEqual(key, k)) {
-                v = map_.remove(key);
-                break;
-            }
-        }
+        RubyValue v = map_.remove(k);
 
         if (null != v) {
             return v;
@@ -120,14 +103,7 @@ public class RubyHash extends RubyBasic {
 
     @RubyLevelMethod(name="has_value?")
     public RubyValue has_value(RubyValue value) {
-        for (RubyValue key : keys_) {
-            RubyValue v = map_.get(key);
-            if (RubyAPI.testEqual(value, v)) {
-                return RubyConstant.QTRUE;
-            }
-        }
-
-        return RubyConstant.QFALSE;
+        return ObjectFactory.createBoolean(map_.containsValue(value));
     }
 
     @RubyLevelMethod(name="values_at")
@@ -161,7 +137,7 @@ public class RubyHash extends RubyBasic {
             return false;
         }
 
-        for (RubyValue key : keys_) {
+        for (RubyValue key : map_.keySet()) {
             RubyValue v1 = that.get(key);
             if (null == v1) {
                 return false;
@@ -179,7 +155,7 @@ public class RubyHash extends RubyBasic {
     @RubyLevelMethod(name="keys")
     public RubyArray keys() {
         RubyArray a = new RubyArray();
-        for (RubyValue key : keys_) {
+        for (RubyValue key : map_.keySet()) {
             a.add(key);
         }
         return a;
@@ -188,21 +164,19 @@ public class RubyHash extends RubyBasic {
     @RubyLevelMethod(name="values")
     public RubyArray values() {
         RubyArray a = new RubyArray();
-
-        for (RubyValue key : map_.values()) {
-            a.add(key);
+        for (RubyValue value : map_.values()) {
+            a.add(value);
         }
-
         return a;
     }
 
     @RubyLevelMethod(name="shift")
     public RubyValue shift() {
-        if (keys_.isEmpty()) {
+        if (map_.isEmpty()) {
             return default_value_;
         }
 
-        RubyValue k = keys_.remove(0);
+        RubyValue k = map_.keySet().iterator().next();
         RubyValue v = map_.remove(k);
 
         RubyArray a = new RubyArray(2);

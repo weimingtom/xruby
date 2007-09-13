@@ -764,9 +764,17 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         return this;
     }
 
+    public int hashCode() {
+        int hash = 0;
+        for (RubyValue v : array_) {
+            hash += v.hashCode();
+        }
+        return hash;
+    }
+
     @RubyLevelMethod(name="hash")
     public RubyFixnum hash() {
-        return ObjectFactory.createFixnum(array_.hashCode());
+        return ObjectFactory.createFixnum(hashCode());
     }
 
     @RubyLevelMethod(name="&")
