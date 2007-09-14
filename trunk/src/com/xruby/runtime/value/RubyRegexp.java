@@ -10,8 +10,11 @@ import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.oro.text.perl.Perl5Util;
 
 @RubyLevelClass(name="Regexp")
 public class RubyRegexp extends RubyBasic {
@@ -30,29 +33,29 @@ public class RubyRegexp extends RubyBasic {
     private void setValue(String v) {
         regex_ = Pattern.compile(v, Pattern.MULTILINE);
     }
-    
+
     @RubyAllocMethod
     public static RubyRegexp alloc(RubyValue receiver) {
-    	return ObjectFactory.createRegexp();
+        return ObjectFactory.createRegexp();
     }
 
     @RubyLevelMethod(name="initialize")
     public RubyValue initialize(RubyArray args) {
         //TODO incomplete
-        
+
         RubyValue pattern = args.get(0);
         if (pattern instanceof RubyRegexp) {
             regex_ = ((RubyRegexp)pattern).regex_;
         } else {
             setValue(pattern.toStr());
         }
-        
+
         return this;
     }
-    
+
     @RubyLevelMethod(name="===")
     public RubyValue caseEqual(RubyValue arg) {
-    	if (!(arg instanceof RubyString)) {
+        if (!(arg instanceof RubyString)) {
             //not comparable
             return RubyConstant.QFALSE;
         }
@@ -63,10 +66,10 @@ public class RubyRegexp extends RubyBasic {
             return RubyConstant.QFALSE;
         }
     }
-    
+
     @RubyLevelMethod(name="match")
     public RubyValue match(RubyValue arg) {
-    	if (!(arg instanceof RubyString)) {
+        if (!(arg instanceof RubyString)) {
             //not comparable
             return RubyConstant.QFALSE;
         }
@@ -78,10 +81,10 @@ public class RubyRegexp extends RubyBasic {
             return m;
         }
     }
-    
+
     @RubyLevelMethod(name="=~")
     public RubyValue opMatch(RubyValue arg) {
-    	if (!(arg instanceof RubyString)) {
+        if (!(arg instanceof RubyString)) {
             //not comparable
             return RubyConstant.QFALSE;
         }
@@ -93,7 +96,7 @@ public class RubyRegexp extends RubyBasic {
             return ObjectFactory.createFixnum(p);
         }
     }
-    
+
     @RubyLevelMethod(name="escape", alias="quote")
     public static RubyString quote(RubyValue receiver, RubyValue arg) {
         return ObjectFactory.createString(quote(arg.toStr()));
@@ -113,7 +116,7 @@ public class RubyRegexp extends RubyBasic {
         r = r.replace("|", "\\|");
         return r.substring(2, r.length() - 2);
     }
-    
+
     public boolean caseEqual(String v) {
         return match(v) != null;
     }
@@ -231,7 +234,11 @@ public class RubyRegexp extends RubyBasic {
     }
 
     public String[] split(String input, int limit) {
-        return regex_.split(input, limit);
+        //java's Pattern.split has different behavior with c ruby, so we used  Jakarta-ORO
+        Perl5Util util = new Perl5Util();
+        Collection<String> result = new ArrayList<String>();
+        util.split(result, "/" + regex_.toString() + "/", input, limit);
+        return result.toArray(new String[result.size()]);
     }
 
     @RubyLevelMethod(name="source")
