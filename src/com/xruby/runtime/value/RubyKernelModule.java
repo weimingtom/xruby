@@ -546,6 +546,15 @@ public class RubyKernelModule {
     }
     
     @RubyLevelMethod(name="p", module=true)
+    public static RubyValue p(RubyValue receiver, RubyValue arg) {
+    	RubyValue str = RubyAPI.callNoArgMethod(arg, null, RubyID.inspectID);
+    	RubyString value = str.toRubyString();
+    	value.appendString("\n");
+    	System.out.print(value.toString());
+    	return RubyConstant.QNIL;
+    }
+    
+    @RubyLevelMethod(name="p", module=true)
     public static RubyValue p(RubyValue receiver, RubyArray args) {
     	for (RubyValue arg : args) {
     		RubyValue str = RubyAPI.callNoArgMethod(arg, null, RubyID.inspectID);
