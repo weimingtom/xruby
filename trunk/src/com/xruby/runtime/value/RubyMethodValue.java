@@ -9,7 +9,7 @@ import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
-@RubyLevelClass(name="UnboundMethod")
+@RubyLevelClass(name="Method")
 public class RubyMethodValue extends RubyBasic {
 
     private RubyValue receiver_;
