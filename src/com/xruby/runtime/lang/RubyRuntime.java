@@ -140,7 +140,7 @@ public class RubyRuntime {
         StructClass = RubyTypeFactory.getClass(RubyStruct.class);
         ThreadGroupClass = RubyTypeFactory.getClass(RubyThreadGroup.class);
         ThreadClass = RubyTypeFactory.getClass(RubyThread.class);
-        UnboundMethodClass = RubyTypeFactory.getClass(RubyMethodValue.class);
+        UnboundMethodClass = RubyAPI.defineClass("UnboundMethod", MethodClass);
 
         ExceptionClass = RubyTypeFactory.getClass(RubyExceptionValue.class);
         StandardErrorClass = RubyAPI.defineClass("StandardError", ExceptionClass);
