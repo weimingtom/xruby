@@ -554,7 +554,7 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callPublicOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
     }
-    
+
     public void RubyAPI_callPublicTwoArgMethod(String methodName) {
         loadRubyID(methodName);
         invokeStatic(Type.getType(RubyAPI.class),
@@ -578,7 +578,7 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
     }
-    
+
     public void RubyAPI_callTwoArgMethod(String methodName) {
         loadRubyID(methodName);
         invokeStatic(Type.getType(RubyAPI.class),
@@ -602,7 +602,7 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callSuperOneArgMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.MethodBlockBase)"));
     }
-    
+
     public void RubyAPI_callSuperTwoArgMethod() {
         loadThis();
         invokeStatic(Type.getType(RubyAPI.class),
@@ -632,6 +632,11 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("boolean testCaseEqual(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
     }
 
+    public void RubyAPI_testCaseEqual2() {
+        invokeStatic(Type.getType(RubyAPI.class),
+                Method.getMethod("boolean testCaseEqual(com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyValue)"));
+    }
+
     public void RubyAPI_testExceptionType() {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("boolean testExceptionType(com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyException)"));
@@ -655,11 +660,6 @@ class MethodGenerator extends GeneratorAdapter {
     public void RubyAPI_expandArrayIfThereIsOnlyOneRubyArray() {
         invokeStatic(Type.getType(RubyAPI.class),
                 Method.getMethod("com.xruby.runtime.value.RubyArray expandArrayIfThereIsOnlyOneRubyArray(com.xruby.runtime.value.RubyArray)"));
-    }
-
-    public void RubyAPI_expandArrayIfThereIsOnlyOneRubyArray2() {
-        invokeStatic(Type.getType(RubyAPI.class),
-                Method.getMethod("com.xruby.runtime.lang.RubyValue expandArrayIfThereIsOnlyOneRubyArray(com.xruby.runtime.lang.RubyValue)"));
     }
 
     public void RubyAPI_convertToArrayIfNotYet() {
