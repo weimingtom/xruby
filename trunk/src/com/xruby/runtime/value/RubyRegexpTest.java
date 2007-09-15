@@ -5,9 +5,7 @@
 
 package com.xruby.runtime.value;
 
-import java.util.ArrayList;
 import junit.framework.TestCase;
-import org.apache.oro.text.perl.Perl5Util;
 
 public class RubyRegexpTest extends TestCase {
     public void test_match() {
