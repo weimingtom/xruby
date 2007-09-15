@@ -57,6 +57,16 @@ public class RubyAPI {
         return RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.longEqualID).isTrue();
     }
 
+    public static boolean testCaseEqual(RubyArray values, RubyValue value2) {
+        for (RubyValue value1 : values) {
+            if (RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.longEqualID).isTrue()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean testEqual(RubyValue value1, RubyValue value2) {
         return RubyAPI.callPublicOneArgMethod(value1, value2, null, RubyID.equalID).isTrue();
     }
@@ -342,17 +352,6 @@ public class RubyAPI {
         }
 
         return a;
-    }
-
-    public static RubyValue expandArrayIfThereIsOnlyOneRubyArray(RubyValue v) {
-        if (v instanceof RubyArray) {
-            RubyArray a = (RubyArray)v;
-            if (a.size() == 1 && a.isSingleRhs()) {
-                return a.get(0);
-            }
-        }
-
-        return v;
     }
 
     public static RubyArray convertToArrayIfNotYet(RubyValue v) {

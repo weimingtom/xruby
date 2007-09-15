@@ -248,6 +248,23 @@ public class StdlibTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+    /*
+    public void test_erb() {
+        String[] program_texts = {
+                "require 'erb'",
+                "print ERB::Compiler.new(nil).compile('<%= print 1 %>')",
+                "ERB.new('<%= print 1 %>').result",
+        };
+
+        String[] outputs = {
+                "",
+                "print(( print 1 ).to_s)",
+                "1",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }*/
+
     /*TODO
     public void test_matrix() {
         String[] program_texts = {

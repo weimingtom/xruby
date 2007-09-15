@@ -35,17 +35,13 @@ public class CaseExpression extends Expression {
         ensureElseBodyIsNotEmpty();
 
         for (When when : whens_) {
-            if (null != when.body_) {
-                when.body_.ensureVariablesAreInitialized(visitor);
-            }
+            when.ensureVariablesAreInitialized(visitor);
         }
         else_body_.ensureVariablesAreInitialized(visitor);
 
         ArrayList<Block> pulled_blocks = new ArrayList<Block>();
         for (When when : whens_) {
-            if (null != when.body_) {
-                when.body_.pullBlock(pulled_blocks);
-            }
+            when.pullBlock(pulled_blocks);
         }
         else_body_.pullBlock(pulled_blocks);
         for (Block block : pulled_blocks) {

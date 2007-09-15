@@ -378,8 +378,8 @@ public class RubyCompilerImpl implements CodeVisitor {
                 cg_.getMethodGenerator().RubyAPI_callPublicOneArgMethod(methodName);
                 break;
             case 2:
-            	cg_.getMethodGenerator().RubyAPI_callPublicTwoArgMethod(methodName);
-            	break;
+                cg_.getMethodGenerator().RubyAPI_callPublicTwoArgMethod(methodName);
+                break;
             default:
                 cg_.getMethodGenerator().RubyAPI_callPublicMethod(methodName);
                 break;
@@ -393,8 +393,8 @@ public class RubyCompilerImpl implements CodeVisitor {
                 cg_.getMethodGenerator().RubyAPI_callOneArgMethod(methodName);
                 break;
             case 2:
-            	cg_.getMethodGenerator().RubyAPI_callTwoArgMethod(methodName);
-            	break;
+                cg_.getMethodGenerator().RubyAPI_callTwoArgMethod(methodName);
+                break;
             default:
                 cg_.getMethodGenerator().RubyAPI_callMethod(methodName);
                 break;
@@ -620,14 +620,14 @@ public class RubyCompilerImpl implements CodeVisitor {
         return i;
     }
 
-    public Object visitAfterWhenCondition(Object case_value, boolean asterisk) {
-        if (asterisk) {
-            cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsOnlyOneRubyArray2();
-        }
-
+    public Object visitAfterWhenCondition(Object case_value, boolean mrhs) {
         int i = (Integer)case_value;
         cg_.getMethodGenerator().loadLocal(i);
-        cg_.getMethodGenerator().RubyAPI_testCaseEqual();
+        if (!mrhs) {
+            cg_.getMethodGenerator().RubyAPI_testCaseEqual();
+        } else {
+            cg_.getMethodGenerator().RubyAPI_testCaseEqual2();
+        }
         Label label = new Label();
         cg_.getMethodGenerator().ifZCmp(GeneratorAdapter.EQ, label);
         return label;
@@ -898,7 +898,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         if (rhs_is_method_call) {
             cg_.getMethodGenerator().RubyAPI_expandArrayIfThereIsZeroOrOneValue();
         }
-        
+
         visitSelfExpression();
         cg_.getMethodGenerator().swap();
         cg_.getMethodGenerator().RubyValue_setInstanceVariable(name);

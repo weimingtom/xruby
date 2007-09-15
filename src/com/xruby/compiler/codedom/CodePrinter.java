@@ -322,9 +322,9 @@ public class CodePrinter implements CodeVisitor {
         return null;
     }
 
-    public Object visitAfterWhenCondition(Object case_value, boolean asterisk) {
+    public Object visitAfterWhenCondition(Object case_value, boolean mrhs) {
         result_.append("when");
-        if (asterisk) {
+        if (mrhs) {
             result_.append("*");
         }
         result_.append("\n");
@@ -573,7 +573,7 @@ public class CodePrinter implements CodeVisitor {
     public int visitBlockBegin(StringBuilder name, boolean pulled) {
         return -1;
     }
-    
+
     public void visitBlockBodyBegin(String name, int num_of_args, boolean has_asterisk_parameter,
             int num_of_default_args, boolean is_for_in_expression,
             boolean has_extra_comma, boolean has_body) {

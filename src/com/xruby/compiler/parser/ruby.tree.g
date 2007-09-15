@@ -608,13 +608,15 @@ returns [CaseExpression e]
 when
 returns [When w]
 {
-	Expression condition = null;
-	boolean asterisk = false;
+	Expression e = null;
 	CompoundStatement body = null;
 }
-	:	"when"	#(MRHS	(REST_ARG_PREFIX	{asterisk=true;})?	condition=expression)
-		(body=compoundStatement)?
-		{w = new When(condition, asterisk, body);}
+	:	"when"								{w = new When();}
+		#(MRHS
+			(e=expression						{w.addCondition(e);})*
+			(REST_ARG_PREFIX	e=expression	{w.setAsteriskCondition(e);})?
+		)
+		(body=compoundStatement)?			{w.setBody(body);}
 	;
 
 exceptionHandlingExpression

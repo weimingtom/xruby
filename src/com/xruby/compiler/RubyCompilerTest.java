@@ -1225,6 +1225,13 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_case() {
         String[] program_texts = {
+                "case \"xxx\"\n" +
+                "when \"yyy\", \"xxx\"\n" +
+                "    print true\n" +
+                "else\n" +
+                "    print false\n" +
+                "end ",
+
                 "case; when true; print 1; else; print 2; end",
 
                 "b = proc {print 0}; case 1; when 2; a = 3, 4; else b.call; end",
@@ -1267,6 +1274,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "true",
                 "1",
                 "0",
                 "123",
