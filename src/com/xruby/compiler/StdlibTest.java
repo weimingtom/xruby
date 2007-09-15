@@ -248,7 +248,6 @@ public class StdlibTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    /*
     public void test_erb() {
         String[] program_texts = {
                 "require 'erb'",
@@ -263,7 +262,7 @@ public class StdlibTest extends CompilerTestCase {
         };
 
         compile_run_and_compare_output(program_texts, outputs);
-    }*/
+    }
 
     /*TODO
     public void test_matrix() {
