@@ -40,7 +40,7 @@ abstract class MethodCollection extends ConstantCollection {
             if (id == RubyID.ID_ALLOCATOR) {
                 continue;
             }
-            
+
             if (RubyMethod.ALL == mode ||
                 methods_.get(id).getAccess() == mode) {
                 a.add(ObjectFactory.createString(id.toString()));
@@ -90,8 +90,8 @@ abstract class MethodCollection extends ConstantCollection {
             }
         }
 
-        if (null != m) {
-            m.setAccess(access);
+        if ((null != m) && (m.getAccess() != access)) {
+            addMethod(mid, m.clone(), access);
         }
 
         return m;

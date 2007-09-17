@@ -412,8 +412,14 @@ public class RubyModule extends MethodCollection {
     }
     
     @RubyLevelMethod(name="private_class_method")
-    public RubyValue run(RubyArray args) {
-    	setAccess(RubyMethod.PRIVATE, this.getRubyClass(), args);
+    public RubyValue private_class_method(RubyArray args) {
+    	setAccess(RubyMethod.PRIVATE, this.getSingletonClass(), args);
+        return this;
+    }
+
+    @RubyLevelMethod(name="public_class_method")
+    public RubyValue public_class_method(RubyArray args) {
+    	setAccess(RubyMethod.PUBLIC, this.getSingletonClass(), args);
         return this;
     }
     
