@@ -26,19 +26,19 @@ public class RequireExample {
 
 
                 //call static methods and fields
-                "import 'java.lang.Math'\n"+
+                "require_java 'java.lang.Math'\n"+
                 "puts JMath.PI\n"+
                 "puts JMath.cos(0)\n"+
 
 
                 //access Java constant variables
-                "import 'java.lang.System'\n"+
+                "require_java 'java.lang.System'\n"+
                 "out = System::out\n"+
                 "out.println('ok!')\n"+
 
 
                 //escape from name collision
-                "import 'java.lang.Object'\n"+
+                "require_java 'java.lang.Object'\n"+
                 "o = JObject.new\n" +
                 "puts o.toString\n" +
 
@@ -56,18 +56,18 @@ public class RequireExample {
                 "thread.start()\n"+
 
                 //Creating Java Arrays and accessing Java Arrays
-                "import 'com.xruby.runtime.javasupport.AssistantTester'\n" +
-                "import 'java.lang.reflect.Array'\n"+
-                "import 'java.lang.String'\n"+
+                "require_java 'com.xruby.runtime.javasupport.AssistantTester'\n" +
+                "require_java 'java.lang.reflect.Array'\n"+
+                "require_java 'java.lang.String'\n"+
                 "s = JArray.newInstance(JString, 2)\n"+
                 "s[0]='Hello '\n"+
                 "s[1]='World!'\n"+
                 "AssistantTester.echo(s)\n"+
 
                 //Handling Java exceptions
-                "import 'java.io.FileInputStream'\n"+
-                "import 'java.io.FileNotFoundException'\n"+
-                "import 'java.io.IOException'\n"+
+                "require_java 'java.io.FileInputStream'\n"+
+                "require_java 'java.io.FileNotFoundException'\n"+
+                "require_java 'java.io.IOException'\n"+
 
                 "begin\n"+
                 "   f = FileInputStream.new('myfile')\n"+
@@ -86,7 +86,7 @@ public class RequireExample {
                 "end\n"+
 
                 //JavaBean support
-                "import 'javax.swing.JFrame'\n"+
+                "require_java 'javax.swing.JFrame'\n"+
                 "f = JFrame.new('hello')\n"+
                 //calls setVisible
                 "f.visible= true\n"+
