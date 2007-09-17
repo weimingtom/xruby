@@ -2940,6 +2940,20 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+    public void test_private_class_method() {
+        String[] program_texts = {
+            "class TestPCMB; def TestPCMB.f; print 1;end; end\n" +
+            "class TestPCMC < TestPCMB;private_class_method :f;end\n" +
+            "TestPCMB.f",
+        };
+
+        String[] outputs = {
+                "1",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
     public void test_private_protected() {
         String[] bad_program_texts = {
 
