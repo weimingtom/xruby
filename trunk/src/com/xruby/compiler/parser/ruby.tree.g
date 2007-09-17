@@ -116,6 +116,7 @@ returns[String s]
 		|	constant:CONSTANT	(assign3:ASSIGN_WITH_NO_LEADING_SPACE)?	{s = constant.getText(); if (null != assign3) {s += "=";}}
 		|	sym=symbol			{s = sym.getValue();}
 		|	s=operator
+		|	s=keyword
 		;
 		
 undef
