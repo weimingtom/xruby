@@ -638,7 +638,7 @@ public class RubyKernelModule {
     private static Pattern packagePattern = Pattern.compile("\\.");
 
     @RubyLevelMethod(name="require_java", alias="import", module=true)
-    protected RubyValue requireJava(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    public static RubyValue requireJava(RubyValue receiver, RubyValue arg, RubyBlock block) {
         String className = arg.toStr();
         String[] names = packagePattern.split(className);
         String name = names[names.length - 1];
@@ -649,7 +649,7 @@ public class RubyKernelModule {
                 Class clazz = Class.forName(className);
                 JavaClass.createJavaClass(clazz);
             } catch (ClassNotFoundException e) {
-                throw new RubyException("Couldn't find class " + className.toString());
+                throw new RubyException("Couldn't find class " + className);
             }
         }
 
@@ -750,7 +750,7 @@ public class RubyKernelModule {
             io = ObjectFactory.createFile(filename, "r");
         } else if (args.get(1) instanceof RubyFixnum) {
             String mode = "r";
-            int i = ((RubyFixnum)args.get(1)).toInt();
+            int i = args.get(1).toInt();
             if ((i & RDWR) != 0) {
                 mode = mode + "w";
             }
@@ -774,9 +774,9 @@ public class RubyKernelModule {
         for (int i = 0; i < args.size() - start; ++i) {
             Object v = args.get(i + start);
             if (v instanceof RubyFixnum) {
-                raw_args[i] = new Integer(((RubyFixnum) v).toInt());
+                raw_args[i] = ((RubyFixnum) v).toInt();
             } else if (v instanceof RubyFloat) {
-                raw_args[i] = new Double(((RubyFloat) v).doubleValue());
+                raw_args[i] = ((RubyFloat) v).doubleValue();
             } else {
                 raw_args[i] = v;
             }
