@@ -196,8 +196,7 @@ public class JavaClass extends RubyClass {
      * @param mid method's RubyID
      * @return wrapper of the method, otherwise null
      */
-    @Override
-    public RubyMethod findPublicMethod(RubyID mid) {
+    public RubyMethod findOwnPublicMethod(RubyID mid) {
         String methodName = mid.toString();
         if(methodName == null) {
             return null;
@@ -217,8 +216,7 @@ public class JavaClass extends RubyClass {
                     return new FakeInstanceVarMethod(methodName);
                 }
             }else{
-                //Caution:not invoke findPublicMethod
-                return klass.findOwnMethod(mid);
+                return klass.findOwnPublicMethod(mid);
             }
             klass = klass.getSuperClass();
         }
@@ -226,29 +224,7 @@ public class JavaClass extends RubyClass {
         return null;
     }
 
-    /**
-     * In JavaClass, it's just an alias for findPublicMethod
-     *
-     * @param mid method's RubyID
-     * @return Method instance
-     */
-    @Override
-    public RubyMethod findMethod(RubyID mid) {
-        return findPublicMethod(mid);
-    }
-
-    /**
-     * This is the actual method which will be invoked
-     *
-     * @param mid method's RubyID
-     * @return method instance
-     */
-    @Override
-    public RubyMethod findOwnPublicMethod(RubyID mid) {
-        return findPublicMethod(mid);
-    }
-
-    JavaMethod getJavaMethod(Method method) {
+    private JavaMethod getJavaMethod(Method method) {
         JavaMethod jMethod = javaMethods.get(method);
 
         if (null == jMethod) {

@@ -9,7 +9,7 @@
 #http://code.fallingsnow.net/svn/rubinius/trunk/LICENSE
 #
 
-#
+
 #Some built-in functions can be implemented in pure ruby, so they are implemented here.
 #
 
@@ -119,13 +119,6 @@ class Module
     def method_undefined symbol
     end
 end
-
-class Class
-    private
-    def Class.inherited(sub_class)
-      return nil
-    end
-end 
 
 class Array
 	
