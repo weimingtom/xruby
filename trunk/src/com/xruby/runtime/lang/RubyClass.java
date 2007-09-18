@@ -11,7 +11,7 @@ import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.value.*;
 
 @RubyLevelClass(name="Class", superclass="Module", dummy={ 
-		@DummyMethod(name="inherited", privateMethod=true) 
+		@DummyMethod(name="inherited", privateMethod=true)
 		}
 )
 public class RubyClass extends RubyModule {
