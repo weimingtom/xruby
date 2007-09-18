@@ -71,7 +71,8 @@ public class JavaClass extends RubyClass {
             initConstructors(clazz);
             initMethods(clazz);
             initFields(clazz);
-        }        
+        }
+        setRubyClass(this);
     }
 
     
