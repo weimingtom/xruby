@@ -46,6 +46,12 @@ public class RubyRange extends RubyBasic {
 	}
     
     @RubyLevelMethod(name="initialize")
+    public RubyValue initialize(RubyValue arg0, RubyValue arg1) {
+        this.setValue(arg0, arg1, false);
+        return this;
+    }
+    
+    @RubyLevelMethod(name="initialize")
     public RubyValue initialize(RubyArray args) {
     	RubyValue left = args.get(0);
         RubyValue right = args.get(1);
@@ -80,20 +86,44 @@ public class RubyRange extends RubyBasic {
         return exclude_end_;
     }
 
+    @RubyLevelMethod(name="to_a")
     public RubyArray to_a() {
-        //TODO may not be RubyFixnum
-        int left = ((RubyFixnum) begin_).toInt();
-        int right = ((RubyFixnum) end_).toInt();
-        if (!exclude_end_) {
-            ++right;
-        }
-
-        RubyArray a = new RubyArray(right - left);
-        for (int i = left; i < right; ++i) {
-            a.add(ObjectFactory.createFixnum(i));
-        }
-        return a;
+    	if (this.begin_ instanceof RubyFixnum && this.end_ instanceof RubyFixnum) {
+    		return fixnumRangeToA();
+    	} else {
+    		return defaultToA();
+    	}
     }
+
+	private RubyArray defaultToA() {
+		RubyArray a = new RubyArray();
+		
+		RubyValue iter = this.begin_;
+		while (this.compare(iter, this.end_)) {
+			a.add(iter);
+			iter = RubyAPI.callPublicNoArgMethod(iter, null, RubyID.succID);
+		}
+		
+		if (!this.exclude_end_) {
+			a.add(iter);
+		}
+		
+		return a;
+	}
+
+	private RubyArray fixnumRangeToA() {
+		int left = begin_.toInt();
+		int right = end_.toInt();
+		if (!exclude_end_) {
+			++right;
+		}
+
+		RubyArray a = new RubyArray();
+		for (int i = left; i < right; ++i) {
+			a.add(ObjectFactory.createFixnum(i));
+		}
+		return a;
+	}
     
     @RubyLevelMethod(name="hash")
     public RubyFixnum hash() {

@@ -10,7 +10,6 @@ import java.util.WeakHashMap;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelModule;
 import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.value.RubyFixnum;
 
 //we are using map as list here.
@@ -23,15 +22,30 @@ public class ObjectSpace {
     }
     
     @RubyLevelMethod(name="each_object", singleton=true)
-    public static RubyFixnum each_object(RubyValue receiver, RubyArray args, RubyBlock block) {
-    	int n = ObjectSpace.each_object(receiver, (null == args) ? null : (RubyModule)args.get(0), block);
+    public static RubyFixnum rubyEachObject(RubyValue receiver, RubyBlock block) {
+    	int n = ObjectSpace.each_object(receiver, block);
         return ObjectFactory.createFixnum(n);
     }
-
-    public static int each_object(RubyValue receiver, RubyModule m, RubyBlock block) {
+    
+    @RubyLevelMethod(name="each_object", singleton=true)
+    public static RubyFixnum rubyEachObject(RubyValue receiver, RubyValue arg, RubyBlock block) {
+    	int n = ObjectSpace.each_object(receiver, (RubyModule)arg, block);
+        return ObjectFactory.createFixnum(n);
+    }
+    
+    private static int each_object(RubyValue receiver, RubyBlock block) {
         int i = 0;
         for (RubyValue v : map_.keySet()) {
-            if (null == m || RubyAPI.isKindOf(m, v)) {
+            block.invoke(receiver, v);
+            ++i;
+        }
+        return i;
+    }
+
+    private static int each_object(RubyValue receiver, RubyModule m, RubyBlock block) {
+        int i = 0;
+        for (RubyValue v : map_.keySet()) {
+            if (RubyAPI.isKindOf(m, v)) {
                 block.invoke(receiver, v);
                 ++i;
             }

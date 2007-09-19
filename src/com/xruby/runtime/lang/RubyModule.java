@@ -20,7 +20,9 @@ import com.xruby.runtime.value.RubyProc;
 import com.xruby.runtime.value.RubyString;
 import com.xruby.runtime.value.RubyArray;
 
-@RubyLevelClass(name="Module", superclass="Object", dummy={ 
+@RubyLevelClass(name="Module", superclass="Object", dummy={
+		@DummyMethod(name="included", privateMethod=true),
+		@DummyMethod(name="extended", privateMethod=true),
 		@DummyMethod(name="method_added", privateMethod=true),
 		@DummyMethod(name="method_removed", privateMethod=true),
 	    @DummyMethod(name="method_undefined", privateMethod=true)
