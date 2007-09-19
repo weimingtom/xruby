@@ -38,12 +38,12 @@ public class RubyRegexp extends RubyBasic {
     public static RubyRegexp alloc(RubyValue receiver) {
         return ObjectFactory.createRegexp();
     }
-
+    
     @RubyLevelMethod(name="initialize")
-    public RubyValue initialize(RubyArray args) {
+    public RubyValue initialize(RubyValue arg) {
         //TODO incomplete
 
-        RubyValue pattern = args.get(0);
+        RubyValue pattern = arg;
         if (pattern instanceof RubyRegexp) {
             regex_ = ((RubyRegexp)pattern).regex_;
         } else {

@@ -443,6 +443,13 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
         }
         return modified;
     }
+    
+    @RubyLevelMethod(name="new", singleton=true)
+    public static RubyValue newArray(RubyValue receiver, RubyBlock block) {
+    	RubyArray a = new RubyArray();
+    	a.setRubyClass((RubyClass) receiver);
+        return a;
+    }
 
     @RubyLevelMethod(name="new", singleton=true)
     public static RubyValue newArray(RubyValue receiver, RubyArray args, RubyBlock block) {
@@ -646,11 +653,7 @@ public class RubyArray extends RubyBasic implements Iterable<RubyValue> {
 
     @RubyLevelMethod(name="shift")
     public RubyValue shift() {
-    	if (this.array_.size() == 0) {
-    		return RubyConstant.QNIL;
-    	}
-    	
-        return this.array_.remove(0);
+    	return (this.array_.size() != 0) ? this.array_.remove(0) : RubyConstant.QNIL;
     }
 
     @RubyLevelMethod(name="delete_if")

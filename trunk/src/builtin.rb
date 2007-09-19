@@ -105,21 +105,6 @@ class Object
     end
 end
 
-class Module
-    private
-    def included klass
-    end
-
-    def extended a_module
-    end
-
-    def method_removed symbol
-    end
-
-    def method_undefined symbol
-    end
-end
-
 class Array
 	
     alias reject! delete_if
@@ -152,10 +137,6 @@ class Array
     #alias join to_s
     alias to_ary to_a
     alias size length
-
-    def empty?
-        length == 0
-    end
 
     def inspect
         str = "["
@@ -822,34 +803,6 @@ class Range
 
     alias first :begin
     alias last :end
-
-    def to_a
-        result = []
-        if first > last
-            return result
-        end
-
-        if Fixnum === first && Fixnum === last
-            a = first
-            while a <= last
-                if exclude_end? && a == last
-                    break
-                end
-                result << a
-                a += 1
-            end
-        else
-            a = first
-            while a <= last
-                if exclude_end? && a == last
-                    break
-                end
-                result << a
-                a = a.succ
-            end
-        end
-        return result
-    end
 
     def step(n=1)
         if n == 1 then
