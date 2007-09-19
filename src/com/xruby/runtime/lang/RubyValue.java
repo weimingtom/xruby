@@ -52,7 +52,7 @@ abstract class BlockCallStatus {
 
 public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     private boolean frozen_ = false;
-    protected Map<RubyID, RubyValue> instance_varibles_ = null;
+    private static Map<RubyValue, Map<RubyID, RubyValue>> genericIvTbl;
 
     public abstract void setRubyClass(RubyClass klass);
     public abstract RubyClass getRubyClass();
@@ -86,30 +86,32 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     }
 
     public RubyValue getInstanceVariable(RubyID id) {
-        if (null == instance_varibles_) {
-            return RubyConstant.QNIL;
-        }
+    	if (genericIvTbl != null) {
+    		Map<RubyID, RubyValue> table = genericIvTbl.get(this);
+    		if (table != null) {
+    			RubyValue v = table.get(id);
+    			if (v != null) {
+    				return v;
+    			}
+    		}
+    	}
 
-        RubyValue v = instance_varibles_.get(id);
-        
-        if (null != v) {
-            return v;
-        } else {
-            return RubyConstant.QNIL;
-        }
+    	return RubyConstant.QNIL;
     }
 
     public RubyValue setInstanceVariable(RubyValue value, RubyID id) {
-        if (null == instance_varibles_) {
-            instance_varibles_ = new HashMap<RubyID, RubyValue>();
-        }
-
-        instance_varibles_.put(id, value);
-        return value;
-    }
-    
-    public Map getInstanceVariables(){
-        return instance_varibles_;
+    	if (genericIvTbl == null) {
+    		genericIvTbl = new HashMap<RubyValue, Map<RubyID, RubyValue>>();
+    	}
+    	
+    	Map<RubyID, RubyValue> table = genericIvTbl.get(this);
+    	if (table == null) {
+    		table = new HashMap<RubyID, RubyValue>();
+    		genericIvTbl.put(this, table);
+    	}
+    	
+    	table.put(id, value);
+    	return value;
     }
 
     public RubyClass getSingletonClass() {
@@ -144,7 +146,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
         return getRubyClass().getName() + super.toString();
     }
     
-    private String inspect() {
+    public String inspect() {
         return RubyAPI.callNoArgMethod(this, null, RubyID.toSID).toStr();
     }
     

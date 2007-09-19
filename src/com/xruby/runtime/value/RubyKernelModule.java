@@ -64,34 +64,7 @@ public class RubyKernelModule {
 	
 	@RubyLevelMethod(name="inspect")
 	public static RubyValue objInsepct(RubyValue receiver) {
-		if (!(receiver instanceof RubyObject)) {
-            return RubyAPI.callPublicNoArgMethod(receiver, null, RubyID.toSID);
-        }
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("#<");
-        sb.append(receiver.getRubyClass().getRealClass().getName());
-        sb.append(":0x");
-        int hash = receiver.hashCode();
-        sb.append(Integer.toHexString(hash));
-
-        String sep = "";
-        Map vars = receiver.getInstanceVariables();
-
-        if (vars != null) {
-            for (Iterator iter = vars.keySet().iterator(); iter.hasNext();) {
-                RubyID id = (RubyID)iter.next();
-                sb.append(sep);
-                sb.append(" ");
-                sb.append(id.toString());
-                sb.append("=");
-                sb.append(((RubyString)RubyAPI.callPublicNoArgMethod((RubyValue)vars.get(id), null, RubyID.inspectID))).toString();
-                sep = ",";
-            }
-        }
-        sb.append(">");
-
-        return ObjectFactory.createString(sb.toString());
+		return ObjectFactory.createString(receiver.inspect());
 	}
 	
 	@RubyLevelMethod(name="methods")

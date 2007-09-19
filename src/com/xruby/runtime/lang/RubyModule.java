@@ -5,6 +5,9 @@
 
 package com.xruby.runtime.lang;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.lang.annotation.DummyMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
@@ -18,12 +21,15 @@ import com.xruby.runtime.value.RubyString;
 import com.xruby.runtime.value.RubyArray;
 
 @RubyLevelClass(name="Module", superclass="Object", dummy={ 
-		@DummyMethod(name="method_added", privateMethod=true) 
+		@DummyMethod(name="method_added", privateMethod=true),
+		@DummyMethod(name="method_removed", privateMethod=true),
+	    @DummyMethod(name="method_undefined", privateMethod=true)
 })
 public class RubyModule extends MethodCollection {
     private RubyModule owner_ = null;//owner is where is the module is defined under.
     protected RubyClass superclass_;
     private int current_access_mode_ = RubyMethod.PUBLIC;
+    protected Map<RubyID, RubyValue> instance_varibles_ = null;
 
     public RubyModule(String name, RubyModule owner) {
         super(null);
@@ -282,6 +288,26 @@ public class RubyModule extends MethodCollection {
         getSingletonClass().defineMethod(method_name, m);
     }
     
+    // Class object instance variable
+    public RubyValue getInstanceVariable(RubyID id) {
+		if (null == instance_varibles_) {
+            return RubyConstant.QNIL;
+        }
+
+        RubyValue v = instance_varibles_.get(id);
+        
+        return (null != v) ? v : RubyConstant.QNIL;
+	}
+
+	public RubyValue setInstanceVariable(RubyValue value, RubyID id) {
+		if (null == instance_varibles_) {
+            instance_varibles_ = new HashMap<RubyID, RubyValue>();
+        }
+
+        instance_varibles_.put(id, value);
+        return value;
+	}
+    
     // Class Variable    
     public RubyValue getClassVariable(String name) {
 		RubyModule klass = this;
@@ -431,7 +457,7 @@ public class RubyModule extends MethodCollection {
     }
     
     @RubyLevelMethod(name="inspect")
-    public RubyValue inspect() {
+    public RubyValue rubyInspect() {
         return RubyAPI.callNoArgMethod(this, null, RubyID.toSID);
     }
     
