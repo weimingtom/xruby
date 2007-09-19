@@ -160,7 +160,7 @@ public class RubyThread extends RubyBasic {
     }
 
     @RubyLevelMethod(name="inspect")
-    public RubyValue inspect() {
+    public RubyValue rubyInspect() {
         StringBuffer sb = new StringBuffer();
         sb.append("#<");
         sb.append(getRubyClass().getRealClass().getName());

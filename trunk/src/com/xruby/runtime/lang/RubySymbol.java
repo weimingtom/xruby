@@ -59,7 +59,7 @@ public class RubySymbol extends RubySpecialValue {
     }
 
     @RubyLevelMethod(name="inspect")
-    public RubyString inspect() {
+    public RubyString rubyInspect() {
         String value = this.toString();
         RubyString str = ObjectFactory.createString(":" + value);
         if (!isSymname(value)) {
