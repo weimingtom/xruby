@@ -46,7 +46,7 @@ public class SmapMgr {
             if(fileName.endsWith(RB_SUFFIX)) {
                 int pos = fileName.lastIndexOf(RB_SUFFIX);
                 String packageName = fileName.substring(0, pos);
-                path = String.format("%s/%s.smap", packageName, fileName);
+                path = String.format("xruby/%s/%s.smap", packageName, fileName);
             }
             else {
                 // TODO: handle special condition

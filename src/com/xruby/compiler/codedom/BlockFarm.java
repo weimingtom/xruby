@@ -92,6 +92,9 @@ public class BlockFarm {
     }
 
     private static String extractScriptName(String blockName) {
+        if(blockName.startsWith("xruby/")) {
+            blockName = blockName.substring(6);
+        }
         StringTokenizer st = new StringTokenizer(blockName, "/");
 
         // TODO: maybe we need create a global variable to keep current script name

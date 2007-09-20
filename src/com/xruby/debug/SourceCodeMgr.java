@@ -132,7 +132,7 @@ public class SourceCodeMgr {
         if (blockName != null) {
             return blockName;
         } else {
-            return packageName + ".main";
+            return "xruby." + packageName + ".main";
         }
     }
 
