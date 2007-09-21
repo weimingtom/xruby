@@ -880,6 +880,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_method_run() {
         String[] program_texts = {
+                "def (1.class).fred; print 'x'; end;   Fixnum.fred ",
                 "def a; 6; end; print(a)",
                 "a = 5;  def a; 6; end;  print(a)",
 
@@ -904,6 +905,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "x",
                 "6",
                 "5",
                 "888:)",
@@ -4574,7 +4576,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_mehtod_and_call() {
+    public void test_method_and_call() {
         String [] program_texts = {
                 "m = 'xx'.method(:length); print m.call",
                 "m = 1.method('+'); print m.call(2)",
