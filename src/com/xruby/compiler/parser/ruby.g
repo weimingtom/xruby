@@ -866,9 +866,9 @@ methodName
 				|constant:CONSTANT	
 				)
 				(methodNameSupplement{is_singleton_method = true;}|ASSIGN_WITH_NO_LEADING_SPACE)?
-			|	(LPAREN|LPAREN_WITH_NO_LEADING_SPACE)
+			|	(LPAREN!|LPAREN_WITH_NO_LEADING_SPACE!)
 				expression	(LINE_BREAK!)?
-				RPAREN
+				RPAREN!
 				methodNameSupplement{is_singleton_method = true;}
 			|	(INSTANCE_VARIABLE|CLASS_VARIABLE|GLOBAL_VARIABLE )	methodNameSupplement	{is_singleton_method = true;}
 			|	("nil"|"self"|"true"|"false"|"__FILE__"|"__LINE__")	methodNameSupplement	{is_singleton_method = true;}
