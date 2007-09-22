@@ -253,12 +253,14 @@ public class StdlibTest extends CompilerTestCase {
                 "require 'erb'",
                 "print ERB::Compiler.new(nil).compile('<%= print 1 %>')",
                 "ERB.new('<%= print 1 %>').result",
+                "print ERB.new('<% 3.times do %>1<% end %>').result",
         };
 
         String[] outputs = {
                 "",
                 "print(( print 1 ).to_s)",
                 "1",
+                "111",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
