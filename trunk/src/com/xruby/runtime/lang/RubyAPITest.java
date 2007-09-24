@@ -5,8 +5,9 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyArray;
+
 import junit.framework.TestCase;
 
 public class RubyAPITest extends TestCase {

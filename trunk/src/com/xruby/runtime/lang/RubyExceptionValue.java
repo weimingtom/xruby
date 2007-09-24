@@ -5,12 +5,12 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyArray;
+import com.xruby.runtime.builtin.RubyString;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyString;
 
 /**
  * Java does not have multiple inheritance, and RubyException has to be inheritated from Exception.

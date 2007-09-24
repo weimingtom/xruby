@@ -9,12 +9,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyArray;
+import com.xruby.runtime.builtin.RubyMethodValue;
+import com.xruby.runtime.builtin.RubyProc;
+import com.xruby.runtime.builtin.RubyString;
 import com.xruby.runtime.javasupport.JavaClass;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyMethodValue;
-import com.xruby.runtime.value.RubyProc;
-import com.xruby.runtime.value.RubyString;
 
 public class RubyAPI {
     public static RubyClass defineClass(String name, RubyClass superclass) {

@@ -1,6 +1,6 @@
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.builtin.RubyArray;
 
 public abstract class RubyNoOrOneArgMethod extends RubyMethod {
 	public RubyNoOrOneArgMethod() {

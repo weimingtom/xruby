@@ -5,7 +5,7 @@
 
 package com.xruby.runtime.lang.util;
 
-import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.builtin.RubyArray;
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;

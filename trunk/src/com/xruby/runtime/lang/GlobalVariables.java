@@ -5,9 +5,9 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyIO;
-import com.xruby.runtime.value.RubyProc;
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyIO;
+import com.xruby.runtime.builtin.RubyProc;
 
 import java.util.List;
 import java.util.Map;

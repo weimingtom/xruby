@@ -138,7 +138,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().loadLocal(i);
         cg_.getMethodGenerator().invokeVirtual(builder,
-                Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"));
+                Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"));
 
         switchToNewClassGenerator(new ClassGeneratorForClassModuleBuilder(uniqueName, script_name_, null, is_singleton));
     }

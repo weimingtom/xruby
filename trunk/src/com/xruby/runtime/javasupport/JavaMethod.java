@@ -11,6 +11,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import com.xruby.runtime.builtin.RubyArray;
+import com.xruby.runtime.builtin.RubyData;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyException;
@@ -18,8 +20,6 @@ import com.xruby.runtime.lang.RubyExceptionValue;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyData;
 
 /**
  * Java Method Wrapper for both public method and constructor

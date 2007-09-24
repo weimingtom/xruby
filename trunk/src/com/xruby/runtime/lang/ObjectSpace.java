@@ -7,10 +7,10 @@ package com.xruby.runtime.lang;
 
 import java.util.WeakHashMap;
 
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyFixnum;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelModule;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyFixnum;
 
 //we are using map as list here.
 @RubyLevelModule(name="ObjectSpace")

@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.xruby.runtime.builtin.RubyArray;
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
@@ -25,7 +26,6 @@ import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySingletonClass;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
-import com.xruby.runtime.value.RubyArray;
 
 /**
  * Wrapper for Java Class

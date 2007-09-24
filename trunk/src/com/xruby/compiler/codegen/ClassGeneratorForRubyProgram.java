@@ -46,7 +46,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
 
         //Implement RubyProgram
         return new MethodGenerator(Opcodes.ACC_PROTECTED,
-                Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
+                Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
                 cv_,
                 binding,
                 null,

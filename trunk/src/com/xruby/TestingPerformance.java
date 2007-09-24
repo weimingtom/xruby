@@ -5,11 +5,11 @@
 
 package com.xruby;
 
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyArray;
+import com.xruby.runtime.builtin.RubyFixnum;
+import com.xruby.runtime.builtin.RubyString;
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyString;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -5,7 +5,7 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.*;
+import com.xruby.runtime.builtin.RubyArray;
 
 public abstract class RubyMethod extends MethodBlockBase implements Cloneable {
     private int access_;

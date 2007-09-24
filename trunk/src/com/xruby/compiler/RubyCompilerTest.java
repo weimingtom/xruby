@@ -8,8 +8,11 @@ package com.xruby.compiler;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 import com.xruby.compiler.codegen.CompilationResults;
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyFixnum;
+import com.xruby.runtime.builtin.RubyIO;
+import com.xruby.runtime.builtin.RubyString;
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.*;
 import junit.framework.TestCase;
 
 import java.io.*;
