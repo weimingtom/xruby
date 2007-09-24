@@ -24,15 +24,16 @@ import com.xruby.compiler.codegen.CgConfig;
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.ClassDumper;
 import com.xruby.compiler.codegen.Types;
+import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyModule;
+import com.xruby.runtime.lang.RubyObject;
 import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelConstant;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
-import com.xruby.runtime.value.RubyArray;
 
 public abstract class RubyTypeFactory {
 	public static RubyClass getClass(Class klass) {	
@@ -63,16 +64,50 @@ public abstract class RubyTypeFactory {
 		return loadRubyModuleBuilder(loadClass).createRubyModule();
 	}
 	
+	
+	
 	private static RubyModuleBuilder loadRubyModuleBuilder(Class loadClass) {
 		try {
 			return (RubyModuleBuilder)loadClass.newInstance();
 		} catch (InstantiationException ie) {
-			throw new RuntimeException("fail to create Ruby class", ie);
+			throw new RuntimeException("fail to create Ruby module", ie);
 		} catch (IllegalAccessException iae) {
-			throw new RuntimeException("fail to create Ruby class", iae);
+			throw new RuntimeException("fail to create Ruby module", iae);
 		}
 	}
 	
+	public static RubyObject getObject(Class klass) {	
+		Class loadClass = new RubyObjectFactory(klass).loadClass();
+		if (loadClass == null) { 
+			return null; 
+		}
+		
+		return loadRubyObjectBuilder(loadClass).createRubyObject();
+	}
+
+	private static RubyObjectBuilder loadRubyObjectBuilder(Class loadClass) {
+		try {
+			return (RubyObjectBuilder)loadClass.newInstance();
+		} catch (InstantiationException ie) {
+			throw new RuntimeException("fail to create Ruby object", ie);
+		} catch (IllegalAccessException iae) {
+			throw new RuntimeException("fail to create Ruby object", iae);
+		}
+	}
+	
+	protected static void loadRubyClass(GeneratorAdapter mg, String superclass) {
+		if (superclass == null || superclass.length() ==  0) {
+			mg.push((String)null);
+		}
+		
+		if (Types.isBuiltinClass(superclass)) {
+			mg.getStatic(Types.RUBY_RUNTIME_TYPE, 
+					superclass + "Class", Types.RUBY_CLASS_TYPE);
+		} else {
+			// FIXME: 
+		}
+	}
+
 	Class loadClass() {
 		String name = getBuilderName(klass);
 		Class klass = tryClass(name);
@@ -130,7 +165,6 @@ public abstract class RubyTypeFactory {
 	protected abstract Class getInterface();
 	protected abstract Method getBuilderMethod();
 	protected abstract int createRubyType(GeneratorAdapter mg, Annotation annotation);
-	protected abstract String createMethodFactoryName();
 	protected abstract boolean isModule();
 	
 	private void startBuilder(String name) {
@@ -370,7 +404,7 @@ private void makeGenneralItem(RubyLevelMethod annotation, CgMethodItem item) {
 	private void loadRubyType(GeneratorAdapter mg, int rubyTypeIdx, CgMethodItem item) {
 		mg.loadLocal(rubyTypeIdx);
 		if (item.singleton) {
-			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+			mg.invokeVirtual(Types.RUBY_VALUE_TYPE, 
 					Method.getMethod(CgUtil.getMethodName("getSingletonClass", RubyClass.class)));
 		}
 	}
@@ -443,9 +477,10 @@ private void makeGenneralItem(RubyLevelMethod annotation, CgMethodItem item) {
 	}
 
 	private void createMehtodFactory(GeneratorAdapter mg, Class klass) {
-		mg.push(Type.getType(klass));		
+		mg.push(Type.getType(klass));
+		mg.push(this.isModule());
 		mg.invokeStatic(methodFactoryType, 
 				Method.getMethod(
-						CgUtil.getMethodName(createMethodFactoryName(), MethodFactory.class, Class.class)));
+						CgUtil.getMethodName("createMethodFactory", MethodFactory.class, Class.class, Boolean.TYPE)));
 	}
 }

@@ -3,7 +3,7 @@
  * Distributed under the GNU General Public License 2.0
  */
 
-package com.xruby.runtime.builtin;
+package com.xruby.runtime.value;
 
 public interface IErrno{
     int    ENOTEMPTY    = 1;

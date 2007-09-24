@@ -8,7 +8,6 @@ package com.xruby.runtime.lang;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import com.xruby.runtime.builtin.*;
 import com.xruby.runtime.lang.util.RubyTypeFactory;
 import com.xruby.runtime.value.*;
 import com.xruby.runtime.stdlib.*;
@@ -75,6 +74,8 @@ public class RubyRuntime {
     public static RubyClass NotImplementedErrorClass;
 
     public static RubyClass StringIOClass;
+    
+	public static final RubyValue TOP_LEVEL_SELF_VALUE;
 
     private static RubyMethod respondToMethod;
 
@@ -162,6 +163,8 @@ public class RubyRuntime {
         LoadErrorClass = RubyAPI.defineClass("LoadError", ScriptErrorClass);
         NotImplementedErrorClass = RubyAPI.defineClass("NotImplementedError", ScriptErrorClass);
 
+        TOP_LEVEL_SELF_VALUE = RubyTypeFactory.getObject(RubyTopSelf.class);
+        
         StringIOClass = RubyTypeFactory.getClass(RubyStringIO.class);
 
         RubyThread.init();
@@ -204,8 +207,7 @@ public class RubyRuntime {
             RubyAPI.setConstant(ObjectFactory.createString("\\"), RubyRuntime.FileClass, "ALT_SEPARATOR");
         }
 
-        ENVInitializer.initialize();
-        TopLevelSelfInitializer.initialize();
+        RubyTypeFactory.getObject(RubyENV.class);
         GlobalVariables.initialize();
         
         updateStdout();

@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;

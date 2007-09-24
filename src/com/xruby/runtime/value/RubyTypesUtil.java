@@ -3,18 +3,12 @@
  * Distributed under the GNU General Public License 2.0
  */
 
-package com.xruby.runtime.builtin;
+package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyBignum;
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyFloat;
-import com.xruby.runtime.value.RubyString;
-import com.xruby.runtime.value.RubyTime;
 
 public class RubyTypesUtil {
     public static RubyTime convertToTime(RubyValue arg) {

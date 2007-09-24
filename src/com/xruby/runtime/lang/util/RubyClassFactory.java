@@ -44,15 +44,11 @@ class RubyClassFactory extends RubyTypeFactory {
 	protected Method getBuilderMethod() {
 		return Method.getMethod(CgUtil.getMethodName("createRubyClass", RubyClass.class));
 	}
-	
-	protected String createMethodFactoryName() {
-		return "createMethodFactory";
-	}
 
 	protected int createRubyType(GeneratorAdapter mg, Annotation annotation) {
 		RubyLevelClass klassAnnotation = (RubyLevelClass)annotation;
 		mg.push(klassAnnotation.name());
-		loadSuperClass(mg, klassAnnotation.superclass());
+		loadRubyClass(mg, klassAnnotation.superclass());
 		mg.invokeStatic(Types.RUBY_API_TYPE, 
 				Method.getMethod(CgUtil.getMethodName("defineClass", RubyClass.class, 
 						String.class, RubyValue.class)));
@@ -104,19 +100,6 @@ class RubyClassFactory extends RubyTypeFactory {
 				CgUtil.getMethodName("undefMethod", Void.TYPE, String.class)));
 	}
 
-	private static void loadSuperClass(GeneratorAdapter mg, String superclass) {
-		if (superclass == null || superclass.length() ==  0) {
-			mg.push((String)null);
-		}
-		
-		if (Types.isBuiltinClass(superclass)) {
-			mg.getStatic(Types.RUBY_RUNTIME_TYPE, 
-					superclass + "Class", Types.RUBY_CLASS_TYPE);
-		} else {
-			// FIXME: 
-		}
-	}
-	
 	private void loadModule(GeneratorAdapter mg, String module, int rubyTypeIdx) {
 		if (Types.isBuiltinModule(module)) {
 			mg.getStatic(Types.RUBY_RUNTIME_TYPE, 

@@ -5,7 +5,6 @@
 
 package com.xruby.runtime.value;
 
-import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyRuntime;

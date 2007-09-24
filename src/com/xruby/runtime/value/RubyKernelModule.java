@@ -21,7 +21,6 @@ import antlr.TokenStreamException;
 import com.xruby.compiler.RubyCompiler;
 import com.xruby.compiler.codegen.CompilationResults;
 import com.xruby.compiler.codegen.NameFactory;
-import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.javasupport.JavaClass;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;

@@ -15,7 +15,7 @@ public class ModuleMethodFactoryTest extends TestCase {
 	private MethodFactory f;
 	
 	protected void setUp() throws Exception {
-        this.f = MethodFactory.createModuleMethodFactory(Module.class);
+        this.f = MethodFactory.createMethodFactory(Module.class, true);
     }
 
     protected void tearDown() throws Exception {

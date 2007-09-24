@@ -16,7 +16,7 @@ class f extends RubyNoArgMethod {
     private RubyID printID = RubyID.intern("print");
 
     public RubyValue run(RubyValue receiver, RubyBlock block) {
-        return RubyAPI.callOneArgMethod(ObjectFactory.TOP_LEVEL_SELF_VALUE,
+        return RubyAPI.callOneArgMethod(RubyRuntime.TOP_LEVEL_SELF_VALUE,
                 ObjectFactory.createString("hello"),
                 block,
                 printID);

@@ -31,6 +31,10 @@ public class MethodFactory {
 		return new MethodFactory(klass, false);
 	}
 	
+	public static MethodFactory createMethodFactory(Class klass, boolean module) {
+		return new MethodFactory(klass, module);
+	}
+	
 	public static MethodFactory createModuleMethodFactory(Class klass) {
 		return new MethodFactory(klass, true);
 	}

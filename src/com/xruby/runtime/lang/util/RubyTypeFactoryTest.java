@@ -5,6 +5,7 @@
 
 package com.xruby.runtime.lang.util;
 
+import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyClass;
@@ -19,7 +20,6 @@ import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelConstant;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelModule;
-import com.xruby.runtime.value.RubyArray;
 
 import junit.framework.TestCase;
 
