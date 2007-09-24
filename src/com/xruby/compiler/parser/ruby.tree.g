@@ -863,6 +863,7 @@ returns [String s]
 		|	"true"				{s = "true";}
 		|	"false"				{s = "false";}
 		|	"self"				{s = "self";}
+		|	"nil"					{s = "nil";}
 		;
 
 bodyStatement
