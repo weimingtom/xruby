@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyFixnum;
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyFixnum;
 
 public class RubyID {
     private static Map<String, RubyID> symbolMap = new HashMap<String, RubyID>();

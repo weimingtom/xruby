@@ -8,17 +8,17 @@ package com.xruby.runtime.lang;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xruby.runtime.builtin.AttrReader;
+import com.xruby.runtime.builtin.AttrWriter;
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyArray;
+import com.xruby.runtime.builtin.RubyKernelModule;
+import com.xruby.runtime.builtin.RubyProc;
+import com.xruby.runtime.builtin.RubyString;
+import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.lang.annotation.DummyMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
-import com.xruby.runtime.value.AttrReader;
-import com.xruby.runtime.value.AttrWriter;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyKernelModule;
-import com.xruby.runtime.value.RubyProc;
-import com.xruby.runtime.value.RubyString;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyTypesUtil;
 
 @RubyLevelClass(name="Module", superclass="Object", dummy={
 		@DummyMethod(name="included", privateMethod=true),

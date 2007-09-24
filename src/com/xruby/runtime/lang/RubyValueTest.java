@@ -5,7 +5,8 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.ObjectFactory;
+import com.xruby.runtime.builtin.ObjectFactory;
+
 import junit.framework.TestCase;
 
 public class RubyValueTest extends TestCase {

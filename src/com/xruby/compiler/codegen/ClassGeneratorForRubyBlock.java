@@ -312,7 +312,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
     }
 
     static String buildContructorSignature() {
-        String defaultMethodName = "void <init> (com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, com.xruby.runtime.lang.RubyMethod, boolean";
+        String defaultMethodName = "void <init> (com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, com.xruby.runtime.lang.RubyMethod, boolean";
         StringBuilder method_name = new StringBuilder(defaultMethodName);
         method_name.append(")");
         return method_name.toString();

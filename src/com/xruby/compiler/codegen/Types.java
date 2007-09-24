@@ -5,10 +5,10 @@
 
 package com.xruby.compiler.codegen;
 
+import com.xruby.runtime.builtin.RubyArray;
+import com.xruby.runtime.builtin.RubyHash;
+import com.xruby.runtime.builtin.RubyProc;
 import com.xruby.runtime.lang.*;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyHash;
-import com.xruby.runtime.value.RubyProc;
 import org.objectweb.asm.Type;
 
 /*

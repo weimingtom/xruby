@@ -5,10 +5,10 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyFloat;
-import com.xruby.runtime.value.RubyInteger;
-import com.xruby.runtime.value.RubyString;
+import com.xruby.runtime.builtin.RubyArray;
+import com.xruby.runtime.builtin.RubyFloat;
+import com.xruby.runtime.builtin.RubyInteger;
+import com.xruby.runtime.builtin.RubyString;
 
 import java.util.HashMap;
 import java.util.Map;

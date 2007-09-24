@@ -1,6 +1,6 @@
 package com.xruby.runtime.javasupport;
 
-import com.xruby.runtime.value.RubyData;
+import com.xruby.runtime.builtin.RubyData;
 
 /**
  * Delegation for all the java objects

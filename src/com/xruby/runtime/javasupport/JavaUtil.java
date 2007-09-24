@@ -14,6 +14,12 @@ import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
 
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyArray;
+import com.xruby.runtime.builtin.RubyBignum;
+import com.xruby.runtime.builtin.RubyFixnum;
+import com.xruby.runtime.builtin.RubyFloat;
+import com.xruby.runtime.builtin.RubyString;
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyConstant;
@@ -21,12 +27,6 @@ import com.xruby.runtime.lang.RubyException;
 import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyArray;
-import com.xruby.runtime.value.RubyBignum;
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyFloat;
-import com.xruby.runtime.value.RubyString;
 
 /**
  * Helper class for Java Runtime

@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 public class ClassGeneratorForRubyBlockTest extends TestCase {
     public void test_buildContructorSignature() {
-        assertEquals("void <init> (com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, com.xruby.runtime.lang.RubyMethod, boolean)", ClassGeneratorForRubyBlock.buildContructorSignature());
+        assertEquals("void <init> (com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, com.xruby.runtime.lang.RubyMethod, boolean)", ClassGeneratorForRubyBlock.buildContructorSignature());
     }
 
     public void test_variableAssignment() {

@@ -8,7 +8,7 @@ package com.xruby.runtime.lang.util;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 import com.xruby.compiler.codegen.CgUtil;
-import com.xruby.runtime.value.RubyArray;
+import com.xruby.runtime.builtin.RubyArray;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyValue;
 

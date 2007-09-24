@@ -8,8 +8,8 @@ package com.xruby.runtime.lang;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import com.xruby.runtime.builtin.*;
 import com.xruby.runtime.lang.util.RubyTypeFactory;
-import com.xruby.runtime.value.*;
 import com.xruby.runtime.stdlib.*;
 
 public class RubyRuntime {

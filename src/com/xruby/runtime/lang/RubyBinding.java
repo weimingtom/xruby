@@ -5,7 +5,7 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.*;
+import com.xruby.runtime.builtin.RubyArray;
 import java.util.*;
 
 public class RubyBinding extends RubyBasic {

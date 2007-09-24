@@ -236,7 +236,7 @@ abstract class ClassGenerator {
             mg_for_run_method_.loadArg(1);
             mg_for_run_method_.swap();
             mg_for_run_method_.invokeVirtual(Types.RUBY_ARRAY_TYPE,
-                Method.getMethod("com.xruby.runtime.value.RubyArray add(com.xruby.runtime.lang.RubyValue)"));
+                Method.getMethod("com.xruby.runtime.builtin.RubyArray add(com.xruby.runtime.lang.RubyValue)"));
             mg_for_run_method_.pop();
         }
     }

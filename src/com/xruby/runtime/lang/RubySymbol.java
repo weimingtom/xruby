@@ -5,11 +5,11 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.builtin.ObjectFactory;
+import com.xruby.runtime.builtin.RubyFixnum;
+import com.xruby.runtime.builtin.RubyString;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
-import com.xruby.runtime.value.ObjectFactory;
-import com.xruby.runtime.value.RubyFixnum;
-import com.xruby.runtime.value.RubyString;
 
 @RubyLevelClass(name="Symbol")
 public class RubySymbol extends RubySpecialValue {

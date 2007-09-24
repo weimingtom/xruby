@@ -5,10 +5,10 @@
 
 package com.xruby.runtime.lang;
 
+import com.xruby.runtime.builtin.RubyArray;
 import com.xruby.runtime.lang.annotation.DummyMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
-import com.xruby.runtime.value.*;
 
 @RubyLevelClass(name="Class", superclass="Module", dummy={ 
 		@DummyMethod(name="inherited", privateMethod=true)

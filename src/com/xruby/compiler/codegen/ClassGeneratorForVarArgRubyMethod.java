@@ -18,7 +18,7 @@ class ClassGeneratorForVarArgRubyMethod extends ClassGeneratorForRubyMethod {
     }
 
     public String getRunMethodName() {
-        return "com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.value.RubyArray, com.xruby.runtime.lang.RubyBlock)";
+        return "com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock)";
     }
 
     public Type getSuperClassType() {
