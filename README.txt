@@ -5,7 +5,7 @@ Overview
 =====================
 XRuby is an open source Ruby compiler which compiles Ruby source code (.rb) 
 to Java bytecode (.class). For more information, please visit our project 
-home at http://http://code.google.com/p/xruby/ .
+home at http://code.google.com/p/xruby .
 
 
 Compile
