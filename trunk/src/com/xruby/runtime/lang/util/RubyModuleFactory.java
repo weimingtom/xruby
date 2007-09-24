@@ -40,10 +40,6 @@ class RubyModuleFactory extends RubyTypeFactory {
 		return Method.getMethod(CgUtil.getMethodName("createRubyModule", RubyModule.class));
 	}
 	
-	protected String createMethodFactoryName() {
-		return "createModuleMethodFactory";
-	}
-	
 	protected int createRubyType(GeneratorAdapter mg, Annotation annotation) {
 		RubyLevelModule moduleAnnotation = (RubyLevelModule)annotation;
 		mg.push(moduleAnnotation.name());

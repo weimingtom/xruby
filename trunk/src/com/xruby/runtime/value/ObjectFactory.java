@@ -10,8 +10,6 @@ import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyID;
 import com.xruby.runtime.lang.RubyMethod;
-import com.xruby.runtime.lang.RubyObject;
-import com.xruby.runtime.lang.RubyRuntime;
 import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
 
@@ -20,8 +18,6 @@ import java.util.Date;
 import java.util.regex.Matcher;
 
 public class ObjectFactory {
-    public static final RubyValue TOP_LEVEL_SELF_VALUE = new RubyObject(RubyRuntime.ObjectClass);
-
     //For preformance reason, some frequently used numbers are predefined here.
     public static final RubyFixnum FIXNUM_NEGATIVE_ONE = new RubyFixnum(-1);
     public static final RubyFixnum FIXNUM0 = new RubyFixnum(0);

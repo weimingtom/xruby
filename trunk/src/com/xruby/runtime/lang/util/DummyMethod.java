@@ -1,10 +1,10 @@
 package com.xruby.runtime.lang.util;
 
+import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyConstant;
 import com.xruby.runtime.lang.RubyMethod;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.value.RubyArray;
 
 public class DummyMethod extends RubyMethod {
 	public static DummyMethod INSTANCE = new DummyMethod();

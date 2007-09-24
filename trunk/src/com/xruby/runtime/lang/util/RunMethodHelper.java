@@ -16,9 +16,9 @@ import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.Types;
+import com.xruby.runtime.value.RubyArray;
 import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyValue;
-import com.xruby.runtime.value.RubyArray;
 
 public abstract class RunMethodHelper {
 	protected abstract String getRunName();

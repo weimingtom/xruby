@@ -31,25 +31,25 @@ class TestingProgram extends RubyProgram {
         a.add(RubyConstant.QNIL);
         a.add(ObjectFactory.createString("ABCD"));
         a.add(ObjectFactory.createFixnum(5432));
-        RubyAPI.callMethod(ObjectFactory.TOP_LEVEL_SELF_VALUE,
+        RubyAPI.callMethod(RubyRuntime.TOP_LEVEL_SELF_VALUE,
                 a,
                 null,
                 printID);
 
         //puts "hello world"
-        RubyAPI.callOneArgMethod(ObjectFactory.TOP_LEVEL_SELF_VALUE,
+        RubyAPI.callOneArgMethod(RubyRuntime.TOP_LEVEL_SELF_VALUE,
                 ObjectFactory.createString("hello, world!"),
                 null,
                 printID);
 
         //puts 123
-        RubyAPI.callOneArgMethod(ObjectFactory.TOP_LEVEL_SELF_VALUE,
+        RubyAPI.callOneArgMethod(RubyRuntime.TOP_LEVEL_SELF_VALUE,
                 ObjectFactory.createFixnum(123),
                 null,
                 printID);
 
         //puts 1.2
-        RubyAPI.callOneArgMethod(ObjectFactory.TOP_LEVEL_SELF_VALUE,
+        RubyAPI.callOneArgMethod(RubyRuntime.TOP_LEVEL_SELF_VALUE,
                 ObjectFactory.createFloat(1.2),
                 null,
                 printID);

@@ -3,12 +3,11 @@
  * Distributed under the GNU General Public License 2.0
  */
 
-package com.xruby.runtime.builtin;
+package com.xruby.runtime.value;
 
 import com.xruby.runtime.lang.RubyClass;
 import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.RubyRuntime;
-import com.xruby.runtime.value.ObjectFactory;
 
 
 public class ErrnoModuleBuilder {

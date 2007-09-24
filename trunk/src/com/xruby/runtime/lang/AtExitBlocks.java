@@ -5,7 +5,6 @@
 
 package com.xruby.runtime.lang;
 
-import com.xruby.runtime.value.ObjectFactory;
 
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ public class AtExitBlocks {
 
     static void invokeAll() {
         for (RubyBlock block : registgered_blocks_) {
-            block.invoke(ObjectFactory.TOP_LEVEL_SELF_VALUE);
+            block.invoke(RubyRuntime.TOP_LEVEL_SELF_VALUE);
         }
     }
 }

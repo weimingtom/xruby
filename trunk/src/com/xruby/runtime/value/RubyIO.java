@@ -8,7 +8,6 @@ package com.xruby.runtime.value;
 import java.io.IOException;
 import java.nio.channels.Pipe;
 
-import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.lang.GlobalVariables;
 import com.xruby.runtime.lang.RubyAPI;
 import com.xruby.runtime.lang.RubyBasic;
