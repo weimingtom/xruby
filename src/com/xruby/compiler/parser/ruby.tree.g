@@ -637,21 +637,23 @@ returns [ExceptionHandlingExpression e]
 classDefination
 returns [ClassDefinationExpression e]
 {
+	Expression scope = null;
 	String name = null;
 	Expression exp = null;
 	Expression super_class = null;
 	BodyStatement body = null;
 }
 		:	#("class"
-			(LEADING_COLON2)?
+			(LEADING_COLON2	{scope = new CurrentNamespaceConstantExpression("Object");})?
 			(name=className	(LESS_THAN	super_class=expression)?
 			|LEFT_SHIFT	exp=expression
+			|#(COLON2	exp=expression	name=className)
 			)
 			(body=bodyStatement)?
 			)
 			{
 				if (name != null) {
-					e = new ClassDefinationExpression(name, super_class, body);
+					e = new ClassDefinationExpression(scope, name, super_class, body);
 				} else {
 					e = new ClassDefinationExpression(exp, super_class, body);
 				}
@@ -662,18 +664,18 @@ moduleDefination
 returns [ModuleDefinationExpression e]
 {
 	String name = null;
-	Expression exp = null;
+	Expression scope = null;
 	BodyStatement body = null;
 }
 		:	#("module"
-			(LEADING_COLON2)?
+			(LEADING_COLON2	{scope = new CurrentNamespaceConstantExpression("Object");})?
 			(name=moduleName
-			|#(COLON2	exp=expression	name=moduleName)
+			|#(COLON2	scope=expression	name=moduleName)
 			)
 			(body=bodyStatement)?
 			)
 			{
-				e = new ModuleDefinationExpression(exp, name, body);
+				e = new ModuleDefinationExpression(scope, name, body);
 			}
 		;
 

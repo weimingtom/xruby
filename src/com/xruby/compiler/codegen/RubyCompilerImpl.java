@@ -101,9 +101,9 @@ public class RubyCompilerImpl implements CodeVisitor {
         return;
     }
 
-    public void visitClassDefination1(String className) {
+    public void visitClassDefination1(String className, boolean has_scope) {
 
-        if (!isInGlobalScope()) {
+        if (!isInGlobalScope() && !has_scope) {
             cg_.getMethodGenerator().loadArg(3);
         }
 
@@ -111,9 +111,12 @@ public class RubyCompilerImpl implements CodeVisitor {
         //super class will be pushed next, then visitSuperClass() will be called
     }
 
-    public void visitClassDefination2(String className) {
+    public void visitClassDefination2(String className, boolean has_scope) {
         //TODO optimizing aceess to builtin class (use them directly)
-        if (isInGlobalScope()) {
+        if (has_scope) {
+            cg_.getMethodGenerator().checkCast(Types.RUBY_MODULE_TYPE);
+            cg_.getMethodGenerator().RubyModule_defineClass();
+        } else if (isInGlobalScope()) {
             cg_.getMethodGenerator().RubyAPI_defineClass();
         } else {
             cg_.getMethodGenerator().RubyModule_defineClass();

@@ -83,8 +83,8 @@ public interface CodeVisitor extends ISymbolTable {
 	public Object visitMethodDefinationDefaultParameterBegin(int index);
 	public void visitMethodDefinationDefaultParameterEnd(Object next_label);
 	
-	public void visitClassDefination1(String className);
-	public void visitClassDefination2(String className);
+	public void visitClassDefination1(String className, boolean hasColon2);
+	public void visitClassDefination2(String className, boolean hasColon2);
 	public void visitSingletonClassDefination();
 	public void visitClassDefinationEnd(boolean last_statement_has_return_value);
 
