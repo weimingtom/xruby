@@ -243,13 +243,13 @@ public class CodePrinter implements CodeVisitor {
         return methodName;
     }
 
-    public void visitClassDefination1(String className) {
+    public void visitClassDefination1(String className, boolean has_scope) {
         result_.append("class ");
         result_.append(className);
         result_.append("\n");
     }
 
-    public void visitClassDefination2(String className) {
+    public void visitClassDefination2(String className, boolean has_scope) {
         result_.append("ClassDefination2\n");
     }
 

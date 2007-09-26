@@ -6,22 +6,22 @@
 package com.xruby.compiler.codedom;
 
 public class ModuleDefinationExpression extends Expression {
-    private Expression exp_;
+    private Expression scope_;
     private String moduleName_;
     private BodyStatement bodyStatement_;
 
     public ModuleDefinationExpression(Expression exp, String moduleName, BodyStatement bodyStatement) {
-        exp_ = exp;
+        scope_ = exp;
         moduleName_ = moduleName;
         bodyStatement_ = bodyStatement;
     }
 
     public void accept(CodeVisitor visitor) {
-        if (null != exp_) {
-            exp_.accept(visitor);
+        if (null != scope_) {
+            scope_.accept(visitor);
         }
 
-        visitor.visitModuleDefination(moduleName_, null != exp_);
+        visitor.visitModuleDefination(moduleName_, null != scope_);
 
         if (null != bodyStatement_) {
             bodyStatement_.accept(visitor);
