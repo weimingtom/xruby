@@ -646,8 +646,8 @@ returns [ClassDefinationExpression e]
 		:	#("class"
 			(LEADING_COLON2	{scope = new CurrentNamespaceConstantExpression("Object");})?
 			(name=className	(LESS_THAN	super_class=expression)?
+			|#(COLON2	scope=expression	name=className)	(LESS_THAN	super_class=expression)?
 			|LEFT_SHIFT	exp=expression
-			|#(COLON2	exp=expression	name=className)
 			)
 			(body=bodyStatement)?
 			)
