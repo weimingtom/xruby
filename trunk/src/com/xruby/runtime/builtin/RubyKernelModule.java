@@ -10,8 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -69,7 +67,8 @@ public class RubyKernelModule {
 	@RubyLevelMethod(name="methods")
 	public static RubyValue objMethods(RubyValue receiver) {
 		RubyArray a = new RubyArray();
-        receiver.collectMethodNames(a, RubyMethod.ALL);
+        RubyClass klass = receiver.getRubyClass();
+        klass.collectClassMethodNames(a, RubyMethod.ALL);
         return a;
 	}
 	
@@ -294,7 +293,8 @@ public class RubyKernelModule {
 	@RubyLevelMethod(name="public_methods")
 	public static RubyValue publicMethods(RubyValue receiver) {
         RubyArray a = new RubyArray();
-        receiver.collectMethodNames(a, RubyMethod.PUBLIC);
+        RubyClass klass = receiver.getRubyClass();
+        klass.collectClassMethodNames(a, RubyMethod.PUBLIC);
         return a;
     }
 	

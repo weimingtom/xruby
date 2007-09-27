@@ -15,7 +15,7 @@ import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 		}
 )
 public class RubyClass extends RubyModule {
-	protected static MethodCache cache = new MethodCache();
+	private static MethodCache cache = new MethodCache();
 
 	public static void resetCache() {
 		cache.reset();
@@ -133,10 +133,6 @@ public class RubyClass extends RubyModule {
                 : null;
     }
 
-    private RubyMethod internalFindOwnMethod(RubyID mid) {
-        return super.findOwnMethod(mid);
-    }
-
     public RubyMethod findOwnMethod(RubyID mid) {
 		MethodCache.CacheEntry entry = cache.getMethod(this, mid);
 		if (entry.klass == this && entry.mid == mid) {
@@ -150,7 +146,7 @@ public class RubyClass extends RubyModule {
         RubyClass klass = this;
 
         while (klass != null) {
-            RubyMethod m = klass.internalFindOwnMethod(mid);
+            RubyMethod m = klass.methods_.get(mid);
             if (m != null) {
                 cache.putMethod(this, mid, m);
                 return m;
@@ -174,7 +170,7 @@ public class RubyClass extends RubyModule {
 
         RubyClass klass = this;
         while (klass != null) {
-            RubyMethod m = klass.internalFindOwnMethod(mid);
+            RubyMethod m = klass.methods_.get(mid);
             if (m != null && RubyMethod.PUBLIC == m.getAccess()) {
                 cache.putMethod(this, mid, m);
                 return m;
@@ -186,9 +182,11 @@ public class RubyClass extends RubyModule {
 	}
 
 	public void collectClassMethodNames(RubyArray a, int mode) {
-		super.collectOwnMethodNames(a, mode);
-		if (null != superclass_){
-			superclass_.collectClassMethodNames(a, mode);
+		RubyClass klass = this;
+		
+		while (klass != null) {
+			klass.collectOwnMethodNames(a, mode);
+			klass = klass.superclass_;
 		}
 	}
 
