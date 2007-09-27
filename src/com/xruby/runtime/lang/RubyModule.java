@@ -27,17 +27,29 @@ import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 		@DummyMethod(name="method_removed", privateMethod=true),
 	    @DummyMethod(name="method_undefined", privateMethod=true)
 })
-public class RubyModule extends MethodCollection {
+public class RubyModule extends RubyBasic {
+	protected String name_;
     private RubyModule owner_ = null;//owner is where is the module is defined under.
     protected RubyClass superclass_;
     private int current_access_mode_ = RubyMethod.PUBLIC;
     protected Map<RubyID, RubyValue> instance_varibles_ = null;
+    protected Map<RubyID, RubyMethod> methods_ = new HashMap<RubyID, RubyMethod>();
+    protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
 
     public RubyModule(String name, RubyModule owner) {
         super(null);
-        super.name_ = name;
+        this.name_ = name;
         owner_ = owner;
     }
+
+    public String getName() {
+        return name_;
+	}
+
+	public void setName(String name) {
+		name_ = name;
+	}
+    
     void setScope(RubyModule owner) {
         this.owner_ = owner;
     }
@@ -61,6 +73,19 @@ public class RubyModule extends MethodCollection {
     public void setAccessMode(int access) {
         current_access_mode_ = access;
     }
+    
+    //  / e.g. A::B
+	RubyValue getOwnConstant(String name) {
+		return constants_.get(name);
+	}
+
+	public RubyValue setConstant(String name, RubyValue value) {
+		constants_.put(name, value);
+		if (value instanceof RubyModule) {
+			((RubyModule)value).setName(name);
+		}
+		return value;
+	}
 
     public RubyValue defineMethod(String name, RubyMethod m) {
         return addMethod(RubyID.intern(name), m, this.current_access_mode_);
@@ -78,15 +103,68 @@ public class RubyModule extends MethodCollection {
     	this.definePrivateMethod(name, m);
     	this.getSingletonClass().defineMethod(name, m.clone());
     }
+    
+    protected RubyMethod findOwnMethod(RubyID mid) {
+        return methods_.get(mid);
+    }
+
+    protected RubyMethod findOwnPublicMethod(RubyID mid) {
+        RubyMethod m = methods_.get(mid);
+        if (null != m && RubyMethod.PUBLIC == m.getAccess()) {
+            return m;
+        }
+
+        return null;
+    }
+    
+    public void undefMethod(String method_name) {
+        RubyID mid = RubyID.intern(method_name);
+        if (findOwnMethod(mid) == null) {
+            throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + mid.toString() + " for class `Object'");
+        }
+
+        addMethod(mid, UndefMethod.getInstance(), RubyMethod.PUBLIC);
+    }
+
+    public void aliasMethod(String newName, String oldName) {
+        RubyID oldId = RubyID.intern(oldName);
+        RubyMethod m = findOwnMethod(oldId);
+        if (null == m) {
+            if (this instanceof RubyModule) {
+                //TODO may be we should just overide this method in RubyModule
+                m = RubyRuntime.ObjectClass.findPublicMethod(oldId);
+            }
+            if (null == m) {
+                throw new RubyException(RubyRuntime.NameErrorClass, "undefined method " + oldName + " for class `Object'");
+            }
+        }
+
+        RubyID newId = RubyID.intern(newName);
+        methods_.put(newId, m);
+    }
+    
+    public void collectOwnMethodNames(RubyArray a, int mode) {
+    	for (Map.Entry<RubyID, RubyMethod> entry : methods_.entrySet()) {
+    		if (entry.getKey() == RubyID.ID_ALLOCATOR) {
+    			continue;
+    		}
+    		
+    		if (RubyMethod.ALL == mode || entry.getValue().getAccess() == mode) {
+    			a.add(ObjectFactory.createString(entry.getKey().toString()));
+    		}
+    	}
+    }
 
     protected RubyValue addMethod(RubyID id, RubyMethod m, int attribute) {
     	m.setScope(this);
-    	
-        RubyValue v = super.addMethod(id, m, attribute);
+    	m.setID(id);
+        m.setAccess(attribute);
+        methods_.put(id, m);
+        
         if (RubyRuntime.running && id != RubyID.ID_ALLOCATOR) {
             RubyAPI.callOneArgMethod(this, id.toSymbol(), null, RubyID.methodAddedID);
         }
-        return v;
+        return RubyConstant.QNIL;
     }
     
     public boolean isMethodBound(RubyID id, boolean check) {
@@ -189,7 +267,7 @@ public class RubyModule extends MethodCollection {
     }
 
     public RubyValue getConstant(String name) {
-        RubyValue v = super.getOwnConstant(name);
+        RubyValue v = this.getOwnConstant(name);
         if (null != v) {
             return v;
         }
@@ -395,6 +473,22 @@ public class RubyModule extends MethodCollection {
         }
 
         return RubyConstant.QNIL;
+    }
+    
+    private RubyMethod setAccess(RubyID mid, int access) {
+        RubyMethod m = findOwnMethod(mid);
+        if (null == m) {
+            if (this instanceof RubyModule) {
+                //TODO may be we should just overide this method in RubyModule
+                m = RubyRuntime.ObjectClass.findPublicMethod(mid);
+            }
+        }
+
+        if ((null != m) && (m.getAccess() != access)) {
+            addMethod(mid, m.clone(), access);
+        }
+
+        return m;
     }
     
     private static void setAccess(int access, RubyModule c, RubyArray args) {
