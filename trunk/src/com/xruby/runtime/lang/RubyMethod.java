@@ -14,7 +14,8 @@ public abstract class RubyMethod extends MethodBlockBase implements Cloneable {
     public static final int PUBLIC = 0;
     public static final int PROTECTED = 1;
     public static final int PRIVATE = 2;
-    public static final int ALL = 3;
+    public static final int NON_PRIVATE = 3;
+    public static final int ALL = 4;
 
     protected RubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
         super(argc, has_asterisk_parameter, default_argc);

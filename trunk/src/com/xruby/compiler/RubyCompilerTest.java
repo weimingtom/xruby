@@ -5477,6 +5477,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Module_misc() {
         String [] program_texts = {
+                "class TestInstanceMethods; protected; def test_instance_methods; end; private; def x; end; end\n" +
+                "a = TestInstanceMethods.instance_methods(false)\n" +
+                "p a",
+
                 "class TestProtectedInstanceMethods; protected; def test_protected_instance_methods; end; end\n" +
                 "a = TestProtectedInstanceMethods.protected_instance_methods(false)\n" +
                 "p a",
@@ -5501,6 +5505,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "[\"test_instance_methods\"]\n",
                 "[\"test_protected_instance_methods\"]\n",
                 "[\"test_private_instance_methods\"]\n",
                 "[\"test_public_instance_methods\"]\n",
