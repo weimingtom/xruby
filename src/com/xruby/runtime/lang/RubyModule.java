@@ -801,4 +801,11 @@ public class RubyModule extends RubyBasic {
     public static RubyValue newModule(RubyValue receiver, RubyBlock block) {
         return RubyAPI.defineModule("");
     }
+
+    @RubyLevelMethod(name="alias_method")
+    public RubyValue alias_method(RubyValue arg1, RubyValue arg2) {
+        aliasMethod(arg1.toStr(), arg2.toStr());
+        return this;
+    }
+
 }
