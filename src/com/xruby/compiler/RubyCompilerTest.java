@@ -2271,6 +2271,14 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "end\n" +
                 "CTest.new.f123",
 
+                "class CUndef\n" +
+                "	def f12\n" +
+                "		print \"~~~~\"\n" +
+                "	end\n" +
+                "	undef_method :f12\n" +
+                "end\n" +
+                "CUndef.new.f12",
+
                 "class TestUndef1;  def f; print 9898; end;   end\n" +
                 "class TestUndef2 < TestUndef1;	undef f; end\n" +
                 "TestUndef2.new.f",
@@ -2282,6 +2290,7 @@ public class RubyCompilerTest extends CompilerTestCase {
             new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'a' for Object"),
             new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method 'b' for Object"),
 
+            new RubyException(RubyRuntime.NoMethodErrorClass, null),
             new RubyException(RubyRuntime.NoMethodErrorClass, null),
             new RubyException(RubyRuntime.NoMethodErrorClass, null),
         };
