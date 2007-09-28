@@ -808,4 +808,10 @@ public class RubyModule extends RubyBasic {
         return this;
     }
 
+    @RubyLevelMethod(name="undef_method")
+    public RubyValue undef_method(RubyValue symbol) {
+        undefMethod(symbol.toStr());
+        return this;
+    }
+
 }
