@@ -21,14 +21,14 @@ import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
 @RubyLevelClass(name="Module", superclass="Object", dummy={
-		@DummyMethod(name="included", privateMethod=true),
-		@DummyMethod(name="extended", privateMethod=true),
-		@DummyMethod(name="method_added", privateMethod=true),
-		@DummyMethod(name="method_removed", privateMethod=true),
-	    @DummyMethod(name="method_undefined", privateMethod=true)
+        @DummyMethod(name="included", privateMethod=true),
+        @DummyMethod(name="extended", privateMethod=true),
+        @DummyMethod(name="method_added", privateMethod=true),
+        @DummyMethod(name="method_removed", privateMethod=true),
+        @DummyMethod(name="method_undefined", privateMethod=true)
 })
 public class RubyModule extends RubyBasic {
-	protected String name_;
+    protected String name_;
     private RubyModule owner_ = null;//owner is where is the module is defined under.
     protected RubyClass superclass_;
     private int current_access_mode_ = RubyMethod.PUBLIC;
@@ -44,12 +44,12 @@ public class RubyModule extends RubyBasic {
 
     public String getName() {
         return name_;
-	}
+    }
 
-	public void setName(String name) {
-		name_ = name;
-	}
-    
+    public void setName(String name) {
+        name_ = name;
+    }
+
     void setScope(RubyModule owner) {
         this.owner_ = owner;
     }
@@ -61,7 +61,7 @@ public class RubyModule extends RubyBasic {
     public boolean isRealClass() {
         return false;
     }
-    
+
     public void setAccessPublic() {
         current_access_mode_ = RubyMethod.PUBLIC;
     }
@@ -73,37 +73,37 @@ public class RubyModule extends RubyBasic {
     public void setAccessMode(int access) {
         current_access_mode_ = access;
     }
-    
-    //  / e.g. A::B
-	RubyValue getOwnConstant(String name) {
-		return constants_.get(name);
-	}
 
-	public RubyValue setConstant(String name, RubyValue value) {
-		constants_.put(name, value);
-		if (value instanceof RubyModule) {
-			((RubyModule)value).setName(name);
-		}
-		return value;
-	}
+    //  / e.g. A::B
+    RubyValue getOwnConstant(String name) {
+        return constants_.get(name);
+    }
+
+    public RubyValue setConstant(String name, RubyValue value) {
+        constants_.put(name, value);
+        if (value instanceof RubyModule) {
+            ((RubyModule)value).setName(name);
+        }
+        return value;
+    }
 
     public RubyValue defineMethod(String name, RubyMethod m) {
         return addMethod(RubyID.intern(name), m, this.current_access_mode_);
     }
-    
+
     public RubyValue defineMethod(RubyID mid, RubyMethod m) {
         return addMethod(mid, m, this.current_access_mode_);
     }
-    
+
     public RubyValue definePrivateMethod(String name, RubyMethod m) {
-    	return addMethod(RubyID.intern(name), m, RubyMethod.PRIVATE);
+        return addMethod(RubyID.intern(name), m, RubyMethod.PRIVATE);
     }
-    
+
     public void defineModuleMethod(String name, RubyMethod m) {
-    	this.definePrivateMethod(name, m);
-    	this.getSingletonClass().defineMethod(name, m.clone());
+        this.definePrivateMethod(name, m);
+        this.getSingletonClass().defineMethod(name, m.clone());
     }
-    
+
     protected RubyMethod findOwnMethod(RubyID mid) {
         return methods_.get(mid);
     }
@@ -116,7 +116,7 @@ public class RubyModule extends RubyBasic {
 
         return null;
     }
-    
+
     public void undefMethod(String method_name) {
         RubyID mid = RubyID.intern(method_name);
         if (findOwnMethod(mid) == null) {
@@ -142,53 +142,56 @@ public class RubyModule extends RubyBasic {
         RubyID newId = RubyID.intern(newName);
         methods_.put(newId, m);
     }
-    
+
     public void collectOwnMethodNames(RubyArray a, int mode) {
-    	for (Map.Entry<RubyID, RubyMethod> entry : methods_.entrySet()) {
-    		if (entry.getKey() == RubyID.ID_ALLOCATOR) {
-    			continue;
-    		}
-    		
-    		if (RubyMethod.ALL == mode || entry.getValue().getAccess() == mode) {
-    			a.add(ObjectFactory.createString(entry.getKey().toString()));
-    		}
-    	}
+        for (Map.Entry<RubyID, RubyMethod> entry : methods_.entrySet()) {
+            if (entry.getKey() == RubyID.ID_ALLOCATOR) {
+                continue;
+            }
+
+            int access_mode = entry.getValue().getAccess();
+            if (RubyMethod.ALL == mode ||
+                (RubyMethod.NON_PRIVATE == mode && RubyMethod.PRIVATE != access_mode) ||
+                access_mode == mode) {
+                a.add(ObjectFactory.createString(entry.getKey().toString()));
+            }
+        }
     }
 
     protected RubyValue addMethod(RubyID id, RubyMethod m, int attribute) {
-    	m.setScope(this);
-    	m.setID(id);
+        m.setScope(this);
+        m.setID(id);
         m.setAccess(attribute);
         methods_.put(id, m);
-        
+
         if (RubyRuntime.running && id != RubyID.ID_ALLOCATOR) {
             RubyAPI.callOneArgMethod(this, id.toSymbol(), null, RubyID.methodAddedID);
         }
         return RubyConstant.QNIL;
     }
-    
+
     public boolean isMethodBound(RubyID id, boolean check) {
-    	RubyMethod m = this.findOwnMethod(id);
-    	if (null != m && !UndefMethod.isUndef(m)) {
-    		return true;
-    	}
-    	
-    	return false;
+        RubyMethod m = this.findOwnMethod(id);
+        if (null != m && !UndefMethod.isUndef(m)) {
+            return true;
+        }
+
+        return false;
     }
-    
+
     public boolean isKindOf(RubyModule klass) {
-		RubyModule m = this;
-		
-		while (m != null) {
-			if (m == klass || m.methods_ == klass.methods_) {
-				return true;
-			}
-			
-			m = m.superclass_;
-		}
-		
-		return false;
-	}
+        RubyModule m = this;
+
+        while (m != null) {
+            if (m == klass || m.methods_ == klass.methods_) {
+                return true;
+            }
+
+            m = m.superclass_;
+        }
+
+        return false;
+    }
 
     /// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
     /// It has less overhead than 'defineClass' (no hash table lookup).
@@ -367,64 +370,64 @@ public class RubyModule extends RubyBasic {
         }
         getSingletonClass().defineMethod(method_name, m);
     }
-    
+
     // Class object instance variable
     public RubyValue getInstanceVariable(RubyID id) {
-		if (null == instance_varibles_) {
+        if (null == instance_varibles_) {
             return RubyConstant.QNIL;
         }
 
         RubyValue v = instance_varibles_.get(id);
-        
-        return (null != v) ? v : RubyConstant.QNIL;
-	}
 
-	public RubyValue setInstanceVariable(RubyValue value, RubyID id) {
-		if (null == instance_varibles_) {
+        return (null != v) ? v : RubyConstant.QNIL;
+    }
+
+    public RubyValue setInstanceVariable(RubyValue value, RubyID id) {
+        if (null == instance_varibles_) {
             instance_varibles_ = new HashMap<RubyID, RubyValue>();
         }
 
         instance_varibles_.put(id, value);
         return value;
-	}
-    
-    // Class Variable    
-    public RubyValue getClassVariable(String name) {
-		RubyModule klass = this;
-		RubyID id = RubyID.intern(name);
-		
-		while (klass != null) {
-			if (klass.instance_varibles_ != null) {
-				RubyValue v = klass.instance_varibles_.get(id);
-				if (v != null) {
-					return v;
-				}
-			}
-			
-			klass = klass.superclass_;
-		}
-		
-		throw new RubyException(RubyRuntime.NameErrorClass,
-				"uninitialized class variable " + name + " in " + (null == name_ ? "Object" : name_)); 
-	}
-    
-    public RubyValue setClassVariable(RubyValue value, String name) {
-    	RubyModule klass = this;
-		RubyID id = RubyID.intern(name);
-		
-		while (klass != null) {
-			if (klass.instance_varibles_ != null) {
-				klass.instance_varibles_.put(id, value);
-				return value;
-			}
-			
-			klass = klass.superclass_;
-		}
-		
-		this.setInstanceVariable(value, id);
-		return value;
     }
-    
+
+    // Class Variable
+    public RubyValue getClassVariable(String name) {
+        RubyModule klass = this;
+        RubyID id = RubyID.intern(name);
+
+        while (klass != null) {
+            if (klass.instance_varibles_ != null) {
+                RubyValue v = klass.instance_varibles_.get(id);
+                if (v != null) {
+                    return v;
+                }
+            }
+
+            klass = klass.superclass_;
+        }
+
+        throw new RubyException(RubyRuntime.NameErrorClass,
+                "uninitialized class variable " + name + " in " + (null == name_ ? "Object" : name_));
+    }
+
+    public RubyValue setClassVariable(RubyValue value, String name) {
+        RubyModule klass = this;
+        RubyID id = RubyID.intern(name);
+
+        while (klass != null) {
+            if (klass.instance_varibles_ != null) {
+                klass.instance_varibles_.put(id, value);
+                return value;
+            }
+
+            klass = klass.superclass_;
+        }
+
+        this.setInstanceVariable(value, id);
+        return value;
+    }
+
     @RubyLevelMethod(name="attr_reader", privateMethod=true)
     public RubyValue attrReader(RubyArray args) {
         for (RubyValue v : args) {
@@ -434,7 +437,7 @@ public class RubyModule extends RubyBasic {
 
         return RubyConstant.QNIL;
     }
-    
+
     @RubyLevelMethod(name="attr_writer", privateMethod=true)
     public RubyValue attrWriter(RubyArray args) {
         for (RubyValue v : args) {
@@ -444,7 +447,7 @@ public class RubyModule extends RubyBasic {
 
         return RubyConstant.QNIL;
     }
-    
+
     @RubyLevelMethod(name="attr_accessor", privateMethod=true)
     public RubyValue attrAccessor(RubyArray args) {
         for (RubyValue v : args) {
@@ -455,14 +458,14 @@ public class RubyModule extends RubyBasic {
 
         return RubyConstant.QNIL;
     }
-    
+
     @RubyLevelMethod(name="attr", privateMethod=true)
     public RubyValue attr(RubyValue arg) {
         RubyID id = arg.toID();
         this.defineMethod(id, new AttrReader(id));
         return RubyConstant.QNIL;
     }
-    
+
     @RubyLevelMethod(name="attr", privateMethod=true)
     public RubyValue attr(RubyValue arg0, RubyValue arg1) {
         RubyID id = arg0.toID();
@@ -474,7 +477,7 @@ public class RubyModule extends RubyBasic {
 
         return RubyConstant.QNIL;
     }
-    
+
     private RubyMethod setAccess(RubyID mid, int access) {
         RubyMethod m = findOwnMethod(mid);
         if (null == m) {
@@ -490,7 +493,7 @@ public class RubyModule extends RubyBasic {
 
         return m;
     }
-    
+
     private static void setAccess(int access, RubyModule c, RubyArray args) {
         if (null == args) {
             c.setAccessMode(access);
@@ -514,75 +517,75 @@ public class RubyModule extends RubyBasic {
             }
         }
     }
-    
+
     @RubyLevelMethod(name="public", privateMethod=true)
     public RubyValue modPublic(RubyArray args) {
         setAccess(RubyMethod.PUBLIC, this, args);
         return this;
     }
-    
+
     @RubyLevelMethod(name="protected", privateMethod=true)
     public RubyValue modProtected(RubyArray args) {
         setAccess(RubyMethod.PROTECTED, this, args);
         return this;
     }
-    
+
     @RubyLevelMethod(name="private", privateMethod=true)
     public RubyValue modPrivate(RubyArray args) {
         setAccess(RubyMethod.PRIVATE, this, args);
         return this;
     }
-    
+
     @RubyLevelMethod(name="private_class_method")
     public RubyValue private_class_method(RubyArray args) {
-    	setAccess(RubyMethod.PRIVATE, this.getSingletonClass(), args);
+        setAccess(RubyMethod.PRIVATE, this.getSingletonClass(), args);
         return this;
     }
 
     @RubyLevelMethod(name="public_class_method")
     public RubyValue public_class_method(RubyArray args) {
-    	setAccess(RubyMethod.PUBLIC, this.getSingletonClass(), args);
+        setAccess(RubyMethod.PUBLIC, this.getSingletonClass(), args);
         return this;
     }
-    
+
     @RubyLevelMethod(name="to_s", alias="name")
     public RubyValue modName() {
         RubyString s = ObjectFactory.createString();
         this.to_s(s);
         return s;
     }
-    
+
     @RubyLevelMethod(name="inspect")
     public RubyValue rubyInspect() {
         return RubyAPI.callNoArgMethod(this, null, RubyID.toSID);
     }
-    
+
     @RubyLevelMethod(name="include")
     public RubyValue include() {
         return this;
     }
-	
+
     @RubyLevelMethod(name="include")
-	public RubyValue include(RubyValue arg) {
+    public RubyValue include(RubyValue arg) {
         this.includeModule((RubyModule)arg);
         return this;
     }
-	
+
     @RubyLevelMethod(name="include")
     public RubyValue include(RubyArray args) {
-    	for (RubyValue m : args) {
-    		this.includeModule((RubyModule) m);
-    	}
+        for (RubyValue m : args) {
+            this.includeModule((RubyModule) m);
+        }
 
         return this;
     }
-    
+
     @RubyLevelMethod(name="extend_object")
     public RubyValue extendObject(RubyValue arg) {
         arg.getSingletonClass().includeModule(this);
         return arg;
     }
-    
+
     @RubyLevelMethod(name="<=>")
     public RubyValue opSpaceship(RubyValue arg) {
         if (this == arg) {
@@ -608,8 +611,8 @@ public class RubyModule extends RubyBasic {
 
         return RubyConstant.QNIL;
     }
-    
-    
+
+
     @RubyLevelMethod(name="<")
     public RubyValue opLt(RubyValue arg) {
         if (!(arg instanceof RubyModule)) {
@@ -618,7 +621,7 @@ public class RubyModule extends RubyBasic {
 
         return compareModule(this, arg);
     }
-    
+
     @RubyLevelMethod(name=">")
     public RubyValue opGt(RubyValue arg) {
         if (!(arg instanceof RubyModule)) {
@@ -627,7 +630,7 @@ public class RubyModule extends RubyBasic {
 
         return compareModule(arg, this);
     }
-    
+
     @RubyLevelMethod(name=">=")
     public RubyValue opGe(RubyValue arg) {
         if (!(arg instanceof RubyModule)) {
@@ -640,7 +643,7 @@ public class RubyModule extends RubyBasic {
 
         return compareModule(arg, this);
     }
-    
+
     private static RubyValue compareModule(RubyValue module, RubyValue other_module) {
         if (module == other_module) {
            return RubyConstant.QFALSE;
@@ -658,11 +661,11 @@ public class RubyModule extends RubyBasic {
 
         return RubyConstant.QNIL;
     }
-    
+
     @RubyLevelMethod(name="===")
     public RubyValue caseEqual(RubyValue arg) {
         if (this instanceof RubyClass) {
-        	// FIXME: Maybe Module
+            // FIXME: Maybe Module
             return ObjectFactory.createBoolean(RubyAPI.isKindOf(this, arg));
         } else {
             //TODO does not work as expected
@@ -672,7 +675,7 @@ public class RubyModule extends RubyBasic {
             return a.include(arg.getRubyClass());
         }
     }
-    
+
     @RubyLevelMethod(name="ancestors")
     public RubyValue ancestors() {
         RubyArray r = new RubyArray();
@@ -680,21 +683,26 @@ public class RubyModule extends RubyBasic {
         return r;
     }
 
+    @RubyLevelMethod(name="instance_methods")
+    public RubyValue instance_methods(RubyArray args) {
+        return get_instance_methods(this, args, RubyMethod.NON_PRIVATE);
+    }
+
     @RubyLevelMethod(name="public_instance_methods")
     public RubyValue public_instance_methods(RubyArray args) {
-    	return get_instance_methods(this, args, RubyMethod.PUBLIC);
+        return get_instance_methods(this, args, RubyMethod.PUBLIC);
     }
 
     @RubyLevelMethod(name="protected_instance_methods")
     public RubyValue protected_instance_methods(RubyArray args) {
-    	return get_instance_methods(this, args, RubyMethod.PROTECTED);
+        return get_instance_methods(this, args, RubyMethod.PROTECTED);
     }
 
     @RubyLevelMethod(name="private_instance_methods")
     public RubyValue private_instance_methods(RubyArray args) {
-    	return get_instance_methods(this, args, RubyMethod.PRIVATE);
+        return get_instance_methods(this, args, RubyMethod.PRIVATE);
     }
-    
+
     private RubyValue get_instance_methods(RubyValue receiver, RubyArray args, int mode) {
         boolean include_super = false;
         if (args != null && args.get(0).isTrue()) {
@@ -709,22 +717,22 @@ public class RubyModule extends RubyBasic {
         }
         return a;
     }
-    
+
     @RubyLevelMethod(name="module_function")
     public RubyValue module_function() {
         return this;
     }
-    
+
     @RubyLevelMethod(name="module_function")
     public RubyValue module_function(RubyArray args) {
-    	for (RubyValue v : args) {
-    		RubySymbol s = (RubySymbol) v;
-    		this.module_function(s.toString());
-    	}
+        for (RubyValue v : args) {
+            RubySymbol s = (RubySymbol) v;
+            this.module_function(s.toString());
+        }
 
-    	return this;
+        return this;
     }
-    
+
     @RubyLevelMethod(name="module_eval", alias="class_eval")
     public RubyValue module_eval(RubyArray args, RubyBlock block) {
         //TODO duplicated code: instance_eval
@@ -744,19 +752,19 @@ public class RubyModule extends RubyBasic {
             return block.invoke(this);
         }
     }
-    
+
     @RubyLevelMethod(name="const_get")
     public RubyValue constGet(RubyValue arg) {
         RubySymbol s = RubyTypesUtil.convertToSymbol(arg);
         return RubyAPI.getConstant(this, s.toString());
     }
-    
+
     @RubyLevelMethod(name="const_set")
     public RubyValue constSet(RubyValue arg1, RubyValue arg2) {
         RubySymbol s = RubyTypesUtil.convertToSymbol(arg1);
         return RubyAPI.setConstant(arg2, this, s.toString());
     }
-    
+
     @RubyLevelMethod(name="define_method")
     public RubyValue define_method(RubyArray args, RubyBlock block) {
 
@@ -778,7 +786,7 @@ public class RubyModule extends RubyBasic {
         b.setCurrentMethod(method);
         return this.defineMethod(name, method);
     }
-    
+
     @RubyLevelMethod(name="remove_method")
     public RubyValue remove_method(RubyArray args) {
         for (RubyValue arg : args) {
@@ -788,7 +796,7 @@ public class RubyModule extends RubyBasic {
 
         return this;
     }
-    
+
     @RubyLevelMethod(name="new")
     public static RubyValue newModule(RubyValue receiver, RubyBlock block) {
         return RubyAPI.defineModule("");
