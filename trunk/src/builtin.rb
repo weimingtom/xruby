@@ -84,7 +84,7 @@ module Kernel
 
         content = ::IO.read(fullname)
         $".push(file_name) unless $".include?(file_name)
-        eval(content, nil, file_name)
+        eval(content, nil, fullname)
         return true
     end
 
