@@ -68,7 +68,7 @@ public class RubyIDClassGenerator {
             idMap.put(s, id);
         }
 
-        mg.getStatic(Type.getType("L" + RubyIDClassName + ";"), id, Type.getType(RubyID.class));
+        mg.getStatic(Type.getType("L" + RubyIDClassName + ";"), id, Types.RUBY_ID_TYPE);
     }
 
     private static byte[] visitEnd() {
@@ -79,12 +79,12 @@ public class RubyIDClassGenerator {
 
         for (Map.Entry<String, String> e : idMap.entrySet()) {
             cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, e.getValue(),
-                    Type.getType(RubyID.class).getDescriptor(), null, null);
+                    Types.RUBY_ID_TYPE.getDescriptor(), null, null);
 
             staticBlockMg.push(e.getKey());
             staticBlockMg.invokeStatic(Type.getType(RubyID.class),
                     Method.getMethod("com.xruby.runtime.lang.RubyID intern(String)"));
-            staticBlockMg.putStatic(Type.getType("L" + RubyIDClassName + ";"), e.getValue(), Type.getType(RubyID.class));
+            staticBlockMg.putStatic(Type.getType("L" + RubyIDClassName + ";"), e.getValue(), Types.RUBY_ID_TYPE);
         }
 
         staticBlockMg.returnValue();

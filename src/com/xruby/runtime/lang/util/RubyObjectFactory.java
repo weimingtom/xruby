@@ -2,16 +2,20 @@ package com.xruby.runtime.lang.util;
 
 import java.lang.annotation.Annotation;
 
+import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.Types;
-import com.xruby.runtime.lang.RubyObject;
-import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.annotation.RubyLevelObject;
 
-public class RubyObjectFactory extends RubyTypeFactory {
+class RubyObjectFactory extends RubyTypeFactory {
+	private static final Method RubyObjectBuilderCreateRubyObjectMethod = 
+		CgUtil.getMethod("createRubyObject", Types.RUBY_OBJECT_TYPE);
+	private static final Method RubyObjectConstructor = 
+		CgUtil.getMethod("<init>", Type.VOID_TYPE, Types.RUBY_CLASS_TYPE);
+	
 	RubyObjectFactory(Class klass) {
 		super(klass);
 	}
@@ -33,7 +37,7 @@ public class RubyObjectFactory extends RubyTypeFactory {
 	}
 	
 	protected Method getBuilderMethod() {
-		return Method.getMethod(CgUtil.getMethodName("createRubyObject", RubyObject.class));
+		return RubyObjectBuilderCreateRubyObjectMethod;
 	}
 
 	protected int createRubyType(GeneratorAdapter mg, Annotation annotation) {
@@ -44,7 +48,7 @@ public class RubyObjectFactory extends RubyTypeFactory {
 		loadRubyClass(mg, objectAnnotation.objectClass());
 		
 		mg.invokeConstructor(Types.RUBY_OBJECT_TYPE, 
-				Method.getMethod("void <init> (com.xruby.runtime.lang.RubyClass)"));//, Void.TYPE, RubyObject.class)));
+				RubyObjectConstructor);
 		
 		int rubyTypeIdx = mg.newLocal(Types.RUBY_OBJECT_TYPE);
 		mg.storeLocal(rubyTypeIdx);
@@ -54,7 +58,7 @@ public class RubyObjectFactory extends RubyTypeFactory {
 			mg.loadLocal(rubyTypeIdx);
 			mg.push(name);
 			mg.invokeStatic(Types.RUBY_API_TYPE, 
-					Method.getMethod(CgUtil.getMethodName("setTopLevelConstant", RubyValue.class, RubyValue.class, String.class)));
+					CgUtil.getMethod("setTopLevelConstant", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Type.getType(String.class)));
 		}
 		
 		return rubyTypeIdx;

@@ -7,7 +7,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
 public class CgUtil {
-	public static Method CONSTRUCTOR = Method.getMethod("void <init> ()");
+	public static Method CONSTRUCTOR = new Method("<init>", Type.VOID_TYPE, Types.NULL_TYPE_ARRAY);
 	
 	public static String getInternalName(Class klass) {
 		return klass.getName().replace(".", "/");
@@ -17,95 +17,21 @@ public class CgUtil {
 		return name.replace(".", "/");
 	}
 	
-	public static String getMethodName(String method, Class returnType) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(returnType.getName());
-		sb.append(" ");
-		sb.append(method);
-		sb.append("(");		
-		sb.append(")");
-		
-		return sb.toString();
+	public static Method getMethod(String method, Type returnType) {
+		return new Method(method, returnType, Types.NULL_TYPE_ARRAY);
 	}
 	
-	public static String getMethodName(String method, Class returnType, Class param) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(returnType.getName());
-		sb.append(" ");
-		sb.append(method);
-		sb.append("(");
-		sb.append(param.getName());
-		sb.append(")");
-		
-		return sb.toString();
+	public static Method getMethod(String method, Type returnType, Type... params) {
+		return new Method(method, returnType, params);
 	}
 	
-	public static String getMethodName(String method, Class returnType, Class param0, Class param1) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(returnType.getName());
-		sb.append(" ");
-		sb.append(method);
-		sb.append("(");
-		sb.append(param0.getName());
-		sb.append(", ");
-		sb.append(param1.getName());
-		sb.append(")");
-		
-		return sb.toString();
-	}
-	
-	public static String getMethodName(String method, Class returnType, Class param0, Class param1, Class param2) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(returnType.getName());
-		sb.append(" ");
-		sb.append(method);
-		sb.append("(");
-		sb.append(param0.getName());
-		sb.append(", ");
-		sb.append(param1.getName());
-		sb.append(", ");
-		sb.append(param2.getName());
-		sb.append(")");
-		
-		return sb.toString();
-	}
-	
-	public static String getMethodName(String method, Class returnType, Class param0, Class param1, Class param2, Class param3) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(returnType.getName());
-		sb.append(" ");
-		sb.append(method);
-		sb.append("(");
-		sb.append(param0.getName());
-		sb.append(", ");
-		sb.append(param1.getName());
-		sb.append(", ");
-		sb.append(param2.getName());
-		sb.append(", ");
-		sb.append(param3.getName());
-		sb.append(")");
-		
-		return sb.toString();
-	}
-	
-	public static String getMethodName(String method, Class returnType, Class[] params) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(returnType.getName());
-		sb.append(" ");
-		sb.append(method);
-		sb.append("(");
+	public static Method getMethod(String method, Class returnType, Class... params) {
+		Type[] types = new Type[params.length];
 		for (int i = 0; i < params.length; i++) {
-			sb.append(params[i].getName());
-			if (i != params.length - 1) {
-				sb.append(", ");
-			}
+			types[i] = Type.getType(params[i]);
 		}
-		sb.append(")");
-		
-		return sb.toString();
+		return new Method(method, Type.getType(returnType), types);
 	}
-	
-	
 	
 	public static void createImplicitConstructor(ClassVisitor cv, Type superType) {
 		GeneratorAdapter mg = new GeneratorAdapter(Opcodes.ACC_PUBLIC,

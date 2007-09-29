@@ -6,16 +6,17 @@
 package com.xruby.runtime.lang.util;
 
 import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
-import com.xruby.runtime.builtin.RubyArray;
-import com.xruby.runtime.lang.RubyBlock;
-import com.xruby.runtime.lang.RubyValue;
+import com.xruby.compiler.codegen.Types;
 
 public class VarArgRunMethodHelper extends RunMethodHelper {
-	protected String getRunName() {
-		return CgUtil.getMethodName("run", RubyValue.class, 
-				RubyValue.class, RubyArray.class, RubyBlock.class);
+	private static final Method VarArgRunMethod = CgUtil.getMethod("run", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE,
+			Types.RUBY_ARRAY_TYPE, Types.RUBY_BLOCK_TYPE);
+	
+	protected Method getRunMethod() {
+		return VarArgRunMethod;
 	}
 	
 	protected void loadBlock(GeneratorAdapter mg) {
@@ -29,5 +30,4 @@ public class VarArgRunMethodHelper extends RunMethodHelper {
 	protected void loadArgs(GeneratorAdapter mg) {
 		mg.loadArg(1);
 	}
-
 }

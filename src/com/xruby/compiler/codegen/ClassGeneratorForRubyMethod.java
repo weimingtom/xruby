@@ -42,7 +42,7 @@ abstract class ClassGeneratorForRubyMethod extends ClassGenerator {
     }
 
     private MethodGenerator visitRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
-        cv_.visit(Opcodes.V1_5,
+        cv_.visit(CgConfig.TARGET_VERSION,
                 0,		//No modifier
                 name_,
                 null,								// signature
@@ -66,7 +66,7 @@ abstract class ClassGeneratorForRubyMethod extends ClassGenerator {
 
     private void createCtorForRubyMethod(int argc, boolean has_asterisk_parameter, int default_argc) {
         MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
-                Method.getMethod("void <init> ()"),
+        		CgUtil.CONSTRUCTOR,
                 cv_,
                 null,
                 null,

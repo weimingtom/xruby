@@ -290,7 +290,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
     }
 
     private MethodGenerator visitRubyBlock() {
-        cv_.visit(Opcodes.V1_5,
+        cv_.visit(CgConfig.TARGET_VERSION,
                 Opcodes.ACC_PUBLIC,		//need to modify fields when doing Proc#call, see RubyProc.java
                 name_,
                 null,								// signature
@@ -312,10 +312,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
     }
 
     static String buildContructorSignature() {
-        String defaultMethodName = "void <init> (com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, com.xruby.runtime.lang.RubyMethod, boolean";
-        StringBuilder method_name = new StringBuilder(defaultMethodName);
-        method_name.append(")");
-        return method_name.toString();
+        return "void <init> (com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule, com.xruby.runtime.lang.RubyMethod, boolean)";
     }
 
     public void createFieldsAndConstructorOfRubyBlock(String[] commons, String[] blocks) {
@@ -358,7 +355,7 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
         field_manager_.addField(s);
         loadField(s);
         getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
-                Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+        		CgUtil.getMethod("addVariable", Types.RUBY_BINDING_TYPE, Type.getType(String.class), Types.RUBY_VALUE_TYPE));
     }
 
     public void createBinding(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {

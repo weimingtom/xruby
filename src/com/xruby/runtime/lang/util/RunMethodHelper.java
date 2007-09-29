@@ -21,7 +21,7 @@ import com.xruby.runtime.lang.RubyBlock;
 import com.xruby.runtime.lang.RubyValue;
 
 public abstract class RunMethodHelper {
-	protected abstract String getRunName();
+	protected abstract Method getRunMethod();
 	protected abstract void loadBlock(GeneratorAdapter mg);
 	protected abstract void loadArgs(GeneratorAdapter mg);
 	protected abstract int rubyArgSize();
@@ -33,10 +33,10 @@ public abstract class RunMethodHelper {
 		try {
 			returnClass = hostClass.getMethod(name, params).getReturnType();
 		} catch (NoSuchMethodException nsme) {
-			throw new IllegalArgumentException("no such method: " + CgUtil.getMethodName(name, RubyValue.class, params));
+			throw new IllegalArgumentException("no such method: " + CgUtil.getMethod(name, RubyValue.class, params).getDescriptor());
 		}
-		String methodName = CgUtil.getMethodName(name, returnClass, params);
-		GeneratorAdapter mg = startRun(getRunName(), cv);
+		
+		GeneratorAdapter mg = startRun(getRunMethod(), cv);
 		
 		Type type = Type.getType(castClass);
 		loadReceiver(mg, type, staticMethod);	
@@ -46,10 +46,11 @@ public abstract class RunMethodHelper {
 			this.loadBlock(mg);
 		}
 		
+		Method method = CgUtil.getMethod(name, returnClass, params);
 		if (staticMethod) {
-			mg.invokeStatic(type, Method.getMethod(methodName));
+			mg.invokeStatic(type, method);
 		} else {
-			mg.invokeVirtual(type, Method.getMethod(methodName));
+			mg.invokeVirtual(type, method);
 		}
 		endRun(mg);
 	}
@@ -77,10 +78,9 @@ public abstract class RunMethodHelper {
 		return javaArgList.toArray(new Class[0]);
 	}
 	
-	protected GeneratorAdapter startRun(String runName, ClassVisitor cv) {
-		Method m = Method.getMethod(runName);
+	protected GeneratorAdapter startRun(Method runMethod, ClassVisitor cv) {
 		GeneratorAdapter mg = new GeneratorAdapter(Opcodes.ACC_PROTECTED,
-	            m, null, null, cv);
+	            runMethod, null, null, cv);
 		mg.visitCode();		
 		return mg;
 	}

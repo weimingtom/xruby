@@ -13,14 +13,16 @@ import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.Types;
-import com.xruby.runtime.lang.RubyClass;
-import com.xruby.runtime.lang.RubyMethod;
-import com.xruby.runtime.lang.RubyModule;
-import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.UndefMethod;
 
 class RubyClassFactory extends RubyTypeFactory {
+	private static final Method RubyClassBuilderCreateRubyClassMethod = 
+		CgUtil.getMethod("createRubyClass", Types.RUBY_CLASS_TYPE);
+	
+	private static final Method RubyAPIDefineClassMethod = 
+		CgUtil.getMethod("defineClass", Types.RUBY_CLASS_TYPE, Type.getType(String.class), Types.RUBY_VALUE_TYPE);
+	
 	RubyClassFactory(Class klass) {
 		super(klass);
 	}
@@ -42,16 +44,14 @@ class RubyClassFactory extends RubyTypeFactory {
 	}
 
 	protected Method getBuilderMethod() {
-		return Method.getMethod(CgUtil.getMethodName("createRubyClass", RubyClass.class));
+		return RubyClassBuilderCreateRubyClassMethod; 
 	}
 
 	protected int createRubyType(GeneratorAdapter mg, Annotation annotation) {
 		RubyLevelClass klassAnnotation = (RubyLevelClass)annotation;
 		mg.push(klassAnnotation.name());
 		loadRubyClass(mg, klassAnnotation.superclass());
-		mg.invokeStatic(Types.RUBY_API_TYPE, 
-				Method.getMethod(CgUtil.getMethodName("defineClass", RubyClass.class, 
-						String.class, RubyValue.class)));
+		mg.invokeStatic(Types.RUBY_API_TYPE, RubyAPIDefineClassMethod);
 
 		int rubyTypeIdx = mg.newLocal(Types.RUBY_CLASS_TYPE);
 		mg.storeLocal(rubyTypeIdx);
@@ -71,10 +71,10 @@ class RubyClassFactory extends RubyTypeFactory {
 			mg.getStatic(type, "INSTANCE", type);
 			if (dummy.privateMethod()) {
 				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
-						Method.getMethod(CgUtil.getMethodName("definePrivateMethod", RubyValue.class, String.class, RubyMethod.class)));
+						CgUtil.getMethod("definePrivateMethod", Types.RUBY_VALUE_TYPE, Type.getType(String.class), Types.RUBY_METHOD_TYPE));
 			} else {
-				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
-					Method.getMethod(CgUtil.getMethodName("defineMethod", RubyValue.class, String.class, RubyMethod.class)));
+				mg.invokeVirtual(Types.RUBY_MODULE_TYPE,
+						CgUtil.getMethod("defineMethod", Types.RUBY_VALUE_TYPE, Type.getType(String.class), Types.RUBY_VALUE_TYPE));
 			}
 		}
 
@@ -84,20 +84,20 @@ class RubyClassFactory extends RubyTypeFactory {
 	private void includeModule(GeneratorAdapter mg, int rubyTypeIdx, String moduleName) {
 		mg.loadLocal(rubyTypeIdx);
 		loadModule(mg, moduleName, rubyTypeIdx);
-		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method.getMethod(
-				CgUtil.getMethodName("includeModule", Void.TYPE, RubyModule.class)));
+		mg.invokeVirtual(Types.RUBY_MODULE_TYPE,
+				CgUtil.getMethod("includeModule", Type.VOID_TYPE, Types.RUBY_MODULE_TYPE));
 	}
 	
 	private void undefMethod(GeneratorAdapter mg, int rubyTypeIdx, UndefMethod method) {
 		mg.loadLocal(rubyTypeIdx);
 		if (method.classMethod()) {
 			mg.invokeVirtual(Types.RUBY_VALUE_TYPE, 
-					Method.getMethod(CgUtil.getMethodName("getRubyClass", RubyClass.class)));
+					CgUtil.getMethod("getRubyClass", Types.RUBY_CLASS_TYPE));
 		}
 		
 		mg.push(method.name());
-		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method.getMethod(
-				CgUtil.getMethodName("undefMethod", Void.TYPE, String.class)));
+		mg.invokeVirtual(Types.RUBY_MODULE_TYPE,
+				CgUtil.getMethod("undefMethod", Type.VOID_TYPE, Type.getType(String.class)));
 	}
 
 	private void loadModule(GeneratorAdapter mg, String module, int rubyTypeIdx) {
@@ -107,8 +107,8 @@ class RubyClassFactory extends RubyTypeFactory {
 		} else {
 			mg.loadLocal(rubyTypeIdx);
 			mg.push(module);
-			mg.invokeStatic(Types.RUBY_API_TYPE, Method.getMethod(
-					CgUtil.getMethodName("getCurrentNamespaceConstant", RubyValue.class, RubyModule.class, String.class)));
+			mg.invokeStatic(Types.RUBY_API_TYPE,
+					CgUtil.getMethod("getCurrentNamespaceConstant", Types.RUBY_VALUE_TYPE, Types.RUBY_MODULE_TYPE, Type.getType(String.class)));
 			mg.checkCast(Types.RUBY_MODULE_TYPE);
 		}
 	}

@@ -7,7 +7,7 @@ package com.xruby.compiler.codegen;
 
 import com.xruby.runtime.lang.RubyBinding;
 
-//Right noiw we just treat class/module definition as RubyProgram
+//Right now we just treat class/module definition as RubyProgram
 class ClassGeneratorForClassModuleBuilder extends ClassGeneratorForRubyProgram {
 
     public ClassGeneratorForClassModuleBuilder(String name, String fileName, RubyBinding binding, boolean is_singleton) {

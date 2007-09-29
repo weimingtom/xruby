@@ -7,15 +7,20 @@ package com.xruby.runtime.lang.util;
 
 import java.lang.annotation.Annotation;
 
+import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.Types;
-import com.xruby.runtime.lang.RubyModule;
 import com.xruby.runtime.lang.annotation.RubyLevelModule;
 
 class RubyModuleFactory extends RubyTypeFactory {
+	private static final Method RubyModuleBuilderCreateRubyModuleMethod = 
+		CgUtil.getMethod("createRubyModule", Types.RUBY_MODULE_TYPE);
+	private static final Method RubyAPIDefineModuleMethod = 
+		CgUtil.getMethod("defineModule", Types.RUBY_MODULE_TYPE, Type.getType(String.class));
+	
 	RubyModuleFactory(Class klass) {
 		super(klass);
 	}
@@ -37,16 +42,13 @@ class RubyModuleFactory extends RubyTypeFactory {
 	}
 	
 	protected Method getBuilderMethod() {
-		return Method.getMethod(CgUtil.getMethodName("createRubyModule", RubyModule.class));
+		return RubyModuleBuilderCreateRubyModuleMethod;
 	}
 	
 	protected int createRubyType(GeneratorAdapter mg, Annotation annotation) {
 		RubyLevelModule moduleAnnotation = (RubyLevelModule)annotation;
 		mg.push(moduleAnnotation.name());
-		mg.invokeStatic(Types.RUBY_API_TYPE, 
-				Method.getMethod(CgUtil.getMethodName("defineModule", RubyModule.class, 
-						String.class)));
-		
+		mg.invokeStatic(Types.RUBY_API_TYPE, RubyAPIDefineModuleMethod);
 		int rubyTypeIdx = mg.newLocal(Types.RUBY_MODULE_TYPE);
 		mg.storeLocal(rubyTypeIdx);
 		

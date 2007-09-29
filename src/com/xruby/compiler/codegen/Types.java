@@ -5,10 +5,14 @@
 
 package com.xruby.compiler.codegen;
 
+import com.xruby.runtime.builtin.ObjectFactory;
 import com.xruby.runtime.builtin.RubyArray;
+import com.xruby.runtime.builtin.RubyFixnum;
 import com.xruby.runtime.builtin.RubyHash;
 import com.xruby.runtime.builtin.RubyProc;
+import com.xruby.runtime.builtin.RubyString;
 import com.xruby.runtime.lang.*;
+
 import org.objectweb.asm.Type;
 
 /*
@@ -22,6 +26,8 @@ import org.objectweb.asm.Type;
  * It is really nothing for know, but later we are going to more more to there, like method signatures
  * */
 public class Types {
+	public final static Type[] NULL_TYPE_ARRAY = new Type[0];
+	
     static final Class RUBY_ARRAY_CLASS = RubyArray.class;
     static final Class RUBY_VALUE_CLASS = RubyValue.class;
     
@@ -40,18 +46,24 @@ public class Types {
 
     public static final Type RUBY_RUNTIME_TYPE = Type.getType(RubyRuntime.class);
     static final Type RUBY_PROGRAM_TYPE = Type.getType(RubyProgram.class);
-    static final Type RUBY_BLOCK_TYPE = Type.getType(RubyBlock.class);
+    public static final Type RUBY_BLOCK_TYPE = Type.getType(RubyBlock.class);
     public static final Type RUBY_CLASS_TYPE = Type.getType(RubyClass.class);
     public static final Type RUBY_MODULE_TYPE = Type.getType(RubyModule.class);
     public static final Type RUBY_METHOD_TYPE = Type.getType(RubyMethod.class);
     public static final Type RUBY_OBJECT_TYPE = Type.getType(RubyObject.class);
 	static final Type METHOD_BLOCK_BASE_TYPE = Type.getType(MethodBlockBase.class);
-    static final Type RUBY_ARRAY_TYPE = Type.getType(RubyArray.class);
+    public static final Type RUBY_ARRAY_TYPE = Type.getType(RubyArray.class);
+    public static final Type RUBY_ID_TYPE = Type.getType(RubyID.class);
     public static final Type RUBY_VALUE_TYPE = Type.getType(RubyValue.class);
-    static final Type RUBY_CONSTANT_TYPE = Type.getType(RubyConstant.class);
+    public static final Type RUBY_STRING_TYPE = Type.getType(RubyString.class);
+    public static final Type RUBY_CONSTANT_TYPE = Type.getType(RubyConstant.class);
     static final Type RUBY_PROC_TYPE = Type.getType(RubyProc.class);
     static final Type RUBY_BINDING_TYPE = Type.getType(RubyBinding.class);
     static final Type RUBY_HASH_TYPE = Type.getType(RubyHash.class);
+    public static final Type RUBY_FIXNUM_TYPE = Type.getType(RubyFixnum.class);
+    public static final Type RUBY_EXCEPTION_TYPE = Type.getType(RubyException.class);
+    public static final Type OBJECTFACTORY_TYPE = Type.getType(ObjectFactory.class);
+    public static final Type GLOBAL_VARIABLES_TYPE = Type.getType(GlobalVariables.class);
 
     public static boolean isBuiltinClass(String name) {
         final String[] builtin_classes = {
