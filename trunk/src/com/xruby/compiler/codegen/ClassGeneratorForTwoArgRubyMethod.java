@@ -68,7 +68,8 @@ public class ClassGeneratorForTwoArgRubyMethod extends ClassGeneratorForRubyMeth
 		mg.dup();
 		mg.loadArg(1);
 		mg.loadArg(2);
-		mg.invokeConstructor(Types.RUBY_ARRAY_TYPE, Method.getMethod("void <init> (com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyValue)"));
+		mg.invokeConstructor(Types.RUBY_ARRAY_TYPE, 
+				CgUtil.getMethod("<init>", Type.VOID_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE));
 	}
 
 }

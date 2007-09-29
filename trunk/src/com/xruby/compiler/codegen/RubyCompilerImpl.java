@@ -13,7 +13,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
 
 import java.math.BigInteger;
 import java.util.Stack;
@@ -135,13 +134,13 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().newInstance(builder);
         cg_.getMethodGenerator().dup();
         cg_.getMethodGenerator().invokeConstructor(builder,
-                Method.getMethod("void <init> ()"));
+                CgUtil.getMethod("<init>", Type.VOID_TYPE));
         cg_.getMethodGenerator().loadLocal(i);
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().loadLocal(i);
         cg_.getMethodGenerator().invokeVirtual(builder,
-                Method.getMethod("com.xruby.runtime.lang.RubyValue invoke(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"));
+        		CgUtil.getMethod("invoke", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_ARRAY_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_MODULE_TYPE));
 
         switchToNewClassGenerator(new ClassGeneratorForClassModuleBuilder(uniqueName, script_name_, null, is_singleton));
     }

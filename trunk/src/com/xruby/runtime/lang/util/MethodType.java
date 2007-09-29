@@ -7,7 +7,6 @@ package com.xruby.runtime.lang.util;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
 
@@ -34,8 +33,8 @@ public class MethodType {
 
 	public void generateMethodType(GeneratorAdapter mg) {
 		mg.push(this.value);
-		mg.invokeStatic(methodTypeType, 
-				Method.getMethod(CgUtil.getMethodName("valueOf", MethodType.class, Integer.TYPE)));
+		mg.invokeStatic(methodTypeType,
+				CgUtil.getMethod("valueOf", methodTypeType, Type.INT_TYPE));
 	}
 	
 	static boolean isNoArg(MethodType type) {

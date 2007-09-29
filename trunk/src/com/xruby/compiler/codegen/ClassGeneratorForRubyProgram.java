@@ -23,13 +23,16 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
     public String getFileName() {
         return fileName;
     }
+    
+    private static final Method RUBY_PROGRAM_RUN = 
+    	CgUtil.getMethod("run", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_ARRAY_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_MODULE_TYPE);
 
     private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName, boolean create_main, boolean is_singleton) {
-        cv_.visit(Opcodes.V1_5,
+        cv_.visit(CgConfig.TARGET_VERSION,
                 Opcodes.ACC_PUBLIC,
                 name_,
                 null,										// signature
-                "com/xruby/runtime/lang/RubyProgram",		// superName
+                Types.RUBY_PROGRAM_TYPE.getInternalName(),  // superName
                 null										// interface
                 );
 
@@ -37,34 +40,20 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
         if (fileName != null) {
             cv_.visitSource(fileName, null);
         }
-
-        createImplicitConstructor(cv_);
+        
+        CgUtil.createImplicitConstructor(this.cv_, Types.RUBY_PROGRAM_TYPE);
 
         if (create_main) {
             createStaticVoidMain(cv_);
         }
-
-        //Implement RubyProgram
+        
+		//Implement RubyProgram
         return new MethodGenerator(Opcodes.ACC_PROTECTED,
-                Method.getMethod("com.xruby.runtime.lang.RubyValue run(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyModule)"),
+        		RUBY_PROGRAM_RUN,
                 cv_,
                 binding,
                 null,
                 is_singleton);
-    }
-
-    private void createImplicitConstructor(ClassVisitor cw) {
-        Method m = Method.getMethod("void <init> ()");
-        MethodGenerator mg = new MethodGenerator(Opcodes.ACC_PUBLIC,
-                m,
-                cw,
-                null,
-                null,
-                false);
-        mg.loadThis();
-        mg.invokeConstructor(Types.RUBY_PROGRAM_TYPE, m);
-        mg.returnValue();
-        mg.endMethod();
     }
 
     private void createStaticVoidMain(ClassVisitor cv) {
@@ -83,7 +72,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
         mg.newInstance(program);
         mg.dup();
         mg.invokeConstructor(program,
-                Method.getMethod("void <init> ()"));
+        		CgUtil.CONSTRUCTOR);
         mg.invokeVirtual(program,
                 Method.getMethod("com.xruby.runtime.lang.RubyValue invoke()"));
         mg.pop();

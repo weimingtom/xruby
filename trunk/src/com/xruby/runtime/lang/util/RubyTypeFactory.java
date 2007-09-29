@@ -169,7 +169,7 @@ public abstract class RubyTypeFactory {
 	
 	private void startBuilder(String name) {
 		this.cv.visit(CgConfig.TARGET_VERSION, Opcodes.ACC_PUBLIC, name, 
-				null, CgUtil.getInternalName(Object.class), new String[] { CgUtil.getInternalName(getInterface())});
+				null, OBJECT_TYPE.getInternalName(), new String[] { CgUtil.getInternalName(getInterface())});
 		
 		
 		CgUtil.createImplicitConstructor(this.cv, OBJECT_TYPE);
@@ -218,8 +218,8 @@ public abstract class RubyTypeFactory {
 		mg.loadLocal(rubyTypeIdx);
 		mg.push(constant.name());
 		mg.getStatic(Type.getType(this.klass), field.getName(), Type.getType(field.getType()));
-		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method.getMethod(
-				CgUtil.getMethodName("setConstant", RubyValue.class, String.class, RubyValue.class)));
+		mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+				CgUtil.getMethod("setConstant", Types.RUBY_VALUE_TYPE, Type.getType(String.class), Types.RUBY_VALUE_TYPE));
 	}
 
 	private void generateMethod(GeneratorAdapter mg, int rubyTypeIdx) {
@@ -391,7 +391,7 @@ private void makeGenneralItem(RubyLevelMethod annotation, CgMethodItem item) {
 		
 		getMethod(mg, item.javaName, item.type, true, item.block);
 		mg.invokeVirtual(Types.RUBY_CLASS_TYPE, 
-				Method.getMethod(CgUtil.getMethodName("defineAllocMethod", Void.TYPE, RubyMethod.class)));
+				CgUtil.getMethod("defineAllocMethod", Type.VOID_TYPE, Types.RUBY_METHOD_TYPE));
 	}
 	
 	private int createLocalMethodFactory(GeneratorAdapter mg) {
@@ -405,7 +405,7 @@ private void makeGenneralItem(RubyLevelMethod annotation, CgMethodItem item) {
 		mg.loadLocal(rubyTypeIdx);
 		if (item.singleton) {
 			mg.invokeVirtual(Types.RUBY_VALUE_TYPE, 
-					Method.getMethod(CgUtil.getMethodName("getSingletonClass", RubyClass.class)));
+					CgUtil.getMethod("getSingletonClass", Types.RUBY_CLASS_TYPE));
 		}
 	}
 	
@@ -426,16 +426,31 @@ private void makeGenneralItem(RubyLevelMethod annotation, CgMethodItem item) {
 		defineMethod(mg, item);
 	}
 
+	private static final Method RubyModuleDefinePrivateMethodMethod = 
+		CgUtil.getMethod("definePrivateMethod", Types.RUBY_VALUE_TYPE, Type.getType(String.class), Types.RUBY_METHOD_TYPE);
+	private static final Method RubyModuleDefineMethodMethod = 
+		CgUtil.getMethod("defineMethod", Types.RUBY_VALUE_TYPE, Type.getType(String.class), Types.RUBY_METHOD_TYPE);
+	private static final Method RubyModuleDefineModuleMethodMethod = 
+		CgUtil.getMethod("defineModuleMethod", Type.VOID_TYPE, Type.getType(String.class), Types.RUBY_METHOD_TYPE);
+	private static final Method RubyValueGetSingletonClass = 
+		CgUtil.getMethod("getSingletonClass", Types.RUBY_CLASS_TYPE);
+	private static final Method RubyModuleAliasMethod = 
+		CgUtil.getMethod("aliasMethod", Type.VOID_TYPE, Type.getType(String.class), Type.getType(String.class));
+	private static final Method MethodFactoryGetMethodMethod = 
+		CgUtil.getMethod("getMethod", Types.RUBY_METHOD_TYPE, Type.getType(String.class), Type.getType(MethodType.class), Type.BOOLEAN_TYPE, Type.BOOLEAN_TYPE);
+	private static final Method MethodFactoryCreateMethodFactory = 
+		CgUtil.getMethod("createMethodFactory", methodFactoryType, Type.getType(Class.class), Type.BOOLEAN_TYPE);
+	
 	private void defineMethod(GeneratorAdapter mg, CgMethodItem item) {
 		if (item.moduleMethod) {
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
-					Method.getMethod(CgUtil.getMethodName("defineModuleMethod", Void.TYPE, String.class, RubyMethod.class)));
+					RubyModuleDefineModuleMethodMethod);
 		} else if (item.privateMethod) {
-			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
-					Method.getMethod(CgUtil.getMethodName("definePrivateMethod", RubyValue.class, String.class, RubyMethod.class)));
+			mg.invokeVirtual(Types.RUBY_MODULE_TYPE,
+					RubyModuleDefinePrivateMethodMethod);
 		} else {
 			mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
-					Method.getMethod(CgUtil.getMethodName("defineMethod", RubyValue.class, String.class, RubyMethod.class)));
+					RubyModuleDefineMethodMethod);
 		}
 	}
 
@@ -448,7 +463,7 @@ private void makeGenneralItem(RubyLevelMethod annotation, CgMethodItem item) {
 			mg.loadLocal(rubyTypeIdx);
 			if (singleton) {
 				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
-						Method.getMethod(CgUtil.getMethodName("getSingletonClass", RubyClass.class)));
+						RubyValueGetSingletonClass);
 			}
 			
 			if (item.moduleMethod) {
@@ -456,9 +471,8 @@ private void makeGenneralItem(RubyLevelMethod annotation, CgMethodItem item) {
 			} else {
 				mg.push(alias);
 				mg.push(oldName);
-				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, Method
-						.getMethod(CgUtil.getMethodName("aliasMethod",
-								Void.TYPE, String.class, String.class)));
+				mg.invokeVirtual(Types.RUBY_MODULE_TYPE, 
+						RubyModuleAliasMethod);
 			}
 		}
 	}
@@ -472,15 +486,12 @@ private void makeGenneralItem(RubyLevelMethod annotation, CgMethodItem item) {
 		type.generateMethodType(mg);
 		mg.push(singleton);
 		mg.push(block);
-		mg.invokeVirtual(methodFactoryType, Method.getMethod(
-				CgUtil.getMethodName("getMethod", RubyMethod.class, String.class, MethodType.class, Boolean.TYPE, Boolean.TYPE)));
+		mg.invokeVirtual(methodFactoryType, MethodFactoryGetMethodMethod);
 	}
 
 	private void createMehtodFactory(GeneratorAdapter mg, Class klass) {
 		mg.push(Type.getType(klass));
 		mg.push(this.isModule());
-		mg.invokeStatic(methodFactoryType, 
-				Method.getMethod(
-						CgUtil.getMethodName("createMethodFactory", MethodFactory.class, Class.class, Boolean.TYPE)));
+		mg.invokeStatic(methodFactoryType, MethodFactoryCreateMethodFactory);
 	}
 }

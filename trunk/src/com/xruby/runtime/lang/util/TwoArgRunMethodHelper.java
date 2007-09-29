@@ -6,15 +6,18 @@
 package com.xruby.runtime.lang.util;
 
 import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.commons.Method;
 
 import com.xruby.compiler.codegen.CgUtil;
-import com.xruby.runtime.lang.RubyBlock;
-import com.xruby.runtime.lang.RubyValue;
+import com.xruby.compiler.codegen.Types;
 
 public class TwoArgRunMethodHelper extends RunMethodHelper {
-	protected String getRunName() {
-		return CgUtil.getMethodName("run", RubyValue.class, 
-				RubyValue.class, RubyValue.class, RubyValue.class, RubyBlock.class);
+	private static final Method TwoArgRunMethod = 
+		CgUtil.getMethod("run", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE,
+			Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_BLOCK_TYPE);
+	
+	protected Method getRunMethod() {
+		return TwoArgRunMethod;
 	}
 	
 	protected void loadBlock(GeneratorAdapter mg) {

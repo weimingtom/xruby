@@ -8,9 +8,11 @@ package com.xruby.runtime.lang.util;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.util.CheckClassAdapter;
 
 import com.xruby.compiler.XRubyClassLoader;
+import com.xruby.compiler.codegen.CgConfig;
 import com.xruby.compiler.codegen.CgUtil;
 import com.xruby.compiler.codegen.ClassDumper;
 import com.xruby.runtime.lang.RubyMethod;
@@ -22,10 +24,6 @@ public class MethodFactory {
 	private Class hostClass;
 	private Class castClass;
 	private boolean module;
-	
-	public static MethodFactory createMethodFactory(Class hostClass, Class castClass) {
-		return new MethodFactory(hostClass, castClass, false);
-	}
 	
 	public static MethodFactory createMethodFactory(Class klass) {
 		return new MethodFactory(klass, false);
@@ -119,9 +117,10 @@ public class MethodFactory {
 	}
 
 	private void startInvoker(ClassVisitor cv, MethodFactoryHelper helper, String invokerName) {
-		cv.visit(Opcodes.V1_5, Opcodes.ACC_PUBLIC, invokerName, 
-				null, helper.getSuperType().getInternalName(), null);		
-		CgUtil.createImplicitConstructor(cv, helper.getSuperType());
+		Type superType = helper.getSuperType();
+		cv.visit(CgConfig.TARGET_VERSION, Opcodes.ACC_PUBLIC, invokerName, 
+				null, superType.getInternalName(), null);		
+		CgUtil.createImplicitConstructor(cv, superType);
 	}
 	
 	private void endInvoker(ClassVisitor cv) {

@@ -139,7 +139,7 @@ abstract class ClassGenerator {
         getMethodGenerator().loadArg(1);
         getMethodGenerator().push(index);
         getMethodGenerator().invokeVirtual(Types.RUBY_ARRAY_TYPE,
-                    Method.getMethod("com.xruby.runtime.lang.RubyValue get(int)"));
+                    CgUtil.getMethod("get", Types.RUBY_VALUE_TYPE, Type.INT_TYPE));
     }
 
     public void storeMethodParameter(int index) {
@@ -149,7 +149,7 @@ abstract class ClassGenerator {
         getMethodGenerator().push(index);
         getMethodGenerator().loadLocal(i);
         getMethodGenerator().invokeVirtual(Types.RUBY_ARRAY_TYPE,
-                Method.getMethod("com.xruby.runtime.lang.RubyValue set(int, com.xruby.runtime.lang.RubyValue)"));
+                CgUtil.getMethod("set", Types.RUBY_VALUE_TYPE, Type.INT_TYPE, Types.RUBY_VALUE_TYPE));
         getMethodGenerator().pop();
     }
 
@@ -178,13 +178,13 @@ abstract class ClassGenerator {
         getMethodGenerator().newInstance(Types.RUBY_BINDING_TYPE);
         getMethodGenerator().dup();
         getMethodGenerator().invokeConstructor(Types.RUBY_BINDING_TYPE,
-                Method.getMethod("void <init> ()"));
+        		CgUtil.CONSTRUCTOR);
     }
 
     private void updateBinding(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {
         getMethodGenerator().loadSelf(isInBlock);
         getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
-            Method.getMethod("com.xruby.runtime.lang.RubyBinding setSelf(com.xruby.runtime.lang.RubyValue)"));
+        		CgUtil.getMethod("setSelf", Types.RUBY_BINDING_TYPE, Types.RUBY_VALUE_TYPE));
 
         if (isInClassBuilder) {
             getMethodGenerator().pushNull();
@@ -192,7 +192,7 @@ abstract class ClassGenerator {
             getMethodGenerator().loadBlock(isInBlock);
         }
         getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
-            Method.getMethod("com.xruby.runtime.lang.RubyBinding setBlock(com.xruby.runtime.lang.RubyBlock)"));
+        		CgUtil.getMethod("setBlock", Types.RUBY_BINDING_TYPE, Types.RUBY_BLOCK_TYPE));
 
         if (!isInBlock) {
             getMethodGenerator().loadCurrentScope(isInClassBuilder, isInSingletonMethod, isInGlobalScope, isInBlock);
@@ -200,26 +200,25 @@ abstract class ClassGenerator {
             getMethodGenerator().pushNull();//TODO fix this and loadCurrentClass
         }
         getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
-            Method.getMethod("com.xruby.runtime.lang.RubyBinding setScope(com.xruby.runtime.lang.RubyModule)"));
+        		CgUtil.getMethod("setScope", Types.RUBY_BINDING_TYPE, Types.RUBY_MODULE_TYPE));
 
         addVariableToBinding();
     }
 
     public void addVariableToBinding() {
         Collection<String> vars = getSymbolTable().getLocalVariables();
+        Method addVarMethod = CgUtil.getMethod("addVariable", Types.RUBY_BINDING_TYPE, Type.getType(String.class), Types.RUBY_VALUE_TYPE);
         for (String s : vars) {
             getMethodGenerator().push(s);
             loadVariable(s);
-            getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
-                Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+			getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE, addVarMethod);
         }
 
         Collection<String> params = getSymbolTable().getParameters();
         for (String s : params) {
             getMethodGenerator().push(s);
             loadMethodPrameter(getSymbolTable().getMethodParameter(s));
-            getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
-                Method.getMethod("com.xruby.runtime.lang.RubyBinding addVariable(String, com.xruby.runtime.lang.RubyValue)"));
+            getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE, addVarMethod);
         }
     }
 
@@ -236,7 +235,7 @@ abstract class ClassGenerator {
             mg_for_run_method_.loadArg(1);
             mg_for_run_method_.swap();
             mg_for_run_method_.invokeVirtual(Types.RUBY_ARRAY_TYPE,
-                Method.getMethod("com.xruby.runtime.builtin.RubyArray add(com.xruby.runtime.lang.RubyValue)"));
+            		CgUtil.getMethod("add", Types.RUBY_ARRAY_TYPE, Types.RUBY_VALUE_TYPE));
             mg_for_run_method_.pop();
         }
     }
