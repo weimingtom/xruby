@@ -560,23 +560,30 @@ public class RubyModule extends RubyBasic {
         return RubyAPI.callNoArgMethod(this, null, RubyID.toSID);
     }
 
-    @RubyLevelMethod(name="include")
-    public RubyValue include() {
-        return this;
-    }
-
-    @RubyLevelMethod(name="include")
-    public RubyValue include(RubyValue arg) {
+    @RubyLevelMethod(name="append_features")
+    public RubyValue append_features(RubyValue arg) {
         this.includeModule((RubyModule)arg);
         return this;
     }
 
-    @RubyLevelMethod(name="include")
+    @RubyLevelMethod(name="include", privateMethod=true)
+    public RubyValue include() {
+        return this;
+    }
+
+    @RubyLevelMethod(name="include", privateMethod=true)
+    public RubyValue include(RubyValue arg) {
+        RubyAPI.callOneArgMethod(this, arg, null, RubyID.append_featuresID);
+        RubyAPI.callOneArgMethod(this, arg, null, RubyID.includedID);
+        return this;
+    }
+
+    @RubyLevelMethod(name="include", privateMethod=true)
     public RubyValue include(RubyArray args) {
         for (RubyValue m : args) {
-            this.includeModule((RubyModule) m);
+            RubyAPI.callOneArgMethod(this, m, null, RubyID.append_featuresID);
+            RubyAPI.callOneArgMethod(this, m, null, RubyID.includedID);
         }
-
         return this;
     }
 
