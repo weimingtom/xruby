@@ -560,8 +560,16 @@ public class RubyModule extends RubyBasic {
         return RubyAPI.callNoArgMethod(this, null, RubyID.toSID);
     }
 
+    private void checkType(RubyValue arg, RubyClass type) {
+        RubyClass c = arg.getRubyClass().getRealClass();
+        if (c != type) {
+            throw new RubyException(RubyRuntime.TypeErrorClass, "wrong argument type " + c.getName() + " (expected Module)");
+        }
+    }
+
     @RubyLevelMethod(name="append_features")
     public RubyValue append_features(RubyValue arg) {
+        checkType(arg, RubyRuntime.ModuleClass);
         this.includeModule((RubyModule)arg);
         return this;
     }
