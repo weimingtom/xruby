@@ -88,6 +88,8 @@ public class RubyID {
     public static final RubyID succID = RubyID.intern("succ");
     public static final RubyID hashID = RubyID.intern("hash");
     public static final RubyID joinID = RubyID.intern("join");
+    public static final RubyID append_featuresID = RubyID.intern("append_features");
+    public static final RubyID includedID = RubyID.intern("included");
 
     private RubyID(long id) {
         this(id, null);
