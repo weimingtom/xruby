@@ -10,23 +10,23 @@ import com.xruby.runtime.lang.annotation.DummyMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
-@RubyLevelClass(name="Class", superclass="Module", dummy={ 
-		@DummyMethod(name="inherited", privateMethod=true)
-		}
+@RubyLevelClass(name="Class", superclass="Module", dummy={
+        @DummyMethod(name="inherited", privateMethod=true)
+        }
 )
 public class RubyClass extends RubyModule {
-	private static MethodCache cache = new MethodCache();
+    private static MethodCache cache = new MethodCache();
 
-	public static void resetCache() {
-		cache.reset();
-	}
+    public static void resetCache() {
+        cache.reset();
+    }
 
-	private int objectAddress;
+    private int objectAddress;
 
-	public RubyClass(String name, RubyClass superclass, RubyModule owner) {
-		super(name, owner);		
-		superclass_ = superclass;
-		this.objectAddress = super.hashCode();
+    public RubyClass(String name, RubyClass superclass, RubyModule owner) {
+        super(name, owner);
+        superclass_ = superclass;
+        this.objectAddress = super.hashCode();
     }
 
     public boolean isRealModule() {
@@ -53,43 +53,43 @@ public class RubyClass extends RubyModule {
 
         return klass;
     }
-    
+
     @RubyLevelMethod(name="new")
     public static RubyClass newClass(RubyValue receiver) {
-		return RubyAPI.defineClass("", RubyRuntime.ObjectClass);
-	}
-    
+        return RubyAPI.defineClass("", RubyRuntime.ObjectClass);
+    }
+
     @RubyLevelMethod(name="new")
     public static RubyClass newClass(RubyValue receiver, RubyValue arg) {
-		return RubyAPI.defineClass("", (RubyClass)arg);
-	}
-    
+        return RubyAPI.defineClass("", (RubyClass)arg);
+    }
+
     @RubyLevelMethod(name="new")
     public RubyValue newInstance(RubyArray args, RubyBlock block) {
-    	RubyValue v = this.allocObject(block);
-    	callInitializeMethod(v, args, block);
-    	return v;
+        RubyValue v = this.allocObject(block);
+        callInitializeMethod(v, args, block);
+        return v;
     }
-    
+
     private void callInitializeMethod(RubyValue v, RubyArray args, RubyBlock block) {
-		RubyMethod m = v.findMethod(RubyID.initializeId);
+        RubyMethod m = v.findMethod(RubyID.initializeId);
         if (m != null) {
             m.invoke(v, args, block);
         }
-	}
+    }
 
     public int objectAddress() {
-		return this.objectAddress;
-	}
+        return this.objectAddress;
+    }
 
-	public RubyClass getSuperClass() {
-		return superclass_;
-	}
+    public RubyClass getSuperClass() {
+        return superclass_;
+    }
 
     public void setSuperClass(RubyClass superclass) {
         this.superclass_ = superclass;
     }
-    
+
     @RubyLevelMethod(name="superclass")
     public RubyValue superclass() {
         RubyClass c = this.superclass_;
@@ -101,47 +101,53 @@ public class RubyClass extends RubyModule {
         return (null == c) ? RubyConstant.QNIL : c;
     }
 
+    @RubyLevelMethod(name="allocate")
+    public RubyValue allocate() {
+    	//TODO this implmentation does not look right...
+        return new RubyObject(this);
+    }
+
     public void defineAllocMethod(RubyMethod m) {
         m.setAccess(RubyMethod.PRIVATE);
         this.getRubyClass().addMethod(RubyID.ID_ALLOCATOR, m, RubyMethod.PRIVATE);
-	}
-    
-    public void defineModuleMethod(String name, RubyMethod m) {
-    	throw new Error("should not reach here!");
-    }
-    
-    public void setInherited(RubyClass klass) {
-    	RubyAPI.callOneArgMethod(this, klass, null, RubyID.inheritedID);
     }
 
-	public RubyValue allocObject(RubyBlock block) {
+    public void defineModuleMethod(String name, RubyMethod m) {
+        throw new Error("should not reach here!");
+    }
+
+    public void setInherited(RubyClass klass) {
+        RubyAPI.callOneArgMethod(this, klass, null, RubyID.inheritedID);
+    }
+
+    public RubyValue allocObject(RubyBlock block) {
         RubyValue value = RubyAPI.callNoArgMethod(this, block, RubyID.ID_ALLOCATOR);
         if (value.getRubyClass().getRealClass() != this.getRealClass()) {
-        	throw new RubyException(RubyRuntime.TypeErrorClass, "wrong instance allocation");
+            throw new RubyException(RubyRuntime.TypeErrorClass, "wrong instance allocation");
         }
-        
+
         return value;
-	}
+    }
 
-	boolean isMyParent(final RubyClass superclass) {
-		return superclass_ == superclass;
-	}
+    boolean isMyParent(final RubyClass superclass) {
+        return superclass_ == superclass;
+    }
 
-	protected RubyMethod findSuperMethod(RubyID mid) {
+    protected RubyMethod findSuperMethod(RubyID mid) {
         return null != this.superclass_
                 ? this.superclass_.findOwnMethod(mid)
                 : null;
     }
 
     public RubyMethod findOwnMethod(RubyID mid) {
-		MethodCache.CacheEntry entry = cache.getMethod(this, mid);
-		if (entry.klass == this && entry.mid == mid) {
-			if (entry.method == null) {
-				return null;
-			} else {
-				return entry.method;
-			}
-		}
+        MethodCache.CacheEntry entry = cache.getMethod(this, mid);
+        if (entry.klass == this && entry.mid == mid) {
+            if (entry.method == null) {
+                return null;
+            } else {
+                return entry.method;
+            }
+        }
 
         RubyClass klass = this;
 
@@ -154,19 +160,19 @@ public class RubyClass extends RubyModule {
             klass = klass.superclass_;
         }
 
-		return null;
-	}
+        return null;
+    }
 
-	public RubyMethod findOwnPublicMethod(RubyID mid) {
-		MethodCache.CacheEntry entry = cache.getMethod(this, mid);
-		if (entry.klass == this && entry.mid == mid) {
+    public RubyMethod findOwnPublicMethod(RubyID mid) {
+        MethodCache.CacheEntry entry = cache.getMethod(this, mid);
+        if (entry.klass == this && entry.mid == mid) {
             RubyMethod em = entry.method;
             if (em != null && RubyMethod.PUBLIC == em.getAccess()) {
                 return em;
             } else {
                 return null;
             }
-		}
+        }
 
         RubyClass klass = this;
         while (klass != null) {
@@ -179,19 +185,19 @@ public class RubyClass extends RubyModule {
         }
 
         return null;
-	}
+    }
 
-	public void collectClassMethodNames(RubyArray a, int mode) {
-		RubyClass klass = this;
-		
-		while (klass != null) {
-			klass.collectOwnMethodNames(a, mode);
-			klass = klass.superclass_;
-		}
-	}
+    public void collectClassMethodNames(RubyArray a, int mode) {
+        RubyClass klass = this;
 
-	protected RubyValue addMethod(RubyID id, RubyMethod method, int attribute) {
-		cache.removeMethod(id);
-		return super.addMethod(id, method, attribute);
-	}
+        while (klass != null) {
+            klass.collectOwnMethodNames(a, mode);
+            klass = klass.superclass_;
+        }
+    }
+
+    protected RubyValue addMethod(RubyID id, RubyMethod method, int attribute) {
+        cache.removeMethod(id);
+        return super.addMethod(id, method, attribute);
+    }
 }
