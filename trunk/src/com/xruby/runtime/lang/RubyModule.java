@@ -569,8 +569,7 @@ public class RubyModule extends RubyBasic {
 
     @RubyLevelMethod(name="append_features")
     public RubyValue append_features(RubyValue arg) {
-        checkType(arg, RubyRuntime.ModuleClass);
-        this.includeModule((RubyModule)arg);
+        ((RubyModule)arg).includeModule(this);
         return this;
     }
 
@@ -581,16 +580,18 @@ public class RubyModule extends RubyBasic {
 
     @RubyLevelMethod(name="include", privateMethod=true)
     public RubyValue include(RubyValue arg) {
-        RubyAPI.callOneArgMethod(this, arg, null, RubyID.append_featuresID);
-        RubyAPI.callOneArgMethod(this, arg, null, RubyID.includedID);
+        checkType(arg, RubyRuntime.ModuleClass);
+        RubyAPI.callOneArgMethod(arg, this, null, RubyID.append_featuresID);
+        RubyAPI.callOneArgMethod(arg, this, null, RubyID.includedID);
         return this;
     }
 
     @RubyLevelMethod(name="include", privateMethod=true)
     public RubyValue include(RubyArray args) {
-        for (RubyValue m : args) {
-            RubyAPI.callOneArgMethod(this, m, null, RubyID.append_featuresID);
-            RubyAPI.callOneArgMethod(this, m, null, RubyID.includedID);
+        for (RubyValue arg : args) {
+            checkType(arg, RubyRuntime.ModuleClass);
+            RubyAPI.callOneArgMethod(arg, this, null, RubyID.append_featuresID);
+            RubyAPI.callOneArgMethod(arg, this, null, RubyID.includedID);
         }
         return this;
     }
