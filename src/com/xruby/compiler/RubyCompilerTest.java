@@ -4202,10 +4202,28 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_constant_in_singletonmethod() {
         String [] program_texts = {
+                "module M; N = 4; end\n" +
+                "class << M\n" +
+                "    N = 3\n" +
+                "    print N\n" +
+                "    def f\n" +
+                "        print N\n" +
+                "    end\n" +
+                "end\n" +
+                "M.f",
+
+                "module M;end\n" +
+                "class << M\n" +
+                "    N = 3\n" +
+                "    print N\n" +
+                "end",
+
                 "a='x';def a.f;print String;end;a.f",
         };
 
         String[] outputs = {
+                "33",
+                "3",
                 "String",
         };
 

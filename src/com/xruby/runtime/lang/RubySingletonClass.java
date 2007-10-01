@@ -29,11 +29,16 @@ public class RubySingletonClass extends RubyClass {
     }
 
     public RubyValue getConstant(String name) {
-        if (owner_ instanceof RubyModule) {
-            return ((RubyModule)owner_).getConstant(name);
-        } else {
-            return super.getConstant(name);
+        RubyValue v = super.getConstant(name);
+        if (null != v) {
+            return v;
         }
+        
+        if (owner_ instanceof RubyModule) {
+            v = ((RubyModule)owner_).getConstant(name);
+        }
+
+        return v;
     }
 
     public RubyValue getClassVariable(String name) {
