@@ -168,30 +168,20 @@ public class RubyRegexp extends RubyBasic {
         }
     }
 
-    private String getReplaceString(String replace_string, Matcher m) {
-        //java uses $1, $2, ruby uses \1, \2
+    private String getReplaceString(String replace_string) {
+        //java and oro uses $1, $2, ruby uses \1, \2
         replace_string = replace_string.replace("\\&", "$0");
-        final int n = m.groupCount();
 
         //%q{location:1 in 'l'}.sub(/\A(.+:\d+).*/, ' [\\1]') is as same as
         //%q{location:1 in 'l'}.sub(/\A(.+:\d+).*/, ' [\1]')
-        for (int i = 1; i <= n; ++i) {
+        for (int i = 1; i < 10; ++i) {
             replace_string = replace_string.replace("\\\\" + i, "$" + i);
             replace_string = replace_string.replace("\\" + i, "$" + i);
-        }
-        for (int i = n + 1; i < 10; ++i) {
-            replace_string = replace_string.replace("\\\\" + i, "$" + i);
-            replace_string = replace_string.replace("\\" + i, "");
         }
 
         return replace_string;
     }
 
-    public String sub(RubyString str, RubyString repl) {
-        Matcher m = regex_.matcher(str.toString());
-        String replace_String = getReplaceString(repl.toString(), m);
-        return m.replaceFirst(replace_String);
-    }
 
     public RubyString sub(RubyString s, RubyBlock block) {
         Matcher m = regex_.matcher(s.toString());
@@ -219,9 +209,17 @@ public class RubyRegexp extends RubyBasic {
     }
 
     public String gsub(RubyString str, RubyString repl) {
-        Matcher m = regex_.matcher(str.toString());
-        String replace_string = getReplaceString(repl.toString(), m);
-        return m.replaceAll(replace_string);
+        Perl5Util util = new Perl5Util();
+        String replace_String = getReplaceString(repl.toString());
+        String regexp= "s/" + regex_.toString() + "/" + replace_String + "/g";
+        return util.substitute(regexp, str.toString());
+    }
+
+    public String sub(RubyString str, RubyString repl) {
+        Perl5Util util = new Perl5Util();
+        String replace_String = getReplaceString(repl.toString());
+        String regexp= "s/" + regex_.toString() + "/" + replace_String + "/";
+        return util.substitute(regexp, str.toString());
     }
 
     public RubyString gsub(RubyString s, RubyBlock block) {
