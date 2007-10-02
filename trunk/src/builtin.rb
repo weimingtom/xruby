@@ -1079,7 +1079,7 @@ class <<ENV
     #we just store it in @fake_ev
     def delete x
         return if @fake_ev == nil
-        @fake_ev.delete x
+        @fake_ev.delete x.upcase
     end
 
     def [](x)
