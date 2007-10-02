@@ -34,20 +34,37 @@ public class RubyRegexp extends RubyBasic {
         regex_ = Pattern.compile(v, Pattern.MULTILINE);
     }
 
+    private void setValue(String v, RubyValue mode) {
+        int flags = Pattern.MULTILINE;
+        //TODO int mode = mode.toInt();
+        regex_ = Pattern.compile(v, flags);
+    }
+
     @RubyAllocMethod
     public static RubyRegexp alloc(RubyValue receiver) {
         return ObjectFactory.createRegexp();
     }
-    
+
     @RubyLevelMethod(name="initialize")
     public RubyValue initialize(RubyValue arg) {
-        //TODO incomplete
-
         RubyValue pattern = arg;
         if (pattern instanceof RubyRegexp) {
             regex_ = ((RubyRegexp)pattern).regex_;
         } else {
             setValue(pattern.toStr());
+        }
+
+        return this;
+    }
+
+    @RubyLevelMethod(name="initialize")
+    public RubyValue initialize(RubyArray args) {
+        RubyValue pattern = args.get(0);
+        RubyValue mode = args.get(1);
+        if (pattern instanceof RubyRegexp) {
+            regex_ = ((RubyRegexp)pattern).regex_;
+        } else {
+            setValue(pattern.toStr(), mode);
         }
 
         return this;
