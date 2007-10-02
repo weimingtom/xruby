@@ -5968,10 +5968,13 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_ENV() {
         String[] program_texts = {
                 "print ENV, ENV.class",
+                "ENV['a'] = 'b';print ENV['a']\n" +
+                "ENV.delete 'a';print ENV['a']",    
         };
 
         String[] outputs = {
                 "ENVObject",
+                "bnil",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
