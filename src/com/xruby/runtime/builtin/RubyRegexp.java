@@ -119,7 +119,7 @@ public class RubyRegexp extends RubyBasic {
         return ObjectFactory.createString(quote(arg.toStr()));
     }
 
-    public static String quote(String s) {
+    private static String quote(String s) {
         String r = Pattern.quote(s);
         r = r.replace("(", "\\(");
         r = r.replace(")", "\\)");
