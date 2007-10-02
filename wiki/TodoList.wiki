@@ -2,10 +2,13 @@
 
 =Things to be fixed to support Ruby on Rails=
 
+  * Regexp need to be reimplemented with apache.oro or somthing else, as java' regexp has lots of compatible issues
   * yaml.rb: part of it is implemented in C
-  * erb: has issues with Binding
+  * erb.rb: has issues with Binding
   * activerecord: need jdbc bridge
+  * uri.rb
   * ...
+
 
 =Library Method To be Implemented=
 
