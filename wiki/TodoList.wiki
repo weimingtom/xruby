@@ -1,20 +1,17 @@
-#summary Library Method Not Implemented
+#summary To Do List
+
+=Things to be fixed to support Ruby on Rails=
+
+* yaml.rb: part of it is implemented in C
+* erb: has issues with Binding
+* activerecord: need jdbc bridge
+* ...
+
+=Library Method To be Implemented=
 
 If you find a method not implemented,feel free to report it here. Of course,we welcome that you implement them and share with us.
 
 _Rubinius has lots builtin methods written in pure ruby, we could use some of their implementations. To keep their copyright, better put all these migrated code in a single file and then load it at runtime._
-
-=In Progress=
-
-  * Range
-  * ...
-
-=Finished=
-(All methods in those Class or Module have been implemented!)
-
-  * Comparable
-  * Enumerable
-  * Dir
 
 =Passed Tests=
 {{{
