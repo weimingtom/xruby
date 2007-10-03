@@ -46,15 +46,15 @@ public class RubyString extends RubyBasic {
     public int toInt() {
         return Integer.valueOf(sb_.toString());
     }
-    
+
     public RubyInteger toRubyInteger() {
-    	return RubyBignum.bignorm(this.toInt());
+        return RubyBignum.bignorm(this.toInt());
     }
 
     public double toFloat() {
         return Double.parseDouble(this.sb_.toString());
     }
-    
+
     public RubyString toRubyString() {
         return this;
     }
@@ -62,13 +62,13 @@ public class RubyString extends RubyBasic {
     public String toStr() {
         return this.sb_.toString();
     }
-    
+
     public String asString() {
-    	return this.sb_.toString();
+        return this.sb_.toString();
     }
-    
+
     public RubyID toID() {
-    	return RubyID.intern(this.sb_.toString());
+        return RubyID.intern(this.sb_.toString());
     }
 
     public boolean equals(Object obj) {
@@ -319,6 +319,22 @@ public class RubyString extends RubyBasic {
     @RubyLevelMethod(name="strip")
     public RubyString strip() {
         return ObjectFactory.createString(sb_.toString().trim());
+    }
+
+    @RubyLevelMethod(name="lstrip!")
+    public RubyValue lstripBang() {
+        int i = 0;
+        while (i < sb_.length() && Character.isWhitespace(sb_.charAt(i))) {
+            i++;
+        }
+
+        if (0 == i) {
+            //No change
+            return RubyConstant.QNIL;
+        }
+
+        sb_.delete(0, i);
+        return this;
     }
 
     @RubyLevelMethod(name="strip!")
@@ -749,16 +765,16 @@ public class RubyString extends RubyBasic {
 
     @RubyLevelMethod(name="to_i")
     public RubyValue to_i() {
-    	return to_i(10);
+        return to_i(10);
     }
-    
+
     @RubyLevelMethod(name="to_i")
     public RubyValue to_i(RubyValue arg) {
         return to_i(arg.toInt());
     }
 
-	private RubyValue to_i(int radix) {
-		String value = toString();
+    private RubyValue to_i(int radix) {
+        String value = toString();
 
         value = value.replaceAll("[^+\\-a-zA-Z0-9]", "");
         int end = value.indexOf('+', 1);
@@ -788,7 +804,7 @@ public class RubyString extends RubyBasic {
             return RubyBignum.bignorm(bigint);
         }
         throw new RubyException(RubyRuntime.ArgumentErrorClass, "illegal radix " + radix);
-	}
+    }
 
     @RubyLevelMethod(name="hex")
     public RubyValue hex() {
