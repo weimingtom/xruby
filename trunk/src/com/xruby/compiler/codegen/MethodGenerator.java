@@ -860,7 +860,7 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.lang.RubyValue setInstanceVariable(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.lang.RubyID)"));
     }
 
-    private void MethodBlockBase_getScope() {
+    public void MethodBlockBase_getScope() {
         invokeVirtual(Types.METHOD_BLOCK_BASE_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyModule getScope()"));
     }

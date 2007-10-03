@@ -103,7 +103,12 @@ public class RubyCompilerImpl implements CodeVisitor {
     public void visitClassDefination1(String className, boolean has_scope) {
 
         if (!isInGlobalScope() && !has_scope) {
-            cg_.getMethodGenerator().loadArg(3);
+            if (isInBlock()) {
+                cg_.getMethodGenerator().loadThis();
+                cg_.getMethodGenerator().MethodBlockBase_getScope();
+            } else {
+                cg_.getMethodGenerator().loadArg(3);
+            }
         }
 
         cg_.getMethodGenerator().push(className);

@@ -941,6 +941,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_class() {
         String[] program_texts = {
+                "1.times {class ClassInBlock; end};",
+
                 "class C\n" +
                 "	def f\n" +
                 "		print \"~~~~\"\n" +
@@ -984,6 +986,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "",
                 "~~~~",
                 "!!!",
                 "*****",
@@ -5969,7 +5972,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         String[] program_texts = {
                 "print ENV, ENV.class",
                 "ENV['a'] = 'b';print ENV['a']\n" +
-                "ENV.delete 'a';print ENV['a']",    
+                "ENV.delete 'a';print ENV['a']",
         };
 
         String[] outputs = {
