@@ -180,9 +180,7 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void loadCurrentScope(boolean is_in_class_builder, boolean is_in_singleton_method, boolean is_in_global_scope, boolean is_in_block) {
-        if (is_in_class_builder) {
-            loadCurrentClass();
-        } else if (is_in_global_scope) {
+        if (is_in_class_builder || is_in_global_scope) {
             loadArg(3);
         } else {
             loadThis();
@@ -190,8 +188,13 @@ class MethodGenerator extends GeneratorAdapter {
         }
     }
 
-    public void loadCurrentClass() {
-        loadArg(3);
+    public void loadCurrentClass(boolean is_in_block) {
+        if (is_in_block) {
+            loadThis();
+            MethodBlockBase_getScope();
+        } else {
+            loadArg(3);
+        }
     }
 
     public void loadMethodArg() {
@@ -559,22 +562,22 @@ class MethodGenerator extends GeneratorAdapter {
         invokeStatic(Types.RUBY_API_TYPE,
                 Method.getMethod("com.xruby.runtime.lang.RubyValue callMethod(com.xruby.runtime.lang.RubyValue, com.xruby.runtime.builtin.RubyArray, com.xruby.runtime.lang.RubyBlock, com.xruby.runtime.lang.RubyID)"));
     }
-    
-    private static final Method RubyAPICallNoArgMethodMethod = 
-    	CgUtil.getMethod("callNoArgMethod", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_ID_TYPE);
-    private static final Method RubyAPICallOneArgMethodMethod = 
-    	CgUtil.getMethod("callOneArgMethod", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_ID_TYPE);
-    private static final Method RubyAPICallTwoArgMethodMethod = 
-    	CgUtil.getMethod("callTwoArgMethod", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_ID_TYPE);
+
+    private static final Method RubyAPICallNoArgMethodMethod =
+        CgUtil.getMethod("callNoArgMethod", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_ID_TYPE);
+    private static final Method RubyAPICallOneArgMethodMethod =
+        CgUtil.getMethod("callOneArgMethod", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_ID_TYPE);
+    private static final Method RubyAPICallTwoArgMethodMethod =
+        CgUtil.getMethod("callTwoArgMethod", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_ID_TYPE);
 
     public void RubyAPI_callNoArgMethod(String methodName) {
         loadRubyID(methodName);
-		invokeStatic(Types.RUBY_API_TYPE, RubyAPICallNoArgMethodMethod);
+        invokeStatic(Types.RUBY_API_TYPE, RubyAPICallNoArgMethodMethod);
     }
 
     public void RubyAPI_callOneArgMethod(String methodName) {
         loadRubyID(methodName);
-		invokeStatic(Types.RUBY_API_TYPE, RubyAPICallOneArgMethodMethod);
+        invokeStatic(Types.RUBY_API_TYPE, RubyAPICallOneArgMethodMethod);
     }
 
     public void RubyAPI_callTwoArgMethod(String methodName) {
@@ -781,7 +784,6 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void RubyModule_aliasMethod(String newName, String oldName) {
-        loadCurrentClass();
         push(newName);
         push(oldName);
         invokeVirtual(Types.RUBY_MODULE_TYPE,
@@ -789,7 +791,6 @@ class MethodGenerator extends GeneratorAdapter {
     }
 
     public void RubyModule_undefMethod(String name) {
-        loadCurrentClass();
         push(name);
         invokeVirtual(Types.RUBY_MODULE_TYPE,
                 Method.getMethod("void undefMethod(String)"));

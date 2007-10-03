@@ -103,12 +103,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     public void visitClassDefination1(String className, boolean has_scope) {
 
         if (!isInGlobalScope() && !has_scope) {
-            if (isInBlock()) {
-                cg_.getMethodGenerator().loadThis();
-                cg_.getMethodGenerator().MethodBlockBase_getScope();
-            } else {
-                cg_.getMethodGenerator().loadArg(3);
-            }
+            cg_.getMethodGenerator().loadCurrentClass(isInBlock());
         }
 
         cg_.getMethodGenerator().push(className);
@@ -145,7 +140,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().pushNull();
         cg_.getMethodGenerator().loadLocal(i);
         cg_.getMethodGenerator().invokeVirtual(builder,
-        		CgUtil.getMethod("invoke", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_ARRAY_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_MODULE_TYPE));
+                CgUtil.getMethod("invoke", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_ARRAY_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_MODULE_TYPE));
 
         switchToNewClassGenerator(new ClassGeneratorForClassModuleBuilder(uniqueName, script_name_, null, is_singleton));
     }
@@ -867,10 +862,12 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitAliasMethod(String newName, String oldName) {
+        cg_.getMethodGenerator().loadCurrentClass(isInBlock());
         cg_.getMethodGenerator().RubyModule_aliasMethod(newName, oldName);
     }
 
     public void visitUndef(String name) {
+        cg_.getMethodGenerator().loadCurrentClass(isInBlock());
         cg_.getMethodGenerator().RubyModule_undefMethod(name);
     }
 
@@ -1025,7 +1022,7 @@ public class RubyCompilerImpl implements CodeVisitor {
 
     private void loadTopScope() {
         if (isInGlobalScope()) {
-            cg_.getMethodGenerator().loadCurrentClass();
+            cg_.getMethodGenerator().loadCurrentClass(false);
         } else {
             cg_.getMethodGenerator().RubyRuntime_GlobalScope();
         }

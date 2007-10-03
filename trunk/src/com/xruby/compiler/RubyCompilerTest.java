@@ -2186,6 +2186,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_alias_method() {
         String[] program_texts = {
+                "1.times {alias :aliased_print :print};aliased_print 6",
+
                 "class Test_alias_method\n" +
                 "def a; print 34; end; alias_method :b, :a ;\n" +
                 "end\n" +
@@ -2226,6 +2228,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "6",
                 "34",
 
                 "",
