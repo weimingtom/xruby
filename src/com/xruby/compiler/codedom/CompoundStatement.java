@@ -6,12 +6,14 @@
 package com.xruby.compiler.codedom;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import antlr.RecognitionException;
 
 public class CompoundStatement implements Visitable {
-    protected ArrayList<Statement> statements_ = new ArrayList<Statement>();
-    private ArrayList<BEGINBlock> beginblocks_ = new ArrayList<BEGINBlock>();
-    private ArrayList<ENDBlock> endblocks_ = new ArrayList<ENDBlock>();
+    protected List<Statement> statements_ = new ArrayList<Statement>();
+    private List<BEGINBlock> beginblocks_ = null;
+    private List<ENDBlock> endblocks_ = null;
     private int lastLine = 0;
 
     public void addStatement(Statement statement) {
@@ -26,13 +28,29 @@ public class CompoundStatement implements Visitable {
                     lastLine = expression.getPosition();
                 }
             } else if (statement instanceof BEGINBlock) {
-                beginblocks_.add((BEGINBlock)statement);
+            	this.addBeginBlock((BEGINBlock)statement);
             } else if (statement instanceof ENDBlock) {
-                endblocks_.add(0, (ENDBlock)statement);
+            	this.addEndBlock((ENDBlock)statement);
             } else {
                 statements_.add(statement);
             }
         }
+    }
+    
+    private void addBeginBlock(BEGINBlock block) {
+    	if (this.beginblocks_ == null) {
+    		this.beginblocks_ = new ArrayList<BEGINBlock>();
+    	}
+    	
+    	this.beginblocks_.add(block);
+    }
+    
+    private void addEndBlock(ENDBlock block) {
+    	if (this.endblocks_ == null) {
+    		this.endblocks_ = new ArrayList<ENDBlock>();
+    	}
+    	
+    	this.endblocks_.add(0, block);
     }
 
     int size() {
@@ -41,7 +59,7 @@ public class CompoundStatement implements Visitable {
 
     // begin; ... ; end
     boolean isSingleBeginEnd() {
-        return (size() == 1) &&
+        return (this.statements_.size() == 1) &&
             (statements_.get(0) instanceof ExpressionStatement) &&
             (((ExpressionStatement)statements_.get(0)).getExpression() instanceof ExceptionHandlingExpression);
     }
@@ -103,8 +121,13 @@ public class CompoundStatement implements Visitable {
     }
 
     public void accept(CodeVisitor visitor) {
-        statements_.addAll(0, beginblocks_);
-        statements_.addAll(endblocks_);
+    	if (this.beginblocks_ != null) {
+    		statements_.addAll(0, beginblocks_);
+    	}
+    	
+    	if (this.endblocks_ != null) {
+    		statements_.addAll(endblocks_);
+    	}
 
         int i = 0;
         for (Statement statement : statements_) {

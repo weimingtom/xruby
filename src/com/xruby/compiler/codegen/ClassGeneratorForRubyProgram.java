@@ -65,20 +65,16 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
                 false);
 
         mg.loadArg(0);
-        mg.invokeStatic(Types.RUBY_RUNTIME_TYPE,
-                Method.getMethod("void init(String[])"));
+        mg.invokeStatic(Types.RUBY_RUNTIME_TYPE, Method.getMethod("void init(String[])"));
 
         Type program = Type.getType("L" + name_ + ";");
         mg.newInstance(program);
         mg.dup();
-        mg.invokeConstructor(program,
-        		CgUtil.CONSTRUCTOR);
-        mg.invokeVirtual(program,
-                Method.getMethod("com.xruby.runtime.lang.RubyValue invoke()"));
+        mg.invokeConstructor(program, CgUtil.CONSTRUCTOR);
+        mg.invokeVirtual(program, CgUtil.getMethod("invoke", Types.RUBY_VALUE_TYPE));
         mg.pop();
 
-        mg.invokeStatic(Types.RUBY_RUNTIME_TYPE,
-                Method.getMethod("void fini()"));
+        mg.invokeStatic(Types.RUBY_RUNTIME_TYPE, CgUtil.getMethod("fini", Type.VOID_TYPE));
 
         mg.returnValue();
         mg.endMethod();
@@ -91,8 +87,9 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
     }
 
 	public void loadArgOfMethodForBlock() {
-		getMethodGenerator().pushNull();
-		getMethodGenerator().loadArg(1);
+		MethodGenerator mg = getMethodGenerator();
+		mg.pushNull();
+		mg.loadArg(1);
 	}
 }
 

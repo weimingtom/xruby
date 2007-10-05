@@ -25,8 +25,6 @@ class CompilationResult {
 
     public void save(JarOutputStream jarstream) throws FileNotFoundException, IOException {
         String filename_to_save = NameFactory.createClassFileName(name_);
-        //System.out.println("Added " + filename_to_save);
-
         jarstream.putNextEntry(new JarEntry(filename_to_save));
         jarstream.write(code_);
     }
@@ -38,7 +36,7 @@ class CompilationResult {
 
 public class CompilationResults {
 
-    private final ArrayList<CompilationResult> results_ = new ArrayList<CompilationResult>();
+    private final List<CompilationResult> results_ = new ArrayList<CompilationResult>();
 
     public void add(CompilationResult result) {
         results_.add(result);
@@ -93,7 +91,6 @@ public class CompilationResults {
      * @return an instance of RubyProgram.
      */
     public RubyProgram getRubyProgram() throws InstantiationException, IllegalAccessException {
-
         XRubyClassLoader loader = new XRubyClassLoader();
         Class classToRun = null;
         for (CompilationResult result : results_) {

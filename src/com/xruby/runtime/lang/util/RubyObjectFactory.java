@@ -15,6 +15,7 @@ class RubyObjectFactory extends RubyTypeFactory {
 		CgUtil.getMethod("createRubyObject", Types.RUBY_OBJECT_TYPE);
 	private static final Method RubyObjectConstructor = 
 		CgUtil.getMethod("<init>", Type.VOID_TYPE, Types.RUBY_CLASS_TYPE);
+	private static final Type BuilderInterface = Type.getType(RubyObjectBuilder.class);
 	
 	RubyObjectFactory(Class klass) {
 		super(klass);
@@ -32,8 +33,8 @@ class RubyObjectFactory extends RubyTypeFactory {
 		return CgUtil.getInternalName(klass.getName() + "$ObjectBuilder");
 	}
 	
-	protected Class getInterface() {
-		return RubyObjectBuilder.class;
+	protected Type getInterface() {
+		return BuilderInterface;
 	}
 	
 	protected Method getBuilderMethod() {

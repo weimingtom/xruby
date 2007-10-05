@@ -1,3 +1,8 @@
+/**
+ * Copyright 2007 Ye Zheng
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.compiler.codegen;
 
 import org.objectweb.asm.ClassVisitor;
@@ -8,10 +13,6 @@ import org.objectweb.asm.commons.Method;
 
 public class CgUtil {
 	public static Method CONSTRUCTOR = new Method("<init>", Type.VOID_TYPE, Types.NULL_TYPE_ARRAY);
-	
-	public static String getInternalName(Class klass) {
-		return klass.getName().replace(".", "/");
-	}
 	
 	public static String getInternalName(String name) {
 		return name.replace(".", "/");
