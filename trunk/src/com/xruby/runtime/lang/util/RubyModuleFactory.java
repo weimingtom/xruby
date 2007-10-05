@@ -20,6 +20,7 @@ class RubyModuleFactory extends RubyTypeFactory {
 		CgUtil.getMethod("createRubyModule", Types.RUBY_MODULE_TYPE);
 	private static final Method RubyAPIDefineModuleMethod = 
 		CgUtil.getMethod("defineModule", Types.RUBY_MODULE_TYPE, Type.getType(String.class));
+	private static final Type BuilderInterface = Type.getType(RubyModuleBuilder.class);
 	
 	RubyModuleFactory(Class klass) {
 		super(klass);
@@ -37,8 +38,8 @@ class RubyModuleFactory extends RubyTypeFactory {
 		return CgUtil.getInternalName(klass.getName() + "$ModuleBuilder");
 	}
 
-	protected Class getInterface() {
-		return RubyModuleBuilder.class;
+	protected Type getInterface() {
+		return BuilderInterface;
 	}
 	
 	protected Method getBuilderMethod() {

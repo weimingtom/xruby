@@ -351,10 +351,11 @@ class ClassGeneratorForRubyBlock extends ClassGenerator {
     }
 
     private void addVariableToBinding(String s) {
-        getMethodGenerator().push(s);
+        MethodGenerator mg = getMethodGenerator();
+		mg.push(s);
         field_manager_.addField(s);
         loadField(s);
-        getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
+        mg.invokeVirtual(Types.RUBY_BINDING_TYPE,
         		CgUtil.getMethod("addVariable", Types.RUBY_BINDING_TYPE, Type.getType(String.class), Types.RUBY_VALUE_TYPE));
     }
 

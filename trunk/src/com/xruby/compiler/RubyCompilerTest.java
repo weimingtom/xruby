@@ -26,8 +26,8 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compileString(null, program_texts[i]);
-                assertTrue(null != codes);
+                CompilationResults codes = compiler.compileString(program_texts[i]);
+                assertNotNull(codes);
                 RubyProgram p = codes.getRubyProgram();
                 RubyValue v = p.invoke();
                 RubyFixnum r = (RubyFixnum)v;
@@ -58,8 +58,8 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compileString(null, program_texts[i]);
-                assertTrue(null != codes);
+                CompilationResults codes = compiler.compileString(program_texts[i]);
+                assertNotNull(codes);
                 RubyProgram p = codes.getRubyProgram();
                 RubyValue v = p.invoke();
                 RubyString r = (RubyString) v;
@@ -90,8 +90,8 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compileString(null, program_texts[i]);
-                assertTrue(null != codes);
+                CompilationResults codes = compiler.compileString(program_texts[i]);
+                assertNotNull(codes);
                 RubyProgram p = codes.getRubyProgram();
                 RubyValue v = p.invoke();
                 assertEquals(results[i], v);
@@ -121,8 +121,8 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compileString(null, program_texts[i]);
-                assertTrue(null != codes);
+                CompilationResults codes = compiler.compileString(program_texts[i]);
+                assertNotNull(codes);
                 RubyProgram p = codes.getRubyProgram();
                 p.invoke();
                 fail("Error at " + i + ": should throw RubyException");
@@ -161,8 +161,8 @@ class CompilerTestCase extends TestCase {
             RubyCompiler compiler = new RubyCompiler(null, false);
 
             try {
-                CompilationResults codes = compiler.compileString(null, program_texts[i]);
-                assertTrue(null != codes);
+                CompilationResults codes = compiler.compileString(program_texts[i]);
+                assertNotNull(codes);
                 RubyProgram p = codes.getRubyProgram();
 
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -206,7 +206,7 @@ public class RubyCompilerTest extends CompilerTestCase {
     public void test_raise() throws RecognitionException, TokenStreamException, InstantiationException, IllegalAccessException {
         String program_texts = "raise 'test'";
         RubyCompiler compiler = new RubyCompiler(null, false);
-        CompilationResults codes = compiler.compileString(null, program_texts);
+        CompilationResults codes = compiler.compileString(program_texts);
         assertTrue(null != codes);
         RubyProgram p = codes.getRubyProgram();
         try {
@@ -787,7 +787,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         RubyCompiler compiler = new RubyCompiler(null, false);
 
         try {
-            CompilationResults codes = compiler.compileString(null, program_texts);
+            CompilationResults codes = compiler.compileString(program_texts);
             assertEquals(3, codes.size());
         } catch (Exception e) {
             assertTrue("Error : " + e.toString(), false);

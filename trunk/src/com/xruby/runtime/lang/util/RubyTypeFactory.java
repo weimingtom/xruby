@@ -162,15 +162,14 @@ public abstract class RubyTypeFactory {
 	
 	protected abstract Class getTypeAnnotationClass();
 	protected abstract String getBuilderName(Class klass);
-	protected abstract Class getInterface();
+	protected abstract Type getInterface();
 	protected abstract Method getBuilderMethod();
 	protected abstract int createRubyType(GeneratorAdapter mg, Annotation annotation);
 	protected abstract boolean isModule();
 	
 	private void startBuilder(String name) {
 		this.cv.visit(CgConfig.TARGET_VERSION, Opcodes.ACC_PUBLIC, name, 
-				null, OBJECT_TYPE.getInternalName(), new String[] { CgUtil.getInternalName(getInterface())});
-		
+				null, OBJECT_TYPE.getInternalName(), new String[] { getInterface().getInternalName()});
 		
 		CgUtil.createImplicitConstructor(this.cv, OBJECT_TYPE);
 	}

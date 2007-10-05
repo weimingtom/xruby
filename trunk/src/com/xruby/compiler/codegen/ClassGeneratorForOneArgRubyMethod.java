@@ -47,7 +47,8 @@ class ClassGeneratorForOneArgRubyMethod extends ClassGeneratorForRubyMethod {
     }
 
 	public void loadArgOfMethodForBlock() {
-		getMethodGenerator().loadArg(1);
-		getMethodGenerator().pushNull();
+		MethodGenerator mg = getMethodGenerator();
+		mg.loadArg(1);
+		mg.pushNull();
 	}
 }

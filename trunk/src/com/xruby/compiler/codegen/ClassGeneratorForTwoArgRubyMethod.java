@@ -51,8 +51,9 @@ public class ClassGeneratorForTwoArgRubyMethod extends ClassGeneratorForRubyMeth
 			}
 
 			public void loadMethodArg() {
-				getMethodGenerator().loadArg(1);
-				getMethodGenerator().loadArg(2);
+				MethodGenerator mg = getMethodGenerator();
+				mg.loadArg(1);
+				mg.loadArg(2);
 			}
 		};
 	}

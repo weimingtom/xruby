@@ -23,10 +23,6 @@ import java.io.PrintStream;
 import java.nio.channels.FileChannel;
 
 public class Main {
-
-    /**
-     * @param args
-     */
     public static void main(String[] args) throws Exception {
         CommandLineOptions options = new CommandLineOptions(args);
         if (options.isHelp()) {
@@ -40,7 +36,7 @@ public class Main {
                 copyFile(options.getFilename(), options.getFilename() + options.getBackupExtension());
             }
             RubyCompiler compiler = new RubyCompiler(null, options.isStrip());
-            CompilationResults results = compiler.compileString(null, options.getEvalScript());
+            CompilationResults results = compiler.compileString(options.getEvalScript());
             if (options.isPe()) {
                 redirectStdinout(options.getFilename());
             }
@@ -93,7 +89,8 @@ public class Main {
         System.out.println("Usage: xruby [-c] filename1, filename2, ...");
     }
 
-    private static CompilationResults compile(String filename, boolean strip, boolean verbose, boolean debug) throws Exception {
+    private static CompilationResults compile(String filename, boolean strip, boolean verbose, boolean debug) 
+    	throws Exception {
         RubyCompiler compiler = new RubyCompiler(null, strip);
         if (verbose) {
             compiler.setVerbose();
@@ -102,7 +99,11 @@ public class Main {
             compiler.enableDebug();
         }
 
-        return compiler.compileFile(filename);
+        if (filename == null || filename.length() == 0) {
+        	return compiler.compileStdin();
+        } else  {
+        	return compiler.compileFile(filename);
+        }
     }
 
     private static void run(CompilationResults results, String[] args) throws Exception {

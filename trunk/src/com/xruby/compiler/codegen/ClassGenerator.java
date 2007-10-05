@@ -48,17 +48,19 @@ abstract class ClassGenerator {
         //initializeAsteriskParameter() is always called. -- this will makes code generation simpler.
         //But doing it here has a little advantage (optimazation): if the
         //asterisk parameter is not used, we'd better avoid calling initializeAsteriskParameter().
-        getMethodGenerator().RubyAPI_initializeAsteriskParameter(argc);
-        int i = getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
+        MethodGenerator mg = getMethodGenerator();
+		mg.RubyAPI_initializeAsteriskParameter(argc);
+        int i = mg.newLocal(Types.RUBY_VALUE_TYPE);
         getSymbolTable().addAsteriskOrBlockMethodParameter(name, i);
-        getMethodGenerator().storeLocal(i);
+        mg.storeLocal(i);
     }
 
     public void setBlockParameter(String name) {
-        getMethodGenerator().RubyAPI_initializeBlockParameter();
-        int i = getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
+        MethodGenerator mg = getMethodGenerator();
+		mg.RubyAPI_initializeBlockParameter();
+        int i = mg.newLocal(Types.RUBY_VALUE_TYPE);
         getSymbolTable().addAsteriskOrBlockMethodParameter(name, i);
-        getMethodGenerator().storeLocal(i);
+        mg.storeLocal(i);
     }
 
     public void visitEnd() {
@@ -75,21 +77,22 @@ abstract class ClassGenerator {
 
     public void storeVariable(String name) {
         SymbolTable.VariableAssignedInBlock record = getSymbolTable().getVariableAssignedInBlock(name);
-        if (null != record) {
-            getMethodGenerator().loadLocal(record.block_var_);
-            getMethodGenerator().swap();//TODO aoid using swap, jad does not unserstand this well.
-            getMethodGenerator().putField(Type.getType("L" + record.block_name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
+        MethodGenerator mg = getMethodGenerator();
+		if (null != record) {
+            mg.loadLocal(record.block_var_);
+            mg.swap();//TODO aoid using swap, jad does not unserstand this well.
+            mg.putField(Type.getType("L" + record.block_name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
             return;
         }
 
         if (getSymbolTable().getLocalVariable(name) >= 0) {
-            getMethodGenerator().storeRubyLocalVariable(name);
+            mg.storeRubyLocalVariable(name);
             return;
         }
 
         int i = getSymbolTable().getAsteriskOrBlockMethodParameter(name);
         if (i >= 0) {
-            getMethodGenerator().storeLocal(i);
+            mg.storeLocal(i);
             return;
         }
 
@@ -99,26 +102,27 @@ abstract class ClassGenerator {
             return;
         }
 
-        getMethodGenerator().storeNewLocalVariable(name);
+        mg.storeNewLocalVariable(name);
     }
 
     public void loadVariable(String name) {
         SymbolTable.VariableAssignedInBlock record = getSymbolTable().getVariableAssignedInBlock(name);
-        if (null != record) {
-             getMethodGenerator().loadLocal(record.block_var_);
-             getMethodGenerator().getField(Type.getType("L" + record.block_name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
+        MethodGenerator mg = getMethodGenerator();
+		if (null != record) {
+             mg.loadLocal(record.block_var_);
+             mg.getField(Type.getType("L" + record.block_name_ + ";"), decorateName(name), Types.RUBY_VALUE_TYPE);
              return;
         }
 
         //check if this is local variable
         if (getSymbolTable().getLocalVariable(name) >= 0) {
-            getMethodGenerator().loadRubyLocalVariable(name);
+            mg.loadRubyLocalVariable(name);
             return;
         }
 
         int i = getSymbolTable().getAsteriskOrBlockMethodParameter(name);
         if (i >= 0) {
-            getMethodGenerator().loadLocal(i);
+            mg.loadLocal(i);
             return;
         }
 
@@ -130,27 +134,29 @@ abstract class ClassGenerator {
         }
 
         // never used, for example a = a + 1
-        getMethodGenerator().ObjectFactory_nilValue();
+        mg.ObjectFactory_nilValue();
     }
 
     public void loadMethodPrameter(int index) {
         //signature:
         //run(RubyValue reciever, RubyArray args, RubyBlock block)
-        getMethodGenerator().loadArg(1);
-        getMethodGenerator().push(index);
-        getMethodGenerator().invokeVirtual(Types.RUBY_ARRAY_TYPE,
+        MethodGenerator mg = getMethodGenerator();
+		mg.loadArg(1);
+        mg.push(index);
+        mg.invokeVirtual(Types.RUBY_ARRAY_TYPE,
                     CgUtil.getMethod("get", Types.RUBY_VALUE_TYPE, Type.INT_TYPE));
     }
 
     public void storeMethodParameter(int index) {
-        int i = getMethodGenerator().newLocal(Types.RUBY_VALUE_TYPE);
-        getMethodGenerator().storeLocal(i);
-        getMethodGenerator().loadArg(1);
-        getMethodGenerator().push(index);
-        getMethodGenerator().loadLocal(i);
-        getMethodGenerator().invokeVirtual(Types.RUBY_ARRAY_TYPE,
+        MethodGenerator mg = getMethodGenerator();
+		int i = mg.newLocal(Types.RUBY_VALUE_TYPE);
+        mg.storeLocal(i);
+        mg.loadArg(1);
+        mg.push(index);
+        mg.loadLocal(i);
+        mg.invokeVirtual(Types.RUBY_ARRAY_TYPE,
                 CgUtil.getMethod("set", Types.RUBY_VALUE_TYPE, Type.INT_TYPE, Types.RUBY_VALUE_TYPE));
-        getMethodGenerator().pop();
+        mg.pop();
     }
 
     public MethodGenerator getMethodGenerator() {
@@ -159,8 +165,9 @@ abstract class ClassGenerator {
 
     public void createBinding(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {
         int i = getSymbolTable().getInternalBindingVar();
-        if (i >= 0) {
-            getMethodGenerator().loadLocal(i);
+        MethodGenerator mg = getMethodGenerator();
+		if (i >= 0) {
+            mg.loadLocal(i);
             updateBinding(isInClassBuilder, isInSingletonMethod, isInGlobalScope, isInBlock);
             return;
         }
@@ -168,38 +175,39 @@ abstract class ClassGenerator {
         newBinding();
         updateBinding(isInClassBuilder, isInSingletonMethod, isInGlobalScope, isInBlock);
 
-        getMethodGenerator().dup();
-        i = getMethodGenerator().newLocal(Types.RUBY_BINDING_TYPE);
-        getMethodGenerator().storeLocal(i);
+        mg.dup();
+        i = mg.newLocal(Types.RUBY_BINDING_TYPE);
+        mg.storeLocal(i);
         getSymbolTable().setInternalBindingVar(i);
     }
 
     private void newBinding() {
-        getMethodGenerator().newInstance(Types.RUBY_BINDING_TYPE);
-        getMethodGenerator().dup();
-        getMethodGenerator().invokeConstructor(Types.RUBY_BINDING_TYPE,
-        		CgUtil.CONSTRUCTOR);
+        MethodGenerator mg = getMethodGenerator();
+		mg.newInstance(Types.RUBY_BINDING_TYPE);
+        mg.dup();
+        mg.invokeConstructor(Types.RUBY_BINDING_TYPE,	CgUtil.CONSTRUCTOR);
     }
 
     private void updateBinding(boolean isInClassBuilder, boolean isInSingletonMethod, boolean isInGlobalScope, boolean isInBlock) {
-        getMethodGenerator().loadSelf(isInBlock);
-        getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
+        MethodGenerator mg = getMethodGenerator();
+		mg.loadSelf(isInBlock);
+        mg.invokeVirtual(Types.RUBY_BINDING_TYPE,
         		CgUtil.getMethod("setSelf", Types.RUBY_BINDING_TYPE, Types.RUBY_VALUE_TYPE));
 
         if (isInClassBuilder) {
-            getMethodGenerator().pushNull();
+            mg.pushNull();
         } else {
-            getMethodGenerator().loadBlock(isInBlock);
+            mg.loadBlock(isInBlock);
         }
-        getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
+        mg.invokeVirtual(Types.RUBY_BINDING_TYPE,
         		CgUtil.getMethod("setBlock", Types.RUBY_BINDING_TYPE, Types.RUBY_BLOCK_TYPE));
 
         if (!isInBlock) {
-            getMethodGenerator().loadCurrentScope(isInClassBuilder, isInSingletonMethod, isInGlobalScope, isInBlock);
+            mg.loadCurrentScope(isInClassBuilder, isInSingletonMethod, isInGlobalScope, isInBlock);
         } else {
-            getMethodGenerator().pushNull();//TODO fix this and loadCurrentClass
+            mg.pushNull();//TODO fix this and loadCurrentClass
         }
-        getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE,
+        mg.invokeVirtual(Types.RUBY_BINDING_TYPE,
         		CgUtil.getMethod("setScope", Types.RUBY_BINDING_TYPE, Types.RUBY_MODULE_TYPE));
 
         addVariableToBinding();
@@ -208,17 +216,18 @@ abstract class ClassGenerator {
     public void addVariableToBinding() {
         Collection<String> vars = getSymbolTable().getLocalVariables();
         Method addVarMethod = CgUtil.getMethod("addVariable", Types.RUBY_BINDING_TYPE, Type.getType(String.class), Types.RUBY_VALUE_TYPE);
-        for (String s : vars) {
-            getMethodGenerator().push(s);
+        MethodGenerator mg = getMethodGenerator();
+		for (String s : vars) {
+            mg.push(s);
             loadVariable(s);
-			getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE, addVarMethod);
+			mg.invokeVirtual(Types.RUBY_BINDING_TYPE, addVarMethod);
         }
 
         Collection<String> params = getSymbolTable().getParameters();
         for (String s : params) {
-            getMethodGenerator().push(s);
+            mg.push(s);
             loadMethodPrameter(getSymbolTable().getMethodParameter(s));
-            getMethodGenerator().invokeVirtual(Types.RUBY_BINDING_TYPE, addVarMethod);
+            mg.invokeVirtual(Types.RUBY_BINDING_TYPE, addVarMethod);
         }
     }
 

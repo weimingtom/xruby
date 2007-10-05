@@ -19,9 +19,9 @@ import com.xruby.runtime.lang.annotation.UndefMethod;
 class RubyClassFactory extends RubyTypeFactory {
 	private static final Method RubyClassBuilderCreateRubyClassMethod = 
 		CgUtil.getMethod("createRubyClass", Types.RUBY_CLASS_TYPE);
-	
 	private static final Method RubyAPIDefineClassMethod = 
 		CgUtil.getMethod("defineClass", Types.RUBY_CLASS_TYPE, Type.getType(String.class), Types.RUBY_VALUE_TYPE);
+	private static final Type BuilderInterface = Type.getType(RubyClassBuilder.class);
 	
 	RubyClassFactory(Class klass) {
 		super(klass);
@@ -39,8 +39,8 @@ class RubyClassFactory extends RubyTypeFactory {
 		return CgUtil.getInternalName(klass.getName() + "$ClassBuilder");
 	}
 
-	protected Class getInterface() {
-		return RubyClassBuilder.class;
+	protected Type getInterface() {
+		return BuilderInterface;
 	}
 
 	protected Method getBuilderMethod() {

@@ -63,7 +63,8 @@ class ClassGeneratorForNoArgRubyMethod extends ClassGeneratorForRubyMethod {
 	}
 
 	public void loadArgOfMethodForBlock() {
-		getMethodGenerator().pushNull();
-		getMethodGenerator().pushNull();
+		MethodGenerator mg = getMethodGenerator();
+		mg.pushNull();
+		mg.pushNull();
 	}
 }

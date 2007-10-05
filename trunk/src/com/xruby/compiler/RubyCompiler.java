@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2007 Xue Yong Zhi, Yu Su
+ * Copyright 2005-2007 Xue Yong Zhi, Yu Su, Ye Zheng
  * Distributed under the GNU General Public License 2.0
  */
 
@@ -29,66 +29,67 @@ public class RubyCompiler {
     private boolean enableDebug = false;
     private boolean verbose_ = false;
     private CompilationResults compilation_results_ = new CompilationResults();
-
+    
     public RubyCompiler(RubyBinding binding, boolean strip) {
         binding_ = binding;
         strip_ = strip;
     }
-
-    public CompilationResults compileFile(String filename) throws FileNotFoundException,
-        RecognitionException, TokenStreamException {
-
-        if (null == filename) {
-            Reader reader = new InputStreamReader(System.in);
-            return compile(null, null, new BufferedReader(reader));
-        } else {
-            File f = new File(filename);
-            if (f.isDirectory()) {
-                return compileFileOrDir(filename, filename);
-            } else {
-                if (verbose_) { 
-                    System.out.println("Compiling " + filename + "...");
-                }
-                Reader reader = new FileReader(f);
-                return compile(null, filename, new BufferedReader(reader));
-            }
-        }
+    
+    public CompilationResults compileString(String text)
+    	throws RecognitionException, TokenStreamException {
+    	return compile(null, null, new StringReader(text));
     }
-
-    private CompilationResults compileFileOrDir(final String extra, String filename) throws FileNotFoundException,
-        RecognitionException, TokenStreamException {
-
-        File f = new File(filename);
-        if (f.isDirectory()) {
-            for (String file : f.list()) {
-                if (file.charAt(0) == '.') {
-                    continue;
-                }
-                
-                if (file.endsWith(".rb") || 
-                    (new File(filename, file)).isDirectory()) {
-                    compileFileOrDir(extra, filename + "/" + file);
-                }
-            }
-            return compilation_results_;
-        } else {
-            if (verbose_) { 
-                System.out.println("Compiling " + filename + "...");
-            }
-            Reader reader = new FileReader(f);
-            return compile(extra, filename, new BufferedReader(reader));
-        }
-    }
-
+    
     public CompilationResults compileString(String filename, String text)
-        throws RecognitionException, TokenStreamException {
-        return compile(null, filename, new StringReader(text));
+    	throws RecognitionException, TokenStreamException {
+    	return compile(null, filename, new StringReader(text));
     }
+    
+    public CompilationResults compileStdin() 
+    	throws FileNotFoundException, RecognitionException, TokenStreamException {
+    	Reader reader = new InputStreamReader(System.in);
+        return compile(null, null, new BufferedReader(reader));
+    }
+
+    public CompilationResults compileFile(String filename)
+    	throws FileNotFoundException, RecognitionException, TokenStreamException {
+    	File f = new File(filename);
+    	if (f.isDirectory()) {
+    		return this.compileDir(filename, f);
+    	} else {
+    		return this.compileSingleFile(null, f);
+    	}
+    }
+
+	private CompilationResults compileDir(final String extra, File dir) 
+		throws FileNotFoundException, RecognitionException, TokenStreamException {
+		for (String filename : dir.list()) {
+			if (filename.charAt(0) == '.') {
+		        continue;
+		    }
+			
+		    File file = new File(dir, filename);
+		    if (file.isDirectory()) {
+		    	this.compileDir(extra, file);
+		    } else if (filename.endsWith(".rb")) {
+		    	this.compileSingleFile(extra, file);
+		    }
+		}
+		return compilation_results_;
+	}
+
+	private CompilationResults compileSingleFile(final String extra, File file) 
+		throws FileNotFoundException, RecognitionException, TokenStreamException {
+		if (verbose_) { 
+		    System.out.println("Compiling " + file.getPath() + "...");
+		}
+		Reader reader = new FileReader(file);
+		return compile(extra, file.getPath(), new BufferedReader(reader));
+	}
 
     private CompilationResults compile(String extra, String filename, Reader reader)
         throws RecognitionException, TokenStreamException {
-        String [] pre_defined = (null == binding_) ? null : binding_.getVariableNames().toArray(new String[] {});
-        RubyParser parser = new RubyParser(reader, pre_defined, strip_);
+        RubyParser parser = new RubyParser(reader, getPreDefinedVar(), strip_);
         RubyCompilerImpl compiler = new RubyCompilerImpl(extra, filename, compilation_results_);
 
         // Enable debug or not
@@ -99,6 +100,10 @@ public class RubyCompiler {
         compiler.compile(parser.parse(filename), binding_);
         return compilation_results_;
     }
+
+	private String[] getPreDefinedVar() {
+		return (null == binding_) ? null : binding_.getVariableNames().toArray(new String[0]);
+	}
 
     public void enableDebug() {
         enableDebug = true;

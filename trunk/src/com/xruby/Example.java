@@ -30,7 +30,7 @@ public class Example {
             "puts end_time - start_time";
 
         RubyCompiler compiler = new RubyCompiler(null, false);
-        CompilationResults codes = compiler.compileString(null, program_text);
+        CompilationResults codes = compiler.compileString(program_text);
         RubyProgram p = codes.getRubyProgram();
 
         RubyRuntime.init(args);
