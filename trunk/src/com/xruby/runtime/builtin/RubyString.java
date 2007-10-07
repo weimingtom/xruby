@@ -6,6 +6,8 @@
 package com.xruby.runtime.builtin;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Formatter;
 import java.util.StringTokenizer;
 
@@ -274,17 +276,17 @@ public class RubyString extends RubyBasic {
         }
     }
 
-    private String[] split(RubyString s, String delimiter) {
+    private Collection<String> split(RubyString s, String delimiter) {
         StringTokenizer t = new StringTokenizer(s.toString(), delimiter);
         int total = t.countTokens();
-        String[] r = new String[total];
+        Collection<String> r = new ArrayList<String>(total);
         for (int i = 0; i < total; ++i) {
-            r[i] = t.nextToken();
+            r.add(t.nextToken());
         }
         return r;
     }
 
-    private String[] split(RubyString g, RubyRegexp r, RubyArray args) {
+    private Collection<String> split(RubyString g, RubyRegexp r, RubyArray args) {
         if (args.size() <= 1) {
             return r.split(g.toString(), 0);
         } else {
@@ -483,14 +485,13 @@ public class RubyString extends RubyBasic {
     }
 
     @RubyLevelMethod(name="scan")
-    public RubyArray scan(RubyValue arg) {
-        RubyRegexp regex = (RubyRegexp)arg;
-        RubyMatchData match = regex.match(sb_.toString());
-        if (null != match) {
-            return match.toArray();
-        } else {
-            return new RubyArray();
+    public RubyArray scan(RubyValue arg, RubyBlock block) {
+        if (null != block) {
+            throw new RubyException("scan with block need to be implmented");
         }
+        
+        RubyRegexp regex = (RubyRegexp)arg;
+        return regex.scan(sb_.toString());
     }
 
     /// @return false if no change made
@@ -908,7 +909,7 @@ public class RubyString extends RubyBasic {
     public RubyValue split(RubyArray args) {
         RubyValue r = (null == args) ? GlobalVariables.get("$;") : args.get(0);
 
-        String[] splitResult;
+        Collection<String> splitResult;
         if (r == RubyConstant.QNIL) {
             splitResult = split(this, " ");
         } else if (r instanceof RubyRegexp) {
@@ -919,7 +920,7 @@ public class RubyString extends RubyBasic {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + r.getRubyClass() + " (expected Regexp)");
         }
 
-        RubyArray a = new RubyArray(splitResult.length);
+        RubyArray a = new RubyArray(splitResult.size());
         int i = 0;
         for (String str : splitResult) {
             if (0 != i || !str.equals("")) {
