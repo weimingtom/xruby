@@ -266,6 +266,20 @@ public class StdlibTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+    public void test_shellwords() {
+        String[] program_texts = {
+                "require 'shellwords'",
+                "p Shellwords.shellwords('a b c')",
+        };
+
+        String[] outputs = {
+                "",
+                "[\"a\", \"b\", \"c\"]\n",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
     /*TODO
     public void test_matrix() {
         String[] program_texts = {
