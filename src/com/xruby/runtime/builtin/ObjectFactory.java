@@ -15,7 +15,7 @@ import com.xruby.runtime.lang.RubyValue;
 
 import java.math.BigInteger;
 import java.util.Date;
-import java.util.regex.Matcher;
+import org.apache.oro.text.regex.MatchResult;
 
 public class ObjectFactory {
     //For preformance reason, some frequently used numbers are predefined here.
@@ -138,7 +138,7 @@ public class ObjectFactory {
         return r;
     }
 
-    public static RubyMatchData createMatchData(Matcher m) {
+    public static RubyMatchData createMatchData(MatchResult m) {
         return new RubyMatchData(m);
     }
 

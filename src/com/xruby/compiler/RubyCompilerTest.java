@@ -3772,6 +3772,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_regex_match() {
         String[] program_texts = {
+                "print(/\\A\\w:\\/\\z/ =~ 'C:/')",
                 "print /(.)(.)(\\d+)(\\d)/.match(\"THX1138.\")",
                 "print /(.)(.)(\\d+)(\\d)/.match(\"THX.\")",
                 "print /(.)(.)(\\d)+(\\d)/ =~  \"THX1138.\"",
@@ -3779,6 +3780,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "0",
                 "HX1138",
                 "nil",
                 "1",
@@ -5202,33 +5204,31 @@ public class RubyCompilerTest extends CompilerTestCase {
         String [] program_texts = {
                 "print 'abca'.gsub('a', 'c')",
                 "print 'abca'.sub('a', 'c')",
-                "print 'ABCD\nABCDE'.gsub!(/((.|\n)*?)B((.|\n)*?)D/){$3}",
-
-                "'hello'.gsub(/./) {|s| print s + ','}",
-                "print 'hello'.gsub(/./) {|s| s + ' '}",
 
                 "$_ = 'quick brown fox'; gsub /[aeiou]/, '*'; print $_",
                 "$_ = 'quick brown fox'; print gsub /[aeiou]/, '&'",
                 "$_ = 'quick brown fox'; print $_.gsub /[aeiou]/, '-'",
-
                 "$_ = 'quick brown fox'; print gsub! /cat/, '*'; print $_",
                 "$_ = 'quick brown fox'; print($_.gsub!(/cat/, '-')); print $_",
+
+                "print 'ABCD\nABCDE'.gsub!(/((.|\n)*?)B((.|\n)*?)D/){$3}",
+                "'hello'.gsub(/./) {|s| print s + ','}",
+                "print 'hello'.gsub(/./) {|s| s + ' '}",
         };
 
         String[] outputs = {
                 "cbcc",
                 "cbca",
-                "CCE",
-
-                "h,e,l,l,o,",
-                "h e l l o ",
 
                 "q**ck br*wn f*x",
                 "q&&ck br&wn f&x",
                 "q--ck br-wn f-x",
+                "nilquick brown fox",
+                "nilquick brown fox",
 
-                "nilquick brown fox",
-                "nilquick brown fox",
+                "CCE",
+                "h,e,l,l,o,",
+                "h e l l o ",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
@@ -5236,15 +5236,15 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_scan() {
         String [] program_texts = {
+                "p 'cruel world'.scan(/\\w+/) ",
                 "print 'cruel world'.scan(/(..)(..)/) == [['cr', 'ue'], ['l ', 'wo']]",
                 "print '1a2b3c'.scan(/(\\d.)/) == [['1a'], ['2b'], ['3c']]",
-                "print 'cruel world'.scan(/\\w+/) ",
         };
 
         String[] outputs = {
+                "[\"cruel\", \"world\"]\n",
                 "true",
                 "true",
-                "cruelworld",
         };
 
         compile_run_and_compare_output(program_texts, outputs);

@@ -12,14 +12,23 @@ import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.apache.oro.text.perl.Perl5Util;
 
+import org.apache.oro.text.perl.Perl5Util;
+import org.apache.oro.text.regex.*;
+
+/*
+ * TODO:
+ * Regexp and global variables:
+ *   $& receives the part of the string that was matched by the pattern
+ *   $` receives the part of the string that preceded the match
+ *   $' receives the string after the match
+ *   $~ is a MatchData object that holds everything you may want to know about the match
+ *   $1, and so on, hold the values of parts of the match
+ */
 @RubyLevelClass(name="Regexp")
 public class RubyRegexp extends RubyBasic {
 
-    private Pattern regex_;
+    private Pattern pattern_;
 
     RubyRegexp(String v) {
         super(RubyRuntime.RegexpClass);
@@ -31,13 +40,21 @@ public class RubyRegexp extends RubyBasic {
     }
 
     private void setValue(String v) {
-        regex_ = Pattern.compile(v, Pattern.MULTILINE);
+        PatternCompiler compiler = new Perl5Compiler();
+
+        //'\z' works for ruby, but ORO only supports '\Z'
+        v = v.replace("\\z", "\\Z");
+
+        try {
+            pattern_ = compiler.compile(v, Perl5Compiler.MULTILINE_MASK);
+        } catch (MalformedPatternException e) {
+            throw new Error(e);
+        }
     }
 
-    private void setValue(String v, RubyValue mode) {
-        int flags = Pattern.MULTILINE;
-        //TODO int mode = mode.toInt();
-        regex_ = Pattern.compile(v, flags);
+    private void setValue(String v, int mode) {
+        //TODO mode
+        setValue(v);
     }
 
     @RubyAllocMethod
@@ -49,7 +66,7 @@ public class RubyRegexp extends RubyBasic {
     public RubyValue initialize(RubyValue arg) {
         RubyValue pattern = arg;
         if (pattern instanceof RubyRegexp) {
-            regex_ = ((RubyRegexp)pattern).regex_;
+            pattern_ = ((RubyRegexp)pattern).pattern_;
         } else {
             setValue(pattern.toStr());
         }
@@ -62,9 +79,9 @@ public class RubyRegexp extends RubyBasic {
         RubyValue pattern = args.get(0);
         RubyValue mode = args.get(1);
         if (pattern instanceof RubyRegexp) {
-            regex_ = ((RubyRegexp)pattern).regex_;
+            pattern_ = ((RubyRegexp)pattern).pattern_;
         } else {
-            setValue(pattern.toStr(), mode);
+            setValue(pattern.toStr(), mode.toInt());
         }
 
         return this;
@@ -116,52 +133,54 @@ public class RubyRegexp extends RubyBasic {
 
     @RubyLevelMethod(name="escape", alias="quote")
     public static RubyString quote(RubyValue receiver, RubyValue arg) {
-        return ObjectFactory.createString(quote(arg.toStr()));
+        return ObjectFactory.createString(Perl5Compiler.quotemeta(arg.toStr()));
     }
 
-    private static String quote(String s) {
-        String r = Pattern.quote(s);
-        r = r.replace("(", "\\(");
-        r = r.replace(")", "\\)");
-        r = r.replace("[", "\\[");
-        r = r.replace("]", "\\]");
-        r = r.replace("{", "\\{");
-        r = r.replace("}", "\\}");
-        r = r.replace("+", "\\+");
-        r = r.replace("*", "\\*");
-        r = r.replace("?", "\\?");
-        r = r.replace("|", "\\|");
-        return r.substring(2, r.length() - 2);
-    }
-
-    public boolean caseEqual(String v) {
+    boolean caseEqual(String v) {
         return match(v) != null;
     }
 
-    public RubyMatchData match(String v) {
-        Matcher m = regex_.matcher(v);
-        int i = 0;
-        if (m.find()) {
-            ++i;
-            GlobalVariables.set(ObjectFactory.createString(m.toString()), "$" + i);
-            GlobalVariables.set(ObjectFactory.createString(m.toString()), "$&");
-            return ObjectFactory.createMatchData(m);
+    public RubyMatchData match(String input) {
+        PatternMatcher m = new Perl5Matcher();
+        if (m.contains(input, pattern_)) {
+            MatchResult r = m.getMatch();
+            GlobalVariables.set(r.group(1) == null ? RubyConstant.QNIL : ObjectFactory.createString(r.group(1)), "$1");
+            GlobalVariables.set(ObjectFactory.createString(r.group(0)), "$&");
+            return ObjectFactory.createMatchData(r);
         } else {
-            GlobalVariables.set(ObjectFactory.createString(m.toString()), "$1");
+            GlobalVariables.set(RubyConstant.QNIL, "$1");
             GlobalVariables.set(RubyConstant.QNIL, "$&");
             return null;
         }
     }
 
-    int matchPosition(String v) {
-        if (v.length() == 0) {
-            v = "\n"; //TODO a hack to handle "" =~ /^$/, need a better solution
+    public RubyArray scan(String str) {
+        RubyArray a = new RubyArray();
+
+        PatternMatcherInput input = new PatternMatcherInput(str);
+        PatternMatcher m = new Perl5Matcher();
+        while (m.contains(input, pattern_)) {
+            MatchResult r = m.getMatch();
+            if (r.groups() == 1) {
+                a.add(ObjectFactory.createString(r.group(0)));
+            } else {
+                RubyArray subarray = new RubyArray();
+                for (int i = 1; i < r.groups(); ++i) {
+                    subarray.add(ObjectFactory.createString(r.group(i)));
+                }
+                a.add(subarray);
+            }
         }
 
-        Matcher m = regex_.matcher(v);
-        if (m.find()) {
-            GlobalVariables.set(ObjectFactory.createString(m.group()), "$&");
-            return m.start();
+        return a;
+    }
+
+    int matchPosition(String input) {
+        PatternMatcher m = new Perl5Matcher();
+        if (m.contains(input, pattern_)) {
+            MatchResult r = m.getMatch();
+            GlobalVariables.set(ObjectFactory.createString(r.group(0)), "$&");
+            return r.beginOffset(0);
         } else {
             GlobalVariables.set(RubyConstant.QNIL, "$&");
             return -1;
@@ -169,7 +188,7 @@ public class RubyRegexp extends RubyBasic {
     }
 
     private String getReplaceString(String replace_string) {
-        //java and oro uses $1, $2, ruby uses \1, \2
+        //java and oro use $1, $2, ruby uses \1, \2
         replace_string = replace_string.replace("\\&", "$0");
 
         //%q{location:1 in 'l'}.sub(/\A(.+:\d+).*/, ' [\\1]') is as same as
@@ -182,82 +201,88 @@ public class RubyRegexp extends RubyBasic {
         return replace_string;
     }
 
+    public RubyString sub(RubyString input, RubyBlock block) {
+        return sub(input.toString(), block, 0);
+    }
 
-    public RubyString sub(RubyString s, RubyBlock block) {
-        Matcher m = regex_.matcher(s.toString());
-        int end = -1;
-        final int groupcount = m.groupCount();
+    public RubyString gsub(RubyString input, RubyBlock block) {
+        return sub(input.toString(), block, -1);
+    }
+
+    private RubyString sub(String str, RubyBlock block, int limit) {
         RubyString r = new RubyString("");
-        if (m.find()) {
-            for (int i = 1; i <= groupcount; ++i) {
-                String sg = m.group(i);
-                GlobalVariables.set(ObjectFactory.createString(sg), "$" + i);
+        PatternMatcherInput input = new PatternMatcherInput(str);
+        PatternMatcher matcher = new Perl5Matcher();
+        int end = -1;
+        while (matcher.contains(input, pattern_)) {
+            MatchResult m = matcher.getMatch();
+            for (int i = 1; i < m.groups(); ++i) {
+                GlobalVariables.set(ObjectFactory.createString(m.group(i)), "$" + i);
             }
-            String g = m.group();
-            end = m.end();
+
+            String g = m.group(0);
+            end = m.endOffset(0);
             GlobalVariables.set(ObjectFactory.createString(g), "$&");
+
             RubyString match = new RubyString(g);
             RubyValue v = block.invoke(this, match);
-            r.appendString(v);
-        }
+            r.appendString(v.toString());
 
-        if (end >= 0 && end < s.length()) {
-            r.appendString(s.toString().substring(end, s.length()));
-        }
-
-        return r;
-    }
-
-    public String gsub(RubyString str, RubyString repl) {
-        Perl5Util util = new Perl5Util();
-        String replace_String = getReplaceString(repl.toString());
-        String regexp= "s/" + regex_.toString() + "/" + replace_String + "/g";
-        return util.substitute(regexp, str.toString());
-    }
-
-    public String sub(RubyString str, RubyString repl) {
-        Perl5Util util = new Perl5Util();
-        String replace_String = getReplaceString(repl.toString());
-        String regexp= "s/" + regex_.toString() + "/" + replace_String + "/";
-        return util.substitute(regexp, str.toString());
-    }
-
-    public RubyString gsub(RubyString s, RubyBlock block) {
-        Matcher m = regex_.matcher(s.toString());
-        final int groupcount = m.groupCount();
-        RubyString r = new RubyString("");
-        int end = -1;
-        while (m.find()) {
-            for (int i = 1; i <= groupcount; ++i) {
-                String sg = m.group(i);
-                GlobalVariables.set(ObjectFactory.createString(sg), "$" + i);
+            if (0 == limit) {
+                break;
             }
-            String g = m.group();
-            end = m.end();
-            GlobalVariables.set(ObjectFactory.createString(g), "$&");
-            RubyString match = new RubyString(g);
-            RubyValue v = block.invoke(this, match);
-            r.appendString(v);
         }
 
         //append unmatched
-        if (end >= 0 && end < s.length()) {
-            r.appendString(s.toString().substring(end, s.length()));
+        if (end >= 0 && end < str.length()) {
+            r.appendString(str.substring(end, str.length()));
         }
 
         return r;
     }
 
-    public String[] split(String input, int limit) {
-        //java's Pattern.split has different behavior with c ruby, so we used  Jakarta-ORO
+    public String gsub(RubyString input, RubyString sub) {
+        return sub(input.toString(), getReplaceString(sub.toString()), Util.SUBSTITUTE_ALL);
+    }
+
+    public String sub(RubyString input, RubyString sub) {
+        return sub(input.toString(), getReplaceString(sub.toString()), 1);
+    }
+
+    private String sub(String input, String sub, int limit) {
+        String result = Util.substitute(new Perl5Matcher(),
+                pattern_,
+                new Perl5Substitution(sub, Perl5Substitution.INTERPOLATE_ALL) {
+                    public void appendSubstitution(java.lang.StringBuffer appendBuffer,
+                        MatchResult match,
+                        int substitutionCount,
+                        PatternMatcherInput originalInput,
+                        PatternMatcher matcher,
+                        Pattern pattern) {
+                        super.appendSubstitution(appendBuffer, match, substitutionCount, originalInput, matcher, pattern);
+
+                        for (int i = 1; i < match.groups(); ++i) {
+                            GlobalVariables.set(ObjectFactory.createString(match.group(i)), "$" + i);
+                        }
+
+                        GlobalVariables.set(ObjectFactory.createString(match.group(0)), "$&");
+                    }
+                },
+                input,
+                limit);
+        return result;
+    }
+
+    public Collection<String> split(String input, int limit) {
         Perl5Util util = new Perl5Util();
         Collection<String> result = new ArrayList<String>();
-        util.split(result, "/" + regex_.toString() + "/", input, limit);
-        return result.toArray(new String[result.size()]);
+        String regx = "/" + pattern_.getPattern() + "/";
+        util.split(result, regx, input, limit);
+        return result;
     }
 
     @RubyLevelMethod(name="source")
     public RubyString source() {
-        return ObjectFactory.createString(regex_.toString());
+        return ObjectFactory.createString(pattern_.getPattern());
     }
 }
