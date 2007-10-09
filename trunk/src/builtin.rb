@@ -273,6 +273,11 @@ class Hash
         ks.each {|k| yield([k, self[k]])}
     end
     
+    def each_key
+        ks = keys
+        ks.each {|k| yield(k)}
+    end
+    
     def empty?
         length == 0
     end
