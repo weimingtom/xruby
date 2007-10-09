@@ -29,7 +29,7 @@ public class Example {
             "puts start_time\n" +
             "puts end_time - start_time";
 
-        RubyCompiler compiler = new RubyCompiler(null, false);
+        RubyCompiler compiler = new RubyCompiler();
         CompilationResults codes = compiler.compileString(program_text);
         RubyProgram p = codes.getRubyProgram();
 

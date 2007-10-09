@@ -23,18 +23,19 @@ class MethodGenerator extends GeneratorAdapter {
 
     private SymbolTable symbol_table_;
     private IntegerTable integer_table_ = new IntegerTable();
-    private ArrayList<Class> current_types_on_stack_ = new ArrayList<Class>();
-    private ArrayList<Integer> saved_vars_ = new ArrayList<Integer>();//may be have same length of current_types_on_stack_
+    private List<Class> current_types_on_stack_ = new ArrayList<Class>();
+    private List<Integer> saved_vars_ = new ArrayList<Integer>();//may be have same length of current_types_on_stack_
     private final boolean is_singleton_;
     private final LabelManager label_manager_ = new LabelManager();
     private final EnsureLabelManager ensure_label_manager_ = new EnsureLabelManager();
 
     public MethodGenerator(final int arg0, final Method arg1, final ClassVisitor cv, RubyBinding binding, SymbolTable st, boolean is_singleton) {
         super(arg0, arg1, null, null, cv);
-        if (null == st) {
-            symbol_table_ = new SymbolTable(null == binding ? null : binding.getVariableNames());
+        List<String> bindingVar = null == binding ? null : binding.getVariableNames();
+		if (null == st) {
+            symbol_table_ = new SymbolTable(bindingVar);
         } else {
-            symbol_table_ = new SymbolTableForBlock(null == binding ? null : binding.getVariableNames(), st);
+            symbol_table_ = new SymbolTableForBlock(bindingVar, st);
         }
         is_singleton_ = is_singleton;
         visitCode();
@@ -459,17 +460,21 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.lang.RubySymbol createSymbol(String)"));
     }
 
-    public void ObjectFactory_nilValue() {
-        getStatic(Types.RUBY_CONSTANT_TYPE, "QNIL", Types.RUBY_CONSTANT_TYPE);
+    public void loadNil() {
+        loadRubyConstant("QNIL");
     }
 
-    public void ObjectFactory_trueValue() {
-        getStatic(Types.RUBY_CONSTANT_TYPE, "QTRUE", Types.RUBY_CONSTANT_TYPE);
+    public void loadTrue() {
+    	loadRubyConstant("QTRUE");
     }
 
-    public void ObjectFactory_falseValue() {
-        getStatic(Types.RUBY_CONSTANT_TYPE, "QFALSE", Types.RUBY_CONSTANT_TYPE);
+    public void loadFalse() {
+    	loadRubyConstant("QFALSE");
     }
+    
+    private void loadRubyConstant(String constantName) {
+		getStatic(Types.RUBY_CONSTANT_TYPE, constantName, Types.RUBY_CONSTANT_TYPE);
+	}
 
     public void ObjectFactory_createArray(int size, int rhs_size, boolean has_single_asterisk) {
         push(size);

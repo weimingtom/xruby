@@ -54,6 +54,10 @@ public class RubyLexer extends RubyLexerBase {
 	private String current_heredoc_delimiter_ = null;
 
 	/// @strip boolean strip
+	public RubyLexer(Reader in, boolean strip) {
+		this(in, new SymbolTableManager(), strip);
+	}
+	
 	public RubyLexer(Reader in, SymbolTableManager stm, boolean strip) {
 		super(new InputBufferWithHereDocSupport(in));
 		input_ = (InputBufferWithHereDocSupport)super.inputState.getInput();

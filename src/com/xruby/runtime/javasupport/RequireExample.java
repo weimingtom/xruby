@@ -94,7 +94,7 @@ public class RequireExample {
                 "puts f.title\n"+
                 "\n";
 
-        RubyCompiler compiler = new RubyCompiler(null, false);
+        RubyCompiler compiler = new RubyCompiler();
         CompilationResults codes = compiler.compileString(program_text);
         RubyProgram p = codes.getRubyProgram();
 

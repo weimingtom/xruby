@@ -26,17 +26,17 @@ class SymbolTable {
     private final Map<String, VariableAssignedInBlock> local_variables_assigned_in_block_ = new HashMap<String, VariableAssignedInBlock>();
     private final Map<String, Label> localVariableRange = new HashMap<String, Label>();
     private final List<String> declarationSeq = new ArrayList<String>();
-    private final ArrayList<String> method_parameters_;
+    private final List<String> method_parameters_;
     private final Map<String, Integer> asterisk_or_block_method_parameter_ = new HashMap<String, Integer>();
 
     private static final String NAME_FOR_INTERNAL_BINDING_VAR = "binding$";
 
     // SymbolTable may have preloaded values (eval, commandline etc)
-    public SymbolTable(ArrayList<String> binging) {
-        if (null == binging) {
+    public SymbolTable(List<String> binding) {
+        if (null == binding) {
             method_parameters_ = new ArrayList<String>();
         } else {
-            method_parameters_ = binging;
+            method_parameters_ = binding;
         }
     }
 
@@ -149,7 +149,7 @@ class SymbolTable {
 class SymbolTableForBlock extends SymbolTable {
     private SymbolTable owner_;
 
-    public SymbolTableForBlock(ArrayList<String> binding, SymbolTable owner) {
+    public SymbolTableForBlock(List<String> binding, SymbolTable owner) {
         super(binding);
         owner_ = owner;
     }

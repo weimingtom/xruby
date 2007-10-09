@@ -56,7 +56,7 @@ public class RubyParserSmokeTest {
 			BufferedReader reader = new BufferedReader(new FileReader(f));
 
 			try {
-				RubyParser parser = new RubyParser(reader, null, false);
+				RubyParser parser = new RubyParser(reader, false);
 				parser.program();
 			} catch (TokenStreamException e) {
 				System.out.println("lexer exception for " + f.getPath() + ": " + e);

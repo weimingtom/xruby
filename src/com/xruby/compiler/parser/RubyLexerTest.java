@@ -30,8 +30,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 
 		for (int i = 0; i < program_texts.length; ++i) {
 			try {
-				SymbolTableManager stm = new SymbolTableManager(null);
-				RubyLexer lexer = new RubyLexer(new StringReader(program_texts[i]), stm, false);
+				RubyLexer lexer = new RubyLexer(new StringReader(program_texts[i]), false);
 				Token token = lexer.nextToken();
 				assertEquals(program_texts[i], expected_type, token.getType());
 
@@ -54,8 +53,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 
 	private void assert_type(String program_text, int expected_type, String expected_text) {
 		try {
-			SymbolTableManager stm = new SymbolTableManager(null);
-			RubyLexer lexer = new RubyLexer(new StringReader(program_text), stm, false);
+			RubyLexer lexer = new RubyLexer(new StringReader(program_text), false);
 			Token token = lexer.nextToken();
 			assertEquals(program_text, expected_type, token.getType());
 			assertEquals(program_text, expected_text, token.getText());
@@ -67,8 +65,7 @@ public class RubyLexerTest extends TestCase implements RubyTokenTypes {
 
 	private void assert_type(String program_text, TestingCommonToken[] tokens) {
 		try {
-			SymbolTableManager stm = new SymbolTableManager(null);
-			RubyLexer lexer = new RubyLexer(new StringReader(program_text), stm, false);
+			RubyLexer lexer = new RubyLexer(new StringReader(program_text), false);
 
 			for (int i = 0; i < tokens.length; ++i) {
 				Token token = lexer.nextToken();

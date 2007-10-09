@@ -8,36 +8,37 @@ package com.xruby.compiler.parser;
 import java.util.*;
 
 public class SymbolTableManager {
-	private Stack<SymbolTable> stack_ = new Stack<SymbolTable>();
+	private Stack<SymbolTable> stStack = new Stack<SymbolTable>();
 	
-	public SymbolTableManager(String[] pre_defined) {
+	public SymbolTableManager() {
+		enterScope();
+	}
+	
+	public SymbolTableManager(List<String> preDefinedVar) {
 		enterScope();
 		
-		if (null == pre_defined) {
-			return;
-		}
-		for (String s : pre_defined) {
+		for (String s : preDefinedVar) {
 			addVariable(s);
 		}
 	}
 	
 	public void enterScope() {
-		stack_.add(new SymbolTable());
+		stStack.add(new SymbolTable());
 	}
 	
 	public void enterBlockScope() {
-		stack_.add(new SymbolTableForBlock(stack_.peek()));
+		stStack.add(new SymbolTableForBlock(stStack.peek()));
 	}
 	
 	public void leaveScope() {
-		stack_.pop();
+		stStack.pop();
 	}
 	
 	public boolean isDefinedInCurrentScope(String s) {
-		return stack_.peek().findVariable(s);
+		return stStack.peek().findVariable(s);
 	}
 	
 	public void addVariable(String s) {
-		stack_.peek().addVariable(s);
+		stStack.peek().addVariable(s);
 	}
 }

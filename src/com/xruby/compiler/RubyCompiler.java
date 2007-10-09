@@ -28,7 +28,16 @@ public class RubyCompiler {
     private boolean strip_;
     private boolean enableDebug = false;
     private boolean verbose_ = false;
-    private CompilationResults compilation_results_ = new CompilationResults();
+    
+    public RubyCompiler() {
+    	this.binding_ = null;
+    	this.strip_ = false;
+    }
+    
+    public RubyCompiler(boolean strip) {
+    	this.binding_ = null;
+    	this.strip_ = strip;
+    }
     
     public RubyCompiler(RubyBinding binding, boolean strip) {
         binding_ = binding;
@@ -63,6 +72,7 @@ public class RubyCompiler {
 
 	private CompilationResults compileDir(final String extra, File dir) 
 		throws FileNotFoundException, RecognitionException, TokenStreamException {
+		CompilationResults dirResults = new CompilationResults();
 		for (String filename : dir.list()) {
 			if (filename.charAt(0) == '.') {
 		        continue;
@@ -70,12 +80,15 @@ public class RubyCompiler {
 			
 		    File file = new File(dir, filename);
 		    if (file.isDirectory()) {
-		    	this.compileDir(extra, file);
+		    	CompilationResults results = this.compileDir(extra, file);
+		    	dirResults.add(results);
 		    } else if (filename.endsWith(".rb")) {
-		    	this.compileSingleFile(extra, file);
+		    	CompilationResults results = this.compileSingleFile(extra, file);
+		    	dirResults.add(results);
 		    }
 		}
-		return compilation_results_;
+		
+		return dirResults;
 	}
 
 	private CompilationResults compileSingleFile(final String extra, File file) 
@@ -89,20 +102,23 @@ public class RubyCompiler {
 
     private CompilationResults compile(String extra, String filename, Reader reader)
         throws RecognitionException, TokenStreamException {
-        RubyParser parser = new RubyParser(reader, getPreDefinedVar(), strip_);
-        RubyCompilerImpl compiler = new RubyCompilerImpl(extra, filename, compilation_results_);
+    	RubyParser parser = createParser(reader);
+        RubyCompilerImpl compiler = new RubyCompilerImpl(extra, filename);
 
         // Enable debug or not
         if (enableDebug) {
             compiler.enableDebug();
         }
 
-        compiler.compile(parser.parse(filename), binding_);
-        return compilation_results_;
+        return compiler.compile(parser.parse(filename), binding_);
     }
 
-	private String[] getPreDefinedVar() {
-		return (null == binding_) ? null : binding_.getVariableNames().toArray(new String[0]);
+	private RubyParser createParser(Reader reader) {
+    	if (null == binding_) {
+    		return new RubyParser(reader, strip_);
+    	} else {
+    		return new RubyParser(reader, binding_.getVariableNames(), strip_);
+    	}
 	}
 
     public void enableDebug() {
