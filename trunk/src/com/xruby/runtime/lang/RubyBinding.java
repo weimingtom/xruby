@@ -13,7 +13,7 @@ public class RubyBinding extends RubyBasic {
 	private RubyValue self_;
 	private RubyBlock block_;
 	private RubyArray variables_ = new RubyArray();
-	private ArrayList<String> names_ = new ArrayList<String>();
+	private List<String> names_ = new ArrayList<String>();
 	
 	public RubyBinding(RubyClass c) {
 		super(c);
@@ -75,7 +75,7 @@ public class RubyBinding extends RubyBasic {
 		return variables_;
 	}
 
-	public ArrayList<String> getVariableNames() {
+	public List<String> getVariableNames() {
 		return names_;
 	}
 	

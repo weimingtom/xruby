@@ -35,7 +35,7 @@ public class Main {
             if (options.getBackupExtension() != null && options.getFilename() != null) {
                 copyFile(options.getFilename(), options.getFilename() + options.getBackupExtension());
             }
-            RubyCompiler compiler = new RubyCompiler(null, options.isStrip());
+            RubyCompiler compiler = new RubyCompiler(options.isStrip());
             CompilationResults results = compiler.compileString(options.getEvalScript());
             if (options.isPe()) {
                 redirectStdinout(options.getFilename());
@@ -44,7 +44,7 @@ public class Main {
             run(results, null);
         } else if (options.getFilename() == null) {
             //eval STDIN
-            CompilationResults results = compile(null, options.isStrip(), options.isVerbose(), false);
+            CompilationResults results = compileStdin(options.isStrip(), options.isVerbose(), false);
             run(results, null);
         } else if (options.isCompileOnly()){
             //compile and just save the result
@@ -88,23 +88,29 @@ public class Main {
     private static void help() {
         System.out.println("Usage: xruby [-c] filename1, filename2, ...");
     }
+    
+    private static CompilationResults compileStdin(boolean strip, boolean verbose, boolean debug) 
+    	throws Exception {
+    	RubyCompiler compiler = createCompiler(strip, verbose, debug);
+    	return compiler.compileStdin();
+    }
 
     private static CompilationResults compile(String filename, boolean strip, boolean verbose, boolean debug) 
     	throws Exception {
-        RubyCompiler compiler = new RubyCompiler(null, strip);
+    	RubyCompiler compiler = createCompiler(strip, verbose, debug);
+    	return compiler.compileFile(filename);
+    }
+
+	private static RubyCompiler createCompiler(boolean strip, boolean verbose, boolean debug) {
+		RubyCompiler compiler = new RubyCompiler(strip);
         if (verbose) {
             compiler.setVerbose();
         }
         if (debug) {
             compiler.enableDebug();
         }
-
-        if (filename == null || filename.length() == 0) {
-        	return compiler.compileStdin();
-        } else  {
-        	return compiler.compileFile(filename);
-        }
-    }
+		return compiler;
+	}
 
     private static void run(CompilationResults results, String[] args) throws Exception {
         RubyProgram p = (RubyProgram)results.getRubyProgram();

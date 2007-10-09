@@ -29,10 +29,10 @@ public class RubyCompilerImpl implements CodeVisitor {
     private Label currentLineLabel;
     private boolean enableDebug = false;
 
-    public RubyCompilerImpl(String extra, String script_name, CompilationResults compilation_results) {
+    public RubyCompilerImpl(String extra, String script_name) {
         extra_ = extra;
         script_name_ = script_name;
-        compilation_results_ = compilation_results;
+        compilation_results_ = new CompilationResults();
     }
 
     private boolean isInGlobalScope() {
@@ -67,7 +67,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     private void switchToPreviousClassGenerator(boolean last_statement_has_return_value) {
         MethodGenerator mg = cg_.getMethodGenerator();
 		if (!last_statement_has_return_value) {
-            mg.ObjectFactory_nilValue();
+            mg.loadNil();
         }
 
         mg.returnValue();
@@ -78,7 +78,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_ = suspended_cgs_.pop();
     }
 
-    public void compile(Program program, RubyBinding binding) {
+    public CompilationResults compile(Program program, RubyBinding binding) {
         binding_ = binding;
         RubyIDClassGenerator.initScript(extra_, script_name_);
         String className = NameFactory.createClassName(extra_, script_name_, null);
@@ -97,7 +97,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         compilation_results_.add(RubyIDClassGenerator.getCompilationResult());
 //		RubyIDClassGenerator.clear();
         compilation_results_.add(cg_.getCompilationResult());
-        return;
+        return compilation_results_;
     }
 
     public void visitClassDefination1(String className, boolean has_scope) {
@@ -135,8 +135,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         Type builder = Type.getType("L" + uniqueName + ";");
         mg.newInstance(builder);
         mg.dup();
-        mg.invokeConstructor(builder,
-                CgUtil.getMethod("<init>", Type.VOID_TYPE));
+        mg.invokeConstructor(builder, CgUtil.CONSTRUCTOR);
         mg.loadLocal(i);
         mg.pushNull();
         mg.pushNull();
@@ -224,7 +223,7 @@ public class RubyCompilerImpl implements CodeVisitor {
                 // has_extra_comma == (argc >= 1)
                 cg_.getMethodGenerator().loadArg(1);
             } else {
-                cg_.getMethodGenerator().ObjectFactory_nilValue();
+                cg_.getMethodGenerator().loadNil();
             }
         }
 
@@ -554,7 +553,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     public void visitEof(boolean last_statement_has_return_value) {
         MethodGenerator mg = cg_.getMethodGenerator();
 		if (!last_statement_has_return_value) {
-            mg.ObjectFactory_nilValue();
+            mg.loadNil();
         }
         mg.returnValue();
     }
@@ -564,7 +563,7 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitNilExpression() {
-        cg_.getMethodGenerator().ObjectFactory_nilValue();
+        cg_.getMethodGenerator().loadNil();
     }
 
     public Object visitAfterIfCondition() {
@@ -662,11 +661,11 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitTrueExpression() {
-        cg_.getMethodGenerator().ObjectFactory_trueValue();
+        cg_.getMethodGenerator().loadTrue();
     }
 
     public void visitFalseExpression() {
-        cg_.getMethodGenerator().ObjectFactory_falseValue();
+        cg_.getMethodGenerator().loadFalse();
     }
 
     public Object visitAfterUnlessCondition() {
@@ -1026,7 +1025,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         MethodGenerator mg = cg_.getMethodGenerator();
 		if (isInBlock() && mg.getLabelManager().isAtTopLevel()) {
             mg.RubyBlock__retry__();
-            mg.ObjectFactory_nilValue();
+            mg.loadNil();
             mg.returnValue();
         } else {
             mg.goTo(mg.getEnsureLabelManager().getCurrentRetry());

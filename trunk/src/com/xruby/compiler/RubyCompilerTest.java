@@ -23,7 +23,7 @@ class CompilerTestCase extends TestCase {
                 program_texts.length, results.length);
 
         for (int i = 0; i < program_texts.length; ++i) {
-            RubyCompiler compiler = new RubyCompiler(null, false);
+            RubyCompiler compiler = new RubyCompiler();
 
             try {
                 CompilationResults codes = compiler.compileString(program_texts[i]);
@@ -55,7 +55,7 @@ class CompilerTestCase extends TestCase {
                 program_texts.length, results.length);
 
         for (int i = 0; i < program_texts.length; ++i) {
-            RubyCompiler compiler = new RubyCompiler(null, false);
+            RubyCompiler compiler = new RubyCompiler();
 
             try {
                 CompilationResults codes = compiler.compileString(program_texts[i]);
@@ -87,7 +87,7 @@ class CompilerTestCase extends TestCase {
                 program_texts.length, results.length);
 
         for (int i = 0; i < program_texts.length; ++i) {
-            RubyCompiler compiler = new RubyCompiler(null, false);
+            RubyCompiler compiler = new RubyCompiler();
 
             try {
                 CompilationResults codes = compiler.compileString(program_texts[i]);
@@ -118,7 +118,7 @@ class CompilerTestCase extends TestCase {
                 program_texts.length, exceptions.length);
 
         for (int i = 0; i < program_texts.length; ++i) {
-            RubyCompiler compiler = new RubyCompiler(null, false);
+            RubyCompiler compiler = new RubyCompiler();
 
             try {
                 CompilationResults codes = compiler.compileString(program_texts[i]);
@@ -158,7 +158,7 @@ class CompilerTestCase extends TestCase {
             // FIXME: temp code here
             RubyClass.resetCache();
 
-            RubyCompiler compiler = new RubyCompiler(null, false);
+            RubyCompiler compiler = new RubyCompiler();
 
             try {
                 CompilationResults codes = compiler.compileString(program_texts[i]);
@@ -205,7 +205,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_raise() throws RecognitionException, TokenStreamException, InstantiationException, IllegalAccessException {
         String program_texts = "raise 'test'";
-        RubyCompiler compiler = new RubyCompiler(null, false);
+        RubyCompiler compiler = new RubyCompiler();
         CompilationResults codes = compiler.compileString(program_texts);
         assertTrue(null != codes);
         RubyProgram p = codes.getRubyProgram();
@@ -784,7 +784,7 @@ public class RubyCompilerTest extends CompilerTestCase {
             "	print 123\n" +
             "end\n" +
             "f";
-        RubyCompiler compiler = new RubyCompiler(null, false);
+        RubyCompiler compiler = new RubyCompiler();
 
         try {
             CompilationResults codes = compiler.compileString(program_texts);

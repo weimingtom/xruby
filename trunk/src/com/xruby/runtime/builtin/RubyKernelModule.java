@@ -229,22 +229,54 @@ public class RubyKernelModule {
 		}
 
 		if (null != args) {
-			RubyString program_text = (RubyString) args.get(0);
 			RubyBinding binding = new RubyBinding();
 			binding.setScope((RubyModule) receiver);
 			binding.setSelf(receiver);
-			return eval(program_text, binding, null);
+			return eval(args.get(0).toStr(), binding);
 		} else {
 			block.setSelf(receiver);
 			return block.invoke(receiver);
 		}
 	}
 	
-	public static RubyValue eval(RubyString program_text, RubyBinding binding, String file_name) {
-        RubyCompiler compiler = new RubyCompiler(binding, false);
+	private static RubyValue eval(String evalText) {
+		RubyCompiler compiler = new RubyCompiler();
         try {
-            CompilationResults codes = compiler.compileString(file_name, program_text.toString());
+			CompilationResults codes = compiler.compileString(evalText);
+            RubyProgram p = codes.getRubyProgram();
+            return p.invoke();
+        } catch (RecognitionException e) {
+            throw new RubyException(RubyRuntime.SyntaxErrorClass, e.toString());
+        } catch (TokenStreamException e) {
+            throw new RubyException(RubyRuntime.SyntaxErrorClass, e.toString());
+        } catch (InstantiationException e) {
+            throw new RubyException(e.toString());
+        } catch (IllegalAccessException e) {
+            throw new RubyException(e.toString());
+        }
+	}
+	
+	public static RubyValue eval(String evalText, RubyBinding binding) {
+		RubyCompiler compiler = new RubyCompiler();
+        try {
+			CompilationResults codes = compiler.compileString(evalText);
+            RubyProgram p = codes.getRubyProgram();
+            return p.invoke(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
+        } catch (RecognitionException e) {
+            throw new RubyException(RubyRuntime.SyntaxErrorClass, e.toString());
+        } catch (TokenStreamException e) {
+            throw new RubyException(RubyRuntime.SyntaxErrorClass, e.toString());
+        } catch (InstantiationException e) {
+            throw new RubyException(e.toString());
+        } catch (IllegalAccessException e) {
+            throw new RubyException(e.toString());
+        }
+	}
 
+	private static RubyValue eval(String evalText, RubyBinding binding, String file_name) {
+		RubyCompiler compiler = new RubyCompiler(binding, false);
+        try {
+			CompilationResults codes = compiler.compileString(file_name, evalText);
             RubyProgram p = codes.getRubyProgram();
             if (null != binding) {
                 return p.invoke(binding.getSelf(), binding.getVariables(), binding.getBlock(), binding.getScope());
@@ -260,23 +292,35 @@ public class RubyKernelModule {
         } catch (IllegalAccessException e) {
             throw new RubyException(e.toString());
         }
+	}
+	
+	@RubyLevelMethod(name="eval", module=true)
+    public static RubyValue eval(RubyValue receiver, RubyValue arg) {
+		return eval(arg.toStr());
     }
+	
+	@RubyLevelMethod(name="eval", module=true)
+    public static RubyValue eval(RubyValue receiver, RubyValue arg0, RubyValue arg1) {
+		if (arg1 instanceof RubyBinding) {
+			return eval(arg0.toStr(), (RubyBinding)arg1);
+		} else {
+			return eval(arg0.toStr());
+		}
+	}
 
 	@RubyLevelMethod(name="eval", module=true)
-    public static RubyValue eval(RubyValue receiver, RubyArray args, RubyBlock block) {
-        RubyString program_text = (RubyString) args.get(0);
-
+    public static RubyValue eval(RubyValue receiver, RubyArray args) {
         RubyBinding binding = null;
         if (args.get(1) instanceof RubyBinding) {
-            binding = (RubyBinding) args.get(1);
+            binding = (RubyBinding)args.get(1);
         }
 
         String file_name = null;
         if (args.size() > 2) {
-            file_name = ((RubyString)args.get(2)).toString();
+            file_name = args.get(2).toStr();
         }
 
-        return eval(program_text, binding, file_name);
+        return eval(args.get(0).toStr(), binding, file_name);
     }
 	
 	@RubyLevelMethod(name="method")

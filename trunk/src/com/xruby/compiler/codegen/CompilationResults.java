@@ -41,6 +41,12 @@ public class CompilationResults {
     public void add(CompilationResult result) {
         results_.add(result);
     }
+    
+    public void add(CompilationResults results) {
+    	for (CompilationResult result : results.results_) {
+    		this.results_.add(result);
+    	}
+    }
 
     public int size() {
         return results_.size();

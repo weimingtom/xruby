@@ -8,6 +8,7 @@ package com.xruby.compiler.parser;
 import com.xruby.compiler.codedom.Program;
 
 import java.io.Reader;
+import java.util.List;
 
 import antlr.Token;
 import antlr.RecognitionException;
@@ -21,10 +22,14 @@ public class RubyParser extends RubyParserBase {
 		super(lexer);
 		lexer_ = lexer;
 	}
-
-	/// pre_defined can be empty
-	public RubyParser(Reader in, String[] pre_defined, boolean strip) {
+	
+	public RubyParser(Reader in, List<String> pre_defined, boolean strip) {
 		this(new RubyLexer(in, new SymbolTableManager(pre_defined), strip));
+	}
+	
+	/// pre_defined can be empty
+	public RubyParser(Reader in, boolean strip) {
+		this(new RubyLexer(in, strip));
 	}
 
 	/// @return AST

@@ -757,11 +757,10 @@ public class RubyModule extends RubyBasic {
         }
 
         if (null != args) {
-            RubyString program_text = (RubyString) args.get(0);
             RubyBinding binding = new RubyBinding();
             binding.setScope(this);
             binding.setSelf(this);
-            return RubyKernelModule.eval(program_text, binding, null);
+            return RubyKernelModule.eval(args.get(0).toStr(), binding);
         } else {
             block.setScope(this);
             block.setSelf(this);

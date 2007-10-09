@@ -134,7 +134,7 @@ abstract class ClassGenerator {
         }
 
         // never used, for example a = a + 1
-        mg.ObjectFactory_nilValue();
+        mg.loadNil();
     }
 
     public void loadMethodPrameter(int index) {
