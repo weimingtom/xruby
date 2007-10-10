@@ -29,7 +29,7 @@ import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 })
 public class RubyModule extends RubyBasic {
     protected String name_;
-    private RubyModule owner_ = null;//owner is where is the module is defined under.
+    private RubyModule scope_ = null;//where is the module is defined under.
     protected RubyClass superclass_;
     private int current_access_mode_ = RubyMethod.PUBLIC;
     protected Map<RubyID, RubyValue> instance_varibles_ = null;
@@ -39,7 +39,7 @@ public class RubyModule extends RubyBasic {
     public RubyModule(String name, RubyModule owner) {
         super(null);
         this.name_ = name;
-        owner_ = owner;
+        scope_ = owner;
     }
 
     public String getName() {
@@ -51,7 +51,7 @@ public class RubyModule extends RubyBasic {
     }
 
     void setScope(RubyModule owner) {
-        this.owner_ = owner;
+        this.scope_ = owner;
     }
 
     public boolean isRealModule() {
@@ -282,8 +282,8 @@ public class RubyModule extends RubyBasic {
             }
         }
 
-        if (null != owner_) {
-            v = this.owner_.getConstant(name);
+        if (null != scope_) {
+            v = this.scope_.getConstant(name);
             if (null != v) {
                 return v;
             }
@@ -293,8 +293,8 @@ public class RubyModule extends RubyBasic {
     }
 
     public void to_s(RubyString s) {
-        if (null != owner_) {
-            owner_.to_s(s);
+        if (null != scope_) {
+            scope_.to_s(s);
             if (s.length() > 0) {
                 s.appendString("::");
             }

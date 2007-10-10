@@ -843,7 +843,7 @@ class MethodGenerator extends GeneratorAdapter {
 
     public void RubyValue_getSingletonClass() {
         invokeVirtual(Types.RUBY_VALUE_TYPE,
-                Method.getMethod("com.xruby.runtime.lang.RubyClass getSingletonClass()"));
+                Method.getMethod("com.xruby.runtime.lang.RubyClass getSingletonClass(com.xruby.runtime.lang.RubyModule)"));
     }
 
     public void RubyValue_getInstanceVariable(String name) {

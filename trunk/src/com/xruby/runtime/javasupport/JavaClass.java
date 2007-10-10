@@ -54,17 +54,17 @@ public class JavaClass extends RubyClass {
 
     private Map<Constructor, JavaMethod> initMethods
             = new HashMap<Constructor, JavaMethod>();
-    
+
     private Map<String, Field> fieldNames
             = new HashMap<String, Field>();
-    
+
     private static List<String> packageNames = new ArrayList<String>();
-    
+
     private Class orginJavaClass;
-    
+
     private JavaClass(Class clazz,RubyClass superclass){
         super(clazz.getName(),superclass,null);
-        
+
         this.orginJavaClass = clazz;
         if(!clazz.isInterface()){
             //Initialize public constructors and methods
@@ -75,17 +75,17 @@ public class JavaClass extends RubyClass {
         setRubyClass(this);
     }
 
-    
+
     private static JavaClass newJavaClass(Class clazz,RubyClass parent){
         JavaClass jClass = new JavaClass(clazz,parent);
         if(clazz.isInterface()){
             jClass.setRubyClass(RubyRuntime.ClassClass);
-            new RubySingletonClass(jClass, parent.getRubyClass());
+            new RubySingletonClass(jClass, parent.getRubyClass(), null);
         }
-        
+
         String fullName = clazz.getName();
-        //Replace new Java class name prefixed 'J' with orginal class name 
-        //if the class name collision occurs       
+        //Replace new Java class name prefixed 'J' with orginal class name
+        //if the class name collision occurs
         RubyAPI.setTopLevelConstant(jClass, fullName);
         String name = fullName.substring(fullName.lastIndexOf('.')+1);
         //Check that the class named <code>name</code> exists or not
@@ -95,7 +95,7 @@ public class JavaClass extends RubyClass {
         RubyAPI.setTopLevelConstant(jClass, "J"+name);
         return jClass;
     }
-    
+
     //Import Java class,the parent class,etc. recursively
     public static JavaClass createJavaClass(Class clazz){
         Class superClass = clazz.getSuperclass();
@@ -130,10 +130,10 @@ public class JavaClass extends RubyClass {
             }
         }
     }
-    
+
     private void initFields(Class clazz){
         Field[] fields = clazz.getDeclaredFields();
-        
+
         for(Field f : fields){
             String name = f.getName();
             int modifiers = f.getModifiers();
@@ -144,7 +144,7 @@ public class JavaClass extends RubyClass {
                 String setterName = name+"=";
                 fieldNames.put(setterName,f);
             }
-            
+
             if(Modifier.isStatic(modifiers)&&Modifier.isPublic(modifiers)){
                 if(Modifier.isFinal(modifiers)){
                     try {
@@ -159,7 +159,7 @@ public class JavaClass extends RubyClass {
             }
         }
     }
-    
+
 
     // Helper class, catalogue the method
     private void categoryByName(Method method) {
@@ -174,7 +174,7 @@ public class JavaClass extends RubyClass {
             list.add(method);
         }
     }
-    
+
     private void categoryByParams(Constructor constructor) {
         Class[] types = constructor.getParameterTypes();
         int size = types.length;
@@ -206,7 +206,7 @@ public class JavaClass extends RubyClass {
         if (methodName.equals(NEW_METHOD)) {
             return new FakeInitMethod();
         }
-        
+
         RubyClass klass = this;
         while(klass != null){
             if(klass instanceof JavaClass){
@@ -240,7 +240,7 @@ public class JavaClass extends RubyClass {
     // TODO: InComplete, method cache is required(indexed by params' number)
     JavaMethod findJavaMethod(String methodName, RubyArray args) {
         int size = args == null ? 0 : args.size();
-        
+
         List<Method> list = null;
         RubyClass klass = this;
         while(klass != null){
@@ -251,7 +251,7 @@ public class JavaClass extends RubyClass {
                 klass = klass.getSuperClass();
             }
         }
-         
+
         if (null == list) {
             return null;
         }
@@ -291,7 +291,7 @@ public class JavaClass extends RubyClass {
         return jMethod;
     }
 
-    
+
     JavaMethod findInitMethod(RubyArray args) {
         int size = args == null ? 0 : args.size();
         List<Constructor> list = initMap.get(size);
@@ -323,7 +323,7 @@ public class JavaClass extends RubyClass {
                 clazz = (JavaClass)receiver;
             }else{
                 clazz = (JavaClass) receiver.getRubyClass();
-            }            
+            }
             JavaMethod method = clazz.findJavaMethod(methodName, args);
 
             if (null == method) {
@@ -346,15 +346,15 @@ public class JavaClass extends RubyClass {
             return method.run(receiver, args, block);
         }
     }
-    
-    
+
+
     private class FakeInstanceVarMethod extends RubyVarArgMethod {
         private String instanceVarName;
 
         public FakeInstanceVarMethod(String name) {
             this.instanceVarName = name;
         }
-        
+
         protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
             JavaClass clazz = null;
             //This is a trick.Because no creating the metaclass for every Java
@@ -363,7 +363,7 @@ public class JavaClass extends RubyClass {
                 clazz = (JavaClass)receiver;
             }else{
                 clazz = (JavaClass) receiver.getRubyClass();
-            } 
+            }
             JavaMethod method = null;
             boolean flag = false;
             do{
@@ -373,10 +373,10 @@ public class JavaClass extends RubyClass {
                     try {
                         if(instanceVarName.endsWith("=")){
                             isGetter = false;
-                            m = JavaClass.class.getDeclaredMethod("setter", new Class[]{Field.class,Object.class,Object.class}); 
+                            m = JavaClass.class.getDeclaredMethod("setter", new Class[]{Field.class,Object.class,Object.class});
                         }else{
-                            m = JavaClass.class.getDeclaredMethod("getter", new Class[]{Field.class,Object.class}); 
-                        }                    
+                            m = JavaClass.class.getDeclaredMethod("getter", new Class[]{Field.class,Object.class});
+                        }
                     } catch (SecurityException e) {
                         e.printStackTrace();
                     } catch (NoSuchMethodException e) {
@@ -388,15 +388,15 @@ public class JavaClass extends RubyClass {
                 clazz = (JavaClass)clazz.getSuperClass();
                 flag = clazz.getName().equals("Object");
             }while(!flag);
-            
+
             if(flag)
-                throw new RubyException("The Instance variable "+instanceVarName+"doesn't exists or can't be accessed!"); 
-                        
+                throw new RubyException("The Instance variable "+instanceVarName+"doesn't exists or can't be accessed!");
+
             return method.run(receiver, args, block);
-        }        
-        
+        }
+
     }
-    
+
     public static Object getter(Field f,Object obj){
         try {
             return f.get(obj);
@@ -410,7 +410,7 @@ public class JavaClass extends RubyClass {
             sb.append(Character.toUpperCase(name.charAt(0)));
             sb.append(name.substring(1));
             String methodName = sb.toString();
-           
+
             try {
                 //Suppose that getter method is not overload!
                 Method[] ms = obj.getClass().getMethods();
@@ -421,11 +421,11 @@ public class JavaClass extends RubyClass {
                 }
             } catch (Exception e1) {
                 //ignore it
-            } 
+            }
         }
-        throw new RubyException("The Instance variable "+f.getName()+"doesn't exists or can't be accessed!"); 
+        throw new RubyException("The Instance variable "+f.getName()+"doesn't exists or can't be accessed!");
     }
-    
+
     public static void setter(Field f,Object obj,Object val){
         try {
             f.set(obj, val);
@@ -440,7 +440,7 @@ public class JavaClass extends RubyClass {
             sb.append(Character.toUpperCase(name.charAt(0)));
             sb.append(name.substring(1));
             String methodName = sb.toString();
-           
+
             try {
                 //Suppose that setter method is not overload!
                 Method[] ms = obj.getClass().getMethods();
@@ -452,15 +452,15 @@ public class JavaClass extends RubyClass {
                 }
             } catch (Exception e1) {
                 //ignore it
-            } 
+            }
         }
-        throw new RubyException("The Instance variable "+f.getName()+"doesn't exists or can't be accessed!"); 
+        throw new RubyException("The Instance variable "+f.getName()+"doesn't exists or can't be accessed!");
     }
-    
+
     public static void addPackage(String name){
         packageNames.add(name);
     }
-    
+
     public static String[] getPackeageList(){
         String[] tmp = new String[packageNames.size()];
         Iterator<String> iter = packageNames.iterator();
@@ -471,7 +471,7 @@ public class JavaClass extends RubyClass {
         }
         return tmp;
     }
-    
+
     public Class getOriginJavaClass(){
         return this.orginJavaClass;
     }
