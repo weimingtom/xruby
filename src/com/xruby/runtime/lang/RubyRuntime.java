@@ -74,8 +74,8 @@ public class RubyRuntime {
     public static RubyClass NotImplementedErrorClass;
 
     public static RubyClass StringIOClass;
-    
-	public static final RubyValue TOP_LEVEL_SELF_VALUE;
+
+    public static final RubyValue TOP_LEVEL_SELF_VALUE;
 
     private static RubyMethod respondToMethod;
 
@@ -89,23 +89,23 @@ public class RubyRuntime {
         ClassClass = ClassFactory.defineBootClass("Class", RubyRuntime.ModuleClass);
 
         ClassClass.setRubyClass(ClassClass);
-        
-        RubySingletonClass metaClass = new RubySingletonClass(ObjectClass, ClassClass);
-        metaClass = new RubySingletonClass(ModuleClass, metaClass);
-        metaClass = new RubySingletonClass(ClassClass, metaClass);
+
+        RubySingletonClass metaClass = new RubySingletonClass(ObjectClass, ClassClass, null);
+        metaClass = new RubySingletonClass(ModuleClass, metaClass, null);
+        metaClass = new RubySingletonClass(ClassClass, metaClass, null);
 
         KernelModule = RubyAPI.defineModule("Kernel");
 
         NilClassClass = RubyAPI.defineClass("NilClass", RubyRuntime.ObjectClass);
         TrueClassClass = RubyAPI.defineClass("TrueClass", RubyRuntime.ObjectClass);
         FalseClassClass = RubyAPI.defineClass("FalseClass", RubyRuntime.ObjectClass);
-        
+
         ComparableModule = RubyAPI.defineModule("Comparable");
         EnumerableModule = RubyAPI.defineModule("Enumerable");
         ErrnoModule = RubyAPI.defineModule("Errno");
         FileTestModule = RubyTypeFactory.getModule(RubyFileTestModule.class);
         GCModule = RubyTypeFactory.getModule(RubyGC.class);
-        
+
         MarshalModule = RubyTypeFactory.getModule(RubyMarshalModule.class);//RubyAPI.defineModule("Marshal");
         MathModule = RubyTypeFactory.getModule(RubyMathModule.class);
         ObjectSpaceModule = RubyTypeFactory.getModule(ObjectSpace.class);
@@ -116,10 +116,10 @@ public class RubyRuntime {
         RubyTypeFactory.getClass(RubyObject.class);
         RubyTypeFactory.getClass(RubyModule.class);
         RubyTypeFactory.getClass(RubyClass.class);
-        
+
         RubyModule m = RubyTypeFactory.getModule(RubyKernelModule.class);
         respondToMethod = m.findMethod(RubyID.RESPOND_TO_P);
-        
+
         NumericClass = RubyTypeFactory.getClass(RubyNumeric.class);
         IntegerClass = RubyTypeFactory.getClass(RubyInteger.class);
         FixnumClass = RubyTypeFactory.getClass(RubyFixnum.class);
@@ -152,7 +152,7 @@ public class RubyRuntime {
         NameErrorClass = RubyAPI.defineClass("NameError", StandardErrorClass);
         ThreadErrorClass = RubyAPI.defineClass("ThreadError", StandardErrorClass);
         NoMethodErrorClass = RubyAPI.defineClass("NoMethodError", NameErrorClass);
-        IOErrorClass = RubyAPI.defineClass("IOError", StandardErrorClass);        
+        IOErrorClass = RubyAPI.defineClass("IOError", StandardErrorClass);
         EOFErrorClass = RubyAPI.defineClass("EOFError", IOErrorClass);
         RuntimeErrorClass = RubyAPI.defineClass("RuntimeError", StandardErrorClass);
         LocalJumpErrorClass = RubyAPI.defineClass("LocalJumpError", StandardErrorClass);
@@ -164,7 +164,7 @@ public class RubyRuntime {
         NotImplementedErrorClass = RubyAPI.defineClass("NotImplementedError", ScriptErrorClass);
 
         TOP_LEVEL_SELF_VALUE = RubyTypeFactory.getObject(RubyTopSelf.class);
-        
+
         StringIOClass = RubyTypeFactory.getClass(RubyStringIO.class);
 
         RubyThread.init();
@@ -200,7 +200,7 @@ public class RubyRuntime {
         }
 
         initARGV(args);
-        
+
         RubyAPI.setTopLevelConstant(RubyAPI.isWindows() ? ObjectFactory.createString("mswin32") : ObjectFactory.createString("java"), "RUBY_PLATFORM");
 
         if (RubyAPI.isWindows()) {
@@ -209,7 +209,7 @@ public class RubyRuntime {
 
         RubyTypeFactory.getObject(RubyENV.class);
         GlobalVariables.initialize();
-        
+
         updateStdout();
 
         RubyAPI.setTopLevelConstant(RubyConstant.QTRUE, "TRUE");
@@ -233,20 +233,20 @@ public class RubyRuntime {
     public static RubyMethod getRespondMethod() {
         return respondToMethod;
     }
-    
+
     public static void setStdout(OutputStream os) {
-    	PrintStream ps = getPrintStream(os);
-    	System.setOut(ps);
-    	updateStdout();
+        PrintStream ps = getPrintStream(os);
+        System.setOut(ps);
+        updateStdout();
     }
 
-	private static void updateStdout() {
-		RubyIO newStdOut = new RubyFile(new OutputStreamExecutor(System.out), RubyRuntime.IOClass);
-    	RubyAPI.setTopLevelConstant(newStdOut, "STDOUT");
-    	GlobalVariables.set(newStdOut, "$stdout");
-	}
+    private static void updateStdout() {
+        RubyIO newStdOut = new RubyFile(new OutputStreamExecutor(System.out), RubyRuntime.IOClass);
+        RubyAPI.setTopLevelConstant(newStdOut, "STDOUT");
+        GlobalVariables.set(newStdOut, "$stdout");
+    }
 
-	private static PrintStream getPrintStream(OutputStream os) {
-		return (os instanceof PrintStream) ? (PrintStream)os : new PrintStream(os);
-	}
+    private static PrintStream getPrintStream(OutputStream os) {
+        return (os instanceof PrintStream) ? (PrintStream)os : new PrintStream(os);
+    }
 }

@@ -9,14 +9,14 @@ public class RubySingletonClass extends RubyClass {
 
     private RubyValue owner_;
 
-    public RubySingletonClass(RubyValue obj, RubyClass superclass) {
-        super(null, superclass, null);
-        owner_ = obj;
-        obj.setRubyClass(this);
-        this.setInstanceVariable(obj, RubyID.attachedID);
+    public RubySingletonClass(RubyValue owner, RubyClass superclass, RubyModule scope) {
+        super(null, superclass, scope);
+        owner_ = owner;
+        owner.setRubyClass(this);
+        this.setInstanceVariable(owner, RubyID.attachedID);
 
-        if (obj instanceof RubySingletonClass) {
-            RubySingletonClass klass = (RubySingletonClass)obj;
+        if (owner instanceof RubySingletonClass) {
+            RubySingletonClass klass = (RubySingletonClass)owner;
             this.setRubyClass(this);
             RubyClass singletonsuper = klass.getSuperClass().getRealClass().getRubyClass();
             klass.setSuperClass(singletonsuper);
@@ -33,7 +33,7 @@ public class RubySingletonClass extends RubyClass {
         if (null != v) {
             return v;
         }
-        
+
         if (owner_ instanceof RubyModule) {
             v = ((RubyModule)owner_).getConstant(name);
         }

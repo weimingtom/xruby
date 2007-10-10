@@ -4521,6 +4521,18 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_singleton_method() {
         String [] program_texts = {
+                "module TestSingleton10;end\n" +
+                "module TestSingleton11; end\n" +
+                "class << TestSingleton11\n" +
+                "    TestSingleton12=2\n" +
+                "    def f\n" +
+                "        class <<TestSingleton10\n" +
+                "            print TestSingleton12\n" +
+                "        end\n" +
+                "    end\n" +
+                "end\n" +
+                "TestSingleton11.f",
+
                 "module M; def M::colon2_singleton; print 'ppp'; end; end\n" +
                 "M.colon2_singleton",
 
@@ -4550,6 +4562,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "2",
                 "ppp",
                 "77",
                 "123",

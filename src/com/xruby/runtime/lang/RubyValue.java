@@ -68,13 +68,13 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     }
 
     public boolean equals(Object o) {
-    	if (this == o) {
-    		return true;
-    	} else if (o instanceof RubyValue) {
-    		return RubyAPI.callPublicOneArgMethod(this, (RubyValue)o, null, RubyID.equalID).isTrue();
-    	} else {
-    		return false;
-    	}
+        if (this == o) {
+            return true;
+        } else if (o instanceof RubyValue) {
+            return RubyAPI.callPublicOneArgMethod(this, (RubyValue)o, null, RubyID.equalID).isTrue();
+        } else {
+            return false;
+        }
     }
 
     public boolean frozen() {
@@ -86,143 +86,147 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     }
 
     public RubyValue getInstanceVariable(RubyID id) {
-    	if (genericIvTbl != null) {
-    		Map<RubyID, RubyValue> table = genericIvTbl.get(this);
-    		if (table != null) {
-    			RubyValue v = table.get(id);
-    			if (v != null) {
-    				return v;
-    			}
-    		}
-    	}
+        if (genericIvTbl != null) {
+            Map<RubyID, RubyValue> table = genericIvTbl.get(this);
+            if (table != null) {
+                RubyValue v = table.get(id);
+                if (v != null) {
+                    return v;
+                }
+            }
+        }
 
-    	return RubyConstant.QNIL;
+        return RubyConstant.QNIL;
     }
 
     public RubyValue setInstanceVariable(RubyValue value, RubyID id) {
-    	if (genericIvTbl == null) {
-    		genericIvTbl = new HashMap<RubyValue, Map<RubyID, RubyValue>>();
-    	}
-    	
-    	Map<RubyID, RubyValue> table = genericIvTbl.get(this);
-    	if (table == null) {
-    		table = new HashMap<RubyID, RubyValue>();
-    		genericIvTbl.put(this, table);
-    	}
-    	
-    	table.put(id, value);
-    	return value;
+        if (genericIvTbl == null) {
+            genericIvTbl = new HashMap<RubyValue, Map<RubyID, RubyValue>>();
+        }
+
+        Map<RubyID, RubyValue> table = genericIvTbl.get(this);
+        if (table == null) {
+            table = new HashMap<RubyID, RubyValue>();
+            genericIvTbl.put(this, table);
+        }
+
+        table.put(id, value);
+        return value;
     }
 
     public RubyClass getSingletonClass() {
+        return getSingletonClass(null);
+    }
+
+    public RubyClass getSingletonClass(RubyModule scope) {
         RubyClass klass = this.getRubyClass();
 
         if (klass.isSingleton()
                 && klass.getInstanceVariable(RubyID.attachedID) == this) {
             return klass;
         } else {
-            return new RubySingletonClass(this, this.getRubyClass());
+            return new RubySingletonClass(this, this.getRubyClass(), scope);
         }
     }
-    
+
     public boolean respondTo(RubyID id) {
-    	RubyClass klass = this.getRubyClass();
-		if (klass.findMethod(RubyID.RESPOND_TO_P) == RubyRuntime.getRespondMethod()) {
-    		return klass.isMethodBound(id, false);
-    	} else {
-    		return RubyAPI.callOneArgMethod(this, id.toSymbol(), null, RubyID.RESPOND_TO_P).isTrue();
-    	}
+        RubyClass klass = this.getRubyClass();
+        if (klass.findMethod(RubyID.RESPOND_TO_P) == RubyRuntime.getRespondMethod()) {
+            return klass.isMethodBound(id, false);
+        } else {
+            return RubyAPI.callOneArgMethod(this, id.toSymbol(), null, RubyID.RESPOND_TO_P).isTrue();
+        }
     }
-    
+
     public boolean isTrue() {
-    	return true;
+        return true;
     }
-    
+
     public boolean isKindOf(RubyModule m) {
-    	return m.isKindOf(this.getRubyClass());
+        return m.isKindOf(this.getRubyClass());
     }
 
     public String toString() {
         return getRubyClass().getName() + super.toString();
     }
-    
+
     public String inspect() {
         return RubyAPI.callNoArgMethod(this, null, RubyID.toSID).toStr();
     }
-    
+
     public RubyID toID() {
-    	throw new RubyException(RubyRuntime.TypeErrorClass, this.inspect() + " is not a symbol");
+        throw new RubyException(RubyRuntime.TypeErrorClass, this.inspect() + " is not a symbol");
     }
-    
+
     public int toInt() {
-    	return this.convertToInteger().toInt();
+        return this.convertToInteger().toInt();
     }
-    
+
     public RubyArray toAry() {
-    	return this.contertToArray().toAry();
+        return this.contertToArray().toAry();
     }
-    
+
     public double toFloat() {
-    	return this.convertToFloat().toFloat();
+        return this.convertToFloat().toFloat();
     }
-    
+
     public String toStr() {
-    	return this.convertToString().toStr();
+        return this.convertToString().toStr();
     }
-    
+
     public String asString() {
-    	RubyValue value = RubyAPI.callPublicNoArgMethod(this, null, RubyID.toSID);
-    	if (value instanceof RubyString) {
-    		return value.toStr();
-    	}
-    	
-    	return "#<" + this.getRubyClass().getName() + ":0x" + Integer.toHexString(this.hashCode()) + "x>";
+        RubyValue value = RubyAPI.callPublicNoArgMethod(this, null, RubyID.toSID);
+        if (value instanceof RubyString) {
+            return value.toStr();
+        }
+
+        return "#<" + this.getRubyClass().getName() + ":0x" + Integer.toHexString(this.hashCode()) + "x>";
     }
-    
+
     public RubyInteger toRubyInteger() {
-    	return this.convertToInteger().toRubyInteger();
+        return this.convertToInteger().toRubyInteger();
     }
-    
+
     public RubyFloat toRubyFloat() {
-    	return this.convertToFloat().toRubyFloat();
+        return this.convertToFloat().toRubyFloat();
     }
-    
+
     public RubyString toRubyString() {
-    	return this.convertToString().toRubyString();
+        return this.convertToString().toRubyString();
     }
-    
+
     private RubyValue convertToInteger() {
-    	return convertToType(RubyRuntime.IntegerClass, RubyID.toIntID);
+        return convertToType(RubyRuntime.IntegerClass, RubyID.toIntID);
     }
-    
+
     private RubyValue contertToArray() {
-    	return convertToType(RubyRuntime.ArrayClass, RubyID.toAryID);
+        return convertToType(RubyRuntime.ArrayClass, RubyID.toAryID);
     }
-    
+
     private RubyValue convertToFloat() {
-    	return convertToType(RubyRuntime.FloatClass, RubyID.toFID);
+        return convertToType(RubyRuntime.FloatClass, RubyID.toFID);
     }
-    
+
     private RubyValue convertToString() {
-    	return convertToType(RubyRuntime.StringClass, RubyID.toStrID);
+        return convertToType(RubyRuntime.StringClass, RubyID.toStrID);
     }
-    
+
     private RubyValue convertToType(RubyClass klass, RubyID id) {
-    	if (this.isKindOf(klass)) {
-    		return this;
-    	}
-    	
-    	if (!this.respondTo(id)) {
-    		throw new RubyException("can't convert " + this.getRubyClass().getName() + " into " + klass.getName());
-    	}
-    	
-    	RubyValue v = RubyAPI.callNoArgMethod(this, null, id);
-    	
-    	if (!v.isKindOf(klass)) {
-    		throw new RubyException(this.getRubyClass().getName() + "#" + id.toString() + " should return " + klass.getName());
-    	}
-    	
-		return v;
+        if (this.isKindOf(klass)) {
+            return this;
+        }
+
+        if (!this.respondTo(id)) {
+            throw new RubyException("can't convert " + this.getRubyClass().getName() + " into " + klass.getName());
+        }
+
+        RubyValue v = RubyAPI.callNoArgMethod(this, null, id);
+
+        if (!v.isKindOf(klass)) {
+            throw new RubyException(this.getRubyClass().getName() + "#" + id.toString() + " should return " + klass.getName());
+        }
+
+        return v;
     }
 
     public RubyMethod findPublicMethod(RubyID mid) {

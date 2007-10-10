@@ -147,7 +147,9 @@ public class RubyCompilerImpl implements CodeVisitor {
     }
 
     public void visitSingletonClassDefination() {
-        cg_.getMethodGenerator().RubyValue_getSingletonClass();
+        MethodGenerator mg = cg_.getMethodGenerator();      
+        mg.loadCurrentScope(isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
+        mg.RubyValue_getSingletonClass();
         callClassModuleBuilder("SINGLETON", true);
     }
 
@@ -274,6 +276,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         if (!is_singleton_method) {
             mg.loadCurrentScope(isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
         } else {
+            mg.pushNull();
             mg.RubyValue_getSingletonClass();
         }
 
