@@ -124,7 +124,8 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitYieldEnd(int argc);
 
 	public void visitSuperBegin();
-	public void visitSuperEnd(boolean has_no_arg, boolean has_one_arg);
+	public void visitImplicitSuperEnd();
+    public void visitExplicitSuperEnd(int argc);
 
 	public void visitSymbolExpression(String value);
 	public void visitGlobalVariableExpression(String value);

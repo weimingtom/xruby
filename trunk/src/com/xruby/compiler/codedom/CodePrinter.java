@@ -451,8 +451,14 @@ public class CodePrinter implements CodeVisitor {
         result_.append("super\n");
     }
 
-    public void visitSuperEnd(boolean has_no_arg, boolean has_one_arg) {
+    public void visitImplicitSuperEnd() {
         result_.append("end super\n");
+    }
+
+    public void visitExplicitSuperEnd(int argc) {
+        result_.append("end super ");
+        result_.append(argc);
+        result_.append("\n");
     }
 
     public void visitGlobalVariableExpression(String value) {
