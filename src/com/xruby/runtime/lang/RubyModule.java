@@ -74,8 +74,7 @@ public class RubyModule extends RubyBasic {
         current_access_mode_ = access;
     }
 
-    //  / e.g. A::B
-    RubyValue getOwnConstant(String name) {
+    protected RubyValue getOwnConstant(String name) {
         return constants_.get(name);
     }
 
@@ -274,14 +273,7 @@ public class RubyModule extends RubyBasic {
         if (null != v) {
             return v;
         }
-
-        if (null != this.superclass_) {
-            v = this.superclass_.getConstant(name);
-            if (null != v) {
-                return v;
-            }
-        }
-
+        
         if (null != scope_) {
             v = this.scope_.getConstant(name);
             if (null != v) {
@@ -289,6 +281,13 @@ public class RubyModule extends RubyBasic {
             }
         }
 
+        if (null != this.superclass_) {
+            v = this.superclass_.getConstant(name);
+            if (null != v) {
+                return v;
+            }
+        }
+        
         return null;
     }
 
