@@ -27,16 +27,15 @@ public class SuperExpression extends Expression {
         visitor.visitSuperBegin();
         visitor.visitNoParameterForSuper();
         acceptBlock(visitor);
-        visitor.visitSuperEnd(true, false);
+        visitor.visitImplicitSuperEnd();
     }
 
     private void acceptSuperWithExplicitParameter(CodeVisitor visitor) {
         visitor.visitSuperBegin();
 
-        final boolean single_arg = (arguments_.size() == 1) &&
-                                    (null == arguments_.getAsteriskArgument());
+        final int argc = (null == arguments_.getAsteriskArgument()) ? arguments_.size() : -1;
 
-        if (single_arg) {
+        if (1 == argc) {
             arguments_.getFirstExpression().accept(visitor);
         } else {
             arguments_.accept(visitor);
@@ -44,7 +43,7 @@ public class SuperExpression extends Expression {
 
         acceptBlock(visitor);
 
-        visitor.visitSuperEnd(null == arguments_, single_arg);
+        visitor.visitExplicitSuperEnd(argc);
     }
 
     private void acceptBlock(CodeVisitor visitor) {
