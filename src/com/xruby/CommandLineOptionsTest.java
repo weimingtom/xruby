@@ -8,38 +8,31 @@ package com.xruby;
 import junit.framework.TestCase;
 
 public class CommandLineOptionsTest extends TestCase {
-	public void test_null() {
-		CommandLineOptions options = new CommandLineOptions(null);
-		assertTrue(!options.isCompileOnly());
-		assertTrue(!options.isHelp());
-		assertEquals(null, options.getFilename());
-	}
-
 	public void test_null_array() {
-		CommandLineOptions options = new CommandLineOptions(new String[] {});
-		assertTrue(!options.isCompileOnly());
-		assertTrue(!options.isHelp());
-		assertEquals(null, options.getFilename());
+		CommandLineOptions options = new CommandLineOptions(new String[0]);
+		assertFalse(options.isCompileOnly());
+		assertFalse(options.isHelp());
+		assertNull(options.getFilename());
 	}
 
 	public void test_compile_only() {
 		CommandLineOptions options = new CommandLineOptions(new String[] {"-c"});
 		assertTrue(options.isCompileOnly());
-		assertTrue(!options.isHelp());
-		assertEquals(null, options.getFilename());
+		assertFalse(options.isHelp());
+		assertNull(options.getFilename());
 	}
 	
 	public void test_help() {
 		CommandLineOptions options = new CommandLineOptions(new String[] {"-h"});
-		assertTrue(!options.isCompileOnly());
+		assertFalse(options.isCompileOnly());
 		assertTrue(options.isHelp());
-		assertEquals(null, options.getFilename());
+		assertNull(options.getFilename());
 	}
 
 	public void test_one_file() {
 		CommandLineOptions options = new CommandLineOptions(new String[] {"test2.rb"});
-		assertTrue(!options.isCompileOnly());
-		assertTrue(!options.isHelp());
+		assertFalse(options.isCompileOnly());
+		assertFalse(options.isHelp());
 		assertEquals("test2.rb", options.getFilename());
 		assertEquals(0, options.getArgs().length);
 	}

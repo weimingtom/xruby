@@ -5,7 +5,6 @@
 
 package com.xruby.compiler.codegen;
 
-import java.io.*;
 import junit.framework.TestCase;
 
 public class NameFactoryTest extends TestCase {
@@ -43,9 +42,9 @@ public class NameFactoryTest extends TestCase {
     }
 
     public void test_createJarFileName() {
-        assertEquals((new File("1.8.jar")).toString(), NameFactory.createJarFileName("lib/ruby/1.8/").toString());
-        assertEquals((new File("STDIN.jar")).toString(), NameFactory.createJarFileName(null).toString());
-        assertEquals(new File("test.jar").toString(), NameFactory.createJarFileName("c:/ruby/lib/test.rb").toString());
+        assertEquals("1.8.jar", NameFactory.createJarFileName("lib/ruby/1.8/"));
+        assertEquals("STDIN.jar", NameFactory.createJarFileName(null));
+        assertEquals("test.jar", NameFactory.createJarFileName("c:/ruby/lib/test.rb"));
     }
 
     public void test_createMainClass() {

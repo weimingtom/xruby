@@ -23,47 +23,53 @@ import java.io.PrintStream;
 import java.nio.channels.FileChannel;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        CommandLineOptions options = new CommandLineOptions(args);
-        if (options.isHelp()) {
-            help();
-            return;
-        }
+	private CommandLineOptions options;
+	
+	public Main(CommandLineOptions options) {
+		this.options = options;
+	}
+	
+	public void run() throws Exception {
+		if (options.isHelp()) {
+			help();
+			return;
+		}
 
-        if (options.isEvalOneLine()) {
-            //eval string
-            if (options.getBackupExtension() != null && options.getFilename() != null) {
-                copyFile(options.getFilename(), options.getFilename() + options.getBackupExtension());
-            }
-            RubyCompiler compiler = new RubyCompiler(options.isStrip());
-            CompilationResults results = compiler.compileString(options.getEvalScript());
-            if (options.isPe()) {
-                redirectStdinout(options.getFilename());
-            }
+		if (options.isEvalOneLine()) {
+			//eval string
+			if (options.getBackupExtension() != null && options.getFilename() != null) {
+				copyFile(options.getFilename(), options.getFilename() + options.getBackupExtension());
+			}
+			RubyCompiler compiler = new RubyCompiler(options.isStrip());
+			CompilationResults results = compiler.compileString(options.getEvalScript());
+			if (options.isPe()) {
+				redirectStdinout(options.getFilename());
+			}
 
-            run(results, null);
-        } else if (options.getFilename() == null) {
-            //eval STDIN
-            CompilationResults results = compileStdin(options.isStrip(), options.isVerbose(), false);
-            run(results, null);
-        } else if (options.isCompileOnly()){
-            //compile and just save the result
-            String filename = options.getFilename();
-            CompilationResults results =
-                    compile(filename, options.isStrip(), options.isVerbose(), options.isEnableDebug());
-            results.save(filename);
-        } else {
-            //eval file
-            String filename = options.getFilename();
-            CompilationResults results = compile(filename, options.isStrip(), options.isVerbose(), false);
-            options.parseOptionsFromFile(filename);
-            GlobalVariables.setProgramName(filename);
-            GlobalVariables.importValuesFromCommandLine(options.getVars());
-            run(results, options.getArgs());
-        }
-    }
-
-    private static void redirectStdinout(String filename) throws IOException {
+			run(results, null);
+		} else if (options.getFilename() == null) {
+			//eval STDIN
+			CompilationResults results = compileStdin();
+			run(results, null);
+		} else if (options.isCompileOnly()){
+			//compile and just save the result
+			String filename = options.getFilename();
+			options.enableDebug();
+			CompilationResults results = compile(filename);
+			results.save(filename);
+		} else {
+			//eval file
+			String filename = options.getFilename();
+			options.enableDebug();
+			CompilationResults results = compile(filename);
+			options.parseOptionsFromFile(filename);
+			GlobalVariables.setProgramName(filename);
+			GlobalVariables.importValuesFromCommandLine(options.getVars());
+			run(results, options.getArgs());
+		}
+	}
+	
+    private void redirectStdinout(String filename) throws IOException {
         //count line number
         BufferedReader r = new BufferedReader(new FileReader(filename));
         int line = 0;
@@ -85,34 +91,32 @@ public class Main {
         System.setOut(new PrintStream(output));
     }
 
-    private static void help() {
+    private void help() {
         System.out.println("Usage: xruby [-c] filename1, filename2, ...");
     }
     
-    private static CompilationResults compileStdin(boolean strip, boolean verbose, boolean debug) 
-    	throws Exception {
-    	RubyCompiler compiler = createCompiler(strip, verbose, debug);
+    private CompilationResults compileStdin() throws Exception {
+    	RubyCompiler compiler = createCompiler();
     	return compiler.compileStdin();
     }
-
-    private static CompilationResults compile(String filename, boolean strip, boolean verbose, boolean debug) 
-    	throws Exception {
-    	RubyCompiler compiler = createCompiler(strip, verbose, debug);
-    	return compiler.compileFile(filename);
+    
+    private CompilationResults compile(String filename) throws Exception {
+    	RubyCompiler compiler = createCompiler();
+    	return compiler.compileFile(options.getFilename());
     }
-
-	private static RubyCompiler createCompiler(boolean strip, boolean verbose, boolean debug) {
-		RubyCompiler compiler = new RubyCompiler(strip);
-        if (verbose) {
+    
+    private RubyCompiler createCompiler() {
+    	RubyCompiler compiler = new RubyCompiler(options.isStrip());
+        if (options.isVerbose()) {
             compiler.setVerbose();
         }
-        if (debug) {
+        if (options.isEnableDebug()) {
             compiler.enableDebug();
         }
 		return compiler;
-	}
+    }
 
-    private static void run(CompilationResults results, String[] args) throws Exception {
+    private void run(CompilationResults results, String[] args) throws Exception {
         RubyProgram p = (RubyProgram)results.getRubyProgram();
         RubyRuntime.init(args);
         p.invoke();
@@ -120,17 +124,35 @@ public class Main {
     }
 
     //TODO move to a separated class
-    private static void copyFile(String from, String to) {
-        try {
-            FileChannel srcChannel = new FileInputStream(from).getChannel();
-            FileChannel dstChannel = new FileOutputStream(to).getChannel();
+    private void copyFile(String from, String to) {
+    	FileChannel srcChannel = null;
+    	FileChannel dstChannel = null;
 
-            dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
+    	try {
+    		srcChannel = new FileInputStream(from).getChannel();
+    		dstChannel = new FileOutputStream(to).getChannel();
 
-            srcChannel.close();
-            dstChannel.close();
-        } catch (IOException e) {
-            throw new Error(e);
-        }
+    		dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
+    	} catch (IOException e) {
+    		throw new Error(e);
+    	} finally {
+    		try {
+    			if (srcChannel != null) {
+    				srcChannel.close();
+    			}
+
+    			if (dstChannel != null) {
+    				dstChannel.close();
+    			}
+    		} catch (IOException ioe) {
+    			// do nothing
+    		}
+    	}
+    }
+    
+    public static void main(String[] args) throws Exception {
+    	CommandLineOptions options = new CommandLineOptions(args);
+    	Main xruby = new Main(options);
+    	xruby.run();
     }
 }

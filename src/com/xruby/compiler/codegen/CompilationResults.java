@@ -53,8 +53,9 @@ public class CompilationResults {
     }
 
     public void save(String script_name) throws FileNotFoundException, IOException {
-        File tarfilename = NameFactory.createJarFileName(script_name);
-        FileOutputStream fstream = new FileOutputStream(tarfilename);
+        String targetFileName = NameFactory.createJarFileName(script_name);
+		File targetFile = new File(targetFileName);
+        FileOutputStream fstream = new FileOutputStream(targetFile);
         JarOutputStream jarstream = new JarOutputStream(fstream, createManifest(script_name));
 
         for (CompilationResult result : results_) {
@@ -64,7 +65,7 @@ public class CompilationResults {
         writeBlockInfo(script_name, jarstream);
 
         jarstream.close();
-        System.out.println("Generated " + tarfilename.toString());
+        System.out.println("Generated " + targetFileName);
     }
 
     private void writeBlockInfo(String script_name, JarOutputStream jarstream) throws IOException {
