@@ -35,7 +35,9 @@ public class SuperExpression extends Expression {
 
         final int argc = (null == arguments_.getAsteriskArgument()) ? arguments_.size() : -1;
 
-        if (1 == argc) {
+        if (0 == argc) {
+            //do nothing
+        } else if (1 == argc) {
             arguments_.getFirstExpression().accept(visitor);
         } else {
             arguments_.accept(visitor);
