@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 class CommandLineOptions {
 	private boolean compileOnly_ = false;
@@ -28,8 +29,8 @@ class CommandLineOptions {
     private String eval_script_ = "";
 	private String file_ = null;
 	String backupExtension_ = null;
-	private ArrayList<String> vars_ = new ArrayList<String>();
-	private ArrayList<String> args_ = new ArrayList<String>();
+	private List<String> vars_ = new ArrayList<String>();
+	private List<String> args_ = new ArrayList<String>();
 
 	public boolean isCompileOnly() {
 		return compileOnly_;
@@ -58,6 +59,10 @@ class CommandLineOptions {
     public boolean isEnableDebug() {
         return enableDebug;
     }
+    
+    public void enableDebug() {
+    	this.enableDebug = true;
+    }
 
     public String getEvalScript() {
 		if (is_pe_) {
@@ -75,11 +80,11 @@ class CommandLineOptions {
 	}
 
 	public String[] getVars() {
-		return vars_.toArray(new String[]{});
+		return vars_.toArray(new String[0]);
 	}
 
 	public String[] getArgs() {
-		return args_.toArray(new String[]{});
+		return args_.toArray(new String[0]);
 	}
 
 	private String getRidOfQuote(String s) {
@@ -168,7 +173,7 @@ class CommandLineOptions {
 	}
 
 	private String[] preProcess_pe_i(String[] args) {
-		ArrayList<String> a = new ArrayList<String>();
+		List<String> a = new ArrayList<String>();
 
 		for (String s : args) {
 			if (s.equals("-pe")) {
@@ -183,12 +188,12 @@ class CommandLineOptions {
 			}
 		}
 
-		return a.toArray(new String[] {});
+		return a.toArray(new String[0]);
 	}
 
 	@SuppressWarnings("unchecked")
 	public CommandLineOptions(String[] args) {
-		if (null == args) {
+		if (args.length == 0) {
 			return;
 		}
 

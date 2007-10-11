@@ -124,12 +124,8 @@ public class NameFactory {
             return method_name + ".class";
     }
 
-    public static File createJarFileName(String script_name) {
-        if (null == script_name) {
-            return new File("STDIN.jar");
-        } else {
-            return new File(getNameWithoutSufix(script_name) + ".jar");
-        }
+    public static String createJarFileName(String script_name) {
+        return (null == script_name) ? "STDIN.jar" : getNameWithoutSufix(script_name) + ".jar";
     }
 
     public static String createMainClassName(String required_file) {
