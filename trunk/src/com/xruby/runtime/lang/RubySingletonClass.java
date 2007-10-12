@@ -41,6 +41,7 @@ public class RubySingletonClass extends RubyClass {
             }
         }
 
+        //TODO this will call 'getOwnConstant' again, which is a waste of time
         return super.getConstant(name);
     }
 
