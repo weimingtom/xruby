@@ -123,6 +123,7 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 
         if (klass.isSingleton()
                 && klass.getInstanceVariable(RubyID.attachedID) == this) {
+            klass.setScope(scope);
             return klass;
         } else {
             return new RubySingletonClass(this, this.getRubyClass(), scope);

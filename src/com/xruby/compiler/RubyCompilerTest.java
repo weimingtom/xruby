@@ -4242,6 +4242,19 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_constant_in_class_module() {
         String [] program_texts = {
+                "module TestConstant20; end\n" +
+                "class << TestConstant20\n" +
+                "    N =2\n" +
+                "    def f(klass)\n" +
+                "        class << klass\n" +
+                "            print N\n" +
+                "        end\n" +
+                "    end\n" +
+                "end\n" +
+                "\n" +
+                "module TestConstant21;end\n" +
+                "TestConstant20.f TestConstant21",
+
                 "TestConstant10=3\n" +
                 "class TestConstant11\n" +
                 "    TestConstant10=4\n" +
@@ -4272,6 +4285,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "2",
                 "4",
                 "6",
                 "Kernel",
