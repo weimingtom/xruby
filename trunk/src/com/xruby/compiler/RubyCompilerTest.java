@@ -2250,14 +2250,20 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    public void test_undef_should_not_remove_methods_from_Super_class() {
+    public void test_undef_should_not_remove_methods_from_super_class() {
         String[] program_texts = {
+                "module TestUndef3; def test_undef_f; print 3;end; end\n" +
+                "module TestUndef4; include TestUndef3; undef :test_undef_f; end\n" +
+                "class TestUndef5; include TestUndef3; end\n" +
+                "TestUndef5.new.test_undef_f",
+
                 "class TestUndef1;  def f; print 9898; end;   end\n" +
                 "class TestUndef2 < TestUndef1;	undef f; end\n" +
                 "TestUndef1.new.f",
         };
 
         String[] outputs = {
+                "3",
                 "9898",
         };
 
