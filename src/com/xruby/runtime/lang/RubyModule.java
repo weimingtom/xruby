@@ -104,14 +104,27 @@ public class RubyModule extends RubyBasic {
     }
 
     protected RubyMethod findOwnMethod(RubyID mid) {
-        return methods_.get(mid);
+        RubyModule klass = this;
+        do {
+            RubyMethod m = klass.methods_.get(mid);
+            if (m != null) {
+                return m;
+            }
+            klass = klass.superclass_;
+        } while (klass != null);
+
+        return null;
     }
 
     protected RubyMethod findOwnPublicMethod(RubyID mid) {
-        RubyMethod m = methods_.get(mid);
-        if (null != m && RubyMethod.PUBLIC == m.getAccess()) {
-            return m;
-        }
+        RubyModule klass = this;
+        do {
+            RubyMethod m = klass.methods_.get(mid);
+            if (m != null && RubyMethod.PUBLIC == m.getAccess()) {
+                return m;
+            }
+            klass = klass.superclass_;
+        } while (klass != null);
 
         return null;
     }
@@ -273,7 +286,7 @@ public class RubyModule extends RubyBasic {
         if (null != v) {
             return v;
         }
-        
+
         if (null != scope_) {
             v = this.scope_.getConstant(name);
             if (null != v) {
@@ -287,7 +300,7 @@ public class RubyModule extends RubyBasic {
                 return v;
             }
         }
-        
+
         return null;
     }
 
@@ -731,7 +744,7 @@ public class RubyModule extends RubyBasic {
             throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
         }
         getSingletonClass().defineMethod(method_name, m);
-    }    
+    }
 
     @RubyLevelMethod(name="module_function")
     public RubyValue module_function() {

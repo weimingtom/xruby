@@ -103,7 +103,7 @@ public class RubyClass extends RubyModule {
 
     @RubyLevelMethod(name="allocate")
     public RubyValue allocate() {
-    	//TODO this implmentation does not look right...
+        //TODO this implmentation does not look right...
         return new RubyObject(this);
     }
 
@@ -149,18 +149,11 @@ public class RubyClass extends RubyModule {
             }
         }
 
-        RubyClass klass = this;
-
-        while (klass != null) {
-            RubyMethod m = klass.methods_.get(mid);
-            if (m != null) {
-                cache.putMethod(this, mid, m);
-                return m;
-            }
-            klass = klass.superclass_;
+        RubyMethod m = super.findOwnMethod(mid);
+        if (null != m) {
+            cache.putMethod(this, mid, m);
         }
-
-        return null;
+        return m;
     }
 
     public RubyMethod findOwnPublicMethod(RubyID mid) {
@@ -174,17 +167,11 @@ public class RubyClass extends RubyModule {
             }
         }
 
-        RubyClass klass = this;
-        while (klass != null) {
-            RubyMethod m = klass.methods_.get(mid);
-            if (m != null && RubyMethod.PUBLIC == m.getAccess()) {
-                cache.putMethod(this, mid, m);
-                return m;
-            }
-            klass = klass.superclass_;
+        RubyMethod m = super.findOwnPublicMethod(mid);
+        if (null != m) {
+            cache.putMethod(this, mid, m);
         }
-
-        return null;
+        return m;
     }
 
     public void collectClassMethodNames(RubyArray a, int mode) {
