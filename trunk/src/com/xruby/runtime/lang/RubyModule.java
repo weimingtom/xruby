@@ -361,15 +361,6 @@ public class RubyModule extends RubyBasic {
         }
     }
 
-    public void module_function(String method_name) {
-        RubyID mid = RubyID.intern(method_name);
-        RubyMethod m = findOwnMethod(mid);
-        if (null == m || UndefMethod.isUndef(m)) {
-            throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
-        }
-        getSingletonClass().defineMethod(method_name, m);
-    }
-
     // Class object instance variable
     public RubyValue getInstanceVariable(RubyID id) {
         if (null == instance_varibles_) {
@@ -732,6 +723,15 @@ public class RubyModule extends RubyBasic {
         }
         return a;
     }
+
+    private void module_function(String method_name) {
+        RubyID mid = RubyID.intern(method_name);
+        RubyMethod m = findOwnMethod(mid);
+        if (null == m || UndefMethod.isUndef(m)) {
+            throw new RubyException(RubyRuntime.NoMethodErrorClass, "undefined method '" +  method_name + "' for " + getName());
+        }
+        getSingletonClass().defineMethod(method_name, m);
+    }    
 
     @RubyLevelMethod(name="module_function")
     public RubyValue module_function() {
