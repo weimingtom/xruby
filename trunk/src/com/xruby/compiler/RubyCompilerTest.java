@@ -1096,14 +1096,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_define_method(){
         String[] program_texts = {
-        		"class TestDefineMethod;end\n" +
-        		"class <<TestDefineMethod\n" +
-        		"    TestDefineMethodConstant = proc do\n" +
-        		"        print self\n" +
-        		"    end\n" +
-        		"    define_method(:test_define_method, TestDefineMethodConstant)\n" +
-        		"end\n" +
-        		"TestDefineMethod.test_define_method",
+                "class TestDefineMethod;end\n" +
+                "class <<TestDefineMethod\n" +
+                "    TestDefineMethodConstant = proc do\n" +
+                "        print self\n" +
+                "    end\n" +
+                "    define_method(:test_define_method, TestDefineMethodConstant)\n" +
+                "end\n" +
+                "TestDefineMethod.test_define_method",
         };
 
         String[] outputs = {
@@ -1317,6 +1317,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_unless() {
         String[] program_texts = {
+                "a = 1 unless 1==2; print a",
+
                 "a =unless false\n" +
                 "	111\n" +
                 "else\n" +
@@ -1337,6 +1339,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "1",
+
                 "111",
                 "222",
 
