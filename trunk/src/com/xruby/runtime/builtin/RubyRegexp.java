@@ -75,17 +75,27 @@ public class RubyRegexp extends RubyBasic {
     }
 
     @RubyLevelMethod(name="initialize")
-    public RubyValue initialize(RubyArray args) {
-        RubyValue pattern = args.get(0);
-        RubyValue mode = args.get(1);
+    public RubyValue initialize(RubyValue pattern, RubyValue mode) {
         if (pattern instanceof RubyRegexp) {
             pattern_ = ((RubyRegexp)pattern).pattern_;
-        } else {
-            setValue(pattern.toStr(), mode.toInt());
+        } else { 
+			setValue(pattern.toStr(), getFlag(mode));
         }
 
         return this;
     }
+    
+    private static final int RE_OPTION_IGNORECASE = 1;
+
+	private int getFlag(RubyValue mode) {
+		if (mode instanceof RubyFixnum) {
+			return mode.toInt();
+		}
+		
+		// 0 is default flag
+		// TODO: RTEST
+		return (mode != RubyConstant.QNIL && mode != RubyConstant.QFALSE) ? RE_OPTION_IGNORECASE : 0;
+	}
 
     @RubyLevelMethod(name="===")
     public RubyValue caseEqual(RubyValue arg) {
