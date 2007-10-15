@@ -280,6 +280,21 @@ public class StdlibTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+    public void test_singleton() {
+        String[] program_texts = {
+                "require 'singleton'",
+                "class TestSingleton; include Singleton; end\n" +
+                "print(TestSingleton.instance == TestSingleton.instance)",
+        };
+
+        String[] outputs = {
+                "",
+                "true",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
     /*TODO
     public void test_matrix() {
         String[] program_texts = {
