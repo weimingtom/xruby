@@ -805,6 +805,7 @@ public class RubyModule extends RubyBasic {
         String name = RubyTypesUtil.convertToJavaString(args.get(0));
         RubyMethod method = new RubyVarArgMethod() {
             protected RubyValue run(RubyValue _receiver, RubyArray _args, RubyBlock _block) {
+                b.setSelf(_receiver);
                 b.setArgsOfCurrentMethod(_args);
                 return b.invoke(_receiver, _args);
             }

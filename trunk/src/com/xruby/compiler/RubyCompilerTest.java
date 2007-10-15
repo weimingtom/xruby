@@ -1094,6 +1094,25 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+    public void test_define_method(){
+        String[] program_texts = {
+        		"class TestDefineMethod;end\n" +
+        		"class <<TestDefineMethod\n" +
+        		"    TestDefineMethodConstant = proc do\n" +
+        		"        print self\n" +
+        		"    end\n" +
+        		"    define_method(:test_define_method, TestDefineMethodConstant)\n" +
+        		"end\n" +
+        		"TestDefineMethod.test_define_method",
+        };
+
+        String[] outputs = {
+                "TestDefineMethod",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
     public void test_dot_class_method() {
         String[] program_texts = {
                 "print 1.class\n",
