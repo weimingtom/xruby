@@ -295,6 +295,18 @@ public class StdlibTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+    public void test_cgi() {
+        String[] program_texts = {
+                "require 'cgi'",
+        };
+
+        String[] outputs = {
+                "",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
     /*TODO
     public void test_matrix() {
         String[] program_texts = {
