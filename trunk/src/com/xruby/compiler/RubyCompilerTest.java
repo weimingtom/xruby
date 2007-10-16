@@ -5201,8 +5201,9 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_misc() {
         String [] program_texts = {
-                "print '  abcd  '.lstrip!",
+                "print '%21%27'.delete('%')",
                 "print 'aaBBcc'.delete!('a-z')",
+                "print '  abcd  '.lstrip!",
                 "print %q{location:1 in 'l'}.sub(/\\A(.+:\\d+).*/, ' [\\\\1]')",
                 "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, '<\\&>')",
                 "print 'a.gif'.sub(/.*\\.([^\\.]+)$/, 'a\\2b')",
@@ -5242,8 +5243,9 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-                "abcd  ",
+                "2127",
                 "BB",
+                "abcd  ",
                 " [location:1]",
                 "<a.gif>",
                 "ab",
