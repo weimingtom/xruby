@@ -489,7 +489,7 @@ public class RubyString extends RubyBasic {
         if (null != block) {
             throw new RubyException("scan with block need to be implmented");
         }
-        
+
         RubyRegexp regex = (RubyRegexp)arg;
         return regex.scan(sb_.toString());
     }
@@ -584,13 +584,16 @@ public class RubyString extends RubyBasic {
             }
             return true;
         } else {
-            int index = sb_.indexOf(from);
-            if (index < 0) {
-                return false;
-            }
+            boolean changed = false;
+            for (;;) {
+                int index = sb_.indexOf(from);
+                if (index < 0) {
+                    return changed;
+                }
 
-            sb_.delete(index, index + from.length());
-            return true;
+                sb_.delete(index, index + from.length());
+                changed = true;
+            }
         }
     }
 
