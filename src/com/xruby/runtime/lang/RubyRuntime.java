@@ -211,6 +211,7 @@ public class RubyRuntime {
         GlobalVariables.initialize();
 
         updateStdout();
+        updateStderr();
 
         RubyAPI.setTopLevelConstant(RubyConstant.QTRUE, "TRUE");
         loadBuildinDotRb();
@@ -241,9 +242,15 @@ public class RubyRuntime {
     }
 
     private static void updateStdout() {
-        RubyIO newStdOut = new RubyFile(new OutputStreamExecutor(System.out), RubyRuntime.IOClass);
-        RubyAPI.setTopLevelConstant(newStdOut, "STDOUT");
-        GlobalVariables.set(newStdOut, "$stdout");
+        RubyIO io = new RubyFile(new OutputStreamExecutor(System.out), RubyRuntime.IOClass);
+        RubyAPI.setTopLevelConstant(io, "STDOUT");
+        GlobalVariables.set(io, "$stdout");
+    }
+
+    private static void updateStderr() {
+        RubyIO io = new RubyFile(new OutputStreamExecutor(System.err), RubyRuntime.IOClass);
+        RubyAPI.setTopLevelConstant(io, "STDERR");
+        GlobalVariables.set(io, "$stderr");
     }
 
     private static PrintStream getPrintStream(OutputStream os) {
