@@ -88,7 +88,10 @@ public class Block {
     }
 
     public void acceptAsPulled(CodeVisitor visitor) {
-        assert(null==name_);
+        if (null != name_) {
+            //has been pulled
+            return;
+        }
         StringBuilder name = new StringBuilder();
         saved_as_pulled_ = visitor.visitBlockBegin(name, true);
         name_ = name.toString();

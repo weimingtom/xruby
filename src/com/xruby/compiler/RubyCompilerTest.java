@@ -1189,6 +1189,15 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_if() {
         String[] program_texts = {
+                "buf=\"\"\n" +
+                "option = true\n" +
+                "if option\n" +
+                "    if option\n" +
+                "        1.times{|y| buf += \"x\" }\n" +
+                "    end\n" +
+                "end\n" +
+                "print buf",
+
                 "a=true\n" +
                 "if a\n" +
                 "elsif a\n" +
@@ -1225,6 +1234,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "x",
                 "nil",
                 "",
                 "1",
