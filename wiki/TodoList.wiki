@@ -2,8 +2,6 @@
 
 =Things to be fixed to support Ruby on Rails=
 
-  * singleton.rb: issue 49(http://code.google.com/p/xruby/issues/detail?id=49)
-  * Regexp need to be reimplemented with apache.oro or somthing else, as java' regexp has lots of compatible issues
   * yaml.rb: part of it is implemented in C
   * erb.rb: has issues with Binding
   * activerecord: 1. need jdbc bridge 2. some parsing issues
