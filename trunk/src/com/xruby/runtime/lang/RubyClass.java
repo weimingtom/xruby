@@ -66,7 +66,7 @@ public class RubyClass extends RubyModule {
 
     @RubyLevelMethod(name="new")
     public RubyValue newInstance(RubyArray args, RubyBlock block) {
-        RubyValue v = this.allocObject(block);
+        RubyValue v = this.allocObject();
         callInitializeMethod(v, args, block);
         return v;
     }
@@ -120,8 +120,8 @@ public class RubyClass extends RubyModule {
         RubyAPI.callOneArgMethod(this, klass, null, RubyID.inheritedID);
     }
 
-    public RubyValue allocObject(RubyBlock block) {
-        RubyValue value = RubyAPI.callNoArgMethod(this, block, RubyID.ID_ALLOCATOR);
+    private RubyValue allocObject() {
+        RubyValue value = RubyAPI.callNoArgMethod(this, null, RubyID.ID_ALLOCATOR);
         if (value.getRubyClass().getRealClass() != this.getRealClass()) {
             throw new RubyException(RubyRuntime.TypeErrorClass, "wrong instance allocation");
         }

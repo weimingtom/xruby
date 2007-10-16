@@ -12,7 +12,6 @@ import com.xruby.runtime.lang.RubyValue;
 import com.xruby.runtime.lang.RubyVarArgMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
-import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 
 import java.lang.reflect.Field;
 
@@ -27,8 +26,8 @@ public class RubyProc extends RubyBinding {
         value_ = v;
     }
 
-    @RubyAllocMethod
-    public static RubyValue alloc(RubyValue receiver, RubyBlock block) {
+    @RubyLevelMethod(name="new")
+    public static RubyValue newProc(RubyValue receiver, RubyBlock block) {
         return ObjectFactory.createProc(block);
     }
 
