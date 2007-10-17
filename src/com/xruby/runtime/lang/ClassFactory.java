@@ -96,7 +96,7 @@ class ClassFactory {
         return klass;
     }
 
-    private static RubyClass createBootClass(RubyClass superclass) {
+    public static RubyClass createBootClass(RubyClass superclass) {
         RubyClass klass = new RubyClass(null, superclass, null);
         klass.setRubyClass(RubyRuntime.ClassClass);
 

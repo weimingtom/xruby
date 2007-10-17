@@ -17,6 +17,7 @@ import com.xruby.runtime.builtin.RubyProc;
 import com.xruby.runtime.builtin.RubyString;
 import com.xruby.runtime.builtin.RubyTypesUtil;
 import com.xruby.runtime.lang.annotation.DummyMethod;
+import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 import com.xruby.runtime.lang.annotation.RubyLevelClass;
 import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
@@ -35,6 +36,12 @@ public class RubyModule extends RubyBasic {
     protected Map<RubyID, RubyValue> instance_varibles_ = null;
     protected Map<RubyID, RubyMethod> methods_ = new HashMap<RubyID, RubyMethod>();
     protected Map<String, RubyValue> constants_ = new HashMap<String, RubyValue>();
+    
+    public RubyModule() {
+        super(null);
+        this.name_ = null;
+        scope_ = null;
+    }
 
     public RubyModule(String name, RubyModule owner) {
         super(null);
@@ -84,6 +91,22 @@ public class RubyModule extends RubyBasic {
             ((RubyModule)value).setName(name);
         }
         return value;
+    }
+    
+    @RubyAllocMethod
+    public static RubyModule allocModule(RubyValue receiver) {
+    	RubyModule module = new RubyModule();
+    	module.setRubyClass((RubyClass)receiver);
+    	return module;    	
+    }
+    
+    @RubyLevelMethod(name="initialize")
+    public RubyValue initializeModule(RubyBlock block) {
+    	if (block != null) {
+    		this.module_eval(null, block);
+    	}
+    	
+    	return RubyConstant.QNIL;
     }
 
     public RubyValue defineMethod(String name, RubyMethod m) {
@@ -825,10 +848,10 @@ public class RubyModule extends RubyBasic {
         return this;
     }
 
-    @RubyLevelMethod(name="new")
-    public static RubyValue newModule(RubyValue receiver, RubyBlock block) {
-        return RubyAPI.defineModule("");
-    }
+//    @RubyLevelMethod(name="new")
+//    public static RubyValue newModule(RubyValue receiver, RubyBlock block) {
+//        return RubyAPI.defineModule("");
+//    }
 
     @RubyLevelMethod(name="alias_method")
     public RubyValue alias_method(RubyValue arg1, RubyValue arg2) {
