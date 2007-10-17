@@ -93,15 +93,14 @@ public class RubyRegexp extends RubyBasic {
 
     private static final int RE_OPTION_IGNORECASE = 1;
 
-    private int getFlag(RubyValue mode) {
-        if (mode instanceof RubyFixnum) {
-            return mode.toInt();
-        }
-
-        // 0 is default flag
-        // TODO: RTEST
-        return (mode != RubyConstant.QNIL && mode != RubyConstant.QFALSE) ? RE_OPTION_IGNORECASE : 0;
-    }
+	private int getFlag(RubyValue mode) {
+		if (mode instanceof RubyFixnum) {
+			return mode.toInt();
+		}
+		
+		// 0 is default flag
+		return mode.isTrue() ? RE_OPTION_IGNORECASE : 0;
+	}
 
     @RubyLevelMethod(name="===")
     public RubyValue caseEqual(RubyValue arg) {

@@ -69,4 +69,12 @@ public abstract class Expression implements Visitable {
     public void setNewLine(boolean newLine) {
         this.newLine = newLine;
     }
+    
+    public void addLineno(CodeVisitor visitor) {
+    	if(this.shouldlabelNewLine()) {
+    		// TODO: Add Line Number info
+    		int lineNumber = this.getPosition();
+    		visitor.visitLineLabel(lineNumber);
+    	}
+    }
 }

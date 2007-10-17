@@ -19,7 +19,7 @@ public class ExpressionStatement extends Statement {
 	}
 
 	public void accept(CodeVisitor visitor) {
-        addLineNumberInfo(visitor);
+		this.expression.addLineno(visitor);
         expression.accept(visitor);
 	}
 
@@ -29,13 +29,5 @@ public class ExpressionStatement extends Statement {
 
     void pullBlock(ArrayList<Block> result) {
         expression.pullBlock(result);
-    }
-
-    private void addLineNumberInfo(CodeVisitor visitor) {
-        if(expression.shouldlabelNewLine()) {
-            // TODO: Add Line Number info
-            int lineNumber = expression.getPosition();
-            visitor.visitLineLabel(lineNumber);
-        }
     }
 }

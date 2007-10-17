@@ -10,14 +10,14 @@ import org.objectweb.asm.commons.Method;
 import com.xruby.runtime.lang.RubyBinding;
 
 class ClassGeneratorForRubyProgram extends ClassGenerator {
-    private final RubyBinding binding_;
+    private final RubyBinding binding;
     private final String fileName;
 
     public ClassGeneratorForRubyProgram(String name, String fileName, RubyBinding binding, boolean create_main, boolean is_singleton) {
         super(name);
         this.fileName = fileName;
-        mg_for_run_method_ = visitRubyProgram(binding, fileName, create_main, is_singleton);
-        binding_ = binding;
+        this.binding = binding;
+        mg_for_run_method_ = startRubyProgram(create_main, is_singleton);
     }
 
     public String getFileName() {
@@ -27,7 +27,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
     private static final Method RUBY_PROGRAM_RUN = 
     	CgUtil.getMethod("run", Types.RUBY_VALUE_TYPE, Types.RUBY_VALUE_TYPE, Types.RUBY_ARRAY_TYPE, Types.RUBY_BLOCK_TYPE, Types.RUBY_MODULE_TYPE);
 
-    private MethodGenerator visitRubyProgram(RubyBinding binding, String fileName, boolean create_main, boolean is_singleton) {
+    private MethodGenerator startRubyProgram(boolean createMain, boolean is_singleton) {
         cv_.visit(CgConfig.TARGET_VERSION,
                 Opcodes.ACC_PUBLIC,
                 name_,
@@ -37,13 +37,13 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
                 );
 
         // set source file's name, for debug
-        if (fileName != null) {
-            cv_.visitSource(fileName, null);
+        if (this.fileName != null) {
+            cv_.visitSource(this.fileName, null);
         }
         
         CgUtil.createImplicitConstructor(this.cv_, Types.RUBY_PROGRAM_TYPE);
 
-        if (create_main) {
+        if (createMain) {
             createStaticVoidMain(cv_);
         }
         
@@ -51,7 +51,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
         return new MethodGenerator(Opcodes.ACC_PROTECTED,
         		RUBY_PROGRAM_RUN,
                 cv_,
-                binding,
+                this.binding,
                 null,
                 is_singleton);
     }
@@ -81,7 +81,7 @@ class ClassGeneratorForRubyProgram extends ClassGenerator {
     }
 
     public void storeVariable(String name) {
-        updateBinding(binding_, name);
+        updateBinding(binding, name);
 
         super.storeVariable(name);
     }
