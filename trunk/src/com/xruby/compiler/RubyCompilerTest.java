@@ -5201,6 +5201,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_misc() {
         String [] program_texts = {
+                "print('%27Stop%21%27'.gsub(/((?:%[0-9a-fA-F]{2})+)/n) {'x'})",
                 "print '%21%27'.delete('%')",
                 "print 'aaBBcc'.delete!('a-z')",
                 "print '  abcd  '.lstrip!",
@@ -5243,6 +5244,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "xStopx",
                 "2127",
                 "BB",
                 "abcd  ",

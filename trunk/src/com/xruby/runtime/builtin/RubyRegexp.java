@@ -223,16 +223,24 @@ public class RubyRegexp extends RubyBasic {
         RubyString r = new RubyString("");
         PatternMatcherInput input = new PatternMatcherInput(str);
         PatternMatcher matcher = new Perl5Matcher();
-        int end = -1;
+        int end = 0;
         while (matcher.contains(input, pattern_)) {
             MatchResult m = matcher.getMatch();
+
+            String g = m.group(0);
+            GlobalVariables.set(ObjectFactory.createString(g), "$&");
+            
             for (int i = 1; i < m.groups(); ++i) {
                 GlobalVariables.set(ObjectFactory.createString(m.group(i)), "$" + i);
             }
 
-            String g = m.group(0);
+            int begin = m.beginOffset(0);
+            if (begin > end) {
+                //append unmatched
+                r.appendString(str.substring(end, begin));
+            }
+            
             end = m.endOffset(0);
-            GlobalVariables.set(ObjectFactory.createString(g), "$&");
 
             RubyString match = new RubyString(g);
             RubyValue v = block.invoke(this, match);
@@ -244,7 +252,7 @@ public class RubyRegexp extends RubyBasic {
         }
 
         //append unmatched
-        if (end >= 0 && end < str.length()) {
+        if (end < str.length()) {
             r.appendString(str.substring(end, str.length()));
         }
 
