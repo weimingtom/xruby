@@ -78,24 +78,30 @@ public class RubyRegexp extends RubyBasic {
     public RubyValue initialize(RubyValue pattern, RubyValue mode) {
         if (pattern instanceof RubyRegexp) {
             pattern_ = ((RubyRegexp)pattern).pattern_;
-        } else { 
-			setValue(pattern.toStr(), getFlag(mode));
+        } else {
+            setValue(pattern.toStr(), getFlag(mode));
         }
 
         return this;
     }
-    
+
+    @RubyLevelMethod(name="initialize")
+    public RubyValue initialize(RubyArray args) {
+        //TODO right now we just ignore the third parameter
+        return initialize(args.get(0), args.get(1));
+    }
+
     private static final int RE_OPTION_IGNORECASE = 1;
 
-	private int getFlag(RubyValue mode) {
-		if (mode instanceof RubyFixnum) {
-			return mode.toInt();
-		}
-		
-		// 0 is default flag
-		// TODO: RTEST
-		return (mode != RubyConstant.QNIL && mode != RubyConstant.QFALSE) ? RE_OPTION_IGNORECASE : 0;
-	}
+    private int getFlag(RubyValue mode) {
+        if (mode instanceof RubyFixnum) {
+            return mode.toInt();
+        }
+
+        // 0 is default flag
+        // TODO: RTEST
+        return (mode != RubyConstant.QNIL && mode != RubyConstant.QFALSE) ? RE_OPTION_IGNORECASE : 0;
+    }
 
     @RubyLevelMethod(name="===")
     public RubyValue caseEqual(RubyValue arg) {
@@ -229,7 +235,7 @@ public class RubyRegexp extends RubyBasic {
 
             String g = m.group(0);
             GlobalVariables.set(ObjectFactory.createString(g), "$&");
-            
+
             for (int i = 1; i < m.groups(); ++i) {
                 GlobalVariables.set(ObjectFactory.createString(m.group(i)), "$" + i);
             }
@@ -239,7 +245,7 @@ public class RubyRegexp extends RubyBasic {
                 //append unmatched
                 r.appendString(str.substring(end, begin));
             }
-            
+
             end = m.endOffset(0);
 
             RubyString match = new RubyString(g);
