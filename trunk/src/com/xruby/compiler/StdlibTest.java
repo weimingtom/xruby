@@ -300,12 +300,20 @@ public class StdlibTest extends CompilerTestCase {
                 "require 'cgi'",
                 "print CGI::unescape('%27Stop%21%27+said+Fred')",
                 "p CGI::parse('a=b')",
+                "print CGI::escapeHTML('Usage: foo \"bar\" <baz>')",
+                "print CGI::unescapeHTML('Usage: foo &quot;bar&quot; &lt;baz&gt;')",
+                "print CGI::escapeElement('<BR><A HREF=\"url\"></A>', 'A', 'IMG')",
+                "print CGI::unescapeElement(CGI::escapeHTML('<BR><A HREF=\"url\"></A>'), 'A', 'IMG')",
         };
 
         String[] outputs = {
                 "",
                 "'Stop!' said Fred",
                 "{\"a\"=>[\"b\"]}\n",
+                "Usage: foo &quot;bar&quot; &lt;baz&gt;",
+                "Usage: foo \"bar\" <baz>",
+                "<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;",
+                "&lt;BR&gt;<A HREF=\"url\"></A>",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
