@@ -298,10 +298,14 @@ public class StdlibTest extends CompilerTestCase {
     public void test_cgi() {
         String[] program_texts = {
                 "require 'cgi'",
+                "print CGI::unescape('%27Stop%21%27+said+Fred')",
+                "p CGI::parse('a=b')",
         };
 
         String[] outputs = {
                 "",
+                "'Stop!' said Fred",
+                "{\"a\"=>[\"b\"]}\n",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
