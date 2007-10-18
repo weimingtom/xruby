@@ -319,19 +319,6 @@ public class StdlibTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    /*TODO
-    public void test_matrix() {
-        String[] program_texts = {
-                "require 'matrix'",
-        };
-
-        String[] outputs = {
-                "",
-        };
-
-        compile_run_and_compare_output(program_texts, outputs);
-    }*/
-
     public void test_rational() {
         String[] program_texts = {
                 "require 'rational'",
@@ -385,6 +372,22 @@ public class StdlibTest extends CompilerTestCase {
                 "true",
 
                 "0",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+
+    public void test_uri() {
+        String[] program_texts = {
+                "require 'uri'",
+                "print URI.escape(\"http://example.com/?a=\\11\\15\")",
+                "print URI.unescape(\"http://example.com/?a=%09%0D\")",
+        };
+
+        String[] outputs = {
+                "",
+                "http://example.com/?a=%09%0D",
+                "http://example.com/?a=\t\r",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
