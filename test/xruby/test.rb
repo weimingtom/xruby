@@ -83,12 +83,49 @@ class XRubyTest < Test::Unit::TestCase
         assert_equal 2, DefMethod.new.def_method_x2
     end
     
-    def Kernel_taint
+    def test_Kernel_taint
         a=''
         assert !a.tainted?
         a.taint
         assert a.tainted?
         assert !''.tainted?
+    end
+    
+    require 'forwardable'
+    class TestingQueue
+         extend Forwardable
+         
+         def initialize
+           @q = [ ]    # prepare delegate object
+         end
+         
+         # setup prefered interface, enq() and deq()...
+         def_delegator :@q, :push, :enq
+         def_delegator :@q, :shift, :deq
+         
+         # support some general Array methods that fit Queues well
+         def_delegators :@q, :clear, :first, :push, :shift, :size
+    end
+    def test_forwardable
+        q = TestingQueue.new
+        q.enq 1, 2, 3, 4, 5
+        q.push 6
+     
+        assert_equal 6, q.size 
+        assert_equal 1, q.shift
+        assert_equal 5, q.size 
+        
+        i = 2
+        while q.size > 0
+            assert i, q.deq
+            i += 1
+        end
+        assert_equal 7, i 
+     
+        q.enq "Ruby", "Perl", "Python"
+        assert_equal "Ruby", q.first
+        q.clear
+        assert_equal nil, q.first
     end
     
     
