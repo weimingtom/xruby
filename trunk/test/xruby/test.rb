@@ -83,5 +83,13 @@ class XRubyTest < Test::Unit::TestCase
         assert_equal 2, DefMethod.new.def_method_x2
     end
     
+    def Kernel_taint
+        a=''
+        assert !a.tainted?
+        a.taint
+        assert a.tainted?
+        assert !''.tainted?
+    end
+    
     
 end

@@ -628,8 +628,19 @@ public class RubyKernelModule {
     }
 
     @RubyLevelMethod(name="frozen?")
-    public static RubyValue run(RubyValue receiver) {
+    public static RubyValue frozen(RubyValue receiver) {
     	return ObjectFactory.createBoolean(receiver.frozen());
+    }
+
+    @RubyLevelMethod(name="taint")
+    public static RubyValue taint(RubyValue receiver) {
+        receiver.taint();
+        return receiver;
+    }
+
+    @RubyLevelMethod(name="tainted?")
+    public static RubyValue tainted(RubyValue receiver) {
+    	return ObjectFactory.createBoolean(receiver.tainted());
     }
     
     @RubyLevelMethod(name="method_missing", module=true)
