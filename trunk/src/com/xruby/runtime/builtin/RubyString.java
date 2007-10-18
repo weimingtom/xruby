@@ -485,13 +485,14 @@ public class RubyString extends RubyBasic {
     }
 
     @RubyLevelMethod(name="scan")
-    public RubyArray scan(RubyValue arg, RubyBlock block) {
-        if (null != block) {
-            throw new RubyException("scan with block need to be implmented");
-        }
-
+    public RubyValue scan(RubyValue arg, RubyBlock block) {
         RubyRegexp regex = (RubyRegexp)arg;
-        return regex.scan(sb_.toString());
+        if (null != block) {
+            regex.scan(sb_.toString(), block);
+            return this;
+        } else {
+            return regex.scan(sb_.toString());
+        }
     }
 
     /// @return false if no change made

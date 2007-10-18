@@ -5201,6 +5201,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_misc() {
         String [] program_texts = {
+                "'cruel world'.scan(/\\w+/) {|w| print \"<<#{w}>>\"}",
+                "'cruel world'.scan(/(.)(.)/) {|x,y| print y, x }",
+                "'cruel world'.scan(/(.)(.)/) {|x,y| print $&}",
+
                 "print('%27Stop%21%27'.gsub(/((?:%[0-9a-fA-F]{2})+)/n) {'x'})",
                 "print '%21%27'.delete('%')",
                 "print 'aaBBcc'.delete!('a-z')",
@@ -5244,6 +5248,10 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "<<cruel>><<world>>",
+                "rceu lowlr",
+                "cruel worl",
+
                 "xStopx",
                 "2127",
                 "BB",

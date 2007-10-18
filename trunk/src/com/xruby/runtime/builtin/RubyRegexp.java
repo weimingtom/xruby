@@ -190,6 +190,29 @@ public class RubyRegexp extends RubyBasic {
         return a;
     }
 
+    public void scan(String str, RubyBlock block) {
+        PatternMatcherInput input = new PatternMatcherInput(str);
+        PatternMatcher m = new Perl5Matcher();
+        while (m.contains(input, pattern_)) {
+            MatchResult r = m.getMatch();
+
+            GlobalVariables.set(ObjectFactory.createString(r.group(0)), "$&");
+            for (int i = 1; i < r.groups(); ++i) {
+                GlobalVariables.set(ObjectFactory.createString(r.group(i)), "$" + i);
+            }
+            
+            if (r.groups() == 1) {
+                block.invoke(this, ObjectFactory.createString(r.group(0)));
+            } else {
+                RubyArray subarray = new RubyArray();
+                for (int i = 1; i < r.groups(); ++i) {
+                    subarray.add(ObjectFactory.createString(r.group(i)));
+                }
+                block.invoke(this, subarray);
+            }
+        }
+    }
+
     int matchPosition(String input) {
         PatternMatcher m = new Perl5Matcher();
         if (m.contains(input, pattern_)) {
