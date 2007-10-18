@@ -52,6 +52,7 @@ abstract class BlockCallStatus {
 
 public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     private boolean frozen_ = false;
+    private boolean taint_ = false;
     private static Map<RubyValue, Map<RubyID, RubyValue>> genericIvTbl;
 
     public abstract void setRubyClass(RubyClass klass);
@@ -83,6 +84,14 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
 
     public void freeze() {
         frozen_ = true;
+    }
+
+    public boolean tainted() {
+        return taint_;
+    }
+
+    public void taint() {
+        taint_ = true;
     }
 
     public RubyValue getInstanceVariable(RubyID id) {
