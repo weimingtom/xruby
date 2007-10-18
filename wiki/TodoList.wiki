@@ -5,8 +5,7 @@
   * yaml.rb: part of it is implemented in C
   * erb.rb: has issues with Binding
   * activerecord: 1. need jdbc bridge 2. some parsing issues
-  * uri.rb: need the Regexp fix
-  * cgi.rb: has a VerifyError in header() method
+  * uri.rb: need more Regexp fix
   * ...
 
 
