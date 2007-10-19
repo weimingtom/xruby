@@ -13,7 +13,10 @@
 #Some built-in functions can be implemented in pure ruby, so they are implemented here.
 #
 
-$: = ["./lib/ruby/site_ruby/1.8", "./lib/ruby/1.8", "."]
+$: = ["./lib/ruby/site_ruby/1.8", 
+        "./lib/ruby/1.8",
+        "./lib/ruby/1.8/xruby",
+        "."]
 $" = []
 $* = ARGV
 $SAFE = 0
