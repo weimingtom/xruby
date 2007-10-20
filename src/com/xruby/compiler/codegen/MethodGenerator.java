@@ -378,22 +378,6 @@ class MethodGenerator extends GeneratorAdapter {
         }
     }
 
-    public void createFrequentlyUsedInteger(int value) {
-        if (value >= 0 && value <= 10) {
-            return;
-        }
-
-        Integer i = integer_table_.getInteger(value);
-        if (null != i) {
-            return;
-        }
-
-        ObjectFactory_createFixnum(value);
-        int var = newLocal(Types.RUBY_VALUE_TYPE);
-        storeLocal(var);
-        integer_table_.addInteger(value, var);
-    }
-
     public void ObjectFactory_createFixnum(int value) {
         if (value >= 0 && value <= 10) {
             getStatic(Types.OBJECTFACTORY_TYPE,

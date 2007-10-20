@@ -2094,6 +2094,18 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_No_VerifyError() {
         String[] program_texts = {
+                "    def f(sock, f)\n" +
+                "      if chunked?\n" +
+                "        while s = f.read(1024)\n" +
+                "          sock\n" +
+                "        end\n" +
+                "      else\n" +
+                "        while s = f.read(1024)\n" +
+                "          sock\n" +
+                "        end\n" +
+                "      end\n" +
+                "    end",
+
                 "x=1\n" +
                 "if x\n" +
                 "    s = 1.times {|s|  2}\n" +
@@ -2114,6 +2126,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "",
                 "",
                 "",
                 "",

@@ -556,12 +556,6 @@ public class CodePrinter implements CodeVisitor {
         result_.append("end while\n");
     }
 
-    public void visitFrequentlyUsedInteger(int i) {
-        result_.append("FrequentlyUsedInteger:");
-        result_.append(i);
-        result_.append("\n");
-    }
-
     public void visitWhileConditionBegin(boolean do_first) {
         result_.append("while condition:");
         result_.append(do_first);

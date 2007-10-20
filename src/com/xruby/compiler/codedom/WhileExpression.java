@@ -48,16 +48,6 @@ public class WhileExpression extends Expression {
             }
         }
 
-        //TODO apply this optimization to other places
-        //If we have a  program like this:
-        // i = 0; while i < 3000; i +=1; end
-        //Without this optimization ObjectFactorycreateFixnum(3000) will be called 3000 times.
-        ArrayList<Integer> integers = new ArrayList<Integer>();
-        condition_.getFrequentlyUsedIntegers(integers);
-        for (Integer i : integers) {
-            visitor.visitFrequentlyUsedInteger(i);
-        }
-
         visitor.visitWhileConditionBegin(do_first_);
         boolean always_true = conditionIsAlwayTrue(condition_);
         if (!always_true) {
