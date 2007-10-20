@@ -104,6 +104,8 @@ public class RubyCompilerImpl implements CodeVisitor {
         MethodGenerator mg = cg_.getMethodGenerator();
         if (!isInGlobalScope() && !has_scope) {
             mg.loadCurrentClass(isInBlock());
+        } else if (has_scope) {
+            mg.checkCast(Types.RUBY_MODULE_TYPE);
         }
 
         mg.push(className);

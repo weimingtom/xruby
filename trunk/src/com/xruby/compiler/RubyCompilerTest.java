@@ -4036,6 +4036,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_module() {
         String [] program_texts = {
+                "module TestModule10;end\n" +
+                "class TestModule10::TestModule11;end\n" +
+                "print TestModule10::TestModule11",
+
                 "module Kernel::A;end;print Kernel::A",
                 "module M1;end; module M1::M2;print self;end",
                 "module Kernel::M2;print self;end",
@@ -4044,6 +4048,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "TestModule10::TestModule11",
+
                 "Kernel::A",
                 "M1::M2",
                 "Kernel::M2",
