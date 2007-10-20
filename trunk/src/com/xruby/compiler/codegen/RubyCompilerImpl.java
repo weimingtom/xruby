@@ -579,10 +579,6 @@ public class RubyCompilerImpl implements CodeVisitor {
         return label;
     }
 
-    public void visitFrequentlyUsedInteger(int i) {
-        cg_.getMethodGenerator().createFrequentlyUsedInteger(i);
-    }
-
     public void visitWhileConditionBegin(boolean do_first) {
         MethodGenerator mg = cg_.getMethodGenerator();
         LabelManager lm = mg.getLabelManager();

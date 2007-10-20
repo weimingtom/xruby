@@ -58,7 +58,6 @@ public class WhileExpressionTest extends TestingAstTestCase {
             "2\n" +
             "a =\n" +
             ";\n" +
-            "FrequentlyUsedInteger:1\n" +
             "while condition:false\n" +
             "a\n" +
             "1\n" +
