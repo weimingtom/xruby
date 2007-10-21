@@ -312,6 +312,7 @@ returns [Expression e]
 					|sup:"super"
 					|defined:"defined?"
 					|#(DOT					left=expression	(right=callExpression|method_name2=methodCallName))
+					|#(COLON2				left=expression	(right=callExpression|method_name2=methodCallName))
 				)
 				(args=arguments)?
 				(block=codeBlock)?

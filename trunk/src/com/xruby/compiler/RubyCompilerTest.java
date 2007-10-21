@@ -4257,11 +4257,15 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_colon2_as_method_call() {
         String [] program_texts = {
+                "module M; def M.colon2_as_method_call2 x; print x; end; end\n" +
+                "M::colon2_as_method_call2 345",
+
                 "def Object.test_colon2_as_method_call; print 'xxx'; end\n" +
                 "Object::test_colon2_as_method_call",
         };
 
         String[] outputs = {
+                "345",
                 "xxx",
         };
 
