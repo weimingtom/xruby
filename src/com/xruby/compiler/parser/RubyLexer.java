@@ -788,6 +788,7 @@ public class RubyLexer extends RubyLexerBase {
 		case LITERAL_when: // when -1, Range, Array
 		case LITERAL_then:
 		case LITERAL_if:
+        case LITERAL_else:
 		case LITERAL_unless:
 		case LITERAL_until:
 		case LITERAL_while:
