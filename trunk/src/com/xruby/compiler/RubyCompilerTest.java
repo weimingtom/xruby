@@ -2502,6 +2502,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Hash_misc() {
         String[] program_texts = {
+                "p({1=>2, 4=>3, 2=>3}.delete_if {|x, y| x < y})",
                 "{6=>'x'}.each_key {|k| print k}",
                 "h={[1] => 1};print h[[1]]",
                 "h = {1=>2}; print h.delete(1); print h.delete(4); print h.size",
@@ -2533,6 +2534,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "{4=>3}\n",
                 "6",
                 "1",
                 "2nil0",
