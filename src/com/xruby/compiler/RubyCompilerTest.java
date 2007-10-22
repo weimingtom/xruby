@@ -4824,6 +4824,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_super() {
         String [] program_texts = {
+                "class TestSuper21;def f x, y;print x + y; end;end\n" +
+                "class TestSuper22 < TestSuper21; def f(x, y); super x, y;end; end\n" +
+                "TestSuper22.new.f 3, 2",
+
                 "def f(x, y); super x;end",
 
                 "class TestSuper11;def f x;print x; end;end\n" +
@@ -4928,6 +4932,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "5",
                 "",
                 "1",
                 "2",
