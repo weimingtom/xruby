@@ -39,6 +39,9 @@ public class SuperExpression extends Expression {
             //do nothing
         } else if (1 == argc) {
             arguments_.getFirstExpression().accept(visitor);
+        } else if (2 == argc) {
+			arguments_.getFirstExpression().accept(visitor);
+			arguments_.getSecondExpression().accept(visitor);
         } else {
             arguments_.accept(visitor);
         }
