@@ -11,6 +11,7 @@ import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 @RubyLevelClass(name="Hash", modules="Enumerable")
 public class RubyHash extends RubyBasic {
@@ -28,7 +29,7 @@ public class RubyHash extends RubyBasic {
         h.map_ = (HashMap<RubyValue, RubyValue>) map_.clone();
         return h;
     }
-    
+
     @RubyLevelMethod(name="default")
     public RubyValue getDefaultValue() {
         return default_value_;
@@ -100,16 +101,31 @@ public class RubyHash extends RubyBasic {
         return (null != v) ? v : RubyAPI.callOneArgMethod(this, k, null, defaultID);
     }
 
+    @RubyLevelMethod(name="delete_if")
+    public RubyValue delete_if(RubyBlock block) {
+        Iterator<RubyValue> ite = map_.keySet().iterator();
+        while (ite.hasNext()) {
+            RubyValue key = ite.next();
+            RubyValue value = map_.get(key);
+            RubyValue r = block.invoke(this, key, value);
+            if (r.isTrue()) {
+                ite.remove();
+            }
+        }
+
+        return this;
+    }
+
     @RubyLevelMethod(name="has_value?")
     public RubyValue has_value(RubyValue value) {
         return ObjectFactory.createBoolean(map_.containsValue(value));
     }
-    
+
     @RubyLevelMethod(name="values_at")
     public RubyArray values_at() {
         return new RubyArray();
     }
-    
+
     @RubyLevelMethod(name="values_at")
     public RubyArray values_at(RubyValue arg) {
         RubyArray a = new RubyArray();
@@ -234,7 +250,7 @@ public class RubyHash extends RubyBasic {
     // FIXME: another []
     @RubyLevelMethod(name="[]")
     public RubyValue getValue(RubyValue arg) {
-    	return this.get(arg);
+        return this.get(arg);
     }
 
     @RubyLevelMethod(name="[]=")
