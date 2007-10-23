@@ -353,23 +353,24 @@ public class RubyKernelModule {
     }
 	
 	@RubyLevelMethod(name="throw", module=true)
+	public static RubyValue throwMethod(RubyValue receiver) {
+        throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `throw': wrong number of arguments (0 for 1)");
+    }
+	
+	@RubyLevelMethod(name="throw", module=true)
 	public static RubyValue throwMethod(RubyValue receiver, RubyArray args) {
-        if (null == args || args.size() < 1) {
-            int actual_argc = (null == args ) ? 0 : args.size();
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `throw': wrong number of arguments (" + actual_argc + " for 1)");
-        }
-
         RubyExceptionValue e;
-        if (args.get(0) instanceof RubySymbol ||
-            args.get(0) instanceof RubyString) {
-            e = new RubyExceptionValueForThrow(args.get(0), args.get(1));
-        } else if (args.get(0) instanceof RubyExceptionValue) {
-            e = (RubyExceptionValue)args.get(0);
-        } else if (args.get(0) instanceof RubyClass) {
-            RubyClass c = (RubyClass)args.get(0);
+        RubyValue tag = args.get(0);
+		if (tag instanceof RubySymbol ||
+            tag instanceof RubyString) {
+            e = new RubyExceptionValueForThrow(tag, args.get(1));
+        } else if (tag instanceof RubyExceptionValue) {
+            e = (RubyExceptionValue)tag;
+        } else if (tag instanceof RubyClass) {
+            RubyClass c = (RubyClass)tag;
             e = new RubyExceptionValue(c, c.getName() + " is not a symbol");
         } else {
-            e = new RubyExceptionValue(RubyRuntime.ArgumentErrorClass, args.get(0).toString() + " is not a symbol");
+            e = new RubyExceptionValue(RubyRuntime.ArgumentErrorClass, tag.toString() + " is not a symbol");
         }
         throw new RubyException(e);
     }
