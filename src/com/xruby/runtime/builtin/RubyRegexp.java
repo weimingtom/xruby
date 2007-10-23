@@ -41,16 +41,25 @@ public class RubyRegexp extends RubyBasic {
     private Pattern pattern_;
 
     RubyRegexp(String v) {
-        this(v, "");
+    	super(RubyRuntime.RegexpClass);
+    	this.setValue(v, Perl5Compiler.MULTILINE_MASK);
     }
 
     RubyRegexp(String v, String option) {
         super(RubyRuntime.RegexpClass);
-        int mode = Perl5Compiler.MULTILINE_MASK;
-        if (option.contains("i")) {
+        int mode = Perl5Compiler.DEFAULT_MASK;
+        if (option.indexOf('m') > -1) {
+            mode |= Perl5Compiler.SINGLELINE_MASK;
+        } else {
+        	mode |= Perl5Compiler.MULTILINE_MASK;
+        }
+        
+        if (option.indexOf('i') > -1) {
             mode |= Perl5Compiler.CASE_INSENSITIVE_MASK;
         }
-        setValue(v, mode);
+        
+        
+        this.setValue(v, mode);
     }
 
     RubyRegexp() {
