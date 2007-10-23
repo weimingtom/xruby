@@ -116,6 +116,13 @@ public class RubyHash extends RubyBasic {
         return this;
     }
 
+    @RubyLevelMethod(name="reject")
+    public RubyValue reject(RubyBlock block) {
+        RubyHash dup = clone();
+        dup.delete_if(block);
+        return dup;
+    }
+
     @RubyLevelMethod(name="has_value?")
     public RubyValue has_value(RubyValue value) {
         return ObjectFactory.createBoolean(map_.containsValue(value));
