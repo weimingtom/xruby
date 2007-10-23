@@ -1202,7 +1202,7 @@ LINE_FEED
 
 protected
 REGEX_MODIFIER
-		:	('o'!	|	'x'!	|	'p'!	|	'n'!	|	'i'!	|	'u'!	|	'm'!	|	's'!)*
+		:	('o'	|	'x'	|	'p'	|	'n'	|	'i'	|	'u'	|	'm'	|	's')*
 		;
 
 COMMAND_OUTPUT
@@ -1234,7 +1234,7 @@ REGEX
 		:	{!expectOperator(2)}?
 			delimiter:'/'!
 			({LA(1) != delimiter && !expressionSubstitutionIsNext()}?	STRING_CHAR)*
-			end:.!//skip delimiter
+			end:.!	//skip delimiter
 			{
 				if (end != delimiter)
 				{
@@ -1243,7 +1243,8 @@ REGEX
 				}
 				else
 				{
-					mREGEX_MODIFIER(false);
+					text.append("/");
+					mREGEX_MODIFIER(true);
 				}
 			}
 		|	"/="	{$setType(DIV_ASSIGN);}
@@ -1322,7 +1323,8 @@ SPECIAL_STRING
 
 				if (0 == delimiter_count)
 				{
-					mREGEX_MODIFIER(false);
+					text.append("/");
+					mREGEX_MODIFIER(true);
 					$setType(REGEX);
 				}
 				else

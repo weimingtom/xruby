@@ -420,17 +420,19 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.builtin.RubyString createString()"));
     }
 
-    public void ObjectFactory_createRegexp(String value) {
+    public void ObjectFactory_createRegexp(String value, String option) {
         push(value);
+        push(option);
         invokeStatic(Types.OBJECTFACTORY_TYPE,
-                Method.getMethod("com.xruby.runtime.builtin.RubyRegexp createRegexp(String)"));
+                Method.getMethod("com.xruby.runtime.builtin.RubyRegexp createRegexp(String, String)"));
     }
 
     public void ObjectFactory_createRegexp() {
         invokeVirtual(Types.RUBY_STRING_TYPE,
                 Method.getMethod("String toString()"));
+        push("");
         invokeStatic(Types.OBJECTFACTORY_TYPE,
-                Method.getMethod("com.xruby.runtime.builtin.RubyRegexp createRegexp(String)"));
+                Method.getMethod("com.xruby.runtime.builtin.RubyRegexp createRegexp(String, String)"));
     }
 
     public void ObjectFactory_createSymbol(String value) {

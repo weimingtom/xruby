@@ -63,7 +63,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitNilExpression();
 	public void visitSelfExpression();
 	public void visitStringExpression(String value);
-	public void visitRegexpExpression(String value);
+	public void visitRegexpExpression(String value, String option);
 	public void visitCommandOutputExpression(String value);
 	
 	public void visitStringExpressionWithExpressionSubstitutionBegin();

@@ -24,6 +24,16 @@ import org.apache.oro.text.regex.*;
  *   $' receives the string after the match
  *   $~ is a MatchData object that holds everything you may want to know about the match
  *   $1, and so on, hold the values of parts of the match
+ *
+ * Options:
+ *   i Case Insensitive.
+ *   o Substitute Once.
+ *   m Multiline Mode.
+ *   x ExtendedMode.
+ *   n no encoding (ASCII)
+ *   e EUC
+ *   s SJIS
+ *   u UTF-8
  */
 @RubyLevelClass(name="Regexp")
 public class RubyRegexp extends RubyBasic {
@@ -31,30 +41,34 @@ public class RubyRegexp extends RubyBasic {
     private Pattern pattern_;
 
     RubyRegexp(String v) {
+        this(v, "");
+    }
+
+    RubyRegexp(String v, String option) {
         super(RubyRuntime.RegexpClass);
-        setValue(v);
+        int mode = Perl5Compiler.MULTILINE_MASK;
+        /*TODO deal with option
+        if (option.contains("i")) {
+            mode |= Perl5Compiler.CASE_INSENSITIVE_MASK;
+        }*/
+        setValue(v, mode);
     }
 
     RubyRegexp() {
         super(RubyRuntime.RegexpClass);
     }
 
-    private void setValue(String v) {
+    private void setValue(String v, int mode) {
         PatternCompiler compiler = new Perl5Compiler();
 
         //'\z' works for ruby, but ORO only supports '\Z'
         v = v.replace("\\z", "\\Z");
 
         try {
-            pattern_ = compiler.compile(v, Perl5Compiler.MULTILINE_MASK);
+            pattern_ = compiler.compile(v, mode);
         } catch (MalformedPatternException e) {
             throw new Error(e);
         }
-    }
-
-    private void setValue(String v, int mode) {
-        //TODO mode
-        setValue(v);
     }
 
     @RubyAllocMethod
@@ -68,7 +82,7 @@ public class RubyRegexp extends RubyBasic {
         if (pattern instanceof RubyRegexp) {
             pattern_ = ((RubyRegexp)pattern).pattern_;
         } else {
-            setValue(pattern.toStr());
+            setValue(pattern.toStr(), Perl5Compiler.MULTILINE_MASK);
         }
 
         return this;
@@ -93,14 +107,14 @@ public class RubyRegexp extends RubyBasic {
 
     private static final int RE_OPTION_IGNORECASE = 1;
 
-	private int getFlag(RubyValue mode) {
-		if (mode instanceof RubyFixnum) {
-			return mode.toInt();
-		}
-		
-		// 0 is default flag
-		return mode.isTrue() ? RE_OPTION_IGNORECASE : 0;
-	}
+    private int getFlag(RubyValue mode) {
+        if (mode instanceof RubyFixnum) {
+            return mode.toInt();
+        }
+
+        // 0 is default flag
+        return mode.isTrue() ? RE_OPTION_IGNORECASE : 0;
+    }
 
     @RubyLevelMethod(name="===")
     public RubyValue caseEqual(RubyValue arg) {
@@ -200,7 +214,7 @@ public class RubyRegexp extends RubyBasic {
             for (int i = 1; i < r.groups(); ++i) {
                 GlobalVariables.set(ObjectFactory.createString(r.group(i)), "$" + i);
             }
-            
+
             if (r.groups() == 1) {
                 block.invoke(this, ObjectFactory.createString(r.group(0)));
             } else {

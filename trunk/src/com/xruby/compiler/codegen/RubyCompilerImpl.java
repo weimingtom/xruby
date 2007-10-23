@@ -543,8 +543,8 @@ public class RubyCompilerImpl implements CodeVisitor {
         cg_.getMethodGenerator().RubyAPI_runCommandAndCaptureOutput();
     }
 
-    public void visitRegexpExpression(String value) {
-        cg_.getMethodGenerator().ObjectFactory_createRegexp(value);
+    public void visitRegexpExpression(String value, String option) {
+        cg_.getMethodGenerator().ObjectFactory_createRegexp(value, option);
     }
 
     public void visitSymbolExpression(String value) {
