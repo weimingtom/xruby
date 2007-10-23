@@ -47,10 +47,9 @@ public class RubyRegexp extends RubyBasic {
     RubyRegexp(String v, String option) {
         super(RubyRuntime.RegexpClass);
         int mode = Perl5Compiler.MULTILINE_MASK;
-        /*TODO deal with option
         if (option.contains("i")) {
             mode |= Perl5Compiler.CASE_INSENSITIVE_MASK;
-        }*/
+        }
         setValue(v, mode);
     }
 
