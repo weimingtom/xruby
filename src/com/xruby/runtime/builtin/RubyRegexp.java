@@ -231,6 +231,10 @@ public class RubyRegexp extends RubyBasic {
         if (m.contains(input, pattern_)) {
             MatchResult r = m.getMatch();
             GlobalVariables.set(ObjectFactory.createString(r.group(0)), "$&");
+            // TODO: more global variable
+            if (r.groups() > 1) {
+            	GlobalVariables.set(ObjectFactory.createString(r.group(1)), "$1");
+            }
             return r.beginOffset(0);
         } else {
             GlobalVariables.set(RubyConstant.QNIL, "$&");
