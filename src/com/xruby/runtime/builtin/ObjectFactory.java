@@ -75,8 +75,8 @@ public class ObjectFactory {
         return new RubyString(c, s);
     }
 
-    public static RubyRegexp createRegexp(String value) {
-        return new RubyRegexp(value);
+    public static RubyRegexp createRegexp(String value, String option) {
+        return new RubyRegexp(value, option);
     }
 
     public static RubyRegexp createRegexp() {

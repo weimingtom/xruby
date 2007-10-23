@@ -221,10 +221,12 @@ public class CodePrinter implements CodeVisitor {
         result_.append("CommandOutputExpressionWithExpressionSubstitutionEnd\n");
     }
 
-    public void visitRegexpExpression(String value) {
+    public void visitRegexpExpression(String value, String option) {
         result_.append("/");
         result_.append(value);
-        result_.append("/\n");
+        result_.append("/");
+        result_.append(option);
+        result_.append("\n");
     }
 
     public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
