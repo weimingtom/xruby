@@ -67,6 +67,7 @@ public class RubyRuntime {
     public static RubyClass RuntimeErrorClass;
     public static RubyClass LocalJumpErrorClass;
     public static RubyClass SystemCallErrorClass;
+    public static RubyClass ZeroDivErrorClass;
 
     public static RubyClass ScriptErrorClass;
     public static RubyClass SyntaxErrorClass;
@@ -157,6 +158,7 @@ public class RubyRuntime {
         RuntimeErrorClass = RubyAPI.defineClass("RuntimeError", StandardErrorClass);
         LocalJumpErrorClass = RubyAPI.defineClass("LocalJumpError", StandardErrorClass);
         SystemCallErrorClass = RubyAPI.defineClass("SystemCallError", StandardErrorClass);
+        ZeroDivErrorClass = RubyAPI.defineClass("ZeroDivisionError", StandardErrorClass);
 
         ScriptErrorClass = RubyAPI.defineClass("ScriptError", ExceptionClass);
         SyntaxErrorClass = RubyAPI.defineClass("SyntaxError", ScriptErrorClass);

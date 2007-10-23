@@ -62,13 +62,14 @@ public class RubyFile extends RubyIO {
     public static RubyValue executable_question(RubyValue receiver, RubyValue arg) {
         return RubyConstant.QTRUE;
     }
+    
+    @RubyLevelMethod(name="expand_path", singleton=true)
+    public static RubyValue expand_path(RubyValue receiver) {       
+    	throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
+    }
 
     @RubyLevelMethod(name="expand_path", singleton=true)
     public static RubyValue expand_path(RubyValue receiver, RubyArray args) {
-        if (null == args) {
-            throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
-        }
-
         String file_name = args.get(0).toStr();
 
         if (file_name.equals(".")) {
