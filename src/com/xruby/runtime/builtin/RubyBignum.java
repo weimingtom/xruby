@@ -163,9 +163,16 @@ public class RubyBignum extends RubyInteger {
     public RubyValue op_div(RubyValue value) {
         if (value instanceof RubyBignum) {
             RubyBignum bigValue = (RubyBignum) value;
+            if (bigValue.equals(BigInteger.ZERO)) {
+            	zeroDiv();
+            }
             return bignorm(value_.divide(bigValue.value_));
         } else if (value instanceof RubyFixnum) {
-            BigInteger bigValue = BigInteger.valueOf(value.toInt());
+            int intValue = value.toInt();
+            if (intValue == 0) {
+            	zeroDiv();
+            }
+			BigInteger bigValue = BigInteger.valueOf(intValue);
             return bignorm(value_.divide(bigValue));
         } else if (value instanceof RubyFloat) {
             double ret = value_.doubleValue() / value.toFloat();

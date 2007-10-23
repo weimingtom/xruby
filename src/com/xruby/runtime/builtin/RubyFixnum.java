@@ -140,6 +140,9 @@ public class RubyFixnum extends RubyInteger {
     	if (v instanceof RubyFixnum) {
     		int intValue1 = this.value_;
             int intValue2 = ((RubyFixnum)v).value_;
+            if (intValue2 == 0) {
+            	zeroDiv();
+            }
     		int div = intValue1 / intValue2;
             int mod = intValue1 - div * intValue2;
             if (mod != 0 && div < 0) {

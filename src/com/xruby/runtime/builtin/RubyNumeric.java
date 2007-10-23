@@ -104,4 +104,8 @@ public abstract class RubyNumeric extends RubyValue {
 	private RubyValue coerceBody(RubyValue v) {
 		return RubyAPI.callOneArgMethod(v, this, null, RubyID.coerceID);
 	}
+	
+	protected void zeroDiv() {
+		throw new RubyException(RubyRuntime.ZeroDivErrorClass, "divided by 0");
+	}
 }

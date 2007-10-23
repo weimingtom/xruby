@@ -6,7 +6,6 @@
 package com.xruby.runtime.stdlib;
 
 import com.xruby.runtime.builtin.ObjectFactory;
-import com.xruby.runtime.builtin.RubyArray;
 import com.xruby.runtime.builtin.RubyString;
 import com.xruby.runtime.lang.*;
 import com.xruby.runtime.lang.annotation.RubyAllocMethod;
@@ -27,12 +26,14 @@ public class RubyStringIO extends RubyBasic {
     }
 
     @RubyLevelMethod(name="initialize")
-    public RubyStringIO initialize(RubyArray args) {
-        if (null == args) {
-            value_ = ObjectFactory.createString();
-        } else {
-            value_ = ((RubyString)args.get(0)).clone();
-        }
+    public RubyStringIO initialize() {
+        this.value_ = ObjectFactory.createString();
+        return this;
+    }
+    
+    @RubyLevelMethod(name="initialize")
+    public RubyStringIO initialize(RubyValue arg) {
+        this.value_ = arg.toRubyString().clone();
         return this;
     }
 

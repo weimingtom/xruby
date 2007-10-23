@@ -167,7 +167,7 @@ public class RubyKernelModule {
         }
 	}
 	
-	@RubyLevelMethod(name="kind_of?")
+	@RubyLevelMethod(name="kind_of?", alias="is_a?")
 	public static RubyValue kindOf(RubyValue receiver, RubyValue arg, RubyBlock block) {
 		return ObjectFactory.createBoolean(RubyAPI.isKindOf(arg, receiver));
 	}
