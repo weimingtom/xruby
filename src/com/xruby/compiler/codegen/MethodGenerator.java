@@ -427,10 +427,10 @@ class MethodGenerator extends GeneratorAdapter {
                 Method.getMethod("com.xruby.runtime.builtin.RubyRegexp createRegexp(String, String)"));
     }
 
-    public void ObjectFactory_createRegexp() {
+    public void ObjectFactory_createRegexp(String option) {
         invokeVirtual(Types.RUBY_STRING_TYPE,
                 Method.getMethod("String toString()"));
-        push("");
+        push(option);
         invokeStatic(Types.OBJECTFACTORY_TYPE,
                 Method.getMethod("com.xruby.runtime.builtin.RubyRegexp createRegexp(String, String)"));
     }

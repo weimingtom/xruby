@@ -467,7 +467,7 @@ returns [RegexpExpressionWithExpressionSubstitution e]
 				(m:STRING_BETWEEN_EXPRESSION_SUBSTITUTION	{e.addString(m.getText());}
 				(expression_substituation[e])?
 				)*
-				a:STRING_AFTER_EXPRESSION_SUBSTITUTION		{e.addString(a.getText());}
+				a:STRING_AFTER_EXPRESSION_SUBSTITUTION		{e.addLastString(a.getText());}
 			)
 		;
 
