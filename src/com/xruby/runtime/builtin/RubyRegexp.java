@@ -184,12 +184,10 @@ public class RubyRegexp extends RubyBasic {
         PatternMatcher m = new Perl5Matcher();
         if (m.contains(input, pattern_)) {
             MatchResult r = m.getMatch();
-            GlobalVariables.set(r.group(1) == null ? RubyConstant.QNIL : ObjectFactory.createString(r.group(1)), "$1");
-            GlobalVariables.set(ObjectFactory.createString(r.group(0)), "$&");
+            updateGlobalVariables(r);
             return ObjectFactory.createMatchData(r);
         } else {
-            GlobalVariables.set(RubyConstant.QNIL, "$1");
-            GlobalVariables.set(RubyConstant.QNIL, "$&");
+            clearGlobalVariables();
             return null;
         }
     }
@@ -201,6 +199,8 @@ public class RubyRegexp extends RubyBasic {
         PatternMatcher m = new Perl5Matcher();
         while (m.contains(input, pattern_)) {
             MatchResult r = m.getMatch();
+            updateGlobalVariables(r);
+
             if (r.groups() == 1) {
                 a.add(ObjectFactory.createString(r.group(0)));
             } else {
@@ -220,11 +220,7 @@ public class RubyRegexp extends RubyBasic {
         PatternMatcher m = new Perl5Matcher();
         while (m.contains(input, pattern_)) {
             MatchResult r = m.getMatch();
-
-            GlobalVariables.set(ObjectFactory.createString(r.group(0)), "$&");
-            for (int i = 1; i < r.groups(); ++i) {
-                GlobalVariables.set(ObjectFactory.createString(r.group(i)), "$" + i);
-            }
+            updateGlobalVariables(r);
 
             if (r.groups() == 1) {
                 block.invoke(this, ObjectFactory.createString(r.group(0)));
@@ -242,14 +238,10 @@ public class RubyRegexp extends RubyBasic {
         PatternMatcher m = new Perl5Matcher();
         if (m.contains(input, pattern_)) {
             MatchResult r = m.getMatch();
-            GlobalVariables.set(ObjectFactory.createString(r.group(0)), "$&");
-            // TODO: more global variable
-            if (r.groups() > 1) {
-                GlobalVariables.set(ObjectFactory.createString(r.group(1)), "$1");
-            }
+            updateGlobalVariables(r);
             return r.beginOffset(0);
         } else {
-            GlobalVariables.set(RubyConstant.QNIL, "$&");
+            clearGlobalVariables();
             return -1;
         }
     }
@@ -277,33 +269,27 @@ public class RubyRegexp extends RubyBasic {
     }
 
     private RubyString sub(RubyString str, RubyBlock block, int limit) {
-        RubyString r = new RubyString("");
+        RubyString result = new RubyString("");
         PatternMatcherInput input = new PatternMatcherInput(str.toString());
         PatternMatcher matcher = new Perl5Matcher();
         int end = 0;
         boolean matched = false;
         while (matcher.contains(input, pattern_)) {
             matched = true;
-            MatchResult m = matcher.getMatch();
+            MatchResult r = matcher.getMatch();
+            updateGlobalVariables(r);
 
-            String g = m.group(0);
-            GlobalVariables.set(ObjectFactory.createString(g), "$&");
-
-            for (int i = 1; i < m.groups(); ++i) {
-                GlobalVariables.set(ObjectFactory.createString(m.group(i)), "$" + i);
-            }
-
-            int begin = m.beginOffset(0);
+            int begin = r.beginOffset(0);
             if (begin > end) {
                 //append unmatched
-                r.appendString(str.toString().substring(end, begin));
+                result.appendString(str.toString().substring(end, begin));
             }
 
-            end = m.endOffset(0);
+            end = r.endOffset(0);
 
-            RubyString match = new RubyString(g);
+            RubyString match = new RubyString(r.group(0));
             RubyValue v = block.invoke(this, match);
-            r.appendString(v.toString());
+            result.appendString(v.toString());
 
             if (0 == limit) {
                 break;
@@ -316,10 +302,10 @@ public class RubyRegexp extends RubyBasic {
 
         //append unmatched
         if (end < str.length()) {
-            r.appendString(str.toString().substring(end, str.length()));
+            result.appendString(str.toString().substring(end, str.length()));
         }
 
-        return r;
+        return result;
     }
 
     public RubyString gsub(RubyString input, RubyString sub) {
@@ -344,12 +330,7 @@ public class RubyRegexp extends RubyBasic {
                         PatternMatcher matcher,
                         Pattern pattern) {
                         super.appendSubstitution(appendBuffer, match, substitutionCount, originalInput, matcher, pattern);
-
-                        for (int i = 1; i < match.groups(); ++i) {
-                            GlobalVariables.set(ObjectFactory.createString(match.group(i)), "$" + i);
-                        }
-
-                        GlobalVariables.set(ObjectFactory.createString(match.group(0)), "$&");
+                        updateGlobalVariables(match);
                     }
                 },
                 input.toString(),
@@ -372,5 +353,18 @@ public class RubyRegexp extends RubyBasic {
     @RubyLevelMethod(name="source")
     public RubyString source() {
         return ObjectFactory.createString(pattern_.getPattern());
+    }
+
+    private void updateGlobalVariables(MatchResult r) {
+        GlobalVariables.set(ObjectFactory.createString(r.group(0)), "$&");
+        for (int i = 1; i < r.groups(); ++i) {
+            String s = r.group(i);
+            GlobalVariables.set(null == s ? RubyConstant.QNIL: ObjectFactory.createString(s), "$" + i);
+        }
+    }
+
+    private void clearGlobalVariables() {
+        GlobalVariables.set(RubyConstant.QNIL, "$&");
+        GlobalVariables.set(RubyConstant.QNIL, "$1");
     }
 }
