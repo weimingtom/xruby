@@ -206,7 +206,8 @@ public class RubyRegexp extends RubyBasic {
             } else {
                 RubyArray subarray = new RubyArray();
                 for (int i = 1; i < r.groups(); ++i) {
-                    subarray.add(ObjectFactory.createString(r.group(i)));
+                    String s = r.group(i);
+                    subarray.add(null == s ? RubyConstant.QNIL : ObjectFactory.createString(s));
                 }
                 a.add(subarray);
             }
