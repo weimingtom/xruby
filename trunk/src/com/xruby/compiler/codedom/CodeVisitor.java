@@ -70,7 +70,7 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitStringExpressionWithExpressionSubstitution(String value);
 	public void visitStringExpressionWithExpressionSubstitution();
 	public void visitStringExpressionWithExpressionSubstitutionEnd();
-	public void visitRegexpExpressionWithExpressionSubstitutionEnd();
+	public void visitRegexpExpressionWithExpressionSubstitutionEnd(String option);
 	public void visitCommandOutputExpressionWithExpressionSubstitutionEnd();
 	
 	public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method);

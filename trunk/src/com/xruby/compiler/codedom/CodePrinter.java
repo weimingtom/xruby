@@ -213,7 +213,7 @@ public class CodePrinter implements CodeVisitor {
         result_.append("StringExpressionWithExpressionSubstitutionEnd\n");
     }
 
-    public void visitRegexpExpressionWithExpressionSubstitutionEnd() {
+    public void visitRegexpExpressionWithExpressionSubstitutionEnd(String option) {
         result_.append("RegexExpressionWithExpressionSubstitutionEnd\n");
     }
 

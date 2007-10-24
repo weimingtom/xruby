@@ -535,8 +535,8 @@ public class RubyCompilerImpl implements CodeVisitor {
     public void visitStringExpressionWithExpressionSubstitutionEnd() {
     }
 
-    public void visitRegexpExpressionWithExpressionSubstitutionEnd() {
-        cg_.getMethodGenerator().ObjectFactory_createRegexp();
+    public void visitRegexpExpressionWithExpressionSubstitutionEnd(String option) {
+        cg_.getMethodGenerator().ObjectFactory_createRegexp(option);
     }
 
     public void visitCommandOutputExpressionWithExpressionSubstitutionEnd() {
