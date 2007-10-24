@@ -230,7 +230,7 @@ public class RubyString extends RubyBasic {
         return ObjectFactory.createString(string.substring(begin, end));
     }
 
-    private String gsub(RubyString g, RubyArray args) {
+    private RubyString gsub(RubyString g, RubyArray args) {
         if (null == args || args.size() != 2) {
             int actual_argc = (null == args ) ? 0 : args.size();
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `gsub': wrong number of arguments (" + actual_argc + " for 2)");
@@ -247,13 +247,14 @@ public class RubyString extends RubyBasic {
             return r.gsub(g, s);
         } else if (args.get(0) instanceof RubyString) {
             RubyString r = (RubyString) args.get(0);
-            return g.toString().replaceAll(r.toString(), s.toString());
+            String result = g.toString().replaceAll(r.toString(), s.toString());
+            return ObjectFactory.createString(result);
         } else {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
         }
     }
 
-    private String sub(RubyString g, RubyArray args) {
+    private RubyString sub(RubyString g, RubyArray args) {
         if (null == args || args.size() != 2) {
             int actual_argc = (null == args ) ? 0 : args.size();
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "in `sub': wrong number of arguments (" + actual_argc + " for 2)");
@@ -270,7 +271,8 @@ public class RubyString extends RubyBasic {
             return r.sub(g, s);
         } else if (args.get(0) instanceof RubyString) {
             RubyString r = (RubyString) args.get(0);
-            return g.toString().replaceFirst(r.toString(), s.toString());
+            String result = g.toString().replaceFirst(r.toString(), s.toString());
+            return ObjectFactory.createString(result);
         } else {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong argument type " + args.get(0).getRubyClass().getName() + " (expected Regexp)");
         }
@@ -829,7 +831,7 @@ public class RubyString extends RubyBasic {
     @RubyLevelMethod(name="gsub")
     public RubyValue gsub(RubyArray args, RubyBlock block) {
         if (null == block) {
-            return ObjectFactory.createString(gsub(this, args));
+            return gsub(this, args);
         } else {
             if (null == args || args.size() != 1) {
                 int actual_argc = (null == args ) ? 0 : args.size();
@@ -847,12 +849,12 @@ public class RubyString extends RubyBasic {
     @RubyLevelMethod(name="gsub!")
     public RubyValue gsub_danger(RubyArray args, RubyBlock block) {
         if (null == block) {
-            String result = gsub(this, args);
+            RubyString result = gsub(this, args);
 
-            if (toString().equals(result)) {
+            if (result == this) {
                 return RubyConstant.QNIL;
             } else {
-                return setString(result);
+                return setString(result.toString());
             }
         } else {
             if (null == args || args.size() != 1) {
@@ -871,7 +873,7 @@ public class RubyString extends RubyBasic {
     @RubyLevelMethod(name="sub")
     public RubyValue sub(RubyArray args, RubyBlock block) {
         if (null == block) {
-            return ObjectFactory.createString(sub(this, args));
+            return sub(this, args);
         } else {
             if (null == args || args.size() != 1) {
                 int actual_argc = (null == args ) ? 0 : args.size();
@@ -889,11 +891,11 @@ public class RubyString extends RubyBasic {
     @RubyLevelMethod(name="sub!")
     public RubyValue sub_danger(RubyArray args, RubyBlock block) {
         if (null == block) {
-            String result = sub(this, args);
-            if (toString().equals(result)) {
+            RubyString result = sub(this, args);
+            if (result == this) {
                 return RubyConstant.QNIL;
             } else {
-                return setString(result);
+                return setString(result.toString());
             }
         } else {
             if (null == args || args.size() != 1) {

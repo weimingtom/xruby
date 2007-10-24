@@ -5231,7 +5231,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_misc() {
         String [] program_texts = {
-                "print 'Tuesday, July'.gsub!(/[^-+',.\\/:0-9@a-z\\x80-\\xff]+/i, '_')",
+                "print 'Tuesday, July'.gsub!(/[^-+',.\\/:0-9@a-z\\x80-\\xff]+/i, ' ')",
 
                 "'cruel world'.scan(/\\w+/) {|w| print \"<<#{w}>>\"}",
                 "'cruel world'.scan(/(.)(.)/) {|x,y| print y, x }",
@@ -5280,7 +5280,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
-                "Tuesday,_July",
+                "Tuesday, July",
 
                 "<<cruel>><<world>>",
                 "rceu lowlr",

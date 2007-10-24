@@ -41,8 +41,8 @@ public class RubyRegexp extends RubyBasic {
     private Pattern pattern_;
 
     RubyRegexp(String v) {
-    	super(RubyRuntime.RegexpClass);
-    	this.setValue(v, Perl5Compiler.MULTILINE_MASK);
+        super(RubyRuntime.RegexpClass);
+        this.setValue(v, Perl5Compiler.MULTILINE_MASK);
     }
 
     RubyRegexp(String v, String option) {
@@ -51,14 +51,17 @@ public class RubyRegexp extends RubyBasic {
         if (option.indexOf('m') > -1) {
             mode |= Perl5Compiler.SINGLELINE_MASK;
         } else {
-        	mode |= Perl5Compiler.MULTILINE_MASK;
+            mode |= Perl5Compiler.MULTILINE_MASK;
         }
-        
+
         if (option.indexOf('i') > -1) {
             mode |= Perl5Compiler.CASE_INSENSITIVE_MASK;
         }
-        
-        
+
+        if (option.indexOf('x') > -1) {
+            mode |= Perl5Compiler.EXTENDED_MASK;
+        }
+
         this.setValue(v, mode);
     }
 
@@ -242,7 +245,7 @@ public class RubyRegexp extends RubyBasic {
             GlobalVariables.set(ObjectFactory.createString(r.group(0)), "$&");
             // TODO: more global variable
             if (r.groups() > 1) {
-            	GlobalVariables.set(ObjectFactory.createString(r.group(1)), "$1");
+                GlobalVariables.set(ObjectFactory.createString(r.group(1)), "$1");
             }
             return r.beginOffset(0);
         } else {
@@ -266,19 +269,21 @@ public class RubyRegexp extends RubyBasic {
     }
 
     public RubyString sub(RubyString input, RubyBlock block) {
-        return sub(input.toString(), block, 0);
+        return sub(input, block, 0);
     }
 
     public RubyString gsub(RubyString input, RubyBlock block) {
-        return sub(input.toString(), block, -1);
+        return sub(input, block, -1);
     }
 
-    private RubyString sub(String str, RubyBlock block, int limit) {
+    private RubyString sub(RubyString str, RubyBlock block, int limit) {
         RubyString r = new RubyString("");
-        PatternMatcherInput input = new PatternMatcherInput(str);
+        PatternMatcherInput input = new PatternMatcherInput(str.toString());
         PatternMatcher matcher = new Perl5Matcher();
         int end = 0;
+        boolean matched = false;
         while (matcher.contains(input, pattern_)) {
+            matched = true;
             MatchResult m = matcher.getMatch();
 
             String g = m.group(0);
@@ -291,7 +296,7 @@ public class RubyRegexp extends RubyBasic {
             int begin = m.beginOffset(0);
             if (begin > end) {
                 //append unmatched
-                r.appendString(str.substring(end, begin));
+                r.appendString(str.toString().substring(end, begin));
             }
 
             end = m.endOffset(0);
@@ -305,24 +310,31 @@ public class RubyRegexp extends RubyBasic {
             }
         }
 
+        if (!matched) {
+            return str;
+        }
+
         //append unmatched
         if (end < str.length()) {
-            r.appendString(str.substring(end, str.length()));
+            r.appendString(str.toString().substring(end, str.length()));
         }
 
         return r;
     }
 
-    public String gsub(RubyString input, RubyString sub) {
-        return sub(input.toString(), getReplaceString(sub.toString()), Util.SUBSTITUTE_ALL);
+    public RubyString gsub(RubyString input, RubyString sub) {
+        return sub(input, getReplaceString(sub.toString()), Util.SUBSTITUTE_ALL);
     }
 
-    public String sub(RubyString input, RubyString sub) {
-        return sub(input.toString(), getReplaceString(sub.toString()), 1);
+    public RubyString sub(RubyString input, RubyString sub) {
+        return sub(input, getReplaceString(sub.toString()), 1);
     }
 
-    private String sub(String input, String sub, int limit) {
-        String result = Util.substitute(new Perl5Matcher(),
+    private RubyString sub(RubyString input, String sub, int limit) {
+        StringBuffer result = new StringBuffer();
+        int nmatch = Util.substitute(
+                result,
+                new Perl5Matcher(),
                 pattern_,
                 new Perl5Substitution(sub, Perl5Substitution.INTERPOLATE_ALL) {
                     public void appendSubstitution(java.lang.StringBuffer appendBuffer,
@@ -340,9 +352,13 @@ public class RubyRegexp extends RubyBasic {
                         GlobalVariables.set(ObjectFactory.createString(match.group(0)), "$&");
                     }
                 },
-                input,
+                input.toString(),
                 limit);
-        return result;
+        if (nmatch > 0) {
+            return ObjectFactory.createString(result.toString());
+        } else {
+            return input;
+        }
     }
 
     public Collection<String> split(String input, int limit) {
