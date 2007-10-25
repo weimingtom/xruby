@@ -204,4 +204,14 @@ public class MethodCallExpression extends Expression {
             result.add(block_);
         }
     }
+
+    void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
+        if (null != receiver_) {
+            receiver_.getNewlyAssignedVariables(symboltable, result);
+        }
+        if (null != arguments_) {
+			arguments_.getNewlyAssignedVariables(symboltable, result);
+		}
+    }
+
 }
