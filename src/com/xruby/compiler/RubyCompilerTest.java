@@ -5387,11 +5387,15 @@ public class RubyCompilerTest extends CompilerTestCase {
         String [] program_texts = {
                 "print 'hello\n'.chomp",
                 "print 'hello'.chomp!('llo')",
+                "print 'a'.chomp!('=')",
+                "print 'a'.chomp('=')",
         };
 
         String[] outputs = {
                 "hello",
                 "he",
+                "nil",
+                "a",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
