@@ -82,6 +82,9 @@ public class IfExpression extends Expression {
     public void accept(CodeVisitor visitor) {
         ensureIfBodyAndElseBodyAreNotEmpty();
 
+        if (if_condition_ instanceof ParenthesisExpression) {
+            ((ParenthesisExpression)if_condition_).ensureVariablesAreInitialized(visitor);
+        }
         if_body_.ensureVariablesAreInitialized(visitor);
         for (Elseif elsif : elsifs) {
             elsif.body_.ensureVariablesAreInitialized(visitor);
