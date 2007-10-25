@@ -392,4 +392,19 @@ public class StdlibTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
+
+    public void test_parsedate() {
+        String[] program_texts = {
+                "require 'parsedate'",
+                "p ParseDate.parsedate('Tuesday, July 5th, 2007, 18:35:20 UTC')",
+        };
+
+        String[] outputs = {
+                "",
+                "[2007, 7, 5, 18, 35, 20, \"UTC\", 2]\n",
+
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
 }
