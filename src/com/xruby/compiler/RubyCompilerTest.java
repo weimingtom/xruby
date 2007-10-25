@@ -1468,6 +1468,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_exception() {
         String[] program_texts = {
+                "if ((a=3) rescue false);print a;end",
+
                 "begin; require 'XXXXX'; rescue LoadError; end;   print $!",
 
                 "begin\n" +
@@ -1555,6 +1557,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "3",
                 "nil",
                 "SyntaxError",
                 "TypeError is not a symbol",
