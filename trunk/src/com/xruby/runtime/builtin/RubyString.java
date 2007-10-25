@@ -476,14 +476,15 @@ public class RubyString extends RubyBasic {
         return this;
     }
 
-    private void chomp(String seperator) {
+    private boolean chomp(String seperator) {
         if (!sb_.toString().endsWith(seperator)) {
-            return;
+            return false;
         }
 
         int start = sb_.length() - seperator.length();
         int end = sb_.length();
         sb_.delete(start, end);
+        return true;
     }
 
     @RubyLevelMethod(name="scan")
@@ -1136,8 +1137,11 @@ public class RubyString extends RubyBasic {
     @RubyLevelMethod(name="chomp!")
     public RubyValue chomp_danger(RubyArray args) {
         RubyValue separator = (null == args) ? GlobalVariables.get("$/") : args.get(0);
-        chomp(((RubyString) separator).toString());
-        return this;
+        if (chomp(((RubyString) separator).toString())) {
+            return this;
+        } else {
+            return RubyConstant.QNIL;
+        }
     }
 
     @RubyLevelMethod(name="tr!")
