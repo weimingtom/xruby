@@ -6182,20 +6182,17 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
-    /*
     public void test_Time() {
         String[] program_texts = {
-                "print Time.gm(2000,1,2,3,4,5)",
-                "print Time.utc(2000)",
+                "t = Time.gm(2000,2,1,20,15,6);print t.year, t.month, t.day",
         };
 
         String[] outputs = {
-                "Sun Jan 02 03:04:05 UTC 2000",
-                "Sat Jan 01 00:00:00 UTC 2000",
+                "200021",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
-    }*/
+    }
 
     /*
     TODO does not work with exception

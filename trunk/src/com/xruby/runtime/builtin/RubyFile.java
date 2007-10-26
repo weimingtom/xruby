@@ -11,16 +11,15 @@ import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 
 import java.io.File;
 import java.math.BigInteger;
-import java.util.Date;
 
 @RubyLevelClass(name="File", superclass="IO")
 public class RubyFile extends RubyIO {
     public RubyFile(String filename, String mode) {
         super(new RubyIOFileExecutor(filename, mode), RubyRuntime.FileClass);
     }
-    
+
     public RubyFile(RubyIOExecutor executor, RubyClass klass) {
-    	super(executor, klass);
+        super(executor, klass);
     }
 
     @RubyLevelMethod(name="file?", singleton=true)
@@ -62,10 +61,10 @@ public class RubyFile extends RubyIO {
     public static RubyValue executable_question(RubyValue receiver, RubyValue arg) {
         return RubyConstant.QTRUE;
     }
-    
+
     @RubyLevelMethod(name="expand_path", singleton=true)
-    public static RubyValue expand_path(RubyValue receiver) {       
-    	throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
+    public static RubyValue expand_path(RubyValue receiver) {
+        throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
     }
 
     @RubyLevelMethod(name="expand_path", singleton=true)
@@ -126,7 +125,7 @@ public class RubyFile extends RubyIO {
         if (!file.isFile() && !file.isDirectory()) {
             throw new RubyException(RubyRuntime.RuntimeErrorClass, "No such file or directory - " + fileName);
         }
-        return ObjectFactory.createTime(new Date(file.lastModified()));
+        return ObjectFactory.createTime(file.lastModified());
     }
 
     @RubyLevelMethod(name="size", singleton=true)
