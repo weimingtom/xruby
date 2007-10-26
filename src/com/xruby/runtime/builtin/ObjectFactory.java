@@ -14,7 +14,6 @@ import com.xruby.runtime.lang.RubySymbol;
 import com.xruby.runtime.lang.RubyValue;
 
 import java.math.BigInteger;
-import java.util.Date;
 import org.apache.oro.text.regex.MatchResult;
 
 public class ObjectFactory {
@@ -120,7 +119,7 @@ public class ObjectFactory {
         return new RubyProc(block);
     }
 
-    public static RubyTime createTime(Date v) {
+    public static RubyTime createTime(long v) {
         return new RubyTime(v);
     }
 
