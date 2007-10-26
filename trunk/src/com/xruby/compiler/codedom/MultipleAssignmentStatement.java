@@ -124,8 +124,13 @@ public class MultipleAssignmentStatement extends Statement {
     }
 
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
-        for (Expression exp : mlhs_) {
-            exp.getNewlyAssignedVariables(symboltable, result);
+        for (Expression lhs : mlhs_) {
+            if (lhs instanceof LocalVariableExpression) {
+    			String name = ((LocalVariableExpression)lhs).getValue();
+    			if (!symboltable.isDefinedInCurrentScope(name)) {
+    				result.add(name);
+    			}
+    		}
         }
     }
 }

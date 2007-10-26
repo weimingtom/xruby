@@ -39,11 +39,21 @@ public class Block {
 
     void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
         for (ParameterVariableExpression var : parameters_) {
-            var.getNewlyAssignedVariables(symboltable, result);
+            if (var instanceof LocalVariableExpression) {
+    			String name = ((LocalVariableExpression)var).getValue();
+    			if (!symboltable.isDefinedInCurrentScope(name)) {
+    				result.add(name);
+    			}
+    		}
         }
 
         if (null != asterisk_parameter_) {
-            asterisk_parameter_.getNewlyAssignedVariables(symboltable, result);
+            if (asterisk_parameter_ instanceof LocalVariableExpression) {
+    			String name = ((LocalVariableExpression)asterisk_parameter_).getValue();
+    			if (!symboltable.isDefinedInCurrentScope(name)) {
+    				result.add(name);
+    			}
+    		}
         }
     }
 
