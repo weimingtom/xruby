@@ -130,8 +130,8 @@ public class RubyTime extends RubyBasic {
 
     @RubyLevelMethod(name="zone")
     public RubyString zone() {
-        String name = date_.getTimeZone().getID();
-        if (name.equals("GMT")) {
+        String name = date_.getTimeZone().getDisplayName();
+        if (name.equals("Greenwich Mean Time")) {
             name = "UTC";
         }
         return ObjectFactory.createString(name);
