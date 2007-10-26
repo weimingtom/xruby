@@ -18,6 +18,11 @@ import com.xruby.runtime.lang.annotation.RubyLevelMethod;
 public class RubyTime extends RubyBasic {
     private final Calendar date_;
 
+    private RubyTime(Calendar date){
+        super(RubyRuntime.TimeClass);
+        date_ = date;
+    }
+
     RubyTime(long time){
         super(RubyRuntime.TimeClass);
         date_ = Calendar.getInstance();
@@ -125,6 +130,15 @@ public class RubyTime extends RubyBasic {
 
     @RubyLevelMethod(name="utc", alias="gm")
     public static RubyTime utc(RubyValue receiver, RubyArray args) {
+        return createTime(args, TimeZone.getTimeZone("GMT"));
+    }
+
+    @RubyLevelMethod(name="mktime", alias="local")
+    public static RubyTime local(RubyValue receiver, RubyArray args) {
+        return createTime(args, TimeZone.getDefault());
+    }
+
+    private static RubyTime createTime(RubyArray args, TimeZone zone) {
         if (null == args || args.size() == 0) {
             throw new RubyException(RubyRuntime.ArgumentErrorClass, "wrong number of arguments (0 for 1)");
         }
@@ -136,10 +150,9 @@ public class RubyTime extends RubyBasic {
         int hour = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
         int min = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
         int sec = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-        calendar.clear();
+        Calendar calendar = Calendar.getInstance(zone);
         calendar.set(year, month, day, hour, min, sec);
-        return ObjectFactory.createTime(calendar.getTimeInMillis());
+        return new RubyTime(calendar);
     }
 
     @RubyLevelMethod(name="at")
