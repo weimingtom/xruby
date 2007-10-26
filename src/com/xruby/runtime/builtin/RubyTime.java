@@ -128,6 +128,15 @@ public class RubyTime extends RubyBasic {
         return ObjectFactory.FIXNUM0;
     }
 
+    @RubyLevelMethod(name="zone")
+    public RubyString zone() {
+        String name = date_.getTimeZone().getID();
+        if (name.equals("GMT")) {
+            name = "UTC";
+        }
+        return ObjectFactory.createString(name);
+    }
+
     @RubyLevelMethod(name="utc", alias="gm")
     public static RubyTime utc(RubyValue receiver, RubyArray args) {
         return createTime(args, TimeZone.getTimeZone("GMT"));
