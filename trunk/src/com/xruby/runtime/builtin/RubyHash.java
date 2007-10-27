@@ -90,7 +90,7 @@ public class RubyHash extends RubyBasic {
         }
     }
 
-    @RubyLevelMethod(name="has_key?")
+    @RubyLevelMethod(name="has_key?", alias={"include?", "key?", "member?"})
     public RubyValue has_key(RubyValue key) {
         return ObjectFactory.createBoolean(map_.containsKey(key));
     }
