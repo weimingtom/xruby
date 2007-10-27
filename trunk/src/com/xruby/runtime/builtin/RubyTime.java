@@ -142,6 +142,17 @@ public class RubyTime extends RubyBasic {
         return createTime(args, TimeZone.getTimeZone("GMT"));
     }
 
+    @RubyLevelMethod(name="gmt?")
+    public RubyValue gmt_question() {
+        return ObjectFactory.createBoolean(date_.getTimeZone().hasSameRules(TimeZone.getTimeZone("GMT")));
+    }
+
+    @RubyLevelMethod(name="localtime")
+    public RubyValue localtime() {
+        date_.setTimeZone(TimeZone.getDefault());
+        return this;
+    }
+
     @RubyLevelMethod(name="mktime", alias="local")
     public static RubyTime local(RubyValue receiver, RubyArray args) {
         return createTime(args, TimeZone.getDefault());

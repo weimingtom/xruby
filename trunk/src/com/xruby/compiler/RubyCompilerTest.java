@@ -6186,11 +6186,13 @@ public class RubyCompilerTest extends CompilerTestCase {
         String[] program_texts = {
                 "t = Time.gm(2000,2,1,20,15,6);print t.year, t.month, t.day",
                 "print Time.gm(2000, 2, 1, 20, 15, 1).zone",
+                "t = Time.gm(2000, 2, 1, 20, 15, 1); print  t.gmt?; t.localtime;  print t.gmt?",
         };
 
         String[] outputs = {
                 "200021",
                 "UTC",
+                "truefalse",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
