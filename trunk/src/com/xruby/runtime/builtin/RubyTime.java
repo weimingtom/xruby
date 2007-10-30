@@ -57,7 +57,8 @@ public class RubyTime extends RubyBasic {
     }
 
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
+        sdf.setCalendar(date_);
         return sdf.format(date_.getTime());
     }
 
