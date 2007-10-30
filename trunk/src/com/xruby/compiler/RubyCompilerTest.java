@@ -3861,6 +3861,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "print Regexp.quote('[AB]CD')",
                 "print Regexp.quote('{AB}CD')",
                 "print Regexp.quote('*+?|')",
+                "print Regexp.quote('=!><~')",
         };
 
         String[] outputs = {
@@ -3869,6 +3870,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "\\[AB\\]CD",
                 "\\{AB\\}CD",
                 "\\*\\+\\?\\|",
+                "=!><~",
         };
 
         compile_run_and_compare_output(program_texts, outputs);
