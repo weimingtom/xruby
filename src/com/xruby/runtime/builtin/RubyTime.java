@@ -7,6 +7,7 @@ package com.xruby.runtime.builtin;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import com.xruby.runtime.lang.*;
@@ -130,8 +131,8 @@ public class RubyTime extends RubyBasic {
 
     @RubyLevelMethod(name="zone")
     public RubyString zone() {
-        String name = date_.getTimeZone().getDisplayName();
-        if (name.equals("Greenwich Mean Time")) {
+        String name = date_.getTimeZone().getDisplayName(false, TimeZone.SHORT, Locale.US);
+        if (name.equals("GMT")) {
             name = "UTC";
         }
         return ObjectFactory.createString(name);
