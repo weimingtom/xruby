@@ -173,7 +173,43 @@ public class RubyRegexp extends RubyBasic {
 
     @RubyLevelMethod(name="escape", alias="quote")
     public static RubyString quote(RubyValue receiver, RubyValue arg) {
-        return ObjectFactory.createString(Perl5Compiler.quotemeta(arg.toStr()));
+        String input = arg.toStr();
+        StringBuilder result = new StringBuilder(input.length() * 2);
+
+        for(int i = 0; i < input.length(); ++i) {
+            char c = input.charAt(i);
+            switch (c) {
+                case '[': case ']': case '{': case '}':
+                case '(': case ')': case '|': case '-':
+                case '*': case '.': case '\\':
+                case '?': case '+': case '^': case '$':
+                case '#':
+                case ' ':
+                    result.append('\\');
+                    result.append(c);
+                    break;
+                case '\n':
+                    result.append("\\n");
+                    break;
+                case '\t':
+                    result.append("\\t");
+                    break;
+                case '\r':
+                    result.append("\\r");
+                    break;
+                case '\f':
+                    result.append("\\f");
+                    break;
+                case 11:
+                    result.append("\\v");
+                    break;
+                default:
+                    result.append(c);
+                    break;
+            }
+        }
+
+        return new RubyString(result);
     }
 
     boolean caseEqual(String v) {
