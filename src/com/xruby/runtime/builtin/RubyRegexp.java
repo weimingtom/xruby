@@ -387,6 +387,11 @@ public class RubyRegexp extends RubyBasic {
         return result;
     }
 
+    @RubyLevelMethod(name="to_s")
+    public RubyString to_s() {
+        return ObjectFactory.createString(pattern_.getPattern());
+    }
+
     @RubyLevelMethod(name="source")
     public RubyString source() {
         return ObjectFactory.createString(pattern_.getPattern());
