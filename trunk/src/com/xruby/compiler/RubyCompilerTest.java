@@ -6189,7 +6189,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "t = Time.gm(2000,2,1,20,15,6);print t.year, t.month, t.day",
                 "print Time.gm(2000, 2, 1, 20, 15, 1).zone",
                 "t = Time.gm(2000, 2, 1, 20, 15, 1); print  t.gmt?",
-                "print Time.gm(2000, 0, 2, 3, 4, 5)"
+                "print Time.gm(2000, 1, 2, 3, 4, 5)"
         };
 
         String[] outputs = {

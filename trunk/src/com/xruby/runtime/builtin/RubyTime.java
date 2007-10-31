@@ -59,7 +59,7 @@ public class RubyTime extends RubyBasic {
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
         sdf.setCalendar(date_);
-        return sdf.format(date_.getTime());
+        return sdf.format(date_.getTime()).replace("GMT", "UTC");
     }
 
     @RubyLevelMethod(name="year")
@@ -69,7 +69,7 @@ public class RubyTime extends RubyBasic {
 
     @RubyLevelMethod(name="month")
     public RubyValue month() {
-        return ObjectFactory.createFixnum(date_.get(Calendar.MONTH));
+        return ObjectFactory.createFixnum(date_.get(Calendar.MONTH) + 1);
     }
 
     @RubyLevelMethod(name="day")
@@ -173,7 +173,7 @@ public class RubyTime extends RubyBasic {
         int min = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
         int sec = (args.size() <= i) ? 0 : ((RubyFixnum) args.get(i++)).toInt();
         Calendar calendar = Calendar.getInstance(zone);
-        calendar.set(year, month, day, hour, min, sec);
+        calendar.set(year, month - 1, day, hour, min, sec);
         return new RubyTime(calendar);
     }
 
