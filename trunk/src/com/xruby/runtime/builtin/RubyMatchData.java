@@ -28,4 +28,9 @@ public class RubyMatchData extends RubyBasic {
         return result_.group(0);
     }
 
+    @RubyLevelMethod(name="[]")
+    public RubyValue aref(RubyValue arg) {
+        int index = arg.toInt();
+        return ObjectFactory.createString(result_.group(index));
+    }
 }
