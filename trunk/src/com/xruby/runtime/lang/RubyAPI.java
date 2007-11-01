@@ -294,12 +294,18 @@ public class RubyAPI {
 
     public static RubyValue runCommandAndCaptureOutput(String value) {
         //some commands are builtin within the shell. e,g. echo, copy...
+    	String[] cmdarray = new String[3];
+    	cmdarray[2] = value;
         if (isWindows()) {
-            value = "cmd /c " + value;
+        	cmdarray[0] = "cmd";
+        	cmdarray[1] = "/c";
+        } else {
+        	cmdarray[0] = "/bin/sh";
+        	cmdarray[1] = "-c";
         }
 
         try {
-            Process p = Runtime.getRuntime().exec(value);
+            Process p = Runtime.getRuntime().exec(cmdarray);
             StringBuilder output = new StringBuilder();
 
             BufferedReader stderr = new BufferedReader(new InputStreamReader(p.getErrorStream()));

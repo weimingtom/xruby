@@ -6208,7 +6208,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "200021",
                 "UTC",
                 "true",
-                "Sun Jan 02 03:04:05 GMT 2000"
+                "Sun Jan 02 03:04:05 UTC 2000"
         };
 
         compile_run_and_compare_output(program_texts, outputs);
