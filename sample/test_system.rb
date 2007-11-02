@@ -2,9 +2,12 @@ require 'common'
 
 test_check "system"
 test_ok(`echo foobar` == "foobar\n")
-#java will remove double quote automatically from command line, so we have to change the test
+#java on windows will remove double quote automatically from command line, so we have to change the test
+if RUBY_PLATFORM == 'mswin32'
+test_ok(`java -jar xruby-0.3.1.jar -e 'print 'foobar''` == 'foobar')
+else
 test_ok(`java -jar xruby-0.3.1.jar -e 'print "foobar"'` == 'foobar')
-#test_ok(`java -jar xruby-0.3.1.jar -e 'print 'foobar''` == 'foobar')
+end
 tmp = open("script_tmp", "w")
 tmp.print "print $zzz\n";
 tmp.close
