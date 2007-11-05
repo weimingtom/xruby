@@ -9,6 +9,7 @@ Here is a list of things we are going to do
   * ~~~Change compiler's command line interface to compile multiple ruby scripts into one jar ~~~ (DONE)
   * ~~~Improve performance (optimize block with one argument as we did for method)~~~ (DONE)
   * Implement more builtin libraries
+  * Improve the startup speed (now there is noticeable delay at startup)
   * Should use CommonRubyID more aggressively for preformance
   * Refactoring is always welcome
 
