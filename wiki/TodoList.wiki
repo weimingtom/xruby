@@ -1,5 +1,8 @@
 #summary To Do List
 
+=Implementing=
+  * rand and srand methods
+
 =Things to be fixed to support Ruby on Rails=
 
   * yaml.rb: part of it is implemented in C
@@ -7,7 +10,6 @@
   * activerecord: 1. need jdbc bridge 2. some parsing issues
   * uri.rb: need more Regexp fix
   * ...
-
 
 =Library Method To be Implemented=
 
