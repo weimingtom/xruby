@@ -10,7 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.Random;
 import java.util.regex.Pattern;
 
 import antlr.RecognitionException;
@@ -458,60 +457,6 @@ public class RubyKernelModule {
 	@RubyLevelMethod(name="Integer", module=true)
 	public static RubyInteger toInteger(RubyValue receiver, RubyValue arg) {
 		return arg.toRubyInteger();		
-	}
-	
-	private static long lastSeed_ = 0;
-    private static Random random_ = new Random();
-
-    @RubyLevelMethod(name="srand")
-    public static RubyValue srand(RubyValue receiver) {
-        // TODO seeds the generator using a combination of the time, the process id, and a sequence number.
-        return srand(0);
-    }
-    
-    @RubyLevelMethod(name="srand")
-    public static RubyValue srand(RubyValue receiver, RubyValue arg) {
-    	long seed;
-        if (arg instanceof RubyFixnum) {
-            seed = arg.toInt();
-        } else {
-        	// FIXME: check
-            seed = ((RubyBignum)arg).longValue();
-        }
-
-        return srand(seed);
-    }
-
-	private static RubyValue srand(long seed) {
-		random_.setSeed(seed);
-
-        long r = lastSeed_;
-        lastSeed_ = seed;
-        return RubyBignum.bignorm(r);
-	}
-	
-	@RubyLevelMethod(name="rand")
-	public static RubyValue rand(RubyValue receiver) {
-        // TODO seeds the generator using a combination of the time, the process id, and a sequence number.
-        return rand(0);
-    }
-	
-	@RubyLevelMethod(name="rand")
-	public static RubyValue rand(RubyValue receiver, RubyValue arg) {
-		// TODO check
-        return rand(arg.toInt());
-    }
-
-	private static RubyValue rand(int max) {
-		if (max < 0) {
-            max = -max;
-        }
-
-        if (0 == max) {
-            return ObjectFactory.createFloat(random_.nextGaussian());
-        } else {
-            return ObjectFactory.createFixnum(random_.nextInt(max));
-        }
 	}
 	
 	@RubyLevelMethod(name="puts", module=true)

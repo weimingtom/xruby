@@ -6214,6 +6214,18 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_compare_output(program_texts, outputs);
     }
 
+    public void test_Random() {
+    	String[] program_texts = {
+    		"print srand"	
+    	};
+    	
+    	String[] outputs = {
+    		"0"	
+    	};
+    	
+    	compile_run_and_compare_output(program_texts, outputs);
+    }
+    
     /*
     TODO does not work with exception
     TODO wrong format, should fix the implementation
