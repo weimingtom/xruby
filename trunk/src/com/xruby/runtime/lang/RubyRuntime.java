@@ -22,7 +22,6 @@ public class RubyRuntime {
     public static RubyModule ErrnoModule;
     public static RubyModule FileTestModule;
     public static RubyModule GCModule;
-    public static RubyModule RandomModule;
     public static RubyModule MarshalModule;
     public static RubyModule MathModule;
     public static RubyModule ObjectSpaceModule;
@@ -107,7 +106,6 @@ public class RubyRuntime {
         ErrnoModule = RubyAPI.defineModule("Errno");
         FileTestModule = RubyTypeFactory.getModule(RubyFileTestModule.class);
         GCModule = RubyTypeFactory.getModule(RubyGC.class);
-        RandomModule = RubyTypeFactory.getModule(RubyRandom.class);
 
         MarshalModule = RubyTypeFactory.getModule(RubyMarshalModule.class);//RubyAPI.defineModule("Marshal");
         MathModule = RubyTypeFactory.getModule(RubyMathModule.class);
@@ -122,6 +120,7 @@ public class RubyRuntime {
 
         RubyModule m = RubyTypeFactory.getModule(RubyKernelModule.class);
         respondToMethod = m.findMethod(RubyID.RESPOND_TO_P);
+        RubyTypeFactory.getModule(RubyRandom.class);
 
         NumericClass = RubyTypeFactory.getClass(RubyNumeric.class);
         IntegerClass = RubyTypeFactory.getClass(RubyInteger.class);
