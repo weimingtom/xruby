@@ -2,7 +2,7 @@ require 'common'
 
 test_check "system"
 test_ok(`echo foobar` == "foobar\n")
-#java on windows will remove double quote automatically from command line, so we have to change the test
+#cmd on windows will remove double quote automatically from command line, so we have to change the test
 if RUBY_PLATFORM == 'mswin32'
 test_ok(`java -jar xruby-0.3.1.jar -e 'print 'foobar''` == 'foobar')
 else
