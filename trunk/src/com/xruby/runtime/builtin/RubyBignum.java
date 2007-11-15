@@ -71,6 +71,10 @@ public class RubyBignum extends RubyInteger {
         return value_;
     }
 
+    public boolean sign() {
+    	return value_.signum() >= 0;
+    }
+	
 	public long longValue() {
 		return value_.longValue();
 	}

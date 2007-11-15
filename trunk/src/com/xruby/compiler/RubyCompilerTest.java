@@ -6216,7 +6216,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Random() {
     	String[] program_texts = {
-    		"print srand"	
+    			"srand(0); puts rand(0x100000001)"	
     	};
     	
     	String[] outputs = {
