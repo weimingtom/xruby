@@ -1,3 +1,8 @@
+/**
+ * Copyright 2007 Sishen
+ * Distributed under the GNU General Public License 2.0
+ */
+
 package com.xruby.runtime.builtin;
 
 import java.math.BigInteger;
