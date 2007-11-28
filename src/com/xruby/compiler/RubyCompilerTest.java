@@ -6213,18 +6213,6 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
-
-    public void test_Random() {
-    	String[] program_texts = {
-    			"srand(0); print rand(0x100000001)"	
-    	};
-    	
-    	String[] outputs = {
-    		"0"	
-    	};
-    	
-    	compile_run_and_compare_output(program_texts, outputs);
-    }
     
     /*
     TODO does not work with exception
