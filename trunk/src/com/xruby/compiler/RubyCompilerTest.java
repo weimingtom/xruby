@@ -3033,12 +3033,17 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_private_class_method() {
         String[] program_texts = {
-            "class TestPCMB; def TestPCMB.f; print 1;end; end\n" +
-            "class TestPCMC < TestPCMB;private_class_method :f;end\n" +
-            "TestPCMB.f",
+                "module MAfterSingleton; class << self; private; end; end\n" +
+                "module MAfterSingleton; class << self; def f_after_singleton; print 3; end; end; end\n" +
+                "MAfterSingleton.f_after_singleton",
+
+                "class TestPCMB; def TestPCMB.f; print 1;end; end\n" +
+                "class TestPCMC < TestPCMB;private_class_method :f;end\n" +
+                "TestPCMB.f",
         };
 
         String[] outputs = {
+                "3",
                 "1",
         };
 
