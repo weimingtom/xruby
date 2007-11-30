@@ -315,6 +315,10 @@ class Hash
     
     alias merge! update
     
+    def merge other
+        clone.merge!(other)
+    end
+    
     def index value
         each {|k, v| return k if value == v }
         return nil
