@@ -128,5 +128,12 @@ class XRubyTest < Test::Unit::TestCase
         assert_equal nil, q.first
     end
     
+    def test_Hash_merge
+      h1 = { "a" => 100, "b" => 200 }
+      h2 = { "b" => 254, "c" => 300 }
+      h3 = h1.merge(h2)
+      assert_equal({ "a" => 100, "b" => 254, "c" => 300 }, h3)
+      assert_equal({ "a" => 100, "b" => 200}, h1)
+    end
     
 end
