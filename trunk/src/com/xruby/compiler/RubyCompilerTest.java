@@ -853,6 +853,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_asterisk_parameter() {
         String[] program_texts = {
+                "def f a; print 1; end; def f *a; print 2; end; f 3",
+
                 "def a *; print 'ok'; end; a 1, 2, 3",
 
                 "def my_print(*a)\n" +
@@ -872,6 +874,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+                "2",
                 "ok",
                 ":)5634888",
                 "5634888:)",
@@ -6218,7 +6221,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
-    
+
     /*
     TODO does not work with exception
     TODO wrong format, should fix the implementation
