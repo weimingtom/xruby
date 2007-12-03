@@ -280,6 +280,11 @@ class Hash
         ks = keys
         ks.each {|k| yield(k)}
     end
+      
+    def each_value
+        vs = values
+        vs.each {|k| yield(k)}
+    end
     
     def empty?
         length == 0
