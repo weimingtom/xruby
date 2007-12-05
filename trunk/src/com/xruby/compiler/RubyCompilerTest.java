@@ -1720,12 +1720,14 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_precedence() {
         String[] program_texts = {
+        		"print nil && nil || 'a'",
                 "false || b = 2;print b",
                 //TODO"x=1;print(x << y = 2);print y",
                 //TODO"x=1;print(x + y = 2);print y",
         };
 
         String[] outputs = {
+        		"a",
                 "2",
                 //"42",
                 //"32",
