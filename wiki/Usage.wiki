@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Play with xruby. The Usage.
 
 = Play with xruby =
 
