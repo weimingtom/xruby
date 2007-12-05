@@ -40,6 +40,14 @@ public class AssignmentOperatorExpression extends Expression {
 			} else {
 				throw new RecognitionException("Method call can not be assigned");
 			}
+		} else if (left instanceof BinaryOperatorExpression) {
+			//deal with things like:
+			//x << y = 1		#same as x<< (y = 1), but parsed as (x << y) = 1
+			//false || b = 2	#same as false || (b = 2), but parsed as (false || b) = 2
+			//true && b = 3		#same as true && (b = 3), but parsed as (true && b) = 3
+			//otherwise there are invalid base on the operator precedence rule
+			BinaryOperatorExpression e = (BinaryOperatorExpression)left;
+			return new AndOrBinaryOperatorExpression(e.operator_, e.left_, new AssignmentOperatorExpression(e.right_, right));
 		} else {
 			return new AssignmentOperatorExpression(left, right);
 		}
