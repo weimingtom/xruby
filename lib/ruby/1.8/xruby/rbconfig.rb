@@ -10,6 +10,7 @@ module Config
   CONFIG = {}
   
   #TODO add more as needed
+  CONFIG["prefix"] = (TOPDIR || DESTDIR + "")
   CONFIG["sitedir"] = "$(prefix)/lib/ruby/site_ruby"
   
   MAKEFILE_CONFIG = {}
