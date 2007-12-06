@@ -26,7 +26,7 @@ Usage
 >java -jar test.jar
 
 If xruby.jar and test.jar are not in the same folder, then should be:
->java -cp xruby-0.3.2.jar;test.jar test.main
+>java -cp xruby-0.3.2.jar;test.jar xruby.test.main
 
 * Run script directly (compile behind the scene):
 >java -jar xruby-0.3.2.jar test.rb
