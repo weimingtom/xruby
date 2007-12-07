@@ -5,10 +5,14 @@
 
 =Things to be fixed to support Ruby on Rails=
 
-  * yaml.rb: part of it is implemented in C
-  * erb.rb: has issues with Binding
-  * activerecord: 1. need jdbc bridge 2. some parsing issues
-  * uri.rb: need more Regexp fix
+  * yaml: need to implement it with JvYAML
+  * active_support: some runtime errors when doing:
+{{{
+$:.unshift("lib/rails/activesupport/lib")
+require 'active_support'
+}}}
+  * erb: has issues with Binding
+  * activerecord: need jdbc bridge
   * ...
 
 =Library Method To be Implemented=
