@@ -412,6 +412,7 @@ returns [Expression e]
 		|	"false"									{e = new FalseExpression();}
 		|	"self"									{e = new SelfExpression();}
 		|	"nil"										{e = new NilExpression();}
+		|	"super" 	                {e = new SuperExpression(null, null);}
 		|	class_variable:CLASS_VARIABLE				{e = new ClassVariableExpression(class_variable.getText());}
 		|	instance_variable:INSTANCE_VARIABLE		{e = new InstanceVariableExpression(instance_variable.getText());}
 		|	"__FILE__"								{e = new StringExpression((null != filename_) ? filename_ : "-", false);}
