@@ -10,8 +10,15 @@ module Config
   CONFIG = {}
   
   #TODO add more as needed
+  CONFIG["DESTDIR"] = DESTDIR
+  CONFIG["MAJOR"] = "1"
+  CONFIG["MINOR"] = "8"
+  CONFIG["TEENY"] = "6"
   CONFIG["prefix"] = (TOPDIR || DESTDIR + "")
+  CONFIG["exec_prefix"] = "$(prefix)"
+  CONFIG["libdir"] = "$(exec_prefix)/lib"
   CONFIG["sitedir"] = "$(prefix)/lib/ruby/site_ruby"
+  CONFIG["ruby_version"] = "$(MAJOR).$(MINOR)"
   
   MAKEFILE_CONFIG = {}
   CONFIG.each{|k,v| MAKEFILE_CONFIG[k] = v.dup}
