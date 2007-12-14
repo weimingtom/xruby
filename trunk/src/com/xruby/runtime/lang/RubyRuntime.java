@@ -208,6 +208,9 @@ public class RubyRuntime {
 
         if (RubyAPI.isWindows()) {
             RubyAPI.setConstant(ObjectFactory.createString("\\"), RubyRuntime.FileClass, "ALT_SEPARATOR");
+            RubyAPI.setConstant(ObjectFactory.createString(";"), RubyRuntime.FileClass, "PATH_SEPARATOR");
+        } else {
+        	RubyAPI.setConstant(ObjectFactory.createString(":"), RubyRuntime.FileClass, "PATH_SEPARATOR");
         }
 
         RubyTypeFactory.getObject(RubyENV.class);
