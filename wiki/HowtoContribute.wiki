@@ -16,7 +16,7 @@ The other set of tests are written in Ruby, and you run them by doing:
 
 While it is impossible to implement something perfectly at the first attempt, we encourage refactoring. If the change may affect the work of other contributors, an email to xruby-devel malilist would be great.
 
-Other than the above gernal guidelines, feel free to make changes. The most important thing is members should be able to learn and have fun.
+Other than the above general guidelines, feel free to make changes. The most important thing is members should be able to learn and have fun.
 
 = License =
 Contributors own the copyright of their contributions. If you made significant contributions in a source file, please add your name to the Copyright block.
