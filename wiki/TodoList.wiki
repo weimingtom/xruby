@@ -1,7 +1,7 @@
 #summary To Do List
 
 =Implementing=
-  * rand and srand methods
+  * yaml support
 
 =Things to be fixed to support Ruby on Rails=
 
