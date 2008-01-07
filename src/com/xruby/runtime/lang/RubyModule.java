@@ -227,6 +227,20 @@ public class RubyModule extends RubyBasic {
 
         return false;
     }
+    
+    private boolean isKindOf(RubyValue v) {
+        RubyClass cl = v.getRubyClass();
+        
+        while (cl != null) {
+            if (cl == this || cl.methods_ == this.methods_) {
+                return true;
+            }
+
+            cl = cl.superclass_;
+        }
+
+        return false;
+    }
 
     /// This method is only used by java classes in package 'com.xruby.runtime.builtin'.
     /// It has less overhead than 'defineClass' (no hash table lookup).
@@ -706,17 +720,10 @@ public class RubyModule extends RubyBasic {
 
     @RubyLevelMethod(name="===")
     public RubyValue caseEqual(RubyValue arg) {
-        if (this instanceof RubyClass) {
-            // FIXME: Maybe Module
-            return ObjectFactory.createBoolean(RubyAPI.isKindOf(this, arg));
-        } else {
-            //TODO does not work as expected
-            RubyModule module = (RubyModule)this;
-            RubyArray a = new RubyArray();
-            module.collectIncludedModuleNames(a);
-            return a.include(arg.getRubyClass());
-        }
+        return ObjectFactory.createBoolean(this.isKindOf(arg));
     }
+
+    
 
     @RubyLevelMethod(name="ancestors")
     public RubyValue ancestors() {

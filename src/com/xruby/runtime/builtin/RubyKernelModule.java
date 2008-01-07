@@ -167,7 +167,7 @@ public class RubyKernelModule {
 	}
 	
 	@RubyLevelMethod(name="kind_of?", alias="is_a?")
-	public static RubyValue kindOf(RubyValue receiver, RubyValue arg, RubyBlock block) {
+	public static RubyValue kindOf(RubyValue receiver, RubyValue arg) {
 		return ObjectFactory.createBoolean(RubyAPI.isKindOf(arg, receiver));
 	}
 	
@@ -229,6 +229,7 @@ public class RubyKernelModule {
 
 		if (null != args) {
 			RubyBinding binding = new RubyBinding();
+			System.out.println(receiver);
 			binding.setScope((RubyModule) receiver);
 			binding.setSelf(receiver);
 			return eval(args.get(0).toStr(), binding);

@@ -21,12 +21,10 @@ public class RubyRandom {
 	private static Random random = new Random();
 
 	private static boolean first = true;
-	private static RubyValue saved_seed = new RubyFixnum(0); 
+	private static RubyInteger saved_seed = new RubyFixnum(0); 
  
-	private static RubyValue rand_init(RubyValue vseed) {
-		RubyValue seed, old;
-		
-		seed = vseed.toRubyInteger();
+	private static RubyValue rand_init(RubyValue vseed) {	
+		RubyInteger seed = vseed.toRubyInteger();
 		
 		if (seed instanceof RubyFixnum) {
 			randomSeed = seed.toInt();
@@ -38,7 +36,7 @@ public class RubyRandom {
 		random.setSeed(randomSeed);
 		
 		first = false;
-		old = saved_seed;
+		RubyInteger old = saved_seed;
 		saved_seed = seed;
 		return old;
 	}
