@@ -76,9 +76,7 @@ class CompilerTestCase extends TestCase {
                 assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
             } catch (VerifyError e) {
                 assertTrue("VerifyError at " + i + ": " + e.toString(), false);
-            } /*catch (NullPointerException e) {
-                assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-            }*/
+            }
         }
     }
 
@@ -144,9 +142,7 @@ class CompilerTestCase extends TestCase {
                 assertTrue("IllegalAccessException at " + i + ": " + e.toString(), false);
             } catch (VerifyError e) {
                 assertTrue("VerifyError at " + i + ": " + e.toString(), false);
-            } /*catch (NullPointerException e) {
-                assertTrue("NullPointerException at " + i + ": " + e.toString(), false);
-            }*/
+            }
         }
     }
 
@@ -5570,7 +5566,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "print Math.exp(1).class",
                 "print Math.exp(1.1).class",
                 "print Math.sqrt(4)",
-                "include Math; print sqrt(9)",
+                "print Math.sqrt(9)",
         };
 
         String[] outputs = {
@@ -5931,7 +5927,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "print NilClass === nil",
                 "print Object === true",
                 "print Math === nil",
-                //TODO"print Kernel === nil",
+                "print Kernel === nil",
         };
 
         String[] outputs = {
@@ -5939,7 +5935,7 @@ public class RubyCompilerTest extends CompilerTestCase {
                 "true",
                 "true",
                 "false",
-                //"true",
+                "true",
         };
 
         compile_run_and_compare_output(program_texts, outputs);

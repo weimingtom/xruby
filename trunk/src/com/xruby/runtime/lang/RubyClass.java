@@ -43,7 +43,8 @@ public class RubyClass extends RubyModule {
     }
 
     public String getName() {
-        return this.getRealClass().name_;
+        RubyClass realClass = this.getRealClass();
+        return (realClass != null) ? realClass.name_ : null;
     }
 
     public RubyClass getRealClass() {
