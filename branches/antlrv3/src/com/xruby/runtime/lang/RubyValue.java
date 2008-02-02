@@ -129,5 +129,11 @@ public abstract class RubyValue extends BlockCallStatus implements Cloneable {
     public void collectMethodNames(RubyArray a, int mode) {
         getRubyClass().collectClassMethodNames(a, mode);
     }
+    //todo:femto: adding temporary, should be removed according to current xruby version
+    public void collectMethodNames(RubyArray a) {
+        getRubyClass().collectClassMethodNames(a, RubyMethod.ALL);
+    }
+
+
 }
 

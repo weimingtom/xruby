@@ -141,14 +141,20 @@ public class Rubyv3ParserTest extends TestCase {
 
     public void test_hash() throws Exception {
         assert_parse("{1,2}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
-        /*assert_parse("{1,2,3,4}", "(STATEMENT_LIST (STATEMENT ({ 1 2 3 4)))");
+        assert_parse("{1,2,3,4}", "(STATEMENT_LIST (STATEMENT ({ 1 2 3 4)))");
 
         assert_parse("{1=>2}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
         assert_parse("{1=>2,3=>4}", "(STATEMENT_LIST (STATEMENT ({ 1 2 3 4)))");
 
         assert_parse("{1,2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
-        assert_parse("{1=>2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");*/
+        assert_parse("{1=>2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
+
+        assert_parse("{x:3}", "(STATEMENT_LIST (STATEMENT ({ (CALL x) 3)))");
         //assert_parse("{1}", "");
+    }
+
+    public void test_symbol() throws Exception {
+        assert_parse(":abc", "(STATEMENT_LIST (STATEMENT :abc))");
     }
 
     public void test_def_method() throws Exception {

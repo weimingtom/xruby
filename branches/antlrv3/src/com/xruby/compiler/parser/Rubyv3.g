@@ -4,8 +4,14 @@ options {
         output=AST;
         //k=3; actually we don't use k=* in parser, many left refactor to avoid that,just need k=3 till now...
         //k=2 for assignment: ternaryExpression|lhs '=' ternaryExpression; k=3 for f_args:f_norm_args ',' f_opt_args 
-        
+        //lexer::superClass=BaseLexer;
 }
+
+//@lexer::option {
+//   superClass=BaseLexer;  //this does not work, so you need to manually change the superClass of the Lexer generated everytime.
+//}
+
+
 
 tokens {
 	// 'imaginary' tokens
@@ -44,6 +50,8 @@ tokens {
 	DIV;
 	MOD;
 }
+
+
 
 @rulecatch {
 catch (RecognitionException e) {
@@ -567,7 +575,7 @@ command
 @after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
 	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' expression ')' ) (DOT^ method[false])*
 	; //|       lhs SHIFT^ rhs ;	
-atom[boolean topLevel]	:	methodExpression[topLevel];
+atom[boolean topLevel]	:	methodExpression[topLevel]|hash;
 methodExpression[boolean topLevel]
 	:      variable|method[topLevel];
 variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
@@ -766,14 +774,20 @@ assoc_list
 	:	assocs trailer /*| args trailer*/;
 assocs	:	assoc ( ','! assoc)*;
 
-assoc         : arg (ASSOC|',')! arg;
+assoc         : arg (ASSOC|',')! arg | SYMBOL_NAME ':' arg ;
 
 
 
 trailer!       : /* none */ | LINE_BREAK! | ','!;
 
 REGEX	:	'/abc/';
-SYMBOL	:	':abc';
+SYMBOL	:	':' SYMBOL_NAME;
+
+SYMBOL_NAME
+	:	('a'..'z' | 'A' ..'Z')*
+	;
+
+
 
 ASSIGN                  :	'=';
 PLUS_ASSIGN			:	'+='	;
