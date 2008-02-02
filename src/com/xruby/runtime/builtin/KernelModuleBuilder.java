@@ -470,6 +470,7 @@ class Kernel_methods extends RubyVarArgMethod {
     protected RubyValue run(RubyValue receiver, RubyArray args, RubyBlock block) {
         RubyArray a = new RubyArray();
         receiver.collectMethodNames(a, RubyMethod.ALL);
+        
         return a;
     }
 }
