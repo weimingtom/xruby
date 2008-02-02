@@ -35,7 +35,7 @@ tokens {
 	
 	
 	//COMPSTMT;
-	SYMBOL;
+	//SYMBOL;
 	BLOCK;
 	MULTIPLE_ASSIGN;
 	MULTIPLE_ASSIGN_WITH_EXTRA_COMMA;
@@ -49,6 +49,8 @@ tokens {
 	
 	DIV;
 	MOD;
+	
+	
 }
 
 
@@ -638,7 +640,7 @@ INT
 	        )//|ESCAPE_INT)
 	;
 
-ID	:	('a'..'z' | 'A'..'Z'{$type = CONSTANT;} | '_') (('a'..'z' | 'A'..'Z') | ('0'..'9'))*
+ID	:	('a'..'z' | 'A'..'Z'{$type = CONSTANT;} | '_') (('a'..'z' | 'A'..'Z') | ('0'..'9') | '_')*
 	;
 FID	:	ID ('?' | '!');
 INSTANCE_VARIABLE
@@ -774,14 +776,18 @@ assoc_list
 	:	assocs trailer /*| args trailer*/;
 assocs	:	assoc ( ','! assoc)*;
 
-assoc         : ID ':' arg | arg (ASSOC|',')! arg;
+assoc         : symbol_name_in_assoc ':'! arg | arg (ASSOC|',')! arg;
+
+symbol_name_in_assoc 
+	:	ID -> ^(SYMBOL ID);
+ //ID is SYMBOL_NAME
 
 
 
 trailer!       : /* none */ | LINE_BREAK! | ','!;
 
 REGEX	:	'/abc/';
-SYMBOL	:	':' ID;
+SYMBOL	:	':' ID; //ID is SYMBOLNAME
 
 SYMBOL_NAME
 	:	('a'..'z' | 'A' ..'Z')*

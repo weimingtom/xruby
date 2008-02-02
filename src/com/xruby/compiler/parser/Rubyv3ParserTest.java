@@ -149,12 +149,14 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("{1,2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
         assert_parse("{1=>2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
 
-        assert_parse("{x:3}", "(STATEMENT_LIST (STATEMENT ({ x : 3)))");
+        assert_parse("{x:3}", "(STATEMENT_LIST (STATEMENT ({ (SYMBOL x) 3)))");
         //assert_parse("{1}", "");
     }
 
     public void test_symbol() throws Exception {
         assert_parse(":abc", "(STATEMENT_LIST (STATEMENT :abc))");
+        assert_parse(":my_variable", "(STATEMENT_LIST (STATEMENT :my_variable))");
+        //assert_parse(":\"Ruby rules\"", "");
     }
 
     public void test_def_method() throws Exception {
