@@ -149,7 +149,7 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("{1,2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
         assert_parse("{1=>2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
 
-        assert_parse("{x:3}", "(STATEMENT_LIST (STATEMENT ({ (CALL x) 3)))");
+        assert_parse("{x:3}", "(STATEMENT_LIST (STATEMENT ({ x : 3)))");
         //assert_parse("{1}", "");
     }
 

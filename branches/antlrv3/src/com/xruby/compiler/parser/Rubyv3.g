@@ -774,14 +774,14 @@ assoc_list
 	:	assocs trailer /*| args trailer*/;
 assocs	:	assoc ( ','! assoc)*;
 
-assoc         : arg (ASSOC|',')! arg | SYMBOL_NAME ':' arg ;
+assoc         : ID ':' arg | arg (ASSOC|',')! arg;
 
 
 
 trailer!       : /* none */ | LINE_BREAK! | ','!;
 
 REGEX	:	'/abc/';
-SYMBOL	:	':' SYMBOL_NAME;
+SYMBOL	:	':' ID;
 
 SYMBOL_NAME
 	:	('a'..'z' | 'A' ..'Z')*

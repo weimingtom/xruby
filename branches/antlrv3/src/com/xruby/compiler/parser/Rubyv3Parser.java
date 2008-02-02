@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-02 15:46:23
+// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-02 16:16:23
 
 package com.xruby.compiler.parser;
 
@@ -1096,7 +1096,7 @@ public class Rubyv3Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: body1, body0, e1, body2, e0
+            // elements: body1, e1, body0, e0, body2
             // token labels: 
             // rule labels: body2, retval, e1, e0, body0
             // token list labels: 
@@ -8152,7 +8152,7 @@ public class Rubyv3Parser extends Parser {
                 if ( (LA101_0==COMMA) ) {
                     int LA101_2 = input.LA(2);
                     
-                    if ( ((LA101_2>=HEREDOC_STRING && LA101_2<=FLOAT)||LA101_2==SYMBOL||(LA101_2>=IF_MODIFIER && LA101_2<=UNLESS_MODIFIER)||LA101_2==ID||(LA101_2>=BNOT && LA101_2<=REGEX)||(LA101_2>=SINGLE_QUOTE_STRING && LA101_2<=DOUBLE_QUOTE_STRING)||LA101_2==LCURLY||LA101_2==SYMBOL_NAME||LA101_2==LPAREN||LA101_2==120||(LA101_2>=122 && LA101_2<=124)||(LA101_2>=134 && LA101_2<=136)) ) {
+                    if ( ((LA101_2>=HEREDOC_STRING && LA101_2<=FLOAT)||LA101_2==SYMBOL||(LA101_2>=IF_MODIFIER && LA101_2<=UNLESS_MODIFIER)||LA101_2==ID||(LA101_2>=BNOT && LA101_2<=REGEX)||(LA101_2>=SINGLE_QUOTE_STRING && LA101_2<=DOUBLE_QUOTE_STRING)||LA101_2==LCURLY||LA101_2==LPAREN||LA101_2==120||(LA101_2>=122 && LA101_2<=124)||(LA101_2>=134 && LA101_2<=136)) ) {
                         alt101=1;
                     }
                     
@@ -8206,69 +8206,78 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start assoc
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:777:1: assoc : ( arg ( ASSOC | ',' ) arg | SYMBOL_NAME ':' arg );
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:777:1: assoc : ( ID ':' arg | arg ( ASSOC | ',' ) arg );
     public final assoc_return assoc() throws RecognitionException {
         assoc_return retval = new assoc_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
     
-        Token set256=null;
-        Token SYMBOL_NAME258=null;
-        Token char_literal259=null;
-        arg_return arg255 = null;
-
+        Token ID255=null;
+        Token char_literal256=null;
+        Token set259=null;
         arg_return arg257 = null;
+
+        arg_return arg258 = null;
 
         arg_return arg260 = null;
         
 
-        Object set256_tree=null;
-        Object SYMBOL_NAME258_tree=null;
-        Object char_literal259_tree=null;
+        Object ID255_tree=null;
+        Object char_literal256_tree=null;
+        Object set259_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:777:15: ( arg ( ASSOC | ',' ) arg | SYMBOL_NAME ':' arg )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:777:15: ( ID ':' arg | arg ( ASSOC | ',' ) arg )
             int alt102=2;
             int LA102_0 = input.LA(1);
             
-            if ( ((LA102_0>=HEREDOC_STRING && LA102_0<=FLOAT)||LA102_0==SYMBOL||(LA102_0>=IF_MODIFIER && LA102_0<=UNLESS_MODIFIER)||LA102_0==ID||(LA102_0>=BNOT && LA102_0<=REGEX)||(LA102_0>=SINGLE_QUOTE_STRING && LA102_0<=DOUBLE_QUOTE_STRING)||LA102_0==LCURLY||LA102_0==LPAREN||LA102_0==120||(LA102_0>=122 && LA102_0<=124)||(LA102_0>=134 && LA102_0<=136)) ) {
-                alt102=1;
+            if ( (LA102_0==ID) ) {
+                int LA102_1 = input.LA(2);
+                
+                if ( (LA102_1==COLON) ) {
+                    alt102=1;
+                }
+                else if ( ((LA102_1>=LEFT_SHIFT && LA102_1<=FLOAT)||LA102_1==SYMBOL||(LA102_1>=DIV && LA102_1<=UNLESS_MODIFIER)||LA102_1==DOT||(LA102_1>=ID && LA102_1<=REGEX)||(LA102_1>=SINGLE_QUOTE_STRING && LA102_1<=DOUBLE_QUOTE_STRING)||LA102_1==LCURLY||LA102_1==ASSOC||LA102_1==LPAREN||LA102_1==COMMA||LA102_1==120||(LA102_1>=122 && LA102_1<=124)||(LA102_1>=134 && LA102_1<=136)) ) {
+                    alt102=2;
+                }
+                else {
+                    if (backtracking>0) {failed=true; return retval;}
+                    NoViableAltException nvae =
+                        new NoViableAltException("777:1: assoc : ( ID ':' arg | arg ( ASSOC | ',' ) arg );", 102, 1, input);
+                
+                    throw nvae;
+                }
             }
-            else if ( (LA102_0==SYMBOL_NAME) ) {
+            else if ( ((LA102_0>=HEREDOC_STRING && LA102_0<=FLOAT)||LA102_0==SYMBOL||(LA102_0>=IF_MODIFIER && LA102_0<=UNLESS_MODIFIER)||(LA102_0>=BNOT && LA102_0<=REGEX)||(LA102_0>=SINGLE_QUOTE_STRING && LA102_0<=DOUBLE_QUOTE_STRING)||LA102_0==LCURLY||LA102_0==LPAREN||LA102_0==120||(LA102_0>=122 && LA102_0<=124)||(LA102_0>=134 && LA102_0<=136)) ) {
                 alt102=2;
             }
             else {
                 if (backtracking>0) {failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("777:1: assoc : ( arg ( ASSOC | ',' ) arg | SYMBOL_NAME ':' arg );", 102, 0, input);
+                    new NoViableAltException("777:1: assoc : ( ID ':' arg | arg ( ASSOC | ',' ) arg );", 102, 0, input);
             
                 throw nvae;
             }
             switch (alt102) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:777:17: arg ( ASSOC | ',' ) arg
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:777:17: ID ':' arg
                     {
                     root_0 = (Object)adaptor.nil();
                     
-                    pushFollow(FOLLOW_arg_in_assoc3898);
-                    arg255=arg();
-                    _fsp--;
-                    if (failed) return retval;
-                    if ( backtracking==0 ) adaptor.addChild(root_0, arg255.getTree());
-                    set256=(Token)input.LT(1);
-                    if ( input.LA(1)==ASSOC||input.LA(1)==COMMA ) {
-                        input.consume();
-                        errorRecovery=false;failed=false;
+                    ID255=(Token)input.LT(1);
+                    match(input,ID,FOLLOW_ID_in_assoc3898); if (failed) return retval;
+                    if ( backtracking==0 ) {
+                    ID255_tree = (Object)adaptor.create(ID255);
+                    adaptor.addChild(root_0, ID255_tree);
                     }
-                    else {
-                        if (backtracking>0) {failed=true; return retval;}
-                        MismatchedSetException mse =
-                            new MismatchedSetException(null,input);
-                        recoverFromMismatchedSet(input,mse,FOLLOW_set_in_assoc3900);    throw mse;
+                    char_literal256=(Token)input.LT(1);
+                    match(input,COLON,FOLLOW_COLON_in_assoc3900); if (failed) return retval;
+                    if ( backtracking==0 ) {
+                    char_literal256_tree = (Object)adaptor.create(char_literal256);
+                    adaptor.addChild(root_0, char_literal256_tree);
                     }
-
-                    pushFollow(FOLLOW_arg_in_assoc3907);
+                    pushFollow(FOLLOW_arg_in_assoc3902);
                     arg257=arg();
                     _fsp--;
                     if (failed) return retval;
@@ -8277,22 +8286,27 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:777:40: SYMBOL_NAME ':' arg
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:777:30: arg ( ASSOC | ',' ) arg
                     {
                     root_0 = (Object)adaptor.nil();
                     
-                    SYMBOL_NAME258=(Token)input.LT(1);
-                    match(input,SYMBOL_NAME,FOLLOW_SYMBOL_NAME_in_assoc3911); if (failed) return retval;
-                    if ( backtracking==0 ) {
-                    SYMBOL_NAME258_tree = (Object)adaptor.create(SYMBOL_NAME258);
-                    adaptor.addChild(root_0, SYMBOL_NAME258_tree);
+                    pushFollow(FOLLOW_arg_in_assoc3906);
+                    arg258=arg();
+                    _fsp--;
+                    if (failed) return retval;
+                    if ( backtracking==0 ) adaptor.addChild(root_0, arg258.getTree());
+                    set259=(Token)input.LT(1);
+                    if ( input.LA(1)==ASSOC||input.LA(1)==COMMA ) {
+                        input.consume();
+                        errorRecovery=false;failed=false;
                     }
-                    char_literal259=(Token)input.LT(1);
-                    match(input,COLON,FOLLOW_COLON_in_assoc3913); if (failed) return retval;
-                    if ( backtracking==0 ) {
-                    char_literal259_tree = (Object)adaptor.create(char_literal259);
-                    adaptor.addChild(root_0, char_literal259_tree);
+                    else {
+                        if (backtracking>0) {failed=true; return retval;}
+                        MismatchedSetException mse =
+                            new MismatchedSetException(null,input);
+                        recoverFromMismatchedSet(input,mse,FOLLOW_set_in_assoc3908);    throw mse;
                     }
+
                     pushFollow(FOLLOW_arg_in_assoc3915);
                     arg260=arg();
                     _fsp--;
@@ -8980,19 +8994,19 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_SYMBOL_in_literal2896 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_REGEX_in_literal2898 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_string0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LCURLY_in_hash3848 = new BitSet(new long[]{0x0000020180043000L,0x1D00A130000F8000L,0x00000000000001C0L});
+    public static final BitSet FOLLOW_LCURLY_in_hash3848 = new BitSet(new long[]{0x0000020180043000L,0x1D008130000F8000L,0x00000000000001C0L});
     public static final BitSet FOLLOW_assoc_list_in_hash3851 = new BitSet(new long[]{0x0000000000000000L,0x0000020000000000L});
     public static final BitSet FOLLOW_RCURLY_in_hash3853 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assocs_in_assoc_list3862 = new BitSet(new long[]{0x0000002000000002L,0x0010000000000000L});
     public static final BitSet FOLLOW_trailer_in_assoc_list3864 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assoc_in_assocs3873 = new BitSet(new long[]{0x0000000000000002L,0x0010000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_assocs3877 = new BitSet(new long[]{0x0000020180043000L,0x1D00A130000F8000L,0x00000000000001C0L});
+    public static final BitSet FOLLOW_COMMA_in_assocs3877 = new BitSet(new long[]{0x0000020180043000L,0x1D008130000F8000L,0x00000000000001C0L});
     public static final BitSet FOLLOW_assoc_in_assocs3880 = new BitSet(new long[]{0x0000000000000002L,0x0010000000000000L});
-    public static final BitSet FOLLOW_arg_in_assoc3898 = new BitSet(new long[]{0x0000000000000000L,0x0010100000000000L});
-    public static final BitSet FOLLOW_set_in_assoc3900 = new BitSet(new long[]{0x0000020180043000L,0x1D008130000F8000L,0x00000000000001C0L});
-    public static final BitSet FOLLOW_arg_in_assoc3907 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SYMBOL_NAME_in_assoc3911 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_COLON_in_assoc3913 = new BitSet(new long[]{0x0000020180043000L,0x1D008130000F8000L,0x00000000000001C0L});
+    public static final BitSet FOLLOW_ID_in_assoc3898 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_COLON_in_assoc3900 = new BitSet(new long[]{0x0000020180043000L,0x1D008130000F8000L,0x00000000000001C0L});
+    public static final BitSet FOLLOW_arg_in_assoc3902 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arg_in_assoc3906 = new BitSet(new long[]{0x0000000000000000L,0x0010100000000000L});
+    public static final BitSet FOLLOW_set_in_assoc3908 = new BitSet(new long[]{0x0000020180043000L,0x1D008130000F8000L,0x00000000000001C0L});
     public static final BitSet FOLLOW_arg_in_assoc3915 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_LINE_BREAK_in_trailer3936 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_COMMA_in_trailer3941 = new BitSet(new long[]{0x0000000000000002L});
