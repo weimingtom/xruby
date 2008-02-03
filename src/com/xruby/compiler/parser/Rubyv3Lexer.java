@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-03 17:19:57
+// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-03 17:34:20
 
 package com.xruby.compiler.parser;
 
@@ -556,10 +556,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT136() throws RecognitionException {
         try {
             int _type = T136;
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:6: ( 'defined' )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:8: 'defined'
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:6: ( 'defined?' )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:8: 'defined?'
             {
-            match("defined"); 
+            match("defined?"); 
 
             
             }
@@ -2069,11 +2069,11 @@ public class Rubyv3Lexer extends BaseLexer {
             if ( (LA27_0=='\\') ) {
                 int LA27_1 = input.LA(2);
                 
-                if ( (LA27_1=='C') ) {
-                    alt27=1;
-                }
-                else if ( (LA27_1=='c') ) {
+                if ( (LA27_1=='c') ) {
                     alt27=2;
+                }
+                else if ( (LA27_1=='C') ) {
+                    alt27=1;
                 }
                 else {
                     NoViableAltException nvae =
@@ -4638,49 +4638,51 @@ public class Rubyv3Lexer extends BaseLexer {
         "\uffff\1\124\1\127\1\uffff\1\133\1\135\1\140\1\142\1\145\1\147\1"+
         "\152\1\155\1\157\5\uffff\1\161\1\164\1\uffff\4\65\2\uffff\13\65"+
         "\1\u0082\1\uffff\1\u0083\1\u0084\3\65\2\uffff\1\65\6\uffff\1\u008a"+
-        "\1\u008d\5\uffff\1\u008f\4\uffff\1\u0091\4\uffff\1\u0093\4\uffff"+
+        "\1\u008d\4\uffff\1\u008f\5\uffff\1\u0091\4\uffff\1\u0093\4\uffff"+
         "\1\u0095\3\uffff\1\u0097\1\uffff\1\u0099\6\uffff\1\65\1\u009b\3"+
         "\65\1\u00a0\1\u00a1\3\65\1\u00a5\1\u00a7\4\uffff\4\65\21\uffff\1"+
         "\65\1\uffff\1\65\1\u00ae\2\65\2\uffff\1\u00b1\1\u00b2\1\65\1\uffff"+
         "\1\65\1\uffff\4\65\1\u00b9\1\65\1\uffff\1\u00bb\1\u00bc\2\uffff"+
         "\1\u00bd\1\65\1\u00bf\1\65\1\u00c1\1\65\1\uffff\1\65\3\uffff\1\65"+
-        "\1\uffff\1\u00c5\1\uffff\1\u00c6\1\65\1\u00c8\2\uffff\1\65\1\uffff"+
-        "\2\65\1\u00cd\1\u00ce\2\uffff";
+        "\1\uffff\1\u00c5\1\uffff\1\u00c6\2\65\2\uffff\1\65\1\uffff\1\65"+
+        "\1\uffff\1\65\1\u00ce\1\u00cf\2\uffff";
     static final String DFA42_eofS =
-        "\u00cf\uffff";
+        "\u00d0\uffff";
     static final String DFA42_minS =
         "\1\11\7\41\1\135\5\41\3\uffff\1\60\1\uffff\3\41\1\100\2\uffff\1"+
         "\75\3\uffff\1\74\1\75\1\uffff\2\75\1\52\1\75\1\46\3\75\1\56\5\uffff"+
         "\1\72\1\75\1\uffff\4\41\2\uffff\13\41\1\75\1\uffff\5\41\2\uffff"+
-        "\1\41\6\uffff\1\76\1\55\5\uffff\1\75\4\uffff\1\75\4\uffff\1\75\4"+
+        "\1\41\6\uffff\1\76\1\55\4\uffff\1\75\5\uffff\1\75\4\uffff\1\75\4"+
         "\uffff\1\75\3\uffff\1\75\1\uffff\1\56\6\uffff\14\41\4\uffff\4\41"+
         "\21\uffff\1\41\1\uffff\4\41\2\uffff\3\41\1\uffff\1\41\1\uffff\6"+
         "\41\1\uffff\2\41\2\uffff\6\41\1\uffff\1\41\3\uffff\1\41\1\uffff"+
-        "\1\41\1\uffff\3\41\2\uffff\1\41\1\uffff\4\41\2\uffff";
+        "\1\41\1\uffff\3\41\2\uffff\1\41\1\uffff\1\41\1\uffff\3\41\2\uffff";
     static final String DFA42_maxS =
         "\1\176\7\172\1\135\5\172\3\uffff\1\75\1\uffff\4\172\2\uffff\1\161"+
         "\3\uffff\1\75\1\141\1\uffff\1\176\5\75\1\174\1\76\1\56\5\uffff\1"+
         "\72\1\176\1\uffff\4\172\2\uffff\13\172\1\75\1\uffff\5\172\2\uffff"+
-        "\1\172\6\uffff\1\76\1\75\5\uffff\1\75\4\uffff\1\75\4\uffff\1\75"+
+        "\1\172\6\uffff\1\76\1\75\4\uffff\1\75\5\uffff\1\75\4\uffff\1\75"+
         "\4\uffff\1\75\3\uffff\1\75\1\uffff\1\56\6\uffff\14\172\4\uffff\4"+
         "\172\21\uffff\1\172\1\uffff\4\172\2\uffff\3\172\1\uffff\1\172\1"+
         "\uffff\6\172\1\uffff\2\172\2\uffff\6\172\1\uffff\1\172\3\uffff\1"+
-        "\172\1\uffff\1\172\1\uffff\3\172\2\uffff\1\172\1\uffff\4\172\2\uffff";
+        "\172\1\uffff\1\172\1\uffff\3\172\2\uffff\1\172\1\uffff\1\172\1\uffff"+
+        "\3\172\2\uffff";
     static final String DFA42_acceptS =
         "\16\uffff\1\27\1\30\1\31\1\uffff\1\32\4\uffff\1\37\1\40\1\uffff"+
         "\1\42\1\44\1\45\2\uffff\1\52\11\uffff\1\77\1\100\1\101\1\103\1\105"+
         "\2\uffff\1\137\4\uffff\1\33\1\34\14\uffff\1\102\5\uffff\1\55\1\115"+
         "\1\uffff\1\36\1\35\1\43\1\41\1\60\1\116\2\uffff\1\120\1\57\1\51"+
-        "\1\113\1\134\1\uffff\1\74\1\53\1\54\1\114\1\uffff\1\56\1\117\1\61"+
+        "\1\113\1\uffff\1\134\1\74\1\53\1\54\1\114\1\uffff\1\56\1\117\1\61"+
         "\1\112\1\uffff\1\63\1\124\1\64\1\122\1\uffff\1\65\1\123\1\127\1"+
         "\uffff\1\121\1\uffff\1\107\1\110\1\106\1\133\1\135\1\111\14\uffff"+
         "\1\13\1\50\1\15\1\22\4\uffff\1\126\1\130\1\66\1\47\1\46\1\132\1"+
         "\131\1\62\1\125\1\70\1\75\1\71\1\76\1\67\1\136\1\73\1\72\1\uffff"+
         "\1\2\4\uffff\1\4\1\16\3\uffff\1\14\1\uffff\1\12\6\uffff\1\7\2\uffff"+
         "\1\5\1\10\6\uffff\1\1\1\uffff\1\6\1\3\1\11\1\uffff\1\25\1\uffff"+
-        "\1\24\3\uffff\1\23\1\26\1\uffff\1\17\4\uffff\1\21\1\20";
+        "\1\24\3\uffff\1\23\1\26\1\uffff\1\17\1\uffff\1\17\3\uffff\1\21\1"+
+        "\20";
     static final String DFA42_specialS =
-        "\u00cf\uffff}>";
+        "\u00d0\uffff}>";
     static final String[] DFA42_transitionS = {
             "\1\20\1\17\2\uffff\1\17\22\uffff\1\20\1\57\1\32\1\60\1\27\1"+
             "\31\1\44\1\30\1\52\1\53\1\42\1\41\1\55\1\21\1\50\1\36\12\22"+
@@ -4734,7 +4736,7 @@ public class Rubyv3Lexer extends BaseLexer {
             "\1\123\1\122",
             "\1\125\43\uffff\1\126",
             "",
-            "\1\131\1\132\77\uffff\1\130",
+            "\1\130\1\132\77\uffff\1\131",
             "\1\134",
             "\1\136\22\uffff\1\137",
             "\1\141",
@@ -4811,8 +4813,8 @@ public class Rubyv3Lexer extends BaseLexer {
             "",
             "",
             "",
-            "",
             "\1\u008e",
+            "",
             "",
             "",
             "",
@@ -4963,16 +4965,17 @@ public class Rubyv3Lexer extends BaseLexer {
             "\1\uffff\32\62",
             "\1\66\16\uffff\12\63\5\uffff\1\66\1\uffff\32\62\4\uffff\1\64"+
             "\1\uffff\10\62\1\u00c7\21\62",
-            "\1\66\16\uffff\12\63\5\uffff\1\66\1\uffff\32\62\4\uffff\1\64"+
-            "\1\uffff\32\62",
+            "\1\66\16\uffff\12\63\5\uffff\1\u00c8\1\uffff\32\62\4\uffff\1"+
+            "\64\1\uffff\32\62",
             "",
             "",
             "\1\66\16\uffff\12\63\5\uffff\1\66\1\uffff\32\62\4\uffff\1\64"+
             "\1\uffff\16\62\1\u00c9\13\62",
             "",
             "\1\66\16\uffff\12\63\5\uffff\1\66\1\uffff\32\62\4\uffff\1\64"+
-            "\1\uffff\15\62\1\u00ca\14\62",
-            "\1\66\16\uffff\1\u00cc\1\u00cb\10\63\5\uffff\1\66\1\uffff\32"+
+            "\1\uffff\15\62\1\u00cb\14\62",
+            "",
+            "\1\66\16\uffff\1\u00cd\1\u00cc\10\63\5\uffff\1\66\1\uffff\32"+
             "\62\4\uffff\1\64\1\uffff\32\62",
             "\1\66\16\uffff\12\63\5\uffff\1\66\1\uffff\32\113\4\uffff\1\64"+
             "\1\uffff\32\113",
