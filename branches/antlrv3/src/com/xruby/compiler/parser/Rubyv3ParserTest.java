@@ -118,13 +118,13 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("a = \"cat\"", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) \"cat\")))");
         assert_parse("a = 'cat'", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) 'cat')))");
 
-        /*assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
+        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE x) 1)))");
 
         assert_parse("%Q{a#{x=1}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
 
-        assert_parse("a=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= a (? 5 3 2))) (STATEMENT a))");
+        assert_parse("a=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) (? 5 3 2))) (STATEMENT (VARIABLE a)))");
 
-        assert_parse("a=1;a+=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= a 1)) (STATEMENT (+= a (? 5 3 2))) (STATEMENT a))");*/
+        assert_parse("a=1;a+=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) 1)) (STATEMENT (+= (VARIABLE a) (? 5 3 2))) (STATEMENT (VARIABLE a)))");
         //assert_parse("x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
         /*assert_parse("x <<1\n" +
                 "\n"
