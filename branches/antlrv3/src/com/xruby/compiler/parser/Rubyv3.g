@@ -436,11 +436,13 @@ pure_args_one_or_more
 	:	expression (',' expression)*;*/
 	
 assignmentExpression
-	:	(mlhs) => mlhs ASSIGN^ assignmentExpression | ternaryIfThenElseExpression
+	:	(mlhs) => mlhs ASSIGN^ mrhs  | ternaryIfThenElseExpression
 	        |  lhs (MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
 	           assignmentExpression {addVariable($lhs.text);}
 	           ;
 mlhs    :     t0=lhs {addVariable($t0.text);} (','^ t=lhs {addVariable($t.text);})* ;
+
+mrhs    :      assignmentExpression (','^ assignmentExpression)*;
 
 
 

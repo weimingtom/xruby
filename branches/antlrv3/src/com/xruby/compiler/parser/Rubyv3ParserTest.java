@@ -117,6 +117,8 @@ public class Rubyv3ParserTest extends TestCase {
 
     public void test_multiple_assignment() throws Exception {
         assert_parse("a,b=1", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (VARIABLE b)) 1)))");
+        //assert_parse("a,b,c=1", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (VARIABLE b)) 1)))");
+        assert_parse("a,b=1,2", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (VARIABLE b)) (, 1 2))))");
     }
 
     public void test_assignment() throws Exception {
