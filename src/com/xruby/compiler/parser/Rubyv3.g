@@ -703,7 +703,7 @@ EXP_PART:	('e' | 'E') '-'? LEADING0_NUMBER;
 string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|HEREDOC_STRING;
 
 SINGLE_QUOTE_STRING
-	@init{int end=0; int nested=0;}:	'\'' SINGLE_STRING_CHAR* '\'' 
+	@init{int end=0; int nested=0;}:	SINGLE_QUOTE_STRING_SIMPLE 
 	| '%q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } (tmp=.{System.out.println(tmp);
 	                    if(tmp == EOF) {
 	                      throw new SyntaxException("unterminated string meets end of file");
@@ -726,6 +726,14 @@ SINGLE_QUOTE_STRING
                                 nested --;
                             }
                             })*;
+
+SINGLE_QUOTE_STRING_SIMPLE  //the simple case, the delimiter is just '
+	:	'\'' SINGLE_STRING_CHAR* '\''
+	;
+DOUBLE_QUOTE_STRING_SIMPLE  //the simple_case, the delimiter is just ""
+	:	s='"' {expression = new DoubleStringParser(this.parser, input, '"', 0).parseString();}  
+	;
+
 fragment	
 SINGLE_STRING_CHAR
   	:	'\\' . | ~ ('\\'|'\'') ;
@@ -733,9 +741,12 @@ fragment
 DOUBLE_STRING_CHAR
 	:	'\\' . | ~ ('\\'|'"');
 DOUBLE_QUOTE_STRING
-	@init{int end=0; int nested=0;}:	s=('"' {expression = new DoubleStringParser(this.parser, input, '"', 0).parseString();}  | '%Q' begin=. {end=determineEnd($begin);begin=determineBegin($begin); 
+	@init{int end=0; int nested=0;}:	DOUBLE_QUOTE_STRING_SIMPLE | '%Q' begin=. {end=determineEnd($begin);begin=determineBegin($begin); 
 	expression = new DoubleStringParser(this.parser, input, end, begin).parseString(); } 
-	); //{expression = new DoubleQuoteStringExpression(input.substring(tokenStartCharIndex, getCharIndex() - 1));}; //todo: is this some ref like $s.text here?
+	;
+
+
+ //{expression = new DoubleQuoteStringExpression(input.substring(tokenStartCharIndex, getCharIndex() - 1));}; //todo: is this some ref like $s.text here?
                             
 LCURLY  : '{' {nesting++; System.out.println("meeting LCURLY with nesting:" + nesting);}
         ;
@@ -787,7 +798,7 @@ symbol_name_in_assoc
 trailer!       : /* none */ | LINE_BREAK! | ','!;
 
 REGEX	:	'/abc/';
-SYMBOL	:	':' ID; //ID is SYMBOLNAME
+SYMBOL	:	':' (ID | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING); //ID is SYMBOLNAME
 
 SYMBOL_NAME
 	:	('a'..'z' | 'A' ..'Z')*
