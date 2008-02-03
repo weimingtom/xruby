@@ -156,6 +156,10 @@ public class Rubyv3ParserTest extends TestCase {
     public void test_symbol() throws Exception {
         assert_parse(":abc", "(STATEMENT_LIST (STATEMENT :abc))");
         assert_parse(":my_variable", "(STATEMENT_LIST (STATEMENT :my_variable))");
+        assert_parse(":'catsup'", "(STATEMENT_LIST (STATEMENT :'catsup'))");
+        //assert_parse("a = \"cat\";", "");
+        //assert_parse("a = \"cat\";:\"#{a}sup\"", "");
+        //assert_parse(":'#{a}sup'", "(STATEMENT_LIST (STATEMENT :'#{a}sup'))");
         //assert_parse(":\"Ruby rules\"", "");
     }
 
