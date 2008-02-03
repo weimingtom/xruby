@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-03 12:15:16
+// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-03 12:23:45
 
 package com.xruby.compiler.parser;
 
@@ -43,7 +43,7 @@ public class Rubyv3Lexer extends BaseLexer {
     public static final int ARG=10;
     public static final int NESTED_LHS=24;
     public static final int NOT_EQUAL=74;
-    public static final int SYMBOL_NAME=110;
+    public static final int SYMBOL_NAME=111;
     public static final int WHILE_MODIFIER=33;
     public static final int BODY=9;
     public static final int T131=131;
@@ -79,12 +79,12 @@ public class Rubyv3Lexer extends BaseLexer {
     public static final int BNOT=79;
     public static final int LEFT_SHIFT=11;
     public static final int CALL=17;
-    public static final int ASSOC=112;
+    public static final int ASSOC=110;
     public static final int NON_LEADING0_NUMBER=99;
     public static final int CONTROL_PART=95;
     public static final int LBRACK=115;
     public static final int IF_MODIFIER=31;
-    public static final int BXOR_ASSIGN=111;
+    public static final int BXOR_ASSIGN=112;
     public static final int GREATER_OR_EQUAL=47;
     public static final int FLOAT=13;
     public static final int BLOCK_ARG=21;
