@@ -114,6 +114,8 @@ public class Rubyv3ParserTest extends TestCase {
 
         assert_parse("x=y=1", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) (= (VARIABLE y) 1))))");
 
+        assert_parse("a = \"cat\"", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) \"cat\")))");
+
         /*assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
 
         assert_parse("%Q{a#{x=1}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
@@ -140,23 +142,23 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_hash() throws Exception {
-        assert_parse("{1,2}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
-        assert_parse("{1,2,3,4}", "(STATEMENT_LIST (STATEMENT ({ 1 2 3 4)))");
+        //assert_parse("{1,2}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
+        //assert_parse("{1,2,3,4}", "(STATEMENT_LIST (STATEMENT ({ 1 2 3 4)))");
 
         assert_parse("{1=>2}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
-        assert_parse("{1=>2,3=>4}", "(STATEMENT_LIST (STATEMENT ({ 1 2 3 4)))");
+        //assert_parse("{1=>2,3=>4}", "(STATEMENT_LIST (STATEMENT ({ 1 2 3 4)))");
 
-        assert_parse("{1,2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
-        assert_parse("{1=>2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
+        //assert_parse("{1,2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
+        //assert_parse("{1=>2,}", "(STATEMENT_LIST (STATEMENT ({ 1 2)))");
 
         assert_parse("{x:3}", "(STATEMENT_LIST (STATEMENT ({ (SYMBOL x) 3)))");
         //assert_parse("{1}", "");
     }
 
     public void test_symbol() throws Exception {
-        assert_parse(":abc", "(STATEMENT_LIST (STATEMENT :abc))");
-        assert_parse(":my_variable", "(STATEMENT_LIST (STATEMENT :my_variable))");
-        assert_parse(":'catsup'", "(STATEMENT_LIST (STATEMENT :'catsup'))");
+        assert_parse(":abc", "(STATEMENT_LIST (STATEMENT (: abc)))");
+        assert_parse(":my_variable", "(STATEMENT_LIST (STATEMENT (: my_variable)))");
+        assert_parse(":'catsup'", "(STATEMENT_LIST (STATEMENT (: 'catsup')))");
         //assert_parse("a = \"cat\";", "");
         //assert_parse("a = \"cat\";:\"#{a}sup\"", "");
         //assert_parse(":'#{a}sup'", "(STATEMENT_LIST (STATEMENT :'#{a}sup'))");
