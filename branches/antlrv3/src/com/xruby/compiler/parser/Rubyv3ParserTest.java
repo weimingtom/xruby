@@ -114,7 +114,9 @@ public class Rubyv3ParserTest extends TestCase {
 
         assert_parse("x=y=1", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) (= (VARIABLE y) 1))))");
 
+
         assert_parse("a = \"cat\"", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) \"cat\")))");
+        assert_parse("a = 'cat'", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) 'cat')))");
 
         /*assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< x 1)))");
 
@@ -160,8 +162,8 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse(":my_variable", "(STATEMENT_LIST (STATEMENT (: my_variable)))");
         assert_parse(":'catsup'", "(STATEMENT_LIST (STATEMENT (: 'catsup')))");
         //assert_parse("a = \"cat\";", "");
-        //assert_parse("a = \"cat\";:\"#{a}sup\"", "");
-        //assert_parse(":'#{a}sup'", "(STATEMENT_LIST (STATEMENT :'#{a}sup'))");
+        assert_parse("a = \"cat\";:\"#{a}sup\"", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) \"cat\")) (STATEMENT (: \"#{a}sup\")))"); //regconize, leave semantic interpetation to the Expression tree
+        assert_parse(":'#{a}sup'", "(STATEMENT_LIST (STATEMENT (: '#{a}sup')))");
         //assert_parse(":\"Ruby rules\"", "");
     }
 
