@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-03 12:15:15
+// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-03 12:23:44
 
 package com.xruby.compiler.parser;
 
@@ -14,7 +14,7 @@ import org.antlr.runtime.tree.*;
 
 public class Rubyv3Parser extends Parser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "STATEMENT_LIST", "STATEMENT", "MODIFIER_LINE", "IF", "RPAREN_IN_METHOD_DEFINATION", "BODY", "ARG", "LEFT_SHIFT", "HEREDOC_STRING", "FLOAT", "CONSTANT", "FID", "VARIABLE", "CALL", "BLOCK", "MULTIPLE_ASSIGN", "MULTIPLE_ASSIGN_WITH_EXTRA_COMMA", "BLOCK_ARG", "BLOCK_ARG_WITH_EXTRA_COMMA", "MRHS", "NESTED_LHS", "SINGLETON_METHOD", "STRING", "REST_UNUSE", "DIV", "MOD", "SYMBOL", "IF_MODIFIER", "UNLESS_MODIFIER", "WHILE_MODIFIER", "UNTIL_MODIFIER", "RESCUE_MODIFIER", "SEMI", "LINE_BREAK", "WS", "DOT", "COLON2", "ID", "COMPARE", "EQUAL", "CASE_EQUAL", "MATCH", "GREATER_THAN", "GREATER_OR_EQUAL", "LESS_THAN", "LESS_OR_EQUAL", "RIGHT_SHIFT", "PLUS", "MINUS", "STAR", "POWER", "ASSIGN", "MOD_ASSIGN", "COMPLEMENT_ASSIGN", "DIV_ASSIGN", "MINUS_ASSIGN", "PLUS_ASSIGN", "BOR_ASSIGN", "BAND_ASSIGN", "LEFT_SHIFT_ASSIGN", "RIGHT_SHIFT_ASSIGN", "STAR_ASSIGN", "LOGICAL_AND_ASSIGN", "LOGICAL_OR_ASSIGN", "POWER_ASSIGN", "QUESTION", "INCLUSIVE_RANGE", "EXCLUSIVE_RANGE", "LOGICAL_OR", "LOGICAL_AND", "NOT_EQUAL", "NOT_MATCH", "BXOR", "BOR", "BAND", "BNOT", "NOT", "INT", "ARRAY", "REGEX", "OCTAL", "HEX", "BINARY", "LEADING_MARK_DECIMAL", "EXP_PART", "LEADING0_NUMBER", "IDENTIFIER_CONSTANT_AND_KEYWORD", "INSTANCE_VARIABLE", "CLASS_VARIABLE", "GLOBAL_VARIABLE", "HEX_PART", "CONTROL_PART", "META_PART", "ESCAPE_INT_PART", "ESCAPE_INT", "NON_LEADING0_NUMBER", "SINGLE_QUOTE_STRING_SIMPLE", "SINGLE_QUOTE_STRING_COMPLEX", "SINGLE_STRING_CHAR", "DOUBLE_QUOTE_STRING_SIMPLE", "DOUBLE_QUOTE_STRING_COMPLEX", "DOUBLE_STRING_CHAR", "LCURLY", "RCURLY", "HEREDOC_BEGIN", "HEREDOC_INDENT_BEGIN", "SYMBOL_NAME", "BXOR_ASSIGN", "ASSOC", "LPAREN", "RPAREN", "LBRACK", "RBRACK", "EMPTY_ARRAY", "COMMA", "COLON", "ANYTHING_OTHER_THAN_LINE_FEED", "COMMENT", "'begin'", "'end'", "'false'", "'nil'", "'true'", "'elsif'", "'else'", "'then'", "'alias'", "'def'", "'[]='", "'and'", "'or'", "'not'", "'defined'", "'expression0'", "'expression1'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "STATEMENT_LIST", "STATEMENT", "MODIFIER_LINE", "IF", "RPAREN_IN_METHOD_DEFINATION", "BODY", "ARG", "LEFT_SHIFT", "HEREDOC_STRING", "FLOAT", "CONSTANT", "FID", "VARIABLE", "CALL", "BLOCK", "MULTIPLE_ASSIGN", "MULTIPLE_ASSIGN_WITH_EXTRA_COMMA", "BLOCK_ARG", "BLOCK_ARG_WITH_EXTRA_COMMA", "MRHS", "NESTED_LHS", "SINGLETON_METHOD", "STRING", "REST_UNUSE", "DIV", "MOD", "SYMBOL", "IF_MODIFIER", "UNLESS_MODIFIER", "WHILE_MODIFIER", "UNTIL_MODIFIER", "RESCUE_MODIFIER", "SEMI", "LINE_BREAK", "WS", "DOT", "COLON2", "ID", "COMPARE", "EQUAL", "CASE_EQUAL", "MATCH", "GREATER_THAN", "GREATER_OR_EQUAL", "LESS_THAN", "LESS_OR_EQUAL", "RIGHT_SHIFT", "PLUS", "MINUS", "STAR", "POWER", "ASSIGN", "MOD_ASSIGN", "COMPLEMENT_ASSIGN", "DIV_ASSIGN", "MINUS_ASSIGN", "PLUS_ASSIGN", "BOR_ASSIGN", "BAND_ASSIGN", "LEFT_SHIFT_ASSIGN", "RIGHT_SHIFT_ASSIGN", "STAR_ASSIGN", "LOGICAL_AND_ASSIGN", "LOGICAL_OR_ASSIGN", "POWER_ASSIGN", "QUESTION", "INCLUSIVE_RANGE", "EXCLUSIVE_RANGE", "LOGICAL_OR", "LOGICAL_AND", "NOT_EQUAL", "NOT_MATCH", "BXOR", "BOR", "BAND", "BNOT", "NOT", "INT", "ARRAY", "REGEX", "OCTAL", "HEX", "BINARY", "LEADING_MARK_DECIMAL", "EXP_PART", "LEADING0_NUMBER", "IDENTIFIER_CONSTANT_AND_KEYWORD", "INSTANCE_VARIABLE", "CLASS_VARIABLE", "GLOBAL_VARIABLE", "HEX_PART", "CONTROL_PART", "META_PART", "ESCAPE_INT_PART", "ESCAPE_INT", "NON_LEADING0_NUMBER", "SINGLE_QUOTE_STRING_SIMPLE", "SINGLE_QUOTE_STRING_COMPLEX", "SINGLE_STRING_CHAR", "DOUBLE_QUOTE_STRING_SIMPLE", "DOUBLE_QUOTE_STRING_COMPLEX", "DOUBLE_STRING_CHAR", "LCURLY", "RCURLY", "HEREDOC_BEGIN", "HEREDOC_INDENT_BEGIN", "ASSOC", "SYMBOL_NAME", "BXOR_ASSIGN", "LPAREN", "RPAREN", "LBRACK", "RBRACK", "EMPTY_ARRAY", "COMMA", "COLON", "ANYTHING_OTHER_THAN_LINE_FEED", "COMMENT", "'begin'", "'end'", "'false'", "'nil'", "'true'", "'elsif'", "'else'", "'then'", "'alias'", "'def'", "'[]='", "'and'", "'or'", "'not'", "'defined'", "'expression0'", "'expression1'"
     };
     public static final int CASE_EQUAL=44;
     public static final int STAR=53;
@@ -39,7 +39,7 @@ public class Rubyv3Parser extends Parser {
     public static final int ARG=10;
     public static final int NESTED_LHS=24;
     public static final int NOT_EQUAL=74;
-    public static final int SYMBOL_NAME=110;
+    public static final int SYMBOL_NAME=111;
     public static final int WHILE_MODIFIER=33;
     public static final int BODY=9;
     public static final int COMMENT=121;
@@ -69,12 +69,12 @@ public class Rubyv3Parser extends Parser {
     public static final int BNOT=79;
     public static final int LEFT_SHIFT=11;
     public static final int CALL=17;
-    public static final int ASSOC=112;
+    public static final int ASSOC=110;
     public static final int NON_LEADING0_NUMBER=99;
     public static final int CONTROL_PART=95;
     public static final int LBRACK=115;
     public static final int IF_MODIFIER=31;
-    public static final int BXOR_ASSIGN=111;
+    public static final int BXOR_ASSIGN=112;
     public static final int GREATER_OR_EQUAL=47;
     public static final int FLOAT=13;
     public static final int BLOCK_ARG=21;
@@ -138,7 +138,7 @@ public class Rubyv3Parser extends Parser {
     
         public Rubyv3Parser(TokenStream input) {
             super(input);
-            ruleMemo = new HashMap[72+1];
+            ruleMemo = new HashMap[73+1];
          }
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
@@ -551,7 +551,7 @@ public class Rubyv3Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: modifier_line, expression
+            // elements: expression, modifier_line
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1098,7 +1098,7 @@ public class Rubyv3Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: e0, body2, e1, body1, body0
+            // elements: e1, body1, body2, body0, e0
             // token labels: 
             // rule labels: body2, retval, e1, e0, body0
             // token list labels: 
@@ -3808,7 +3808,7 @@ public class Rubyv3Parser extends Parser {
             else if ( (LA43_0==ID) ) {
                 int LA43_2 = input.LA(2);
                 
-                if ( (LA43_2==EOF||(LA43_2>=LEFT_SHIFT && LA43_2<=FLOAT)||(LA43_2>=DIV && LA43_2<=MOD)||(LA43_2>=IF_MODIFIER && LA43_2<=LINE_BREAK)||LA43_2==DOT||(LA43_2>=ID && LA43_2<=POWER)||(LA43_2>=QUESTION && LA43_2<=REGEX)||(LA43_2>=SINGLE_QUOTE_STRING_SIMPLE && LA43_2<=SINGLE_QUOTE_STRING_COMPLEX)||(LA43_2>=DOUBLE_QUOTE_STRING_SIMPLE && LA43_2<=DOUBLE_QUOTE_STRING_COMPLEX)||(LA43_2>=LCURLY && LA43_2<=RCURLY)||(LA43_2>=LPAREN && LA43_2<=RPAREN)||(LA43_2>=COMMA && LA43_2<=COLON)||(LA43_2>=122 && LA43_2<=129)||(LA43_2>=133 && LA43_2<=134)||(LA43_2>=136 && LA43_2<=138)) ) {
+                if ( (LA43_2==EOF||(LA43_2>=LEFT_SHIFT && LA43_2<=FLOAT)||(LA43_2>=DIV && LA43_2<=MOD)||(LA43_2>=IF_MODIFIER && LA43_2<=LINE_BREAK)||LA43_2==DOT||(LA43_2>=ID && LA43_2<=POWER)||(LA43_2>=QUESTION && LA43_2<=REGEX)||(LA43_2>=SINGLE_QUOTE_STRING_SIMPLE && LA43_2<=SINGLE_QUOTE_STRING_COMPLEX)||(LA43_2>=DOUBLE_QUOTE_STRING_SIMPLE && LA43_2<=DOUBLE_QUOTE_STRING_COMPLEX)||(LA43_2>=LCURLY && LA43_2<=RCURLY)||LA43_2==ASSOC||(LA43_2>=LPAREN && LA43_2<=RPAREN)||(LA43_2>=COMMA && LA43_2<=COLON)||(LA43_2>=122 && LA43_2<=129)||(LA43_2>=133 && LA43_2<=134)||(LA43_2>=136 && LA43_2<=138)) ) {
                     alt43=1;
                 }
                 else if ( ((LA43_2>=ASSIGN && LA43_2<=POWER_ASSIGN)) ) {
@@ -3939,7 +3939,7 @@ public class Rubyv3Parser extends Parser {
             if ( (LA44_0==QUESTION) ) {
                 alt44=1;
             }
-            else if ( (LA44_0==EOF||LA44_0==LEFT_SHIFT||(LA44_0>=DIV && LA44_0<=MOD)||(LA44_0>=IF_MODIFIER && LA44_0<=LINE_BREAK)||LA44_0==DOT||(LA44_0>=COMPARE && LA44_0<=POWER)||(LA44_0>=INCLUSIVE_RANGE && LA44_0<=BAND)||LA44_0==RCURLY||LA44_0==RPAREN||(LA44_0>=COMMA && LA44_0<=COLON)||LA44_0==123||(LA44_0>=127 && LA44_0<=129)||(LA44_0>=133 && LA44_0<=134)) ) {
+            else if ( (LA44_0==EOF||LA44_0==LEFT_SHIFT||(LA44_0>=DIV && LA44_0<=MOD)||(LA44_0>=IF_MODIFIER && LA44_0<=LINE_BREAK)||LA44_0==DOT||(LA44_0>=COMPARE && LA44_0<=POWER)||(LA44_0>=INCLUSIVE_RANGE && LA44_0<=BAND)||LA44_0==RCURLY||LA44_0==ASSOC||LA44_0==RPAREN||(LA44_0>=COMMA && LA44_0<=COLON)||LA44_0==123||(LA44_0>=127 && LA44_0<=129)||(LA44_0>=133 && LA44_0<=134)) ) {
                 alt44=2;
             }
             else {
@@ -8428,7 +8428,7 @@ public class Rubyv3Parser extends Parser {
                 if ( (LA102_0==COMMA) ) {
                     int LA102_2 = input.LA(2);
                     
-                    if ( (LA102_2==ID) ) {
+                    if ( ((LA102_2>=HEREDOC_STRING && LA102_2<=FLOAT)||(LA102_2>=IF_MODIFIER && LA102_2<=UNLESS_MODIFIER)||LA102_2==ID||(LA102_2>=BNOT && LA102_2<=REGEX)||(LA102_2>=SINGLE_QUOTE_STRING_SIMPLE && LA102_2<=SINGLE_QUOTE_STRING_COMPLEX)||(LA102_2>=DOUBLE_QUOTE_STRING_SIMPLE && LA102_2<=DOUBLE_QUOTE_STRING_COMPLEX)||LA102_2==LCURLY||LA102_2==LPAREN||LA102_2==COLON||LA102_2==122||(LA102_2>=124 && LA102_2<=126)||(LA102_2>=136 && LA102_2<=138)) ) {
                         alt102=1;
                     }
                     
@@ -8482,7 +8482,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start assoc
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:801:1: assoc : symbol_name_in_assoc ':' arg ;
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:801:1: assoc : ( ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg | arg ( ASSOC | ',' ) arg );
     public final assoc_return assoc() throws RecognitionException {
         assoc_return retval = new assoc_return();
         retval.start = input.LT(1);
@@ -8490,34 +8490,76 @@ public class Rubyv3Parser extends Parser {
         Object root_0 = null;
     
         Token char_literal263=null;
+        Token set266=null;
         symbol_name_in_assoc_return symbol_name_in_assoc262 = null;
 
         arg_return arg264 = null;
+
+        arg_return arg265 = null;
+
+        arg_return arg267 = null;
         
 
         Object char_literal263_tree=null;
+        Object set266_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:801:15: ( symbol_name_in_assoc ':' arg )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:801:17: symbol_name_in_assoc ':' arg
-            {
-            root_0 = (Object)adaptor.nil();
-            
-            pushFollow(FOLLOW_symbol_name_in_assoc_in_assoc3968);
-            symbol_name_in_assoc262=symbol_name_in_assoc();
-            _fsp--;
-            if (failed) return retval;
-            if ( backtracking==0 ) adaptor.addChild(root_0, symbol_name_in_assoc262.getTree());
-            char_literal263=(Token)input.LT(1);
-            match(input,COLON,FOLLOW_COLON_in_assoc3970); if (failed) return retval;
-            pushFollow(FOLLOW_arg_in_assoc3973);
-            arg264=arg();
-            _fsp--;
-            if (failed) return retval;
-            if ( backtracking==0 ) adaptor.addChild(root_0, arg264.getTree());
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:801:15: ( ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg | arg ( ASSOC | ',' ) arg )
+            int alt103=2;
+            alt103 = dfa103.predict(input);
+            switch (alt103) {
+                case 1 :
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:801:17: ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg
+                    {
+                    root_0 = (Object)adaptor.nil();
+                    
+                    pushFollow(FOLLOW_symbol_name_in_assoc_in_assoc3977);
+                    symbol_name_in_assoc262=symbol_name_in_assoc();
+                    _fsp--;
+                    if (failed) return retval;
+                    if ( backtracking==0 ) adaptor.addChild(root_0, symbol_name_in_assoc262.getTree());
+                    char_literal263=(Token)input.LT(1);
+                    match(input,COLON,FOLLOW_COLON_in_assoc3979); if (failed) return retval;
+                    pushFollow(FOLLOW_arg_in_assoc3982);
+                    arg264=arg();
+                    _fsp--;
+                    if (failed) return retval;
+                    if ( backtracking==0 ) adaptor.addChild(root_0, arg264.getTree());
+                    
+                    }
+                    break;
+                case 2 :
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:801:82: arg ( ASSOC | ',' ) arg
+                    {
+                    root_0 = (Object)adaptor.nil();
+                    
+                    pushFollow(FOLLOW_arg_in_assoc3986);
+                    arg265=arg();
+                    _fsp--;
+                    if (failed) return retval;
+                    if ( backtracking==0 ) adaptor.addChild(root_0, arg265.getTree());
+                    set266=(Token)input.LT(1);
+                    if ( input.LA(1)==ASSOC||input.LA(1)==COMMA ) {
+                        input.consume();
+                        errorRecovery=false;failed=false;
+                    }
+                    else {
+                        if (backtracking>0) {failed=true; return retval;}
+                        MismatchedSetException mse =
+                            new MismatchedSetException(null,input);
+                        recoverFromMismatchedSet(input,mse,FOLLOW_set_in_assoc3988);    throw mse;
+                    }
+
+                    pushFollow(FOLLOW_arg_in_assoc3995);
+                    arg267=arg();
+                    _fsp--;
+                    if (failed) return retval;
+                    if ( backtracking==0 ) adaptor.addChild(root_0, arg267.getTree());
+                    
+                    }
+                    break;
             
             }
-    
             retval.stop = input.LT(-1);
 
             if ( backtracking==0 ) {
@@ -8548,18 +8590,18 @@ public class Rubyv3Parser extends Parser {
 
         Object root_0 = null;
     
-        Token ID265=null;
+        Token ID268=null;
 
-        Object ID265_tree=null;
+        Object ID268_tree=null;
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
     
         try {
             // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:804:2: ( ID -> ^( SYMBOL ID ) )
             // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:804:4: ID
             {
-            ID265=(Token)input.LT(1);
-            match(input,ID,FOLLOW_ID_in_symbol_name_in_assoc3985); if (failed) return retval;
-            if ( backtracking==0 ) stream_ID.add(ID265);
+            ID268=(Token)input.LT(1);
+            match(input,ID,FOLLOW_ID_in_symbol_name_in_assoc4005); if (failed) return retval;
+            if ( backtracking==0 ) stream_ID.add(ID268);
 
 
             // AST REWRITE
@@ -8621,40 +8663,40 @@ public class Rubyv3Parser extends Parser {
 
         Object root_0 = null;
     
-        Token LINE_BREAK266=null;
-        Token char_literal267=null;
+        Token LINE_BREAK269=null;
+        Token char_literal270=null;
 
-        Object LINE_BREAK266_tree=null;
-        Object char_literal267_tree=null;
+        Object LINE_BREAK269_tree=null;
+        Object char_literal270_tree=null;
     
         try {
             // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:809:16: ( | LINE_BREAK | ',' )
-            int alt103=3;
+            int alt104=3;
             switch ( input.LA(1) ) {
             case RCURLY:
                 {
-                alt103=1;
+                alt104=1;
                 }
                 break;
             case LINE_BREAK:
                 {
-                alt103=2;
+                alt104=2;
                 }
                 break;
             case COMMA:
                 {
-                alt103=3;
+                alt104=3;
                 }
                 break;
             default:
                 if (backtracking>0) {failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("809:1: trailer : ( | LINE_BREAK | ',' );", 103, 0, input);
+                    new NoViableAltException("809:1: trailer : ( | LINE_BREAK | ',' );", 104, 0, input);
             
                 throw nvae;
             }
             
-            switch (alt103) {
+            switch (alt104) {
                 case 1 :
                     // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:809:29: 
                     {
@@ -8667,8 +8709,8 @@ public class Rubyv3Parser extends Parser {
                     {
                     root_0 = (Object)adaptor.nil();
                     
-                    LINE_BREAK266=(Token)input.LT(1);
-                    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_trailer4016); if (failed) return retval;
+                    LINE_BREAK269=(Token)input.LT(1);
+                    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_trailer4036); if (failed) return retval;
                     
                     }
                     break;
@@ -8677,8 +8719,8 @@ public class Rubyv3Parser extends Parser {
                     {
                     root_0 = (Object)adaptor.nil();
                     
-                    char_literal267=(Token)input.LT(1);
-                    match(input,COMMA,FOLLOW_COMMA_in_trailer4021); if (failed) return retval;
+                    char_literal270=(Token)input.LT(1);
+                    match(input,COMMA,FOLLOW_COMMA_in_trailer4041); if (failed) return retval;
                     
                     }
                     break;
@@ -8714,15 +8756,15 @@ public class Rubyv3Parser extends Parser {
 
         Object root_0 = null;
     
-        Token char_literal268=null;
-        Token ID269=null;
-        single_quote_string_return single_quote_string270 = null;
+        Token char_literal271=null;
+        Token ID272=null;
+        single_quote_string_return single_quote_string273 = null;
 
-        double_quote_string_return double_quote_string271 = null;
+        double_quote_string_return double_quote_string274 = null;
         
 
-        Object char_literal268_tree=null;
-        Object ID269_tree=null;
+        Object char_literal271_tree=null;
+        Object ID272_tree=null;
     
         try {
             // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:812:8: ( ':' ( ID | single_quote_string | double_quote_string ) )
@@ -8730,49 +8772,49 @@ public class Rubyv3Parser extends Parser {
             {
             root_0 = (Object)adaptor.nil();
             
-            char_literal268=(Token)input.LT(1);
-            match(input,COLON,FOLLOW_COLON_in_symbol4037); if (failed) return retval;
+            char_literal271=(Token)input.LT(1);
+            match(input,COLON,FOLLOW_COLON_in_symbol4057); if (failed) return retval;
             if ( backtracking==0 ) {
-            char_literal268_tree = (Object)adaptor.create(char_literal268);
-            root_0 = (Object)adaptor.becomeRoot(char_literal268_tree, root_0);
+            char_literal271_tree = (Object)adaptor.create(char_literal271);
+            root_0 = (Object)adaptor.becomeRoot(char_literal271_tree, root_0);
             }
             // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:812:15: ( ID | single_quote_string | double_quote_string )
-            int alt104=3;
+            int alt105=3;
             switch ( input.LA(1) ) {
             case ID:
                 {
-                alt104=1;
+                alt105=1;
                 }
                 break;
             case SINGLE_QUOTE_STRING_SIMPLE:
             case SINGLE_QUOTE_STRING_COMPLEX:
                 {
-                alt104=2;
+                alt105=2;
                 }
                 break;
             case DOUBLE_QUOTE_STRING_SIMPLE:
             case DOUBLE_QUOTE_STRING_COMPLEX:
                 {
-                alt104=3;
+                alt105=3;
                 }
                 break;
             default:
                 if (backtracking>0) {failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("812:15: ( ID | single_quote_string | double_quote_string )", 104, 0, input);
+                    new NoViableAltException("812:15: ( ID | single_quote_string | double_quote_string )", 105, 0, input);
             
                 throw nvae;
             }
             
-            switch (alt104) {
+            switch (alt105) {
                 case 1 :
                     // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:812:16: ID
                     {
-                    ID269=(Token)input.LT(1);
-                    match(input,ID,FOLLOW_ID_in_symbol4041); if (failed) return retval;
+                    ID272=(Token)input.LT(1);
+                    match(input,ID,FOLLOW_ID_in_symbol4061); if (failed) return retval;
                     if ( backtracking==0 ) {
-                    ID269_tree = (Object)adaptor.create(ID269);
-                    adaptor.addChild(root_0, ID269_tree);
+                    ID272_tree = (Object)adaptor.create(ID272);
+                    adaptor.addChild(root_0, ID272_tree);
                     }
                     
                     }
@@ -8780,22 +8822,22 @@ public class Rubyv3Parser extends Parser {
                 case 2 :
                     // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:812:21: single_quote_string
                     {
-                    pushFollow(FOLLOW_single_quote_string_in_symbol4045);
-                    single_quote_string270=single_quote_string();
+                    pushFollow(FOLLOW_single_quote_string_in_symbol4065);
+                    single_quote_string273=single_quote_string();
                     _fsp--;
                     if (failed) return retval;
-                    if ( backtracking==0 ) adaptor.addChild(root_0, single_quote_string270.getTree());
+                    if ( backtracking==0 ) adaptor.addChild(root_0, single_quote_string273.getTree());
                     
                     }
                     break;
                 case 3 :
                     // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:812:43: double_quote_string
                     {
-                    pushFollow(FOLLOW_double_quote_string_in_symbol4049);
-                    double_quote_string271=double_quote_string();
+                    pushFollow(FOLLOW_double_quote_string_in_symbol4069);
+                    double_quote_string274=double_quote_string();
                     _fsp--;
                     if (failed) return retval;
-                    if ( backtracking==0 ) adaptor.addChild(root_0, double_quote_string271.getTree());
+                    if ( backtracking==0 ) adaptor.addChild(root_0, double_quote_string274.getTree());
                     
                     }
                     break;
@@ -8850,6 +8892,25 @@ public class Rubyv3Parser extends Parser {
     }
     // $ANTLR end synpred2
 
+    // $ANTLR start synpred3
+    public final void synpred3_fragment() throws RecognitionException {   
+        // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:801:17: ( symbol_name_in_assoc ':' arg )
+        // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:801:18: symbol_name_in_assoc ':' arg
+        {
+        pushFollow(FOLLOW_symbol_name_in_assoc_in_synpred33969);
+        symbol_name_in_assoc();
+        _fsp--;
+        if (failed) return ;
+        match(input,COLON,FOLLOW_COLON_in_synpred33971); if (failed) return ;
+        pushFollow(FOLLOW_arg_in_synpred33973);
+        arg();
+        _fsp--;
+        if (failed) return ;
+        
+        }
+    }
+    // $ANTLR end synpred3
+
     public final boolean synpred1() {
         backtracking++;
         int start = input.mark();
@@ -8878,11 +8939,26 @@ public class Rubyv3Parser extends Parser {
         failed=false;
         return success;
     }
+    public final boolean synpred3() {
+        backtracking++;
+        int start = input.mark();
+        try {
+            synpred3_fragment(); // can never throw exception
+        } catch (RecognitionException re) {
+            System.err.println("impossible: "+re);
+        }
+        boolean success = !failed;
+        input.rewind(start);
+        backtracking--;
+        failed=false;
+        return success;
+    }
 
 
     protected DFA5 dfa5 = new DFA5(this);
     protected DFA17 dfa17 = new DFA17(this);
     protected DFA95 dfa95 = new DFA95(this);
+    protected DFA103 dfa103 = new DFA103(this);
     static final String DFA5_eotS =
         "\5\uffff";
     static final String DFA5_eofS =
@@ -8996,55 +9072,72 @@ public class Rubyv3Parser extends Parser {
         }
     }
     static final String DFA95_eotS =
-        "\104\uffff";
+        "\124\uffff";
     static final String DFA95_eofS =
-        "\1\uffff\1\6\15\uffff\2\6\63\uffff";
+        "\1\uffff\1\2\122\uffff";
     static final String DFA95_minS =
-        "\1\51\1\13\1\uffff\3\14\1\uffff\3\0\1\13\4\0\2\13\63\0";
+        "\1\51\1\13\1\uffff\2\14\1\uffff\1\14\1\13\3\14\111\0";
     static final String DFA95_maxS =
-        "\1\51\1\u008a\1\uffff\3\u008a\1\uffff\3\0\1\u0084\4\0\2\u0086\63"+
+        "\1\51\1\u008a\1\uffff\2\u008a\1\uffff\1\u008a\1\u0084\3\u008a\111"+
         "\0";
     static final String DFA95_acceptS =
-        "\2\uffff\1\2\3\uffff\1\1\75\uffff";
+        "\2\uffff\1\1\2\uffff\1\2\116\uffff";
     static final String DFA95_specialS =
-        "\7\uffff\1\3\1\1\1\4\1\uffff\1\2\1\5\1\0\1\6\65\uffff}>";
+        "\124\uffff}>";
     static final String[] DFA95_transitionS = {
             "\1\1",
-            "\1\6\2\2\16\uffff\2\6\1\uffff\1\4\1\5\5\6\1\uffff\1\6\1\uffff"+
-            "\1\2\15\6\16\uffff\12\6\5\2\20\uffff\2\2\1\uffff\2\2\1\uffff"+
-            "\1\2\1\6\5\uffff\1\2\1\6\3\uffff\1\6\1\3\2\uffff\1\2\1\6\3\2"+
-            "\3\6\3\uffff\2\6\1\uffff\3\2",
+            "\1\2\2\5\16\uffff\2\2\1\uffff\1\3\1\6\5\2\1\uffff\1\2\1\uffff"+
+            "\1\5\15\2\16\uffff\12\2\5\5\20\uffff\2\5\1\uffff\2\5\1\uffff"+
+            "\1\5\1\2\2\uffff\1\2\2\uffff\1\5\1\2\3\uffff\1\2\1\4\2\uffff"+
+            "\1\5\1\2\3\5\3\2\3\uffff\2\2\1\uffff\3\5",
             "",
-            "\2\6\21\uffff\2\6\3\uffff\2\6\3\uffff\1\7\45\uffff\5\6\20\uffff"+
-            "\2\10\1\uffff\2\11\1\uffff\1\6\6\uffff\1\6\5\uffff\1\6\2\uffff"+
-            "\7\6\1\uffff\2\6\3\uffff\4\6",
-            "\1\25\1\22\21\uffff\1\33\1\34\4\uffff\1\6\3\uffff\1\35\45\uffff"+
-            "\1\15\1\16\1\21\1\26\1\30\20\uffff\2\23\1\uffff\2\24\1\uffff"+
-            "\1\36\6\uffff\1\37\5\uffff\1\27\2\uffff\1\32\1\uffff\3\31\3"+
-            "\uffff\1\12\1\40\3\uffff\1\13\1\14\1\17\1\20",
-            "\2\6\21\uffff\2\6\4\uffff\1\6\3\uffff\1\6\45\uffff\5\6\20\uffff"+
-            "\2\6\1\uffff\2\6\1\uffff\1\6\6\uffff\1\6\5\uffff\1\6\2\uffff"+
-            "\1\6\1\uffff\3\41\3\uffff\2\6\3\uffff\4\6",
+            "\1\22\1\17\21\uffff\1\30\1\31\4\uffff\1\2\3\uffff\1\32\45\uffff"+
+            "\1\12\1\13\1\16\1\23\1\25\20\uffff\2\20\1\uffff\2\21\1\uffff"+
+            "\1\33\6\uffff\1\34\5\uffff\1\24\2\uffff\1\27\1\uffff\3\26\3"+
+            "\uffff\1\7\1\35\3\uffff\1\10\1\11\1\14\1\15",
+            "\2\2\21\uffff\2\2\3\uffff\2\2\3\uffff\1\40\45\uffff\5\2\20\uffff"+
+            "\2\36\1\uffff\2\37\1\uffff\1\2\6\uffff\1\2\5\uffff\1\2\2\uffff"+
+            "\7\2\1\uffff\2\2\3\uffff\4\2",
             "",
-            "\1\uffff",
-            "\1\uffff",
-            "\1\uffff",
+            "\2\2\21\uffff\2\2\4\uffff\1\2\3\uffff\1\2\45\uffff\5\2\20\uffff"+
+            "\2\2\1\uffff\2\2\1\uffff\1\2\6\uffff\1\2\5\uffff\1\2\2\uffff"+
+            "\1\2\1\uffff\3\41\3\uffff\2\2\3\uffff\4\2",
             "\1\45\2\uffff\1\43\1\44\14\uffff\2\45\13\uffff\1\42\15\45\25"+
             "\uffff\4\45\45\uffff\1\45\16\uffff\1\45",
+            "\1\61\1\56\21\uffff\1\67\1\70\4\uffff\1\46\3\uffff\1\71\45\uffff"+
+            "\1\51\1\52\1\55\1\62\1\64\20\uffff\2\57\1\uffff\2\60\1\uffff"+
+            "\1\72\6\uffff\1\73\5\uffff\1\63\2\uffff\1\66\1\uffff\3\65\10"+
+            "\uffff\1\47\1\50\1\53\1\54",
+            "\1\104\1\101\21\uffff\1\112\1\113\10\uffff\1\114\45\uffff\1"+
+            "\74\1\75\1\100\1\105\1\107\20\uffff\2\102\1\uffff\2\103\1\uffff"+
+            "\1\115\6\uffff\1\116\5\uffff\1\106\2\uffff\1\111\1\uffff\3\110"+
+            "\12\uffff\1\76\1\77",
+            "\1\22\1\17\21\uffff\1\30\1\31\4\uffff\1\117\3\uffff\1\121\45"+
+            "\uffff\1\122\1\123\1\16\1\23\1\25\20\uffff\2\20\1\uffff\2\21"+
+            "\1\uffff\1\33\6\uffff\1\34\5\uffff\1\24\2\uffff\1\120\1\uffff"+
+            "\3\26\12\uffff\1\14\1\15",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
-            "\1\55\20\uffff\1\51\1\52\1\uffff\6\6\1\103\1\uffff\1\46\2\uffff"+
-            "\1\66\1\67\1\70\1\72\1\63\1\65\1\62\1\64\1\56\1\53\1\54\1\50"+
-            "\1\47\16\uffff\1\100\1\76\1\77\1\75\1\74\1\71\1\73\1\60\1\61"+
-            "\1\57\50\uffff\1\2\3\uffff\1\6\3\uffff\2\6\1\2\3\uffff\1\101"+
-            "\1\102",
-            "\1\55\20\uffff\1\51\1\52\1\uffff\6\6\1\103\1\uffff\1\46\2\uffff"+
-            "\1\66\1\67\1\70\1\72\1\63\1\65\1\62\1\64\1\56\1\53\1\54\1\50"+
-            "\1\47\16\uffff\1\100\1\76\1\77\1\75\1\74\1\71\1\73\1\60\1\61"+
-            "\1\57\50\uffff\1\2\3\uffff\1\6\3\uffff\2\6\1\2\3\uffff\1\101"+
-            "\1\102",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -9130,125 +9223,344 @@ public class Rubyv3Parser extends Parser {
         public String getDescription() {
             return "586:1: method[boolean topLevel] : ({...}? ID -> ^( CALL ID ) | ID open_args -> ^( CALL ID open_args ) );";
         }
-        public int specialStateTransition(int s, TokenStream input) throws NoViableAltException {
+    }
+    static final String DFA103_eotS =
+        "\66\uffff";
+    static final String DFA103_eofS =
+        "\66\uffff";
+    static final String DFA103_minS =
+        "\1\14\1\13\1\uffff\1\14\1\0\2\13\21\uffff\34\0\2\uffff";
+    static final String DFA103_maxS =
+        "\2\u008a\1\uffff\1\u008a\1\0\2\166\21\uffff\34\0\2\uffff";
+    static final String DFA103_acceptS =
+        "\2\uffff\1\2\4\uffff\21\1\34\uffff\2\1";
+    static final String DFA103_specialS =
+        "\3\uffff\1\2\1\0\1\1\1\3\57\uffff}>";
+    static final String[] DFA103_transitionS = {
+            "\2\2\21\uffff\2\2\10\uffff\1\1\45\uffff\5\2\20\uffff\2\2\1\uffff"+
+            "\2\2\1\uffff\1\2\6\uffff\1\2\5\uffff\1\2\2\uffff\1\2\1\uffff"+
+            "\3\2\11\uffff\3\2",
+            "\3\2\16\uffff\2\2\1\uffff\2\2\6\uffff\1\2\1\uffff\53\2\20\uffff"+
+            "\2\2\1\uffff\2\2\1\uffff\1\2\3\uffff\1\2\2\uffff\1\2\4\uffff"+
+            "\1\2\1\3\2\uffff\1\2\1\uffff\3\2\11\uffff\3\2",
+            "",
+            "\1\16\1\15\21\uffff\1\24\1\25\10\uffff\1\4\45\uffff\1\10\1\11"+
+            "\1\14\1\17\1\21\20\uffff\2\5\1\uffff\2\6\1\uffff\1\26\6\uffff"+
+            "\1\27\5\uffff\1\20\2\uffff\1\23\1\uffff\3\22\11\uffff\1\7\1"+
+            "\12\1\13",
+            "\1\uffff",
+            "\1\37\20\uffff\1\33\1\34\7\uffff\1\65\1\uffff\1\30\2\uffff\1"+
+            "\50\1\51\1\52\1\54\1\45\1\47\1\44\1\46\1\40\1\35\1\36\1\32\1"+
+            "\31\16\uffff\1\62\1\60\1\61\1\57\1\56\1\53\1\55\1\42\1\43\1"+
+            "\41\34\uffff\1\64\2\uffff\1\2\7\uffff\1\63",
+            "\1\37\20\uffff\1\33\1\34\7\uffff\1\65\1\uffff\1\30\2\uffff\1"+
+            "\50\1\51\1\52\1\54\1\45\1\47\1\44\1\46\1\40\1\35\1\36\1\32\1"+
+            "\31\16\uffff\1\62\1\60\1\61\1\57\1\56\1\53\1\55\1\42\1\43\1"+
+            "\41\34\uffff\1\64\2\uffff\1\2\7\uffff\1\63",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "\1\uffff",
+            "",
+            ""
+    };
+    
+    static final short[] DFA103_eot = DFA.unpackEncodedString(DFA103_eotS);
+    static final short[] DFA103_eof = DFA.unpackEncodedString(DFA103_eofS);
+    static final char[] DFA103_min = DFA.unpackEncodedStringToUnsignedChars(DFA103_minS);
+    static final char[] DFA103_max = DFA.unpackEncodedStringToUnsignedChars(DFA103_maxS);
+    static final short[] DFA103_accept = DFA.unpackEncodedString(DFA103_acceptS);
+    static final short[] DFA103_special = DFA.unpackEncodedString(DFA103_specialS);
+    static final short[][] DFA103_transition;
+    
+    static {
+        int numStates = DFA103_transitionS.length;
+        DFA103_transition = new short[numStates][];
+        for (int i=0; i<numStates; i++) {
+            DFA103_transition[i] = DFA.unpackEncodedString(DFA103_transitionS[i]);
+        }
+    }
+    
+    class DFA103 extends DFA {
+    
+        public DFA103(BaseRecognizer recognizer) {
+            this.recognizer = recognizer;
+            this.decisionNumber = 103;
+            this.eot = DFA103_eot;
+            this.eof = DFA103_eof;
+            this.min = DFA103_min;
+            this.max = DFA103_max;
+            this.accept = DFA103_accept;
+            this.special = DFA103_special;
+            this.transition = DFA103_transition;
+        }
+        public String getDescription() {
+            return "801:1: assoc : ( ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg | arg ( ASSOC | ',' ) arg );";
+        }
+        public int specialStateTransition(int s, IntStream input) throws NoViableAltException {
         	int _s = s;
             switch ( s ) {
 
                     case 0 : 
-                        int LA95_13 = input.LA(1);
+                        int LA103_4 = input.LA(1);
                         
                          
-                        int index95_13 = input.index();
+                        int index103_4 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (!isDefinedVar(input.LT(1).getText())) ) {s = 6;}
+                        if ( (synpred3()) ) {s = 23;}
 
                         else if ( (true) ) {s = 2;}
                         
                          
-                        input.seek(index95_13);
+                        input.seek(index103_4);
                         if ( s>=0 ) return s;
                         break;
 
                     case 1 : 
-                        int LA95_8 = input.LA(1);
+                        int LA103_5 = input.LA(1);
                         
                          
-                        int index95_8 = input.index();
+                        int index103_5 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (!isDefinedVar(input.LT(1).getText())) ) {s = 6;}
+                        if ( (LA103_5==DOT) ) {s = 24;}
 
-                        else if ( (true) ) {s = 2;}
+                        else if ( (LA103_5==POWER) ) {s = 25;}
+
+                        else if ( (LA103_5==STAR) ) {s = 26;}
+
+                        else if ( (LA103_5==DIV) ) {s = 27;}
+
+                        else if ( (LA103_5==MOD) ) {s = 28;}
+
+                        else if ( (LA103_5==PLUS) ) {s = 29;}
+
+                        else if ( (LA103_5==MINUS) ) {s = 30;}
+
+                        else if ( (LA103_5==LEFT_SHIFT) ) {s = 31;}
+
+                        else if ( (LA103_5==RIGHT_SHIFT) ) {s = 32;}
+
+                        else if ( (LA103_5==BAND) ) {s = 33;}
+
+                        else if ( (LA103_5==BXOR) ) {s = 34;}
+
+                        else if ( (LA103_5==BOR) ) {s = 35;}
+
+                        else if ( (LA103_5==LESS_THAN) ) {s = 36;}
+
+                        else if ( (LA103_5==GREATER_THAN) ) {s = 37;}
+
+                        else if ( (LA103_5==LESS_OR_EQUAL) ) {s = 38;}
+
+                        else if ( (LA103_5==GREATER_OR_EQUAL) ) {s = 39;}
+
+                        else if ( (LA103_5==COMPARE) ) {s = 40;}
+
+                        else if ( (LA103_5==EQUAL) ) {s = 41;}
+
+                        else if ( (LA103_5==CASE_EQUAL) ) {s = 42;}
+
+                        else if ( (LA103_5==NOT_EQUAL) ) {s = 43;}
+
+                        else if ( (LA103_5==MATCH) ) {s = 44;}
+
+                        else if ( (LA103_5==NOT_MATCH) ) {s = 45;}
+
+                        else if ( (LA103_5==LOGICAL_AND) ) {s = 46;}
+
+                        else if ( (LA103_5==LOGICAL_OR) ) {s = 47;}
+
+                        else if ( (LA103_5==INCLUSIVE_RANGE) ) {s = 48;}
+
+                        else if ( (LA103_5==EXCLUSIVE_RANGE) ) {s = 49;}
+
+                        else if ( (LA103_5==QUESTION) ) {s = 50;}
+
+                        else if ( (LA103_5==COMMA) ) {s = 51;}
+
+                        else if ( (LA103_5==ASSOC) ) {s = 2;}
+
+                        else if ( (LA103_5==RCURLY) && (synpred3())) {s = 52;}
+
+                        else if ( (LA103_5==LINE_BREAK) && (synpred3())) {s = 53;}
                         
                          
-                        input.seek(index95_8);
+                        input.seek(index103_5);
                         if ( s>=0 ) return s;
                         break;
 
                     case 2 : 
-                        int LA95_11 = input.LA(1);
+                        int LA103_3 = input.LA(1);
                         
                          
-                        int index95_11 = input.index();
+                        int index103_3 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (!isDefinedVar(input.LT(1).getText())) ) {s = 6;}
+                        if ( (LA103_3==ID) ) {s = 4;}
 
-                        else if ( (true) ) {s = 2;}
+                        else if ( ((LA103_3>=SINGLE_QUOTE_STRING_SIMPLE && LA103_3<=SINGLE_QUOTE_STRING_COMPLEX)) ) {s = 5;}
+
+                        else if ( ((LA103_3>=DOUBLE_QUOTE_STRING_SIMPLE && LA103_3<=DOUBLE_QUOTE_STRING_COMPLEX)) ) {s = 6;}
+
+                        else if ( (LA103_3==136) && (synpred3())) {s = 7;}
+
+                        else if ( (LA103_3==BNOT) && (synpred3())) {s = 8;}
+
+                        else if ( (LA103_3==NOT) && (synpred3())) {s = 9;}
+
+                        else if ( (LA103_3==137) && (synpred3())) {s = 10;}
+
+                        else if ( (LA103_3==138) && (synpred3())) {s = 11;}
+
+                        else if ( (LA103_3==INT) && (synpred3())) {s = 12;}
+
+                        else if ( (LA103_3==FLOAT) && (synpred3())) {s = 13;}
+
+                        else if ( (LA103_3==HEREDOC_STRING) && (synpred3())) {s = 14;}
+
+                        else if ( (LA103_3==ARRAY) && (synpred3())) {s = 15;}
+
+                        else if ( (LA103_3==COLON) && (synpred3())) {s = 16;}
+
+                        else if ( (LA103_3==REGEX) && (synpred3())) {s = 17;}
+
+                        else if ( ((LA103_3>=124 && LA103_3<=126)) && (synpred3())) {s = 18;}
+
+                        else if ( (LA103_3==122) && (synpred3())) {s = 19;}
+
+                        else if ( (LA103_3==IF_MODIFIER) && (synpred3())) {s = 20;}
+
+                        else if ( (LA103_3==UNLESS_MODIFIER) && (synpred3())) {s = 21;}
+
+                        else if ( (LA103_3==LCURLY) && (synpred3())) {s = 22;}
+
+                        else if ( (LA103_3==LPAREN) && (synpred3())) {s = 23;}
                         
                          
-                        input.seek(index95_11);
+                        input.seek(index103_3);
                         if ( s>=0 ) return s;
                         break;
 
                     case 3 : 
-                        int LA95_7 = input.LA(1);
+                        int LA103_6 = input.LA(1);
                         
                          
-                        int index95_7 = input.index();
+                        int index103_6 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (!isDefinedVar(input.LT(1).getText())) ) {s = 6;}
+                        if ( (LA103_6==DOT) ) {s = 24;}
 
-                        else if ( (true) ) {s = 2;}
+                        else if ( (LA103_6==POWER) ) {s = 25;}
+
+                        else if ( (LA103_6==STAR) ) {s = 26;}
+
+                        else if ( (LA103_6==DIV) ) {s = 27;}
+
+                        else if ( (LA103_6==MOD) ) {s = 28;}
+
+                        else if ( (LA103_6==PLUS) ) {s = 29;}
+
+                        else if ( (LA103_6==MINUS) ) {s = 30;}
+
+                        else if ( (LA103_6==LEFT_SHIFT) ) {s = 31;}
+
+                        else if ( (LA103_6==RIGHT_SHIFT) ) {s = 32;}
+
+                        else if ( (LA103_6==BAND) ) {s = 33;}
+
+                        else if ( (LA103_6==BXOR) ) {s = 34;}
+
+                        else if ( (LA103_6==BOR) ) {s = 35;}
+
+                        else if ( (LA103_6==LESS_THAN) ) {s = 36;}
+
+                        else if ( (LA103_6==GREATER_THAN) ) {s = 37;}
+
+                        else if ( (LA103_6==LESS_OR_EQUAL) ) {s = 38;}
+
+                        else if ( (LA103_6==GREATER_OR_EQUAL) ) {s = 39;}
+
+                        else if ( (LA103_6==COMPARE) ) {s = 40;}
+
+                        else if ( (LA103_6==EQUAL) ) {s = 41;}
+
+                        else if ( (LA103_6==CASE_EQUAL) ) {s = 42;}
+
+                        else if ( (LA103_6==NOT_EQUAL) ) {s = 43;}
+
+                        else if ( (LA103_6==MATCH) ) {s = 44;}
+
+                        else if ( (LA103_6==NOT_MATCH) ) {s = 45;}
+
+                        else if ( (LA103_6==LOGICAL_AND) ) {s = 46;}
+
+                        else if ( (LA103_6==LOGICAL_OR) ) {s = 47;}
+
+                        else if ( (LA103_6==INCLUSIVE_RANGE) ) {s = 48;}
+
+                        else if ( (LA103_6==EXCLUSIVE_RANGE) ) {s = 49;}
+
+                        else if ( (LA103_6==QUESTION) ) {s = 50;}
+
+                        else if ( (LA103_6==COMMA) ) {s = 51;}
+
+                        else if ( (LA103_6==ASSOC) ) {s = 2;}
+
+                        else if ( (LA103_6==RCURLY) && (synpred3())) {s = 52;}
+
+                        else if ( (LA103_6==LINE_BREAK) && (synpred3())) {s = 53;}
                         
                          
-                        input.seek(index95_7);
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 4 : 
-                        int LA95_9 = input.LA(1);
-                        
-                         
-                        int index95_9 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (!isDefinedVar(input.LT(1).getText())) ) {s = 6;}
-
-                        else if ( (true) ) {s = 2;}
-                        
-                         
-                        input.seek(index95_9);
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 5 : 
-                        int LA95_12 = input.LA(1);
-                        
-                         
-                        int index95_12 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (!isDefinedVar(input.LT(1).getText())) ) {s = 6;}
-
-                        else if ( (true) ) {s = 2;}
-                        
-                         
-                        input.seek(index95_12);
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 6 : 
-                        int LA95_14 = input.LA(1);
-                        
-                         
-                        int index95_14 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (!isDefinedVar(input.LT(1).getText())) ) {s = 6;}
-
-                        else if ( (true) ) {s = 2;}
-                        
-                         
-                        input.seek(index95_14);
+                        input.seek(index103_6);
                         if ( s>=0 ) return s;
                         break;
             }
             if (backtracking>0) {failed=true; return -1;}
             NoViableAltException nvae =
-                new NoViableAltException(getDescription(), 95, _s, input);
+                new NoViableAltException(getDescription(), 103, _s, input);
             error(nvae);
             throw nvae;
         }
@@ -9514,28 +9826,34 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_HEREDOC_STRING_in_string3504 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_single_quote_string0 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_double_quote_string0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LCURLY_in_hash3918 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_LCURLY_in_hash3918 = new BitSet(new long[]{0x0000020180003000L,0x748205B0000F8000L,0x0000000000000700L});
     public static final BitSet FOLLOW_assoc_list_in_hash3921 = new BitSet(new long[]{0x0000000000000000L,0x0000080000000000L});
     public static final BitSet FOLLOW_RCURLY_in_hash3923 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assocs_in_assoc_list3932 = new BitSet(new long[]{0x0000002000000002L,0x0040000000000000L});
     public static final BitSet FOLLOW_trailer_in_assoc_list3934 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assoc_in_assocs3943 = new BitSet(new long[]{0x0000000000000002L,0x0040000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_assocs3947 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_COMMA_in_assocs3947 = new BitSet(new long[]{0x0000020180003000L,0x748205B0000F8000L,0x0000000000000700L});
     public static final BitSet FOLLOW_assoc_in_assocs3950 = new BitSet(new long[]{0x0000000000000002L,0x0040000000000000L});
-    public static final BitSet FOLLOW_symbol_name_in_assoc_in_assoc3968 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L});
-    public static final BitSet FOLLOW_COLON_in_assoc3970 = new BitSet(new long[]{0x0000020180003000L,0x748205B0000F8000L,0x0000000000000700L});
-    public static final BitSet FOLLOW_arg_in_assoc3973 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_symbol_name_in_assoc3985 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_trailer4016 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_COMMA_in_trailer4021 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_COLON_in_symbol4037 = new BitSet(new long[]{0x0000020000000000L,0x000001B000000000L});
-    public static final BitSet FOLLOW_ID_in_symbol4041 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_single_quote_string_in_symbol4045 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_double_quote_string_in_symbol4049 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_symbol_name_in_assoc_in_assoc3977 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L});
+    public static final BitSet FOLLOW_COLON_in_assoc3979 = new BitSet(new long[]{0x0000020180003000L,0x748205B0000F8000L,0x0000000000000700L});
+    public static final BitSet FOLLOW_arg_in_assoc3982 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arg_in_assoc3986 = new BitSet(new long[]{0x0000000000000000L,0x0040400000000000L});
+    public static final BitSet FOLLOW_set_in_assoc3988 = new BitSet(new long[]{0x0000020180003000L,0x748205B0000F8000L,0x0000000000000700L});
+    public static final BitSet FOLLOW_arg_in_assoc3995 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_symbol_name_in_assoc4005 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_trailer4036 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_COMMA_in_trailer4041 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_COLON_in_symbol4057 = new BitSet(new long[]{0x0000020000000000L,0x000001B000000000L});
+    public static final BitSet FOLLOW_ID_in_symbol4061 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_single_quote_string_in_symbol4065 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_double_quote_string_in_symbol4069 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_LPAREN_in_synpred12705 = new BitSet(new long[]{0x0000020180003000L,0x748205B0000F8000L,0x0000000000000700L});
     public static final BitSet FOLLOW_call_args_in_synpred12708 = new BitSet(new long[]{0x0000000000000000L,0x0004000000000000L});
     public static final BitSet FOLLOW_RPAREN_in_synpred12710 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_LPAREN_in_synpred22716 = new BitSet(new long[]{0x0000000000000000L,0x0004000000000000L});
     public static final BitSet FOLLOW_RPAREN_in_synpred22719 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_symbol_name_in_assoc_in_synpred33969 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L});
+    public static final BitSet FOLLOW_COLON_in_synpred33971 = new BitSet(new long[]{0x0000020180003000L,0x748205B0000F8000L,0x0000000000000700L});
+    public static final BitSet FOLLOW_arg_in_synpred33973 = new BitSet(new long[]{0x0000000000000002L});
 
 }

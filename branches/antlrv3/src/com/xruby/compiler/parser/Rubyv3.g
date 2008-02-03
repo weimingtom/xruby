@@ -798,7 +798,7 @@ assoc_list
 	:	assocs trailer /*| args trailer*/;
 assocs	:	assoc ( ','! assoc)*;
 
-assoc         : symbol_name_in_assoc ':'! arg /*| arg (ASSOC|',')! arg*/;
+assoc         : (symbol_name_in_assoc ':' arg) =>symbol_name_in_assoc ':'! arg | arg (ASSOC|',')! arg;
 
 symbol_name_in_assoc 
 	:	ID -> ^(SYMBOL ID);
