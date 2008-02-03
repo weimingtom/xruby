@@ -276,8 +276,10 @@ program
 		;
 
 statement_list
-		:	statement (terminal+ statement)* -> ^(STATEMENT_LIST statement*)
+		:	//statement -> ^(STATEMENT_LIST statement); 
+		        statement (terminal+ statement)* -> ^(STATEMENT_LIST statement*)
 			;
+			
 
 /*terminal
 		:	SEMI!
@@ -384,7 +386,7 @@ f_args	:	f_norm_args | f_norm_args ','! f_opt_args (','! f_rest_arg)?| /*none*/
 f_norm_args
 	:       //CONSTANT{throw new SyntaxException("formal argument cannot be a constant");}
 	//|       INSTANCE_VARIABLE {throw new SyntaxException("formal argument cannot be an instance variable");}
-	//|       CLASS_VARIABLE {throw new SyntaxException("formal argument cannot be an class variable");}
+	//|       CLASS_VARIABLE {throwstatement_list new SyntaxException("formal argument cannot be an class variable");}
 	//|       ID;
 	ID {addVariable($ID.text);};
 f_rest_arg
@@ -434,9 +436,13 @@ pure_args_one_or_more
 	:	expression (',' expression)*;*/
 	
 assignmentExpression
-	:	ternaryIfThenElseExpression
-	        |  lhs (ASSIGN|MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
-	           assignmentExpression {addVariable($lhs.text);};
+	:	(mlhs) => mlhs ASSIGN^ assignmentExpression | ternaryIfThenElseExpression
+	        |  lhs (MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
+	           assignmentExpression {addVariable($lhs.text);}
+	           ;
+mlhs    :     t0=lhs {addVariable($t0.text);} (','^ t=lhs {addVariable($t.text);})* ;
+
+
 
 ternaryIfThenElseExpression
 		:	r=rangeExpression ( QUESTION^ rangeExpression ':'! rangeExpression |)
