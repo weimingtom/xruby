@@ -50,6 +50,8 @@ tokens {
 	DIV;
 	MOD;
 	
+	SYMBOL;
+	
 	
 }
 
@@ -189,14 +191,14 @@ import com.xruby.compiler.codedom.*;
        }
         public static int nesting = 0;
 
-	private int determineBegin(int begin) {
+	public int determineBegin(int begin) {
         int result = 0; //if collide with EOF, then we can use other value like -3,-7 
         if (begin == '[' || begin == '{' || begin == '(' || begin == '<') {
             result = begin;
         } 
         return result;
         }
-        private int determineEnd(int begin) {
+        public int determineEnd(int begin) {
                 int end = 0;
                 if(begin == '[') {
                     end = ']';
@@ -577,7 +579,7 @@ command
 @after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
 	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' expression ')' ) (DOT^ method[false])*
 	; //|       lhs SHIFT^ rhs ;	
-atom[boolean topLevel]	:	methodExpression[topLevel]|hash;
+atom[boolean topLevel]	:	methodExpression[topLevel]|hash|single_quote_string|double_quote_string|symbol;
 methodExpression[boolean topLevel]
 	:      variable|method[topLevel];
 variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
@@ -632,7 +634,7 @@ rhs	:	expression;
 
 //primary	:	literal| 'begin' program 'end'; //todo:more on this later
 
-literal	:	INT|FLOAT|string|ARRAY|SYMBOL|REGEX;
+literal	:	INT|FLOAT|string|ARRAY|symbol|REGEX;
 INT
 	:	'-'?
 	        (OCTAL|HEX|BINARY|LEADING_MARK_DECIMAL
@@ -700,11 +702,18 @@ LEADING0_NUMBER
 fragment	
 EXP_PART:	('e' | 'E') '-'? LEADING0_NUMBER;
 
-string	:	SINGLE_QUOTE_STRING|DOUBLE_QUOTE_STRING|HEREDOC_STRING;
+string	:	single_quote_string|double_quote_string|HEREDOC_STRING;
 
-SINGLE_QUOTE_STRING
-	@init{int end=0; int nested=0;}:	SINGLE_QUOTE_STRING_SIMPLE 
-	| '%q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } (tmp=.{System.out.println(tmp);
+single_quote_string
+	:	SINGLE_QUOTE_STRING_SIMPLE |  SINGLE_QUOTE_STRING_COMPLEX;
+
+
+SINGLE_QUOTE_STRING_SIMPLE  //the simple case, the delimiter is just '
+	:	'\'' SINGLE_STRING_CHAR* '\''
+	;
+	
+SINGLE_QUOTE_STRING_COMPLEX
+	@init{int end=0; int nested=0;}:	'%q' begin=. {System.out.println($begin); end=determineEnd($begin);begin=determineBegin($begin); } (tmp=.{System.out.println(tmp);
 	                    if(tmp == EOF) {
 	                      throw new SyntaxException("unterminated string meets end of file");
 	                    } else if(tmp == '\\') {
@@ -720,18 +729,21 @@ SINGLE_QUOTE_STRING
                             } else if(tmp==end)  {
                                 
                                 if(nested == 0) {
-                                this.type=SINGLE_QUOTE_STRING;
+                                this.type=SINGLE_QUOTE_STRING_COMPLEX;
                                 return;
                                 }
                                 nested --;
                             }
-                            })*;
-
-SINGLE_QUOTE_STRING_SIMPLE  //the simple case, the delimiter is just '
-	:	'\'' SINGLE_STRING_CHAR* '\''
+                            })*
 	;
+
 DOUBLE_QUOTE_STRING_SIMPLE  //the simple_case, the delimiter is just ""
 	:	s='"' {expression = new DoubleStringParser(this.parser, input, '"', 0).parseString();}  
+	;
+
+DOUBLE_QUOTE_STRING_COMPLEX
+@init{int end=0; int nested=0;}	:	'%Q' begin=. {end=determineEnd($begin);begin=determineBegin($begin); 
+	expression = new DoubleStringParser(this.parser, input, end, begin).parseString(); }
 	;
 
 fragment	
@@ -740,9 +752,8 @@ SINGLE_STRING_CHAR
 fragment
 DOUBLE_STRING_CHAR
 	:	'\\' . | ~ ('\\'|'"');
-DOUBLE_QUOTE_STRING
-	@init{int end=0; int nested=0;}:	DOUBLE_QUOTE_STRING_SIMPLE | '%Q' begin=. {end=determineEnd($begin);begin=determineBegin($begin); 
-	expression = new DoubleStringParser(this.parser, input, end, begin).parseString(); } 
+double_quote_string
+	:	DOUBLE_QUOTE_STRING_SIMPLE | DOUBLE_QUOTE_STRING_COMPLEX 
 	;
 
 
@@ -787,7 +798,7 @@ assoc_list
 	:	assocs trailer /*| args trailer*/;
 assocs	:	assoc ( ','! assoc)*;
 
-assoc         : symbol_name_in_assoc ':'! arg | arg (ASSOC|',')! arg;
+assoc         : symbol_name_in_assoc ':'! arg /*| arg (ASSOC|',')! arg*/;
 
 symbol_name_in_assoc 
 	:	ID -> ^(SYMBOL ID);
@@ -798,7 +809,7 @@ symbol_name_in_assoc
 trailer!       : /* none */ | LINE_BREAK! | ','!;
 
 REGEX	:	'/abc/';
-SYMBOL	:	':' (ID | SINGLE_QUOTE_STRING | DOUBLE_QUOTE_STRING); //ID is SYMBOLNAME
+symbol	:	':'^ (ID | single_quote_string | double_quote_string); //ID is SYMBOLNAME
 
 SYMBOL_NAME
 	:	('a'..'z' | 'A' ..'Z')*
@@ -875,6 +886,11 @@ fragment
 ANYTHING_OTHER_THAN_LINE_FEED
 		:	(~('\r'|'\n'))*
 		;
+
+
+
+
+
 		
 //		ML_COMMENT
 //: '/*' ( options {greedy=false;} : . )* '*/'
