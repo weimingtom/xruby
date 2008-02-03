@@ -106,11 +106,22 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");
         assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (CALL x) 3 2)))");
     }
+
+    public void test_heredoc() throws Exception {
+        //assert_parse("x=1;y=2;x <<1;", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)) (STATEMENT (<< (VARIABLE x) 1)))");
+
+        //assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE x) 1)))");
+        //assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE x) 1)))");
+
+    }
+
+    public void test_multiple_assignment() throws Exception {
+        assert_parse("a,b=1", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (VARIABLE b)) 1)))");
+    }
+
     public void test_assignment() throws Exception {
         assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)))");
-        assert_parse("x=1;x <<1;", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)) (STATEMENT (<< (VARIABLE x) 1)))");
 
-        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE x) 1)))");
 
         assert_parse("x=y=1", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) (= (VARIABLE y) 1))))");
 
@@ -118,17 +129,14 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("a = \"cat\"", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) \"cat\")))");
         assert_parse("a = 'cat'", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) 'cat')))");
 
-        assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE x) 1)))");
+
 
         assert_parse("%Q{a#{x=1}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
 
         assert_parse("a=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) (? 5 3 2))) (STATEMENT (VARIABLE a)))");
 
         assert_parse("a=1;a+=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) 1)) (STATEMENT (+= (VARIABLE a) (? 5 3 2))) (STATEMENT (VARIABLE a)))");
-        //assert_parse("x <<1;", "(STATEMENT_LIST (STATEMENT (= x 1)) (STATEMENT (<< x 1)))");
-        /*assert_parse("x <<1\n" +
-                "\n"
-                , "");*/
+
     }
     public void test_power() throws Exception {
         assert_parse("3**2;", "(STATEMENT_LIST (STATEMENT (** 3 2)))");
@@ -220,7 +228,10 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("test*2", "(STATEMENT_LIST (STATEMENT (* (CALL test) 2)))");
         assert_parse("test*a", "(STATEMENT_LIST (STATEMENT (* (CALL test) (CALL a))))");
     }
-    
+
+    public void test_new_call_syntax() throws Exception {
+        //assert_parse("a.(1,2)", "");
+    }
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
 
     {
