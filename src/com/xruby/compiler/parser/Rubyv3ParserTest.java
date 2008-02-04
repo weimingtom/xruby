@@ -121,6 +121,9 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("a=1,2", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) (, 1 2))))");
         assert_parse("a,b=1,2", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (VARIABLE b)) (, 1 2))))");
 
+        assert_parse("a,*b=1,2", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (STAR_ID (VARIABLE b))) (, 1 2))))");
+        assert_parse("*b=1,2", "(STATEMENT_LIST (STATEMENT (= (STAR_ID (VARIABLE b)) (, 1 2))))");
+
     }
 
     public void test_assignment() throws Exception {
@@ -231,8 +234,12 @@ public class Rubyv3ParserTest extends TestCase {
 
         assert_parse("3*2", "(STATEMENT_LIST (STATEMENT (* 3 2)))");
         assert_parse("test*2", "(STATEMENT_LIST (STATEMENT (* (CALL test) 2)))");
+
         assert_parse("test*a", "(STATEMENT_LIST (STATEMENT (* (CALL test) (CALL a))))");
+        assert_parse("test*abc;x=5", "(STATEMENT_LIST (STATEMENT (* (CALL test) (CALL abc))) (STATEMENT (= (VARIABLE x) 5)))");
+
     }
+
 
     public void test_new_call_syntax() throws Exception {
         //assert_parse("a.(1,2)", "");
