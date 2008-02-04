@@ -51,6 +51,7 @@ tokens {
 	MOD;
 	
 	SYMBOL;
+	STAR_ID;
 	
 	
 }
@@ -440,7 +441,13 @@ assignmentExpression
 	        |  lhs (MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
 	           definedExpression {addVariable($lhs.text);}
 	           ;
-mlhs    :     t0=lhs {addVariable($t0.text);} (','^ t=lhs {addVariable($t.text);})* ;
+mlhs    :      t0=lhs {addVariable($t0.text);} (','^ t=lhs {addVariable($t.text);})* (','^ star_lhs)?| star_lhs  ;
+
+star_lhs
+	:      STAR lhs -> ^(STAR_ID lhs)
+	;
+
+
 
 mrhs    :      definedExpression (','^ definedExpression)*;
 
@@ -590,8 +597,8 @@ command
 atom[boolean topLevel]	:	methodExpression[topLevel]|hash|single_quote_string|double_quote_string|symbol;
 methodExpression[boolean topLevel]
 	:      variable|method[topLevel];
-variable:	{isDefinedVar(input.LT(1).getText())}? ID -> ^(VARIABLE ID);
-method[boolean topLevel]	:	{!isDefinedVar(input.LT(1).getText())}? ID -> ^(CALL ID)
+variable:	{isDefinedVar(tokenStream.LT(1).getText())}? ID -> ^(VARIABLE ID);
+method[boolean topLevel]	:	{!isDefinedVar(tokenStream.LT(1).getText())}? ID -> ^(CALL ID)
         |       ID open_args -> ^(CALL ID open_args)
         ;
 /*primary	:	literal;
