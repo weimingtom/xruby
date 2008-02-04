@@ -437,10 +437,15 @@ pure_args_one_or_more
 	:	expression (',' expression)*;*/
 	
 assignmentExpression
-	:	(mlhs) => mlhs ASSIGN^ mrhs  | ternaryIfThenElseExpression
-	        |  lhs (MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
-	           definedExpression {addVariable($lhs.text);}
+	:	(simple_assignment_expression) =>simple_assignment_expression | (mlhs) => mlhs ASSIGN^ mrhs  | ternaryIfThenElseExpression
+	          
 	           ;
+
+simple_assignment_expression
+	:	lhs (ASSIGN| MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
+	           definedExpression {addVariable($lhs.text);}
+	;
+
 mlhs    :      t0=lhs {addVariable($t0.text);} (','^ t=lhs {addVariable($t.text);})* (','^ star_lhs)?| star_lhs  ;
 
 star_lhs
@@ -449,7 +454,8 @@ star_lhs
 
 
 
-mrhs    :      definedExpression (','^ definedExpression)* (','^ star_rhs)? | star_rhs;
+mrhs    :      (simple_assignment_expression|ternaryIfThenElseExpression) (','^ ((simple_assignment_expression) => simple_assignment_expression|ternaryIfThenElseExpression))* (','^ star_rhs)? | star_rhs ;
+
 
 star_rhs :     STAR definedExpression -> ^(STAR_ID definedExpression);
 
