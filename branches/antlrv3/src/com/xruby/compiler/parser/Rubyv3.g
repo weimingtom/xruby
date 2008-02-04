@@ -437,7 +437,7 @@ pure_args_one_or_more
 	:	expression (',' expression)*;*/
 	
 assignmentExpression [boolean allowsMrhsInSingleAssignment]
-	:	{allowsMrhsInSingleAssignment}? => lhs {addVariable($lhs.text);} ASSIGN^ mrhs | (simple_assignment_expression) =>simple_assignment_expression | (mlhs) => mlhs ASSIGN^ mrhs  | ternaryIfThenElseExpression
+	:	{true}? => lhs {addVariable($lhs.text);} ASSIGN^ mrhs[allowsMrhsInSingleAssignment] | (simple_assignment_expression) =>simple_assignment_expression | (mlhs) => mlhs ASSIGN^ mrhs[true]  | ternaryIfThenElseExpression
 	          
 	           ;
 
@@ -454,7 +454,8 @@ star_lhs
 
 
 
-mrhs    :      (simple_assignment_expression|ternaryIfThenElseExpression) (','^ ((simple_assignment_expression) => simple_assignment_expression|ternaryIfThenElseExpression))* (','^ star_rhs)? | star_rhs ;
+mrhs[boolean reallyMrhs]    :      (simple_assignment_expression|ternaryIfThenElseExpression) (|{reallyMrhs}? => (','^ ((simple_assignment_expression) => simple_assignment_expression|ternaryIfThenElseExpression))* (','^ star_rhs)?) 
+            | {reallyMrhs}? => star_rhs ;
 
 
 star_rhs :     STAR definedExpression -> ^(STAR_ID definedExpression);
