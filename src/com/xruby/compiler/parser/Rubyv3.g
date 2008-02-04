@@ -427,7 +427,7 @@ notExpression
 		|	definedExpression
 		;
 definedExpression
-	:	('defined?'^) assignmentExpression[false]
+	:	('defined?'^)+ assignmentExpression[false]
 	|       assignmentExpression[true];
 
 	/*|	ID '(' ')'

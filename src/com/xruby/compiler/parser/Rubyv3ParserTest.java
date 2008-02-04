@@ -210,17 +210,16 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("defined? String", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //constant
         //assert_parse("defined? $_", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //globalvariable
         //assert_parse("defined? Math::PI", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //constant
-
+        assert_parse("defined? a=1", "(STATEMENT_LIST (STATEMENT (defined? (= (VARIABLE a) 1))))"); //assignment
         assert_parse("defined? 42.abs", "(STATEMENT_LIST (STATEMENT (defined? (. 42 (CALL abs)))))"); //assignment
 
+        assert_parse("defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? defined? (CALL x))))");
         //these shouldn't passed
         //assert_parse("defined? a,b=1", "");
 
 
     }
-    public void test_single() throws Exception {
-        assert_parse("defined? a=1", "(STATEMENT_LIST (STATEMENT (defined? (= (VARIABLE a) 1))))"); //assignment
-    }
+
     public void test_method() throws Exception {
         //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");
         //DFA.debug = true;
