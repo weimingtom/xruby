@@ -117,8 +117,8 @@ public class Rubyv3ParserTest extends TestCase {
 
     public void test_multiple_assignment() throws Exception {
         assert_parse("a,b=1", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (VARIABLE b)) 1)))");
-        //assert_parse("a,b,c=1", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (VARIABLE b)) 1)))");
-        //assert_parse("a=1,2", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) (, 1 2))))");
+        assert_parse("a,b,c=1", "(STATEMENT_LIST (STATEMENT (= (, (, (VARIABLE a) (VARIABLE b)) (VARIABLE c)) 1)))");
+        assert_parse("a=1,2", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) (, 1 2))))");
         assert_parse("a,b=1,2", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (VARIABLE b)) (, 1 2))))");
 
         assert_parse("a,*b=1,2", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (STAR_ID (VARIABLE b))) (, 1 2))))");
@@ -210,13 +210,16 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("defined? String", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //constant
         //assert_parse("defined? $_", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //globalvariable
         //assert_parse("defined? Math::PI", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //constant
-        assert_parse("defined? a=1", "(STATEMENT_LIST (STATEMENT (defined? (= (VARIABLE a) 1))))"); //assignment
+
         assert_parse("defined? 42.abs", "(STATEMENT_LIST (STATEMENT (defined? (. 42 (CALL abs)))))"); //assignment
 
         //these shouldn't passed
         //assert_parse("defined? a,b=1", "");
 
 
+    }
+    public void test_single() throws Exception {
+        assert_parse("defined? a=1", "(STATEMENT_LIST (STATEMENT (defined? (= (VARIABLE a) 1))))"); //assignment
     }
     public void test_method() throws Exception {
         //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");

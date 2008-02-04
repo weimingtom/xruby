@@ -427,8 +427,8 @@ notExpression
 		|	definedExpression
 		;
 definedExpression
-	:	'defined?'^ assignmentExpression
-	|       assignmentExpression;
+	:	('defined?'^) assignmentExpression[false]
+	|       assignmentExpression[true];
 
 	/*|	ID '(' ')'
 	|	ID args;
@@ -436,8 +436,8 @@ args	:	pure_args_one_or_more | '(' pure_args_one_or_more ')';
 pure_args_one_or_more
 	:	expression (',' expression)*;*/
 	
-assignmentExpression
-	:	(simple_assignment_expression) =>simple_assignment_expression | (mlhs) => mlhs ASSIGN^ mrhs  | ternaryIfThenElseExpression
+assignmentExpression [boolean allowsMrhsInSingleAssignment]
+	:	{allowsMrhsInSingleAssignment}? => lhs {addVariable($lhs.text);} ASSIGN^ mrhs | (simple_assignment_expression) =>simple_assignment_expression | (mlhs) => mlhs ASSIGN^ mrhs  | ternaryIfThenElseExpression
 	          
 	           ;
 
