@@ -449,7 +449,10 @@ star_lhs
 
 
 
-mrhs    :      definedExpression (','^ definedExpression)*;
+mrhs    :      definedExpression (','^ definedExpression)* (','^ star_rhs)? | star_rhs;
+
+star_rhs :     STAR definedExpression -> ^(STAR_ID definedExpression);
+
 
 
 
