@@ -286,6 +286,16 @@ public class Rubyv3ParserTest extends TestCase {
 
         assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
         assert_parse("test do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+
+        assert_parse("test() { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
+       assert_parse("test 1 { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
+       assert_parse("test(1,2) { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
+
+        assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
+
+        //assert_parse("x=1;x ()", "");
+        assert_parse("$:.find {|x| x}", "");
+        //assert_parse("test { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
     }
 
     public void test_smoke() throws Exception {

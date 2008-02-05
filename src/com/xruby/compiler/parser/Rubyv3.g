@@ -632,7 +632,8 @@ method[boolean topLevel]	:	{!isDefinedVar(tokenStream.LT(1).getText())}? ID bloc
 	|	ID ('['^ array_items ']')*
         |       ID open_args_with_block   -> ^(CALL ID open_args_with_block)
         ;
-block	:	'do' {enterScope();}  block_content 'end' {leaveScope();};
+block	:	'do' {enterScope();}  block_content 'end' {leaveScope();}
+	|	'{' {enterScope();}  block_content '}' {leaveScope();};
 block_content
 	:	'|' block_param '|'! block_body;
 block_param
