@@ -52,6 +52,7 @@ tokens {
 	
 	SYMBOL;
 	STAR_ID;
+	ARRAY_REF_CALL;
 	
 	
 }
@@ -604,13 +605,20 @@ bnotExpression
 //	:      command;	
 command		
 @after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
-	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' expression ')' ) (DOT^ method[false] | '['^ array_items ']')*
+	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' expression ')' ) (DOT^ method[false] )*
+	 
 	; //|       lhs SHIFT^ rhs ;	
-atom[boolean topLevel]	:	methodExpression[topLevel]|array|hash|single_quote_string|double_quote_string|symbol;
+atom[boolean topLevel]	:	/*methodExpression[topLevel]|*/ array|hash|single_quote_string|double_quote_string|symbol | methodExpression[topLevel] ;
 methodExpression[boolean topLevel]
 	:      variable|method[topLevel];
-variable:	{isDefinedVar(tokenStream.LT(1).getText())}? ID -> ^(VARIABLE ID);
+variable:	{isDefinedVar(tokenStream.LT(1).getText())}? (simple_variable^ ('['^ array_items ']')*);
+
+simple_variable
+	:	ID -> ^(VARIABLE ID)
+	;
+
 method[boolean topLevel]	:	{!isDefinedVar(tokenStream.LT(1).getText())}? ID -> ^(CALL ID)
+	|	ID ('['^ array_items ']')*
         |       ID open_args -> ^(CALL ID open_args)
         ;
 /*primary	:	literal;
@@ -661,7 +669,7 @@ rhs	:	expression;
 
 //primary	:	literal| 'begin' program 'end'; //todo:more on this later
 
-literal	:	INT|FLOAT|string|ARRAY|symbol|REGEX;
+literal	:	INT|FLOAT|string|symbol|REGEX;
 INT
 	:	'-'?
 	        (OCTAL|HEX|BINARY|LEADING_MARK_DECIMAL
