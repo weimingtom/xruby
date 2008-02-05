@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-05 17:55:21
+// $ANTLR 3.0.1 F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-05 20:26:12
 
 package com.xruby.compiler.parser;
 
@@ -288,20 +288,20 @@ public class Rubyv3Lexer extends BaseLexer {
     public Rubyv3Lexer(CharStream input) {
         super(input);
     }
-    public String getGrammarFileName() { return "D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g"; }
+    public String getGrammarFileName() { return "F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g"; }
 
     // $ANTLR start T125
     public final void mT125() throws RecognitionException {
         try {
             int _type = T125;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:145:6: ( 'begin' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:145:8: 'begin'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:145:6: ( 'begin' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:145:8: 'begin'
             {
             match("begin"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -313,14 +313,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT126() throws RecognitionException {
         try {
             int _type = T126;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:146:6: ( 'end' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:146:8: 'end'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:146:6: ( 'end' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:146:8: 'end'
             {
             match("end"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -332,14 +332,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT127() throws RecognitionException {
         try {
             int _type = T127;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:147:6: ( 'false' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:147:8: 'false'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:147:6: ( 'false' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:147:8: 'false'
             {
             match("false"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -351,14 +351,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT128() throws RecognitionException {
         try {
             int _type = T128;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:148:6: ( 'nil' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:148:8: 'nil'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:148:6: ( 'nil' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:148:8: 'nil'
             {
             match("nil"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -370,14 +370,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT129() throws RecognitionException {
         try {
             int _type = T129;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:149:6: ( 'true' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:149:8: 'true'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:149:6: ( 'true' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:149:8: 'true'
             {
             match("true"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -389,14 +389,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT130() throws RecognitionException {
         try {
             int _type = T130;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:150:6: ( 'elsif' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:150:8: 'elsif'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:150:6: ( 'elsif' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:150:8: 'elsif'
             {
             match("elsif"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -408,14 +408,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT131() throws RecognitionException {
         try {
             int _type = T131;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:151:6: ( 'else' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:151:8: 'else'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:151:6: ( 'else' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:151:8: 'else'
             {
             match("else"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -427,14 +427,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT132() throws RecognitionException {
         try {
             int _type = T132;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:152:6: ( 'then' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:152:8: 'then'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:152:6: ( 'then' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:152:8: 'then'
             {
             match("then"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -446,14 +446,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT133() throws RecognitionException {
         try {
             int _type = T133;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:153:6: ( 'alias' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:153:8: 'alias'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:153:6: ( 'alias' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:153:8: 'alias'
             {
             match("alias"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -465,14 +465,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT134() throws RecognitionException {
         try {
             int _type = T134;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:154:6: ( 'def' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:154:8: 'def'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:154:6: ( 'def' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:154:8: 'def'
             {
             match("def"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -484,14 +484,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT135() throws RecognitionException {
         try {
             int _type = T135;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:155:6: ( '[]=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:155:8: '[]='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:155:6: ( '[]=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:155:8: '[]='
             {
             match("[]="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -503,14 +503,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT136() throws RecognitionException {
         try {
             int _type = T136;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:156:6: ( 'and' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:156:8: 'and'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:156:6: ( 'and' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:156:8: 'and'
             {
             match("and"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -522,14 +522,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT137() throws RecognitionException {
         try {
             int _type = T137;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:157:6: ( 'or' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:157:8: 'or'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:157:6: ( 'or' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:157:8: 'or'
             {
             match("or"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -541,14 +541,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT138() throws RecognitionException {
         try {
             int _type = T138;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:158:6: ( 'not' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:158:8: 'not'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:158:6: ( 'not' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:158:8: 'not'
             {
             match("not"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -560,14 +560,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT139() throws RecognitionException {
         try {
             int _type = T139;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:6: ( 'defined?' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:8: 'defined?'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:6: ( 'defined?' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:159:8: 'defined?'
             {
             match("defined?"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -579,14 +579,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT140() throws RecognitionException {
         try {
             int _type = T140;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:160:6: ( 'expression0' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:160:8: 'expression0'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:160:6: ( 'expression0' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:160:8: 'expression0'
             {
             match("expression0"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -598,14 +598,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT141() throws RecognitionException {
         try {
             int _type = T141;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:161:6: ( 'expression1' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:161:8: 'expression1'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:161:6: ( 'expression1' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:161:8: 'expression1'
             {
             match("expression1"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -617,14 +617,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mT142() throws RecognitionException {
         try {
             int _type = T142;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:162:6: ( 'do' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:162:8: 'do'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:162:6: ( 'do' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:162:8: 'do'
             {
             match("do"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -636,14 +636,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mIF_MODIFIER() throws RecognitionException {
         try {
             int _type = IF_MODIFIER;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:17: ( 'if' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:20: 'if'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:17: ( 'if' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:309:20: 'if'
             {
             match("if"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -655,14 +655,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mUNLESS_MODIFIER() throws RecognitionException {
         try {
             int _type = UNLESS_MODIFIER;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:310:17: ( 'unless' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:310:20: 'unless'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:310:17: ( 'unless' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:310:20: 'unless'
             {
             match("unless"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -674,14 +674,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mWHILE_MODIFIER() throws RecognitionException {
         try {
             int _type = WHILE_MODIFIER;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:17: ( 'while' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:20: 'while'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:17: ( 'while' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:311:20: 'while'
             {
             match("while"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -693,14 +693,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mUNTIL_MODIFIER() throws RecognitionException {
         try {
             int _type = UNTIL_MODIFIER;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:17: ( 'until' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:20: 'until'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:17: ( 'until' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:312:20: 'until'
             {
             match("until"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -712,14 +712,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRESCUE_MODIFIER() throws RecognitionException {
         try {
             int _type = RESCUE_MODIFIER;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:17: ( 'resuce' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:20: 'resuce'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:17: ( 'resuce' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:313:20: 'resuce'
             {
             match("resuce"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -731,13 +731,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSEMI() throws RecognitionException {
         try {
             int _type = SEMI;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:6: ( ';' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:7: ';'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:6: ( ';' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:315:7: ';'
             {
             match(';'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -749,31 +749,31 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLINE_BREAK() throws RecognitionException {
         try {
             int _type = LINE_BREAK;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:2: ( ( '\\r' )? '\\n' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:3: ( '\\r' )? '\\n'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:2: ( ( '\\r' )? '\\n' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:3: ( '\\r' )? '\\n'
             {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:3: ( '\\r' )?
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:3: ( '\\r' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
-            
+
             if ( (LA1_0=='\r') ) {
                 alt1=1;
             }
             switch (alt1) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:3: '\\r'
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:348:3: '\\r'
                     {
                     match('\r'); 
-                    
+
                     }
                     break;
-            
+
             }
 
             match('\n'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -785,12 +785,12 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mWS() throws RecognitionException {
         try {
             int _type = WS;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:4: ( ( ' ' | '\\t' ) )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:6: ( ' ' | '\\t' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:4: ( ( ' ' | '\\t' ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:350:6: ( ' ' | '\\t' )
             {
             if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
                 input.consume();
-            
+
             }
             else {
                 MismatchedSetException mse =
@@ -799,9 +799,9 @@ public class Rubyv3Lexer extends BaseLexer {
             }
 
              skip(); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -813,31 +813,31 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mINT() throws RecognitionException {
         try {
             int _type = INT;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:2: ( ( '-' )? ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) ) )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:4: ( '-' )? ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:2: ( ( '-' )? ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:4: ( '-' )? ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )
             {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:4: ( '-' )?
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:4: ( '-' )?
             int alt2=2;
             int LA2_0 = input.LA(1);
-            
+
             if ( (LA2_0=='-') ) {
                 alt2=1;
             }
             switch (alt2) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:4: '-'
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:695:4: '-'
                     {
                     match('-'); 
-                    
+
                     }
                     break;
-            
+
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:10: ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:10: ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )
             int alt9=5;
             int LA9_0 = input.LA(1);
-            
+
             if ( (LA9_0=='0') ) {
                 switch ( input.LA(2) ) {
                 case 'd':
@@ -870,7 +870,7 @@ public class Rubyv3Lexer extends BaseLexer {
                     break;
                 default:
                     alt9=5;}
-            
+
             }
             else if ( ((LA9_0>='1' && LA9_0<='9')) ) {
                 alt9=5;
@@ -878,45 +878,45 @@ public class Rubyv3Lexer extends BaseLexer {
             else {
                 NoViableAltException nvae =
                     new NoViableAltException("696:10: ( OCTAL | HEX | BINARY | LEADING_MARK_DECIMAL | ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) ) )", 9, 0, input);
-            
+
                 throw nvae;
             }
             switch (alt9) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:11: OCTAL
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:11: OCTAL
                     {
                     mOCTAL(); 
-                    
+
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:17: HEX
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:17: HEX
                     {
                     mHEX(); 
-                    
+
                     }
                     break;
                 case 3 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:21: BINARY
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:21: BINARY
                     {
                     mBINARY(); 
-                    
+
                     }
                     break;
                 case 4 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:28: LEADING_MARK_DECIMAL
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:696:28: LEADING_MARK_DECIMAL
                     {
                     mLEADING_MARK_DECIMAL(); 
-                    
+
                     }
                     break;
                 case 5 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* ) ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
                     {
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* )
                     int alt5=2;
                     int LA5_0 = input.LA(1);
-                    
+
                     if ( (LA5_0=='0') ) {
                         alt5=1;
                     }
@@ -926,74 +926,74 @@ public class Rubyv3Lexer extends BaseLexer {
                     else {
                         NoViableAltException nvae =
                             new NoViableAltException("697:12: ( '0' | '1' .. '9' ( ( '_' )? '0' .. '9' )* )", 5, 0, input);
-                    
+
                         throw nvae;
                     }
                     switch (alt5) {
                         case 1 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:13: '0'
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:13: '0'
                             {
                             match('0'); 
-                            
+
                             }
                             break;
                         case 2 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:17: '1' .. '9' ( ( '_' )? '0' .. '9' )*
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:17: '1' .. '9' ( ( '_' )? '0' .. '9' )*
                             {
                             matchRange('1','9'); 
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:26: ( ( '_' )? '0' .. '9' )*
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:26: ( ( '_' )? '0' .. '9' )*
                             loop4:
                             do {
                                 int alt4=2;
                                 int LA4_0 = input.LA(1);
-                                
+
                                 if ( ((LA4_0>='0' && LA4_0<='9')||LA4_0=='_') ) {
                                     alt4=1;
                                 }
-                                
-                            
+
+
                                 switch (alt4) {
                             	case 1 :
-                            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:27: ( '_' )? '0' .. '9'
+                            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:27: ( '_' )? '0' .. '9'
                             	    {
-                            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:27: ( '_' )?
+                            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:27: ( '_' )?
                             	    int alt3=2;
                             	    int LA3_0 = input.LA(1);
-                            	    
+
                             	    if ( (LA3_0=='_') ) {
                             	        alt3=1;
                             	    }
                             	    switch (alt3) {
                             	        case 1 :
-                            	            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:27: '_'
+                            	            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:27: '_'
                             	            {
                             	            match('_'); 
-                            	            
+
                             	            }
                             	            break;
-                            	    
+
                             	    }
 
                             	    matchRange('0','9'); 
-                            	    
+
                             	    }
                             	    break;
-                            
+
                             	default :
                             	    break loop4;
                                 }
                             } while (true);
 
-                            
+
                             }
                             break;
-                    
+
                     }
 
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:45: ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:45: ( | ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? ) )
                     int alt8=2;
                     int LA8_0 = input.LA(1);
-                    
+
                     if ( (LA8_0=='.'||LA8_0=='E'||LA8_0=='e') ) {
                         alt8=2;
                     }
@@ -1001,17 +1001,17 @@ public class Rubyv3Lexer extends BaseLexer {
                         alt8=1;}
                     switch (alt8) {
                         case 1 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:55: 
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:55: 
                             {
                             }
                             break;
                         case 2 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
                             {
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )
                             int alt7=2;
                             int LA7_0 = input.LA(1);
-                            
+
                             if ( (LA7_0=='E'||LA7_0=='e') ) {
                                 alt7=1;
                             }
@@ -1021,63 +1021,63 @@ public class Rubyv3Lexer extends BaseLexer {
                             else {
                                 NoViableAltException nvae =
                                     new NoViableAltException("697:57: ( EXP_PART | '.' LEADING0_NUMBER ( EXP_PART )? )", 7, 0, input);
-                            
+
                                 throw nvae;
                             }
                             switch (alt7) {
                                 case 1 :
-                                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:58: EXP_PART
+                                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:58: EXP_PART
                                     {
                                     mEXP_PART(); 
-                                    
+
                                     }
                                     break;
                                 case 2 :
-                                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:67: '.' LEADING0_NUMBER ( EXP_PART )?
+                                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:67: '.' LEADING0_NUMBER ( EXP_PART )?
                                     {
                                     if(input.LA(2) < '0' || input.LA(2) > '9') {_type=INT; this.type = INT; return;}
                                     match('.'); 
                                     mLEADING0_NUMBER(); 
-                                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:170: ( EXP_PART )?
+                                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:170: ( EXP_PART )?
                                     int alt6=2;
                                     int LA6_0 = input.LA(1);
-                                    
+
                                     if ( (LA6_0=='E'||LA6_0=='e') ) {
                                         alt6=1;
                                     }
                                     switch (alt6) {
                                         case 1 :
-                                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:170: EXP_PART
+                                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:697:170: EXP_PART
                                             {
                                             mEXP_PART(); 
-                                            
+
                                             }
                                             break;
-                                    
+
                                     }
 
-                                    
+
                                     }
                                     break;
-                            
+
                             }
 
                             _type = FLOAT;
-                            
+
                             }
                             break;
-                    
+
                     }
 
-                    
+
                     }
                     break;
-            
+
             }
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -1089,16 +1089,16 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mID() throws RecognitionException {
         try {
             int _type = ID;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:4: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )* | '$' ( '-' )? ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )* | '$' ( '0' .. '9' )+ | '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | ':' | '\\\"' ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:4: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )* | '$' ( '-' )? ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )* | '$' ( '0' .. '9' )+ | '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | ':' | '\\\"' ) )
             int alt14=4;
             int LA14_0 = input.LA(1);
-            
+
             if ( ((LA14_0>='A' && LA14_0<='Z')||LA14_0=='_'||(LA14_0>='a' && LA14_0<='z')) ) {
                 alt14=1;
             }
             else if ( (LA14_0=='$') ) {
                 int LA14_2 = input.LA(2);
-                
+
                 if ( ((LA14_2>='!' && LA14_2<='\"')||LA14_2=='$'||(LA14_2>='&' && LA14_2<='\'')||(LA14_2>='*' && LA14_2<=',')||(LA14_2>='.' && LA14_2<='/')||(LA14_2>=':' && LA14_2<='@')||LA14_2=='\\'||LA14_2=='`'||LA14_2=='~') ) {
                     alt14=4;
                 }
@@ -1108,16 +1108,16 @@ public class Rubyv3Lexer extends BaseLexer {
             else {
                 NoViableAltException nvae =
                     new NoViableAltException("701:1: ID : ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )* | '$' ( '-' )? ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )* | '$' ( '0' .. '9' )+ | '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | ':' | '\\\"' ) );", 14, 0, input);
-            
+
                 throw nvae;
             }
             switch (alt14) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:6: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )*
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:6: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )*
                     {
                     if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                         input.consume();
-                    
+
                     }
                     else {
                         MismatchedSetException mse =
@@ -1125,7 +1125,7 @@ public class Rubyv3Lexer extends BaseLexer {
                         recover(mse);    throw mse;
                     }
 
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:35: ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )*
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:35: ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )*
                     loop10:
                     do {
                         int alt10=4;
@@ -1205,16 +1205,16 @@ public class Rubyv3Lexer extends BaseLexer {
                             alt10=3;
                             }
                             break;
-                        
+
                         }
-                    
+
                         switch (alt10) {
                     	case 1 :
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:36: ( 'a' .. 'z' | 'A' .. 'Z' )
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:36: ( 'a' .. 'z' | 'A' .. 'Z' )
                     	    {
                     	    if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                     	        input.consume();
-                    	    
+
                     	    }
                     	    else {
                     	        MismatchedSetException mse =
@@ -1222,61 +1222,61 @@ public class Rubyv3Lexer extends BaseLexer {
                     	        recover(mse);    throw mse;
                     	    }
 
-                    	    
+
                     	    }
                     	    break;
                     	case 2 :
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:60: ( '0' .. '9' )
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:60: ( '0' .. '9' )
                     	    {
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:60: ( '0' .. '9' )
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:61: '0' .. '9'
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:60: ( '0' .. '9' )
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:61: '0' .. '9'
                     	    {
                     	    matchRange('0','9'); 
-                    	    
+
                     	    }
 
-                    	    
+
                     	    }
                     	    break;
                     	case 3 :
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:73: '_'
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:701:73: '_'
                     	    {
                     	    match('_'); 
-                    	    
+
                     	    }
                     	    break;
-                    
+
                     	default :
                     	    break loop10;
                         }
                     } while (true);
 
-                    
+
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:18: '$' ( '-' )? ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )*
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:18: '$' ( '-' )? ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )*
                     {
                     match('$'); 
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:22: ( '-' )?
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:22: ( '-' )?
                     int alt11=2;
                     int LA11_0 = input.LA(1);
-                    
+
                     if ( (LA11_0=='-') ) {
                         alt11=1;
                     }
                     switch (alt11) {
                         case 1 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:22: '-'
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:22: '-'
                             {
                             match('-'); 
-                            
+
                             }
                             break;
-                    
+
                     }
 
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:27: ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )*
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:27: ( ( 'a' .. 'z' | 'A' .. 'Z' ) | ( '0' .. '9' ) | '_' )*
                     loop12:
                     do {
                         int alt12=4;
@@ -1356,16 +1356,16 @@ public class Rubyv3Lexer extends BaseLexer {
                             alt12=3;
                             }
                             break;
-                        
+
                         }
-                    
+
                         switch (alt12) {
                     	case 1 :
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:28: ( 'a' .. 'z' | 'A' .. 'Z' )
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:28: ( 'a' .. 'z' | 'A' .. 'Z' )
                     	    {
                     	    if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                     	        input.consume();
-                    	    
+
                     	    }
                     	    else {
                     	        MismatchedSetException mse =
@@ -1373,63 +1373,63 @@ public class Rubyv3Lexer extends BaseLexer {
                     	        recover(mse);    throw mse;
                     	    }
 
-                    	    
+
                     	    }
                     	    break;
                     	case 2 :
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:52: ( '0' .. '9' )
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:52: ( '0' .. '9' )
                     	    {
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:52: ( '0' .. '9' )
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:53: '0' .. '9'
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:52: ( '0' .. '9' )
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:53: '0' .. '9'
                     	    {
                     	    matchRange('0','9'); 
-                    	    
+
                     	    }
 
-                    	    
+
                     	    }
                     	    break;
                     	case 3 :
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:65: '_'
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:702:65: '_'
                     	    {
                     	    match('_'); 
-                    	    
+
                     	    }
                     	    break;
-                    
+
                     	default :
                     	    break loop12;
                         }
                     } while (true);
 
-                    
+
                     }
                     break;
                 case 3 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:703:18: '$' ( '0' .. '9' )+
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:703:18: '$' ( '0' .. '9' )+
                     {
                     match('$'); 
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:703:22: ( '0' .. '9' )+
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:703:22: ( '0' .. '9' )+
                     int cnt13=0;
                     loop13:
                     do {
                         int alt13=2;
                         int LA13_0 = input.LA(1);
-                        
+
                         if ( ((LA13_0>='0' && LA13_0<='9')) ) {
                             alt13=1;
                         }
-                        
-                    
+
+
                         switch (alt13) {
                     	case 1 :
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:703:23: '0' .. '9'
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:703:23: '0' .. '9'
                     	    {
                     	    matchRange('0','9'); 
-                    	    
+
                     	    }
                     	    break;
-                    
+
                     	default :
                     	    if ( cnt13 >= 1 ) break loop13;
                                 EarlyExitException eee =
@@ -1439,16 +1439,16 @@ public class Rubyv3Lexer extends BaseLexer {
                         cnt13++;
                     } while (true);
 
-                    
+
                     }
                     break;
                 case 4 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:704:18: '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | ':' | '\\\"' )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:704:18: '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | ':' | '\\\"' )
                     {
                     match('$'); 
                     if ( (input.LA(1)>='!' && input.LA(1)<='\"')||input.LA(1)=='$'||(input.LA(1)>='&' && input.LA(1)<='\'')||(input.LA(1)>='*' && input.LA(1)<=',')||(input.LA(1)>='.' && input.LA(1)<='/')||(input.LA(1)>=':' && input.LA(1)<='@')||input.LA(1)=='\\'||input.LA(1)=='`'||input.LA(1)=='~' ) {
                         input.consume();
-                    
+
                     }
                     else {
                         MismatchedSetException mse =
@@ -1456,10 +1456,10 @@ public class Rubyv3Lexer extends BaseLexer {
                         recover(mse);    throw mse;
                     }
 
-                    
+
                     }
                     break;
-            
+
             }
             this.type = _type;
         }
@@ -1472,13 +1472,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mFID() throws RecognitionException {
         try {
             int _type = FID;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:706:5: ( ID ( '?' | '!' ) )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:706:7: ID ( '?' | '!' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:706:5: ( ID ( '?' | '!' ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:706:7: ID ( '?' | '!' )
             {
             mID(); 
             if ( input.LA(1)=='!'||input.LA(1)=='?' ) {
                 input.consume();
-            
+
             }
             else {
                 MismatchedSetException mse =
@@ -1486,9 +1486,9 @@ public class Rubyv3Lexer extends BaseLexer {
                 recover(mse);    throw mse;
             }
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -1500,14 +1500,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mINSTANCE_VARIABLE() throws RecognitionException {
         try {
             int _type = INSTANCE_VARIABLE;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:708:2: ( '@' IDENTIFIER_CONSTANT_AND_KEYWORD )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:708:4: '@' IDENTIFIER_CONSTANT_AND_KEYWORD
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:708:2: ( '@' IDENTIFIER_CONSTANT_AND_KEYWORD )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:708:4: '@' IDENTIFIER_CONSTANT_AND_KEYWORD
             {
             match('@'); 
             mIDENTIFIER_CONSTANT_AND_KEYWORD(); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -1519,14 +1519,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCLASS_VARIABLE() throws RecognitionException {
         try {
             int _type = CLASS_VARIABLE;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:710:2: ( '@' INSTANCE_VARIABLE )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:710:4: '@' INSTANCE_VARIABLE
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:710:2: ( '@' INSTANCE_VARIABLE )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:710:4: '@' INSTANCE_VARIABLE
             {
             match('@'); 
             mINSTANCE_VARIABLE(); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -1538,10 +1538,10 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mGLOBAL_VARIABLE() throws RecognitionException {
         try {
             int _type = GLOBAL_VARIABLE;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:713:3: ( '$' ( '-' )? IDENTIFIER_CONSTANT_AND_KEYWORD | '$' ( options {greedy=true; } : '0' .. '9' )+ | '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | '\\\"' ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:713:3: ( '$' ( '-' )? IDENTIFIER_CONSTANT_AND_KEYWORD | '$' ( options {greedy=true; } : '0' .. '9' )+ | '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | '\\\"' ) )
             int alt17=3;
             int LA17_0 = input.LA(1);
-            
+
             if ( (LA17_0=='$') ) {
                 switch ( input.LA(2) ) {
                 case '!':
@@ -1642,69 +1642,69 @@ public class Rubyv3Lexer extends BaseLexer {
                 default:
                     NoViableAltException nvae =
                         new NoViableAltException("712:1: GLOBAL_VARIABLE : ( '$' ( '-' )? IDENTIFIER_CONSTANT_AND_KEYWORD | '$' ( options {greedy=true; } : '0' .. '9' )+ | '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | '\\\"' ) );", 17, 1, input);
-                
+
                     throw nvae;
                 }
-            
+
             }
             else {
                 NoViableAltException nvae =
                     new NoViableAltException("712:1: GLOBAL_VARIABLE : ( '$' ( '-' )? IDENTIFIER_CONSTANT_AND_KEYWORD | '$' ( options {greedy=true; } : '0' .. '9' )+ | '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | '\\\"' ) );", 17, 0, input);
-            
+
                 throw nvae;
             }
             switch (alt17) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:713:5: '$' ( '-' )? IDENTIFIER_CONSTANT_AND_KEYWORD
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:713:5: '$' ( '-' )? IDENTIFIER_CONSTANT_AND_KEYWORD
                     {
                     match('$'); 
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:713:9: ( '-' )?
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:713:9: ( '-' )?
                     int alt15=2;
                     int LA15_0 = input.LA(1);
-                    
+
                     if ( (LA15_0=='-') ) {
                         alt15=1;
                     }
                     switch (alt15) {
                         case 1 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:713:10: '-'
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:713:10: '-'
                             {
                             match('-'); 
-                            
+
                             }
                             break;
-                    
+
                     }
 
                     mIDENTIFIER_CONSTANT_AND_KEYWORD(); 
-                    
+
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:714:5: '$' ( options {greedy=true; } : '0' .. '9' )+
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:714:5: '$' ( options {greedy=true; } : '0' .. '9' )+
                     {
                     match('$'); 
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:714:9: ( options {greedy=true; } : '0' .. '9' )+
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:714:9: ( options {greedy=true; } : '0' .. '9' )+
                     int cnt16=0;
                     loop16:
                     do {
                         int alt16=2;
                         int LA16_0 = input.LA(1);
-                        
+
                         if ( ((LA16_0>='0' && LA16_0<='9')) ) {
                             alt16=1;
                         }
-                        
-                    
+
+
                         switch (alt16) {
                     	case 1 :
-                    	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:714:32: '0' .. '9'
+                    	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:714:32: '0' .. '9'
                     	    {
                     	    matchRange('0','9'); 
-                    	    
+
                     	    }
                     	    break;
-                    
+
                     	default :
                     	    if ( cnt16 >= 1 ) break loop16;
                                 EarlyExitException eee =
@@ -1714,16 +1714,16 @@ public class Rubyv3Lexer extends BaseLexer {
                         cnt16++;
                     } while (true);
 
-                    
+
                     }
                     break;
                 case 3 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:715:5: '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | '\\\"' )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:715:5: '$' ( '!' | '@' | '&' | '`' | '\\'' | '+' | '~' | '=' | '/' | '\\\\' | ',' | ';' | '.' | '<' | '>' | '*' | '$' | '?' | '\\\"' )
                     {
                     match('$'); 
                     if ( (input.LA(1)>='!' && input.LA(1)<='\"')||input.LA(1)=='$'||(input.LA(1)>='&' && input.LA(1)<='\'')||(input.LA(1)>='*' && input.LA(1)<=',')||(input.LA(1)>='.' && input.LA(1)<='/')||(input.LA(1)>=';' && input.LA(1)<='@')||input.LA(1)=='\\'||input.LA(1)=='`'||input.LA(1)=='~' ) {
                         input.consume();
-                    
+
                     }
                     else {
                         MismatchedSetException mse =
@@ -1731,10 +1731,10 @@ public class Rubyv3Lexer extends BaseLexer {
                         recover(mse);    throw mse;
                     }
 
-                    
+
                     }
                     break;
-            
+
             }
             this.type = _type;
         }
@@ -1746,12 +1746,12 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start IDENTIFIER_CONSTANT_AND_KEYWORD
     public final void mIDENTIFIER_CONSTANT_AND_KEYWORD() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:719:3: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:719:5: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:719:3: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:719:5: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
-            
+
             }
             else {
                 MismatchedSetException mse =
@@ -1759,24 +1759,24 @@ public class Rubyv3Lexer extends BaseLexer {
                 recover(mse);    throw mse;
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:719:29: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:719:29: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop18:
             do {
                 int alt18=2;
                 int LA18_0 = input.LA(1);
-                
+
                 if ( ((LA18_0>='0' && LA18_0<='9')||(LA18_0>='A' && LA18_0<='Z')||LA18_0=='_'||(LA18_0>='a' && LA18_0<='z')) ) {
                     alt18=1;
                 }
-                
-            
+
+
                 switch (alt18) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
             	    {
             	    if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
             	        input.consume();
-            	    
+
             	    }
             	    else {
             	        MismatchedSetException mse =
@@ -1784,16 +1784,16 @@ public class Rubyv3Lexer extends BaseLexer {
             	        recover(mse);    throw mse;
             	    }
 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop18;
                 }
             } while (true);
 
-            
+
             }
 
         }
@@ -1805,79 +1805,79 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start OCTAL
     public final void mOCTAL() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:7: ( '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:9: '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:7: ( '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:9: '0' ( '_' )? ( '0' .. '7' ) ( ( '_' )? '0' .. '7' )*
             {
             match('0'); 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:13: ( '_' )?
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:13: ( '_' )?
             int alt19=2;
             int LA19_0 = input.LA(1);
-            
+
             if ( (LA19_0=='_') ) {
                 alt19=1;
             }
             switch (alt19) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:13: '_'
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:13: '_'
                     {
                     match('_'); 
-                    
+
                     }
                     break;
-            
+
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:18: ( '0' .. '7' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:19: '0' .. '7'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:18: ( '0' .. '7' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:19: '0' .. '7'
             {
             matchRange('0','7'); 
-            
+
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:29: ( ( '_' )? '0' .. '7' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:29: ( ( '_' )? '0' .. '7' )*
             loop21:
             do {
                 int alt21=2;
                 int LA21_0 = input.LA(1);
-                
+
                 if ( ((LA21_0>='0' && LA21_0<='7')||LA21_0=='_') ) {
                     alt21=1;
                 }
-                
-            
+
+
                 switch (alt21) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:30: ( '_' )? '0' .. '7'
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:30: ( '_' )? '0' .. '7'
             	    {
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:30: ( '_' )?
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:30: ( '_' )?
             	    int alt20=2;
             	    int LA20_0 = input.LA(1);
-            	    
+
             	    if ( (LA20_0=='_') ) {
             	        alt20=1;
             	    }
             	    switch (alt20) {
             	        case 1 :
-            	            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:30: '_'
+            	            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:728:30: '_'
             	            {
             	            match('_'); 
-            	            
+
             	            }
             	            break;
-            	    
+
             	    }
 
             	    matchRange('0','7'); 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop21;
                 }
             } while (true);
 
-            
+
             }
 
         }
@@ -1889,68 +1889,68 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start LEADING_MARK_DECIMAL
     public final void mLEADING_MARK_DECIMAL() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:730:22: ( ( '0d' ) ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:1: ( '0d' ) ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:730:22: ( ( '0d' ) ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:1: ( '0d' ) ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
             {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:1: ( '0d' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:2: '0d'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:1: ( '0d' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:2: '0d'
             {
             match("0d"); 
 
-            
+
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:8: ( '0' .. '9' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:9: '0' .. '9'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:8: ( '0' .. '9' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:9: '0' .. '9'
             {
             matchRange('0','9'); 
-            
+
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:19: ( ( '_' )? '0' .. '9' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:19: ( ( '_' )? '0' .. '9' )*
             loop23:
             do {
                 int alt23=2;
                 int LA23_0 = input.LA(1);
-                
+
                 if ( ((LA23_0>='0' && LA23_0<='9')||LA23_0=='_') ) {
                     alt23=1;
                 }
-                
-            
+
+
                 switch (alt23) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:20: ( '_' )? '0' .. '9'
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:20: ( '_' )? '0' .. '9'
             	    {
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:20: ( '_' )?
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:20: ( '_' )?
             	    int alt22=2;
             	    int LA22_0 = input.LA(1);
-            	    
+
             	    if ( (LA22_0=='_') ) {
             	        alt22=1;
             	    }
             	    switch (alt22) {
             	        case 1 :
-            	            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:20: '_'
+            	            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:731:20: '_'
             	            {
             	            match('_'); 
-            	            
+
             	            }
             	            break;
-            	    
+
             	    }
 
             	    matchRange('0','9'); 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop23;
                 }
             } while (true);
 
-            
+
             }
 
         }
@@ -1962,56 +1962,56 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start HEX
     public final void mHEX() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:5: ( '0x' HEX_PART ( ( '_' )? HEX_PART )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:7: '0x' HEX_PART ( ( '_' )? HEX_PART )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:5: ( '0x' HEX_PART ( ( '_' )? HEX_PART )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:7: '0x' HEX_PART ( ( '_' )? HEX_PART )*
             {
             match("0x"); 
 
             mHEX_PART(); 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:21: ( ( '_' )? HEX_PART )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:21: ( ( '_' )? HEX_PART )*
             loop25:
             do {
                 int alt25=2;
                 int LA25_0 = input.LA(1);
-                
+
                 if ( ((LA25_0>='0' && LA25_0<='9')||(LA25_0>='A' && LA25_0<='F')||LA25_0=='_'||(LA25_0>='a' && LA25_0<='f')) ) {
                     alt25=1;
                 }
-                
-            
+
+
                 switch (alt25) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:22: ( '_' )? HEX_PART
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:22: ( '_' )? HEX_PART
             	    {
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:22: ( '_' )?
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:22: ( '_' )?
             	    int alt24=2;
             	    int LA24_0 = input.LA(1);
-            	    
+
             	    if ( (LA24_0=='_') ) {
             	        alt24=1;
             	    }
             	    switch (alt24) {
             	        case 1 :
-            	            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:22: '_'
+            	            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:733:22: '_'
             	            {
             	            match('_'); 
-            	            
+
             	            }
             	            break;
-            	    
+
             	    }
 
             	    mHEX_PART(); 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop25;
                 }
             } while (true);
 
-            
+
             }
 
         }
@@ -2023,12 +2023,12 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start HEX_PART
     public final void mHEX_PART() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:736:2: ( ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' ) )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:736:4: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:736:2: ( ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:736:4: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='F')||(input.LA(1)>='a' && input.LA(1)<='f') ) {
                 input.consume();
-            
+
             }
             else {
                 MismatchedSetException mse =
@@ -2036,7 +2036,7 @@ public class Rubyv3Lexer extends BaseLexer {
                 recover(mse);    throw mse;
             }
 
-            
+
             }
 
         }
@@ -2048,62 +2048,62 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start BINARY
     public final void mBINARY() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:8: ( '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:10: '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:8: ( '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:10: '0b' ( '0' .. '1' ) ( ( '_' )? '0' .. '1' )*
             {
             match("0b"); 
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:14: ( '0' .. '1' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:15: '0' .. '1'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:14: ( '0' .. '1' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:15: '0' .. '1'
             {
             matchRange('0','1'); 
-            
+
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:25: ( ( '_' )? '0' .. '1' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:25: ( ( '_' )? '0' .. '1' )*
             loop27:
             do {
                 int alt27=2;
                 int LA27_0 = input.LA(1);
-                
+
                 if ( ((LA27_0>='0' && LA27_0<='1')||LA27_0=='_') ) {
                     alt27=1;
                 }
-                
-            
+
+
                 switch (alt27) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:26: ( '_' )? '0' .. '1'
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:26: ( '_' )? '0' .. '1'
             	    {
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:26: ( '_' )?
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:26: ( '_' )?
             	    int alt26=2;
             	    int LA26_0 = input.LA(1);
-            	    
+
             	    if ( (LA26_0=='_') ) {
             	        alt26=1;
             	    }
             	    switch (alt26) {
             	        case 1 :
-            	            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:26: '_'
+            	            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:26: '_'
             	            {
             	            match('_'); 
-            	            
+
             	            }
             	            break;
-            	    
+
             	    }
 
             	    matchRange('0','1'); 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop27;
                 }
             } while (true);
 
-            
+
             }
 
         }
@@ -2115,57 +2115,57 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start ESCAPE_INT
     public final void mESCAPE_INT() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:2: ( ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART ) )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:23: ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:2: ( ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:23: ( CONTROL_PART | META_PART )* ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
             {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:23: ( CONTROL_PART | META_PART )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:23: ( CONTROL_PART | META_PART )*
             loop28:
             do {
                 int alt28=3;
                 int LA28_0 = input.LA(1);
-                
+
                 if ( (LA28_0=='\\') ) {
                     int LA28_1 = input.LA(2);
-                    
+
                     if ( (LA28_1=='M') ) {
                         alt28=2;
                     }
                     else if ( (LA28_1=='C'||LA28_1=='c') ) {
                         alt28=1;
                     }
-                    
-                
+
+
                 }
-                
-            
+
+
                 switch (alt28) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:24: CONTROL_PART
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:24: CONTROL_PART
             	    {
             	    mCONTROL_PART(); 
-            	    
+
             	    }
             	    break;
             	case 2 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:37: META_PART
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:37: META_PART
             	    {
             	    mMETA_PART(); 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop28;
                 }
             } while (true);
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:49: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:49: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )
             int alt29=3;
             int LA29_0 = input.LA(1);
-            
+
             if ( (LA29_0=='\\') ) {
                 int LA29_1 = input.LA(2);
-                
+
                 if ( ((LA29_1>='\u0000' && LA29_1<='B')||(LA29_1>='D' && LA29_1<='L')||(LA29_1>='N' && LA29_1<='b')||(LA29_1>='d' && LA29_1<='\uFFFE')) ) {
                     alt29=3;
                 }
@@ -2181,35 +2181,35 @@ public class Rubyv3Lexer extends BaseLexer {
             else {
                 NoViableAltException nvae =
                     new NoViableAltException("744:49: ( '\\u0000' .. '\\u0091' | '\\u0093' .. '\\u0255' | ESCAPE_INT_PART )", 29, 0, input);
-            
+
                 throw nvae;
             }
             switch (alt29) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:50: '\\u0000' .. '\\u0091'
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:50: '\\u0000' .. '\\u0091'
                     {
                     matchRange('\u0000','\u0091'); 
-                    
+
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:73: '\\u0093' .. '\\u0255'
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:73: '\\u0093' .. '\\u0255'
                     {
                     matchRange('\u0093','\u0255'); 
-                    
+
                     }
                     break;
                 case 3 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:94: ESCAPE_INT_PART
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:744:94: ESCAPE_INT_PART
                     {
                     mESCAPE_INT_PART(); 
-                    
+
                     }
                     break;
-            
+
             }
 
-            
+
             }
 
         }
@@ -2221,16 +2221,16 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start CONTROL_PART
     public final void mCONTROL_PART() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:2: ( ( '\\\\C-' | '\\\\c' ) )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:4: ( '\\\\C-' | '\\\\c' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:2: ( ( '\\\\C-' | '\\\\c' ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:4: ( '\\\\C-' | '\\\\c' )
             {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:4: ( '\\\\C-' | '\\\\c' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:4: ( '\\\\C-' | '\\\\c' )
             int alt30=2;
             int LA30_0 = input.LA(1);
-            
+
             if ( (LA30_0=='\\') ) {
                 int LA30_1 = input.LA(2);
-                
+
                 if ( (LA30_1=='C') ) {
                     alt30=1;
                 }
@@ -2240,37 +2240,37 @@ public class Rubyv3Lexer extends BaseLexer {
                 else {
                     NoViableAltException nvae =
                         new NoViableAltException("748:4: ( '\\\\C-' | '\\\\c' )", 30, 1, input);
-                
+
                     throw nvae;
                 }
             }
             else {
                 NoViableAltException nvae =
                     new NoViableAltException("748:4: ( '\\\\C-' | '\\\\c' )", 30, 0, input);
-            
+
                 throw nvae;
             }
             switch (alt30) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:5: '\\\\C-'
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:5: '\\\\C-'
                     {
                     match("\\C-"); 
 
-                    
+
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:12: '\\\\c'
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:748:12: '\\\\c'
                     {
                     match("\\c"); 
 
-                    
+
                     }
                     break;
-            
+
             }
 
-            
+
             }
 
         }
@@ -2282,12 +2282,12 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start META_PART
     public final void mMETA_PART() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:752:2: ( '\\\\M-' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:752:4: '\\\\M-'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:752:2: ( '\\\\M-' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:752:4: '\\\\M-'
             {
             match("\\M-"); 
 
-            
+
             }
 
         }
@@ -2299,60 +2299,60 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start NON_LEADING0_NUMBER
     public final void mNON_LEADING0_NUMBER() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:2: ( ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:3: ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:2: ( ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:3: ( '1' .. '9' ) ( ( '_' )? '0' .. '9' )*
             {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:3: ( '1' .. '9' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:4: '1' .. '9'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:3: ( '1' .. '9' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:4: '1' .. '9'
             {
             matchRange('1','9'); 
-            
+
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:14: ( ( '_' )? '0' .. '9' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:14: ( ( '_' )? '0' .. '9' )*
             loop32:
             do {
                 int alt32=2;
                 int LA32_0 = input.LA(1);
-                
+
                 if ( ((LA32_0>='0' && LA32_0<='9')||LA32_0=='_') ) {
                     alt32=1;
                 }
-                
-            
+
+
                 switch (alt32) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:15: ( '_' )? '0' .. '9'
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:15: ( '_' )? '0' .. '9'
             	    {
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:15: ( '_' )?
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:15: ( '_' )?
             	    int alt31=2;
             	    int LA31_0 = input.LA(1);
-            	    
+
             	    if ( (LA31_0=='_') ) {
             	        alt31=1;
             	    }
             	    switch (alt31) {
             	        case 1 :
-            	            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:15: '_'
+            	            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:757:15: '_'
             	            {
             	            match('_'); 
-            	            
+
             	            }
             	            break;
-            	    
+
             	    }
 
             	    matchRange('0','9'); 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop32;
                 }
             } while (true);
 
-            
+
             }
 
         }
@@ -2364,60 +2364,60 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start LEADING0_NUMBER
     public final void mLEADING0_NUMBER() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:2: ( ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:3: ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:2: ( ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:3: ( '0' .. '9' ) ( ( '_' )? '0' .. '9' )*
             {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:3: ( '0' .. '9' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:4: '0' .. '9'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:3: ( '0' .. '9' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:4: '0' .. '9'
             {
             matchRange('0','9'); 
-            
+
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:14: ( ( '_' )? '0' .. '9' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:14: ( ( '_' )? '0' .. '9' )*
             loop34:
             do {
                 int alt34=2;
                 int LA34_0 = input.LA(1);
-                
+
                 if ( ((LA34_0>='0' && LA34_0<='9')||LA34_0=='_') ) {
                     alt34=1;
                 }
-                
-            
+
+
                 switch (alt34) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:15: ( '_' )? '0' .. '9'
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:15: ( '_' )? '0' .. '9'
             	    {
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:15: ( '_' )?
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:15: ( '_' )?
             	    int alt33=2;
             	    int LA33_0 = input.LA(1);
-            	    
+
             	    if ( (LA33_0=='_') ) {
             	        alt33=1;
             	    }
             	    switch (alt33) {
             	        case 1 :
-            	            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:15: '_'
+            	            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:760:15: '_'
             	            {
             	            match('_'); 
-            	            
+
             	            }
             	            break;
-            	    
+
             	    }
 
             	    matchRange('0','9'); 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop34;
                 }
             } while (true);
 
-            
+
             }
 
         }
@@ -2429,12 +2429,12 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start EXP_PART
     public final void mEXP_PART() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:762:9: ( ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:762:11: ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:762:9: ( ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:762:11: ( 'e' | 'E' ) ( '-' )? LEADING0_NUMBER
             {
             if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
                 input.consume();
-            
+
             }
             else {
                 MismatchedSetException mse =
@@ -2442,26 +2442,26 @@ public class Rubyv3Lexer extends BaseLexer {
                 recover(mse);    throw mse;
             }
 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:762:23: ( '-' )?
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:762:23: ( '-' )?
             int alt35=2;
             int LA35_0 = input.LA(1);
-            
+
             if ( (LA35_0=='-') ) {
                 alt35=1;
             }
             switch (alt35) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:762:23: '-'
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:762:23: '-'
                     {
                     match('-'); 
-                    
+
                     }
                     break;
-            
+
             }
 
             mLEADING0_NUMBER(); 
-            
+
             }
 
         }
@@ -2474,39 +2474,39 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSINGLE_QUOTE_STRING_SIMPLE() throws RecognitionException {
         try {
             int _type = SINGLE_QUOTE_STRING_SIMPLE;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:771:2: ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:771:4: '\\'' ( SINGLE_STRING_CHAR )* '\\''
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:771:2: ( '\\'' ( SINGLE_STRING_CHAR )* '\\'' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:771:4: '\\'' ( SINGLE_STRING_CHAR )* '\\''
             {
             match('\''); 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:771:9: ( SINGLE_STRING_CHAR )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:771:9: ( SINGLE_STRING_CHAR )*
             loop36:
             do {
                 int alt36=2;
                 int LA36_0 = input.LA(1);
-                
+
                 if ( ((LA36_0>='\u0000' && LA36_0<='&')||(LA36_0>='(' && LA36_0<='\uFFFE')) ) {
                     alt36=1;
                 }
-                
-            
+
+
                 switch (alt36) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:771:9: SINGLE_STRING_CHAR
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:771:9: SINGLE_STRING_CHAR
             	    {
             	    mSINGLE_STRING_CHAR(); 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop36;
                 }
             } while (true);
 
             match('\''); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -2520,30 +2520,30 @@ public class Rubyv3Lexer extends BaseLexer {
             int _type = SINGLE_QUOTE_STRING_COMPLEX;
             int begin;
             int tmp;
-    
+
             int end=0; int nested=0;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:775:33: ( '%q' begin= . (tmp= . )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:775:35: '%q' begin= . (tmp= . )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:775:33: ( '%q' begin= . (tmp= . )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:775:35: '%q' begin= . (tmp= . )*
             {
             match("%q"); 
 
             begin = input.LA(1);
             matchAny(); 
             System.out.println(begin); end=determineEnd(begin);begin=determineBegin(begin); 
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:775:134: (tmp= . )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:775:134: (tmp= . )*
             loop37:
             do {
                 int alt37=2;
                 int LA37_0 = input.LA(1);
-                
+
                 if ( ((LA37_0>='\u0000' && LA37_0<='\uFFFE')) ) {
                     alt37=1;
                 }
-                
-            
+
+
                 switch (alt37) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:775:135: tmp= .
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:775:135: tmp= .
             	    {
             	    tmp = input.LA(1);
             	    matchAny(); 
@@ -2569,18 +2569,18 @@ public class Rubyv3Lexer extends BaseLexer {
             	                                    nested --;
             	                                }
             	                                
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop37;
                 }
             } while (true);
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -2593,16 +2593,16 @@ public class Rubyv3Lexer extends BaseLexer {
         try {
             int _type = DOUBLE_QUOTE_STRING_SIMPLE;
             int s;
-    
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:800:2: (s= '\"' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:800:4: s= '\"'
+
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:800:2: (s= '\"' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:800:4: s= '\"'
             {
             s = input.LA(1);
             match('\"'); 
             expression = new DoubleStringParser(this.parser, input, '"', 0).parseString();
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -2615,10 +2615,10 @@ public class Rubyv3Lexer extends BaseLexer {
         try {
             int _type = DOUBLE_QUOTE_STRING_COMPLEX;
             int begin;
-    
+
             int end=0; int nested=0;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:804:33: ( '%Q' begin= . )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:804:35: '%Q' begin= .
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:804:33: ( '%Q' begin= . )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:804:35: '%Q' begin= .
             {
             match("%Q"); 
 
@@ -2626,9 +2626,9 @@ public class Rubyv3Lexer extends BaseLexer {
             matchAny(); 
             end=determineEnd(begin);begin=determineBegin(begin); 
             	expression = new DoubleStringParser(this.parser, input, end, begin).parseString(); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -2639,10 +2639,10 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start SINGLE_STRING_CHAR
     public final void mSINGLE_STRING_CHAR() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:810:4: ( '\\\\' . | ~ ( '\\\\' | '\\'' ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:810:4: ( '\\\\' . | ~ ( '\\\\' | '\\'' ) )
             int alt38=2;
             int LA38_0 = input.LA(1);
-            
+
             if ( (LA38_0=='\\') ) {
                 alt38=1;
             }
@@ -2652,24 +2652,24 @@ public class Rubyv3Lexer extends BaseLexer {
             else {
                 NoViableAltException nvae =
                     new NoViableAltException("808:1: fragment SINGLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\\'' ) );", 38, 0, input);
-            
+
                 throw nvae;
             }
             switch (alt38) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:810:6: '\\\\' .
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:810:6: '\\\\' .
                     {
                     match('\\'); 
                     matchAny(); 
-                    
+
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:810:15: ~ ( '\\\\' | '\\'' )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:810:15: ~ ( '\\\\' | '\\'' )
                     {
                     if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                         input.consume();
-                    
+
                     }
                     else {
                         MismatchedSetException mse =
@@ -2677,10 +2677,10 @@ public class Rubyv3Lexer extends BaseLexer {
                         recover(mse);    throw mse;
                     }
 
-                    
+
                     }
                     break;
-            
+
             }
         }
         finally {
@@ -2691,10 +2691,10 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start DOUBLE_STRING_CHAR
     public final void mDOUBLE_STRING_CHAR() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:813:2: ( '\\\\' . | ~ ( '\\\\' | '\"' ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:813:2: ( '\\\\' . | ~ ( '\\\\' | '\"' ) )
             int alt39=2;
             int LA39_0 = input.LA(1);
-            
+
             if ( (LA39_0=='\\') ) {
                 alt39=1;
             }
@@ -2704,24 +2704,24 @@ public class Rubyv3Lexer extends BaseLexer {
             else {
                 NoViableAltException nvae =
                     new NoViableAltException("811:1: fragment DOUBLE_STRING_CHAR : ( '\\\\' . | ~ ( '\\\\' | '\"' ) );", 39, 0, input);
-            
+
                 throw nvae;
             }
             switch (alt39) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:813:4: '\\\\' .
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:813:4: '\\\\' .
                     {
                     match('\\'); 
                     matchAny(); 
-                    
+
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:813:13: ~ ( '\\\\' | '\"' )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:813:13: ~ ( '\\\\' | '\"' )
                     {
                     if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                         input.consume();
-                    
+
                     }
                     else {
                         MismatchedSetException mse =
@@ -2729,10 +2729,10 @@ public class Rubyv3Lexer extends BaseLexer {
                         recover(mse);    throw mse;
                     }
 
-                    
+
                     }
                     break;
-            
+
             }
         }
         finally {
@@ -2744,14 +2744,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLCURLY() throws RecognitionException {
         try {
             int _type = LCURLY;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:821:9: ( '{' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:821:11: '{'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:821:9: ( '{' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:821:11: '{'
             {
             match('{'); 
             nesting++; System.out.println("meeting LCURLY with nesting:" + nesting);
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -2763,8 +2763,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRCURLY() throws RecognitionException {
         try {
             int _type = RCURLY;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:827:9: ( '}' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:827:11: '}'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:827:9: ( '}' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:827:11: '}'
             {
             match('}'); 
             
@@ -2776,9 +2776,9 @@ public class Rubyv3Lexer extends BaseLexer {
                             nesting--;
                       }
                       
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -2789,13 +2789,13 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start ESCAPE_INT_PART
     public final void mESCAPE_INT_PART() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:2: ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:2: ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) )
             int alt42=3;
             int LA42_0 = input.LA(1);
-            
+
             if ( (LA42_0=='\\') ) {
                 int LA42_1 = input.LA(2);
-                
+
                 if ( ((LA42_1>='\u0000' && LA42_1<='/')||(LA42_1>='8' && LA42_1<='B')||(LA42_1>='D' && LA42_1<='L')||(LA42_1>='N' && LA42_1<='b')||(LA42_1>='d' && LA42_1<='w')||(LA42_1>='y' && LA42_1<='\uFFFE')) ) {
                     alt42=3;
                 }
@@ -2808,31 +2808,31 @@ public class Rubyv3Lexer extends BaseLexer {
                 else {
                     NoViableAltException nvae =
                         new NoViableAltException("838:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 42, 1, input);
-                
+
                     throw nvae;
                 }
             }
             else {
                 NoViableAltException nvae =
                     new NoViableAltException("838:1: fragment ESCAPE_INT_PART : ( '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' ) | '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART ) | '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' ) );", 42, 0, input);
-            
+
                 throw nvae;
             }
             switch (alt42) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:4: '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:4: '\\\\' ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
                     {
                     match('\\'); 
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )
                     int alt40=3;
                     int LA40_0 = input.LA(1);
-                    
+
                     if ( ((LA40_0>='0' && LA40_0<='7')) ) {
                         int LA40_1 = input.LA(2);
-                        
+
                         if ( ((LA40_1>='0' && LA40_1<='7')) ) {
                             int LA40_2 = input.LA(3);
-                            
+
                             if ( ((LA40_2>='0' && LA40_2<='7')) ) {
                                 alt40=3;
                             }
@@ -2845,52 +2845,52 @@ public class Rubyv3Lexer extends BaseLexer {
                     else {
                         NoViableAltException nvae =
                             new NoViableAltException("840:9: ( '0' .. '7' | '0' .. '7' '0' .. '7' | '0' .. '7' '0' .. '7' '0' .. '7' )", 40, 0, input);
-                    
+
                         throw nvae;
                     }
                     switch (alt40) {
                         case 1 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:10: '0' .. '7'
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:10: '0' .. '7'
                             {
                             matchRange('0','7'); 
-                            
+
                             }
                             break;
                         case 2 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:21: '0' .. '7' '0' .. '7'
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:21: '0' .. '7' '0' .. '7'
                             {
                             matchRange('0','7'); 
                             matchRange('0','7'); 
-                            
+
                             }
                             break;
                         case 3 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:41: '0' .. '7' '0' .. '7' '0' .. '7'
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:41: '0' .. '7' '0' .. '7' '0' .. '7'
                             {
                             matchRange('0','7'); 
                             matchRange('0','7'); 
                             matchRange('0','7'); 
-                            
+
                             }
                             break;
-                    
+
                     }
 
-                    
+
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:10: '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:10: '\\\\' 'x' ( HEX_PART | HEX_PART HEX_PART )
                     {
                     match('\\'); 
                     match('x'); 
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:19: ( HEX_PART | HEX_PART HEX_PART )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:19: ( HEX_PART | HEX_PART HEX_PART )
                     int alt41=2;
                     int LA41_0 = input.LA(1);
-                    
+
                     if ( ((LA41_0>='0' && LA41_0<='9')||(LA41_0>='A' && LA41_0<='F')||(LA41_0>='a' && LA41_0<='f')) ) {
                         int LA41_1 = input.LA(2);
-                        
+
                         if ( ((LA41_1>='0' && LA41_1<='9')||(LA41_1>='A' && LA41_1<='F')||(LA41_1>='a' && LA41_1<='f')) ) {
                             alt41=2;
                         }
@@ -2900,38 +2900,38 @@ public class Rubyv3Lexer extends BaseLexer {
                     else {
                         NoViableAltException nvae =
                             new NoViableAltException("841:19: ( HEX_PART | HEX_PART HEX_PART )", 41, 0, input);
-                    
+
                         throw nvae;
                     }
                     switch (alt41) {
                         case 1 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:20: HEX_PART
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:20: HEX_PART
                             {
                             mHEX_PART(); 
-                            
+
                             }
                             break;
                         case 2 :
-                            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:29: HEX_PART HEX_PART
+                            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:29: HEX_PART HEX_PART
                             {
                             mHEX_PART(); 
                             mHEX_PART(); 
-                            
+
                             }
                             break;
-                    
+
                     }
 
-                    
+
                     }
                     break;
                 case 3 :
-                    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:842:10: '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' )
+                    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:842:10: '\\\\' ~ ( '0' .. '7' | 'x' | 'c' | 'M' | 'C' )
                     {
                     match('\\'); 
                     if ( (input.LA(1)>='\u0000' && input.LA(1)<='/')||(input.LA(1)>='8' && input.LA(1)<='B')||(input.LA(1)>='D' && input.LA(1)<='L')||(input.LA(1)>='N' && input.LA(1)<='b')||(input.LA(1)>='d' && input.LA(1)<='w')||(input.LA(1)>='y' && input.LA(1)<='\uFFFE') ) {
                         input.consume();
-                    
+
                     }
                     else {
                         MismatchedSetException mse =
@@ -2939,10 +2939,10 @@ public class Rubyv3Lexer extends BaseLexer {
                         recover(mse);    throw mse;
                     }
 
-                    
+
                     }
                     break;
-            
+
             }
         }
         finally {
@@ -2954,15 +2954,15 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHEREDOC_BEGIN() throws RecognitionException {
         try {
             int _type = HEREDOC_BEGIN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:846:2: ( '<<' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:846:4: '<<'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:846:2: ( '<<' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:846:4: '<<'
             {
             match("<<"); 
 
             if(Character.isWhitespace(input.LT(1))) {_type = LEFT_SHIFT;}
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -2974,15 +2974,15 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mHEREDOC_INDENT_BEGIN() throws RecognitionException {
         try {
             int _type = HEREDOC_INDENT_BEGIN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:2: ( '<<-' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:4: '<<-'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:2: ( '<<-' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:4: '<<-'
             {
             match("<<-"); 
 
             if(Character.isWhitespace(input.LT(1))) {_type = LEFT_SHIFT;}
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -2994,14 +2994,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mREGEX() throws RecognitionException {
         try {
             int _type = REGEX;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:872:7: ( '/abc/' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:872:9: '/abc/'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:872:7: ( '/abc/' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:872:9: '/abc/'
             {
             match("/abc/"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3013,27 +3013,27 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSYMBOL_NAME() throws RecognitionException {
         try {
             int _type = SYMBOL_NAME;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:876:2: ( ( 'a' .. 'z' | 'A' .. 'Z' )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:876:4: ( 'a' .. 'z' | 'A' .. 'Z' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:876:2: ( ( 'a' .. 'z' | 'A' .. 'Z' )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:876:4: ( 'a' .. 'z' | 'A' .. 'Z' )*
             {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:876:4: ( 'a' .. 'z' | 'A' .. 'Z' )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:876:4: ( 'a' .. 'z' | 'A' .. 'Z' )*
             loop43:
             do {
                 int alt43=2;
                 int LA43_0 = input.LA(1);
-                
+
                 if ( ((LA43_0>='A' && LA43_0<='Z')||(LA43_0>='a' && LA43_0<='z')) ) {
                     alt43=1;
                 }
-                
-            
+
+
                 switch (alt43) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
             	    {
             	    if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
             	        input.consume();
-            	    
+
             	    }
             	    else {
             	        MismatchedSetException mse =
@@ -3041,18 +3041,18 @@ public class Rubyv3Lexer extends BaseLexer {
             	        recover(mse);    throw mse;
             	    }
 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop43;
                 }
             } while (true);
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3064,13 +3064,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mASSIGN() throws RecognitionException {
         try {
             int _type = ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:881:25: ( '=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:881:27: '='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:881:25: ( '=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:881:27: '='
             {
             match('='); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3082,14 +3082,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mPLUS_ASSIGN() throws RecognitionException {
         try {
             int _type = PLUS_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:882:15: ( '+=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:882:17: '+='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:882:15: ( '+=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:882:17: '+='
             {
             match("+="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3101,14 +3101,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMINUS_ASSIGN() throws RecognitionException {
         try {
             int _type = MINUS_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:883:15: ( '-=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:883:17: '-='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:883:15: ( '-=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:883:17: '-='
             {
             match("-="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3120,14 +3120,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSTAR_ASSIGN() throws RecognitionException {
         try {
             int _type = STAR_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:884:15: ( '*=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:884:17: '*='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:884:15: ( '*=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:884:17: '*='
             {
             match("*="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3139,14 +3139,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mDIV_ASSIGN() throws RecognitionException {
         try {
             int _type = DIV_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:885:13: ( '/=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:885:15: '/='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:885:13: ( '/=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:885:15: '/='
             {
             match("/="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3158,14 +3158,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMOD_ASSIGN() throws RecognitionException {
         try {
             int _type = MOD_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:886:13: ( '%=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:886:15: '%='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:886:13: ( '%=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:886:15: '%='
             {
             match("%="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3177,14 +3177,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOMPLEMENT_ASSIGN() throws RecognitionException {
         try {
             int _type = COMPLEMENT_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:887:21: ( '~=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:887:25: '~='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:887:21: ( '~=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:887:25: '~='
             {
             match("~="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3196,14 +3196,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mPOWER_ASSIGN() throws RecognitionException {
         try {
             int _type = POWER_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:888:15: ( '**=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:888:17: '**='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:888:15: ( '**=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:888:17: '**='
             {
             match("**="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3215,14 +3215,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBAND_ASSIGN() throws RecognitionException {
         try {
             int _type = BAND_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:889:15: ( '&=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:889:17: '&='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:889:15: ( '&=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:889:17: '&='
             {
             match("&="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3234,14 +3234,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBXOR_ASSIGN() throws RecognitionException {
         try {
             int _type = BXOR_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:890:15: ( '^=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:890:17: '^='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:890:15: ( '^=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:890:17: '^='
             {
             match("^="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3253,14 +3253,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBOR_ASSIGN() throws RecognitionException {
         try {
             int _type = BOR_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:891:14: ( '|=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:891:16: '|='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:891:14: ( '|=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:891:16: '|='
             {
             match("|="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3272,14 +3272,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLEFT_SHIFT_ASSIGN() throws RecognitionException {
         try {
             int _type = LEFT_SHIFT_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:892:19: ( '<<=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:892:21: '<<='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:892:19: ( '<<=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:892:21: '<<='
             {
             match("<<="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3291,14 +3291,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRIGHT_SHIFT_ASSIGN() throws RecognitionException {
         try {
             int _type = RIGHT_SHIFT_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:893:20: ( '>>=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:893:22: '>>='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:893:20: ( '>>=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:893:22: '>>='
             {
             match(">>="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3310,14 +3310,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLOGICAL_AND_ASSIGN() throws RecognitionException {
         try {
             int _type = LOGICAL_AND_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:894:20: ( '&&=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:894:22: '&&='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:894:20: ( '&&=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:894:22: '&&='
             {
             match("&&="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3329,14 +3329,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLOGICAL_OR_ASSIGN() throws RecognitionException {
         try {
             int _type = LOGICAL_OR_ASSIGN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:895:19: ( '||=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:895:21: '||='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:895:19: ( '||=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:895:21: '||='
             {
             match("||="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3348,14 +3348,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mINCLUSIVE_RANGE() throws RecognitionException {
         try {
             int _type = INCLUSIVE_RANGE;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:896:21: ( '..' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:896:23: '..'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:896:21: ( '..' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:896:23: '..'
             {
             match(".."); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3367,14 +3367,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mEXCLUSIVE_RANGE() throws RecognitionException {
         try {
             int _type = EXCLUSIVE_RANGE;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:897:21: ( '...' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:897:23: '...'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:897:21: ( '...' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:897:23: '...'
             {
             match("..."); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3386,14 +3386,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mASSOC() throws RecognitionException {
         try {
             int _type = ASSOC;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:899:10: ( '=>' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:899:12: '=>'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:899:10: ( '=>' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:899:12: '=>'
             {
             match("=>"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3405,14 +3405,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLOGICAL_AND() throws RecognitionException {
         try {
             int _type = LOGICAL_AND;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:900:15: ( '&&' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:900:17: '&&'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:900:15: ( '&&' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:900:17: '&&'
             {
             match("&&"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3424,14 +3424,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLOGICAL_OR() throws RecognitionException {
         try {
             int _type = LOGICAL_OR;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:901:14: ( '||' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:901:16: '||'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:901:14: ( '||' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:901:16: '||'
             {
             match("||"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3443,13 +3443,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mQUESTION() throws RecognitionException {
         try {
             int _type = QUESTION;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:903:12: ( '?' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:903:14: '?'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:903:12: ( '?' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:903:14: '?'
             {
             match('?'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3461,13 +3461,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLPAREN() throws RecognitionException {
         try {
             int _type = LPAREN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:904:11: ( '(' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:904:13: '('
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:904:11: ( '(' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:904:13: '('
             {
             match('('); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3479,13 +3479,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRPAREN() throws RecognitionException {
         try {
             int _type = RPAREN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:905:11: ( ')' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:905:13: ')'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:905:11: ( ')' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:905:13: ')'
             {
             match(')'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3497,13 +3497,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLBRACK() throws RecognitionException {
         try {
             int _type = LBRACK;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:906:11: ( '[' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:906:13: '['
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:906:11: ( '[' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:906:13: '['
             {
             match('['); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3515,13 +3515,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRBRACK() throws RecognitionException {
         try {
             int _type = RBRACK;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:907:11: ( ']' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:907:13: ']'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:907:11: ( ']' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:907:13: ']'
             {
             match(']'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3533,14 +3533,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mEMPTY_ARRAY() throws RecognitionException {
         try {
             int _type = EMPTY_ARRAY;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:908:14: ( '[]' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:908:16: '[]'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:908:14: ( '[]' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:908:16: '[]'
             {
             match("[]"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3552,13 +3552,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOMMA() throws RecognitionException {
         try {
             int _type = COMMA;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:911:10: ( ',' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:911:12: ','
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:911:10: ( ',' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:911:12: ','
             {
             match(','); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3570,13 +3570,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOLON() throws RecognitionException {
         try {
             int _type = COLON;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:912:10: ( ':' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:912:12: ':'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:912:10: ( ':' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:912:12: ':'
             {
             match(':'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3588,13 +3588,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mDOT() throws RecognitionException {
         try {
             int _type = DOT;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:913:5: ( '.' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:913:7: '.'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:913:5: ( '.' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:913:7: '.'
             {
             match('.'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3606,14 +3606,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOLON2() throws RecognitionException {
         try {
             int _type = COLON2;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:914:11: ( '::' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:914:13: '::'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:914:11: ( '::' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:914:13: '::'
             {
             match("::"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3625,13 +3625,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mNOT() throws RecognitionException {
         try {
             int _type = NOT;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:916:9: ( '!' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:916:11: '!'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:916:9: ( '!' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:916:11: '!'
             {
             match('!'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3643,13 +3643,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBNOT() throws RecognitionException {
         try {
             int _type = BNOT;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:917:9: ( '~' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:917:11: '~'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:917:9: ( '~' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:917:11: '~'
             {
             match('~'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3661,13 +3661,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mDIV() throws RecognitionException {
         try {
             int _type = DIV;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:918:8: ( '/' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:918:10: '/'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:918:8: ( '/' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:918:10: '/'
             {
             match('/'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3679,13 +3679,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mPLUS() throws RecognitionException {
         try {
             int _type = PLUS;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:919:9: ( '+' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:919:11: '+'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:919:9: ( '+' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:919:11: '+'
             {
             match('+'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3697,13 +3697,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMINUS() throws RecognitionException {
         try {
             int _type = MINUS;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:920:10: ( '-' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:920:12: '-'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:920:10: ( '-' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:920:12: '-'
             {
             match('-'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3715,13 +3715,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMOD() throws RecognitionException {
         try {
             int _type = MOD;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:921:8: ( '%' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:921:10: '%'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:921:8: ( '%' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:921:10: '%'
             {
             match('%'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3733,13 +3733,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mSTAR() throws RecognitionException {
         try {
             int _type = STAR;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:922:9: ( '*' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:922:11: '*'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:922:9: ( '*' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:922:11: '*'
             {
             match('*'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3751,13 +3751,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLESS_THAN() throws RecognitionException {
         try {
             int _type = LESS_THAN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:923:13: ( '<' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:923:15: '<'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:923:13: ( '<' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:923:15: '<'
             {
             match('<'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3769,13 +3769,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mGREATER_THAN() throws RecognitionException {
         try {
             int _type = GREATER_THAN;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:924:15: ( '>' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:924:17: '>'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:924:15: ( '>' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:924:17: '>'
             {
             match('>'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3787,13 +3787,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBXOR() throws RecognitionException {
         try {
             int _type = BXOR;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:925:9: ( '^' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:925:11: '^'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:925:9: ( '^' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:925:11: '^'
             {
             match('^'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3805,13 +3805,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBOR() throws RecognitionException {
         try {
             int _type = BOR;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:926:9: ( '|' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:926:11: '|'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:926:9: ( '|' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:926:11: '|'
             {
             match('|'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3823,13 +3823,13 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mBAND() throws RecognitionException {
         try {
             int _type = BAND;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:927:9: ( '&' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:927:11: '&'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:927:9: ( '&' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:927:11: '&'
             {
             match('&'); 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3841,14 +3841,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mPOWER() throws RecognitionException {
         try {
             int _type = POWER;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:928:10: ( '**' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:928:12: '**'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:928:10: ( '**' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:928:12: '**'
             {
             match("**"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3860,14 +3860,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOMPARE() throws RecognitionException {
         try {
             int _type = COMPARE;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:929:12: ( '<=>' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:929:14: '<=>'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:929:12: ( '<=>' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:929:14: '<=>'
             {
             match("<=>"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3879,14 +3879,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mGREATER_OR_EQUAL() throws RecognitionException {
         try {
             int _type = GREATER_OR_EQUAL;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:930:18: ( '>=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:930:20: '>='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:930:18: ( '>=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:930:20: '>='
             {
             match(">="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3898,14 +3898,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mLESS_OR_EQUAL() throws RecognitionException {
         try {
             int _type = LESS_OR_EQUAL;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:931:16: ( '<=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:931:18: '<='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:931:16: ( '<=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:931:18: '<='
             {
             match("<="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3917,14 +3917,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mEQUAL() throws RecognitionException {
         try {
             int _type = EQUAL;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:932:10: ( '==' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:932:12: '=='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:932:10: ( '==' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:932:12: '=='
             {
             match("=="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3936,14 +3936,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCASE_EQUAL() throws RecognitionException {
         try {
             int _type = CASE_EQUAL;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:933:14: ( '===' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:933:16: '==='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:933:14: ( '===' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:933:16: '==='
             {
             match("==="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3955,14 +3955,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mNOT_EQUAL() throws RecognitionException {
         try {
             int _type = NOT_EQUAL;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:934:13: ( '!=' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:934:15: '!='
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:934:13: ( '!=' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:934:15: '!='
             {
             match("!="); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3974,14 +3974,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mMATCH() throws RecognitionException {
         try {
             int _type = MATCH;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:935:10: ( '=~' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:935:12: '=~'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:935:10: ( '=~' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:935:12: '=~'
             {
             match("=~"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -3993,14 +3993,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mNOT_MATCH() throws RecognitionException {
         try {
             int _type = NOT_MATCH;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:936:13: ( '!~' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:936:15: '!~'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:936:13: ( '!~' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:936:15: '!~'
             {
             match("!~"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -4012,14 +4012,14 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mRIGHT_SHIFT() throws RecognitionException {
         try {
             int _type = RIGHT_SHIFT;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:938:15: ( '>>' )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:938:17: '>>'
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:938:15: ( '>>' )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:938:17: '>>'
             {
             match(">>"); 
 
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -4031,8 +4031,8 @@ public class Rubyv3Lexer extends BaseLexer {
     public final void mCOMMENT() throws RecognitionException {
         try {
             int _type = COMMENT;
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:941:3: ( '#' ANYTHING_OTHER_THAN_LINE_FEED LINE_BREAK )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:941:5: '#' ANYTHING_OTHER_THAN_LINE_FEED LINE_BREAK
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:941:3: ( '#' ANYTHING_OTHER_THAN_LINE_FEED LINE_BREAK )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:941:5: '#' ANYTHING_OTHER_THAN_LINE_FEED LINE_BREAK
             {
             match('#'); 
             mANYTHING_OTHER_THAN_LINE_FEED(); 
@@ -4040,9 +4040,9 @@ public class Rubyv3Lexer extends BaseLexer {
             
             				skip();
             			
-            
+
             }
-    
+
             this.type = _type;
         }
         finally {
@@ -4053,27 +4053,27 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR start ANYTHING_OTHER_THAN_LINE_FEED
     public final void mANYTHING_OTHER_THAN_LINE_FEED() throws RecognitionException {
         try {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:948:3: ( (~ ( '\\r' | '\\n' ) )* )
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:948:5: (~ ( '\\r' | '\\n' ) )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:948:3: ( (~ ( '\\r' | '\\n' ) )* )
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:948:5: (~ ( '\\r' | '\\n' ) )*
             {
-            // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:948:5: (~ ( '\\r' | '\\n' ) )*
+            // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:948:5: (~ ( '\\r' | '\\n' ) )*
             loop44:
             do {
                 int alt44=2;
                 int LA44_0 = input.LA(1);
-                
+
                 if ( ((LA44_0>='\u0000' && LA44_0<='\t')||(LA44_0>='\u000B' && LA44_0<='\f')||(LA44_0>='\u000E' && LA44_0<='\uFFFE')) ) {
                     alt44=1;
                 }
-                
-            
+
+
                 switch (alt44) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:948:6: ~ ( '\\r' | '\\n' )
+            	    // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:948:6: ~ ( '\\r' | '\\n' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
-            	    
+
             	    }
             	    else {
             	        MismatchedSetException mse =
@@ -4081,16 +4081,16 @@ public class Rubyv3Lexer extends BaseLexer {
             	        recover(mse);    throw mse;
             	    }
 
-            	    
+
             	    }
             	    break;
-            
+
             	default :
             	    break loop44;
                 }
             } while (true);
 
-            
+
             }
 
         }
@@ -4100,678 +4100,678 @@ public class Rubyv3Lexer extends BaseLexer {
     // $ANTLR end ANYTHING_OTHER_THAN_LINE_FEED
 
     public void mTokens() throws RecognitionException {
-        // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:8: ( T125 | T126 | T127 | T128 | T129 | T130 | T131 | T132 | T133 | T134 | T135 | T136 | T137 | T138 | T139 | T140 | T141 | T142 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | INT | ID | FID | INSTANCE_VARIABLE | CLASS_VARIABLE | GLOBAL_VARIABLE | SINGLE_QUOTE_STRING_SIMPLE | SINGLE_QUOTE_STRING_COMPLEX | DOUBLE_QUOTE_STRING_SIMPLE | DOUBLE_QUOTE_STRING_COMPLEX | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | REGEX | SYMBOL_NAME | ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | STAR_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | POWER_ASSIGN | BAND_ASSIGN | BXOR_ASSIGN | BOR_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | INCLUSIVE_RANGE | EXCLUSIVE_RANGE | ASSOC | LOGICAL_AND | LOGICAL_OR | QUESTION | LPAREN | RPAREN | LBRACK | RBRACK | EMPTY_ARRAY | COMMA | COLON | DOT | COLON2 | NOT | BNOT | DIV | PLUS | MINUS | MOD | STAR | LESS_THAN | GREATER_THAN | BXOR | BOR | BAND | POWER | COMPARE | GREATER_OR_EQUAL | LESS_OR_EQUAL | EQUAL | CASE_EQUAL | NOT_EQUAL | MATCH | NOT_MATCH | RIGHT_SHIFT | COMMENT )
+        // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:8: ( T125 | T126 | T127 | T128 | T129 | T130 | T131 | T132 | T133 | T134 | T135 | T136 | T137 | T138 | T139 | T140 | T141 | T142 | IF_MODIFIER | UNLESS_MODIFIER | WHILE_MODIFIER | UNTIL_MODIFIER | RESCUE_MODIFIER | SEMI | LINE_BREAK | WS | INT | ID | FID | INSTANCE_VARIABLE | CLASS_VARIABLE | GLOBAL_VARIABLE | SINGLE_QUOTE_STRING_SIMPLE | SINGLE_QUOTE_STRING_COMPLEX | DOUBLE_QUOTE_STRING_SIMPLE | DOUBLE_QUOTE_STRING_COMPLEX | LCURLY | RCURLY | HEREDOC_BEGIN | HEREDOC_INDENT_BEGIN | REGEX | SYMBOL_NAME | ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | STAR_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | COMPLEMENT_ASSIGN | POWER_ASSIGN | BAND_ASSIGN | BXOR_ASSIGN | BOR_ASSIGN | LEFT_SHIFT_ASSIGN | RIGHT_SHIFT_ASSIGN | LOGICAL_AND_ASSIGN | LOGICAL_OR_ASSIGN | INCLUSIVE_RANGE | EXCLUSIVE_RANGE | ASSOC | LOGICAL_AND | LOGICAL_OR | QUESTION | LPAREN | RPAREN | LBRACK | RBRACK | EMPTY_ARRAY | COMMA | COLON | DOT | COLON2 | NOT | BNOT | DIV | PLUS | MINUS | MOD | STAR | LESS_THAN | GREATER_THAN | BXOR | BOR | BAND | POWER | COMPARE | GREATER_OR_EQUAL | LESS_OR_EQUAL | EQUAL | CASE_EQUAL | NOT_EQUAL | MATCH | NOT_MATCH | RIGHT_SHIFT | COMMENT )
         int alt45=95;
         alt45 = dfa45.predict(input);
         switch (alt45) {
             case 1 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:10: T125
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:10: T125
                 {
                 mT125(); 
-                
+
                 }
                 break;
             case 2 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:15: T126
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:15: T126
                 {
                 mT126(); 
-                
+
                 }
                 break;
             case 3 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:20: T127
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:20: T127
                 {
                 mT127(); 
-                
+
                 }
                 break;
             case 4 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:25: T128
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:25: T128
                 {
                 mT128(); 
-                
+
                 }
                 break;
             case 5 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:30: T129
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:30: T129
                 {
                 mT129(); 
-                
+
                 }
                 break;
             case 6 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:35: T130
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:35: T130
                 {
                 mT130(); 
-                
+
                 }
                 break;
             case 7 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:40: T131
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:40: T131
                 {
                 mT131(); 
-                
+
                 }
                 break;
             case 8 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:45: T132
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:45: T132
                 {
                 mT132(); 
-                
+
                 }
                 break;
             case 9 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:50: T133
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:50: T133
                 {
                 mT133(); 
-                
+
                 }
                 break;
             case 10 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:55: T134
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:55: T134
                 {
                 mT134(); 
-                
+
                 }
                 break;
             case 11 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:60: T135
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:60: T135
                 {
                 mT135(); 
-                
+
                 }
                 break;
             case 12 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:65: T136
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:65: T136
                 {
                 mT136(); 
-                
+
                 }
                 break;
             case 13 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:70: T137
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:70: T137
                 {
                 mT137(); 
-                
+
                 }
                 break;
             case 14 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:75: T138
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:75: T138
                 {
                 mT138(); 
-                
+
                 }
                 break;
             case 15 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:80: T139
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:80: T139
                 {
                 mT139(); 
-                
+
                 }
                 break;
             case 16 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:85: T140
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:85: T140
                 {
                 mT140(); 
-                
+
                 }
                 break;
             case 17 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:90: T141
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:90: T141
                 {
                 mT141(); 
-                
+
                 }
                 break;
             case 18 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:95: T142
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:95: T142
                 {
                 mT142(); 
-                
+
                 }
                 break;
             case 19 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:100: IF_MODIFIER
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:100: IF_MODIFIER
                 {
                 mIF_MODIFIER(); 
-                
+
                 }
                 break;
             case 20 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:112: UNLESS_MODIFIER
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:112: UNLESS_MODIFIER
                 {
                 mUNLESS_MODIFIER(); 
-                
+
                 }
                 break;
             case 21 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:128: WHILE_MODIFIER
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:128: WHILE_MODIFIER
                 {
                 mWHILE_MODIFIER(); 
-                
+
                 }
                 break;
             case 22 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:143: UNTIL_MODIFIER
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:143: UNTIL_MODIFIER
                 {
                 mUNTIL_MODIFIER(); 
-                
+
                 }
                 break;
             case 23 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:158: RESCUE_MODIFIER
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:158: RESCUE_MODIFIER
                 {
                 mRESCUE_MODIFIER(); 
-                
+
                 }
                 break;
             case 24 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:174: SEMI
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:174: SEMI
                 {
                 mSEMI(); 
-                
+
                 }
                 break;
             case 25 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:179: LINE_BREAK
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:179: LINE_BREAK
                 {
                 mLINE_BREAK(); 
-                
+
                 }
                 break;
             case 26 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:190: WS
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:190: WS
                 {
                 mWS(); 
-                
+
                 }
                 break;
             case 27 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:193: INT
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:193: INT
                 {
                 mINT(); 
-                
+
                 }
                 break;
             case 28 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:197: ID
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:197: ID
                 {
                 mID(); 
-                
+
                 }
                 break;
             case 29 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:200: FID
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:200: FID
                 {
                 mFID(); 
-                
+
                 }
                 break;
             case 30 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:204: INSTANCE_VARIABLE
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:204: INSTANCE_VARIABLE
                 {
                 mINSTANCE_VARIABLE(); 
-                
+
                 }
                 break;
             case 31 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:222: CLASS_VARIABLE
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:222: CLASS_VARIABLE
                 {
                 mCLASS_VARIABLE(); 
-                
+
                 }
                 break;
             case 32 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:237: GLOBAL_VARIABLE
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:237: GLOBAL_VARIABLE
                 {
                 mGLOBAL_VARIABLE(); 
-                
+
                 }
                 break;
             case 33 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:253: SINGLE_QUOTE_STRING_SIMPLE
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:253: SINGLE_QUOTE_STRING_SIMPLE
                 {
                 mSINGLE_QUOTE_STRING_SIMPLE(); 
-                
+
                 }
                 break;
             case 34 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:280: SINGLE_QUOTE_STRING_COMPLEX
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:280: SINGLE_QUOTE_STRING_COMPLEX
                 {
                 mSINGLE_QUOTE_STRING_COMPLEX(); 
-                
+
                 }
                 break;
             case 35 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:308: DOUBLE_QUOTE_STRING_SIMPLE
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:308: DOUBLE_QUOTE_STRING_SIMPLE
                 {
                 mDOUBLE_QUOTE_STRING_SIMPLE(); 
-                
+
                 }
                 break;
             case 36 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:335: DOUBLE_QUOTE_STRING_COMPLEX
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:335: DOUBLE_QUOTE_STRING_COMPLEX
                 {
                 mDOUBLE_QUOTE_STRING_COMPLEX(); 
-                
+
                 }
                 break;
             case 37 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:363: LCURLY
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:363: LCURLY
                 {
                 mLCURLY(); 
-                
+
                 }
                 break;
             case 38 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:370: RCURLY
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:370: RCURLY
                 {
                 mRCURLY(); 
-                
+
                 }
                 break;
             case 39 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:377: HEREDOC_BEGIN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:377: HEREDOC_BEGIN
                 {
                 mHEREDOC_BEGIN(); 
-                
+
                 }
                 break;
             case 40 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:391: HEREDOC_INDENT_BEGIN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:391: HEREDOC_INDENT_BEGIN
                 {
                 mHEREDOC_INDENT_BEGIN(); 
-                
+
                 }
                 break;
             case 41 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:412: REGEX
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:412: REGEX
                 {
                 mREGEX(); 
-                
+
                 }
                 break;
             case 42 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:418: SYMBOL_NAME
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:418: SYMBOL_NAME
                 {
                 mSYMBOL_NAME(); 
-                
+
                 }
                 break;
             case 43 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:430: ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:430: ASSIGN
                 {
                 mASSIGN(); 
-                
+
                 }
                 break;
             case 44 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:437: PLUS_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:437: PLUS_ASSIGN
                 {
                 mPLUS_ASSIGN(); 
-                
+
                 }
                 break;
             case 45 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:449: MINUS_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:449: MINUS_ASSIGN
                 {
                 mMINUS_ASSIGN(); 
-                
+
                 }
                 break;
             case 46 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:462: STAR_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:462: STAR_ASSIGN
                 {
                 mSTAR_ASSIGN(); 
-                
+
                 }
                 break;
             case 47 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:474: DIV_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:474: DIV_ASSIGN
                 {
                 mDIV_ASSIGN(); 
-                
+
                 }
                 break;
             case 48 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:485: MOD_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:485: MOD_ASSIGN
                 {
                 mMOD_ASSIGN(); 
-                
+
                 }
                 break;
             case 49 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:496: COMPLEMENT_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:496: COMPLEMENT_ASSIGN
                 {
                 mCOMPLEMENT_ASSIGN(); 
-                
+
                 }
                 break;
             case 50 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:514: POWER_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:514: POWER_ASSIGN
                 {
                 mPOWER_ASSIGN(); 
-                
+
                 }
                 break;
             case 51 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:527: BAND_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:527: BAND_ASSIGN
                 {
                 mBAND_ASSIGN(); 
-                
+
                 }
                 break;
             case 52 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:539: BXOR_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:539: BXOR_ASSIGN
                 {
                 mBXOR_ASSIGN(); 
-                
+
                 }
                 break;
             case 53 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:551: BOR_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:551: BOR_ASSIGN
                 {
                 mBOR_ASSIGN(); 
-                
+
                 }
                 break;
             case 54 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:562: LEFT_SHIFT_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:562: LEFT_SHIFT_ASSIGN
                 {
                 mLEFT_SHIFT_ASSIGN(); 
-                
+
                 }
                 break;
             case 55 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:580: RIGHT_SHIFT_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:580: RIGHT_SHIFT_ASSIGN
                 {
                 mRIGHT_SHIFT_ASSIGN(); 
-                
+
                 }
                 break;
             case 56 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:599: LOGICAL_AND_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:599: LOGICAL_AND_ASSIGN
                 {
                 mLOGICAL_AND_ASSIGN(); 
-                
+
                 }
                 break;
             case 57 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:618: LOGICAL_OR_ASSIGN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:618: LOGICAL_OR_ASSIGN
                 {
                 mLOGICAL_OR_ASSIGN(); 
-                
+
                 }
                 break;
             case 58 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:636: INCLUSIVE_RANGE
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:636: INCLUSIVE_RANGE
                 {
                 mINCLUSIVE_RANGE(); 
-                
+
                 }
                 break;
             case 59 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:652: EXCLUSIVE_RANGE
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:652: EXCLUSIVE_RANGE
                 {
                 mEXCLUSIVE_RANGE(); 
-                
+
                 }
                 break;
             case 60 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:668: ASSOC
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:668: ASSOC
                 {
                 mASSOC(); 
-                
+
                 }
                 break;
             case 61 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:674: LOGICAL_AND
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:674: LOGICAL_AND
                 {
                 mLOGICAL_AND(); 
-                
+
                 }
                 break;
             case 62 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:686: LOGICAL_OR
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:686: LOGICAL_OR
                 {
                 mLOGICAL_OR(); 
-                
+
                 }
                 break;
             case 63 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:697: QUESTION
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:697: QUESTION
                 {
                 mQUESTION(); 
-                
+
                 }
                 break;
             case 64 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:706: LPAREN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:706: LPAREN
                 {
                 mLPAREN(); 
-                
+
                 }
                 break;
             case 65 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:713: RPAREN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:713: RPAREN
                 {
                 mRPAREN(); 
-                
+
                 }
                 break;
             case 66 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:720: LBRACK
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:720: LBRACK
                 {
                 mLBRACK(); 
-                
+
                 }
                 break;
             case 67 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:727: RBRACK
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:727: RBRACK
                 {
                 mRBRACK(); 
-                
+
                 }
                 break;
             case 68 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:734: EMPTY_ARRAY
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:734: EMPTY_ARRAY
                 {
                 mEMPTY_ARRAY(); 
-                
+
                 }
                 break;
             case 69 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:746: COMMA
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:746: COMMA
                 {
                 mCOMMA(); 
-                
+
                 }
                 break;
             case 70 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:752: COLON
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:752: COLON
                 {
                 mCOLON(); 
-                
+
                 }
                 break;
             case 71 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:758: DOT
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:758: DOT
                 {
                 mDOT(); 
-                
+
                 }
                 break;
             case 72 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:762: COLON2
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:762: COLON2
                 {
                 mCOLON2(); 
-                
+
                 }
                 break;
             case 73 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:769: NOT
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:769: NOT
                 {
                 mNOT(); 
-                
+
                 }
                 break;
             case 74 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:773: BNOT
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:773: BNOT
                 {
                 mBNOT(); 
-                
+
                 }
                 break;
             case 75 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:778: DIV
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:778: DIV
                 {
                 mDIV(); 
-                
+
                 }
                 break;
             case 76 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:782: PLUS
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:782: PLUS
                 {
                 mPLUS(); 
-                
+
                 }
                 break;
             case 77 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:787: MINUS
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:787: MINUS
                 {
                 mMINUS(); 
-                
+
                 }
                 break;
             case 78 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:793: MOD
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:793: MOD
                 {
                 mMOD(); 
-                
+
                 }
                 break;
             case 79 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:797: STAR
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:797: STAR
                 {
                 mSTAR(); 
-                
+
                 }
                 break;
             case 80 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:802: LESS_THAN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:802: LESS_THAN
                 {
                 mLESS_THAN(); 
-                
+
                 }
                 break;
             case 81 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:812: GREATER_THAN
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:812: GREATER_THAN
                 {
                 mGREATER_THAN(); 
-                
+
                 }
                 break;
             case 82 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:825: BXOR
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:825: BXOR
                 {
                 mBXOR(); 
-                
+
                 }
                 break;
             case 83 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:830: BOR
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:830: BOR
                 {
                 mBOR(); 
-                
+
                 }
                 break;
             case 84 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:834: BAND
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:834: BAND
                 {
                 mBAND(); 
-                
+
                 }
                 break;
             case 85 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:839: POWER
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:839: POWER
                 {
                 mPOWER(); 
-                
+
                 }
                 break;
             case 86 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:845: COMPARE
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:845: COMPARE
                 {
                 mCOMPARE(); 
-                
+
                 }
                 break;
             case 87 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:853: GREATER_OR_EQUAL
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:853: GREATER_OR_EQUAL
                 {
                 mGREATER_OR_EQUAL(); 
-                
+
                 }
                 break;
             case 88 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:870: LESS_OR_EQUAL
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:870: LESS_OR_EQUAL
                 {
                 mLESS_OR_EQUAL(); 
-                
+
                 }
                 break;
             case 89 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:884: EQUAL
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:884: EQUAL
                 {
                 mEQUAL(); 
-                
+
                 }
                 break;
             case 90 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:890: CASE_EQUAL
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:890: CASE_EQUAL
                 {
                 mCASE_EQUAL(); 
-                
+
                 }
                 break;
             case 91 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:901: NOT_EQUAL
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:901: NOT_EQUAL
                 {
                 mNOT_EQUAL(); 
-                
+
                 }
                 break;
             case 92 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:911: MATCH
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:911: MATCH
                 {
                 mMATCH(); 
-                
+
                 }
                 break;
             case 93 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:917: NOT_MATCH
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:917: NOT_MATCH
                 {
                 mNOT_MATCH(); 
-                
+
                 }
                 break;
             case 94 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:927: RIGHT_SHIFT
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:927: RIGHT_SHIFT
                 {
                 mRIGHT_SHIFT(); 
-                
+
                 }
                 break;
             case 95 :
-                // D:\\toolset\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:939: COMMENT
+                // F:\\toolset\\ruby\\xruby-antlrv3-variable_or_method\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:1:939: COMMENT
                 {
                 mCOMMENT(); 
-                
+
                 }
                 break;
-        
+
         }
-    
+
     }
 
 
@@ -5156,7 +5156,7 @@ public class Rubyv3Lexer extends BaseLexer {
             "",
             ""
     };
-    
+
     static final short[] DFA45_eot = DFA.unpackEncodedString(DFA45_eotS);
     static final short[] DFA45_eof = DFA.unpackEncodedString(DFA45_eofS);
     static final char[] DFA45_min = DFA.unpackEncodedStringToUnsignedChars(DFA45_minS);
@@ -5164,7 +5164,7 @@ public class Rubyv3Lexer extends BaseLexer {
     static final short[] DFA45_accept = DFA.unpackEncodedString(DFA45_acceptS);
     static final short[] DFA45_special = DFA.unpackEncodedString(DFA45_specialS);
     static final short[][] DFA45_transition;
-    
+
     static {
         int numStates = DFA45_transitionS.length;
         DFA45_transition = new short[numStates][];
@@ -5172,9 +5172,9 @@ public class Rubyv3Lexer extends BaseLexer {
             DFA45_transition[i] = DFA.unpackEncodedString(DFA45_transitionS[i]);
         }
     }
-    
+
     class DFA45 extends DFA {
-    
+
         public DFA45(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             this.decisionNumber = 45;
