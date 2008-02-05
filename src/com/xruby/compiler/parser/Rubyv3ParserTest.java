@@ -124,6 +124,9 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("a,*b=1,2", "(STATEMENT_LIST (STATEMENT (= (, (VARIABLE a) (STAR_ID (VARIABLE b))) (, 1 2))))");
         assert_parse("*b=1,2", "(STATEMENT_LIST (STATEMENT (= (STAR_ID (VARIABLE b)) (, 1 2))))");
 
+        assert_parse("a=b=1,2,3", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) (, (, (= (VARIABLE b) 1) 2) 3))))");
+        assert_parse("a=*b=1", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) (STAR_ID (= (VARIABLE b) 1)))))");
+
     }
 
     public void test_assignment() throws Exception {
@@ -213,9 +216,9 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("defined? a=1", "(STATEMENT_LIST (STATEMENT (defined? (= (VARIABLE a) 1))))"); //assignment
         assert_parse("defined? 42.abs", "(STATEMENT_LIST (STATEMENT (defined? (. 42 (CALL abs)))))"); //assignment
 
-        assert_parse("defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? defined? (CALL x))))");
-        assert_parse("defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? defined?) (CALL x))))");
-        assert_parse("defined? defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (defined? defined?)) (CALL x))))");
+        assert_parse("defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (CALL x)))))");
+        assert_parse("defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (defined? (CALL x))))))");
+        assert_parse("defined? defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (defined? (defined? (CALL x)))))))");
         //these shouldn't passed
         //assert_parse("defined? a,b=1", "");
 
@@ -259,10 +262,10 @@ public class Rubyv3ParserTest extends TestCase {
 
     }
 
-    /*public void test_file() throws Exception {
+    public void test_file() throws Exception {
         assert_parse(
-                "x[3]", "");
-    }*/
+                "x [3]", "");
+    }
 
 
     public void test_new_call_syntax() throws Exception {

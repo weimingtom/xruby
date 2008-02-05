@@ -424,11 +424,11 @@ notExpression
 		:	'not'^
 			(LINE_BREAK!)*
 			notExpression
-		|	definedExpression
+		|	definedExpression[true]
 		;
-definedExpression
-	:	('defined?'^)+ assignmentExpression[false]
-	|       assignmentExpression[true];
+definedExpression [boolean allowsMrhsInSingleAssignment] 
+	:	('defined?'^) definedExpression[false]
+	|       assignmentExpression[allowsMrhsInSingleAssignment];
 
 	/*|	ID '(' ')'
 	|	ID args;
@@ -443,7 +443,7 @@ assignmentExpression [boolean allowsMrhsInSingleAssignment]
 
 simple_assignment_expression
 	:	lhs (ASSIGN| MOD_ASSIGN|COMPLEMENT_ASSIGN|DIV_ASSIGN|MINUS_ASSIGN|PLUS_ASSIGN|BOR_ASSIGN|BAND_ASSIGN|LEFT_SHIFT_ASSIGN|RIGHT_SHIFT_ASSIGN|STAR_ASSIGN|LOGICAL_AND_ASSIGN|LOGICAL_OR_ASSIGN|POWER_ASSIGN)^ 
-	           definedExpression {addVariable($lhs.text);}
+	           definedExpression[false] {addVariable($lhs.text);}
 	;
 
 mlhs    :      t0=lhs {addVariable($t0.text);} (','^ t=lhs {addVariable($t.text);})* (','^ star_lhs)?| star_lhs  ;
@@ -458,7 +458,7 @@ mrhs[boolean reallyMrhs]    :      (simple_assignment_expression|ternaryIfThenEl
             | {reallyMrhs}? => star_rhs ;
 
 
-star_rhs :     STAR definedExpression -> ^(STAR_ID definedExpression);
+star_rhs :     STAR definedExpression[false] -> ^(STAR_ID definedExpression);
 
 
 
@@ -598,13 +598,13 @@ bnotExpression
 		:	(	BNOT^			(LINE_BREAK!)*
 			|	NOT^			(LINE_BREAK!)*
 			)*
-			command_array_expression
+			command
 		;
-command_array_expression
-	:      command (array)*;	
+//command_array_expression
+//	:      command;	
 command		
 @after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
-	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' expression ')' ) (DOT^ method[false])*
+	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' expression ')' ) (DOT^ method[false] | '['^ array_items ']')*
 	; //|       lhs SHIFT^ rhs ;	
 atom[boolean topLevel]	:	methodExpression[topLevel]|array|hash|single_quote_string|double_quote_string|symbol;
 methodExpression[boolean topLevel]
@@ -643,7 +643,7 @@ call_args
 	
 args	:	arg (','! arg)*;
 	
-arg	:	definedExpression;
+arg	:	definedExpression[false];
 //call_args2
 //	:	command1 | args;
 
