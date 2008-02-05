@@ -279,8 +279,67 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("$sitedir", "(STATEMENT_LIST (STATEMENT (VARIABLE $sitedir)))");
     }
 
+    public void test_block() throws Exception {
+       //assert_parse("test() do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+       //assert_parse("test(1) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+       //assert_parse("test(1,2) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+
+        assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
+        assert_parse("test do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+    }
+
     public void test_smoke() throws Exception {
-        //assert_parse("p x [3]", "(STATEMENT_LIST (STATEMENT (CALL p (ARG (CALL x (ARG ([ 3)))))))");
+
+
+
+
+
+
+        //assertEquals(expectedTree, ((CommonTree) result.tree).toStringTree());
+
+        //assert_parse("$:.find {|x| puts 3 }", "(STATEMENT_LIST (STATEMENT (CALL p (ARG (CALL x (ARG ([ 3)))))))");
+    }
+
+    public void test_smoke_block() throws Exception {
+        String text = "|x| puts 3 ";
+
+        ANTLRStringStream input =
+                new ANTLRStringStream(text);
+
+        Rubyv3Lexer lexer = new Rubyv3Lexer(input);
+        BaseTokenStream tokens = new BaseTokenStream(lexer);
+        Rubyv3Parser parser = new Rubyv3Parser(tokens, null);
+        Rubyv3Parser.block_content_return result = null;
+
+        result = parser.block_content(); //this line may produce RecognitionException
+
+        text = "x,y";
+
+         input =
+                new ANTLRStringStream(text);
+
+         lexer = new Rubyv3Lexer(input);
+         tokens = new BaseTokenStream(lexer);
+         parser = new Rubyv3Parser(tokens, null);
+        Rubyv3Parser.block_param_return result1 = null;
+
+        result1 = parser.block_param(); //this line may produce RecognitionException
+
+        text = "do |x| puts 3  end";
+
+         input =
+                new ANTLRStringStream(text);
+
+         lexer = new Rubyv3Lexer(input);
+         tokens = new BaseTokenStream(lexer);
+         parser = new Rubyv3Parser(tokens, null);
+        Rubyv3Parser.block_return result2 = null;
+
+        result2 = parser.block(); //this line may produce RecognitionException
+
+        //assertEquals(expectedTree, ((CommonTree) result.tree).toStringTree());
+
+        //assert_parse("$:.find {|x| puts 3 }", "(STATEMENT_LIST (STATEMENT (CALL p (ARG (CALL x (ARG ([ 3)))))))");
     }
 
 
