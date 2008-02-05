@@ -77,7 +77,6 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
 
-
     public void test_heredoc_string() throws Exception {
         //assert_parse("<<HERE\ntest\nHERE", "(STATEMENT_LIST (STATEMENT <<HERE\ntest\nHERE))");
         //assert_parse("<<'HERE'\ntest\nHERE", "(STATEMENT_LIST (STATEMENT <<'HERE'\ntest\nHERE))");
@@ -100,6 +99,7 @@ public class Rubyv3ParserTest extends TestCase {
 
         assert_parse("? ", "(STATEMENT_LIST (STATEMENT ? ))");
     }
+
     public void test_tenary_if_expression() throws Exception {
         //assert_parse("5?3:2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
         //assert_parse("5**3?3:2", "(STATEMENT_LIST (STATEMENT (? (** 5 3) 3 2)))");
@@ -150,9 +150,11 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("a=1;a+=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) 1)) (STATEMENT (+= (VARIABLE a) (? 5 3 2))) (STATEMENT (VARIABLE a)))");
 
     }
+
     public void test_power() throws Exception {
         assert_parse("3**2;", "(STATEMENT_LIST (STATEMENT (** 3 2)))");
     }
+
     public void test_range_expression() throws Exception {
         assert_parse("2..3;", "(STATEMENT_LIST (STATEMENT (.. 2 3)))");
         assert_parse("2...3", "(STATEMENT_LIST (STATEMENT (... 2 3)))");
@@ -191,7 +193,7 @@ public class Rubyv3ParserTest extends TestCase {
 
         assert_parse("def test3(x)\n" +
                 " p x \n" +
-                "end\n",  "(STATEMENT_LIST (STATEMENT (def test3 (ARG x) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE x)))))))))");
+                "end\n", "(STATEMENT_LIST (STATEMENT (def test3 (ARG x) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE x)))))))))");
 
         assert_parse("def test3(x)\n" +
                 " p x ;;;" +
@@ -207,6 +209,7 @@ public class Rubyv3ParserTest extends TestCase {
                 "end", "(STATEMENT_LIST (STATEMENT (def test (ARG x (= y 1) (* args)) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE x)))))))))");
 
     }
+
     public void test_defined_expression() throws Exception {
         assert_parse("defined? 1", "(STATEMENT_LIST (STATEMENT (defined? 1)))"); //expression
         assert_parse("defined? dummy", "(STATEMENT_LIST (STATEMENT (defined? (CALL dummy))))"); //nil
@@ -280,30 +283,41 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_block() throws Exception {
-       assert_parse("test() do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
-       assert_parse("test(1) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
-       assert_parse("test(1,2) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+        assert_parse("test() do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+        assert_parse("test(1) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+        assert_parse("test(1,2) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
 
         assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
         assert_parse("test do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
 
         assert_parse("test() { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
-       assert_parse("test 1 { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
-       assert_parse("test(1,2) { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
+
+
+        assert_parse("test() do 3 end", "(STATEMENT_LIST (STATEMENT (CALL test do (BODY (STATEMENT_LIST (STATEMENT 3))) end)))");
+        assert_parse("test(1) do 3 end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) do (BODY (STATEMENT_LIST (STATEMENT 3))) end)))");
+        assert_parse("test(1,2) do 3 end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) do (BODY (STATEMENT_LIST (STATEMENT 3))) end)))");
 
         assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
+        assert_parse("test do 3 end", "(STATEMENT_LIST (STATEMENT (CALL test do (BODY (STATEMENT_LIST (STATEMENT 3))) end)))");
 
-        //assert_parse("x=1;x ()", "");
-        assert_parse("$:.find {|x| x}", "");
+        assert_parse("test() { 3 }", "(STATEMENT_LIST (STATEMENT (CALL test { (BODY (STATEMENT_LIST (STATEMENT 3))) })))");
+
+        //assert_parse("test { 3 }", "(STATEMENT_LIST (STATEMENT (CALL test { (BODY (STATEMENT_LIST (STATEMENT 3))) })))");
+
+
+        assert_parse("x{}", "");
+
+        /*assert_parse("test 1 { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
+    assert_parse("test(1,2) { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
+
+     assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
+
+     //assert_parse("x=1;x ()", "");
+     assert_parse("$:.find {|x| x}", "");*/
         //assert_parse("test { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
     }
 
     public void test_smoke() throws Exception {
-
-
-
-
-
 
         //assertEquals(expectedTree, ((CommonTree) result.tree).toStringTree());
 
@@ -325,24 +339,24 @@ public class Rubyv3ParserTest extends TestCase {
 
         text = "x,y";
 
-         input =
+        input =
                 new ANTLRStringStream(text);
 
-         lexer = new Rubyv3Lexer(input);
-         tokens = new BaseTokenStream(lexer);
-         parser = new Rubyv3Parser(tokens, null);
+        lexer = new Rubyv3Lexer(input);
+        tokens = new BaseTokenStream(lexer);
+        parser = new Rubyv3Parser(tokens, null);
         Rubyv3Parser.block_param_return result1 = null;
 
         result1 = parser.block_param(); //this line may produce RecognitionException
 
         text = "do |x| puts 3  end";
 
-         input =
+        input =
                 new ANTLRStringStream(text);
 
-         lexer = new Rubyv3Lexer(input);
-         tokens = new BaseTokenStream(lexer);
-         parser = new Rubyv3Parser(tokens, null);
+        lexer = new Rubyv3Lexer(input);
+        tokens = new BaseTokenStream(lexer);
+        parser = new Rubyv3Parser(tokens, null);
         Rubyv3Parser.block_return result2 = null;
 
         result2 = parser.block(); //this line may produce RecognitionException
@@ -356,6 +370,7 @@ public class Rubyv3ParserTest extends TestCase {
     public void test_new_call_syntax() throws Exception {
         //assert_parse("a.(1,2)", "");
     }
+
     public void assert_parse(String text, String expectedTree) throws IOException, RecognitionException
 
     {

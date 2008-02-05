@@ -635,7 +635,7 @@ method[boolean topLevel]	:	{!isDefinedVar(tokenStream.LT(1).getText())}? ID bloc
 block	:	'do' {enterScope();}  block_content 'end' {leaveScope();}
 	|	'{' {enterScope();}  block_content '}' {leaveScope();};
 block_content
-	:	'|' block_param '|'! block_body;
+	:	('|' block_param '|'!)? block_body;
 block_param
 	:	ID (',' ID)*  ;
 block_body
