@@ -53,6 +53,7 @@ tokens {
 	SYMBOL;
 	STAR_ID;
 	ARRAY_REF_CALL;
+	BLOCK_ID;
 	
 	
 }
@@ -627,10 +628,18 @@ simple_variable
 	:	ID -> ^(VARIABLE ID)
 	;
 
-method[boolean topLevel]	:	{!isDefinedVar(tokenStream.LT(1).getText())}? ID -> ^(CALL ID)
+method[boolean topLevel]	:	{!isDefinedVar(tokenStream.LT(1).getText())}? ID block? -> ^(CALL ID block?)
 	|	ID ('['^ array_items ']')*
-        |       ID open_args -> ^(CALL ID open_args)
+        |       ID open_args   -> ^(CALL ID open_args)
         ;
+block	:	'do' {enterScope();}  block_content 'end' {leaveScope();};
+block_content
+	:	'|' block_param '|'! block_body;
+block_param
+	:	ID (',' ID)*  ;
+block_body
+	:	bodyStatement?;
+
 /*primary	:	literal;
 	
 command_call
