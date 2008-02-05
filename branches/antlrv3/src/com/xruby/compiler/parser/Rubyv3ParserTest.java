@@ -274,8 +274,13 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("x 3", "");
     }
 
+    public void test_global_variable() throws Exception {
+        assert_parse("$:", "(STATEMENT_LIST (STATEMENT (VARIABLE $:)))");
+        assert_parse("$sitedir", "(STATEMENT_LIST (STATEMENT (VARIABLE $sitedir)))");
+    }
+
     public void test_smoke() throws Exception {
-        //assert_parse("$:", "");
+        //assert_parse("p x [3]", "(STATEMENT_LIST (STATEMENT (CALL p (ARG (CALL x (ARG ([ 3)))))))");
     }
 
 
