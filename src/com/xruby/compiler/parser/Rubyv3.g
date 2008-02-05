@@ -629,7 +629,7 @@ simple_variable
 	:	ID -> ^(VARIABLE ID)
 	;
 
-method[boolean topLevel]	:	/*{!isDefinedVar(tokenStream.LT(1).getText())}?*/ (ID block?) => ID block? -> ^(VARIABLE_OR_METHOD ID block?)
+method[boolean topLevel]	:	/*{!isDefinedVar(tokenStream.LT(1).getText())}?*/ (ID block?) => ID block? /*{System.out.println("hello");}*/ -> ^(VARIABLE_OR_METHOD ID block?)
 	//|	ID ('['^ array_items ']')*
         |       ID open_args_with_block   -> ^(CALL ID open_args_with_block)
         ;
