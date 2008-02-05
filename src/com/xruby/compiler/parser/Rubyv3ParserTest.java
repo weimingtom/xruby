@@ -103,15 +103,15 @@ public class Rubyv3ParserTest extends TestCase {
     public void test_tenary_if_expression() throws Exception {
         //assert_parse("5?3:2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
         //assert_parse("5**3?3:2", "(STATEMENT_LIST (STATEMENT (? (** 5 3) 3 2)))");
-        //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");
-        assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (CALL x) 3 2)))");
+        //assert_parse("x", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD x)))");
+        assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (VARIABLE_OR_METHOD x) 3 2)))");
     }
 
     public void test_heredoc() throws Exception {
-        //assert_parse("x=1;y=2;x <<1;", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)) (STATEMENT (<< (VARIABLE x) 1)))");
+        //assert_parse("x=1;y=2;x <<1;", "(STATEMENT_LIST (STATEMENT (= (VARIABLE_OR_METHOD x) 1)) (STATEMENT (<< (VARIABLE_OR_METHOD x) 1)))");
 
-        //assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE x) 1)))");
-        //assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE x) 1)))");
+        //assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE_OR_METHOD x) 1)))");
+        //assert_parse("%Q{a#{x=1}b}; x <<1;", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b}) (STATEMENT (<< (VARIABLE_OR_METHOD x) 1)))");
 
     }
 
@@ -141,7 +141,7 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("a = 'cat'", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) 'cat')))");
 
         assert_parse("a+=2", "(STATEMENT_LIST (STATEMENT (+= (VARIABLE a) 2)))");
-        assert_parse("a=\"\";a+=defined? a;p a", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) \"\")) (STATEMENT (+= (VARIABLE a) (defined? (VARIABLE a)))) (STATEMENT (CALL p (ARG (VARIABLE a)))))");
+        assert_parse("a=\"\";a+=defined? a;p a", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) \"\")) (STATEMENT (+= (VARIABLE a) (defined? (VARIABLE_OR_METHOD a)))) (STATEMENT (CALL p (ARG (VARIABLE_OR_METHOD a)))))");
 
         assert_parse("%Q{a#{x=1}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
 
@@ -181,10 +181,10 @@ public class Rubyv3ParserTest extends TestCase {
 
     public void test_symbol() throws Exception {
         assert_parse(":abc", "(STATEMENT_LIST (STATEMENT (: abc)))");
-        assert_parse(":my_variable", "(STATEMENT_LIST (STATEMENT (: my_variable)))");
+        assert_parse(":my_VARIABLE_OR_METHOD", "(STATEMENT_LIST (STATEMENT (: my_VARIABLE_OR_METHOD)))");
         assert_parse(":'catsup'", "(STATEMENT_LIST (STATEMENT (: 'catsup')))");
         //assert_parse("a = \"cat\";", "");
-        assert_parse("a = \"cat\";:\"#{a}sup\"", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) \"cat\")) (STATEMENT (: \"#{a}sup\")))"); //regconize, leave semantic interpetation to the Expression tree
+        assert_parse("a = \"cat\";:\"#{a}sup\"", "(STATEMENT_LIST (STATEMENT (= (VARIABLE_OR_METHOD a) \"cat\")) (STATEMENT (: \"#{a}sup\")))"); //regconize, leave semantic interpetation to the Expression tree
         assert_parse(":'#{a}sup'", "(STATEMENT_LIST (STATEMENT (: '#{a}sup')))");
         //assert_parse(":\"Ruby rules\"", "");
     }
@@ -193,36 +193,36 @@ public class Rubyv3ParserTest extends TestCase {
 
         assert_parse("def test3(x)\n" +
                 " p x \n" +
-                "end\n", "(STATEMENT_LIST (STATEMENT (def test3 (ARG x) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE x)))))))))");
+                "end\n", "(STATEMENT_LIST (STATEMENT (def test3 (ARG x) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE_OR_METHOD x)))))))))");
 
         assert_parse("def test3(x)\n" +
                 " p x ;;;" +
-                "end\n", "(STATEMENT_LIST (STATEMENT (def test3 (ARG x) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE x)))))))))");
+                "end\n", "(STATEMENT_LIST (STATEMENT (def test3 (ARG x) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE_OR_METHOD x)))))))))");
 
         assert_parse("def test \n end", "(STATEMENT_LIST (STATEMENT (def test)))");
         assert_parse("obj=1;def obj.test \n end", "(STATEMENT_LIST (STATEMENT (= (VARIABLE obj) 1)) (STATEMENT (def (VARIABLE obj) . test)))");
-        assert_parse("def (1.class).test \n end", "(STATEMENT_LIST (STATEMENT (def (. 1 (CALL class)) . test)))");
+        assert_parse("def (1.class).test \n end", "(STATEMENT_LIST (STATEMENT (def (. 1 (VARIABLE_OR_METHOD class)) . test)))");
 
         //all combination
         assert_parse("def test(x, y=1, *args)\n" +
                 " p x\n" +
-                "end", "(STATEMENT_LIST (STATEMENT (def test (ARG x (= y 1) (* args)) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE x)))))))))");
+                "end", "(STATEMENT_LIST (STATEMENT (def test (ARG x (= y 1) (* args)) (BODY (STATEMENT_LIST (STATEMENT (CALL p (ARG (VARIABLE_OR_METHOD x)))))))))");
 
     }
 
     public void test_defined_expression() throws Exception {
         assert_parse("defined? 1", "(STATEMENT_LIST (STATEMENT (defined? 1)))"); //expression
-        assert_parse("defined? dummy", "(STATEMENT_LIST (STATEMENT (defined? (CALL dummy))))"); //nil
-        assert_parse("defined? printf", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //method
-        //assert_parse("defined? String", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //constant
-        //assert_parse("defined? $_", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //globalvariable
-        //assert_parse("defined? Math::PI", "(STATEMENT_LIST (STATEMENT (defined? (CALL printf))))"); //constant
-        assert_parse("defined? a=1", "(STATEMENT_LIST (STATEMENT (defined? (= (VARIABLE a) 1))))"); //assignment
-        assert_parse("defined? 42.abs", "(STATEMENT_LIST (STATEMENT (defined? (. 42 (CALL abs)))))"); //assignment
+        assert_parse("defined? dummy", "(STATEMENT_LIST (STATEMENT (defined? (VARIABLE_OR_METHOD_OR_METHOD dummy))))"); //nil
+        assert_parse("defined? printf", "(STATEMENT_LIST (STATEMENT (defined? (VARIABLE_OR_METHOD_OR_METHOD printf))))"); //method
+        //assert_parse("defined? String", "(STATEMENT_LIST (STATEMENT (defined? (VARIABLE_OR_METHOD_OR_METHOD printf))))"); //constant
+        //assert_parse("defined? $_", "(STATEMENT_LIST (STATEMENT (defined? (VARIABLE_OR_METHOD_OR_METHOD printf))))"); //globalVARIABLE_OR_METHOD
+        //assert_parse("defined? Math::PI", "(STATEMENT_LIST (STATEMENT (defined? (VARIABLE_OR_METHOD_OR_METHOD printf))))"); //constant
+        assert_parse("defined? a=1", "(STATEMENT_LIST (STATEMENT (defined? (= (VARIABLE_OR_METHOD a) 1))))"); //assignment
+        assert_parse("defined? 42.abs", "(STATEMENT_LIST (STATEMENT (defined? (. 42 (VARIABLE_OR_METHOD_OR_METHOD abs)))))"); //assignment
 
-        assert_parse("defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (CALL x)))))");
-        assert_parse("defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (defined? (CALL x))))))");
-        assert_parse("defined? defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (defined? (defined? (CALL x)))))))");
+        assert_parse("defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (VARIABLE_OR_METHOD_OR_METHOD x)))))");
+        assert_parse("defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (defined? (VARIABLE_OR_METHOD_OR_METHOD x))))))");
+        assert_parse("defined? defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (defined? (defined? (VARIABLE_OR_METHOD_OR_METHOD x)))))))");
         //these shouldn't passed
         //assert_parse("defined? a,b=1", "");
 
@@ -230,98 +230,98 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_method() throws Exception {
-        //assert_parse("x", "(STATEMENT_LIST (STATEMENT (CALL x)))");
+        //assert_parse("x", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD x)))");
         //DFA.debug = true;
         //assert_parse("5 ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? 5 3 2)))");
-        //assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (CALL x) 3 2)))");
+        //assert_parse("x ? 3 : 2", "(STATEMENT_LIST (STATEMENT (? (VARIABLE_OR_METHOD_OR_METHOD x) 3 2)))");
 
-        assert_parse("test (1)", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1))))");
+        assert_parse("test (1)", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG 1))))");
 
-        assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
-        assert_parse("1.test1.test2", "(STATEMENT_LIST (STATEMENT (. (. 1 (CALL test1)) (CALL test2))))");
-        assert_parse("1.class", "(STATEMENT_LIST (STATEMENT (. 1 (CALL class))))");
-        assert_parse("1.class 3", "(STATEMENT_LIST (STATEMENT (. 1 (CALL class (ARG 3)))))");
-        //assert_parse("test", "(STATEMENT_LIST (STATEMENT (CALL test)))");
-        //assert_parse("def test\n 3 end \ntest", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");
-        //assert_parse("def test\n 3 end;test", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (CALL test)))");
+        assert_parse("test", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test)))");
+        assert_parse("1.test1.test2", "(STATEMENT_LIST (STATEMENT (. (. 1 (VARIABLE_OR_METHOD_OR_METHOD test1)) (VARIABLE_OR_METHOD_OR_METHOD test2))))");
+        assert_parse("1.class", "(STATEMENT_LIST (STATEMENT (. 1 (VARIABLE_OR_METHOD_OR_METHOD class))))");
+        assert_parse("1.class 3", "(STATEMENT_LIST (STATEMENT (. 1 (VARIABLE_OR_METHOD_OR_METHOD class (ARG 3)))))");
+        //assert_parse("test", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test)))");
+        //assert_parse("def test\n 3 end \ntest", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test)))");
+        //assert_parse("def test\n 3 end;test", "(STATEMENT_LIST (STATEMENT (def test (BODY (STATEMENT_LIST (STATEMENT 3))))) (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test)))");
 
         //assert_parse("def test(A)\n 3 end", ""); //error
         //assert_parse("def test(@x)\n 3 end", ""); //error
         //assert_parse("def test(@@x)\n 3 end", ""); //error
         //assert_parse("def test(x)\n 3 end", "(STATEMENT_LIST (STATEMENT (def test x (BODY (STATEMENT_LIST (STATEMENT 3))))))");
-        //assert_parse("puts(3)", "(STATEMENT_LIST (STATEMENT (CALL puts (ARG 3))))");
+        //assert_parse("puts(3)", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD puts (ARG 3))))");
 
-        //assert_parse("test 2**3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
-//        assert_parse("test 5?3:2", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (** 2 3)))))");
+        //assert_parse("test 2**3", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG (** 2 3)))))");
+//        assert_parse("test 5?3:2", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG (** 2 3)))))");
         //assert_parse("puts \"abc\"?3:5", "");
-        assert_parse("1.class.class.test 1,2.class", "(STATEMENT_LIST (STATEMENT (. (. (. 1 (CALL class)) (CALL class)) (CALL test (ARG 1 (. 2 (CALL class)))))))");
-        assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (= (VARIABLE a) 1)))))");
-        assert_parse("test 5, test 2,3", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 5 (CALL test (ARG 2 3))))))");
+        assert_parse("1.class.class.test 1,2.class", "(STATEMENT_LIST (STATEMENT (. (. (. 1 (VARIABLE_OR_METHOD_OR_METHOD class)) (VARIABLE_OR_METHOD_OR_METHOD class)) (VARIABLE_OR_METHOD_OR_METHOD test (ARG 1 (. 2 (VARIABLE_OR_METHOD_OR_METHOD class)))))))");
+        assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG (= (VARIABLE_OR_METHOD a) 1)))))");
+        assert_parse("test 5, test 2,3", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG 5 (VARIABLE_OR_METHOD_OR_METHOD test (ARG 2 3))))))");
 
         assert_parse("3*2", "(STATEMENT_LIST (STATEMENT (* 3 2)))");
-        //assert_parse("test*2", "(STATEMENT_LIST (STATEMENT (* (CALL test) 2)))");
+        //assert_parse("test*2", "(STATEMENT_LIST (STATEMENT (* (VARIABLE_OR_METHOD_OR_METHOD test) 2)))");
 
-        //assert_parse("test*a", "(STATEMENT_LIST (STATEMENT (* (CALL test) (CALL a))))");
-        //assert_parse("test*abc;x=5", "(STATEMENT_LIST (STATEMENT (* (CALL test) (CALL abc))) (STATEMENT (= (VARIABLE x) 5)))");
+        //assert_parse("test*a", "(STATEMENT_LIST (STATEMENT (* (VARIABLE_OR_METHOD_OR_METHOD test) (VARIABLE_OR_METHOD_OR_METHOD a))))");
+        //assert_parse("test*abc;x=5", "(STATEMENT_LIST (STATEMENT (* (VARIABLE_OR_METHOD_OR_METHOD test) (VARIABLE_OR_METHOD_OR_METHOD abc))) (STATEMENT (= (VARIABLE_OR_METHOD x) 5)))");
 
     }
 
-    public void test_array_ref_call() throws Exception {
+    public void test_array_ref_VARIABLE_OR_METHOD_OR_METHOD() throws Exception {
         assert_parse(
-                "x=1;x [3]", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)) (STATEMENT ([ (VARIABLE x) 3 ])))");
+                "x=1;x [3]", "(STATEMENT_LIST (STATEMENT (= (VARIABLE_OR_METHOD x) 1)) (STATEMENT ([ (VARIABLE_OR_METHOD x) 3 ])))");
         assert_parse(
-                "x=1;x [3][2]", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)) (STATEMENT ([ ([ (VARIABLE x) 3 ]) 2 ])))");
+                "x=1;x [3][2]", "(STATEMENT_LIST (STATEMENT (= (VARIABLE_OR_METHOD x) 1)) (STATEMENT ([ ([ (VARIABLE_OR_METHOD x) 3 ]) 2 ])))");
 
-        assert_parse("x [3]", "(STATEMENT_LIST (STATEMENT (CALL x (ARG ([ 3)))))");
-        assert_parse("p x [3]", "(STATEMENT_LIST (STATEMENT (CALL p (ARG (CALL x (ARG ([ 3)))))))");
+        assert_parse("x [3]", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD x (ARG ([ 3)))))");
+        assert_parse("p x [3]", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD p (ARG (VARIABLE_OR_METHOD_OR_METHOD x (ARG ([ 3)))))))");
         //assert_parse("x 3", "");
     }
 
-    public void test_global_variable() throws Exception {
-        assert_parse("$:", "(STATEMENT_LIST (STATEMENT (VARIABLE $:)))");
-        assert_parse("$sitedir", "(STATEMENT_LIST (STATEMENT (VARIABLE $sitedir)))");
+    public void test_global_VARIABLE_OR_METHOD() throws Exception {
+        assert_parse("$:", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD $:)))");
+        assert_parse("$sitedir", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD $sitedir)))");
     }
 
     public void test_block() throws Exception {
-        assert_parse("test() do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
-        assert_parse("test(1) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
-        assert_parse("test(1,2) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+        assert_parse("test() do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD x)))) end)))");
+        assert_parse("test(1) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) do | x (BODY (STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD x)))) end)))");
+        assert_parse("test(1,2) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) do | x (BODY (STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD x)))) end)))");
 
-        assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
-        assert_parse("test do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+        assert_parse("test ", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD test)))");
+        assert_parse("test do |x| x end", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD test do | x (BODY (STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD x)))) end)))");
 
-        assert_parse("test() { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
+        assert_parse("test() { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test { | x (BODY (STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD x)))) })))");
 
 
         assert_parse("test() do 3 end", "(STATEMENT_LIST (STATEMENT (CALL test do (BODY (STATEMENT_LIST (STATEMENT 3))) end)))");
         assert_parse("test(1) do 3 end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) do (BODY (STATEMENT_LIST (STATEMENT 3))) end)))");
         assert_parse("test(1,2) do 3 end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) do (BODY (STATEMENT_LIST (STATEMENT 3))) end)))");
 
-        assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
-        assert_parse("test do 3 end", "(STATEMENT_LIST (STATEMENT (CALL test do (BODY (STATEMENT_LIST (STATEMENT 3))) end)))");
+        assert_parse("test ", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD test)))");
+        assert_parse("test do 3 end", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD test do (BODY (STATEMENT_LIST (STATEMENT 3))) end)))");
 
         assert_parse("test() { 3 }", "(STATEMENT_LIST (STATEMENT (CALL test { (BODY (STATEMENT_LIST (STATEMENT 3))) })))");
 
-        //assert_parse("test { 3 }", "(STATEMENT_LIST (STATEMENT (CALL test { (BODY (STATEMENT_LIST (STATEMENT 3))) })))");
+        //assert_parse("test { 3 }", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test { (BODY (STATEMENT_LIST (STATEMENT 3))) })))");
 
 
-        assert_parse("x{}", "");
+        assert_parse("x{}", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD x { })))");
 
-        /*assert_parse("test 1 { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
-    assert_parse("test(1,2) { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
+        /*assert_parse("test 1 { |x| x }", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG 1) { | x (BODY (STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD x)))) })))");
+    assert_parse("test(1,2) { |x| x }", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG 1 2) { | x (BODY (STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD x)))) })))");
 
-     assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
+     assert_parse("test ", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test)))");
 
      //assert_parse("x=1;x ()", "");
      assert_parse("$:.find {|x| x}", "");*/
-        //assert_parse("test { |x| x }", "(STATEMENT_LIST (STATEMENT (CALL test { | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) })))");
+        //assert_parse("test { |x| x }", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test { | x (BODY (STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD x)))) })))");
     }
 
     public void test_smoke() throws Exception {
 
         //assertEquals(expectedTree, ((CommonTree) result.tree).toStringTree());
 
-        //assert_parse("$:.find {|x| puts 3 }", "(STATEMENT_LIST (STATEMENT (CALL p (ARG (CALL x (ARG ([ 3)))))))");
+        //assert_parse("$:.find {|x| puts 3 }", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD p (ARG (VARIABLE_OR_METHOD_OR_METHOD x (ARG ([ 3)))))))");
     }
 
     public void test_smoke_block() throws Exception {
@@ -363,11 +363,11 @@ public class Rubyv3ParserTest extends TestCase {
 
         //assertEquals(expectedTree, ((CommonTree) result.tree).toStringTree());
 
-        //assert_parse("$:.find {|x| puts 3 }", "(STATEMENT_LIST (STATEMENT (CALL p (ARG (CALL x (ARG ([ 3)))))))");
+        //assert_parse("$:.find {|x| puts 3 }", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD p (ARG (VARIABLE_OR_METHOD_OR_METHOD x (ARG ([ 3)))))))");
     }
 
 
-    public void test_new_call_syntax() throws Exception {
+    public void test_new_VARIABLE_OR_METHOD_OR_METHOD_syntax() throws Exception {
         //assert_parse("a.(1,2)", "");
     }
 

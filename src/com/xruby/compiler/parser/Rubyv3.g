@@ -32,6 +32,7 @@ tokens {
 	FID;
 	VARIABLE;
 	CALL;
+	VARIABLE_OR_METHOD;
 	
 	
 	//COMPSTMT;
@@ -381,7 +382,7 @@ primaryExpression
 methodDefinition
 	:	'def'^ (LINE_BREAK!)* (singleton dot_or_colon)? methodName {enterScope();} f_arglist (terminal!)*  bodyStatement? (terminal!)* 'end'! {leaveScope();};
 singleton
-	:	variable|'('! expression opt_nl ')'!;
+	:	simple_variable|'('! expression opt_nl ')'!;
 opt_nl        : /* none */ | LINE_BREAK!
     ;
 dot_or_colon
@@ -621,15 +622,15 @@ command
 	; //|       lhs SHIFT^ rhs ;	
 atom[boolean topLevel]	:	/*methodExpression[topLevel]|*/ array|hash|single_quote_string|double_quote_string|symbol | methodExpression[topLevel] ;
 methodExpression[boolean topLevel]
-	:      variable|method[topLevel];
+	:      method[topLevel];
 variable:	{isDefinedVar(tokenStream.LT(1).getText())}? (simple_variable^ ('['^ array_items ']')*);
 
 simple_variable
 	:	ID -> ^(VARIABLE ID)
 	;
 
-method[boolean topLevel]	:	{!isDefinedVar(tokenStream.LT(1).getText())}? ID block? -> ^(CALL ID block?)
-	|	ID ('['^ array_items ']')*
+method[boolean topLevel]	:	/*{!isDefinedVar(tokenStream.LT(1).getText())}?*/ (ID block?) => ID block? -> ^(VARIABLE_OR_METHOD ID block?)
+	//|	ID ('['^ array_items ']')*
         |       ID open_args_with_block   -> ^(CALL ID open_args_with_block)
         ;
 block	:	'do' {enterScope();}  block_content 'end' {leaveScope();}
