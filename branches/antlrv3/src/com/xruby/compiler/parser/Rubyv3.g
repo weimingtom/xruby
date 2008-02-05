@@ -630,7 +630,7 @@ simple_variable
 
 method[boolean topLevel]	:	{!isDefinedVar(tokenStream.LT(1).getText())}? ID block? -> ^(CALL ID block?)
 	|	ID ('['^ array_items ']')*
-        |       ID open_args   -> ^(CALL ID open_args)
+        |       ID open_args_with_block   -> ^(CALL ID open_args_with_block)
         ;
 block	:	'do' {enterScope();}  block_content 'end' {leaveScope();};
 block_content
@@ -652,9 +652,9 @@ command1:	operation1 (command_args);
 command_args
 	:	open_args;*/
 /* mandatory open_args*/
-open_args options {backtrack=true;}
-	:	'('! call_args ')'!
-	|	'('! ')'!
+open_args_with_block options {backtrack=true;}
+	:	'('! call_args ')'! block?
+	|	'('! ')'! block?
 	|	call_args 
         ;  //silence warnings :http://www.antlr.org:8888/browse/ANTLR-139
 
