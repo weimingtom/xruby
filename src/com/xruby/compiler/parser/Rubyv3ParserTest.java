@@ -280,9 +280,9 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_block() throws Exception {
-       //assert_parse("test() do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
-       //assert_parse("test(1) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
-       //assert_parse("test(1,2) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+       assert_parse("test() do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+       assert_parse("test(1) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
+       assert_parse("test(1,2) do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2) do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
 
         assert_parse("test ", "(STATEMENT_LIST (STATEMENT (CALL test)))");
         assert_parse("test do |x| x end", "(STATEMENT_LIST (STATEMENT (CALL test do | x (BODY (STATEMENT_LIST (STATEMENT (CALL x)))) end)))");
