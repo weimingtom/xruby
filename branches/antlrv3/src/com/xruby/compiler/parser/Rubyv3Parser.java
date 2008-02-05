@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-05 13:23:41
+// $ANTLR 3.0.1 D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g 2008-02-05 14:00:18
 
 package com.xruby.compiler.parser;
 
@@ -552,7 +552,7 @@ public class Rubyv3Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: expression, modifier_line
+            // elements: modifier_line, expression
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1099,7 +1099,7 @@ public class Rubyv3Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: e1, body0, e0, body2, body1
+            // elements: body2, body0, body1, e1, e0
             // token labels: 
             // rule labels: body2, retval, e1, e0, body0
             // token list labels: 
@@ -9928,7 +9928,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start string
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:1: string : ( single_quote_string | double_quote_string | HEREDOC_STRING );
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:743:1: string : ( single_quote_string | double_quote_string | HEREDOC_STRING );
     public final string_return string() throws RecognitionException {
         string_return retval = new string_return();
         retval.start = input.LT(1);
@@ -9944,7 +9944,7 @@ public class Rubyv3Parser extends Parser {
         Object HEREDOC_STRING282_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:8: ( single_quote_string | double_quote_string | HEREDOC_STRING )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:743:8: ( single_quote_string | double_quote_string | HEREDOC_STRING )
             int alt112=3;
             switch ( input.LA(1) ) {
             case SINGLE_QUOTE_STRING_SIMPLE:
@@ -9967,18 +9967,18 @@ public class Rubyv3Parser extends Parser {
             default:
                 if (backtracking>0) {failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("740:1: string : ( single_quote_string | double_quote_string | HEREDOC_STRING );", 112, 0, input);
+                    new NoViableAltException("743:1: string : ( single_quote_string | double_quote_string | HEREDOC_STRING );", 112, 0, input);
             
                 throw nvae;
             }
             
             switch (alt112) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:10: single_quote_string
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:743:10: single_quote_string
                     {
                     root_0 = (Object)adaptor.nil();
                     
-                    pushFollow(FOLLOW_single_quote_string_in_string3833);
+                    pushFollow(FOLLOW_single_quote_string_in_string3972);
                     single_quote_string280=single_quote_string();
                     _fsp--;
                     if (failed) return retval;
@@ -9987,11 +9987,11 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:30: double_quote_string
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:743:30: double_quote_string
                     {
                     root_0 = (Object)adaptor.nil();
                     
-                    pushFollow(FOLLOW_double_quote_string_in_string3835);
+                    pushFollow(FOLLOW_double_quote_string_in_string3974);
                     double_quote_string281=double_quote_string();
                     _fsp--;
                     if (failed) return retval;
@@ -10000,12 +10000,12 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:740:50: HEREDOC_STRING
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:743:50: HEREDOC_STRING
                     {
                     root_0 = (Object)adaptor.nil();
                     
                     HEREDOC_STRING282=(Token)input.LT(1);
-                    match(input,HEREDOC_STRING,FOLLOW_HEREDOC_STRING_in_string3837); if (failed) return retval;
+                    match(input,HEREDOC_STRING,FOLLOW_HEREDOC_STRING_in_string3976); if (failed) return retval;
                     if ( backtracking==0 ) {
                     HEREDOC_STRING282_tree = (Object)adaptor.create(HEREDOC_STRING282);
                     adaptor.addChild(root_0, HEREDOC_STRING282_tree);
@@ -10038,7 +10038,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start single_quote_string
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:742:1: single_quote_string : ( SINGLE_QUOTE_STRING_SIMPLE | SINGLE_QUOTE_STRING_COMPLEX );
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:745:1: single_quote_string : ( SINGLE_QUOTE_STRING_SIMPLE | SINGLE_QUOTE_STRING_COMPLEX );
     public final single_quote_string_return single_quote_string() throws RecognitionException {
         single_quote_string_return retval = new single_quote_string_return();
         retval.start = input.LT(1);
@@ -10050,7 +10050,7 @@ public class Rubyv3Parser extends Parser {
         Object set283_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:743:2: ( SINGLE_QUOTE_STRING_SIMPLE | SINGLE_QUOTE_STRING_COMPLEX )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:746:2: ( SINGLE_QUOTE_STRING_SIMPLE | SINGLE_QUOTE_STRING_COMPLEX )
             // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
             {
             root_0 = (Object)adaptor.nil();
@@ -10094,7 +10094,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start double_quote_string
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:790:1: double_quote_string : ( DOUBLE_QUOTE_STRING_SIMPLE | DOUBLE_QUOTE_STRING_COMPLEX );
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:793:1: double_quote_string : ( DOUBLE_QUOTE_STRING_SIMPLE | DOUBLE_QUOTE_STRING_COMPLEX );
     public final double_quote_string_return double_quote_string() throws RecognitionException {
         double_quote_string_return retval = new double_quote_string_return();
         retval.start = input.LT(1);
@@ -10106,7 +10106,7 @@ public class Rubyv3Parser extends Parser {
         Object set284_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:791:2: ( DOUBLE_QUOTE_STRING_SIMPLE | DOUBLE_QUOTE_STRING_COMPLEX )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:794:2: ( DOUBLE_QUOTE_STRING_SIMPLE | DOUBLE_QUOTE_STRING_COMPLEX )
             // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:
             {
             root_0 = (Object)adaptor.nil();
@@ -10150,7 +10150,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start array
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:830:1: array : '[' array_items ']' ;
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:833:1: array : '[' array_items ']' ;
     public final array_return array() throws RecognitionException {
         array_return retval = new array_return();
         retval.start = input.LT(1);
@@ -10166,24 +10166,24 @@ public class Rubyv3Parser extends Parser {
         Object char_literal287_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:830:7: ( '[' array_items ']' )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:830:9: '[' array_items ']'
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:833:7: ( '[' array_items ']' )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:833:9: '[' array_items ']'
             {
             root_0 = (Object)adaptor.nil();
             
             char_literal285=(Token)input.LT(1);
-            match(input,LBRACK,FOLLOW_LBRACK_in_array4244); if (failed) return retval;
+            match(input,LBRACK,FOLLOW_LBRACK_in_array4383); if (failed) return retval;
             if ( backtracking==0 ) {
             char_literal285_tree = (Object)adaptor.create(char_literal285);
             root_0 = (Object)adaptor.becomeRoot(char_literal285_tree, root_0);
             }
-            pushFollow(FOLLOW_array_items_in_array4247);
+            pushFollow(FOLLOW_array_items_in_array4386);
             array_items286=array_items();
             _fsp--;
             if (failed) return retval;
             if ( backtracking==0 ) adaptor.addChild(root_0, array_items286.getTree());
             char_literal287=(Token)input.LT(1);
-            match(input,RBRACK,FOLLOW_RBRACK_in_array4249); if (failed) return retval;
+            match(input,RBRACK,FOLLOW_RBRACK_in_array4388); if (failed) return retval;
             
             }
     
@@ -10210,7 +10210,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start array_items
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:831:1: array_items : array_item ( ',' array_item )* trailer ;
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:834:1: array_items : array_item ( ',' array_item )* trailer ;
     public final array_items_return array_items() throws RecognitionException {
         array_items_return retval = new array_items_return();
         retval.start = input.LT(1);
@@ -10228,17 +10228,17 @@ public class Rubyv3Parser extends Parser {
         Object char_literal289_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:831:13: ( array_item ( ',' array_item )* trailer )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:831:19: array_item ( ',' array_item )* trailer
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:834:13: ( array_item ( ',' array_item )* trailer )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:834:19: array_item ( ',' array_item )* trailer
             {
             root_0 = (Object)adaptor.nil();
             
-            pushFollow(FOLLOW_array_item_in_array_items4261);
+            pushFollow(FOLLOW_array_item_in_array_items4400);
             array_item288=array_item();
             _fsp--;
             if (failed) return retval;
             if ( backtracking==0 ) adaptor.addChild(root_0, array_item288.getTree());
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:831:30: ( ',' array_item )*
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:834:30: ( ',' array_item )*
             loop113:
             do {
                 int alt113=2;
@@ -10257,11 +10257,11 @@ public class Rubyv3Parser extends Parser {
             
                 switch (alt113) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:831:31: ',' array_item
+            	    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:834:31: ',' array_item
             	    {
             	    char_literal289=(Token)input.LT(1);
-            	    match(input,COMMA,FOLLOW_COMMA_in_array_items4264); if (failed) return retval;
-            	    pushFollow(FOLLOW_array_item_in_array_items4267);
+            	    match(input,COMMA,FOLLOW_COMMA_in_array_items4403); if (failed) return retval;
+            	    pushFollow(FOLLOW_array_item_in_array_items4406);
             	    array_item290=array_item();
             	    _fsp--;
             	    if (failed) return retval;
@@ -10275,7 +10275,7 @@ public class Rubyv3Parser extends Parser {
                 }
             } while (true);
 
-            pushFollow(FOLLOW_trailer_in_array_items4271);
+            pushFollow(FOLLOW_trailer_in_array_items4410);
             trailer291=trailer();
             _fsp--;
             if (failed) return retval;
@@ -10306,7 +10306,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start array_item
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:832:1: array_item : command ;
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:835:1: array_item : command ;
     public final array_item_return array_item() throws RecognitionException {
         array_item_return retval = new array_item_return();
         retval.start = input.LT(1);
@@ -10318,12 +10318,12 @@ public class Rubyv3Parser extends Parser {
 
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:832:13: ( command )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:832:19: command
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:835:13: ( command )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:835:19: command
             {
             root_0 = (Object)adaptor.nil();
             
-            pushFollow(FOLLOW_command_in_array_item4283);
+            pushFollow(FOLLOW_command_in_array_item4422);
             command292=command();
             _fsp--;
             if (failed) return retval;
@@ -10354,7 +10354,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start hash
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:833:1: hash : '{' assoc_list '}' ;
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:836:1: hash : '{' assoc_list '}' ;
     public final hash_return hash() throws RecognitionException {
         hash_return retval = new hash_return();
         retval.start = input.LT(1);
@@ -10370,24 +10370,24 @@ public class Rubyv3Parser extends Parser {
         Object char_literal295_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:833:6: ( '{' assoc_list '}' )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:833:8: '{' assoc_list '}'
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:836:6: ( '{' assoc_list '}' )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:836:8: '{' assoc_list '}'
             {
             root_0 = (Object)adaptor.nil();
             
             char_literal293=(Token)input.LT(1);
-            match(input,LCURLY,FOLLOW_LCURLY_in_hash4290); if (failed) return retval;
+            match(input,LCURLY,FOLLOW_LCURLY_in_hash4429); if (failed) return retval;
             if ( backtracking==0 ) {
             char_literal293_tree = (Object)adaptor.create(char_literal293);
             root_0 = (Object)adaptor.becomeRoot(char_literal293_tree, root_0);
             }
-            pushFollow(FOLLOW_assoc_list_in_hash4293);
+            pushFollow(FOLLOW_assoc_list_in_hash4432);
             assoc_list294=assoc_list();
             _fsp--;
             if (failed) return retval;
             if ( backtracking==0 ) adaptor.addChild(root_0, assoc_list294.getTree());
             char_literal295=(Token)input.LT(1);
-            match(input,RCURLY,FOLLOW_RCURLY_in_hash4295); if (failed) return retval;
+            match(input,RCURLY,FOLLOW_RCURLY_in_hash4434); if (failed) return retval;
             
             }
     
@@ -10414,7 +10414,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start assoc_list
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:834:1: assoc_list : assocs trailer ;
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:837:1: assoc_list : assocs trailer ;
     public final assoc_list_return assoc_list() throws RecognitionException {
         assoc_list_return retval = new assoc_list_return();
         retval.start = input.LT(1);
@@ -10428,17 +10428,17 @@ public class Rubyv3Parser extends Parser {
 
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:835:2: ( assocs trailer )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:835:4: assocs trailer
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:838:2: ( assocs trailer )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:838:4: assocs trailer
             {
             root_0 = (Object)adaptor.nil();
             
-            pushFollow(FOLLOW_assocs_in_assoc_list4304);
+            pushFollow(FOLLOW_assocs_in_assoc_list4443);
             assocs296=assocs();
             _fsp--;
             if (failed) return retval;
             if ( backtracking==0 ) adaptor.addChild(root_0, assocs296.getTree());
-            pushFollow(FOLLOW_trailer_in_assoc_list4306);
+            pushFollow(FOLLOW_trailer_in_assoc_list4445);
             trailer297=trailer();
             _fsp--;
             if (failed) return retval;
@@ -10469,7 +10469,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start assocs
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:836:1: assocs : assoc ( ',' assoc )* ;
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:839:1: assocs : assoc ( ',' assoc )* ;
     public final assocs_return assocs() throws RecognitionException {
         assocs_return retval = new assocs_return();
         retval.start = input.LT(1);
@@ -10485,17 +10485,17 @@ public class Rubyv3Parser extends Parser {
         Object char_literal299_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:836:8: ( assoc ( ',' assoc )* )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:836:10: assoc ( ',' assoc )*
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:839:8: ( assoc ( ',' assoc )* )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:839:10: assoc ( ',' assoc )*
             {
             root_0 = (Object)adaptor.nil();
             
-            pushFollow(FOLLOW_assoc_in_assocs4315);
+            pushFollow(FOLLOW_assoc_in_assocs4454);
             assoc298=assoc();
             _fsp--;
             if (failed) return retval;
             if ( backtracking==0 ) adaptor.addChild(root_0, assoc298.getTree());
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:836:16: ( ',' assoc )*
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:839:16: ( ',' assoc )*
             loop114:
             do {
                 int alt114=2;
@@ -10514,11 +10514,11 @@ public class Rubyv3Parser extends Parser {
             
                 switch (alt114) {
             	case 1 :
-            	    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:836:18: ',' assoc
+            	    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:839:18: ',' assoc
             	    {
             	    char_literal299=(Token)input.LT(1);
-            	    match(input,COMMA,FOLLOW_COMMA_in_assocs4319); if (failed) return retval;
-            	    pushFollow(FOLLOW_assoc_in_assocs4322);
+            	    match(input,COMMA,FOLLOW_COMMA_in_assocs4458); if (failed) return retval;
+            	    pushFollow(FOLLOW_assoc_in_assocs4461);
             	    assoc300=assoc();
             	    _fsp--;
             	    if (failed) return retval;
@@ -10558,7 +10558,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start assoc
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:838:1: assoc : ( ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg | arg ( ASSOC | ',' ) arg );
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:1: assoc : ( ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg | arg ( ASSOC | ',' ) arg );
     public final assoc_return assoc() throws RecognitionException {
         assoc_return retval = new assoc_return();
         retval.start = input.LT(1);
@@ -10580,23 +10580,23 @@ public class Rubyv3Parser extends Parser {
         Object set305_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:838:15: ( ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg | arg ( ASSOC | ',' ) arg )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:15: ( ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg | arg ( ASSOC | ',' ) arg )
             int alt115=2;
             alt115 = dfa115.predict(input);
             switch (alt115) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:838:17: ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:17: ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg
                     {
                     root_0 = (Object)adaptor.nil();
                     
-                    pushFollow(FOLLOW_symbol_name_in_assoc_in_assoc4349);
+                    pushFollow(FOLLOW_symbol_name_in_assoc_in_assoc4488);
                     symbol_name_in_assoc301=symbol_name_in_assoc();
                     _fsp--;
                     if (failed) return retval;
                     if ( backtracking==0 ) adaptor.addChild(root_0, symbol_name_in_assoc301.getTree());
                     char_literal302=(Token)input.LT(1);
-                    match(input,COLON,FOLLOW_COLON_in_assoc4351); if (failed) return retval;
-                    pushFollow(FOLLOW_arg_in_assoc4354);
+                    match(input,COLON,FOLLOW_COLON_in_assoc4490); if (failed) return retval;
+                    pushFollow(FOLLOW_arg_in_assoc4493);
                     arg303=arg();
                     _fsp--;
                     if (failed) return retval;
@@ -10605,11 +10605,11 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:838:82: arg ( ASSOC | ',' ) arg
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:82: arg ( ASSOC | ',' ) arg
                     {
                     root_0 = (Object)adaptor.nil();
                     
-                    pushFollow(FOLLOW_arg_in_assoc4358);
+                    pushFollow(FOLLOW_arg_in_assoc4497);
                     arg304=arg();
                     _fsp--;
                     if (failed) return retval;
@@ -10623,10 +10623,10 @@ public class Rubyv3Parser extends Parser {
                         if (backtracking>0) {failed=true; return retval;}
                         MismatchedSetException mse =
                             new MismatchedSetException(null,input);
-                        recoverFromMismatchedSet(input,mse,FOLLOW_set_in_assoc4360);    throw mse;
+                        recoverFromMismatchedSet(input,mse,FOLLOW_set_in_assoc4499);    throw mse;
                     }
 
-                    pushFollow(FOLLOW_arg_in_assoc4367);
+                    pushFollow(FOLLOW_arg_in_assoc4506);
                     arg306=arg();
                     _fsp--;
                     if (failed) return retval;
@@ -10659,7 +10659,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start symbol_name_in_assoc
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:840:1: symbol_name_in_assoc : ID -> ^( SYMBOL ID ) ;
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:843:1: symbol_name_in_assoc : ID -> ^( SYMBOL ID ) ;
     public final symbol_name_in_assoc_return symbol_name_in_assoc() throws RecognitionException {
         symbol_name_in_assoc_return retval = new symbol_name_in_assoc_return();
         retval.start = input.LT(1);
@@ -10672,11 +10672,11 @@ public class Rubyv3Parser extends Parser {
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:2: ( ID -> ^( SYMBOL ID ) )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:4: ID
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:844:2: ( ID -> ^( SYMBOL ID ) )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:844:4: ID
             {
             ID307=(Token)input.LT(1);
-            match(input,ID,FOLLOW_ID_in_symbol_name_in_assoc4377); if (failed) return retval;
+            match(input,ID,FOLLOW_ID_in_symbol_name_in_assoc4516); if (failed) return retval;
             if ( backtracking==0 ) stream_ID.add(ID307);
 
 
@@ -10691,9 +10691,9 @@ public class Rubyv3Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 841:7: -> ^( SYMBOL ID )
+            // 844:7: -> ^( SYMBOL ID )
             {
-                // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:10: ^( SYMBOL ID )
+                // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:844:10: ^( SYMBOL ID )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot(adaptor.create(SYMBOL, "SYMBOL"), root_1);
@@ -10732,7 +10732,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start trailer
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:846:1: trailer : ( | LINE_BREAK | ',' );
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:1: trailer : ( | LINE_BREAK | ',' );
     public final trailer_return trailer() throws RecognitionException {
         trailer_return retval = new trailer_return();
         retval.start = input.LT(1);
@@ -10746,7 +10746,7 @@ public class Rubyv3Parser extends Parser {
         Object char_literal309_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:846:16: ( | LINE_BREAK | ',' )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:16: ( | LINE_BREAK | ',' )
             int alt116=3;
             switch ( input.LA(1) ) {
             case RCURLY:
@@ -10768,36 +10768,36 @@ public class Rubyv3Parser extends Parser {
             default:
                 if (backtracking>0) {failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("846:1: trailer : ( | LINE_BREAK | ',' );", 116, 0, input);
+                    new NoViableAltException("849:1: trailer : ( | LINE_BREAK | ',' );", 116, 0, input);
             
                 throw nvae;
             }
             
             switch (alt116) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:846:29: 
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:29: 
                     {
                     root_0 = (Object)adaptor.nil();
                     
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:846:31: LINE_BREAK
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:31: LINE_BREAK
                     {
                     root_0 = (Object)adaptor.nil();
                     
                     LINE_BREAK308=(Token)input.LT(1);
-                    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_trailer4408); if (failed) return retval;
+                    match(input,LINE_BREAK,FOLLOW_LINE_BREAK_in_trailer4547); if (failed) return retval;
                     
                     }
                     break;
                 case 3 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:846:45: ','
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:45: ','
                     {
                     root_0 = (Object)adaptor.nil();
                     
                     char_literal309=(Token)input.LT(1);
-                    match(input,COMMA,FOLLOW_COMMA_in_trailer4413); if (failed) return retval;
+                    match(input,COMMA,FOLLOW_COMMA_in_trailer4552); if (failed) return retval;
                     
                     }
                     break;
@@ -10826,7 +10826,7 @@ public class Rubyv3Parser extends Parser {
     };
     
     // $ANTLR start symbol
-    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:1: symbol : ':' ( ID | single_quote_string | double_quote_string ) ;
+    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:852:1: symbol : ':' ( ID | single_quote_string | double_quote_string ) ;
     public final symbol_return symbol() throws RecognitionException {
         symbol_return retval = new symbol_return();
         retval.start = input.LT(1);
@@ -10844,18 +10844,18 @@ public class Rubyv3Parser extends Parser {
         Object ID311_tree=null;
     
         try {
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:8: ( ':' ( ID | single_quote_string | double_quote_string ) )
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:10: ':' ( ID | single_quote_string | double_quote_string )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:852:8: ( ':' ( ID | single_quote_string | double_quote_string ) )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:852:10: ':' ( ID | single_quote_string | double_quote_string )
             {
             root_0 = (Object)adaptor.nil();
             
             char_literal310=(Token)input.LT(1);
-            match(input,COLON,FOLLOW_COLON_in_symbol4429); if (failed) return retval;
+            match(input,COLON,FOLLOW_COLON_in_symbol4568); if (failed) return retval;
             if ( backtracking==0 ) {
             char_literal310_tree = (Object)adaptor.create(char_literal310);
             root_0 = (Object)adaptor.becomeRoot(char_literal310_tree, root_0);
             }
-            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:15: ( ID | single_quote_string | double_quote_string )
+            // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:852:15: ( ID | single_quote_string | double_quote_string )
             int alt117=3;
             switch ( input.LA(1) ) {
             case ID:
@@ -10878,17 +10878,17 @@ public class Rubyv3Parser extends Parser {
             default:
                 if (backtracking>0) {failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("849:15: ( ID | single_quote_string | double_quote_string )", 117, 0, input);
+                    new NoViableAltException("852:15: ( ID | single_quote_string | double_quote_string )", 117, 0, input);
             
                 throw nvae;
             }
             
             switch (alt117) {
                 case 1 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:16: ID
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:852:16: ID
                     {
                     ID311=(Token)input.LT(1);
-                    match(input,ID,FOLLOW_ID_in_symbol4433); if (failed) return retval;
+                    match(input,ID,FOLLOW_ID_in_symbol4572); if (failed) return retval;
                     if ( backtracking==0 ) {
                     ID311_tree = (Object)adaptor.create(ID311);
                     adaptor.addChild(root_0, ID311_tree);
@@ -10897,9 +10897,9 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:21: single_quote_string
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:852:21: single_quote_string
                     {
-                    pushFollow(FOLLOW_single_quote_string_in_symbol4437);
+                    pushFollow(FOLLOW_single_quote_string_in_symbol4576);
                     single_quote_string312=single_quote_string();
                     _fsp--;
                     if (failed) return retval;
@@ -10908,9 +10908,9 @@ public class Rubyv3Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:849:43: double_quote_string
+                    // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:852:43: double_quote_string
                     {
-                    pushFollow(FOLLOW_double_quote_string_in_symbol4441);
+                    pushFollow(FOLLOW_double_quote_string_in_symbol4580);
                     double_quote_string313=double_quote_string();
                     _fsp--;
                     if (failed) return retval;
@@ -11013,15 +11013,15 @@ public class Rubyv3Parser extends Parser {
 
     // $ANTLR start synpred6
     public final void synpred6_fragment() throws RecognitionException {   
-        // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:838:17: ( symbol_name_in_assoc ':' arg )
-        // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:838:18: symbol_name_in_assoc ':' arg
+        // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:17: ( symbol_name_in_assoc ':' arg )
+        // D:\\toolset\\xruby-antlrv3\\src\\com\\xruby\\compiler\\parser\\Rubyv3.g:841:18: symbol_name_in_assoc ':' arg
         {
-        pushFollow(FOLLOW_symbol_name_in_assoc_in_synpred64341);
+        pushFollow(FOLLOW_symbol_name_in_assoc_in_synpred64480);
         symbol_name_in_assoc();
         _fsp--;
         if (failed) return ;
-        match(input,COLON,FOLLOW_COLON_in_synpred64343); if (failed) return ;
-        pushFollow(FOLLOW_arg_in_synpred64345);
+        match(input,COLON,FOLLOW_COLON_in_synpred64482); if (failed) return ;
+        pushFollow(FOLLOW_arg_in_synpred64484);
         arg();
         _fsp--;
         if (failed) return ;
@@ -11346,7 +11346,7 @@ public class Rubyv3Parser extends Parser {
             this.transition = DFA115_transition;
         }
         public String getDescription() {
-            return "838:1: assoc : ( ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg | arg ( ASSOC | ',' ) arg );";
+            return "841:1: assoc : ( ( symbol_name_in_assoc ':' arg )=> symbol_name_in_assoc ':' arg | arg ( ASSOC | ',' ) arg );";
         }
         public int specialStateTransition(int s, IntStream input) throws NoViableAltException {
         	int _s = s;
@@ -11866,40 +11866,40 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_string_in_literal3238 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_symbol_in_literal3240 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_REGEX_in_literal3242 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_single_quote_string_in_string3833 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_double_quote_string_in_string3835 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_HEREDOC_STRING_in_string3837 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_single_quote_string_in_string3972 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_double_quote_string_in_string3974 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_HEREDOC_STRING_in_string3976 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_single_quote_string0 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_double_quote_string0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LBRACK_in_array4244 = new BitSet(new long[]{0x0000080600003000L,0xE9140B6000180000L,0x0000000000000C00L});
-    public static final BitSet FOLLOW_array_items_in_array4247 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_RBRACK_in_array4249 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_array_item_in_array_items4261 = new BitSet(new long[]{0x0000008000000002L,0x0080000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_array_items4264 = new BitSet(new long[]{0x0000080600003000L,0xE9140B6000180000L,0x0000000000000C00L});
-    public static final BitSet FOLLOW_array_item_in_array_items4267 = new BitSet(new long[]{0x0000008000000002L,0x0080000000000000L});
-    public static final BitSet FOLLOW_trailer_in_array_items4271 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_command_in_array_item4283 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LCURLY_in_hash4290 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
-    public static final BitSet FOLLOW_assoc_list_in_hash4293 = new BitSet(new long[]{0x0000000000000000L,0x0000100000000000L});
-    public static final BitSet FOLLOW_RCURLY_in_hash4295 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_assocs_in_assoc_list4304 = new BitSet(new long[]{0x0000008000000002L,0x0080000000000000L});
-    public static final BitSet FOLLOW_trailer_in_assoc_list4306 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_assoc_in_assocs4315 = new BitSet(new long[]{0x0000000000000002L,0x0080000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_assocs4319 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
-    public static final BitSet FOLLOW_assoc_in_assocs4322 = new BitSet(new long[]{0x0000000000000002L,0x0080000000000000L});
-    public static final BitSet FOLLOW_symbol_name_in_assoc_in_assoc4349 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
-    public static final BitSet FOLLOW_COLON_in_assoc4351 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
-    public static final BitSet FOLLOW_arg_in_assoc4354 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_arg_in_assoc4358 = new BitSet(new long[]{0x0000000000000000L,0x0080800000000000L});
-    public static final BitSet FOLLOW_set_in_assoc4360 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
-    public static final BitSet FOLLOW_arg_in_assoc4367 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_symbol_name_in_assoc4377 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LINE_BREAK_in_trailer4408 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_COMMA_in_trailer4413 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_COLON_in_symbol4429 = new BitSet(new long[]{0x0000080000000000L,0x0000036000000000L});
-    public static final BitSet FOLLOW_ID_in_symbol4433 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_single_quote_string_in_symbol4437 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_double_quote_string_in_symbol4441 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LBRACK_in_array4383 = new BitSet(new long[]{0x0000080600003000L,0xE9140B6000180000L,0x0000000000000C00L});
+    public static final BitSet FOLLOW_array_items_in_array4386 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_RBRACK_in_array4388 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_array_item_in_array_items4400 = new BitSet(new long[]{0x0000008000000002L,0x0080000000000000L});
+    public static final BitSet FOLLOW_COMMA_in_array_items4403 = new BitSet(new long[]{0x0000080600003000L,0xE9140B6000180000L,0x0000000000000C00L});
+    public static final BitSet FOLLOW_array_item_in_array_items4406 = new BitSet(new long[]{0x0000008000000002L,0x0080000000000000L});
+    public static final BitSet FOLLOW_trailer_in_array_items4410 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_command_in_array_item4422 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LCURLY_in_hash4429 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
+    public static final BitSet FOLLOW_assoc_list_in_hash4432 = new BitSet(new long[]{0x0000000000000000L,0x0000100000000000L});
+    public static final BitSet FOLLOW_RCURLY_in_hash4434 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_assocs_in_assoc_list4443 = new BitSet(new long[]{0x0000008000000002L,0x0080000000000000L});
+    public static final BitSet FOLLOW_trailer_in_assoc_list4445 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_assoc_in_assocs4454 = new BitSet(new long[]{0x0000000000000002L,0x0080000000000000L});
+    public static final BitSet FOLLOW_COMMA_in_assocs4458 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
+    public static final BitSet FOLLOW_assoc_in_assocs4461 = new BitSet(new long[]{0x0000000000000002L,0x0080000000000000L});
+    public static final BitSet FOLLOW_symbol_name_in_assoc_in_assoc4488 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
+    public static final BitSet FOLLOW_COLON_in_assoc4490 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
+    public static final BitSet FOLLOW_arg_in_assoc4493 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arg_in_assoc4497 = new BitSet(new long[]{0x0000000000000000L,0x0080800000000000L});
+    public static final BitSet FOLLOW_set_in_assoc4499 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
+    public static final BitSet FOLLOW_arg_in_assoc4506 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_symbol_name_in_assoc4516 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LINE_BREAK_in_trailer4547 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_COMMA_in_trailer4552 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_COLON_in_symbol4568 = new BitSet(new long[]{0x0000080000000000L,0x0000036000000000L});
+    public static final BitSet FOLLOW_ID_in_symbol4572 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_single_quote_string_in_symbol4576 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_double_quote_string_in_symbol4580 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_simple_assignment_expression_in_synpred11424 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_mlhs_in_synpred21433 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_simple_assignment_expression_in_synpred31643 = new BitSet(new long[]{0x0000000000000002L});
@@ -11908,8 +11908,8 @@ public class Rubyv3Parser extends Parser {
     public static final BitSet FOLLOW_RPAREN_in_synpred43041 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_LPAREN_in_synpred53047 = new BitSet(new long[]{0x0000000000000000L,0x0008000000000000L});
     public static final BitSet FOLLOW_RPAREN_in_synpred53050 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_symbol_name_in_assoc_in_synpred64341 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
-    public static final BitSet FOLLOW_COLON_in_synpred64343 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
-    public static final BitSet FOLLOW_arg_in_synpred64345 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_symbol_name_in_assoc_in_synpred64480 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
+    public static final BitSet FOLLOW_COLON_in_synpred64482 = new BitSet(new long[]{0x0080080600003000L,0xE9140B60001E0000L,0x0000000000000E00L});
+    public static final BitSet FOLLOW_arg_in_synpred64484 = new BitSet(new long[]{0x0000000000000002L});
 
 }

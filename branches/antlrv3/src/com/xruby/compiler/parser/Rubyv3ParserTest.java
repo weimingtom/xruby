@@ -275,7 +275,7 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_smoke() throws Exception {
-        //assert_parse("unless false \nend", "");
+        //assert_parse("$:", "");
     }
 
 
