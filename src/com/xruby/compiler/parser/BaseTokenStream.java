@@ -29,6 +29,7 @@ public class BaseTokenStream implements TokenStream {
     private int initializedIndex = -1; //how far do we go?
 
     protected int lastMarker;
+    private boolean debug = false;
 
     public BaseTokenStream(RewindableTokenSource tokenSource) {
         this.tokenSource = tokenSource;
@@ -67,7 +68,7 @@ public class BaseTokenStream implements TokenStream {
     }
 
     private void log(String str) {
-        System.out.println(str);
+        if(debug) System.out.println(str);
     }
 
     private void inPlaceModifying(Token token) {

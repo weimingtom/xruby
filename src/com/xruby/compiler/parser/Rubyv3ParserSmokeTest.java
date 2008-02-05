@@ -61,9 +61,9 @@ public class Rubyv3ParserSmokeTest {
                         new ANTLRFileStream(f.getAbsolutePath());
                 Rubyv3Lexer lexer = new Rubyv3Lexer(input);
                 BaseTokenStream tokens = new BaseTokenStream(lexer);
-                Rubyv3Parser parser = new Rubyv3Parser(tokens);
+                Rubyv3Parser parser = new Rubyv3Parser(tokens, null);
                 parser.program();
-            } catch (RecognitionException e) {
+            } catch (Exception e) {
                 System.out.println("parser exception for " + f.getPath() + ": " + e);
                 ++numberOfFails;
             } finally {

@@ -598,13 +598,15 @@ bnotExpression
 		:	(	BNOT^			(LINE_BREAK!)*
 			|	NOT^			(LINE_BREAK!)*
 			)*
-			command
+			command_array_expression
 		;
-command
+command_array_expression
+	:      command (array)*;	
+command		
 @after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
 	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' expression ')' ) (DOT^ method[false])*
 	; //|       lhs SHIFT^ rhs ;	
-atom[boolean topLevel]	:	methodExpression[topLevel]|hash|single_quote_string|double_quote_string|symbol;
+atom[boolean topLevel]	:	methodExpression[topLevel]|array|hash|single_quote_string|double_quote_string|symbol;
 methodExpression[boolean topLevel]
 	:      variable|method[topLevel];
 variable:	{isDefinedVar(tokenStream.LT(1).getText())}? ID -> ^(VARIABLE ID);
@@ -667,7 +669,7 @@ INT
 	        )//|ESCAPE_INT)
 	;
 
-ID	:	('a'..'z' | 'A'..'Z'{$type = CONSTANT;} | '_') (('a'..'z' | 'A'..'Z') | ('0'..'9') | '_')*
+ID	:	('a'..'z' | 'A'..'Z' | '_' | '$') (('a'..'z' | 'A'..'Z') | ('0'..'9') | '_')*
 	;
 FID	:	ID ('?' | '!');
 INSTANCE_VARIABLE
@@ -817,7 +819,9 @@ HEREDOC_INDENT_BEGIN
 //	: '<<';
 
       
-ARRAY	:	'[]';
+array	:	'['^ array_items ']'!;
+array_items :     array_item (','! array_item)* trailer;
+array_item  :     command;
 hash	:	'{'^ assoc_list '}'!;
 assoc_list
 	:	assocs trailer /*| args trailer*/;

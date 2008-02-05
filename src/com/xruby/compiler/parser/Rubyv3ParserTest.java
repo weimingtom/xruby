@@ -214,6 +214,8 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("defined? 42.abs", "(STATEMENT_LIST (STATEMENT (defined? (. 42 (CALL abs)))))"); //assignment
 
         assert_parse("defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? defined? (CALL x))))");
+        assert_parse("defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? defined?) (CALL x))))");
+        assert_parse("defined? defined? defined? defined? x", "(STATEMENT_LIST (STATEMENT (defined? (defined? (defined? defined?)) (CALL x))))");
         //these shouldn't passed
         //assert_parse("defined? a,b=1", "");
 
@@ -256,6 +258,11 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("test*abc;x=5", "(STATEMENT_LIST (STATEMENT (* (CALL test) (CALL abc))) (STATEMENT (= (VARIABLE x) 5)))");
 
     }
+
+    /*public void test_file() throws Exception {
+        assert_parse(
+                "x[3]", "");
+    }*/
 
 
     public void test_new_call_syntax() throws Exception {
