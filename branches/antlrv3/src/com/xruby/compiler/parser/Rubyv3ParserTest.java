@@ -131,6 +131,7 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_assignment() throws Exception {
+        assert_parse("x=1", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)))");
         assert_parse("x=1;", "(STATEMENT_LIST (STATEMENT (= (VARIABLE x) 1)))");
 
 
@@ -143,7 +144,7 @@ public class Rubyv3ParserTest extends TestCase {
         assert_parse("a+=2", "(STATEMENT_LIST (STATEMENT (+= (VARIABLE a) 2)))");
         assert_parse("a=\"\";a+=defined? a;p a", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) \"\")) (STATEMENT (+= (VARIABLE a) (defined? (VARIABLE_OR_METHOD a)))) (STATEMENT (CALL p (ARG (VARIABLE_OR_METHOD a)))))");
 
-        assert_parse("%Q{a#{x=1}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
+        assert_parse("%Q{a#{x=1;}b #{x}}", "(STATEMENT_LIST (STATEMENT %Q{a#{x=1}b #{x}}))");
 
         assert_parse("a=5?3:2;a", "(STATEMENT_LIST (STATEMENT (= (VARIABLE a) (? 5 3 2))) (STATEMENT (VARIABLE a)))");
 
