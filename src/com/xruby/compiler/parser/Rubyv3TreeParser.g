@@ -31,20 +31,20 @@ expression returns[Expression e]
 	
 	|       ^('alias' newName=. oldName=.) {e = new ExpressionList(); ((ExpressionList)e).addExpression(new MethodDefinationExpression($oldName.text)); ((ExpressionList)e).addExpression(new AliasStatement($newName.text, $oldName.text));}
 	
-	|       ^(ASSIGN left=expression right=expression) {e = AssignmentOperatorExpression.create(left, right);}
-	|       ^(MOD_ASSIGN  left=expression	right=expression) {e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression(String.valueOf(37), left, right));}
+	|       ^(ASSIGN left=variableExpression right=expression) {e = AssignmentOperatorExpression.create(left, right);}
+	|       ^(MOD_ASSIGN  left=variableExpression	right=expression) {e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression(String.valueOf(37), left, right));}
 	//|       ^(COMPLEMENT_ASSIGN left=expression	right=expression) {e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("~", left, right));}
-	|       ^(DIV_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("/", left, right));}
-	|       ^(MINUS_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("-", left, right));}
-	|       ^(PLUS_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("+", left, right));}
-	|       ^(BOR_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("|", left, right));}
-	|       ^(BAND_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("&", left, right));}
-	|       ^(LEFT_SHIFT_ASSIGN		left=expression	right=expression)	{e =AssignmentOperatorExpression.create(left,  new BinaryOperatorExpression("<<", left, right));}
-	|       ^(RIGHT_SHIFT_ASSIGN		left=expression	right=expression)	{e =AssignmentOperatorExpression.create(left,  new BinaryOperatorExpression(">>", left, right));}
-	|       ^(STAR_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("*", left, right));}
-	|       ^(LOGICAL_AND_ASSIGN	left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new AndOrBinaryOperatorExpression("&&", left, right));}
-	|       ^(LOGICAL_OR_ASSIGN		left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new AndOrBinaryOperatorExpression("||", left, right));}
-	|       ^(POWER_ASSIGN			left=expression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("**", left, right));}
+	|       ^(DIV_ASSIGN			left=variableExpression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("/", left, right));}
+	|       ^(MINUS_ASSIGN			left=variableExpression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("-", left, right));}
+	|       ^(PLUS_ASSIGN			left=variableExpression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("+", left, right));}
+	|       ^(BOR_ASSIGN			left=variableExpression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("|", left, right));}
+	|       ^(BAND_ASSIGN			left=variableExpression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("&", left, right));}
+	|       ^(LEFT_SHIFT_ASSIGN		left=variableExpression	right=expression)	{e =AssignmentOperatorExpression.create(left,  new BinaryOperatorExpression("<<", left, right));}
+	|       ^(RIGHT_SHIFT_ASSIGN		left=variableExpression	right=expression)	{e =AssignmentOperatorExpression.create(left,  new BinaryOperatorExpression(">>", left, right));}
+	|       ^(STAR_ASSIGN			left=variableExpression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("*", left, right));}
+	|       ^(LOGICAL_AND_ASSIGN	left=variableExpression	right=expression)	{e = AssignmentOperatorExpression.create(left, new AndOrBinaryOperatorExpression("&&", left, right));}
+	|       ^(LOGICAL_OR_ASSIGN		left=variableExpression	right=expression)	{e = AssignmentOperatorExpression.create(left, new AndOrBinaryOperatorExpression("||", left, right));}
+	|       ^(POWER_ASSIGN			left=variableExpression	right=expression)	{e = AssignmentOperatorExpression.create(left, new BinaryOperatorExpression("**", left, right));}
 	
 	|       ^(LEFT_SHIFT lhs0=expression rhs=expression) {e=new BinaryOperatorExpression("<<", lhs0, rhs);}
 	|       e1=variableExpression {e=e1;}
