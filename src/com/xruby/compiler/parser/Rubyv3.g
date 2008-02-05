@@ -96,6 +96,9 @@ import com.xruby.compiler.codedom.*;
   }*/
   public boolean isDefinedVar(String text) {
         boolean result = false;
+        if(isGlobalVar(text) || isConstant(text)) {
+                return true;
+        }
         if(parent != null) {
           result = parent.isDefinedVar(text);
         } else {
@@ -107,6 +110,13 @@ import com.xruby.compiler.codedom.*;
           return false;
         }
         
+  }
+  public boolean isGlobalVar(String text) {
+          return text.charAt(0) == '$';
+  }
+  public boolean isConstant(String text) {
+          char capital = text.charAt(0);
+          return capital >= 'A' && capital <= 'Z';
   }
   public void addVariable(String s) {
         if(parent != null) {
