@@ -238,6 +238,9 @@ public class Rubyv3ParserTest extends TestCase {
 
         assert_parse("test (1)", "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1))))");
 
+        assert_parse("test 1" , "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1))))");
+        assert_parse("test 1,2" , "(STATEMENT_LIST (STATEMENT (CALL test (ARG 1 2))))");
+
         assert_parse("test", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD test)))");
         assert_parse("1.test1.test2", "(STATEMENT_LIST (STATEMENT (. (. 1 (VARIABLE_OR_METHOD test1)) (VARIABLE_OR_METHOD test2))))");
         assert_parse("1.class", "(STATEMENT_LIST (STATEMENT (. 1 (VARIABLE_OR_METHOD class))))");
@@ -256,7 +259,7 @@ public class Rubyv3ParserTest extends TestCase {
 //        assert_parse("test 5?3:2", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG (** 2 3)))))");
         //assert_parse("puts \"abc\"?3:5", "");
         assert_parse("1.class.class.test 1,2.class", "(STATEMENT_LIST (STATEMENT (. (. (. 1 (VARIABLE_OR_METHOD class)) (VARIABLE_OR_METHOD class)) (CALL test (ARG 1 (. 2 (VARIABLE_OR_METHOD class)))))))");
-        assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG (= (VARIABLE_OR_METHOD a) 1)))))");
+        assert_parse("test a=1", "(STATEMENT_LIST (STATEMENT (CALL test (ARG (= (VARIABLE a) 1)))))");
         assert_parse("test 5, test 2,3", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD test (ARG 5 (VARIABLE_OR_METHOD test (ARG 2 3))))))");
 
         assert_parse("3*2", "(STATEMENT_LIST (STATEMENT (* 3 2)))");
@@ -266,6 +269,7 @@ public class Rubyv3ParserTest extends TestCase {
         //assert_parse("test*abc;x=5", "(STATEMENT_LIST (STATEMENT (* (VARIABLE_OR_METHOD_OR_METHOD test) (VARIABLE_OR_METHOD_OR_METHOD abc))) (STATEMENT (= (VARIABLE_OR_METHOD x) 5)))");
 
     }
+
 
     public void test_array_ref_call() throws Exception {
         assert_parse(
@@ -319,10 +323,13 @@ public class Rubyv3ParserTest extends TestCase {
     }
 
     public void test_smoke() throws Exception {
+        //assert_parse("test (test v , 2) ", "");
 
         //assertEquals(expectedTree, ((CommonTree) result.tree).toStringTree());
-
-        //assert_parse("$:.find {|x| puts 3 }", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD p (ARG (VARIABLE_OR_METHOD_OR_METHOD x (ARG ([ 3)))))))");
+        //assert_parse("join *sitedir", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD p (ARG (VARIABLE_OR_METHOD_OR_METHOD x (ARG ([ 3)))))))");
+        //assert_parse("join(*sitedir)", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD p (ARG (VARIABLE_OR_METHOD_OR_METHOD x (ARG ([ 3)))))))");
+        //         //assert_parse("join v,2,m", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD p (ARG (VARIABLE_OR_METHOD_OR_METHOD x (ARG ([ 3)))))))");
+       assert_parse("File::makedirs()", "");
     }
 
     public void test_smoke_block() throws Exception {
@@ -362,9 +369,36 @@ public class Rubyv3ParserTest extends TestCase {
 
         result2 = parser.block(); //this line may produce RecognitionException
 
+        text = "$sitedir";
+
+        input =
+                new ANTLRStringStream(text);
+
+        lexer = new Rubyv3Lexer(input);
+        tokens = new BaseTokenStream(lexer);
+        parser = new Rubyv3Parser(tokens, null);
+        Rubyv3Parser.method_return result3 = null;
+
+        result3 = parser.method(true); //this line may produce RecognitionException
+
+
+
         //assertEquals(expectedTree, ((CommonTree) result.tree).toStringTree());
 
         //assert_parse("$:.find {|x| puts 3 }", "(STATEMENT_LIST (STATEMENT (VARIABLE_OR_METHOD_OR_METHOD p (ARG (VARIABLE_OR_METHOD_OR_METHOD x (ARG ([ 3)))))))");
+    }
+    public void test_smoke_block_2() throws Exception {
+        String text = "install ()";
+
+        ANTLRStringStream input =
+                new ANTLRStringStream(text);
+
+        Rubyv3Lexer lexer = new Rubyv3Lexer(input);
+        BaseTokenStream tokens = new BaseTokenStream(lexer);
+        Rubyv3Parser parser = new Rubyv3Parser(tokens, null);
+        Rubyv3Parser.method_return result4 = null;
+
+        result4 = parser.method(true); //this line may produce RecognitionException
     }
 
 

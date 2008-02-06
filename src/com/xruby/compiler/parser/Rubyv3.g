@@ -300,11 +300,11 @@ statement_list
 		|	LINE_BREAK!
 		;*/
 statement
-	:	expression (modifier_line)*  -> ^(STATEMENT expression (modifier_line)*)              
+	:	statement_expression (modifier_line)*  -> ^(STATEMENT statement_expression (modifier_line)*)              
 	;
 
 modifier_line
-	:(IF_MODIFIER|UNLESS_MODIFIER|WHILE_MODIFIER|UNTIL_MODIFIER|RESCUE_MODIFIER)^ (line_break)* expression// -> ^(MODIFIER_LINE $modifier expression) 
+	:(IF_MODIFIER|UNLESS_MODIFIER|WHILE_MODIFIER|UNTIL_MODIFIER|RESCUE_MODIFIER)^ (line_break)* statement_expression// -> ^(MODIFIER_LINE $modifier expression) 
 		;
 IF_MODIFIER     :  'if';
 UNLESS_MODIFIER :  'unless';
@@ -328,9 +328,9 @@ body	:	SEMI* |statement_list terminal*;  //nearly same as program
 boolean_expression
 	:	'false'|'nil'|'true';
 if_expression
-	:	'if'  e0=expression seperator
-	        body0=body ('elsif' e1=expression seperator body1+=body)*
-	        ('else' body2=body)?
+	:	'if'  e0=statement_expression seperator
+	        body0=body ('elsif' e1=statement_expression seperator body1+=body)*
+	        ('else' LINE_BREAK* body2=body)?
 	        'end' -> ^(IF $e0 $body0 $e1* $body1* $body2? )
 	        //'if_e'
 	        ;
@@ -375,14 +375,14 @@ WS	:	(' ' | '\t') { skip(); }
  * highest<-
  */
 
-expression
-	:	 'alias'^ fitem fitem|andorExpression|primaryExpression;
+statement_expression
+	:	 'alias'^ fitem fitem|andorStatement|primaryExpression;
 primaryExpression
 	:	methodDefinition;
 methodDefinition
 	:	'def'^ (LINE_BREAK!)* (singleton dot_or_colon)? methodName {enterScope();} f_arglist (terminal!)*  bodyStatement? (terminal!)* 'end'! {leaveScope();};
 singleton
-	:	simple_variable|'('! expression opt_nl ')'!;
+	:	simple_variable|'('! statement_expression opt_nl ')'!;
 opt_nl        : /* none */ | LINE_BREAK!
     ;
 dot_or_colon
@@ -425,18 +425,18 @@ op            : '|' | '^' | '&' | COMPARE | EQUAL | CASE_EQUAL | MATCH | GREATER
               | GREATER_OR_EQUAL | LESS_THAN | LESS_OR_EQUAL | LEFT_SHIFT | RIGHT_SHIFT | PLUS  | MINUS | STAR
               | DIV | MOD | POWER | '~' /*is TILDE*/
               | '[]' | '[]=' ;
-andorExpression
-		:	notExpression (
+andorStatement
+		:	notStatement (
 				(	'and'^		(LINE_BREAK!)*
 				|	'or'^		(LINE_BREAK!)*
 				)
-				notExpression
+				notStatement
 			)*
 		;
-notExpression
+notStatement
 		:	'not'^
 			(LINE_BREAK!)*
-			notExpression
+			notStatement
 		|	definedExpression[true]
 		;
 definedExpression [boolean allowsMrhsInSingleAssignment] 
@@ -617,7 +617,7 @@ bnotExpression
 //	:      command;	
 command		
 @after{System.out.println("add virtual Token EXPR_END");tokenStream.addVirtualToken($command.stop.getTokenIndex(), VirtualToken.EXPR_END);}
-	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' expression ')' ) (DOT^ method[false] )*
+	:('expression0' | 'expression1' |literal|boolean_expression| block_expression|if_expression|unless_expression|atom[true] | '(' statement_expression ')' ) ((DOT|'::')^ method[false] )*
 	 
 	; //|       lhs SHIFT^ rhs ;	
 atom[boolean topLevel]	:	/*methodExpression[topLevel]|*/ array|hash|single_quote_string|double_quote_string|symbol | methodExpression[topLevel] ;
@@ -633,10 +633,10 @@ method[boolean topLevel]	:	/*{!isDefinedVar(tokenStream.LT(1).getText())}?*/ (ID
 	//|	ID ('['^ array_items ']')*
         |       ID open_args_with_block   -> ^(CALL ID open_args_with_block)
         ;
-block	:	'do' {enterScope();}  block_content 'end' {leaveScope();}
-	|	'{' {enterScope();}  block_content '}' {leaveScope();};
+block	:	'do' {enterScope();}  (LINE_BREAK!)* block_content (LINE_BREAK!)* 'end' {leaveScope();}
+	|	'{' {enterScope();}  (LINE_BREAK!)* block_content (LINE_BREAK!)* '}' {leaveScope();};
 block_content
-	:	('|' block_param '|'!)? block_body;
+	:	('|' block_param '|'!)? (LINE_BREAK!)* block_body;
 block_param
 	:	ID (',' ID)*  ;
 block_body
@@ -686,7 +686,7 @@ operation3    : ID | FID | op
     ;
 	
 lhs	:	ID -> ^(VARIABLE ID); //todo: see this
-rhs	:	expression;
+rhs	:	statement_expression;
 
 //primary	:	literal| 'begin' program 'end'; //todo:more on this later
 
