@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class ParenthesisExpression extends Expression {
 
-    private CompoundStatement compstmt_;
+    CompoundStatement compstmt_;
 
     public ParenthesisExpression(CompoundStatement compstmt) {
         compstmt_ = compstmt;

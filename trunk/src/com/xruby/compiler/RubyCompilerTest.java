@@ -3445,6 +3445,18 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_catch_exception(bad_program_texts, exceptions);
     }
 
+	public void test_multiple_assignment_parenthesis() {
+        String[] program_texts = {
+                "(a,), b , c = 1,2; print a, b, c",
+        };
+
+        String[] outputs = {
+                "12nil",
+        };
+
+        compile_run_and_compare_output(program_texts, outputs);
+    }
+	
     public void test_multiple_assignment_non_local_variable() {
         String[] program_texts = {
                 "@x,@y=1, 2; print @x, @y",
