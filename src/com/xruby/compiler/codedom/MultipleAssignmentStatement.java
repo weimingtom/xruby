@@ -27,7 +27,7 @@ public class MultipleAssignmentStatement extends Statement {
         }
 
         if (e instanceof VariableExpression) {
-            mlhs_.add((VariableExpression)e);
+            mlhs_.add(e);
         } else if (e instanceof AssignmentOperatorExpression) {
             //For inputs like 'a = 1, 2, 3', tree parser will recognize them, but in wrong struture
             AssignmentOperatorExpression a = (AssignmentOperatorExpression)e;
@@ -45,8 +45,20 @@ public class MultipleAssignmentStatement extends Statement {
             } else {
                 throw new RecognitionException("Only variable can be parallel assigned");
             }
+        } else if (e instanceof ParenthesisExpression) {
+        	ParenthesisExpression p = (ParenthesisExpression)e;
+			CompoundStatement c = p.compstmt_;
+			if (c.size() != 1) {
+				throw new RecognitionException("MultipleAssignment syntax error");
+			} 
+
+			MultipleAssignmentStatement m = ((MultipleAssignmentStatement)c.statements_.get(0));
+			if (m.mlhs_.size() != 1) {
+				throw new RecognitionException("TODO (a, b), c = 1, 2 can not be parsed");
+			}
+			mlhs_.add(m.mlhs_.get(0));
         } else {
-            throw new RecognitionException("Only variable can be parallel assigned");
+            throw new RecognitionException("Only variable can be parallel assigned (" + e.getClass() + ")");
         }
     }
 
