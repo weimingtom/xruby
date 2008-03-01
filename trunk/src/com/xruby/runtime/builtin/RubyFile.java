@@ -43,7 +43,7 @@ public class RubyFile extends RubyIO {
         return ObjectFactory.createBoolean(file.canRead());
     }
 
-    @RubyLevelMethod(name="exist?", singleton=true)
+    @RubyLevelMethod(name="exist?", alias="exists?", singleton=true)
     public static RubyValue exist_question(RubyValue receiver, RubyValue arg) {
         String fileName = arg.toStr();
         File file = new File(fileName);
