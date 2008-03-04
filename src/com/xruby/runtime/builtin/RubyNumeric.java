@@ -89,7 +89,7 @@ public abstract class RubyNumeric extends RubyValue {
         } catch (RubyException e) {
         	if (err) {
         		throw new RubyException(RubyRuntime.TypeErrorClass,	
-        				v.getRubyClass().getName() + " can't be coerced into " + this.getRubyClass().getName());
+        				v.getRubyClass().getName() + " can't be coerced into " + this.getRubyClass().getName() + ":" + e);
         	}
         	return null;
         }
