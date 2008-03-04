@@ -527,13 +527,14 @@ public class RubyKernelModule {
     	}
     	return RubyConstant.QNIL;
     }
-    
+
+	private static BufferedReader in_ = new BufferedReader(new InputStreamReader(System.in));
+	
     @RubyLevelMethod(name="gets", module=true)
     public static RubyValue gets(RubyValue receiver) {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String s = null;
         try {
-            s = in.readLine();
+            s = in_.readLine();
         } catch (IOException e) {
         }
         GlobalVariables.set((null == s ? RubyConstant.QNIL : ObjectFactory.createString(s)), "$_");
