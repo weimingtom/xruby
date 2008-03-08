@@ -5276,6 +5276,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_String_misc() {
         String [] program_texts = {
+        		"print 'xyz'.to_f",
                 "print('a'.sub!(/#{'a'}/i, 'b'))",
                 "print 'Tuesday, July'.gsub!(/[^-+',.\\/:0-9@a-z\\x80-\\xff]+/i, ' ')",
 
@@ -5326,6 +5327,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+        		"0.0",
                 "b",
                 "Tuesday, July",
 
