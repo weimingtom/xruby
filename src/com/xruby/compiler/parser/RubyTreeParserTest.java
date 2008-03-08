@@ -15,6 +15,7 @@ import junit.framework.TestCase;
 public class RubyTreeParserTest extends TestCase {
     public void test_ast() throws RecognitionException, TokenStreamException {
         String[] program_texts = {
+        		"Array[*[1, 2, 3]]",
         		"1 && 2 || 3",
         		
                 "File::SEPARATOR",
@@ -128,6 +129,7 @@ public class RubyTreeParserTest extends TestCase {
                 };
 
         String[] expected_texts = {
+        		" ( COMPSTMT ( [ Array * ( [ 1 2 3 ) ) )",
         		" ( COMPSTMT ( || ( && 1 2 ) 3 ) )",
                 " ( COMPSTMT ( :: File SEPARATOR ) )",
                 " ( COMPSTMT BEGIN { } )",

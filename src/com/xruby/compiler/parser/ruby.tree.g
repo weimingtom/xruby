@@ -390,6 +390,7 @@ returns [MethodCallArguments args]
 	Expression e = null;
 }
 		:	(e = expression	{args.addArgument(e);})*
+			(REST_ARG_PREFIX	e = expression	{args.setAsteriskArgument(e);})?
 		;
 
 primaryExpression

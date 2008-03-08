@@ -571,6 +571,8 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_Array_misc() {
         String[] program_texts = {
+        		"print Array[0, *[1, 2, 3]]",
+        		"print Array[*[1, 2, 3]]",
                 "p [1,2,3].reject {|x| x==2}",
                 "a=[]; a.insert 2, 3, 4; p a",
                 "print [ 11, 22, 33, 44 ].fetch(1)",
@@ -611,6 +613,8 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+        		"0123",
+        		"123",
                 "[1, 3]\n",
                 "[nil, nil, 3, 4]\n",
                 "22",
