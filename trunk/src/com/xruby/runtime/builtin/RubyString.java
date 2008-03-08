@@ -54,7 +54,11 @@ public class RubyString extends RubyBasic {
     }
 
     public double toFloat() {
-        return Double.parseDouble(this.sb_.toString());
+		try {
+        	return Double.parseDouble(this.sb_.toString());
+		} catch (NumberFormatException e) {
+			return 0.0;
+		}
     }
 
     public RubyString toRubyString() {
