@@ -5,7 +5,11 @@
 
 package com.xruby.compiler.codedom;
 
-public class InstanceVariableExpression extends VariableExpression {
+import java.util.ArrayList;
+
+import antlr.RecognitionException;
+
+public class InstanceVariableExpression extends ParameterVariableExpression {
 	private final String value_;
 	
 	public String getValue() {
@@ -22,5 +26,19 @@ public class InstanceVariableExpression extends VariableExpression {
 
 	public void acceptAsAssignment(CodeVisitor visitor, boolean rhs_is_method_call, boolean is_multiple_assign) {
 		visitor.visitInstanceVariableAssignmentOperator(value_, rhs_is_method_call, is_multiple_assign);
+	}
+	
+	public void acceptAsInitializeToNil(CodeVisitor visitor) {
+        AssignmentOperatorExpression assign;
+        try {
+            assign = new AssignmentOperatorExpression(new InstanceVariableExpression(value_), new NilExpression());
+        } catch (RecognitionException e) {
+            throw new Error(e);
+        }
+        assign.accept(visitor);
+        visitor.visitTerminal();
+    }
+	
+	void getNewlyAssignedVariables(ISymbolTable symboltable, ArrayList<String> result) {
 	}
 }
