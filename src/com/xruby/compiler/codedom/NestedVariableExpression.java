@@ -53,30 +53,23 @@ public class NestedVariableExpression extends ParameterVariableExpression {
 		}
 	}
 
-	//TODO duplicated code from MultipleAssignmentStatement
 	public void acceptAsAssignment(CodeVisitor visitor, boolean rhs_is_method_call, boolean is_multiple_assign) {
 		assert(is_multiple_assign);
 		Collections.reverse(mlhs_);
 		
-		if (mlhs_.size() == 1 && null == asterisk_lhs_) {
-			//a = 1, 2 is as same as a = [1, 2]
-			visitor.visitNestedVariable(true, true);
-			mlhs_.get(0).acceptAsAssignment(visitor, false, true);
-		} else {
-			int var = visitor.visitNestedVariable(false, mlhs_.size() > 0);
-			
-			for (int i = 0; i < mlhs_.size(); ++i) {
-				visitor.visitMrhs(var, i, false);
-			}
-			
-			if (null != asterisk_lhs_) {
-				visitor.visitMrhs(var, mlhs_.size(), true);
-				asterisk_lhs_.acceptAsAssignment(visitor, false, true);
-			}
-			
-			for (ParameterVariableExpression lhs : mlhs_) {
-				lhs.acceptAsAssignment(visitor, false, true);
-			}
+		int var = visitor.visitNestedVariable(false, mlhs_.size() > 0);
+		
+		for (int i = 0; i < mlhs_.size(); ++i) {
+			visitor.visitMrhs(var, i, false);
+		}
+		
+		if (null != asterisk_lhs_) {
+			visitor.visitMrhs(var, mlhs_.size(), true);
+			asterisk_lhs_.acceptAsAssignment(visitor, false, true);
+		}
+		
+		for (ParameterVariableExpression lhs : mlhs_) {
+			lhs.acceptAsAssignment(visitor, false, true);
 		}
 	}
 

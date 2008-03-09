@@ -46,6 +46,9 @@ public class MultipleAssignmentStatement extends Statement {
                 throw new RecognitionException("Only variable can be parallel assigned");
             }
         } else if (e instanceof ParenthesisExpression) {
+        	//For inputs like (x,), y, z = [[1],2,3], (x,) will be recognized as MultipleAssignmentStatement inside ParenthesisExpression	
+			NestedVariableExpression ne = new NestedVariableExpression();
+			
         	ParenthesisExpression p = (ParenthesisExpression)e;
 			CompoundStatement c = p.compstmt_;
 			if (c.size() != 1) {
@@ -53,10 +56,14 @@ public class MultipleAssignmentStatement extends Statement {
 			} 
 
 			MultipleAssignmentStatement m = ((MultipleAssignmentStatement)c.statements_.get(0));
-			if (m.mlhs_.size() != 1) {
-				throw new RecognitionException("TODO (a, b), c = 1, 2 can not be parsed");
+			for (Expression lhs : m.mlhs_) {
+				ne.addLhs(lhs);
 			}
-			mlhs_.add(m.mlhs_.get(0));
+			if (null != m.asterisk_lhs_) {
+				ne.setAsteriskLhs(m.asterisk_lhs_);
+			}
+			
+			mlhs_.add(ne);
         } else {
             throw new RecognitionException("Only variable can be parallel assigned (" + e.getClass() + ")");
         }
@@ -142,7 +149,13 @@ public class MultipleAssignmentStatement extends Statement {
     			if (!symboltable.isDefinedInCurrentScope(name)) {
     				result.add(name);
     			}
+    		} else if (lhs instanceof NestedVariableExpression) {
+    			((NestedVariableExpression)lhs).getNewlyAssignedVariables(symboltable, result);
     		}
         }
+        
+        if (null != asterisk_lhs_) {
+			asterisk_lhs_.getNewlyAssignedVariables(symboltable, result);
+		}
     }
 }

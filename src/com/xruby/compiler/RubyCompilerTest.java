@@ -3449,18 +3449,6 @@ public class RubyCompilerTest extends CompilerTestCase {
         compile_run_and_catch_exception(bad_program_texts, exceptions);
     }
 
-	public void test_multiple_assignment_parenthesis() {
-        String[] program_texts = {
-                "(a,), b , c = 1,2; print a, b, c",
-        };
-
-        String[] outputs = {
-                "12nil",
-        };
-
-        compile_run_and_compare_output(program_texts, outputs);
-    }
-	
     public void test_multiple_assignment_non_local_variable() {
         String[] program_texts = {
                 "@x,@y=1, 2; print @x, @y",
@@ -3610,15 +3598,19 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
-
+ 
     public void test_nested_assignment() {
         String[] program_texts = {
+        		"(a,), b, c = [[1],2,3]; p a",
+        		"(a,), b , c = 1,2; print a, b, c",
                 "b, (c, d), e = 1,2,3,4; print b, c, d, e",
                 "b, (c, d), e = 1,[2,3,4],5; print b, c, d, e",
                 "b, (c,*d), e = 1,[2,3,4],5; print b, c, d, d.class, e",
         };
 
         String[] outputs = {
+        		"1\n",
+        		"12nil",
                 "12nil3",
                 "1235",
                 "1234Array5",
