@@ -40,7 +40,7 @@ public class NestedVariableExpression extends ParameterVariableExpression {
 	}
 	
 	public void accept(CodeVisitor visitor) {
-		throw new Error("Nested variable should not appear in thie context");
+		throw new Error("Nested variable should not appear in this context");
 	}
 	
 	public void acceptAsInitializeToNil(CodeVisitor visitor) {
