@@ -7,6 +7,7 @@ package com.xruby.runtime.builtin;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.File;
 import java.io.RandomAccessFile;
 
 import com.xruby.runtime.lang.RubyConstant;
@@ -25,6 +26,8 @@ class RubyIOFileExecutor implements RubyIOExecutor {
     private String translateMode(String mode) {
         if (mode.equals("w")) {
             return "rw";
+        } else if (mode.equals("a")) {
+            return "rw";
         } else if (mode.equals("rb")) {
             return "r";
         } else if (mode.equals("r+")) {
@@ -36,11 +39,15 @@ class RubyIOFileExecutor implements RubyIOExecutor {
 
     private boolean open(String filename, String mode) {
         assert (null == file_);
+		File f = new File(filename);
+		long length =  f.length();
         try {
-            file_ = new RandomAccessFile(filename, translateMode(mode));
+            file_ = new RandomAccessFile(f, translateMode(mode));
             if (mode.equals("w")) {
                 file_.setLength(0);
-            }
+            } else if (mode.equals("a")) {
+                file_.seek(length);
+			}
             return true;
         } catch (FileNotFoundException e) {
             return false;
