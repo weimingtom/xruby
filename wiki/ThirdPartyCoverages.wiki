@@ -1,4 +1,4 @@
-#Links of ThirdParty Coverages of Xruby Project
+#summary Links of Thirdparty Coverages of Xruby Project
 
   * http://antoniocangiano.com/2007/12/03/the-great-ruby-shootout
   * http://www.infoq.com/news/2007/04/xruby-another-ruby-on-jvm
