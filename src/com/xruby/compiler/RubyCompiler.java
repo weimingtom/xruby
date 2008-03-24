@@ -22,7 +22,7 @@ import java.io.StringReader;
 
 public class RubyCompiler {
 
-    public static final String VERSION = "0.3.2";
+    public static final String VERSION = "0.3.3";
 
     private RubyBinding binding_;
     private boolean strip_;
