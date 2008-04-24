@@ -73,23 +73,23 @@ public interface CodeVisitor extends ISymbolTable {
 	public void visitRegexpExpressionWithExpressionSubstitutionEnd(String option);
 	public void visitCommandOutputExpressionWithExpressionSubstitutionEnd();
 	
-	public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method);
-	public void visitMethodDefinationParameter(String name);
-	public void visitMethodDefinationAsteriskParameter(String name, int argc);
-	public void visitMethodDefinationBlockParameter(String name);
-	public void visitMethodDefinationEnd(boolean last_statement_has_return_value);
+	public String visitMethodDefinition(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method);
+	public void visitMethodDefinitionParameter(String name);
+	public void visitMethodDefinitionAsteriskParameter(String name, int argc);
+	public void visitMethodDefinitionBlockParameter(String name);
+	public void visitMethodDefinitionEnd(boolean last_statement_has_return_value);
 
-	public void visitMethodDefinationDefaultParameters(int size);
-	public Object visitMethodDefinationDefaultParameterBegin(int index);
-	public void visitMethodDefinationDefaultParameterEnd(Object next_label);
+	public void visitMethodDefinitionDefaultParameters(int size);
+	public Object visitMethodDefinitionDefaultParameterBegin(int index);
+	public void visitMethodDefinitionDefaultParameterEnd(Object next_label);
 	
-	public void visitClassDefination1(String className, boolean hasColon2);
-	public void visitClassDefination2(String className, boolean hasColon2);
-	public void visitSingletonClassDefination();
-	public void visitClassDefinationEnd(boolean last_statement_has_return_value);
+	public void visitClassDefinition1(String className, boolean hasColon2);
+	public void visitClassDefinition2(String className, boolean hasColon2);
+	public void visitSingletonClassDefinition();
+	public void visitClassDefinitionEnd(boolean last_statement_has_return_value);
 
-	public void visitModuleDefination(String moduleName, boolean has_scope);
-	public void visitModuleDefinationEnd(boolean last_statement_has_return_value);
+	public void visitModuleDefinition(String moduleName, boolean has_scope);
+	public void visitModuleDefinitionEnd(boolean last_statement_has_return_value);
 	
 	public void visitTerminal();
 	public void visitEof(boolean last_statement_has_return_value);

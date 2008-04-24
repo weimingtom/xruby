@@ -5,12 +5,12 @@
 
 package com.xruby.compiler.codedom;
 
-public class ModuleDefinationExpression extends Expression {
+public class ModuleDefinitionExpression extends Expression {
     private Expression scope_;
     private String moduleName_;
     private BodyStatement bodyStatement_;
 
-    public ModuleDefinationExpression(Expression exp, String moduleName, BodyStatement bodyStatement) {
+    public ModuleDefinitionExpression(Expression exp, String moduleName, BodyStatement bodyStatement) {
         scope_ = exp;
         moduleName_ = moduleName;
         bodyStatement_ = bodyStatement;
@@ -21,13 +21,13 @@ public class ModuleDefinationExpression extends Expression {
             scope_.accept(visitor);
         }
 
-        visitor.visitModuleDefination(moduleName_, null != scope_);
+        visitor.visitModuleDefinition(moduleName_, null != scope_);
 
         if (null != bodyStatement_) {
             bodyStatement_.accept(visitor);
         }
 
-        visitor.visitModuleDefinationEnd((null == bodyStatement_) ? false : bodyStatement_.lastStatementHasReturnValue());
+        visitor.visitModuleDefinitionEnd((null == bodyStatement_) ? false : bodyStatement_.lastStatementHasReturnValue());
     }
 
 }

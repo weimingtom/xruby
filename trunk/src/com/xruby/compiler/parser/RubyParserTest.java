@@ -1219,7 +1219,7 @@ public class RubyParserTest extends TestCase {
         parse(program_texts, "untilExpression");
     }
 
-    public void test_moduleDefination() {
+    public void test_moduleDefinition() {
         String[] program_texts = {
             "module Tk::Tcllib	\n	end",
             "module FreeIDE \n module GUI  \n  end   \n end # module FreeRIDE",
@@ -1228,10 +1228,10 @@ public class RubyParserTest extends TestCase {
             "module A 1==2 \n 1+1; end",
         };
 
-        parse(program_texts, "moduleDefination");
+        parse(program_texts, "moduleDefinition");
     }
 
-    public void test_classDefination() {
+    public void test_classDefinition() {
         String[] program_texts = {
 
 
@@ -1264,10 +1264,10 @@ public class RubyParserTest extends TestCase {
             "class C < B::A::C\n \t1==2 \n 1+1; end",
         };
 
-        parse(program_texts, "classDefination");
+        parse(program_texts, "classDefinition");
     }
 
-    public void test_methodDefination() {
+    public void test_methodDefinition() {
         String[] program_texts = {
 
 "def tt4 &block\n" +
@@ -1473,7 +1473,7 @@ public class RubyParserTest extends TestCase {
 
         };
 
-        parse(program_texts, "methodDefination");
+        parse(program_texts, "methodDefinition");
     }
 
     public void test_exceptionHandlingExpression() {

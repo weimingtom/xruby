@@ -268,9 +268,9 @@ returns [Expression e]
 										}
 									}
 		|	e=primaryExpression
-		|	e=methodDefination
-		|	e=moduleDefination
-		|	e=classDefination
+		|	e=methodDefinition
+		|	e=moduleDefinition
+		|	e=classDefinition
 		|	e=ifExpression
 		|	e=whileExpression
 		|	e=forInExpression
@@ -637,8 +637,8 @@ returns [ExceptionHandlingExpression e]
 			}
 		;
 
-classDefination
-returns [ClassDefinationExpression e]
+classDefinition
+returns [ClassDefinitionExpression e]
 {
 	Expression scope = null;
 	String name = null;
@@ -656,15 +656,15 @@ returns [ClassDefinationExpression e]
 			)
 			{
 				if (name != null) {
-					e = new ClassDefinationExpression(scope, name, super_class, body);
+					e = new ClassDefinitionExpression(scope, name, super_class, body);
 				} else {
-					e = new ClassDefinationExpression(exp, super_class, body);
+					e = new ClassDefinitionExpression(exp, super_class, body);
 				}
 			}
 		;
 
-moduleDefination
-returns [ModuleDefinationExpression e]
+moduleDefinition
+returns [ModuleDefinitionExpression e]
 {
 	String name = null;
 	Expression scope = null;
@@ -678,12 +678,12 @@ returns [ModuleDefinationExpression e]
 			(body=bodyStatement)?
 			)
 			{
-				e = new ModuleDefinationExpression(scope, name, body);
+				e = new ModuleDefinitionExpression(scope, name, body);
 			}
 		;
 
-methodDefination
-returns [MethodDefinationExpression e]
+methodDefinition
+returns [MethodDefinitionExpression e]
 {
 	String name = null;
 	BodyStatement body = null;
@@ -691,8 +691,8 @@ returns [MethodDefinationExpression e]
 	int lineNumber = _t.getLine();
 }
 		:	#("def"
-				(name=methodName	{e = new MethodDefinationExpression(name);}
-				|#(SINGLETON_METHOD exp=expression (DOT|COLON2)	name=methodName	{e = new MethodDefinationExpression(name, exp);})
+				(name=methodName	{e = new MethodDefinitionExpression(name);}
+				|#(SINGLETON_METHOD exp=expression (DOT|COLON2)	name=methodName	{e = new MethodDefinitionExpression(name, exp);})
 				)
 				(	{id=null;func=null;exp=null;}
 					(id:IDENTIFIER|func:FUNCTION)

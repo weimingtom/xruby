@@ -229,7 +229,7 @@ public class CodePrinter implements CodeVisitor {
         result_.append("\n");
     }
 
-    public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
+    public String visitMethodDefinition(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
         result_.append("def ");
         result_.append(methodName);
         result_.append(":");
@@ -245,39 +245,39 @@ public class CodePrinter implements CodeVisitor {
         return methodName;
     }
 
-    public void visitClassDefination1(String className, boolean has_scope) {
+    public void visitClassDefinition1(String className, boolean has_scope) {
         result_.append("class ");
         result_.append(className);
         result_.append("\n");
     }
 
-    public void visitClassDefination2(String className, boolean has_scope) {
-        result_.append("ClassDefination2\n");
+    public void visitClassDefinition2(String className, boolean has_scope) {
+        result_.append("ClassDefinition2\n");
     }
 
-    public void visitSingletonClassDefination() {
-        result_.append("visitSingletonClassDefination\n");
+    public void visitSingletonClassDefinition() {
+        result_.append("visitSingletonClassDefinition\n");
     }
 
-    public void visitModuleDefination(String moduleName, boolean has_scope) {
+    public void visitModuleDefinition(String moduleName, boolean has_scope) {
         result_.append("module ");
         result_.append(moduleName);
         result_.append("\n");
     }
 
-    public void visitMethodDefinationEnd(boolean last_statement_has_return_value) {
+    public void visitMethodDefinitionEnd(boolean last_statement_has_return_value) {
         result_.append("end def:");
         result_.append(last_statement_has_return_value);
         result_.append("\n");
     }
 
-    public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
+    public void visitClassDefinitionEnd(boolean last_statement_has_return_value) {
         result_.append("end:");
         result_.append(last_statement_has_return_value);
         result_.append("\n");
     }
 
-    public void visitModuleDefinationEnd(boolean last_statement_has_return_value) {
+    public void visitModuleDefinitionEnd(boolean last_statement_has_return_value) {
         result_.append("end:");
         result_.append(last_statement_has_return_value);
         result_.append("\n");
@@ -484,35 +484,35 @@ public class CodePrinter implements CodeVisitor {
         result_.append("`\n");
     }
 
-    public void visitMethodDefinationParameter(String name) {
+    public void visitMethodDefinitionParameter(String name) {
         result_.append("parameter:");
         result_.append(name);
         result_.append("\n");
     }
 
-    public void visitMethodDefinationAsteriskParameter(String name, int argc) {
+    public void visitMethodDefinitionAsteriskParameter(String name, int argc) {
         result_.append("*parameter:");
         result_.append(name);
         result_.append("\n");
     }
 
-    public void visitMethodDefinationBlockParameter(String name) {
+    public void visitMethodDefinitionBlockParameter(String name) {
         result_.append("&parameter:");
         result_.append(name);
         result_.append("\n");
     }
 
-    public void visitMethodDefinationDefaultParameters(int size) {
+    public void visitMethodDefinitionDefaultParameters(int size) {
     }
 
-    public Object visitMethodDefinationDefaultParameterBegin(int index) {
+    public Object visitMethodDefinitionDefaultParameterBegin(int index) {
         result_.append("DefaultParameterBegin:");
         result_.append(index);
         result_.append("\n");
         return null;
     }
 
-    public void visitMethodDefinationDefaultParameterEnd(Object next_label) {
+    public void visitMethodDefinitionDefaultParameterEnd(Object next_label) {
         result_.append("DefaultParameterEnd\n");
     }
 
