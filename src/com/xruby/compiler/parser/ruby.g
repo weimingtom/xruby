@@ -692,9 +692,9 @@ primaryExpressionThatCanNotBeMethodName
 		|	caseExpression		
 		|	forExpression			
 		|	exceptionHandlingExpression
-		|	moduleDefination
-		|	classDefination
-		|	methodDefination
+		|	moduleDefinition
+		|	classDefinition
+		|	methodDefinition
 		;
 
 primaryExpression
@@ -799,7 +799,7 @@ untilExpression
 			"end"!
 		;
 
-moduleDefination
+moduleDefinition
 		:	"module"^	(LINE_BREAK!)?
 			moduleName (options {greedy=true;}:terminal)?	{enterScope();}
 			(bodyStatement)?
@@ -811,7 +811,7 @@ moduleName
 		| 	(LEADING_COLON2	CONSTANT)	(COLON2^ CONSTANT)*
 		;
 
-classDefination
+classDefinition
 		:	"class"^	(LINE_BREAK!)?
 			(	className	(LESS_THAN expression)?
 			|	LEFT_SHIFT	expression
@@ -837,11 +837,11 @@ className
 		|	(LEADING_COLON2	CONSTANT)	(COLON2^	CONSTANT)*
 		;
 
-methodDefination
+methodDefinition
 		:	"def"^		{++is_in_method_defination;}		
 			(options{greedy=true;}:LINE_BREAK!)?
 			methodName	{enterScope();}
-			methodDefinationArgument
+			methodDefinitionArgument
 			(bodyStatement)?
 			"end"!		{leaveScope();--is_in_method_defination;}
 		;
@@ -953,26 +953,26 @@ keywordAsMethodName
 		|	"yield"
 		;
 
-methodDefinationArgument
+methodDefinitionArgument
 		:	lparen
-				(methodDefinationArgumentWithoutParen)?
+				(methodDefinitionArgumentWithoutParen)?
 			RPAREN!	{tellLexerWeHaveFinishedParsingMethodparameters();}
 			(options {greedy=true;}:terminal)?
-		|	(methodDefinationArgumentWithoutParen)?	terminal
+		|	(methodDefinitionArgumentWithoutParen)?	terminal
 		;
 
-methodDefinationArgumentWithoutParen
+methodDefinitionArgumentWithoutParen
 {boolean seen_star_or_band = false;}
-		:	normalMethodDefinationArgument
-				(COMMA!	{if (REST_ARG_PREFIX == LA(1) || BLOCK_ARG_PREFIX == LA(1))	{seen_star_or_band = true;break;}}	normalMethodDefinationArgument)*
-				(	{seen_star_or_band}?	restMethodDefinationArgument
-					|{seen_star_or_band}?	blockMethodDefinationArgument
+		:	normalMethodDefinitionArgument
+				(COMMA!	{if (REST_ARG_PREFIX == LA(1) || BLOCK_ARG_PREFIX == LA(1))	{seen_star_or_band = true;break;}}	normalMethodDefinitionArgument)*
+				(	{seen_star_or_band}?	restMethodDefinitionArgument
+					|{seen_star_or_band}?	blockMethodDefinitionArgument
 				)?
-		|	restMethodDefinationArgument
-		|	blockMethodDefinationArgument
+		|	restMethodDefinitionArgument
+		|	blockMethodDefinitionArgument
 		;
 
-normalMethodDefinationArgument
+normalMethodDefinitionArgument
 		:	variable	((ASSIGN|ASSIGN_WITH_NO_LEADING_SPACE)	expression)?
 		;
 
@@ -981,11 +981,11 @@ variable
 		|	id2:FUNCTION		{addVariable(id2);}
 		;
 
-restMethodDefinationArgument
-		:	REST_ARG_PREFIX	(variable	(COMMA!	blockMethodDefinationArgument)?)?
+restMethodDefinitionArgument
+		:	REST_ARG_PREFIX	(variable	(COMMA!	blockMethodDefinitionArgument)?)?
 		;
 
-blockMethodDefinationArgument
+blockMethodDefinitionArgument
 		:	BLOCK_ARG_PREFIX	variable
 		;
 

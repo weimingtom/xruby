@@ -5,7 +5,7 @@
 
 package com.xruby.compiler.codedom;
 
-public class MethodDefinationExpressionTest extends TestingAstTestCase {
+public class MethodDefinitionExpressionTest extends TestingAstTestCase {
 	public void test() {
 		String program_text = "def my_methods() end";
 		

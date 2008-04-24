@@ -7,7 +7,7 @@ package com.xruby.compiler.codedom;
 
 import java.util.*;
 
-public class MethodDefinationExpression extends Expression {
+public class MethodDefinitionExpression extends Expression {
     private String methodName_;
 	private Expression method_owner_;
 	private BodyStatement bodyStatement_ = null;
@@ -16,12 +16,12 @@ public class MethodDefinationExpression extends Expression {
 	private String block_parameter_ = null;
 	private ArrayList<Expression> default_parameters_ = new ArrayList<Expression>();
 
-	public MethodDefinationExpression(String methodName) {
+	public MethodDefinitionExpression(String methodName) {
 		methodName_ = methodName;
 		method_owner_ = null;
 	}
 
-	public MethodDefinationExpression(String methodName, Expression method_owner) {
+	public MethodDefinitionExpression(String methodName, Expression method_owner) {
 		methodName_ = methodName;
 		method_owner_ = method_owner;
 	}
@@ -55,32 +55,32 @@ public class MethodDefinationExpression extends Expression {
 			method_owner_.accept(visitor);
 		}
 
-		String uniqueMethodName = visitor.visitMethodDefination(methodName_,
+		String uniqueMethodName = visitor.visitMethodDefinition(methodName_,
 						parameters_.size(),
 						(null != asterisk_parameter_),
 						default_parameters_.size(),
 						(null != method_owner_));
 
 		for (String p : parameters_) {
-			visitor.visitMethodDefinationParameter(p);
+			visitor.visitMethodDefinitionParameter(p);
 		}
 
 		if (null != asterisk_parameter_) {
-			visitor.visitMethodDefinationAsteriskParameter(asterisk_parameter_, parameters_.size());
+			visitor.visitMethodDefinitionAsteriskParameter(asterisk_parameter_, parameters_.size());
 		}
 
 		if (null != block_parameter_) {
-			visitor.visitMethodDefinationBlockParameter(block_parameter_);
+			visitor.visitMethodDefinitionBlockParameter(block_parameter_);
 		}
 
 		int i = parameters_.size() - default_parameters_.size();
 		if (!default_parameters_.isEmpty()) {
-			visitor.visitMethodDefinationDefaultParameters(default_parameters_.size());
+			visitor.visitMethodDefinitionDefaultParameters(default_parameters_.size());
 
 			for (Expression e : default_parameters_) {
-				Object next_label = visitor.visitMethodDefinationDefaultParameterBegin(i);
+				Object next_label = visitor.visitMethodDefinitionDefaultParameterBegin(i);
 				e.accept(visitor);
-				visitor.visitMethodDefinationDefaultParameterEnd(next_label);
+				visitor.visitMethodDefinitionDefaultParameterEnd(next_label);
 				++i;
 			}
 		}
@@ -89,7 +89,7 @@ public class MethodDefinationExpression extends Expression {
 			bodyStatement_.accept(visitor);
 		}
 
-		visitor.visitMethodDefinationEnd((null != bodyStatement_) ?
+		visitor.visitMethodDefinitionEnd((null != bodyStatement_) ?
 										bodyStatement_.lastStatementHasReturnValue() : false);
 
         int firstLine = this.getPosition();

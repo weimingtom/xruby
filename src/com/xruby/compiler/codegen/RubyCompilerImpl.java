@@ -100,7 +100,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         return compilation_results_;
     }
 
-    public void visitClassDefination1(String className, boolean has_scope) {
+    public void visitClassDefinition1(String className, boolean has_scope) {
         MethodGenerator mg = cg_.getMethodGenerator();
         if (!isInGlobalScope() && !has_scope) {
             mg.loadCurrentClass(isInBlock());
@@ -112,7 +112,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         //super class will be pushed next, then visitSuperClass() will be called
     }
 
-    public void visitClassDefination2(String className, boolean has_scope) {
+    public void visitClassDefinition2(String className, boolean has_scope) {
         //TODO optimizing aceess to builtin class (use them directly)
         MethodGenerator mg = cg_.getMethodGenerator();
         if (has_scope) {
@@ -148,18 +148,18 @@ public class RubyCompilerImpl implements CodeVisitor {
         switchToNewClassGenerator(new ClassGeneratorForClassModuleBuilder(uniqueName, script_name_, null, is_singleton));
     }
 
-    public void visitSingletonClassDefination() {
+    public void visitSingletonClassDefinition() {
         MethodGenerator mg = cg_.getMethodGenerator();      
         mg.loadCurrentScope(isInClassBuilder(), isInSingletonMethod(), isInGlobalScope(), isInBlock());
         mg.RubyValue_getSingletonClass();
         callClassModuleBuilder("SINGLETON", true);
     }
 
-    public void visitClassDefinationEnd(boolean last_statement_has_return_value) {
+    public void visitClassDefinitionEnd(boolean last_statement_has_return_value) {
         switchToPreviousClassGenerator(last_statement_has_return_value);
     }
 
-    public void visitModuleDefination(String moduleName, boolean has_scope) {
+    public void visitModuleDefinition(String moduleName, boolean has_scope) {
         MethodGenerator mg = cg_.getMethodGenerator();
         if (!mg.RubyRuntime_getBuiltinModule(moduleName)) {
             if (has_scope) {
@@ -176,7 +176,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         callClassModuleBuilder(moduleName, false);
     }
 
-    public void visitModuleDefinationEnd(boolean last_statement_has_return_value) {
+    public void visitModuleDefinitionEnd(boolean last_statement_has_return_value) {
         switchToPreviousClassGenerator(last_statement_has_return_value);
     }
 
@@ -270,7 +270,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         mg.mark(mg.getLabelManager().getCurrentRedo());
     }
 
-    public String visitMethodDefination(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
+    public String visitMethodDefinition(String methodName, int num_of_args, boolean has_asterisk_parameter, int num_of_default_args, boolean is_singleton_method) {
 
         String uniqueMethodName = NameFactory.createClassName(extra_, script_name_, methodName);
 
@@ -296,23 +296,23 @@ public class RubyCompilerImpl implements CodeVisitor {
         return uniqueMethodName;
     }
 
-    public void visitMethodDefinationParameter(String name) {
+    public void visitMethodDefinitionParameter(String name) {
         cg_.addParameter(name);
     }
 
-    public void visitMethodDefinationAsteriskParameter(String name, int argc) {
+    public void visitMethodDefinitionAsteriskParameter(String name, int argc) {
         cg_.setAsteriskParameter(name, argc);
     }
 
-    public void visitMethodDefinationBlockParameter(String name) {
+    public void visitMethodDefinitionBlockParameter(String name) {
         cg_.setBlockParameter(name);
     }
 
-    public void visitMethodDefinationEnd(boolean last_statement_has_return_value) {
+    public void visitMethodDefinitionEnd(boolean last_statement_has_return_value) {
         switchToPreviousClassGenerator(last_statement_has_return_value);
     }
 
-    public void visitMethodDefinationDefaultParameters(int size) {
+    public void visitMethodDefinitionDefaultParameters(int size) {
         assert(size > 0);
         //create a empty array if arg is null (avoid null reference)
         MethodGenerator mg = cg_.getMethodGenerator();
@@ -324,7 +324,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         mg.mark(label);
     }
 
-    public Object visitMethodDefinationDefaultParameterBegin(int index) {
+    public Object visitMethodDefinitionDefaultParameterBegin(int index) {
         Label next_label = new Label();
 
         MethodGenerator mg = cg_.getMethodGenerator();
@@ -337,7 +337,7 @@ public class RubyCompilerImpl implements CodeVisitor {
         return next_label;
     }
 
-    public void visitMethodDefinationDefaultParameterEnd(Object next_label) {
+    public void visitMethodDefinitionDefaultParameterEnd(Object next_label) {
         MethodGenerator mg = cg_.getMethodGenerator();
         mg.RubyArray_add(false);
         mg.pop();
