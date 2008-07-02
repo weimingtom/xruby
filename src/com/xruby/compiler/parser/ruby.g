@@ -2,7 +2,7 @@ header {
 package com.xruby.compiler.parser;
 }
 
-/** 
+/**
  * Copyright 2005-2007 Xue Yong Zhi
  * Distributed under the BSD License
  */
@@ -152,7 +152,7 @@ statementWithoutModifier
 				mrhs
 				{is_parallel_assignment = true;}
 			)
-			{	
+			{
 				if (is_parallel_assignment && !has_extra_comma) {
 					#statementWithoutModifier = #(#[MULTIPLE_ASSIGN, "MULTIPLE_ASSIGN"], #statementWithoutModifier);
 				} else if (is_parallel_assignment && has_extra_comma) {
@@ -204,7 +204,7 @@ undefStatement
 
 aliasStatement
 		:	"alias"^	(options{greedy=true;}:LINE_BREAK!)?
-			(GLOBAL_VARIABLE 	(LINE_BREAK!)?	GLOBAL_VARIABLE 
+			(GLOBAL_VARIABLE 	(LINE_BREAK!)?	GLOBAL_VARIABLE
 			|undef_parameter	(LINE_BREAK!)?	undef_parameter
 			)
 		;
@@ -248,7 +248,7 @@ symbol
 					(IDENTIFIER	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
 					|FUNCTION	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
 					|CONSTANT	(options{greedy=true;}:ASSIGN_WITH_NO_LEADING_SPACE)?
-					|GLOBAL_VARIABLE 
+					|GLOBAL_VARIABLE
 					|INSTANCE_VARIABLE
 					|CLASS_VARIABLE
 					|UNARY_PLUS_MINUS_METHOD_NAME
@@ -350,7 +350,7 @@ rangeExpression
 				|	EXCLUSIVE_RANGE^	(options{greedy=true;}:LINE_BREAK!)?
 				)
 				logicalOrExpression
-			)* 
+			)*
 		;
 
 //||
@@ -608,7 +608,7 @@ string
 protected
 expression_substituation
 		:	(	LCURLY_BLOCK!	(compoundStatement)?	RCURLY!
-			|	GLOBAL_VARIABLE 
+			|	GLOBAL_VARIABLE
 			|	INSTANCE_VARIABLE
 			|	CLASS_VARIABLE
 			)
@@ -651,7 +651,7 @@ literal
 
 numeric
 		:	INTEGER
-		|	HEX		
+		|	HEX
 		|	BINARY
 		|	OCTAL
 		|	FLOAT
@@ -675,8 +675,8 @@ primaryExpressionThatCanBeMethodName
 		;
 
 primaryExpressionThatCanNotBeMethodName
-		:	INSTANCE_VARIABLE	
-		|	GLOBAL_VARIABLE 
+		:	INSTANCE_VARIABLE
+		|	GLOBAL_VARIABLE
 		|	CLASS_VARIABLE
 		|	predefinedValue
 		|	numeric
@@ -687,10 +687,10 @@ primaryExpressionThatCanNotBeMethodName
 		|	LPAREN_WITH_NO_LEADING_SPACE^ compoundStatement RPAREN!
 		|	ifExpression
 		|	unlessExpression
-		|	whileExpression			
-		|	untilExpression			
-		|	caseExpression		
-		|	forExpression			
+		|	whileExpression
+		|	untilExpression
+		|	caseExpression
+		|	forExpression
 		|	exceptionHandlingExpression
 		|	moduleDefinition
 		|	classDefinition
@@ -699,7 +699,7 @@ primaryExpressionThatCanNotBeMethodName
 
 primaryExpression
 		:	primaryExpressionThatCanNotBeMethodName
-		|	primaryExpressionThatCanBeMethodName	
+		|	primaryExpressionThatCanBeMethodName
 		;
 
 arrayReferenceArgument
@@ -823,13 +823,13 @@ classDefinition
 
 /*
 FIXME
-cname	: tIDENTIFIER 
+cname	: tIDENTIFIER
 		| tCONSTANT
 		;
 
-cpath	: tCOLON3 cname 
-		| cname 
-		| primary_value tCOLON2 cname 
+cpath	: tCOLON3 cname
+		| cname
+		| primary_value tCOLON2 cname
 		;
 */
 className
@@ -838,7 +838,7 @@ className
 		;
 
 methodDefinition
-		:	"def"^		{++is_in_method_defination;}		
+		:	"def"^		{++is_in_method_defination;}
 			(options{greedy=true;}:LINE_BREAK!)?
 			methodName	{enterScope();}
 			methodDefinitionArgument
@@ -862,8 +862,8 @@ methodName
 		:	(	operatorAsMethodname
 			|	keywordAsMethodName
 			|	(id:IDENTIFIER
-				|function:FUNCTION	
-				|constant:CONSTANT	
+				|function:FUNCTION
+				|constant:CONSTANT
 				)
 				(methodNameSupplement{is_singleton_method = true;}|ASSIGN_WITH_NO_LEADING_SPACE)?
 			|	(LPAREN!|LPAREN_WITH_NO_LEADING_SPACE!)
@@ -1071,7 +1071,7 @@ options {
 	//The following methods are to be implemented in the subclass.
 	//In fact they should be "abstract", but antlr refuses to generate
 	//abstract class. We can either insert "abstract" keyword manually
-	//after the lexer is generated, or simply use assert() to prevent 
+	//after the lexer is generated, or simply use assert() to prevent
 	//these function to run (so you have to overide them). I choosed
 	//the later approach.
 	protected boolean expectOperator(int k) throws CharStreamException		{assert(false);return false;}
@@ -1302,7 +1302,7 @@ SPECIAL_STRING
 				_saveIndex=text.length();
 				matchNot(EOF_CHAR);
 				text.setLength(_saveIndex);
-			
+
 				if (0 == delimiter_count)
 				{
 					$setType(DOUBLE_QUOTE_STRING);
@@ -1407,7 +1407,7 @@ HERE_DOC_CONTENT[String delimiter, int type1, int type2]
 					_saveIndex=text.length();
 					matchNot(EOF_CHAR);
 					text.setLength(_saveIndex);
-					$setType(type1);					
+					$setType(type1);
 				}
 				else
 				{
@@ -1471,7 +1471,7 @@ options{testLiterals=true;}
 												)
 		;
 
-GLOBAL_VARIABLE 
+GLOBAL_VARIABLE
 		:	'$'	'-'	(IDENTIFIER_CONSTANT_AND_KEYWORD|'#')?
 		|	'$'	IDENTIFIER_CONSTANT_AND_KEYWORD
 		|	'$'	(options{greedy=true;}:'0'..'9')+
@@ -1502,7 +1502,7 @@ INTEGER
 		|	'0'!	('x'!|'X'!)	HEX_CONTENT	{$setType(HEX);}
 		|	'0'	(
 					//Use semantic prediction to avoid 0.times
-					{(LA(2)>='0')&&(LA(2)<='9')}? FLOAT_WITH_LEADING_DOT {$setType(FLOAT);} 
+					{(LA(2)>='0')&&(LA(2)<='9')}? FLOAT_WITH_LEADING_DOT {$setType(FLOAT);}
 					|/*none*/
 				)
 		|	NON_ZERO_DECIMAL	(
@@ -1517,8 +1517,9 @@ INTEGER
 		|	"..."	{$setType(EXCLUSIVE_RANGE);}
 		|	'?'	(
 					{isAsciiValueTerminator(LA(2))}?	(~('\\'|' '|'\n'|'\r'))	{$setType(ASCII_VALUE);}
-					|'\\'		~('C' | 'M')	{$setType(ASCII_VALUE);}
+					|'\\'		~('C' | 'M' | 'x')	{$setType(ASCII_VALUE);}
 					|('\\'	('C'|'M') '-')+	('a'..'z' | '?')	{$setType(ASCII_VALUE);}
+					|'\\'	'x'	HEX_CONTENT	{$setType(ASCII_VALUE);}
 					|{$setType(QUESTION);}	//If it does not "look like"(not depend on context!) integer, then it is QUESTION operator.
 				)
 		;
