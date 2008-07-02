@@ -1265,6 +1265,10 @@ public class RubyCompilerTest extends CompilerTestCase {
 
     public void test_case() {
         String[] program_texts = {
+        		"case ?'\n" +
+        		"when ?': print false\n" +
+        		"end",
+
                 "case \"xxx\"\n" +
                 "when \"yyy\", \"xxx\"\n" +
                 "    print true\n" +
@@ -1314,6 +1318,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         };
 
         String[] outputs = {
+        		"false",
                 "true",
                 "1",
                 "0",
@@ -3598,7 +3603,7 @@ public class RubyCompilerTest extends CompilerTestCase {
 
         compile_run_and_compare_output(program_texts, outputs);
     }
- 
+
     public void test_nested_assignment() {
         String[] program_texts = {
         		"(a,), b, c = [[1],2,3]; p a",
@@ -4865,7 +4870,7 @@ public class RubyCompilerTest extends CompilerTestCase {
         		"class TestSuper31; def f; 9; end; end\n" +
         		"class TestSuper32 < TestSuper31; def f; super.to_i; end; end\n" +
         		"print TestSuper32.new.f",
-        		
+
                 "class TestSuper21;def f x, y;print x + y; end;end\n" +
                 "class TestSuper22 < TestSuper21; def f(x, y); super x, y;end; end\n" +
                 "TestSuper22.new.f 3, 2",
