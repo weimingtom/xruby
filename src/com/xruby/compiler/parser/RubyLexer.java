@@ -890,6 +890,7 @@ public class RubyLexer extends RubyLexerBase {
         case ']': // [?a]
         case ';': // $state[n*2] = ?|;
         case '.': // unless (?A..?Z) === klass[0]
+        case ':': // when ?':
             return true;
         default:
             return false;
