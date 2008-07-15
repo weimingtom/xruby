@@ -42,7 +42,7 @@ tokens {
 
 {
 	private int can_be_command_ = 0;
-	private int is_in_method_defination = 0;
+	private int is_in_method_definition = 0;
 
 	protected void enterScope()	{assert(false);}
 	protected void enterBlockScope()	{assert(false);}
@@ -130,8 +130,8 @@ statementWithoutModifier
 }
 		:	(aliasStatement
 			|	undefStatement
-			|	keyword_BEGIN 	LCURLY_BLOCK (compoundStatement)? RCURLY	{if (is_in_method_defination>0) {throw new RecognitionException("BEGIN in method");}}
-			|	keyword_END 	LCURLY_BLOCK (compoundStatement)? RCURLY		{if (is_in_method_defination>0) {throw new RecognitionException("END in method");}}
+			|	keyword_BEGIN 	LCURLY_BLOCK (compoundStatement)? RCURLY	{if (is_in_method_definition>0) {throw new RecognitionException("BEGIN in method");}}
+			|	keyword_END 	LCURLY_BLOCK (compoundStatement)? RCURLY		{if (is_in_method_definition>0) {throw new RecognitionException("END in method");}}
 			|	expression
 				(options{greedy=true;}:
 					COMMA!
@@ -838,12 +838,12 @@ className
 		;
 
 methodDefinition
-		:	"def"^		{++is_in_method_defination;}
+		:	"def"^		{++is_in_method_definition;}
 			(options{greedy=true;}:LINE_BREAK!)?
 			methodName	{enterScope();}
 			methodDefinitionArgument
 			(bodyStatement)?
-			"end"!		{leaveScope();--is_in_method_defination;}
+			"end"!		{leaveScope();--is_in_method_definition;}
 		;
 
 protected
@@ -1163,7 +1163,7 @@ SEMI
 {
 	boolean seen_line_feed = false;
 }
-		:	';'	(options{greedy=true;}:(WHITE_SPACE_CAHR!	|	LINE_FEED!{seen_line_feed = true;}	|	';'!))*
+		:	';'	(options{greedy=true;}:(WHITE_SPACE_CHAR!	|	LINE_FEED!{seen_line_feed = true;}	|	';'!))*
 			{
 				if (lastTokenIsSemi())
 				{
@@ -1185,10 +1185,10 @@ LINE_BREAK
 			}
 		;
 
-//If we use "ignore=WHITE_SPACE_CAHR", can not shutdown the warnings.
+//If we use "ignore=WHITE_SPACE_CHAR", can not shutdown the warnings.
 protected
 PURE_LINE_BREAK
-		:	LINE_FEED	(options{greedy=true;}:(LINE_FEED!|WHITE_SPACE_CAHR!))*
+		:	LINE_FEED	(options{greedy=true;}:(LINE_FEED!|WHITE_SPACE_CHAR!))*
 		;
 
 //'\r' is no longer used as line break since Mac OSX, but still in use in  C:\ruby\samples\hello.rb
@@ -1464,7 +1464,7 @@ ESC
 //of letters, digits, and underscores
 IDENTIFIER
 options{testLiterals=true;}
-		:	{getColumn() == 1}?	"__END__"	((WHITE_SPACE_CAHR)*	LINE_BREAK	(.)*	{$setType(Token.EOF_TYPE);})?
+		:	{getColumn() == 1}?	"__END__"	((WHITE_SPACE_CHAR)*	LINE_BREAK	(.)*	{$setType(Token.EOF_TYPE);})?
 		|	('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*		(	{if (lastTokenIsDotOrColon2()) {$setType(FUNCTION);}}
 												|'?'	{$setType(FUNCTION);}	//PREDICATE_FUNCTION
 												|'!'	{$setType(FUNCTION);}	//DESTRUCTIVE_FUNCTION
@@ -1576,7 +1576,7 @@ COMMENT
 		;
 
 protected
-WHITE_SPACE_CAHR
+WHITE_SPACE_CHAR
 		:	' '
 		|	'\t'
 		|	'\f'
@@ -1584,7 +1584,7 @@ WHITE_SPACE_CAHR
 		;
 
 WHITE_SPACE
-		:	(WHITE_SPACE_CAHR)+
+		:	(WHITE_SPACE_CHAR)+
 			{
 				setSeenWhitespace();
 				$setType(Token.SKIP);
