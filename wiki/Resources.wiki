@@ -5,8 +5,7 @@ Free online edition of Java 2 Virtual Machine (2ed)
 http://www.artima.com/insidejvm/ed2/
 
 Java Virtual Machine Online Instruction Reference Manual
-http://www.cat.nyu.edu/~meyer/jvmref/
+http://eduunix.ccut.edu.cn/index2/html/java/Oreilly%20-%20Java%20Virtual%20Machine/
 
 JVM Resources provided by Inside the Java Virtual Machine 
 http://www.artima.com/insidejvm/resources/
-
