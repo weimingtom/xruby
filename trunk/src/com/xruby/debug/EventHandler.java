@@ -33,7 +33,7 @@
  */
 /*
  * Copyright 2006-2007
- * Distributed under the BSD License
+ * Distributed under the Apache License
  *
  * Attention !!!:
  * This implementation is based on the ThreadInfo in com.sun.tools.example.debug.tty package

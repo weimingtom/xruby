@@ -1,6 +1,6 @@
 /** 
  * Copyright 2007 Ye Zheng
- * Distributed under the BSD License
+ * Distributed under the Apache License
  */
 
 package com.xruby.runtime.lang;

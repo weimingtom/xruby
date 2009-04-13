@@ -1,6 +1,6 @@
 /**
  * Copyright 2005-2007 Xue Yong Zhi, Yu Su, Ye Zheng
- * Distributed under the BSD License
+ * Distributed under the Apache License
  */
 
 package com.xruby.runtime.builtin;
