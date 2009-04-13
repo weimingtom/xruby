@@ -4,7 +4,7 @@ package com.xruby.compiler.parser;
 
 /**
  * Copyright 2005-2007 Xue Yong Zhi
- * Distributed under the BSD License
+ * Distributed under the Apache License
  */
 
 //----------------------------------------------------------------------------

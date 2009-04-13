@@ -1,6 +1,6 @@
 /** 
  * Copyright 2006-2007 Jie Li
- * Distributed under the BSD License
+ * Distributed under the Apache License
  */
 
 package com.xruby.runtime.builtin;
